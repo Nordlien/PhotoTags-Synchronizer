@@ -1,0 +1,254 @@
+[    
+    {
+        "MetadataPriorityKey": {
+            "Region": "EXIF:ExifIFD",
+            "Tag": "DateTimeOriginal"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "Date Time Digitized",
+            "Priority": 150
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "EXIF:ExifIFD",
+            "Tag": "UserComment"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "Comment",
+            "Priority": 150
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "Composite",
+            "Tag": "GPSPosition"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS Coordinates",
+            "Priority": 50
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "EXIF:IFD0",
+            "Tag": "RatingPercent"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "RatingPercent",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "EXIF:IFD0",
+            "Tag": "XPTitle"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "Title",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "EXIF:GPS",
+            "Tag": "GPSLatitude"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS Latitude",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "EXIF:GPS",
+            "Tag": "GPSLongitude"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS Longitude",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "EXIF:GPS",
+            "Tag": "GPSAltitude"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS Altitude",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "EXIF:GPS",
+            "Tag": "GPSTimeStamp"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "Not defined",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "EXIF:GPS",
+            "Tag": "GPSDateStamp"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "Not defined",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "XMP:XMP-exif",
+            "Tag": "GPSDateTime"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS DateTime",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "XMP:XMP-exif",
+            "Tag": "GPSAltitude"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS Altitude",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "XMP:XMP-exif",
+            "Tag": "GPSLongitude"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS Longitude",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "XMP:XMP-exif",
+            "Tag": "GPSLatitude"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS Latitude",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "IPTC",
+            "Tag": "By-line"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "Arthur",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "IPTC",
+            "Tag": "Sub-location"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "Location",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "XMP:XMP-photoshop",
+            "Tag": "State"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "State",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "XMP:XMP-dc",
+            "Tag": "Creator"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "Arthur",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "XMP:XMP-microsoft",
+            "Tag": "RatingPercent"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "RatingPercent",
+            "Priority": 200
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "Composite",
+            "Tag": "GPSAltitude"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS Altitude",
+            "Priority": 60
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "Composite",
+            "Tag": "GPSDateTime"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS DateTime",
+            "Priority": 60
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "Composite",
+            "Tag": "GPSLatitude"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS Latitude",
+            "Priority": 60
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "Composite",
+            "Tag": "GPSLongitude"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "GPS Longitude",
+            "Priority": 60
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "XMP:XMP-photoshop",
+            "Tag": "City"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "City",
+            "Priority": 80
+        }
+    },
+    {
+        "MetadataPriorityKey": {
+            "Region": "XMP:XMP-photoshop",
+            "Tag": "Country"
+        },
+        "MetadataPriorityValues": {
+            "Composite": "Country",
+            "Priority": 80
+        }
+    }
+
+
+]

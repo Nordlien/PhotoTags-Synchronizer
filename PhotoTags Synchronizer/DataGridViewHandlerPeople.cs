@@ -1,0 +1,238 @@
+﻿using System.Drawing;
+using System.Windows.Forms;
+using MetadataLibrary;
+using DataGridViewGeneric;
+using static Manina.Windows.Forms.ImageListView;
+using Manina.Windows.Forms;
+using System.Collections.Generic;
+using System;
+
+namespace PhotoTagsSynchronizer
+{
+    public static class DataGridViewHandlerPeople 
+    {
+        public const string headerPeople = "People";
+
+        public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
+        public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
+        public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }
+
+        public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntry fileEntry)
+        {
+            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
+
+            metadata.PersonalRegionList.Clear();
+            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCount(dataGridView); rowIndex++)
+            {
+                SwitchStates switchStates = DataGridViewHandler.GetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex);
+                if (switchStates == SwitchStates.On)
+                {
+                    RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndex);
+                    metadata.PersonalRegionListAddIfNotExists(regionStructure);
+                }
+                
+            }
+        }
+
+
+        private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow)
+        {
+            return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow);
+        }
+
+        private static int AddRow(DataGridView dataGridView, Metadata metadata, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
+        {
+            int startSearchRow = 0;
+            bool notFound;
+            int rowIndex;
+            do
+            {
+                rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow,
+                    DataGridViewHandler.GetFavoriteList(dataGridView), (object)null, dataGridViewGenericCellStatusDefaults, startSearchRow, false);
+                object cellValue = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
+                
+                if (value != null && cellValue != null &&
+                    value.GetType() == typeof(RegionStructure) &&
+                    cellValue.GetType() == typeof(RegionStructure))
+                {
+                    RegionStructure regionStructureInput = (RegionStructure)value;
+                    RegionStructure regionStructureCell = (RegionStructure)cellValue;
+
+                    if (metadata != null && metadata.MediaHeight != null && metadata.MediaWidth != null)
+                    {
+                        Size imageSize = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
+                        Rectangle mediaRectangleInput = regionStructureInput.GetImageRegionPixelRectangle(imageSize);
+                        Rectangle mediaRectangleCell = regionStructureCell.GetImageRegionPixelRectangle(imageSize);
+
+                        if (RegionStructure.RectangleEqual (mediaRectangleInput, mediaRectangleCell)) notFound = false;
+                        else notFound = true;
+                    }
+                    else notFound = false;
+                }
+                else notFound = false;
+                startSearchRow = rowIndex + 1;
+
+            } while (notFound);
+
+            RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndex);
+            if (regionStructure == null || metadata.Broker == MetadataBrokerTypes.ExifTool) 
+                DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, value); //Prioritize ExifTool
+            return rowIndex;
+        }
+
+        private static void PopulatePeople(DataGridView dataGridView, Metadata metadata, int columnIndex, MetadataBrokerTypes metadataBrokerType)
+        {            
+
+            foreach (RegionStructure region in metadata.PersonalRegionList)
+            {
+                int rowIndex = AddRow(dataGridView, metadata, columnIndex, new DataGridViewGenericRow(headerPeople, region.Name ?? ""), DataGridViewHandler.DeepCopy(region), 
+                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false));
+
+                dataGridView.Rows[rowIndex].Height = DataGridViewHandler.GetCellRowHeight(dataGridView);
+
+                //Update with old Broker | new Broker
+                DataGridViewHandler.SetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex,
+                        DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) | metadataBrokerType);
+                DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex,
+                    (DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off);
+
+                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, ""); //Clean first, avoid duplication
+            }
+        }
+
+        private static void PopulatePeopleTooltip(DataGridView dataGridView, Metadata metadata, int columnIndex, MetadataBrokerTypes metadataBrokerType)
+        {
+
+            foreach (RegionStructure region in metadata.PersonalRegionList)
+            {
+                int rowIndex = AddRow(dataGridView, metadata, columnIndex, new DataGridViewGenericRow(headerPeople, region.Name ?? ""), DataGridViewHandler.DeepCopy(region),
+                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false));
+                
+                string toolTipText = DataGridViewHandler.GetCellToolTipText(dataGridView, columnIndex, rowIndex);
+                toolTipText = "" + toolTipText + region.ToolTipText(metadata.MediaSize) + "\r\n";
+                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, toolTipText);
+            }
+
+        }
+
+        public static void PopulateFile(DataGridView dataGridView, string fullFilePath, ShowWhatColumns showWhatColumns, DateTime dateTimeForEditableMediaFile)
+
+        {
+            //-----------------------------------------------------------------
+            //Chech if need to stop
+            if (GlobalData.IsApplicationClosing) return;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
+            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;  //In progress doing so
+
+            //Check if file is in DataGridView, and needs updated
+            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fullFilePath)) return;
+
+            //When file found, Tell it's populating file, avoid two process updates
+            DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
+            //-----------------------------------------------------------------
+
+
+            List<FileEntryBroker> fileVersionDates = DatabaseAndCacheMetadataExiftool.ListFileEntryDateVersions(MetadataBrokerTypes.ExifTool, fullFilePath);
+
+            //If create a dummy column for newst, add this "dummy file" to queue
+            if (dateTimeForEditableMediaFile == DataGridViewHandler.DateTimeForEditableMediaFile && fileVersionDates.Count > 0)
+            {
+                fileVersionDates.Add(new FileEntryBroker(fullFilePath, DataGridViewHandler.DateTimeForEditableMediaFile, MetadataBrokerTypes.ExifTool));
+            }
+
+            foreach (FileEntryBroker fileEntryBroker in fileVersionDates)
+            {
+                int columnCountBeforeAddOrUpdate = DataGridViewHandler.GetColumnCount(dataGridView); //Rememebr coulmn count before AddColumnOrUpdate
+                
+                //If create a dummy column for newst, add the news meta data to it
+                FileEntryBroker fileEntryBrokerReadVersion = fileEntryBroker;
+                FileEntryBroker fileEntryBrokerColumnVersion = fileEntryBroker;
+
+                Metadata metadata;
+                if (fileEntryBroker.LastWriteDateTime == DataGridViewHandler.DateTimeForEditableMediaFile)
+                {
+                    //Find news version
+                    DateTime newestDate = fileVersionDates[0].LastWriteDateTime;
+                    foreach (FileEntryBroker fileEntryBrokerFindNewest in fileVersionDates)
+                    {
+                        if (fileEntryBrokerFindNewest.Broker == MetadataBrokerTypes.ExifTool && fileEntryBrokerFindNewest.LastWriteDateTime > newestDate && fileEntryBrokerFindNewest.LastWriteDateTime != DataGridViewHandler.DateTimeForEditableMediaFile)
+                            newestDate = fileEntryBrokerFindNewest.LastWriteDateTime;
+                    }
+
+                    fileEntryBrokerReadVersion = new FileEntryBroker(fullFilePath, newestDate, MetadataBrokerTypes.ExifTool);
+                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion));
+                }
+                else metadata = DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion);
+
+                int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView, new FileEntryImage(fileEntryBrokerColumnVersion), metadata, dateTimeForEditableMediaFile,
+                    DataGridViewHandler.IsCurrentFile(fileEntryBrokerColumnVersion, dateTimeForEditableMediaFile) ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
+                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));
+                if (columnIndex == -1) continue;
+
+
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerPeople));
+
+                if (metadata != null)
+                {
+                    //Exif tool
+                    PopulatePeople(dataGridView, metadata, columnIndex, MetadataBrokerTypes.ExifTool);
+
+                    // Windows Live Gallery
+                    Metadata metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(
+                        new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.WindowsLivePhotoGallery));                
+                    if (metadataWindowsLivePhotoGallery != null) PopulatePeople(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, MetadataBrokerTypes.WindowsLivePhotoGallery);
+
+                    //Microsoft Photos
+                    Metadata metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadCache(
+                        new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.MicrosoftPhotos));
+                    if (metadataMicrosoftPhotos != null) PopulatePeople(dataGridView, metadataMicrosoftPhotos, columnIndex, MetadataBrokerTypes.MicrosoftPhotos);
+
+                    PopulatePeopleTooltip(dataGridView, metadata, columnIndex, MetadataBrokerTypes.ExifTool);
+                    if (metadataWindowsLivePhotoGallery != null) PopulatePeopleTooltip(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, MetadataBrokerTypes.WindowsLivePhotoGallery);
+                    if (metadataMicrosoftPhotos != null) PopulatePeopleTooltip(dataGridView, metadataMicrosoftPhotos, columnIndex, MetadataBrokerTypes.MicrosoftPhotos);
+                }
+            }
+            DataGridViewHandler.Refresh(dataGridView);
+
+            //-----------------------------------------------------------------
+            DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
+            //-----------------------------------------------------------------
+        }
+
+        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, bool useCurrentFileLastWrittenDate, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        {
+            //-----------------------------------------------------------------
+            //Chech if need to stop
+            if (GlobalData.IsApplicationClosing) return;
+            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            //Tell that work in progress, can start a new before done.
+            DataGridViewHandler.SetIsPopulating(dataGridView, true);
+            //Clear current DataGridView
+            DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
+            //Add Columns for all selected files, one column per select file
+            DataGridViewHandler.AddColumnSelectedFiles(dataGridView, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
+                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true)); //ReadOnly untill data is read
+            //Add all default rows
+            //AddRowsDefault(dataGridView);
+            //Tell data default columns and rows are agregated
+            DataGridViewHandler.SetIsAgregated(dataGridView, true);
+            //-----------------------------------------------------------------
+
+
+            //Populate one and one of selected files, (new versions of files can be added)
+            foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
+            {
+                PopulateFile(dataGridView, imageListViewItem.FullFileName, showWhatColumns, 
+                    useCurrentFileLastWrittenDate ? imageListViewItem.DateModified : DataGridViewHandler.DateTimeForEditableMediaFile);
+            }
+
+            //-----------------------------------------------------------------
+            //Unlock
+            DataGridViewHandler.SetIsAgregated(dataGridView, true);
+            //Tell that work is done
+            DataGridViewHandler.SetIsPopulating(dataGridView, false);
+            //-----------------------------------------------------------------
+        }
+    }
+}

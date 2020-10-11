@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+
+namespace MetadataLibrary
+{
+    [Serializable]
+    public class FileEntryImage : FileEntry, IEquatable<FileEntryImage>
+    {
+        private Image image;
+        //private string size;
+        public Image Image { get => image; set => image = value; }
+
+        public FileEntry FileEntry { get => new FileEntry(fullFilePath, lastWriteDateTime); }
+
+        public FileEntryImage(FileEntry fileEntry) : base(fileEntry.FullFilePath, fileEntry.LastWriteDateTime)
+        {
+
+        }
+
+        public FileEntryImage(FileEntry fileEntry, Image image) : this(fileEntry.FullFilePath, fileEntry.LastWriteDateTime, image)
+        {
+
+        }
+
+        public FileEntryImage(string fullFilePath, DateTime lastAccesDateTime) : base(fullFilePath, lastAccesDateTime)
+        {
+
+        }
+
+        public FileEntryImage(string directory, string filename, DateTime lastAccesDateTime, Image image ) 
+            : this(Path.Combine(directory, filename), lastAccesDateTime, image)
+        {
+        }
+
+        public FileEntryImage(string fullFilePath, DateTime lastAccesDateTime, Image image ) : base(fullFilePath, lastAccesDateTime)
+        {
+            this.image = image;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -662501232;
+            hashCode = hashCode * -1521134295 + base.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Image>.Default.GetHashCode(image);
+            return hashCode;
+        }
+
+        public override bool Equals(object other)
+        {
+            return this.Equals(other as FileEntryImage);
+        }
+
+
+        public bool Equals(FileEntryImage other)
+        {
+            if (other is null) return false; // If parameter is null, return false.
+            if (Object.ReferenceEquals(this, other)) return true; // Optimization for a common success case.
+
+            // Let base class check its own fields and do the run-time type comparison.
+            return base.Equals((FileEntry)other);
+        }
+
+        public static bool operator ==(FileEntryImage left, FileEntryImage right)
+        {
+            return EqualityComparer<FileEntryImage>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(FileEntryImage left, FileEntryImage right)
+        {
+            return !(left == right);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+    }
+}

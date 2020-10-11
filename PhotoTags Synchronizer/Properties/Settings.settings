@@ -1,0 +1,373 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PhotoTagsSynchronizer.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="LastFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MainFormSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">1173, 778</Value>
+    </Setting>
+    <Setting Name="SplitContainerFolder" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">283</Value>
+    </Setting>
+    <Setting Name="SplitContainerImages" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">549</Value>
+    </Setting>
+    <Setting Name="SplitContainerMain" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">514</Value>
+    </Setting>
+    <Setting Name="SplitContainerMap" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">277</Value>
+    </Setting>
+    <Setting Name="MainFormLocation" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">50, 50</Value>
+    </Setting>
+    <Setting Name="LastGoogleLocationFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LocationUsers" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LocationUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="IsMainFormMaximized" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ComboBoxGoogleTimeZoneShift" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">12</Value>
+    </Setting>
+    <Setting Name="ComboBoxGoogleLocationInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="ComboBoxMapZoomLevel" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">13</Value>
+    </Setting>
+    <Setting Name="RenderertoolStripComboBox" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="CloseWarningWindowsAutomatically" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MediaAiConfidence" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="CellSizeKeywords" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="CellSizePeoples" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="CellSizeMap" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="CellSizeDates" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="CellSizeExiftool" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="CellSizeWarnings" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="CellSizeProperties" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="ShowHistortyColumns" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ShowErrorColumns" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CellSizeRename" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="RenameVariable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">%Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%</Value>
+    </Setting>
+    <Setting Name="RenameDateFormats" Type="System.String" Scope="User">
+      <Value Profile="(Default)">yyyy_MM_dd_HH_mm_ss
+yyyy_MM_dd-HH_mm_ss
+yyyy_MM_dd HH_mm_ss
+yyyy_MM_dd.HH_mm_ss
+yyyy_MM_ddHH_mm_ss
+
+yyyy_MM_dd_HH.mm.ss
+yyyy_MM_dd-HH.mm.ss
+yyyy_MM_dd HH.mm.ss
+yyyy_MM_dd.HH.mm.ss
+yyyy_MM_ddHH.mm.ss
+
+yyyy_MM_dd_HH mm ss
+yyyy_MM_dd-HH mm ss
+yyyy_MM_dd HH mm ss
+yyyy_MM_dd.HH mm ss
+yyyy_MM_ddHH mm ss
+
+yyyy_MM_dd_HHmmss
+yyyy_MM_dd-HHmmss
+yyyy_MM_dd HHmmss
+yyyy_MM_dd.HHmmss
+yyyy_MM_ddHHmmss
+
+
+
+
+yyyy-MM-dd_HH-mm-ss
+yyyy-MM-dd-HH-mm-ss
+yyyy-MM-dd HH-mm-ss
+yyyy-MM-dd.HH-mm-ss
+yyyy-MM-dd.HH-mm-ss
+yyyy-MM-ddHH-mm-ss
+
+yyyy-MM-dd_HH.mm.ss
+yyyy-MM-dd-HH.mm.ss
+yyyy-MM-dd HH.mm.ss
+yyyy-MM-dd.HH.mm.ss
+yyyy-MM-ddHH.mm.ss
+
+yyyy-MM-dd_HH mm ss
+yyyy-MM-dd-HH mm ss
+yyyy-MM-dd HH mm ss
+yyyy-MM-dd.HH mm ss
+yyyy-MM-ddHH mm ss
+
+yyyy-MM-dd_HHmmss
+yyyy-MM-dd-HHmmss
+yyyy-MM-dd HHmmss
+yyyy-MM-dd.HHmmss
+yyyy-MM-ddHHmmss
+
+
+
+
+yyyy MM dd_HH-mm-ss
+yyyy MM dd-HH-mm-ss
+yyyy MM dd HH-mm-ss
+yyyy MM dd.HH-mm-ss
+yyyy MM ddHH-mm-ss
+
+yyyy MM dd_HH.mm.ss
+yyyy MM dd-HH.mm.ss
+yyyy MM dd HH.mm.ss
+yyyy MM dd.HH.mm.ss
+yyyy MM ddHH.mm.ss
+
+yyyy MM dd_HH mm ss
+yyyy MM dd-HH mm ss
+yyyy MM dd HH mm ss
+yyyy MM dd.HH mm ss
+yyyy MM ddHH mm ss
+
+yyyy MM dd_HHmmss
+yyyy MM dd-HHmmss
+yyyy MM dd HHmmss
+yyyy MM dd.HHmmss
+yyyy MM ddHHmmss
+
+
+
+
+yyyy.MM.dd_HH-mm-ss
+yyyy.MM.dd-HH-mm-ss
+yyyy.MM.dd HH-mm-ss
+yyyy.MM.dd.HH-mm-ss
+yyyy.MM.ddHH-mm-ss
+
+yyyy.MM.dd_HH.mm.ss
+yyyy.MM.dd-HH.mm.ss
+yyyy.MM.dd HH.mm.ss
+yyyy.MM.dd.HH.mm.ss
+yyyy.MM.ddHH.mm.ss
+
+yyyy.MM.dd_HH mm ss
+yyyy.MM.dd-HH mm ss
+yyyy.MM.dd HH mm ss
+yyyy.MM.dd.HH mm ss
+yyyy.MM.ddHH mm ss
+
+yyyy.MM.dd_HHmmss
+yyyy.MM.dd-HHmmss
+yyyy.MM.dd HHmmss
+yyyy.MM.dd.HHmmss
+yyyy.MM.ddHHmmss
+
+
+
+
+yyyyMMdd_HH-mm-ss
+yyyyMMdd-HH-mm-ss
+yyyyMMdd HH-mm-ss
+yyyyMMdd.HH-mm-ss
+yyyyMMddHH-mm-ss
+
+yyyyMMdd_HH.mm.ss
+yyyyMMdd-HH.mm.ss
+yyyyMMdd HH.mm.ss
+yyyyMMdd.HH.mm.ss
+yyyyMMddHH.mm.ss
+
+yyyyMMdd_HH mm ss
+yyyyMMdd-HH mm ss
+yyyyMMdd HH mm ss
+yyyyMMdd.HH mm ss
+yyyyMMddHH mm ss
+
+yyyyMMdd_HHmmss
+yyyyMMdd-HHmmss
+yyyyMMdd HHmmss
+yyyyMMdd.HHmmss
+yyyyMMddHHmmss
+
+
+
+
+
+
+
+yyyy_MM_dd_HH_mm
+yyyy_MM_dd-HH_mm
+yyyy_MM_dd HH_mm
+yyyy_MM_dd.HH_mm
+yyyy_MM_ddHH_mm
+
+yyyy_MM_dd_HH.mm
+yyyy_MM_dd-HH.mm
+yyyy_MM_dd HH.mm
+yyyy_MM_dd.HH.mm
+yyyy_MM_ddHH.mm
+
+yyyy_MM_dd_HH mm
+yyyy_MM_dd-HH mm
+yyyy_MM_dd HH mm
+yyyy_MM_dd.HH mm
+yyyy_MM_ddHH mm
+
+yyyy_MM_dd_HHmm
+yyyy_MM_dd-HHmm
+yyyy_MM_dd HHmm
+yyyy_MM_dd.HHmm
+yyyy_MM_ddHHmm
+
+
+
+
+yyyy-MM-dd_HH-mm
+yyyy-MM-dd-HH-mm
+yyyy-MM-dd HH-mm
+yyyy-MM-dd.HH-mm
+yyyy-MM-dd.HH-mm
+yyyy-MM-ddHH-mm
+
+yyyy-MM-dd_HH.mm
+yyyy-MM-dd-HH.mm
+yyyy-MM-dd HH.mm
+yyyy-MM-dd.HH.mm
+yyyy-MM-ddHH.mm
+
+yyyy-MM-dd_HH mm
+yyyy-MM-dd-HH mm
+yyyy-MM-dd HH mm
+yyyy-MM-dd.HH mm
+yyyy-MM-ddHH mm
+
+yyyy-MM-dd_HHmm
+yyyy-MM-dd-HHmm
+yyyy-MM-dd HHmm
+yyyy-MM-dd.HHmm
+yyyy-MM-ddHHmm
+
+
+
+
+yyyy MM dd_HH-mm
+yyyy MM dd-HH-mm
+yyyy MM dd HH-mm
+yyyy MM dd.HH-mm
+yyyy MM ddHH-mm
+
+yyyy MM dd_HH.mm
+yyyy MM dd-HH.mm
+yyyy MM dd HH.mm
+yyyy MM dd.HH.mm
+yyyy MM ddHH.mm
+
+yyyy MM dd_HH mm
+yyyy MM dd-HH mm
+yyyy MM dd HH mm
+yyyy MM dd.HH mm
+yyyy MM ddHH mm
+
+yyyy MM dd_HHmm
+yyyy MM dd-HHmm
+yyyy MM dd HHmm
+yyyy MM dd.HHmm
+yyyy MM ddHHmm
+
+
+
+
+yyyy.MM.dd_HH-mm
+yyyy.MM.dd-HH-mm
+yyyy.MM.dd HH-mm
+yyyy.MM.dd.HH-mm
+yyyy.MM.ddHH-mm
+
+yyyy.MM.dd_HH.mm
+yyyy.MM.dd-HH.mm
+yyyy.MM.dd HH.mm
+yyyy.MM.dd.HH.mm
+yyyy.MM.ddHH.mm
+
+yyyy.MM.dd_HH mm
+yyyy.MM.dd-HH mm
+yyyy.MM.dd HH mm
+yyyy.MM.dd.HH mm
+yyyy.MM.ddHH mm
+
+yyyy.MM.dd_HHmm
+yyyy.MM.dd-HHmm
+yyyy.MM.dd HHmm
+yyyy.MM.dd.HHmm
+yyyy.MM.ddHHmm
+
+
+
+
+yyyyMMdd_HH-mm
+yyyyMMdd-HH-mm
+yyyyMMdd HH-mm
+yyyyMMdd.HH-mm
+yyyyMMddHH-mm
+
+yyyyMMdd_HH.mm
+yyyyMMdd-HH.mm
+yyyyMMdd HH.mm
+yyyyMMdd.HH.mm
+yyyyMMddHH.mm
+
+yyyyMMdd_HH mm
+yyyyMMdd-HH mm
+yyyyMMdd HH mm
+yyyyMMdd.HH mm
+yyyyMMddHH mm
+
+yyyyMMdd_HHmm
+yyyyMMdd-HHmm
+yyyyMMdd HHmm
+yyyyMMdd.HHmm
+yyyyMMddHHmm
+
+
+
+yyyy_MM_dd
+yyyy-MM-dd
+yyyy MM dd
+yyyy.MM.dd
+yyyyMMdd
+
+</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

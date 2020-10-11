@@ -1,0 +1,1361 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Xml;
+using MetadataLibrary;
+using MetadataPriorityLibrary;
+using SqliteDatabase;
+
+namespace Exiftool
+{
+    
+
+    public class ExiftoolReader : ImetadataReader
+    {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        private const string _ExiftoolTabSeperator = "{7ZAJ6A5GHJ}";
+        private string[] _ExiftoolTabSeperators = new string[] { _ExiftoolTabSeperator };
+
+        private MetadataDatabaseCache metadataDatabaseCache;
+        private ExiftoolDataDatabase metadataExiftoolDatabase;
+        private ExiftoolWarningDatabase metadataExiftoolWarningDatabase;
+
+        public ExiftoolReader(
+            MetadataDatabaseCache metadataDatabaseCache,
+            ExiftoolDataDatabase metadataExiftoolDatabase,
+            ExiftoolWarningDatabase metadataExiftoolWarningDatabase)
+        {
+            this.metadataDatabaseCache = metadataDatabaseCache;
+            this.metadataExiftoolDatabase = metadataExiftoolDatabase;
+            this.metadataExiftoolWarningDatabase = metadataExiftoolWarningDatabase;
+        }
+
+        public delegate void AfterNewMediaFound(FileEntry fileEntry);
+        public event AfterNewMediaFound afterNewMediaFoundEvent;
+        public MetadataReadPrioity MetadataReadPrioity { get; set; } = new MetadataReadPrioity();
+
+        private ExiftoolData oldExifToolFileName = new ExiftoolData();
+        private ExiftoolData oldExifToolFilePath = new ExiftoolData();
+        private ExiftoolData oldExifToolFileModifyDate = new ExiftoolData();
+        private ExiftoolData oldExifToolFileAccessDate = new ExiftoolData();
+        private ExiftoolData oldExifToolFileCreateDate = new ExiftoolData();
+        private ExiftoolData oldExifToolFileSize = new ExiftoolData();
+        private ExiftoolData oldExifToolMediaWidth = new ExiftoolData();
+        private ExiftoolData oldExifToolMediaHeight = new ExiftoolData();
+        private ExiftoolData oldExifToolMIMEType = new ExiftoolData();
+        private ExiftoolData oldExifToolMake = new ExiftoolData();
+        private ExiftoolData oldExifToolModel = new ExiftoolData();
+        private ExiftoolData oldExifToolCreateDate = new ExiftoolData();
+        private ExiftoolData oldExifToolAuthor = new ExiftoolData();
+        private ExiftoolData oldExifToolAlbum = new ExiftoolData();
+        private ExiftoolData oldExifToolDescription = new ExiftoolData();
+        private ExiftoolData oldExifToolTitle = new ExiftoolData();
+        private ExiftoolData oldExifToolComment = new ExiftoolData();
+        private ExiftoolData oldExifToolRating = new ExiftoolData();
+        private ExiftoolData oldExifToolRatingPercent = new ExiftoolData();
+        private ExiftoolData oldExifToolLocationName = new ExiftoolData();
+        private ExiftoolData oldExifToolLocationCity = new ExiftoolData();
+        private ExiftoolData oldExifToolLocationState = new ExiftoolData();
+        private ExiftoolData oldExifToolLocationCountry = new ExiftoolData();
+        private ExiftoolData oldExifToolGPSAltitude = new ExiftoolData();
+        private ExiftoolData oldExifToolGPSLatitude = new ExiftoolData();
+        private ExiftoolData oldExifToolGPSLongitude = new ExiftoolData();
+        private ExiftoolData oldExifToolGPSDateTime = new ExiftoolData();
+
+        private bool isClosing = false;
+        public void Close()
+        {
+            isClosing = true;
+        }
+
+        
+
+        #region ExifTool information 
+        //For pure binary output(-b used without -j, -php or -X), the first -sep option specifies a list-item separator, and a second 
+        //-sep option specifies a terminator for the end of the list(or after each value if not a list). In these strings, \n, \r and \t may be 
+        //used to represent a newline, carriage return and tab respectively.By default, binary list items are separated by a newline, and no 
+        //terminator is added.
+
+
+        //Writing
+        //One final note: When writing, the -v2 option may be useful because it provides details about what ExifTool is writing, and where.
+        //How do I format date and time information for writing?
+        //https://sno.phy.queensu.ca/~phil/exiftool/faq.html
+        //
+        //Reading
+        //-a -n -a -G0:1
+        //-P 
+        //ExifTool's default behaviour is to set all filesystem times to the current date/time when any "real" tag is written, 
+        //but the -P option may be used to preserve the original FileModifyDate. FileAccessDate represents the time the file was last accessed, 
+        //and is set to the current date/time whenever any software (including ExifTool) accesses the file.
+        //On systems where a filesystem creation date is maintained, ExifTool also sets this to the current date/time when the file is edited.
+        //On Windows the creation date is readable/writable through the FileCreateDate tag (see the Extra Tags documentation), 
+        //and is preserved with the -P option. On Mac the MDItemFSCreationDate tag is used (see the MacOS MDItem Tags documentation), 
+        //however this tag is extracted only if specified explicitly or the MDItemTags API option is set. 
+        //The - P option does not preserve the creation date when editing a file on Mac systems, but the - overwrite_original_in_place option 
+        //may be used to preserve all Finder information including the creation date, or the MDItemFSCreationDate may be copied back 
+        //specifically(ie. -tagsfromfile @ -MDItemFSCreationDate). On Linux, the file creation date is not stored.
+        //
+        //Grouping
+        //--------
+        //-a
+        //In this command, -a allows duplicate tags to be extracted, -G1 shows the family 1 group name (ie. the location) of each tag, 
+        //and -s shows the tag names instead of their descriptions.
+        //
+        //Group Priorities: 1) EXIF,   2) IPTC,   3) XMP
+        //-G0:1
+        //The -G0:1 option causes the family 0 and 1 group names to be reported in square brackets for each tag.Tags labelled "File:System" 
+        //are "pseudo" tags stored in the filesystem, while the others are real tags stored in the metadata of the file.
+        //[File:System]   FileModifyDate                  : 2009:10:05 20:40:36-04:00
+        //[File:System]   FileAccessDate                  : 2009:10:07 09:22:12-04:00
+        //[File:System]   FileCreateDate                  : 2009:10:05 20:40:36-04:00
+        //[EXIF:IFD0]     ModifyDate                      : 2003:10:31 15:44:19
+        //[EXIF:ExifIFD]  DateTimeOriginal                : 2003:10:31 15:44:19
+        //[EXIF:ExifIFD]  CreateDate                      : 2003:10:31 15:44:19
+        //All about grouping: https://sno.phy.queensu.ca/~phil/exiftool/index.html#groups
+        //
+        //Tags
+        //----
+        //-s
+        //When you run exiftool, by default it prints descriptions, not tag names, for the information it extracts. These descriptions are in 
+        //English unless the -lang option is used to select another language. Note that descriptions often contain spaces between words, 
+        //but tag names never do. Also, tag names are always English, regardless of the -lang setting. To print the tag names instead instead 
+        //of descriptions, use the -s option when extracting information. eg)
+        //All tags names: https://sno.phy.queensu.ca/~phil/exiftool/TagNames/index.html
+        //
+        //-sep STR (-separator)
+        //Specify separator string for items in list-type tags.When reading, the default is to join list items with ", ". 
+        //When writing, this option causes values assigned to list-type tags to be split into individual items at each substring matching STR 
+        //(otherwise they are not split by default). Space characters in STR match zero or more whitespace characters in the value.
+        //Note that an empty separator ("") is allowed, and will join items with no separator when reading, or split the value into individual 
+        //characters when writing.
+        //
+        //-struct, --struct
+        //Output structured XMP information instead of flattening to individual tags.This option works well when combined with the 
+        //XML (-X) and JSON(-j) output formats.For other output formats, XMP structures and lists are serialized into the same format as when 
+        //writing structured information (see http://owl.phy.queensu.ca/~phil/exiftool/struct.html for details). When copying, structured tags 
+        //are copied by default unless --struct is used to disable this feature (although flattened tags may still be copied by specifying them 
+        //individually unless -struct is used). These options have no effect when assigning new values since both flattened and structured tags 
+        //may always be used when writing.
+        //
+        //-t          (-tab)               Output in tab-delimited list format
+        //
+        
+        #endregion
+
+        
+        public void MetadataGroupPrioityWrite()
+        {
+            MetadataReadPrioity.Write();
+        }
+        public void MetadataGroupPrioityRead()
+        {
+            MetadataReadPrioity.ReadOnlyOnce();
+        }
+
+
+        private void ExiftoolTagsWarning_Write(ExiftoolData exifToolDataPrevious, ExiftoolData exifToolDataConvertThis, string warning)
+        {
+            CommonDatabaseTransaction commonDatabaseTransaction = metadataDatabaseCache.DbTools.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
+            metadataExiftoolWarningDatabase.ExiftoolTagsWarning_Write(commonDatabaseTransaction, exifToolDataPrevious, exifToolDataConvertThis, warning);
+            metadataDatabaseCache.DbTools.TransactionCommit(commonDatabaseTransaction);
+        }
+
+
+        #region ConvertAndCheck(Format)FromString
+        public bool isDateTimeEqual(DateTime c1, DateTime c2)
+        {
+            //TimeSpan t = ((DateTime)c1.DateTimeConverted).Subtract((DateTime)c2.DateTimeConverted);
+            TimeSpan t = ((DateTime)c1).Subtract((DateTime)c2);
+            if (System.Math.Abs(t.TotalSeconds) < 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public DateTime? ConvertDateTimeLocalFromString(String dateTimeToConvert)
+        {
+            DateTimeOffset pictureTime;
+            DateTimeOffset localTimeZone;
+            String[] dateFormats = { "yyyy:MM:dd HH:mm:ssZ", "yyyy:MM:dd HH:mm", "yyyy:MM:dd HH:mm:ss", "yyyy:MM:dd HH:mm:sszzz", "yyyy:MM:dd HH:mm:ss.fff", "yyyy:MM:dd HH:mm:ss.ff", "yyyy:MM:dd HH:mm:ss.ffff", "yyyy:MM:dd HH:mm:ss.fffff", "yyyy:MM:dd HH:mm:ss.ffffff" };
+            String[] convertThisDateZone = dateTimeToConvert.Split('+');
+            
+            try
+            {
+                if (convertThisDateZone.Length > 1)
+                {
+                    if (DateTimeOffset.TryParseExact(dateTimeToConvert, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out pictureTime))
+                    {
+                        //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+                        localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
+                        return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
+                    }
+                    else return null;
+                }
+                else if (convertThisDateZone[0][convertThisDateZone[0].Length - 1] == 'Z')
+                {
+                    if (DateTimeOffset.TryParseExact(dateTimeToConvert, "yyyy:MM:dd HH:mm:ssZ", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out pictureTime))
+                    {
+                        //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, "yyyy:MM:dd HH:mm:ssZ", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+                        localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
+                        return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
+                    }
+                    else return null;
+                }
+                else
+                {
+                    if (DateTimeOffset.TryParseExact(dateTimeToConvert, dateFormats, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal, out pictureTime))
+                    {
+                        //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, dateFormats, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal);
+                        localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
+                        return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
+                    }
+                    else return null;
+                }
+            } catch (Exception e)
+            {
+                Logger.Warn(e.Message); //TODO: Need to fix problems with date formats
+                Logger.Warn(dateTimeToConvert);
+                return null; // new DateTime(DateTime.Now.Ticks, DateTimeKind.Local);
+            }
+
+        }
+
+        
+
+        private DateTime? ConvertAndCheckDateFromString(DateTime? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        {
+            MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            DateTime? newValue = ConvertDateTimeLocalFromString(exifToolDataConvertThis.Parameter);
+
+            if (!newValue.HasValue)
+            {
+
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Error in date and time formating value region {0} command {1} value '{2}': ",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter);
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+
+                return null;
+            }
+
+            if (oldValue.HasValue && !isDateTimeEqual((DateTime)newValue, (DateTime)oldValue))
+            {
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);                
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+
+                //return oldDate; //Do to bug in composite Date Time and this comming last in list
+                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
+                    return newValue;
+                else
+                    return oldValue;
+            }
+
+            return newValue;
+            
+        }
+
+        private Byte? ConvertAndCheckByteFromString(Byte? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        {
+            MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            Byte? newValue = Byte.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+
+            if (oldValue.HasValue && newValue != oldValue)
+            {
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+
+                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
+                    return newValue;
+                else
+                    return oldValue;
+            }
+
+            return newValue;
+        }
+
+        private int? ConvertAndCheckIntFromString(int? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        {
+            MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            int? newValue = int.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+
+            if (oldValue.HasValue && newValue != oldValue)
+            {
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+
+                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
+                    return newValue;
+                else
+                    return oldValue;
+            }
+
+            return newValue;
+        }
+
+        private long? ConvertAndCheckLongFromString(long? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        {
+            MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            long? newValue = long.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+
+            if (oldValue.HasValue && newValue != oldValue)
+            {
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+
+                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
+                    return newValue;
+                else
+                    return oldValue;
+            }
+
+            return newValue;
+        }
+
+        private float? ConvertAndCheckFloatFromString(float? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        {
+            MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            float? newValue = float.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+
+            if (oldValue.HasValue && newValue != oldValue)
+            {
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+
+                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
+                    return newValue;
+                else
+                    return oldValue;
+            }
+
+            return newValue;
+        }
+
+        private Double? ConvertAndCheckDoubleFromString(Double? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        {
+            return ConvertAndCheckDoubleFromString(oldValue, exifToolDataConvertThis, -1, exifToolDataPrevious, compositeTag, ref error);
+        }
+
+        private Double? ConvertAndCheckDoubleFromString(Double? oldValue, ExiftoolData exifToolDataConvertThis, int descimals, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        {
+            MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            Double? newValue = Double.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+
+            if (oldValue.HasValue)
+            {
+                if (descimals > 0) newValue = Math.Round((double)newValue, descimals);
+                if (newValue != oldValue)
+                {
+                    string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
+                            exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                    error += warning;
+                    ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+
+                    if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
+                        return newValue;
+                    else
+                        return oldValue;
+                }
+            }
+
+            return newValue;        
+        }
+
+        
+
+        private String ConvertAndCheckStringFromString(String oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        {
+            MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            String newValue = exifToolDataConvertThis.Parameter;
+
+            if (oldValue != null && newValue != oldValue)
+            {
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+
+                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
+                    return newValue;
+                else
+                    return oldValue;
+            }
+
+            return newValue;
+        }
+
+        #endregion
+
+        #region Convert Region
+        private void ConvertRegion(List<RegionStructure> regionStructures, string tempRegionRectangle, string tempRegionPersonDisplayName)
+        {
+            string[] regionRectangles = string.IsNullOrWhiteSpace(tempRegionRectangle) ? null : tempRegionRectangle.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
+            string[] regionPersonDisplayNames = string.IsNullOrWhiteSpace(tempRegionPersonDisplayName) ? null : tempRegionPersonDisplayName.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
+
+            if (regionRectangles == null) return;
+
+
+            for (int regionNumber = 0; regionNumber < regionRectangles.Length; regionNumber++)
+            {
+                RegionStructure regionStructure = new RegionStructure();
+                regionStructure.RegionStructureType = RegionStructureTypes.WindowsLivePhotoGallery;
+                regionStructure.Type = "Face";
+
+                //   0       1       2       3        4      5       
+                //{Rect}, {Rect}, {Rect}, {Rect}, {Rect}, {Rect} = 6
+                // Name1,  Name2,  Name3,  Name4,  Name5,  Name6 = 6 -> Offset 0
+                // Null,    Null,  Null,   Null,   Name1,  Name2 = 2 -> Offset 4
+                //                                 5-4=0   5-4= 1
+
+                int nameOffset = regionRectangles.Length - regionPersonDisplayNames.Length;
+                int namePosition = regionNumber - nameOffset;
+
+                /*if (regionNumber < regionPersonDisplayNames.Length)
+                    regionStructure.Name = regionPersonDisplayNames[regionNumber];
+                else
+                    regionStructure.Name = "(Unknow)";*/
+
+                if (namePosition >= 0 && namePosition < regionPersonDisplayNames.Length)
+                    regionStructure.Name = regionPersonDisplayNames[namePosition];
+                else
+                    regionStructure.Name = null; // "(Unknow)";
+
+                if (regionRectangles != null && regionNumber < regionRectangles.Length)
+                {
+                    string[] valueArray = regionRectangles[regionNumber].Split(',');
+                    if (valueArray.Length == 4)
+                    {
+                        regionStructure.AreaX = float.Parse(valueArray[0], CultureInfo.InvariantCulture);
+                        regionStructure.AreaY = float.Parse(valueArray[1], CultureInfo.InvariantCulture);
+                        regionStructure.AreaWidth = float.Parse(valueArray[2], CultureInfo.InvariantCulture);
+                        regionStructure.AreaHeight = float.Parse(valueArray[3], CultureInfo.InvariantCulture);
+                    }
+                }
+                regionStructures.Add(regionStructure);
+            }
+
+        }
+
+        private void ConvertRegion(List<RegionStructure> regionStructures, string tempRegionType, string tempRegionName,
+            string tempRegionAreaH, string tempRegionAreaW, string tempRegionAreaX, string tempRegionAreaY)
+        {
+            string[] regionType = string.IsNullOrWhiteSpace(tempRegionType) ? null : tempRegionType.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
+            string[] regionAreaName = string.IsNullOrWhiteSpace(tempRegionName) ? null : tempRegionName.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
+            string[] regionAreaH = string.IsNullOrWhiteSpace(tempRegionAreaH) ? null : tempRegionAreaH.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
+            string[] regionAreaW = string.IsNullOrWhiteSpace(tempRegionAreaW) ? null : tempRegionAreaW.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
+            string[] regionAreaX = string.IsNullOrWhiteSpace(tempRegionAreaX) ? null : tempRegionAreaX.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
+            string[] regionAreaY = string.IsNullOrWhiteSpace(tempRegionAreaY) ? null : tempRegionAreaY.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
+
+            int maxCount = 0;
+            if (regionType != null && regionType.Length > maxCount) maxCount = regionType.Length;
+            if (regionAreaName != null && regionAreaName.Length > maxCount) maxCount = regionAreaName.Length;
+            if (regionAreaH != null && regionAreaH.Length > maxCount) maxCount = regionAreaH.Length;
+            if (regionAreaW != null && regionAreaW.Length > maxCount) maxCount = regionAreaW.Length;
+            if (regionAreaX != null && regionAreaX.Length > maxCount) maxCount = regionAreaX.Length;
+            if (regionAreaY != null && regionAreaY.Length > maxCount) maxCount = regionAreaY.Length;
+
+            if (maxCount == 0) return;
+
+            for (int regionNumber = 0; regionNumber < maxCount; regionNumber++)
+            {
+                RegionStructure regionStructure = new RegionStructure();
+
+                regionStructure.RegionStructureType = RegionStructureTypes.MetadataWorkingGroup;
+
+                if (regionType != null && regionNumber < regionType.Length)
+                    regionStructure.Type = regionType[regionNumber];
+                else
+                    regionStructure.Type = "Face";
+
+                if (regionType != null && regionNumber < regionAreaName.Length)
+                    regionStructure.Name = regionAreaName[regionNumber];
+                else
+                    regionStructure.Name = null; // "(Unknown)";
+
+                regionStructure.AreaHeight = float.Parse(regionAreaH[regionNumber], CultureInfo.InvariantCulture);
+                regionStructure.AreaWidth = float.Parse(regionAreaW[regionNumber], CultureInfo.InvariantCulture);
+                regionStructure.AreaX = float.Parse(regionAreaX[regionNumber], CultureInfo.InvariantCulture);
+                regionStructure.AreaY = float.Parse(regionAreaY[regionNumber], CultureInfo.InvariantCulture);
+                regionStructures.Add(regionStructure);
+            }
+
+
+
+        }
+        #endregion
+
+        #region ReadMetadata
+
+        public Metadata ReadMetadata(MetadataBrokerTypes broker, string fullFilePath)
+        {
+            List<String> files = new List<String>();
+            files.Add(fullFilePath);
+
+            List<Metadata> metaDataCollections = ReadMetadata(broker, files);
+            if (metaDataCollections.Count == 1)
+            {
+                return metaDataCollections[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+
+        public List<Metadata> ReadMetadata(MetadataBrokerTypes broker, List<String> files)
+        {
+            List<Metadata> metaDataCollections = new List<Metadata>();
+            if (files == null) return metaDataCollections;
+            if (files.Count == 0) return metaDataCollections;
+
+            String path = NativeMethods.GetFullPathOfExeFile("exiftool.exe");
+            if (path == null)
+            {
+                String path2 = NativeMethods.GetFullPathOfExeFile("exiftool(-k).exe");
+                if (path2 != null) {
+                    throw new InvalidOperationException("Found exiftool(-k).exe. You need ro rename from exiftool(-k).exe to exiftool.exe. " + Path.Combine(path2, "exiftool(-k).exe"));
+                }
+            }
+
+            //-charset filename=cp65001 -charset exiftool=cp65001
+            bool useStuctArgument = true;
+            string arguments = "-t -a -G0:1 -s -n -P " + (useStuctArgument ? "-struct " : " -sep \"" + _ExiftoolTabSeperator + "\" ");  
+            //NEED USE "exiftools -struct" otherwise 'bug' in exiftool, can match region name and region rectangle, eg. list of 4 recgle and list of one name
+            //can't be matched.  List names: Name1, List rectangles: R1, R2, R3, R4, where should Name1 go??? 
+            //https://exiftool.org/struct.html 
+
+            foreach (string file in files)
+            {
+                Logger.Info("ReadMetadata: " + file + " " + File.GetLastWriteTime(file).ToString());
+                arguments += "\"" + NativeMethods.ShortFileName(file) + "\" ";  //DOS Workaround for with UTF-8 filenames, like æøåÆØÅ
+            }
+
+            
+            using (var process = new Process())
+            {                
+                process.StartInfo = new ProcessStartInfo
+                {
+                    FileName = path,
+                    Arguments = arguments,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+
+                    //Extra 
+                    RedirectStandardInput = true,
+                    StandardOutputEncoding = Encoding.UTF8 //,
+                };
+                process.Start();
+
+                Metadata metadata = null; //= new MetaData("ExifTool.exe");
+                List<ExiftoolData> exiftoolDatas = new List<ExiftoolData>();
+
+                int fileNumber = 0;
+
+                string tempRegionRectangle = "";
+                string tempRegionPersonDisplayName = "";
+
+                string tempRegionType = null;
+                string tempRegionAreaH = null;
+                string tempRegionAreaW = null;
+                string tempRegionAreaX = null;
+                string tempRegionAreaY = null;
+                string tempRegionName = null;
+
+                Stopwatch stopwatchReadLine = new Stopwatch();
+                stopwatchReadLine.Start();
+                while (!process.StandardOutput.EndOfStream)
+                {
+                    if (isClosing) break;
+                    #region while (!process.StandardOutput.EndOfStream)
+                    String line = process.StandardOutput.ReadLine();
+                    Int32 found = line.IndexOf("\t");
+                    ExiftoolData exifToolData;
+
+                    if (stopwatchReadLine.ElapsedMilliseconds > 15) Logger.Info("Exiftool read: {0}", stopwatchReadLine.ElapsedMilliseconds);
+                    stopwatchReadLine.Restart();
+
+
+                    if (line.Substring(0, 9) == "======== ") //This occures only when multiple files found
+                    {
+                        if (metadata != null) //New file found, save all metadata found. 
+                        {
+                            try
+                            {
+                                Stopwatch stopwatchWrite = new Stopwatch();
+                                stopwatchWrite.Restart();
+
+                                //Do not delete first, lot of overhead, will only write to when it not exist from before
+
+                                ConvertRegion(metadata.PersonalRegionList, tempRegionRectangle, tempRegionPersonDisplayName);
+                                ConvertRegion(metadata.PersonalRegionList, tempRegionType, tempRegionName,
+                                    tempRegionAreaH, tempRegionAreaW, tempRegionAreaX, tempRegionAreaY);
+
+                                metadataDatabaseCache.TransactionBeginBatch();
+                                metadataDatabaseCache.Write(metadata);
+                                metadataDatabaseCache.TransactionCommitBatch();
+
+                                if (stopwatchWrite.ElapsedMilliseconds > 15) Logger.Info("Exiftool Write metadata: {0}", stopwatchWrite.ElapsedMilliseconds);
+
+                            }
+                            catch { }
+
+                            if (afterNewMediaFoundEvent != null)
+                                afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                            metaDataCollections.Add(metadata); //Add previod
+
+                            metadata = null; //Start with with new file
+                            exiftoolDatas = new List<ExiftoolData>();
+
+                            tempRegionRectangle = "";
+                            tempRegionPersonDisplayName = "";
+                            tempRegionType = null;
+                            tempRegionAreaH = null;
+                            tempRegionAreaW = null;
+                            tempRegionAreaX = null;
+                            tempRegionAreaY = null;
+                            tempRegionName = null;
+
+                        }
+                    }
+
+                    if (metadata == null)  //After loop we also check if metaData not null, to save the last file found
+                    {
+                        fileNumber++;
+                        metadata = new Metadata(MetadataBrokerTypes.ExifTool); //Get ready to read a meta data
+                                                                               //Don't use exif file name, problem with UTF8 filenames therefor short windows 8 short names used instead
+                        metadata.FileName = Path.GetFileName(files[fileNumber - 1]);
+                        metadata.FileDirectory = Path.GetDirectoryName(files[fileNumber - 1]);
+                        metadata.FileDateModified = File.GetLastWriteTime(Path.Combine(metadata.FileDirectory, metadata.FileName));
+                        metadata.FileDateCreated = File.GetCreationTime(Path.Combine(metadata.FileDirectory, metadata.FileName));
+
+                        //For debugging
+                        exifToolData = new ExiftoolData();
+                        exifToolData.FileName = metadata.FileName;
+                        exifToolData.FileDirectory = metadata.FileDirectory;
+                        exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
+                        exifToolData.Region = "FileSystem";
+                        exifToolData.Command = "FileName";
+                        exifToolData.Parameter = metadata.FileName;
+                        ConvertAndCheckStringFromString(metadata.FileName, exifToolData, oldExifToolFileName,
+                                    CompositeTags.FileName, ref metadata.errors);
+                        oldExifToolFileName = new ExiftoolData(exifToolData);
+
+
+                        exifToolData = new ExiftoolData();
+                        exifToolData.FileName = metadata.FileName;
+                        exifToolData.FileDirectory = metadata.FileDirectory;
+                        exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
+                        exifToolData.Region = "FileSystem";
+                        exifToolData.Command = "Directory";
+                        exifToolData.Parameter = metadata.FileDirectory;
+                        ConvertAndCheckStringFromString(metadata.FileDirectory, exifToolData, oldExifToolFilePath,
+                                    CompositeTags.Directory, ref metadata.errors);
+                        oldExifToolFilePath = new ExiftoolData(exifToolData);
+
+                        exifToolData = new ExiftoolData();
+                        exifToolData.FileName = metadata.FileName;
+                        exifToolData.FileDirectory = metadata.FileDirectory;
+                        exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
+                        exifToolData.Region = "FileSystem";
+                        exifToolData.Command = "FileModifyDate";
+                        exifToolData.Parameter = ((DateTime)metadata.FileDateModified).ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture);
+                        ConvertAndCheckDateFromString(metadata.FileDateModified, exifToolData, oldExifToolFileName,
+                            CompositeTags.FileModificationDateTime, ref metadata.errors);
+                        oldExifToolFilePath = new ExiftoolData(exifToolData);
+
+
+                    }
+
+                    if (found >= 0)
+                    {
+                        String[] parameters = line.Split('\t');
+                        String regionType = parameters[0];
+                        String command = parameters[1];
+                        String parameter = parameters[2];
+
+                        exifToolData = new ExiftoolData();
+                        exifToolData.FileName = metadata.FileName;
+                        exifToolData.FileDirectory = metadata.FileDirectory;
+                        exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
+                        exifToolData.Region = regionType;
+                        exifToolData.Command = command;
+                        exifToolData.Parameter = parameter.Replace(_ExiftoolTabSeperator, System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator);
+
+                        Stopwatch stopwatchWrite = new Stopwatch();
+                        stopwatchWrite.Restart();
+
+                        //Make the Command unique, due to exif delivers not unique valies 
+                        metadataExiftoolDatabase.TransactionBeginBatch();
+                        string tempCommad = exifToolData.Command;
+                        int uniqueNumber = 1;
+                        while (exiftoolDatas.Contains(exifToolData))
+                        {
+                            exifToolData.Command = tempCommad + "(" + (uniqueNumber++) + ")";
+                        }
+                        exiftoolDatas.Add(exifToolData);
+
+                        metadataExiftoolDatabase.ExifTool_Write(exifToolData);
+
+                        exifToolData.Command = tempCommad; //Put original values back, after stores into database as Unique
+                        metadataExiftoolDatabase.TransactionCommitBatch();
+
+                        if (stopwatchWrite.ElapsedMilliseconds > 10) Logger.Info("Exiftool Write Exifdata: {0}", stopwatchWrite.ElapsedMilliseconds);
+
+                        string commandPriority = exifToolData.Command;
+                        MetadataPriorityKey metadataPriorityKey = new MetadataPriorityKey(exifToolData.Region, exifToolData.Command);
+                        if (MetadataReadPrioity.MetadataPrioityDictionary.ContainsKey(metadataPriorityKey))
+                        {
+                            if (MetadataReadPrioity.MetadataPrioityDictionary[metadataPriorityKey].Composite != CompositeTags.NotDefined)
+                                commandPriority = MetadataReadPrioity.MetadataPrioityDictionary[metadataPriorityKey].Composite;
+                            else
+                                MetadataReadPrioity.MetadataPrioityDictionary.Remove(metadataPriorityKey); //Not defind, add it back later with default values 
+                        }
+                        
+                        switch (commandPriority)
+                        {
+                            #region File
+                            case CompositeTags.FileName:
+                            case "FileName":
+                            case "File Name":
+                                if (metadata.FileName != parameter) //Convert short windows 8 filename to windows NT long filename
+                                {
+                                    exifToolData.Parameter = Path.GetFileName(NativeMethods.LongFileName(Path.Combine(metadata.FileDirectory, parameter)));
+                                    if (metadata.FileName != exifToolData.Parameter) 
+                                        throw new Exception("Filename doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");
+                                }
+                                ConvertAndCheckStringFromString(metadata.FileName, exifToolData, oldExifToolFileName,
+                                    CompositeTags.FileName, ref metadata.errors);
+                                oldExifToolFileName = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.Directory:
+                                if (metadata.FileDirectory != parameter) //Convert short windows 8 directory name to windows NT long filename
+                                {
+                                    exifToolData.Parameter = Path.GetDirectoryName(NativeMethods.LongFileName(Path.Combine(parameter, metadata.FileName)));
+                                    if (metadata.FileDirectory != exifToolData.Parameter) throw new Exception("Directory doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");
+                                }
+                                ConvertAndCheckStringFromString(metadata.FileDirectory, exifToolData, oldExifToolFileName,
+                                    CompositeTags.Directory, ref metadata.errors);
+                                oldExifToolFileName = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.FileModificationDateTime:
+                            case "FileModifyDate":
+                                DateTime tempDateTimeSoNotOverwriteMilliscounds = (DateTime)metadata.FileDateModified;
+                                ConvertAndCheckDateFromString(tempDateTimeSoNotOverwriteMilliscounds, exifToolData, oldExifToolFileModifyDate,
+                                    CompositeTags.FileModificationDateTime, ref metadata.errors);
+                                oldExifToolFileModifyDate = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.FileAccessDateTime:
+                            case "FileAccessDate":
+                                metadata.FileLastAccessed = ConvertAndCheckDateFromString(
+                                    metadata.FileLastAccessed, exifToolData, oldExifToolFileAccessDate,
+                                    CompositeTags.FileAccessDateTime, ref metadata.errors);
+                                oldExifToolFileAccessDate = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.FileCreationDateTime:
+                            case "FileCreationDate":
+                            case "FileCreateDate":
+                                DateTime temp2DateTimeSoNotOverwriteMilliscounds = (DateTime)metadata.FileDateCreated;
+                                metadata.FileDateCreated = ConvertAndCheckDateFromString(temp2DateTimeSoNotOverwriteMilliscounds,
+                                    exifToolData, oldExifToolFileCreateDate,
+                                    CompositeTags.FileCreationDateTime, ref metadata.errors);
+                                oldExifToolFileCreateDate = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.FileSize:
+                            case "FileSize":
+                                metadata.FileSize = ConvertAndCheckLongFromString(metadata.FileSize,
+                                    exifToolData, oldExifToolFileSize,
+                                    CompositeTags.FileSize, ref metadata.errors);
+                                oldExifToolFileSize = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.MIMEType:
+                            case "MIMEType":
+                                metadata.FileMimeType = ConvertAndCheckStringFromString(metadata.FileMimeType,
+                                    exifToolData, oldExifToolMIMEType,
+                                    CompositeTags.MIMEType, ref metadata.errors);
+                                oldExifToolMIMEType = new ExiftoolData(exifToolData);
+                                break;
+                            #endregion
+
+                            #region Camra
+                            case CompositeTags.CameraModelMake:
+                            case "Make":
+                                metadata.CameraMake = ConvertAndCheckStringFromString(metadata.CameraMake, exifToolData, oldExifToolMake,
+                                    CompositeTags.CameraModelMake, ref metadata.errors);
+                                oldExifToolMake = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.CameraModelName:
+                            case "Model":
+                                metadata.CameraModel = ConvertAndCheckStringFromString(metadata.CameraModel, exifToolData, oldExifToolModel,
+                                    CompositeTags.CameraModelName, ref metadata.errors);
+                                oldExifToolModel = new ExiftoolData(exifToolData);
+                                break;
+                            #endregion
+
+                            #region Media
+                            case CompositeTags.MediaHeight:
+                            case "ImageHeight":
+                            case "ExifImageHeight":
+                            case "SourceImageHeight":
+                                if (regionType == "EXIF:IFD1")
+                                {
+                                    MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.Ignore);
+                                    break;
+                                } 
+                                metadata.MediaHeight = ConvertAndCheckIntFromString(metadata.MediaHeight, exifToolData, oldExifToolMediaHeight,
+                                    CompositeTags.MediaHeight, ref metadata.errors);
+                                oldExifToolMediaHeight = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.MediaWidth:
+                            case "ImageWidth":
+                            case "ExifImageWidth":
+                            case "SourceImageWidth":
+                                if (regionType == "EXIF:IFD1")
+                                {
+                                    MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.Ignore);
+                                    break;
+                                }
+                                metadata.MediaWidth = ConvertAndCheckIntFromString(metadata.MediaWidth, exifToolData, oldExifToolMediaWidth,
+                                    CompositeTags.MediaWidth, ref metadata.errors);
+                                oldExifToolMediaWidth = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.DateTimeDigitized:
+                            case "Date Time Original":
+                            case "Digital Creation Date/Time":
+                            case "Date/Time Created":
+                            case "CreationTime":
+                            case "DateTimeOriginal":
+                            case "CreateDate":
+                            case "SubSecCreateDate":
+                            case "SubSecDateTimeOriginal":
+                                if (regionType == "IPTC" && command == "DateCreated")
+                                {
+                                    MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.Ignore);
+                                    break; //IPTC:DateCreated + IPTC:TimeCreated = EXIF:CreateDate --> Only date without time, so don't read it
+                                }
+                                    
+                                metadata.MediaDateTaken = ConvertAndCheckDateFromString(metadata.MediaDateTaken, exifToolData, oldExifToolCreateDate,
+                                    CompositeTags.DateTimeDigitized, ref metadata.errors);
+                                oldExifToolCreateDate = new ExiftoolData(exifToolData);
+                                break;
+                            #endregion
+
+                            #region Personal
+                            case CompositeTags.Arthur:
+                            case "By-line":         //IPTC	        By-line	        string[0,32]+
+                            case "Creator":         //XMP:XMP-dc	Creator	        [Nokia Imaging SDK]
+                            case "XPAuthor":        //EXIF:IFD0	    XPAuthor	    Wrong size
+                                if (exifToolData.Region == "XMP:XMP-dc" && exifToolData.Command == "Creator")
+                                {
+                                    if (useStuctArgument && exifToolData.Parameter.StartsWith("[") && exifToolData.Parameter.EndsWith("]"))
+                                    {
+                                        exifToolData.Parameter = exifToolData.Parameter.Substring(1, exifToolData.Parameter.Length - 2);
+                                    }
+                                }
+                                metadata.PersonalAuthor = ConvertAndCheckStringFromString(metadata.PersonalAuthor, exifToolData, oldExifToolAuthor,
+                                    CompositeTags.Arthur, ref metadata.errors);
+                                oldExifToolAuthor = new ExiftoolData(exifToolData);
+                                break;
+
+                            case CompositeTags.Description:
+                            case "ImageDescription":
+                            case "Caption-Abstract":
+                                metadata.PersonalDescription = ConvertAndCheckStringFromString(metadata.PersonalDescription, exifToolData, oldExifToolDescription,
+                                    CompositeTags.Description, ref metadata.errors);
+                                oldExifToolDescription = new ExiftoolData(exifToolData);
+                                break;
+
+                            case CompositeTags.Title:
+                            case "XP Title":
+                            case "XPTitle":
+                                metadata.PersonalTitle = ConvertAndCheckStringFromString(metadata.PersonalTitle, exifToolData, oldExifToolTitle,
+                                    CompositeTags.Title, ref metadata.errors);
+                                oldExifToolTitle = new ExiftoolData(exifToolData);
+                                break;
+
+                            case CompositeTags.Comment:
+                            case "User Comment":
+                            case "XP Comment":
+                            case "UserComment":
+                            case "Notes":
+                                metadata.PersonalComments = ConvertAndCheckStringFromString(metadata.PersonalComments, exifToolData, oldExifToolComment,
+                                    CompositeTags.Comment, ref metadata.errors);
+                                oldExifToolComment = new ExiftoolData(exifToolData);
+                                break;
+
+                            case CompositeTags.Album:
+                            case "Headline":
+                                metadata.PersonalAlbum = ConvertAndCheckStringFromString(metadata.PersonalAlbum, exifToolData, oldExifToolAlbum,
+                                    CompositeTags.Album, ref metadata.errors);
+                                oldExifToolAlbum = new ExiftoolData(exifToolData);
+                                break;
+                            #endregion
+
+                            #region Personal Rating
+                            /*
+                            Notes:
+                            RatingPercent - Setting: 5 Stars = 99, 4 stars = 75, 3 stars = 50, 2 stars = 25, 1 star = 1, 0 stars = removes tags.  
+                            Reading: 88-100+ = 5 Stars, 63-87 = 4 stars, 38-62 = 3 stars, 13-37 = 2 stars, 1-12 = 1 star, no tag or 0 = 0 star
+                            */
+                            case CompositeTags.Rating:
+                                metadata.PersonalRating = ConvertAndCheckByteFromString(metadata.PersonalRating, exifToolData, oldExifToolRating,
+                                    CompositeTags.Rating, ref metadata.errors);
+                                oldExifToolRating = new ExiftoolData(exifToolData);
+
+                                oldExifToolRatingPercent = new ExiftoolData(exifToolData); //Use this Rating as old. To keep sync
+                                exifToolData.Parameter = ((float)metadata.PersonalRatingPercent).ToString(CultureInfo.InvariantCulture);
+                                metadata.PersonalRatingPercent = ConvertAndCheckFloatFromString(metadata.PersonalRatingPercent, exifToolData, oldExifToolRatingPercent,
+                                    CompositeTags.RatingPercent, ref metadata.errors);
+                                oldExifToolRatingPercent = new ExiftoolData(exifToolData);
+
+                                break;
+                            case CompositeTags.RatingPercent:
+                                //Reading: 88-100+ = 5 Stars, 63-87 = 4 stars, 38-62 = 3 stars, 13-37 = 2 stars, 1-12 = 1 star, no tag or 0 = 0 star
+                                metadata.PersonalRatingPercent = ConvertAndCheckFloatFromString(metadata.PersonalRatingPercent,
+                                    exifToolData, oldExifToolRatingPercent,
+                                    CompositeTags.RatingPercent, ref metadata.errors);
+                                oldExifToolRatingPercent = new ExiftoolData(exifToolData);
+
+                                oldExifToolRating = new ExiftoolData(exifToolData); //Use this RatingPercent as old. To keep sync
+                                exifToolData.Parameter = ((byte)metadata.PersonalRating).ToString(CultureInfo.InvariantCulture);
+                                metadata.PersonalRating = ConvertAndCheckByteFromString(metadata.PersonalRating, exifToolData, oldExifToolRating,
+                                    CompositeTags.Rating, ref metadata.errors);
+                                oldExifToolRating = new ExiftoolData(exifToolData);
+
+                                break;
+                            #endregion
+
+                            #region Region (**without** 'exiftool -struct')
+                            /*
+                            case "RegionPersonDisplayName":
+                                tempRegionPersonDisplayName = parameter;
+                                break;
+                            case "RegionRectangle":
+                                tempRegionRectangle = parameter;
+                                break;
+                            case "RegionType":
+                                tempRegionType = parameter;
+                                break;
+                            case "RegionAreaH":
+                                tempRegionAreaH = parameter;
+                                break;
+                            case "RegionAreaW":
+                                tempRegionAreaW = parameter;
+                                break;
+                            case "RegionAreaX":
+                                tempRegionAreaX = parameter;
+                                break;
+                            case "RegionAreaY":
+                                tempRegionAreaY = parameter;
+                                break;
+                            case "RegionName":
+                                tempRegionName = parameter;
+                                break;
+                            */
+                            #endregion
+
+                            #region De-Serialization structed - Region (with 'exiftool -struct')
+                            case CompositeTags.FaceRegionIPTC:
+                            case "MyRegion":        //Struct ImageRegion IPTC ImageRegion list
+                                MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.FaceRegionIPTC);
+                                RegionStructure regionIPTC = new RegionStructure();
+                                regionIPTC.RegionStructureType = RegionStructureTypes.IptcRelative; //Relative or pixel
+                                regionIPTC.Type = "Face";
+                                //{ 'RbX','RbY','RbW','RbH'} if ($$rgn{ RegionBoundary} { RbUnit} eq 'pixel')  'relative' {
+                                throw new Exception("Not implemented yet");
+                            //break;
+                            case CompositeTags.FaceRegionMicrosoft:
+                            case CompositeTags.FaceRegionMWG:
+                            case "RegionInfo":      //MWG RegionInfo
+                            case "RegionInfoMP":    //Microsoft RegionInfoMP
+                                                    //De-Serialization 
+                                
+                                if (parameter == "{Regions=}") break; //Empty list, skip
+                                if (parameter == "{RegionList=}") break; //Empty list, skip
+
+                                RegionStructureTypes currentExiftoolRegionStructureType;
+                                switch (exifToolData.Command)
+                                {
+                                    case "RegionInfoMP":
+                                        currentExiftoolRegionStructureType = RegionStructureTypes.WindowsLivePhotoGallery;
+                                        MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.FaceRegionMicrosoft);
+
+                                        break;
+                                    case "RegionInfo":
+                                        currentExiftoolRegionStructureType = RegionStructureTypes.MetadataWorkingGroup;
+                                        MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.FaceRegionMWG);
+
+                                        break;
+                                    default:
+                                        throw new Exception("Not implemented yet");
+                                }
+
+                                RegionStructure region = null;
+                                StructDeSerialization structDeSerialization = new StructDeSerialization(parameter);
+                                StructObject structObject;
+                                string lastKnownFieldName = "";
+
+                                while (structDeSerialization.Read(out structObject))
+                                {
+                                    switch (structObject.Type)
+                                    {
+                                        case StructTypes.EOF:
+                                            break;
+                                        case StructTypes.OpeningSquareBrackets:
+                                            break;
+                                        case StructTypes.ClosingSquareBrackets:
+                                            break;
+                                        case StructTypes.FieldName:
+                                            lastKnownFieldName = structObject.Value;
+                                            break;
+                                        case StructTypes.OpeningCurlyBracket:
+                                            if (structObject.IsList && region == null)
+                                            {
+                                                region = new RegionStructure();
+                                                region.RegionStructureType = currentExiftoolRegionStructureType;
+                                            }
+                                            break;
+                                        case StructTypes.ClosingCurlyBracket:
+                                            //break;
+                                            goto case StructTypes.Value;
+                                        case StructTypes.Value:
+
+                                            switch (lastKnownFieldName)
+                                            {
+                                                #region WindowsLivePhotoGallery
+                                                case "Regions":
+                                                    break;
+                                                case "PersonDisplayName": //WindowsLivePhotoGallery
+                                                    region.Name = structObject.Value;
+                                                    break;
+
+                                                case "Rectangle": //WindowsLivePhotoGallery --> 0.086957|, 0.125926|, 0.136364|, 0.102222
+                                                    try
+                                                    {
+                                                        string[] valueArray = structObject.Value.Split(',');
+                                                        region.AreaX = float.Parse(valueArray[0], CultureInfo.InvariantCulture);
+                                                        region.AreaY = float.Parse(valueArray[1], CultureInfo.InvariantCulture);
+                                                        region.AreaWidth = float.Parse(valueArray[2], CultureInfo.InvariantCulture);
+                                                        region.AreaHeight = float.Parse(valueArray[3], CultureInfo.InvariantCulture);
+                                                    }
+                                                    catch
+                                                    {
+                                                        region.AreaX = 0;
+                                                        region.AreaY = 0;
+                                                        region.AreaWidth = 1;
+                                                        region.AreaHeight = 1;
+                                                    }
+                                                    break;
+                                                #endregion
+
+                                                #region MetadataWorkingGroup
+                                                case "AppliedToDimensions":
+                                                    break;
+                                                case "RegionList":
+                                                    break;
+                                                case "Area":
+                                                    break;
+                                                case "X":
+                                                case "Y":
+                                                case "H":
+                                                case "W":
+                                                    if (structObject.IsList)
+                                                    {
+                                                        float coordinate = float.Parse(structObject.Value, CultureInfo.InvariantCulture);
+                                                        switch (lastKnownFieldName)
+                                                        {
+                                                            case "X":
+                                                                region.AreaX = coordinate;
+                                                                break;
+                                                            case "Y":
+                                                                region.AreaY = coordinate;
+                                                                break;
+                                                            case "H":
+                                                                region.AreaHeight = coordinate;
+                                                                break;
+                                                            case "W":
+                                                                region.AreaWidth = coordinate;
+                                                                break;
+                                                        }
+                                                    }
+                                                    break;
+                                                case "Type":
+                                                    region.Type = structObject.Value;
+                                                    break;
+                                                case "Name":
+                                                    region.Name = structObject.Value;
+                                                    break;
+                                                #endregion
+
+                                                default:
+                                                    break; //Closing curves
+                                            }
+                                            lastKnownFieldName = "";
+
+                                            #region Add to Region List
+                                            switch (currentExiftoolRegionStructureType)
+                                            {
+                                                case RegionStructureTypes.WindowsLivePhotoGallery:
+                                                    if (structObject.Type == StructTypes.ClosingCurlyBracket)
+                                                    {
+                                                        if (region != null)
+                                                        {
+                                                            if (String.IsNullOrWhiteSpace(region.Type)) region.Type = "Face";
+
+                                                            metadata.PersonalRegionListAddIfNotExists(region);
+                                                            region = null;
+                                                        }
+
+                                                    }
+                                                    break;
+                                                case RegionStructureTypes.MetadataWorkingGroup:
+                                                    if (structObject.Level == 0 &&
+                                                        structObject.IsList &&
+                                                        structObject.Type == StructTypes.ClosingCurlyBracket)
+                                                    {
+                                                        if (region != null)
+                                                        {
+                                                            if (String.IsNullOrWhiteSpace(region.Type)) region.Type = "Face";
+                                                            metadata.PersonalRegionListAddIfNotExists(region);
+                                                            region = null;
+                                                        }
+                                                    }
+                                                    break;
+                                                default:
+                                                    throw new Exception("Not implemented yet");
+                                            }
+                                            #endregion
+                                            break;
+                                        default:
+                                            break;
+
+                                    }
+
+                                }
+
+                                if (structDeSerialization.Level != -1) throw new Exception("Error in Exiftool seralization. Missing closing curves");
+                               
+                                break;
+                            #endregion
+
+                            #region De-Serialization structed - PersonalKeywordTags 
+                            case CompositeTags.KeywordsXML:
+                            case "Categories": //XML
+                                #region Read XML Categories
+                                MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsXML);
+
+                                XmlReader xmlReader = XmlReader.Create(new StringReader(parameter));
+                                string tagHierarchy = "";
+                                bool assigned = false;
+                                while (xmlReader.Read())
+                                {
+                                    switch (xmlReader.NodeType)
+                                    {
+                                        case XmlNodeType.Element:
+                                            if (xmlReader.GetAttribute("Assigned") == "1") assigned = true;
+                                            else assigned = false;
+                                            break;
+                                        case XmlNodeType.Text:
+                                            if (assigned)
+                                            {
+                                                tagHierarchy += xmlReader.Value;
+
+                                                KeywordTag keywordTag = new KeywordTag(tagHierarchy);
+                                                metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
+                                                tagHierarchy = "";
+                                            } else
+                                            {
+                                                tagHierarchy += xmlReader.Value + "/";
+                                            }
+                                            break;
+                                        case XmlNodeType.EndElement:
+                                            break;
+                                    }
+                                }
+                                #endregion 
+                                break;
+
+                            case CompositeTags.KeywordsStruct:
+                            case "Subject":
+                            case "TagsList":
+                            case "LastKeywordIPTC":
+                            case "LastKeywordXMP":
+                            case "HierarchicalSubject":
+                            case "Category":    //Home made for store in QuickTime
+                            case "Keyword":     //Home made for store in QuickTime
+                            case "Keywords":
+                            case "CatalogSets":
+                                MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsStruct);
+                                //*Without* -struck not supported, need https://exiftool.org/struct.html
+                                String[] tagList1;
+                                if (useStuctArgument)
+                                    tagList1 = StructDeSerialization.GetListOfValues(parameter);
+                                else
+                                    tagList1 = parameter.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
+
+                                foreach (String tag in tagList1)
+                                {
+                                    KeywordTag keywordTag = new KeywordTag(tag);
+                                    metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
+                                }
+                                break;
+                            case CompositeTags.KeywordsMicrosoft:
+                            case "XPKeywords": //; sepearated list
+                                //EXIF:IFD0	 XPKeywords	            Keyword1;Keyword2;Keyword3
+                                //Without -struck not supported, need https://exiftool.org/struct.html
+                                MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsMicrosoft);
+                                String[] tagList2 = parameter.Split(';');
+                                foreach (String tag in tagList2)
+                                {
+                                    KeywordTag keywordTag = new KeywordTag(tag);
+                                    metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
+                                }
+                                break;
+                                #endregion
+
+                            #region Location
+                            case CompositeTags.Location:
+                            case "Sub-location":
+                                metadata.LocationName = ConvertAndCheckStringFromString(metadata.LocationName, exifToolData, oldExifToolLocationName,
+                                    CompositeTags.Location, ref metadata.errors);
+                                oldExifToolLocationName = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.City:
+                                metadata.LocationCity = ConvertAndCheckStringFromString(metadata.LocationCity, exifToolData, oldExifToolLocationCity,
+                                    CompositeTags.City, ref metadata.errors);
+                                oldExifToolLocationCity = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.State:
+                            case "Province-State":
+                                metadata.LocationState = ConvertAndCheckStringFromString(metadata.LocationState, exifToolData, oldExifToolLocationState,
+                                    CompositeTags.State, ref metadata.errors);
+                                oldExifToolLocationState = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.Country:
+                            case "Country-PrimaryLocationName":
+                                metadata.LocationCountry = ConvertAndCheckStringFromString(metadata.LocationCountry, exifToolData, oldExifToolLocationCountry,
+                                    CompositeTags.Country, ref metadata.errors);
+                                oldExifToolLocationCountry = new ExiftoolData(exifToolData);
+                                break;
+                            #endregion
+
+                            #region GPS Location
+                            case "GPSAltitude":
+                            case CompositeTags.GPSAltitude:
+                                double? newAltitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationAltitude, exifToolData, 2, oldExifToolGPSAltitude,
+                                    CompositeTags.GPSAltitude, ref metadata.errors);
+
+                                if (metadata.LocationAltitude == null) metadata.LocationAltitude = newAltitudeValue;
+                                oldExifToolGPSAltitude = new ExiftoolData(exifToolData);
+                                break;
+                            case "GPSLatitude":
+                            case CompositeTags.GPSLatitude:
+                                double? newLatitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLatitude,
+                                    exifToolData, 5, oldExifToolGPSLatitude,
+                                    CompositeTags.GPSLatitude, ref metadata.errors);
+
+                                if (metadata.LocationLatitude == null) metadata.LocationLatitude = newLatitudeValue;
+                                if (regionType == "XMP:XMP-exif" && newLatitudeValue != null) metadata.LocationLatitude = newLatitudeValue;
+                                oldExifToolGPSLatitude = new ExiftoolData(exifToolData);
+                                break;
+                            case "GPSLongitude":
+                            case CompositeTags.GPSLongitude:
+                                //BUG In ExifTool data, some postition is truncated in EXIF:GPS
+                                //EXIF:GPS          GPSLongitude    27
+                                //XMP:XMP-exif      GPSLongitude    27.4822166666667
+                                double? newLongitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, exifToolData, 5, oldExifToolGPSLongitude,
+                                    CompositeTags.GPSLongitude, ref metadata.errors);
+                                if (metadata.LocationLongitude == null) metadata.LocationLongitude = newLongitudeValue; //Override only if null value
+                                oldExifToolGPSLongitude = new ExiftoolData(exifToolData);
+                                break;
+                            case CompositeTags.GPSCoordinates:
+                            case "GPS Position":
+                            case "GPSPosition":
+                                MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.GPSCoordinates);
+                                String[] coordinates = exifToolData.Parameter.Split(' ');
+
+                                ExiftoolData tempExiftoolData = new ExiftoolData(exifToolData);
+                                tempExiftoolData.Parameter = coordinates[0];
+                                double? newLocationLatitude = ConvertAndCheckDoubleFromString(metadata.LocationLatitude, tempExiftoolData, 5, oldExifToolGPSLatitude,
+                                    CompositeTags.GPSCoordinatesLatitude, ref metadata.errors);
+                                if (newLocationLatitude == null) metadata.LocationLatitude = newLocationLatitude;
+                                oldExifToolGPSLatitude = new ExiftoolData(exifToolData);
+
+                                tempExiftoolData.Parameter = coordinates[1];
+                                double? newLocationLongitude = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, tempExiftoolData, 5, oldExifToolGPSLongitude,
+                                    CompositeTags.GPSCoordinatesLongitude, ref metadata.errors);
+                                if (newLocationLongitude == null) metadata.LocationLongitude = newLocationLongitude;
+                                oldExifToolGPSLongitude = new ExiftoolData(exifToolData);
+
+                                break;
+                            case CompositeTags.GPSDateTime:
+                            case "GPSDateTime":
+                                metadata.LocationDateTime = ConvertAndCheckDateFromString(metadata.LocationDateTime,
+                                    exifToolData, oldExifToolGPSDateTime,
+                                    CompositeTags.GPSDateTime, ref metadata.errors);
+                                oldExifToolGPSDateTime = new ExiftoolData(exifToolData);
+                                break;
+                                #endregion
+                        }
+                        MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.NotDefined);
+
+                    }
+                    #endregion
+
+                    
+                }
+
+                
+
+                process.WaitForExit(1500);
+
+                if (metadata != null) //Save the last one, remover we save everytime, when new file found
+                {
+                    ConvertRegion(metadata.PersonalRegionList, tempRegionRectangle, tempRegionPersonDisplayName);
+                    ConvertRegion(metadata.PersonalRegionList, tempRegionType, tempRegionName,
+                        tempRegionAreaH, tempRegionAreaW, tempRegionAreaX, tempRegionAreaY);
+
+                    metaDataCollections.Add(metadata);
+
+                    metadataDatabaseCache.TransactionBeginBatch();
+                    metadataDatabaseCache.Write(metadata);
+                    metadataDatabaseCache.TransactionCommitBatch();
+
+                    if (afterNewMediaFoundEvent != null)
+                        afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+
+                }
+
+
+                string error = "";
+                while (!process.StandardError.EndOfStream)
+                {
+                    error += process.StandardError.ReadLine() + "\r\n";
+                    Logger.Error("ERROR: " + error);
+                    throw new Exception(error);
+                }
+            } //Using process
+            return metaDataCollections;
+        }
+        #endregion
+
+    }
+}
