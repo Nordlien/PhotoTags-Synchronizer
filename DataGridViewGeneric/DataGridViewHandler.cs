@@ -1089,7 +1089,7 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
             } else dataGridViewGenericCellStatusDefaults.CellReadOnly = true;
 
             SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
-SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefaults);
+            SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefaults);
 
             SetCellBackGroundColorForRow(dataGridView, rowIndex);
 
@@ -1115,6 +1115,7 @@ SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus
                 dataGridView.Rows[rowIndex].HeaderCell.Value = dataGridViewGenericRow.RowName;
                 dataGridView.Rows[rowIndex].HeaderCell.Style.Font = new Font(dataGridView.Font, FontStyle.Regular);
             }
+            
         }
 
         public static string GetRowName(DataGridView dataGridView, int rowIndex)

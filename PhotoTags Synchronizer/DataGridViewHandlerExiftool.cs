@@ -16,7 +16,6 @@ namespace PhotoTagsSynchronizer
         public static ExiftoolReader exiftoolReader { get; set; }
 
         public static void PopulateFile(DataGridView dataGridView, string fullFilePath, ShowWhatColumns showWhatColumns, DateTime dateTimeForEditableMediaFile)
-
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -70,10 +69,10 @@ namespace PhotoTagsSynchronizer
                         exiftoolData.Parameter,
                         new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));
 
-                    if (priorityKeyExisit) 
-                    {                       
+                    if (priorityKeyExisit)
                         DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, metadataPriorityGroup.ToString());
-                    }
+                    else
+                        DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, "");
                 }
             }
 

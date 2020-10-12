@@ -233,7 +233,7 @@ namespace PhotoTagsSynchronizer
             
             timerStatus.Enabled = true;
 
-            SetupExiftoolToolStripMenuItems();
+            PopulateExiftoolToolStripMenuItems();
             // Add event handlers for file system watcher.
             /*
             fileSystemWatcher.EnableRaisingEvents = false;

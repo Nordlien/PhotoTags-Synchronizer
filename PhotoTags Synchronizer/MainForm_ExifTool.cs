@@ -11,7 +11,7 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : Form
     {
         
-        public void SetupExiftoolToolStripMenuItems()
+        public void PopulateExiftoolToolStripMenuItems()
         {
             
             SortedDictionary<string, string> listAllTags = new CompositeTags().ListAllTags();
@@ -95,15 +95,19 @@ namespace PhotoTagsSynchronizer
                     MetadataPriorityGroup metadataPriorityGroup = new MetadataPriorityGroup(
                         dataGridViewGenericRow.MetadataPriorityKey,
                         exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[dataGridViewGenericRow.MetadataPriorityKey]);
-                    DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, metadataPriorityGroup.ToString());
 
+                   
                     bool priorityKeyExisit = exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary.ContainsKey(dataGridViewGenericRow.MetadataPriorityKey);
-                    bool priorityKeyIgnor = false;
+                    if (exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[dataGridViewGenericRow.MetadataPriorityKey].Composite == CompositeTags.NotDefined) priorityKeyExisit = false;
+                    //bool priorityKeyIgnor = false;
                     if (priorityKeyExisit)
-                    {
-                        if (exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[dataGridViewGenericRow.MetadataPriorityKey].Composite == CompositeTags.NotDefined) priorityKeyExisit = false;
-                        if (exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[dataGridViewGenericRow.MetadataPriorityKey].Composite == CompositeTags.Ignore) priorityKeyIgnor = true;
-                    }
+                        DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, metadataPriorityGroup.ToString());                    
+                    else 
+                        DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, "");
+
+                    
+                    //
+                    //if (exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[dataGridViewGenericRow.MetadataPriorityKey].Composite == CompositeTags.Ignore) priorityKeyIgnor = true;
 
                     DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex,
                         new DataGridViewGenericRow(
@@ -111,8 +115,12 @@ namespace PhotoTagsSynchronizer
                             dataGridViewGenericRow.RowName,
                             dataGridViewGenericRow.IsMultiLine,
                             dataGridViewGenericRow.MetadataPriorityKey));
+                    DataGridViewHandler.SetRowFavoriteFlag(dataGridView, rowIndex);
+                    DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, rowIndex);
                 }
             }
+            DataGridViewHandler.Refresh(dataGridView);
+            exiftoolReader.MetadataReadPrioity.WriteAlways();
         }
 
 

@@ -43,7 +43,7 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.Save();
 
             MetadataReadPrioity.MetadataPrioityDictionary = metadataPrioityDictionaryCopy;
-            MetadataReadPrioity.Write();
+            MetadataReadPrioity.WriteAlways();
             this.Close();
         }
 

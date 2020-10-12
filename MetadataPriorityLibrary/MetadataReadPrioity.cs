@@ -65,7 +65,12 @@ namespace MetadataPriorityLibrary
         public void Write()
         {
             if (!isMetadataGroupPrioityDictionaryDirty) return;
+            WriteAlways();
+            isMetadataGroupPrioityDictionaryDirty = false;
+        }
 
+        public void WriteAlways()
+        {            
             List<MetadataPriorityGroup> metadataGroupPriorityList = new List<MetadataPriorityGroup>();
             foreach (KeyValuePair<MetadataPriorityKey, MetadataPriorityValues> entry in MetadataPrioityDictionary)
             {
@@ -73,7 +78,6 @@ namespace MetadataPriorityLibrary
             }
             string filename = CreteFilename();
             File.WriteAllText(filename, JsonConvert.SerializeObject(metadataGroupPriorityList, Newtonsoft.Json.Formatting.Indented));
-            isMetadataGroupPrioityDictionaryDirty = false;
         }
 
         public void Add(string region, string tag, string composite)
