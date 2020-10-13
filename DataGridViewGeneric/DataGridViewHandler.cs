@@ -1385,8 +1385,6 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         }
         #endregion
 
-
-
         #region Cell Tag and Value 
         public static DataGridViewCell GetCellDataGridViewCell(DataGridView dataGridView, int columnIndex, int rowIndex)
         {

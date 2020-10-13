@@ -99,15 +99,11 @@ namespace PhotoTagsSynchronizer
                    
                     bool priorityKeyExisit = exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary.ContainsKey(dataGridViewGenericRow.MetadataPriorityKey);
                     if (exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[dataGridViewGenericRow.MetadataPriorityKey].Composite == CompositeTags.NotDefined) priorityKeyExisit = false;
-                    //bool priorityKeyIgnor = false;
+
                     if (priorityKeyExisit)
                         DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, metadataPriorityGroup.ToString());                    
                     else 
                         DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, "");
-
-                    
-                    //
-                    //if (exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[dataGridViewGenericRow.MetadataPriorityKey].Composite == CompositeTags.Ignore) priorityKeyIgnor = true;
 
                     DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex,
                         new DataGridViewGenericRow(

@@ -304,9 +304,124 @@ namespace MetadataLibrary
             dbTools.TransactionCommitBatch();
         }
 
-        public void Rename(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
+        public void Copy(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
+            dbTools.TransactionBeginBatch();
             
+           string sqlCommand =
+               "INSERT INTO MediaMetadata (" +
+                   "Broker, FileDirectory, FileName, FileSize, " +
+                   "FileDateCreated, FileDateModified, FileLastAccessed, FileMimeType, " +
+                   "PersonalTitle, PersonalAlbum, PersonalDescription, PersonalComments, PersonalRatingPercent,PersonalAuthor, " +
+                   "CameraMake, CameraModel, " +
+                   "MediaDateTaken, MediaWidth, MediaHeight, MediaOrientation, MediaVideoLength, " +
+                   "LocationAltitude, LocationLatitude, LocationLongitude, LocationDateTime, " +
+                   "LocationName, LocationCountry, LocationCity, LocationState, RowChangedDated) " +               
+                "SELECT " +
+                    "Broker, @NewFileDirectory, @NewFileName, FileSize, " +
+                    "FileDateCreated, FileDateModified, FileLastAccessed, FileMimeType, " +
+                    "PersonalTitle, PersonalAlbum, PersonalDescription, PersonalComments, PersonalRatingPercent,PersonalAuthor, " +
+                    "CameraMake, CameraModel, " +
+                    "MediaDateTaken, MediaWidth, MediaHeight, MediaOrientation, MediaVideoLength, " +
+                    "LocationAltitude, LocationLatitude, LocationLongitude, LocationDateTime, " +
+                    "LocationName, LocationCountry, LocationCity, LocationState, RowChangedDated " +
+                "FROM MediaMetadata WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                commandDatabase.Prepare();
+                commandDatabase.ExecuteNonQuery();
+            }
+
+            sqlCommand =
+                "INSERT INTO MediaPersonalKeywords (" +
+                    "Broker, FileDirectory, FileName, FileDateModified, Keyword, Confidence) " +
+                 "SELECT " +
+                    "Broker, @NewFileDirectory, @NewFileName, FileDateModified, Keyword, Confidence " +
+                    "FROM MediaPersonalKeywords WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                commandDatabase.Prepare();
+                commandDatabase.ExecuteNonQuery();
+            }
+
+            sqlCommand =
+                "INSERT INTO MediaPersonalRegions (" +
+                    "Broker, FileDirectory, FileName, FileDateModified, Type, Name, " +
+                    "AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail) " +
+                "SELECT " +
+                    "Broker, @NewFileDirectory, @NewFileName, FileDateModified, Type, " +
+                    "Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail " +
+                    "FROM MediaPersonalRegions WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                commandDatabase.Prepare();
+                commandDatabase.ExecuteNonQuery();
+            }
+
+            sqlCommand = 
+                "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
+                "SELECT @NewFileDirectory, @NewFileName, FileDateModified, Region, Command, Parameter FROM " +
+                "MediaExiftoolTags WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                commandDatabase.Prepare();
+                commandDatabase.ExecuteNonQuery();
+            }
+
+            sqlCommand =
+                "INSERT INTO MediaExiftoolTagsWarning " + 
+                    "(FileDirectory, FileName, FileDateModified, OldRegion, OldCommand, OldParameter, NewRegion, NewCommand, NewParameter, Warning) " +
+                "SELECT @NewFileDirectory, @NewFileName, FileDateModified, OldRegion, OldCommand, OldParameter, NewRegion, NewCommand, NewParameter, Warning FROM " +
+                    "MediaExiftoolTagsWarning WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                commandDatabase.Prepare();
+                commandDatabase.ExecuteNonQuery();
+            }
+            dbTools.TransactionCommitBatch();
+
+            sqlCommand =
+                "INSERT INTO MediaThumbnail (FileDirectory, FileName, FileDateModified, Image) " +
+                "SELECT @NewFileDirectory, @NewFileName, FileDateModified, Image FROM MediaThumbnail WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
+                commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
+                commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
+                commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
+                commandDatabase.Prepare();
+                commandDatabase.ExecuteNonQuery();
+            }
+            dbTools.TransactionCommitBatch();
+        }
+
+        public void Move(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
+        {      
             dbTools.TransactionBeginBatch();
 
             ClearCache();

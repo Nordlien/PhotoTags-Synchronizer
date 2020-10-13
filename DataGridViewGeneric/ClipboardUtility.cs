@@ -6,6 +6,8 @@ namespace DataGridViewGeneric
 {
     public class ClipboardUtility
     {
+
+
         public static void Clear(DataGridView dataGridView)
         {
             if (dataGridView.TopLeftHeaderCell.Tag == null)

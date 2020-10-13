@@ -153,7 +153,7 @@ namespace PhotoTagsSynchronizer
 
         public void DeleteFilesInFolder(FolderTreeView folderTreeViewFolder, string folder)
         {
-            string[] dirs = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? folder : folder + @"\"), "*", SearchOption.AllDirectories);
+            string[] dirs = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
 
             Directory.Delete(folder, true);
 
@@ -243,6 +243,38 @@ namespace PhotoTagsSynchronizer
 
             imageListView.ResumeLayout();
             imageListView.Enabled = true;
+        }
+          
+        public void MoveFile(string sourceFullFilename, string targetFullFilename)
+        {
+            if (File.Exists(sourceFullFilename))
+            {                
+                string oldFilename = Path.GetFileName(sourceFullFilename);
+                string oldDirectory = Path.GetDirectoryName(sourceFullFilename);
+
+                string newFilename = Path.GetFileName(targetFullFilename);
+                string newDirectory = Path.GetDirectoryName(targetFullFilename);
+
+                Directory.CreateDirectory(newDirectory);
+                File.Move(sourceFullFilename, targetFullFilename);
+                databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
+            }
+        }
+
+        public void CopyFile(string sourceFullFilename, string targetFullFilename)
+        {
+            if (File.Exists(sourceFullFilename))
+            {
+                string oldFilename = Path.GetFileName(sourceFullFilename);
+                string oldDirectory = Path.GetDirectoryName(sourceFullFilename);
+
+                string newFilename = Path.GetFileName(targetFullFilename);
+                string newDirectory = Path.GetDirectoryName(targetFullFilename);
+
+                Directory.CreateDirectory(newDirectory);
+                File.Copy(sourceFullFilename, targetFullFilename);
+                databaseAndCacheMetadataExiftool.Copy(oldDirectory, oldFilename, newDirectory, newFilename);
+            }
         }
     }
 }

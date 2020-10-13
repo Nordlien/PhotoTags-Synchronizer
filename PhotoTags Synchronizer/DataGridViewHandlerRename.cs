@@ -27,40 +27,40 @@ namespace PhotoTagsSynchronizer
             /*
             %Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%
 
-%Trim%
-%FileName%
-%FileNameWithoutDateTime%
-%Extension%
-%MediaFileNow_DateTime%
-%Media_DateTime%
-%Media_yyyy%
-%Media_MM%
-%Media_dd%
-%Media_HH%
-%Media_mm%
-%Media_ss%
-%File_DateTime%
-%File_yyyy%
-%File_MM%
-%File_dd%
-%File_HH%
-%File_mm%
-%File_ss%
-%Now_DateTime%
-%Now_yyyy%
-%Now_MM%
-%Now_dd%
-%Now_HH%
-%Now_mm%
-%Now_ss%
-%GPS_DateTimeUTC%
-%MediaAlbum%
-%MediaTitle%
-%MediaDescription%
-%MediaAuthor%
-%LocationName%
-%LocationCountry%
-%LocationState%
+            %Trim%
+            %FileName%
+            %FileNameWithoutDateTime%
+            %Extension%
+            %MediaFileNow_DateTime%
+            %Media_DateTime%
+            %Media_yyyy%
+            %Media_MM%
+            %Media_dd%
+            %Media_HH%
+            %Media_mm%
+            %Media_ss%
+            %File_DateTime%
+            %File_yyyy%
+            %File_MM%
+            %File_dd%
+            %File_HH%
+            %File_mm%
+            %File_ss%
+            %Now_DateTime%
+            %Now_yyyy%
+            %Now_MM%
+            %Now_dd%
+            %Now_HH%
+            %Now_mm%
+            %Now_ss%
+            %GPS_DateTimeUTC%
+            %MediaAlbum%
+            %MediaTitle%
+            %MediaDescription%
+            %MediaAuthor%
+            %LocationName%
+            %LocationCountry%
+            %LocationState%
             */
             string newFilename = newFilenameVariable;
             newFilename = newFilename.Replace("%FileName%", Path.GetFileNameWithoutExtension(oldFilename));
@@ -190,7 +190,7 @@ namespace PhotoTagsSynchronizer
 
                 Directory.CreateDirectory(newDirectory);  
                 File.Move(oldFullFilename, newFullFilename);
-                DatabaseAndCacheMetadataExiftool.Rename(oldDirectory, oldFilename, newDirectory, newFilename);
+                DatabaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
                 renameSuccess.Add(oldFullFilename, newFullFilename);
             }
             catch (Exception ex)

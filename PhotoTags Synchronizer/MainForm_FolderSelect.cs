@@ -25,14 +25,13 @@ namespace PhotoTagsSynchronizer
         private void FolderSelected(bool recursive)
         {
             if (GlobalData.IsPopulatingAnything()) return;
-            Console.WriteLine("FolderSelected()");
-
+            
             GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
+            
             folderTreeViewFolder.Enabled = false;
-
             FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
-
             folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
+
             GlobalData.IsPopulatingFolderSelected = false;
 
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //Even when 0 selected files, allocate data and flags, etc...

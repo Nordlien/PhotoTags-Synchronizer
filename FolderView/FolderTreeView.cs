@@ -129,20 +129,20 @@ namespace Furty.Windows.Forms
 
 		private void DrillTree(TreeNodeCollection tnc, string path, ref bool folderFound)
 		{
-			foreach(TreeNode tn in tnc)
+			foreach (TreeNode tn in tnc)
 			{
-				if(!folderFound)
+				if (!folderFound)
 				{
 					this.SelectedNode = tn;
 					string tnPath = ShellOperations.GetFileDirectory(tn).ToUpper(cultureInfo);
-					if(path == tnPath && !folderFound)
+					if (path == tnPath && !folderFound)
 					{
 						this.SelectedNode = tn;
 						tn.EnsureVisible();
 						folderFound = true;
 						break;
 					}
-					else if(path.IndexOf(tnPath) > -1 && !folderFound)
+					else if (path.IndexOf(tnPath) > -1 && !folderFound)
 					{
 						tn.Expand();
 						DrillTree(tn.Nodes, path, ref folderFound);
@@ -150,6 +150,44 @@ namespace Furty.Windows.Forms
 				}
 			}
 		}
+
+		public TreeNode FindFolder(string folderPath)
+        {
+			TreeNode folderNodeFound = null;
+			if (Directory.Exists(folderPath)) // don't bother drilling unless the directory exists
+			{
+				// if there's a trailing \ on the folderPath, remove it unless it's a drive letter
+				if (folderPath.Length > 3 && folderPath.LastIndexOf("\\") == folderPath.Length - 1)
+					folderPath = folderPath.Substring(0, folderPath.Length - 1);
+				//Start drilling the tree
+				FindFolderRecursive(this.Nodes[0].Nodes, folderPath.ToUpper(cultureInfo), ref folderNodeFound);
+			}
+			return folderNodeFound;
+		}
+
+		private void FindFolderRecursive(TreeNodeCollection tnc, string path, ref TreeNode folderNodeFound)
+		{
+			foreach (TreeNode tn in tnc)
+			{
+				if (tn.Tag.ToString() == "DUMMYNODE") continue;
+				
+				if (folderNodeFound == null)
+				{
+					string tnPath = ShellOperations.GetFileDirectory(tn).ToUpper(cultureInfo);
+					if (path == tnPath && folderNodeFound == null)
+					{
+						folderNodeFound = tn;
+						break;
+					}
+					else if (path.IndexOf(tnPath) > -1 && folderNodeFound == null)
+					{						
+						FindFolderRecursive(tn.Nodes, path, ref folderNodeFound);
+					}
+				}
+			}
+		}
+
+		
 
 
 		#endregion

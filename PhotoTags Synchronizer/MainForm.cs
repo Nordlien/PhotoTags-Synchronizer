@@ -21,8 +21,6 @@ using LocationNames;
 namespace PhotoTagsSynchronizer
 {
 
-
-
     public partial class MainForm : Form
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -421,7 +419,8 @@ namespace PhotoTagsSynchronizer
             if (Directory.Exists(folder))
             {
                 folderTreeViewFolder.DrillToFolder(folder);
-            } else
+            } 
+            else
             {
                 folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
             }
