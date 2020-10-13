@@ -418,7 +418,7 @@ namespace Manina.Windows.Forms
                         DataObject data = new DataObject(DataFormats.FileDrop, filenames.ToArray());
                         DropTarget = null;
                         selfDragging = true;
-                        mImageListView.DoDragDrop(data, DragDropEffects.Move);
+                        mImageListView.DoDragDrop(data, DragDropEffects.Copy | DragDropEffects.Move); // Allowed effects
                         selfDragging = false;
 
                         // Since the MouseUp event will be eaten by DoDragDrop we will not receive
@@ -794,7 +794,7 @@ namespace Manina.Windows.Forms
                 if (!selfDragging && e.Data.GetDataPresent(DataFormats.FileDrop))
                     e.Effect = DragDropEffects.Move;
                 else
-                    e.Effect = DragDropEffects.None;
+                    e.Effect = DragDropEffects.Copy;
             }
             /// <summary>
             /// Handles control's DragOver event.
@@ -888,7 +888,7 @@ namespace Manina.Windows.Forms
                         else if (selfDragging)
                             e.Effect = DragDropEffects.Move;
                         else
-                            e.Effect = DragDropEffects.Move;
+                            e.Effect = DragDropEffects.Copy; //When files dropped from File Explorer
 
                         if (!ReferenceEquals(dragDropTarget, DropTarget) || dragCaretOnRight != DropToRight)
                         {
@@ -899,7 +899,7 @@ namespace Manina.Windows.Forms
                     }
                 }
                 else
-                    e.Effect = DragDropEffects.None;
+                    e.Effect = e.AllowedEffect; // DragDropEffects.None;
             }
             /// <summary>
             /// Handles control's DragLeave event.

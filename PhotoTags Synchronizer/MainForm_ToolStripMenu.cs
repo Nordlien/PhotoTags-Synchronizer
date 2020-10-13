@@ -9,7 +9,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static Manina.Windows.Forms.ImageListView;
 
 namespace PhotoTagsSynchronizer
 {
@@ -306,13 +305,8 @@ namespace PhotoTagsSynchronizer
             var droplist = new StringCollection();
             droplist.Add(folder);
 
-            //byte[] moveEffect = new byte[] { 2, 0, 0, 0 };
-            //MemoryStream dropEffect = new MemoryStream();
-            //dropEffect.Write(moveEffect, 0, moveEffect.Length);
-
             DataObject data = new DataObject();
             data.SetFileDropList(droplist);
-            //data.SetData("Preferred DropEffect", dropEffect);
             data.SetData("Preferred DropEffect", DragDropEffects.Move);
 
             Clipboard.Clear();
@@ -339,17 +333,6 @@ namespace PhotoTagsSynchronizer
 
         private DragDropEffects ClipboardMove()
         {
-            /*
-            bool isMove = false;
-            var aDataDropEffect = Clipboard.GetData("Preferred DropEffect");
-            if (aDataDropEffect != null)
-            {
-                MemoryStream aDropEffect = (MemoryStream)aDataDropEffect;
-                byte[] aMoveEffect = new byte[4];
-                aDropEffect.Read(aMoveEffect, 0, aMoveEffect.Length);
-                var aDragDropEffects = (DragDropEffects)BitConverter.ToInt32(aMoveEffect, 0);
-                isMove = aDragDropEffects.HasFlag(DragDropEffects.Move);
-            }*/
             try
             {
                 if (Clipboard.GetData("Preferred DropEffect") is DragDropEffects effects) return effects;
@@ -380,9 +363,12 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
+            
+
             GlobalData.DoNotRefreshImageListView = true;
             folderTreeViewFolder.SelectedNode = currentNode;
             GlobalData.DoNotRefreshImageListView = false;
+            
             //GlobalData.DoNotRefreshImageListView = true;
             //UpdateImageViewListeAfterRename(renameSuccess, renameFailed, false);
             //GlobalData.DoNotRefreshImageListView = false;
@@ -392,16 +378,21 @@ namespace PhotoTagsSynchronizer
         }
 
         private void MoveFiles(TreeNode targetNode, StringCollection files, string targetNodeDirectory)
-        {                            
+        {
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+            imageListView1.SuspendLayout();
+
             foreach (string oldPath in files) //Move all files to target directory 
             {
                 string sourceFullFilename = oldPath;
                 string filename = Path.GetFileName(sourceFullFilename);
                 string targetFullFilename = Path.Combine(targetNodeDirectory, filename);
-
                 try
                 {
-                    filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);                    
+                    filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+
+                    ImageListViewItem foundItem = FindItemInImageListView(imageListView1.Items, sourceFullFilename);
+                    if (foundItem != null) imageListView1.Items.Remove(foundItem);
                 }
                 catch (Exception ex)
                 {
@@ -409,17 +400,16 @@ namespace PhotoTagsSynchronizer
                     Logger.Error("Error when move file." + ex.Message);
                 }
             }
+            imageListView1.ResumeLayout();
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
 
             GlobalData.DoNotRefreshImageListView = true;
             folderTreeViewFolder.SelectedNode = currentNode;
             GlobalData.DoNotRefreshImageListView = false;
-            //GlobalData.DoNotRefreshImageListView = true;
-            //UpdateImageViewListeAfterRename(renameSuccess, renameFailed, false);
-            //GlobalData.DoNotRefreshImageListView = false;
 
             //FolderSelected();
             FilesSelected();
-            
+
         }
 
         private void MoveFolder(TreeNode sourceNode, TreeNode targetNode, string sourceDirectory, string targetDirectory)
@@ -497,6 +487,7 @@ namespace PhotoTagsSynchronizer
                 {
                     Logger.Trace("Copy from:" + sourceFullFilename + " to: " + targetFullFilename);
                     File.Copy(sourceFullFilename, sourceFullFilename.Replace(sourceDirectory, tagretDirectory), true);                    
+                    
                     databaseAndCacheMetadataExiftool.Copy(
                         Path.GetDirectoryName(sourceFullFilename), Path.GetFileName(sourceFullFilename), 
                         Path.GetDirectoryName(targetFullFilename), Path.GetFileName(targetFullFilename));
@@ -526,9 +517,9 @@ namespace PhotoTagsSynchronizer
 
         }
 
-        private void CopyOrMove(TreeNode targetNode, StringCollection fileDropList, string targetDirectory)
+        private void CopyOrMove(DragDropEffects dragDropEffects, TreeNode targetNode, StringCollection fileDropList, string targetDirectory)
         {
-            DragDropEffects dragDropEffects = ClipboardMove();
+            
 
             StringCollection files = new StringCollection();
             StringCollection directories = new StringCollection();
@@ -581,8 +572,9 @@ namespace PhotoTagsSynchronizer
         }
 
         private void toolStripMenuItemTreeViewFolderPaste_Click(object sender, EventArgs e)
-        {           
-            CopyOrMove(folderTreeViewFolder.SelectedNode, Clipboard.GetFileDropList(), folderTreeViewFolder.GetSelectedNodePath());            
+        {
+            DragDropEffects dragDropEffects = ClipboardMove();
+            CopyOrMove(dragDropEffects, folderTreeViewFolder.SelectedNode, Clipboard.GetFileDropList(), folderTreeViewFolder.GetSelectedNodePath());            
         }
         #endregion
 
@@ -601,7 +593,7 @@ namespace PhotoTagsSynchronizer
             {
                 StringCollection fileCollection = new StringCollection();
                 fileCollection.AddRange(files);
-                CopyOrMove(targetNode, fileCollection, targetDirectory);
+                CopyOrMove(e.Effect, targetNode, fileCollection, targetDirectory);
                 
                 GlobalData.IsDragAndDropActive = false;                
                 return;
@@ -650,20 +642,45 @@ namespace PhotoTagsSynchronizer
 
         private void folderTreeViewFolder_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            GlobalData.IsDragAndDropActive = true;
+            try
+            {
+                GlobalData.IsDragAndDropActive = true;
 
-            // Move the dragged node when the left mouse button is used.  
-            if (e.Button == MouseButtons.Left) DoDragDrop(e.Item, DragDropEffects.Move);
-            // Copy the dragged node when the right mouse button is used.
-            else if (e.Button == MouseButtons.Right) DoDragDrop(e.Item, DragDropEffects.Copy);            
+                // Move the dragged node when the left mouse button is used.  
+                if (e.Button == MouseButtons.Left)
+                    DoDragDrop(e.Item, DragDropEffects.Move);
+                // Copy the dragged node when the right mouse button is used.
+                else if (e.Button == MouseButtons.Right)
+                    DoDragDrop(e.Item, DragDropEffects.Copy);
+            } catch (Exception ex)
+            {
+                Logger.Warn(ex.Message);
+            }
         }
 
         TreeNode currentNode = null;
         private void folderTreeViewFolder_DragEnter(object sender, DragEventArgs e)
         {
-            GlobalData.IsDragAndDropActive = true;
-            e.Effect = e.AllowedEffect;
-            currentNode = folderTreeViewFolder.SelectedNode;
+            try
+            {
+                GlobalData.IsDragAndDropActive = true;
+                //e.Effect = e.AllowedEffect;
+                //e.KeyStates == DragDropKeyStates.RightMouseButton
+                if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.ShiftKey) == System.Windows.DragDropKeyStates.ShiftKey)
+                    e.Effect = DragDropEffects.Move;
+                else if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.RightMouseButton) == System.Windows.DragDropKeyStates.RightMouseButton)
+                    e.Effect = DragDropEffects.Copy;
+                else if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.ControlKey) == System.Windows.DragDropKeyStates.ControlKey)
+                    e.Effect = DragDropEffects.Copy;
+                else
+                    e.Effect = DragDropEffects.Move;
+
+                currentNode = folderTreeViewFolder.SelectedNode;
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex.Message);
+            }
         }
 
         private void folderTreeViewFolder_DragLeave(object sender, EventArgs e)
@@ -673,13 +690,30 @@ namespace PhotoTagsSynchronizer
 
         private void folderTreeViewFolder_DragOver(object sender, DragEventArgs e)
         {
-            GlobalData.DoNotRefreshImageListView = true;
-            // Retrieve the client coordinates of the mouse position.  
-            Point targetPoint = folderTreeViewFolder.PointToClient(new Point(e.X, e.Y));
+            try
+            {
 
-            // Select the node at the mouse position.  
-            folderTreeViewFolder.SelectedNode = folderTreeViewFolder.GetNodeAt(targetPoint);
-            GlobalData.DoNotRefreshImageListView = false;
+                if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.ShiftKey) == System.Windows.DragDropKeyStates.ShiftKey)
+                    e.Effect = DragDropEffects.Move;
+                else if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.RightMouseButton) == System.Windows.DragDropKeyStates.RightMouseButton)
+                    e.Effect = DragDropEffects.Copy;
+                else if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.ControlKey) == System.Windows.DragDropKeyStates.ControlKey)
+                    e.Effect = DragDropEffects.Copy;
+                else
+                    e.Effect = DragDropEffects.Move;
+
+                GlobalData.DoNotRefreshImageListView = true;
+                // Retrieve the client coordinates of the mouse position.  
+                Point targetPoint = folderTreeViewFolder.PointToClient(new Point(e.X, e.Y));
+
+                // Select the node at the mouse position.  
+                folderTreeViewFolder.SelectedNode = folderTreeViewFolder.GetNodeAt(targetPoint);
+                GlobalData.DoNotRefreshImageListView = false;
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex.Message);
+            }
         }        
 
         private void folderTreeViewFolder_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

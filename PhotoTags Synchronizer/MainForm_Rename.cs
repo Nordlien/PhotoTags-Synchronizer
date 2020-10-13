@@ -38,12 +38,12 @@ namespace PhotoTagsSynchronizer
         }
         
 
-        private ImageListViewItem FindItemInImageListView(ImageListViewItemCollection imageListViewItemCollection, string filename)
+        private ImageListViewItem FindItemInImageListView(ImageListViewItemCollection imageListViewItemCollection, string fullFilename)
         {            
             ImageListViewItem foundItem = null;
             foreach (ImageListViewItem item in imageListViewItemCollection)
             {
-                if (item.FullFileName == filename)
+                if (item.FullFileName == fullFilename)
                 {
                     foundItem = item;
                     break;
