@@ -547,12 +547,12 @@ namespace PhotoTagsSynchronizer
                     if (numberOfFiles <= 51)
                     {
                         string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(clipbordSourceFileOrDirectory, "*", SearchOption.AllDirectories).Take(51).ToArray();
-                        numberOfFiles += clipbordSourceFileOrDirectory.Length;
+                        numberOfFiles += fileAndFolderEntriesCount.Length;
                     }
                 }
             }
 
-            if (numberOfFiles <= 50 || 
+            if (//numberOfFiles <= 50 || 
                 (MessageBox.Show("You are about to " + dragDropEffects.ToString() + " " + (numberOfFiles >= 51 ? "over 50+" : numberOfFiles.ToString()) + " files and/or folders.\r\n\r\n" +
                 //"From folder:\r\n" + directories.Count + "\r\n\r\n" +
                 "To folder:\r\n" + targetDirectory + "\r\n\r\n\r\n" +
@@ -662,7 +662,7 @@ namespace PhotoTagsSynchronizer
         private void folderTreeViewFolder_DragEnter(object sender, DragEventArgs e)
         {
             GlobalData.IsDragAndDropActive = true;
-            e.Effect = DragDropEffects.Move; //e.AllowedEffect;
+            e.Effect = e.AllowedEffect;
             currentNode = folderTreeViewFolder.SelectedNode;
         }
 
