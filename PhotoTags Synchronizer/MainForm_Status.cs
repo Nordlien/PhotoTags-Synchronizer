@@ -46,22 +46,9 @@ namespace PhotoTagsSynchronizer
             timerActionStatusRemove.Stop(); //Restart
             timerActionStatusRemove.Start();
 
-            if (hasWriteAndVerifyMetadataErrors)
-            {
-                string errors = listOfErrors;
-                listOfErrors = "";
-                hasWriteAndVerifyMetadataErrors = false;
-
-                MessageBox.Show(errors);
-            }
+            
         }
 
-
-        private void timerStatus_Tick(object sender, EventArgs e)
-        {
-            //Should not be needed
-            //UpdateStatusReadWriteStatus_NeedToBeUpated();
-        }
 
         private void UpdateStatusReadWriteStatus_NeedToBeUpated()
         {
@@ -71,8 +58,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            toolStripStatusFilesAndSelected.Text = string.Format("Files: {0} Selected {1} ",
-                imageListView1.Items.Count, imageListView1.SelectedItems.Count);
+            toolStripStatusFilesAndSelected.Text = string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
 
             int regionCount = 0;
             try
@@ -90,7 +76,6 @@ namespace PhotoTagsSynchronizer
                 regionCount,
                 queueSaveMetadataUpdatedByUser.Count,
                 queueVerifyMetadata.Count);
-            //Application.DoEvents();
         }
         #endregion
     }

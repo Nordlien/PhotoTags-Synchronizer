@@ -284,16 +284,50 @@ namespace PhotoTagsSynchronizer
         #region Cut Copy Paste - ImageListView
         private void toolStripMenuItemImageListViewCut_Click(object sender, EventArgs e)
         {
+            var droplist = new StringCollection();
+            foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FullFileName);
 
+            DataObject data = new DataObject();
+            data.SetFileDropList(droplist);
+            data.SetData("Preferred DropEffect", DragDropEffects.Move);
+
+            Clipboard.Clear();
+            Clipboard.SetDataObject(data, true);
+
+            folderTreeViewFolder.Focus();
         }
 
         private void toolStripMenuItemImageListViewCopy_Click(object sender, EventArgs e)
         {
+            StringCollection droplist = new StringCollection();
+            foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FullFileName);
 
+            DataObject data = new DataObject();
+            data.SetFileDropList(droplist);
+            data.SetData("Preferred DropEffect", DragDropEffects.Copy);
+
+            Clipboard.Clear();
+            Clipboard.SetDataObject(data, true);
+
+            folderTreeViewFolder.Focus();
         }
 
         private void toolStripMenuItemImageListViewPaste_Click(object sender, EventArgs e)
         {
+            StringCollection files = Clipboard.GetFileDropList();
+            foreach (string fullFilename in files)
+            {
+                bool fileFound = false;
+                foreach (ImageListViewItem item in imageListView1.Items)
+                {
+                    if (item.FullFileName == fullFilename)
+                    {
+                        fileFound = true;
+                        break;
+                    }
+                }
+                if (!fileFound) imageListView1.Items.Add(fullFilename);
+            }
 
         }
         #endregion 
@@ -331,11 +365,28 @@ namespace PhotoTagsSynchronizer
             folderTreeViewFolder.Focus();
         }
 
-        private DragDropEffects ClipboardMove()
+        private DragDropEffects DetectCopyOrMove()
         {
             try
             {
-                if (Clipboard.GetData("Preferred DropEffect") is DragDropEffects effects) return effects;
+                IDataObject obj = Clipboard.GetDataObject();
+                if (obj == null) return DragDropEffects.None;
+                if (obj.GetData("Preferred DropEffect", true) is DragDropEffects effects)
+                {
+                    return effects;
+                }
+
+                obj.GetData(DataFormats.FileDrop);
+                MemoryStream stream = (MemoryStream) obj.GetData("Preferred DropEffect", true);
+                if (stream != null)
+                {
+                    int flag = stream.ReadByte();
+                    if (flag != 2 && flag != 5) return DragDropEffects.None;
+
+                    if (flag == 2) return DragDropEffects.Move;
+                    if (flag == 5) return DragDropEffects.Copy;
+                }
+                
             } catch (Exception ex)
             {
                 Logger.Error("Clipboard failed: " + ex.Message);
@@ -363,15 +414,9 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            
-
             GlobalData.DoNotRefreshImageListView = true;
             folderTreeViewFolder.SelectedNode = currentNode;
             GlobalData.DoNotRefreshImageListView = false;
-            
-            //GlobalData.DoNotRefreshImageListView = true;
-            //UpdateImageViewListeAfterRename(renameSuccess, renameFailed, false);
-            //GlobalData.DoNotRefreshImageListView = false;
 
             //FolderSelected();
             FilesSelected();
@@ -502,51 +547,58 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            //------ Clear ImageListView -----
-            //FolderSelectedNone();
-
             //------ Update node tree -----
             GlobalData.DoNotRefreshImageListView = true;
             //if (sourceNode != null) sourceNode.Remove();
             filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, targetNode);
             GlobalData.DoNotRefreshImageListView = false;
-
-
-            //----- Updated ImageListView with files ------
-            //FolderSelected(false);
-
         }
 
         private void CopyOrMove(DragDropEffects dragDropEffects, TreeNode targetNode, StringCollection fileDropList, string targetDirectory)
         {
-            
+            if (dragDropEffects == DragDropEffects.None)
+            {
+                MessageBox.Show("Was not able to detect if you select copy or cut object that was pasted or dropped");
+                return;
+            }
 
             StringCollection files = new StringCollection();
             StringCollection directories = new StringCollection();
 
-            int numberOfFiles = 0;          
+            int numberOfFilesAndFolders = 0;
+            string copyFromFolders = ""; 
+            int countFoldersSelected = 0;
+
             foreach (string clipbordSourceFileOrDirectory in fileDropList)
             {
                 if (File.Exists(clipbordSourceFileOrDirectory))
                 {
                     files.Add(clipbordSourceFileOrDirectory);
-                    numberOfFiles++;
+                    numberOfFilesAndFolders++;
                 }
                 else if (Directory.Exists(clipbordSourceFileOrDirectory))
                 {
                     directories.Add(clipbordSourceFileOrDirectory);
-                    if (numberOfFiles <= 51)
+                    if (numberOfFilesAndFolders <= 51)
                     {
                         string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(clipbordSourceFileOrDirectory, "*", SearchOption.AllDirectories).Take(51).ToArray();
-                        numberOfFiles += fileAndFolderEntriesCount.Length;
+                        numberOfFilesAndFolders += fileAndFolderEntriesCount.Length;
                     }
+
+                    countFoldersSelected++;
+                    if (countFoldersSelected < 3)
+                    {
+                        copyFromFolders += clipbordSourceFileOrDirectory + "\r\n";
+                        
+                    }
+                    else if (countFoldersSelected == 4) copyFromFolders += "and more directories...\r\n";
                 }
             }
 
-            if (//numberOfFiles <= 50 || 
-                (MessageBox.Show("You are about to " + dragDropEffects.ToString() + " " + (numberOfFiles >= 51 ? "over 50+" : numberOfFiles.ToString()) + " files and/or folders.\r\n\r\n" +
-                //"From folder:\r\n" + directories.Count + "\r\n\r\n" +
-                "To folder:\r\n" + targetDirectory + "\r\n\r\n\r\n" +
+            if (numberOfFilesAndFolders <= 50 || 
+                (MessageBox.Show("You are about to " + dragDropEffects.ToString() + " " + (numberOfFilesAndFolders > 50 ? "over 50+" : numberOfFilesAndFolders.ToString()) + " files and/or folders.\r\n\r\n" +
+                "From:\r\n" + copyFromFolders + "\r\n\r\n" +
+                "To folder:\r\n" + targetDirectory + "\r\n\r\n" +
                 "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK))
             {
 
@@ -567,13 +619,14 @@ namespace PhotoTagsSynchronizer
                         CopyFolder(sourceNode, targetNode, sourceDirectory, newTagretDirectory);
                 }
             }
+            folderTreeViewFolder.SelectedNode = targetNode;
             filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, folderTreeViewFolder.SelectedNode);
             folderTreeViewFolder.Focus();
         }
 
         private void toolStripMenuItemTreeViewFolderPaste_Click(object sender, EventArgs e)
         {
-            DragDropEffects dragDropEffects = ClipboardMove();
+            DragDropEffects dragDropEffects = DetectCopyOrMove();
             CopyOrMove(dragDropEffects, folderTreeViewFolder.SelectedNode, Clipboard.GetFileDropList(), folderTreeViewFolder.GetSelectedNodePath());            
         }
         #endregion
@@ -582,7 +635,6 @@ namespace PhotoTagsSynchronizer
         #region Drop - FolderTreeView
         private void folderTreeViewFolder_DragDrop(object sender, DragEventArgs e)
         {
-
             Point targetPoint = folderTreeViewFolder.PointToClient(new Point(e.X, e.Y)); // Retrieve the client coordinates of the drop location.                          
             TreeNode targetNode = folderTreeViewFolder.GetNodeAt(targetPoint); // Retrieve the node at the drop location.
             string targetDirectory = Furty.Windows.Forms.ShellOperations.GetFileDirectory(targetNode);
@@ -685,7 +737,7 @@ namespace PhotoTagsSynchronizer
 
         private void folderTreeViewFolder_DragLeave(object sender, EventArgs e)
         {
-
+            GlobalData.IsDragAndDropActive = false;
         }
 
         private void folderTreeViewFolder_DragOver(object sender, DragEventArgs e)

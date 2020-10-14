@@ -182,6 +182,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (fileEntryImage.LastWriteDateTime == null)
                 {
+                    //WHen file is Gone, LastWriteDateTime become null
                 }
 
                 //If Metadata don't exisit in database, put it in read queue
@@ -774,6 +775,20 @@ namespace PhotoTagsSynchronizer
         public void RemoveError(string fullFilePath)
         {
             if (queueErrorQueue.ContainsKey(fullFilePath)) queueErrorQueue.Remove(fullFilePath);
+        }
+
+        private void timerShowErrorMessage_Tick(object sender, EventArgs e)
+        {
+            timerShowErrorMessage.Stop();
+            if (hasWriteAndVerifyMetadataErrors)
+            {
+                string errors = listOfErrors;
+                listOfErrors = "";
+                hasWriteAndVerifyMetadataErrors = false;
+
+                MessageBox.Show(errors, "Warning or Errors has occured!", MessageBoxButtons.OK);
+            }
+            timerShowErrorMessage.Start();
         }
         #endregion
 

@@ -229,7 +229,7 @@ namespace PhotoTagsSynchronizer
 
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
             
-            timerStatus.Enabled = true;
+            timerShowErrorMessage.Enabled = true;
 
             PopulateExiftoolToolStripMenuItems();
             // Add event handlers for file system watcher.

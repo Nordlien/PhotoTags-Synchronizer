@@ -21,6 +21,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Imaging;
+using System.Collections.Specialized;
+using System.ServiceModel;
 
 namespace Manina.Windows.Forms
 {
@@ -415,10 +417,13 @@ namespace Manina.Windows.Forms
                                 filenames.Add(item.FullFileName);
                             }
                         }
-                        DataObject data = new DataObject(DataFormats.FileDrop, filenames.ToArray());
+
+                        string[] fileList = filenames.ToArray();
+                        DataObject fileDragData = new DataObject(DataFormats.FileDrop, fileList);
+
                         DropTarget = null;
                         selfDragging = true;
-                        mImageListView.DoDragDrop(data, DragDropEffects.Copy | DragDropEffects.Move); // Allowed effects
+                        mImageListView.DoDragDrop(fileDragData,  DragDropEffects.Copy | DragDropEffects.Move); // Allowed effects
                         selfDragging = false;
 
                         // Since the MouseUp event will be eaten by DoDragDrop we will not receive
@@ -428,6 +433,28 @@ namespace Manina.Windows.Forms
                             LeftButton = false;
                         if ((Control.MouseButtons & MouseButtons.Right) == MouseButtons.None)
                             RightButton = false;
+
+                        //ADD Added by JTN, remove item that is moved
+                        List<ImageListViewItem> itemsMoved = new List<ImageListViewItem>();
+                        foreach (string fullFilename in fileList)
+                        {                          
+                            foreach (ImageListViewItem item in mImageListView.SelectedItems)
+                            {
+                                if (item.FullFileName == fullFilename)
+                                {
+                                    if (!File.Exists(fullFilename))
+                                    {
+                                        itemsMoved.Add(item);
+                                        break;
+                                    }
+                                }
+                            }                            
+                        }
+                        if (itemsMoved.Count > 0)
+                        {
+                            mImageListView.SelectedItems.Clear(); //Remove selection, files are moved.
+                            foreach (ImageListViewItem itemFound in itemsMoved) mImageListView.Items.RemoveItem(itemFound);
+                        }
                     }
                 }
                 else if (!MouseSelecting && !DraggingSeperator && !ResizingPane &&
@@ -808,7 +835,7 @@ namespace Manina.Windows.Forms
                         if (selfDragging)
                             e.Effect = DragDropEffects.None;
                         else
-                            e.Effect = DragDropEffects.Move;
+                            e.Effect = DragDropEffects.Link; //Drag and Drop from External source as File Explorer
                     }
                     else
                     {
@@ -881,14 +908,14 @@ namespace Manina.Windows.Forms
                             (!dragCaretOnRight && index > 0 && mImageListView.Items[index - 1].Selected) ||
                             (dragCaretOnRight && index < mImageListView.Items.Count - 1 && mImageListView.Items[index + 1].Selected)))
                         {
-                            e.Effect = DragDropEffects.None;
+                            e.Effect = DragDropEffects.None; //WHen moved selected files
 
                             dragDropTarget = null;
                         }
                         else if (selfDragging)
-                            e.Effect = DragDropEffects.Move;
+                            e.Effect = DragDropEffects.Move; //When move files inside ImageListView
                         else
-                            e.Effect = DragDropEffects.Copy; //When files dropped from File Explorer
+                            e.Effect = DragDropEffects.Link; //When files dropped from File Explorer
 
                         if (!ReferenceEquals(dragDropTarget, DropTarget) || dragCaretOnRight != DropToRight)
                         {
@@ -899,7 +926,7 @@ namespace Manina.Windows.Forms
                     }
                 }
                 else
-                    e.Effect = e.AllowedEffect; // DragDropEffects.None;
+                    e.Effect = DragDropEffects.None; //When Allow Drag&Drop turn off
             }
             /// <summary>
             /// Handles control's DragLeave event.

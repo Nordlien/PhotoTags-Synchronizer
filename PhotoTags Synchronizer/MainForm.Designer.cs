@@ -207,7 +207,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonConfig = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonAbout = new System.Windows.Forms.ToolStripButton();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.timerStatus = new System.Windows.Forms.Timer(this.components);
+            this.timerShowErrorMessage = new System.Windows.Forms.Timer(this.components);
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStripExifTool = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemExiftoolAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
@@ -2274,8 +2274,8 @@ namespace PhotoTagsSynchronizer
             // 
             // timerStatus
             // 
-            this.timerStatus.Interval = 2000;
-            this.timerStatus.Tick += new System.EventHandler(this.timerStatus_Tick);
+            this.timerShowErrorMessage.Interval = 1000;
+            this.timerShowErrorMessage.Tick += new System.EventHandler(this.timerShowErrorMessage_Tick);
             // 
             // timerActionStatusRemove
             // 
@@ -2461,7 +2461,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripButton thumbnailsToolStripButton;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusFilesAndSelected;
-        private System.Windows.Forms.Timer timerStatus;
+        private System.Windows.Forms.Timer timerShowErrorMessage;
         private System.Windows.Forms.ToolStripButton columnsToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton galleryToolStripButton;
