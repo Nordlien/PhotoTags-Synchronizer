@@ -361,13 +361,13 @@ namespace Manina.Windows.Forms
             /// <summary>
             /// Inserts the given item without raising a selection changed event.
             /// </summary>
-            internal void InsertInternal(int index, ImageListViewItem item)
+            internal bool InsertInternal(int index, ImageListViewItem item)
             {
                 // Check if the file already exists
                 if (mImageListView != null && !mImageListView.AllowDuplicateFileNames)
                 {
                     if (mItems.Exists(a => string.Compare(a.FullFileName, item.FullFileName, StringComparison.OrdinalIgnoreCase) == 0))
-                        return;
+                        return false;
                 }
                 item.owner = this;
                 item.mIndex = index;
@@ -390,6 +390,7 @@ namespace Manina.Windows.Forms
 
                     mImageListView.itemCacheManager.Add(item);
                 }
+                return true;
             }
             /// <summary>
             /// Removes the given item without raising a selection changed event.

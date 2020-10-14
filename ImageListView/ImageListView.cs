@@ -1087,9 +1087,9 @@ namespace Manina.Windows.Forms
                 {
                     ImageListViewItem item = new ImageListViewItem(filename);
                     item.mSelected = false;
-                    mItems.InsertInternal(index, item);
+                    bool inserted = mItems.InsertInternal(index, item);
                     if (firstItemIndex == 0) firstItemIndex = item.Index;
-                    index++;
+                    if (inserted) index++;
                 }
             }
 
