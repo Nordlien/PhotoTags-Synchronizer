@@ -697,17 +697,30 @@ namespace PhotoTagsSynchronizer
             try
             {
                 GlobalData.IsDragAndDropActive = true;
-
-                // Move the dragged node when the left mouse button is used.  
-                if (e.Button == MouseButtons.Left)
-                    DoDragDrop(e.Item, DragDropEffects.Move);
-                // Copy the dragged node when the right mouse button is used.
-                else if (e.Button == MouseButtons.Right)
-                    DoDragDrop(e.Item, DragDropEffects.Copy);
+                DoDragDrop(e.Item, DragDropEffects.Move | DragDropEffects.Copy | DragDropEffects.Link);
             } catch (Exception ex)
             {
                 Logger.Warn(ex.Message);
             }
+        }
+
+        private void folderTreeViewFolder_DragLeave(object sender, EventArgs e)
+        {
+            GlobalData.IsDragAndDropActive = false;
+
+
+            string folder = folderTreeViewFolder.GetSelectedNodePath();
+            var droplist = new StringCollection();
+            droplist.Add(folder);
+
+            DataObject data = new DataObject();
+            data.SetFileDropList(droplist);
+            data.SetData("Preferred DropEffect", DragDropEffects.Link);
+
+            Clipboard.Clear();
+            Clipboard.SetDataObject(data, true);
+
+            folderTreeViewFolder.DoDragDrop(data, DragDropEffects.Link); // Allowed effects
         }
 
         TreeNode currentNode = null;
@@ -716,8 +729,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 GlobalData.IsDragAndDropActive = true;
-                //e.Effect = e.AllowedEffect;
-                //e.KeyStates == DragDropKeyStates.RightMouseButton
+
                 if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.ShiftKey) == System.Windows.DragDropKeyStates.ShiftKey)
                     e.Effect = DragDropEffects.Move;
                 else if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.RightMouseButton) == System.Windows.DragDropKeyStates.RightMouseButton)
@@ -735,16 +747,12 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void folderTreeViewFolder_DragLeave(object sender, EventArgs e)
-        {
-            GlobalData.IsDragAndDropActive = false;
-        }
+        
 
         private void folderTreeViewFolder_DragOver(object sender, DragEventArgs e)
         {
             try
             {
-
                 if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.ShiftKey) == System.Windows.DragDropKeyStates.ShiftKey)
                     e.Effect = DragDropEffects.Move;
                 else if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.RightMouseButton) == System.Windows.DragDropKeyStates.RightMouseButton)

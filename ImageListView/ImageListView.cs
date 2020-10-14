@@ -1081,13 +1081,16 @@ namespace Manina.Windows.Forms
             mSelectedItems.Clear(false);
 
             // Add items
-            foreach (string filename in e.FileNames)
+            if (e.FileNames != null)
             {
-                ImageListViewItem item = new ImageListViewItem(filename);
-                item.mSelected = true;
-                mItems.InsertInternal(index, item);
-                if (firstItemIndex == 0) firstItemIndex = item.Index;
-                index++;
+                foreach (string filename in e.FileNames)
+                {
+                    ImageListViewItem item = new ImageListViewItem(filename);
+                    item.mSelected = false;
+                    mItems.InsertInternal(index, item);
+                    if (firstItemIndex == 0) firstItemIndex = item.Index;
+                    index++;
+                }
             }
 
             EnsureVisible(firstItemIndex);

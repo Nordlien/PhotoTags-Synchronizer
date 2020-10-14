@@ -802,9 +802,23 @@ namespace Manina.Windows.Forms
                     if (index > mImageListView.Items.Count)
                         index = mImageListView.Items.Count;
 
-                    string[] filenames = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-                    mImageListView.OnDropFiles(new DropFileEventArgs(index, filenames));
+                    string[] fileAndFolderNames = (string[])e.Data.GetData(DataFormats.FileDrop);
+                    if (fileAndFolderNames != null)
+                    {
+                        List<string> fileCollection = new List<string>();
+                        foreach (string fileOrFolder in fileAndFolderNames)
+                        {
+                            if (File.Exists(fileOrFolder)) fileCollection.Add(fileOrFolder);
+                            else if (Directory.Exists(fileOrFolder))
+                            {
+                                string[] files = Directory.GetFiles(fileOrFolder, "*", SearchOption.AllDirectories);
+                                fileCollection.AddRange(files);
+                            }
+                            
+                        }
+                        mImageListView.OnDropFiles(new DropFileEventArgs(index, fileCollection.ToArray()));
+                    }
+                    
                 }
 
                 DropTarget = null;
