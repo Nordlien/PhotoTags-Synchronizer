@@ -47,7 +47,8 @@ namespace SqliteDatabase
             try
             {
                 return databaseCommand.ExecuteNonQuery();
-            } catch (Exception e)
+            }            
+            catch (Exception e)
             {
                 string databaseCommandText = databaseCommand.CommandText;
                 foreach (SqliteParameter sqliteParameter in databaseCommand.Parameters)

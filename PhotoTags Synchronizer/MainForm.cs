@@ -38,7 +38,7 @@ namespace PhotoTagsSynchronizer
         private const int defaultThumbnailSizeNumber = 1;
         private Size maxThumbnailSize
         {
-            get { return thumbnailSizes[thumbnailSizes.Length - 1]; }
+            get { return thumbnailSizes[thumbnailSizes.Length - 3]; }
         }
 
         private readonly ChromiumWebBrowser browser;

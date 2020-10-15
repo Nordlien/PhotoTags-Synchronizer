@@ -130,7 +130,10 @@ namespace PhotoTagsSynchronizer
                             }
                             catch (Exception ex)
                             {
-                                string writeErrorDesciption = "Error writing properties for file: " + dataGridViewGenericColumn.FileEntryImage.FullFilePath + " Message: " + ex.Message + "\r\n";
+                                string writeErrorDesciption = 
+                                    "Error writing properties to file.\r\n\r\n" + 
+                                    "File: " + dataGridViewGenericColumn.FileEntryImage.FullFilePath + "\r\n\r\n" +
+                                    "Error message: " + ex.Message + "\r\n";
                                 AddError(dataGridViewGenericColumn.FileEntryImage.FullFilePath, writeErrorDesciption);
                                 Logger.Error(ex.Message);
                             }
@@ -249,7 +252,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Delete Files - Directory
+        #region ImageListView - Delete Files - Directory
         private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
         {
             string folder = folderTreeViewFolder.GetSelectedNodePath();
@@ -270,8 +273,8 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error("Error when delete folder." + ex.Message);
                 AddError(folder, "Was not able to delete folder with files and subfolder!\r\n\r\n" +
-                    "From:\r\n" + folder +
-                    "Error message:\r\n" + ex.Message);
+                    "From: " + folder + "\r\n\r\n" + 
+                    "Error message:\r\n" + ex.Message + "\r\n");
             }
             finally
             {
@@ -281,7 +284,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Cut Copy Paste - ImageListView
+        #region ImageListView - Cut Click
         private void toolStripMenuItemImageListViewCut_Click(object sender, EventArgs e)
         {
             var droplist = new StringCollection();
@@ -296,7 +299,9 @@ namespace PhotoTagsSynchronizer
 
             folderTreeViewFolder.Focus();
         }
+        #endregion 
 
+        #region ImageListView - Copy Click
         private void toolStripMenuItemImageListViewCopy_Click(object sender, EventArgs e)
         {
             StringCollection droplist = new StringCollection();
@@ -311,7 +316,9 @@ namespace PhotoTagsSynchronizer
 
             folderTreeViewFolder.Focus();
         }
+        #endregion 
 
+        #region ImageListView - Paste Click
         private void toolStripMenuItemImageListViewPaste_Click(object sender, EventArgs e)
         {
             StringCollection files = Clipboard.GetFileDropList();
@@ -332,10 +339,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Cut Copy Paste - FolderTreeView
+        #region FolderTree - Cut Click
         private void toolStripMenuItemTreeViewFolderCut_Click(object sender, EventArgs e)
         {
-            string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(clickedNode); // folderTreeViewFolder.GetSelectedNodePath();
+            string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
             var droplist = new StringCollection();
             droplist.Add(folder);
 
@@ -348,10 +355,12 @@ namespace PhotoTagsSynchronizer
 
             folderTreeViewFolder.Focus();
         }
+        #endregion
 
+        #region FolderTree - Copy Click
         private void toolStripMenuItemTreeViewFolderCopy_Click(object sender, EventArgs e)
         {
-            string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(clickedNode); // folderTreeViewFolder.GetSelectedNodePath();
+            string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
             StringCollection droplist = new StringCollection();
             droplist.Add(folder);
 
@@ -364,7 +373,17 @@ namespace PhotoTagsSynchronizer
 
             folderTreeViewFolder.Focus();
         }
+        #endregion 
 
+        #region FolderTree - Paste Click
+        private void toolStripMenuItemTreeViewFolderPaste_Click(object sender, EventArgs e)
+        {
+            DragDropEffects dragDropEffects = DetectCopyOrMove();
+            CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
+        }
+        #endregion
+
+        #region Detect Copy Or Move
         private DragDropEffects DetectCopyOrMove()
         {
             try
@@ -393,9 +412,10 @@ namespace PhotoTagsSynchronizer
             }
             return DragDropEffects.None;
         }
+        #endregion
 
-
-        private void CopyFile(TreeNode targetNode, StringCollection files, string targetNodeDirectory)
+        #region Copy files
+        private void CopyFiles(TreeNode targetNode, StringCollection files, string targetNodeDirectory)
         {                       
             foreach (string oldPath in files) //Move all files to target directory 
             {
@@ -409,7 +429,11 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    AddError(oldPath, "Error copy file from:" + sourceFullFilename + " to: " + targetFullFilename);
+                    AddError(sourceFullFilename, 
+                        "Failed copying file.\r\n\r\n" +
+                        "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +  
+                        "To file: " + targetFullFilename + "\r\n\r\n" +
+                        "Error message: " + ex.Message + "\r\n");
                     Logger.Error("Error when copy file." + ex.Message);
                 }
             }
@@ -421,7 +445,9 @@ namespace PhotoTagsSynchronizer
             //FolderSelected();
             FilesSelected();
         }
+        #endregion
 
+        #region Move Files
         private void MoveFiles(TreeNode targetNode, StringCollection files, string targetNodeDirectory)
         {
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
@@ -441,7 +467,10 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    AddError(oldPath, "Error move file from:" + sourceFullFilename + " to: "+ targetFullFilename);
+                    AddError(oldPath, "Failed moving file.\r\n\r\n" +
+                        "From:" + sourceFullFilename +"\r\n\r\n" +
+                        "To: " + targetFullFilename + "\r\n\r\n" + 
+                        "Error message: " + ex.Message + "\r\n");
                     Logger.Error("Error when move file." + ex.Message);
                 }
             }
@@ -454,9 +483,10 @@ namespace PhotoTagsSynchronizer
 
             //FolderSelected();
             FilesSelected();
-
         }
+        #endregion
 
+        #region Move Folder
         private void MoveFolder(TreeNode sourceNode, TreeNode targetNode, string sourceDirectory, string targetDirectory)
         {
             if (sourceDirectory == targetDirectory) return; //Can't move into itself. No need for error message
@@ -495,13 +525,15 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error("Error when move folder." + ex.Message);
-                AddError(sourceDirectory, "Was not able to move directory with files and folder!\r\n\r\n" +
-                    "From:\r\n" + sourceDirectory +
-                    "To:\r\n" + targetDirectory + "\r\n\r\n" +
+                AddError(sourceDirectory, "Failed moving directory.\r\n\r\n" +
+                    "From: " + sourceDirectory + "\r\n\r\n" +
+                    "To: " + targetDirectory + "\r\n\r\n" +
                     "Error message:\r\n" + ex.Message);
             }
         }
+        #endregion
 
+        #region Copy Folder
         private void CopyFolder(TreeNode sourceNode, TreeNode targetNode, string sourceDirectory, string tagretDirectory)
         {
 
@@ -519,7 +551,9 @@ namespace PhotoTagsSynchronizer
                 {
                     Logger.Error("Error when create directory when copy all files from folder:" + ex.Message);
                     AddError(dirPath,
-                        "Was not able to create directory " + dirPath + "\r\n" + ex.Message);
+                        "Failed create directory\r\n\r\n" + 
+                        "Directory: " + dirPath + "\r\n\r\n" + 
+                        "Error message: " + ex.Message + "\r\n");
                 }
             }
 
@@ -531,7 +565,7 @@ namespace PhotoTagsSynchronizer
                 try
                 {
                     Logger.Trace("Copy from:" + sourceFullFilename + " to: " + targetFullFilename);
-                    File.Copy(sourceFullFilename, sourceFullFilename.Replace(sourceDirectory, tagretDirectory), true);                    
+                    File.Copy(sourceFullFilename, sourceFullFilename.Replace(sourceDirectory, tagretDirectory), false);                    
                     
                     databaseAndCacheMetadataExiftool.Copy(
                         Path.GetDirectoryName(sourceFullFilename), Path.GetFileName(sourceFullFilename), 
@@ -539,11 +573,11 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (SystemException ex)
                 {
-                    Logger.Error("Error when copy file when copy all files from folder:" + ex.Message);
                     AddError(sourceFullFilename,
-                        "Was not able to copy file from:" + sourceFullFilename +
-                        " to: " + tagretDirectory + "\r\n" +
-                        ex.Message);
+                        "Failed copying file.\r\n\r\n" +
+                        "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
+                        "To file: " + targetFullFilename + "\r\n\r\n" +
+                        "Error message: " + ex.Message + "\r\n");
                 }
             }
 
@@ -553,7 +587,9 @@ namespace PhotoTagsSynchronizer
             filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, targetNode);
             GlobalData.DoNotRefreshImageListView = false;
         }
+        #endregion
 
+        #region Copy or Move - Files or Folders
         private void CopyOrMove(DragDropEffects dragDropEffects, TreeNode targetNode, StringCollection fileDropList, string targetDirectory)
         {
             if (dragDropEffects == DragDropEffects.None)
@@ -605,7 +641,7 @@ namespace PhotoTagsSynchronizer
                 if (dragDropEffects == DragDropEffects.Move)
                     MoveFiles(targetNode, files, targetDirectory);
                 else
-                    CopyFile(targetNode, files, targetDirectory);
+                    CopyFiles(targetNode, files, targetDirectory);
 
                 foreach (string sourceDirectory in directories)
                 {
@@ -620,19 +656,17 @@ namespace PhotoTagsSynchronizer
                 }
             }
             folderTreeViewFolder.SelectedNode = targetNode;
-            filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, folderTreeViewFolder.SelectedNode);
+            filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, targetNode);
             folderTreeViewFolder.Focus();
-        }
-
-        private void toolStripMenuItemTreeViewFolderPaste_Click(object sender, EventArgs e)
-        {
-            DragDropEffects dragDropEffects = DetectCopyOrMove();
-            CopyOrMove(dragDropEffects, clickedNode, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(clickedNode));            
         }
         #endregion
 
+
+        
+       
+
         TreeNode currentNodeWhenStartDragging = null; //Updated by DragEnter
-        TreeNode clickedNode = null; //Updated by NodeMouseClick, Used by DragLeave
+        //TreeNode clickedNode = null; //Updated by NodeMouseClick, Used by DragLeave
 
         #region FolderTree - Drag and Drop - Drop - Move/Copy Files - Move/Copy Folders
         private void folderTreeViewFolder_DragDrop(object sender, DragEventArgs e)
@@ -648,36 +682,16 @@ namespace PhotoTagsSynchronizer
                 StringCollection fileCollection = new StringCollection();
                 fileCollection.AddRange(files);
                 CopyOrMove(e.Effect, targetNode, fileCollection, targetDirectory);
-                
-                GlobalData.IsDragAndDropActive = false;                
-                return;
+
+                /*GlobalData.IsDragAndDropActive = false;
+                folderTreeViewFolder.Focus();
+                return;*/
             }
             #endregion
 
-            #region Get information about dragged, if unknown then return
-            TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode)); // Retrieve the node that was dragged.  
-            if (draggedNode == null)
-            {
-                GlobalData.IsDragAndDropActive = false;
-                return;
-            }
-            #endregion 
-
-            // Confirm that the node at the drop location is not the dragged node or a descendant of the dragged node.  
-            if (!draggedNode.Equals(targetNode) && !ContainsNode(draggedNode, targetNode))
-            {                
-                string nodeSourceDirectory = Furty.Windows.Forms.ShellOperations.GetFileDirectory(draggedNode);
-                string newTagretDirectory = Path.Combine(targetDirectory, new DirectoryInfo(nodeSourceDirectory).Name); //Target directory + dragged (drag&drop) direcotry
-
-                // If it is a move operation, remove the node from its current location and add it to the node at the drop location.  
-                if (e.Effect == DragDropEffects.Move)
-                    MoveFolder(draggedNode, targetNode, nodeSourceDirectory, newTagretDirectory);
-                else if(e.Effect == DragDropEffects.Copy)
-                    CopyFolder(draggedNode, targetNode, nodeSourceDirectory, newTagretDirectory);                                
-            }
-
             GlobalData.IsDragAndDropActive = false;
             folderTreeViewFolder.Focus();
+            
         }
         #endregion
 
@@ -698,10 +712,14 @@ namespace PhotoTagsSynchronizer
         #region FolderTree - Drag and Drop - Node Mouse Click - Set clickedNode
         private void folderTreeViewFolder_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            clickedNode = e.Node;
+            //clickedNode = e.Node;
+            currentNodeWhenStartDragging = e.Node;
+
             if (e.Button == MouseButtons.Right)
-            {
-                clickedNode = e.Node;
+            {               
+                //GlobalData.DoNotRefreshImageListView = true;
+                folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
+                //GlobalData.DoNotRefreshImageListView = false;
             }
         }
         #endregion
@@ -709,13 +727,24 @@ namespace PhotoTagsSynchronizer
         #region FolderTree - Drag and Drop - Item Drag - Set Clipboard data to ** TreeViewFolder.Item ** | Move | Copy | Link |
         private void folderTreeViewFolder_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            try
+            currentNodeWhenStartDragging = (TreeNode)e.Item;
+            Clipboard.Clear();
+            if (currentNodeWhenStartDragging != null)
             {
-                GlobalData.IsDragAndDropActive = true;
-                DoDragDrop(e.Item, DragDropEffects.Move | DragDropEffects.Copy | DragDropEffects.Link);
-            } catch (Exception ex)
+                string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging);
+                //string folder = folderTreeViewFolder.GetSelectedNodePath();
+                var droplist = new StringCollection();
+                droplist.Add(folder);
+
+                DataObject data = new DataObject();
+                data.SetFileDropList(droplist);
+                data.SetData("Preferred DropEffect", DragDropEffects.Move);
+                Clipboard.SetDataObject(data, true);
+                folderTreeViewFolder.DoDragDrop(data, DragDropEffects.Copy | DragDropEffects.Move | DragDropEffects.Link); // Allowed effects
+            }
+            else
             {
-                Logger.Warn(ex.Message);
+                MessageBox.Show("No node folder was selected");
             }
         }
         #endregion 
@@ -725,43 +754,24 @@ namespace PhotoTagsSynchronizer
         {
             GlobalData.IsDragAndDropActive = false;
 
-            Clipboard.Clear();
-            if (currentNodeWhenStartDragging != null)
-            {
-                string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); 
-                //string folder = folderTreeViewFolder.GetSelectedNodePath();
-                var droplist = new StringCollection();
-                droplist.Add(folder);
+            GlobalData.DoNotRefreshImageListView = true;
+            folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
+            GlobalData.DoNotRefreshImageListView = false;
 
-                DataObject data = new DataObject();
-                data.SetFileDropList(droplist);
-                data.SetData("Preferred DropEffect", DragDropEffects.Link);
-                Clipboard.SetDataObject(data, true);
-                folderTreeViewFolder.DoDragDrop(data, DragDropEffects.Link); // Allowed effects
-            } else
-            {
-                MessageBox.Show("No node folder was selected");
-            }            
+            //if (!Directory.Exists(folderTreeViewFolder.GetSelectedNodePath())) MessageBox.Show("MOVED");
+            //else MessageBox.Show("Still there");
+            FolderSelected(false);
+            folderTreeViewFolder.Focus();
         }
         #endregion 
 
-        #region FolderTree - Drag and Drop - Drag Over - update selected node
-
+        #region FolderTree - Drag and Drop - Drag Enter - update selected node
         private void folderTreeViewFolder_DragEnter(object sender, DragEventArgs e)
         {
             try
             {
                 GlobalData.IsDragAndDropActive = true;
                 currentNodeWhenStartDragging = folderTreeViewFolder.SelectedNode;
-
-                if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.ShiftKey) == System.Windows.DragDropKeyStates.ShiftKey)
-                    e.Effect = DragDropEffects.Move;
-                else if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.RightMouseButton) == System.Windows.DragDropKeyStates.RightMouseButton)
-                    e.Effect = DragDropEffects.Copy;
-                else if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.ControlKey) == System.Windows.DragDropKeyStates.ControlKey)
-                    e.Effect = DragDropEffects.Copy;
-                else
-                    e.Effect = DragDropEffects.Move;
             }
             catch (Exception ex)
             {
