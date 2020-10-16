@@ -417,13 +417,10 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.Reload();
             string folder = Properties.Settings.Default.LastFolder;
             if (Directory.Exists(folder))
-            {
                 folderTreeViewFolder.DrillToFolder(folder);
-            } 
             else
-            {
                 folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
-            }
+            
             FolderSelected_AggregateListViewWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
 
