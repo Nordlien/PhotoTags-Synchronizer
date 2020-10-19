@@ -47,6 +47,9 @@ namespace PhotoTagsSynchronizer
                         new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));
                     if (columnIndex == -1) continue;
 
+                    //Clear old content, in case of new values are updated or deleted
+                    for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++) DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, "");
+
                     string lastRegion = "";
                     foreach (ExiftoolWarningData exiftoolWarningData in exifToolWarningDataList)
                     {

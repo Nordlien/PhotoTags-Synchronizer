@@ -3,11 +3,12 @@ using Exiftool;
 using FileDateTime;
 using Manina.Windows.Forms;
 using MetadataLibrary;
-using MetadataPriorityLibrary;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using TimeZone;
 using static Manina.Windows.Forms.ImageListView;
 
 namespace PhotoTagsSynchronizer
@@ -15,14 +16,25 @@ namespace PhotoTagsSynchronizer
     public static class DataGridViewHandlerDate
     {
         public const string headerMedia = "Media";
-        public const string headerDatesTimeInFilename = "Dates in filename";
-        public const string headerMetadataDates = "Exif metadata";
+        public const string headerLocationComputer = "Computer time zone";
+        public const string headerLocationGPS = "GPS Location time zone";
+        public const string headerMetadataDates = "Windows filesystem";
+        public const string headerDatesTimeInFilename = "Scraping filename";
+        
         public const string tagMediaDateTaken = "MediaDateTaken";
         public const string tagFileDateCreated = "FileDateCreated";
         public const string tagFileDateModified = "FileDateModified";
         public const string tagFileLastAccessed = "FileLastAccessed";
-        public const string tagLocationDateTime = "LocationDateTime";
+        public const string tagGPSLocationDateTime = "GPS UTC DateTime";
+        public const string tagTimeZone = "Time Zone offset";
+
         public const string tagDatesFoundInFilename = "Found ";
+
+        public const string tagCalulateTimeZone = "TimeZone";
+        public const string tagCalulateStadardDaylight = "Standard/Daylight";
+        public const string tagCalulateDateTime = "Date and Time";
+
+        
 
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
@@ -83,22 +95,44 @@ namespace PhotoTagsSynchronizer
 
         
 
-        private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow)
+        public static void PopulateTimeZone(DataGridView dataGridView, int columnIndex)
         {
-            return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow);
+            DateTime? dateTimeLocation = TimeZoneLibrary.ParseDateTimeAsUTC(DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim());
+            DateTime? dateTimeUTC = TimeZoneLibrary.ParseDateTimeAsUTC(DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim());
+
+            string prefredTimeZoneName = DataGridViewHandler.GetCellValueStringTrim(dataGridView, columnIndex, headerLocationGPS, tagCalulateTimeZone);
+
+
+            if (dateTimeLocation != null && dateTimeUTC != null)
+            {
+                
+                //Remove time zone and location information so we can substract  
+                TimeSpan timeSpan = 
+                    new DateTime(
+                        ((DateTime)dateTimeLocation).Year, ((DateTime)dateTimeLocation).Month, ((DateTime)dateTimeLocation).Day, 
+                        ((DateTime)dateTimeLocation).Hour, ((DateTime)dateTimeLocation).Minute, ((DateTime)dateTimeLocation).Second, ((DateTime)dateTimeLocation).Millisecond) -
+                    new DateTime(
+                        ((DateTime)dateTimeUTC).Year, ((DateTime)dateTimeUTC).Month, ((DateTime)dateTimeUTC).Day,
+                        ((DateTime)dateTimeUTC).Hour, ((DateTime)dateTimeUTC).Minute, ((DateTime)dateTimeUTC).Second, ((DateTime)dateTimeUTC).Millisecond);
+
+                string timeZoneAlternatives;
+
+                string timeZoneName = TimeZoneLibrary.GetTimeZoneName(timeSpan, (DateTime)dateTimeLocation, prefredTimeZoneName, out timeZoneAlternatives);
+                int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex,
+                                    new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagTimeZone),
+                                    timeSpan.ToString().Substring(0, timeSpan.ToString().Length-3) + " " + timeZoneName, true);
+                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, timeZoneAlternatives);
+                
+            }
+            else
+            {
+                int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex,
+                    new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagTimeZone),
+                    "Error", false);
+                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "");
+            } 
         }
 
-        private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, bool cellReadOnly)
-        {
-            return AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, cellReadOnly));
-        }
-
-        private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
-        {
-            int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, dataGridViewGenericCellStatusDefaults);
-            return rowIndex;
-        }
-       
         public static void PopulateFile(DataGridView dataGridView, string fullFilePath, ShowWhatColumns showWhatColumns, DateTime dateTimeForEditableMediaFile)
         {
             //-----------------------------------------------------------------
@@ -127,7 +161,7 @@ namespace PhotoTagsSynchronizer
                 int columnCountBeforeAddOrUpdate = DataGridViewHandler.GetColumnCount(dataGridView); //Rememebr coulmn count before AddColumnOrUpdate
 
                 //If create a dummy column for newst, add the news meta data to it
-                
+
                 FileEntryBroker fileEntryBrokerReadVersion = fileEntryBroker;
                 FileEntryBroker fileEntryBrokerColumnVersion = fileEntryBroker;
 
@@ -138,41 +172,83 @@ namespace PhotoTagsSynchronizer
                     DateTime newestDate = fileVersionDates[0].LastWriteDateTime;
                     foreach (FileEntryBroker fileEntryBrokerFindNewest in fileVersionDates)
                     {
-                        if (fileEntryBrokerFindNewest.Broker == MetadataBrokerTypes.ExifTool && fileEntryBrokerFindNewest.LastWriteDateTime > newestDate && fileEntryBrokerFindNewest.LastWriteDateTime != DataGridViewHandler.DateTimeForEditableMediaFile) 
+                        if (fileEntryBrokerFindNewest.Broker == MetadataBrokerTypes.ExifTool && fileEntryBrokerFindNewest.LastWriteDateTime > newestDate && fileEntryBrokerFindNewest.LastWriteDateTime != DataGridViewHandler.DateTimeForEditableMediaFile)
                             newestDate = fileEntryBrokerFindNewest.LastWriteDateTime;
                     }
 
                     fileEntryBrokerReadVersion = new FileEntryBroker(fullFilePath, newestDate, MetadataBrokerTypes.ExifTool);
                     metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion));
-                }                
+                }
                 else metadata = DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion);
-                
-                int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView, new FileEntryImage(fileEntryBrokerColumnVersion), 
+
+                int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView, new FileEntryImage(fileEntryBrokerColumnVersion),
                     metadata, dateTimeForEditableMediaFile,
                     DataGridViewHandler.IsCurrentFile(fileEntryBrokerColumnVersion, dateTimeForEditableMediaFile) ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
                     new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));
                 if (columnIndex == -1) continue;
 
                 //Media
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaDateTaken), metadata?.MediaDateTaken, false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia));
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaDateTaken), TimeZoneLibrary.ToStringDateTimeSortable(metadata?.MediaDateTaken), false);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagGPSLocationDateTime), TimeZoneLibrary.ToStringW3CDTF_UTC_Convert(metadata?.LocationDateTime), false);
+                
 
                 //Metadata
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateCreated), metadata?.FileDateCreated, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateModified), metadata?.FileDateModified, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileLastAccessed), metadata?.FileLastAccessed, true);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagLocationDateTime), metadata?.LocationDateTime, true);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates));
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateCreated), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateCreated), true);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateModified), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateModified), true);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileLastAccessed), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileLastAccessed), true);
 
                 //Dates and/or time in filename
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename));
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename));
 
                 FileDateTimeReader fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
                 List<string> dates = fileDateTimeReader.ListAllDateTimesFound(Path.GetFileNameWithoutExtension(fullFilePath));
                 for (int i = 0; i < dates.Count; i++)
                 {
-                    AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename, tagDatesFoundInFilename + (i+1).ToString()), dates[i], true);
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename, tagDatesFoundInFilename + (i + 1).ToString()), dates[i], true);
                 }
+
+                DateTime localTime = metadata?.MediaDateTaken != null ? (DateTime)metadata?.MediaDateTaken : DateTime.Now;
+                if (metadata?.MediaDateTaken != null && metadata?.LocationLatitude != null && metadata?.LocationLongitude != null)
+                {
+                    DateTime mediaDateTaken = (DateTime)metadata?.MediaDateTaken;
+
+                    TimeZoneInfo timeZoneInfoComputerLocation = TimeZoneInfo.Local;
+                    TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
+
+                    DateTimeOffset dateTimeUTC = new DateTimeOffset(mediaDateTaken, timeZoneInfoGPSLocation.GetUtcOffset(mediaDateTaken));
+
+                    DateTime mediaDateTakeComputerLocation = TimeZoneInfo.ConvertTime(dateTimeUTC.UtcDateTime, TimeZoneInfo.Utc, timeZoneInfoComputerLocation);
+                    DateTime mediaDateTakenGPSLocation = TimeZoneInfo.ConvertTime(dateTimeUTC.UtcDateTime, TimeZoneInfo.Utc, timeZoneInfoGPSLocation);
+
+                    //"Calculation"
+
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationComputer));
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationComputer, tagCalulateTimeZone),
+                        timeZoneInfoComputerLocation.DisplayName, true);
+
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationComputer, tagCalulateStadardDaylight),
+                        TimeZoneLibrary.TimeZoneNameStandarOrDaylight(timeZoneInfoComputerLocation, mediaDateTakeComputerLocation),
+                        //timeZoneInfoComputerLocation.IsDaylightSavingTime(mediaDateTakeComputerLocation) ? timeZoneInfoComputerLocation.DaylightName : timeZoneInfoComputerLocation.StandardName, 
+                        true);
+
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationComputer, tagCalulateDateTime),
+                        TimeZoneLibrary.ToStringW3CDTF(mediaDateTakeComputerLocation), true);
+
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationGPS));
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationGPS, tagCalulateTimeZone),
+                        timeZoneInfoGPSLocation.DisplayName, true);
+
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationGPS, tagCalulateStadardDaylight),
+                        TimeZoneLibrary.TimeZoneNameStandarOrDaylight(timeZoneInfoGPSLocation, mediaDateTakenGPSLocation),
+                        //timeZoneInfoGPSLocation.IsDaylightSavingTime(mediaDateTakenGPSLocation) ? timeZoneInfoGPSLocation.DaylightName : timeZoneInfoGPSLocation.StandardName, 
+                        true);
+
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationGPS, tagCalulateDateTime),
+                        TimeZoneLibrary.ToStringW3CDTF(mediaDateTakenGPSLocation), true);
+                }
+                
 
                 //Exiftool data
                 List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.ExifToolData_Read(fileEntryBrokerReadVersion);
@@ -193,21 +269,11 @@ namespace PhotoTagsSynchronizer
                             new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));
                     }
                 }
+
+                PopulateTimeZone(dataGridView, columnIndex);
             }
 
-            /*
-            List<FileEntry> fileEntries = DatabaseExiftoolData.ListFileEntryDateVersions(fullFilePath);
-            foreach (FileEntry fileEntry in fileEntries)
-            {
-                int columnIndex = DataGridViewHandler.AddColumnOrUpdate(
-                    dataGridView, new FileEntryImage(fileEntry), null, dateTimeForEditableMediaFile,
-                    DataGridViewHandler.IsCurrentFile(fileEntry, dateTimeForEditableMediaFile) ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));
-                //if (columnIndex == -1) continue;
-
-
-                
-            }*/
+            
 
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);

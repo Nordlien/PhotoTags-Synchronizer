@@ -159,9 +159,20 @@ namespace PhotoTagsSynchronizer
             this.textBoxBrowserURL = new System.Windows.Forms.TextBox();
             this.panelBrowser = new System.Windows.Forms.Panel();
             this.tabPageDate = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.dataGridViewDate = new System.Windows.Forms.DataGridView();
             this.tabPageExifTool = new System.Windows.Forms.TabPage();
             this.dataGridViewExifTool = new System.Windows.Forms.DataGridView();
+            this.contextMenuStripExifTool = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemExiftoolAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolFind = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolSHowFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolHideEqual = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageExifToolWarning = new System.Windows.Forms.TabPage();
             this.dataGridViewExifToolWarning = new System.Windows.Forms.DataGridView();
             this.tabPageFileProperties = new System.Windows.Forms.TabPage();
@@ -209,16 +220,6 @@ namespace PhotoTagsSynchronizer
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.timerShowErrorMessage = new System.Windows.Forms.Timer(this.components);
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
-            this.contextMenuStripExifTool = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemExiftoolAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolReplace = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolSHowFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolHideEqual = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -261,6 +262,7 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDate)).BeginInit();
             this.tabPageExifTool.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExifTool)).BeginInit();
+            this.contextMenuStripExifTool.SuspendLayout();
             this.tabPageExifToolWarning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExifToolWarning)).BeginInit();
             this.tabPageFileProperties.SuspendLayout();
@@ -268,7 +270,6 @@ namespace PhotoTagsSynchronizer
             this.tabPageFileRename.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRename)).BeginInit();
             this.toolStrip.SuspendLayout();
-            this.contextMenuStripExifTool.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -791,7 +792,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewTagsAndKeywords.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTagsAndKeywords.ShowCellErrors = false;
             this.dataGridViewTagsAndKeywords.ShowRowErrors = false;
-            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(530, 268);
+            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(530, 247);
             this.dataGridViewTagsAndKeywords.TabIndex = 10;
             this.dataGridViewTagsAndKeywords.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTags_CellBeginEdit);
             this.dataGridViewTagsAndKeywords.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTags_CellEndEdit);
@@ -1165,7 +1166,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewPeople.Name = "dataGridViewPeople";
             this.dataGridViewPeople.RowHeadersWidth = 51;
             this.dataGridViewPeople.RowTemplate.Height = 24;
-            this.dataGridViewPeople.Size = new System.Drawing.Size(536, 497);
+            this.dataGridViewPeople.Size = new System.Drawing.Size(533, 467);
             this.dataGridViewPeople.TabIndex = 0;
             this.dataGridViewPeople.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPeople_CellBeginEdit);
             this.dataGridViewPeople.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPeople_CellMouseClick);
@@ -1365,9 +1366,9 @@ namespace PhotoTagsSynchronizer
             // tabPageMap
             // 
             this.tabPageMap.Controls.Add(this.splitContainerMap);
-            this.tabPageMap.Location = new System.Drawing.Point(4, 25);
+            this.tabPageMap.Location = new System.Drawing.Point(4, 26);
             this.tabPageMap.Name = "tabPageMap";
-            this.tabPageMap.Size = new System.Drawing.Size(536, 461);
+            this.tabPageMap.Size = new System.Drawing.Size(536, 463);
             this.tabPageMap.TabIndex = 3;
             this.tabPageMap.Tag = "Map";
             this.tabPageMap.Text = "Map";
@@ -1397,8 +1398,8 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel2.Controls.Add(this.comboBoxMapZoomLevel);
             this.splitContainerMap.Panel2.Controls.Add(this.textBoxBrowserURL);
             this.splitContainerMap.Panel2.Controls.Add(this.panelBrowser);
-            this.splitContainerMap.Size = new System.Drawing.Size(536, 461);
-            this.splitContainerMap.SplitterDistance = 220;
+            this.splitContainerMap.Size = new System.Drawing.Size(536, 463);
+            this.splitContainerMap.SplitterDistance = 219;
             this.splitContainerMap.SplitterWidth = 10;
             this.splitContainerMap.TabIndex = 5;
             this.splitContainerMap.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerMap_SplitterMoved);
@@ -1484,12 +1485,15 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.ShowCellToolTips = false;
             this.dataGridViewMap.ShowEditingIcon = false;
             this.dataGridViewMap.ShowRowErrors = false;
-            this.dataGridViewMap.Size = new System.Drawing.Size(536, 183);
+            this.dataGridViewMap.Size = new System.Drawing.Size(536, 182);
             this.dataGridViewMap.TabIndex = 10;
             this.dataGridViewMap.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewMap_CellBeginEdit);
             this.dataGridViewMap.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellEndEdit);
             this.dataGridViewMap.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellEnter);
             this.dataGridViewMap.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewMap_CellPainting);
+            this.dataGridViewMap.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellValidated);
+            this.dataGridViewMap.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridViewMap_CellValidating);
+            this.dataGridViewMap.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellValueChanged);
             this.dataGridViewMap.Enter += new System.EventHandler(this.dataGridViewMap_Enter);
             this.dataGridViewMap.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridMap_KeyDown);
             // 
@@ -1699,41 +1703,58 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Cursor = System.Windows.Forms.Cursors.Default;
             this.panelBrowser.Location = new System.Drawing.Point(0, 33);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(536, 129);
+            this.panelBrowser.Size = new System.Drawing.Size(536, 198);
             this.panelBrowser.TabIndex = 1;
             // 
             // tabPageDate
             // 
+            this.tabPageDate.Controls.Add(this.textBox1);
             this.tabPageDate.Controls.Add(this.dataGridViewDate);
-            this.tabPageDate.Location = new System.Drawing.Point(4, 25);
+            this.tabPageDate.Location = new System.Drawing.Point(4, 26);
             this.tabPageDate.Name = "tabPageDate";
-            this.tabPageDate.Size = new System.Drawing.Size(536, 461);
+            this.tabPageDate.Size = new System.Drawing.Size(536, 463);
             this.tabPageDate.TabIndex = 6;
             this.tabPageDate.Tag = "Date";
             this.tabPageDate.Text = "Date";
             this.tabPageDate.ToolTipText = "Metadata date tags";
             this.tabPageDate.UseVisualStyleBackColor = true;
             // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(6, 3);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox1.Size = new System.Drawing.Size(527, 80);
+            this.textBox1.TabIndex = 1;
+            this.textBox1.Text = resources.GetString("textBox1.Text");
+            // 
             // dataGridViewDate
             // 
+            this.dataGridViewDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewDate.ColumnHeadersHeight = 29;
-            this.dataGridViewDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewDate.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewDate.Location = new System.Drawing.Point(0, 89);
             this.dataGridViewDate.Name = "dataGridViewDate";
             this.dataGridViewDate.RowHeadersWidth = 51;
             this.dataGridViewDate.RowTemplate.Height = 24;
-            this.dataGridViewDate.Size = new System.Drawing.Size(536, 461);
+            this.dataGridViewDate.Size = new System.Drawing.Size(536, 380);
             this.dataGridViewDate.TabIndex = 0;
             this.dataGridViewDate.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewDate_CellBeginEdit);
+            this.dataGridViewDate.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDate_CellEndEdit);
             this.dataGridViewDate.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewDate_CellPainting);
             this.dataGridViewDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewDate_KeyDown);
             // 
             // tabPageExifTool
             // 
             this.tabPageExifTool.Controls.Add(this.dataGridViewExifTool);
-            this.tabPageExifTool.Location = new System.Drawing.Point(4, 26);
+            this.tabPageExifTool.Location = new System.Drawing.Point(4, 25);
             this.tabPageExifTool.Name = "tabPageExifTool";
-            this.tabPageExifTool.Size = new System.Drawing.Size(536, 463);
+            this.tabPageExifTool.Size = new System.Drawing.Size(536, 461);
             this.tabPageExifTool.TabIndex = 4;
             this.tabPageExifTool.Tag = "ExifTool";
             this.tabPageExifTool.Text = "ExifTool";
@@ -1750,11 +1771,98 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifTool.Name = "dataGridViewExifTool";
             this.dataGridViewExifTool.RowHeadersWidth = 51;
             this.dataGridViewExifTool.RowTemplate.Height = 24;
-            this.dataGridViewExifTool.Size = new System.Drawing.Size(536, 463);
+            this.dataGridViewExifTool.Size = new System.Drawing.Size(536, 461);
             this.dataGridViewExifTool.TabIndex = 0;
             this.dataGridViewExifTool.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifTool_CellBeginEdit);
             this.dataGridViewExifTool.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifTool_CellPainting);
             this.dataGridViewExifTool.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewExifTool_KeyDown);
+            // 
+            // contextMenuStripExifTool
+            // 
+            this.contextMenuStripExifTool.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripExifTool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemExiftoolAssignCompositeTag,
+            this.toolStripMenuItemExiftoolCopy,
+            this.toolStripMenuItemExiftoolFind,
+            this.toolStripMenuItemExiftoolReplace,
+            this.toolStripMenuItemExiftoolMarkFavorite,
+            this.toolStripMenuItemExiftoolRemoveFavorite,
+            this.toolStripMenuItemExiftoolToggleFavorite,
+            this.toolStripMenuItemExiftoolSHowFavorite,
+            this.toolStripMenuItemExiftoolHideEqual});
+            this.contextMenuStripExifTool.Name = "contextMenuStripMap";
+            this.contextMenuStripExifTool.Size = new System.Drawing.Size(229, 238);
+            // 
+            // toolStripMenuItemExiftoolAssignCompositeTag
+            // 
+            this.toolStripMenuItemExiftoolAssignCompositeTag.Name = "toolStripMenuItemExiftoolAssignCompositeTag";
+            this.toolStripMenuItemExiftoolAssignCompositeTag.Size = new System.Drawing.Size(228, 26);
+            this.toolStripMenuItemExiftoolAssignCompositeTag.Text = "Assign Composite Tag";
+            // 
+            // toolStripMenuItemExiftoolCopy
+            // 
+            this.toolStripMenuItemExiftoolCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemExiftoolCopy.Name = "toolStripMenuItemExiftoolCopy";
+            this.toolStripMenuItemExiftoolCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemExiftoolCopy.Size = new System.Drawing.Size(228, 26);
+            this.toolStripMenuItemExiftoolCopy.Text = "Copy";
+            this.toolStripMenuItemExiftoolCopy.Click += new System.EventHandler(this.toolStripMenuItemExiftoolCopy_Click);
+            // 
+            // toolStripMenuItemExiftoolFind
+            // 
+            this.toolStripMenuItemExiftoolFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
+            this.toolStripMenuItemExiftoolFind.Name = "toolStripMenuItemExiftoolFind";
+            this.toolStripMenuItemExiftoolFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.toolStripMenuItemExiftoolFind.Size = new System.Drawing.Size(228, 26);
+            this.toolStripMenuItemExiftoolFind.Text = "Find";
+            this.toolStripMenuItemExiftoolFind.Click += new System.EventHandler(this.toolStripMenuItemExiftoolFind_Click);
+            // 
+            // toolStripMenuItemExiftoolReplace
+            // 
+            this.toolStripMenuItemExiftoolReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
+            this.toolStripMenuItemExiftoolReplace.Name = "toolStripMenuItemExiftoolReplace";
+            this.toolStripMenuItemExiftoolReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.toolStripMenuItemExiftoolReplace.Size = new System.Drawing.Size(228, 26);
+            this.toolStripMenuItemExiftoolReplace.Text = "Replace";
+            this.toolStripMenuItemExiftoolReplace.Click += new System.EventHandler(this.toolStripMenuItemExiftoolReplace_Click);
+            // 
+            // toolStripMenuItemExiftoolMarkFavorite
+            // 
+            this.toolStripMenuItemExiftoolMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
+            this.toolStripMenuItemExiftoolMarkFavorite.Name = "toolStripMenuItemExiftoolMarkFavorite";
+            this.toolStripMenuItemExiftoolMarkFavorite.Size = new System.Drawing.Size(228, 26);
+            this.toolStripMenuItemExiftoolMarkFavorite.Text = "Mark as favorite";
+            this.toolStripMenuItemExiftoolMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolMarkFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolRemoveFavorite
+            // 
+            this.toolStripMenuItemExiftoolRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
+            this.toolStripMenuItemExiftoolRemoveFavorite.Name = "toolStripMenuItemExiftoolRemoveFavorite";
+            this.toolStripMenuItemExiftoolRemoveFavorite.Size = new System.Drawing.Size(228, 26);
+            this.toolStripMenuItemExiftoolRemoveFavorite.Text = "Remove as favorite";
+            this.toolStripMenuItemExiftoolRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolRemoveFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolToggleFavorite
+            // 
+            this.toolStripMenuItemExiftoolToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
+            this.toolStripMenuItemExiftoolToggleFavorite.Name = "toolStripMenuItemExiftoolToggleFavorite";
+            this.toolStripMenuItemExiftoolToggleFavorite.Size = new System.Drawing.Size(228, 26);
+            this.toolStripMenuItemExiftoolToggleFavorite.Text = "Toggle favorite";
+            this.toolStripMenuItemExiftoolToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolToggleFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolSHowFavorite
+            // 
+            this.toolStripMenuItemExiftoolSHowFavorite.Name = "toolStripMenuItemExiftoolSHowFavorite";
+            this.toolStripMenuItemExiftoolSHowFavorite.Size = new System.Drawing.Size(228, 26);
+            this.toolStripMenuItemExiftoolSHowFavorite.Text = "Show favorite rows";
+            this.toolStripMenuItemExiftoolSHowFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolShowFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolHideEqual
+            // 
+            this.toolStripMenuItemExiftoolHideEqual.Name = "toolStripMenuItemExiftoolHideEqual";
+            this.toolStripMenuItemExiftoolHideEqual.Size = new System.Drawing.Size(228, 26);
+            this.toolStripMenuItemExiftoolHideEqual.Text = "Hide equal rows";
+            this.toolStripMenuItemExiftoolHideEqual.Click += new System.EventHandler(this.toolStripMenuItemExiftoolHideEqual_Click);
             // 
             // tabPageExifToolWarning
             // 
@@ -1948,7 +2056,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.Name = "dataGridViewRename";
             this.dataGridViewRename.RowHeadersWidth = 51;
             this.dataGridViewRename.RowTemplate.Height = 24;
-            this.dataGridViewRename.Size = new System.Drawing.Size(533, 386);
+            this.dataGridViewRename.Size = new System.Drawing.Size(533, 359);
             this.dataGridViewRename.TabIndex = 0;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewRename_CellPainting);
@@ -2272,7 +2380,7 @@ namespace PhotoTagsSynchronizer
             this.openFileDialog.Multiselect = true;
             this.openFileDialog.ShowReadOnly = true;
             // 
-            // timerStatus
+            // timerShowErrorMessage
             // 
             this.timerShowErrorMessage.Interval = 1000;
             this.timerShowErrorMessage.Tick += new System.EventHandler(this.timerShowErrorMessage_Tick);
@@ -2281,93 +2389,6 @@ namespace PhotoTagsSynchronizer
             // 
             this.timerActionStatusRemove.Interval = 2000;
             this.timerActionStatusRemove.Tick += new System.EventHandler(this.timerActionStatusRemove_Tick);
-            // 
-            // contextMenuStripExifTool
-            // 
-            this.contextMenuStripExifTool.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripExifTool.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemExiftoolAssignCompositeTag,
-            this.toolStripMenuItemExiftoolCopy,
-            this.toolStripMenuItemExiftoolFind,
-            this.toolStripMenuItemExiftoolReplace,
-            this.toolStripMenuItemExiftoolMarkFavorite,
-            this.toolStripMenuItemExiftoolRemoveFavorite,
-            this.toolStripMenuItemExiftoolToggleFavorite,
-            this.toolStripMenuItemExiftoolSHowFavorite,
-            this.toolStripMenuItemExiftoolHideEqual});
-            this.contextMenuStripExifTool.Name = "contextMenuStripMap";
-            this.contextMenuStripExifTool.Size = new System.Drawing.Size(229, 266);
-            // 
-            // toolStripMenuItemExiftoolAssignCompositeTag
-            // 
-            this.toolStripMenuItemExiftoolAssignCompositeTag.Name = "toolStripMenuItemExiftoolAssignCompositeTag";
-            this.toolStripMenuItemExiftoolAssignCompositeTag.Size = new System.Drawing.Size(228, 26);
-            this.toolStripMenuItemExiftoolAssignCompositeTag.Text = "Assign Composite Tag";
-            // 
-            // toolStripMenuItemExiftoolCopy
-            // 
-            this.toolStripMenuItemExiftoolCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.toolStripMenuItemExiftoolCopy.Name = "toolStripMenuItemExiftoolCopy";
-            this.toolStripMenuItemExiftoolCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemExiftoolCopy.Size = new System.Drawing.Size(228, 26);
-            this.toolStripMenuItemExiftoolCopy.Text = "Copy";
-            this.toolStripMenuItemExiftoolCopy.Click += new System.EventHandler(this.toolStripMenuItemExiftoolCopy_Click);
-            // 
-            // toolStripMenuItemExiftoolFind
-            // 
-            this.toolStripMenuItemExiftoolFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
-            this.toolStripMenuItemExiftoolFind.Name = "toolStripMenuItemExiftoolFind";
-            this.toolStripMenuItemExiftoolFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.toolStripMenuItemExiftoolFind.Size = new System.Drawing.Size(228, 26);
-            this.toolStripMenuItemExiftoolFind.Text = "Find";
-            this.toolStripMenuItemExiftoolFind.Click += new System.EventHandler(this.toolStripMenuItemExiftoolFind_Click);
-            // 
-            // toolStripMenuItemExiftoolReplace
-            // 
-            this.toolStripMenuItemExiftoolReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
-            this.toolStripMenuItemExiftoolReplace.Name = "toolStripMenuItemExiftoolReplace";
-            this.toolStripMenuItemExiftoolReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.toolStripMenuItemExiftoolReplace.Size = new System.Drawing.Size(228, 26);
-            this.toolStripMenuItemExiftoolReplace.Text = "Replace";
-            this.toolStripMenuItemExiftoolReplace.Click += new System.EventHandler(this.toolStripMenuItemExiftoolReplace_Click);
-            // 
-            // toolStripMenuItemExiftoolMarkFavorite
-            // 
-            this.toolStripMenuItemExiftoolMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
-            this.toolStripMenuItemExiftoolMarkFavorite.Name = "toolStripMenuItemExiftoolMarkFavorite";
-            this.toolStripMenuItemExiftoolMarkFavorite.Size = new System.Drawing.Size(228, 26);
-            this.toolStripMenuItemExiftoolMarkFavorite.Text = "Mark as favorite";
-            this.toolStripMenuItemExiftoolMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolMarkFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolRemoveFavorite
-            // 
-            this.toolStripMenuItemExiftoolRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
-            this.toolStripMenuItemExiftoolRemoveFavorite.Name = "toolStripMenuItemExiftoolRemoveFavorite";
-            this.toolStripMenuItemExiftoolRemoveFavorite.Size = new System.Drawing.Size(228, 26);
-            this.toolStripMenuItemExiftoolRemoveFavorite.Text = "Remove as favorite";
-            this.toolStripMenuItemExiftoolRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolRemoveFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolToggleFavorite
-            // 
-            this.toolStripMenuItemExiftoolToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
-            this.toolStripMenuItemExiftoolToggleFavorite.Name = "toolStripMenuItemExiftoolToggleFavorite";
-            this.toolStripMenuItemExiftoolToggleFavorite.Size = new System.Drawing.Size(228, 26);
-            this.toolStripMenuItemExiftoolToggleFavorite.Text = "Toggle favorite";
-            this.toolStripMenuItemExiftoolToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolToggleFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolSHowFavorite
-            // 
-            this.toolStripMenuItemExiftoolSHowFavorite.Name = "toolStripMenuItemExiftoolSHowFavorite";
-            this.toolStripMenuItemExiftoolSHowFavorite.Size = new System.Drawing.Size(228, 26);
-            this.toolStripMenuItemExiftoolSHowFavorite.Text = "Show favorite rows";
-            this.toolStripMenuItemExiftoolSHowFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolShowFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolHideEqual
-            // 
-            this.toolStripMenuItemExiftoolHideEqual.Name = "toolStripMenuItemExiftoolHideEqual";
-            this.toolStripMenuItemExiftoolHideEqual.Size = new System.Drawing.Size(228, 26);
-            this.toolStripMenuItemExiftoolHideEqual.Text = "Hide equal rows";
-            this.toolStripMenuItemExiftoolHideEqual.Click += new System.EventHandler(this.toolStripMenuItemExiftoolHideEqual_Click);
             // 
             // MainForm
             // 
@@ -2431,9 +2452,11 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripMap.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPageDate.ResumeLayout(false);
+            this.tabPageDate.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDate)).EndInit();
             this.tabPageExifTool.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExifTool)).EndInit();
+            this.contextMenuStripExifTool.ResumeLayout(false);
             this.tabPageExifToolWarning.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExifToolWarning)).EndInit();
             this.tabPageFileProperties.ResumeLayout(false);
@@ -2443,7 +2466,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRename)).EndInit();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
-            this.contextMenuStripExifTool.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2632,6 +2654,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolToggleFavorite;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolSHowFavorite;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolHideEqual;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

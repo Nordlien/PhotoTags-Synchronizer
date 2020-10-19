@@ -420,6 +420,10 @@
       <Project>{29e6e349-66e8-4908-a856-491bd0a4599f}</Project>
       <Name>Thumbnails</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TimeZone\TimeZone.csproj">
+      <Project>{d76d9728-d687-43fa-af77-a724b4818944}</Project>
+      <Name>TimeZone</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WindowsLivePhotoGallery\WindowsLivePhotoGallery.csproj">
       <Project>{b4aecd2a-19f2-4a61-96fa-c3250fd7433a}</Project>
       <Name>WindowsLivePhotoGallery</Name>

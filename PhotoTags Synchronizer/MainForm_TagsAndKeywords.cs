@@ -119,12 +119,13 @@ namespace PhotoTagsSynchronizer
         #region TriState Click / Begin Edit / End Edit
         private void dataGridViewTagsAndKeywords_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            Rectangle cellRectangle = ((DataGridView)sender).GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+            DataGridView dataGridView = ((DataGridView)sender);
+
+            Rectangle cellRectangle = dataGridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
             if (e.X >= cellRectangle.Width - tristateButtonWidth && e.Y <= tristateBittonHight) triStateButtomClick = true;
             else triStateButtomClick = false;
             if (!triStateButtomClick) return;
 
-            DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
             if (dataGridView.SelectedCells.Count < 1) return;
@@ -192,13 +193,13 @@ namespace PhotoTagsSynchronizer
         #region Popelate DataGridView view when Text changed
         private void comboBoxTitle_TextChanged(object sender, EventArgs e)
         {
-            DataGridView dataGridView = (DataGridView)sender;
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
                 DataGridViewHandlerTagsAndKeywords.headerMedia,
                 DataGridViewHandlerTagsAndKeywords.tagTitle);
 
-            for (int columnIndex = 0; columnIndex < dataGridViewTagsAndKeywords.Columns.Count; columnIndex++)
+            for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
             {
                 DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                 if (dataGridViewGenericDataColumn.Metadata != null)
@@ -208,7 +209,7 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxDescription_TextChanged(object sender, EventArgs e)
         {
-            DataGridView dataGridView = (DataGridView)sender;
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
                 DataGridViewHandlerTagsAndKeywords.headerMedia,
@@ -224,7 +225,7 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxComments_TextChanged(object sender, EventArgs e)
         {
-            DataGridView dataGridView = (DataGridView)sender;
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
                 DataGridViewHandlerTagsAndKeywords.headerMedia,
@@ -240,13 +241,13 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxAlbum_TextChanged(object sender, EventArgs e)
         {
-            DataGridView dataGridView = (DataGridView)sender;
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
                 DataGridViewHandlerTagsAndKeywords.headerMedia,
                 DataGridViewHandlerTagsAndKeywords.tagAlbum);
 
-            for (int columnIndex = 0; columnIndex < dataGridViewTagsAndKeywords.Columns.Count; columnIndex++)
+            for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
             {
                 DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                 if (dataGridViewGenericDataColumn.Metadata != null)
@@ -256,13 +257,13 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxAuthor_TextChanged(object sender, EventArgs e)
         {
-            DataGridView dataGridView = (DataGridView)sender;
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, 
                 DataGridViewHandlerTagsAndKeywords.headerMedia,
                 DataGridViewHandlerTagsAndKeywords.tagAuthor);
 
-            for (int columnIndex = 0; columnIndex < dataGridViewTagsAndKeywords.Columns.Count; columnIndex++)
+            for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
             {
                 DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                 if (dataGridViewGenericDataColumn.Metadata != null)
@@ -272,7 +273,7 @@ namespace PhotoTagsSynchronizer
 
         private void radioButtonRating_Common_CheckedChanged()
         {
-            DataGridView dataGridView = dataGridViewMap;
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
             byte? rating = null;
             if (radioButtonRating1.Checked) rating = 1;
             if (radioButtonRating2.Checked) rating = 2;
@@ -284,7 +285,7 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandlerTagsAndKeywords.headerMedia,
                 DataGridViewHandlerTagsAndKeywords.tagRating);
 
-            for (int columnIndex = 0; columnIndex < dataGridViewTagsAndKeywords.Columns.Count; columnIndex++)
+            for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
             {
                 DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                 if (dataGridViewGenericDataColumn.Metadata != null)

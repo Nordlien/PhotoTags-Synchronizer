@@ -27,6 +27,7 @@ namespace MetadataPriorityLibrary
         public const string Rating = "Rating";
         public const string RatingPercent = "RatingPercent";
         public const string Location = "Location";
+        public const string LocationStruct = "Location Struct";
         public const string City = "City";
         public const string State = "State";
         public const string Country = "Country";

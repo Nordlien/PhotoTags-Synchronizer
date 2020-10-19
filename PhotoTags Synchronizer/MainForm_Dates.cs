@@ -4,13 +4,122 @@ using System.Windows.Forms;
 using System.IO;
 using SqliteDatabase;
 using DataGridViewGeneric;
+using System.Globalization;
+using TimeZone;
 
 namespace PhotoTagsSynchronizer
 {
 
     public partial class MainForm : Form
     {
-        
+        private void dataGridViewMap_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
 
+        }
+
+        private void dataGridViewMap_CellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridViewMap_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        /*
+        JPEG:
+        EXIF:DateTimeOriginal - local time
+
+        [XML]           CreationDateValue               : 2014:08:12 16:03:01+01:00
+        [QuickTime]     CreateDate                      : 2014:08:12 16:03:01-04:00
+        GPSDateStamp/GPSTimeStamp
+
+        .MOV, .MP4
+        creation_time - creation_time and other date properties are in UTC
+        QuickTimeUTC
+        QuickTimeUTC=1
+
+        Most cameras store photos on flash media formatted using the FAT file system. 
+        Conveniently, FAT uses local time. So, by comparing the metadata time against the file system time, 
+        you can detect whether whether a video creation_time is in local or UTC. 
+        If it's in UTC then the timezone can be detected from the difference.
+
+        W3CDTF and ISO 8601
+        Local time with timezone (Best Practice)	2018-11-28T13:25:04-05:00
+				        2018-12-25T07:05:01+00:00
+        Local time with	unstated timezone.		2018-11-28T13:25:04
+				        2018-12-25T07:05:01
+        UTC time with	unstated timezone.		2018-11-28T18:25:04Z
+				        2018-12-25T07:05:01Z
+
+
+        12	Minute	1976-07-04T21:05-05:00
+        14	Second	1976-07-04T21:05:02-05:00
+        17	Millisecond	1976-07-04T21:05:02.319-05:00
+        */
+
+        private void dataGridViewDate_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (GlobalData.IsPopulatingAnything()) return;
+
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+
+            DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
+            if (gridViewGenericDataRow == null) return;
+
+            if (!gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerDate.headerMedia)) return;
+
+            if (gridViewGenericDataRow.RowName.Equals(DataGridViewHandlerDate.tagMediaDateTaken)) //headerMedia, tagMediaDateTaken
+            {
+                string dataTimeString = DataGridViewHandler.GetCellValueStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
+
+                DateTimeOffset? dateTimeZoneResult = TimeZoneLibrary.ParseDateTimeOffsetAsUTC(dataTimeString);
+                if (dateTimeZoneResult != null) //If date and time has +00:00 offset
+                {
+                    DateTime? dateTimeLocal = TimeZoneLibrary.ParseDateTimeAsLocal(dataTimeString.Substring(0, TimeZoneLibrary.AllowedDateTimeFormatsWithoutTimeZone[0].Length));
+
+                    DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex, new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagMediaDateTaken),
+                         TimeZoneLibrary.ToStringDateTimeSortable(dateTimeLocal), false);
+
+                    DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex, new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
+                        TimeZoneLibrary.ToStringW3CDTF_UTC(((DateTimeOffset)dateTimeZoneResult).UtcDateTime), false);
+                }
+                else
+                {
+                    DateTime? dateTime = TimeZoneLibrary.ParseDateTimeAsLocal(dataTimeString);
+                    if (dateTime != null)
+                    {
+                        DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
+                            new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagMediaDateTaken),
+                            TimeZoneLibrary.ToStringDateTimeSortable((DateTime)dateTime), false);
+                    }
+                    else
+                    {
+                        DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
+                            new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagMediaDateTaken),
+                            "Error", false);
+                    }
+                }
+            }
+
+            if (gridViewGenericDataRow.RowName.Equals(DataGridViewHandlerDate.tagGPSLocationDateTime)) //headerMedia, tagGPSLocationDateTime
+            {
+                string dataTimeString = DataGridViewHandler.GetCellValueStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
+
+                DateTime? dateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dataTimeString);
+                if (dateTime != null)
+                    DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex, 
+                        new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
+                        TimeZoneLibrary.ToStringW3CDTF_UTC((DateTime)dateTime), false);
+                else
+                    DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex, 
+                        new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
+                        "Error", false);
+            }
+            DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex);
+        }
     }   
 }

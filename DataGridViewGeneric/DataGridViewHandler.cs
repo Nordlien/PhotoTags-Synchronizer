@@ -195,17 +195,19 @@ namespace DataGridViewGeneric
             switch (size)
             {
                 case DataGridViewSize.Small:
-                    return 160;
+                    return 200;
                 case DataGridViewSize.Medium:
-                    return 160;
+                    return 200;
                 case DataGridViewSize.Large:
-                    return 160;
+                    return 200;
+
                 case DataGridViewSize.Small | DataGridViewSize.RenameSize:
                     return 200; //Rename Grid
                 case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
                     return 400; //Rename Grid
                 case DataGridViewSize.Large | DataGridViewSize.RenameSize:
                     return 600; //Rename Grid*/
+
                 case DataGridViewSize.ConfigSize:
                     return 400;
                 default:
@@ -223,12 +225,14 @@ namespace DataGridViewGeneric
                     return 230;
                 case DataGridViewSize.Large:
                     return 330;
+
                 case DataGridViewSize.Small | DataGridViewSize.RenameSize:
                     return 200; //Rename Grid
                 case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
                     return 400; //Rename Grid
                 case DataGridViewSize.Large | DataGridViewSize.RenameSize:
-                    return 600; //Rename Grid*/
+                    return 600; //Rename Grid
+
                 case DataGridViewSize.ConfigSize:
                     return 200;
                 default:
@@ -1420,10 +1424,21 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
             return GetCellValueString(dataGridView, columnIndex, rowIndex).Trim();
         }
 
+        public static string GetCellValueStringTrim(DataGridView dataGridView, int columnIndex, string headerName, string rowName)
+        {
+            int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
+            if (columnIndex > -1 && rowIndex > -1)
+                return GetCellValueString(dataGridView, columnIndex, rowIndex).Trim();
+            else
+                return "";
+        }
+
         public static bool IsCellNullOrWhiteSpace(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return dataGridView[columnIndex, rowIndex].Value == null || string.IsNullOrWhiteSpace(dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
         }
+
+
 
         public static void SetCellValue(DataGridView dataGridView, int columnIndex, string headerName, string rowName, object value)
         {

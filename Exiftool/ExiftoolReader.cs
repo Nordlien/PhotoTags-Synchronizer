@@ -190,9 +190,10 @@ namespace Exiftool
                 if (convertThisDateZone.Length > 1)
                 {
                     if (DateTimeOffset.TryParseExact(dateTimeToConvert, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out pictureTime))
-                    {
+                    {                        
                         //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
                         localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
+                        Debug.WriteLine("---AssumeUniversal InvariantCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
                         return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
                     }
                     else return null;
@@ -200,9 +201,10 @@ namespace Exiftool
                 else if (convertThisDateZone[0][convertThisDateZone[0].Length - 1] == 'Z')
                 {
                     if (DateTimeOffset.TryParseExact(dateTimeToConvert, "yyyy:MM:dd HH:mm:ssZ", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out pictureTime))
-                    {
+                    {                        
                         //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, "yyyy:MM:dd HH:mm:ssZ", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
                         localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
+                        Debug.WriteLine("---AssumeUniversal CurrentCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
                         return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
                     }
                     else return null;
@@ -213,6 +215,7 @@ namespace Exiftool
                     {
                         //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, dateFormats, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal);
                         localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
+                        Debug.WriteLine("---AssumeLocal CurrentCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
                         return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
                     }
                     else return null;
@@ -233,6 +236,10 @@ namespace Exiftool
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
             DateTime? newValue = ConvertDateTimeLocalFromString(exifToolDataConvertThis.Parameter);
 
+            Debug.WriteLine("--Command: " + exifToolDataConvertThis.Region + " " + exifToolDataConvertThis.Command);
+            Debug.WriteLine("--Coverted: " + (newValue == null ? "NULL" : ((DateTime)newValue).ToString("s")) + " parameter: " + exifToolDataConvertThis.Parameter);
+            Debug.WriteLine("--OLD values: " + (oldValue == null ? "" : oldValue.ToString()) + " vs. " + (exifToolDataPrevious.Parameter == null ? "" : exifToolDataPrevious.Parameter));
+
             if (!newValue.HasValue)
             {
 
@@ -246,8 +253,9 @@ namespace Exiftool
 
             if (oldValue.HasValue && !isDateTimeEqual((DateTime)newValue, (DateTime)oldValue))
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
-                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);                
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
+                        exifToolDataConvertThis.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));                
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -269,8 +277,9 @@ namespace Exiftool
 
             if (oldValue.HasValue && newValue != oldValue)
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
-                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -290,8 +299,9 @@ namespace Exiftool
 
             if (oldValue.HasValue && newValue != oldValue)
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
-                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -311,8 +321,9 @@ namespace Exiftool
 
             if (oldValue.HasValue && newValue != oldValue)
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
-                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -332,8 +343,9 @@ namespace Exiftool
 
             if (oldValue.HasValue && newValue != oldValue)
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
-                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -361,8 +373,9 @@ namespace Exiftool
                 if (descimals > 0) newValue = Math.Round((double)newValue, descimals);
                 if (newValue != oldValue)
                 {
-                    string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
-                            exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                    string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
                     error += warning;
                     ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -385,8 +398,9 @@ namespace Exiftool
 
             if (oldValue != null && newValue != oldValue)
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs '{3}'",
-                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture), exifToolDataConvertThis.Parameter);
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -1229,9 +1243,59 @@ namespace Exiftool
                                     metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
                                 }
                                 break;
-                                #endregion
+                            #endregion
 
                             #region Location
+                            case CompositeTags.LocationStruct:
+                            case "LocationCreated": //		LocationCreated		[{Sublocation=sdfsfdf}]
+                                #region LocationCreated
+                                if (parameter == "{Sublocation=}") break; //Empty list, skip
+
+                                StructDeSerialization structDeSerializationLocation = new StructDeSerialization(parameter);
+                                StructObject structObjectLocation;
+                                string lastKnownFieldNameLocation = "";
+
+                                while (structDeSerializationLocation.Read(out structObjectLocation))
+                                {
+                                    switch (structObjectLocation.Type)
+                                    {
+                                        case StructTypes.EOF:
+                                            break;
+                                        case StructTypes.OpeningSquareBrackets:
+                                            break;
+                                        case StructTypes.ClosingSquareBrackets:
+                                            break;
+                                        case StructTypes.FieldName:
+                                            lastKnownFieldNameLocation = structObjectLocation.Value;
+                                            break;
+                                        case StructTypes.OpeningCurlyBracket:
+                                            break;
+                                        case StructTypes.ClosingCurlyBracket:
+                                            //break;
+                                            goto case StructTypes.Value;
+                                        case StructTypes.Value:
+                                            switch (lastKnownFieldNameLocation)
+                                            {
+                                                case "Sublocation":
+                                                    exifToolData.Parameter = structObjectLocation.Value;
+                                                    metadata.LocationName = ConvertAndCheckStringFromString(metadata.LocationName, exifToolData, oldExifToolLocationName,
+                                                        CompositeTags.Location, ref metadata.errors);
+                                                    oldExifToolLocationName = new ExiftoolData(exifToolData);
+                                                    break;
+                                            }
+                                            lastKnownFieldNameLocation = ""; 
+                                            break;
+                                        default:
+                                            break;
+
+                                    }
+
+                                }
+
+                                if (structDeSerializationLocation.Level != -1) throw new Exception("Error in Exiftool seralization. Missing closing curves");
+                                #endregion
+
+                                break;
                             case CompositeTags.Location:
                             case "Sub-location":
                                 metadata.LocationName = ConvertAndCheckStringFromString(metadata.LocationName, exifToolData, oldExifToolLocationName,
@@ -1258,6 +1322,7 @@ namespace Exiftool
                             #endregion
 
                             #region GPS Location
+                            
                             case "GPSAltitude":
                             case CompositeTags.GPSAltitude:
                                 double? newAltitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationAltitude, exifToolData, 2, oldExifToolGPSAltitude,
@@ -1308,6 +1373,11 @@ namespace Exiftool
                                 break;
                             case CompositeTags.GPSDateTime:
                             case "GPSDateTime":
+                                if (regionType == "XMP:XMP-exif" && command == "GPSDateTime")
+                                {                                   
+                                    if (exifToolData.Parameter.EndsWith("Z", true, CultureInfo.InvariantCulture)) exifToolData.Parameter += "Z"; //GPS Time needs to be UTC
+                                }
+
                                 metadata.LocationDateTime = ConvertAndCheckDateFromString(metadata.LocationDateTime,
                                     exifToolData, oldExifToolGPSDateTime,
                                     CompositeTags.GPSDateTime, ref metadata.errors);

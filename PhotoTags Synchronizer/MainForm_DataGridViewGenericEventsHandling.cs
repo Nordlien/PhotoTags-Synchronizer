@@ -26,7 +26,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapCut_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
@@ -76,7 +75,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapCopy_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
 
@@ -115,7 +113,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapPaste_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
 
@@ -157,7 +154,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapDelete_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
 
@@ -198,7 +194,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapUndo_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
             //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
@@ -237,7 +232,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapRedo_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
             //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
@@ -285,7 +279,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapFind_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
@@ -330,7 +323,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapReplace_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
@@ -375,7 +367,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapMarkFavorite_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
@@ -409,7 +400,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapRemoveFavorite_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
@@ -445,7 +435,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapToggleFavorite_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
@@ -481,7 +470,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapShowFavorite_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, showFavoriteRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
@@ -509,7 +497,6 @@ namespace PhotoTagsSynchronizer
         //Exiftool
         private void toolStripMenuItemExiftoolHideEqual_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewExifTool;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, hideEqualRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
@@ -518,7 +505,6 @@ namespace PhotoTagsSynchronizer
         //Map
         private void toolStripMenuItemMapHideEqual_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, hideEqualRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
@@ -618,7 +604,6 @@ namespace PhotoTagsSynchronizer
 
         private void toolStripMenuItemMapCopyNotOverwrite_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridView, DataGridViewHandlerMap.headerMedia, false);
         }
@@ -632,7 +617,6 @@ namespace PhotoTagsSynchronizer
 
         private void toolStripMenuItemMapCopyAndOverwrite_Click(object sender, EventArgs e)
         {
-            //DataGridView dataGridView = (DataGridView)sender;
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.CopySelectedCellFromBrokerToMedia(dataGridView, DataGridViewHandlerMap.headerMedia, true);
 
@@ -982,7 +966,6 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
-            //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
             //DataGridViewUpdateThumbnail(dataGridView, e);
             DataGridViewHandler.CellPaintingHandleDefault(sender, e);

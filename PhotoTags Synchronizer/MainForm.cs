@@ -684,6 +684,7 @@ namespace PhotoTagsSynchronizer
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
             UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
         }
+
         
     }
 }
