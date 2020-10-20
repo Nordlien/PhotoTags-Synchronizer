@@ -24,6 +24,7 @@ namespace PhotoTagsSynchronizer
         public const string headerSuggestion = "Correction suggestion";
         public const string tagSuggestedLocationTime = "Suggestion from GPS";
         public const string tagWhenUsedHomeClock = "Home clock when travel";
+        public const string tagTravelClockAtHome = "Tavel clock when Home";
 
         public const string headerLocationComputer = "Digitized Local time";
         public const string headerLocationGPS = "Digitized on location";
@@ -34,20 +35,8 @@ namespace PhotoTagsSynchronizer
         public const string tagFileDateModified = "File Date Modified";
         public const string tagFileLastAccessed = "File Last Accessed";
 
-
-        
-        
-
-        
-
-        
-
-
         public const string tagDatesFoundInFilename = "Found ";
 
-       
-
-        
 
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
@@ -128,8 +117,6 @@ namespace PhotoTagsSynchronizer
         }
 
         
-        
-
         
 
         public static void PopulateTimeZone(DataGridView dataGridView, int columnIndex)
@@ -253,16 +240,22 @@ namespace PhotoTagsSynchronizer
                         DateTime mediaTakenDateTime = ((DateTime)metadata?.MediaDateTaken).ToUniversalTime();
                         DateTimeOffset mediaTakenDateTimeUTC = new DateTimeOffset(mediaTakenDateTime.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(mediaTakenDateTime));
 
-                        TimeSpan timeZoneDifferenceLocalAndLocation = timeZoneInfoGPSLocation.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset; 
-                        
+                        TimeSpan timeZoneDifferenceLocalAndLocation = timeZoneInfoGPSLocation.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;                         
                         DateTime dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
 
                         DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock),
                             TimeZoneLibrary.ToStringDateTimeSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeUTC.Offset, false), true);
+
+                        timeZoneDifferenceLocalAndLocation = TimeZoneInfo.Local.BaseUtcOffset - timeZoneInfoGPSLocation.BaseUtcOffset;
+                        dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
+                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome),
+                            TimeZoneLibrary.ToStringDateTimeSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeUTC.Offset, false), true);
+
+                        
                     } else
                     {
-                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock),
-                            "Can't find local time", true);
+                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock), "Can't find local time", true);
+                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome), "Can't find local time", true);
                     }
                     
                 } else
@@ -273,6 +266,7 @@ namespace PhotoTagsSynchronizer
                     //Suggestion header
                     DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime), "No GPS location found", true);
                     DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock), "No GPS location found", true);
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome), "No GPS location found", true);
                 }
                 
 

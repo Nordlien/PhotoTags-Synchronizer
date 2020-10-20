@@ -295,7 +295,6 @@ namespace DataGridViewGeneric
             dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
 
             dataGridView.RowHeadersVisible = false;
-            //dataGridView.BeginEdit(true);
             
             // *** DataGridView population ***
             SendMessage(dataGridView.Handle, WM_SETREDRAW, false, 0);
@@ -503,6 +502,21 @@ namespace DataGridViewGeneric
         public static bool IsCurrentFile(FileEntry fileEntry, DateTime lastWriteTime)
         {
             return (fileEntry.LastWriteDateTime == lastWriteTime);
+        }
+
+        public static void BeginEdit(DataGridView dataGridView, int columnIndex, int rowIndex)
+        {
+            dataGridView.CurrentCell = dataGridView[columnIndex, rowIndex];
+            dataGridView.BeginEdit(true);
+        }
+        public static void BeginEdit(DataGridView dataGridView, DataGridViewCell dataGridViewCell)
+        {
+            BeginEdit(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+        }
+
+        public static void EndEdit(DataGridView dataGridView)
+        {
+            dataGridView.EndEdit();
         }
 
         #region IsPopulating IsAgregated handling
@@ -1348,23 +1362,6 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         #region Cell Handling
 
         #region Refreash
-        /*
-        public static void InvalidateCell(DataGridView dataGridView, int columnIndex, int rowIndex)
-        {
-            dataGridView.InvalidateCell(columnIndex, rowIndex);
-        }
-
-        public static void InvalidateRow(DataGridView dataGridView, int rowIndex)
-        {
-            for (int columnIndex = -1; columnIndex < GetColumnCount(dataGridView); columnIndex++) dataGridView.InvalidateCell(columnIndex, rowIndex);
-        }
-        
-        public static void InvalidateColumn(DataGridView dataGridView, int columnIndex)
-        {
-            for (int rowIndex = -1; rowIndex < GetRowCount(dataGridView); rowIndex++) dataGridView.InvalidateCell(columnIndex, rowIndex);
-        }
-        */
-
         public static void Refresh(DataGridView dataGridView)
         {
             dataGridView.Refresh();
