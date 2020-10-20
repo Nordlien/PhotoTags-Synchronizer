@@ -561,17 +561,17 @@ namespace MetadataLibrary
         public Double? LocationAltitude
         {
             get => locationAltitude;
-            set => locationAltitude = (value == null ? (double?)null : (double?)Math.Round((double)value, 2));
+            set => locationAltitude = value; // (value == null ? (double?)null : (double?)Math.Round((double)value, 2));
         }
         public Double? LocationLatitude
         {
             get => locationLatitude;
-            set => locationLatitude = (value == null ? (double?)null : (double?)Math.Round((double)value, 5));
+            set => locationLatitude = value; // (value == null ? (double?)null : (double?)Math.Round((double)value, 5));
         }
         public Double? LocationLongitude
         {
             get => locationLongitude;
-            set => locationLongitude = (value == null ? (double?)null : (double?)Math.Round((double)value, 5));
+            set => locationLongitude = value; // (value == null ? (double?)null : (double?)Math.Round((double)value, 5));
         }
         public DateTime? LocationDateTime { get => locationDateTime; set => locationDateTime = value; }
         public String LocationName { get => locationName; set => locationName = value; }

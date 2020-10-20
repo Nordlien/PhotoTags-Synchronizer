@@ -1031,6 +1031,42 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
                 dataGridViewGenericCellStatusDefaults, 0, true);
         }
 
+        public static void FastAutoSizeRowsHeight(DataGridView dataGridView)
+        {
+            // Create a graphics object from the target grid. Used for measuring text size.
+            using (var gfx = dataGridView.CreateGraphics())
+            {
+                for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                {
+                    //if ()
+                    //string longestString = "";
+                    int maxHeight = 0;
+                    for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++)
+                    {
+                        var value = dataGridView[columnIndex, rowIndex].Value;
+                        if (value != null) // && value.ToString().Length > longestString.Length)
+                        {//longestString = value.ToString();
+                            SizeF size = gfx.MeasureString(value.ToString(), dataGridView.Font, dataGridView.Columns[0].HeaderCell.Size.Width - 4);
+                            int height = (int)size.Height + 3;
+                            if (height > maxHeight) maxHeight = height;
+                        }
+                    }
+
+                    if (GetColumnCount(dataGridView) >= 1) //No need to resize if no columns
+                    {
+                        // Use the graphics object to measure the string size.
+                        
+                        
+                        // If the calculated width is larger than the column header width, set the new column width.
+                        if (maxHeight > dataGridView.Rows[rowIndex].Height)
+                        {
+                            dataGridView.Rows[rowIndex].Height = maxHeight; 
+                        }
+                    }
+                }
+            }
+        }
+
         public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow,
             List<FavoriteRow> dataGridFavorites, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults, int startSearchRow, bool writeValue)
         {

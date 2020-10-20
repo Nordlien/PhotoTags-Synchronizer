@@ -66,6 +66,37 @@ namespace Exiftool
         private ExiftoolData oldExifToolGPSLongitude = new ExiftoolData();
         private ExiftoolData oldExifToolGPSDateTime = new ExiftoolData();
 
+        private void CleanAllOldExiftoolDataForReadNewFile()
+        {
+            oldExifToolFileName = new ExiftoolData();
+            oldExifToolFilePath = new ExiftoolData();
+            oldExifToolFileModifyDate = new ExiftoolData();
+            oldExifToolFileAccessDate = new ExiftoolData();
+            oldExifToolFileCreateDate = new ExiftoolData();
+            oldExifToolFileSize = new ExiftoolData();
+            oldExifToolMediaWidth = new ExiftoolData();
+            oldExifToolMediaHeight = new ExiftoolData();
+            oldExifToolMIMEType = new ExiftoolData();
+            oldExifToolMake = new ExiftoolData();
+            oldExifToolModel = new ExiftoolData();
+            oldExifToolCreateDate = new ExiftoolData();
+            oldExifToolAuthor = new ExiftoolData();
+            oldExifToolAlbum = new ExiftoolData();
+            oldExifToolDescription = new ExiftoolData();
+            oldExifToolTitle = new ExiftoolData();
+            oldExifToolComment = new ExiftoolData();
+            oldExifToolRating = new ExiftoolData();
+            oldExifToolRatingPercent = new ExiftoolData();
+            oldExifToolLocationName = new ExiftoolData();
+            oldExifToolLocationCity = new ExiftoolData();
+            oldExifToolLocationState = new ExiftoolData();
+            oldExifToolLocationCountry = new ExiftoolData();
+            oldExifToolGPSAltitude = new ExiftoolData();
+            oldExifToolGPSLatitude = new ExiftoolData();
+            oldExifToolGPSLongitude = new ExiftoolData();
+            oldExifToolGPSDateTime = new ExiftoolData();
+        }
+
         private bool isClosing = false;
         public void Close()
         {
@@ -243,7 +274,7 @@ namespace Exiftool
             if (!newValue.HasValue)
             {
 
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Error in date and time formating value region {0} command {1} value '{2}': ",
+                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Error in date and time formating value Region: {0} Command: {1} Value: '{2}': ",
                         exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter);
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
@@ -253,9 +284,12 @@ namespace Exiftool
 
             if (oldValue.HasValue && !isDateTimeEqual((DateTime)newValue, (DateTime)oldValue))
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                string warning = string.Format(CultureInfo.InvariantCulture, 
+                        "Warning! Metadata missmatching between two metadata values.\r\n" +
+                        "Region: {0} Command: {1}\r\nValue '{2}'\r\n" +
+                        "Region: {3} Command: {4}\r\nValue '{5}'",
                         exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
-                        exifToolDataConvertThis.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));                
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter);                
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -277,9 +311,12 @@ namespace Exiftool
 
             if (oldValue.HasValue && newValue != oldValue)
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                string warning = string.Format(CultureInfo.InvariantCulture,
+                        "Warning! Metadata missmatching between two metadata values.\r\n" +
+                        "Region: {0} Command: {1}\r\nValue '{2}'\r\n" +
+                        "Region: {3} Command: {4}\r\nValue '{5}'",
                         exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
-                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter);
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -299,9 +336,12 @@ namespace Exiftool
 
             if (oldValue.HasValue && newValue != oldValue)
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                string warning = string.Format(CultureInfo.InvariantCulture,
+                        "Warning! Metadata missmatching between two metadata values.\r\n" +
+                        "Region: {0} Command: {1}\r\nValue '{2}'\r\n" +
+                        "Region: {3} Command: {4}\r\nValue '{5}'",
                         exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
-                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter);
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -321,9 +361,12 @@ namespace Exiftool
 
             if (oldValue.HasValue && newValue != oldValue)
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                string warning = string.Format(CultureInfo.InvariantCulture,
+                        "Warning! Metadata missmatching between two metadata values.\r\n" +
+                        "Region: {0} Command: {1}\r\nValue '{2}'\r\n" +
+                        "Region: {3} Command: {4}\r\nValue '{5}'",
                         exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
-                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter);
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -341,11 +384,14 @@ namespace Exiftool
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
             float? newValue = float.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
 
-            if (oldValue.HasValue && newValue != oldValue)
+            if (oldValue.HasValue && Math.Abs((float)newValue - (float)oldValue) >= 0.000000000001) //Due not not excant numbers in float
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                string warning = string.Format(CultureInfo.InvariantCulture,
+                        "Warning! Metadata missmatching between two metadata values.\r\n" +
+                        "Region: {0} Command: {1}\r\nValue '{2}'\r\n" +
+                        "Region: {3} Command: {4}\r\nValue '{5}'",
                         exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
-                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter);
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -360,30 +406,24 @@ namespace Exiftool
 
         private Double? ConvertAndCheckDoubleFromString(Double? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
-            return ConvertAndCheckDoubleFromString(oldValue, exifToolDataConvertThis, -1, exifToolDataPrevious, compositeTag, ref error);
-        }
-
-        private Double? ConvertAndCheckDoubleFromString(Double? oldValue, ExiftoolData exifToolDataConvertThis, int descimals, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
-        {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
             Double? newValue = Double.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
 
-            if (oldValue.HasValue)
+            if (oldValue.HasValue && Math.Abs((double)newValue - (double)oldValue) >= 0.000000000001) //Due not not excant numbers in float
             {
-                if (descimals > 0) newValue = Math.Round((double)newValue, descimals);
-                if (newValue != oldValue)
-                {
-                    string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
-                        exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
-                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
-                    error += warning;
-                    ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+                string warning = string.Format(CultureInfo.InvariantCulture,
+                    "Warning! Metadata missmatching between two metadata values.\r\n" +
+                    "Region: {0} Command: {1}\r\nValue '{2}'\r\n" +
+                    "Region: {3} Command: {4}\r\nValue '{5}'",
+                    exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
+                    exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter);
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
-                    if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
-                        return newValue;
-                    else
-                        return oldValue;
-                }
+                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
+                    return newValue;
+                else
+                    return oldValue;
             }
 
             return newValue;        
@@ -398,9 +438,12 @@ namespace Exiftool
 
             if (oldValue != null && newValue != oldValue)
             {
-                string warning = string.Format(CultureInfo.InvariantCulture, "Warning: Metadata missmatching values region {0} command {1} values '{2}' vs region {3} command {4} values '{5}'",
+                string warning = string.Format(CultureInfo.InvariantCulture,
+                        "Warning! Metadata missmatching between two metadata values.\r\n" +
+                        "Region: {0} Command: {1}\r\nValue '{2}'\r\n" +
+                        "Region: {3} Command: {4}\r\nValue '{5}'",
                         exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, exifToolDataConvertThis.Parameter,
-                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter.ToString(CultureInfo.InvariantCulture));
+                        exifToolDataPrevious.Region, exifToolDataPrevious.Command, exifToolDataPrevious.Parameter);
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
@@ -579,20 +622,20 @@ namespace Exiftool
                 };
                 process.Start();
 
+                
+                CleanAllOldExiftoolDataForReadNewFile();
                 Metadata metadata = null; //= new MetaData("ExifTool.exe");
                 List<ExiftoolData> exiftoolDatas = new List<ExiftoolData>();
-
-                int fileNumber = 0;
-
                 string tempRegionRectangle = "";
                 string tempRegionPersonDisplayName = "";
-
                 string tempRegionType = null;
                 string tempRegionAreaH = null;
                 string tempRegionAreaW = null;
                 string tempRegionAreaX = null;
                 string tempRegionAreaY = null;
                 string tempRegionName = null;
+
+                int fileNumber = 0;
 
                 Stopwatch stopwatchReadLine = new Stopwatch();
                 stopwatchReadLine.Start();
@@ -636,9 +679,9 @@ namespace Exiftool
                                 afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
                             metaDataCollections.Add(metadata); //Add previod
 
+                            CleanAllOldExiftoolDataForReadNewFile();
                             metadata = null; //Start with with new file
                             exiftoolDatas = new List<ExiftoolData>();
-
                             tempRegionRectangle = "";
                             tempRegionPersonDisplayName = "";
                             tempRegionType = null;
@@ -647,7 +690,6 @@ namespace Exiftool
                             tempRegionAreaX = null;
                             tempRegionAreaY = null;
                             tempRegionName = null;
-
                         }
                     }
 
@@ -1325,7 +1367,7 @@ namespace Exiftool
                             
                             case "GPSAltitude":
                             case CompositeTags.GPSAltitude:
-                                double? newAltitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationAltitude, exifToolData, 2, oldExifToolGPSAltitude,
+                                double? newAltitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationAltitude, exifToolData, oldExifToolGPSAltitude,
                                     CompositeTags.GPSAltitude, ref metadata.errors);
 
                                 if (metadata.LocationAltitude == null) metadata.LocationAltitude = newAltitudeValue;
@@ -1334,7 +1376,7 @@ namespace Exiftool
                             case "GPSLatitude":
                             case CompositeTags.GPSLatitude:
                                 double? newLatitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLatitude,
-                                    exifToolData, 5, oldExifToolGPSLatitude,
+                                    exifToolData, oldExifToolGPSLatitude,
                                     CompositeTags.GPSLatitude, ref metadata.errors);
 
                                 if (metadata.LocationLatitude == null) metadata.LocationLatitude = newLatitudeValue;
@@ -1346,7 +1388,7 @@ namespace Exiftool
                                 //BUG In ExifTool data, some postition is truncated in EXIF:GPS
                                 //EXIF:GPS          GPSLongitude    27
                                 //XMP:XMP-exif      GPSLongitude    27.4822166666667
-                                double? newLongitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, exifToolData, 5, oldExifToolGPSLongitude,
+                                double? newLongitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, exifToolData, oldExifToolGPSLongitude,
                                     CompositeTags.GPSLongitude, ref metadata.errors);
                                 if (metadata.LocationLongitude == null) metadata.LocationLongitude = newLongitudeValue; //Override only if null value
                                 oldExifToolGPSLongitude = new ExiftoolData(exifToolData);
@@ -1359,13 +1401,13 @@ namespace Exiftool
 
                                 ExiftoolData tempExiftoolData = new ExiftoolData(exifToolData);
                                 tempExiftoolData.Parameter = coordinates[0];
-                                double? newLocationLatitude = ConvertAndCheckDoubleFromString(metadata.LocationLatitude, tempExiftoolData, 5, oldExifToolGPSLatitude,
+                                double? newLocationLatitude = ConvertAndCheckDoubleFromString(metadata.LocationLatitude, tempExiftoolData, oldExifToolGPSLatitude,
                                     CompositeTags.GPSCoordinatesLatitude, ref metadata.errors);
                                 if (newLocationLatitude == null) metadata.LocationLatitude = newLocationLatitude;
                                 oldExifToolGPSLatitude = new ExiftoolData(exifToolData);
 
                                 tempExiftoolData.Parameter = coordinates[1];
-                                double? newLocationLongitude = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, tempExiftoolData, 5, oldExifToolGPSLongitude,
+                                double? newLocationLongitude = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, tempExiftoolData, oldExifToolGPSLongitude,
                                     CompositeTags.GPSCoordinatesLongitude, ref metadata.errors);
                                 if (newLocationLongitude == null) metadata.LocationLongitude = newLocationLongitude;
                                 oldExifToolGPSLongitude = new ExiftoolData(exifToolData);

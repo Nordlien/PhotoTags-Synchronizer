@@ -166,14 +166,17 @@ namespace PhotoTagsSynchronizer
                     case "ExifTool":
                         dateTimeForEditableMediaFile = File.GetLastWriteTime(fullFilePath);
                         DataGridViewHandlerExiftool.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         break;
                     case "Warning":
                         dateTimeForEditableMediaFile = File.GetLastWriteTime(fullFilePath);
                         DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         break;
                     case "Properties":
                         dateTimeForEditableMediaFile = File.GetLastWriteTime(fullFilePath);
                         DataGridViewHandlerProperties.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         break;
                     case "Rename":
                         DataGridViewHandlerRename.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
@@ -307,6 +310,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerExiftool.DatabaseExiftoolData = databaseExiftoolData;
                         DataGridViewHandlerExiftool.exiftoolReader = exiftoolReader;
                         DataGridViewHandlerExiftool.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, showWhatColumns);
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         //DataGridViewHandler.ResumeLayout(dataGridView);
                         break;
                     case "Warning":
@@ -314,7 +318,7 @@ namespace PhotoTagsSynchronizer
                         dataGridView.SuspendLayout();
                         DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
                         DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, showWhatColumns);
-
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         dataGridView.ResumeLayout();
                         dataGridView.Enabled = true;
                         break;
@@ -323,6 +327,7 @@ namespace PhotoTagsSynchronizer
                         dataGridView.SuspendLayout();
                         DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
                         DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         dataGridView.ResumeLayout();
                         dataGridView.Enabled = true;
                         break;
