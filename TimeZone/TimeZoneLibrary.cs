@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using TimeZoneConverter;
 using TimeZoneNames;
 
@@ -77,30 +78,55 @@ namespace TimeZone
         {
             return timeZoneInfo.IsDaylightSavingTime(date) ? timeZoneInfo.DaylightName : timeZoneInfo.StandardName;
         }
-        public static string GetTimeZoneName(TimeSpan timeSpan, DateTime date, string prefredTimeZoneName, out string alternatives)
+        public static string GetTimeZoneName(TimeSpan? timeSpan, DateTime? date, string prefredTimeZoneName, out string alternatives)
         {
-            string timeZoneName = "";
             alternatives = "";
-
+            if (timeSpan == null) return "Unknown time zone";
+            string timeZoneName = "";
+            
+            if (Regex.IsMatch(prefredTimeZoneName, @"^\((\+|\-)(00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23):(0|1|2|3|4|5)\d\)[ ]"))
+            {
+                prefredTimeZoneName = prefredTimeZoneName.Remove(0, 9);
+            }
+                
             foreach (string id in TZConvert.KnownWindowsTimeZoneIds)
             {
                 TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(id);
-                DateTime dateTime = new DateTime(
-                    ((DateTime)date).Year, ((DateTime)date).Month, ((DateTime)date).Day,
-                    ((DateTime)date).Hour, ((DateTime)date).Minute, ((DateTime)date).Second, ((DateTime)date).Millisecond, DateTimeKind.Utc);
-                DateTime dateTimeUTC = TimeZoneInfo.ConvertTime(dateTime, timeZoneInfo);
 
-                TimeSpan baseUtcOffsetSummerAndWinder =                    
-                    new DateTime(
-                        dateTimeUTC.Year, dateTimeUTC.Month, dateTimeUTC.Day,
-                        dateTimeUTC.Hour, dateTimeUTC.Minute, dateTimeUTC.Second, dateTimeUTC.Millisecond) - dateTime;
+                
+                if (date != null)
+                {
+                    //When using date time when check TimeSpan, we have knowlgde about **Standard timer** and **daylight saving***
+                    DateTime dateTime = new DateTime(
+                        ((DateTime)date).Year, ((DateTime)date).Month, ((DateTime)date).Day,
+                        ((DateTime)date).Hour, ((DateTime)date).Minute, ((DateTime)date).Second, ((DateTime)date).Millisecond, DateTimeKind.Utc);
+                    DateTime dateTimeAdjustedToTimeZone = TimeZoneInfo.ConvertTime(dateTime, timeZoneInfo);
 
-                if (Math.Abs((baseUtcOffsetSummerAndWinder - timeSpan).TotalMinutes) < 15)
-                {                    
-                    alternatives = alternatives + timeZoneInfo.DisplayName + "\r\n";
-                    if (string.IsNullOrWhiteSpace(timeZoneName)) timeZoneName = TimeZoneNameStandarOrDaylight(timeZoneInfo, dateTime);
-                    if (prefredTimeZoneName == timeZoneInfo.DisplayName) timeZoneName = TimeZoneNameStandarOrDaylight(timeZoneInfo, dateTime);
+                    TimeSpan timeSpanWithStandardOrDaylightKnowlegde =
+                        new DateTime(
+                            dateTimeAdjustedToTimeZone.Year, dateTimeAdjustedToTimeZone.Month, dateTimeAdjustedToTimeZone.Day,
+                            dateTimeAdjustedToTimeZone.Hour, dateTimeAdjustedToTimeZone.Minute, dateTimeAdjustedToTimeZone.Second, dateTimeAdjustedToTimeZone.Millisecond) - dateTime;
+
+                    if (Math.Abs((timeSpanWithStandardOrDaylightKnowlegde - (TimeSpan)timeSpan).TotalMinutes) < 15)
+                    {
+                        alternatives = alternatives + timeZoneInfo.DisplayName + "\r\n";
+                        if (string.IsNullOrWhiteSpace(timeZoneName)) timeZoneName = TimeZoneNameStandarOrDaylight(timeZoneInfo, dateTime);
+                        if (prefredTimeZoneName == timeZoneInfo.DaylightName) timeZoneName = TimeZoneNameStandarOrDaylight(timeZoneInfo, dateTime);
+                        if (prefredTimeZoneName == timeZoneInfo.StandardName) timeZoneName = TimeZoneNameStandarOrDaylight(timeZoneInfo, dateTime);
+                        if (prefredTimeZoneName == timeZoneInfo.DisplayName) timeZoneName = TimeZoneNameStandarOrDaylight(timeZoneInfo, dateTime);
+                    }
+                } else
+                {
+                    TimeSpan timeSpanInGeneral = timeZoneInfo.BaseUtcOffset - (TimeSpan)timeSpan;
+
+                    if (Math.Abs((timeSpanInGeneral - (TimeSpan)timeSpan).TotalMinutes) < 15)
+                    {
+                        alternatives = alternatives + timeZoneInfo.DisplayName + "\r\n";
+                        if (string.IsNullOrWhiteSpace(timeZoneName)) timeZoneName = timeZoneInfo.DisplayName;
+                    }
                 }
+
+                
             }
 
             return timeZoneName;
@@ -137,7 +163,15 @@ namespace TimeZone
             return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToUniversalTime().ToString(DateTimeSortable) + "Z";
         }
 
+        public static string ToStringOffset(TimeSpan timeSpan, bool withParenthesis)
+        {
+            return (withParenthesis ? "(" : "") + (timeSpan < new TimeSpan(0, 0, 0) ? "" : "+") + timeSpan.ToString().Substring(0, timeSpan.ToString().Length - 3) + (withParenthesis ? ")" :"");
+        }
 
+        public static string ToStringOffset(TimeSpan timeSpan)
+        {
+            return ToStringOffset(timeSpan, true);
+        }
 
     }
 }

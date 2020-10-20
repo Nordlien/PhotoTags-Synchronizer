@@ -15,24 +15,37 @@ namespace PhotoTagsSynchronizer
 {
     public static class DataGridViewHandlerDate
     {
-        public const string headerMedia = "Media";
-        public const string headerLocationComputer = "Computer time zone";
-        public const string headerLocationGPS = "GPS Location time zone";
+        public const string headerMedia = "Date&Time digitized";
+        public const string tagMediaDateTaken = "Locaction Local time";
+        public const string tagGPSLocationDateTime = "UCT media take";
+        public const string tagLocationOffsetTimeZone = "GPS Time Zone";
+        public const string tagCalulatedOffsetZimeZone = "Estimated Time Zone";
+
+        public const string headerSuggestion = "Correction suggestion";
+        public const string tagSuggestedLocationTime = "Suggestion from GPS";
+        public const string tagWhenUsedHomeClock = "Home clock when travel";
+
+        public const string headerLocationComputer = "Digitized Local time";
+        public const string headerLocationGPS = "Digitized on location";
         public const string headerMetadataDates = "Windows filesystem";
         public const string headerDatesTimeInFilename = "Scraping filename";
         
-        public const string tagMediaDateTaken = "MediaDateTaken";
-        public const string tagFileDateCreated = "FileDateCreated";
-        public const string tagFileDateModified = "FileDateModified";
-        public const string tagFileLastAccessed = "FileLastAccessed";
-        public const string tagGPSLocationDateTime = "GPS UTC DateTime";
-        public const string tagTimeZone = "Time Zone offset";
+        public const string tagFileDateCreated = "File Date Created";
+        public const string tagFileDateModified = "File Date Modified";
+        public const string tagFileLastAccessed = "File Last Accessed";
+
+
+        
+        
+
+        
+
+        
+
 
         public const string tagDatesFoundInFilename = "Found ";
 
-        public const string tagCalulateTimeZone = "TimeZone";
-        public const string tagCalulateStadardDaylight = "Standard/Daylight";
-        public const string tagCalulateDateTime = "Date and Time";
+       
 
         
 
@@ -93,44 +106,52 @@ namespace PhotoTagsSynchronizer
             */
         }
 
+         
+        private static TimeSpan? CalulateTimeDiffrent(string dataTimeString1, string dateTimeString2)
+        {
+            DateTime? dateTime1 = TimeZoneLibrary.ParseDateTimeAsUTC(dataTimeString1);
+            DateTime? dateTime2 = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeString2);
+
+            if (dateTime1 != null && dateTime2 != null)
+            {
+
+                //Remove time zone and location information so we can substract  
+                return 
+                    new DateTime(
+                        ((DateTime)dateTime1).Year, ((DateTime)dateTime1).Month, ((DateTime)dateTime1).Day,
+                        ((DateTime)dateTime1).Hour, ((DateTime)dateTime1).Minute, ((DateTime)dateTime1).Second, ((DateTime)dateTime1).Millisecond) -
+                    new DateTime(
+                        ((DateTime)dateTime2).Year, ((DateTime)dateTime2).Month, ((DateTime)dateTime2).Day,
+                        ((DateTime)dateTime2).Hour, ((DateTime)dateTime2).Minute, ((DateTime)dateTime2).Second, ((DateTime)dateTime2).Millisecond);
+            }
+            return null;
+        }
+
+        
+        
+
         
 
         public static void PopulateTimeZone(DataGridView dataGridView, int columnIndex)
         {
-            DateTime? dateTimeLocation = TimeZoneLibrary.ParseDateTimeAsUTC(DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim());
-            DateTime? dateTimeUTC = TimeZoneLibrary.ParseDateTimeAsUTC(DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim());
+            string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
+            string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
+            TimeSpan? timeSpan = CalulateTimeDiffrent(dateTimeStringMediaTaken, dateTimeStringLocation);
 
-            string prefredTimeZoneName = DataGridViewHandler.GetCellValueStringTrim(dataGridView, columnIndex, headerLocationGPS, tagCalulateTimeZone);
+            string prefredTimeZoneName = DataGridViewHandler.GetCellValueStringTrim(dataGridView, columnIndex, headerMedia, tagLocationOffsetTimeZone);
+            DateTime? dateTimeLocation = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken);
+            
+            string timeZoneName = TimeZoneLibrary.GetTimeZoneName(timeSpan, dateTimeLocation, prefredTimeZoneName, out string timeZoneAlternatives);
+            string timeSpanString = "(±??:??)";
+            if (timeSpan != null) timeSpanString = TimeZoneLibrary.ToStringOffset((TimeSpan)timeSpan);
+            
+            
+            int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex,
+                                new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagCalulatedOffsetZimeZone),
+                                timeSpanString + " " + timeZoneName, true);
 
+            DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, timeZoneAlternatives);
 
-            if (dateTimeLocation != null && dateTimeUTC != null)
-            {
-                
-                //Remove time zone and location information so we can substract  
-                TimeSpan timeSpan = 
-                    new DateTime(
-                        ((DateTime)dateTimeLocation).Year, ((DateTime)dateTimeLocation).Month, ((DateTime)dateTimeLocation).Day, 
-                        ((DateTime)dateTimeLocation).Hour, ((DateTime)dateTimeLocation).Minute, ((DateTime)dateTimeLocation).Second, ((DateTime)dateTimeLocation).Millisecond) -
-                    new DateTime(
-                        ((DateTime)dateTimeUTC).Year, ((DateTime)dateTimeUTC).Month, ((DateTime)dateTimeUTC).Day,
-                        ((DateTime)dateTimeUTC).Hour, ((DateTime)dateTimeUTC).Minute, ((DateTime)dateTimeUTC).Second, ((DateTime)dateTimeUTC).Millisecond);
-
-                string timeZoneAlternatives;
-
-                string timeZoneName = TimeZoneLibrary.GetTimeZoneName(timeSpan, (DateTime)dateTimeLocation, prefredTimeZoneName, out timeZoneAlternatives);
-                int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex,
-                                    new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagTimeZone),
-                                    timeSpan.ToString().Substring(0, timeSpan.ToString().Length-3) + " " + timeZoneName, true);
-                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, timeZoneAlternatives);
-                
-            }
-            else
-            {
-                int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex,
-                    new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagTimeZone),
-                    "Error", false);
-                DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "");
-            } 
         }
 
         public static void PopulateFile(DataGridView dataGridView, string fullFilePath, ShowWhatColumns showWhatColumns, DateTime dateTimeForEditableMediaFile)
@@ -191,13 +212,69 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia));
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaDateTaken), TimeZoneLibrary.ToStringDateTimeSortable(metadata?.MediaDateTaken), false);
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagGPSLocationDateTime), TimeZoneLibrary.ToStringW3CDTF_UTC_Convert(metadata?.LocationDateTime), false);
-                
 
-                //Metadata
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates));
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateCreated), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateCreated), true);
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateModified), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateModified), true);
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileLastAccessed), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileLastAccessed), true);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion));                
+                if (metadata?.LocationLatitude != null && metadata?.LocationLongitude != null)
+                {
+                    TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
+
+                    DateTime findOffsettDateTime;
+                    if (metadata?.LocationDateTime != null)
+                        findOffsettDateTime = (DateTime)metadata?.LocationDateTime;
+                    else if (metadata?.LocationDateTime != null)
+                        findOffsettDateTime = (DateTime)metadata?.MediaDateTaken;
+                    else
+                        findOffsettDateTime = DateTime.Now;
+
+                    //Media header
+                    DateTime findOffsettDateTimeUTC = findOffsettDateTime.ToUniversalTime();
+                    DateTimeOffset locationOffset = new DateTimeOffset(findOffsettDateTimeUTC.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(findOffsettDateTimeUTC));
+
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationOffsetTimeZone),
+                            TimeZoneLibrary.ToStringOffset(locationOffset.Offset) + " " + TimeZoneLibrary.TimeZoneNameStandarOrDaylight(timeZoneInfoGPSLocation, findOffsettDateTimeUTC), true);
+
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCalulatedOffsetZimeZone), "", true);
+
+                    //
+                    if (metadata?.LocationDateTime != null)
+                    {
+                        DateTime locationDateTimeUTC = ((DateTime)metadata?.LocationDateTime).ToUniversalTime();
+                        DateTime dateTimeFromGPS = new DateTime(locationDateTimeUTC.Ticks).Add(locationOffset.Offset);
+                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime),
+                            TimeZoneLibrary.ToStringDateTimeSortable(dateTimeFromGPS) + TimeZoneLibrary.ToStringOffset(locationOffset.Offset, false), true);
+                    }
+                    else
+                    {
+                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime), "No GPS time found", true);
+                    }
+
+                    if (metadata?.MediaDateTaken != null)
+                    {
+                        DateTime mediaTakenDateTime = ((DateTime)metadata?.MediaDateTaken).ToUniversalTime();
+                        DateTimeOffset mediaTakenDateTimeUTC = new DateTimeOffset(mediaTakenDateTime.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(mediaTakenDateTime));
+
+                        TimeSpan timeZoneDifferenceLocalAndLocation = timeZoneInfoGPSLocation.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset; 
+                        
+                        DateTime dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
+
+                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock),
+                            TimeZoneLibrary.ToStringDateTimeSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeUTC.Offset, false), true);
+                    } else
+                    {
+                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock),
+                            "Can't find local time", true);
+                    }
+                    
+                } else
+                {
+                    //Media header
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationOffsetTimeZone), "No GPS location found", true);
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCalulatedOffsetZimeZone), "No GPS location found", true);
+                    //Suggestion header
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime), "No GPS location found", true);
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock), "No GPS location found", true);
+                }
+                
 
                 //Dates and/or time in filename
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename));
@@ -209,46 +286,13 @@ namespace PhotoTagsSynchronizer
                     DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename, tagDatesFoundInFilename + (i + 1).ToString()), dates[i], true);
                 }
 
-                DateTime localTime = metadata?.MediaDateTaken != null ? (DateTime)metadata?.MediaDateTaken : DateTime.Now;
-                if (metadata?.MediaDateTaken != null && metadata?.LocationLatitude != null && metadata?.LocationLongitude != null)
-                {
-                    DateTime mediaDateTaken = (DateTime)metadata?.MediaDateTaken;
+                //Metadata
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates));
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateCreated), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateCreated), true);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateModified), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateModified), true);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileLastAccessed), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileLastAccessed), true);
 
-                    TimeZoneInfo timeZoneInfoComputerLocation = TimeZoneInfo.Local;
-                    TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
 
-                    DateTimeOffset dateTimeUTC = new DateTimeOffset(mediaDateTaken, timeZoneInfoGPSLocation.GetUtcOffset(mediaDateTaken));
-
-                    DateTime mediaDateTakeComputerLocation = TimeZoneInfo.ConvertTime(dateTimeUTC.UtcDateTime, TimeZoneInfo.Utc, timeZoneInfoComputerLocation);
-                    DateTime mediaDateTakenGPSLocation = TimeZoneInfo.ConvertTime(dateTimeUTC.UtcDateTime, TimeZoneInfo.Utc, timeZoneInfoGPSLocation);
-
-                    //"Calculation"
-
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationComputer));
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationComputer, tagCalulateTimeZone),
-                        timeZoneInfoComputerLocation.DisplayName, true);
-
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationComputer, tagCalulateStadardDaylight),
-                        TimeZoneLibrary.TimeZoneNameStandarOrDaylight(timeZoneInfoComputerLocation, mediaDateTakeComputerLocation),
-                        //timeZoneInfoComputerLocation.IsDaylightSavingTime(mediaDateTakeComputerLocation) ? timeZoneInfoComputerLocation.DaylightName : timeZoneInfoComputerLocation.StandardName, 
-                        true);
-
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationComputer, tagCalulateDateTime),
-                        TimeZoneLibrary.ToStringW3CDTF(mediaDateTakeComputerLocation), true);
-
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationGPS));
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationGPS, tagCalulateTimeZone),
-                        timeZoneInfoGPSLocation.DisplayName, true);
-
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationGPS, tagCalulateStadardDaylight),
-                        TimeZoneLibrary.TimeZoneNameStandarOrDaylight(timeZoneInfoGPSLocation, mediaDateTakenGPSLocation),
-                        //timeZoneInfoGPSLocation.IsDaylightSavingTime(mediaDateTakenGPSLocation) ? timeZoneInfoGPSLocation.DaylightName : timeZoneInfoGPSLocation.StandardName, 
-                        true);
-
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerLocationGPS, tagCalulateDateTime),
-                        TimeZoneLibrary.ToStringW3CDTF(mediaDateTakenGPSLocation), true);
-                }
-                
 
                 //Exiftool data
                 List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.ExifToolData_Read(fileEntryBrokerReadVersion);
