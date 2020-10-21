@@ -89,9 +89,6 @@ namespace DataGridViewGeneric
             dataGridViewGenricData.CellSize = cellSize;
             dataGridView.TopLeftHeaderCell.Tag = dataGridViewGenricData;
 
-            
-            
-
             dataGridView.CellValueNeeded += DataGridView_CellValueNeeded;
             dataGridView.CellValuePushed += DataGridView_CellValuePushed;
             dataGridView.NewRowNeeded += DataGridView_NewRowNeeded;
@@ -99,12 +96,66 @@ namespace DataGridViewGeneric
             dataGridView.RowDirtyStateNeeded += DataGridView_RowDirtyStateNeeded;
             dataGridView.CancelRowEdit += DataGridView_CancelRowEdit;
             dataGridView.UserDeletingRow += DataGridView_UserDeletingRow;
-
-
+            dataGridView.CellMouseDown += DataGridView_CellMouseDown;
+            
             if (dataGridView.ContextMenuStrip == null)
             {
                 InitializeComponent(this.dataGridView);
                 dataGridView.ContextMenuStrip = contextMenuStripDataGridViewGeneric;
+            }
+        }
+
+        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.ColumnIndex == -1 && e.RowIndex >= 0) //Row selected
+                {
+                    if (!dataGridView.Rows[e.RowIndex].Selected)
+                    {
+                        dataGridView.ClearSelection();
+                        dataGridView.Rows[e.RowIndex].Selected = true;
+                    }
+                }
+                else if (e.ColumnIndex >= 0 && e.RowIndex == -1) //Column selected
+                {
+                    bool isColumnSelected = true;
+                    for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                    {
+                        if (!dataGridView[e.ColumnIndex, rowIndex].Selected)
+                        {
+                            isColumnSelected = false;
+                            break;
+                        }
+                    }
+
+                    if (!isColumnSelected)
+                    {
+                        dataGridView.ClearSelection();
+                        for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                        {
+                            dataGridView[e.ColumnIndex, rowIndex].Selected = true;
+                        }
+                    }
+                    //dataGridView.Columns[e.ColumnIndex].Selected = true;
+                }
+                else if (e.ColumnIndex == -1 && e.RowIndex == -1) //Column selected
+                {
+                    dataGridView.SelectAll();
+                }
+                else
+                {
+                    if (!dataGridView[e.ColumnIndex, e.RowIndex].Selected)
+                    {
+                        //dataGridView[e.ColumnIndex, e.RowIndex].Selected
+                        dataGridView.CurrentCell = dataGridView[e.ColumnIndex, e.RowIndex];
+                    }
+
+
+                }
+                //DataGridView dataGridView = dataGridViewMetadataReadPriority;
+                //Point clientPoint = dataGridView.PointToClient(new Point(e.X, e.Y));
             }
         }
 
@@ -124,8 +175,7 @@ namespace DataGridViewGeneric
         }
 
         private void DataGridView_RowValidated(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
+        {        
             //throw new NotImplementedException();
         }
 

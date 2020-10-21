@@ -279,108 +279,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Cell begin edit and end edit
-        
-
-        private void dataGridViewMap_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingAnything()) return;
-
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
-            
-            //GlobalData.IsPopulatingMap = true;
-
-            DataGridViewGenericColumn gridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
-            if (gridViewGenericColumn.Metadata == null) return;
-            DataGridViewGenericRow gridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
-
-            ///////////////////////////////////////////////////////////////////////////
-            /// Coordinate changes, updated Nomnatatim address 
-            ///////////////////////////////////////////////////////////////////////////
-            if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerMedia) &&
-                gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagCoordinates))
-            {
-                if (DataGridViewHandler.GetCellValue(dataGridViewMap, e.ColumnIndex, e.RowIndex) != null)
-                {
-                    string coordinate = DataGridViewHandler.GetCellValue(dataGridViewMap, e.ColumnIndex, e.RowIndex).ToString();
-                    UpdateBrowserMap(coordinate);
-                    DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate));
-                }
-            }
-
-            ///////////////////////////////////////////////////////////////////////////
-            /// Camera make and model owner changed, upated all fields
-            ///////////////////////////////////////////////////////////////////////////
-
-            else if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerGoogleLocations) &&
-                gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagCameraOwner))
-            {
-                string selectedCameraOwner = DataGridViewHandlerMap.GetCameraOwner(dataGridView, e.ColumnIndex);
-
-                if (!string.IsNullOrWhiteSpace(selectedCameraOwner))
-                {
-                    if (gridViewGenericColumn.Metadata != null)
-                    {
-                        CameraOwner cameraOwner = new CameraOwner(
-                            gridViewGenericColumn.Metadata.CameraMake,
-                            gridViewGenericColumn.Metadata.CameraModel,
-                            selectedCameraOwner);
-
-                        CommonDatabaseTransaction commonDatabaseTransaction = databaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
-                        databaseAndCahceCameraOwner.SaveCameraMakeModelAndOwner(commonDatabaseTransaction, cameraOwner);
-                        databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-                        databaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
-
-                        for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridViewMap); columnIndex++)
-                        {
-                            DataGridViewGenericColumn gridViewGenericColumnCheck = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-
-                            if (gridViewGenericColumnCheck.Metadata.CameraMake == gridViewGenericColumn.Metadata.CameraMake &&
-                                gridViewGenericColumnCheck.Metadata.CameraModel == gridViewGenericColumn.Metadata.CameraModel)
-                            {
-                                //DataGridViewHandlerMap.SetCameraOwner(dataGridView, columnIndex, selectedCameraOwner);
-
-                                DataGridViewHandlerMap.PopulateCameraOwner(dataGridView, columnIndex, gridViewGenericColumnCheck.ReadWriteAccess,
-                                    gridViewGenericColumnCheck.Metadata.CameraMake, gridViewGenericColumnCheck.Metadata.CameraModel);
-                                DataGridViewHandlerMap.PopulateGoogleHistoryCoordinate(dataGridView, columnIndex, GetTimeZoneShift(), GetAccepedIntervalSecound());
-                            }
-                        }
-                    }
-                }
-            }
-
-            ///////////////////////////////////////////////////////////////////////////
-            /// Nomnatatim
-            ///////////////////////////////////////////////////////////////////////////
-            if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerNominatim))
-            {
-                if (gridViewGenericColumn.Metadata.LocationLatitude == null ||
-                    gridViewGenericColumn.Metadata.LocationLongitude == null) return;
-
-                LocationNameLookUpCache locationAddress = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata);
-                
-                CommonDatabaseTransaction commonDatabaseTransaction = databaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
-                locationAddress.AddressUpdate(commonDatabaseTransaction,
-                    (double)gridViewGenericColumn.Metadata.LocationLatitude,
-                    (double)gridViewGenericColumn.Metadata.LocationLongitude,
-                    (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagLocationName), //Name
-                    (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCity), //City
-                    (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagProvince), //State
-                    (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCountry) ); //Country
-                databaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
-
-                for (int columnIndex = 0; columnIndex < dataGridViewMap.ColumnCount; columnIndex++)
-                {
-                    string locationCoordinateString = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, e.RowIndex);
-                    LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
-                    DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, locationCoordinate);
-                }
-
-            }
-
-            //GlobalData.IsPopulatingMap = false;
-        }
         #endregion 
 
         #region DataGridMap Enter Cell with GPS location, update map
@@ -390,11 +288,9 @@ namespace PhotoTagsSynchronizer
         {
             onDataGridViewGPSLocationsEnter = true;
         }
-                
 
-        private void dataGridViewMap_CellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = ((DataGridView)sender);
+        public void GPSCoordinatedClicked(DataGridView dataGridView, int columnIndex, int rowIndex)
+        {            
             if (!dataGridView.Enabled) return;
             if (dataGridView.SelectedCells.Count > 1) return;
 
@@ -403,10 +299,26 @@ namespace PhotoTagsSynchronizer
                 onDataGridViewGPSLocationsEnter = false;
                 return;
             }
-            if (dataGridViewMap[e.ColumnIndex, e.RowIndex].Value != null)
+            if (dataGridViewMap[columnIndex, rowIndex].Value != null)
             {
-                UpdateBrowserMap(dataGridViewMap[e.ColumnIndex, e.RowIndex].Value.ToString());
+                UpdateBrowserMap(dataGridViewMap[columnIndex, rowIndex].Value.ToString());
             }
+        }
+
+        private void dataGridViewMap_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            GPSCoordinatedClicked(dataGridView, e.ColumnIndex, e.RowIndex);
+        }
+        private void dataGridViewMap_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            GPSCoordinatedClicked(dataGridView, e.ColumnIndex, e.RowIndex);
+        }
+
+        private void dataGridViewMap_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            
         }
         #endregion
     }
