@@ -37,7 +37,9 @@ namespace PhotoTagsSynchronizer
 
         public const string tagDatesFoundInFilename = "Found ";
 
-
+        public static DataGridView DataGridViewMap { get; set; }
+        public static string DataGridViewMapHeaderMedia { get; set; }
+        public static string DataGridViewMapTagCoordinates { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }
@@ -121,8 +123,111 @@ namespace PhotoTagsSynchronizer
 
         public static void PopulateTimeZone(DataGridView dataGridView, int columnIndex)
         {
+            #region Get Media Date&Timeand GPS Location Date&time 
+            //Get Date and Time for DataGridView
             string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
             string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
+            DateTime? metadataMediaDateTaken = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken); 
+            DateTime? metadataLocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken);
+            #endregion
+
+            #region Get GPS Coorindates - 1. DataGridViewMap user input, 2. Metadata record 3. null 
+            //Get Media GPS Coordinates from DataGridViewMap is exist or use Metadata coordinates
+            double? metadataLocationLatitude = null;
+            double? metadataLocationLongitude = null;
+            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn.Metadata != null)
+            {
+                metadataLocationLatitude = dataGridViewGenericColumn.Metadata?.LocationLatitude;
+                metadataLocationLongitude = dataGridViewGenericColumn.Metadata?.LocationLongitude;
+            }
+
+            //If DataGridViewMap is agregated then pick up coordnates from what user have entered
+            if (DataGridViewHandler.GetIsAgregated(DataGridViewMap))
+            {
+                string locationCoordinateString = (string)DataGridViewHandler.GetCellValueStringTrim(DataGridViewMap, columnIndex, DataGridViewMapHeaderMedia, DataGridViewMapTagCoordinates);                
+                LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
+                
+                metadataLocationLatitude = locationCoordinate.Latitude;
+                metadataLocationLongitude = locationCoordinate.Longitude;
+            }
+            #endregion 
+
+
+            //------------------------------------
+            DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion));
+            if (metadataLocationLatitude != null && metadataLocationLongitude != null)
+            {
+                TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataLocationLatitude, (double)metadataLocationLongitude);
+
+                DateTime findOffsettDateTime;
+                if (metadataLocationDateTime != null) findOffsettDateTime = (DateTime)metadataLocationDateTime;
+                else if (metadataLocationDateTime != null) findOffsettDateTime = (DateTime)metadataMediaDateTaken;
+                else findOffsettDateTime = DateTime.Now;
+
+                //Media header
+                DateTime findOffsettDateTimeUTC = findOffsettDateTime.ToUniversalTime();
+                DateTimeOffset locationOffset = new DateTimeOffset(findOffsettDateTimeUTC.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(findOffsettDateTimeUTC));
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationOffsetTimeZone),
+                        TimeZoneLibrary.ToStringOffset(locationOffset.Offset) + " " + TimeZoneLibrary.TimeZoneNameStandarOrDaylight(timeZoneInfoGPSLocation, findOffsettDateTimeUTC), true);
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCalulatedOffsetZimeZone), "", true);
+
+                //
+                if (metadataLocationDateTime != null)
+                {
+                    DateTime locationDateTimeUTC = ((DateTime)metadataLocationDateTime).ToUniversalTime();
+                    DateTime dateTimeFromGPS = new DateTime(locationDateTimeUTC.Ticks).Add(locationOffset.Offset);
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime),
+                        TimeZoneLibrary.ToStringDateTimeSortable(dateTimeFromGPS) + TimeZoneLibrary.ToStringOffset(locationOffset.Offset, false), true);
+                }
+                else
+                {
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime), "No GPS time found", true);
+                }
+
+                if (metadataMediaDateTaken != null)
+                {
+                    DateTime mediaTakenDateTime = ((DateTime)metadataMediaDateTaken).ToUniversalTime();
+                    DateTimeOffset mediaTakenDateTimeUTC = new DateTimeOffset(mediaTakenDateTime.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(mediaTakenDateTime));
+
+                    TimeSpan timeZoneDifferenceLocalAndLocation = timeZoneInfoGPSLocation.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;
+                    DateTime dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadataMediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
+
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock),
+                        TimeZoneLibrary.ToStringDateTimeSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeUTC.Offset, false), true);
+
+                    timeZoneDifferenceLocalAndLocation = TimeZoneInfo.Local.BaseUtcOffset - timeZoneInfoGPSLocation.BaseUtcOffset;
+                    dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadataMediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome),
+                        TimeZoneLibrary.ToStringDateTimeSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeUTC.Offset, false), true);
+
+
+                }
+                else
+                {
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock), "Can't find local time", true);
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome), "Can't find local time", true);
+                }
+
+            }
+            else
+            {
+                //Media header
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationOffsetTimeZone), "No GPS location found", true);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCalulatedOffsetZimeZone), "No GPS location found", true);
+                //Suggestion header
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime), "No GPS location found", true);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock), "No GPS location found", true);
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome), "No GPS location found", true);
+            }
+
+            // -------------------------------------------------------
+
+            //string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
+            //string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
+
             TimeSpan? timeSpan = CalulateTimeDiffrent(dateTimeStringMediaTaken, dateTimeStringLocation);
 
             string prefredTimeZoneName = DataGridViewHandler.GetCellValueStringTrim(dataGridView, columnIndex, headerMedia, tagLocationOffsetTimeZone);
@@ -200,76 +305,6 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaDateTaken), TimeZoneLibrary.ToStringDateTimeSortable(metadata?.MediaDateTaken), false);
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagGPSLocationDateTime), TimeZoneLibrary.ToStringW3CDTF_UTC_Convert(metadata?.LocationDateTime), false);
 
-                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion));                
-                if (metadata?.LocationLatitude != null && metadata?.LocationLongitude != null)
-                {
-                    TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
-
-                    DateTime findOffsettDateTime;
-                    if (metadata?.LocationDateTime != null)
-                        findOffsettDateTime = (DateTime)metadata?.LocationDateTime;
-                    else if (metadata?.LocationDateTime != null)
-                        findOffsettDateTime = (DateTime)metadata?.MediaDateTaken;
-                    else
-                        findOffsettDateTime = DateTime.Now;
-
-                    //Media header
-                    DateTime findOffsettDateTimeUTC = findOffsettDateTime.ToUniversalTime();
-                    DateTimeOffset locationOffset = new DateTimeOffset(findOffsettDateTimeUTC.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(findOffsettDateTimeUTC));
-
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationOffsetTimeZone),
-                            TimeZoneLibrary.ToStringOffset(locationOffset.Offset) + " " + TimeZoneLibrary.TimeZoneNameStandarOrDaylight(timeZoneInfoGPSLocation, findOffsettDateTimeUTC), true);
-
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCalulatedOffsetZimeZone), "", true);
-
-                    //
-                    if (metadata?.LocationDateTime != null)
-                    {
-                        DateTime locationDateTimeUTC = ((DateTime)metadata?.LocationDateTime).ToUniversalTime();
-                        DateTime dateTimeFromGPS = new DateTime(locationDateTimeUTC.Ticks).Add(locationOffset.Offset);
-                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime),
-                            TimeZoneLibrary.ToStringDateTimeSortable(dateTimeFromGPS) + TimeZoneLibrary.ToStringOffset(locationOffset.Offset, false), true);
-                    }
-                    else
-                    {
-                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime), "No GPS time found", true);
-                    }
-
-                    if (metadata?.MediaDateTaken != null)
-                    {
-                        DateTime mediaTakenDateTime = ((DateTime)metadata?.MediaDateTaken).ToUniversalTime();
-                        DateTimeOffset mediaTakenDateTimeUTC = new DateTimeOffset(mediaTakenDateTime.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(mediaTakenDateTime));
-
-                        TimeSpan timeZoneDifferenceLocalAndLocation = timeZoneInfoGPSLocation.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;                         
-                        DateTime dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
-
-                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock),
-                            TimeZoneLibrary.ToStringDateTimeSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeUTC.Offset, false), true);
-
-                        timeZoneDifferenceLocalAndLocation = TimeZoneInfo.Local.BaseUtcOffset - timeZoneInfoGPSLocation.BaseUtcOffset;
-                        dateTimeUsedHomeClockOnTravel = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks).Add(timeZoneDifferenceLocalAndLocation);
-                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome),
-                            TimeZoneLibrary.ToStringDateTimeSortable(dateTimeUsedHomeClockOnTravel) + TimeZoneLibrary.ToStringOffset(mediaTakenDateTimeUTC.Offset, false), true);
-
-                        
-                    } else
-                    {
-                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock), "Can't find local time", true);
-                        DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome), "Can't find local time", true);
-                    }
-                    
-                } else
-                {
-                    //Media header
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagLocationOffsetTimeZone), "No GPS location found", true);
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagCalulatedOffsetZimeZone), "No GPS location found", true);
-                    //Suggestion header
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagSuggestedLocationTime), "No GPS location found", true);
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagWhenUsedHomeClock), "No GPS location found", true);
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion, tagTravelClockAtHome), "No GPS location found", true);
-                }
-                
-
                 //Dates and/or time in filename
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename));
 
@@ -324,7 +359,18 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
             //Chech if need to stop
             if (GlobalData.IsApplicationClosing) return;
-            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return;
+            if (DataGridViewHandler.GetIsAgregated(dataGridView))      
+            {
+                //Normaly return if already if *Agregated*, but if, but we use data from Maps Tab, therfor update DataGridViewDate with new data from DataGridVIewMap
+                if (DataGridViewHandler.GetIsAgregated(DataGridViewMap))
+                {
+                    for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
+                    {
+                        PopulateTimeZone(dataGridView, columnIndex);
+                    }
+                }
+                return;
+            }
             if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
             //Tell that work in progress, can start a new before done.
             DataGridViewHandler.SetIsPopulating(dataGridView, true);

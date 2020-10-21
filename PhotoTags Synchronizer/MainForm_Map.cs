@@ -48,10 +48,11 @@ namespace PhotoTagsSynchronizer
             }
             else
             {
+                const int coordLength = 11;
                 index_lat = url.IndexOf("query=") + 6;
-                if (index_lat >= 0)
+                if (index_lat >= 0 && index_lat + coordLength <= url.Length)
                 {
-                    index_sperator = url.IndexOf("%2C", index_lat, 11);
+                    index_sperator = url.IndexOf("%2C", index_lat, coordLength);
                     if (index_sperator == -1) index_sperator = url.IndexOf("&", index_lat, 9);
                     if (index_sperator == -1) return locationCoordinate; //Not found, can't find seperator
                     string_lat = url.Substring(index_lat, index_sperator - index_lat);

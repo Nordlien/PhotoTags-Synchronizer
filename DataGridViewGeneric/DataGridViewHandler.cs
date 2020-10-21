@@ -504,20 +504,7 @@ namespace DataGridViewGeneric
             return (fileEntry.LastWriteDateTime == lastWriteTime);
         }
 
-        public static void BeginEdit(DataGridView dataGridView, int columnIndex, int rowIndex)
-        {
-            dataGridView.CurrentCell = dataGridView[columnIndex, rowIndex];
-            dataGridView.BeginEdit(true);
-        }
-        public static void BeginEdit(DataGridView dataGridView, DataGridViewCell dataGridViewCell)
-        {
-            BeginEdit(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
-        }
-
-        public static void EndEdit(DataGridView dataGridView)
-        {
-            dataGridView.EndEdit();
-        }
+        
 
         #region IsPopulating IsAgregated handling
 
@@ -1368,6 +1355,23 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         }
         #endregion
 
+        #region Begin and End Edit
+        public static void BeginEdit(DataGridView dataGridView, int columnIndex, int rowIndex)
+        {
+            dataGridView.CurrentCell = dataGridView[columnIndex, rowIndex];
+            dataGridView.BeginEdit(true);
+        }
+        public static void BeginEdit(DataGridView dataGridView, DataGridViewCell dataGridViewCell)
+        {
+            BeginEdit(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+        }
+
+        public static void EndEdit(DataGridView dataGridView)
+        {
+            dataGridView.EndEdit();
+        }
+        #endregion
+
         #region Deep Copy
         public static T DeepCopy<T>(T obj)
         {
@@ -2153,7 +2157,6 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         #endregion 
 
         #region ToolStripMenuItem_Click
-
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //DataGridView dataGridView = ((DataGridView)sender);

@@ -296,7 +296,11 @@ namespace PhotoTagsSynchronizer
                     case "Date":
                         dataGridView.Enabled = false; //Remember datagrid_CellPainting will be triggered when change Enable state
                         dataGridView.SuspendLayout();
+
                         DataGridViewHandlerDate.DatabaseExiftoolData = databaseExiftoolData;
+                        DataGridViewHandlerDate.DataGridViewMap = dataGridViewMap;
+                        DataGridViewHandlerDate.DataGridViewMapHeaderMedia = DataGridViewHandlerMap.headerMedia;
+                        DataGridViewHandlerDate.DataGridViewMapTagCoordinates = DataGridViewHandlerMap.tagCoordinates;
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
