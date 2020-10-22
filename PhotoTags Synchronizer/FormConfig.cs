@@ -376,6 +376,16 @@ namespace PhotoTagsSynchronizer
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
         }
-        #endregion 
+        #endregion
+
+        private void tabControlConfig_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Config_Load(object sender, EventArgs e)
+        {
+            dataGridViewMetadataReadPriority.Focus();
+        }
     }
 }

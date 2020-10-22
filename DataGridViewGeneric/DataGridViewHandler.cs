@@ -105,6 +105,11 @@ namespace DataGridViewGeneric
             }
         }
 
+        public static int GetSelectedCellCount(DataGridView dataGridView)
+        {
+            return dataGridView.SelectedCells.Count;
+        }
+
         private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
@@ -1405,21 +1410,46 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         }
         #endregion
 
+
         #region Begin and End Edit
-        public static void BeginEdit(DataGridView dataGridView, int columnIndex, int rowIndex)
+        public static List<CellLocation> selectedCellLocations { get; set; } = null;
+
+        public static void BeginEditDataGridView(DataGridView dataGridView)
         {
+            selectedCellLocations = new List<CellLocation>();
+            foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
+                selectedCellLocations.Add(new CellLocation(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex));
+        }
+
+        public static void BeginEditCell(DataGridView dataGridView, int columnIndex, int rowIndex)
+        {                            
             dataGridView.CurrentCell = dataGridView[columnIndex, rowIndex];
             dataGridView.BeginEdit(true);
         }
-        public static void BeginEdit(DataGridView dataGridView, DataGridViewCell dataGridViewCell)
+
+        public static void BeginEditCell(DataGridView dataGridView, DataGridViewCell cell)
         {
-            BeginEdit(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+            BeginEditCell(dataGridView, cell.ColumnIndex, cell.RowIndex);
         }
 
-        public static void EndEdit(DataGridView dataGridView)
+        public static void BeginEditCell(DataGridView dataGridView, CellLocation cell)
+        {
+            BeginEditCell(dataGridView, cell.ColumnIndex, cell.RowIndex);
+        }
+
+        public static void EndEditCell(DataGridView dataGridView)
         {
             dataGridView.EndEdit();
         }
+
+        public static void EndEditDataGridView(DataGridView dataGridView)
+        {
+            foreach (CellLocation cellLocation in selectedCellLocations)
+                dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].Selected = true;
+        }
+        
+
+        
         #endregion
 
         #region Deep Copy

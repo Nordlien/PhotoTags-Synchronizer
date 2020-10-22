@@ -4,11 +4,11 @@
     {
         public CellLocation(int column, int row)
         {
-            this.Column = column;
-            this.Row = row;
+            this.ColumnIndex = column;
+            this.RowIndex = row;
         }
 
-        public int Column { get; set; }
-        public int Row { get; set; }
+        public int ColumnIndex { get; set; }
+        public int RowIndex { get; set; }
     }
 }

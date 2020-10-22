@@ -150,16 +150,20 @@ namespace PhotoTagsSynchronizer
         double _longitudeRememberForZooming = 0;
         private void UpdateBrowserMap(string comdinedCorordinates)
         {
-            LocationCoordinate locationCoordinate = LocationCoordinate.Parse(comdinedCorordinates);
-
-            if (locationCoordinate != null)
+            if (ClipboardUtility.IsClipboardActive && ClipboardUtility.NuberOfItemsToEdit>1) return;
+            DataGridView dataGridView = dataGridViewMap;
+            if (DataGridViewHandler.GetSelectedCellCount(dataGridView) == 1) //Only updated the Browser Map when one cell are updated
             {
-                _latitudeRememberForZooming = locationCoordinate.Latitude;
-                _longitudeRememberForZooming = locationCoordinate.Longitude;
+                LocationCoordinate locationCoordinate = LocationCoordinate.Parse(comdinedCorordinates);
 
-                UpdateBrowserMap(locationCoordinate.Latitude, locationCoordinate.Longitude);
+                if (locationCoordinate != null)
+                {
+                    _latitudeRememberForZooming = locationCoordinate.Latitude;
+                    _longitudeRememberForZooming = locationCoordinate.Longitude;
+
+                    UpdateBrowserMap(locationCoordinate.Latitude, locationCoordinate.Longitude);
+                }
             }
-
         }
 
         private void UpdateBrowserMap(double latitide, double longitude)
@@ -314,6 +318,15 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = ((DataGridView)sender);
             GPSCoordinatedClicked(dataGridView, e.ColumnIndex, e.RowIndex);
+        }
+
+        private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (dataGridView.SelectedCells.Count == 1)
+                GPSCoordinatedClicked(dataGridView, dataGridView.CurrentCell.ColumnIndex, dataGridView.CurrentCell.RowIndex);
+            else
+                MessageBox.Show("You can only show map with one from one active cell", "To many cells selected");
         }
 
         private void dataGridViewMap_CellEnter(object sender, DataGridViewCellEventArgs e)

@@ -254,6 +254,7 @@ namespace PhotoTagsSynchronizer
         {
             isTabControlToolboxChanging = false;
             PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewInvoke(imageListView1.SelectedItems);
+            GetActiveDataGridView().Focus();
         }
 
         private void splitContainerMap_SplitterMoved(object sender, SplitterEventArgs e)
@@ -434,6 +435,7 @@ namespace PhotoTagsSynchronizer
             this.Location = Properties.Settings.Default.MainFormLocation;
             this.Activate();
 
+            imageListView1.Focus();
         }
 
 
@@ -685,7 +687,6 @@ namespace PhotoTagsSynchronizer
             UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
         }
 
-       
         
     }
 }
