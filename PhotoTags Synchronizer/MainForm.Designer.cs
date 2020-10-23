@@ -77,7 +77,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAuthor = new System.Windows.Forms.ComboBox();
             this.comboBoxMediaAiConfidence = new System.Windows.Forms.ComboBox();
             this.dataGridViewTagsAndKeywords = new System.Windows.Forms.DataGridView();
-            this.contextMenuStripTags = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripTagsAndKeywords = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuTagsBrokerCut = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuTagsBrokerCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuTagsBrokerPaste = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,6 +154,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapHideEqual = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapCopyNotOverwrite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapCopyAndOverwrite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemShowCoordinateOnMap = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.comboBoxMapZoomLevel = new System.Windows.Forms.ComboBox();
             this.textBoxBrowserURL = new System.Windows.Forms.TextBox();
@@ -220,7 +221,6 @@ namespace PhotoTagsSynchronizer
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.timerShowErrorMessage = new System.Windows.Forms.Timer(this.components);
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
-            this.toolStripMenuItemShowCoordinateOnMap = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -246,7 +246,7 @@ namespace PhotoTagsSynchronizer
             this.tabControlToolbox.SuspendLayout();
             this.tabPageTags.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTagsAndKeywords)).BeginInit();
-            this.contextMenuStripTags.SuspendLayout();
+            this.contextMenuStripTagsAndKeywords.SuspendLayout();
             this.groupBoxRating.SuspendLayout();
             this.tabPagePeople.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPeople)).BeginInit();
@@ -785,7 +785,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewTagsAndKeywords.ColumnHeadersHeight = 200;
-            this.dataGridViewTagsAndKeywords.ContextMenuStrip = this.contextMenuStripTags;
+            this.dataGridViewTagsAndKeywords.ContextMenuStrip = this.contextMenuStripTagsAndKeywords;
             this.dataGridViewTagsAndKeywords.Location = new System.Drawing.Point(3, 213);
             this.dataGridViewTagsAndKeywords.Name = "dataGridViewTagsAndKeywords";
             this.dataGridViewTagsAndKeywords.RowHeadersWidth = 51;
@@ -793,19 +793,20 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewTagsAndKeywords.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTagsAndKeywords.ShowCellErrors = false;
             this.dataGridViewTagsAndKeywords.ShowRowErrors = false;
-            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(530, 251);
+            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(530, 254);
             this.dataGridViewTagsAndKeywords.TabIndex = 10;
-            this.dataGridViewTagsAndKeywords.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTags_CellBeginEdit);
-            this.dataGridViewTagsAndKeywords.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTags_CellEndEdit);
+            this.dataGridViewTagsAndKeywords.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTagsAndKeywords_CellBeginEdit);
+            this.dataGridViewTagsAndKeywords.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTagsAndKeywords_CellEndEdit);
             this.dataGridViewTagsAndKeywords.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewTagsAndKeywords_CellMouseClick);
-            this.dataGridViewTagsAndKeywords.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewTags_CellPainting);
+            this.dataGridViewTagsAndKeywords.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewTagsAndKeywords_CellPainting);
+            this.dataGridViewTagsAndKeywords.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTagsAndKeywords_CellValueChanged);
             this.dataGridViewTagsAndKeywords.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewTagsAndKeywords_RowsAdded);
-            this.dataGridViewTagsAndKeywords.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewTags_KeyDown);
+            this.dataGridViewTagsAndKeywords.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewTagsAndKeywords_KeyDown);
             // 
-            // contextMenuStripTags
+            // contextMenuStripTagsAndKeywords
             // 
-            this.contextMenuStripTags.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripTags.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStripTagsAndKeywords.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripTagsAndKeywords.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cutToolStripMenuTagsBrokerCut,
             this.copyToolStripMenuTagsBrokerCopy,
             this.pasteToolStripMenuTagsBrokerPaste,
@@ -824,8 +825,8 @@ namespace PhotoTagsSynchronizer
             this.toggleTagSelectionToolStripMenuItem,
             this.selectTagToolStripMenuItem,
             this.removeTagToolStripMenuItem});
-            this.contextMenuStripTags.Name = "contextMenuStripMap";
-            this.contextMenuStripTags.Size = new System.Drawing.Size(521, 472);
+            this.contextMenuStripTagsAndKeywords.Name = "contextMenuStripMap";
+            this.contextMenuStripTagsAndKeywords.Size = new System.Drawing.Size(521, 500);
             // 
             // cutToolStripMenuTagsBrokerCut
             // 
@@ -849,7 +850,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.pasteToolStripMenuTagsBrokerPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
             this.pasteToolStripMenuTagsBrokerPaste.Name = "pasteToolStripMenuTagsBrokerPaste";
-            this.pasteToolStripMenuTagsBrokerPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.pasteToolStripMenuTagsBrokerPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             this.pasteToolStripMenuTagsBrokerPaste.Size = new System.Drawing.Size(520, 26);
             this.pasteToolStripMenuTagsBrokerPaste.Text = "Paste";
             this.pasteToolStripMenuTagsBrokerPaste.Click += new System.EventHandler(this.pasteToolStripMenuTagsBrokerPaste_Click);
@@ -1180,7 +1181,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewPeople.Name = "dataGridViewPeople";
             this.dataGridViewPeople.RowHeadersWidth = 51;
             this.dataGridViewPeople.RowTemplate.Height = 24;
-            this.dataGridViewPeople.Size = new System.Drawing.Size(533, 479);
+            this.dataGridViewPeople.Size = new System.Drawing.Size(533, 488);
             this.dataGridViewPeople.TabIndex = 0;
             this.dataGridViewPeople.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPeople_CellBeginEdit);
             this.dataGridViewPeople.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPeople_CellMouseClick);
@@ -1422,7 +1423,7 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel2.Controls.Add(this.textBoxBrowserURL);
             this.splitContainerMap.Panel2.Controls.Add(this.panelBrowser);
             this.splitContainerMap.Size = new System.Drawing.Size(536, 461);
-            this.splitContainerMap.SplitterDistance = 217;
+            this.splitContainerMap.SplitterDistance = 216;
             this.splitContainerMap.SplitterWidth = 10;
             this.splitContainerMap.TabIndex = 5;
             this.splitContainerMap.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerMap_SplitterMoved);
@@ -1508,15 +1509,12 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.ShowCellToolTips = false;
             this.dataGridViewMap.ShowEditingIcon = false;
             this.dataGridViewMap.ShowRowErrors = false;
-            this.dataGridViewMap.Size = new System.Drawing.Size(536, 180);
+            this.dataGridViewMap.Size = new System.Drawing.Size(536, 179);
             this.dataGridViewMap.TabIndex = 10;
             this.dataGridViewMap.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewMap_CellBeginEdit);
             this.dataGridViewMap.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellEndEdit);
-            this.dataGridViewMap.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellEnter);
             this.dataGridViewMap.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewMap_CellMouseDoubleClick);
             this.dataGridViewMap.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewMap_CellPainting);
-            this.dataGridViewMap.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellValidated);
-            this.dataGridViewMap.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridViewMap_CellValidating);
             this.dataGridViewMap.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellValueChanged);
             this.dataGridViewMap.Enter += new System.EventHandler(this.dataGridViewMap_Enter);
             this.dataGridViewMap.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridMap_KeyDown);
@@ -1542,7 +1540,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapCopyAndOverwrite,
             this.toolStripMenuItemShowCoordinateOnMap});
             this.contextMenuStripMap.Name = "contextMenuStripMap";
-            this.contextMenuStripMap.Size = new System.Drawing.Size(521, 448);
+            this.contextMenuStripMap.Size = new System.Drawing.Size(521, 420);
             // 
             // toolStripMenuItemMapCut
             // 
@@ -1683,6 +1681,14 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapCopyAndOverwrite.Text = "Copy selected values to media file and overwrite";
             this.toolStripMenuItemMapCopyAndOverwrite.Click += new System.EventHandler(this.toolStripMenuItemMapCopyAndOverwrite_Click);
             // 
+            // toolStripMenuItemShowCoordinateOnMap
+            // 
+            this.toolStripMenuItemShowCoordinateOnMap.Name = "toolStripMenuItemShowCoordinateOnMap";
+            this.toolStripMenuItemShowCoordinateOnMap.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.toolStripMenuItemShowCoordinateOnMap.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemShowCoordinateOnMap.Text = "Show Coordinate on Map";
+            this.toolStripMenuItemShowCoordinateOnMap.Click += new System.EventHandler(this.toolStripMenuItemShowCoordinateOnMap_Click);
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
@@ -1741,7 +1747,7 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Cursor = System.Windows.Forms.Cursors.Default;
             this.panelBrowser.Location = new System.Drawing.Point(0, 33);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(536, 186);
+            this.panelBrowser.Size = new System.Drawing.Size(536, 169);
             this.panelBrowser.TabIndex = 1;
             // 
             // tabPageDate
@@ -1780,11 +1786,12 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewDate.Name = "dataGridViewDate";
             this.dataGridViewDate.RowHeadersWidth = 51;
             this.dataGridViewDate.RowTemplate.Height = 24;
-            this.dataGridViewDate.Size = new System.Drawing.Size(536, 390);
+            this.dataGridViewDate.Size = new System.Drawing.Size(536, 399);
             this.dataGridViewDate.TabIndex = 0;
             this.dataGridViewDate.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewDate_CellBeginEdit);
             this.dataGridViewDate.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDate_CellEndEdit);
             this.dataGridViewDate.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewDate_CellPainting);
+            this.dataGridViewDate.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDate_CellValueChanged);
             this.dataGridViewDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewDate_KeyDown);
             // 
             // tabPageExifTool
@@ -2103,7 +2110,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.Name = "dataGridViewRename";
             this.dataGridViewRename.RowHeadersWidth = 51;
             this.dataGridViewRename.RowTemplate.Height = 24;
-            this.dataGridViewRename.Size = new System.Drawing.Size(533, 371);
+            this.dataGridViewRename.Size = new System.Drawing.Size(533, 380);
             this.dataGridViewRename.TabIndex = 0;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewRename_CellPainting);
@@ -2437,14 +2444,6 @@ namespace PhotoTagsSynchronizer
             this.timerActionStatusRemove.Interval = 2000;
             this.timerActionStatusRemove.Tick += new System.EventHandler(this.timerActionStatusRemove_Tick);
             // 
-            // toolStripMenuItemShowCoordinateOnMap
-            // 
-            this.toolStripMenuItemShowCoordinateOnMap.Name = "toolStripMenuItemShowCoordinateOnMap";
-            this.toolStripMenuItemShowCoordinateOnMap.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.toolStripMenuItemShowCoordinateOnMap.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemShowCoordinateOnMap.Text = "Show Coordinate on Map";
-            this.toolStripMenuItemShowCoordinateOnMap.Click += new System.EventHandler(this.toolStripMenuItemShowCoordinateOnMap_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -2491,7 +2490,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageTags.ResumeLayout(false);
             this.tabPageTags.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTagsAndKeywords)).EndInit();
-            this.contextMenuStripTags.ResumeLayout(false);
+            this.contextMenuStripTagsAndKeywords.ResumeLayout(false);
             this.groupBoxRating.ResumeLayout(false);
             this.groupBoxRating.PerformLayout();
             this.tabPagePeople.ResumeLayout(false);
@@ -2594,7 +2593,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.TabPage tabPageExifToolWarning;
         private System.Windows.Forms.DataGridView dataGridViewExifToolWarning;
         private System.Windows.Forms.ComboBox comboBoxMediaAiConfidence;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripTags;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripTagsAndKeywords;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsBrokerCopyText;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsBrokerOverwriteText;
         private System.Windows.Forms.ToolStripButton toolStripButtonSaveAllMetadata;

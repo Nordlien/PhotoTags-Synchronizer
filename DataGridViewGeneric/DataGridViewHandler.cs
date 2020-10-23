@@ -55,9 +55,51 @@ namespace DataGridViewGeneric
         private ToolStripMenuItem markAsFavoriteToolStripMenuItem;
         private ToolStripMenuItem removeAsFavoriteToolStripMenuItem;
 
+        public static int GetSelectedCellCount(DataGridView dataGridView)
+        {
+            return dataGridView.SelectedCells.Count;
+        }
+
+        
+
+        #region DataGridView events handling
+        private void DataGridView_RowValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void DataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DataGridView_CancelRowEdit(object sender, QuestionEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DataGridView_RowDirtyStateNeeded(object sender, QuestionEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DataGridView_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DataGridView_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DataGridView_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion 
 
         #region InitializeComponent and DataGridView
-
         public DataGridViewHandler(DataGridView dataGridView, string dataGridViewName, string topLeftHeaderCellName, DataGridViewSize cellSize)
         {
             this.dataGridView = dataGridView;
@@ -105,272 +147,6 @@ namespace DataGridViewGeneric
             }
         }
 
-        public static int GetSelectedCellCount(DataGridView dataGridView)
-        {
-            return dataGridView.SelectedCells.Count;
-        }
-
-        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            if (e.Button == MouseButtons.Right)
-            {
-                if (e.ColumnIndex == -1 && e.RowIndex >= 0) //Row selected
-                {
-                    if (!dataGridView.Rows[e.RowIndex].Selected)
-                    {
-                        dataGridView.ClearSelection();
-                        dataGridView.Rows[e.RowIndex].Selected = true;
-                    }
-                }
-                else if (e.ColumnIndex >= 0 && e.RowIndex == -1) //Column selected
-                {
-                    bool isColumnSelected = true;
-                    for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
-                    {
-                        if (!dataGridView[e.ColumnIndex, rowIndex].Selected)
-                        {
-                            isColumnSelected = false;
-                            break;
-                        }
-                    }
-
-                    if (!isColumnSelected)
-                    {
-                        dataGridView.ClearSelection();
-                        for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
-                        {
-                            dataGridView[e.ColumnIndex, rowIndex].Selected = true;
-                        }
-                    }
-                    //dataGridView.Columns[e.ColumnIndex].Selected = true;
-                }
-                else if (e.ColumnIndex == -1 && e.RowIndex == -1) //Column selected
-                {
-                    dataGridView.SelectAll();
-                }
-                else
-                {
-                    if (!dataGridView[e.ColumnIndex, e.RowIndex].Selected)
-                    {
-                        //dataGridView[e.ColumnIndex, e.RowIndex].Selected
-                        dataGridView.CurrentCell = dataGridView[e.ColumnIndex, e.RowIndex];
-                    }
-
-
-                }
-                //DataGridView dataGridView = dataGridViewMetadataReadPriority;
-                //Point clientPoint = dataGridView.PointToClient(new Point(e.X, e.Y));
-            }
-        }
-
-        private void DataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DataGridView_CancelRowEdit(object sender, QuestionEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DataGridView_RowDirtyStateNeeded(object sender, QuestionEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DataGridView_RowValidated(object sender, DataGridViewCellEventArgs e)
-        {        
-            //throw new NotImplementedException();
-        }
-
-        private void DataGridView_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DataGridView_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DataGridView_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static int GetTopColumnHeaderHeigth(DataGridViewSize size)
-        {
-            switch (size)
-            {
-                case DataGridViewSize.Small:
-                    return 100;
-                case DataGridViewSize.Medium:
-                    return 200;
-                case DataGridViewSize.Large:
-                    return 300;
-                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
-                    return 24; //Rename Grid
-                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
-                    return 24; //Rename Grid
-                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
-                    return 24; //Rename Grid*/
-                case DataGridViewSize.ConfigSize:
-                    return 24;
-                default:
-                    throw new Exception("Not implemented");
-            }
-        }
-
-        public static int GetCellHeigth(DataGridViewSize size)
-        {
-            switch (size)
-            {
-                case DataGridViewSize.Small:
-                    return 100;
-                case DataGridViewSize.Large:
-                    return 200;
-                case DataGridViewSize.Medium:
-                    return 200;
-                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
-                    return 24; //Rename Grid
-                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
-                    return 24; //Rename Grid
-                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
-                    return 24; //Rename Grid*/
-                case DataGridViewSize.ConfigSize:
-                    return 24;
-                default:
-                    throw new Exception("Not implemented");
-            }
-        }
-
-        public static int GetFirstRowHeaderWidth(DataGridViewSize size)
-        {
-            switch (size)
-            {
-                case DataGridViewSize.Small:
-                    return 200;
-                case DataGridViewSize.Medium:
-                    return 200;
-                case DataGridViewSize.Large:
-                    return 200;
-
-                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
-                    return 200; //Rename Grid
-                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
-                    return 400; //Rename Grid
-                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
-                    return 600; //Rename Grid*/
-
-                case DataGridViewSize.ConfigSize:
-                    return 400;
-                default:
-                    throw new Exception("Not implemented");
-            }
-        }
-
-        public static int GetCellWidth(DataGridViewSize size)
-        {
-            switch (size)
-            {
-                case DataGridViewSize.Small:
-                    return 130;
-                case DataGridViewSize.Medium:
-                    return 230;
-                case DataGridViewSize.Large:
-                    return 330;
-
-                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
-                    return 200; //Rename Grid
-                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
-                    return 400; //Rename Grid
-                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
-                    return 600; //Rename Grid
-
-                case DataGridViewSize.ConfigSize:
-                    return 200;
-                default:
-                    throw new Exception("Not implemented");
-            }
-        }
-
-
-        public static int GetCellColumnsWidth(DataGridView dataGridView)
-        {
-            return GetCellWidth(GetDataGridSizeLargeMediumSmall(dataGridView));
-        }
-
-        public static int GetCellRowHeight(DataGridView dataGridView)
-        {
-            return GetCellHeigth(GetDataGridSizeLargeMediumSmall(dataGridView));
-        }
-
-        public static DataGridViewSize GetDataGridSizeLargeMediumSmall(DataGridView dataGridView)
-        {
-            return GetDataGridViewGenericData(dataGridView)?.CellSize == null ? DataGridViewSize.Medium : GetDataGridViewGenericData(dataGridView).CellSize;
-        }
-
-        public static void SetCellSize(DataGridView dataGridView, DataGridViewSize cellSize, bool changeCellRowsHeight)
-        {
-            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
-            if (dataGridViewGenericData == null) return;
-            dataGridViewGenericData.CellSize = cellSize;
-
-            dataGridView.ColumnHeadersHeight = GetTopColumnHeaderHeigth(cellSize);
-            dataGridView.RowHeadersWidth = GetFirstRowHeaderWidth(cellSize);
-
-            if (changeCellRowsHeight)
-            {
-                for (int rowIndex = 1; rowIndex < dataGridView.RowCount; rowIndex++) dataGridView.Rows[rowIndex].Height = GetCellHeigth(cellSize);
-            }
-            for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++) dataGridView.Columns[columnIndex].Width = GetCellWidth(cellSize);
-        }
-
-        private static DataGridViewAutoSizeRowsMode dataGridViewAutoSizeRowsMode;
-        private static DataGridViewAutoSizeColumnsMode dataGridViewAutoSizeColumnMode;
-        private static DataGridViewRowHeadersWidthSizeMode dataGridViewRowHeadersWidthSizeMode;
-        private static DataGridViewColumnHeadersHeightSizeMode dataGridViewColumnHeadersHeightSizeMode;
-        // *** API Declarations ***
-        [DllImport("user32.dll")]
-        private static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
-        private const int WM_SETREDRAW = 11;
-
-        public static void SuspendLayout(DataGridView dataGridView)
-        {
-            dataGridView.SuspendLayout();
-            dataGridViewAutoSizeRowsMode = dataGridView.AutoSizeRowsMode;
-            dataGridViewAutoSizeColumnMode = dataGridView.AutoSizeColumnsMode;
-            dataGridViewRowHeadersWidthSizeMode = dataGridView.RowHeadersWidthSizeMode;
-            dataGridViewColumnHeadersHeightSizeMode = dataGridView.ColumnHeadersHeightSizeMode;
-
-            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-
-            dataGridView.RowHeadersVisible = false;
-            
-            // *** DataGridView population ***
-            SendMessage(dataGridView.Handle, WM_SETREDRAW, false, 0);
-        }
-
-        public static void ResumeLayout(DataGridView dataGridView)
-        {
-            //dataGridView.EndEdit();
-            dataGridView.AutoSizeRowsMode = dataGridViewAutoSizeRowsMode;
-            dataGridView.AutoSizeColumnsMode = dataGridViewAutoSizeColumnMode;
-            dataGridView.RowHeadersWidthSizeMode = dataGridViewRowHeadersWidthSizeMode;
-            dataGridView.ColumnHeadersHeightSizeMode = dataGridViewColumnHeadersHeightSizeMode;
-
-            dataGridView.RowHeadersVisible = true;
-            dataGridView.ResumeLayout();
-
-            SendMessage(dataGridView.Handle, WM_SETREDRAW, true, 0);
-            dataGridView.Refresh();
-        }
-
-
         public static void Clear(DataGridView dataGridView, DataGridViewSize cellSize)
         {
             DataGridViewGenericData dataGridViewGenricData = (DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag;
@@ -389,11 +165,10 @@ namespace DataGridViewGeneric
 
             dataGridView.RowHeadersWidth = GetFirstRowHeaderWidth(cellSize);
             //dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.EnableResizing;
-           
-            dataGridView.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
-            
-        }
 
+            dataGridView.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+
+        }
 
         public void InitializeComponent(DataGridView dataGridView)
         {
@@ -554,12 +329,240 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region Select correct Cell when Right Click Mouse button
+        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.ColumnIndex == -1 && e.RowIndex >= 0) //Row selected
+                {
+                    if (!dataGridView.Rows[e.RowIndex].Selected)
+                    {
+                        dataGridView.ClearSelection();
+                        dataGridView.Rows[e.RowIndex].Selected = true;
+                    }
+                }
+                else if (e.ColumnIndex >= 0 && e.RowIndex == -1) //Column selected
+                {
+                    bool isColumnSelected = true;
+                    for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                    {
+                        if (!dataGridView[e.ColumnIndex, rowIndex].Selected)
+                        {
+                            isColumnSelected = false;
+                            break;
+                        }
+                    }
+
+                    if (!isColumnSelected)
+                    {
+                        dataGridView.ClearSelection();
+                        for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                        {
+                            dataGridView[e.ColumnIndex, rowIndex].Selected = true;
+                        }
+                    }
+                    //dataGridView.Columns[e.ColumnIndex].Selected = true;
+                }
+                else if (e.ColumnIndex == -1 && e.RowIndex == -1) //Column selected
+                {
+                    dataGridView.SelectAll();
+                }
+                else
+                {
+                    if (!dataGridView[e.ColumnIndex, e.RowIndex].Selected)
+                    {
+                        //dataGridView[e.ColumnIndex, e.RowIndex].Selected
+                        dataGridView.CurrentCell = dataGridView[e.ColumnIndex, e.RowIndex];
+                    }
+
+
+                }
+                //DataGridView dataGridView = dataGridViewMetadataReadPriority;
+                //Point clientPoint = dataGridView.PointToClient(new Point(e.X, e.Y));
+            }
+        }
+        #endregion
+
+        #region DataGridView Size for Column and Row Header, Row / Column size and resize 
+        public static int GetTopColumnHeaderHeigth(DataGridViewSize size)
+        {
+            switch (size)
+            {
+                case DataGridViewSize.Small:
+                    return 100;
+                case DataGridViewSize.Medium:
+                    return 200;
+                case DataGridViewSize.Large:
+                    return 300;
+                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
+                    return 24; //Rename Grid
+                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
+                    return 24; //Rename Grid
+                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
+                    return 24; //Rename Grid*/
+                case DataGridViewSize.ConfigSize:
+                    return 24;
+                default:
+                    throw new Exception("Not implemented");
+            }
+        }
+
+        public static int GetCellHeigth(DataGridViewSize size)
+        {
+            switch (size)
+            {
+                case DataGridViewSize.Small:
+                    return 100;
+                case DataGridViewSize.Large:
+                    return 200;
+                case DataGridViewSize.Medium:
+                    return 200;
+                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
+                    return 24; //Rename Grid
+                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
+                    return 24; //Rename Grid
+                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
+                    return 24; //Rename Grid*/
+                case DataGridViewSize.ConfigSize:
+                    return 24;
+                default:
+                    throw new Exception("Not implemented");
+            }
+        }
+
+        public static int GetFirstRowHeaderWidth(DataGridViewSize size)
+        {
+            switch (size)
+            {
+                case DataGridViewSize.Small:
+                    return 200;
+                case DataGridViewSize.Medium:
+                    return 200;
+                case DataGridViewSize.Large:
+                    return 200;
+
+                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
+                    return 200; //Rename Grid
+                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
+                    return 400; //Rename Grid
+                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
+                    return 600; //Rename Grid*/
+
+                case DataGridViewSize.ConfigSize:
+                    return 400;
+                default:
+                    throw new Exception("Not implemented");
+            }
+        }
+
+        public static int GetCellWidth(DataGridViewSize size)
+        {
+            switch (size)
+            {
+                case DataGridViewSize.Small:
+                    return 130;
+                case DataGridViewSize.Medium:
+                    return 230;
+                case DataGridViewSize.Large:
+                    return 330;
+
+                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
+                    return 200; //Rename Grid
+                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
+                    return 400; //Rename Grid
+                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
+                    return 600; //Rename Grid
+
+                case DataGridViewSize.ConfigSize:
+                    return 200;
+                default:
+                    throw new Exception("Not implemented");
+            }
+        }
+
+
+        public static int GetCellColumnsWidth(DataGridView dataGridView)
+        {
+            return GetCellWidth(GetDataGridSizeLargeMediumSmall(dataGridView));
+        }
+
+        public static int GetCellRowHeight(DataGridView dataGridView)
+        {
+            return GetCellHeigth(GetDataGridSizeLargeMediumSmall(dataGridView));
+        }
+
+        public static DataGridViewSize GetDataGridSizeLargeMediumSmall(DataGridView dataGridView)
+        {
+            return GetDataGridViewGenericData(dataGridView)?.CellSize == null ? DataGridViewSize.Medium : GetDataGridViewGenericData(dataGridView).CellSize;
+        }
+
+        public static void SetCellSize(DataGridView dataGridView, DataGridViewSize cellSize, bool changeCellRowsHeight)
+        {
+            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
+            if (dataGridViewGenericData == null) return;
+            dataGridViewGenericData.CellSize = cellSize;
+
+            dataGridView.ColumnHeadersHeight = GetTopColumnHeaderHeigth(cellSize);
+            dataGridView.RowHeadersWidth = GetFirstRowHeaderWidth(cellSize);
+
+            if (changeCellRowsHeight)
+            {
+                for (int rowIndex = 1; rowIndex < dataGridView.RowCount; rowIndex++) dataGridView.Rows[rowIndex].Height = GetCellHeigth(cellSize);
+            }
+            for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++) dataGridView.Columns[columnIndex].Width = GetCellWidth(cellSize);
+        }
+        #endregion 
+
+        private static DataGridViewAutoSizeRowsMode dataGridViewAutoSizeRowsMode;
+        private static DataGridViewAutoSizeColumnsMode dataGridViewAutoSizeColumnMode;
+        private static DataGridViewRowHeadersWidthSizeMode dataGridViewRowHeadersWidthSizeMode;
+        private static DataGridViewColumnHeadersHeightSizeMode dataGridViewColumnHeadersHeightSizeMode;
+        // *** API Declarations ***
+        [DllImport("user32.dll")]
+        private static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
+        private const int WM_SETREDRAW = 11;
+
+        public static void SuspendLayout(DataGridView dataGridView)
+        {
+            dataGridView.SuspendLayout();
+            dataGridViewAutoSizeRowsMode = dataGridView.AutoSizeRowsMode;
+            dataGridViewAutoSizeColumnMode = dataGridView.AutoSizeColumnsMode;
+            dataGridViewRowHeadersWidthSizeMode = dataGridView.RowHeadersWidthSizeMode;
+            dataGridViewColumnHeadersHeightSizeMode = dataGridView.ColumnHeadersHeightSizeMode;
+
+            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+
+            dataGridView.RowHeadersVisible = false;
+            
+            // *** DataGridView population ***
+            SendMessage(dataGridView.Handle, WM_SETREDRAW, false, 0);
+        }
+
+        public static void ResumeLayout(DataGridView dataGridView)
+        {
+            //dataGridView.EndEdit();
+            dataGridView.AutoSizeRowsMode = dataGridViewAutoSizeRowsMode;
+            dataGridView.AutoSizeColumnsMode = dataGridViewAutoSizeColumnMode;
+            dataGridView.RowHeadersWidthSizeMode = dataGridViewRowHeadersWidthSizeMode;
+            dataGridView.ColumnHeadersHeightSizeMode = dataGridViewColumnHeadersHeightSizeMode;
+
+            dataGridView.RowHeadersVisible = true;
+            dataGridView.ResumeLayout();
+
+            SendMessage(dataGridView.Handle, WM_SETREDRAW, true, 0);
+            dataGridView.Refresh();
+        }
+
         public static bool IsCurrentFile(FileEntry fileEntry, DateTime lastWriteTime)
         {
             return (fileEntry.LastWriteDateTime == lastWriteTime);
         }
 
-        
 
         #region IsPopulating IsAgregated handling
 
@@ -1410,48 +1413,6 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         }
         #endregion
 
-
-        #region Begin and End Edit
-        public static List<CellLocation> selectedCellLocations { get; set; } = null;
-
-        public static void BeginEditDataGridView(DataGridView dataGridView)
-        {
-            selectedCellLocations = new List<CellLocation>();
-            foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
-                selectedCellLocations.Add(new CellLocation(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex));
-        }
-
-        public static void BeginEditCell(DataGridView dataGridView, int columnIndex, int rowIndex)
-        {                            
-            dataGridView.CurrentCell = dataGridView[columnIndex, rowIndex];
-            dataGridView.BeginEdit(true);
-        }
-
-        public static void BeginEditCell(DataGridView dataGridView, DataGridViewCell cell)
-        {
-            BeginEditCell(dataGridView, cell.ColumnIndex, cell.RowIndex);
-        }
-
-        public static void BeginEditCell(DataGridView dataGridView, CellLocation cell)
-        {
-            BeginEditCell(dataGridView, cell.ColumnIndex, cell.RowIndex);
-        }
-
-        public static void EndEditCell(DataGridView dataGridView)
-        {
-            dataGridView.EndEdit();
-        }
-
-        public static void EndEditDataGridView(DataGridView dataGridView)
-        {
-            foreach (CellLocation cellLocation in selectedCellLocations)
-                dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].Selected = true;
-        }
-        
-
-        
-        #endregion
-
         #region Deep Copy
         public static T DeepCopy<T>(T obj)
         {
@@ -1554,8 +1515,6 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         {
             return dataGridView[columnIndex, rowIndex].Value == null || string.IsNullOrWhiteSpace(dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
         }
-
-
 
         public static void SetCellValue(DataGridView dataGridView, int columnIndex, string headerName, string rowName, object value)
         {
@@ -1661,7 +1620,8 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         {
             if (rowIndex > -1 && columnIndex > -1)
             {
-                if (!IsCellDataGridViewGenericCellStatus(dataGridView, columnIndex, rowIndex)) dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
+// if (!IsCellDataGridViewGenericCellStatus(dataGridView, columnIndex, rowIndex)) 
+                    dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
             }
         }
 
@@ -1775,7 +1735,7 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         public static void SetCellStatusSwichStatus(DataGridView dataGridView, int columnIndex, int rowIndex, SwitchStates switchState)
         {
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn == null || dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly)
+            if (dataGridViewGenericColumn == null || dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly) //History or Error column
                 switchState = SwitchStates.Disabled;
 
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);

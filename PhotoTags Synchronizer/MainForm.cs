@@ -687,7 +687,6 @@ namespace PhotoTagsSynchronizer
             UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
         }
 
-        
     }
 }
 

@@ -67,7 +67,7 @@ namespace PhotoTagsSynchronizer
 
         private void ValitedatePaste(DataGridView dataGridView, string header)
         {
-            int keywordsHeadingIndex = DataGridViewHandler.GetRowHeadingIndex(dataGridView, header);
+            //int keywordsHeadingIndex = DataGridViewHandler.GetRowHeadingIndex(dataGridView, header);
             int keywordsStarts = DataGridViewHandler.GetRowHeadingItemStarts(dataGridView, header);
 
             int rowIndex = keywordsStarts;
@@ -98,8 +98,7 @@ namespace PhotoTagsSynchronizer
                             
                             DataGridViewHandler.SetCellStatus(dataGridView, column, rowIndex, 
                                 new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, 
-                                DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, column, rowIndex) == true ? SwitchStates.Off : SwitchStates.On, 
-                                false));
+                                DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, column, rowIndex) ? SwitchStates.Off : SwitchStates.On, false));
                         } 
                         
                     }
@@ -138,14 +137,23 @@ namespace PhotoTagsSynchronizer
             if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
         }
 
-        private void dataGridViewTags_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingAnything()) return;
 
+        private bool isDataGridViewCutCopyPasteDelete = false;
+        private bool isDataGridViewTagsAndKeywords_CellValueChanging = false;
+        private void dataGridViewTagsAndKeywords_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (ClipboardUtility.IsClipboardActive)    return;
+            if (isDataGridViewTagsAndKeywords_CellValueChanging) return; //Avoid requirng isues        
+            if (isDataGridViewCutCopyPasteDelete) return;
+
+            if (GlobalData.IsApplicationClosing) return;
+            if (GlobalData.IsPopulatingTags || GlobalData.IsPopulatingTagsFile) return;
+            if (e.ColumnIndex == -1) return; //Row added, this is not a cell value changed
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
+            isDataGridViewTagsAndKeywords_CellValueChanging = true;
+            
             DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
@@ -162,11 +170,15 @@ namespace PhotoTagsSynchronizer
                     DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, e.ColumnIndex, e.RowIndex, SwitchStates.On);
 
                     if (DataGridViewHandler.GetRowName(dataGridView, e.RowIndex) == newTag)
+                    {
+                        isDataGridViewTagsAndKeywords_CellValueChanging = false;
                         return;
+                    }
+                        
                     newTag = ValidateAndReturnTag(dataGridView, header, newTag);
-                    
 
-                    DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, e.RowIndex, 
+
+                    DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, e.RowIndex,
                         new DataGridViewGenericRow(DataGridViewHandlerTagsAndKeywords.headerKeywords, newTag, ReadWriteAccess.AllowCellReadAndWrite));
                     //DataGridViewHandler.SetCellReadOnlyWhenForcedForRow(dataGridView, e.RowIndex);
                     DataGridViewHandler.SetRowFavoriteFlag(dataGridView, e.RowIndex);
@@ -186,7 +198,10 @@ namespace PhotoTagsSynchronizer
 
                 DataGridViewHandler.Refresh(dataGridView);
             }
+            isDataGridViewTagsAndKeywords_CellValueChanging = false;
         }
+
+        
 
         #endregion
 

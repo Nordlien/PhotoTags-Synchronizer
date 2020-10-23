@@ -37,9 +37,12 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
+
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         //Properties
         //Rename
@@ -48,6 +51,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
@@ -57,6 +61,8 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+
+            isDataGridViewCutCopyPasteDelete = false;
         }
         #endregion
 
@@ -87,8 +93,10 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
 
+            isDataGridViewCutCopyPasteDelete = true;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         //Properties
         //Rename
@@ -98,11 +106,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
 
-            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
-
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
-            ValitedatePaste(dataGridView, header);
-            DataGridViewHandler.Refresh(dataGridView);
         }
         #endregion
 
@@ -115,7 +119,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
-
+            
             ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
         }
@@ -125,8 +129,10 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
 
+            isDataGridViewCutCopyPasteDelete = true;
             ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         //Properties
         //Rename
@@ -135,6 +141,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
@@ -144,6 +151,7 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         #endregion 
 
@@ -166,8 +174,10 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
 
+            isDataGridViewCutCopyPasteDelete = true;
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         //Properties
         //Rename
@@ -176,6 +186,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
@@ -184,6 +195,7 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         #endregion
 
@@ -206,10 +218,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
+
             //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             ClipboardUtility.UndoDataGridView(dataGridView);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         //Properties
         //Rename
@@ -218,10 +233,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
+
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             ClipboardUtility.UndoDataGridView(dataGridView);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         #endregion
 
@@ -234,6 +252,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
+
             //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             ClipboardUtility.RedoDataGridView(dataGridView);
             //ValitedatePaste(dataGridView, header);
@@ -244,10 +263,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
+
             //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             ClipboardUtility.RedoDataGridView(dataGridView);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         //Properties
         //Rename
@@ -256,10 +278,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
+
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             ClipboardUtility.RedoDataGridView(dataGridView);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         #endregion
 
@@ -290,9 +315,11 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         //Properties
         //Rename
@@ -301,10 +328,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
+
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         #endregion
 
@@ -334,9 +364,12 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
+
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         //Properties
         //Rename
@@ -345,10 +378,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
+            isDataGridViewCutCopyPasteDelete = true;
+
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            isDataGridViewCutCopyPasteDelete = false;
         }
         #endregion
 
@@ -652,7 +688,183 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
+        /*
+        private void TagActionCut(DataGridView dataGridView)
+        {
+            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, 0, dataGridView.Columns.Count - 1,
+                DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
+                DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
+            ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void TagActionCopy(DataGridView dataGridView)
+        {
+            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void TagActionPaste(DataGridView dataGridView)
+        {
+            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+
+            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(
+                dataGridView, 0, dataGridView.Columns.Count - 1,
+                DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
+                DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
+            ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void TagActionDelete(DataGridView dataGridView)
+        {
+            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, 0, dataGridView.Columns.Count - 1,
+                DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
+                DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
+            ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void TagActionUndo(DataGridView dataGridView)
+        {
+            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+            ClipboardUtility.UndoDataGridView(dataGridView);
+            ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void TagActionRedo(DataGridView dataGridView)
+        {
+            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+            ClipboardUtility.RedoDataGridView(dataGridView);
+            ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void TagActionToggle(DataGridView dataGridView, NewState newState)
+        {
+            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+            DataGridViewHandler.ToggleSelected(dataGridView, header, newState);
+            ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void TagActionFind(DataGridView dataGridView)
+        {
+            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+            ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void TagActionReplace(DataGridView dataGridView)
+        {
+            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+            ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+        */
+        /*
+        //////////////////////////////////////////////////////////////////////
+       private void cutToolStripMenuTagsBrokerCut_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionCut(dataGridView);
+        }
+
+        private void copyToolStripMenuTagsBrokerCopy_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionCopy(dataGridView);
+        }
+
+        private void pasteToolStripMenuTagsBrokerPaste_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionPaste(dataGridView);
+        }
+
+        private void deleteToolStripMenuTagsBrokerDelete_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionDelete(dataGridView);
+        }
+
+        private void undoToolStripMenuTags_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionUndo(dataGridView);
+        }
+
+        private void redoToolStripMenuTags_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionRedo(dataGridView);
+        }
+
+        private void toggleTagSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionToggle(dataGridView, NewState.Toggle);
+        }
+
+        private void selectTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionToggle(dataGridView, NewState.Set);
+        }
+
+        private void removeTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionToggle(dataGridView, NewState.Remove);
+        }
+
+        private void findToolStripMenuTag_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionFind(dataGridView);
+        }
+
+        private void replaceToolStripMenuTag_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            if (!dataGridView.Enabled) return;
+
+            TagActionReplace(dataGridView);
+        }
+     
+        /////////////////////////////////////////////////////////////////////
+        */
         #region DataGridView Keydown
         //Date
         private void dataGridViewDate_KeyDown(object sender, KeyEventArgs e)
@@ -692,41 +904,42 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
         //TagsAndKeywords
-        private void dataGridViewTags_KeyDown(object sender, KeyEventArgs e)
+        private void dataGridViewTagsAndKeywords_KeyDown(object sender, KeyEventArgs e)
         {
             triStateButtomClick = false;
+            #region Remove me
             /*
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
             if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.X) //Cut Ctrl-C
             {
-                TagActionCut(dataGridView);
+                toolStripMenuItemMapPaste_Click(sender, null);
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.C) //Copy Ctrl-C
             {
-                TagActionCopy(dataGridView);
+                toolStripMenuItemMapCopy_Click(sender, null);
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.V) //Paste  Ctrl-V
             {
-                TagActionPaste(dataGridView);
+                toolStripMenuItemMapPaste_Click(sender, null);
                 e.SuppressKeyPress = true;
             }
             else if (!e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.Delete) //Delete
             {
-                TagActionDelete(dataGridView);
+                toolStripMenuItemMapDelete_Click(sender, null);
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.Z) //Undo Ctrl-Z 
             {
-                TagActionUndo(dataGridView);
+                toolStripMenuItemMapUndo_Click(sender, null);
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.Y) //Redo Ctrl-Y 
             {
-                TagActionRedo(dataGridView);
+                toolStripMenuItemMapRedo_Click(sender, null);
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.T) //Ctrl-T
@@ -747,22 +960,23 @@ namespace PhotoTagsSynchronizer
             }
             else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.F) //Find Ctrl-F 
             {
-                TagActionFind(dataGridView);
+                toolStripMenuItemMapFind_Click(sender, null);
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.H) //Find and Replace Ctrl-H 
             {
-                TagActionReplace(dataGridView);
+                toolStripMenuItemMapReplace_Click(sender, null);
                 e.SuppressKeyPress = true;
             }
             else if (!e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.Apps) //Context menu 
             {
-
             }
             */
+            //if (e.SuppressKeyPress) return;
+            #endregion
 
-            if (e.SuppressKeyPress) return;
-            DataGridViewHandler.KeyDownEventHandler(sender, e);
+            //DataGridViewHandler.KeyDownEventHandler(sender, e);
+    
         }
         #endregion
 
@@ -831,10 +1045,9 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
-        
 
-        //TagsAndProperties
-        private void dataGridViewTags_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        //TagsAndKeywords
+        private void dataGridViewTagsAndKeywords_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             if (triStateButtomClick)
             {
@@ -846,6 +1059,11 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
 
             ClipboardUtility.PushToUndoStack(dataGridView);
+        }
+
+        private void dataGridViewTagsAndKeywords_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
 
@@ -974,7 +1192,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
         }
         //TagsAndKeywords
-        private void dataGridViewTags_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        private void dataGridViewTagsAndKeywords_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;

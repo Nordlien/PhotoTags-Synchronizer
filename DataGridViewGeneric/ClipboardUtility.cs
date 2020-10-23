@@ -101,20 +101,12 @@ namespace DataGridViewGeneric
 
                 NuberOfItemsToEdit = undoCells.Count;
                 IsClipboardActive = true;
-                dataGridView.SuspendLayout();
-                DataGridViewHandler.BeginEditDataGridView(dataGridView);
-
                 foreach (var cell in undoCells)
                 {
-                    //dataGridView.CurrentCell = dataGridView[cell.Key.Column, cell.Key.Row];
-                    DataGridViewHandler.BeginEditCell(dataGridView, cell.Key.ColumnIndex, cell.Key.RowIndex);
                     DataGridViewHandler.SetCellDataGridViewGenericCell(dataGridView, cell.Key.ColumnIndex, cell.Key.RowIndex, cell.Value);
-                    DataGridViewHandler.EndEditCell(dataGridView);
                 }
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;
-                DataGridViewHandler.EndEditDataGridView(dataGridView);
-                dataGridView.ResumeLayout();
             }
 
             dataGridView.CurrentCell = dataGridViewCellCurrent;
@@ -142,20 +134,13 @@ namespace DataGridViewGeneric
                 IsDoingUndoRedo = true; //needs to be after PushToUndoStack or it will return
                 NuberOfItemsToEdit = redoCells.Count;
                 IsClipboardActive = true;
-                dataGridView.SuspendLayout();
-                DataGridViewHandler.BeginEditDataGridView(dataGridView);
-
                 foreach (var cell in redoCells)
                 {
                     //dataGridView.CurrentCell = dataGridView[cell.Key.Column, cell.Key.Row];
-                    DataGridViewHandler.BeginEditCell(dataGridView, cell.Key.ColumnIndex, cell.Key.RowIndex);
                     DataGridViewHandler.SetCellDataGridViewGenericCell(dataGridView, cell.Key.ColumnIndex, cell.Key.RowIndex, cell.Value);
-                    DataGridViewHandler.EndEditCell(dataGridView);
                 }
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;
-                DataGridViewHandler.EndEditDataGridView(dataGridView);
-                dataGridView.ResumeLayout();
             }
 
             dataGridView.CurrentCell = dataGridViewCellCurrent;
@@ -207,9 +192,6 @@ namespace DataGridViewGeneric
 
             NuberOfItemsToEdit = dataGridViewSelectedCellCollection.Count;
             IsClipboardActive = false;
-            DataGridViewHandler.EndEditDataGridView(dataGridView);
-            dataGridView.ResumeLayout();
-
             foreach (DataGridViewCell dataGridViewCell in dataGridViewSelectedCellCollection)
             {
                 if (!dataGridViewCell.ReadOnly ||
@@ -217,16 +199,12 @@ namespace DataGridViewGeneric
                     dataGridViewCell.RowIndex >= topRowOverwrite && dataGridViewCell.RowIndex <= buttomRowOverwrite)
                     )
                 {
-                    DataGridViewHandler.BeginEditCell(dataGridView, dataGridViewCell);
                     dataGridViewCell.Value = dataGridViewCell.DefaultNewRowValue;                    
                     if (removeTag) DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex, SwitchStates.Undefine);
-                    DataGridViewHandler.EndEditCell(dataGridView);
                 }
             }
             NuberOfItemsToEdit = 0;
             IsClipboardActive = false;
-            DataGridViewHandler.EndEditDataGridView(dataGridView);
-            dataGridView.ResumeLayout();
         }
 
         public static void PasteDataGridViewSelectedCellsFromClipboard(DataGridView dataGridView)
@@ -385,35 +363,28 @@ namespace DataGridViewGeneric
             {
                 NuberOfItemsToEdit = dataGridView.SelectedCells.Count;
                 IsClipboardActive = true;
-                dataGridView.SuspendLayout();
-                DataGridViewHandler.BeginEditDataGridView(dataGridView);
-
-                foreach (CellLocation cellLocation in DataGridViewHandler.selectedCellLocations)
+                foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
                 {
                     String cellContent = rowContents[0][0];
                     try
                     {
-                        if (!dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].ReadOnly ||
-                            (cellLocation.ColumnIndex >= leftColumnOverwrite && cellLocation.ColumnIndex <= rightColumnOverwrite &&
-                            cellLocation.RowIndex >= topRowOverwrite && cellLocation.RowIndex <= buttomRowOverwrite)
+                        if (!dataGridViewCell.ReadOnly ||
+                            (dataGridViewCell.ColumnIndex >= leftColumnOverwrite && dataGridViewCell.ColumnIndex <= rightColumnOverwrite &&
+                            dataGridViewCell.RowIndex >= topRowOverwrite && dataGridViewCell.RowIndex <= buttomRowOverwrite)
                             )
                         {
                             //Rememebr in the current value in cell before changed so we can "ReDo" in current DataGridView 
-                            CellLocation cellPosition = new CellLocation(cellLocation.ColumnIndex, cellLocation.RowIndex);
-                            undoCells.Add(cellPosition, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex]));
+                            CellLocation cellPosition = new CellLocation(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+                            undoCells.Add(cellPosition, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView[dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex]));
 
-                            DataGridViewHandler.BeginEditCell(dataGridView, cellLocation);
-                            dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].Value = Convert.ChangeType(cellContent, dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].ValueType);                            
-                            if (removeTag) DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex, SwitchStates.Undefine);
-                            DataGridViewHandler.EndEditCell(dataGridView);
-                            dataGridView.InvalidateCell(cellLocation.ColumnIndex, cellLocation.RowIndex);                            
+                            dataGridViewCell.Value = Convert.ChangeType(cellContent, dataGridViewCell.ValueType);                            
+                            if (removeTag) DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex, SwitchStates.Undefine);
+                            dataGridView.InvalidateCell(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);                            
                         }       
                     } catch { }
                 }
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;
-                DataGridViewHandler.EndEditDataGridView(dataGridView);
-                dataGridView.ResumeLayout();
             }
             //Paste one row from clipboard to multiple rows
             else if (
@@ -432,8 +403,6 @@ namespace DataGridViewGeneric
 
                 NuberOfItemsToEdit = columnsSelected.Count * rowsSelected.Count;
                 IsClipboardActive = true;
-                dataGridView.SuspendLayout();
-                DataGridViewHandler.BeginEditDataGridView(dataGridView);
 
                 columnsSelected.Sort();
                 for (int columnIndex = 0; columnIndex < rowContents[0].Count; columnIndex++)
@@ -442,28 +411,26 @@ namespace DataGridViewGeneric
                     String cellContent = rowContents[0][columnIndex]; //Row content will always be 1
                     int columnIndexPaste = columnsSelected[columnIndex];
 
-                    foreach (CellLocation cellLocation in DataGridViewHandler.selectedCellLocations)
+                    foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
                     {
                         
-                        if (cellLocation.ColumnIndex == columnIndexPaste)
+                        if (dataGridViewCell.ColumnIndex == columnIndexPaste)
                         {
 
                             try
                             {
-                                if (!dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].ReadOnly ||
-                                    (cellLocation.ColumnIndex >= leftColumnOverwrite && cellLocation.ColumnIndex <= rightColumnOverwrite &&
-                                    cellLocation.RowIndex >= topRowOverwrite && cellLocation.RowIndex <= buttomRowOverwrite)
+                                if (!dataGridViewCell.ReadOnly ||
+                                    (dataGridViewCell.ColumnIndex >= leftColumnOverwrite && dataGridViewCell.ColumnIndex <= rightColumnOverwrite &&
+                                    dataGridViewCell.RowIndex >= topRowOverwrite && dataGridViewCell.RowIndex <= buttomRowOverwrite)
                                     )
                                 {
                                     //Rememebr in the current value in cell before changed so we can "ReDo" in current DataGridView 
-                                    CellLocation cellPosition = new CellLocation(cellLocation.ColumnIndex, cellLocation.RowIndex);
-                                    undoCells.Add(cellPosition, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex]));
+                                    CellLocation cellPosition = new CellLocation(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+                                    undoCells.Add(cellPosition, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridViewCell));
 
-                                    DataGridViewHandler.BeginEditCell(dataGridView, cellLocation);
-                                    dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].Value = Convert.ChangeType(cellContent, dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].ValueType);                                    
-                                    if (removeTag) DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex, SwitchStates.Undefine);
-                                    DataGridViewHandler.EndEditCell(dataGridView);
-                                    dataGridView.InvalidateCell(cellLocation.ColumnIndex, cellLocation.RowIndex);
+                                    dataGridViewCell.Value = Convert.ChangeType(cellContent, dataGridViewCell.ValueType);                                    
+                                    if (removeTag) DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex, SwitchStates.Undefine);
+                                    dataGridView.InvalidateCell(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
                                 }
                             }
                             catch { }
@@ -472,8 +439,6 @@ namespace DataGridViewGeneric
                 }
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;
-                DataGridViewHandler.EndEditDataGridView(dataGridView);
-                dataGridView.ResumeLayout();
             }
             //Paste one column from clipboard to multiple columns
             else if (rowContents.Count > 1 && columnConentsCount == 1 && //One column, and multimple rows
@@ -491,38 +456,33 @@ namespace DataGridViewGeneric
 
                 NuberOfItemsToEdit = columnsSelected.Count * rowsSelected.Count;
                 IsClipboardActive = true;
-                dataGridView.SuspendLayout();
-                DataGridViewHandler.BeginEditDataGridView(dataGridView);
-
                 rowsSelected.Sort();
                 for (int rowIndex = 0; rowIndex < rowContents.Count; rowIndex++)
                 {
 
                     String cellContent = rowContents[rowIndex][0];
 
-                    foreach (CellLocation cellLocation in DataGridViewHandler.selectedCellLocations)
+                    foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
                     {
                         int columnIndexPaste = rowsSelected[rowIndex];
 
-                        if (cellLocation.RowIndex == columnIndexPaste)
+                        if (dataGridViewCell.RowIndex == columnIndexPaste)
                         {
 
                             try
                             {
-                                if (!dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].ReadOnly ||
-                                    (cellLocation.ColumnIndex >= leftColumnOverwrite && cellLocation.ColumnIndex <= rightColumnOverwrite &&
-                                    cellLocation.RowIndex >= topRowOverwrite && cellLocation.RowIndex <= buttomRowOverwrite)
+                                if (!dataGridViewCell.ReadOnly ||
+                                    (dataGridViewCell.ColumnIndex >= leftColumnOverwrite && dataGridViewCell.ColumnIndex <= rightColumnOverwrite &&
+                                    dataGridViewCell.RowIndex >= topRowOverwrite && dataGridViewCell.RowIndex <= buttomRowOverwrite)
                                     )
                                 {
                                     //Rememebr in the current value in cell before changed so we can "ReDo" in current DataGridView 
-                                    CellLocation cellPosition = new CellLocation(cellLocation.ColumnIndex, cellLocation.RowIndex);
-                                    undoCells.Add(cellPosition, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex]));
+                                    CellLocation cellPosition = new CellLocation(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+                                    undoCells.Add(cellPosition, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridViewCell));
 
-                                    DataGridViewHandler.BeginEditCell(dataGridView, cellLocation);
-                                    dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].Value = Convert.ChangeType(cellContent, dataGridView[cellLocation.ColumnIndex, cellLocation.RowIndex].ValueType);                                    
-                                    if (removeTag) DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, cellLocation.ColumnIndex, cellLocation.RowIndex, SwitchStates.Undefine);
-                                    DataGridViewHandler.EndEditCell(dataGridView);
-                                    dataGridView.InvalidateCell(cellLocation.ColumnIndex, cellLocation.RowIndex);
+                                    dataGridViewCell.Value = Convert.ChangeType(cellContent, dataGridViewCell.ValueType);                                    
+                                    if (removeTag) DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex, SwitchStates.Undefine);
+                                    dataGridView.InvalidateCell(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
                                 }
                             }
                             catch { }
@@ -531,15 +491,11 @@ namespace DataGridViewGeneric
                 }
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;
-                DataGridViewHandler.EndEditDataGridView(dataGridView);
-                dataGridView.ResumeLayout();
             }
             else
             {
                 NuberOfItemsToEdit = columnsSelected.Count * rowsSelected.Count;
                 IsClipboardActive = true;
-                dataGridView.SuspendLayout();
-                DataGridViewHandler.BeginEditDataGridView(dataGridView);
 
                 foreach (List<String> rowContent in rowContents)
                 {
@@ -555,9 +511,9 @@ namespace DataGridViewGeneric
                             }
                             else
                             {
-                                foreach (CellLocation cellLocation in DataGridViewHandler.selectedCellLocations)
+                                foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
                                 {
-                                    if (cellLocation.ColumnIndex == iCol && cellLocation.RowIndex == iRow) cellOk = true;
+                                    if (dataGridViewCell.ColumnIndex == iCol && dataGridViewCell.RowIndex == iRow) cellOk = true;
                                 }
                             }
 
@@ -577,10 +533,8 @@ namespace DataGridViewGeneric
                                         //Rememebr in the current value in cell before changed so we can "ReDo" in current DataGridView 
                                         CellLocation cellPosition = new CellLocation(iCol, iRow);
                                         undoCells.Add(cellPosition, DataGridViewHandler.CopyCellDataGridViewGenericCell(dataGridView, iCol, iRow));
-                                        DataGridViewHandler.BeginEditCell(dataGridView, iCol, iRow);
                                         cell.Value = Convert.ChangeType(cellContent, cell.ValueType);                                        
                                         if (removeTag) DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, cell.ColumnIndex, cell.RowIndex, SwitchStates.Undefine);
-                                        DataGridViewHandler.EndEditCell(dataGridView);
                                         dataGridView.InvalidateCell(iCol, iRow);
                                     }
                                 }
@@ -600,7 +554,6 @@ namespace DataGridViewGeneric
                 }
                 NuberOfItemsToEdit = 0;
                 IsClipboardActive = false;
-                DataGridViewHandler.EndEditDataGridView(dataGridView);
                 dataGridView.ResumeLayout();
             }
 

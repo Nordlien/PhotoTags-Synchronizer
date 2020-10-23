@@ -309,11 +309,20 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void dataGridViewMap_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+
+        private void dataGridViewMap_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
+            if (GlobalData.IsPopulatingMap || GlobalData.IsPopulatingMapFile) return;
+
             GPSCoordinatedClicked(dataGridView, e.ColumnIndex, e.RowIndex);
         }
+
+        private void dataGridViewMap_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
+
         private void dataGridViewMap_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -329,10 +338,6 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show("You can only show map with one from one active cell", "To many cells selected");
         }
 
-        private void dataGridViewMap_CellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
         #endregion
     }
 }

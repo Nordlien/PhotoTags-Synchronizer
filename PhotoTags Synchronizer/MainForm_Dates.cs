@@ -12,20 +12,8 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
-        private void dataGridViewMap_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
 
-        }
 
-        private void dataGridViewMap_CellValidated(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dataGridViewMap_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
 
         /*
         JPEG:
@@ -59,10 +47,15 @@ namespace PhotoTagsSynchronizer
         17	Millisecond	1976-07-04T21:05:02.319-05:00
         */
 
-        private void dataGridViewDate_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private bool isDataGridViewDate_CellValueChanging = false; 
+        private void dataGridViewDate_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            if (ClipboardUtility.IsClipboardActive) 
+                return;
             if (GlobalData.IsApplicationClosing) return;
-            if (GlobalData.IsPopulatingAnything()) return;
+            if (GlobalData.IsPopulatingDate || GlobalData.IsPopulatingDateFile) return;
+            if (isDataGridViewDate_CellValueChanging) return; //To avoid loop and stack overflow
+            isDataGridViewDate_CellValueChanging = true;
 
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
@@ -111,15 +104,20 @@ namespace PhotoTagsSynchronizer
 
                 DateTime? dateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dataTimeString);
                 if (dateTime != null)
-                    DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex, 
+                    DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
                         new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
                         TimeZoneLibrary.ToStringW3CDTF_UTC((DateTime)dateTime), false);
                 else
-                    DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex, 
+                    DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
                         new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
                         "Error", false);
             }
             DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex);
+            isDataGridViewDate_CellValueChanging = false;
+        }
+
+        private void dataGridViewDate_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
         }
     }   
 }
