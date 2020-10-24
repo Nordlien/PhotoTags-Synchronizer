@@ -88,11 +88,9 @@ namespace MetadataLibrary
             string[] latitideAndlogitude = locationCoordinateString.Split((System.Globalization.CultureInfo.CurrentCulture).TextInfo.ListSeparator[0]);
             if (latitideAndlogitude.Length == 2)
             {
-                float latitude;
-                float longitude;
                 if (
-                    float.TryParse(latitideAndlogitude[0], style, provider, out latitude) && 
-                    float.TryParse(latitideAndlogitude[1], style, provider, out longitude))
+                    float.TryParse(latitideAndlogitude[0], style, provider, out float latitude) &&
+                    float.TryParse(latitideAndlogitude[1], style, provider, out float longitude))
                 {
                     result = new LocationCoordinate(latitude, longitude);
                     return true;

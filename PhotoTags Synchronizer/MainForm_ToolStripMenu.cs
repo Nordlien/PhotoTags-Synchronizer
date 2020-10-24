@@ -56,7 +56,7 @@ namespace PhotoTagsSynchronizer
             List<Metadata> metadataListFromDataGridView = new List<Metadata>();
 
             DataGridView dataGridView = GetActiveDataGridView();
-            List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnsMetadata(dataGridView, true);
+            List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, true);
             foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
             {
                 if (dataGridViewGenericColumn.Metadata == null) continue;

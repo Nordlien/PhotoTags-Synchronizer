@@ -771,7 +771,7 @@ namespace DataGridViewGeneric
         }
 
         
-        public static List<DataGridViewGenericColumn> GetColumnsMetadata(DataGridView dataGridView, bool onlyReadWriteAccessColumn)
+        public static List<DataGridViewGenericColumn> GetColumnDataGridViewGenericColumnList(DataGridView dataGridView, bool onlyReadWriteAccessColumn)
         {
             List<DataGridViewGenericColumn> dataGridViewGenericColumnList = new List<DataGridViewGenericColumn>();
 

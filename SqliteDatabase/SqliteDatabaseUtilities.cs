@@ -246,10 +246,11 @@ namespace SqliteDatabase
        
         public double? ConvertFromDBValDouble(object obj)
         {
-            if (obj == null || obj == DBNull.Value) return (double?) null; 
-            
+            if (obj == null || obj == DBNull.Value) return (double?) null;
+
 #if MonoSqlite
-                return (double?)(float?)obj;
+            //I used (double?)(float?) That gave sometimes wrong numbers
+            return (double?)Math.Round((float)obj, 5); // (double?)double.Parse(((float)obj).ToString("G5"), System.Globalization.CultureInfo.CurrentCulture);
 #else
                 return (double?)obj;
 #endif

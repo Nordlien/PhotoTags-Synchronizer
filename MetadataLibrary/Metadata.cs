@@ -14,23 +14,23 @@ namespace MetadataLibrary
 
         public String errors = "";
         private String fileDirectory;
-        private Byte? personalRating;               //>0</Rating>
+        private Byte? personalRating;               
         private Single? personalRatingPercent;
         private List<RegionStructure> personalRegionList = new List<RegionStructure>();
         private List<KeywordTag> personalTagList = new List<KeywordTag>();
 
         //Media
-        private DateTime? mediaDateTaken;           //>2019-02-16T10:41:59+01:00</DateTaken>
-        private Int32? mediaWidth;            //>2736</ResolutionX>
-        private Int32? mediaHeight;            //>3648</ResolutionY>
+        private DateTime? mediaDateTaken;           
+        private Int32? mediaWidth;           
+        private Int32? mediaHeight;            
         private Int32? mediaOrientation;
         private Int32? mediaVideoLength;
 
         //Location
-        private Double? locationAltitude;           //>59.901237483333333</Altitude>
-        private Double? locationLatitude;           //>59.901237483333333</Latitude>
-        private Double? locationLongitude;          //>10.752598749999999</Longitude>
-        private DateTime? locationDateTime;         //
+        private Double? locationAltitude;           
+        private Double? locationLatitude;           
+        private Double? locationLongitude;          
+        private DateTime? locationDateTime;         
         private String locationName;
         private String locationCountry;
         private String locationDistrict;
@@ -561,17 +561,17 @@ namespace MetadataLibrary
         public Double? LocationAltitude
         {
             get => locationAltitude;
-            set => locationAltitude = value; // (value == null ? (double?)null : (double?)Math.Round((double)value, 2));
+            set => locationAltitude = (value == null ? (double?)null : (double?)Math.Round((double)value, 2));            
         }
         public Double? LocationLatitude
         {
-            get => locationLatitude;
-            set => locationLatitude = value; // (value == null ? (double?)null : (double?)Math.Round((double)value, 5));
+            get => locationLatitude;           
+            set => locationLatitude = (value == null ? (double?)null : (double?)Math.Round((double)value, 5));
         }
         public Double? LocationLongitude
         {
             get => locationLongitude;
-            set => locationLongitude = value; // (value == null ? (double?)null : (double?)Math.Round((double)value, 5));
+            set => locationLongitude = (value == null ? (double?)null : (double?)Math.Round((double)value, 5));
         }
         public DateTime? LocationDateTime { get => locationDateTime; set => locationDateTime = value; }
         public String LocationName { get => locationName; set => locationName = value; }
