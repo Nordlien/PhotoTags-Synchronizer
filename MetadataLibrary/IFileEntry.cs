@@ -6,7 +6,7 @@ namespace MetadataLibrary
     {
         string FullFilePath { get; set; }
         string Directory { get; }
-        string GetFileName { get; }
+        string FileName { get; }
         DateTime LastWriteDateTime { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace PhotoTagsSynchronizer
                 //Clear old content, in case of new values are updated or deleted
                 for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++) DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, "");
 
-                List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.ExifToolData_Read(fileEntry);
+                List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.Read(fileEntry);
                 string lastRegion = "";
                 foreach (ExiftoolData exiftoolData in exifToolDataList)
                 {

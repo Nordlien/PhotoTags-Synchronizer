@@ -1592,7 +1592,6 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         {
             if (rowIndex > -1 && columnIndex > -1)
             {
-// if (!IsCellDataGridViewGenericCellStatus(dataGridView, columnIndex, rowIndex)) 
                     dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
             }
         }
@@ -2703,10 +2702,10 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
                     switch (GetDataGridSizeLargeMediumSmall(dataGridView))
                     {
                         case DataGridViewSize.Small: //Small DataGridViewSize.Small | DataGridViewSize.RenameSize:
-                            cellText = fileEntryColumn.GetFileName;
+                            cellText = fileEntryColumn.FileName;
                             break;
                         case DataGridViewSize.Medium: //Medium DataGridViewSize.Medium | DataGridViewSize.RenameSize:
-                            cellText = dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.GetFileName;
+                            cellText = dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FileName;
                             break;
                         case DataGridViewSize.Large: //Large DataGridViewSize.Large | DataGridViewSize.RenameSize:
                             cellText = dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FullFilePath;
@@ -2719,10 +2718,10 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
                     switch (GetDataGridSizeLargeMediumSmall(dataGridView))
                     {
                         case DataGridViewSize.Small: //Small
-                            cellText = fileEntryColumn.GetFileName;
+                            cellText = fileEntryColumn.FileName;
                             break;
                         case DataGridViewSize.Medium: //Medium
-                            cellText = fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.GetFileName;
+                            cellText = fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FileName;
                             break;
                         case DataGridViewSize.Large: //Large
                             cellText = fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FullFilePath;

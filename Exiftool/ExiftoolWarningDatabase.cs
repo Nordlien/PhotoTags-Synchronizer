@@ -63,12 +63,15 @@ namespace Exiftool
             return exifToolDataList;
         }
 
-        public void ExiftoolTagsWarning_Write(CommonDatabaseTransaction commonDatabaseTransaction, ExiftoolData exifToolOldValue, ExiftoolData exifToolNewValue, string warning)
+        public void Write(ExiftoolData exifToolOldValue, ExiftoolData exifToolNewValue, string warning)
         {
+            dbTools.TransactionBeginBatch();
+
             string sqlCommand =
                 "INSERT INTO MediaExiftoolTagsWarning (FileDirectory, FileName, FileDateModified, OldRegion, OldCommand, OldParameter, NewRegion, NewCommand, NewParameter, Warning) " +
                 "Values (@FileDirectory, @FileName, @FileDateModified, @OldRegion, @OldCommand, @OldParameter, @NewRegion, @NewCommand, @NewParameter, @Warning)";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, commonDatabaseTransaction.DatabaseTransaction))
+
+            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", exifToolNewValue.FileDirectory);
                 commandDatabase.Parameters.AddWithValue("@FileName", exifToolNewValue.FileName);
@@ -83,6 +86,8 @@ namespace Exiftool
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+
+            dbTools.TransactionCommitBatch();
         }
 
         public void DeleteDirectory(string fileDirectory)
@@ -105,7 +110,7 @@ namespace Exiftool
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.GetFileName); 
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName); 
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime)); 
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query

@@ -167,9 +167,6 @@ namespace MetadataLibrary
 
             CacheUpdate(metadata);
 
-
-            //DeleteFileEntry(new FileEntryBroker(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified, metadata.Broker));
-
             string sqlCommand =
                 "INSERT INTO MediaMetadata (" +
                     "Broker, FileDirectory, FileName, FileSize, " +
@@ -232,8 +229,6 @@ namespace MetadataLibrary
                 commandDatabase.ExecuteNonQuery();
             }
 
-            //MetadataTagRegion_Delete_File(metadata.Broker, metadata.FileName, metadata.FileDirectory);
-
             sqlCommand =
                 "INSERT INTO MediaPersonalKeywords (" +
                     "Broker, FileDirectory, FileName, FileDateModified, Keyword, Confidence " +
@@ -261,8 +256,6 @@ namespace MetadataLibrary
                     }
                 }
             }
-
-            //MetadataTagRegion_Delete_File(metadata.Broker, metadata.FileName, metadata.FileDirectory);
 
             sqlCommand =
                 "INSERT INTO MediaPersonalRegions (" +
@@ -538,7 +531,7 @@ namespace MetadataLibrary
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", file.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", file.GetFileName);
+                commandDatabase.Parameters.AddWithValue("@FileName", file.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
                 commandDatabase.Parameters.AddWithValue("@Type", region.Type);
                 commandDatabase.Parameters.AddWithValue("@Name", region.Name);
@@ -578,7 +571,7 @@ namespace MetadataLibrary
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", file.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", file.GetFileName);
+                commandDatabase.Parameters.AddWithValue("@FileName", file.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
                 commandDatabase.Parameters.AddWithValue("@Type", region.Type);
                 commandDatabase.Parameters.AddWithValue("@Name", region.Name);
@@ -666,7 +659,7 @@ namespace MetadataLibrary
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.GetFileName);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
@@ -684,7 +677,7 @@ namespace MetadataLibrary
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.GetFileName);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
@@ -702,7 +695,7 @@ namespace MetadataLibrary
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.GetFileName);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
@@ -781,7 +774,7 @@ namespace MetadataLibrary
                     {
                         commandDatabase.Parameters.AddWithValue("@Broker", broker);
                         commandDatabase.Parameters.AddWithValue("@FileDirectory", file.Directory);
-                        commandDatabase.Parameters.AddWithValue("@FileName", file.GetFileName);
+                        commandDatabase.Parameters.AddWithValue("@FileName", file.FileName);
                         commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
                         var value = commandDatabase.ExecuteScalar();
 

@@ -37,7 +37,7 @@ namespace Exiftool
 
         #region Table: MediaExiftoolTags
 
-        public List<ExiftoolData> ExifToolData_Read(FileEntry file)
+        public List<ExiftoolData> Read(FileEntry file)
         {
             List<ExiftoolData> exifToolDataList = new List<ExiftoolData>();
 
@@ -68,7 +68,7 @@ namespace Exiftool
             return exifToolDataList;
         }
 
-        public bool ExifTool_Write(ExiftoolData exifToolData)
+        public bool Write(ExiftoolData exifToolData)
         {
             string sqlCommand =
             "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
@@ -115,26 +115,12 @@ namespace Exiftool
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.GetFileName);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
-
-
-        /*
-        public void MediaExiftoolTags_Delete_Files(FileEntryBroker[] fileSelectEntries)
-        {
-            if (fileSelectEntries == null) return;
-
-            foreach (FileEntryBroker fileSelectEntry in fileSelectEntries)
-            {
-
-                MediaExiftoolTags_Delete_File(Path.GetFileName(fileSelectEntry.FullFilePath), Path.GetDirectoryName(fileSelectEntry.FullFilePath));
-            }
-        }
-        */
 
 
         public List<FileEntry> ListFileEntryDateVersions(string fileName)

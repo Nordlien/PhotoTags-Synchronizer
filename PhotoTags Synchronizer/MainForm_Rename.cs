@@ -77,7 +77,18 @@ namespace PhotoTagsSynchronizer
             #region Also select items that didn't got renamed due to error in the ImageListView 
             foreach (string filename in renameFailed.Keys)
             {
-                AddError(filename, "Failed rename " + filename + " to : " + renameFailed[filename]);
+                DateTime dateTimeLastWriteTime = DateTime.Now;
+                try {
+                    dateTimeLastWriteTime = File.GetLastWriteTime(filename);
+                } catch { }
+                
+                AddError(
+                        Path.GetDirectoryName(filename),
+                        Path.GetFileName(filename),
+                        dateTimeLastWriteTime,
+                        AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename],
+                        "Failed rename " + filename + " to : " + renameFailed[filename]);
+
                 ImageListViewItem foundItem = FindItemInImageListView(imageListView1.Items, filename);
                 if (foundItem != null) foundItem.Selected = true;
             }

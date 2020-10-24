@@ -44,7 +44,7 @@ namespace Thumbnails
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.GetFileName);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
                 commandDatabase.Parameters.AddWithValue("@Image", dbTools.ImageToByteArray(image));
                 commandDatabase.Prepare();
@@ -62,7 +62,7 @@ namespace Thumbnails
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.GetFileName);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
                 commandDatabase.Prepare();
 
@@ -86,7 +86,7 @@ namespace Thumbnails
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.GetFileName);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
                 commandDatabase.Prepare();
 
@@ -101,7 +101,7 @@ namespace Thumbnails
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.GetFileName);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query

@@ -34,7 +34,7 @@ namespace MetadataLibrary
 
         public string Directory { get { return Path.GetDirectoryName(fullFilePath); } }
 
-        public string GetFileName { get { return Path.GetFileName(fullFilePath); } }
+        public string FileName { get { return Path.GetFileName(fullFilePath); } }
 
         public override int GetHashCode()
         {

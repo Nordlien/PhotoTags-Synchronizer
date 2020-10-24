@@ -7,7 +7,6 @@ using System.Text;
 using System.Xml;
 using MetadataLibrary;
 using MetadataPriorityLibrary;
-using SqliteDatabase;
 
 namespace Exiftool
 {
@@ -103,82 +102,7 @@ namespace Exiftool
             isClosing = true;
         }
 
-        
-
-        #region ExifTool information 
-        //For pure binary output(-b used without -j, -php or -X), the first -sep option specifies a list-item separator, and a second 
-        //-sep option specifies a terminator for the end of the list(or after each value if not a list). In these strings, \n, \r and \t may be 
-        //used to represent a newline, carriage return and tab respectively.By default, binary list items are separated by a newline, and no 
-        //terminator is added.
-
-
-        //Writing
-        //One final note: When writing, the -v2 option may be useful because it provides details about what ExifTool is writing, and where.
-        //How do I format date and time information for writing?
-        //https://sno.phy.queensu.ca/~phil/exiftool/faq.html
-        //
-        //Reading
-        //-a -n -a -G0:1
-        //-P 
-        //ExifTool's default behaviour is to set all filesystem times to the current date/time when any "real" tag is written, 
-        //but the -P option may be used to preserve the original FileModifyDate. FileAccessDate represents the time the file was last accessed, 
-        //and is set to the current date/time whenever any software (including ExifTool) accesses the file.
-        //On systems where a filesystem creation date is maintained, ExifTool also sets this to the current date/time when the file is edited.
-        //On Windows the creation date is readable/writable through the FileCreateDate tag (see the Extra Tags documentation), 
-        //and is preserved with the -P option. On Mac the MDItemFSCreationDate tag is used (see the MacOS MDItem Tags documentation), 
-        //however this tag is extracted only if specified explicitly or the MDItemTags API option is set. 
-        //The - P option does not preserve the creation date when editing a file on Mac systems, but the - overwrite_original_in_place option 
-        //may be used to preserve all Finder information including the creation date, or the MDItemFSCreationDate may be copied back 
-        //specifically(ie. -tagsfromfile @ -MDItemFSCreationDate). On Linux, the file creation date is not stored.
-        //
-        //Grouping
-        //--------
-        //-a
-        //In this command, -a allows duplicate tags to be extracted, -G1 shows the family 1 group name (ie. the location) of each tag, 
-        //and -s shows the tag names instead of their descriptions.
-        //
-        //Group Priorities: 1) EXIF,   2) IPTC,   3) XMP
-        //-G0:1
-        //The -G0:1 option causes the family 0 and 1 group names to be reported in square brackets for each tag.Tags labelled "File:System" 
-        //are "pseudo" tags stored in the filesystem, while the others are real tags stored in the metadata of the file.
-        //[File:System]   FileModifyDate                  : 2009:10:05 20:40:36-04:00
-        //[File:System]   FileAccessDate                  : 2009:10:07 09:22:12-04:00
-        //[File:System]   FileCreateDate                  : 2009:10:05 20:40:36-04:00
-        //[EXIF:IFD0]     ModifyDate                      : 2003:10:31 15:44:19
-        //[EXIF:ExifIFD]  DateTimeOriginal                : 2003:10:31 15:44:19
-        //[EXIF:ExifIFD]  CreateDate                      : 2003:10:31 15:44:19
-        //All about grouping: https://sno.phy.queensu.ca/~phil/exiftool/index.html#groups
-        //
-        //Tags
-        //----
-        //-s
-        //When you run exiftool, by default it prints descriptions, not tag names, for the information it extracts. These descriptions are in 
-        //English unless the -lang option is used to select another language. Note that descriptions often contain spaces between words, 
-        //but tag names never do. Also, tag names are always English, regardless of the -lang setting. To print the tag names instead instead 
-        //of descriptions, use the -s option when extracting information. eg)
-        //All tags names: https://sno.phy.queensu.ca/~phil/exiftool/TagNames/index.html
-        //
-        //-sep STR (-separator)
-        //Specify separator string for items in list-type tags.When reading, the default is to join list items with ", ". 
-        //When writing, this option causes values assigned to list-type tags to be split into individual items at each substring matching STR 
-        //(otherwise they are not split by default). Space characters in STR match zero or more whitespace characters in the value.
-        //Note that an empty separator ("") is allowed, and will join items with no separator when reading, or split the value into individual 
-        //characters when writing.
-        //
-        //-struct, --struct
-        //Output structured XMP information instead of flattening to individual tags.This option works well when combined with the 
-        //XML (-X) and JSON(-j) output formats.For other output formats, XMP structures and lists are serialized into the same format as when 
-        //writing structured information (see http://owl.phy.queensu.ca/~phil/exiftool/struct.html for details). When copying, structured tags 
-        //are copied by default unless --struct is used to disable this feature (although flattened tags may still be copied by specifying them 
-        //individually unless -struct is used). These options have no effect when assigning new values since both flattened and structured tags 
-        //may always be used when writing.
-        //
-        //-t          (-tab)               Output in tab-delimited list format
-        //
-        
-        #endregion
-
-        
+     
         public void MetadataGroupPrioityWrite()
         {
             MetadataReadPrioity.Write();
@@ -188,19 +112,15 @@ namespace Exiftool
             MetadataReadPrioity.ReadOnlyOnce();
         }
 
-
         private void ExiftoolTagsWarning_Write(ExiftoolData exifToolDataPrevious, ExiftoolData exifToolDataConvertThis, string warning)
         {
-            CommonDatabaseTransaction commonDatabaseTransaction = metadataDatabaseCache.DbTools.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
-            metadataExiftoolWarningDatabase.ExiftoolTagsWarning_Write(commonDatabaseTransaction, exifToolDataPrevious, exifToolDataConvertThis, warning);
-            metadataDatabaseCache.DbTools.TransactionCommit(commonDatabaseTransaction);
+            metadataExiftoolWarningDatabase.Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
         }
 
 
         #region ConvertAndCheck(Format)FromString
         public bool isDateTimeEqual(DateTime c1, DateTime c2)
         {
-            //TimeSpan t = ((DateTime)c1.DateTimeConverted).Subtract((DateTime)c2.DateTimeConverted);
             TimeSpan t = ((DateTime)c1).Subtract((DateTime)c2);
             if (System.Math.Abs(t.TotalSeconds) < 1)
             {
@@ -253,9 +173,8 @@ namespace Exiftool
                 }
             } catch (Exception e)
             {
-                Logger.Warn(e.Message); //TODO: Need to fix problems with date formats
-                Logger.Warn(dateTimeToConvert);
-                return null; // new DateTime(DateTime.Now.Ticks, DateTimeKind.Local);
+                Logger.Warn(dateTimeToConvert + " " + e.Message); //TODO: Need to fix problems with date formats
+                return null; 
             }
 
         }
@@ -266,10 +185,6 @@ namespace Exiftool
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
             DateTime? newValue = ConvertDateTimeLocalFromString(exifToolDataConvertThis.Parameter);
-
-            Debug.WriteLine("--Command: " + exifToolDataConvertThis.Region + " " + exifToolDataConvertThis.Command);
-            Debug.WriteLine("--Coverted: " + (newValue == null ? "NULL" : ((DateTime)newValue).ToString("s")) + " parameter: " + exifToolDataConvertThis.Parameter);
-            Debug.WriteLine("--OLD values: " + (oldValue == null ? "" : oldValue.ToString()) + " vs. " + (exifToolDataPrevious.Parameter == null ? "" : exifToolDataPrevious.Parameter));
 
             if (!newValue.HasValue)
             {
@@ -769,7 +684,7 @@ namespace Exiftool
                         }
                         exiftoolDatas.Add(exifToolData);
 
-                        metadataExiftoolDatabase.ExifTool_Write(exifToolData);
+                        metadataExiftoolDatabase.Write(exifToolData);
 
                         exifToolData.Command = tempCommad; //Put original values back, after stores into database as Unique
                         metadataExiftoolDatabase.TransactionCommitBatch();

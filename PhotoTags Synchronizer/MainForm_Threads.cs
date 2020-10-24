@@ -5,13 +5,10 @@ using System.IO;
 using System.Threading;
 using System.Collections.Generic;
 using MetadataLibrary;
-using System.Diagnostics;
 using DataGridViewGeneric;
 using NLog;
 using Exiftool;
 using Manina.Windows.Forms;
-using System.Collections;
-using System.Linq;
 
 namespace PhotoTagsSynchronizer
 {
@@ -484,9 +481,16 @@ namespace PhotoTagsSynchronizer
                             //Verify                             
                             foreach (Metadata metadataRead in metadataListUpdatesByExiftool)
                             {
+                                
+
                                 if (ExiftoolWriter.HasWriteMetadataErrors(metadataRead, queueVerifyMetadata, queueSaveMetadataUpdatedByUser, out Metadata metadataUpdatedByUserCopy, out string writeErrorDesciption))
                                 {
-                                    AddError(metadataUpdatedByUserCopy.FileEntryBroker.FullFilePath, writeErrorDesciption);
+                                    AddError(
+                                        metadataUpdatedByUserCopy.FileEntryBroker.Directory,
+                                        metadataUpdatedByUserCopy.FileEntryBroker.FileName,
+                                        metadataUpdatedByUserCopy.FileEntryBroker.LastWriteDateTime,
+                                        AddErrorExiftooRegion, AddErrorExiftooCommandVerify, AddErrorExiftooParameterVerify, AddErrorExiftooParameterVerify,
+                                        writeErrorDesciption);
 
                                     Metadata metadataError = new Metadata(metadataUpdatedByUserCopy)
                                     {
@@ -735,7 +739,12 @@ namespace PhotoTagsSynchronizer
                                         databaseAndCacheMetadataExiftool.Write(metadataError);
                                         databaseAndCacheMetadataExiftool.TransactionCommitBatch();
 
-                                        AddError(metadataWrite.FileEntryBroker.FullFilePath, "EXIFTOOL.EXE failed write to file. Check if file is read only or locked by other process."); //If file not write date not updated, the error occured
+                                        AddError(
+                                                metadataWrite.FileEntryBroker.Directory,
+                                                metadataWrite.FileEntryBroker.FileName,
+                                                metadataWrite.FileEntryBroker.LastWriteDateTime,
+                                                AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
+                                                "EXIFTOOL.EXE failed write to file. Check if file is read only or locked by other process.");
                                     }
                                 }
                                 catch { }
@@ -764,10 +773,67 @@ namespace PhotoTagsSynchronizer
         #region Error Message handling
         private string listOfErrors = "";
         private bool hasWriteAndVerifyMetadataErrors = false;
-        public void AddError(string fullFilePath, string errorDescription)
+
+        const string AddErrorFileSystemRegion = "FileSystem";
+        const string AddErrorFileSystemCopy = "Copy";
+        const string AddErrorFileSystemMove = "Move";
+        const string AddErrorFileSystemCopyFolder = "Copy Folder";
+        const string AddErrorFileSystemMoveFolder = "Move Folder";
+        const string AddErrorFileSystemCreateFolder = "Create Folder";
+        const string AddErrorFileSystemDeleteFolder = "Delete Folder";
+
+        const string AddErrorPropertiesRegion = "Properties";
+        const string AddErrorPropertiesCommandWrite = "Write";
+        const string AddErrorPropertiesParameterWrite = "Write";
+        const string AddErrorExiftooRegion = "Exiftool";
+        const string AddErrorExiftooCommandVerify = "Verify";
+        const string AddErrorExiftooParameterVerify = "Verify";
+        const string AddErrorExiftooCommandWrite = "Write";
+        const string AddErrorExiftooParameterWrite = "Write";
+        const string AddErrorParameterNone = "Error";
+
+        public void AddError(
+            string fileDirectory, string fileName, DateTime fileDateModified,
+            string region, string command, string oldValue, string newValue,
+            string warning)
         {
-            if (!queueErrorQueue.ContainsKey(fullFilePath)) queueErrorQueue.Add(fullFilePath, errorDescription);
-            listOfErrors += errorDescription + "\r\n";
+            AddError(fileDirectory, fileName, fileDateModified,
+            region, command, oldValue,
+            region, command, newValue,
+            warning, true);
+        }
+
+        public void AddError(string fileDirectory, string region, string command, string oldValue, string newValue, string warning)
+        {
+            DateTime dateTimeLastWrittenDate = DateTime.Now;
+            try
+            {
+                dateTimeLastWrittenDate = Directory.GetLastWriteTime(fileDirectory);
+            } catch { }
+
+            AddError(fileDirectory, "", dateTimeLastWrittenDate,
+            region, command, oldValue,
+            region, command, newValue,
+            warning, false);
+        }
+
+
+        public void AddError(
+            string fileDirectory, string fileName, DateTime fileDateModified, 
+            string oldRegion, string oldCommand, string oldParameter,
+            string newRegion, string newCommand, string newParameter,
+            string warning, bool writeToDatabase)
+        {
+            if (writeToDatabase)
+            {
+                ExiftoolData exiftoolDataOld = new ExiftoolData(fileName, fileDirectory, fileDateModified, oldRegion, oldCommand, oldParameter);
+                ExiftoolData exiftoolDataNew = new ExiftoolData(fileName, fileDirectory, fileDateModified, newRegion, newCommand, newParameter);
+                databaseExiftoolWarning.Write(exiftoolDataOld, exiftoolDataNew, warning);
+            }
+
+            string fullFilePath = Path.Combine(fileDirectory, fileName);
+            if (!queueErrorQueue.ContainsKey(fullFilePath)) queueErrorQueue.Add(fullFilePath, warning);
+            listOfErrors += warning + "\r\n";
             hasWriteAndVerifyMetadataErrors = true;
             UpdateStatusAction("Saving metadata has errors...");
         }

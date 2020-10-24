@@ -134,7 +134,13 @@ namespace PhotoTagsSynchronizer
                                     "Error writing properties to file.\r\n\r\n" + 
                                     "File: " + dataGridViewGenericColumn.FileEntryImage.FullFilePath + "\r\n\r\n" +
                                     "Error message: " + ex.Message + "\r\n";
-                                AddError(dataGridViewGenericColumn.FileEntryImage.FullFilePath, writeErrorDesciption);
+                                
+                                AddError(
+                                    dataGridViewGenericColumn.FileEntryImage.Directory,
+                                    dataGridViewGenericColumn.FileEntryImage.FileName,
+                                    dataGridViewGenericColumn.FileEntryImage.LastWriteDateTime,
+                                    AddErrorPropertiesRegion, AddErrorPropertiesCommandWrite, AddErrorPropertiesParameterWrite, AddErrorPropertiesParameterWrite,
+                                    writeErrorDesciption);
                                 Logger.Error(ex.Message);
                             }
                         }
@@ -272,8 +278,12 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error("Error when delete folder." + ex.Message);
-                AddError(folder, "Was not able to delete folder with files and subfolder!\r\n\r\n" +
-                    "From: " + folder + "\r\n\r\n" + 
+                
+                AddError(
+                    folder,
+                    AddErrorFileSystemRegion, AddErrorFileSystemDeleteFolder, folder, folder,
+                    "Was not able to delete folder with files and subfolder!\r\n\r\n" +
+                    "From: " + folder + "\r\n\r\n" +
                     "Error message:\r\n" + ex.Message + "\r\n");
             }
             finally
@@ -429,9 +439,19 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    AddError(sourceFullFilename, 
+                    DateTime dateTimeLastWriteTime = DateTime.Now;
+                    try
+                    {
+                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                    } catch { }
+
+                    AddError(
+                        Path.GetDirectoryName(sourceFullFilename),
+                        Path.GetFileName(sourceFullFilename),
+                        dateTimeLastWriteTime, sourceFullFilename, targetFullFilename,
+                        AddErrorFileSystemRegion, AddErrorFileSystemCopy, 
                         "Failed copying file.\r\n\r\n" +
-                        "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +  
+                        "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
                         "To file: " + targetFullFilename + "\r\n\r\n" +
                         "Error message: " + ex.Message + "\r\n");
                     Logger.Error("Error when copy file." + ex.Message);
@@ -467,9 +487,21 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    AddError(oldPath, "Failed moving file.\r\n\r\n" +
-                        "From:" + sourceFullFilename +"\r\n\r\n" +
-                        "To: " + targetFullFilename + "\r\n\r\n" + 
+
+                    DateTime dateTimeLastWriteTime = DateTime.Now;
+                    try
+                    {
+                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                    }
+                    catch { }
+                    AddError(
+                        Path.GetDirectoryName(sourceFullFilename),
+                        Path.GetFileName(sourceFullFilename),
+                        dateTimeLastWriteTime,
+                        AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
+                        "Failed moving file.\r\n\r\n" +
+                        "From:" + sourceFullFilename + "\r\n\r\n" +
+                        "To: " + targetFullFilename + "\r\n\r\n" +
                         "Error message: " + ex.Message + "\r\n");
                     Logger.Error("Error when move file." + ex.Message);
                 }
@@ -525,10 +557,15 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error("Error when move folder." + ex.Message);
-                AddError(sourceDirectory, "Failed moving directory.\r\n\r\n" +
+
+                AddError(
+                    sourceDirectory,
+                    AddErrorFileSystemRegion, AddErrorFileSystemMoveFolder, sourceDirectory, targetDirectory,
+                    "Failed moving directory.\r\n\r\n" +
                     "From: " + sourceDirectory + "\r\n\r\n" +
                     "To: " + targetDirectory + "\r\n\r\n" +
                     "Error message:\r\n" + ex.Message);
+
             }
         }
         #endregion
@@ -550,10 +587,13 @@ namespace PhotoTagsSynchronizer
                 catch (SystemException ex)
                 {
                     Logger.Error("Error when create directory when copy all files from folder:" + ex.Message);
-                    AddError(dirPath,
+                    AddError(dirPath, 
+                        AddErrorFileSystemRegion, AddErrorFileSystemCreateFolder, dirPath.Replace(sourceDirectory, tagretDirectory), dirPath.Replace(sourceDirectory, tagretDirectory),
                         "Failed create directory\r\n\r\n" + 
                         "Directory: " + dirPath + "\r\n\r\n" + 
                         "Error message: " + ex.Message + "\r\n");
+
+                    
                 }
             }
 
@@ -573,7 +613,17 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (SystemException ex)
                 {
-                    AddError(sourceFullFilename,
+                    DateTime dateTimeLastWriteTime = DateTime.Now;
+                    try
+                    {
+                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                    }
+                    catch { }
+                    AddError(
+                        Path.GetDirectoryName(sourceFullFilename),
+                        Path.GetFileName(sourceFullFilename),
+                        dateTimeLastWriteTime,
+                        AddErrorFileSystemRegion, AddErrorFileSystemCopy, sourceFullFilename, targetFullFilename,
                         "Failed copying file.\r\n\r\n" +
                         "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
                         "To file: " + targetFullFilename + "\r\n\r\n" +

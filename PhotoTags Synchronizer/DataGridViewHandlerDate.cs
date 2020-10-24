@@ -324,7 +324,7 @@ namespace PhotoTagsSynchronizer
 
 
                 //Exiftool data
-                List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.ExifToolData_Read(fileEntryBrokerReadVersion);
+                List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.Read(fileEntryBrokerReadVersion);
                 string lastRegion = "";
                 foreach (ExiftoolData exiftoolData in exifToolDataList)
                 {
