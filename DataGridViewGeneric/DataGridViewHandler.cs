@@ -1154,41 +1154,13 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
                 if (dataGridViewGenericRow.IsMultiLine)
                 {
                     dataGridView.Columns[columnIndex].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Need bring back
-//dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
-
-
-
-
-
-
-
-
-
-
-
-
-
                 }
             } else dataGridViewGenericCellStatusDefaults.CellReadOnly = true;
 
             SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
-            SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefaults);
+
+            if (!IsCellDataGridViewGenericCellStatus(dataGridView, columnIndex, rowIndex))
+                SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefaults);
 
             SetCellBackGroundColorForRow(dataGridView, rowIndex);
 
@@ -1754,7 +1726,7 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         public static void SetCellStatusMetadataBrokerType(DataGridView dataGridView, int columnIndex, int rowIndex, MetadataBrokerTypes metadataBrokerTypes)
         {
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-            if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true);
+            if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(metadataBrokerTypes, SwitchStates.Off, true);
             dataGridViewGenericCellStatus.MetadataBrokerTypes = metadataBrokerTypes;
         }
         #endregion 

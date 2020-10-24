@@ -92,10 +92,10 @@ namespace PhotoTagsSynchronizer
             this.showFavoriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideEqualRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTagsBrokerCopyText = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTagsBrokerOverwriteText = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleTagSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectTagsAndKeywordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeTagsAndKeywordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBoxRating = new System.Windows.Forms.GroupBox();
             this.radioButtonRating5 = new System.Windows.Forms.RadioButton();
@@ -821,10 +821,10 @@ namespace PhotoTagsSynchronizer
             this.showFavoriteRowsToolStripMenuItem,
             this.hideEqualRowsToolStripMenuItem,
             this.toolStripMenuItemTagsBrokerCopyText,
-            this.toolStripMenuItemTagsBrokerOverwriteText,
-            this.toggleTagSelectionToolStripMenuItem,
-            this.selectTagToolStripMenuItem,
-            this.removeTagToolStripMenuItem});
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText,
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem,
+            this.selectTagsAndKeywordsToolStripMenuItem,
+            this.removeTagsAndKeywordsToolStripMenuItem});
             this.contextMenuStripTagsAndKeywords.Name = "contextMenuStripMap";
             this.contextMenuStripTagsAndKeywords.Size = new System.Drawing.Size(521, 500);
             // 
@@ -959,41 +959,41 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripMenuItemTagsBrokerOverwriteText
             // 
-            this.toolStripMenuItemTagsBrokerOverwriteText.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemTagsBrokerOverwriteText.Image")));
-            this.toolStripMenuItemTagsBrokerOverwriteText.Name = "toolStripMenuItemTagsBrokerOverwriteText";
-            this.toolStripMenuItemTagsBrokerOverwriteText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemTagsBrokerOverwriteText.Image")));
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Name = "toolStripMenuItemTagsBrokerOverwriteText";
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemTagsBrokerOverwriteText.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemTagsBrokerOverwriteText.Text = "Copy selected values to media file and overwrite";
-            this.toolStripMenuItemTagsBrokerOverwriteText.Click += new System.EventHandler(this.toolStripMenuItemTagsOverwriteText_Click);
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Text = "Copy selected values to media file and overwrite";
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Click += new System.EventHandler(this.toolStripMenuItemTagsOverwriteText_Click);
             // 
             // toggleTagSelectionToolStripMenuItem
             // 
-            this.toggleTagSelectionToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordToggle;
-            this.toggleTagSelectionToolStripMenuItem.Name = "toggleTagSelectionToolStripMenuItem";
-            this.toggleTagSelectionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
-            this.toggleTagSelectionToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.toggleTagSelectionToolStripMenuItem.Text = "Toggle selected keyword tag";
-            this.toggleTagSelectionToolStripMenuItem.Click += new System.EventHandler(this.toggleTagSelectionToolStripMenuItem_Click);
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordToggle;
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Name = "toggleTagSelectionToolStripMenuItem";
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Text = "Toggle selected keyword tag";
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Click += new System.EventHandler(this.toggleTagSelectionToolStripMenuItem_Click);
             // 
             // selectTagToolStripMenuItem
             // 
-            this.selectTagToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordSelect;
-            this.selectTagToolStripMenuItem.Name = "selectTagToolStripMenuItem";
-            this.selectTagToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.selectTagsAndKeywordsToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordSelect;
+            this.selectTagsAndKeywordsToolStripMenuItem.Name = "selectTagToolStripMenuItem";
+            this.selectTagsAndKeywordsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.Space)));
-            this.selectTagToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.selectTagToolStripMenuItem.Text = "Set selected keyword tags";
-            this.selectTagToolStripMenuItem.Click += new System.EventHandler(this.selectTagToolStripMenuItem_Click);
+            this.selectTagsAndKeywordsToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
+            this.selectTagsAndKeywordsToolStripMenuItem.Text = "Set selected keyword tags";
+            this.selectTagsAndKeywordsToolStripMenuItem.Click += new System.EventHandler(this.selectTagToolStripMenuItem_Click);
             // 
             // removeTagToolStripMenuItem
             // 
-            this.removeTagToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordDelete;
-            this.removeTagToolStripMenuItem.Name = "removeTagToolStripMenuItem";
-            this.removeTagToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.removeTagToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.removeTagToolStripMenuItem.Text = "Remove selected keyword tags";
-            this.removeTagToolStripMenuItem.Click += new System.EventHandler(this.removeTagToolStripMenuItem_Click);
+            this.removeTagsAndKeywordsToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordDelete;
+            this.removeTagsAndKeywordsToolStripMenuItem.Name = "removeTagToolStripMenuItem";
+            this.removeTagsAndKeywordsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
+            this.removeTagsAndKeywordsToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
+            this.removeTagsAndKeywordsToolStripMenuItem.Text = "Remove selected keyword tags";
+            this.removeTagsAndKeywordsToolStripMenuItem.Click += new System.EventHandler(this.removeTagToolStripMenuItem_Click);
             // 
             // label5
             // 
@@ -1232,7 +1232,6 @@ namespace PhotoTagsSynchronizer
             this.ToolStripMenuItemPeopleSelected.Name = "ToolStripMenuItemPeopleSelected";
             this.ToolStripMenuItemPeopleSelected.Size = new System.Drawing.Size(163, 26);
             this.ToolStripMenuItemPeopleSelected.Text = "(Unknown)";
-            this.ToolStripMenuItemPeopleSelected.Click += new System.EventHandler(this.ToolStripMenuItemPeopleSelected_Click);
             // 
             // meToolStripMenuItem
             // 
@@ -2595,7 +2594,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ComboBox comboBoxMediaAiConfidence;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripTagsAndKeywords;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsBrokerCopyText;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsBrokerOverwriteText;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsAndKeywordsBrokerOverwriteText;
         private System.Windows.Forms.ToolStripButton toolStripButtonSaveAllMetadata;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusAction;
         private System.Windows.Forms.Timer timerActionStatusRemove;
@@ -2615,15 +2614,15 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuTagsBrokerPaste;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuTagsBrokerDelete;
         private System.Windows.Forms.Label labelTagsInformation;
-        private System.Windows.Forms.ToolStripMenuItem toggleTagSelectionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toggleTagsAndKeywordsSelectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuTags;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuTags;
         private System.Windows.Forms.TabPage tabPageFileProperties;
         private System.Windows.Forms.DataGridView dataGridViewProperties;
         private System.Windows.Forms.ToolStripMenuItem findToolStripMenuTag;
         private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuTag;
-        private System.Windows.Forms.ToolStripMenuItem selectTagToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeTagToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectTagsAndKeywordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeTagsAndKeywordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory;
         private System.Windows.Forms.ToolStripMenuItem markAsFavoriteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeAsFavoriteToolStripMenuItem;

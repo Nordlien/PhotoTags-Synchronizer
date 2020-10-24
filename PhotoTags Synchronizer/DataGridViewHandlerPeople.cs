@@ -94,7 +94,8 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.SetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex,
                         DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) | metadataBrokerType);
                 DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex,
-                    (DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off);
+                    (DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) == 
+                    MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off);
 
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, ""); //Clean first, avoid duplication
             }
@@ -105,6 +106,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (RegionStructure region in metadata.PersonalRegionList)
             {
+
                 int rowIndex = AddRow(dataGridView, metadata, columnIndex, new DataGridViewGenericRow(headerPeople, region.Name ?? ""), DataGridViewHandler.DeepCopy(region),
                     new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false));
                 

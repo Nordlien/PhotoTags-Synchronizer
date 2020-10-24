@@ -42,7 +42,9 @@ namespace PhotoTagsSynchronizer
         public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntry fileEntry)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
-            metadata.LocationCoordinate = (LocationCoordinate)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCoordinates); // locationCoordinate;
+
+            LocationCoordinate.TryParse(DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCoordinates).ToString(), out LocationCoordinate locationCoordinate);
+            metadata.LocationCoordinate = locationCoordinate;
             metadata.LocationName = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagLocationName);
             metadata.LocationCity= (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCity);
             metadata.LocationState = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagProvince);

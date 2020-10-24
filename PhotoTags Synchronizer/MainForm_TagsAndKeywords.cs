@@ -138,13 +138,13 @@ namespace PhotoTagsSynchronizer
         }
 
 
-        private bool isDataGridViewCutCopyPasteDelete = false;
+        private bool isDataGridViewCutPasteDeleteFindReplace = false;
         private bool isDataGridViewTagsAndKeywords_CellValueChanging = false;
         private void dataGridViewTagsAndKeywords_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (ClipboardUtility.IsClipboardActive)    return;
             if (isDataGridViewTagsAndKeywords_CellValueChanging) return; //Avoid requirng isues        
-            if (isDataGridViewCutCopyPasteDelete) return;
+            if (isDataGridViewCutPasteDeleteFindReplace) return;
 
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.IsPopulatingTags || GlobalData.IsPopulatingTagsFile) return;
