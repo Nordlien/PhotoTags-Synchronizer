@@ -117,19 +117,16 @@ namespace PhotoTagsSynchronizer
             imageListView.SuspendLayout();
             foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
             {
-                //imageListViewItem.Update();
                 try
                 {
                     this.DeleteMetadataHirstory(imageListViewItem.FullFileName);
-                    //fileSystemWatcher.EnableRaisingEvents = false;
                     File.Delete(imageListViewItem.FullFileName);
-                    //fileSystemWatcher.EnableRaisingEvents = true;
+                    imageListView.Items.Remove(imageListViewItem);
                 }
                 catch
                 {
                     MessageBox.Show("Was not able to delete the file: " + imageListViewItem.FullFileName, "Deleting file failed", MessageBoxButtons.OK);
-                }
-                imageListView.Items.Remove(imageListViewItem);
+                }                
             }
             imageListView.ResumeLayout();
 
