@@ -92,7 +92,7 @@ namespace WindowsLivePhotoGalleryServer
 
         static private Dictionary<string, int> dictionarySerialToDriveToId = new Dictionary<string, int>();
 
-        public Metadata ReadMetadata(MetadataBrokerTypes broker, string fullFilePath)
+        public Metadata Read(MetadataBrokerTypes broker, string fullFilePath)
         {
             int serialNumber;
             if (string.IsNullOrWhiteSpace(fullFilePath)) return null;

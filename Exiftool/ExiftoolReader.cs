@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -39,8 +40,12 @@ namespace Exiftool
         public MetadataReadPrioity MetadataReadPrioity { get; set; } = new MetadataReadPrioity();
 
         #region ExiftoolData old - Used to check new data equal with old data that was read
+
         private List<string> oldKeywordList = null;
         private ExiftoolData oldExifToolKeywords = new ExiftoolData();
+
+        private List<RegionStructure> oldRegionList = null;
+        private ExiftoolData oldExifToolRegion = new ExiftoolData();
 
         private ExiftoolData oldExifToolFileName = new ExiftoolData();
         private ExiftoolData oldExifToolFilePath = new ExiftoolData();
@@ -74,6 +79,9 @@ namespace Exiftool
         {
             oldKeywordList = null;
             oldExifToolKeywords = new ExiftoolData();
+
+            oldRegionList = null;
+            oldExifToolRegion = new ExiftoolData();
 
             oldExifToolFileName = new ExiftoolData();
             oldExifToolFilePath = new ExiftoolData();
@@ -184,6 +192,56 @@ namespace Exiftool
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
+                //Select the list that has highst priority
+                //if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
+            }
+        }
+
+        private void CheckRegionList(List<RegionStructure> oldRegionList, List<RegionStructure> newRegionList, Size? mediaSize, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        {
+            if (oldRegionList == null) return;
+            if (newRegionList == null) return;
+            bool isListEqual = true;
+
+            foreach (RegionStructure regionStructure in newRegionList)
+            {                
+                if (!regionStructure.DoesThisRectangleAndNameExistInList(oldRegionList))
+                {
+                    isListEqual = false;
+                    break;
+                }
+            }
+            if (isListEqual)
+            {
+                foreach (RegionStructure regionStructure in oldRegionList)
+                {
+                    if (!regionStructure.DoesThisRectangleAndNameExistInList(newRegionList))
+                    {
+                        isListEqual = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!isListEqual)
+            {
+                string warning =
+                        "Warning! Metadata missmatching between two metadata values.\r\n";
+
+                if (mediaSize == null) mediaSize = new Size(1000, 1000); 
+
+                warning += string.Format(CultureInfo.InvariantCulture,
+                        "\r\nRegion: {0} Command: {1}\r\nValues:'\r\n", exifToolDataConvertThis.Region, exifToolDataConvertThis.Command);
+                foreach (RegionStructure regionStructure in newRegionList) warning += regionStructure.RegionErrorText((Size)mediaSize) + "\r\n";
+
+                warning += string.Format(CultureInfo.InvariantCulture,
+                        "\r\nRegion: {0} Command: {1}\r\nValue\r\n", exifToolDataPrevious.Region, exifToolDataPrevious.Command);
+                foreach (RegionStructure regionStructure in oldRegionList) warning += regionStructure.RegionErrorText((Size)mediaSize) + "\r\n";
+
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+
+                //Select the list that has highst priority
                 //if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
             }
         }
@@ -404,8 +462,6 @@ namespace Exiftool
             return newValue;        
         }
 
-        
-
         private String ConvertAndCheckStringFromString(String oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
@@ -531,14 +587,15 @@ namespace Exiftool
         }
         #endregion
 
-        #region ReadMetadata
+        #region Read Metadata
 
-        public Metadata ReadMetadata(MetadataBrokerTypes broker, string fullFilePath)
+        #region Read fullFilePath
+        public Metadata Read(MetadataBrokerTypes broker, string fullFilePath)
         {
             List<String> files = new List<String>();
             files.Add(fullFilePath);
 
-            List<Metadata> metaDataCollections = ReadMetadata(broker, files);
+            List<Metadata> metaDataCollections = Read(broker, files);
             if (metaDataCollections.Count == 1)
             {
                 return metaDataCollections[0];
@@ -548,39 +605,44 @@ namespace Exiftool
                 return null;
             }
         }
+        #endregion
 
+        #region Read List of files
 
-
-        public List<Metadata> ReadMetadata(MetadataBrokerTypes broker, List<String> files)
+        public List<Metadata> Read(MetadataBrokerTypes broker, List<String> files)
         {
             List<Metadata> metaDataCollections = new List<Metadata>();
             if (files == null) return metaDataCollections;
             if (files.Count == 0) return metaDataCollections;
 
+            #region Find path to exiftool
             String path = NativeMethods.GetFullPathOfExeFile("exiftool.exe");
             if (path == null)
             {
                 String path2 = NativeMethods.GetFullPathOfExeFile("exiftool(-k).exe");
-                if (path2 != null) {
+                if (path2 != null)
+                {
                     throw new InvalidOperationException("Found exiftool(-k).exe. You need ro rename from exiftool(-k).exe to exiftool.exe. " + Path.Combine(path2, "exiftool(-k).exe"));
                 }
             }
+            #endregion 
 
+            #region Build exiftool.exe argument parameters
             //-charset filename=cp65001 -charset exiftool=cp65001
             string arguments = "-t -a -G0:1 -s -n -P -struct ";  
             //NEED USE "exiftools -struct" otherwise 'bug' in exiftool, can match region name and region rectangle, eg. list of 4 recgle and list of one name
-            //can't be matched.  List names: Name1, List rectangles: R1, R2, R3, R4, where should Name1 go??? 
-            //https://exiftool.org/struct.html 
+            //can't be matched.  List names: Name1, List rectangles: R1, R2, R3, R4, where should Name1 go??? https://exiftool.org/struct.html 
 
             foreach (string file in files)
             {
                 Logger.Info("ReadMetadata: " + file + " " + File.GetLastWriteTime(file).ToString());
                 arguments += "\"" + NativeMethods.ShortFileName(file) + "\" ";  //DOS Workaround for with UTF-8 filenames, like æøåÆØÅ
             }
+            #endregion 
 
-            
             using (var process = new Process())
-            {                
+            {
+                #region Start Exiftool process
                 process.StartInfo = new ProcessStartInfo
                 {
                     FileName = path,
@@ -595,8 +657,9 @@ namespace Exiftool
                     StandardOutputEncoding = Encoding.UTF8 //,
                 };
                 process.Start();
+                #endregion
 
-                
+                #region Init all data for start "first/each file"
                 CleanAllOldExiftoolDataForReadNewFile();
                 Metadata metadata = null; //= new MetaData("ExifTool.exe");
                 List<ExiftoolData> exiftoolDatas = new List<ExiftoolData>();
@@ -608,53 +671,40 @@ namespace Exiftool
                 string tempRegionAreaX = null;
                 string tempRegionAreaY = null;
                 string tempRegionName = null;
+                #endregion
 
                 int fileNumber = 0;
 
-                Stopwatch stopwatchReadLine = new Stopwatch();
-                stopwatchReadLine.Start();
+                #region while (!process.StandardOutput.EndOfStream)
                 while (!process.StandardOutput.EndOfStream)
                 {
-                    if (isClosing) break;
-                    #region while (!process.StandardOutput.EndOfStream)
-                    String line = process.StandardOutput.ReadLine();
-                    Int32 found = line.IndexOf("\t");
+                    if (isClosing) break; //If user closeing the application, stop continue reading
+                    
+                    String readedLineFromExiftool = process.StandardOutput.ReadLine();
+                    Int32 foundToSeperatorInLine = readedLineFromExiftool.IndexOf("\t");
                     ExiftoolData exifToolData;
 
-                    if (stopwatchReadLine.ElapsedMilliseconds > 15) Logger.Info("Exiftool read: {0}", stopwatchReadLine.ElapsedMilliseconds);
-                    stopwatchReadLine.Restart();
-
-
-                    if (line.Substring(0, 9) == "======== ") //This occures only when multiple files found
+                    if (readedLineFromExiftool.Substring(0, 9) == "======== ") //This occures only when multiple files found
                     {
                         if (metadata != null) //New file found, save all metadata found. 
                         {
-                            try
-                            {
-                                Stopwatch stopwatchWrite = new Stopwatch();
-                                stopwatchWrite.Restart();
+                            #region Write Metadata and trigger Event afterNewMediaFoundEvent
+                            ConvertRegion(metadata.PersonalRegionList, tempRegionRectangle, tempRegionPersonDisplayName);
+                            ConvertRegion(metadata.PersonalRegionList, tempRegionType, tempRegionName,
+                                tempRegionAreaH, tempRegionAreaW, tempRegionAreaX, tempRegionAreaY);
 
-                                //Do not delete first, lot of overhead, will only write to when it not exist from before
+                            metadataDatabaseCache.TransactionBeginBatch();
+                            metadataDatabaseCache.Write(metadata);
+                            metadataDatabaseCache.TransactionCommitBatch();                            
+                            
+                            if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                            #endregion
 
-                                ConvertRegion(metadata.PersonalRegionList, tempRegionRectangle, tempRegionPersonDisplayName);
-                                ConvertRegion(metadata.PersonalRegionList, tempRegionType, tempRegionName,
-                                    tempRegionAreaH, tempRegionAreaW, tempRegionAreaX, tempRegionAreaY);
+                            metaDataCollections.Add(metadata); //Add list of metadatas read
 
-                                metadataDatabaseCache.TransactionBeginBatch();
-                                metadataDatabaseCache.Write(metadata);
-                                metadataDatabaseCache.TransactionCommitBatch();
-
-                                if (stopwatchWrite.ElapsedMilliseconds > 15) Logger.Info("Exiftool Write metadata: {0}", stopwatchWrite.ElapsedMilliseconds);
-
-                            }
-                            catch { }
-
-                            if (afterNewMediaFoundEvent != null)
-                                afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
-                            metaDataCollections.Add(metadata); //Add previod
-
+                            #region Clean up temporary data - get ready for new media file
                             CleanAllOldExiftoolDataForReadNewFile();
-                            metadata = null; //Start with with new file
+                            metadata = null; //Start with new empty data when new file found
                             exiftoolDatas = new List<ExiftoolData>();
                             tempRegionRectangle = "";
                             tempRegionPersonDisplayName = "";
@@ -664,14 +714,17 @@ namespace Exiftool
                             tempRegionAreaX = null;
                             tempRegionAreaY = null;
                             tempRegionName = null;
+                            #endregion 
                         }
                     }
 
+                    #region Init metadata with Init known data as directory, filename and last modyfied time
                     if (metadata == null)  //After loop we also check if metaData not null, to save the last file found
                     {
                         fileNumber++;
                         metadata = new Metadata(MetadataBrokerTypes.ExifTool); //Get ready to read a meta data
-                                                                               //Don't use exif file name, problem with UTF8 filenames therefor short windows 8 short names used instead
+                        
+                        //Don't use exif file name, problem with UTF8 filenames therefor short windows 8 short names used instead
                         metadata.FileName = Path.GetFileName(files[fileNumber - 1]);
                         metadata.FileDirectory = Path.GetDirectoryName(files[fileNumber - 1]);
                         metadata.FileDateModified = File.GetLastWriteTime(Path.Combine(metadata.FileDirectory, metadata.FileName));
@@ -688,7 +741,6 @@ namespace Exiftool
                         ConvertAndCheckStringFromString(metadata.FileName, exifToolData, oldExifToolFileName,
                                     CompositeTags.FileName, ref metadata.errors);
                         oldExifToolFileName = new ExiftoolData(exifToolData);
-
 
                         exifToolData = new ExiftoolData();
                         exifToolData.FileName = metadata.FileName;
@@ -711,13 +763,13 @@ namespace Exiftool
                         ConvertAndCheckDateFromString(metadata.FileDateModified, exifToolData, oldExifToolFileName,
                             CompositeTags.FileModificationDateTime, ref metadata.errors);
                         oldExifToolFilePath = new ExiftoolData(exifToolData);
-
-
                     }
+                    #endregion 
 
-                    if (found >= 0)
+                    if (foundToSeperatorInLine >= 0)
                     {
-                        String[] parameters = line.Split('\t');
+                        #region Fill in exifToolData struct/class
+                        String[] parameters = readedLineFromExiftool.Split('\t');
                         String regionType = parameters[0];
                         String command = parameters[1];
                         String parameter = parameters[2];
@@ -729,27 +781,21 @@ namespace Exiftool
                         exifToolData.Region = regionType;
                         exifToolData.Command = command;
                         exifToolData.Parameter = parameter.Replace(_ExiftoolTabSeperator, System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator);
+                        #endregion 
 
-                        Stopwatch stopwatchWrite = new Stopwatch();
-                        stopwatchWrite.Restart();
-
+                        #region Log all Exiftool Region, Command and Paramters
                         //Make the Command unique, due to exif delivers not unique valies 
                         metadataExiftoolDatabase.TransactionBeginBatch();
                         string tempCommad = exifToolData.Command;
                         int uniqueNumber = 1;
-                        while (exiftoolDatas.Contains(exifToolData))
-                        {
-                            exifToolData.Command = tempCommad + "(" + (uniqueNumber++) + ")";
-                        }
-                        exiftoolDatas.Add(exifToolData);
-
+                        while (exiftoolDatas.Contains(exifToolData)) exifToolData.Command = tempCommad + "(" + (uniqueNumber++) + ")";
+                        exiftoolDatas.Add(exifToolData);    //Remover what's been saved to avoid 2 equal rows in database
                         metadataExiftoolDatabase.Write(exifToolData);
-
-                        exifToolData.Command = tempCommad; //Put original values back, after stores into database as Unique
+                        exifToolData.Command = tempCommad;  //Put original values back, after stores into database as Unique
                         metadataExiftoolDatabase.TransactionCommitBatch();
+                        #endregion
 
-                        if (stopwatchWrite.ElapsedMilliseconds > 10) Logger.Info("Exiftool Write Exifdata: {0}", stopwatchWrite.ElapsedMilliseconds);
-
+                        #region Find Composite Tag and Priority
                         string commandPriority = exifToolData.Command;
                         MetadataPriorityKey metadataPriorityKey = new MetadataPriorityKey(exifToolData.Region, exifToolData.Command);
                         if (MetadataReadPrioity.MetadataPrioityDictionary.ContainsKey(metadataPriorityKey))
@@ -759,7 +805,8 @@ namespace Exiftool
                             else
                                 MetadataReadPrioity.MetadataPrioityDictionary.Remove(metadataPriorityKey); //Not defind, add it back later with default values 
                         }
-                        
+                        #endregion 
+
                         switch (commandPriority)
                         {
                             #region File
@@ -993,21 +1040,26 @@ namespace Exiftool
                             case "RegionInfo":      //MWG RegionInfo
                             case "RegionInfoMP":    //Microsoft RegionInfoMP
                                                     //De-Serialization 
+
+                                List<RegionStructure> readRegionList = new List<RegionStructure>();
                                 
                                 if (parameter == "{Regions=}") break; //Empty list, skip
                                 if (parameter == "{RegionList=}") break; //Empty list, skip
 
+                                string currentRegionCompositeTag;
                                 RegionStructureTypes currentExiftoolRegionStructureType;
                                 switch (exifToolData.Command)
                                 {
                                     case "RegionInfoMP":
+                                        currentRegionCompositeTag = CompositeTags.FaceRegionMicrosoft;
                                         currentExiftoolRegionStructureType = RegionStructureTypes.WindowsLivePhotoGallery;
-                                        MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.FaceRegionMicrosoft);
-
+                                        MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, currentRegionCompositeTag);
+                                        
                                         break;
                                     case "RegionInfo":
+                                        currentRegionCompositeTag = CompositeTags.FaceRegionMWG;
                                         currentExiftoolRegionStructureType = RegionStructureTypes.MetadataWorkingGroup;
-                                        MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.FaceRegionMWG);
+                                        MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, currentRegionCompositeTag);
 
                                         break;
                                     default:
@@ -1126,6 +1178,7 @@ namespace Exiftool
                                                         {
                                                             if (String.IsNullOrWhiteSpace(region.Type)) region.Type = "Face";
 
+                                                            if (!readRegionList.Contains(region)) readRegionList.Add(region);
                                                             metadata.PersonalRegionListAddIfNotExists(region);
                                                             region = null;
                                                         }
@@ -1140,6 +1193,7 @@ namespace Exiftool
                                                         if (region != null)
                                                         {
                                                             if (String.IsNullOrWhiteSpace(region.Type)) region.Type = "Face";
+                                                            if (!readRegionList.Contains(region)) readRegionList.Add(region);
                                                             metadata.PersonalRegionListAddIfNotExists(region);
                                                             region = null;
                                                         }
@@ -1158,7 +1212,11 @@ namespace Exiftool
                                 }
 
                                 if (structDeSerialization.Level != -1) throw new Exception("Error in Exiftool seralization. Missing closing curves");
-                               
+
+                                CheckRegionList(oldRegionList, readRegionList, metadata.MediaSize, exifToolData, oldExifToolKeywords, currentRegionCompositeTag, ref metadata.errors);
+                                oldRegionList = readRegionList;
+                                oldExifToolRegion = new ExiftoolData(exifToolData);
+
                                 break;
                             #endregion
 
@@ -1395,11 +1453,10 @@ namespace Exiftool
 
                     
                 }
-
-                
-
+              
                 process.WaitForExit(1500);
 
+                #region Write last Metadata and trigger Event afterNewMediaFoundEvent
                 if (metadata != null) //Save the last one, remover we save everytime, when new file found
                 {
                     ConvertRegion(metadata.PersonalRegionList, tempRegionRectangle, tempRegionPersonDisplayName);
@@ -1412,12 +1469,11 @@ namespace Exiftool
                     metadataDatabaseCache.Write(metadata);
                     metadataDatabaseCache.TransactionCommitBatch();
 
-                    if (afterNewMediaFoundEvent != null)
-                        afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
-
+                    if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
                 }
+                #endregion 
 
-
+                #region Log error
                 string error = "";
                 while (!process.StandardError.EndOfStream)
                 {
@@ -1425,9 +1481,13 @@ namespace Exiftool
                     Logger.Error("ERROR: " + error);
                     throw new Exception(error);
                 }
+                #endregion 
+
             } //Using process
             return metaDataCollections;
         }
+        #endregion
+
         #endregion
 
     }

@@ -124,7 +124,7 @@ namespace WindowsLivePhotoGalleryServer
                 Logger.Info("Client {0} Proccessing file: {1}", connection.Id, fullFilePath);
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                Metadata metadata = databaseWindowsLivePhotGallery.ReadMetadata(MetadataBrokerTypes.WindowsLivePhotoGallery, fullFilePath);
+                Metadata metadata = databaseWindowsLivePhotGallery.Read(MetadataBrokerTypes.WindowsLivePhotoGallery, fullFilePath);
                 
                 if (metadata == null)
                     Logger.Info("Client ID: {0}, Proccessing file: {1}, Time Elapsed Milliseconds: {2}, Metadata NOT found ", connection.Id, fullFilePath, stopwatch.ElapsedMilliseconds.ToString());

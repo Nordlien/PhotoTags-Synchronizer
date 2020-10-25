@@ -24,7 +24,7 @@ namespace MicrosoftPhotos
             dbTools = new SqliteDatabaseUtilities(DatabaseType.SqliteMicrosoftPhotos, 1000, 100);
         }
 
-        public Metadata ReadMetadata(MetadataBrokerTypes broker, string fullFilePath)
+        public Metadata Read(MetadataBrokerTypes broker, string fullFilePath)
         {        
             Metadata metadata = null; 
             string fileDirectory = Path.GetDirectoryName(fullFilePath);

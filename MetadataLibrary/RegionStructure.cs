@@ -546,6 +546,16 @@ namespace MetadataLibrary
                 " X: " + AreaX + " Y: " + AreaY + " W: " + AreaWidth + " H: " + AreaHeight + "\r\n";
         }
 
+        public string RegionErrorText(Size imageSize)
+        {
+            Rectangle rectangle = RegionStructure.CalculateImageRegionPixelRectangle(RegionStructureType, imageSize, this.GetRegionAbstractRectangle());
+            return "Name: " + (name ?? "(Unknown)") + "\r\n" +
+                "Type: " + Type + "\r\n" +
+                "Source: " + RegionStructureType + "\r\n" +
+                "Using size: W: " + imageSize.Width + " H: " + imageSize.Width + "\r\n" +
+                "X: " + rectangle.X + " Y: " + rectangle.Y + " W: " + rectangle.Width + " H: " + rectangle.Height + "\r\n";
+        }
+
         public string ToErrorText()
         {
             return "Name: " + (string.IsNullOrEmpty(name) ? "(Unknown)" : name) + " Type: " + Type + " Source: " + RegionStructureType + " X: " + AreaX + " Y: " + AreaY + " W: " + AreaWidth + " H: " + AreaHeight;

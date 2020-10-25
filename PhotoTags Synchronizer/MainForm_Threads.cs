@@ -474,7 +474,7 @@ namespace PhotoTagsSynchronizer
                                 RemoveError(removeErrorFile);
                             }
 
-                            List<Metadata> metadataListUpdatesByExiftool = exiftoolReader.ReadMetadata(MetadataBrokerTypes.ExifTool, useExiftoolOnThisSubsetOfFiles);
+                            List<Metadata> metadataListUpdatesByExiftool = exiftoolReader.Read(MetadataBrokerTypes.ExifTool, useExiftoolOnThisSubsetOfFiles);
 
                             AddQueueMetadataConvertRegion(metadataListUpdatesByExiftool);
 
@@ -540,7 +540,7 @@ namespace PhotoTagsSynchronizer
                 {
                     if (File.Exists(fileEntry.FullFilePath))
                     {
-                        metadata = reader.ReadMetadata(broker, fileEntry.FullFilePath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
+                        metadata = reader.Read(broker, fileEntry.FullFilePath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
                         if (metadata != null) // && broker != MetadataBrokerTypes.WindowsLivePhotoGallery)
                         {
                             //Windows Live Photo Gallery writes direclty to database from sepearte thread when found

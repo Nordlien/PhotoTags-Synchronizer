@@ -162,7 +162,7 @@ namespace WindowsLivePhotoGallery
         }
 
         
-        public Metadata ReadMetadata(MetadataBrokerTypes broker, string fullFilePath)
+        public Metadata Read(MetadataBrokerTypes broker, string fullFilePath)
         {
             Stopwatch stopWatch = new Stopwatch();
             
