@@ -561,17 +561,17 @@ namespace MetadataLibrary
         public Double? LocationAltitude
         {
             get => locationAltitude;
-            set => locationAltitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatNumberOfDecimalsShort));            
+            set => locationAltitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimalsShort));            
         }
         public Double? LocationLatitude
         {
             get => locationLatitude;           
-            set => locationLatitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatNumberOfDecimals));
+            set => locationLatitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimals));
         }
         public Double? LocationLongitude
         {
             get => locationLongitude;
-            set => locationLongitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatNumberOfDecimals));
+            set => locationLongitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimals));
         }
         public DateTime? LocationDateTime { get => locationDateTime; set => locationDateTime = value; }
         public String LocationName { get => locationName; set => locationName = value; }

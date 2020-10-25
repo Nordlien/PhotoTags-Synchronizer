@@ -356,6 +356,8 @@ namespace Exiftool
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
             float? newValue = float.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
 
+            if (newValue.HasValue) newValue = (float)Math.Round((float)newValue, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimals);
+
             if (oldValue.HasValue && Math.Abs((float)newValue - (float)oldValue) >= 0.000000000001) //Due not not excant numbers in float
             {
                 string warning = string.Format(CultureInfo.InvariantCulture,
@@ -380,6 +382,7 @@ namespace Exiftool
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
             Double? newValue = Double.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+            if (newValue.HasValue) newValue = (double)Math.Round((double)newValue, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimals);
 
             if (oldValue.HasValue && Math.Abs((double)newValue - (double)oldValue) >= 0.000000000001) //Due not not excant numbers in float
             {
