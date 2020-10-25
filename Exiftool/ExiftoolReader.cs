@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using MetadataLibrary;
@@ -37,6 +38,10 @@ namespace Exiftool
         public event AfterNewMediaFound afterNewMediaFoundEvent;
         public MetadataReadPrioity MetadataReadPrioity { get; set; } = new MetadataReadPrioity();
 
+        #region ExiftoolData old - Used to check new data equal with old data that was read
+        private List<string> oldKeywordList = null;
+        private ExiftoolData oldExifToolKeywords = new ExiftoolData();
+
         private ExiftoolData oldExifToolFileName = new ExiftoolData();
         private ExiftoolData oldExifToolFilePath = new ExiftoolData();
         private ExiftoolData oldExifToolFileModifyDate = new ExiftoolData();
@@ -67,6 +72,9 @@ namespace Exiftool
 
         private void CleanAllOldExiftoolDataForReadNewFile()
         {
+            oldKeywordList = null;
+            oldExifToolKeywords = new ExiftoolData();
+
             oldExifToolFileName = new ExiftoolData();
             oldExifToolFilePath = new ExiftoolData();
             oldExifToolFileModifyDate = new ExiftoolData();
@@ -95,14 +103,17 @@ namespace Exiftool
             oldExifToolGPSLongitude = new ExiftoolData();
             oldExifToolGPSDateTime = new ExiftoolData();
         }
+        #endregion
 
+        #region Is Application Closing
         private bool isClosing = false;
         public void Close()
         {
             isClosing = true;
         }
+        #endregion 
 
-     
+        #region MetadataGroupPrioity
         public void MetadataGroupPrioityWrite()
         {
             MetadataReadPrioity.Write();
@@ -111,12 +122,14 @@ namespace Exiftool
         {
             MetadataReadPrioity.ReadOnlyOnce();
         }
+        #endregion ExiftoolTagsWarning_Write
 
+        #region ExiftoolTagsWarning_Write
         private void ExiftoolTagsWarning_Write(ExiftoolData exifToolDataPrevious, ExiftoolData exifToolDataConvertThis, string warning)
         {
             metadataExiftoolWarningDatabase.Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
         }
-
+        #endregion 
 
         #region ConvertAndCheck(Format)FromString
         public bool isDateTimeEqual(DateTime c1, DateTime c2)
@@ -127,6 +140,52 @@ namespace Exiftool
                 return true;
             }
             return false;
+        }
+
+        private void CheckKeywordList(List<string> oldKeywordList, List<string> newKeywordList, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        {
+            if (oldKeywordList == null) return;
+            if (newKeywordList == null) return;
+            bool isListEqual = true;
+
+            foreach (string keyword in newKeywordList)
+            {
+                if (!oldKeywordList.Contains(keyword))
+                {
+                    isListEqual = false;
+                    break;
+                }
+            }
+            if (isListEqual)
+            {
+                foreach (string keyword in oldKeywordList)
+                {
+                    if (!newKeywordList.Contains(keyword))
+                    {
+                        isListEqual = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!isListEqual)
+            {
+                string warning =
+                        "Warning! Metadata missmatching between two metadata values.\r\n";
+
+                warning += string.Format(CultureInfo.InvariantCulture,
+                        "\r\nRegion: {0} Command: {1}\r\nValues:'\r\n", exifToolDataConvertThis.Region, exifToolDataConvertThis.Command);
+                foreach (string keyword in newKeywordList) warning += keyword + "\r\n";
+
+                warning += string.Format(CultureInfo.InvariantCulture,
+                        "\r\nRegion: {0} Command: {1}\r\nValue\r\n", exifToolDataPrevious.Region, exifToolDataPrevious.Command);
+                foreach (string keyword in oldKeywordList) warning += keyword + "\r\n";
+
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
+
+                //if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
+            }
         }
 
         public DateTime? ConvertDateTimeLocalFromString(String dateTimeToConvert)
@@ -178,9 +237,7 @@ namespace Exiftool
             }
 
         }
-
-        
-
+    
         private DateTime? ConvertAndCheckDateFromString(DateTime? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
@@ -507,8 +564,7 @@ namespace Exiftool
             }
 
             //-charset filename=cp65001 -charset exiftool=cp65001
-            bool useStuctArgument = true;
-            string arguments = "-t -a -G0:1 -s -n -P " + (useStuctArgument ? "-struct " : " -sep \"" + _ExiftoolTabSeperator + "\" ");  
+            string arguments = "-t -a -G0:1 -s -n -P -struct ";  
             //NEED USE "exiftools -struct" otherwise 'bug' in exiftool, can match region name and region rectangle, eg. list of 4 recgle and list of one name
             //can't be matched.  List names: Name1, List rectangles: R1, R2, R3, R4, where should Name1 go??? 
             //https://exiftool.org/struct.html 
@@ -830,17 +886,22 @@ namespace Exiftool
                             #endregion
 
                             #region Personal
+                            case CompositeTags.ArthurStruct:
+                            case "Creator":         //XMP:XMP-dc	Creator	        [Nokia Imaging SDK]  
+                                MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.ArthurStruct);
+                                List<string> arthurListStruct = StructDeSerialization.GetListOfValues(parameter);
+
+                                string arthur = string.Join(";", arthurListStruct.ToArray());
+
+                                exifToolData.Parameter = arthur;
+                                metadata.PersonalAuthor = ConvertAndCheckStringFromString(metadata.PersonalAuthor, exifToolData, oldExifToolAuthor,
+                                    CompositeTags.Arthur, ref metadata.errors);
+                                oldExifToolAuthor = new ExiftoolData(exifToolData);
+                                break;
                             case CompositeTags.Arthur:
                             case "By-line":         //IPTC	        By-line	        string[0,32]+
-                            case "Creator":         //XMP:XMP-dc	Creator	        [Nokia Imaging SDK]
                             case "XPAuthor":        //EXIF:IFD0	    XPAuthor	    Wrong size
-                                if (exifToolData.Region == "XMP:XMP-dc" && exifToolData.Command == "Creator")
-                                {
-                                    if (useStuctArgument && exifToolData.Parameter.StartsWith("[") && exifToolData.Parameter.EndsWith("]"))
-                                    {
-                                        exifToolData.Parameter = exifToolData.Parameter.Substring(1, exifToolData.Parameter.Length - 2);
-                                    }
-                                }
+                                
                                 metadata.PersonalAuthor = ConvertAndCheckStringFromString(metadata.PersonalAuthor, exifToolData, oldExifToolAuthor,
                                     CompositeTags.Arthur, ref metadata.errors);
                                 oldExifToolAuthor = new ExiftoolData(exifToolData);
@@ -912,35 +973,6 @@ namespace Exiftool
                                 oldExifToolRating = new ExiftoolData(exifToolData);
 
                                 break;
-                            #endregion
-
-                            #region Region (**without** 'exiftool -struct')
-                            /*
-                            case "RegionPersonDisplayName":
-                                tempRegionPersonDisplayName = parameter;
-                                break;
-                            case "RegionRectangle":
-                                tempRegionRectangle = parameter;
-                                break;
-                            case "RegionType":
-                                tempRegionType = parameter;
-                                break;
-                            case "RegionAreaH":
-                                tempRegionAreaH = parameter;
-                                break;
-                            case "RegionAreaW":
-                                tempRegionAreaW = parameter;
-                                break;
-                            case "RegionAreaX":
-                                tempRegionAreaX = parameter;
-                                break;
-                            case "RegionAreaY":
-                                tempRegionAreaY = parameter;
-                                break;
-                            case "RegionName":
-                                tempRegionName = parameter;
-                                break;
-                            */
                             #endregion
 
                             #region De-Serialization structed - Region (with 'exiftool -struct')
@@ -1133,6 +1165,7 @@ namespace Exiftool
                                 #region Read XML Categories
                                 MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsXML);
 
+                                List<string> keywordListXML = new List<string>();
                                 XmlReader xmlReader = XmlReader.Create(new StringReader(parameter));
                                 string tagHierarchy = "";
                                 bool assigned = false;
@@ -1148,7 +1181,7 @@ namespace Exiftool
                                             if (assigned)
                                             {
                                                 tagHierarchy += xmlReader.Value;
-
+                                                if (!keywordListXML.Contains(tagHierarchy)) keywordListXML.Add(tagHierarchy);
                                                 KeywordTag keywordTag = new KeywordTag(tagHierarchy);
                                                 metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
                                                 tagHierarchy = "";
@@ -1161,7 +1194,13 @@ namespace Exiftool
                                             break;
                                     }
                                 }
-                                #endregion 
+
+
+                                CheckKeywordList(oldKeywordList, keywordListXML, exifToolData, oldExifToolKeywords, CompositeTags.KeywordsXML, ref metadata.errors);
+                                oldKeywordList = keywordListXML;
+                                oldExifToolKeywords = new ExiftoolData(exifToolData);
+
+                                #endregion
                                 break;
 
                             case CompositeTags.KeywordsStruct:
@@ -1174,31 +1213,35 @@ namespace Exiftool
                             case "Keyword":     //Home made for store in QuickTime
                             case "Keywords":
                             case "CatalogSets":
-                                MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsStruct);
-                                //*Without* -struck not supported, need https://exiftool.org/struct.html
-                                String[] tagList1;
-                                if (useStuctArgument)
-                                    tagList1 = StructDeSerialization.GetListOfValues(parameter);
-                                else
-                                    tagList1 = parameter.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
 
-                                foreach (String tag in tagList1)
+                                MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsStruct);
+                                List<string> keywordListStruct = StructDeSerialization.GetListOfValues(parameter);
+                                
+                                foreach (String tag in keywordListStruct)
                                 {
                                     KeywordTag keywordTag = new KeywordTag(tag);
                                     metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
                                 }
+
+                                CheckKeywordList(oldKeywordList, keywordListStruct, exifToolData, oldExifToolKeywords, CompositeTags.KeywordsXML, ref metadata.errors);
+                                oldKeywordList = keywordListStruct;
+                                oldExifToolKeywords = new ExiftoolData(exifToolData);
+
                                 break;
                             case CompositeTags.KeywordsMicrosoft:
-                            case "XPKeywords": //; sepearated list
-                                //EXIF:IFD0	 XPKeywords	            Keyword1;Keyword2;Keyword3
-                                //Without -struck not supported, need https://exiftool.org/struct.html
+                            case "XPKeywords": //Always ; sepearated list | EXIF:IFD0 XPKeywords Keyword1;Keyword2;Keyword3
                                 MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsMicrosoft);
-                                String[] tagList2 = parameter.Split(';');
-                                foreach (String tag in tagList2)
+                                List<string> keywordListXP = parameter.Split(';').ToList();
+                                
+                                foreach (String tag in keywordListXP)
                                 {
                                     KeywordTag keywordTag = new KeywordTag(tag);
                                     metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
                                 }
+
+                                CheckKeywordList(oldKeywordList, keywordListXP, exifToolData, oldExifToolKeywords, CompositeTags.KeywordsXML, ref metadata.errors);
+                                oldKeywordList = keywordListXP;
+                                oldExifToolKeywords = new ExiftoolData(exifToolData);
                                 break;
                             #endregion
 

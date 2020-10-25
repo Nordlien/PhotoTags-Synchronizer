@@ -84,7 +84,7 @@ namespace Exiftool
     public class StructObject
     {
         public int Level { get; set; } = -1;
-        public string Value { get; set; } = "";
+        public string Value { get; set; } = null;
         public StructTypes Type { get; set; } = StructTypes.Value;
         public bool IsList { get; set; } = false;
     }
@@ -210,7 +210,7 @@ namespace Exiftool
             return readLocation <= structString.Length; //New also read last sign
         }
 
-        public static string[] GetListOfValues(string parameter)
+        public static List<string> GetListOfValues(string parameter)
         {
             List<string> values = new List<string>();
 
@@ -223,6 +223,7 @@ namespace Exiftool
                     case StructTypes.EOF:
                     case StructTypes.OpeningSquareBrackets:
                     case StructTypes.OpeningCurlyBracket:
+                        if (structObject.Value != null) values.Add(structObject.Value);
                         break;
                     case StructTypes.FieldName:
                         //Should not occure
@@ -232,12 +233,12 @@ namespace Exiftool
                     case StructTypes.Value:
                     default:
                         //if (structObject.Type == StructTypes.Value) 
-                        values.Add(structObject.Value);
+                        if (structObject.Value != null) values.Add(structObject.Value);
                         break;
                 }
             }
 
-            return values.ToArray();
+            return values;
         }
 
     }

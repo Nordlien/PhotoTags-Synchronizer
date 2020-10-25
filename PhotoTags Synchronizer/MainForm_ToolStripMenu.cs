@@ -731,10 +731,6 @@ namespace PhotoTagsSynchronizer
                 StringCollection fileCollection = new StringCollection();
                 fileCollection.AddRange(files);
                 CopyOrMove(e.Effect, targetNode, fileCollection, targetDirectory);
-
-                /*GlobalData.IsDragAndDropActive = false;
-                folderTreeViewFolder.Focus();
-                return;*/
             }
             #endregion
 
@@ -766,9 +762,7 @@ namespace PhotoTagsSynchronizer
 
             if (e.Button == MouseButtons.Right)
             {               
-                //GlobalData.DoNotRefreshImageListView = true;
                 folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
-                //GlobalData.DoNotRefreshImageListView = false;
             }
         }
         #endregion
@@ -845,9 +839,6 @@ namespace PhotoTagsSynchronizer
             folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
             GlobalData.DoNotRefreshImageListView = false;
 
-            //if (!Directory.Exists(folderTreeViewFolder.GetSelectedNodePath())) MessageBox.Show("MOVED");
-            //else MessageBox.Show("Still there");
-            //FolderSelected(false);
             folderTreeViewFolder.Focus();
         }
         #endregion 

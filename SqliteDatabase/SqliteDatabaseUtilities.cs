@@ -29,7 +29,8 @@ namespace SqliteDatabase
         private int numberOfTransactionbeforeCommit = 10000;
         private int elapsedMillisecondsBeforeCommit = 5000;
         private object transactionLock = new object();
-
+        public static int FloatNumberOfDecimals { get; set; } = 5;
+        public static int FloatNumberOfDecimalsShort { get; set; } = 2;
 
 
         public SqliteDatabaseUtilities(DatabaseType type, int numberOfTransactionbeforeCommit, int elapsedMillisecondsBeforeCommit)
@@ -250,7 +251,7 @@ namespace SqliteDatabase
 
 #if MonoSqlite
             //I used (double?)(float?) That gave sometimes wrong numbers
-            return (double?)Math.Round((float)obj, 5); // (double?)double.Parse(((float)obj).ToString("G5"), System.Globalization.CultureInfo.CurrentCulture);
+            return (double?)Math.Round((float)obj, FloatNumberOfDecimals); // (double?)double.Parse(((float)obj).ToString("G5"), System.Globalization.CultureInfo.CurrentCulture);
 #else
                 return (double?)obj;
 #endif

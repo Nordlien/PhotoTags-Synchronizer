@@ -355,7 +355,7 @@ namespace MetadataLibrary
                 foreach (RegionStructure region in allRegions) 
                     errors += "" + (region == null ? "" : region.ToErrorText()) +
                         (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) == (region.DoesThisRectangleAndNameExistInList(m2.personalRegionList)) ? " Verified" : 
-                        (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) ? " Not added" : " not removed")) +
+                        (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) ? " Not added" : " Not removed")) +
                         "\r\n";               
             }
 
@@ -370,7 +370,7 @@ namespace MetadataLibrary
                 foreach (KeywordTag tag in allTags)
                     errors += "" + (tag == null ? "" : tag.ToString()) +
                         (m1.PersonalKeywordTags.Contains(tag) == m2.PersonalKeywordTags.Contains(tag) ? " Verified OK" : 
-                        (m1.PersonalKeywordTags.Contains(tag) ? " Not removed":" not added")) +                        
+                        (m1.PersonalKeywordTags.Contains(tag) ? " Not add":" Not removed")) +                        
                         "\r\n";                
             }
 
@@ -561,17 +561,17 @@ namespace MetadataLibrary
         public Double? LocationAltitude
         {
             get => locationAltitude;
-            set => locationAltitude = (value == null ? (double?)null : (double?)Math.Round((double)value, 2));            
+            set => locationAltitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatNumberOfDecimalsShort));            
         }
         public Double? LocationLatitude
         {
             get => locationLatitude;           
-            set => locationLatitude = (value == null ? (double?)null : (double?)Math.Round((double)value, 5));
+            set => locationLatitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatNumberOfDecimals));
         }
         public Double? LocationLongitude
         {
             get => locationLongitude;
-            set => locationLongitude = (value == null ? (double?)null : (double?)Math.Round((double)value, 5));
+            set => locationLongitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatNumberOfDecimals));
         }
         public DateTime? LocationDateTime { get => locationDateTime; set => locationDateTime = value; }
         public String LocationName { get => locationName; set => locationName = value; }

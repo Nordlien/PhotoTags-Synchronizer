@@ -20,6 +20,7 @@ namespace MetadataPriorityLibrary
         public const string MediaWidth = "Media Width";
         public const string DateTimeDigitized = "Date Time Digitized";
         public const string Arthur = "Arthur";
+        public const string ArthurStruct = "Arthurs list";
         public const string Description = "Description";
         public const string Title = "Title";
         public const string Comment = "Comment";

@@ -758,7 +758,7 @@ namespace PhotoTagsSynchronizer
                         //Files are updated, need updated ImageListeView with new metadata, filesize, lastwritedate, etc...
                         UpdateThumbnailOnImageListViewItems(imageListView1, metadataWriteQueue);
                         UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
-                        //DataGridViewHandler.UpdateImageOnFile(GetActiveDataGridView(), );
+
                         metadataWriteQueue.Clear();
                     }
                     UpdateStatusReadWriteStatus_NeedToBeUpated();
