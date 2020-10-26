@@ -123,11 +123,14 @@ namespace PhotoTagsSynchronizer
             //If DataGridViewMap is agregated then pick up coordnates from what user have entered
             if (DataGridViewHandler.GetIsAgregated(DataGridViewMap))
             {
-                string locationCoordinateString = (string)DataGridViewHandler.GetCellValueStringTrim(DataGridViewMap, columnIndex, DataGridViewMapHeaderMedia, DataGridViewMapTagCoordinates);                
+                string locationCoordinateString = (string)DataGridViewHandler.GetCellValueStringTrim(DataGridViewMap, columnIndex, DataGridViewMapHeaderMedia, DataGridViewMapTagCoordinates);
                 LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
-                
-                metadataLocationLatitude = locationCoordinate.Latitude;
-                metadataLocationLongitude = locationCoordinate.Longitude;
+
+                if (locationCoordinate != null)
+                {
+                    metadataLocationLatitude = locationCoordinate.Latitude;
+                    metadataLocationLongitude = locationCoordinate.Longitude;
+                }
             }
             #endregion 
 

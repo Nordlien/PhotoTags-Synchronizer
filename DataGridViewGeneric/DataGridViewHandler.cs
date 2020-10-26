@@ -48,7 +48,7 @@ namespace DataGridViewGeneric
         private ToolStripMenuItem redoToolStripMenuItem;
         private ToolStripMenuItem findToolStripMenuItem;
         private ToolStripMenuItem replaceToolStripMenuItem;
-
+        private ToolStripMenuItem toolStripMenuItemMapSave;
         private ToolStripMenuItem toggleRowsAsFavouriteToolStripMenuItem;
         private ToolStripMenuItem toggleShowFavouriteRowsToolStripMenuItem;
         private ToolStripMenuItem toggleHideEqualRowsValuesToolStripMenuItem;
@@ -182,12 +182,13 @@ namespace DataGridViewGeneric
             redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItemMapSave = new System.Windows.Forms.ToolStripMenuItem();
             toggleRowsAsFavouriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-
+            
             contextMenuStripDataGridViewGeneric.SuspendLayout();
             // 
             // contextMenuStripDataGridViewGeneric
@@ -202,6 +203,7 @@ namespace DataGridViewGeneric
             redoToolStripMenuItem,
             findToolStripMenuItem,
             replaceToolStripMenuItem,
+            toolStripMenuItemMapSave,
             markAsFavoriteToolStripMenuItem,
             removeAsFavoriteToolStripMenuItem,
             toggleRowsAsFavouriteToolStripMenuItem,
@@ -281,6 +283,15 @@ namespace DataGridViewGeneric
             replaceToolStripMenuItem.Size = new System.Drawing.Size(302, 26);
             replaceToolStripMenuItem.Text = "Replace";
             replaceToolStripMenuItem.Click += new System.EventHandler(replaceToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemMapSave
+            // 
+            this.toolStripMenuItemMapSave.Image = global::DataGridViewGeneric.Properties.Resources.Save;
+            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
+            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemMapSave.Text = "Save";
+            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
             // 
             // toggleRowsAsFavouriteToolStripMenuItem
             // 
@@ -2224,6 +2235,11 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
             ActionFindAndReplace(dataGridView, true);
         }
 
+        private void toolStripMenuItemMapSave_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Not implemented");
+        }
+
         private void toggleRowsAsFavouriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!dataGridView.Enabled) return;
@@ -2370,7 +2386,6 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
 
         #endregion 
 
-        
         #region CellPainting
         private const int roundedRadius = 8;
 

@@ -31,6 +31,7 @@ namespace DataGridViewGeneric
             this.components = new System.ComponentModel.Container();
             this.tabControlFindAndReplace = new System.Windows.Forms.TabControl();
             this.FindPage = new System.Windows.Forms.TabPage();
+            this.checkBoxSearchAlsoRowHeaders = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButtonSearchUp1 = new System.Windows.Forms.RadioButton();
             this.radioButtonSearchDown1 = new System.Windows.Forms.RadioButton();
@@ -59,6 +60,9 @@ namespace DataGridViewGeneric
             this.FindWhatTextBox2 = new System.Windows.Forms.TextBox();
             this.FindLabel2 = new System.Windows.Forms.Label();
             this.contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapSave = new System.Windows.Forms.ToolStripMenuItem();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,9 +74,6 @@ namespace DataGridViewGeneric
             this.markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleRowsAsFavouriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkBoxSearchAlsoRowHeaders = new System.Windows.Forms.CheckBox();
             this.tabControlFindAndReplace.SuspendLayout();
             this.FindPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -113,6 +114,16 @@ namespace DataGridViewGeneric
             this.FindPage.Size = new System.Drawing.Size(691, 238);
             this.FindPage.TabIndex = 0;
             this.FindPage.Text = "Find";
+            // 
+            // checkBoxSearchAlsoRowHeaders
+            // 
+            this.checkBoxSearchAlsoRowHeaders.AutoSize = true;
+            this.checkBoxSearchAlsoRowHeaders.Location = new System.Drawing.Point(111, 211);
+            this.checkBoxSearchAlsoRowHeaders.Name = "checkBoxSearchAlsoRowHeaders";
+            this.checkBoxSearchAlsoRowHeaders.Size = new System.Drawing.Size(209, 21);
+            this.checkBoxSearchAlsoRowHeaders.TabIndex = 11;
+            this.checkBoxSearchAlsoRowHeaders.Text = "Search also in Row Headers";
+            this.checkBoxSearchAlsoRowHeaders.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -465,13 +476,41 @@ namespace DataGridViewGeneric
             this.redoToolStripMenuItem,
             this.findToolStripMenuItem,
             this.replaceToolStripMenuItem,
+            this.toolStripMenuItemMapSave,
             this.markAsFavoriteToolStripMenuItem,
             this.removeAsFavoriteToolStripMenuItem,
             this.toggleRowsAsFavouriteToolStripMenuItem,
             this.toggleShowFavouriteRowsToolStripMenuItem,
             this.toggleHideEqualRowsValuesToolStripMenuItem});
             this.contextMenuStripDataGridViewGeneric.Name = "contextMenuStripMap";
-            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(241, 342);
+            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(241, 396);
+            // 
+            // toggleShowFavouriteRowsToolStripMenuItem
+            // 
+            this.toggleShowFavouriteRowsToolStripMenuItem.Checked = true;
+            this.toggleShowFavouriteRowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.toggleShowFavouriteRowsToolStripMenuItem.Name = "toggleShowFavouriteRowsToolStripMenuItem";
+            this.toggleShowFavouriteRowsToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
+            this.toggleShowFavouriteRowsToolStripMenuItem.Text = "Show only favorite rows";
+            this.toggleShowFavouriteRowsToolStripMenuItem.Click += new System.EventHandler(this.toggleShowFavouriteRowsToolStripMenuItem_Click);
+            // 
+            // toggleHideEqualRowsValuesToolStripMenuItem
+            // 
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Checked = true;
+            this.toggleHideEqualRowsValuesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Name = "toggleHideEqualRowsValuesToolStripMenuItem";
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Text = "Hide equal rows";
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Click += new System.EventHandler(this.toggleHideEqualRowsValuesToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemMapSave
+            // 
+            this.toolStripMenuItemMapSave.Image = global::DataGridViewGeneric.Properties.Resources.Save;
+            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
+            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemMapSave.Text = "Save";
+            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
             // 
             // cutToolStripMenuItem
             // 
@@ -569,34 +608,6 @@ namespace DataGridViewGeneric
             this.toggleRowsAsFavouriteToolStripMenuItem.Text = "Toggle favorite";
             this.toggleRowsAsFavouriteToolStripMenuItem.Click += new System.EventHandler(this.toggleRowsAsFavouriteToolStripMenuItem_Click);
             // 
-            // toggleShowFavouriteRowsToolStripMenuItem
-            // 
-            this.toggleShowFavouriteRowsToolStripMenuItem.Checked = true;
-            this.toggleShowFavouriteRowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.toggleShowFavouriteRowsToolStripMenuItem.Name = "toggleShowFavouriteRowsToolStripMenuItem";
-            this.toggleShowFavouriteRowsToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.toggleShowFavouriteRowsToolStripMenuItem.Text = "Show only favorite rows";
-            this.toggleShowFavouriteRowsToolStripMenuItem.Click += new System.EventHandler(this.toggleShowFavouriteRowsToolStripMenuItem_Click);
-            // 
-            // toggleHideEqualRowsValuesToolStripMenuItem
-            // 
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Checked = true;
-            this.toggleHideEqualRowsValuesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Name = "toggleHideEqualRowsValuesToolStripMenuItem";
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Text = "Hide equal rows";
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Click += new System.EventHandler(this.toggleHideEqualRowsValuesToolStripMenuItem_Click);
-            // 
-            // checkBoxSearchAlsoRowHeaders
-            // 
-            this.checkBoxSearchAlsoRowHeaders.AutoSize = true;
-            this.checkBoxSearchAlsoRowHeaders.Location = new System.Drawing.Point(111, 211);
-            this.checkBoxSearchAlsoRowHeaders.Name = "checkBoxSearchAlsoRowHeaders";
-            this.checkBoxSearchAlsoRowHeaders.Size = new System.Drawing.Size(209, 21);
-            this.checkBoxSearchAlsoRowHeaders.TabIndex = 11;
-            this.checkBoxSearchAlsoRowHeaders.Text = "Search also in Row Headers";
-            this.checkBoxSearchAlsoRowHeaders.UseVisualStyleBackColor = true;
-            // 
             // FindAndReplaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -672,5 +683,6 @@ namespace DataGridViewGeneric
         private System.Windows.Forms.ToolStripMenuItem markAsFavoriteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeAsFavoriteToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxSearchAlsoRowHeaders;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapSave;
     }
 }

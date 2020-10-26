@@ -291,6 +291,7 @@
     <None Include="Resources\DeleteHistory.png" />
     <None Include="Resources\About.png" />
     <None Include="Resources\Config.png" />
+    <Content Include="Resources\AutoCorrect.png" />
     <Content Include="Resources\Demo.ico" />
     <Content Include="Resources\AppIcon.ico" />
     <None Include="Resources\FaceLoading.png" />

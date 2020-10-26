@@ -56,6 +56,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderReadSubfolders = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderReload = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderClearCache = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageFilterTags = new System.Windows.Forms.TabPage();
             this.treeViewFilter = new System.Windows.Forms.TreeView();
             this.splitContainerImages = new System.Windows.Forms.SplitContainer();
@@ -86,6 +87,7 @@ namespace PhotoTagsSynchronizer
             this.redoToolStripMenuTags = new System.Windows.Forms.ToolStripMenuItem();
             this.findToolStripMenuTag = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceToolStripMenuTag = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuTagsBrokerSave = new System.Windows.Forms.ToolStripMenuItem();
             this.markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -125,6 +127,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleFind = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
@@ -147,6 +150,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapFind = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
@@ -221,6 +225,7 @@ namespace PhotoTagsSynchronizer
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.timerShowErrorMessage = new System.Windows.Forms.Timer(this.components);
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
+            this.toolStripMenuItemImageListViewAutoCorrect = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -433,9 +438,10 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderRefreshFolder,
             this.toolStripMenuItemTreeViewFolderReadSubfolders,
             this.toolStripMenuItemTreeViewFolderReload,
-            this.toolStripMenuItemTreeViewFolderClearCache});
+            this.toolStripMenuItemTreeViewFolderClearCache,
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata});
             this.contextMenuStripTreeViewFolder.Name = "contextMenuStripImageListView";
-            this.contextMenuStripTreeViewFolder.Size = new System.Drawing.Size(390, 212);
+            this.contextMenuStripTreeViewFolder.Size = new System.Drawing.Size(390, 238);
             // 
             // toolStripMenuItemTreeViewFolderCut
             // 
@@ -508,6 +514,15 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderClearCache.Size = new System.Drawing.Size(389, 26);
             this.toolStripMenuItemTreeViewFolderClearCache.Text = "Clear thumbnail and metadata history";
             this.toolStripMenuItemTreeViewFolderClearCache.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderClearCache_Click);
+            // 
+            // toolStripMenuItemTreeViewFolderAutoCorrectMetadata
+            // 
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Image = global::PhotoTagsSynchronizer.Properties.Resources.AutoCorrect;
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Name = "toolStripMenuItemTreeViewFolderAutoCorrectMetadata";
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.T)));
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Text = "AutoCorrect metadata";
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click);
             // 
             // tabPageFilterTags
             // 
@@ -598,9 +613,10 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewRefreshFolder,
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata,
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory,
-            this.toolStripMenuItemImageListViewSelectAll});
+            this.toolStripMenuItemImageListViewSelectAll,
+            this.toolStripMenuItemImageListViewAutoCorrect});
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
-            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 212);
+            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 266);
             // 
             // toolStripMenuItemImageListViewCut
             // 
@@ -793,7 +809,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewTagsAndKeywords.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTagsAndKeywords.ShowCellErrors = false;
             this.dataGridViewTagsAndKeywords.ShowRowErrors = false;
-            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(530, 244);
+            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(530, 246);
             this.dataGridViewTagsAndKeywords.TabIndex = 10;
             this.dataGridViewTagsAndKeywords.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTagsAndKeywords_CellBeginEdit);
             this.dataGridViewTagsAndKeywords.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTagsAndKeywords_CellEndEdit);
@@ -815,6 +831,7 @@ namespace PhotoTagsSynchronizer
             this.redoToolStripMenuTags,
             this.findToolStripMenuTag,
             this.replaceToolStripMenuTag,
+            this.toolStripMenuTagsBrokerSave,
             this.markAsFavoriteToolStripMenuItem,
             this.removeAsFavoriteToolStripMenuItem,
             this.toggleFavoriteToolStripMenuItem,
@@ -826,7 +843,7 @@ namespace PhotoTagsSynchronizer
             this.selectTagsAndKeywordsToolStripMenuItem,
             this.removeTagsAndKeywordsToolStripMenuItem});
             this.contextMenuStripTagsAndKeywords.Name = "contextMenuStripMap";
-            this.contextMenuStripTagsAndKeywords.Size = new System.Drawing.Size(521, 472);
+            this.contextMenuStripTagsAndKeywords.Size = new System.Drawing.Size(521, 498);
             // 
             // cutToolStripMenuTagsBrokerCut
             // 
@@ -899,6 +916,15 @@ namespace PhotoTagsSynchronizer
             this.replaceToolStripMenuTag.Size = new System.Drawing.Size(520, 26);
             this.replaceToolStripMenuTag.Text = "Replace";
             this.replaceToolStripMenuTag.Click += new System.EventHandler(this.replaceToolStripMenuTag_Click);
+            // 
+            // toolStripMenuTagsBrokerSave
+            // 
+            this.toolStripMenuTagsBrokerSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
+            this.toolStripMenuTagsBrokerSave.Name = "toolStripMenuTagsBrokerSave";
+            this.toolStripMenuTagsBrokerSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuTagsBrokerSave.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuTagsBrokerSave.Text = "Save";
+            this.toolStripMenuTagsBrokerSave.Click += new System.EventHandler(this.toolStripMenuTagsBrokerSave_Click);
             // 
             // markAsFavoriteToolStripMenuItem
             // 
@@ -1161,9 +1187,9 @@ namespace PhotoTagsSynchronizer
             // tabPagePeople
             // 
             this.tabPagePeople.Controls.Add(this.dataGridViewPeople);
-            this.tabPagePeople.Location = new System.Drawing.Point(4, 26);
+            this.tabPagePeople.Location = new System.Drawing.Point(4, 25);
             this.tabPagePeople.Name = "tabPagePeople";
-            this.tabPagePeople.Size = new System.Drawing.Size(536, 463);
+            this.tabPagePeople.Size = new System.Drawing.Size(536, 461);
             this.tabPagePeople.TabIndex = 2;
             this.tabPagePeople.Tag = "People";
             this.tabPagePeople.Text = "People";
@@ -1181,7 +1207,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewPeople.Name = "dataGridViewPeople";
             this.dataGridViewPeople.RowHeadersWidth = 51;
             this.dataGridViewPeople.RowTemplate.Height = 24;
-            this.dataGridViewPeople.Size = new System.Drawing.Size(533, 460);
+            this.dataGridViewPeople.Size = new System.Drawing.Size(533, 465);
             this.dataGridViewPeople.TabIndex = 0;
             this.dataGridViewPeople.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPeople_CellBeginEdit);
             this.dataGridViewPeople.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPeople_CellMouseClick);
@@ -1207,6 +1233,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleRedo,
             this.toolStripMenuItemPeopleFind,
             this.toolStripMenuItemPeopleReplace,
+            this.toolStripMenuItemPeopleSave,
             this.toolStripMenuItemPeopleMarkFavorite,
             this.toolStripMenuItemPeopleRemoveFavorite,
             this.toolStripMenuItemPeopleToggleFavorite,
@@ -1216,7 +1243,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleSelectPeopleTag,
             this.toolStripMenuItemPeopleRemovePeopleTag});
             this.contextMenuStripPeople.Name = "contextMenuStripMap";
-            this.contextMenuStripPeople.Size = new System.Drawing.Size(368, 446);
+            this.contextMenuStripPeople.Size = new System.Drawing.Size(368, 472);
             // 
             // peopleToolStripMenuItem
             // 
@@ -1311,6 +1338,15 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleReplace.Text = "Replace";
             this.toolStripMenuItemPeopleReplace.Click += new System.EventHandler(this.toolStripMenuItemPeopleReplace_Click);
             // 
+            // toolStripMenuItemPeopleSave
+            // 
+            this.toolStripMenuItemPeopleSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
+            this.toolStripMenuItemPeopleSave.Name = "toolStripMenuItemPeopleSave";
+            this.toolStripMenuItemPeopleSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemPeopleSave.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleSave.Text = "Save";
+            this.toolStripMenuItemPeopleSave.Click += new System.EventHandler(this.toolStripMenuItemPeopleSave_Click);
+            // 
             // toolStripMenuItemPeopleMarkFavorite
             // 
             this.toolStripMenuItemPeopleMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
@@ -1389,9 +1425,9 @@ namespace PhotoTagsSynchronizer
             // tabPageMap
             // 
             this.tabPageMap.Controls.Add(this.splitContainerMap);
-            this.tabPageMap.Location = new System.Drawing.Point(4, 26);
+            this.tabPageMap.Location = new System.Drawing.Point(4, 25);
             this.tabPageMap.Name = "tabPageMap";
-            this.tabPageMap.Size = new System.Drawing.Size(536, 463);
+            this.tabPageMap.Size = new System.Drawing.Size(536, 461);
             this.tabPageMap.TabIndex = 3;
             this.tabPageMap.Tag = "Map";
             this.tabPageMap.Text = "Map";
@@ -1421,8 +1457,8 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel2.Controls.Add(this.comboBoxMapZoomLevel);
             this.splitContainerMap.Panel2.Controls.Add(this.textBoxBrowserURL);
             this.splitContainerMap.Panel2.Controls.Add(this.panelBrowser);
-            this.splitContainerMap.Size = new System.Drawing.Size(536, 463);
-            this.splitContainerMap.SplitterDistance = 216;
+            this.splitContainerMap.Size = new System.Drawing.Size(536, 461);
+            this.splitContainerMap.SplitterDistance = 214;
             this.splitContainerMap.SplitterWidth = 10;
             this.splitContainerMap.TabIndex = 5;
             this.splitContainerMap.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerMap_SplitterMoved);
@@ -1508,7 +1544,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.ShowCellToolTips = false;
             this.dataGridViewMap.ShowEditingIcon = false;
             this.dataGridViewMap.ShowRowErrors = false;
-            this.dataGridViewMap.Size = new System.Drawing.Size(536, 179);
+            this.dataGridViewMap.Size = new System.Drawing.Size(536, 177);
             this.dataGridViewMap.TabIndex = 10;
             this.dataGridViewMap.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewMap_CellBeginEdit);
             this.dataGridViewMap.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellEndEdit);
@@ -1530,6 +1566,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapRedo,
             this.toolStripMenuItemMapFind,
             this.toolStripMenuItemMapReplace,
+            this.toolStripMenuItemMapSave,
             this.toolStripMenuItemMapMarkFavorite,
             this.toolStripMenuItemMapRemoveFavorite,
             this.toolStripMenuItemMapToggleFavorite,
@@ -1539,7 +1576,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapCopyAndOverwrite,
             this.toolStripMenuItemShowCoordinateOnMap});
             this.contextMenuStripMap.Name = "contextMenuStripMap";
-            this.contextMenuStripMap.Size = new System.Drawing.Size(521, 420);
+            this.contextMenuStripMap.Size = new System.Drawing.Size(521, 446);
             // 
             // toolStripMenuItemMapCut
             // 
@@ -1612,6 +1649,15 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapReplace.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemMapReplace.Text = "Replace";
             this.toolStripMenuItemMapReplace.Click += new System.EventHandler(this.toolStripMenuItemMapReplace_Click);
+            // 
+            // toolStripMenuItemMapSave
+            // 
+            this.toolStripMenuItemMapSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
+            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
+            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapSave.Text = "Save";
+            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
             // 
             // toolStripMenuItemMapMarkFavorite
             // 
@@ -1746,16 +1792,16 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Cursor = System.Windows.Forms.Cursors.Default;
             this.panelBrowser.Location = new System.Drawing.Point(0, 33);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(536, 165);
+            this.panelBrowser.Size = new System.Drawing.Size(536, 147);
             this.panelBrowser.TabIndex = 1;
             // 
             // tabPageDate
             // 
             this.tabPageDate.Controls.Add(this.textBox1);
             this.tabPageDate.Controls.Add(this.dataGridViewDate);
-            this.tabPageDate.Location = new System.Drawing.Point(4, 26);
+            this.tabPageDate.Location = new System.Drawing.Point(4, 25);
             this.tabPageDate.Name = "tabPageDate";
-            this.tabPageDate.Size = new System.Drawing.Size(536, 463);
+            this.tabPageDate.Size = new System.Drawing.Size(536, 461);
             this.tabPageDate.TabIndex = 6;
             this.tabPageDate.Tag = "Date";
             this.tabPageDate.Text = "Date";
@@ -1785,7 +1831,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewDate.Name = "dataGridViewDate";
             this.dataGridViewDate.RowHeadersWidth = 51;
             this.dataGridViewDate.RowTemplate.Height = 24;
-            this.dataGridViewDate.Size = new System.Drawing.Size(533, 371);
+            this.dataGridViewDate.Size = new System.Drawing.Size(533, 376);
             this.dataGridViewDate.TabIndex = 0;
             this.dataGridViewDate.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewDate_CellBeginEdit);
             this.dataGridViewDate.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDate_CellEndEdit);
@@ -1796,9 +1842,9 @@ namespace PhotoTagsSynchronizer
             // tabPageExifTool
             // 
             this.tabPageExifTool.Controls.Add(this.dataGridViewExifTool);
-            this.tabPageExifTool.Location = new System.Drawing.Point(4, 26);
+            this.tabPageExifTool.Location = new System.Drawing.Point(4, 25);
             this.tabPageExifTool.Name = "tabPageExifTool";
-            this.tabPageExifTool.Size = new System.Drawing.Size(536, 463);
+            this.tabPageExifTool.Size = new System.Drawing.Size(536, 461);
             this.tabPageExifTool.TabIndex = 4;
             this.tabPageExifTool.Tag = "ExifTool";
             this.tabPageExifTool.Text = "ExifTool";
@@ -1815,7 +1861,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifTool.Name = "dataGridViewExifTool";
             this.dataGridViewExifTool.RowHeadersWidth = 51;
             this.dataGridViewExifTool.RowTemplate.Height = 24;
-            this.dataGridViewExifTool.Size = new System.Drawing.Size(536, 463);
+            this.dataGridViewExifTool.Size = new System.Drawing.Size(536, 461);
             this.dataGridViewExifTool.TabIndex = 0;
             this.dataGridViewExifTool.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifTool_CellBeginEdit);
             this.dataGridViewExifTool.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifTool_CellPainting);
@@ -1920,10 +1966,10 @@ namespace PhotoTagsSynchronizer
             // tabPageExifToolWarning
             // 
             this.tabPageExifToolWarning.Controls.Add(this.dataGridViewExifToolWarning);
-            this.tabPageExifToolWarning.Location = new System.Drawing.Point(4, 26);
+            this.tabPageExifToolWarning.Location = new System.Drawing.Point(4, 25);
             this.tabPageExifToolWarning.Name = "tabPageExifToolWarning";
             this.tabPageExifToolWarning.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageExifToolWarning.Size = new System.Drawing.Size(536, 463);
+            this.tabPageExifToolWarning.Size = new System.Drawing.Size(536, 461);
             this.tabPageExifToolWarning.TabIndex = 5;
             this.tabPageExifToolWarning.Tag = "Warning";
             this.tabPageExifToolWarning.Text = "Warnings";
@@ -1948,7 +1994,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.ReadOnly = true;
             this.dataGridViewExifToolWarning.RowHeadersWidth = 51;
             this.dataGridViewExifToolWarning.RowTemplate.Height = 24;
-            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(530, 457);
+            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(530, 455);
             this.dataGridViewExifToolWarning.TabIndex = 0;
             this.dataGridViewExifToolWarning.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifToolWarning_CellBeginEdit);
             this.dataGridViewExifToolWarning.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifToolWarning_CellPainting);
@@ -1957,10 +2003,10 @@ namespace PhotoTagsSynchronizer
             // tabPageFileProperties
             // 
             this.tabPageFileProperties.Controls.Add(this.dataGridViewProperties);
-            this.tabPageFileProperties.Location = new System.Drawing.Point(4, 26);
+            this.tabPageFileProperties.Location = new System.Drawing.Point(4, 25);
             this.tabPageFileProperties.Name = "tabPageFileProperties";
             this.tabPageFileProperties.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFileProperties.Size = new System.Drawing.Size(536, 463);
+            this.tabPageFileProperties.Size = new System.Drawing.Size(536, 461);
             this.tabPageFileProperties.TabIndex = 7;
             this.tabPageFileProperties.Tag = "Properties";
             this.tabPageFileProperties.Text = "Properties";
@@ -1978,7 +2024,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewProperties.Name = "dataGridViewProperties";
             this.dataGridViewProperties.RowHeadersWidth = 51;
             this.dataGridViewProperties.RowTemplate.Height = 24;
-            this.dataGridViewProperties.Size = new System.Drawing.Size(530, 457);
+            this.dataGridViewProperties.Size = new System.Drawing.Size(530, 455);
             this.dataGridViewProperties.TabIndex = 0;
             this.dataGridViewProperties.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewProperties_CellBeginEdit);
             this.dataGridViewProperties.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewProperties_CellPainting);
@@ -1993,9 +2039,9 @@ namespace PhotoTagsSynchronizer
             this.tabPageFileRename.Controls.Add(this.label1);
             this.tabPageFileRename.Controls.Add(this.textBoxRenameNewName);
             this.tabPageFileRename.Controls.Add(this.dataGridViewRename);
-            this.tabPageFileRename.Location = new System.Drawing.Point(4, 26);
+            this.tabPageFileRename.Location = new System.Drawing.Point(4, 25);
             this.tabPageFileRename.Name = "tabPageFileRename";
-            this.tabPageFileRename.Size = new System.Drawing.Size(536, 463);
+            this.tabPageFileRename.Size = new System.Drawing.Size(536, 461);
             this.tabPageFileRename.TabIndex = 8;
             this.tabPageFileRename.Tag = "Rename";
             this.tabPageFileRename.Text = "Rename";
@@ -2109,7 +2155,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.Name = "dataGridViewRename";
             this.dataGridViewRename.RowHeadersWidth = 51;
             this.dataGridViewRename.RowTemplate.Height = 24;
-            this.dataGridViewRename.Size = new System.Drawing.Size(533, 352);
+            this.dataGridViewRename.Size = new System.Drawing.Size(533, 357);
             this.dataGridViewRename.TabIndex = 0;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewRename_CellPainting);
@@ -2443,6 +2489,15 @@ namespace PhotoTagsSynchronizer
             this.timerActionStatusRemove.Interval = 2000;
             this.timerActionStatusRemove.Tick += new System.EventHandler(this.timerActionStatusRemove_Tick);
             // 
+            // toolStripMenuItemImageListViewAutoCorrect
+            // 
+            this.toolStripMenuItemImageListViewAutoCorrect.Image = global::PhotoTagsSynchronizer.Properties.Resources.AutoCorrect;
+            this.toolStripMenuItemImageListViewAutoCorrect.Name = "toolStripMenuItemImageListViewAutoCorrect";
+            this.toolStripMenuItemImageListViewAutoCorrect.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.T)));
+            this.toolStripMenuItemImageListViewAutoCorrect.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewAutoCorrect.Text = "AutoCorrect metadata";
+            this.toolStripMenuItemImageListViewAutoCorrect.Click += new System.EventHandler(this.toolStripMenuItemImageListViewAutoCorrect_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -2709,6 +2764,11 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolHideEqual;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowCoordinateOnMap;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTreeViewFolderAutoCorrectMetadata;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleSave;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuTagsBrokerSave;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapSave;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewAutoCorrect;
     }
 }
 

@@ -687,6 +687,31 @@ namespace PhotoTagsSynchronizer
             UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
         }
 
+        private void toolStripMenuItemPeopleSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuTagsBrokerSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
