@@ -96,6 +96,10 @@
       <Project>{C14AC62E-7B1A-471B-8660-E9C28D89F316}</Project>
       <Name>SqliteDatabase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TimeZone\TimeZone.csproj">
+      <Project>{D76D9728-D687-43FA-AF77-A724B4818944}</Project>
+      <Name>TimeZone</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WindowsProperty\WindowsProperty.csproj">
       <Project>{e12ba6fc-ecec-4b5b-94d7-315f534d7e59}</Project>
       <Name>WindowsProperty</Name>

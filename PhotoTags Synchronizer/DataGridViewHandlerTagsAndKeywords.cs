@@ -191,7 +191,6 @@ namespace PhotoTagsSynchronizer
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagComments), metadata?.PersonalComments, false);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagRating), metadata?.PersonalRating, false);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagAuthor), metadata?.PersonalAuthor, false);
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, "Altitude"), metadata?.LocationAltitude, false);
 
                 // Microsoft Phontos
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos));

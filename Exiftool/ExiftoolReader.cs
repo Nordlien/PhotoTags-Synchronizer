@@ -9,6 +9,7 @@ using System.Text;
 using System.Xml;
 using MetadataLibrary;
 using MetadataPriorityLibrary;
+using TimeZone;
 
 namespace Exiftool
 {
@@ -150,6 +151,60 @@ namespace Exiftool
             return false;
         }
 
+        private void CheckTimeZoom(Metadata metadata, ref String error)
+        {
+            string verificationRegion = "Verification";
+            string verificationMediaTaken = "MediaTaken";
+            string verificationTimeZone = "TimeZone";
+            string verificationLocationDateTime = "GPSDateTime";
+            string verificationLocationCoordinates = "GPSCoordinates";
+
+
+            if (metadata.MediaDateTaken == null)
+            {
+                ExiftoolData exifToolData = new ExiftoolData(metadata.FileName, metadata.FileDirectory, (DateTime)metadata.FileDateModified,
+                verificationRegion, verificationMediaTaken, "Check Date and Time has correct time");
+
+                string warning = "Warning! Missing metadata tag " + CompositeTags.DateTimeDigitized + "\r\n";
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolData, exifToolData, warning);
+            }
+            else if (metadata.LocationLatitude == null || metadata.LocationLongitude == null)
+            {
+                //Missing GPS ccorinate
+                ExiftoolData exifToolData = new ExiftoolData(metadata.FileName, metadata.FileDirectory, (DateTime)metadata.FileDateModified,
+                    verificationRegion, verificationLocationCoordinates, "Check Date and Time has correct time");
+
+                string warning = "Warning! Missing metadata tags " + CompositeTags.GPSCoordinatesLatitude + " and " + CompositeTags.GPSCoordinatesLongitude + "\r\n";
+                error += warning;
+                ExiftoolTagsWarning_Write(exifToolData, exifToolData, warning);
+            }
+            else if (metadata.LocationDateTime == null)
+            {
+                ExiftoolData exifToolData = new ExiftoolData(metadata.FileName, metadata.FileDirectory, (DateTime)metadata.FileDateModified,
+                        verificationRegion, verificationLocationDateTime, "Check Date and Time has correct time");
+
+                string warning = "Warning! Missing metadata tag " + CompositeTags.GPSDateTime + "\r\n";
+                    error += warning;
+                    ExiftoolTagsWarning_Write(exifToolData, exifToolData, warning);
+            }
+            else
+            {
+                if (!TimeZoneLibrary.VerifyTimeZoon(
+                    (double)metadata.LocationLatitude, (double)metadata.LocationLongitude,
+                    (DateTime)metadata.LocationDateTime, (DateTime)metadata.MediaDateTaken))
+                {
+                    ExiftoolData exifToolData = new ExiftoolData(metadata.FileName, metadata.FileDirectory, (DateTime)metadata.FileDateModified,
+                        verificationRegion, verificationTimeZone, "Check Date and Time has correct time");
+
+                    string warning = "Warning! Metadata has mismatch between " + CompositeTags.DateTimeDigitized + " and " + CompositeTags.GPSDateTime + "\r\n";
+                    error += warning;
+                    ExiftoolTagsWarning_Write(exifToolData, exifToolData, warning);
+
+                }
+            }
+        }
+
         private void CheckKeywordList(List<string> oldKeywordList, List<string> newKeywordList, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
             if (oldKeywordList == null) return;
@@ -178,8 +233,7 @@ namespace Exiftool
 
             if (!isListEqual)
             {
-                string warning =
-                        "Warning! Metadata missmatching between two metadata values.\r\n";
+                string warning = "Warning! Metadata missmatching between two metadata values.\r\nComposite tag:" + compositeTag + "\r\n";
 
                 warning += string.Format(CultureInfo.InvariantCulture,
                         "\r\nRegion: {0} Command: {1}\r\nValues:'\r\n", exifToolDataConvertThis.Region, exifToolDataConvertThis.Command);
@@ -225,8 +279,7 @@ namespace Exiftool
 
             if (!isListEqual)
             {
-                string warning =
-                        "Warning! Metadata missmatching between two metadata values.\r\n";
+                string warning = "Warning! Metadata missmatching between two metadata values.\r\nComposite tag:" + compositeTag + "\r\n";
 
                 if (mediaSize == null) mediaSize = new Size(1000, 1000); 
 
@@ -607,6 +660,10 @@ namespace Exiftool
         }
         #endregion
 
+
+
+        
+
         #region Read List of files
 
         public List<Metadata> Read(MetadataBrokerTypes broker, List<String> files)
@@ -688,6 +745,9 @@ namespace Exiftool
                     {
                         if (metadata != null) //New file found, save all metadata found. 
                         {
+
+                            CheckTimeZoom(metadata, ref metadata.errors);
+
                             #region Write Metadata and trigger Event afterNewMediaFoundEvent
                             ConvertRegion(metadata.PersonalRegionList, tempRegionRectangle, tempRegionPersonDisplayName);
                             ConvertRegion(metadata.PersonalRegionList, tempRegionType, tempRegionName,
@@ -1459,6 +1519,8 @@ namespace Exiftool
                 #region Write last Metadata and trigger Event afterNewMediaFoundEvent
                 if (metadata != null) //Save the last one, remover we save everytime, when new file found
                 {
+                    CheckTimeZoom(metadata, ref metadata.errors);
+
                     ConvertRegion(metadata.PersonalRegionList, tempRegionRectangle, tempRegionPersonDisplayName);
                     ConvertRegion(metadata.PersonalRegionList, tempRegionType, tempRegionName,
                         tempRegionAreaH, tempRegionAreaW, tempRegionAreaX, tempRegionAreaY);
