@@ -12,17 +12,17 @@ namespace PhotoTagsSynchronizer
 {
     public partial class Config : Form
     {
-        public MetadataReadPrioity MetadataReadPrioity 
+        public MetadataReadPrioity MetadataReadPrioity
         {
             get;
-            set; 
+            set;
         } //= new MetadataReadPrioity();
 
         private Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryCopy = new Dictionary<MetadataPriorityKey, MetadataPriorityValues>();
 
         public Config()
         {
-            InitializeComponent();            
+            InitializeComponent();
             textBoxConfigFilenameDateFormats.Text = Properties.Settings.Default.RenameDateFormats;
 
             SortedDictionary<string, string> listAllTags = new CompositeTags().ListAllTags();
@@ -59,7 +59,7 @@ namespace PhotoTagsSynchronizer
             PopulateMetadataRead();
         }
 
-        public void CopyMetadataReadPrioity(Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionarySource, 
+        public void CopyMetadataReadPrioity(Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionarySource,
             Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryDestination)
         {
             metadataPrioityDictionaryCopy = new Dictionary<MetadataPriorityKey, MetadataPriorityValues>();
@@ -159,7 +159,7 @@ namespace PhotoTagsSynchronizer
                 if (dragBoxFromMouseDown != Rectangle.Empty && !dragBoxFromMouseDown.Contains(e.X, e.Y))
                 {
                     // Proceed with the drag and drop, passing in the list item.                    
-                    DragDropEffects dropEffect = dataGridView.DoDragDrop(dataGridView.Rows[rowIndexFromMouseDown],DragDropEffects.Move); 
+                    DragDropEffects dropEffect = dataGridView.DoDragDrop(dataGridView.Rows[rowIndexFromMouseDown], DragDropEffects.Move);
                 }
             }
         }
@@ -179,7 +179,8 @@ namespace PhotoTagsSynchronizer
 
                     // Create a rectangle using the DragSize, with the mouse position being at the center of the rectangle.
                     dragBoxFromMouseDown = new Rectangle(new Point(e.X - (dragSize.Width / 2), e.Y - (dragSize.Height / 2)), dragSize);
-                } else
+                }
+                else
                 {
                     rowIndexFromMouseDown = -1;
                     dragBoxFromMouseDown = Rectangle.Empty;
@@ -204,7 +205,7 @@ namespace PhotoTagsSynchronizer
             // If the drag operation was a move then remove and insert the row.
             if (e.Effect == DragDropEffects.Move)
             {
-                
+
 
                 DataGridViewGenericRow dataGridViewGenericRowFrom = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndexFromMouseDown);
                 DataGridViewGenericRow dataGridViewGenericRowTo = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndexOfItemUnderMouseToDrop);
@@ -254,9 +255,10 @@ namespace PhotoTagsSynchronizer
                 if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
                 {
                     MetadataPriorityValues metadataPriorityValues = metadataPrioityDictionaryCopy[dataGridViewGenericRow.MetadataPriorityKey];
-                    metadataPriorityValues.Priority = priority;                    
+                    metadataPriorityValues.Priority = priority;
                 }
-            } else
+            }
+            else
             {
                 isCellValueUpdating = true;
                 DataGridViewHandler.SetCellValue(dataGridView, e.ColumnIndex, e.RowIndex, 100);
@@ -380,12 +382,45 @@ namespace PhotoTagsSynchronizer
 
         private void tabControlConfig_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void Config_Load(object sender, EventArgs e)
         {
             dataGridViewMetadataReadPriority.Focus();
         }
+
+
+
+
+
+        /*
+        private void listBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (this.listBox1.SelectedItem == null) return;
+            this.listBox1.DoDragDrop(this.listBox1.SelectedItem, DragDropEffects.Move);
+        }
+
+        private void listBox1_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private void listBox1_DragDrop(object sender, DragEventArgs e)
+        {
+            Point point = listBox1.PointToClient(new Point(e.X, e.Y));
+            int index = this.listBox1.IndexFromPoint(point);
+            if (index < 0) index = this.listBox1.Items.Count - 1;
+            object data = listBox1.SelectedItem;
+            this.listBox1.Items.Remove(data);
+            this.listBox1.Items.Insert(index, data);
+        }
+
+        private void itemcreator_Load(object sender, EventArgs e)
+        {
+            this.listBox1.AllowDrop = true;
+        }
+
+        */
     }
 }

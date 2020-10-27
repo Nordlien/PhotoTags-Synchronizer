@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
@@ -37,7 +38,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Save Metadata
+        #region Save 
         private void SaveDataGridViewMetadata()
         {
             if (GlobalData.IsPopulatingAnything())
@@ -93,11 +94,8 @@ namespace PhotoTagsSynchronizer
 
         }
 
-        private void toolStripButtonSaveAllMetadata_Click(object sender, EventArgs e)
+        private void SaveActiveTabData()
         {
-            this.Activate();
-            this.Validate(); //Get the latest changes, that are text in edit mode
-
             if (GlobalData.IsPopulatingAnything()) return;
             if (GlobalData.IsSaveButtonPushed) return;
             GlobalData.IsSaveButtonPushed = true;
@@ -115,7 +113,7 @@ namespace PhotoTagsSynchronizer
                 case "Date":
                     SaveDataGridViewMetadata();
                     GlobalData.IsAgregatedProperties = false;
-                    break;                
+                    break;
                 case "Properties":
                     DataGridView dataGridView = dataGridViewProperties;
                     int columnCount = DataGridViewHandler.GetColumnCount(dataGridView);
@@ -130,11 +128,11 @@ namespace PhotoTagsSynchronizer
                             }
                             catch (Exception ex)
                             {
-                                string writeErrorDesciption = 
-                                    "Error writing properties to file.\r\n\r\n" + 
+                                string writeErrorDesciption =
+                                    "Error writing properties to file.\r\n\r\n" +
                                     "File: " + dataGridViewGenericColumn.FileEntryImage.FullFilePath + "\r\n\r\n" +
                                     "Error message: " + ex.Message + "\r\n";
-                                
+
                                 AddError(
                                     dataGridViewGenericColumn.FileEntryImage.Directory,
                                     dataGridViewGenericColumn.FileEntryImage.FileName,
@@ -157,10 +155,42 @@ namespace PhotoTagsSynchronizer
                     MessageBox.Show("Not implemented");
                     break;
             }
-
-            this.Enabled = true;
             GlobalData.IsSaveButtonPushed = false;
+
         }
+
+        private void toolStripButtonSaveAllMetadata_Click(object sender, EventArgs e)
+        {
+            this.Activate();
+            this.Validate(); //Get the latest changes, that are text in edit mode
+            SaveActiveTabData();
+            this.Enabled = true;            
+        }
+
+        private void toolStripMenuItemPeopleSave_Click(object sender, EventArgs e)
+        {
+            this.Activate();
+            this.Validate(); //Get the latest changes, that are text in edit mode
+            SaveActiveTabData();
+            this.Enabled = true;
+        }
+
+        private void toolStripMenuTagsBrokerSave_Click(object sender, EventArgs e)
+        {
+            this.Activate();
+            this.Validate(); //Get the latest changes, that are text in edit mode
+            SaveActiveTabData();
+            this.Enabled = true;
+        }
+
+        private void toolStripMenuItemMapSave_Click(object sender, EventArgs e)
+        {
+            this.Activate();
+            this.Validate(); //Get the latest changes, that are text in edit mode
+            SaveActiveTabData();
+            this.Enabled = true;
+        }
+
         #endregion
 
         #region Refresh - Folder tree
@@ -908,6 +938,287 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
+        #region Switch Renderers
+        private struct RendererItem
+        {
+            public Type Type;
+
+            public override string ToString()
+            {
+                return Type.Name;
+            }
+
+            public RendererItem(Type type)
+            {
+                Type = type;
+            }
+        }
+
+        private void renderertoolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (isFormLoading) return;
+            Properties.Settings.Default.RenderertoolStripComboBox = renderertoolStripComboBox.SelectedIndex;
+            Properties.Settings.Default.Save();
+            // Change the renderer
+            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+            RendererItem item = (RendererItem)renderertoolStripComboBox.SelectedItem;
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(item.Type.FullName) as ImageListView.ImageListViewRenderer;
+            imageListView1.SetRenderer(renderer);
+            imageListView1.Focus();
+        }
+        #endregion
+
+        #region Switch View Modes
+        private void thumbnailsToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Thumbnails;
+            rendererToolStripLabel.Visible = true;
+            renderertoolStripComboBox.Visible = true;
+            toolStripSeparatorRenderer.Visible = true;
+
+            renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
+            renderertoolStripComboBox_SelectedIndexChanged(null, null);
+        }
+
+        private void galleryToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Gallery;
+            rendererToolStripLabel.Visible = false;
+            renderertoolStripComboBox.Visible = false;
+            toolStripSeparatorRenderer.Visible = false;
+
+            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
+            imageListView1.SetRenderer(renderer);
+            imageListView1.Focus();
+        }
+
+        private void paneToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Pane;
+            rendererToolStripLabel.Visible = false;
+            renderertoolStripComboBox.Visible = false;
+            toolStripSeparatorRenderer.Visible = false;
+
+            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
+            imageListView1.SetRenderer(renderer);
+            imageListView1.Focus();
+        }
+
+        private void detailsToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Details;
+            rendererToolStripLabel.Visible = false;
+            renderertoolStripComboBox.Visible = false;
+            toolStripSeparatorRenderer.Visible = false;
+
+            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
+            imageListView1.SetRenderer(renderer);
+            imageListView1.Focus();
+        }
+        #endregion
+
+        #region Modify Column Headers
+        private void columnsToolStripButton_Click(object sender, EventArgs e)
+        {
+            ChooseColumns form = new ChooseColumns();
+            form.imageListView = imageListView1;
+            form.ShowDialog();
+        }
+        #endregion
+
+        #region Change Thumbnail Size
+
+        private void toolStripButtonThumbnailSize1_Click(object sender, EventArgs e)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[4];
+        }
+
+        private void toolStripButtonThumbnailSize2_Click(object sender, EventArgs e)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[3];
+        }
+
+        private void toolStripButtonThumbnailSize3_Click(object sender, EventArgs e)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[2];
+        }
+
+        private void toolStripButtonThumbnailSize4_Click(object sender, EventArgs e)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[1];
+        }
+
+        private void toolStripButtonThumbnailSize5_Click(object sender, EventArgs e)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[0];
+        }
+        #endregion
+
+        #region Rotate Selected Images
+        private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
+                "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                {
+                    item.BeginEdit();
+                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FullFileName))
+                    {
+                        img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                        img.Save(item.FullFileName);
+                    }
+                    item.Update();
+                    item.EndEdit();
+                }
+            }
+        }
+
+        private void rotateCWToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
+                "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                {
+                    item.BeginEdit();
+                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FullFileName))
+                    {
+                        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                        img.Save(item.FullFileName);
+                    }
+                    item.Update();
+                    item.EndEdit();
+                }
+            }
+        }
+        #endregion
+
+
+        #region SetGridViewSize Small Medium Big
+        private void SetGridViewSize(DataGridViewSize size)
+        {
+            switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
+            {
+                case "Tags":
+                    DataGridViewHandler.SetCellSize(dataGridViewTagsAndKeywords, size, false);
+                    Properties.Settings.Default.CellSizeKeywords = (int)size;
+                    break;
+                case "Map":
+                    DataGridViewHandler.SetCellSize(dataGridViewMap, size, false);
+                    Properties.Settings.Default.CellSizeMap = (int)size;
+                    break;
+                case "People":
+                    DataGridViewHandler.SetCellSize(dataGridViewPeople, size, true);
+                    Properties.Settings.Default.CellSizePeoples = (int)size;
+                    break;
+                case "Date":
+                    DataGridViewHandler.SetCellSize(dataGridViewDate, size, false);
+                    Properties.Settings.Default.CellSizeDates = (int)size;
+                    break;
+                case "ExifTool":
+                    DataGridViewHandler.SetCellSize(dataGridViewExifTool, size, false);
+                    Properties.Settings.Default.CellSizeExiftool = (int)size;
+                    break;
+                case "Warning":
+                    DataGridViewHandler.SetCellSize(dataGridViewExifToolWarning, size, false);
+                    Properties.Settings.Default.CellSizeWarnings = (int)size;
+                    break;
+                case "Properties":
+                    DataGridViewHandler.SetCellSize(dataGridViewProperties, size, false);
+                    Properties.Settings.Default.CellSizeProperties = (int)size;
+                    break;
+                case "Rename":
+                    DataGridViewHandler.SetCellSize(dataGridViewRename, (size | DataGridViewSize.RenameSize), false);
+                    Properties.Settings.Default.CellSizeRename = (int)size;
+                    break;
+                default:
+                    throw new Exception("Not implemented");
+            }
+        }
+
+        private void toolStripButtonGridBig_Click(object sender, EventArgs e)
+        {
+            SetGridViewSize(DataGridViewSize.Large);
+        }
+
+        private void toolStripButtonGridNormal_Click(object sender, EventArgs e)
+        {
+            SetGridViewSize(DataGridViewSize.Medium);
+        }
+
+        private void toolStripButtonGridSmall_Click(object sender, EventArgs e)
+        {
+            SetGridViewSize(DataGridViewSize.Small);
+        }
+        #endregion
+
+        #region Show Config Window
+        private void toolStripButtonConfig_Click(object sender, EventArgs e)
+        {
+            using (Config config = new Config())
+            {
+                exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
+                config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
+                config.Init();
+                config.ShowDialog();
+            }
+        }
+        #endregion
+
+        #region Show/Hide Historiy / Error Columns
+        private void toolStripButtonHistortyColumns_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowHistortyColumns = toolStripButtonHistortyColumns.Checked;
+            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
+            UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
+        }
+
+        private void toolStripButtonErrorColumns_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
+            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
+            UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
+        }
+        #endregion
+
+        #region AutoCorrect
+        private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
+        {
+            AutoCorrect autoCorrect = new AutoCorrect();
+            string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
+            string[] files = Directory.GetFiles(selectedFolder, "*.*");
+            foreach (string file in files)
+            {
+                Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
+                Metadata metadataToSave = autoCorrect.FixAndSave(
+                    new FileEntry(file, File.GetLastWriteTime(file)),
+                    databaseAndCacheMetadataExiftool,
+                    databaseAndCacheMetadataMicrosoftPhotos,
+                    databaseAndCacheMetadataWindowsLivePhotoGallery);
+                if (metadataToSave != null) AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
+            }
+        }
+
+
+        private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
+        {
+            AutoCorrect autoCorrect = new AutoCorrect();
+            foreach (ImageListViewItem item in imageListView1.SelectedItems)
+            {
+                Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
+                Metadata metadataToSave = autoCorrect.FixAndSave(
+                    new FileEntry(item.FullFileName, item.DateModified), 
+                    databaseAndCacheMetadataExiftool, 
+                    databaseAndCacheMetadataMicrosoftPhotos, 
+                    databaseAndCacheMetadataWindowsLivePhotoGallery);
+                if (metadataToSave != null) AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
+            }
+        }
+        #endregion
+
     }
 }

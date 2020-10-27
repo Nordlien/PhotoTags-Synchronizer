@@ -124,6 +124,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoCorrect.cs" />
     <Compile Include="ChooseColumns.cs">
       <SubType>Form</SubType>
     </Compile>
