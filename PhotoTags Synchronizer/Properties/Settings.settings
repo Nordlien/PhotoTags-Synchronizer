@@ -369,5 +369,8 @@ yyyyMMdd
 
 </Value>
     </Setting>
+    <Setting Name="AutoCorrect" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

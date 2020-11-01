@@ -418,5 +418,17 @@ namespace PhotoTagsSynchronizer.Properties {
                 this["RenameDateFormats"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AutoCorrect {
+            get {
+                return ((string)(this["AutoCorrect"]));
+            }
+            set {
+                this["AutoCorrect"] = value;
+            }
+        }
     }
 }

@@ -202,8 +202,8 @@ namespace PhotoTagsSynchronizer
             
                 // Folder path as Album
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerFolder));
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerFolder, tagAlbum), Path.GetFileName(fileEntryBrokerReadVersion.Directory), true);
-
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerFolder, tagAlbum), new DirectoryInfo(fileEntryBrokerReadVersion.Directory).Name, true);
+                
                 //Windows Live Photo Gallery
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery));
                 Metadata metadataWindowsLivePhotoGallery = null;

@@ -13,7 +13,7 @@ namespace MetadataLibrary
         WindowsLivePhotoGallery = 0b_0000_1000,  // 8
         GoogleLocationHistory   = 0b_0001_0000,  // 16
         NominatimAPI            = 0b_0010_0000,  // 32
-        
+        FileSystem              = 0b_0100_0000   // 64
     }
 }
 

@@ -48,8 +48,7 @@ namespace PhotoTagsSynchronizer
             metadata.LocationName = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagLocationName);
             metadata.LocationCity= (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCity);
             metadata.LocationState = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagProvince);
-            metadata.LocationCountry = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCountry);
-            
+            metadata.LocationCountry = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCountry);            
         }
 
         #region Help functions

@@ -19,6 +19,7 @@ namespace PhotoTagsSynchronizer
         } //= new MetadataReadPrioity();
 
         private Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryCopy = new Dictionary<MetadataPriorityKey, MetadataPriorityValues>();
+        private AutoCorrect autoCorrect = new AutoCorrect();
 
         public Config()
         {
@@ -35,6 +36,47 @@ namespace PhotoTagsSynchronizer
                 newTagItem.Click += new System.EventHandler(this.ToolStripMenuItemMoveAndAssign_Click);
                 this.toolStripMenuItemMetadataReadMove.DropDownItems.Add(newTagItem);
             }
+
+            PopulateAutoCorrectPoperties();
+
+            //AutoCorrect autoCorrectConfig = Properties.Settings.Default.AutoCorrect;
+
+            //Properties.Settings.Default.AutoCorrect = autoCorrect;
+            //Properties.Settings.Default.Save();
+        }
+
+        private void PopulateAutoCorrectPoperties()
+        {
+            
+            ListViewItem listViewItem = new ListViewItem();
+            listViewItem.Text = "Exiftool";
+            listViewItem.Tag = MetadataBrokerTypes.ExifTool;
+            imageListViewOrderTitle.Items.Add(listViewItem);
+
+            listViewItem = new ListViewItem();
+            listViewItem.Text = "MicrosoftPhotos";
+            listViewItem.Tag = MetadataBrokerTypes.MicrosoftPhotos;
+            imageListViewOrderTitle.Items.Add(listViewItem);
+
+            listViewItem = new ListViewItem();
+            listViewItem.Text = "Windows Live Photo Gallery";
+            listViewItem.Tag = MetadataBrokerTypes.WindowsLivePhotoGallery;
+            imageListViewOrderTitle.Items.Add(listViewItem);
+
+            listViewItem = new ListViewItem();
+            listViewItem.Text = "Exiftool";
+            listViewItem.Tag = MetadataBrokerTypes.ExifTool;
+            imageListViewOrderTitle.Items.Add(listViewItem);
+
+            listViewItem = new ListViewItem();
+            listViewItem.Text = "MicrosoftPhotos";
+            listViewItem.Tag = MetadataBrokerTypes.MicrosoftPhotos;
+            imageListViewOrderTitle.Items.Add(listViewItem);
+
+            listViewItem = new ListViewItem();
+            listViewItem.Text = "Subfolder name";
+            listViewItem.Tag = MetadataBrokerTypes.FileSystem;
+            imageListViewOrderTitle.Items.Add(listViewItem);
         }
 
         private void buttonConfigSave_Click(object sender, EventArgs e)
@@ -389,10 +431,6 @@ namespace PhotoTagsSynchronizer
         {
             dataGridViewMetadataReadPriority.Focus();
         }
-
-
-
-
 
         /*
         private void listBox1_MouseDown(object sender, MouseEventArgs e)

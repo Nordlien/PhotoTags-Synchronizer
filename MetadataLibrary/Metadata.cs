@@ -508,6 +508,16 @@ namespace MetadataLibrary
                 personalRegionList.Add(regionStructure);
         }
 
+        public void PersonalRegionListAddIfNameNotExists(RegionStructure regionStructure)
+        {            
+            bool doesNameExists = false;
+            foreach (RegionStructure regionStructureSearch in personalRegionList)
+            {
+                if (regionStructure.Name == regionStructureSearch.Name) doesNameExists = true;
+            }
+            if (!doesNameExists) personalRegionList.Add(regionStructure);
+        }
+
         public List<KeywordTag> PersonalKeywordTags 
         { 
             get => personalTagList; 

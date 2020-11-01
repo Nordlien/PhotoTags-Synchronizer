@@ -166,6 +166,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm_DataGridViewGenericEventsHandling.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_People.cs">
@@ -371,6 +372,10 @@
       <Project>{473e5009-1cdc-41cb-ab91-3f31051021dc}</Project>
       <Name>CameraOwners</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataGridViewExtended\DataGridViewExtended.csproj">
+      <Project>{8B7BEE9F-169E-48A2-B548-7A3851D8D3C1}</Project>
+      <Name>DataGridViewExtended</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataGridViewGeneric\DataGridViewGeneric.csproj">
       <Project>{df953f48-cc9e-4cc3-87de-ced1f770aee7}</Project>
       <Name>DataGridViewGeneric</Name>
@@ -394,6 +399,10 @@
     <ProjectReference Include="..\ImageAndMovieFileExtentions\ImageAndMovieFileExtentions.csproj">
       <Project>{569c3820-eafd-425c-a493-981a65aa9f4c}</Project>
       <Name>ImageAndMovieFileExtentions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImageListViewOrder\ImageListViewOrder.csproj">
+      <Project>{E461BCC8-E354-45A4-BF24-2D68072B456F}</Project>
+      <Name>ImageListViewOrder</Name>
     </ProjectReference>
     <ProjectReference Include="..\ImageListView\ImageListView.csproj">
       <Project>{0c295fb8-c6c6-4a40-9f19-05a43f353a04}</Project>
