@@ -117,10 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="textBoxHelpAutoCorrect.Text" xml:space="preserve">
-    <value>AutoCorrect will read all Metadata that this application using "Metadata Read" priority, and try to save all metadata again and "duplication" same metadata in all types of tags confirgurated for congigurated in "Metadata Write". Then also try tix fix addional issued that you may confurate here.
-</value>
-  </data>
   <data name="textBox1.Text" xml:space="preserve">
     <value>When reading metadata tags from media files, the media file can contain multiple tags with same purpose. Sometimes they may have diffrent value. The priority are used to select what tag to use. High number the higher priority.</value>
   </data>
@@ -146,5 +142,9 @@ yyyyMMdd_HHmm
 yyyy-MM-dd
 yyyy.MM.dd
 yyyyMMdd</value>
+  </data>
+  <data name="textBoxHelpAutoCorrect.Text" xml:space="preserve">
+    <value>AutoCorrect will read all Metadata that this application using "Metadata Read" priority, and try to save all metadata again and "duplication" same metadata in all types of tags confirgurated for congigurated in "Metadata Write". Then also try tix fix addional issued that you may confurate here.
+</value>
   </data>
 </root>

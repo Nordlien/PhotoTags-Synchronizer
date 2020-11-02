@@ -73,6 +73,7 @@
             this.imageListViewDragAndDrop1.Name = "imageListViewDragAndDrop1";
             this.imageListViewDragAndDrop1.Size = new System.Drawing.Size(131, 87);
             this.imageListViewDragAndDrop1.TabIndex = 0;
+            this.imageListViewDragAndDrop1.TileSize = new System.Drawing.Size(130, 36);
             this.imageListViewDragAndDrop1.UseCompatibleStateImageBehavior = false;
             this.imageListViewDragAndDrop1.View = System.Windows.Forms.View.List;
             // 

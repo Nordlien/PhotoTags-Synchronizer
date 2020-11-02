@@ -62,6 +62,11 @@
             this.textBoxConfigFilenameDateFormats = new System.Windows.Forms.TextBox();
             this.tabPageAutoCorrect = new System.Windows.Forms.TabPage();
             this.panelAutoCorrect = new System.Windows.Forms.Panel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.radioButton15 = new System.Windows.Forms.RadioButton();
+            this.radioButton16 = new System.Windows.Forms.RadioButton();
             this.groupBoxLocationName = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -73,6 +78,11 @@
             this.label13 = new System.Windows.Forms.Label();
             this.radioButton11 = new System.Windows.Forms.RadioButton();
             this.radioButton12 = new System.Windows.Forms.RadioButton();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBoxRename = new System.Windows.Forms.GroupBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -104,18 +114,8 @@
             this.dataGridViewExtended1 = new DataGridViewExtended.DataGridViewExtended();
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label19 = new System.Windows.Forms.Label();
             this.imageListViewOrderAlbum = new PhotoTagsSynchronizer.ImageListViewOrder();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
-            this.radioButton15 = new System.Windows.Forms.RadioButton();
-            this.radioButton16 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.imageListViewOrderTitle = new PhotoTagsSynchronizer.ImageListViewOrder();
-            this.label11 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageMetadataRead.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).BeginInit();
@@ -125,8 +125,10 @@
             this.tabPageFileDateTimeFormats.SuspendLayout();
             this.tabPageAutoCorrect.SuspendLayout();
             this.panelAutoCorrect.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBoxLocationName.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBoxRename.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxTimeZone.SuspendLayout();
@@ -134,8 +136,6 @@
             this.groupBox1.SuspendLayout();
             this.tabPageCameraOwner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).BeginInit();
-            this.groupBox4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlConfig
@@ -515,6 +515,67 @@
             this.panelAutoCorrect.Size = new System.Drawing.Size(726, 372);
             this.panelAutoCorrect.TabIndex = 1;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label19);
+            this.groupBox4.Controls.Add(this.imageListViewOrderAlbum);
+            this.groupBox4.Controls.Add(this.radioButton6);
+            this.groupBox4.Controls.Add(this.radioButton15);
+            this.groupBox4.Controls.Add(this.radioButton16);
+            this.groupBox4.Location = new System.Drawing.Point(5, 1024);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox4.Size = new System.Drawing.Size(687, 128);
+            this.groupBox4.TabIndex = 10;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Album";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(471, 15);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(141, 17);
+            this.label19.TabIndex = 6;
+            this.label19.Text = "Priority source order:";
+            // 
+            // radioButton6
+            // 
+            this.radioButton6.AutoSize = true;
+            this.radioButton6.Location = new System.Drawing.Point(10, 78);
+            this.radioButton6.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButton6.Name = "radioButton6";
+            this.radioButton6.Size = new System.Drawing.Size(344, 21);
+            this.radioButton6.TabIndex = 2;
+            this.radioButton6.TabStop = true;
+            this.radioButton6.Text = "Change Album text to first prioritized text in source";
+            this.radioButton6.UseVisualStyleBackColor = true;
+            // 
+            // radioButton15
+            // 
+            this.radioButton15.AutoSize = true;
+            this.radioButton15.Location = new System.Drawing.Point(10, 53);
+            this.radioButton15.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButton15.Name = "radioButton15";
+            this.radioButton15.Size = new System.Drawing.Size(439, 21);
+            this.radioButton15.TabIndex = 1;
+            this.radioButton15.TabStop = true;
+            this.radioButton15.Text = "Change Album text to first none empty text from prioritized source";
+            this.radioButton15.UseVisualStyleBackColor = true;
+            // 
+            // radioButton16
+            // 
+            this.radioButton16.AutoSize = true;
+            this.radioButton16.Location = new System.Drawing.Point(10, 28);
+            this.radioButton16.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButton16.Name = "radioButton16";
+            this.radioButton16.Size = new System.Drawing.Size(182, 21);
+            this.radioButton16.TabIndex = 0;
+            this.radioButton16.TabStop = true;
+            this.radioButton16.Text = "Don\'t change Album text";
+            this.radioButton16.UseVisualStyleBackColor = true;
+            // 
             // groupBoxLocationName
             // 
             this.groupBoxLocationName.Controls.Add(this.label15);
@@ -522,7 +583,7 @@
             this.groupBoxLocationName.Controls.Add(this.radioButton10);
             this.groupBoxLocationName.Controls.Add(this.radioButton9);
             this.groupBoxLocationName.Controls.Add(this.radioButton8);
-            this.groupBoxLocationName.Location = new System.Drawing.Point(5, 963);
+            this.groupBoxLocationName.Location = new System.Drawing.Point(5, 1322);
             this.groupBoxLocationName.Name = "groupBoxLocationName";
             this.groupBoxLocationName.Size = new System.Drawing.Size(685, 176);
             this.groupBoxLocationName.TabIndex = 9;
@@ -586,7 +647,7 @@
             this.groupBox5.Controls.Add(this.label13);
             this.groupBox5.Controls.Add(this.radioButton11);
             this.groupBox5.Controls.Add(this.radioButton12);
-            this.groupBox5.Location = new System.Drawing.Point(5, 797);
+            this.groupBox5.Location = new System.Drawing.Point(5, 1156);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
@@ -640,6 +701,67 @@
             this.radioButton12.Text = "Don\'t change Author text";
             this.radioButton12.UseVisualStyleBackColor = true;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.imageListViewOrderTitle);
+            this.groupBox3.Controls.Add(this.radioButton3);
+            this.groupBox3.Controls.Add(this.radioButton2);
+            this.groupBox3.Controls.Add(this.radioButton1);
+            this.groupBox3.Location = new System.Drawing.Point(5, 890);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Size = new System.Drawing.Size(687, 130);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Title";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(471, 15);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(141, 17);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Priority source order:";
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(10, 78);
+            this.radioButton3.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(332, 21);
+            this.radioButton3.TabIndex = 2;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "Change Title text to first prioritized text in source";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(10, 53);
+            this.radioButton2.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(427, 21);
+            this.radioButton2.TabIndex = 1;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Change Title text to first none empty text from prioritized source";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(10, 28);
+            this.radioButton1.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(170, 21);
+            this.radioButton1.TabIndex = 0;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Don\'t change Title text";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
             // groupBoxRename
             // 
             this.groupBoxRename.Controls.Add(this.textBox7);
@@ -647,7 +769,7 @@
             this.groupBoxRename.Controls.Add(this.checkBox3);
             this.groupBoxRename.Controls.Add(this.label9);
             this.groupBoxRename.Controls.Add(this.comboBox1);
-            this.groupBoxRename.Location = new System.Drawing.Point(5, 1158);
+            this.groupBoxRename.Location = new System.Drawing.Point(5, 1517);
             this.groupBoxRename.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxRename.Name = "groupBoxRename";
             this.groupBoxRename.Padding = new System.Windows.Forms.Padding(2);
@@ -710,7 +832,7 @@
             this.groupBox2.Controls.Add(this.comboBoxMediaAiConfidence);
             this.groupBox2.Controls.Add(this.checkBoxKeywordsMicrosoftPhotos);
             this.groupBox2.Controls.Add(this.checkBoxKeywordsWindowsMediaPhotoGallery);
-            this.groupBox2.Location = new System.Drawing.Point(5, 415);
+            this.groupBox2.Location = new System.Drawing.Point(5, 774);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
@@ -776,7 +898,7 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(518, 1510);
+            this.richTextBox1.Location = new System.Drawing.Point(518, 1869);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(156, 161);
@@ -790,7 +912,7 @@
             this.groupBoxTimeZone.Controls.Add(this.label6);
             this.groupBoxTimeZone.Controls.Add(this.checkBox2);
             this.groupBoxTimeZone.Controls.Add(this.checkBox1);
-            this.groupBoxTimeZone.Location = new System.Drawing.Point(5, 131);
+            this.groupBoxTimeZone.Location = new System.Drawing.Point(5, 490);
             this.groupBoxTimeZone.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxTimeZone.Name = "groupBoxTimeZone";
             this.groupBoxTimeZone.Padding = new System.Windows.Forms.Padding(2);
@@ -858,7 +980,7 @@
             this.groupBoxDateTime.Controls.Add(this.label3);
             this.groupBoxDateTime.Controls.Add(this.radioButtonDateTimeDigitizedUseDateTaken);
             this.groupBoxDateTime.Controls.Add(this.radioButtonDateTimeDigitizedUseGPSDateTime);
-            this.groupBoxDateTime.Location = new System.Drawing.Point(5, 14);
+            this.groupBoxDateTime.Location = new System.Drawing.Point(5, 373);
             this.groupBoxDateTime.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxDateTime.MinimumSize = new System.Drawing.Size(555, 103);
             this.groupBoxDateTime.Name = "groupBoxDateTime";
@@ -907,7 +1029,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.checkBoxFaceRegionMicrosoftPhotos);
             this.groupBox1.Controls.Add(this.checkBoxFaceRegionWindowsMediaPhotoGallery);
-            this.groupBox1.Location = new System.Drawing.Point(5, 296);
+            this.groupBox1.Location = new System.Drawing.Point(5, 655);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -1010,147 +1132,25 @@
             this.buttonConfigCancel.UseVisualStyleBackColor = true;
             this.buttonConfigCancel.Click += new System.EventHandler(this.buttonConfigCancel_Click);
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.label19);
-            this.groupBox4.Controls.Add(this.imageListViewOrderAlbum);
-            this.groupBox4.Controls.Add(this.radioButton6);
-            this.groupBox4.Controls.Add(this.radioButton15);
-            this.groupBox4.Controls.Add(this.radioButton16);
-            this.groupBox4.Location = new System.Drawing.Point(5, 665);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Size = new System.Drawing.Size(687, 128);
-            this.groupBox4.TabIndex = 10;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Album";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(471, 15);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(141, 17);
-            this.label19.TabIndex = 6;
-            this.label19.Text = "Priority source order:";
-            // 
             // imageListViewOrderAlbum
             // 
             this.imageListViewOrderAlbum.AllowReorder = true;
             this.imageListViewOrderAlbum.LineColor = System.Drawing.Color.Red;
-            this.imageListViewOrderAlbum.Location = new System.Drawing.Point(474, 34);
+            this.imageListViewOrderAlbum.Location = new System.Drawing.Point(453, 34);
             this.imageListViewOrderAlbum.Margin = new System.Windows.Forms.Padding(2);
             this.imageListViewOrderAlbum.Name = "imageListViewOrderAlbum";
-            this.imageListViewOrderAlbum.Size = new System.Drawing.Size(189, 80);
+            this.imageListViewOrderAlbum.Size = new System.Drawing.Size(222, 80);
             this.imageListViewOrderAlbum.TabIndex = 5;
-            // 
-            // radioButton6
-            // 
-            this.radioButton6.AutoSize = true;
-            this.radioButton6.Location = new System.Drawing.Point(10, 78);
-            this.radioButton6.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(344, 21);
-            this.radioButton6.TabIndex = 2;
-            this.radioButton6.TabStop = true;
-            this.radioButton6.Text = "Change Album text to first prioritized text in source";
-            this.radioButton6.UseVisualStyleBackColor = true;
-            // 
-            // radioButton15
-            // 
-            this.radioButton15.AutoSize = true;
-            this.radioButton15.Location = new System.Drawing.Point(10, 53);
-            this.radioButton15.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton15.Name = "radioButton15";
-            this.radioButton15.Size = new System.Drawing.Size(439, 21);
-            this.radioButton15.TabIndex = 1;
-            this.radioButton15.TabStop = true;
-            this.radioButton15.Text = "Change Album text to first none empty text from prioritized source";
-            this.radioButton15.UseVisualStyleBackColor = true;
-            // 
-            // radioButton16
-            // 
-            this.radioButton16.AutoSize = true;
-            this.radioButton16.Location = new System.Drawing.Point(10, 28);
-            this.radioButton16.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton16.Name = "radioButton16";
-            this.radioButton16.Size = new System.Drawing.Size(182, 21);
-            this.radioButton16.TabIndex = 0;
-            this.radioButton16.TabStop = true;
-            this.radioButton16.Text = "Don\'t change Album text";
-            this.radioButton16.UseVisualStyleBackColor = true;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(10, 28);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(170, 21);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Don\'t change Title text";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(10, 53);
-            this.radioButton2.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(427, 21);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Change Title text to first none empty text from prioritized source";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(10, 78);
-            this.radioButton3.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(332, 21);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Change Title text to first prioritized text in source";
-            this.radioButton3.UseVisualStyleBackColor = true;
             // 
             // imageListViewOrderTitle
             // 
             this.imageListViewOrderTitle.AllowReorder = true;
             this.imageListViewOrderTitle.LineColor = System.Drawing.Color.Red;
-            this.imageListViewOrderTitle.Location = new System.Drawing.Point(474, 34);
+            this.imageListViewOrderTitle.Location = new System.Drawing.Point(453, 34);
             this.imageListViewOrderTitle.Margin = new System.Windows.Forms.Padding(2);
             this.imageListViewOrderTitle.Name = "imageListViewOrderTitle";
-            this.imageListViewOrderTitle.Size = new System.Drawing.Size(189, 80);
+            this.imageListViewOrderTitle.Size = new System.Drawing.Size(222, 80);
             this.imageListViewOrderTitle.TabIndex = 5;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(471, 15);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(141, 17);
-            this.label11.TabIndex = 6;
-            this.label11.Text = "Priority source order:";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.imageListViewOrderTitle);
-            this.groupBox3.Controls.Add(this.radioButton3);
-            this.groupBox3.Controls.Add(this.radioButton2);
-            this.groupBox3.Controls.Add(this.radioButton1);
-            this.groupBox3.Location = new System.Drawing.Point(5, 531);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(687, 130);
-            this.groupBox3.TabIndex = 6;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Title";
             // 
             // Config
             // 
@@ -1179,10 +1179,14 @@
             this.tabPageAutoCorrect.ResumeLayout(false);
             this.tabPageAutoCorrect.PerformLayout();
             this.panelAutoCorrect.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBoxLocationName.ResumeLayout(false);
             this.groupBoxLocationName.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBoxRename.ResumeLayout(false);
             this.groupBoxRename.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -1195,10 +1199,6 @@
             this.groupBox1.PerformLayout();
             this.tabPageCameraOwner.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }

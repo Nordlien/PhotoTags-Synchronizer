@@ -37,50 +37,92 @@ namespace PhotoTagsSynchronizer
                 this.toolStripMenuItemMetadataReadMove.DropDownItems.Add(newTagItem);
             }
 
-            PopulateAutoCorrectPoperties();
+            
 
-            //AutoCorrect autoCorrectConfig = Properties.Settings.Default.AutoCorrect;
+        }
 
-            //Properties.Settings.Default.AutoCorrect = autoCorrect;
-            //Properties.Settings.Default.Save();
+        private void PopulateAutoCorrectListOrder(ImageListViewOrder imageListViewOrder, List<MetadataBrokerTypes> listPriority)
+        {
+            ListViewItem listViewItem;
+
+            imageListViewOrder.Items.Clear();
+            foreach (MetadataBrokerTypes metadataBroker in listPriority)
+            {
+                switch (metadataBroker)
+                {
+                    case MetadataBrokerTypes.ExifTool:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "Exiftool";
+                        listViewItem.Tag = MetadataBrokerTypes.ExifTool;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                    case MetadataBrokerTypes.MicrosoftPhotos:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "MicrosoftPhotos";
+                        listViewItem.Tag = MetadataBrokerTypes.MicrosoftPhotos;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                    case MetadataBrokerTypes.WindowsLivePhotoGallery:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "Windows Live Photo Gallery";
+                        listViewItem.Tag = MetadataBrokerTypes.WindowsLivePhotoGallery;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                    case MetadataBrokerTypes.FileSystem:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "Subfolder name";
+                        listViewItem.Tag = MetadataBrokerTypes.FileSystem;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                }
+            }
         }
 
         private void PopulateAutoCorrectPoperties()
         {
+            #region Title
             
-            ListViewItem listViewItem = new ListViewItem();
-            listViewItem.Text = "Exiftool";
-            listViewItem.Tag = MetadataBrokerTypes.ExifTool;
-            imageListViewOrderTitle.Items.Add(listViewItem);
+            if (autoCorrect.TitlePriority == null || autoCorrect.TitlePriority.Count == 0)
+            {
+                autoCorrect.TitlePriority.Add(MetadataBrokerTypes.ExifTool);
+                autoCorrect.TitlePriority.Add(MetadataBrokerTypes.MicrosoftPhotos);
+                autoCorrect.TitlePriority.Add(MetadataBrokerTypes.WindowsLivePhotoGallery);
+            }
 
-            listViewItem = new ListViewItem();
-            listViewItem.Text = "MicrosoftPhotos";
-            listViewItem.Tag = MetadataBrokerTypes.MicrosoftPhotos;
-            imageListViewOrderTitle.Items.Add(listViewItem);
+            PopulateAutoCorrectListOrder(imageListViewOrderTitle, autoCorrect.TitlePriority);
+            #endregion
 
-            listViewItem = new ListViewItem();
-            listViewItem.Text = "Windows Live Photo Gallery";
-            listViewItem.Tag = MetadataBrokerTypes.WindowsLivePhotoGallery;
-            imageListViewOrderTitle.Items.Add(listViewItem);
+            #region Album
+            if (autoCorrect.AlbumPriority == null || autoCorrect.AlbumPriority.Count == 0)
+            {
+                autoCorrect.AlbumPriority.Add(MetadataBrokerTypes.ExifTool);
+                autoCorrect.AlbumPriority.Add(MetadataBrokerTypes.MicrosoftPhotos);
+                autoCorrect.AlbumPriority.Add(MetadataBrokerTypes.FileSystem);
+            }
+            PopulateAutoCorrectListOrder(imageListViewOrderAlbum, autoCorrect.AlbumPriority);
+            #endregion
+        }
 
-            listViewItem = new ListViewItem();
-            listViewItem.Text = "Exiftool";
-            listViewItem.Tag = MetadataBrokerTypes.ExifTool;
-            imageListViewOrderTitle.Items.Add(listViewItem);
+        private void GetAutoCorrectPoperties()
+        {
+            autoCorrect.TitlePriority.Clear();
+            foreach (ListViewItem item in imageListViewOrderTitle.Items)
+            {
+                autoCorrect.TitlePriority.Add((MetadataBrokerTypes)item.Tag);
+            }
 
-            listViewItem = new ListViewItem();
-            listViewItem.Text = "MicrosoftPhotos";
-            listViewItem.Tag = MetadataBrokerTypes.MicrosoftPhotos;
-            imageListViewOrderTitle.Items.Add(listViewItem);
-
-            listViewItem = new ListViewItem();
-            listViewItem.Text = "Subfolder name";
-            listViewItem.Tag = MetadataBrokerTypes.FileSystem;
-            imageListViewOrderTitle.Items.Add(listViewItem);
+            autoCorrect.AlbumPriority.Clear();
+            foreach (ListViewItem item in imageListViewOrderAlbum.Items)
+            {
+                autoCorrect.AlbumPriority.Add((MetadataBrokerTypes)item.Tag);
+            }  
         }
 
         private void buttonConfigSave_Click(object sender, EventArgs e)
         {
+            GetAutoCorrectPoperties();
+            Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
+            
             Properties.Settings.Default.RenameDateFormats = textBoxConfigFilenameDateFormats.Text;
             Properties.Settings.Default.Save();
 
@@ -97,8 +139,9 @@ namespace PhotoTagsSynchronizer
         public void Init()
         {
             CopyMetadataReadPrioity(MetadataReadPrioity.MetadataPrioityDictionary, metadataPrioityDictionaryCopy);
-            //config.
             PopulateMetadataRead();
+            autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+            PopulateAutoCorrectPoperties();
         }
 
         public void CopyMetadataReadPrioity(Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionarySource,

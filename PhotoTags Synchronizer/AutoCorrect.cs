@@ -1,5 +1,6 @@
 ﻿using Exiftool;
 using MetadataLibrary;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,25 +12,43 @@ using System.Threading.Tasks;
 namespace PhotoTagsSynchronizer
 {
  
-    class AutoCorrect : ApplicationSettingsBase
+    class AutoCorrect
     {
-  
-
+        [JsonProperty("UseKeywordsFromWindowsLivePhotoGallery")]
         public bool UseKeywordsFromWindowsLivePhotoGallery { get; set; } = true;
+        [JsonProperty("UseKeywordsFromMicrosoftPhotos")]
         public bool UseKeywordsFromMicrosoftPhotos { get; set; } = true;
 
+        [JsonProperty("UseFaceRegionFromWindowsLivePhotoGallery")]
         public bool UseFaceRegionFromWindowsLivePhotoGallery { get; set; } = true;
+        [JsonProperty("UseFaceRegionFromMicrosoftPhotos")]
         public bool UseFaceRegionFromMicrosoftPhotos { get; set; } = true;
+        [JsonProperty("KeywordTagConfidenceLevel")]
         public float KeywordTagConfidenceLevel { get; set; } = 0.9F;
 
+        [JsonProperty("UpdateTitle")]
         public bool UpdateTitle { get; set; } = true;
+        [JsonProperty("UpdateTitleWithFirstInPrioity")]
         public bool UpdateTitleWithFirstInPrioity { get; set; } = false;
+        [JsonProperty("TitlePriority")]
         public List<MetadataBrokerTypes> TitlePriority { get; set; } = new List<MetadataBrokerTypes>();
 
+        [JsonProperty("UpdateAlbum")]
         public bool UpdateAlbum { get; set; } = true;
+        [JsonProperty("UpdateAlbumWithFirstInPrioity")]
         public bool UpdateAlbumWithFirstInPrioity { get; set; } = false;
-        public List<MetadataBrokerTypes> albumPriority { get; set; } = new List<MetadataBrokerTypes>();
+        [JsonProperty("AlbumPriority")]
+        public List<MetadataBrokerTypes> AlbumPriority { get; set; } = new List<MetadataBrokerTypes>();
 
+        public string SerializeThis()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
+        }
+
+        public static AutoCorrect ConvertConfigValue(string configString)
+        {
+            return JsonConvert.DeserializeObject<AutoCorrect>(configString); 
+        }
 
         public Metadata FixAndSave(FileEntry fileEntry,
             MetadataDatabaseCache metadataDatabaseCacheExiftool,
@@ -116,7 +135,7 @@ namespace PhotoTagsSynchronizer
 
                 // Find first No empty string
                 string newAlbum = "";
-                foreach (MetadataBrokerTypes metadataBrokerType in albumPriority)
+                foreach (MetadataBrokerTypes metadataBrokerType in AlbumPriority)
                 {
                     switch (metadataBrokerType)
                     {
