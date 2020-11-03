@@ -314,7 +314,7 @@ namespace Exiftool
                     {                        
                         //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
                         localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
-                        Debug.WriteLine("---AssumeUniversal InvariantCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
+                        //Debug.WriteLine("---AssumeUniversal InvariantCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
                         return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
                     }
                     else return null;
@@ -325,7 +325,7 @@ namespace Exiftool
                     {                        
                         //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, "yyyy:MM:dd HH:mm:ssZ", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
                         localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
-                        Debug.WriteLine("---AssumeUniversal CurrentCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
+                        //Debug.WriteLine("---AssumeUniversal CurrentCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
                         return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
                     }
                     else return null;
@@ -336,7 +336,7 @@ namespace Exiftool
                     {
                         //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, dateFormats, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal);
                         localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
-                        Debug.WriteLine("---AssumeLocal CurrentCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
+                        //Debug.WriteLine("---AssumeLocal CurrentCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
                         return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
                     }
                     else return null;

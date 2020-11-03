@@ -452,7 +452,6 @@ namespace PhotoTagsSynchronizer
                         
                         while (metaFileNotInDatabase.Count > 0 && !GlobalData.IsApplicationClosing)
                         {
-                            //Thread.Sleep(sleepThread); //DEBUG
                             int range = 0;
                             //On computers running Microsoft Windows XP or later, the maximum length of the string that you can 
                             //use at the command prompt is 8191 characters. On computers running Microsoft Windows 2000 or 
@@ -529,8 +528,6 @@ namespace PhotoTagsSynchronizer
             int countRead = 0;
             while (metadataReadQueue.Count > 0 && countRead < maksCount && !GlobalData.IsApplicationClosing) //In case some more added to the queue
             {
-                //Thread.Sleep(sleepThread); //DEBUG
-
                 int indexWithImage = 0;
                 FileEntry fileEntry = metadataReadQueue[indexWithImage];
                 Metadata metadata;

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace DragNDrop
 {
@@ -16,6 +17,7 @@ namespace DragNDrop
 
 		private ListViewItem m_previousItem;
 		private bool m_allowReorder;
+		private bool m_allowLeave;
 		private Color m_lineColor;
 
 		#endregion
@@ -43,6 +45,7 @@ namespace DragNDrop
 		public ImageListViewDragAndDrop() : base()
 		{
 			m_allowReorder = true;
+			m_allowLeave = false;
 			m_lineColor = Color.Red;
 		}
 
@@ -58,11 +61,13 @@ namespace DragNDrop
 			Point clientPoint = base.PointToClient(new Point(drgevent.X, drgevent.Y));
 			ListViewItem hoverItem = base.GetItemAt(clientPoint.X, clientPoint.Y);
 
-			if(!drgevent.Data.GetDataPresent(typeof(DragItemData).ToString()) || ((DragItemData) drgevent.Data.GetData(typeof(DragItemData).ToString())).ListView == null || ((DragItemData) drgevent.Data.GetData(typeof(DragItemData).ToString())).DragItems.Count == 0)
+			if(!drgevent.Data.GetDataPresent(typeof(DragItemData).ToString()) || 
+				((DragItemData)drgevent.Data.GetData(typeof(DragItemData).ToString())).ListView == null || 
+				((DragItemData)drgevent.Data.GetData(typeof(DragItemData).ToString())).DragItems.Count == 0)
 				return;
 
 			// retrieve the drag item data
-			DragItemData data = (DragItemData) drgevent.Data.GetData(typeof(DragItemData).ToString());
+			DragItemData data = (DragItemData)drgevent.Data.GetData(typeof(DragItemData).ToString());
 
 			if(hoverItem == null)
 			{
@@ -86,7 +91,7 @@ namespace DragNDrop
 				// get moved properly.
 				if(this == data.ListView)
 				{
-					if(hoverIndex > base.SelectedItems[0].Index)
+					if(hoverIndex > base.SelectedItems[0].Index + 1)
 						hoverIndex++;
 				}
 
@@ -136,7 +141,17 @@ namespace DragNDrop
 				return;
 			}
 
-			if(base.Items.Count > 0)
+			// retrieve the drag item data
+			DragItemData data = (DragItemData)drgevent.Data.GetData(typeof(DragItemData).ToString());
+			if (!m_allowLeave && this.Parent.Name != data.ListView.Parent.Name)
+            {
+				//Not allowed to drag and drop outside current ListView
+				drgevent.Effect = DragDropEffects.None;
+				return;
+			}
+
+
+			if (base.Items.Count > 0)
 			{
 				// get the currently hovered row that the items will be dragged to
 				Point clientPoint = base.PointToClient(new Point(drgevent.X, drgevent.Y));
@@ -243,6 +258,8 @@ namespace DragNDrop
 				return;
 			}
 
+			
+
 			// everything is fine, allow the user to move the items
 			drgevent.Effect = DragDropEffects.Move;
 
@@ -283,6 +300,7 @@ namespace DragNDrop
 
 			Invalidate();
 
+			
 			// call the base OnDragLeave event
 			base.OnDragLeave(e);
 		}

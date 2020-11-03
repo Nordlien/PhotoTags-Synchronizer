@@ -62,60 +62,59 @@
             this.textBoxConfigFilenameDateFormats = new System.Windows.Forms.TextBox();
             this.tabPageAutoCorrect = new System.Windows.Forms.TabPage();
             this.panelAutoCorrect = new System.Windows.Forms.Panel();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBoxRename = new System.Windows.Forms.GroupBox();
+            this.textBoxRenameTo = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.checkBoxRename = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.comboBoxRenameVariables = new System.Windows.Forms.ComboBox();
+            this.groupBoxFaceRegion = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.checkBoxFaceRegionAddMicrosoftPhotos = new System.Windows.Forms.CheckBox();
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery = new System.Windows.Forms.CheckBox();
+            this.groupBoxKaywordTags = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBoxMediaAiConfidence = new System.Windows.Forms.ComboBox();
+            this.checkBoxKeywordsAddMicrosoftPhotos = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery = new System.Windows.Forms.CheckBox();
+            this.groupBoxAuthor = new System.Windows.Forms.GroupBox();
+            this.radioButtonAuthorAlwaysChange = new System.Windows.Forms.RadioButton();
+            this.label13 = new System.Windows.Forms.Label();
+            this.radioButtonChangeWhenEmpty = new System.Windows.Forms.RadioButton();
+            this.radioButtonAuthorDoNotChange = new System.Windows.Forms.RadioButton();
+            this.groupBoxAlbum = new System.Windows.Forms.GroupBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
-            this.radioButton15 = new System.Windows.Forms.RadioButton();
-            this.radioButton16 = new System.Windows.Forms.RadioButton();
+            this.imageListViewOrderAlbum = new PhotoTagsSynchronizer.ImageListViewOrder();
+            this.radioButtonAlbumUseFirst = new System.Windows.Forms.RadioButton();
+            this.radioButtonAlbumChangeWhenEmpty = new System.Windows.Forms.RadioButton();
+            this.radioButtonAlbumDoNotChange = new System.Windows.Forms.RadioButton();
+            this.groupBoxTitle = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.imageListViewOrderTitle = new PhotoTagsSynchronizer.ImageListViewOrder();
+            this.radioButtonTitleUseFirst = new System.Windows.Forms.RadioButton();
+            this.radioButtonTitleChangeWhenEmpty = new System.Windows.Forms.RadioButton();
+            this.radioButtonTitleDoNotChange = new System.Windows.Forms.RadioButton();
             this.groupBoxLocationName = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.radioButton10 = new System.Windows.Forms.RadioButton();
-            this.radioButton9 = new System.Windows.Forms.RadioButton();
-            this.radioButton8 = new System.Windows.Forms.RadioButton();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.radioButton7 = new System.Windows.Forms.RadioButton();
-            this.label13 = new System.Windows.Forms.Label();
-            this.radioButton11 = new System.Windows.Forms.RadioButton();
-            this.radioButton12 = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.groupBoxRename = new System.Windows.Forms.GroupBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBoxMediaAiConfidence = new System.Windows.Forms.ComboBox();
-            this.checkBoxKeywordsMicrosoftPhotos = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordsWindowsMediaPhotoGallery = new System.Windows.Forms.CheckBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.radioButtonLocationNameChangeAlways = new System.Windows.Forms.RadioButton();
+            this.radioButtonLocationNameChangeWhenEmpty = new System.Windows.Forms.RadioButton();
+            this.radioButtonLocationNameDoNotChange = new System.Windows.Forms.RadioButton();
             this.groupBoxTimeZone = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.groupBoxDateTime = new System.Windows.Forms.GroupBox();
+            this.checkBoxTimeZoneFindGPSlocationUsingHistory = new System.Windows.Forms.CheckBox();
+            this.checkBoxTimeZoneGuessZone = new System.Windows.Forms.CheckBox();
+            this.groupBoxDateTimeDigitized = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.radioButtonDateTimeDigitizedUseDateTaken = new System.Windows.Forms.RadioButton();
             this.radioButtonDateTimeDigitizedUseGPSDateTime = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.checkBoxFaceRegionMicrosoftPhotos = new System.Windows.Forms.CheckBox();
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery = new System.Windows.Forms.CheckBox();
             this.textBoxHelpAutoCorrect = new System.Windows.Forms.TextBox();
             this.tabPageCameraOwner = new System.Windows.Forms.TabPage();
             this.dataGridViewExtended1 = new DataGridViewExtended.DataGridViewExtended();
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
-            this.imageListViewOrderAlbum = new PhotoTagsSynchronizer.ImageListViewOrder();
-            this.imageListViewOrderTitle = new PhotoTagsSynchronizer.ImageListViewOrder();
             this.tabControlConfig.SuspendLayout();
             this.tabPageMetadataRead.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).BeginInit();
@@ -125,15 +124,15 @@
             this.tabPageFileDateTimeFormats.SuspendLayout();
             this.tabPageAutoCorrect.SuspendLayout();
             this.panelAutoCorrect.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBoxLocationName.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.groupBoxRename.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.groupBoxFaceRegion.SuspendLayout();
+            this.groupBoxKaywordTags.SuspendLayout();
+            this.groupBoxAuthor.SuspendLayout();
+            this.groupBoxAlbum.SuspendLayout();
+            this.groupBoxTitle.SuspendLayout();
+            this.groupBoxLocationName.SuspendLayout();
             this.groupBoxTimeZone.SuspendLayout();
-            this.groupBoxDateTime.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.groupBoxDateTimeDigitized.SuspendLayout();
             this.tabPageCameraOwner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).BeginInit();
             this.SuspendLayout();
@@ -498,16 +497,15 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelAutoCorrect.AutoScroll = true;
-            this.panelAutoCorrect.Controls.Add(this.groupBox4);
-            this.panelAutoCorrect.Controls.Add(this.groupBoxLocationName);
-            this.panelAutoCorrect.Controls.Add(this.groupBox5);
-            this.panelAutoCorrect.Controls.Add(this.groupBox3);
             this.panelAutoCorrect.Controls.Add(this.groupBoxRename);
-            this.panelAutoCorrect.Controls.Add(this.groupBox2);
-            this.panelAutoCorrect.Controls.Add(this.richTextBox1);
+            this.panelAutoCorrect.Controls.Add(this.groupBoxFaceRegion);
+            this.panelAutoCorrect.Controls.Add(this.groupBoxKaywordTags);
+            this.panelAutoCorrect.Controls.Add(this.groupBoxAuthor);
+            this.panelAutoCorrect.Controls.Add(this.groupBoxAlbum);
+            this.panelAutoCorrect.Controls.Add(this.groupBoxTitle);
+            this.panelAutoCorrect.Controls.Add(this.groupBoxLocationName);
             this.panelAutoCorrect.Controls.Add(this.groupBoxTimeZone);
-            this.panelAutoCorrect.Controls.Add(this.groupBoxDateTime);
-            this.panelAutoCorrect.Controls.Add(this.groupBox1);
+            this.panelAutoCorrect.Controls.Add(this.groupBoxDateTimeDigitized);
             this.panelAutoCorrect.Location = new System.Drawing.Point(2, 66);
             this.panelAutoCorrect.Margin = new System.Windows.Forms.Padding(2);
             this.panelAutoCorrect.MinimumSize = new System.Drawing.Size(587, 240);
@@ -515,276 +513,30 @@
             this.panelAutoCorrect.Size = new System.Drawing.Size(726, 372);
             this.panelAutoCorrect.TabIndex = 1;
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.label19);
-            this.groupBox4.Controls.Add(this.imageListViewOrderAlbum);
-            this.groupBox4.Controls.Add(this.radioButton6);
-            this.groupBox4.Controls.Add(this.radioButton15);
-            this.groupBox4.Controls.Add(this.radioButton16);
-            this.groupBox4.Location = new System.Drawing.Point(5, 1024);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Size = new System.Drawing.Size(687, 128);
-            this.groupBox4.TabIndex = 10;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Album";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(471, 15);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(141, 17);
-            this.label19.TabIndex = 6;
-            this.label19.Text = "Priority source order:";
-            // 
-            // radioButton6
-            // 
-            this.radioButton6.AutoSize = true;
-            this.radioButton6.Location = new System.Drawing.Point(10, 78);
-            this.radioButton6.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(344, 21);
-            this.radioButton6.TabIndex = 2;
-            this.radioButton6.TabStop = true;
-            this.radioButton6.Text = "Change Album text to first prioritized text in source";
-            this.radioButton6.UseVisualStyleBackColor = true;
-            // 
-            // radioButton15
-            // 
-            this.radioButton15.AutoSize = true;
-            this.radioButton15.Location = new System.Drawing.Point(10, 53);
-            this.radioButton15.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton15.Name = "radioButton15";
-            this.radioButton15.Size = new System.Drawing.Size(439, 21);
-            this.radioButton15.TabIndex = 1;
-            this.radioButton15.TabStop = true;
-            this.radioButton15.Text = "Change Album text to first none empty text from prioritized source";
-            this.radioButton15.UseVisualStyleBackColor = true;
-            // 
-            // radioButton16
-            // 
-            this.radioButton16.AutoSize = true;
-            this.radioButton16.Location = new System.Drawing.Point(10, 28);
-            this.radioButton16.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton16.Name = "radioButton16";
-            this.radioButton16.Size = new System.Drawing.Size(182, 21);
-            this.radioButton16.TabIndex = 0;
-            this.radioButton16.TabStop = true;
-            this.radioButton16.Text = "Don\'t change Album text";
-            this.radioButton16.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxLocationName
-            // 
-            this.groupBoxLocationName.Controls.Add(this.label15);
-            this.groupBoxLocationName.Controls.Add(this.label14);
-            this.groupBoxLocationName.Controls.Add(this.radioButton10);
-            this.groupBoxLocationName.Controls.Add(this.radioButton9);
-            this.groupBoxLocationName.Controls.Add(this.radioButton8);
-            this.groupBoxLocationName.Location = new System.Drawing.Point(5, 1322);
-            this.groupBoxLocationName.Name = "groupBoxLocationName";
-            this.groupBoxLocationName.Size = new System.Drawing.Size(685, 176);
-            this.groupBoxLocationName.TabIndex = 9;
-            this.groupBoxLocationName.TabStop = false;
-            this.groupBoxLocationName.Text = "Location name";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(31, 147);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(474, 17);
-            this.label15.TabIndex = 4;
-            this.label15.Text = "If not exisit in local database it will be fetch from Internet via Nominatim.API";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(31, 121);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(421, 17);
-            this.label14.TabIndex = 3;
-            this.label14.Text = "Location name, region and city are fetch from local database first.";
-            // 
-            // radioButton10
-            // 
-            this.radioButton10.AutoSize = true;
-            this.radioButton10.Location = new System.Drawing.Point(10, 88);
-            this.radioButton10.Name = "radioButton10";
-            this.radioButton10.Size = new System.Drawing.Size(316, 21);
-            this.radioButton10.TabIndex = 2;
-            this.radioButton10.TabStop = true;
-            this.radioButton10.Text = "Always change location name, region and city";
-            this.radioButton10.UseVisualStyleBackColor = true;
-            // 
-            // radioButton9
-            // 
-            this.radioButton9.AutoSize = true;
-            this.radioButton9.Location = new System.Drawing.Point(10, 61);
-            this.radioButton9.Name = "radioButton9";
-            this.radioButton9.Size = new System.Drawing.Size(350, 21);
-            this.radioButton9.TabIndex = 1;
-            this.radioButton9.TabStop = true;
-            this.radioButton9.Text = "Change location name, region and city when empty";
-            this.radioButton9.UseVisualStyleBackColor = true;
-            // 
-            // radioButton8
-            // 
-            this.radioButton8.AutoSize = true;
-            this.radioButton8.Location = new System.Drawing.Point(10, 34);
-            this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(337, 21);
-            this.radioButton8.TabIndex = 0;
-            this.radioButton8.TabStop = true;
-            this.radioButton8.Text = "Don\'t change location name, city, region, country";
-            this.radioButton8.UseVisualStyleBackColor = true;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.radioButton7);
-            this.groupBox5.Controls.Add(this.label13);
-            this.groupBox5.Controls.Add(this.radioButton11);
-            this.groupBox5.Controls.Add(this.radioButton12);
-            this.groupBox5.Location = new System.Drawing.Point(5, 1156);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox5.Size = new System.Drawing.Size(687, 161);
-            this.groupBox5.TabIndex = 8;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Author";
-            // 
-            // radioButton7
-            // 
-            this.radioButton7.AutoSize = true;
-            this.radioButton7.Location = new System.Drawing.Point(10, 78);
-            this.radioButton7.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(406, 21);
-            this.radioButton7.TabIndex = 3;
-            this.radioButton7.TabStop = true;
-            this.radioButton7.Text = "Always change Author text to Camra model and make owner";
-            this.radioButton7.UseVisualStyleBackColor = true;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(31, 116);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(515, 17);
-            this.label13.TabIndex = 2;
-            this.label13.Text = "If Camra Make/Model are not configurated with \"Owner\" no changes will be done.";
-            // 
-            // radioButton11
-            // 
-            this.radioButton11.AutoSize = true;
-            this.radioButton11.Location = new System.Drawing.Point(10, 53);
-            this.radioButton11.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton11.Name = "radioButton11";
-            this.radioButton11.Size = new System.Drawing.Size(500, 21);
-            this.radioButton11.TabIndex = 1;
-            this.radioButton11.TabStop = true;
-            this.radioButton11.Text = "Change Author text to Camra model and make owner when Author is empty";
-            this.radioButton11.UseVisualStyleBackColor = true;
-            // 
-            // radioButton12
-            // 
-            this.radioButton12.AutoSize = true;
-            this.radioButton12.Location = new System.Drawing.Point(10, 28);
-            this.radioButton12.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton12.Name = "radioButton12";
-            this.radioButton12.Size = new System.Drawing.Size(185, 21);
-            this.radioButton12.TabIndex = 0;
-            this.radioButton12.TabStop = true;
-            this.radioButton12.Text = "Don\'t change Author text";
-            this.radioButton12.UseVisualStyleBackColor = true;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.imageListViewOrderTitle);
-            this.groupBox3.Controls.Add(this.radioButton3);
-            this.groupBox3.Controls.Add(this.radioButton2);
-            this.groupBox3.Controls.Add(this.radioButton1);
-            this.groupBox3.Location = new System.Drawing.Point(5, 890);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(687, 130);
-            this.groupBox3.TabIndex = 6;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Title";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(471, 15);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(141, 17);
-            this.label11.TabIndex = 6;
-            this.label11.Text = "Priority source order:";
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(10, 78);
-            this.radioButton3.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(332, 21);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Change Title text to first prioritized text in source";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(10, 53);
-            this.radioButton2.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(427, 21);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Change Title text to first none empty text from prioritized source";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(10, 28);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(170, 21);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Don\'t change Title text";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
             // groupBoxRename
             // 
-            this.groupBoxRename.Controls.Add(this.textBox7);
+            this.groupBoxRename.Controls.Add(this.textBoxRenameTo);
             this.groupBoxRename.Controls.Add(this.label10);
-            this.groupBoxRename.Controls.Add(this.checkBox3);
+            this.groupBoxRename.Controls.Add(this.checkBoxRename);
             this.groupBoxRename.Controls.Add(this.label9);
-            this.groupBoxRename.Controls.Add(this.comboBox1);
-            this.groupBoxRename.Location = new System.Drawing.Point(5, 1517);
+            this.groupBoxRename.Controls.Add(this.comboBoxRenameVariables);
+            this.groupBoxRename.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxRename.Location = new System.Drawing.Point(0, 1117);
             this.groupBoxRename.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxRename.Name = "groupBoxRename";
             this.groupBoxRename.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxRename.Size = new System.Drawing.Size(690, 117);
+            this.groupBoxRename.Size = new System.Drawing.Size(705, 127);
             this.groupBoxRename.TabIndex = 5;
             this.groupBoxRename.TabStop = false;
             this.groupBoxRename.Text = "Rename media file(s)";
             // 
-            // textBox7
+            // textBoxRenameTo
             // 
-            this.textBox7.Location = new System.Drawing.Point(165, 78);
-            this.textBox7.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(501, 22);
-            this.textBox7.TabIndex = 4;
+            this.textBoxRenameTo.Location = new System.Drawing.Point(165, 78);
+            this.textBoxRenameTo.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxRenameTo.Name = "textBoxRenameTo";
+            this.textBoxRenameTo.Size = new System.Drawing.Size(501, 22);
+            this.textBoxRenameTo.TabIndex = 4;
             // 
             // label10
             // 
@@ -796,16 +548,16 @@
             this.label10.TabIndex = 3;
             this.label10.Text = "Rename file(s) to:";
             // 
-            // checkBox3
+            // checkBoxRename
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(10, 28);
-            this.checkBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(320, 21);
-            this.checkBox3.TabIndex = 2;
-            this.checkBox3.Text = "Rename media file(s) after/during AutoCorrect";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBoxRename.AutoSize = true;
+            this.checkBoxRename.Location = new System.Drawing.Point(10, 28);
+            this.checkBoxRename.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxRename.Name = "checkBoxRename";
+            this.checkBoxRename.Size = new System.Drawing.Size(320, 21);
+            this.checkBoxRename.TabIndex = 2;
+            this.checkBoxRename.Text = "Rename media file(s) after/during AutoCorrect";
+            this.checkBoxRename.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -817,29 +569,81 @@
             this.label9.TabIndex = 1;
             this.label9.Text = "Rename variables:";
             // 
-            // comboBox1
+            // comboBoxRenameVariables
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(165, 50);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(501, 24);
-            this.comboBox1.TabIndex = 0;
+            this.comboBoxRenameVariables.FormattingEnabled = true;
+            this.comboBoxRenameVariables.Location = new System.Drawing.Point(165, 50);
+            this.comboBoxRenameVariables.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBoxRenameVariables.Name = "comboBoxRenameVariables";
+            this.comboBoxRenameVariables.Size = new System.Drawing.Size(501, 24);
+            this.comboBoxRenameVariables.TabIndex = 0;
             // 
-            // groupBox2
+            // groupBoxFaceRegion
             // 
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.comboBoxMediaAiConfidence);
-            this.groupBox2.Controls.Add(this.checkBoxKeywordsMicrosoftPhotos);
-            this.groupBox2.Controls.Add(this.checkBoxKeywordsWindowsMediaPhotoGallery);
-            this.groupBox2.Location = new System.Drawing.Point(5, 774);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(687, 112);
-            this.groupBox2.TabIndex = 3;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Keyword tags";
+            this.groupBoxFaceRegion.Controls.Add(this.label5);
+            this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddMicrosoftPhotos);
+            this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddWindowsMediaPhotoGallery);
+            this.groupBoxFaceRegion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxFaceRegion.Location = new System.Drawing.Point(0, 1002);
+            this.groupBoxFaceRegion.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBoxFaceRegion.Name = "groupBoxFaceRegion";
+            this.groupBoxFaceRegion.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBoxFaceRegion.Size = new System.Drawing.Size(705, 115);
+            this.groupBoxFaceRegion.TabIndex = 2;
+            this.groupBoxFaceRegion.TabStop = false;
+            this.groupBoxFaceRegion.Text = "Face region fields";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(31, 75);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(254, 17);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Only names match 100% will be left out";
+            // 
+            // checkBoxFaceRegionAddMicrosoftPhotos
+            // 
+            this.checkBoxFaceRegionAddMicrosoftPhotos.AutoSize = true;
+            this.checkBoxFaceRegionAddMicrosoftPhotos.Checked = true;
+            this.checkBoxFaceRegionAddMicrosoftPhotos.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxFaceRegionAddMicrosoftPhotos.Location = new System.Drawing.Point(10, 52);
+            this.checkBoxFaceRegionAddMicrosoftPhotos.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxFaceRegionAddMicrosoftPhotos.Name = "checkBoxFaceRegionAddMicrosoftPhotos";
+            this.checkBoxFaceRegionAddMicrosoftPhotos.Size = new System.Drawing.Size(329, 21);
+            this.checkBoxFaceRegionAddMicrosoftPhotos.TabIndex = 1;
+            this.checkBoxFaceRegionAddMicrosoftPhotos.Text = "Add none existing names from Microsoft Photos";
+            this.checkBoxFaceRegionAddMicrosoftPhotos.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxFaceRegionAddWindowsMediaPhotoGallery
+            // 
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.AutoSize = true;
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.Checked = true;
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.Location = new System.Drawing.Point(10, 30);
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.Name = "checkBoxFaceRegionAddWindowsMediaPhotoGallery";
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.Size = new System.Drawing.Size(412, 21);
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.TabIndex = 0;
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.Text = "Add none existing names from Windows Media Photo Gallery";
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxKaywordTags
+            // 
+            this.groupBoxKaywordTags.Controls.Add(this.label4);
+            this.groupBoxKaywordTags.Controls.Add(this.comboBoxMediaAiConfidence);
+            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddMicrosoftPhotos);
+            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddWindowsMediaPhotoGallery);
+            this.groupBoxKaywordTags.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxKaywordTags.Location = new System.Drawing.Point(0, 883);
+            this.groupBoxKaywordTags.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBoxKaywordTags.Name = "groupBoxKaywordTags";
+            this.groupBoxKaywordTags.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBoxKaywordTags.Size = new System.Drawing.Size(705, 119);
+            this.groupBoxKaywordTags.TabIndex = 3;
+            this.groupBoxKaywordTags.TabStop = false;
+            this.groupBoxKaywordTags.Text = "Keyword tags";
             // 
             // label4
             // 
@@ -870,53 +674,316 @@
             this.comboBoxMediaAiConfidence.Size = new System.Drawing.Size(150, 24);
             this.comboBoxMediaAiConfidence.TabIndex = 12;
             // 
-            // checkBoxKeywordsMicrosoftPhotos
+            // checkBoxKeywordsAddMicrosoftPhotos
             // 
-            this.checkBoxKeywordsMicrosoftPhotos.AutoSize = true;
-            this.checkBoxKeywordsMicrosoftPhotos.Checked = true;
-            this.checkBoxKeywordsMicrosoftPhotos.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxKeywordsMicrosoftPhotos.Location = new System.Drawing.Point(10, 49);
-            this.checkBoxKeywordsMicrosoftPhotos.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBoxKeywordsMicrosoftPhotos.Name = "checkBoxKeywordsMicrosoftPhotos";
-            this.checkBoxKeywordsMicrosoftPhotos.Size = new System.Drawing.Size(346, 21);
-            this.checkBoxKeywordsMicrosoftPhotos.TabIndex = 1;
-            this.checkBoxKeywordsMicrosoftPhotos.Text = "Add none existing keywords from Microsoft Photos";
-            this.checkBoxKeywordsMicrosoftPhotos.UseVisualStyleBackColor = true;
+            this.checkBoxKeywordsAddMicrosoftPhotos.AutoSize = true;
+            this.checkBoxKeywordsAddMicrosoftPhotos.Checked = true;
+            this.checkBoxKeywordsAddMicrosoftPhotos.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxKeywordsAddMicrosoftPhotos.Location = new System.Drawing.Point(10, 49);
+            this.checkBoxKeywordsAddMicrosoftPhotos.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxKeywordsAddMicrosoftPhotos.Name = "checkBoxKeywordsAddMicrosoftPhotos";
+            this.checkBoxKeywordsAddMicrosoftPhotos.Size = new System.Drawing.Size(346, 21);
+            this.checkBoxKeywordsAddMicrosoftPhotos.TabIndex = 1;
+            this.checkBoxKeywordsAddMicrosoftPhotos.Text = "Add none existing keywords from Microsoft Photos";
+            this.checkBoxKeywordsAddMicrosoftPhotos.UseVisualStyleBackColor = true;
             // 
-            // checkBoxKeywordsWindowsMediaPhotoGallery
+            // checkBoxKeywordsAddWindowsMediaPhotoGallery
             // 
-            this.checkBoxKeywordsWindowsMediaPhotoGallery.AutoSize = true;
-            this.checkBoxKeywordsWindowsMediaPhotoGallery.Checked = true;
-            this.checkBoxKeywordsWindowsMediaPhotoGallery.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxKeywordsWindowsMediaPhotoGallery.Location = new System.Drawing.Point(10, 24);
-            this.checkBoxKeywordsWindowsMediaPhotoGallery.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBoxKeywordsWindowsMediaPhotoGallery.Name = "checkBoxKeywordsWindowsMediaPhotoGallery";
-            this.checkBoxKeywordsWindowsMediaPhotoGallery.Size = new System.Drawing.Size(429, 21);
-            this.checkBoxKeywordsWindowsMediaPhotoGallery.TabIndex = 0;
-            this.checkBoxKeywordsWindowsMediaPhotoGallery.Text = "Add none existing keywords from Windows Media Photo Gallery";
-            this.checkBoxKeywordsWindowsMediaPhotoGallery.UseVisualStyleBackColor = true;
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.AutoSize = true;
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked = true;
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.Location = new System.Drawing.Point(10, 24);
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.Name = "checkBoxKeywordsAddWindowsMediaPhotoGallery";
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.Size = new System.Drawing.Size(429, 21);
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.TabIndex = 0;
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.Text = "Add none existing keywords from Windows Media Photo Gallery";
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.UseVisualStyleBackColor = true;
             // 
-            // richTextBox1
+            // groupBoxAuthor
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(518, 1869);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(156, 161);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.groupBoxAuthor.Controls.Add(this.radioButtonAuthorAlwaysChange);
+            this.groupBoxAuthor.Controls.Add(this.label13);
+            this.groupBoxAuthor.Controls.Add(this.radioButtonChangeWhenEmpty);
+            this.groupBoxAuthor.Controls.Add(this.radioButtonAuthorDoNotChange);
+            this.groupBoxAuthor.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxAuthor.Location = new System.Drawing.Point(0, 735);
+            this.groupBoxAuthor.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBoxAuthor.Name = "groupBoxAuthor";
+            this.groupBoxAuthor.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBoxAuthor.Size = new System.Drawing.Size(705, 148);
+            this.groupBoxAuthor.TabIndex = 8;
+            this.groupBoxAuthor.TabStop = false;
+            this.groupBoxAuthor.Text = "Author";
+            // 
+            // radioButtonAuthorAlwaysChange
+            // 
+            this.radioButtonAuthorAlwaysChange.AutoSize = true;
+            this.radioButtonAuthorAlwaysChange.Location = new System.Drawing.Point(10, 78);
+            this.radioButtonAuthorAlwaysChange.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonAuthorAlwaysChange.Name = "radioButtonAuthorAlwaysChange";
+            this.radioButtonAuthorAlwaysChange.Size = new System.Drawing.Size(406, 21);
+            this.radioButtonAuthorAlwaysChange.TabIndex = 3;
+            this.radioButtonAuthorAlwaysChange.TabStop = true;
+            this.radioButtonAuthorAlwaysChange.Text = "Always change Author text to Camra model and make owner";
+            this.radioButtonAuthorAlwaysChange.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(31, 116);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(515, 17);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "If Camra Make/Model are not configurated with \"Owner\" no changes will be done.";
+            // 
+            // radioButtonChangeWhenEmpty
+            // 
+            this.radioButtonChangeWhenEmpty.AutoSize = true;
+            this.radioButtonChangeWhenEmpty.Location = new System.Drawing.Point(10, 53);
+            this.radioButtonChangeWhenEmpty.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonChangeWhenEmpty.Name = "radioButtonChangeWhenEmpty";
+            this.radioButtonChangeWhenEmpty.Size = new System.Drawing.Size(500, 21);
+            this.radioButtonChangeWhenEmpty.TabIndex = 1;
+            this.radioButtonChangeWhenEmpty.TabStop = true;
+            this.radioButtonChangeWhenEmpty.Text = "Change Author text to Camra model and make owner when Author is empty";
+            this.radioButtonChangeWhenEmpty.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonAuthorDoNotChange
+            // 
+            this.radioButtonAuthorDoNotChange.AutoSize = true;
+            this.radioButtonAuthorDoNotChange.Location = new System.Drawing.Point(10, 28);
+            this.radioButtonAuthorDoNotChange.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonAuthorDoNotChange.Name = "radioButtonAuthorDoNotChange";
+            this.radioButtonAuthorDoNotChange.Size = new System.Drawing.Size(185, 21);
+            this.radioButtonAuthorDoNotChange.TabIndex = 0;
+            this.radioButtonAuthorDoNotChange.TabStop = true;
+            this.radioButtonAuthorDoNotChange.Text = "Don\'t change Author text";
+            this.radioButtonAuthorDoNotChange.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxAlbum
+            // 
+            this.groupBoxAlbum.Controls.Add(this.label19);
+            this.groupBoxAlbum.Controls.Add(this.imageListViewOrderAlbum);
+            this.groupBoxAlbum.Controls.Add(this.radioButtonAlbumUseFirst);
+            this.groupBoxAlbum.Controls.Add(this.radioButtonAlbumChangeWhenEmpty);
+            this.groupBoxAlbum.Controls.Add(this.radioButtonAlbumDoNotChange);
+            this.groupBoxAlbum.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxAlbum.Location = new System.Drawing.Point(0, 594);
+            this.groupBoxAlbum.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBoxAlbum.Name = "groupBoxAlbum";
+            this.groupBoxAlbum.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBoxAlbum.Size = new System.Drawing.Size(705, 141);
+            this.groupBoxAlbum.TabIndex = 10;
+            this.groupBoxAlbum.TabStop = false;
+            this.groupBoxAlbum.Text = "Album";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(453, 15);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(141, 17);
+            this.label19.TabIndex = 6;
+            this.label19.Text = "Priority source order:";
+            // 
+            // imageListViewOrderAlbum
+            // 
+            this.imageListViewOrderAlbum.AllowReorder = true;
+            this.imageListViewOrderAlbum.LineColor = System.Drawing.Color.Red;
+            this.imageListViewOrderAlbum.Location = new System.Drawing.Point(453, 34);
+            this.imageListViewOrderAlbum.Margin = new System.Windows.Forms.Padding(2);
+            this.imageListViewOrderAlbum.Name = "imageListViewOrderAlbum";
+            this.imageListViewOrderAlbum.Size = new System.Drawing.Size(222, 94);
+            this.imageListViewOrderAlbum.TabIndex = 5;
+            // 
+            // radioButtonAlbumUseFirst
+            // 
+            this.radioButtonAlbumUseFirst.AutoSize = true;
+            this.radioButtonAlbumUseFirst.Location = new System.Drawing.Point(10, 78);
+            this.radioButtonAlbumUseFirst.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonAlbumUseFirst.Name = "radioButtonAlbumUseFirst";
+            this.radioButtonAlbumUseFirst.Size = new System.Drawing.Size(344, 21);
+            this.radioButtonAlbumUseFirst.TabIndex = 2;
+            this.radioButtonAlbumUseFirst.TabStop = true;
+            this.radioButtonAlbumUseFirst.Text = "Change Album text to first prioritized text in source";
+            this.radioButtonAlbumUseFirst.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonAlbumChangeWhenEmpty
+            // 
+            this.radioButtonAlbumChangeWhenEmpty.AutoSize = true;
+            this.radioButtonAlbumChangeWhenEmpty.Location = new System.Drawing.Point(10, 53);
+            this.radioButtonAlbumChangeWhenEmpty.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonAlbumChangeWhenEmpty.Name = "radioButtonAlbumChangeWhenEmpty";
+            this.radioButtonAlbumChangeWhenEmpty.Size = new System.Drawing.Size(439, 21);
+            this.radioButtonAlbumChangeWhenEmpty.TabIndex = 1;
+            this.radioButtonAlbumChangeWhenEmpty.TabStop = true;
+            this.radioButtonAlbumChangeWhenEmpty.Text = "Change Album text to first none empty text from prioritized source";
+            this.radioButtonAlbumChangeWhenEmpty.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonAlbumDoNotChange
+            // 
+            this.radioButtonAlbumDoNotChange.AutoSize = true;
+            this.radioButtonAlbumDoNotChange.Location = new System.Drawing.Point(10, 28);
+            this.radioButtonAlbumDoNotChange.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonAlbumDoNotChange.Name = "radioButtonAlbumDoNotChange";
+            this.radioButtonAlbumDoNotChange.Size = new System.Drawing.Size(182, 21);
+            this.radioButtonAlbumDoNotChange.TabIndex = 0;
+            this.radioButtonAlbumDoNotChange.TabStop = true;
+            this.radioButtonAlbumDoNotChange.Text = "Don\'t change Album text";
+            this.radioButtonAlbumDoNotChange.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxTitle
+            // 
+            this.groupBoxTitle.Controls.Add(this.label11);
+            this.groupBoxTitle.Controls.Add(this.imageListViewOrderTitle);
+            this.groupBoxTitle.Controls.Add(this.radioButtonTitleUseFirst);
+            this.groupBoxTitle.Controls.Add(this.radioButtonTitleChangeWhenEmpty);
+            this.groupBoxTitle.Controls.Add(this.radioButtonTitleDoNotChange);
+            this.groupBoxTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxTitle.Location = new System.Drawing.Point(0, 464);
+            this.groupBoxTitle.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBoxTitle.Name = "groupBoxTitle";
+            this.groupBoxTitle.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBoxTitle.Size = new System.Drawing.Size(705, 130);
+            this.groupBoxTitle.TabIndex = 6;
+            this.groupBoxTitle.TabStop = false;
+            this.groupBoxTitle.Text = "Title";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(453, 15);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(141, 17);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Priority source order:";
+            // 
+            // imageListViewOrderTitle
+            // 
+            this.imageListViewOrderTitle.AllowReorder = true;
+            this.imageListViewOrderTitle.LineColor = System.Drawing.Color.Red;
+            this.imageListViewOrderTitle.Location = new System.Drawing.Point(453, 34);
+            this.imageListViewOrderTitle.Margin = new System.Windows.Forms.Padding(2);
+            this.imageListViewOrderTitle.Name = "imageListViewOrderTitle";
+            this.imageListViewOrderTitle.Size = new System.Drawing.Size(222, 92);
+            this.imageListViewOrderTitle.TabIndex = 5;
+            // 
+            // radioButtonTitleUseFirst
+            // 
+            this.radioButtonTitleUseFirst.AutoSize = true;
+            this.radioButtonTitleUseFirst.Location = new System.Drawing.Point(10, 78);
+            this.radioButtonTitleUseFirst.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonTitleUseFirst.Name = "radioButtonTitleUseFirst";
+            this.radioButtonTitleUseFirst.Size = new System.Drawing.Size(332, 21);
+            this.radioButtonTitleUseFirst.TabIndex = 2;
+            this.radioButtonTitleUseFirst.TabStop = true;
+            this.radioButtonTitleUseFirst.Text = "Change Title text to first prioritized text in source";
+            this.radioButtonTitleUseFirst.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTitleChangeWhenEmpty
+            // 
+            this.radioButtonTitleChangeWhenEmpty.AutoSize = true;
+            this.radioButtonTitleChangeWhenEmpty.Location = new System.Drawing.Point(10, 53);
+            this.radioButtonTitleChangeWhenEmpty.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonTitleChangeWhenEmpty.Name = "radioButtonTitleChangeWhenEmpty";
+            this.radioButtonTitleChangeWhenEmpty.Size = new System.Drawing.Size(427, 21);
+            this.radioButtonTitleChangeWhenEmpty.TabIndex = 1;
+            this.radioButtonTitleChangeWhenEmpty.TabStop = true;
+            this.radioButtonTitleChangeWhenEmpty.Text = "Change Title text to first none empty text from prioritized source";
+            this.radioButtonTitleChangeWhenEmpty.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTitleDoNotChange
+            // 
+            this.radioButtonTitleDoNotChange.AutoSize = true;
+            this.radioButtonTitleDoNotChange.Location = new System.Drawing.Point(10, 28);
+            this.radioButtonTitleDoNotChange.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonTitleDoNotChange.Name = "radioButtonTitleDoNotChange";
+            this.radioButtonTitleDoNotChange.Size = new System.Drawing.Size(170, 21);
+            this.radioButtonTitleDoNotChange.TabIndex = 0;
+            this.radioButtonTitleDoNotChange.TabStop = true;
+            this.radioButtonTitleDoNotChange.Text = "Don\'t change Title text";
+            this.radioButtonTitleDoNotChange.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxLocationName
+            // 
+            this.groupBoxLocationName.Controls.Add(this.label15);
+            this.groupBoxLocationName.Controls.Add(this.label14);
+            this.groupBoxLocationName.Controls.Add(this.radioButtonLocationNameChangeAlways);
+            this.groupBoxLocationName.Controls.Add(this.radioButtonLocationNameChangeWhenEmpty);
+            this.groupBoxLocationName.Controls.Add(this.radioButtonLocationNameDoNotChange);
+            this.groupBoxLocationName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxLocationName.Location = new System.Drawing.Point(0, 274);
+            this.groupBoxLocationName.Name = "groupBoxLocationName";
+            this.groupBoxLocationName.Size = new System.Drawing.Size(705, 190);
+            this.groupBoxLocationName.TabIndex = 9;
+            this.groupBoxLocationName.TabStop = false;
+            this.groupBoxLocationName.Text = "Location name";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(31, 147);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(474, 17);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "If not exisit in local database it will be fetch from Internet via Nominatim.API";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(31, 121);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(421, 17);
+            this.label14.TabIndex = 3;
+            this.label14.Text = "Location name, region and city are fetch from local database first.";
+            // 
+            // radioButtonLocationNameChangeAlways
+            // 
+            this.radioButtonLocationNameChangeAlways.AutoSize = true;
+            this.radioButtonLocationNameChangeAlways.Location = new System.Drawing.Point(10, 88);
+            this.radioButtonLocationNameChangeAlways.Name = "radioButtonLocationNameChangeAlways";
+            this.radioButtonLocationNameChangeAlways.Size = new System.Drawing.Size(316, 21);
+            this.radioButtonLocationNameChangeAlways.TabIndex = 2;
+            this.radioButtonLocationNameChangeAlways.TabStop = true;
+            this.radioButtonLocationNameChangeAlways.Text = "Always change location name, region and city";
+            this.radioButtonLocationNameChangeAlways.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonLocationNameChangeWhenEmpty
+            // 
+            this.radioButtonLocationNameChangeWhenEmpty.AutoSize = true;
+            this.radioButtonLocationNameChangeWhenEmpty.Location = new System.Drawing.Point(10, 61);
+            this.radioButtonLocationNameChangeWhenEmpty.Name = "radioButtonLocationNameChangeWhenEmpty";
+            this.radioButtonLocationNameChangeWhenEmpty.Size = new System.Drawing.Size(350, 21);
+            this.radioButtonLocationNameChangeWhenEmpty.TabIndex = 1;
+            this.radioButtonLocationNameChangeWhenEmpty.TabStop = true;
+            this.radioButtonLocationNameChangeWhenEmpty.Text = "Change location name, region and city when empty";
+            this.radioButtonLocationNameChangeWhenEmpty.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonLocationNameDoNotChange
+            // 
+            this.radioButtonLocationNameDoNotChange.AutoSize = true;
+            this.radioButtonLocationNameDoNotChange.Location = new System.Drawing.Point(10, 34);
+            this.radioButtonLocationNameDoNotChange.Name = "radioButtonLocationNameDoNotChange";
+            this.radioButtonLocationNameDoNotChange.Size = new System.Drawing.Size(337, 21);
+            this.radioButtonLocationNameDoNotChange.TabIndex = 0;
+            this.radioButtonLocationNameDoNotChange.TabStop = true;
+            this.radioButtonLocationNameDoNotChange.Text = "Don\'t change location name, city, region, country";
+            this.radioButtonLocationNameDoNotChange.UseVisualStyleBackColor = true;
             // 
             // groupBoxTimeZone
             // 
             this.groupBoxTimeZone.Controls.Add(this.label8);
             this.groupBoxTimeZone.Controls.Add(this.label7);
             this.groupBoxTimeZone.Controls.Add(this.label6);
-            this.groupBoxTimeZone.Controls.Add(this.checkBox2);
-            this.groupBoxTimeZone.Controls.Add(this.checkBox1);
-            this.groupBoxTimeZone.Location = new System.Drawing.Point(5, 490);
+            this.groupBoxTimeZone.Controls.Add(this.checkBoxTimeZoneFindGPSlocationUsingHistory);
+            this.groupBoxTimeZone.Controls.Add(this.checkBoxTimeZoneGuessZone);
+            this.groupBoxTimeZone.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxTimeZone.Location = new System.Drawing.Point(0, 113);
             this.groupBoxTimeZone.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxTimeZone.Name = "groupBoxTimeZone";
             this.groupBoxTimeZone.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxTimeZone.Size = new System.Drawing.Size(687, 141);
+            this.groupBoxTimeZone.Size = new System.Drawing.Size(705, 161);
             this.groupBoxTimeZone.TabIndex = 4;
             this.groupBoxTimeZone.TabStop = false;
             this.groupBoxTimeZone.Text = "Time Zone";
@@ -924,7 +991,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(31, 115);
+            this.label8.Location = new System.Drawing.Point(31, 118);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(620, 17);
@@ -953,42 +1020,43 @@
             this.label6.TabIndex = 2;
             this.label6.Text = "1. Find a GPS location in location history using media GPSDateTime or DateTaken.";
             // 
-            // checkBox2
+            // checkBoxTimeZoneFindGPSlocationUsingHistory
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(10, 95);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(285, 21);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Find GPS location using Location history";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBoxTimeZoneFindGPSlocationUsingHistory.AutoSize = true;
+            this.checkBoxTimeZoneFindGPSlocationUsingHistory.Location = new System.Drawing.Point(10, 95);
+            this.checkBoxTimeZoneFindGPSlocationUsingHistory.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxTimeZoneFindGPSlocationUsingHistory.Name = "checkBoxTimeZoneFindGPSlocationUsingHistory";
+            this.checkBoxTimeZoneFindGPSlocationUsingHistory.Size = new System.Drawing.Size(285, 21);
+            this.checkBoxTimeZoneFindGPSlocationUsingHistory.TabIndex = 1;
+            this.checkBoxTimeZoneFindGPSlocationUsingHistory.Text = "Find GPS location using Location history";
+            this.checkBoxTimeZoneFindGPSlocationUsingHistory.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // checkBoxTimeZoneGuessZone
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(10, 28);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(461, 21);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Try to guess Time Zone, otherwise computer Time Zone will be used";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBoxTimeZoneGuessZone.AutoSize = true;
+            this.checkBoxTimeZoneGuessZone.Location = new System.Drawing.Point(10, 28);
+            this.checkBoxTimeZoneGuessZone.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxTimeZoneGuessZone.Name = "checkBoxTimeZoneGuessZone";
+            this.checkBoxTimeZoneGuessZone.Size = new System.Drawing.Size(461, 21);
+            this.checkBoxTimeZoneGuessZone.TabIndex = 0;
+            this.checkBoxTimeZoneGuessZone.Text = "Try to guess Time Zone, otherwise computer Time Zone will be used";
+            this.checkBoxTimeZoneGuessZone.UseVisualStyleBackColor = true;
             // 
-            // groupBoxDateTime
+            // groupBoxDateTimeDigitized
             // 
-            this.groupBoxDateTime.Controls.Add(this.label3);
-            this.groupBoxDateTime.Controls.Add(this.radioButtonDateTimeDigitizedUseDateTaken);
-            this.groupBoxDateTime.Controls.Add(this.radioButtonDateTimeDigitizedUseGPSDateTime);
-            this.groupBoxDateTime.Location = new System.Drawing.Point(5, 373);
-            this.groupBoxDateTime.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBoxDateTime.MinimumSize = new System.Drawing.Size(555, 103);
-            this.groupBoxDateTime.Name = "groupBoxDateTime";
-            this.groupBoxDateTime.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxDateTime.Size = new System.Drawing.Size(687, 103);
-            this.groupBoxDateTime.TabIndex = 1;
-            this.groupBoxDateTime.TabStop = false;
-            this.groupBoxDateTime.Text = "Date and Time Digitized";
+            this.groupBoxDateTimeDigitized.Controls.Add(this.label3);
+            this.groupBoxDateTimeDigitized.Controls.Add(this.radioButtonDateTimeDigitizedUseDateTaken);
+            this.groupBoxDateTimeDigitized.Controls.Add(this.radioButtonDateTimeDigitizedUseGPSDateTime);
+            this.groupBoxDateTimeDigitized.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxDateTimeDigitized.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxDateTimeDigitized.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBoxDateTimeDigitized.MinimumSize = new System.Drawing.Size(555, 103);
+            this.groupBoxDateTimeDigitized.Name = "groupBoxDateTimeDigitized";
+            this.groupBoxDateTimeDigitized.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBoxDateTimeDigitized.Size = new System.Drawing.Size(705, 113);
+            this.groupBoxDateTimeDigitized.TabIndex = 1;
+            this.groupBoxDateTimeDigitized.TabStop = false;
+            this.groupBoxDateTimeDigitized.Text = "Date and Time Digitized";
             // 
             // label3
             // 
@@ -1023,56 +1091,6 @@
             this.radioButtonDateTimeDigitizedUseGPSDateTime.TabStop = true;
             this.radioButtonDateTimeDigitizedUseGPSDateTime.Text = "Use GPS UTC Date and Time for DateTaken field";
             this.radioButtonDateTimeDigitizedUseGPSDateTime.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.checkBoxFaceRegionMicrosoftPhotos);
-            this.groupBox1.Controls.Add(this.checkBoxFaceRegionWindowsMediaPhotoGallery);
-            this.groupBox1.Location = new System.Drawing.Point(5, 655);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(687, 100);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Face region fields";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(31, 75);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(254, 17);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Only names match 100% will be left out";
-            // 
-            // checkBoxFaceRegionMicrosoftPhotos
-            // 
-            this.checkBoxFaceRegionMicrosoftPhotos.AutoSize = true;
-            this.checkBoxFaceRegionMicrosoftPhotos.Checked = true;
-            this.checkBoxFaceRegionMicrosoftPhotos.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxFaceRegionMicrosoftPhotos.Location = new System.Drawing.Point(10, 52);
-            this.checkBoxFaceRegionMicrosoftPhotos.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBoxFaceRegionMicrosoftPhotos.Name = "checkBoxFaceRegionMicrosoftPhotos";
-            this.checkBoxFaceRegionMicrosoftPhotos.Size = new System.Drawing.Size(333, 21);
-            this.checkBoxFaceRegionMicrosoftPhotos.TabIndex = 1;
-            this.checkBoxFaceRegionMicrosoftPhotos.Text = "Add none existing names  from Microsoft Photos";
-            this.checkBoxFaceRegionMicrosoftPhotos.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxFaceRegionWindowsMediaPhotoGallery
-            // 
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery.AutoSize = true;
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery.Checked = true;
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery.Location = new System.Drawing.Point(10, 30);
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery.Name = "checkBoxFaceRegionWindowsMediaPhotoGallery";
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery.Size = new System.Drawing.Size(416, 21);
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery.TabIndex = 0;
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery.Text = "Add none existing names  from Windows Media Photo Gallery";
-            this.checkBoxFaceRegionWindowsMediaPhotoGallery.UseVisualStyleBackColor = true;
             // 
             // textBoxHelpAutoCorrect
             // 
@@ -1132,26 +1150,6 @@
             this.buttonConfigCancel.UseVisualStyleBackColor = true;
             this.buttonConfigCancel.Click += new System.EventHandler(this.buttonConfigCancel_Click);
             // 
-            // imageListViewOrderAlbum
-            // 
-            this.imageListViewOrderAlbum.AllowReorder = true;
-            this.imageListViewOrderAlbum.LineColor = System.Drawing.Color.Red;
-            this.imageListViewOrderAlbum.Location = new System.Drawing.Point(453, 34);
-            this.imageListViewOrderAlbum.Margin = new System.Windows.Forms.Padding(2);
-            this.imageListViewOrderAlbum.Name = "imageListViewOrderAlbum";
-            this.imageListViewOrderAlbum.Size = new System.Drawing.Size(222, 80);
-            this.imageListViewOrderAlbum.TabIndex = 5;
-            // 
-            // imageListViewOrderTitle
-            // 
-            this.imageListViewOrderTitle.AllowReorder = true;
-            this.imageListViewOrderTitle.LineColor = System.Drawing.Color.Red;
-            this.imageListViewOrderTitle.Location = new System.Drawing.Point(453, 34);
-            this.imageListViewOrderTitle.Margin = new System.Windows.Forms.Padding(2);
-            this.imageListViewOrderTitle.Name = "imageListViewOrderTitle";
-            this.imageListViewOrderTitle.Size = new System.Drawing.Size(222, 80);
-            this.imageListViewOrderTitle.TabIndex = 5;
-            // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1179,24 +1177,24 @@
             this.tabPageAutoCorrect.ResumeLayout(false);
             this.tabPageAutoCorrect.PerformLayout();
             this.panelAutoCorrect.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBoxLocationName.ResumeLayout(false);
-            this.groupBoxLocationName.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.groupBoxRename.ResumeLayout(false);
             this.groupBoxRename.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.groupBoxFaceRegion.ResumeLayout(false);
+            this.groupBoxFaceRegion.PerformLayout();
+            this.groupBoxKaywordTags.ResumeLayout(false);
+            this.groupBoxKaywordTags.PerformLayout();
+            this.groupBoxAuthor.ResumeLayout(false);
+            this.groupBoxAuthor.PerformLayout();
+            this.groupBoxAlbum.ResumeLayout(false);
+            this.groupBoxAlbum.PerformLayout();
+            this.groupBoxTitle.ResumeLayout(false);
+            this.groupBoxTitle.PerformLayout();
+            this.groupBoxLocationName.ResumeLayout(false);
+            this.groupBoxLocationName.PerformLayout();
             this.groupBoxTimeZone.ResumeLayout(false);
             this.groupBoxTimeZone.PerformLayout();
-            this.groupBoxDateTime.ResumeLayout(false);
-            this.groupBoxDateTime.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBoxDateTimeDigitized.ResumeLayout(false);
+            this.groupBoxDateTimeDigitized.PerformLayout();
             this.tabPageCameraOwner.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).EndInit();
             this.ResumeLayout(false);
@@ -1240,56 +1238,55 @@
         private System.Windows.Forms.TabPage tabPageAutoCorrect;
         private System.Windows.Forms.TextBox textBoxHelpAutoCorrect;
         private System.Windows.Forms.Panel panelAutoCorrect;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox checkBoxKeywordsMicrosoftPhotos;
-        private System.Windows.Forms.CheckBox checkBoxKeywordsWindowsMediaPhotoGallery;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox checkBoxFaceRegionMicrosoftPhotos;
-        private System.Windows.Forms.CheckBox checkBoxFaceRegionWindowsMediaPhotoGallery;
-        private System.Windows.Forms.GroupBox groupBoxDateTime;
+        private System.Windows.Forms.GroupBox groupBoxKaywordTags;
+        private System.Windows.Forms.CheckBox checkBoxKeywordsAddMicrosoftPhotos;
+        private System.Windows.Forms.CheckBox checkBoxKeywordsAddWindowsMediaPhotoGallery;
+        private System.Windows.Forms.GroupBox groupBoxFaceRegion;
+        private System.Windows.Forms.CheckBox checkBoxFaceRegionAddMicrosoftPhotos;
+        private System.Windows.Forms.CheckBox checkBoxFaceRegionAddWindowsMediaPhotoGallery;
+        private System.Windows.Forms.GroupBox groupBoxDateTimeDigitized;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton radioButtonDateTimeDigitizedUseDateTaken;
         private System.Windows.Forms.RadioButton radioButtonDateTimeDigitizedUseGPSDateTime;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBoxMediaAiConfidence;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TabPage tabPageCameraOwner;
         private System.Windows.Forms.GroupBox groupBoxRename;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBoxRenameTo;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBoxRename;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxRenameVariables;
         private System.Windows.Forms.GroupBox groupBoxTimeZone;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBoxTimeZoneFindGPSlocationUsingHistory;
+        private System.Windows.Forms.CheckBox checkBoxTimeZoneGuessZone;
         private DataGridViewExtended.DataGridViewExtended dataGridViewExtended1;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.RadioButton radioButton11;
-        private System.Windows.Forms.RadioButton radioButton12;
-        private System.Windows.Forms.RadioButton radioButton7;
+        private System.Windows.Forms.GroupBox groupBoxAuthor;
+        private System.Windows.Forms.RadioButton radioButtonChangeWhenEmpty;
+        private System.Windows.Forms.RadioButton radioButtonAuthorDoNotChange;
+        private System.Windows.Forms.RadioButton radioButtonAuthorAlwaysChange;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.GroupBox groupBoxLocationName;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.RadioButton radioButton10;
-        private System.Windows.Forms.RadioButton radioButton9;
-        private System.Windows.Forms.RadioButton radioButton8;
+        private System.Windows.Forms.RadioButton radioButtonLocationNameChangeAlways;
+        private System.Windows.Forms.RadioButton radioButtonLocationNameChangeWhenEmpty;
+        private System.Windows.Forms.RadioButton radioButtonLocationNameDoNotChange;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBoxAlbum;
         private System.Windows.Forms.Label label19;
         private ImageListViewOrder imageListViewOrderAlbum;
-        private System.Windows.Forms.RadioButton radioButton6;
-        private System.Windows.Forms.RadioButton radioButton15;
-        private System.Windows.Forms.RadioButton radioButton16;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton radioButtonAlbumUseFirst;
+        private System.Windows.Forms.RadioButton radioButtonAlbumChangeWhenEmpty;
+        private System.Windows.Forms.RadioButton radioButtonAlbumDoNotChange;
+        private System.Windows.Forms.GroupBox groupBoxTitle;
         private System.Windows.Forms.Label label11;
         private ImageListViewOrder imageListViewOrderTitle;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButtonTitleUseFirst;
+        private System.Windows.Forms.RadioButton radioButtonTitleChangeWhenEmpty;
+        private System.Windows.Forms.RadioButton radioButtonTitleDoNotChange;
     }
 }

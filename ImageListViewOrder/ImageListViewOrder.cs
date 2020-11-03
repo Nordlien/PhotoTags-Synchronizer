@@ -13,17 +13,17 @@ namespace PhotoTagsSynchronizer
 
     public partial class ImageListViewOrder: UserControl
     {
-        private bool isDoingInitializeComponent = false;
-        //private ImageListViewOrderCollection listViewItemCollection = new List<ListViewItem>();
-        
-
         public ImageListViewOrder()
         {
-            isDoingInitializeComponent = true;
             
             InitializeComponent();
+            if (imageListViewDragAndDrop1.Columns.Count > 0)
+            {
+                imageListViewDragAndDrop1.Columns[0].Width = imageListViewDragAndDrop1.Width - 10;
+            }
 
-            isDoingInitializeComponent = false;
+            imageListViewDragAndDrop1.DrawItem += (sender, e) => { e.DrawDefault = true; };
+            imageListViewDragAndDrop1.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
         }
 
       
@@ -87,5 +87,12 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+
+        private void imageListViewDragAndDrop1_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            e.Graphics.FillRectangle(new SolidBrush(SystemColors.Control), e.Bounds);
+            e.DrawText();
+        }
+
     }
 }

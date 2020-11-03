@@ -41,6 +41,7 @@ namespace PhotoTagsSynchronizer
 
         }
 
+        #region AutoCorrect
         private void PopulateAutoCorrectListOrder(ImageListViewOrder imageListViewOrder, List<MetadataBrokerTypes> listPriority)
         {
             ListViewItem listViewItem;
@@ -80,8 +81,7 @@ namespace PhotoTagsSynchronizer
 
         private void PopulateAutoCorrectPoperties()
         {
-            #region Title
-            
+            #region Title            
             if (autoCorrect.TitlePriority == null || autoCorrect.TitlePriority.Count == 0)
             {
                 autoCorrect.TitlePriority.Add(MetadataBrokerTypes.ExifTool);
@@ -90,6 +90,16 @@ namespace PhotoTagsSynchronizer
             }
 
             PopulateAutoCorrectListOrder(imageListViewOrderTitle, autoCorrect.TitlePriority);
+
+            if (autoCorrect.UpdateTitle)            
+            {
+                if (autoCorrect.UpdateTitleWithFirstInPrioity)
+                    radioButtonTitleUseFirst.Checked = true;
+                else
+                    radioButtonTitleChangeWhenEmpty.Checked = true;
+            }
+            else radioButtonTitleDoNotChange.Checked = true;
+
             #endregion
 
             #region Album
@@ -100,6 +110,26 @@ namespace PhotoTagsSynchronizer
                 autoCorrect.AlbumPriority.Add(MetadataBrokerTypes.FileSystem);
             }
             PopulateAutoCorrectListOrder(imageListViewOrderAlbum, autoCorrect.AlbumPriority);
+
+            if (autoCorrect.UpdateAlbum)
+            {
+                if (autoCorrect.UpdateAlbumWithFirstInPrioity)
+                    radioButtonAlbumUseFirst.Checked = true;
+                else
+                    radioButtonAlbumChangeWhenEmpty.Checked = true;
+            }
+            else radioButtonAlbumDoNotChange.Checked = true;
+
+            #endregion
+
+            #region Keywords
+            checkBoxKeywordsAddMicrosoftPhotos.Checked = autoCorrect.UseKeywordsFromMicrosoftPhotos;
+            checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked = autoCorrect.UseKeywordsFromWindowsLivePhotoGallery;
+            #endregion
+
+            #region Region Faces
+            checkBoxFaceRegionAddMicrosoftPhotos.Checked = autoCorrect.UseFaceRegionFromMicrosoftPhotos;
+            checkBoxFaceRegionAddWindowsMediaPhotoGallery.Checked = autoCorrect.UseFaceRegionFromWindowsLivePhotoGallery;
             #endregion
         }
 
@@ -110,12 +140,51 @@ namespace PhotoTagsSynchronizer
             {
                 autoCorrect.TitlePriority.Add((MetadataBrokerTypes)item.Tag);
             }
-
+            /*
+            if (autoCorrect.UpdateTitle)            
+            {
+                if (autoCorrect.UpdateTitleWithFirstInPrioity)
+                    radioButtonTitleUseFirst.Checked = true;
+                else
+                    radioButtonTitleChangeWhenEmpty.Checked = true;
+            }
+            else radioButtonTitleDoNotChange.Checked = true;
+            */
             autoCorrect.AlbumPriority.Clear();
             foreach (ListViewItem item in imageListViewOrderAlbum.Items)
             {
                 autoCorrect.AlbumPriority.Add((MetadataBrokerTypes)item.Tag);
-            }  
+            }
+            /*
+            if (autoCorrect.UpdateAlbum)
+            {
+                if (autoCorrect.UpdateAlbumWithFirstInPrioity)
+                    radioButtonAlbumUseFirst.Checked = true;
+                else
+                    radioButtonAlbumChangeWhenEmpty.Checked = true;
+            }
+            else radioButtonAlbumDoNotChange.Checked = true;
+            */
+
+            #region Keywords
+            autoCorrect.UseKeywordsFromMicrosoftPhotos = checkBoxKeywordsAddMicrosoftPhotos.Checked;
+            autoCorrect.UseKeywordsFromWindowsLivePhotoGallery = checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked;
+            #endregion
+
+            #region Region Faces
+            autoCorrect.UseFaceRegionFromMicrosoftPhotos = checkBoxFaceRegionAddMicrosoftPhotos.Checked;
+            autoCorrect.UseFaceRegionFromWindowsLivePhotoGallery = checkBoxFaceRegionAddWindowsMediaPhotoGallery.Checked;
+            #endregion
+        }
+        #endregion
+
+        #region All tabs - Init - Save - Close
+        public void Init()
+        {
+            CopyMetadataReadPrioity(MetadataReadPrioity.MetadataPrioityDictionary, metadataPrioityDictionaryCopy);
+            PopulateMetadataRead();
+            autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+            PopulateAutoCorrectPoperties();
         }
 
         private void buttonConfigSave_Click(object sender, EventArgs e)
@@ -135,14 +204,8 @@ namespace PhotoTagsSynchronizer
         {
             this.Close();
         }
+        #endregion 
 
-        public void Init()
-        {
-            CopyMetadataReadPrioity(MetadataReadPrioity.MetadataPrioityDictionary, metadataPrioityDictionaryCopy);
-            PopulateMetadataRead();
-            autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-            PopulateAutoCorrectPoperties();
-        }
 
         public void CopyMetadataReadPrioity(Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionarySource,
             Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryDestination)
@@ -187,7 +250,6 @@ namespace PhotoTagsSynchronizer
 
             foreach (MetadataPriorityGroup metadataPrioityGroup in metadataPrioityGroupSortedList)
             {
-                Debug.WriteLine(metadataPrioityGroup.MetadataPriorityValues.Composite + " " + metadataPrioityGroup.MetadataPriorityKey.Region + " " + metadataPrioityGroup.MetadataPriorityKey.Tag);
                 if (!compositeList.Contains(metadataPrioityGroup.MetadataPriorityValues.Composite))
                 {
                     compositeList.Add(metadataPrioityGroup.MetadataPriorityValues.Composite);
@@ -475,33 +537,6 @@ namespace PhotoTagsSynchronizer
             dataGridViewMetadataReadPriority.Focus();
         }
 
-        /*
-        private void listBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (this.listBox1.SelectedItem == null) return;
-            this.listBox1.DoDragDrop(this.listBox1.SelectedItem, DragDropEffects.Move);
-        }
-
-        private void listBox1_DragOver(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Move;
-        }
-
-        private void listBox1_DragDrop(object sender, DragEventArgs e)
-        {
-            Point point = listBox1.PointToClient(new Point(e.X, e.Y));
-            int index = this.listBox1.IndexFromPoint(point);
-            if (index < 0) index = this.listBox1.Items.Count - 1;
-            object data = listBox1.SelectedItem;
-            this.listBox1.Items.Remove(data);
-            this.listBox1.Items.Insert(index, data);
-        }
-
-        private void itemcreator_Load(object sender, EventArgs e)
-        {
-            this.listBox1.AllowDrop = true;
-        }
-
-        */
+        
     }
 }
