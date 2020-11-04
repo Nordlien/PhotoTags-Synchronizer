@@ -79,8 +79,67 @@ namespace PhotoTagsSynchronizer
             }
         }
 
+        private void PopulateAutoCorrectDateTakenPriority(ImageListViewOrder imageListViewOrder, List<DateTimeSources> listPriority)
+        {
+            ListViewItem listViewItem;
+
+            imageListViewOrder.Items.Clear();
+            foreach (DateTimeSources dateTimeSource in listPriority)
+            {
+                switch (dateTimeSource)
+                {
+                    case DateTimeSources.DateTaken:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "Date&Time Taken";
+                        listViewItem.Tag = DateTimeSources.DateTaken;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                    case DateTimeSources.GPSDateAndTime:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "GPS UTC DateTime";
+                        listViewItem.Tag = DateTimeSources.GPSDateAndTime;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                    case DateTimeSources.FirstDateFoundInFilename:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "First Date&Time found in Filename";
+                        listViewItem.Tag = DateTimeSources.FirstDateFoundInFilename;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                    case DateTimeSources.LastDateFoundInFilename:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "Last Date&Time found in Filename";
+                        listViewItem.Tag = DateTimeSources.LastDateFoundInFilename;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                }
+            }
+        }
+
         private void PopulateAutoCorrectPoperties()
         {
+            #region Date Taken
+            if (autoCorrect.DateTakenPriority == null || autoCorrect.DateTakenPriority.Count == 0)
+            {
+                autoCorrect.DateTakenPriority.Add(DateTimeSources.DateTaken);
+                autoCorrect.DateTakenPriority.Add(DateTimeSources.GPSDateAndTime);
+                autoCorrect.DateTakenPriority.Add(DateTimeSources.FirstDateFoundInFilename);
+                autoCorrect.DateTakenPriority.Add(DateTimeSources.LastDateFoundInFilename);
+            }
+
+            PopulateAutoCorrectDateTakenPriority(imageListViewOrderDateTaken, autoCorrect.DateTakenPriority);
+
+            if (autoCorrect.UpdateDateTaken)
+            {
+                if (autoCorrect.UpdateDateTakenWithFirstInPrioity)
+                    radioButtonDateTakenUseFirst.Checked = true;
+                else
+                    radioButtonDateTakenChangeWhenEmpty.Checked = true;
+            }
+            else radioButtonDateTakenDoNotChange.Checked = true;
+
+            #endregion
+
             #region Title            
             if (autoCorrect.TitlePriority == null || autoCorrect.TitlePriority.Count == 0)
             {
@@ -125,46 +184,105 @@ namespace PhotoTagsSynchronizer
             #region Keywords
             checkBoxKeywordsAddMicrosoftPhotos.Checked = autoCorrect.UseKeywordsFromMicrosoftPhotos;
             checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked = autoCorrect.UseKeywordsFromWindowsLivePhotoGallery;
+            comboBoxKeywordsAiConfidence.SelectedIndex = 9 - (int)(autoCorrect.KeywordTagConfidenceLevel * 10);
+
             #endregion
 
             #region Region Faces
             checkBoxFaceRegionAddMicrosoftPhotos.Checked = autoCorrect.UseFaceRegionFromMicrosoftPhotos;
             checkBoxFaceRegionAddWindowsMediaPhotoGallery.Checked = autoCorrect.UseFaceRegionFromWindowsLivePhotoGallery;
             #endregion
+
+            #region Author
+            if (!autoCorrect.UpdateAuthor) radioButtonAuthorDoNotChange.Checked = true;
+            else if (autoCorrect.UpdateAuthorOnlyWhenEmpty) radioButtonAuthorChangeWhenEmpty.Checked = true;
+            else radioButtonAuthorAlwaysChange.Checked = true;                                                
+            #endregion
+
+            #region Location            
+            if (!autoCorrect.UpdateLocation) radioButtonLocationNameDoNotChange.Checked = true;            
+            else if (autoCorrect.UpdateLocationOnlyWhenEmpty) radioButtonLocationNameChangeWhenEmpty.Checked = true;            
+            else radioButtonLocationNameChangeAlways.Checked = true;
+
+            checkBoxUpdateLocationName.Checked = autoCorrect.UpdateLocationName;
+            checkBoxUpdateLocationCity.Checked = autoCorrect.UpdateLocationCity;
+            checkBoxUpdateLocationState.Checked = autoCorrect.UpdateLocationState;
+            checkBoxUpdateLocationCountry.Checked = autoCorrect.UpdateLocationCountry;
+            #endregion
         }
 
         private void GetAutoCorrectPoperties()
         {
+            #region DateTaken
+            autoCorrect.DateTakenPriority.Clear();
+            foreach (ListViewItem item in imageListViewOrderDateTaken.Items)
+            {
+                autoCorrect.DateTakenPriority.Add((DateTimeSources)item.Tag);
+            }
+
+            if (radioButtonDateTakenDoNotChange.Checked)
+            {
+                autoCorrect.UpdateDateTaken = false;
+                autoCorrect.UpdateDateTakenWithFirstInPrioity = false;
+            }
+            else
+            {
+                autoCorrect.UpdateTitle = true;
+
+                if (radioButtonDateTakenUseFirst.Checked)
+                    autoCorrect.UpdateDateTakenWithFirstInPrioity = true;
+                else
+                    autoCorrect.UpdateDateTakenWithFirstInPrioity = false;
+            }
+            #endregion 
+
+            #region Title
             autoCorrect.TitlePriority.Clear();
             foreach (ListViewItem item in imageListViewOrderTitle.Items)
             {
                 autoCorrect.TitlePriority.Add((MetadataBrokerTypes)item.Tag);
             }
-            /*
-            if (autoCorrect.UpdateTitle)            
+
+            if (radioButtonTitleDoNotChange.Checked)
             {
-                if (autoCorrect.UpdateTitleWithFirstInPrioity)
-                    radioButtonTitleUseFirst.Checked = true;
-                else
-                    radioButtonTitleChangeWhenEmpty.Checked = true;
+                autoCorrect.UpdateTitle = false;
+                autoCorrect.UpdateTitleWithFirstInPrioity = false;
             }
-            else radioButtonTitleDoNotChange.Checked = true;
-            */
+            else
+            {
+                autoCorrect.UpdateTitle = true;
+
+                if (radioButtonTitleUseFirst.Checked)
+                    autoCorrect.UpdateTitleWithFirstInPrioity = true;
+                else
+                    autoCorrect.UpdateTitleWithFirstInPrioity = false;
+            }
+            #endregion
+
+            #region Album
             autoCorrect.AlbumPriority.Clear();
             foreach (ListViewItem item in imageListViewOrderAlbum.Items)
             {
                 autoCorrect.AlbumPriority.Add((MetadataBrokerTypes)item.Tag);
             }
-            /*
-            if (autoCorrect.UpdateAlbum)
+
+            if (radioButtonAlbumDoNotChange.Checked)
             {
-                if (autoCorrect.UpdateAlbumWithFirstInPrioity)
-                    radioButtonAlbumUseFirst.Checked = true;
-                else
-                    radioButtonAlbumChangeWhenEmpty.Checked = true;
+                autoCorrect.UpdateAlbum = false;
+                autoCorrect.UpdateAlbumWithFirstInPrioity = false;
             }
-            else radioButtonAlbumDoNotChange.Checked = true;
-            */
+            else
+            {
+                autoCorrect.UpdateAlbum = true;
+
+                if (radioButtonTitleUseFirst.Checked)
+                    autoCorrect.UpdateAlbumWithFirstInPrioity = true;
+                else
+                    autoCorrect.UpdateAlbumWithFirstInPrioity = false;
+            }
+
+            autoCorrect.KeywordTagConfidenceLevel = (90 - comboBoxKeywordsAiConfidence.SelectedIndex * 10) / 100f;            
+            #endregion
 
             #region Keywords
             autoCorrect.UseKeywordsFromMicrosoftPhotos = checkBoxKeywordsAddMicrosoftPhotos.Checked;
@@ -174,6 +292,45 @@ namespace PhotoTagsSynchronizer
             #region Region Faces
             autoCorrect.UseFaceRegionFromMicrosoftPhotos = checkBoxFaceRegionAddMicrosoftPhotos.Checked;
             autoCorrect.UseFaceRegionFromWindowsLivePhotoGallery = checkBoxFaceRegionAddWindowsMediaPhotoGallery.Checked;
+            #endregion
+
+            #region Author
+            if (radioButtonAuthorDoNotChange.Checked)
+            {
+                autoCorrect.UpdateAuthor = false;
+                autoCorrect.UpdateAuthorOnlyWhenEmpty = false;
+            }
+            else
+            {
+                autoCorrect.UpdateAuthor = true;
+
+                if (radioButtonAuthorChangeWhenEmpty.Checked)
+                    autoCorrect.UpdateAuthorOnlyWhenEmpty = true;
+                else
+                    autoCorrect.UpdateAuthorOnlyWhenEmpty = false;
+            }
+            #endregion
+
+            #region Location            
+            if (radioButtonLocationNameDoNotChange.Checked)
+            {
+                autoCorrect.UpdateLocation = false;
+                autoCorrect.UpdateLocationOnlyWhenEmpty = false;
+            }
+            else
+            {
+                autoCorrect.UpdateLocation = true;
+                
+                if (radioButtonLocationNameChangeWhenEmpty.Checked)
+                    autoCorrect.UpdateLocationOnlyWhenEmpty = true;
+                else
+                    autoCorrect.UpdateLocationOnlyWhenEmpty = false;
+            }
+
+            autoCorrect.UpdateLocationName = checkBoxUpdateLocationName.Checked;
+            autoCorrect.UpdateLocationCity = checkBoxUpdateLocationCity.Checked;
+            autoCorrect.UpdateLocationState = checkBoxUpdateLocationState.Checked;
+            autoCorrect.UpdateLocationCountry = checkBoxUpdateLocationCountry.Checked;
             #endregion
         }
         #endregion

@@ -43,8 +43,10 @@ namespace FileDateTime
             return minLength;
         }
 
-        private bool FoundDateTime(string filename, ref int position, out int length)
+        private bool FoundDateTime(string filename, ref int position, out int length, out DateTime? dateTimeFound)
         {
+            dateTimeFound = null;
+
             int minLength = MinLength();
             length = 0;
             if (filename.Length < minLength) return false;
@@ -57,8 +59,9 @@ namespace FileDateTime
                         string filenameSubstring = filename.Substring(position, format.Length);
 
                         //DateTime dateTime;
-                        if (DateTime.TryParseExact(filenameSubstring, format, System.Globalization.CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out _))
+                        if (DateTime.TryParseExact(filenameSubstring, format, System.Globalization.CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out DateTime result))
                         {
+                            dateTimeFound = result;
                             length = format.Length;
                             return true;
                         }
@@ -69,15 +72,20 @@ namespace FileDateTime
             return false;
         }
 
-        public string RemoveAllDateTimes(string filename, out List<string> whatWasRemoved)
+        public string RemoveAllDateTimes(string filename, out List<string> whatWasRemoved, out List<DateTime> dateTimesFound)
         {
+            DateTime? dateTimeFound;
+
             string filenameCopy = filename;
             int position = 0;
             int length;
             whatWasRemoved = new List<string>();
-            while (FoundDateTime(filenameCopy, ref position, out length))
+            dateTimesFound = new List<DateTime>();
+
+            while (FoundDateTime(filenameCopy, ref position, out length, out dateTimeFound))
             {
                 whatWasRemoved.Add(filenameCopy.Substring(position, length));
+                if (dateTimeFound!=null) dateTimesFound.Add((DateTime)dateTimeFound);
                 filenameCopy = filenameCopy.Remove(position, length);
             }
             return filenameCopy;
@@ -86,14 +94,21 @@ namespace FileDateTime
         public string RemoveAllDateTimes(string filename)
         {
             //List<string> whatWasRemoved;
-            return RemoveAllDateTimes(filename, out _);
+            return RemoveAllDateTimes(filename, out _, out _);
         }
 
         public List<string> ListAllDateTimesFound(string filename)
         {
             List<string> whatWasRemoved;
-            _ = RemoveAllDateTimes(filename, out whatWasRemoved);
+            _ = RemoveAllDateTimes(filename, out whatWasRemoved, out _);
             return whatWasRemoved;
+        }
+
+        public List<DateTime> ListAllDateTimes(string filename)
+        {
+            List<DateTime> listOfDateTimes;
+            _ = RemoveAllDateTimes(filename, out _, out listOfDateTimes);            
+            return listOfDateTimes;
         }
     }
 }

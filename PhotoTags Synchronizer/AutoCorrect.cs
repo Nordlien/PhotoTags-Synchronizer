@@ -1,44 +1,100 @@
-﻿using Exiftool;
+﻿using CameraOwners;
+using Exiftool;
+using FileDateTime;
+using LocationNames;
 using MetadataLibrary;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace PhotoTagsSynchronizer
 {
+    enum DateTimeSources
+    {
+        DateTaken,
+        GPSDateAndTime,
+        FirstDateFoundInFilename,
+        LastDateFoundInFilename
+    }
  
     class AutoCorrect
     {
+        #region DateTaken
+        [JsonProperty("UpdateDateTaken")]
+        public bool UpdateDateTaken { get; set; } = true;
+        
+        [JsonProperty("UpdateDateTakenWithFirstInPrioity")]
+        public bool UpdateDateTakenWithFirstInPrioity { get; set; } = false;
+
+        [JsonProperty("DateTakenPriority")]
+        public List<DateTimeSources> DateTakenPriority { get; set; } = new List<DateTimeSources>();
+
+        #endregion
+
+        #region GPS Location
+
+        #endregion
+
+        #region Keywords
         [JsonProperty("UseKeywordsFromWindowsLivePhotoGallery")]
         public bool UseKeywordsFromWindowsLivePhotoGallery { get; set; } = true;
         [JsonProperty("UseKeywordsFromMicrosoftPhotos")]
         public bool UseKeywordsFromMicrosoftPhotos { get; set; } = true;
+        [JsonProperty("KeywordTagConfidenceLevel")]
+        public float KeywordTagConfidenceLevel { get; set; } = 0.9F;
+        #endregion
 
+        #region Face region
         [JsonProperty("UseFaceRegionFromWindowsLivePhotoGallery")]
         public bool UseFaceRegionFromWindowsLivePhotoGallery { get; set; } = true;
         [JsonProperty("UseFaceRegionFromMicrosoftPhotos")]
         public bool UseFaceRegionFromMicrosoftPhotos { get; set; } = true;
-        [JsonProperty("KeywordTagConfidenceLevel")]
-        public float KeywordTagConfidenceLevel { get; set; } = 0.9F;
+        #endregion
 
+        #region Title
         [JsonProperty("UpdateTitle")]
         public bool UpdateTitle { get; set; } = true;
         [JsonProperty("UpdateTitleWithFirstInPrioity")]
         public bool UpdateTitleWithFirstInPrioity { get; set; } = false;
         [JsonProperty("TitlePriority")]
         public List<MetadataBrokerTypes> TitlePriority { get; set; } = new List<MetadataBrokerTypes>();
+        #endregion 
 
+        #region Album
         [JsonProperty("UpdateAlbum")]
         public bool UpdateAlbum { get; set; } = true;
         [JsonProperty("UpdateAlbumWithFirstInPrioity")]
         public bool UpdateAlbumWithFirstInPrioity { get; set; } = false;
         [JsonProperty("AlbumPriority")]
         public List<MetadataBrokerTypes> AlbumPriority { get; set; } = new List<MetadataBrokerTypes>();
+        #endregion 
+
+        #region Author
+        [JsonProperty("UpdateAuthor")]
+        public bool UpdateAuthor { get; set; } = true;
+        [JsonProperty("UpdateAuthorOnlyWhenEmpty")]
+        public bool UpdateAuthorOnlyWhenEmpty { get; set; } = true;
+        #endregion
+
+        #region Location
+        [JsonProperty("UpdateLocation")]
+        public bool UpdateLocation { get; set; } = true;
+        [JsonProperty("UpdateLocationOnlyWhenEmpty")]
+        public bool UpdateLocationOnlyWhenEmpty { get; set; } = true;
+
+
+        [JsonProperty("UpdateLocationName")]
+        public bool UpdateLocationName { get; set; } = true;
+        [JsonProperty("UpdateLocationCity")]
+        public bool UpdateLocationCity { get; set; } = true;
+        [JsonProperty("UpdateLocationState")]
+        public bool UpdateLocationState { get; set; } = true;
+        [JsonProperty("UpdateLocationCountry")]
+        public bool UpdateLocationCountry { get; set; } = true;
+        #endregion
+
 
         public string SerializeThis()
         {
@@ -53,7 +109,9 @@ namespace PhotoTagsSynchronizer
         public Metadata FixAndSave(FileEntry fileEntry,
             MetadataDatabaseCache metadataDatabaseCacheExiftool,
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos,
-            MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery
+            MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery,
+            CameraOwnersDatabaseCache cameraOwnersDatabaseCache,
+            LocationNameLookUpCache locationNameLookUpCache
             )
         {
             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool);            
@@ -64,6 +122,44 @@ namespace PhotoTagsSynchronizer
 
             FileEntryBroker fileEntryBrokerMWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery);            
             Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(fileEntryBrokerMWindowsLivePhotoGallery);
+
+
+            #region DateAndTime Digitized
+            if (UpdateDateTaken)
+            {
+                // Find first No empty date
+                DateTime? newDateTime = null;
+                foreach (DateTimeSources dateTimeSource in DateTakenPriority)
+                {
+                    switch (dateTimeSource)
+                    {
+                        case DateTimeSources.DateTaken:
+                            newDateTime = metadata?.MediaDateTaken;
+                            break;
+                        case DateTimeSources.GPSDateAndTime:
+                            newDateTime = metadata?.LocationDateTime;
+//TimeZone
+                            break;
+                        case DateTimeSources.FirstDateFoundInFilename:
+                            FileDateTimeReader fileDateTimeReader1 = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                            List<DateTime> dates1 = fileDateTimeReader1.ListAllDateTimes(Path.GetFileNameWithoutExtension(metadata?.FileName));
+                            if (dates1.Count > 0) newDateTime = dates1[0];
+                            break;
+                        case DateTimeSources.LastDateFoundInFilename:
+                            FileDateTimeReader fileDateTimeReader2 = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                            List<DateTime> dates2 = fileDateTimeReader2.ListAllDateTimes(Path.GetFileNameWithoutExtension(metadata?.FileName));
+                            if (dates2.Count > 0) newDateTime = dates2[dates2.Count-1];
+                            break;
+                    }
+                    if (UpdateTitleWithFirstInPrioity) break;
+                    if (newDateTime != null) break;
+                }
+                metadata.MediaDateTaken = newDateTime;
+
+            }
+
+            #endregion
+
 
             #region Face region
             if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotos != null)
@@ -106,7 +202,7 @@ namespace PhotoTagsSynchronizer
             {
 
                 // Find first No empty string
-                string newTitle = "";
+                string newTitle = null;
                 foreach (MetadataBrokerTypes metadataBrokerType in TitlePriority)
                 {
                     switch (metadataBrokerType)
@@ -134,7 +230,7 @@ namespace PhotoTagsSynchronizer
             {
 
                 // Find first No empty string
-                string newAlbum = "";
+                string newAlbum = null;
                 foreach (MetadataBrokerTypes metadataBrokerType in AlbumPriority)
                 {
                     switch (metadataBrokerType)
@@ -154,6 +250,34 @@ namespace PhotoTagsSynchronizer
                 }
                 metadata.PersonalAlbum = newAlbum;
 
+            }
+            #endregion
+
+            #region Author
+            if (UpdateAuthor)
+            {
+                if (!UpdateAuthorOnlyWhenEmpty || !string.IsNullOrWhiteSpace(metadata?.PersonalAuthor))
+                {
+                    string author = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadata?.CameraMake, metadata?.CameraModel);
+                    if (!string.IsNullOrWhiteSpace(author)) metadata.PersonalAuthor = author;
+                }
+            }
+            #endregion
+
+            #region Location
+            if (UpdateLocation)
+            {
+                if (!UpdateLocationOnlyWhenEmpty || !string.IsNullOrWhiteSpace(metadata?.LocationName))
+                {
+                    Metadata locationData = locationNameLookUpCache.AddressLookup((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
+                    if (locationData != null)
+                    {
+                        if (UpdateLocationName) metadata.LocationName = locationData.LocationName;
+                        if (UpdateLocationState) metadata.LocationState = locationData.LocationState;
+                        if (UpdateLocationCity) metadata.LocationCity = locationData.LocationCity;
+                        if (UpdateLocationCountry) metadata.LocationCountry = locationData.LocationCountry;
+                    }
+                }
             }
             #endregion
 

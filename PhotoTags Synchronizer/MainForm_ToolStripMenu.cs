@@ -1188,7 +1188,7 @@ namespace PhotoTagsSynchronizer
         #region AutoCorrect
         private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
         {
-            AutoCorrect autoCorrect = new AutoCorrect();
+            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
             string[] files = Directory.GetFiles(selectedFolder, "*.*");
             foreach (string file in files)
@@ -1198,15 +1198,18 @@ namespace PhotoTagsSynchronizer
                     new FileEntry(file, File.GetLastWriteTime(file)),
                     databaseAndCacheMetadataExiftool,
                     databaseAndCacheMetadataMicrosoftPhotos,
-                    databaseAndCacheMetadataWindowsLivePhotoGallery);
+                    databaseAndCacheMetadataWindowsLivePhotoGallery,
+                    databaseAndCahceCameraOwner,
+                    databaseLocationAddress);
                 if (metadataToSave != null) AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
             }
+            StartThreads();
         }
 
 
         private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
         {
-            AutoCorrect autoCorrect = new AutoCorrect();
+            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
             foreach (ImageListViewItem item in imageListView1.SelectedItems)
             {
                 Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
@@ -1214,9 +1217,12 @@ namespace PhotoTagsSynchronizer
                     new FileEntry(item.FullFileName, item.DateModified), 
                     databaseAndCacheMetadataExiftool, 
                     databaseAndCacheMetadataMicrosoftPhotos, 
-                    databaseAndCacheMetadataWindowsLivePhotoGallery);
+                    databaseAndCacheMetadataWindowsLivePhotoGallery,
+                    databaseAndCahceCameraOwner,
+                    databaseLocationAddress);
                 if (metadataToSave != null) AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
             }
+            StartThreads();
         }
         #endregion
 
