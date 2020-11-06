@@ -186,6 +186,15 @@ namespace PhotoTagsSynchronizer
             checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked = autoCorrect.UseKeywordsFromWindowsLivePhotoGallery;
             comboBoxKeywordsAiConfidence.SelectedIndex = 9 - (int)(autoCorrect.KeywordTagConfidenceLevel * 10);
 
+            checkBoxKeywordBackupDateTakenAfter.Checked = autoCorrect.BackupDateTakenAfterUpdate;
+            checkBoxKeywordBackupDateTakenBefore.Checked = autoCorrect.BackupDateTakenBeforeUpdate;
+            checkBoxKeywordBackupGPSDateTimeUTCAfter.Checked = autoCorrect.BackupGPGDateTimeUTCAfterUpdate;
+            checkBoxKeywordBackupGPSDateTimeUTCBefore.Checked = autoCorrect.BackupGPGDateTimeUTCBeforeUpdate;
+            checkBoxKeywordBackupLocationCity.Checked = autoCorrect.BackupLocationCity;
+            checkBoxKeywordBackupLocationCountry.Checked = autoCorrect.BackupLocationCountry;
+            checkBoxKeywordBackupLocationName.Checked = autoCorrect.BackupLocationName;
+            checkBoxKeywordBackupLocationState.Checked = autoCorrect.BackupLocationState;
+            checkBoxKeywordBackupRegionFaceNames.Checked = autoCorrect.BackupRegionFaceNames;
             #endregion
 
             #region Region Faces
@@ -287,6 +296,16 @@ namespace PhotoTagsSynchronizer
             #region Keywords
             autoCorrect.UseKeywordsFromMicrosoftPhotos = checkBoxKeywordsAddMicrosoftPhotos.Checked;
             autoCorrect.UseKeywordsFromWindowsLivePhotoGallery = checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked;
+
+            autoCorrect.BackupDateTakenAfterUpdate = checkBoxKeywordBackupDateTakenAfter.Checked;
+            autoCorrect.BackupDateTakenBeforeUpdate = checkBoxKeywordBackupDateTakenBefore.Checked;
+            autoCorrect.BackupGPGDateTimeUTCAfterUpdate = checkBoxKeywordBackupGPSDateTimeUTCAfter.Checked;
+            autoCorrect.BackupGPGDateTimeUTCBeforeUpdate = checkBoxKeywordBackupGPSDateTimeUTCBefore.Checked;
+            autoCorrect.BackupLocationCity = checkBoxKeywordBackupLocationCity.Checked;
+            autoCorrect.BackupLocationCountry = checkBoxKeywordBackupLocationCountry.Checked;
+            autoCorrect.BackupLocationName = checkBoxKeywordBackupLocationName.Checked;
+            autoCorrect.BackupLocationState = checkBoxKeywordBackupLocationState.Checked;
+            autoCorrect.BackupRegionFaceNames = checkBoxKeywordBackupRegionFaceNames.Checked;
             #endregion
 
             #region Region Faces

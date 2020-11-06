@@ -84,6 +84,7 @@ namespace TimeZone
         {
             return (Math.Abs((timeSpanInGeneral - timeSpan).TotalMinutes) < acceptMinutesDifffence);
         }
+
         public static string GetTimeZoneName(TimeSpan? timeSpan, DateTime? date, string prefredTimeZoneName, out string alternatives)
         {
             alternatives = "";
@@ -182,13 +183,7 @@ namespace TimeZone
             if (dateTime1 != null && dateTime2 != null)
             {
                 //Remove time zone and location information so we can substract  
-                return
-                    new DateTime(
-                        ((DateTime)dateTime1).Year, ((DateTime)dateTime1).Month, ((DateTime)dateTime1).Day,
-                        ((DateTime)dateTime1).Hour, ((DateTime)dateTime1).Minute, ((DateTime)dateTime1).Second, ((DateTime)dateTime1).Millisecond) -
-                    new DateTime(
-                        ((DateTime)dateTime2).Year, ((DateTime)dateTime2).Month, ((DateTime)dateTime2).Day,
-                        ((DateTime)dateTime2).Hour, ((DateTime)dateTime2).Minute, ((DateTime)dateTime2).Second, ((DateTime)dateTime2).Millisecond);
+                return new DateTime(((DateTime)dateTime1).Ticks) - new DateTime(((DateTime)dateTime2).Ticks);
             }
             return null;
         }

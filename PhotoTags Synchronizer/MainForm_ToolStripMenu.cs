@@ -1200,7 +1200,8 @@ namespace PhotoTagsSynchronizer
                     databaseAndCacheMetadataMicrosoftPhotos,
                     databaseAndCacheMetadataWindowsLivePhotoGallery,
                     databaseAndCahceCameraOwner,
-                    databaseLocationAddress);
+                    databaseLocationAddress,
+                    databaseGoogleLocationHistory);
                 if (metadataToSave != null) AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
             }
             StartThreads();
@@ -1219,7 +1220,8 @@ namespace PhotoTagsSynchronizer
                     databaseAndCacheMetadataMicrosoftPhotos, 
                     databaseAndCacheMetadataWindowsLivePhotoGallery,
                     databaseAndCahceCameraOwner,
-                    databaseLocationAddress);
+                    databaseLocationAddress,
+                    databaseGoogleLocationHistory);
                 if (metadataToSave != null) AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
             }
             StartThreads();
