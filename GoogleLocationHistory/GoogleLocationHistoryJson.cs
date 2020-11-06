@@ -8,7 +8,6 @@ using NLog.Fluent;
 
 namespace GoogleLocationHistory
 {
-
     public class GoogleLocationHistoryJson
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();

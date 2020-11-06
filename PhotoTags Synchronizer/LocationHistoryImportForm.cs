@@ -50,7 +50,7 @@ namespace PhotoTagsSynchronizer
                 CheckPathExists = true,
 
                 DefaultExt = "Google Location History file",
-                Filter = "json files (*.json)|*.json",
+                Filter = "json files (*.json) and KML files (*.kml)|*.json;*.kml",
                 FilterIndex = 2,
                 RestoreDirectory = true,
 
@@ -65,12 +65,13 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.LastGoogleLocationFolder = Path.GetDirectoryName(openFileDialog1.FileName);
                     Properties.Settings.Default.Save();
                 } catch { }
+                
                 string jsonFilename = openFileDialog1.FileName;
                 string userAccount = comboBoxUserAccount.Text.Trim();
 
                 Properties.Settings.Default.Reload();
-
                 System.Collections.Specialized.StringCollection locationUsers = Properties.Settings.Default.LocationUsers;
+
                 if (locationUsers == null)
                 {
                     locationUsers = new System.Collections.Specialized.StringCollection();
@@ -85,6 +86,7 @@ namespace PhotoTagsSynchronizer
                         if (locationUsers.Count > maxLength) locationUsers.RemoveAt(maxLength - 1);
                     }
                 }
+
                 try
                 {
                     Properties.Settings.Default.LocationUser = comboBoxUserAccount.Text;
@@ -96,15 +98,20 @@ namespace PhotoTagsSynchronizer
 
                 
                 timer.Restart();
+
                 _locationsCount = 0;
                 _filePosition = 0;
                 _fileLength = 0;
                 timerIntervalCheck = DateTime.Now;
+                /*
                 GoogleLocationHistoryJson googleLocationHistoryJson = new GoogleLocationHistoryJson(databaseTools);
                 googleLocationHistoryJson.LocationFoundParam += GoogleLocationHistoryJson_LocationFoundParam;
                 googleLocationHistoryJson.ReadJsonAndWriteToCache(jsonFilename, userAccount, false);
-
                 timer.Stop();
+                */
+                GoogleLocationHistoryKML googleLocationHistoryKML = new GoogleLocationHistoryKML(databaseTools);
+                googleLocationHistoryKML.ReadJsonAndWriteToCache(jsonFilename, userAccount);
+
 
                 UpdateLoadingStatus(true);
                 this.Enabled = true;

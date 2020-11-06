@@ -44,6 +44,9 @@
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.7.4\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="SharpKml.Core, Version=5.1.3.0, Culture=neutral, PublicKeyToken=9bb853c026a5c0ac, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpKml.Core.5.1.3\lib\net45\SharpKml.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -67,6 +70,7 @@
     <Compile Include="GoogleLocationDatabaseCache.cs" />
     <Compile Include="GoogleLocationHistoryItems.cs" />
     <Compile Include="GoogleLocationHistoryJson.cs" />
+    <Compile Include="GoogleLocationHistoryKML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
