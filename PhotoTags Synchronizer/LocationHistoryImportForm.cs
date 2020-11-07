@@ -103,15 +103,22 @@ namespace PhotoTagsSynchronizer
                 _filePosition = 0;
                 _fileLength = 0;
                 timerIntervalCheck = DateTime.Now;
-                /*
-                GoogleLocationHistoryJson googleLocationHistoryJson = new GoogleLocationHistoryJson(databaseTools);
-                googleLocationHistoryJson.LocationFoundParam += GoogleLocationHistoryJson_LocationFoundParam;
-                googleLocationHistoryJson.ReadJsonAndWriteToCache(jsonFilename, userAccount, false);
-                timer.Stop();
-                */
-                GoogleLocationHistoryKML googleLocationHistoryKML = new GoogleLocationHistoryKML(databaseTools);
-                googleLocationHistoryKML.ReadJsonAndWriteToCache(jsonFilename, userAccount);
 
+                switch (Path.GetExtension(jsonFilename).ToLowerInvariant())
+                {
+                    case ".json":
+                        GoogleLocationHistoryJson googleLocationHistoryJson = new GoogleLocationHistoryJson(databaseTools);
+                        googleLocationHistoryJson.LocationFoundParam += GoogleLocationHistoryJson_LocationFoundParam;
+                        googleLocationHistoryJson.ReadJsonAndWriteToCache(jsonFilename, userAccount, false);
+                        break;
+                    case ".kml":
+                        GoogleLocationHistoryKML googleLocationHistoryKML = new GoogleLocationHistoryKML(databaseTools);
+                        googleLocationHistoryKML.LocationFoundParam += GoogleLocationHistoryKML_LocationFoundParam;
+                        googleLocationHistoryKML.ReadJsonAndWriteToCache(jsonFilename, userAccount);
+                        break;
+                }
+                timer.Stop();
+                
 
                 UpdateLoadingStatus(true);
                 this.Enabled = true;
@@ -121,6 +128,8 @@ namespace PhotoTagsSynchronizer
                 this.DialogResult = DialogResult.OK;
             }
         }
+
+        
 
         public SqliteDatabaseUtilities databaseTools { get; set; }
         private Stopwatch timer = new Stopwatch();
@@ -160,6 +169,12 @@ namespace PhotoTagsSynchronizer
             _fileLength = fileLength;
             UpdateLoadingStatus(false);
         }
-
+        private void GoogleLocationHistoryKML_LocationFoundParam(object sender, long locationsCount, long filePosition, long fileLength)
+        {
+            _locationsCount = locationsCount; //Only to updated final count
+            _filePosition = filePosition;
+            _fileLength = fileLength;
+            UpdateLoadingStatus(false);
+        }
     }
 }

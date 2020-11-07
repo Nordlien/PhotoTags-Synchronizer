@@ -147,6 +147,9 @@ HOMEPAGE: https://www.newtonsoft.com/json
 GITHUB: https://github.com/JamesNK/Newtonsoft.Json
 LICENSE: https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md
 
+SharpKML
+GITHUB: https://github.com/samcragg/sharpkml
+LICENSE: https://github.com/samcragg/sharpkml/blob/main/LICENSE
 NExifTool
 GITHUB: https://github.com/AerisG222/NExifTool
 LICENSE: https://github.com/AerisG222/NExifTool/blob/master/LICENSE.md
@@ -171,7 +174,6 @@ Taglib-sharp
 GITHUB: https://github.com/mono/taglib-sharp
 COPYRIGHT: https://github.com/mono/taglib-sharp/blob/master/COPYING
 
-
 CefSharp
 GITHUB: https://github.com/cefsharp/CefSharp
 LICENSE: https://github.com/cefsharp/CefSharp/blob/master/LICENSE
@@ -179,6 +181,11 @@ LICENSE: https://github.com/cefsharp/CefSharp/blob/master/LICENSE
 Deep copy of objects in C# by Hakger
 PROJECT: https://www.codeproject.com/Articles/38270/Deep-copy-of-objects-in-C
 LICENSE: https://www.codeproject.com/info/cpol10.aspx
+
+Drag-and-Drop-List-View
+PROJECT: https://www.codeproject.com/Articles/7034/Drag-and-Drop-List-View
+LICENSE: no explicit license, but thanks Matt Hawley
+
 
 License referances: 
 Microsoft Reciprocal License - https://opensource.org/licenses/MS-RL

@@ -16,7 +16,7 @@ namespace GoogleLocationHistory
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public delegate void MyEvent(object sender, long locationsCount, long filePosition, long fileLength);
-        public event EventHandler LocationFound;
+        //public event EventHandler LocationFound;
         public event MyEvent LocationFoundParam;
 
         private SqliteDatabaseUtilities dbTools;
@@ -37,46 +37,6 @@ namespace GoogleLocationHistory
 
             googleLocationDatabaseCache.WriteLocationHistorySource(userName, filePath); //Need check exist
             googleLocationDatabaseCache.TransactionCommitBatch();
-
-            /*
-            XmlDataDocument xmldoc = new XmlDataDocument();            
-            XElement elmRoot = XElement.Load(filePath);
-            string longitude;
-            string latitude;
-
-            
-            var v = (from page in elmRoot.Elements().Elements().Elements().Nodes() select page);
-            if (v != null)
-            {
-                foreach (var item in v)
-                {
-
-                    if (((XElement)item).Name.LocalName == "longitude")
-                    {
-                        longitude = ((XElement)item).Value;
-                    }
-
-                    if (((XElement)item).Name.LocalName == "latitude")
-                    {
-                        latitude = ((XElement)item).Value;
-                    }
-                }
-            }*/
-
-            /*
-            XDocument doc = XDocument.Load(filePath);
-            XElement root = doc.Root;
-            XNamespace ns = root.GetDefaultNamespace();
-
-            List<XElement> simpleFields;
-
-            List<XElement> extendedDatas = doc.Descendants(ns + "ExtendedData").ToList();
-
-            foreach (XElement extendedData in extendedDatas)
-            {
-                simpleFields = extendedData.Descendants(ns + "SimpleData").ToList();
-            }
-            */
             
             TextReader reader = File.OpenText(filePath);
             KmlFile file = KmlFile.Load(reader);
@@ -98,17 +58,13 @@ namespace GoogleLocationHistory
             // Is the passed in value a Placemark?
             if (feature is Placemark placemark)
             {
-                //placemarks.Add(placemark);
-                //string name = placemark.Name;
-                //string text = placemark.Description.Text;
-                //SharpKml.Dom.Point point = placemark.Geometry as SharpKml.Dom.Point;
-
                 SharpKml.Dom.GX.Track track = placemark.Geometry as SharpKml.Dom.GX.Track;
                 SharpKml.Base.Vector[] vector = track.Coordinates.ToArray();
                 DateTime[] whenElement =  track.When.ToArray();
                 
                 for (int i = 0; i < vector.Length; i++)
                 {
+                    LocationFoundParam?.Invoke(this, i, i, vector.Length);
 
                     GoogleJsonLocations googleJsonLocations = new GoogleJsonLocations();
                     googleJsonLocations.Accuracy = 0;
@@ -119,25 +75,6 @@ namespace GoogleLocationHistory
 
                     googleLocationDatabaseCache.WriteLocationHistory(username, googleJsonLocations);
                 }
-                
-                /*
-                if (point != null)
-                {
-                    double? altitude = point.Coordinate.Altitude;
-                    double? latitude = point.Coordinate.Latitude;
-                    double? longitude = point.Coordinate.Longitude;
-                }*/
-                //    TimePrimitive time =  placemark.Time;
-                
-                /*
-                tempPlaceMarks[numOfPlaceMarks].Name = placemark.Name;
-                tempPlaceMarks[numOfPlaceMarks].Description = placemark.Description.Text;
-                tempPlaceMarks[numOfPlaceMarks].StyleUrl = placemark.StyleUrl;
-                tempPlaceMarks[numOfPlaceMarks].point = placemark.Geometry as SharpKml.Dom.Point;
-                tempPlaceMarks[numOfPlaceMarks].CoordinateX = tempPlaceMarks[numOfPlaceMarks].point.Coordinate.Longitude;
-                tempPlaceMarks[numOfPlaceMarks].CoordinateY = tempPlaceMarks[numOfPlaceMarks].point.Coordinate.Latitude;
-                tempPlaceMarks[numOfPlaceMarks].CoordinateZ = tempPlaceMarks[numOfPlaceMarks].point.Coordinate.Altitude;
-                */
             }
             else
             {
