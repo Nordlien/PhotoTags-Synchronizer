@@ -28,17 +28,60 @@ namespace PhotoTagsSynchronizer
         #region Import Google Locations
         private void toolStripButtonImportGoogleLocation_Click(object sender, EventArgs e)
         {
+            SaveActiveTabData();
+
             LocationHistoryImportForm form = new LocationHistoryImportForm();
             form.databaseTools = databaseUtilitiesSqliteMetadata;
+            form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
+            form.Init();
+
             if (form.ShowDialog() == DialogResult.OK)
             {
                 databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-//Update DataGridViews
+                databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
+                //Update DataGridViews
+                FilesSelected();
             }
         }
         #endregion
 
         #region Save 
+        private bool IsAnyDataUnsaved()
+        {
+            GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
+
+            //Find what columns are updated / changed by user
+            List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
+            return (listOfUpdates.Count >= 0);
+        }
+
+        private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView)
+        {
+            metadataListOriginalExiftool = new List<Metadata>();
+            metadataListFromDataGridView = new List<Metadata>();
+
+            DataGridView dataGridView = GetActiveDataGridView();
+            List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, true);
+            foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
+            {
+                if (dataGridViewGenericColumn.Metadata == null) continue;
+
+                Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
+
+                if (GlobalData.IsAgregatedTags)
+                    DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
+
+                if (GlobalData.IsAgregatedMap)
+                    DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
+
+                if (GlobalData.IsAgregatedPeople)
+                    DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
+
+                metadataListFromDataGridView.Add(metadataFromDataGridView);
+                metadataListOriginalExiftool.Add(dataGridViewGenericColumn.Metadata);
+            }
+        }
+
         private void SaveDataGridViewMetadata()
         {
             if (GlobalData.IsPopulatingAnything())
@@ -52,30 +95,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            
-            List<Metadata> metadataListOriginalExiftool = new List<Metadata>();
-            List<Metadata> metadataListFromDataGridView = new List<Metadata>();
-
-            DataGridView dataGridView = GetActiveDataGridView();
-            List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, true);
-            foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
-            {
-                if (dataGridViewGenericColumn.Metadata == null) continue;
-                
-                Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
-
-                if (GlobalData.IsAgregatedTags)
-                    DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
-
-                if (GlobalData.IsAgregatedMap)
-                    DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
-
-                if (GlobalData.IsAgregatedPeople)
-                    DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
-
-                metadataListFromDataGridView.Add(metadataFromDataGridView);
-                metadataListOriginalExiftool.Add(dataGridViewGenericColumn.Metadata);   
-            }
+            GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
 
             //Find what columns are updated / changed by user
             List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
@@ -94,6 +114,7 @@ namespace PhotoTagsSynchronizer
 
         }
 
+        
         private void SaveActiveTabData()
         {
             if (GlobalData.IsPopulatingAnything()) return;
@@ -156,7 +177,6 @@ namespace PhotoTagsSynchronizer
                     break;
             }
             GlobalData.IsSaveButtonPushed = false;
-
         }
 
         private void toolStripButtonSaveAllMetadata_Click(object sender, EventArgs e)

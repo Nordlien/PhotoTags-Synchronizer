@@ -25,8 +25,9 @@ namespace PhotoTagsSynchronizer
         public static bool IsPopulatingFolderTree { get; set; } = true;
         public static bool IsPopulatingImageListView { get; set; } = false;
         public static bool IsPopulatingFolderSelected { get; set; } = false;
-        
-        
+        public static bool IsDataGridViewCutPasteDeleteFindReplaceInProgress { get; set; } = false;
+
+
         //Keywords
         public static bool IsPopulatingTags { get => dataGridViewHandlerTags.IsPopulating; set => dataGridViewHandlerTags.IsPopulating = value; }
         public static bool IsPopulatingTagsFile { get => dataGridViewHandlerTags.IsPopulatingFile; set => dataGridViewHandlerTags.IsPopulatingFile = value; }

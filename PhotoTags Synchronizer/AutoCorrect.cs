@@ -269,7 +269,7 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Location name, city, state, country
-            if (UpdateLocation)
+            if (UpdateLocation && metadata?.LocationLatitude != null && metadata?.LocationLongitude != null)
             {
                 if (!UpdateLocationOnlyWhenEmpty || !string.IsNullOrWhiteSpace(metadata?.LocationName))
                 {

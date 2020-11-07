@@ -138,13 +138,12 @@ namespace PhotoTagsSynchronizer
         }
 
 
-        private bool isDataGridViewCutPasteDeleteFindReplace = false;
         private bool isDataGridViewTagsAndKeywords_CellValueChanging = false;
         private void dataGridViewTagsAndKeywords_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (ClipboardUtility.IsClipboardActive)    return;
-            if (isDataGridViewTagsAndKeywords_CellValueChanging) return; //Avoid requirng isues        
-            if (isDataGridViewCutPasteDeleteFindReplace) return;
+            if (isDataGridViewTagsAndKeywords_CellValueChanging) return; //Avoid requirng isues
+            if (ClipboardUtility.IsClipboardActive)    return;                    
+            if (GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress) return;
 
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.IsPopulatingTags || GlobalData.IsPopulatingTagsFile) return;
@@ -200,9 +199,6 @@ namespace PhotoTagsSynchronizer
             }
             isDataGridViewTagsAndKeywords_CellValueChanging = false;
         }
-
-        
-
         #endregion
 
         #region Popelate DataGridView view when Text changed

@@ -86,7 +86,10 @@ namespace CameraOwners
         }
 
         List<string> cameraOwnerCache = null;
-        
+        public void MakeCameraOwnersDirty()
+        {
+            cameraOwnerCache = null;
+        }
         public List<string> ReadCameraOwners()
         {
             if (cameraOwnerCache == null)

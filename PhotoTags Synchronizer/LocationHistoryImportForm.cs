@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using CameraOwners;
 using GoogleLocationHistory;
 using SqliteDatabase;
 
@@ -9,25 +11,32 @@ namespace PhotoTagsSynchronizer
 {
     public partial class LocationHistoryImportForm : Form
     {
+        public SqliteDatabaseUtilities databaseTools { get; set; }
+        public CameraOwnersDatabaseCache databaseAndCahceCameraOwner { get; set; }
+        private Stopwatch timer = new Stopwatch();
+        private DateTime timerIntervalCheck = DateTime.Now;
+        private long _locationsCount = 0;
+        private long _filePosition = 0;
+        private long _fileLength = 0;
+
         public LocationHistoryImportForm()
         {
             InitializeComponent();
             this.DialogResult = DialogResult.Cancel;
 
-            Properties.Settings.Default.Reload();
-            
-            System.Collections.Specialized.StringCollection locationUsers = Properties.Settings.Default.LocationUsers;
-            if (locationUsers != null)
-            {
-                foreach (string item in locationUsers)
-                {
-                    comboBoxUserAccount.Items.Add(item);
-                }
-            }
-            comboBoxUserAccount.Text = Properties.Settings.Default.LocationUser; 
+            Properties.Settings.Default.Reload();                      
         }
 
-        
+        public void Init()
+        {
+            //System.Collections.Specialized.StringCollection locationUsers = Properties.Settings.Default.LocationUsers;
+            List<string> locationUsers = databaseAndCahceCameraOwner.ReadCameraOwners();
+            if (locationUsers != null)
+            {
+                foreach (string item in locationUsers) comboBoxUserAccount.Items.Add(item);
+                comboBoxUserAccount.Text = Properties.Settings.Default.LocationUser;
+            }
+        }
 
         private void buttonImportLocationHistory_Click(object sender, EventArgs e)
         {
@@ -60,6 +69,7 @@ namespace PhotoTagsSynchronizer
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
                 try
                 {
                     Properties.Settings.Default.LastGoogleLocationFolder = Path.GetDirectoryName(openFileDialog1.FileName);
@@ -70,27 +80,31 @@ namespace PhotoTagsSynchronizer
                 string userAccount = comboBoxUserAccount.Text.Trim();
 
                 Properties.Settings.Default.Reload();
-                System.Collections.Specialized.StringCollection locationUsers = Properties.Settings.Default.LocationUsers;
+                //System.Collections.Specialized.StringCollection locationUsers = Properties.Settings.Default.LocationUsers;
+                List<string> locationUsers = databaseAndCahceCameraOwner.ReadCameraOwners();
 
+                /*
                 if (locationUsers == null)
                 {
-                    locationUsers = new System.Collections.Specialized.StringCollection();
+                    //locationUsers = new System.Collections.Specialized.StringCollection();
+                    locationUsers = new List<string>();
                     locationUsers.Add(userAccount);
                 }
                 else
                 {
                     if (!locationUsers.Contains(userAccount))
                     {
+
                         locationUsers.Insert(0, userAccount);
                         int maxLength = 3;
                         if (locationUsers.Count > maxLength) locationUsers.RemoveAt(maxLength - 1);
                     }
-                }
+                }*/
 
                 try
                 {
                     Properties.Settings.Default.LocationUser = comboBoxUserAccount.Text;
-                    Properties.Settings.Default.LocationUsers = locationUsers;
+                    //Properties.Settings.Default.LocationUsers = locationUsers;
                     Properties.Settings.Default.Save();
                 } catch { }
                 
@@ -118,7 +132,6 @@ namespace PhotoTagsSynchronizer
                         break;
                 }
                 timer.Stop();
-                
 
                 UpdateLoadingStatus(true);
                 this.Enabled = true;
@@ -128,15 +141,6 @@ namespace PhotoTagsSynchronizer
                 this.DialogResult = DialogResult.OK;
             }
         }
-
-        
-
-        public SqliteDatabaseUtilities databaseTools { get; set; }
-        private Stopwatch timer = new Stopwatch();
-        private DateTime timerIntervalCheck = DateTime.Now; 
-        private long _locationsCount = 0;
-        private long _filePosition = 0;
-        private long _fileLength = 0;
 
         private void UpdateLoadingStatus(bool forceUpdate)
         {

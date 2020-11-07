@@ -28,21 +28,23 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //People
         private void toolStripMenuItemPeopleCut_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //Properties
         //Rename
@@ -51,7 +53,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
@@ -62,7 +64,7 @@ namespace PhotoTagsSynchronizer
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
 
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion
 
@@ -117,9 +119,11 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
-            
+
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //People
         private void toolStripMenuItemPeoplePaste_Click(object sender, EventArgs e)
@@ -127,10 +131,10 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
 
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //Properties
         //Rename
@@ -139,7 +143,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
@@ -149,7 +153,7 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion 
 
@@ -162,20 +166,21 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
-
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //People
         private void toolStripMenuItemPeopleDelete_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //Properties
         //Rename
@@ -184,7 +189,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
@@ -193,7 +198,7 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion
 
@@ -206,19 +211,21 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             ClipboardUtility.UndoDataGridView(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //People
         private void toolStripMenuItemPeopleUndo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             ClipboardUtility.UndoDataGridView(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //Properties
         //Rename
@@ -227,13 +234,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             ClipboardUtility.UndoDataGridView(dataGridView);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion
 
@@ -246,24 +253,25 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
-
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             ClipboardUtility.RedoDataGridView(dataGridView);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //People
         private void toolStripMenuItemPeopleRedo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             ClipboardUtility.RedoDataGridView(dataGridView);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //Properties
         //Rename
@@ -272,13 +280,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             ClipboardUtility.RedoDataGridView(dataGridView);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion
 
@@ -290,9 +298,11 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewExifTool;
             if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //ExiftoolWarning
         //Map
@@ -300,20 +310,22 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //People
         private void toolStripMenuItemPeopleFind_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //Properties
         //Rename
@@ -322,13 +334,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion
 
@@ -339,9 +351,11 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewExifTool;
             if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //ExiftoolWarning
         //Map
@@ -349,21 +363,23 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //People
         private void toolStripMenuItemPeopleReplace_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //Properties
         //Rename
@@ -372,13 +388,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
-            isDataGridViewCutPasteDeleteFindReplace = true;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
-            isDataGridViewCutPasteDeleteFindReplace = false;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         #endregion
 
@@ -874,13 +890,6 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
-
-        private void dataGridViewTagsAndKeywords_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-
         #endregion
 
         #region Cell Painting
