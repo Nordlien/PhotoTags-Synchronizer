@@ -219,7 +219,6 @@ namespace PhotoTagsSynchronizer
                 this.WindowState = FormWindowState.Normal;
             }
 
-            splitContainerMain.SplitterDistance = Properties.Settings.Default.SplitContainerMain;
             splitContainerFolder.SplitterDistance = Properties.Settings.Default.SplitContainerFolder;
             splitContainerImages.SplitterDistance = Properties.Settings.Default.SplitContainerImages;
             splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
@@ -267,17 +266,6 @@ namespace PhotoTagsSynchronizer
             if (!isFormLoading)
             {
                 Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private void splitContainerMain_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            if (WindowState == FormWindowState.Minimized) return;
-            if (WindowState == FormWindowState.Maximized) return;
-            if (!isFormLoading)
-            {
-                Properties.Settings.Default.SplitContainerMain = splitContainerMain.SplitterDistance;
                 Properties.Settings.Default.Save();
             }
         }
@@ -347,7 +335,6 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.MainFormSize = this.Size;
                 Properties.Settings.Default.MainFormLocation = this.Location;
 
-                Properties.Settings.Default.SplitContainerMain = splitContainerMain.SplitterDistance;
                 Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
                 Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
                 //Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance; //Don't read this (it's wrong size when openened)

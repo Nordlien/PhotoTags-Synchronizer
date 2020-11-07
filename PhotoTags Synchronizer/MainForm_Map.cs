@@ -331,7 +331,7 @@ namespace PhotoTagsSynchronizer
 
         private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
         {
-            DataGridView dataGridView = ((DataGridView)sender);
+            DataGridView dataGridView = dataGridViewMap;
             if (dataGridView.SelectedCells.Count == 1)
                 GPSCoordinatedClicked(dataGridView, dataGridView.CurrentCell.ColumnIndex, dataGridView.CurrentCell.RowIndex);
             else
