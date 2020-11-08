@@ -286,23 +286,11 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region DataGridMap Enter Cell with GPS location, update map
-
-        //private bool onDataGridViewGPSLocationsEnter = false;
-        private void dataGridViewMap_Enter(object sender, EventArgs e)
-        {
-            //onDataGridViewGPSLocationsEnter = true;
-        }
-
         public void GPSCoordinatedClicked(DataGridView dataGridView, int columnIndex, int rowIndex)
         {            
             if (!dataGridView.Enabled) return;
             if (dataGridView.SelectedCells.Count > 1) return;
 
-            /*if (onDataGridViewGPSLocationsEnter)
-            {
-                onDataGridViewGPSLocationsEnter = false;
-                return;
-            }*/
             if (dataGridViewMap[columnIndex, rowIndex].Value != null)
             {
                 UpdateBrowserMap(DataGridViewHandler.GetCellValueStringTrim(dataGridView, columnIndex, rowIndex));
@@ -313,19 +301,11 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewMap_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (isDataGridViewMaps_CellValueChanging) return; //Avoid requirng isues
-            /*
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (GlobalData.IsPopulatingMap || GlobalData.IsPopulatingMapFile) return;
-
-            GPSCoordinatedClicked(dataGridView, e.ColumnIndex, e.RowIndex);
-            */
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.IsPopulatingAnything()) return;
 
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
-
-            //GlobalData.IsPopulatingMap = true;
 
             DataGridViewGenericColumn gridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
             if (gridViewGenericColumn.Metadata == null) return;
@@ -338,12 +318,9 @@ namespace PhotoTagsSynchronizer
             if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerMedia) &&
                 gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagCoordinates))
             {
-                if (DataGridViewHandler.GetCellValue(dataGridViewMap, e.ColumnIndex, e.RowIndex) != null)
-                {
-                    string coordinate = DataGridViewHandler.GetCellValue(dataGridViewMap, e.ColumnIndex, e.RowIndex).ToString();
-                    UpdateBrowserMap(coordinate);
-                    DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate));
-                }
+                string coordinate = DataGridViewHandler.GetCellValueStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
+                UpdateBrowserMap(coordinate);
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate));                
             }
 
             ///////////////////////////////////////////////////////////////////////////
@@ -420,7 +397,6 @@ namespace PhotoTagsSynchronizer
 
             }
 
-            //GlobalData.IsPopulatingMap = false;
             isDataGridViewMaps_CellValueChanging = false;
         }
 

@@ -1625,12 +1625,6 @@ dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryI
         }
         public static void SetCellStatusDefaults(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
-            /*DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-            if (dataGridViewGenericCellStatus == null)
-            {
-                dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
-            }*/
-            //dataGridViewGenericCellStatus.CellReadOnly = readOnly;
             SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefault);
             SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefault);
         }
