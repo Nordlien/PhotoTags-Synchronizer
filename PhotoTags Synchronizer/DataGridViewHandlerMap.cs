@@ -160,12 +160,14 @@ namespace PhotoTagsSynchronizer
         public static void PopulateGrivViewMapNomnatatim(DataGridView dataGridView, int columnIndex, LocationCoordinate locationCoordinate)
         {
             Metadata metadataLocation = null;
-            if (locationCoordinate != null) metadataLocation = DatabaseLocationAddress.AddressLookup(locationCoordinate.Latitude, locationCoordinate.Longitude);
             
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagLocationName), metadataLocation?.LocationName, false); 
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCity), metadataLocation?.LocationCity, false); 
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagProvince), metadataLocation?.LocationState, false); 
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCountry), metadataLocation?.LocationCountry, false); 
+            if (locationCoordinate != null) metadataLocation = DatabaseLocationAddress.AddressLookup(locationCoordinate.Latitude, locationCoordinate.Longitude);
+            bool isReadOnly = (metadataLocation == null);
+            //isReadOnly = false;
+            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagLocationName, ReadWriteAccess.AllowCellReadAndWrite), metadataLocation?.LocationName, isReadOnly); 
+            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCity, ReadWriteAccess.AllowCellReadAndWrite), metadataLocation?.LocationCity, isReadOnly); 
+            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagProvince, ReadWriteAccess.AllowCellReadAndWrite), metadataLocation?.LocationState, isReadOnly); 
+            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCountry, ReadWriteAccess.AllowCellReadAndWrite), metadataLocation?.LocationCountry, isReadOnly); 
            
         }
         #endregion 

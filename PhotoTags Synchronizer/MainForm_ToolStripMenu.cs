@@ -28,19 +28,27 @@ namespace PhotoTagsSynchronizer
         #region Import Google Locations
         private void toolStripButtonImportGoogleLocation_Click(object sender, EventArgs e)
         {
-            SaveActiveTabData();
-
-            LocationHistoryImportForm form = new LocationHistoryImportForm();
-            form.databaseTools = databaseUtilitiesSqliteMetadata;
-            form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
-            form.Init();
-
-            if (form.ShowDialog() == DialogResult.OK)
+            bool showLocationForm = true;
+            if (IsAnyDataUnsaved())
             {
-                databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-                databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
-                //Update DataGridViews
-                FilesSelected();
+                if (MessageBox.Show("Will you continue, all unsaved data will be lost?", "You have unsaved data", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                    showLocationForm = false;
+            }
+            
+            if (showLocationForm)
+            {
+                LocationHistoryImportForm form = new LocationHistoryImportForm();
+                form.databaseTools = databaseUtilitiesSqliteMetadata;
+                form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
+                form.Init();
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
+                    databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
+                    //Update DataGridViews
+                    FilesSelected();
+                }
             }
         }
         #endregion

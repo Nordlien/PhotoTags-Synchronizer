@@ -163,6 +163,10 @@ HOMEPAGE: https://nominatim.openstreetmap.org/
 WIKI: https://wiki.openstreetmap.org/wiki/Nominatim
 Nominatim Usage Policy: https://operations.osmfoundation.org/policies/nominatim/
 
+NodaTime
+HOMEPAGE: https://nodatime.org/
+LICENSE: https://www.apache.org/licenses/LICENSE-2.0.html
+
 SqlCeDatabase
 GITHUB: https://github.com/christianhelle/sqlcequery
 
