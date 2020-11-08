@@ -10,13 +10,19 @@ namespace MetadataLibrary
         public string Keyword { get; set; }
         public double Confidence { get; set; }
 
-        public KeywordTag(string keyword) : this()
+        public KeywordTag(KeywordTag keyword)
+        {
+            Keyword = keyword.Keyword;
+            Confidence = keyword.Confidence;
+        }
+
+        public KeywordTag(string keyword) 
         {
             Keyword = keyword;
             Confidence = 1F;
         }
 
-        public KeywordTag(string keyword, double confidence) : this()
+        public KeywordTag(string keyword, double confidence) 
         {
             Keyword = keyword;
             Confidence = confidence;

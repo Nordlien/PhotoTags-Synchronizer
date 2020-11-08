@@ -60,7 +60,7 @@ namespace PhotoTagsSynchronizer
 
             //Find what columns are updated / changed by user
             List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
-            return (listOfUpdates.Count >= 0);
+            return (listOfUpdates.Count > 0);
         }
 
         private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView)

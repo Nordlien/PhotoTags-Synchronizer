@@ -67,7 +67,7 @@ namespace MetadataLibrary
             PersonalAuthor = metadata.PersonalAuthor;
             PersonalAlbum = metadata.PersonalAlbum;
             foreach (RegionStructure region in metadata.personalRegionList) personalRegionList.Add(new RegionStructure(region));
-            foreach (KeywordTag tag in metadata.personalTagList) personalTagList.Add(tag);
+            foreach (KeywordTag tag in metadata.personalTagList) personalTagList.Add(new KeywordTag(tag));
 
             //Camera
             CameraMake = metadata.CameraMake;

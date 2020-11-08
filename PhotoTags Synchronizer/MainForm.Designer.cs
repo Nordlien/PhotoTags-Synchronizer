@@ -2198,7 +2198,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonAbout});
             this.toolStrip.Location = new System.Drawing.Point(4, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(837, 28);
+            this.toolStrip.Size = new System.Drawing.Size(876, 28);
             this.toolStrip.TabIndex = 0;
             // 
             // thumbnailsToolStripButton

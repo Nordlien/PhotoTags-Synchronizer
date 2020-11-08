@@ -12,6 +12,7 @@ namespace DataGridViewGeneric
         public bool IsPopulatingFile { get; set; } = false;
         public bool IsPopulatingImage { get; set; } = false;
         public bool IsAgregated { get; set; } = false;
+        public bool IsDirty { get; set; } = false;
         public string TopCellName { get; set; } = "";
         public string DataGridViewName { get; set; } = "";
         public DataGridViewSize CellSize { get; set; } = DataGridViewSize.Medium;

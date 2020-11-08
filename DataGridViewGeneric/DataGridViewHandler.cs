@@ -124,7 +124,6 @@ namespace DataGridViewGeneric
             dataGridView.ShowRowErrors = false;
 
             DataGridViewGenericData dataGridViewGenricData = new DataGridViewGenericData();
-            dataGridView.TopLeftHeaderCell.Tag = dataGridViewGenricData;
             dataGridViewGenricData.TopCellName = topLeftHeaderCellName;
             dataGridViewGenricData.DataGridViewName = dataGridViewName;
             dataGridViewGenricData.FavoriteList = FavouriteRead(CreateFavoriteFilename(dataGridViewGenricData.DataGridViewName));
@@ -158,19 +157,15 @@ namespace DataGridViewGeneric
             dataGridView.Rows.Clear();
             dataGridView.Columns.Clear();
 
-            dataGridView.TopLeftHeaderCell.Tag = dataGridViewGenricData;
             dataGridView.TopLeftHeaderCell.Value = dataGridViewGenricData.TopCellName;
             dataGridView.EnableHeadersVisualStyles = false;
-
+            dataGridViewGenricData.IsDirty = false;
 
             dataGridView.ColumnHeadersHeight = GetTopColumnHeaderHeigth(cellSize);
             //dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-
             dataGridView.RowHeadersWidth = GetFirstRowHeaderWidth(cellSize);
             //dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.EnableResizing;
-
             dataGridView.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
-
         }
 
         public void InitializeComponent(DataGridView dataGridView)
@@ -348,6 +343,17 @@ namespace DataGridViewGeneric
         {
             //Commit changes ASAP, e.g. when SelectedIndexChanged will chnage the ValueChanges event be triggered
             dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
+
+            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
+            if (dataGridViewGenericData == null) return;
+            dataGridViewGenericData.IsDirty = true;
+        }
+
+        public static bool IsDataGridViewDirty(DataGridView dataGridView)
+        {
+            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
+            if (dataGridViewGenericData == null) return false;
+            return dataGridViewGenericData.IsDirty;
         }
         #endregion
 
@@ -921,7 +927,7 @@ namespace DataGridViewGeneric
                     ) isMetadataAlreadyAgregated = true;
 
                 dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
-                SetCellStatusDefaultColumnWhenAdded(dataGridView, columnIndex, dataGridViewGenericCellStatusDefault);
+                //SetCellStatusDefaultColumnWhenAdded(dataGridView, columnIndex, dataGridViewGenericCellStatusDefault);
                 SetCellBackgroundColorForColumn(dataGridView, columnIndex);
 
                 //Hide and show columns
@@ -1129,7 +1135,7 @@ namespace DataGridViewGeneric
         }
 
         public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow,
-            List<FavoriteRow> dataGridFavorites, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults, int startSearchRow, bool writeValue)
+            List<FavoriteRow> dataGridFavorites, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault, int startSearchRow, bool writeValue)
         {
             int rowIndex = FindFileEntryRow(dataGridView, dataGridViewGenericRow, startSearchRow);
 
@@ -1145,7 +1151,7 @@ namespace DataGridViewGeneric
 
                 dataGridView.Rows.Insert(rowIndex, 1);
                 SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, dataGridViewGenericRow);
-                SetCellStatusDefaultWhenRowAdded(dataGridView, rowIndex, dataGridViewGenericCellStatusDefaults);
+                SetCellStatusDefaultWhenRowAdded(dataGridView, rowIndex, dataGridViewGenericCellStatusDefault);
             }
             
             //If a value row, set the value
@@ -1156,13 +1162,16 @@ namespace DataGridViewGeneric
                 {
                     dataGridView.Columns[columnIndex].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 }
-            } else dataGridViewGenericCellStatusDefaults.CellReadOnly = true;
+            } else dataGridViewGenericCellStatusDefault.CellReadOnly = true;
 
             SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
 
-            if (!IsCellDataGridViewGenericCellStatus(dataGridView, columnIndex, rowIndex))
-                SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefaults);
-            SetCellStatusDefaults(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefaults);
+            //if (!IsCellDataGridViewGenericCellStatus(dataGridView, columnIndex, rowIndex))
+
+            DataGridViewGenericCellStatus dataGridViewGenericCellStatusCopy = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
+            SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+            SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+            //SetCellStatusDefaults(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefaults);
 
             SetCellBackGroundColorForRow(dataGridView, rowIndex);
 
@@ -1602,23 +1611,31 @@ namespace DataGridViewGeneric
         {
             foreach (DataGridViewCell dataGridCell in dataGridView.Rows[rowIndex].Cells)
             {
-                SetCellStatusDefaults(dataGridView, dataGridCell.ColumnIndex, rowIndex, dataGridViewGenericCellStatusDefault);
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, dataGridCell.ColumnIndex, dataGridCell.RowIndex);
+                if (dataGridViewGenericCellStatus == null)
+                {
+                    DataGridViewGenericCellStatus dataGridViewGenericCellStatusCopy = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
+                    SetCellStatus(dataGridView, dataGridCell.ColumnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+                    SetCellReadOnlyDependingOfStatus(dataGridView, dataGridCell.ColumnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+                }
+
             }
         }
-
 
         private static void SetCellStatusDefaultColumnWhenAdded(DataGridView dataGridView, int columnIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
             for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
-                SetCellStatusDefaults(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefault);
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
+                if (dataGridViewGenericCellStatus == null)
+                {
+                    DataGridViewGenericCellStatus dataGridViewGenericCellStatusCopy = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
+                    SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+                    SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+                }
             }
         }
-        public static void SetCellStatusDefaults(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
-        {
-            SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefault);
-            SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefault);
-        }
+       
 
         #endregion
 
@@ -1648,13 +1665,11 @@ namespace DataGridViewGeneric
 
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
             if (dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly)
-                //|| dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.DefaultReadOnly)
                 dataGridView[columnIndex, rowIndex].ReadOnly = true;
 
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
             if (dataGridViewGenericRow != null && (
                 dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly))
-                //|| dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.DefaultReadOnly))
                 dataGridView[columnIndex, rowIndex].ReadOnly = true;
         }
 
