@@ -329,6 +329,7 @@
     <None Include="Resources\RefreshFolder.png" />
     <None Include="Resources\SubfoldersFolder.png" />
     <None Include="Resources\SelectAll.png" />
+    <None Include="Resources\ShowLocation.png" />
     <Content Include="x64\sqlite3.def">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

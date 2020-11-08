@@ -265,23 +265,30 @@ namespace SqliteDatabase
         }
 #endregion
 
-        
-        
-#region Connect Microsoft Phontos Database
+        public static string GetMicrosoftPhotosDatabaseBackupFile()
+        {
+            string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
+            if (!Directory.Exists(databasePath))
+            {
+                Directory.CreateDirectory(databasePath);
+            }
+            return Path.Combine(databasePath, "MediaDb.v1.sqlite");
+        }
+
+        public static string GetMicrosoftPhotosDatabaseOriginalFile()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Packages\\Microsoft.Windows.Photos_8wekyb3d8bbwe\\LocalState\\MediaDb.v1.sqlite");
+        }
+
+        #region Connect Microsoft Phontos Database
         public void ConnectMicrosoftPhotosDatabase()  //TODO Move this out of here
         {
 
             if (ConnectionDatabase == null)
             {
-                string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
-                if (!Directory.Exists(databasePath))
-                {
-                    Directory.CreateDirectory(databasePath);
-                }
-                string destinationFile = Path.Combine(databasePath, "MediaDb.v1.sqlite");
+                string destinationFile = GetMicrosoftPhotosDatabaseBackupFile();
 
-                string sourceFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Packages\\Microsoft.Windows.Photos_8wekyb3d8bbwe\\LocalState\\MediaDb.v1.sqlite");
-                
+                string sourceFile = GetMicrosoftPhotosDatabaseOriginalFile();
                 try
                 {
                     if (!File.Exists(destinationFile) || (File.GetLastWriteTime(sourceFile) >= File.GetLastWriteTime(destinationFile).AddSeconds(3600))) //Copy new only every hour
@@ -300,10 +307,32 @@ namespace SqliteDatabase
                         destinationFile);
 
 #endif
-                if (ConnectionDatabase.State != System.Data.ConnectionState.Open)
-                    ConnectionDatabase.Open();
+                Exception forwardException = null;
+                try
+                {
 
+                    if (ConnectionDatabase.State != System.Data.ConnectionState.Open)
+                        ConnectionDatabase.Open();
+                } catch (Exception ex)
+                {
+                    forwardException = ex;                    
+                    ConnectionDatabase.Close();
+                    ConnectionDatabase.Dispose();
+                    ConnectionDatabase = null;
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers(); //Otherwise file be locked when try to delete
+                }
+                try
+                {
+                    //Failed copying the database file, delete the backup
+                    if (forwardException != null)
+                    {
+                        File.Delete(SqliteDatabaseUtilities.GetMicrosoftPhotosDatabaseOriginalFile());
+                    }
+                }
+                catch { }
 
+                if (forwardException != null) throw forwardException;
             }
         }
 #endregion

@@ -156,7 +156,8 @@ namespace PhotoTagsSynchronizer
                 databaseWindowsPhotos = new MicrosoftPhotosReader();
             }
             catch (Exception e)
-            {
+            {                
+                
                 SplashForm.AddWarning("Windows photo warning:\r\n" + e.Message + "\r\n");
                 databaseWindowsPhotos = null;
             }
