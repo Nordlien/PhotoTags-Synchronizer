@@ -139,7 +139,9 @@ namespace DataGridViewGeneric
             dataGridView.CancelRowEdit += DataGridView_CancelRowEdit;
             dataGridView.UserDeletingRow += DataGridView_UserDeletingRow;
             dataGridView.CellMouseDown += DataGridView_CellMouseDown;
-            
+            dataGridView.CurrentCellDirtyStateChanged += DataGridView_CurrentCellDirtyStateChanged;
+
+
             if (dataGridView.ContextMenuStrip == null)
             {
                 InitializeComponent(this.dataGridView);
@@ -147,6 +149,7 @@ namespace DataGridViewGeneric
             }
         }
 
+        
         public static void Clear(DataGridView dataGridView, DataGridViewSize cellSize)
         {
             DataGridViewGenericData dataGridViewGenricData = (DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag;
@@ -337,6 +340,14 @@ namespace DataGridViewGeneric
 
             contextMenuStripDataGridViewGeneric.ResumeLayout();
 
+        }
+        #endregion
+
+        #region Event DataGridView_CurrentCellDirtyStateChanged
+        private void DataGridView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            //Commit changes ASAP, e.g. when SelectedIndexChanged will chnage the ValueChanges event be triggered
+            dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
         #endregion
 
@@ -898,35 +909,15 @@ namespace DataGridViewGeneric
                     columnIndex = columnIndexFilename;
 
                     dataGridView.Columns.Insert(columnIndex, dataGridViewColumn);
-/*
-DataGridViewTextBoxCell gridViewTextBoxCell = new DataGridViewTextBoxCell();
-dataGridView.Columns.Insert(columnIndex, new DataGridViewColumn(gridViewTextBoxCell));
-dataGridView.Columns[columnIndex].Name = fileEntryImage.FullFilePath;
-dataGridView.Columns[columnIndex].HeaderText = fileEntryImage.FullFilePath;
-*/
                 }
-
-/*
-dataGridView.Columns[columnIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-dataGridView.Columns[columnIndex].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-dataGridView.Columns[columnIndex].Width = GetCellColumnsWidth(dataGridView);
-dataGridView.Columns[columnIndex].MinimumWidth = 40;
-                
-dataGridView.Columns[columnIndex].ToolTipText = fileEntryImage.LastWriteDateTime.ToString() + "\r\n" + fileEntryImage.FullFilePath;
-dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
-*/
 
                 SetCellStatusDefaultColumnWhenAdded(dataGridView, columnIndex, dataGridViewGenericCellStatusDefault);
                 SetCellBackgroundColorForColumn(dataGridView, columnIndex);
-                
-                //isMetadataAlreadyAgregated = false; //Alread set as default
             }
             else
             {
                 DataGridViewGenericColumn currentDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                 if (currentDataGridViewGenericColumn != null && currentDataGridViewGenericColumn.Metadata != null 
-                    //&& currentDataGridViewGenericColumn.Metadata == metadata
                     ) isMetadataAlreadyAgregated = true;
 
                 dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
