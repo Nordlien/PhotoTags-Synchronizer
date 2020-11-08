@@ -1390,8 +1390,20 @@ namespace DataGridViewGeneric
         #region Cell Handling
 
         #region Refreash
-        public static void Refresh(DataGridView dataGridView)
+        public static CellLocation GetCellLocation(DataGridViewCell cell)
         {
+            return new CellLocation(cell.ColumnIndex, cell.RowIndex);
+        }
+
+        public static void SetCurrentCellLocation(DataGridView dataGridView, CellLocation cell)
+        {
+            dataGridView.CurrentCell = dataGridView[cell.ColumnIndex, cell.RowIndex];
+            if (dataGridView.CurrentCell is DataGridViewComboBoxCell) Refresh(dataGridView);
+        }
+        public static void Refresh(DataGridView dataGridView)
+        {            
+            dataGridView.Parent.Focus(); //Hack to refresh DataGridViewComboBoxCell, do to it will not refresh before changed cell / cell lost focus
+            dataGridView.Focus();
             dataGridView.Refresh();
         }
         #endregion
@@ -1450,10 +1462,13 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Cell Tag and Value 
+        #region Cell Tag and Value
+
+        
+
         public static DataGridViewCell GetCellDataGridViewCell(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            return dataGridView[columnIndex, rowIndex]; 
+            return dataGridView[columnIndex, rowIndex];
         }
 
         public static object GetCellValue(DataGridView dataGridView, int columnIndex, string headerName, string rowName)
@@ -2579,7 +2594,6 @@ namespace DataGridViewGeneric
 
             foreach (DataGridViewCell cells in dataGridView.SelectedCells)
             {
-                //DataGridViewGenericColumn dataGridViewGenericColumnCurrentCell = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cells.ColumnIndex);
                 if (cells.ColumnIndex == columnIndex)
                 {
                     RegionStructure regionStructure = GetCellRegionStructure(dataGridView, cells.ColumnIndex, cells.RowIndex);
@@ -2594,10 +2608,6 @@ namespace DataGridViewGeneric
                                 SetCellDataGridViewGenericCell(dataGridView, cells.ColumnIndex, cells.RowIndex,
                                     new DataGridViewGenericCell(new RegionStructure(), 
                                     new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.On, false)));
-
-                                //Update with old Broker | new Broker
-                                //SetCellStatusMetadataBrokerType(dataGridView, cells.ColumnIndex, cells.RowIndex, MetadataBrokerTypes.Empty);
-                                //SetCellStatusSwichStatus(dataGridView, cells.ColumnIndex, cells.RowIndex, SwitchStates.On);
 
                                 regionStructure = GetCellRegionStructure(dataGridView, cells.ColumnIndex, cells.RowIndex);
                                 regionStructure.Name = dataGridViewGenericRow.RowName;

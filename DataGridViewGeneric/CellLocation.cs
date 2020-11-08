@@ -1,4 +1,6 @@
-﻿namespace DataGridViewGeneric
+﻿using System.Windows.Forms;
+
+namespace DataGridViewGeneric
 {
     public class CellLocation
     {
@@ -6,6 +8,12 @@
         {
             this.ColumnIndex = column;
             this.RowIndex = row;
+        }
+
+        public CellLocation(DataGridViewCell cell)
+        {
+            this.ColumnIndex = cell.ColumnIndex;
+            this.RowIndex = cell.RowIndex;
         }
 
         public int ColumnIndex { get; set; }

@@ -81,10 +81,9 @@ namespace DataGridViewGeneric
 
         public static void UndoDataGridView(DataGridView dataGridView)
         {
-            if (IsDoingUndoRedo) return;
+            if (IsDoingUndoRedo) return;            
+            CellLocation currentCell = DataGridViewHandler.GetCellLocation(dataGridView.CurrentCell);
             
-            DataGridViewCell dataGridViewCellCurrent = dataGridView.CurrentCell;
-
             if (dataGridView.TopLeftHeaderCell.Tag == null) return;
             if (dataGridView.TopLeftHeaderCell.Tag.GetType() != typeof(DataGridViewGenericData)) return;
 
@@ -109,15 +108,16 @@ namespace DataGridViewGeneric
                 IsClipboardActive = false;
             }
 
-            dataGridView.CurrentCell = dataGridViewCellCurrent;
+            DataGridViewHandler.SetCurrentCellLocation(dataGridView, currentCell);
+
             IsDoingUndoRedo = false;
         }
       
         public static void RedoDataGridView(DataGridView dataGridView)
         {
             if (IsDoingUndoRedo) return;
-            
-            DataGridViewCell dataGridViewCellCurrent = dataGridView.CurrentCell;
+
+            CellLocation currentCell = DataGridViewHandler.GetCellLocation(dataGridView.CurrentCell);           
 
             if (dataGridView.TopLeftHeaderCell.Tag == null) return;
             if (dataGridView.TopLeftHeaderCell.Tag.GetType() != typeof(DataGridViewGenericData)) return;
@@ -143,7 +143,7 @@ namespace DataGridViewGeneric
                 IsClipboardActive = false;
             }
 
-            dataGridView.CurrentCell = dataGridViewCellCurrent;
+            DataGridViewHandler.SetCurrentCellLocation(dataGridView, currentCell);
             IsDoingUndoRedo = false;
         }
 
