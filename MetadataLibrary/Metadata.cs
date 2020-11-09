@@ -275,18 +275,26 @@ namespace MetadataLibrary
         }
         #endregion
 
-        public static bool IsFileInList(List<Metadata> queueSaveMetadataUpdatedByUser, string fullFilePath)
+        #region Properties Helper - FindMetadataInList of Metadatas using full filename
+        public static int FindMetadataInList(List<Metadata> metadataListToCheck, Metadata findThis)
         {
-            try
+            if (metadataListToCheck == null) return -1;
+            if (metadataListToCheck.Count == 0) return -1;
+
+            for (int i = 0; i < metadataListToCheck.Count; i++)
             {
-                foreach (Metadata metatdata in queueSaveMetadataUpdatedByUser)
+                Metadata metadata = metadataListToCheck[i];
+                if (metadata != null &&
+                    metadata.FileName == findThis.FileName &&
+                    metadata.FileDirectory == findThis.FileDirectory)
                 {
-                    if (metatdata.FileFullPath == fullFilePath) return true;
+                    return i;
                 }
             }
-            catch { }
-            return false;
+
+            return -1;
         }
+        #endregion 
 
         #region Errors
         private static string AddError(string text, object o1, object o2)

@@ -591,25 +591,6 @@ namespace Exiftool
         #endregion
 
 
-        public static int FindMetadataInList(Metadata findThis, List<Metadata> metadataListToCheck)
-        {
-            if (metadataListToCheck == null) return -1;
-            if (metadataListToCheck.Count == 0) return -1;
-
-            for (int i = 0; i <metadataListToCheck.Count; i++)
-            {
-                Metadata metadata = metadataListToCheck[i]; 
-                if (metadata != null &&
-                    metadata.FileName == findThis.FileName &&
-                    metadata.FileDirectory == findThis.FileDirectory)
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         public static bool HasWriteMetadataErrors(Metadata metadataRead, List<Metadata> metadataWaitingVerify, List<Metadata> metadataWaitingSaving, out Metadata metadataUpdatedByUserCopy, out string message)
         {
             #region Verify
@@ -619,10 +600,10 @@ namespace Exiftool
 
             bool foundErrors = false;
 
-            int verifyPosition = FindMetadataInList(metadataRead, metadataWaitingVerify);
+            int verifyPosition = Metadata.FindMetadataInList(metadataWaitingVerify, metadataRead);
             if (verifyPosition == -1) return false; //continue; //No need for verify
 
-            if (FindMetadataInList(metadataRead, metadataWaitingSaving) != -1) return false; //continue; //A new version waiting to be saves exists, not need to verify before saved
+            if (Metadata.FindMetadataInList(metadataWaitingSaving, metadataRead) != -1) return false; //continue; //A new version waiting to be saves exists, not need to verify before saved
 
             metadataUpdatedByUserCopy = new Metadata(metadataWaitingVerify[verifyPosition]); //Copy data to verify
             metadataWaitingVerify.RemoveAt(verifyPosition);

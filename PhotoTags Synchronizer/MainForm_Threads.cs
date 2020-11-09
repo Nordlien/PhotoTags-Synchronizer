@@ -623,7 +623,7 @@ namespace PhotoTagsSynchronizer
         public void AddQueueSaveMetadataUpdatedByUser(Metadata metadataToSave, Metadata metadataOriginal)
         {
 
-            int locationForMetadataFoundInList = ExiftoolWriter.FindMetadataInList(metadataToSave, queueSaveMetadataUpdatedByUser);
+            int locationForMetadataFoundInList = Metadata.FindMetadataInList(queueSaveMetadataUpdatedByUser, metadataToSave);
 
             if (locationForMetadataFoundInList==-1)
             {
@@ -643,10 +643,10 @@ namespace PhotoTagsSynchronizer
         #region AddQueue - AddQueueVerifyMetadata(Metadata metadataToVerify)
         public void AddQueueVerifyMetadata(Metadata metadataToVerify)
         {
-            int locationForMetadataFoundInSaveList = ExiftoolWriter.FindMetadataInList(metadataToVerify, queueSaveMetadataUpdatedByUser);
+            int locationForMetadataFoundInSaveList = Metadata.FindMetadataInList(queueSaveMetadataUpdatedByUser, metadataToVerify);
             if (locationForMetadataFoundInSaveList != -1) return; //No need to add, already a new metadata version waiting to be saved
 
-            int locationForMetadataFoundInVerifyList = ExiftoolWriter.FindMetadataInList(metadataToVerify, queueVerifyMetadata);
+            int locationForMetadataFoundInVerifyList = Metadata.FindMetadataInList(queueVerifyMetadata, metadataToVerify);
 
             if (locationForMetadataFoundInVerifyList == -1)
             {

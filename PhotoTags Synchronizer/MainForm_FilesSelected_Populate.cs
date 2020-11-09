@@ -195,7 +195,7 @@ namespace PhotoTagsSynchronizer
                 foreach (ImageListViewItem item in imageListView.SelectedItems)
                 {
                     if (updatedMetadata == null) ImageListViewUpdateItemThumbnailAndMetadataInvoke(item);
-                    else if (Metadata.IsFileInList(updatedMetadata, item.FullFileName)) ImageListViewUpdateItemThumbnailAndMetadataInvoke(item);
+                    else if (Metadata.IsFullFilePathInList(updatedMetadata, item.FullFileName)) ImageListViewUpdateItemThumbnailAndMetadataInvoke(item);
                 }
                 ImageListViewResumeLayoutInvoke(imageListView);
             }
