@@ -56,6 +56,18 @@ namespace PhotoTagsSynchronizer
         #region Save 
         private bool IsAnyDataUnsaved()
         {
+            bool isAnyDataUnsaved = false;
+            if (GlobalData.IsAgregatedTags) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewTagsAndKeywords);
+            if (isAnyDataUnsaved) return isAnyDataUnsaved;
+            if (GlobalData.IsAgregatedMap) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewMap);
+            if (isAnyDataUnsaved) return isAnyDataUnsaved;
+            if (GlobalData.IsAgregatedPeople) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewPeople);
+            if (isAnyDataUnsaved) return isAnyDataUnsaved;
+            if (GlobalData.IsAgregatedDate) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewDate);
+            if (isAnyDataUnsaved) return isAnyDataUnsaved;
+            if (GlobalData.IsAgregatedProperties) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewProperties);
+            if (isAnyDataUnsaved) return isAnyDataUnsaved;
+            
             GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
 
             //Find what columns are updated / changed by user
@@ -84,6 +96,9 @@ namespace PhotoTagsSynchronizer
 
                 if (GlobalData.IsAgregatedPeople)
                     DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
+
+                if (GlobalData.IsAgregatedDate)
+                    DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
 
                 metadataListFromDataGridView.Add(metadataFromDataGridView);
                 metadataListOriginalExiftool.Add(dataGridViewGenericColumn.Metadata);
@@ -122,7 +137,44 @@ namespace PhotoTagsSynchronizer
 
         }
 
-        
+        private void SaveProperties()
+        {
+            DataGridView dataGridView = dataGridViewProperties;
+            int columnCount = DataGridViewHandler.GetColumnCount(dataGridView);
+            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null)
+                {
+                    try
+                    {
+                        DataGridViewHandlerProperties.Write(dataGridView, columnIndex);
+                    }
+                    catch (Exception ex)
+                    {
+                        string writeErrorDesciption =
+                            "Error writing properties to file.\r\n\r\n" +
+                            "File: " + dataGridViewGenericColumn.FileEntryImage.FullFilePath + "\r\n\r\n" +
+                            "Error message: " + ex.Message + "\r\n";
+
+                        AddError(
+                            dataGridViewGenericColumn.FileEntryImage.Directory,
+                            dataGridViewGenericColumn.FileEntryImage.FileName,
+                            dataGridViewGenericColumn.FileEntryImage.LastWriteDateTime,
+                            AddErrorPropertiesRegion, AddErrorPropertiesCommandWrite, AddErrorPropertiesParameterWrite, AddErrorPropertiesParameterWrite,
+                            writeErrorDesciption);
+                        Logger.Error(ex.Message);
+                    }
+                }
+            }
+
+            GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+            UpdateThumbnailOnImageListViewItems(imageListView1, null);
+            UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
+            //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+            FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
+        }
+
         private void SaveActiveTabData()
         {
             if (GlobalData.IsPopulatingAnything()) return;
@@ -144,41 +196,7 @@ namespace PhotoTagsSynchronizer
                     GlobalData.IsAgregatedProperties = false;
                     break;
                 case "Properties":
-                    DataGridView dataGridView = dataGridViewProperties;
-                    int columnCount = DataGridViewHandler.GetColumnCount(dataGridView);
-                    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                    {
-                        DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                        if (dataGridViewGenericColumn != null)
-                        {
-                            try
-                            {
-                                DataGridViewHandlerProperties.Write(dataGridView, columnIndex);
-                            }
-                            catch (Exception ex)
-                            {
-                                string writeErrorDesciption =
-                                    "Error writing properties to file.\r\n\r\n" +
-                                    "File: " + dataGridViewGenericColumn.FileEntryImage.FullFilePath + "\r\n\r\n" +
-                                    "Error message: " + ex.Message + "\r\n";
-
-                                AddError(
-                                    dataGridViewGenericColumn.FileEntryImage.Directory,
-                                    dataGridViewGenericColumn.FileEntryImage.FileName,
-                                    dataGridViewGenericColumn.FileEntryImage.LastWriteDateTime,
-                                    AddErrorPropertiesRegion, AddErrorPropertiesCommandWrite, AddErrorPropertiesParameterWrite, AddErrorPropertiesParameterWrite,
-                                    writeErrorDesciption);
-                                Logger.Error(ex.Message);
-                            }
-                        }
-                    }
-
-                    GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-                    UpdateThumbnailOnImageListViewItems(imageListView1, null);
-                    UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
-                    //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-                    FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
-
+                    SaveProperties();
                     break;
                 case "Rename":
                     MessageBox.Show("Not implemented");

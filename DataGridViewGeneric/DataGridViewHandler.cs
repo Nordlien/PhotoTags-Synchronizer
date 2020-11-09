@@ -840,7 +840,7 @@ namespace DataGridViewGeneric
         /// <summary>
         /// Add a new column or find where column for FileEntry exists
         /// </summary>
-        /// <param name="dataGridView"></param>
+        /// <param name="dataGridView">DataGridVIew to add / update column for</param>
         /// <param name="fileEntryImage"></param>
         /// <param name="metadata"></param>
         /// <param name="dateTimeForEditableMediaFile"></param>
