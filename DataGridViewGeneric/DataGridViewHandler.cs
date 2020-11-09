@@ -1134,6 +1134,18 @@ namespace DataGridViewGeneric
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataGridView"></param>
+        /// <param name="columnIndex"></param>
+        /// <param name="dataGridViewGenericRow"></param>
+        /// <param name="dataGridFavorites"></param>
+        /// <param name="value">Set value for the field, check writeValue if the field can/will be updated</param>
+        /// <param name="dataGridViewGenericCellStatusDefault">When not exists, write this, ReadOnly field will always be updated</param>
+        /// <param name="startSearchRow"></param>
+        /// <param name="writeValue"></param>
+        /// <returns></returns>
         public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow,
             List<FavoriteRow> dataGridFavorites, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault, int startSearchRow, bool writeValue)
         {
@@ -1162,15 +1174,16 @@ namespace DataGridViewGeneric
                 {
                     dataGridView.Columns[columnIndex].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 }
-            } else dataGridViewGenericCellStatusDefault.CellReadOnly = true;
+            } 
+            else dataGridViewGenericCellStatusDefault.CellReadOnly = true;
 
             SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
 
-            //if (!IsCellDataGridViewGenericCellStatus(dataGridView, columnIndex, rowIndex))
+            //It's only possible to update ReadOnly field 
+            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
+            if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
 
-            DataGridViewGenericCellStatus dataGridViewGenericCellStatusCopy = new DataGridViewGenericCellStatus(dataGridViewGenericCellStatusDefault);
-            SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
-            SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusCopy);
+            SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
             //SetCellStatusDefaults(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefaults);
 
             SetCellBackGroundColorForRow(dataGridView, rowIndex);
