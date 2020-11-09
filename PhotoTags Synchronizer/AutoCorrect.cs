@@ -49,7 +49,7 @@ namespace PhotoTagsSynchronizer
         [JsonProperty("UseKeywordsFromMicrosoftPhotos")]
         public bool UseKeywordsFromMicrosoftPhotos { get; set; } = true;
         [JsonProperty("KeywordTagConfidenceLevel")]
-        public float KeywordTagConfidenceLevel { get; set; } = 0.9F;
+        public double KeywordTagConfidenceLevel { get; set; } = 0.9;
 
         [JsonProperty("BackupDateTakenBeforeUpdate")]
         public bool BackupDateTakenBeforeUpdate { get; set; } = true;
@@ -216,12 +216,12 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            //If location found, updated metadata with found location
+            //If allow update location, then updated metadata with found location
             if (UpdateGPSlocation)
             {
-                metadata.LocationDateTime = locationDateTimeUTC;
-                metadata.LocationLatitude = locationLatitude;
-                metadata.LocationLongitude = locationLongitude;
+                metadata.LocationDateTime = locationDateTimeUTC;    //Default set as metadata?.LocationDateTime;
+                metadata.LocationLatitude = locationLatitude;       //Default set as metadata?.LocationLatitude;
+                metadata.LocationLongitude = locationLongitude;     //Default set as metadata?.LocationLongitude;
             }
             #endregion
 
@@ -401,8 +401,7 @@ namespace PhotoTagsSynchronizer
                 if (!UpdateAuthorOnlyWhenEmpty || !string.IsNullOrWhiteSpace(metadata?.PersonalAuthor))
                 {
                     string author = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadata?.CameraMake, metadata?.CameraModel);
-                    if (!string.IsNullOrWhiteSpace(author)) 
-                        metadata.PersonalAuthor = author;
+                    if (!string.IsNullOrWhiteSpace(author)) metadata.PersonalAuthor = author;
                 }
             }
             #endregion

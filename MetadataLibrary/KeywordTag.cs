@@ -19,7 +19,7 @@ namespace MetadataLibrary
         public KeywordTag(string keyword) 
         {
             Keyword = keyword;
-            Confidence = 1F;
+            Confidence = 1.0;
         }
 
         public KeywordTag(string keyword, double confidence) 
@@ -30,16 +30,13 @@ namespace MetadataLibrary
 
         public override bool Equals(object obj)
         {
-            return obj is KeywordTag tag &&
-                   Keyword == tag.Keyword;
-                    //&& Confidence == tag.Confidence;
+            return obj is KeywordTag tag && Keyword == tag.Keyword;
         }
 
         public override int GetHashCode()
         {
             var hashCode = -2013257350;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Keyword);
-            //hashCode = hashCode * -1521134295 + Confidence.GetHashCode();
             return hashCode;
         }
 

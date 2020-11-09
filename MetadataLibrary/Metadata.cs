@@ -235,8 +235,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region LocationCoordinates
-
+        #region Properties Helper - LocationCoordinates
         public LocationCoordinate LocationCoordinate
         {
             get
@@ -263,7 +262,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region  FileEntryBroker
+        #region Properties Helper - FileEntryBroker
         private FileEntryBroker fileEntryBroker = null;
         public FileEntryBroker FileEntryBroker
         {
@@ -380,11 +379,11 @@ namespace MetadataLibrary
         public string Errors { get => errors; set => errors = value; }
         #endregion
 
-        #region MetadataBrokerTypes
+        #region Properties MetadataBrokerTypes
         public MetadataBrokerTypes Broker { get; set; }
         #endregion
 
-        #region File
+        #region Properties File
         public String FileName { get; set; }
         public String FileDirectory
         {
@@ -404,7 +403,7 @@ namespace MetadataLibrary
         public string FileMimeType { get; set; }
         #endregion
 
-        #region Personal
+        #region Properties Personal
         public String PersonalTitle { get; set; }
         public String PersonalDescription { get; set; }
         public string PersonalComments { get; set; }
@@ -554,20 +553,21 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Camera
+        #region Properties Camera
         public String CameraMake { get; set; }
         public String CameraModel { get; set; }
         #endregion
 
-        //Media
+        #region Properties Media
         public DateTime? MediaDateTaken { get => mediaDateTaken; set => mediaDateTaken = value; }
         public Int32? MediaWidth { get => mediaWidth; set => mediaWidth = value; }
         public Int32? MediaHeight { get => mediaHeight; set => mediaHeight = value; }
         public Size MediaSize { get => new Size(mediaWidth == null ? 0 : (int)mediaWidth, mediaWidth == null ? 0 : (int)mediaHeight); }
         public int? MediaOrientation { get => mediaOrientation; set => mediaOrientation = value; }
         public int? MediaVideoLength { get => mediaVideoLength; set => mediaVideoLength = value; }
+        #endregion 
 
-        //Location
+        #region Properties Location
         public Double? LocationAltitude
         {
             get => locationAltitude;
@@ -588,7 +588,9 @@ namespace MetadataLibrary
         public string LocationCountry { get => locationCountry; set => locationCountry = value; }
         public string LocationCity { get => locationDistrict; set => locationDistrict = value; }
         public string LocationState { get => locationRegion; set => locationRegion = value; }
+        #endregion 
 
+        
     }
 }
 

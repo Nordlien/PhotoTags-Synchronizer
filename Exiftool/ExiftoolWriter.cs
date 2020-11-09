@@ -82,8 +82,8 @@ namespace Exiftool
     public static class ExiftoolWriter
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        
 
+        #region Compare orginal red metadata with what user has updated 
         public static List<int> GetListOfMetadataChangedByUser(List<Metadata> metadataListOriginal, List<Metadata> metadataListToWrite)
         {
             List<int> listOfUpdates = new List<int>();
@@ -98,6 +98,7 @@ namespace Exiftool
             }
             return listOfUpdates;
         }
+        #endregion
 
         #region Files locked, wait unlock
         public static bool IsFileLockedByProcess(string fullFilePath)
@@ -175,9 +176,9 @@ namespace Exiftool
             } while (areAnyFileLocked);
         }
 
-        #endregion 
+        #endregion
 
-
+        #region WriteMetadata
         public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, int writeCount)
         {
             if (writeCount == 0) return;
@@ -587,6 +588,8 @@ namespace Exiftool
             #endregion
 
         }
+        #endregion
+
 
         public static int FindMetadataInList(Metadata findThis, List<Metadata> metadataListToCheck)
         {

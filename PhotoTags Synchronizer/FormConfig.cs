@@ -290,7 +290,7 @@ namespace PhotoTagsSynchronizer
                     autoCorrect.UpdateAlbumWithFirstInPrioity = false;
             }
 
-            autoCorrect.KeywordTagConfidenceLevel = (90 - comboBoxKeywordsAiConfidence.SelectedIndex * 10) / 100f;            
+            autoCorrect.KeywordTagConfidenceLevel = (90 - comboBoxKeywordsAiConfidence.SelectedIndex * 10) / 100.0;            
             #endregion
 
             #region Keywords

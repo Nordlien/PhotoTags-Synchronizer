@@ -51,53 +51,16 @@ namespace PhotoTagsSynchronizer
         //Check what data has been updated by users
         public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntry fileEntryColumn)
         {
-            /*
-            int keywordsStarts = DataGridViewHandler.GetRowHeadingItemStarts(dataGridView, headerKeywords);
-            int keywordsEnds = DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, headerKeywords);
-
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
-                
-            metadata.PersonalAlbum = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagAlbum); 
-            metadata.PersonalTitle = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagTitle);
-            metadata.PersonalDescription = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagDescription);
-            metadata.PersonalComments = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagComments);
-            metadata.PersonalAuthor = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagAuthor);
 
-            byte rating = 255; //empty
-            var ratingValue = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagRating);
-            if (ratingValue == null) { }
-            else if (ratingValue.GetType() == typeof(byte)) rating = (byte)ratingValue;
-            else if (ratingValue.GetType() == typeof(int)) rating = (byte)(int)ratingValue;
-            else if (ratingValue.GetType() == typeof(string)) byte.TryParse((string)ratingValue, out rating);
-
-            if (rating >= 0 && rating <= 5)
-                metadata.PersonalRating = rating;
-            else
-                metadata.PersonalRating = null;
-                
-            for (int rowIndex = keywordsStarts; rowIndex <= keywordsEnds; rowIndex++)
-            {
-                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                    
-                SwitchStates switchStates = DataGridViewHandler.GetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex);
-                if (switchStates == SwitchStates.On)
-                {
-                    //Add tag
-                    if (!metadata.PersonalKeywordTags.Contains(new KeywordTag(dataGridViewGenericRow.RowName)))
-                        metadata.PersonalKeywordTags.Add(new KeywordTag(dataGridViewGenericRow.RowName));
-                }
-                else
-                {
-                    //Remove tag
-                    if (metadata.PersonalKeywordTags.Contains(new KeywordTag(dataGridViewGenericRow.RowName)))
-                        metadata.PersonalKeywordTags.Remove(new KeywordTag(dataGridViewGenericRow.RowName));
-                }
-                
-            }
-            */
+            //Get Date and Time for DataGridView
+            string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
+            string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
+            metadata.MediaDateTaken = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken);
+            metadata.LocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
         }
 
-         
+
 
         public static void PopulateTimeZone(DataGridView dataGridView, int columnIndex)
         {
@@ -106,7 +69,7 @@ namespace PhotoTagsSynchronizer
             string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
             string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
             DateTime? metadataMediaDateTaken = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken); 
-            DateTime? metadataLocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken);
+            DateTime? metadataLocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
             #endregion
 
             #region Get GPS Coorindates - 1. DataGridViewMap user input, 2. Metadata record 3. null 

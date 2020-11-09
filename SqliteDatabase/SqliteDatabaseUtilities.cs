@@ -168,25 +168,6 @@ namespace SqliteDatabase
             return covertedDateTime;
         }
 
-        
-        //Created this use incase of switching DateTime format in Sqlite database
-        /*
-        ISO8601 string
-            String comparison gives valid results
-            Stores fraction seconds, up to three decimal digits
-            Needs more storage space
-            You will directly see its value when using a database browser
-            Need for parsing for other uses
-            "default current_timestamp" column modifier will store using this format
-        Real number
-            High precision regarding fraction seconds
-            Longest time range
-        Integer number
-            Lowest storage space
-            Quick operations
-            Small time range
-            Possible year 2038 problem
-        */
         public const string SqliteDateTimeFormat = "INTEGER";
 
         public long ConvertFromDateTimeToDBVal(DateTime? dateTime)
@@ -368,17 +349,6 @@ namespace SqliteDatabase
 
             }
 
-            //Version=3;Pooling=True;Synchronous=Off;journal mode=Memory
-            //Version=3;Synchronous=OFF;Journal Mode=Memory
-
-            //Synchronous=OFF Journal Mode = MEMORY
-            //https://www.connectionstrings.com/sqlite/ - SQLite connection strings
-            //https://github.com/dotnet/corefx/issues/21530 
-            //Execution result with .NET Framework 4.6.1 by creating Console App project (Release/Any CPU) in Visual Studio 2017 : 
-            //average_time: 6.899ms
-            //Execution result with .NET Core 1.1.0 by creating Console App project (Release/Any CPU) in Visual Studio 2017 :
-            //average_time: 79.86ms
-            //connectionDatabase = new SqliteConnection("Version=3;Cache Size=2000000;Pooling=False;Synchronous=Off;journal mode=Memory;data source=" + databaseFile);
 #if MonoSqlite
             connectionDatabase = new SqliteConnection("data source=" + databaseFile + ";Synchronous=OFF;Journal Mode=Memory;"
                             //+ ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = false;nolock=true;");
@@ -433,15 +403,6 @@ namespace SqliteDatabase
                     commandDatabase.ExecuteNonQuery();                  // Execute the query
                 }
 
-                /*
-                sqlCommand =
-                    "CREATE UNIQUE INDEX MediaMetadataFileDirectoryFileName ON MediaMetadata " +
-                    "(Broker, FileDirectory, FileName, FileDateModified)";
-                using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
-                {
-                    commandDatabase.ExecuteNonQuery();                  // Execute the query
-                }*/
-
                 sqlCommand =
                         "CREATE TABLE MediaPersonalKeywords ( " +
                         "Broker                 INTEGER NOT NULL, " +
@@ -455,16 +416,6 @@ namespace SqliteDatabase
                 {
                     commandDatabase.ExecuteNonQuery();                  // Execute the query
                 }
-
-                /*
-                sqlCommand =
-                    "CREATE UNIQUE INDEX MediaPersonalKeywordsFileDirectoryFileName ON MediaPersonalKeywords " +
-                    "(Broker, FileDirectory, FileName, FileDateModified)";
-                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
-                {
-                    commandDatabase.ExecuteNonQuery();                  // Execute the query
-                }
-                */
 
                 sqlCommand =
                         "CREATE TABLE MediaPersonalRegions ( " +
@@ -487,17 +438,6 @@ namespace SqliteDatabase
                     commandDatabase.ExecuteNonQuery();                  // Execute the query
                 }
 
-                /*
-                sqlCommand =
-                    "CREATE UNIQUE INDEX MediaPersonalRegionsFileDirectoryFileName ON MediaPersonalRegions " +
-                    "(Broker, FileDirectory, FileName, FileDateModified)";
-
-                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
-                {
-                    commandDatabase.ExecuteNonQuery();                  // Execute the query
-                }
-                */
-
                 sqlCommand = "CREATE TABLE MediaThumbnail (" +
                     "FileDirectory          TEXT NOT NULL, " +
                     "FileName               TEXT NOT NULL, " +
@@ -508,18 +448,6 @@ namespace SqliteDatabase
                 {
                     commandDatabase.ExecuteNonQuery();                  // Execute the query
                 }
-
-                /*
-                sqlCommand = 
-                    "CREATE UNIQUE INDEX MediaThumbnailFileDirectoryFileNameSize ON MediaThumbnail " +
-                    "(FileDirectory, FileName, FileDateModified)";
-                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
-                {
-                    commandDatabase.ExecuteNonQuery();                  // Execute the query
-                }                   
-                */
-
-                
 
                 sqlCommand =
                     "CREATE TABLE MediaExiftoolTags ( " +
@@ -535,17 +463,6 @@ namespace SqliteDatabase
                 {
                     commandDatabase.ExecuteNonQuery();                  // Execute the query
                 }
-
-                /*
-                sqlCommand =
-                    "CREATE INDEX MediaExiftoolTagsFileDirectoryFileName ON MediaExiftoolTags " +
-                    "(FileDirectory, FileName, FileDateModified, Region, Command)";
-
-                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase)) 
-                {
-                    commandDatabase.ExecuteNonQuery();                  // Execute the query
-                }
-                */
                 
                 sqlCommand = "CREATE TABLE MediaExiftoolTagsWarning ("+
 	                "FileDirectory      TEXT NOT NULL, " +
@@ -563,15 +480,6 @@ namespace SqliteDatabase
                 {
                     commandDatabase.ExecuteNonQuery();                  // Execute the query
                 }
-
-                /*
-                sqlCommand = "CREATE INDEX MediaExiftoolTagsWarningFileDirectoryFileName  ON  MediaExiftoolTagsWarning " +
-                    "(FileDirectory, FileName, FileDateModified)";
-                using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase)) 
-                {
-                    commandDatabase.ExecuteNonQuery();                  // Execute the query
-                }
-                */
 
                 #region Location
                 sqlCommand = "CREATE TABLE LocationSource (" +
