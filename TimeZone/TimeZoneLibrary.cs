@@ -14,6 +14,9 @@ namespace TimeZone
         public const string ToW3CDTFformat = "yyyy-MM-ddTHH:mm:sszzz";
         public const string ToW3CDTFformatReadable = "yyyy-MM-dd HH:mm:sszzz";
         private const string DateTimeSortable = "yyyy-MM-dd HH:mm:ss";
+        private const string DateTimeExiftool = "yyyy:MM:dd HH:mm:ss"; 
+        private const string DateTimeExiftoolGPSDateStamp = "yyyy:MM:dd"; 
+        private const string DateTimeExiftoolGPSTimeStamp = "HH:mm:ss"; 
         public static readonly string[] AllowedDateTimeFormatsWithTimeZone = new string[]
         {
             "yyyy:MM:ddTHH:mm:sszzz",
@@ -144,6 +147,26 @@ namespace TimeZone
         public static string ToStringDateTimeSortable(DateTime? dateTime)
         {
             return dateTime == null ? "" : ((DateTime)dateTime).ToString(DateTimeSortable);
+        }
+
+        public static string ToStringExiftool(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTime)dateTime).ToString(DateTimeExiftool);
+        }
+
+        public static string ToStringExiftoolUTC(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftool) + "Z";
+        }
+
+        public static string ToStringExiftoolGPSTimeStamp(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftoolGPSTimeStamp);
+        }
+
+        public static string ToStringExiftoolGPSDateStamp(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftoolGPSDateStamp);
         }
 
         public static string ToStringDateTimeSortable(DateTimeOffset? dateTime)

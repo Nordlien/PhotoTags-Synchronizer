@@ -46,7 +46,7 @@ namespace PhotoTagsSynchronizer
         private bool isDataGridViewDate_CellValueChanging = false; 
         private void dataGridViewDate_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (ClipboardUtility.IsClipboardActive) return;
+            //if (ClipboardUtility.IsClipboardActive) return;
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.IsPopulatingDate || GlobalData.IsPopulatingDateFile) return;
             if (isDataGridViewDate_CellValueChanging) return; //To avoid loop and stack overflow

@@ -16,7 +16,7 @@ namespace PhotoTagsSynchronizer
     public static class DataGridViewHandlerDate
     {
         public const string headerMedia = "Date&Time digitized";
-        public const string tagMediaDateTaken = "Locaction Local time";
+        public const string tagMediaDateTaken = "Local time";
         public const string tagGPSLocationDateTime = "UCT media take";
         public const string tagLocationOffsetTimeZone = "GPS Time Zone";
         public const string tagCalulatedOffsetZimeZone = "Estimated Time Zone";
@@ -56,8 +56,9 @@ namespace PhotoTagsSynchronizer
             //Get Date and Time for DataGridView
             string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
             string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
-            metadata.MediaDateTaken = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken);
+            metadata.MediaDateTaken = TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken);
             metadata.LocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
+            if (metadata.LocationDateTime != null) metadata.LocationDateTime = new DateTime(((DateTime)metadata.LocationDateTime).Ticks, DateTimeKind.Local);
         }
 
 
@@ -68,7 +69,7 @@ namespace PhotoTagsSynchronizer
             //Get Date and Time for DataGridView
             string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
             string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
-            DateTime? metadataMediaDateTaken = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken); 
+            DateTime? metadataMediaDateTaken = TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken); 
             DateTime? metadataLocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
             #endregion
 
@@ -246,6 +247,9 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia));
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaDateTaken), TimeZoneLibrary.ToStringDateTimeSortable(metadata?.MediaDateTaken), false);
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagGPSLocationDateTime), TimeZoneLibrary.ToStringW3CDTF_UTC_Convert(metadata?.LocationDateTime), false);
+
+                //Suggestion header
+                DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerSuggestion));
 
                 //Dates and/or time in filename
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename));

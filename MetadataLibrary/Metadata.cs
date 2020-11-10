@@ -294,6 +294,21 @@ namespace MetadataLibrary
 
             return -1;
         }
+        #endregion
+
+        #region Properties Helper - IsFullFilePathInList
+        public static bool IsFullFilePathInList(List<Metadata> queueSaveMetadataUpdatedByUser, string fullFilePath)
+        {
+            try
+            {
+                foreach (Metadata metatdata in queueSaveMetadataUpdatedByUser)
+                {
+                    if (metatdata.FileFullPath == fullFilePath) return true;
+                }
+            }
+            catch { }
+            return false;
+        }
         #endregion 
 
         #region Errors

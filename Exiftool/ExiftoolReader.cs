@@ -312,9 +312,7 @@ namespace Exiftool
                 {
                     if (DateTimeOffset.TryParseExact(dateTimeToConvert, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out pictureTime))
                     {                        
-                        //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
                         localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
-                        //Debug.WriteLine("---AssumeUniversal InvariantCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
                         return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
                     }
                     else return null;
@@ -323,10 +321,8 @@ namespace Exiftool
                 {
                     if (DateTimeOffset.TryParseExact(dateTimeToConvert, "yyyy:MM:dd HH:mm:ssZ", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out pictureTime))
                     {                        
-                        //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, "yyyy:MM:dd HH:mm:ssZ", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-                        localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
-                        //Debug.WriteLine("---AssumeUniversal CurrentCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
-                        return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
+                        localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Utc);
+                        return new DateTime(localTimeZone.Ticks, DateTimeKind.Utc);
                     }
                     else return null;
                 }
@@ -334,9 +330,7 @@ namespace Exiftool
                 {
                     if (DateTimeOffset.TryParseExact(dateTimeToConvert, dateFormats, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal, out pictureTime))
                     {
-                        //pictureTime = DateTimeOffset.ParseExact(dateTimeToConvert, dateFormats, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal);
                         localTimeZone = TimeZoneInfo.ConvertTime(pictureTime, TimeZoneInfo.Local);
-                        //Debug.WriteLine("---AssumeLocal CurrentCulture: " + dateTimeToConvert + " -> " + new DateTime(localTimeZone.Ticks, DateTimeKind.Local).ToString("s"));
                         return new DateTime(localTimeZone.Ticks, DateTimeKind.Local);
                     }
                     else return null;
@@ -1496,12 +1490,13 @@ namespace Exiftool
                             case "GPSDateTime":
                                 if (regionType == "XMP:XMP-exif" && command == "GPSDateTime")
                                 {                                   
-                                    if (exifToolData.Parameter.EndsWith("Z", true, CultureInfo.InvariantCulture)) exifToolData.Parameter += "Z"; //GPS Time needs to be UTC
+                                    if (!exifToolData.Parameter.EndsWith("Z", true, CultureInfo.InvariantCulture)) exifToolData.Parameter += "Z"; //GPS Time needs to be UTC
                                 }
 
                                 metadata.LocationDateTime = ConvertAndCheckDateFromString(metadata.LocationDateTime,
                                     exifToolData, oldExifToolGPSDateTime,
                                     CompositeTags.GPSDateTime, ref metadata.errors);
+                                
                                 oldExifToolGPSDateTime = new ExiftoolData(exifToolData);
                                 break;
                                 #endregion

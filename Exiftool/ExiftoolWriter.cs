@@ -205,6 +205,47 @@ namespace Exiftool
                     sw.WriteLine("filename=UTF8");
                     sw.WriteLine("-overwrite_original_in_place");
 
+                    if (metadataOriginal != null && metadataToWrite.LocationDateTime != metadataOriginal.LocationDateTime)
+                    {
+                        /*
+                        Name/Files	C:\Users\nordl\OneDrive\Pictures JTNs OneDrive\TestTags\Test2\2019-05-30 12-34-00  IMG_.jpg	C:\Users\nordl\OneDrive\Pictures JTNs OneDrive\TestTags\Test2\2019-06-16 14-20-49 IMG_.jpg
+                        Composite:GPSDateTime	2019:05:30 18:23:02Z	2019:06:16 12:20:45Z
+                        XMP:XMP-exif:GPSDateTime	2019:05:30 14:00:00Z	2019:06:16 15:00:00Z
+
+                        EXIF:GPS		
+                        GPSDateStamp	2019:05:30	2019:06:16
+                        GPSTimeStamp	18:23:02	12:20:45
+
+                        -XMP:GPSDateTime=2019:06:16 04:00:00Z
+                        -GPSTimeStamp=04:00:00
+                        -GPSDateStamp=2019:06:16
+                        */
+                        //GPSDateTime 2019:05:30 14:00:00Z    2019:06:16 15:00:00Z
+                        sw.WriteLine("-XMP:GPSDateTime=" + TimeZone.TimeZoneLibrary.ToStringExiftoolUTC(metadataToWrite.LocationDateTime));
+                        sw.WriteLine("-GPSDateStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolGPSDateStamp(metadataToWrite.LocationDateTime));
+                        sw.WriteLine("-GPSTimeStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolGPSTimeStamp(metadataToWrite.LocationDateTime));                        
+                    }
+
+                    if (metadataOriginal != null && metadataToWrite.MediaDateTaken != metadataOriginal.MediaDateTaken)
+                    {
+                        /*
+                        EXIF:ExifIFD		
+                        CreateDate	2019:05:30 12:34:00	2019:06:16 14:20:49
+                        DateTimeOriginal	2019:05:30 14:00:00	2020:11:09 16:00:28
+
+                        XMP:XMP-xmpCreateDate	2019:05:30 12:34:00	
+                        
+                        IPTC		
+                        DateCreated	2019:05:30	2019:06:16
+                        DigitalCreationDate	2019:05:30	
+                        DigitalCreationTime	20:23:06+00:00	
+                        TimeCreated	12:34:00+00:00	14:20:49+00:00
+                        */
+                        sw.WriteLine("-XMP:CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
+                        sw.WriteLine("-EXIF:CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
+                        sw.WriteLine("-EXIF:DateTimeOriginal=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
+                    }
+
                     #region Album
                     if (metadataOriginal != null && metadataToWrite.PersonalAlbum != metadataOriginal.PersonalAlbum)
                     {
@@ -297,26 +338,6 @@ namespace Exiftool
 
                     }
 
-                    #region City
-                    if (metadataOriginal != null && metadataToWrite.LocationCity != metadataOriginal.LocationCity) 
-                    {
-                        sw.WriteLine("-City=" + metadataToWrite.LocationCity);
-                        sw.WriteLine("-IPTC:City=" + metadataToWrite.LocationCity);
-                        sw.WriteLine("-XMP:City=" + metadataToWrite.LocationCity);
-                        //sw.WriteLine("-XMP:LocationShownCity=" + metadata.LocationCity);
-                    }
-                    #endregion
-
-                    #region Country
-                    if (metadataOriginal != null && metadataToWrite.LocationCountry != metadataOriginal.LocationCountry)                     
-                    {
-                        sw.WriteLine("-Country=" + metadataToWrite.LocationCountry);
-                        sw.WriteLine("-IPTC:Country-PrimaryLocationName=" + metadataToWrite.LocationCountry);
-                        sw.WriteLine("-XMP:Country=" + metadataToWrite.LocationCountry);
-                        //sw.WriteLine("-XMP:LocationShownCountryName=" + metadata.LocationCountry);
-                    }
-                    #endregion
-
                     //metadata.LocationDateTime
                     #region Latitude
                     if (metadataOriginal != null && metadataToWrite.LocationLatitude != metadataOriginal.LocationLatitude) 
@@ -342,7 +363,7 @@ namespace Exiftool
                     }
                     #endregion
 
-                    #region Location
+                    #region Location - Name
                     if (metadataOriginal != null && metadataToWrite.LocationName != metadataOriginal.LocationName) 
                     {
                         sw.WriteLine("-Sub-location=" + metadataToWrite.LocationName);
@@ -353,7 +374,7 @@ namespace Exiftool
                     }
                     #endregion
 
-                    #region State
+                    #region Location - State
                     if (metadataOriginal != null && metadataToWrite.LocationState != metadataOriginal.LocationState) 
                     {
                         sw.WriteLine("-State=" + metadataToWrite.LocationState);
@@ -361,6 +382,26 @@ namespace Exiftool
                         sw.WriteLine("-XMP-photoshop:State=" + metadataToWrite.LocationState);
                         sw.WriteLine("-IPTC:Province-State=" + metadataToWrite.LocationState);
                         //sw.WriteLine("-XMP:LocationShownProvinceState=" + metadata.LocationState);
+                    }
+                    #endregion
+
+                    #region Location - City
+                    if (metadataOriginal != null && metadataToWrite.LocationCity != metadataOriginal.LocationCity)
+                    {
+                        sw.WriteLine("-City=" + metadataToWrite.LocationCity);
+                        sw.WriteLine("-IPTC:City=" + metadataToWrite.LocationCity);
+                        sw.WriteLine("-XMP:City=" + metadataToWrite.LocationCity);
+                        //sw.WriteLine("-XMP:LocationShownCity=" + metadata.LocationCity);
+                    }
+                    #endregion
+
+                    #region Location - Country
+                    if (metadataOriginal != null && metadataToWrite.LocationCountry != metadataOriginal.LocationCountry)
+                    {
+                        sw.WriteLine("-Country=" + metadataToWrite.LocationCountry);
+                        sw.WriteLine("-IPTC:Country-PrimaryLocationName=" + metadataToWrite.LocationCountry);
+                        sw.WriteLine("-XMP:Country=" + metadataToWrite.LocationCountry);
+                        //sw.WriteLine("-XMP:LocationShownCountryName=" + metadata.LocationCountry);
                     }
                     #endregion
 
@@ -590,10 +631,9 @@ namespace Exiftool
         }
         #endregion
 
-
+        #region Verify HasWriteMetadataErrors
         public static bool HasWriteMetadataErrors(Metadata metadataRead, List<Metadata> metadataWaitingVerify, List<Metadata> metadataWaitingSaving, out Metadata metadataUpdatedByUserCopy, out string message)
         {
-            #region Verify
             //Out parameter default
             message = "";
             metadataUpdatedByUserCopy = null;
@@ -625,10 +665,10 @@ namespace Exiftool
             
 
             return foundErrors;
-            #endregion
+            
         }
-
+        #endregion
     }
 
-    
+
 }

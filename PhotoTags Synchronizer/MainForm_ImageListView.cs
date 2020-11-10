@@ -77,29 +77,37 @@ namespace PhotoTagsSynchronizer
             Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(
                 new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerTypes.ExifTool));
 
-            if (metadata == null || metadata.FileName == null)
+            try
             {
-                Utility.ShellImageFileInfo shellImageFileInfo = new Utility.ShellImageFileInfo();
-                shellImageFileInfo.ReadShellImageFileInfo(e.FileName);
-                e.FileMetadata = shellImageFileInfo;
-            }
-            else
+                if (metadata == null || metadata.FileName == null)
+                {
+                    Utility.ShellImageFileInfo shellImageFileInfo = new Utility.ShellImageFileInfo();
+                    shellImageFileInfo.ReadShellImageFileInfo(e.FileName);
+                    e.FileMetadata = shellImageFileInfo;
+
+                }
+                else
+                {
+                    e.FileMetadata = new Utility.ShellImageFileInfo();
+                    e.FileMetadata.LastAccessTime = (DateTime)metadata.FileLastAccessed;
+                    e.FileMetadata.CreationTime = (DateTime)metadata.FileDateCreated;
+                    e.FileMetadata.LastWriteTime = (DateTime)metadata.FileDateModified;
+                    e.FileMetadata.Size = (long)metadata.FileSize;
+                    e.FileMetadata.TypeName = metadata.FileMimeType;
+                    e.FileMetadata.DirectoryName = metadata.FileDirectory;
+                    if (metadata.MediaWidth != null && metadata.MediaHeight != null) e.FileMetadata.Dimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
+
+                    // Exif tags
+                    e.FileMetadata.ImageDescription = metadata.PersonalDescription;
+                    e.FileMetadata.EquipmentModel = metadata.CameraModel;
+                    if (metadata.MediaDateTaken != null) e.FileMetadata.DateTaken = (DateTime)metadata.MediaDateTaken;
+                    e.FileMetadata.Artist = metadata.PersonalAuthor;
+                    e.FileMetadata.UserComment = metadata.PersonalComments;
+                }
+            } catch 
             {
-                e.FileMetadata = new Utility.ShellImageFileInfo();
-                e.FileMetadata.LastAccessTime = (DateTime)metadata.FileLastAccessed;
-                e.FileMetadata.CreationTime = (DateTime)metadata.FileDateCreated;
-                e.FileMetadata.LastWriteTime = (DateTime)metadata.FileDateModified;
-                e.FileMetadata.Size = (long)metadata.FileSize;
-                e.FileMetadata.TypeName = metadata.FileMimeType;
-                e.FileMetadata.DirectoryName = metadata.FileDirectory;
-                if (metadata.MediaWidth != null && metadata.MediaHeight != null) e.FileMetadata.Dimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
-                
-                // Exif tags
-                e.FileMetadata.ImageDescription = metadata.PersonalDescription;
-                e.FileMetadata.EquipmentModel = metadata.CameraModel;
-                if (metadata.MediaDateTaken != null) e.FileMetadata.DateTaken = (DateTime)metadata.MediaDateTaken;
-                e.FileMetadata.Artist = metadata.PersonalAuthor; 
-                e.FileMetadata.UserComment = metadata.PersonalComments;
+                e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
+                e.FileMetadata.DirectoryName = Path.GetDirectoryName(e.FileName);
             }
         }
         #endregion
