@@ -159,12 +159,12 @@ namespace TimeZone
             return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftool) + "Z";
         }
 
-        public static string ToStringExiftoolGPSTimeStamp(DateTime? dateTime)
+        public static string ToStringExiftoolTimeStamp(DateTime? dateTime)
         {
             return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftoolGPSTimeStamp);
         }
 
-        public static string ToStringExiftoolGPSDateStamp(DateTime? dateTime)
+        public static string ToStringExiftoolDateStamp(DateTime? dateTime)
         {
             return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftoolGPSDateStamp);
         }
@@ -186,6 +186,12 @@ namespace TimeZone
 
         public static string ToStringW3CDTF_UTC_Convert(DateTime? dateTime)
         {
+            string test1 = dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeSortable) + "Z";
+            string test2 = dateTime == null ? "" : ((DateTimeOffset)dateTime).ToUniversalTime().ToString(DateTimeSortable) + "Z";
+            if (test1 != test2)
+            { 
+                //Remove test1 and test2
+            }
             return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToUniversalTime().ToString(DateTimeSortable) + "Z";
         }
 

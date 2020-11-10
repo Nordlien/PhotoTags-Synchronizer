@@ -67,9 +67,9 @@ namespace MetadataLibrary
                         metadata.FileDirectory = dbTools.ConvertFromDBValString(reader["FileDirectory"]);
                         metadata.FileName = dbTools.ConvertFromDBValString(reader["FileName"]);
                         metadata.FileSize = dbTools.ConvertFromDBValLong(reader["FileSize"]);
-                        metadata.FileDateCreated = dbTools.ConvertFromDBValDateTime(reader["FileDateCreated"]);
-                        metadata.FileDateModified = dbTools.ConvertFromDBValDateTime(reader["FileDateModified"]);
-                        metadata.FileLastAccessed = dbTools.ConvertFromDBValDateTime(reader["FileLastAccessed"]);
+                        metadata.FileDateCreated = dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateCreated"]);
+                        metadata.FileDateModified = dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]);
+                        metadata.FileLastAccessed = dbTools.ConvertFromDBValDateTimeLocal(reader["FileLastAccessed"]);
                         metadata.FileMimeType = dbTools.ConvertFromDBValString(reader["FileMimeType"]);
                         metadata.PersonalAlbum = dbTools.ConvertFromDBValString(reader["PersonalAlbum"]);
                         metadata.PersonalTitle = dbTools.ConvertFromDBValString(reader["PersonalTitle"]);
@@ -79,14 +79,14 @@ namespace MetadataLibrary
                         metadata.PersonalAuthor = dbTools.ConvertFromDBValString(reader["PersonalAuthor"]);
                         metadata.CameraMake = dbTools.ConvertFromDBValString(reader["CameraMake"]);
                         metadata.CameraModel = dbTools.ConvertFromDBValString(reader["CameraModel"]);
-                        metadata.MediaDateTaken = dbTools.ConvertFromDBValDateTime(reader["MediaDateTaken"]); 
+                        metadata.MediaDateTaken = dbTools.ConvertFromDBValDateTimeLocal(reader["MediaDateTaken"]); 
                         metadata.MediaWidth = dbTools.ConvertFromDBValInt(reader["MediaWidth"]);
                         metadata.MediaHeight = dbTools.ConvertFromDBValInt(reader["MediaHeight"]);
                         metadata.MediaOrientation = dbTools.ConvertFromDBValInt(reader["MediaOrientation"]);
                         metadata.LocationAltitude = dbTools.ConvertFromDBValDouble(reader["LocationAltitude"]);
                         metadata.LocationLatitude = dbTools.ConvertFromDBValDouble(reader["LocationLatitude"]);
                         metadata.LocationLongitude = dbTools.ConvertFromDBValDouble(reader["LocationLongitude"]);
-                        metadata.LocationDateTime = dbTools.ConvertFromDBValDateTime(reader["LocationDateTime"]);
+                        metadata.LocationDateTime = dbTools.ConvertFromDBValDateTimeUtc(reader["LocationDateTime"]);
                         metadata.LocationName = dbTools.ConvertFromDBValString(reader["LocationName"]);
                         metadata.LocationCountry = dbTools.ConvertFromDBValString(reader["LocationCountry"]);
                         metadata.LocationCity = dbTools.ConvertFromDBValString(reader["LocationCity"]);
@@ -739,7 +739,7 @@ namespace MetadataLibrary
                             (
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             dbTools.ConvertFromDBValString(reader["FileName"]),
-                            (DateTime)dbTools.ConvertFromDBValDateTime(reader["FileDateModified"]),
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]),
                             (MetadataBrokerTypes)dbTools.ConvertFromDBValLong(reader["Broker"])
                             );
                         fileEntryBrokers.Add(fileEntryBroker);

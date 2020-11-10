@@ -57,7 +57,7 @@ namespace Exiftool
                         ExiftoolData exifToolData = new ExiftoolData();
                         exifToolData.FileDirectory = dbTools.ConvertFromDBValString(reader["FileDirectory"]);
                         exifToolData.FileName = dbTools.ConvertFromDBValString(reader["FileName"]);
-                        exifToolData.FileDateModified = (DateTime)dbTools.ConvertFromDBValDateTime(reader["FileDateModified"]);
+                        exifToolData.FileDateModified = (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]);
                         exifToolData.Region = dbTools.ConvertFromDBValString(reader["Region"]);
                         exifToolData.Command = dbTools.ConvertFromDBValString(reader["Command"]);
                         exifToolData.Parameter = dbTools.ConvertFromDBValString(reader["Parameter"]);
@@ -147,7 +147,7 @@ namespace Exiftool
                         FileEntry fileEntry = new FileEntry(
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             dbTools.ConvertFromDBValString(reader["FileName"]),
-                            (DateTime)dbTools.ConvertFromDBValDateTime(reader["FileDateModified"]));
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]));
                         exifToolDates.Add(fileEntry);
                         Logger.Trace(fileEntry.FullFilePath + " " + fileEntry.LastWriteDateTime);
                     }

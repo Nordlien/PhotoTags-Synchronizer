@@ -146,7 +146,7 @@ namespace Thumbnails
                             (
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             dbTools.ConvertFromDBValString(reader["FileName"]),
-                            (DateTime)dbTools.ConvertFromDBValDateTime(reader["FileDateModified"])
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
                             );
                         fileEntries.Add(fileEntry);
                     }

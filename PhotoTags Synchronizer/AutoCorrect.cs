@@ -156,10 +156,8 @@ namespace PhotoTagsSynchronizer
             if (BackupDateTakenBeforeUpdate && metadata?.MediaDateTaken != null)
                 metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringDateTimeSortable(metadata?.MediaDateTaken)));            
             if (BackupGPGDateTimeUTCBeforeUpdate && metadata?.LocationDateTime != null)
-                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF(metadata?.LocationDateTime)));
+                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)));
             #endregion
-
-
 
             #region Find best guess on GPS Location Latitude Longitude
             DateTime? locationDateTimeUTC = metadata?.LocationDateTime;
@@ -324,7 +322,7 @@ namespace PhotoTagsSynchronizer
             if (BackupDateTakenAfterUpdate && metadata?.MediaDateTaken != null)
                 metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringDateTimeSortable(metadata?.MediaDateTaken)));
             if (BackupGPGDateTimeUTCAfterUpdate && metadata?.LocationDateTime != null)
-                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF(metadata?.LocationDateTime)));
+                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)));
             if (BackupRegionFaceNames)
             {
                 foreach (RegionStructure regionStructure in metadata?.PersonalRegionList)

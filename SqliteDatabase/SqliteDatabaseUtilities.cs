@@ -177,15 +177,26 @@ namespace SqliteDatabase
             return dateTime.Value.Ticks;
         }
 
-        public DateTime? ConvertTicksToDateTime(object tickes)
+        public DateTime? ConvertTicksToDateTimeLocal(object tickes)
         {
             if (tickes == null || tickes == DBNull.Value) return null;
-            return new DateTime((long)tickes);
+            return new DateTime((long)tickes, DateTimeKind.Local);
         }
 
-        public DateTime? ConvertFromDBValDateTime(object tickes)
+        public DateTime? ConvertTicksToDateTimeUtc(object tickes)
         {
-            return ConvertTicksToDateTime(tickes);
+            if (tickes == null || tickes == DBNull.Value) return null;
+            return new DateTime((long)tickes, DateTimeKind.Utc);
+        }
+
+        public DateTime? ConvertFromDBValDateTimeLocal(object tickes)
+        {
+            return ConvertTicksToDateTimeLocal(tickes);
+        }
+
+        public DateTime? ConvertFromDBValDateTimeUtc(object tickes)
+        {
+            return ConvertTicksToDateTimeUtc(tickes);
         }
 
 

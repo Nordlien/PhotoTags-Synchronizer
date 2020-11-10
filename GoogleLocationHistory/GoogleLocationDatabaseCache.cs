@@ -105,7 +105,7 @@ namespace GoogleLocationHistory
                     if (reader.Read())
                     {
                         //UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy
-                        minTimeStamp = (DateTime)dbTools.ConvertFromDBValDateTime(reader["TimeStamp"]); 
+                        minTimeStamp = (DateTime)dbTools.ConvertFromDBValDateTimeUtc(reader["TimeStamp"]); 
                         minLatitude = dbTools.ConvertFromDBValDouble(reader["Latitude"]);
                         minLongitude = dbTools.ConvertFromDBValDouble(reader["Longitude"]);
                         minAltitude = dbTools.ConvertFromDBValDouble(reader["Altitude"]);
@@ -127,7 +127,7 @@ namespace GoogleLocationHistory
                     if (reader.Read())
                     {
                         //UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy
-                        DateTime? maxTimeStamp = (DateTime)dbTools.ConvertFromDBValDateTime(reader["TimeStamp"]); 
+                        DateTime? maxTimeStamp = (DateTime)dbTools.ConvertFromDBValDateTimeUtc(reader["TimeStamp"]); 
                         double? maxLatitude = dbTools.ConvertFromDBValDouble(reader["Latitude"]);
                         double? maxLongitude = dbTools.ConvertFromDBValDouble(reader["Longitude"]);
                         double? maxAltitude = dbTools.ConvertFromDBValDouble(reader["Altitude"]);

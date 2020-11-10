@@ -204,54 +204,43 @@ namespace Exiftool
                     sw.WriteLine("-charset");
                     sw.WriteLine("filename=UTF8");
                     sw.WriteLine("-overwrite_original_in_place");
+                    sw.WriteLine("-m");
+                    sw.WriteLine("-F");
 
                     if (metadataOriginal != null && metadataToWrite.LocationDateTime != metadataOriginal.LocationDateTime)
                     {
-                        /*
-                        Name/Files	C:\Users\nordl\OneDrive\Pictures JTNs OneDrive\TestTags\Test2\2019-05-30 12-34-00  IMG_.jpg	C:\Users\nordl\OneDrive\Pictures JTNs OneDrive\TestTags\Test2\2019-06-16 14-20-49 IMG_.jpg
-                        Composite:GPSDateTime	2019:05:30 18:23:02Z	2019:06:16 12:20:45Z
-                        XMP:XMP-exif:GPSDateTime	2019:05:30 14:00:00Z	2019:06:16 15:00:00Z
-
-                        EXIF:GPS		
-                        GPSDateStamp	2019:05:30	2019:06:16
-                        GPSTimeStamp	18:23:02	12:20:45
-
-                        -XMP:GPSDateTime=2019:06:16 04:00:00Z
-                        -GPSTimeStamp=04:00:00
-                        -GPSDateStamp=2019:06:16
-                        */
-                        //GPSDateTime 2019:05:30 14:00:00Z    2019:06:16 15:00:00Z
+                        sw.WriteLine("-XMP-exif:GPSDateTime=" + TimeZone.TimeZoneLibrary.ToStringExiftoolUTC(metadataToWrite.LocationDateTime));
                         sw.WriteLine("-XMP:GPSDateTime=" + TimeZone.TimeZoneLibrary.ToStringExiftoolUTC(metadataToWrite.LocationDateTime));
-                        sw.WriteLine("-GPSDateStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolGPSDateStamp(metadataToWrite.LocationDateTime));
-                        sw.WriteLine("-GPSTimeStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolGPSTimeStamp(metadataToWrite.LocationDateTime));                        
+                        sw.WriteLine("-GPS:GPSDateStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolDateStamp(metadataToWrite.LocationDateTime));
+                        sw.WriteLine("-GPS:GPSTimeStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolTimeStamp(metadataToWrite.LocationDateTime));
+                        sw.WriteLine("-GPSDateStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolDateStamp(metadataToWrite.LocationDateTime));
+                        sw.WriteLine("-GPSTimeStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolTimeStamp(metadataToWrite.LocationDateTime));                        
                     }
 
                     if (metadataOriginal != null && metadataToWrite.MediaDateTaken != metadataOriginal.MediaDateTaken)
                     {
-                        /*
-                        EXIF:ExifIFD		
-                        CreateDate	2019:05:30 12:34:00	2019:06:16 14:20:49
-                        DateTimeOriginal	2019:05:30 14:00:00	2020:11:09 16:00:28
-
-                        XMP:XMP-xmpCreateDate	2019:05:30 12:34:00	
-                        
-                        IPTC		
-                        DateCreated	2019:05:30	2019:06:16
-                        DigitalCreationDate	2019:05:30	
-                        DigitalCreationTime	20:23:06+00:00	
-                        TimeCreated	12:34:00+00:00	14:20:49+00:00
-                        */
-                        sw.WriteLine("-XMP:CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
+                        //("specifies when an image was digitized" - MWG)
+                        sw.WriteLine("-Composite:SubSecCreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
                         sw.WriteLine("-EXIF:CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
+                        sw.WriteLine("-XMP-xmp:CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
+                        sw.WriteLine("-XMP:CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
+                        sw.WriteLine("-IPTC:DigitalCreationDate=" + TimeZone.TimeZoneLibrary.ToStringExiftoolDateStamp(metadataToWrite.MediaDateTaken));
+                        sw.WriteLine("-IPTC:DigitalCreationTime=" + TimeZone.TimeZoneLibrary.ToStringExiftoolTimeStamp(metadataToWrite.MediaDateTaken));
+                        //("specifies when a photo was taken" - MWG)
+                        sw.WriteLine("-Composite:SubSecDateTimeOriginal=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
+                        sw.WriteLine("-ExifIFD:DateTimeOriginal=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
                         sw.WriteLine("-EXIF:DateTimeOriginal=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
+                        sw.WriteLine("-XMP-photoshop:DateCreated=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
+                        sw.WriteLine("-IPTC:DateCreated=" + TimeZone.TimeZoneLibrary.ToStringExiftoolDateStamp(metadataToWrite.MediaDateTaken));
+                        sw.WriteLine("-IPTC:TimeCreated=" + TimeZone.TimeZoneLibrary.ToStringExiftoolTimeStamp(metadataToWrite.MediaDateTaken));
+
+                        sw.WriteLine("-CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken)); //http://metadataworkinggroup.org/
                     }
 
                     #region Album
                     if (metadataOriginal != null && metadataToWrite.PersonalAlbum != metadataOriginal.PersonalAlbum)
                     {
-                        /*
-                        XMP:Album the note says this is a user-defined tag?  Why not use the standard XMP-xmpDM:Album
-                        */
+                        //XMP:Album the note says this is a user-defined tag?  Why not use the standard XMP-xmpDM:Album
                         sw.WriteLine("-XMP-xmpDM:Album=" + metadataToWrite.PersonalAlbum);
                         sw.WriteLine("-XMP:Album=" + metadataToWrite.PersonalAlbum);
                         sw.WriteLine("-IPTC:Headline=" + metadataToWrite.PersonalAlbum);
@@ -265,9 +254,11 @@ namespace Exiftool
                     {
                         sw.WriteLine("-EXIF:Artist=" + metadataToWrite.PersonalAuthor);
                         sw.WriteLine("-IPTC:By-line=" + metadataToWrite.PersonalAuthor);
+                        sw.WriteLine("-XMP-dc:Creator=" + metadataToWrite.PersonalAuthor);
                         sw.WriteLine("-XMP:Creator=" + metadataToWrite.PersonalAuthor);
                         sw.WriteLine("-EXIF:XPAuthor=" + metadataToWrite.PersonalAuthor);
                         sw.WriteLine("-ItemList:Author=" + metadataToWrite.PersonalAuthor); //QuickTime
+                        sw.WriteLine("-Creator=" + metadataToWrite.PersonalAuthor); //http://metadataworkinggroup.org/
                     }
                     #endregion
 
@@ -291,9 +282,11 @@ namespace Exiftool
                     {
                         sw.WriteLine("-EXIF:ImageDescription=" + metadataToWrite.PersonalDescription);
                         sw.WriteLine("-XMP:ImageDescription=" + metadataToWrite.PersonalDescription);
+                        sw.WriteLine("-XMP-dc:Description=" + metadataToWrite.PersonalDescription);
                         sw.WriteLine("-XMP:Description=" + metadataToWrite.PersonalDescription);
                         sw.WriteLine("-IPTC:Caption-Abstract=" + metadataToWrite.PersonalDescription);
                         sw.WriteLine("-ItemList:Description=" + metadataToWrite.PersonalDescription); //QuickTime
+                        sw.WriteLine("-Description=" + metadataToWrite.PersonalDescription); //http://metadataworkinggroup.org/
                     }
                     #endregion
 
@@ -310,14 +303,12 @@ namespace Exiftool
 
                     if (metadataOriginal != null && metadataToWrite.PersonalRating != metadataOriginal.PersonalRating) 
                     {
-                        sw.WriteLine("-XMP:Rating=" + 
-                            (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
-                        sw.WriteLine("-XMP-acdsee:Rating=" + 
-                            (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
-                        sw.WriteLine("-EXIF:Rating=" + 
-                            (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
-                        sw.WriteLine("-ItemList:Rating=" + 
-                            (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture))); //QuickTime
+                        sw.WriteLine("-XMP-xmp:Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
+                        sw.WriteLine("-XMP:Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
+                        sw.WriteLine("-XMP-acdsee:Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
+                        sw.WriteLine("-EXIF:Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
+                        sw.WriteLine("-ItemList:Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture))); //QuickTime                        
+                        sw.WriteLine("-Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture))); //http://metadataworkinggroup.org/
                     }
                     #endregion
 
@@ -332,21 +323,27 @@ namespace Exiftool
                     }
                     #endregion
 
-                    // lOCATION
-                    if (metadataOriginal != null && metadataToWrite.LocationAltitude != metadataOriginal.LocationAltitude) 
+                    #region Altitude
+                    if (metadataOriginal != null && metadataToWrite.LocationAltitude != metadataOriginal.LocationAltitude)
                     {
-
+                        /*
+                        Writing MIE-GPS:GPSAltitude
+                        Writing XMP-exif:GPSAltitude if tag exists
+                        Writing GPS:GPSAltitude
+                        */
                     }
+                    #endregion 
 
-                    //metadata.LocationDateTime
                     #region Latitude
                     if (metadataOriginal != null && metadataToWrite.LocationLatitude != metadataOriginal.LocationLatitude) 
                     {
                         if (metadataToWrite.LocationLatitude != null)
-                        {
+                        {                            
+                            sw.WriteLine("-EXIF:GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
+                            sw.WriteLine("-XMP-exif:GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
+                            sw.WriteLine("-XMP:GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
+                            sw.WriteLine("-GPS:GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
                             sw.WriteLine("-GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-exif:GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-xmp:GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
                         }
                     }
                     #endregion
@@ -356,9 +353,11 @@ namespace Exiftool
                     {
                         if (metadataToWrite.LocationLongitude != null)
                         {
+                            sw.WriteLine("-EXIF:GPSLongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));
+                            sw.WriteLine("-XMP-exif:GPSLongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));                            
+                            sw.WriteLine("-XMP:GPSLongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));
+                            sw.WriteLine("-GPS:GPSLongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));
                             sw.WriteLine("-GPSLongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-exif:gpslongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-xmp:gpslongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));
                         }
                     }
                     #endregion
@@ -366,21 +365,25 @@ namespace Exiftool
                     #region Location - Name
                     if (metadataOriginal != null && metadataToWrite.LocationName != metadataOriginal.LocationName) 
                     {
-                        sw.WriteLine("-Sub-location=" + metadataToWrite.LocationName);
-                        sw.WriteLine("-IPTC:Sub-location=" + metadataToWrite.LocationName);
                         sw.WriteLine("-XMP:Location=" + metadataToWrite.LocationName);
                         sw.WriteLine("-XMP-iptcCore:Location=" + metadataToWrite.LocationName);
-                        sw.WriteLine("-XMP:LocationCreatedSublocation=" + metadataToWrite.LocationName);
+                        sw.WriteLine("-XMP-iptcExt:LocationShownSublocation=" + metadataToWrite.LocationName);
+                        sw.WriteLine("-XMP:LocationCreatedSublocation=" + metadataToWrite.LocationName);                        
+                        sw.WriteLine("-IPTC:Sub-location=" + metadataToWrite.LocationName);
+                        sw.WriteLine("-Sub-location=" + metadataToWrite.LocationName);
+                        sw.WriteLine("-Location=" + metadataToWrite.LocationName); //http://metadataworkinggroup.org/
                     }
                     #endregion
 
                     #region Location - State
                     if (metadataOriginal != null && metadataToWrite.LocationState != metadataOriginal.LocationState) 
                     {
-                        sw.WriteLine("-State=" + metadataToWrite.LocationState);
-                        sw.WriteLine("-XMP:State=" + metadataToWrite.LocationState);
+                        sw.WriteLine("-XMP-iptcExt:LocationShownProvinceState=" + metadataToWrite.LocationState);
                         sw.WriteLine("-XMP-photoshop:State=" + metadataToWrite.LocationState);
                         sw.WriteLine("-IPTC:Province-State=" + metadataToWrite.LocationState);
+                        sw.WriteLine("-XMP:State=" + metadataToWrite.LocationState);
+                        sw.WriteLine("-State=" + metadataToWrite.LocationState); //http://metadataworkinggroup.org/
+
                         //sw.WriteLine("-XMP:LocationShownProvinceState=" + metadata.LocationState);
                     }
                     #endregion
@@ -388,23 +391,31 @@ namespace Exiftool
                     #region Location - City
                     if (metadataOriginal != null && metadataToWrite.LocationCity != metadataOriginal.LocationCity)
                     {
-                        sw.WriteLine("-City=" + metadataToWrite.LocationCity);
+                        sw.WriteLine("-XMP-photoshop:City=" + metadataToWrite.LocationCity);
+                        sw.WriteLine("-XMP-iptcExt:LocationShownCity=" + metadataToWrite.LocationCity);
                         sw.WriteLine("-IPTC:City=" + metadataToWrite.LocationCity);
                         sw.WriteLine("-XMP:City=" + metadataToWrite.LocationCity);
-                        //sw.WriteLine("-XMP:LocationShownCity=" + metadata.LocationCity);
+                        sw.WriteLine("-City=" + metadataToWrite.LocationCity); //http://metadataworkinggroup.org/
                     }
                     #endregion
 
                     #region Location - Country
                     if (metadataOriginal != null && metadataToWrite.LocationCountry != metadataOriginal.LocationCountry)
-                    {
-                        sw.WriteLine("-Country=" + metadataToWrite.LocationCountry);
+                    {                     
                         sw.WriteLine("-IPTC:Country-PrimaryLocationName=" + metadataToWrite.LocationCountry);
+                        sw.WriteLine("-XMP-photoshop:Country=" + metadataToWrite.LocationCountry);
+                        sw.WriteLine("-XMP-iptcExt:LocationShownCountryName=" + metadataToWrite.LocationCountry);
                         sw.WriteLine("-XMP:Country=" + metadataToWrite.LocationCountry);
-                        //sw.WriteLine("-XMP:LocationShownCountryName=" + metadata.LocationCountry);
+                        sw.WriteLine("-Country=" + metadataToWrite.LocationCountry); //http://metadataworkinggroup.org/
                     }
                     #endregion
 
+                    /*
+                    Keywords	yes+	IPTC:Keywords
+                                        XMP-dc:Subject
+                                        CurrentIPTCDigest
+                                        IPTCDigest
+                    */
                     #region Write Keyword ***List***
                     //-Category 
                     sw.WriteLine("-Subject=");              //XMP:Subject
@@ -567,7 +578,7 @@ namespace Exiftool
 
             #region Exiftool Write
             String path = NativeMethods.GetFullPathOfExeFile("exiftool.exe");
-            string arguments = "-charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -@ \"" + NativeMethods.ShortFileName(exiftoolArgFile) + "\"";
+            string arguments = "-charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"" + NativeMethods.ShortFileName(exiftoolArgFile) + "\"";
             bool hasExiftoolErrorMessage = false;
             string exiftoolOutput = "";
 

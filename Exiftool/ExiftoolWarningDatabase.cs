@@ -44,14 +44,14 @@ namespace Exiftool
                         exifToolWarningData.OldExiftoolData = new ExiftoolData(
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             dbTools.ConvertFromDBValString(reader["FileName"]), 
-                            (DateTime)dbTools.ConvertFromDBValDateTime(reader["FileDateModified"]),
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]),
                             dbTools.ConvertFromDBValString(reader["OldRegion"]),
                             dbTools.ConvertFromDBValString(reader["OldCommand"]),
                             dbTools.ConvertFromDBValString(reader["OldParameter"]));
                         exifToolWarningData.NewExiftoolData = new ExiftoolData(
                             dbTools.ConvertFromDBValString(reader["FileName"]),
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
-                            (DateTime)dbTools.ConvertFromDBValDateTime(reader["FileDateModified"]),
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]),
                             dbTools.ConvertFromDBValString(reader["NewRegion"]),
                             dbTools.ConvertFromDBValString(reader["NewCommand"]),
                             dbTools.ConvertFromDBValString(reader["NewParameter"]));
@@ -143,7 +143,7 @@ namespace Exiftool
                             (
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             dbTools.ConvertFromDBValString(reader["FileName"]),
-                            (DateTime)dbTools.ConvertFromDBValDateTime(reader["FileDateModified"])
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
                             );
                         exifToolDates.Add(fileEntry);
                     }
