@@ -84,7 +84,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 //Set a valid header tag to using current cell as base
                                 DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, header,
-                                    ValidateAndReturnTag(dataGridView, header, DataGridViewHandler.GetCellValueStringTrim(dataGridView, column, rowIndex)),
+                                    ValidateAndReturnTag(dataGridView, header, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, column, rowIndex)),
                                     ReadWriteAccess.AllowCellReadAndWrite);
                             }
                         }
@@ -165,7 +165,7 @@ namespace PhotoTagsSynchronizer
                 }
                 else
                 {
-                    string newTag = DataGridViewHandler.GetCellValueStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
+                    string newTag = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
                     DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, e.ColumnIndex, e.RowIndex, SwitchStates.On);
 
                     if (DataGridViewHandler.GetRowName(dataGridView, e.RowIndex) == newTag)
@@ -187,7 +187,7 @@ namespace PhotoTagsSynchronizer
                     for (int column = 0; column < dataGridViewTagsAndKeywords.Columns.Count; column++)
                     {
                         if ((!DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, column, e.RowIndex)) &&
-                            DataGridViewHandler.GetCellValueStringTrim(dataGridView, column, e.RowIndex) != newTag)
+                            DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, column, e.RowIndex) != newTag)
                         {
                             DataGridViewHandler.SetCellValue(dataGridView, column, e.RowIndex, DataGridViewHandler.GetRowName(dataGridView, e.RowIndex));
                             DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, column, e.RowIndex, SwitchStates.On);

@@ -43,7 +43,7 @@ namespace PhotoTagsSynchronizer
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
 
-            LocationCoordinate.TryParse(DataGridViewHandler.GetCellValueStringTrim(dataGridView, columnIndex, headerMedia, tagCoordinates), out LocationCoordinate locationCoordinate);
+            LocationCoordinate.TryParse(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagCoordinates), out LocationCoordinate locationCoordinate);
             metadata.LocationCoordinate = locationCoordinate;
             metadata.LocationName = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagLocationName);
             metadata.LocationCity= (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCity);

@@ -87,7 +87,7 @@ namespace PhotoTagsSynchronizer
             //If DataGridViewMap is agregated then pick up coordinates from what user have entered
             if (DataGridViewHandler.GetIsAgregated(DataGridViewMap))
             {
-                string locationCoordinateString = (string)DataGridViewHandler.GetCellValueStringTrim(DataGridViewMap, columnIndex, DataGridViewMapHeaderMedia, DataGridViewMapTagCoordinates);
+                string locationCoordinateString = DataGridViewHandler.GetCellValueNullOrStringTrim(DataGridViewMap, columnIndex, DataGridViewMapHeaderMedia, DataGridViewMapTagCoordinates);
                 LocationCoordinate locationCoordinate = LocationCoordinate.Parse(locationCoordinateString);
 
                 if (locationCoordinate != null)
@@ -173,7 +173,7 @@ namespace PhotoTagsSynchronizer
 
             TimeSpan? timeSpan = TimeZoneLibrary.CalulateTimeDiffrent(dateTimeStringMediaTaken, dateTimeStringLocation);
 
-            string prefredTimeZoneName = DataGridViewHandler.GetCellValueStringTrim(dataGridView, columnIndex, headerMedia, tagLocationOffsetTimeZone);
+            string prefredTimeZoneName = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagLocationOffsetTimeZone);
             DateTime? dateTimeLocation = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken);
             
             string timeZoneName = TimeZoneLibrary.GetTimeZoneName(timeSpan, dateTimeLocation, prefredTimeZoneName, out string timeZoneAlternatives);

@@ -50,40 +50,11 @@ namespace MetadataLibrary
             return !(left == right);
         }
 
-
-
-        /*
-        public static LocationCoordinate Parse(string locationCoordinateString, System.Globalization.NumberStyles style)
-        {
-            TryParse(locationCoordinateString, style, System.Globalization.CultureInfo.CurrentCulture, out LocationCoordinate result);
-            return result;
-        }
-
-        public static LocationCoordinate Parse(string locationCoordinateString, System.IFormatProvider provider)
-        {
-            TryParse(locationCoordinateString, System.Globalization.NumberStyles.Float, provider, out LocationCoordinate result);
-            return result;
-        }
-
-        public static LocationCoordinate Parse(string locationCoordinateString, System.Globalization.NumberStyles style, System.IFormatProvider provider)
-        {
-            LocationCoordinate result;
-            if (TryParse(locationCoordinateString, style, provider, out result))
-                return result;
-            return null;
-        }*/
-
         public static LocationCoordinate Parse(string locationCoordinateString)
         {
             TryParse(locationCoordinateString, out LocationCoordinate result);
             return result;
         }
-
-        /*
-        public static bool TryParse(string locationCoordinateString, out LocationCoordinate result)
-        {
-            return TryParse(locationCoordinateString, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out result);
-        }*/
 
         public static bool TryParse(string locationCoordinateString, out LocationCoordinate result)
         {

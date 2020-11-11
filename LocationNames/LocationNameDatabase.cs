@@ -34,6 +34,11 @@ namespace LocationNames
                 "Values (@Latitude, @Longitude, @Name, @City, @Province, @Country)";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                metadata.LocationName = string.IsNullOrEmpty(metadata.LocationName) ? null : metadata.LocationName;
+                metadata.LocationState = string.IsNullOrEmpty(metadata.LocationState) ? null : metadata.LocationState;
+                metadata.LocationCity = string.IsNullOrEmpty(metadata.LocationCity) ? null : metadata.LocationCity;
+                metadata.LocationCountry = string.IsNullOrEmpty(metadata.LocationCountry) ? null : metadata.LocationCountry;
+
                 commandDatabase.Parameters.AddWithValue("@Latitude", metadata.LocationLatitude);
                 commandDatabase.Parameters.AddWithValue("@Longitude", metadata.LocationLongitude);
                 commandDatabase.Parameters.AddWithValue("@Name", metadata.LocationName);
@@ -69,6 +74,11 @@ namespace LocationNames
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                metadata.LocationName = string.IsNullOrEmpty(metadata.LocationName) ? null : metadata.LocationName;
+                metadata.LocationState = string.IsNullOrEmpty(metadata.LocationState) ? null : metadata.LocationState;
+                metadata.LocationCity = string.IsNullOrEmpty(metadata.LocationCity) ? null : metadata.LocationCity;
+                metadata.LocationCountry = string.IsNullOrEmpty(metadata.LocationCountry) ? null : metadata.LocationCountry;
+
                 commandDatabase.Parameters.AddWithValue("@Latitude", metadata.LocationLatitude);
                 commandDatabase.Parameters.AddWithValue("@Longitude", metadata.LocationLongitude);
                 commandDatabase.Parameters.AddWithValue("@Name", metadata.LocationName);
@@ -108,6 +118,10 @@ namespace LocationNames
                         metadata.LocationState = dbTools.ConvertFromDBValString(reader["Province"]);
                         metadata.LocationCountry = dbTools.ConvertFromDBValString(reader["Country"]);
 
+                        metadata.LocationName = string.IsNullOrEmpty(metadata.LocationName) ? null : metadata.LocationName;
+                        metadata.LocationState = string.IsNullOrEmpty(metadata.LocationState) ? null : metadata.LocationState;
+                        metadata.LocationCity = string.IsNullOrEmpty(metadata.LocationCity) ? null : metadata.LocationCity;
+                        metadata.LocationCountry = string.IsNullOrEmpty(metadata.LocationCountry) ? null : metadata.LocationCountry;
                     }
                 }
             }

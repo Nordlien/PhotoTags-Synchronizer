@@ -221,7 +221,7 @@ namespace PhotoTagsSynchronizer
                     string oldDirectory = dataGridViewGenericRow.HeaderName;
                     string oldFullFilename = Path.Combine(oldDirectory, oldFilename);
 
-                    string newRelativeFilename = Path.Combine(oldDirectory, DataGridViewHandler.GetCellValueStringTrim(dataGridView, columnIndex, rowIndex));
+                    string newRelativeFilename = Path.Combine(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
                     string newFullFilename = Path.GetFullPath(newRelativeFilename);
                     
                     RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);

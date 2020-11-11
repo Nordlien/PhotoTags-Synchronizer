@@ -571,7 +571,7 @@ namespace PhotoTagsSynchronizer
         {
             if (isCellValueUpdating) return;
             DataGridView dataGridView = (DataGridView)sender;
-            string value = DataGridViewHandler.GetCellValueStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
+            string value = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
             if (int.TryParse(value.ToString(), out int priority))
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);

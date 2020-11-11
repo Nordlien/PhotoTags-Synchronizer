@@ -294,7 +294,7 @@ namespace PhotoTagsSynchronizer
 
             if (dataGridViewMap[columnIndex, rowIndex].Value != null)
             {
-                UpdateBrowserMap(DataGridViewHandler.GetCellValueStringTrim(dataGridView, columnIndex, rowIndex));
+                UpdateBrowserMap(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
             }
         }
 
@@ -319,7 +319,7 @@ namespace PhotoTagsSynchronizer
             if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerMedia) &&
                 gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagCoordinates))
             {
-                string coordinate = DataGridViewHandler.GetCellValueStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
+                string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
                 UpdateBrowserMap(coordinate);
                 DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate));                
             }

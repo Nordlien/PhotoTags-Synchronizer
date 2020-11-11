@@ -1487,10 +1487,8 @@ namespace DataGridViewGeneric
         public static object GetCellValue(DataGridView dataGridView, int columnIndex, string headerName, string rowName)
         {
             int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
-            if (columnIndex > -1 && rowIndex > -1)
-                return GetCellValue(dataGridView,columnIndex, rowIndex);
-            else
-                return null;
+            if (columnIndex > -1 && rowIndex > -1) return GetCellValue(dataGridView,columnIndex, rowIndex);
+            else return null;
         }
 
         public static object GetCellValue(DataGridViewCell dataGridViewCell)
@@ -1503,23 +1501,28 @@ namespace DataGridViewGeneric
             return GetCellValue(dataGridView[columnIndex, rowIndex]);
         }
 
+        /*
         public static string GetCellValueString(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return GetCellValue(dataGridView[columnIndex, rowIndex]) == null ? "" : dataGridView[columnIndex, rowIndex].Value.ToString();
         }
+        */
 
-        public static string GetCellValueStringTrim(DataGridView dataGridView, int columnIndex, int rowIndex)
+        public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            return GetCellValueString(dataGridView, columnIndex, rowIndex).Trim();
+            return GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex);
         }
 
-        public static string GetCellValueStringTrim(DataGridView dataGridView, int columnIndex, string headerName, string rowName)
+        public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, string headerName, string rowName)
         {
             int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
             if (columnIndex > -1 && rowIndex > -1)
-                return GetCellValueString(dataGridView, columnIndex, rowIndex).Trim();
-            else
-                return "";
+            {
+                string value = (dataGridView[columnIndex, rowIndex] == null ? null : dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
+                if (string.IsNullOrEmpty(value)) return null;
+                else return value;
+            }
+            else return null;
         }
 
         public static bool IsCellNullOrWhiteSpace(DataGridView dataGridView, int columnIndex, int rowIndex)

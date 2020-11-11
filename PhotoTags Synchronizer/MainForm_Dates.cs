@@ -62,7 +62,7 @@ namespace PhotoTagsSynchronizer
 
             if (gridViewGenericDataRow.RowName.Equals(DataGridViewHandlerDate.tagMediaDateTaken)) //headerMedia, tagMediaDateTaken
             {
-                string dataTimeString = DataGridViewHandler.GetCellValueStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
+                string dataTimeString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
 
                 DateTimeOffset? dateTimeZoneResult = TimeZoneLibrary.ParseDateTimeOffsetAsUTC(dataTimeString);
                 if (dateTimeZoneResult != null) //If date and time has +00:00 offset
@@ -95,7 +95,7 @@ namespace PhotoTagsSynchronizer
 
             if (gridViewGenericDataRow.RowName.Equals(DataGridViewHandlerDate.tagGPSLocationDateTime)) //headerMedia, tagGPSLocationDateTime
             {
-                string dataTimeString = DataGridViewHandler.GetCellValueStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
+                string dataTimeString = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex);
 
                 DateTime? dateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dataTimeString);
                 if (dateTime != null)

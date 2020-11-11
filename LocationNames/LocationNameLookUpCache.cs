@@ -24,7 +24,7 @@ namespace LocationNames
 
             Metadata metadata = locationNameCache.ReadLocationName(latitude, longitude);
             if (metadata != null)
-            {
+            {               
                 return metadata;
             }
 
@@ -54,6 +54,11 @@ namespace LocationNames
                 metadata.LocationName = (r2.Result.Address.Road + " " + r2.Result.Address.HouseNumber).Trim();
                 metadata.LocationState = (r2.Result.Address.State + " " + r2.Result.Address.County + " " + r2.Result.Address.Suburb + " " + r2.Result.Address.District + " " + r2.Result.Address.Hamlet).Trim();
 
+                metadata.LocationName = string.IsNullOrEmpty(metadata.LocationName) ? null : metadata.LocationName;
+                metadata.LocationState = string.IsNullOrEmpty(metadata.LocationState) ? null : metadata.LocationState;
+                metadata.LocationCity = string.IsNullOrEmpty(metadata.LocationCity) ? null : metadata.LocationCity;
+                metadata.LocationCountry = string.IsNullOrEmpty(metadata.LocationCountry) ? null : metadata.LocationCountry;
+
                 locationNameCache.TransactionBeginBatch();
                 locationNameCache.WriteLocationName(metadata);
                 locationNameCache.TransactionCommitBatch();
@@ -77,10 +82,9 @@ namespace LocationNames
                 metadata.LocationCountry = locationCountry;
                 metadata.LocationName = locationName;
                 metadata.LocationState = locationState;
-                LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
 
+                LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
                 locationNameCache.TransactionBeginBatch();
-                //locationNameCache.DeleteLocationName((float)metadata.LocationLatitude, (float)metadata.LocationLongitude);
                 locationNameCache.UpdateLocationName(metadata);
                 locationNameCache.TransactionCommitBatch();
             }
