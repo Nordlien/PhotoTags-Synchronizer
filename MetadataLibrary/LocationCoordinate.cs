@@ -50,12 +50,9 @@ namespace MetadataLibrary
             return !(left == right);
         }
 
-        public static LocationCoordinate Parse(string locationCoordinateString) 
-        {
-            TryParse(locationCoordinateString, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out LocationCoordinate result);
-            return result;
-        }
 
+
+        /*
         public static LocationCoordinate Parse(string locationCoordinateString, System.Globalization.NumberStyles style)
         {
             TryParse(locationCoordinateString, style, System.Globalization.CultureInfo.CurrentCulture, out LocationCoordinate result);
@@ -74,25 +71,43 @@ namespace MetadataLibrary
             if (TryParse(locationCoordinateString, style, provider, out result))
                 return result;
             return null;
+        }*/
+
+        public static LocationCoordinate Parse(string locationCoordinateString)
+        {
+            TryParse(locationCoordinateString, out LocationCoordinate result);
+            return result;
         }
 
+        /*
         public static bool TryParse(string locationCoordinateString, out LocationCoordinate result)
         {
             return TryParse(locationCoordinateString, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out result);
-        }
+        }*/
 
-        public static bool TryParse(string locationCoordinateString, System.Globalization.NumberStyles style, System.IFormatProvider provider, out LocationCoordinate result)
+        public static bool TryParse(string locationCoordinateString, out LocationCoordinate result)
         {
+            //System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, 
             result = null;
             if (string.IsNullOrWhiteSpace(locationCoordinateString)) return false;
             string[] latitideAndlogitude = locationCoordinateString.Split((System.Globalization.CultureInfo.CurrentCulture).TextInfo.ListSeparator[0]);
             if (latitideAndlogitude.Length == 2)
             {
+                //System.Globalization.CultureInfo.CurrentCulture
                 if (
-                    float.TryParse(latitideAndlogitude[0], style, provider, out float latitude) &&
-                    float.TryParse(latitideAndlogitude[1], style, provider, out float longitude))
+                    double.TryParse(latitideAndlogitude[0], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.CurrentCulture, out Double latitudeCurrentCulture) &&
+                    double.TryParse(latitideAndlogitude[1], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.CurrentCulture, out Double longitudeCurrentCulture))
                 {
-                    result = new LocationCoordinate(latitude, longitude);
+                    result = new LocationCoordinate(latitudeCurrentCulture, longitudeCurrentCulture);
+                    return true;
+                }
+
+                //System.Globalization.CultureInfo.InvariantCulture
+                if (
+                    double.TryParse(latitideAndlogitude[0], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out Double latitudeInvariantCulture) &&
+                    double.TryParse(latitideAndlogitude[1], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out Double longitudeInvariantCulture))
+                {
+                    result = new LocationCoordinate(latitudeInvariantCulture, longitudeInvariantCulture);
                     return true;
                 }
             }
