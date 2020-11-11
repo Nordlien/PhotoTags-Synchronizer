@@ -136,7 +136,7 @@ namespace GoogleLocationHistory
                         Double lowDiffInSeconds = Math.Abs((minTimeStamp - datetime).Value.TotalSeconds);
                         Double highDiffInSeconds = Math.Abs((maxTimeStamp - datetime).Value.TotalSeconds);
                         Double totalDifInSeconds = lowDiffInSeconds + highDiffInSeconds;
-                        if (totalDifInSeconds > acceptDiffrentSecound) 
+                        if (Math.Min(lowDiffInSeconds, highDiffInSeconds) > acceptDiffrentSecound) 
                             return null;
 
 

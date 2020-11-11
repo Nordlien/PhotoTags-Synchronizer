@@ -32,15 +32,25 @@ namespace PhotoTagsSynchronizer
         [JsonProperty("DateTakenPriority")]
         public List<DateTimeSources> DateTakenPriority { get; set; } = new List<DateTimeSources>();
 
-        public int LocationTimeZoneGuess { get; set; } = 60 * 60 * 24; //24 hours
 
-        public int LocationFind { get; set; } = 60 * 5; //Five minutes
 
 
         #endregion
 
-        #region GPS Location
-        public bool UpdateGPSlocation { get; set; } = true;
+        #region GPS Location and Date Time
+
+        [JsonProperty("LocationTimeZoneGuessHours")]
+        public int LocationTimeZoneGuessHours { get; set; } = 24; //24 hours
+
+        [JsonProperty("LocationFindMinutes")]
+        public int LocationFindMinutes { get; set; } = 5; //Five minutes
+
+
+        [JsonProperty("UpdateGPSLocation")]
+        public bool UpdateGPSLocation { get; set; } = true;
+        [JsonProperty("UpdateGPSDateTime")]
+        public bool UpdateGPSDateTime { get; set; } = true;
+
         #endregion
 
         #region Keywords
@@ -160,11 +170,16 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Find best guess on GPS Location Latitude Longitude
-            DateTime? locationDateTimeUTC = metadata?.LocationDateTime;
-            double? locationLatitude = metadata?.LocationLatitude;
-            double? locationLongitude = metadata?.LocationLongitude;
+            
             //Don't have GPS locations, try Guess GPS location bases on what exist in Location History
-            if (locationLatitude == null && locationLongitude == null)
+
+            //If GPS Locations missing!
+            //1. Check if GPS DateTime exist, if not then use DateTaken
+            //2. Try find location in camera owner's history, ±24 hours
+            //3. If location's found, find time zone
+            //4. Adjust DateTaken with found time zone
+            //5. Find new locations in camra owner's hirstory. ±1 hour
+            if (metadata?.LocationLatitude == null && metadata?.LocationLongitude == null)
             {
                 string cameraOwner = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadata?.CameraMake, metadata?.CameraModel);
                 if (!string.IsNullOrEmpty(cameraOwner))
@@ -176,15 +191,15 @@ namespace PhotoTagsSynchronizer
                     {
                         dateTimeUTC = new DateTime(((DateTime)metadata?.LocationDateTime).Ticks, DateTimeKind.Utc);
                     }
-                    else //Don't have UTC time, need try to Guess
+                    else if (metadata?.MediaDateTaken != null) //Don't have UTC time, need try to Guess
                     {
                         DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
 
                         //Try find a location nearby
                         Metadata metadataLocationTimeZone = databaseGoogleLocationHistory.FindLocationBasedOnTime(
-                            cameraOwner, mediaDateTimeUnspecified, LocationTimeZoneGuess);
+                            cameraOwner, mediaDateTimeUnspecified, LocationTimeZoneGuessHours * 60 * 60);
 
-                        //Found a location for time zone, however it's up to +/-24 hours wrong
+                        //Found a location for time zone, however it's up to ±24 hours wrong
                         if (metadataLocationTimeZone != null && metadataLocationTimeZone?.LocationLatitude != null && metadataLocationTimeZone?.LocationLongitude != null)
                         {
                             TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation(
@@ -192,7 +207,6 @@ namespace PhotoTagsSynchronizer
 
                             dateTimeUTC = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
                         }
-                        else if (metadata?.MediaDateTaken != null) dateTimeUTC = TimeZoneInfo.ConvertTimeToUtc((DateTime)metadata?.MediaDateTaken);
                     }
                     #endregion
 
@@ -200,28 +214,31 @@ namespace PhotoTagsSynchronizer
                     if (dateTimeUTC != null) //UTC time found, guess location based on UTC time
                     {
                         Metadata metadataLocationBasedOnBestGuess = databaseGoogleLocationHistory.FindLocationBasedOnTime(
-                            cameraOwner, dateTimeUTC, LocationFind);
+                            cameraOwner, dateTimeUTC, 60 * LocationFindMinutes);
 
                         //If location found, updated metadata with found location
                         if (metadataLocationBasedOnBestGuess != null)
-                        {
-                            locationDateTimeUTC = dateTimeUTC;
-                            locationLatitude = metadataLocationBasedOnBestGuess.LocationLatitude;
-                            locationLongitude = metadataLocationBasedOnBestGuess.LocationLongitude;
+                        {                            
+                            //If allow update location, then updated metadata with found location
+                            metadata.LocationDateTime = dateTimeUTC;    
+                            metadata.LocationLatitude = metadataLocationBasedOnBestGuess.LocationLatitude;       
+                            metadata.LocationLongitude = metadataLocationBasedOnBestGuess.LocationLongitude;     
                         }
                     }
                     #endregion
                 }
-            }
 
-            //If allow update location, then updated metadata with found location
-            if (UpdateGPSlocation)
-            {
-                metadata.LocationDateTime = locationDateTimeUTC;    //Default set as metadata?.LocationDateTime;
-                metadata.LocationLatitude = locationLatitude;       //Default set as metadata?.LocationLatitude;
-                metadata.LocationLongitude = locationLongitude;     //Default set as metadata?.LocationLongitude;
             }
-            #endregion
+            else //Location is known
+            {
+                if (UpdateGPSDateTime)
+                {
+                    DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
+                    TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
+                    metadata.LocationDateTime = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);                    
+                }
+            }
+            #endregion    
 
             #region DateAndTime Digitized
             if (UpdateDateTaken)
@@ -236,15 +253,12 @@ namespace PhotoTagsSynchronizer
                             newDateTime = metadata?.MediaDateTaken;
                             break;
                         case DateTimeSources.GPSDateAndTime:
-                            ////////////////////////////////// 1. Find location 
-                            ////////////////////////////////// 2. Find date to convert
-                            if (locationLatitude != null && locationLongitude != null && metadata?.LocationDateTime != null)
+                            if (metadata?.LocationLatitude != null && metadata?.LocationLongitude != null && metadata?.LocationDateTime != null)
                             {
-                                TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)locationLatitude, (double)locationLongitude);
-                                DateTime dateTimeLocal = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)locationDateTimeUTC).Ticks, DateTimeKind.Utc), timeZoneInfo);
+                                TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
+                                DateTime dateTimeLocal = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadata?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
                                 newDateTime = dateTimeLocal;
                             }
-
                             break;
                         case DateTimeSources.FirstDateFoundInFilename:
                             FileDateTimeReader fileDateTimeReader1 = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
@@ -263,21 +277,28 @@ namespace PhotoTagsSynchronizer
                 metadata.MediaDateTaken = newDateTime;
 
             }
-
             #endregion
 
             #region Location name, city, state, country
             if (UpdateLocation && metadata?.LocationLatitude != null && metadata?.LocationLongitude != null)
             {
-                if (!UpdateLocationOnlyWhenEmpty || !string.IsNullOrWhiteSpace(metadata?.LocationName))
+                if (!UpdateLocationOnlyWhenEmpty || 
+                    string.IsNullOrWhiteSpace(metadata?.LocationName) ||
+                    string.IsNullOrWhiteSpace(metadata?.LocationState) ||
+                    string.IsNullOrWhiteSpace(metadata?.LocationCity) ||
+                    string.IsNullOrWhiteSpace(metadata?.LocationCountry))
                 {
                     Metadata locationData = locationNameLookUpCache.AddressLookup((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
                     if (locationData != null)
                     {
-                        if (UpdateLocationName) metadata.LocationName = locationData.LocationName;
-                        if (UpdateLocationState) metadata.LocationState = locationData.LocationState;
-                        if (UpdateLocationCity) metadata.LocationCity = locationData.LocationCity;
-                        if (UpdateLocationCountry) metadata.LocationCountry = locationData.LocationCountry;
+                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadata?.LocationName))
+                            if (UpdateLocationName) metadata.LocationName = locationData.LocationName;
+                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadata?.LocationState))
+                            if (UpdateLocationState) metadata.LocationState = locationData.LocationState;
+                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadata?.LocationCity))
+                            if (UpdateLocationCity) metadata.LocationCity = locationData.LocationCity;
+                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadata?.LocationCountry))
+                            if (UpdateLocationCountry) metadata.LocationCountry = locationData.LocationCountry;
                     }
                 }
             }

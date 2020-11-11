@@ -73,6 +73,11 @@
             this.checkBoxFaceRegionAddMicrosoftPhotos = new System.Windows.Forms.CheckBox();
             this.checkBoxFaceRegionAddWindowsMediaPhotoGallery = new System.Windows.Forms.CheckBox();
             this.groupBoxKaywordTags = new System.Windows.Forms.GroupBox();
+            this.checkBoxKeywordBackupLocationCountry = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupLocationState = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupLocationCity = new System.Windows.Forms.CheckBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.checkBoxKeywordBackupLocationName = new System.Windows.Forms.CheckBox();
             this.checkBoxKeywordBackupRegionFaceNames = new System.Windows.Forms.CheckBox();
             this.checkBoxKeywordBackupGPSDateTimeUTCAfter = new System.Windows.Forms.CheckBox();
@@ -90,13 +95,11 @@
             this.radioButtonAuthorDoNotChange = new System.Windows.Forms.RadioButton();
             this.groupBoxAlbum = new System.Windows.Forms.GroupBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.imageListViewOrderAlbum = new PhotoTagsSynchronizer.ImageListViewOrder();
             this.radioButtonAlbumUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonAlbumChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonAlbumDoNotChange = new System.Windows.Forms.RadioButton();
             this.groupBoxTitle = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.imageListViewOrderTitle = new PhotoTagsSynchronizer.ImageListViewOrder();
             this.radioButtonTitleUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonTitleChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonTitleDoNotChange = new System.Windows.Forms.RadioButton();
@@ -115,25 +118,28 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.checkBoxTimeZoneFindGPSlocationUsingHistory = new System.Windows.Forms.CheckBox();
-            this.checkBoxTimeZoneGuessZone = new System.Windows.Forms.CheckBox();
+            this.labelLocationTimeZoneGuess = new System.Windows.Forms.Label();
+            this.checkBoxGPSUpdateDateTime = new System.Windows.Forms.CheckBox();
+            this.checkBoxGPSUpdateLocation = new System.Windows.Forms.CheckBox();
             this.groupBoxDateTimeDigitized = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.radioButtonDateTakenUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonDateTakenChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonDateTakenDoNotChange = new System.Windows.Forms.RadioButton();
-            this.imageListViewOrderDateTaken = new PhotoTagsSynchronizer.ImageListViewOrder();
             this.textBoxHelpAutoCorrect = new System.Windows.Forms.TextBox();
             this.tabPageCameraOwner = new System.Windows.Forms.TabPage();
             this.dataGridViewExtended1 = new DataGridViewExtended.DataGridViewExtended();
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.checkBoxKeywordBackupLocationCity = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupLocationState = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupLocationCountry = new System.Windows.Forms.CheckBox();
+            this.labelLocationTimeZoneAccurate = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.numericUpDownLocationGuessInterval = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownLocationAccurateInterval = new System.Windows.Forms.NumericUpDown();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.imageListViewOrderAlbum = new PhotoTagsSynchronizer.ImageListViewOrder();
+            this.imageListViewOrderTitle = new PhotoTagsSynchronizer.ImageListViewOrder();
+            this.imageListViewOrderDateTaken = new PhotoTagsSynchronizer.ImageListViewOrder();
             this.tabControlConfig.SuspendLayout();
             this.tabPageMetadataRead.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).BeginInit();
@@ -154,6 +160,8 @@
             this.groupBoxDateTimeDigitized.SuspendLayout();
             this.tabPageCameraOwner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationGuessInterval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccurateInterval)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControlConfig
@@ -675,6 +683,54 @@
             this.groupBoxKaywordTags.TabStop = false;
             this.groupBoxKaywordTags.Text = "Keyword tags";
             // 
+            // checkBoxKeywordBackupLocationCountry
+            // 
+            this.checkBoxKeywordBackupLocationCountry.AutoSize = true;
+            this.checkBoxKeywordBackupLocationCountry.Location = new System.Drawing.Point(10, 431);
+            this.checkBoxKeywordBackupLocationCountry.Name = "checkBoxKeywordBackupLocationCountry";
+            this.checkBoxKeywordBackupLocationCountry.Size = new System.Drawing.Size(135, 21);
+            this.checkBoxKeywordBackupLocationCountry.TabIndex = 24;
+            this.checkBoxKeywordBackupLocationCountry.Text = "Location country";
+            this.checkBoxKeywordBackupLocationCountry.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupLocationState
+            // 
+            this.checkBoxKeywordBackupLocationState.AutoSize = true;
+            this.checkBoxKeywordBackupLocationState.Location = new System.Drawing.Point(10, 405);
+            this.checkBoxKeywordBackupLocationState.Name = "checkBoxKeywordBackupLocationState";
+            this.checkBoxKeywordBackupLocationState.Size = new System.Drawing.Size(119, 21);
+            this.checkBoxKeywordBackupLocationState.TabIndex = 23;
+            this.checkBoxKeywordBackupLocationState.Text = "Location state";
+            this.checkBoxKeywordBackupLocationState.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupLocationCity
+            // 
+            this.checkBoxKeywordBackupLocationCity.AutoSize = true;
+            this.checkBoxKeywordBackupLocationCity.Location = new System.Drawing.Point(10, 378);
+            this.checkBoxKeywordBackupLocationCity.Name = "checkBoxKeywordBackupLocationCity";
+            this.checkBoxKeywordBackupLocationCity.Size = new System.Drawing.Size(109, 21);
+            this.checkBoxKeywordBackupLocationCity.TabIndex = 22;
+            this.checkBoxKeywordBackupLocationCity.Text = "Location city";
+            this.checkBoxKeywordBackupLocationCity.UseVisualStyleBackColor = true;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(31, 304);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(485, 17);
+            this.label18.TabIndex = 21;
+            this.label18.Text = "Backup data and make fields more easier to for search in some applications";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(31, 162);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(87, 17);
+            this.label17.TabIndex = 20;
+            this.label17.Text = "Backup data";
+            // 
             // checkBoxKeywordBackupLocationName
             // 
             this.checkBoxKeywordBackupLocationName.AutoSize = true;
@@ -877,16 +933,6 @@
             this.label19.TabIndex = 6;
             this.label19.Text = "Priority source order:";
             // 
-            // imageListViewOrderAlbum
-            // 
-            this.imageListViewOrderAlbum.AllowReorder = true;
-            this.imageListViewOrderAlbum.LineColor = System.Drawing.Color.Red;
-            this.imageListViewOrderAlbum.Location = new System.Drawing.Point(453, 34);
-            this.imageListViewOrderAlbum.Margin = new System.Windows.Forms.Padding(2);
-            this.imageListViewOrderAlbum.Name = "imageListViewOrderAlbum";
-            this.imageListViewOrderAlbum.Size = new System.Drawing.Size(222, 94);
-            this.imageListViewOrderAlbum.TabIndex = 5;
-            // 
             // radioButtonAlbumUseFirst
             // 
             this.radioButtonAlbumUseFirst.AutoSize = true;
@@ -948,16 +994,6 @@
             this.label11.Size = new System.Drawing.Size(141, 17);
             this.label11.TabIndex = 6;
             this.label11.Text = "Priority source order:";
-            // 
-            // imageListViewOrderTitle
-            // 
-            this.imageListViewOrderTitle.AllowReorder = true;
-            this.imageListViewOrderTitle.LineColor = System.Drawing.Color.Red;
-            this.imageListViewOrderTitle.Location = new System.Drawing.Point(453, 34);
-            this.imageListViewOrderTitle.Margin = new System.Windows.Forms.Padding(2);
-            this.imageListViewOrderTitle.Name = "imageListViewOrderTitle";
-            this.imageListViewOrderTitle.Size = new System.Drawing.Size(222, 92);
-            this.imageListViewOrderTitle.TabIndex = 5;
             // 
             // radioButtonTitleUseFirst
             // 
@@ -1107,13 +1143,19 @@
             // 
             // groupBoxGPSLocation
             // 
+            this.groupBoxGPSLocation.Controls.Add(this.label23);
+            this.groupBoxGPSLocation.Controls.Add(this.label22);
+            this.groupBoxGPSLocation.Controls.Add(this.numericUpDownLocationAccurateInterval);
+            this.groupBoxGPSLocation.Controls.Add(this.numericUpDownLocationGuessInterval);
+            this.groupBoxGPSLocation.Controls.Add(this.label21);
+            this.groupBoxGPSLocation.Controls.Add(this.labelLocationTimeZoneAccurate);
             this.groupBoxGPSLocation.Controls.Add(this.label16);
             this.groupBoxGPSLocation.Controls.Add(this.label12);
             this.groupBoxGPSLocation.Controls.Add(this.label8);
             this.groupBoxGPSLocation.Controls.Add(this.label7);
-            this.groupBoxGPSLocation.Controls.Add(this.label6);
-            this.groupBoxGPSLocation.Controls.Add(this.checkBoxTimeZoneFindGPSlocationUsingHistory);
-            this.groupBoxGPSLocation.Controls.Add(this.checkBoxTimeZoneGuessZone);
+            this.groupBoxGPSLocation.Controls.Add(this.labelLocationTimeZoneGuess);
+            this.groupBoxGPSLocation.Controls.Add(this.checkBoxGPSUpdateDateTime);
+            this.groupBoxGPSLocation.Controls.Add(this.checkBoxGPSUpdateLocation);
             this.groupBoxGPSLocation.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxGPSLocation.Location = new System.Drawing.Point(0, 275);
             this.groupBoxGPSLocation.Margin = new System.Windows.Forms.Padding(2);
@@ -1122,80 +1164,77 @@
             this.groupBoxGPSLocation.Size = new System.Drawing.Size(705, 223);
             this.groupBoxGPSLocation.TabIndex = 4;
             this.groupBoxGPSLocation.TabStop = false;
-            this.groupBoxGPSLocation.Text = "GPS Location";
+            this.groupBoxGPSLocation.Text = "GPS Location and GPS Date and Time";
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(31, 61);
+            this.label16.Location = new System.Drawing.Point(31, 48);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(432, 17);
+            this.label16.Size = new System.Drawing.Size(376, 17);
             this.label16.TabIndex = 6;
-            this.label16.Text = "2. Try find GPS location using GPS Location History and Date Time";
+            this.label16.Text = "1. Check if GPS DateTime exist, if not then use DateTaken";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(31, 30);
+            this.label12.Location = new System.Drawing.Point(31, 31);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(708, 17);
+            this.label12.Size = new System.Drawing.Size(156, 17);
             this.label12.TabIndex = 5;
-            this.label12.Text = "1. Use DateTaken to find a GPS location. We don\'t know TimeZone, so location will" +
-    " be only find TimeZone area";
+            this.label12.Text = "GPS Locations missing!";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(28, 192);
+            this.label8.Location = new System.Drawing.Point(31, 99);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(620, 17);
+            this.label8.Size = new System.Drawing.Size(270, 17);
             this.label8.TabIndex = 4;
-            this.label8.Text = "3. Use GPS DateTime, or DateTake with guess time zone, or DateTaken with computer" +
-    " time zone";
+            this.label8.Text = "4. Adjust DateTaken with found time zone";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(28, 144);
+            this.label7.Location = new System.Drawing.Point(31, 82);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(606, 17);
+            this.label7.Size = new System.Drawing.Size(230, 17);
             this.label7.TabIndex = 3;
-            this.label7.Text = "2. Use location to get Time Zone, to find Time Zone in map using GPSDateTime or D" +
-    "ateTaken.";
+            this.label7.Text = "3. If location\'s found, find time zone";
             // 
-            // label6
+            // labelLocationTimeZoneGuess
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(28, 122);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(532, 17);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "1. Find a GPS location in location history using media GPSDateTime or DateTaken.";
+            this.labelLocationTimeZoneGuess.AutoSize = true;
+            this.labelLocationTimeZoneGuess.Location = new System.Drawing.Point(31, 65);
+            this.labelLocationTimeZoneGuess.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelLocationTimeZoneGuess.Name = "labelLocationTimeZoneGuess";
+            this.labelLocationTimeZoneGuess.Size = new System.Drawing.Size(361, 17);
+            this.labelLocationTimeZoneGuess.TabIndex = 2;
+            this.labelLocationTimeZoneGuess.Text = "2. Try find location in camera owner\'s history, ±24 hours";
             // 
-            // checkBoxTimeZoneFindGPSlocationUsingHistory
+            // checkBoxGPSUpdateDateTime
             // 
-            this.checkBoxTimeZoneFindGPSlocationUsingHistory.AutoSize = true;
-            this.checkBoxTimeZoneFindGPSlocationUsingHistory.Location = new System.Drawing.Point(7, 169);
-            this.checkBoxTimeZoneFindGPSlocationUsingHistory.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBoxTimeZoneFindGPSlocationUsingHistory.Name = "checkBoxTimeZoneFindGPSlocationUsingHistory";
-            this.checkBoxTimeZoneFindGPSlocationUsingHistory.Size = new System.Drawing.Size(285, 21);
-            this.checkBoxTimeZoneFindGPSlocationUsingHistory.TabIndex = 1;
-            this.checkBoxTimeZoneFindGPSlocationUsingHistory.Text = "Find GPS location using Location history";
-            this.checkBoxTimeZoneFindGPSlocationUsingHistory.UseVisualStyleBackColor = true;
+            this.checkBoxGPSUpdateDateTime.AutoSize = true;
+            this.checkBoxGPSUpdateDateTime.Location = new System.Drawing.Point(7, 197);
+            this.checkBoxGPSUpdateDateTime.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxGPSUpdateDateTime.Name = "checkBoxGPSUpdateDateTime";
+            this.checkBoxGPSUpdateDateTime.Size = new System.Drawing.Size(590, 21);
+            this.checkBoxGPSUpdateDateTime.TabIndex = 1;
+            this.checkBoxGPSUpdateDateTime.Text = "Update GPS DateTime when missing using DateTaken and Time Zone for GPS Location ";
+            this.checkBoxGPSUpdateDateTime.UseVisualStyleBackColor = true;
             // 
-            // checkBoxTimeZoneGuessZone
+            // checkBoxGPSUpdateLocation
             // 
-            this.checkBoxTimeZoneGuessZone.AutoSize = true;
-            this.checkBoxTimeZoneGuessZone.Location = new System.Drawing.Point(7, 102);
-            this.checkBoxTimeZoneGuessZone.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBoxTimeZoneGuessZone.Name = "checkBoxTimeZoneGuessZone";
-            this.checkBoxTimeZoneGuessZone.Size = new System.Drawing.Size(461, 21);
-            this.checkBoxTimeZoneGuessZone.TabIndex = 0;
-            this.checkBoxTimeZoneGuessZone.Text = "Try to guess Time Zone, otherwise computer Time Zone will be used";
-            this.checkBoxTimeZoneGuessZone.UseVisualStyleBackColor = true;
+            this.checkBoxGPSUpdateLocation.AutoSize = true;
+            this.checkBoxGPSUpdateLocation.Location = new System.Drawing.Point(7, 144);
+            this.checkBoxGPSUpdateLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxGPSUpdateLocation.Name = "checkBoxGPSUpdateLocation";
+            this.checkBoxGPSUpdateLocation.Size = new System.Drawing.Size(468, 21);
+            this.checkBoxGPSUpdateLocation.TabIndex = 0;
+            this.checkBoxGPSUpdateLocation.Text = "Update GPS Location when missing using algorithm described above.";
+            this.checkBoxGPSUpdateLocation.UseVisualStyleBackColor = true;
             // 
             // groupBoxDateTimeDigitized
             // 
@@ -1260,16 +1299,6 @@
             this.radioButtonDateTakenDoNotChange.Text = "Don\'t change DateTaken field";
             this.radioButtonDateTakenDoNotChange.UseVisualStyleBackColor = true;
             // 
-            // imageListViewOrderDateTaken
-            // 
-            this.imageListViewOrderDateTaken.AllowReorder = true;
-            this.imageListViewOrderDateTaken.LineColor = System.Drawing.Color.Red;
-            this.imageListViewOrderDateTaken.Location = new System.Drawing.Point(34, 132);
-            this.imageListViewOrderDateTaken.Margin = new System.Windows.Forms.Padding(2);
-            this.imageListViewOrderDateTaken.Name = "imageListViewOrderDateTaken";
-            this.imageListViewOrderDateTaken.Size = new System.Drawing.Size(656, 122);
-            this.imageListViewOrderDateTaken.TabIndex = 6;
-            // 
             // textBoxHelpAutoCorrect
             // 
             this.textBoxHelpAutoCorrect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -1328,53 +1357,119 @@
             this.buttonConfigCancel.UseVisualStyleBackColor = true;
             this.buttonConfigCancel.Click += new System.EventHandler(this.buttonConfigCancel_Click);
             // 
-            // label17
+            // labelLocationTimeZoneAccurate
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(31, 162);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(87, 17);
-            this.label17.TabIndex = 20;
-            this.label17.Text = "Backup data";
+            this.labelLocationTimeZoneAccurate.AutoSize = true;
+            this.labelLocationTimeZoneAccurate.Location = new System.Drawing.Point(31, 116);
+            this.labelLocationTimeZoneAccurate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelLocationTimeZoneAccurate.Name = "labelLocationTimeZoneAccurate";
+            this.labelLocationTimeZoneAccurate.Size = new System.Drawing.Size(386, 17);
+            this.labelLocationTimeZoneAccurate.TabIndex = 7;
+            this.labelLocationTimeZoneAccurate.Text = "5. Find new locations in camra owner\'s hirstory. ±60 minutes";
             // 
-            // label18
+            // label21
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(31, 304);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(485, 17);
-            this.label18.TabIndex = 21;
-            this.label18.Text = "Backup data and make fields more easier to for search in some applications";
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(31, 178);
+            this.label21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(188, 17);
+            this.label21.TabIndex = 8;
+            this.label21.Text = "GPS Date and Time missing!";
             // 
-            // checkBoxKeywordBackupLocationCity
+            // numericUpDownLocationGuessInterval
             // 
-            this.checkBoxKeywordBackupLocationCity.AutoSize = true;
-            this.checkBoxKeywordBackupLocationCity.Location = new System.Drawing.Point(10, 378);
-            this.checkBoxKeywordBackupLocationCity.Name = "checkBoxKeywordBackupLocationCity";
-            this.checkBoxKeywordBackupLocationCity.Size = new System.Drawing.Size(109, 21);
-            this.checkBoxKeywordBackupLocationCity.TabIndex = 22;
-            this.checkBoxKeywordBackupLocationCity.Text = "Location city";
-            this.checkBoxKeywordBackupLocationCity.UseVisualStyleBackColor = true;
+            this.numericUpDownLocationGuessInterval.Location = new System.Drawing.Point(488, 63);
+            this.numericUpDownLocationGuessInterval.Maximum = new decimal(new int[] {
+            168,
+            0,
+            0,
+            0});
+            this.numericUpDownLocationGuessInterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownLocationGuessInterval.Name = "numericUpDownLocationGuessInterval";
+            this.numericUpDownLocationGuessInterval.Size = new System.Drawing.Size(78, 22);
+            this.numericUpDownLocationGuessInterval.TabIndex = 9;
+            this.numericUpDownLocationGuessInterval.Value = new decimal(new int[] {
+            24,
+            0,
+            0,
+            0});
+            this.numericUpDownLocationGuessInterval.ValueChanged += new System.EventHandler(this.numericUpDownLocationGuessInterval_ValueChanged);
             // 
-            // checkBoxKeywordBackupLocationState
+            // numericUpDownLocationAccurateInterval
             // 
-            this.checkBoxKeywordBackupLocationState.AutoSize = true;
-            this.checkBoxKeywordBackupLocationState.Location = new System.Drawing.Point(10, 405);
-            this.checkBoxKeywordBackupLocationState.Name = "checkBoxKeywordBackupLocationState";
-            this.checkBoxKeywordBackupLocationState.Size = new System.Drawing.Size(119, 21);
-            this.checkBoxKeywordBackupLocationState.TabIndex = 23;
-            this.checkBoxKeywordBackupLocationState.Text = "Location state";
-            this.checkBoxKeywordBackupLocationState.UseVisualStyleBackColor = true;
+            this.numericUpDownLocationAccurateInterval.Location = new System.Drawing.Point(488, 114);
+            this.numericUpDownLocationAccurateInterval.Maximum = new decimal(new int[] {
+            1440,
+            0,
+            0,
+            0});
+            this.numericUpDownLocationAccurateInterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownLocationAccurateInterval.Name = "numericUpDownLocationAccurateInterval";
+            this.numericUpDownLocationAccurateInterval.Size = new System.Drawing.Size(79, 22);
+            this.numericUpDownLocationAccurateInterval.TabIndex = 10;
+            this.numericUpDownLocationAccurateInterval.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.numericUpDownLocationAccurateInterval.ValueChanged += new System.EventHandler(this.numericUpDownLocationAccurateInterval_ValueChanged);
             // 
-            // checkBoxKeywordBackupLocationCountry
+            // label22
             // 
-            this.checkBoxKeywordBackupLocationCountry.AutoSize = true;
-            this.checkBoxKeywordBackupLocationCountry.Location = new System.Drawing.Point(10, 431);
-            this.checkBoxKeywordBackupLocationCountry.Name = "checkBoxKeywordBackupLocationCountry";
-            this.checkBoxKeywordBackupLocationCountry.Size = new System.Drawing.Size(135, 21);
-            this.checkBoxKeywordBackupLocationCountry.TabIndex = 24;
-            this.checkBoxKeywordBackupLocationCountry.Text = "Location country";
-            this.checkBoxKeywordBackupLocationCountry.UseVisualStyleBackColor = true;
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(572, 65);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(44, 17);
+            this.label22.TabIndex = 11;
+            this.label22.Text = "hours";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(572, 116);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(57, 17);
+            this.label23.TabIndex = 12;
+            this.label23.Text = "minutes";
+            // 
+            // imageListViewOrderAlbum
+            // 
+            this.imageListViewOrderAlbum.AllowReorder = true;
+            this.imageListViewOrderAlbum.LineColor = System.Drawing.Color.Red;
+            this.imageListViewOrderAlbum.Location = new System.Drawing.Point(453, 34);
+            this.imageListViewOrderAlbum.Margin = new System.Windows.Forms.Padding(2);
+            this.imageListViewOrderAlbum.Name = "imageListViewOrderAlbum";
+            this.imageListViewOrderAlbum.Size = new System.Drawing.Size(222, 94);
+            this.imageListViewOrderAlbum.TabIndex = 5;
+            // 
+            // imageListViewOrderTitle
+            // 
+            this.imageListViewOrderTitle.AllowReorder = true;
+            this.imageListViewOrderTitle.LineColor = System.Drawing.Color.Red;
+            this.imageListViewOrderTitle.Location = new System.Drawing.Point(453, 34);
+            this.imageListViewOrderTitle.Margin = new System.Windows.Forms.Padding(2);
+            this.imageListViewOrderTitle.Name = "imageListViewOrderTitle";
+            this.imageListViewOrderTitle.Size = new System.Drawing.Size(222, 92);
+            this.imageListViewOrderTitle.TabIndex = 5;
+            // 
+            // imageListViewOrderDateTaken
+            // 
+            this.imageListViewOrderDateTaken.AllowReorder = true;
+            this.imageListViewOrderDateTaken.LineColor = System.Drawing.Color.Red;
+            this.imageListViewOrderDateTaken.Location = new System.Drawing.Point(34, 132);
+            this.imageListViewOrderDateTaken.Margin = new System.Windows.Forms.Padding(2);
+            this.imageListViewOrderDateTaken.Name = "imageListViewOrderDateTaken";
+            this.imageListViewOrderDateTaken.Size = new System.Drawing.Size(656, 122);
+            this.imageListViewOrderDateTaken.TabIndex = 6;
             // 
             // Config
             // 
@@ -1423,6 +1518,8 @@
             this.groupBoxDateTimeDigitized.PerformLayout();
             this.tabPageCameraOwner.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationGuessInterval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccurateInterval)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1484,9 +1581,9 @@
         private System.Windows.Forms.GroupBox groupBoxGPSLocation;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox checkBoxTimeZoneFindGPSlocationUsingHistory;
-        private System.Windows.Forms.CheckBox checkBoxTimeZoneGuessZone;
+        private System.Windows.Forms.Label labelLocationTimeZoneGuess;
+        private System.Windows.Forms.CheckBox checkBoxGPSUpdateDateTime;
+        private System.Windows.Forms.CheckBox checkBoxGPSUpdateLocation;
         private DataGridViewExtended.DataGridViewExtended dataGridViewExtended1;
         private System.Windows.Forms.GroupBox groupBoxAuthor;
         private System.Windows.Forms.RadioButton radioButtonAuthorChangeWhenEmpty;
@@ -1533,5 +1630,11 @@
         private System.Windows.Forms.CheckBox checkBoxKeywordBackupLocationCity;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label labelLocationTimeZoneAccurate;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.NumericUpDown numericUpDownLocationAccurateInterval;
+        private System.Windows.Forms.NumericUpDown numericUpDownLocationGuessInterval;
     }
 }

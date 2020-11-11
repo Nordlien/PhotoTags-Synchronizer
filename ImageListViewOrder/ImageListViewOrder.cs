@@ -17,13 +17,13 @@ namespace PhotoTagsSynchronizer
         {
             
             InitializeComponent();
-            if (imageListViewDragAndDrop1.Columns.Count > 0)
-            {
-                imageListViewDragAndDrop1.Columns[0].Width = imageListViewDragAndDrop1.Width - 10;
-            }
-
             imageListViewDragAndDrop1.DrawItem += (sender, e) => { e.DrawDefault = true; };
             imageListViewDragAndDrop1.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
+        }
+
+        public void AutoResize()
+        {
+            if (imageListViewDragAndDrop1.Columns.Count >= 1) imageListViewDragAndDrop1.Columns[0].Width = imageListViewDragAndDrop1.Width - 10;
         }
 
       
@@ -40,6 +40,7 @@ namespace PhotoTagsSynchronizer
             set 
             {
                 imageListViewDragAndDrop1.Items.AddRange(value);
+                                
             }
 
 			get 

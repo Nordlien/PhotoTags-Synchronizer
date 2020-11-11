@@ -77,6 +77,7 @@ namespace PhotoTagsSynchronizer
                         break;
                 }
             }
+            imageListViewOrder.AutoResize();
         }
 
         private void PopulateAutoCorrectDateTakenPriority(ImageListViewOrder imageListViewOrder, List<DateTimeSources> listPriority)
@@ -114,6 +115,7 @@ namespace PhotoTagsSynchronizer
                         break;
                 }
             }
+            imageListViewOrder.AutoResize();
         }
 
         private void PopulateAutoCorrectPoperties()
@@ -205,10 +207,17 @@ namespace PhotoTagsSynchronizer
             #region Author
             if (!autoCorrect.UpdateAuthor) radioButtonAuthorDoNotChange.Checked = true;
             else if (autoCorrect.UpdateAuthorOnlyWhenEmpty) radioButtonAuthorChangeWhenEmpty.Checked = true;
-            else radioButtonAuthorAlwaysChange.Checked = true;                                                
+            else radioButtonAuthorAlwaysChange.Checked = true;
             #endregion
 
-            #region Location            
+            #region GPS Location and Date&Time
+            checkBoxGPSUpdateLocation.Checked = autoCorrect.UpdateGPSLocation;
+            checkBoxGPSUpdateDateTime.Checked = autoCorrect.UpdateGPSDateTime;
+            numericUpDownLocationGuessInterval.Value = autoCorrect.LocationTimeZoneGuessHours;
+            numericUpDownLocationAccurateInterval.Value = autoCorrect.LocationFindMinutes;
+            #endregion
+
+            #region Location Name, State, City, Country
             if (!autoCorrect.UpdateLocation) radioButtonLocationNameDoNotChange.Checked = true;            
             else if (autoCorrect.UpdateLocationOnlyWhenEmpty) radioButtonLocationNameChangeWhenEmpty.Checked = true;            
             else radioButtonLocationNameChangeAlways.Checked = true;
@@ -328,6 +337,13 @@ namespace PhotoTagsSynchronizer
                 else
                     autoCorrect.UpdateAuthorOnlyWhenEmpty = false;
             }
+            #endregion
+
+            #region GPS Location and Date&Time
+            autoCorrect.UpdateGPSLocation = checkBoxGPSUpdateLocation.Checked;
+            autoCorrect.UpdateGPSDateTime = checkBoxGPSUpdateDateTime.Checked;
+            autoCorrect.LocationTimeZoneGuessHours = (int)numericUpDownLocationGuessInterval.Value;
+            autoCorrect.LocationFindMinutes = (int)numericUpDownLocationAccurateInterval.Value;
             #endregion
 
             #region Location            
@@ -713,6 +729,14 @@ namespace PhotoTagsSynchronizer
             dataGridViewMetadataReadPriority.Focus();
         }
 
-        
+        private void numericUpDownLocationGuessInterval_ValueChanged(object sender, EventArgs e)
+        {
+            labelLocationTimeZoneGuess.Text = "2. Try find location in camera owner's history, ±" + (int)numericUpDownLocationGuessInterval.Value + " hours";
+        }
+
+        private void numericUpDownLocationAccurateInterval_ValueChanged(object sender, EventArgs e)
+        {
+            labelLocationTimeZoneAccurate.Text = "5. Find new locations in camra owner's hirstory. ±" + (int)numericUpDownLocationAccurateInterval.Value + " minutes";
+        }
     }
 }

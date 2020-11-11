@@ -1510,19 +1510,20 @@ namespace DataGridViewGeneric
 
         public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
-            return GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex);
+            if (columnIndex > -1 && rowIndex > -1)
+            {
+                string value = (dataGridView[columnIndex, rowIndex].Value == null ? null : dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
+                if (string.IsNullOrEmpty(value)) return null;
+                else return value;
+            }
+            else return null;
+            
         }
 
         public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, string headerName, string rowName)
         {
             int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
-            if (columnIndex > -1 && rowIndex > -1)
-            {
-                string value = (dataGridView[columnIndex, rowIndex] == null ? null : dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
-                if (string.IsNullOrEmpty(value)) return null;
-                else return value;
-            }
-            else return null;
+            return GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex);
         }
 
         public static bool IsCellNullOrWhiteSpace(DataGridView dataGridView, int columnIndex, int rowIndex)
