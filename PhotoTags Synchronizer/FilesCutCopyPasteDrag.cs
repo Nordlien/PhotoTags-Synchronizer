@@ -269,7 +269,8 @@ namespace PhotoTagsSynchronizer
                 string newDirectory = Path.GetDirectoryName(targetFullFilename);
 
                 Directory.CreateDirectory(newDirectory);
-                File.Copy(sourceFullFilename, targetFullFilename);
+                File.Copy(sourceFullFilename, targetFullFilename);                
+                File.SetCreationTime(targetFullFilename, File.GetCreationTime(sourceFullFilename));
                 databaseAndCacheMetadataExiftool.Copy(oldDirectory, oldFilename, newDirectory, newFilename);
             }
         }

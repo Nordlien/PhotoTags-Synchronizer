@@ -908,6 +908,7 @@ namespace Exiftool
                                 metadata.FileDateCreated = ConvertAndCheckDateFromString(temp2DateTimeSoNotOverwriteMilliscounds,
                                     exifToolData, oldExifToolFileCreateDate,
                                     CompositeTags.FileCreationDateTime, ref metadata.errors);
+
                                 oldExifToolFileCreateDate = new ExiftoolData(exifToolData);
                                 break;
                             case CompositeTags.FileSize:
