@@ -207,39 +207,28 @@ namespace PhotoTagsSynchronizer
             List<FileEntryBroker> fileVersionDates = DatabaseAndCacheMetadataExiftool.ListFileEntryDateVersions(MetadataBrokerTypes.ExifTool, fullFilePath);
 
             //If create a dummy column for newst, add this "dummy file" to queue
+            DateTime? dateTimeNewest = null;
             if (dateTimeForEditableMediaFile == DataGridViewHandler.DateTimeForEditableMediaFile && fileVersionDates.Count > 0)
-            {                
-                fileVersionDates.Add(new FileEntryBroker(fullFilePath, DataGridViewHandler.DateTimeForEditableMediaFile, MetadataBrokerTypes.ExifTool));
+            {
+                dateTimeNewest = FileEntryBroker.FindNewestDate(fileVersionDates); //, DataGridViewHandler.DateTimeForEditableMediaFile);
+                fileVersionDates.Add(new FileEntryBroker(fullFilePath, DataGridViewHandler.DateTimeForEditableMediaFile, MetadataBrokerTypes.ExifTool));                
             }
 
             foreach (FileEntryBroker fileEntryBroker in fileVersionDates)
             {
-                int columnCountBeforeAddOrUpdate = DataGridViewHandler.GetColumnCount(dataGridView); //Rememebr coulmn count before AddColumnOrUpdate
-
-                //If create a dummy column for newst, add the news meta data to it
+                DataGridViewHandler.GetColumnCount(dataGridView); //Rememebr coulmn count before AddColumnOrUpdate
 
                 FileEntryBroker fileEntryBrokerReadVersion = fileEntryBroker;
-                FileEntryBroker fileEntryBrokerColumnVersion = fileEntryBroker;
-
+                
                 Metadata metadata;
                 if (fileEntryBroker.LastWriteDateTime == DataGridViewHandler.DateTimeForEditableMediaFile)
-                {
-                    //Find news version
-                    DateTime newestDate = fileVersionDates[0].LastWriteDateTime;
-                    foreach (FileEntryBroker fileEntryBrokerFindNewest in fileVersionDates)
-                    {
-                        if (fileEntryBrokerFindNewest.Broker == MetadataBrokerTypes.ExifTool && fileEntryBrokerFindNewest.LastWriteDateTime > newestDate && fileEntryBrokerFindNewest.LastWriteDateTime != DataGridViewHandler.DateTimeForEditableMediaFile)
-                            newestDate = fileEntryBrokerFindNewest.LastWriteDateTime;
-                    }
-
-                    fileEntryBrokerReadVersion = new FileEntryBroker(fullFilePath, newestDate, MetadataBrokerTypes.ExifTool);
-                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion));
-                }
-                else metadata = DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion);
-
-                int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView, new FileEntryImage(fileEntryBrokerColumnVersion),
+                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fullFilePath, (DateTime)dateTimeNewest, MetadataBrokerTypes.ExifTool)));
+                else
+                    metadata = DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion);
+    
+                int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView, new FileEntryImage(fileEntryBrokerReadVersion),
                     metadata, dateTimeForEditableMediaFile,
-                    DataGridViewHandler.IsCurrentFile(fileEntryBrokerColumnVersion, dateTimeForEditableMediaFile) ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
+                    DataGridViewHandler.IsCurrentFile(fileEntryBrokerReadVersion, dateTimeForEditableMediaFile) ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
                     new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));
                 if (columnIndex == -1) continue;
 

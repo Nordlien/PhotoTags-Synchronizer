@@ -4,6 +4,7 @@ using MetadataPriorityLibrary;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -32,6 +33,7 @@ namespace DataGridViewGeneric
         public static Color ColorCellEditable = SystemColors.ControlLightLight;
         public static Color ColorHeaderImage = Color.LightSteelBlue;
         public static Color ColorHeaderError = Color.Red;
+        public static Color ColorHeaderWarning = Color.Yellow;
         public static Color ColorRegionFace = Color.White;
 
 
@@ -391,7 +393,6 @@ namespace DataGridViewGeneric
                             dataGridView[e.ColumnIndex, rowIndex].Selected = true;
                         }
                     }
-                    //dataGridView.Columns[e.ColumnIndex].Selected = true;
                 }
                 else if (e.ColumnIndex == -1 && e.RowIndex == -1) //Column selected
                 {
@@ -401,14 +402,9 @@ namespace DataGridViewGeneric
                 {
                     if (!dataGridView[e.ColumnIndex, e.RowIndex].Selected)
                     {
-                        //dataGridView[e.ColumnIndex, e.RowIndex].Selected
                         dataGridView.CurrentCell = dataGridView[e.ColumnIndex, e.RowIndex];
                     }
-
-
                 }
-                //DataGridView dataGridView = dataGridViewMetadataReadPriority;
-                //Point clientPoint = dataGridView.PointToClient(new Point(e.X, e.Y));
             }
         }
         #endregion
@@ -861,8 +857,6 @@ namespace DataGridViewGeneric
 
             bool isMetadataAlreadyAgregated = false;
 
-            //if (metadata == null) isHistoryColumn = false;
-
             if (columnIndex < 0) //Column not found, add a new column
             {
                 //Do not add columns that is not visible //Check if error column first, can be historical, and error
@@ -877,20 +871,17 @@ namespace DataGridViewGeneric
                 dataGridViewColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
                 dataGridViewColumn.MinimumWidth = 40;
                 
-                
-
                 dataGridViewColumn.Width = GetCellColumnsWidth(dataGridView);
                 
-
-                dataGridViewColumn.ToolTipText = fileEntryImage.LastWriteDateTime.ToString() + "\r\n" + fileEntryImage.FullFilePath;
+                dataGridViewColumn.ToolTipText = fileEntryImage.LastWriteDateTime.ToString() + "\r\n" + fileEntryImage.FullFilePath;                
                 dataGridViewColumn.Tag = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
+
                 dataGridViewColumn.Name = fileEntryImage.FullFilePath;
                 dataGridViewColumn.HeaderText = fileEntryImage.FullFilePath;
-
+                
                 int columnIndexFilename = GetColumnIndex(dataGridView, fileEntryImage.FullFilePath);
                 if (columnIndexFilename == -1) //Not found
                 {                
-                    //columnIndex = dataGridView.Columns.Add(fileEntryImage.FullFilePath, fileEntryImage.FullFilePath);
                     columnIndex = dataGridView.Columns.Add(dataGridViewColumn);
                 }
                 else
@@ -923,40 +914,77 @@ namespace DataGridViewGeneric
             else
             {
                 DataGridViewGenericColumn currentDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (currentDataGridViewGenericColumn != null && currentDataGridViewGenericColumn.Metadata != null 
-                    ) isMetadataAlreadyAgregated = true;
+                if (currentDataGridViewGenericColumn != null && currentDataGridViewGenericColumn.Metadata != null) 
+                    isMetadataAlreadyAgregated = true;
+                else
+                    currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
 
-                dataGridView.Columns[columnIndex].Tag = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
-                //SetCellStatusDefaultColumnWhenAdded(dataGridView, columnIndex, dataGridViewGenericCellStatusDefault);
+                if (!isHistoryColumn)
+                {
+                    Debug.WriteLine("---:  " + currentDataGridViewGenericColumn.ReadWriteAccess);
+                    Debug.WriteLine("Old:  " + currentDataGridViewGenericColumn.Metadata.FileDateModified);
+                    Debug.WriteLine("New:  " + metadata.FileDateModified);
+                    Debug.WriteLine("File: " + File.GetLastWriteTime(metadata.FileFullPath));
+                }
+                if (!isHistoryColumn && !currentDataGridViewGenericColumn.HasFileBeenUpdated) 
+                    currentDataGridViewGenericColumn.HasFileBeenUpdated = (metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified); //If edit Column
+                if (currentDataGridViewGenericColumn.HasFileBeenUpdated)
+                {
+                    //Debug
+                }
+                
+                /*
+                if (!isHistoryColumn) // && !currentDataGridViewGenericColumn.HasFileBeenUpdated) 
+                    currentDataGridViewGenericColumn.HasFileBeenUpdated = (File.GetLastWriteTime(metadata.FileFullPath) > currentDataGridViewGenericColumn.Metadata.FileDateModified); //If edit Column
+                */
+                if (currentDataGridViewGenericColumn.HasFileBeenUpdated)
+                {
+                    //Debug
+                }
+                /*{
+                    if (!currentDataGridViewGenericColumn.HasFileBeenUpdated) (File.GetLastWriteTime(metadata.FileFullPath) > metadata.FileDateModified);
+                    
+                    for(int columnCheckIndex = 0; columnCheckIndex < GetColumnCount(dataGridView); columnCheckIndex++)
+                    {
+                        DataGridViewGenericColumn checkDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnCheckIndex);
+                        if (columnCheckIndex != columnIndex &&
+                            checkDataGridViewGenericColumn.FileEntryImage.FullFilePath == currentDataGridViewGenericColumn.FileEntryImage.FullFilePath &&
+                            currentDataGridViewGenericColumn.Metadata.FileDateModified < checkDataGridViewGenericColumn.Metadata.FileDateModified)
+                        {
+                            currentDataGridViewGenericColumn.HasFileBeenUpdated = true;
+
+                        } // else checkDataGridViewGenericColumn.HasFileBeenUpdated = false;
+                    }
+                    //currentDataGridViewGenericColumn.HasFileBeenUpdated = (File.GetLastWriteTime(metadata.FileFullPath) > metadata.FileDateModified); //If edit Column
+                }*/
+
+                if (metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified) 
+                    currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
+                currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
+                dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
+
                 SetCellBackgroundColorForColumn(dataGridView, columnIndex);
+
+                //currentDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                
 
                 //Hide and show columns
                 if (isErrorColumn) //Check if error column first, can be historical, and error
                 {
-                    if (showErrorColumns)
-                        dataGridView.Columns[columnIndex].Visible = true;
-                    else
-                        dataGridView.Columns[columnIndex].Visible = false;
+                    if (showErrorColumns) dataGridView.Columns[columnIndex].Visible = true;
+                    else dataGridView.Columns[columnIndex].Visible = false;
 
                 }                
                 else if (isHistoryColumn) 
                 {
-                    if (showHirstoryColumns)
-                        dataGridView.Columns[columnIndex].Visible = true;
-                    else
-                        dataGridView.Columns[columnIndex].Visible = false;
-
+                    if (showHirstoryColumns) dataGridView.Columns[columnIndex].Visible = true;
+                    else dataGridView.Columns[columnIndex].Visible = false;
                 }                
-                else 
-                    dataGridView.Columns[columnIndex].Visible = true;
-
-
+                else dataGridView.Columns[columnIndex].Visible = true;
             }
 
-            if (isMetadataAlreadyAgregated) 
-                return -1;
-            else
-                return columnIndex;
+            if (isMetadataAlreadyAgregated) return -1;
+            else return columnIndex;
         }
 
         public static bool IsColumnDataGridViewGenericColumn(DataGridView dataGridView, int columnIndex)
@@ -2737,20 +2765,26 @@ namespace DataGridViewGeneric
                 
                 FileEntryImage fileEntryColumn = ((DataGridViewGenericColumn)dataGridView.Columns[e.ColumnIndex].Tag).FileEntryImage;
                 DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
-                
-                string cellText;
+
+
+                bool hasFileKnownErrors = (errorFileEntries.ContainsKey(fileEntryColumn.FileEntry.FullFilePath));
+
+                string cellText = "";
+                if (dataGridViewGenericColumn.HasFileBeenUpdated) cellText += "File updated!!\r\n";
+
+
                 if (dataGridViewGenericColumn.Metadata != null)
                 {
                     switch (GetDataGridSizeLargeMediumSmall(dataGridView))
                     {
                         case DataGridViewSize.Small: //Small DataGridViewSize.Small | DataGridViewSize.RenameSize:
-                            cellText = fileEntryColumn.FileName;
+                            cellText += fileEntryColumn.FileName;
                             break;
                         case DataGridViewSize.Medium: //Medium DataGridViewSize.Medium | DataGridViewSize.RenameSize:
-                            cellText = dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FileName;
+                            cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FileName;
                             break;
                         case DataGridViewSize.Large: //Large DataGridViewSize.Large | DataGridViewSize.RenameSize:
-                            cellText = dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FullFilePath;
+                            cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FullFilePath;
                             break;
                         default: 
                             throw new Exception("Not implemented");
@@ -2760,23 +2794,26 @@ namespace DataGridViewGeneric
                     switch (GetDataGridSizeLargeMediumSmall(dataGridView))
                     {
                         case DataGridViewSize.Small: //Small
-                            cellText = fileEntryColumn.FileName;
+                            cellText += fileEntryColumn.FileName;
                             break;
                         case DataGridViewSize.Medium: //Medium
-                            cellText = fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FileName;
+                            cellText += fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FileName;
                             break;
                         case DataGridViewSize.Large: //Large
-                            cellText = fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FullFilePath;
+                            cellText += fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FullFilePath;
                             break;
                         default: 
                             throw new Exception("Not implemented");
                     }
                 }
 
-                if (!errorFileEntries.ContainsKey(fileEntryColumn.FileEntry.FullFilePath))
-                    DrawImageAndSubText(sender, e, fileEntryColumn.Image, cellText, ColorHeaderImage);
-                else
+                if (hasFileKnownErrors)
                     DrawImageAndSubText(sender, e, fileEntryColumn.Image, cellText, ColorHeaderError);
+                else if (dataGridViewGenericColumn.HasFileBeenUpdated)
+                    DrawImageAndSubText(sender, e, fileEntryColumn.Image, cellText, ColorHeaderWarning);
+                else
+                    DrawImageAndSubText(sender, e, fileEntryColumn.Image, cellText, ColorHeaderImage);
+                    
             }
         }
 

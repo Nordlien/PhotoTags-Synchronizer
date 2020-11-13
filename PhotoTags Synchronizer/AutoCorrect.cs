@@ -274,7 +274,10 @@ namespace PhotoTagsSynchronizer
                     if (UpdateTitleWithFirstInPrioity) break;
                     if (newDateTime != null) break;
                 }
-                metadata.MediaDateTaken = newDateTime;
+                if (newDateTime != null) metadata.MediaDateTaken = newDateTime;
+                else { 
+
+                }
 
             }
             #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace MetadataLibrary
@@ -68,7 +69,19 @@ namespace MetadataLibrary
             return !(left == right);
         }
 
-        
+        public static DateTime? FindNewestDate(List<FileEntryBroker> fileVersionDates)
+        {
+            if (fileVersionDates.Count == 0) return null;
+
+            DateTime newestDate = fileVersionDates[0].LastWriteDateTime;
+            foreach (FileEntryBroker fileEntryBrokerFindNewest in fileVersionDates)
+            {
+                if (fileEntryBrokerFindNewest.Broker == MetadataBrokerTypes.ExifTool && 
+                    fileEntryBrokerFindNewest.LastWriteDateTime > newestDate )
+                    newestDate = fileEntryBrokerFindNewest.LastWriteDateTime;
+            }
+            return newestDate;
+        }
 
     }
 

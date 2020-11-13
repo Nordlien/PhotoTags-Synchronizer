@@ -28,6 +28,11 @@ namespace DataGridViewGeneric
         public Metadata Metadata { get; set; }
         public ReadWriteAccess ReadWriteAccess { get; set; }
 
+        public bool HasFileBeenUpdated { 
+            get;
+            set; 
+        } = false;
+
         public DataGridViewGenericColumn(FileEntryImage fileEntryImage, Metadata metadata, ReadWriteAccess readWriteAccess)
         {
             this.FileEntryImage = fileEntryImage;

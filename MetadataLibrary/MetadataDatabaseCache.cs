@@ -226,7 +226,14 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@RowChangedDated", dbTools.ConvertFromDateTimeToDBVal(DateTime.Now));
 
                 commandDatabase.Prepare();
-                commandDatabase.ExecuteNonQuery();
+                //commandDatabase.ExecuteNonQuery();
+                if (commandDatabase.ExecuteNonQuery() == -1)
+                {
+                    Logger.Error("Delete MediaMetadata and sub data due to previous application crash for file: " + metadata.FileFullPath);
+                    //Delete all extries due to crash.
+                    DeleteFileEntry(metadata.FileEntryBroker);
+                    commandDatabase.ExecuteNonQuery();
+                }
             }
 
             sqlCommand =

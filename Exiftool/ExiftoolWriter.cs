@@ -157,7 +157,8 @@ namespace Exiftool
 
             foreach (Metadata metadataToWrite in metadataListToWrite)
             {
-                if (IsFileLockedByProcess(metadataToWrite.FileFullPath)) return true;
+                if (!File.Exists(metadataToWrite.FileFullPath)) return true; //In process rename
+                if (IsFileLockedByProcess(metadataToWrite.FileFullPath)) return true; //In process OneDrive backup / update
             }
 
             return false;

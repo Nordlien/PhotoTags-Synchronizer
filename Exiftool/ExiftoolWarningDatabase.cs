@@ -14,6 +14,8 @@ namespace Exiftool
 {
     public class ExiftoolWarningDatabase
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         private SqliteDatabaseUtilities dbTools;
         public ExiftoolWarningDatabase(SqliteDatabaseUtilities databaseTools)
         {
@@ -84,7 +86,14 @@ namespace Exiftool
                 commandDatabase.Parameters.AddWithValue("@NewParameter", exifToolNewValue.Parameter);
                 commandDatabase.Parameters.AddWithValue("@Warning", warning);
                 commandDatabase.Prepare();
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                //commandDatabase.ExecuteNonQuery();      // Execute the query
+                if (commandDatabase.ExecuteNonQuery() == -1)
+                {
+                    Logger.Error("Delete MediaExiftoolTagsWarning data due to previous application crash for file: " + exifToolNewValue.FullFilePath);
+                    //Delete all extries due to crash.
+                    DeleteFileEntry(new FileEntry (exifToolNewValue.FileDirectory, exifToolNewValue.FileName, exifToolNewValue.FileDateModified));
+                    commandDatabase.ExecuteNonQuery();
+                }
             }
 
             dbTools.TransactionCommitBatch();

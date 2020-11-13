@@ -49,7 +49,7 @@ namespace FileDateTime
 
             int minLength = MinLength();
             length = 0;
-            if (filename.Length < minLength) return false;
+            if (string.IsNullOrEmpty(filename) || filename.Length < minLength) return false;
             while (position + minLength < filename.Length)
             {
                 foreach (string format in allowedFormats)
