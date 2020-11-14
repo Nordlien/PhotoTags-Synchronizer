@@ -75,7 +75,7 @@ namespace MetadataLibrary
                         metadata.PersonalTitle = dbTools.ConvertFromDBValString(reader["PersonalTitle"]);
                         metadata.PersonalDescription = dbTools.ConvertFromDBValString(reader["PersonalDescription"]);
                         metadata.PersonalComments = dbTools.ConvertFromDBValString(reader["PersonalComments"]);
-                        metadata.PersonalRatingPercent = (float?)dbTools.ConvertFromDBValDouble(reader["PersonalRatingPercent"]);
+                        metadata.PersonalRatingPercent = dbTools.ConvertFromDBValByte(reader["PersonalRatingPercent"]);
                         metadata.PersonalAuthor = dbTools.ConvertFromDBValString(reader["PersonalAuthor"]);
                         metadata.CameraMake = dbTools.ConvertFromDBValString(reader["CameraMake"]);
                         metadata.CameraModel = dbTools.ConvertFromDBValString(reader["CameraModel"]);

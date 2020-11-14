@@ -13,10 +13,16 @@ namespace TimeZone
     {
         public const string ToW3CDTFformat = "yyyy-MM-ddTHH:mm:sszzz";
         public const string ToW3CDTFformatReadable = "yyyy-MM-dd HH:mm:sszzz";
+        private const string DateTimeFilename = "yyyy-MM-dd HH-mm-ss";
         private const string DateTimeSortable = "yyyy-MM-dd HH:mm:ss";
-        private const string DateTimeExiftool = "yyyy:MM:dd HH:mm:ss"; 
-        private const string DateTimeExiftoolGPSDateStamp = "yyyy:MM:dd"; 
-        private const string DateTimeExiftoolGPSTimeStamp = "HH:mm:ss"; 
+        private const string DateTimeExiftool = "yyyy:MM:dd HH:mm:ss";
+        
+        private const string DateTimeExiftoolDateStamp = "yyyy:MM:dd";
+        private const string DateTimeFilenameDateStamp = "yyyy-MM-dd";
+
+        private const string DateTimeExiftoolTimeStamp = "HH:mm:ss";
+        private const string DateTimeFilenameTimeStamp = "HH-mm-ss";
+
         public static readonly string[] AllowedDateTimeFormatsWithTimeZone = new string[]
         {
             "yyyy:MM:ddTHH:mm:sszzz",
@@ -144,10 +150,50 @@ namespace TimeZone
             return TZConvert.GetTimeZoneInfo(timeZoneResult.Result).DisplayName;
         }
 
-        public static string ToStringDateTimeSortable(DateTime? dateTime)
+
+        #region To yyyy MM dd HH mm ss
+        public static string ToStringDateTime_yyyy(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTime)dateTime).ToString("yyyy");
+        }
+        public static string ToStringDateTime_MM(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTime)dateTime).ToString("MM");
+        }
+        public static string ToStringDateTime_dd(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTime)dateTime).ToString("dd");
+        }
+        public static string ToStringDateTime_HH(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTime)dateTime).ToString("HH");
+        }
+        public static string ToStringDateTime_mm(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTime)dateTime).ToString("mm");
+        }
+
+        public static string ToStringDateTime_ss(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTime)dateTime).ToString("ss");
+        }
+        #endregion
+
+        #region To DateTime
+        public static string ToStringSortable(DateTime? dateTime)
         {
             return dateTime == null ? "" : ((DateTime)dateTime).ToString(DateTimeSortable);
         }
+
+        public static string ToStringFilename(DateTimeOffset? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeFilename);
+        }
+        public static string ToStringFilenameUTC(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeFilename) + "Z";
+        }
+
 
         public static string ToStringExiftool(DateTime? dateTime)
         {
@@ -159,20 +205,31 @@ namespace TimeZone
             return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftool) + "Z";
         }
 
-        public static string ToStringExiftoolTimeStamp(DateTime? dateTime)
+        
+        #endregion
+
+        #region To DateStamp TimeStamp       
+        public static string ToStringFilenameTimeStamp(DateTime? dateTime)
         {
-            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftoolGPSTimeStamp);
+            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeFilenameTimeStamp);
+        }
+
+        public static string ToStringFilenameDateStamp(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeFilenameDateStamp);
         }
 
         public static string ToStringExiftoolDateStamp(DateTime? dateTime)
         {
-            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftoolGPSDateStamp);
+            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftoolDateStamp);
         }
 
-        public static string ToStringDateTimeSortable(DateTimeOffset? dateTime)
+        public static string ToStringExiftoolTimeStamp(DateTime? dateTime)
         {
-            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeSortable);
-        }
+            return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToString(DateTimeExiftoolTimeStamp);
+        }        
+        #endregion 
+
 
         public static string ToStringW3CDTF(DateTime? dateTime)
         {
@@ -195,6 +252,7 @@ namespace TimeZone
             return dateTime == null ? "" : ((DateTimeOffset)dateTime).ToUniversalTime().ToString(DateTimeSortable) + "Z";
         }
 
+        #region To Offset
         public static string ToStringOffset(TimeSpan timeSpan, bool withParenthesis)
         {
             return (withParenthesis ? "(" : "") + (timeSpan < new TimeSpan(0, 0, 0) ? "" : "+") + timeSpan.ToString().Substring(0, timeSpan.ToString().Length - 3) + (withParenthesis ? ")" :"");
@@ -204,6 +262,7 @@ namespace TimeZone
         {
             return ToStringOffset(timeSpan, true);
         }
+        #endregion 
 
         //TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataLocationLatitude, (double)metadataLocationLongitude);
 

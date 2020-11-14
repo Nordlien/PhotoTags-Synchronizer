@@ -205,7 +205,7 @@ namespace SqliteDatabase
         {
 #if MonoSqlite
             if (obj == null || obj == DBNull.Value) return (byte?)null;
-            return (byte?)(long?)obj;
+            return (byte?)(float?)obj; //Was float in database, now database changed to byte, backward compablity 
 #else
             if (obj == null || obj == DBNull.Value) return (byte?)null; 
             return (byte?)obj;
@@ -229,6 +229,8 @@ namespace SqliteDatabase
             return (int?)(long?)obj;
 #endif
         }
+
+
 
         public long? ConvertFromDBValLong(object obj)
         {
@@ -390,7 +392,7 @@ namespace SqliteDatabase
                     "PersonalTitle TEXT, " +
                     "PersonalDescription TEXT, " +
                     "PersonalComments TEXT, " +
-                    "PersonalRatingPercent REAL, " +
+                    "PersonalRatingPercent INTEGER, " +
                     "PersonalAuthor TEXT, " +
                     "CameraMake TEXT, " +
                     "CameraModel TEXT, " +

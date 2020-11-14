@@ -1,8 +1,11 @@
-﻿using System;
+﻿using FileDateTime;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Dynamic;
+using System.Globalization;
 using System.IO;
+using TimeZone;
 
 namespace MetadataLibrary
 {
@@ -14,23 +17,23 @@ namespace MetadataLibrary
 
         public String errors = "";
         private String fileDirectory;
-        private Byte? personalRating;               
-        private Single? personalRatingPercent;
+        private Byte? personalRating;
+        private Byte? personalRatingPercent;
         private List<RegionStructure> personalRegionList = new List<RegionStructure>();
         private List<KeywordTag> personalTagList = new List<KeywordTag>();
 
         //Media
-        private DateTime? mediaDateTaken;           
-        private Int32? mediaWidth;           
-        private Int32? mediaHeight;            
+        private DateTime? mediaDateTaken;
+        private Int32? mediaWidth;
+        private Int32? mediaHeight;
         private Int32? mediaOrientation;
         private Int32? mediaVideoLength;
 
         //Location
-        private Double? locationAltitude;           
-        private Double? locationLatitude;           
-        private Double? locationLongitude;          
-        private DateTime? locationDateTime;         
+        private Double? locationAltitude;
+        private Double? locationLatitude;
+        private Double? locationLongitude;
+        private DateTime? locationDateTime;
         private String locationName;
         private String locationCountry;
         private String locationDistrict;
@@ -258,7 +261,7 @@ namespace MetadataLibrary
                     locationLongitude = null;
                 }
             }
-            
+
         }
         #endregion
 
@@ -268,7 +271,7 @@ namespace MetadataLibrary
         {
             get
             {
-                if (fileEntryBroker == null) 
+                if (fileEntryBroker == null)
                     fileEntryBroker = new FileEntryBroker(Path.Combine(fileDirectory, FileName), (DateTime)FileDateModified, Broker);
                 return fileEntryBroker;
             }
@@ -374,11 +377,11 @@ namespace MetadataLibrary
                 foreach (RegionStructure region in m2.personalRegionList) if (!region.DoesThisRectangleAndNameExistInList(allRegions)) allRegions.Add(region);
 
                 errors += "\r\nRegion list\r\n";
-                foreach (RegionStructure region in allRegions) 
+                foreach (RegionStructure region in allRegions)
                     errors += "" + (region == null ? "" : region.ToErrorText()) +
-                        (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) == (region.DoesThisRectangleAndNameExistInList(m2.personalRegionList)) ? " Verified" : 
+                        (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) == (region.DoesThisRectangleAndNameExistInList(m2.personalRegionList)) ? " Verified" :
                         (region.DoesThisRectangleAndNameExistInList(m1.personalRegionList) ? " Not added" : " Not removed")) +
-                        "\r\n";               
+                        "\r\n";
             }
 
             if (VerifyKeywordList(m1.personalTagList, m2.personalTagList) == false)
@@ -391,14 +394,14 @@ namespace MetadataLibrary
                 errors += "\r\nKeyword list\r\n";
                 foreach (KeywordTag tag in allTags)
                     errors += "" + (tag == null ? "" : tag.ToString()) +
-                        (m1.PersonalKeywordTags.Contains(tag) == m2.PersonalKeywordTags.Contains(tag) ? " Verified OK" : 
-                        (m1.PersonalKeywordTags.Contains(tag) ? " Not add":" Not removed")) +                        
-                        "\r\n";                
+                        (m1.PersonalKeywordTags.Contains(tag) == m2.PersonalKeywordTags.Contains(tag) ? " Verified OK" :
+                        (m1.PersonalKeywordTags.Contains(tag) ? " Not add" : " Not removed")) +
+                        "\r\n";
             }
 
             return errors;
         }
-        
+
         public string Errors { get => errors; set => errors = value; }
         #endregion
 
@@ -431,7 +434,7 @@ namespace MetadataLibrary
         public String PersonalDescription { get; set; }
         public string PersonalComments { get; set; }
 
-        static public float ConvertRatingStarsToRatingPercent(byte personalRating)
+        static public byte ConvertRatingStarsToRatingPercent(byte personalRating)
         {
             switch (personalRating)
             {
@@ -450,7 +453,7 @@ namespace MetadataLibrary
             }
         }
 
-        public Byte? PersonalRating
+        public byte? PersonalRating
         {
             get { return personalRating; }
             set
@@ -499,7 +502,7 @@ namespace MetadataLibrary
             }
         }
 
-        public float? PersonalRatingPercent
+        public byte? PersonalRatingPercent
         {
             get
             {
@@ -510,7 +513,7 @@ namespace MetadataLibrary
                 personalRatingPercent = value;
                 if (personalRatingPercent != null)
                 {
-                    personalRating = ConvertRatingPercentToRetingStars((float)personalRatingPercent);
+                    personalRating = ConvertRatingPercentToRetingStars((byte)personalRatingPercent);
                 }
                 else
                     personalRating = null;
@@ -519,19 +522,19 @@ namespace MetadataLibrary
 
         public String PersonalAuthor { get; set; }
         public string PersonalAlbum { get; set; }
-        public List<RegionStructure> PersonalRegionList 
-        { 
-            get => personalRegionList; 
+        public List<RegionStructure> PersonalRegionList
+        {
+            get => personalRegionList;
             //set => personalRegionList = value; 
         }
         public void PersonalRegionListAddIfNotExists(RegionStructure regionStructure)
         {
-            if (!personalRegionList.Contains(regionStructure)) 
+            if (!personalRegionList.Contains(regionStructure))
                 personalRegionList.Add(regionStructure);
         }
 
         public void PersonalRegionListAddIfNameNotExists(RegionStructure regionStructure)
-        {            
+        {
             bool doesNameExists = false;
             foreach (RegionStructure regionStructureSearch in personalRegionList)
             {
@@ -540,9 +543,9 @@ namespace MetadataLibrary
             if (!doesNameExists) personalRegionList.Add(regionStructure);
         }
 
-        public List<KeywordTag> PersonalKeywordTags 
-        { 
-            get => personalTagList; 
+        public List<KeywordTag> PersonalKeywordTags
+        {
+            get => personalTagList;
             //set => personalTagList = value; 
         }
 
@@ -550,7 +553,7 @@ namespace MetadataLibrary
         {
             if (!personalTagList.Contains(keywordTag)) personalTagList.Add(keywordTag);
         }
-        
+
         public void PersonalTagListUpdateImage(RegionStructure updateRegion, Image thumbnail)
         {
             for (int i = 0; i < personalRegionList.Count; i++)
@@ -594,11 +597,11 @@ namespace MetadataLibrary
         public Double? LocationAltitude
         {
             get => locationAltitude;
-            set => locationAltitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimalsShort));            
+            set => locationAltitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimalsShort));
         }
         public Double? LocationLatitude
         {
-            get => locationLatitude;           
+            get => locationLatitude;
             set => locationLatitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimals));
         }
         public Double? LocationLongitude
@@ -611,9 +614,465 @@ namespace MetadataLibrary
         public string LocationCountry { get => locationCountry; set => locationCountry = value; }
         public string LocationCity { get => locationDistrict; set => locationDistrict = value; }
         public string LocationState { get => locationRegion; set => locationRegion = value; }
-        #endregion 
+        #endregion
 
-        
+
+        private static string[] arrayOfProperties = null;
+
+        public static string[] ListOfProperties()
+        {
+            if (arrayOfProperties == null)
+            {
+                List<string> listOfProperties = new List<string>();
+
+                //System
+                listOfProperties.Add("{SystemDateTime}");
+                listOfProperties.Add("{SystenDateTimeDateStamp}");
+                listOfProperties.Add("{SystenDateTimeTimeStamp}");
+                listOfProperties.Add("{SystemDateTime_yyyy}");
+                listOfProperties.Add("{SystemDateTime_MM}");
+                listOfProperties.Add("{SystemDateTime_dd}");
+                listOfProperties.Add("{SystemDateTime_HH}");
+                listOfProperties.Add("{SystemDateTime_mm}");
+                listOfProperties.Add("{SystemDateTime_ss}");
+
+                //Filesystem
+                listOfProperties.Add("{FileName}");
+                listOfProperties.Add("{FileNameWithoutExtension}");
+                listOfProperties.Add("{FileNameWithoutDateTime}");
+                listOfProperties.Add("{FileExtension}");
+                listOfProperties.Add("{FileDirectory}");
+                listOfProperties.Add("{FileSize}");
+                listOfProperties.Add("{FileDateCreated}");
+                listOfProperties.Add("{FileDateCreatedDateStamp}");
+                listOfProperties.Add("{FileDateCreatedTimeStamp}");
+                listOfProperties.Add("{FileDateCreated_yyyy}");
+                listOfProperties.Add("{FileDateCreated_MM}");
+                listOfProperties.Add("{FileDateCreated_dd}");
+                listOfProperties.Add("{FileDateCreated_HH}");
+                listOfProperties.Add("{FileDateCreated_mm}");
+                listOfProperties.Add("{FileDateCreated_ss}");
+                listOfProperties.Add("{FileDateModified}");
+                listOfProperties.Add("{FileDateModifiedDateStamp}");
+                listOfProperties.Add("{FileDateModifiedTimeStamp}");
+                listOfProperties.Add("{FileDateModified_yyyy}");
+                listOfProperties.Add("{FileDateModified_MM}");
+                listOfProperties.Add("{FileDateModified_dd}");
+                listOfProperties.Add("{FileDateModified_HH}");
+                listOfProperties.Add("{FileDateModified_mm}");
+                listOfProperties.Add("{FileDateModified_ss}");
+                listOfProperties.Add("{FileLastAccessed}");
+                listOfProperties.Add("{FileLastAccessedDateStamp}");
+                listOfProperties.Add("{FileLastAccessedTimeStamp}");
+                listOfProperties.Add("{FileLastAccessed_yyyy}");
+                listOfProperties.Add("{FileLastAccessed_MM}");
+                listOfProperties.Add("{FileLastAccessed_dd}");
+                listOfProperties.Add("{FileLastAccessed_HH}");
+                listOfProperties.Add("{FileLastAccessed_mm}");
+                listOfProperties.Add("{FileLastAccessed_ss}");
+                listOfProperties.Add("{FileMimeType}");
+
+                //Personal
+                listOfProperties.Add("{PersonalTitle}");
+                listOfProperties.Add("{PersonalDescription}");
+                listOfProperties.Add("{PersonalComments}");
+                listOfProperties.Add("{PersonalRating}");
+                listOfProperties.Add("{PersonalRatingPercent}");
+                listOfProperties.Add("{PersonalAuthor}");
+                listOfProperties.Add("{PersonalAlbum}");
+
+                //Region
+                listOfProperties.Add("{PersonalRegionInfoMP}");
+                listOfProperties.Add("{PersonalRegionInfo}");
+
+                //Keyword
+                listOfProperties.Add("{PersonalKeywordsList}");
+                listOfProperties.Add("{PersonalKeywordsXML}");
+
+                //Camera
+                listOfProperties.Add("{CameraMake}");
+                listOfProperties.Add("{CameraModel}");
+
+                //Media
+                listOfProperties.Add("{MediaDateTaken}");
+                listOfProperties.Add("{MediaDateTakenDateStamp}");
+                listOfProperties.Add("{MediaDateTakenTimeStamp}");
+                listOfProperties.Add("{MediaDateTaken_yyyy}");
+                listOfProperties.Add("{MediaDateTaken_MM}");
+                listOfProperties.Add("{MediaDateTaken_dd}");
+                listOfProperties.Add("{MediaDateTaken_HH}");
+                listOfProperties.Add("{MediaDateTaken_mm}");
+                listOfProperties.Add("{MediaDateTaken_ss}");
+                listOfProperties.Add("{MediaWidth}");
+                listOfProperties.Add("{MediaHeight}");
+                listOfProperties.Add("{MediaOrientation}");
+                listOfProperties.Add("{MediaVideoLength}");
+
+                //Location
+                listOfProperties.Add("{LocationAltitude}");
+                listOfProperties.Add("{LocationLatitude}");
+                listOfProperties.Add("{LocationLongitude}");
+                listOfProperties.Add("{LocationDateTime}");
+                listOfProperties.Add("{LocationDateTimeUTC}");
+                listOfProperties.Add("{LocationDateTimeDateStamp}");
+                listOfProperties.Add("{LocationDateTimeTimeStamp}");
+                listOfProperties.Add("{LocationDateTime_yyyy}");
+                listOfProperties.Add("{LocationDateTime_MM}");
+                listOfProperties.Add("{LocationDateTime_dd}");
+                listOfProperties.Add("{LocationDateTime_HH}");
+                listOfProperties.Add("{LocationDateTime_mm}");
+                listOfProperties.Add("{LocationDateTime_ss}");
+                listOfProperties.Add("{LocationName}");
+                listOfProperties.Add("{LocationCity}");
+                listOfProperties.Add("{LocationState}");
+                listOfProperties.Add("{LocationCountry}");
+                //listOfProperties.Add("{LocationDistrict}");
+                //listOfProperties.Add("{LocationRegion}");
+
+                arrayOfProperties = listOfProperties.ToArray();
+            }
+            return arrayOfProperties;
+        }
+
+        public string GetPropertyValue(string variableName, bool useExifFormat, bool convertNullToBlank,
+            List<string> allowedFileNameDateTimeFormats, 
+            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML)
+        {
+            string result = variableName;
+            DateTime dateTimeSystem = DateTime.Now;
+            FileDateTimeReader fileDateTimeFormats = new FileDateTimeReader(allowedFileNameDateTimeFormats);
+            switch (variableName)
+            {
+                #region System
+                case "{SystemDateTime}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(dateTimeSystem);
+                    else result = TimeZoneLibrary.ToStringFilename(dateTimeSystem); 
+                    break;
+                case "{SystemDateTimeDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(dateTimeSystem);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(dateTimeSystem);
+                    break;
+                case "{SystemDateTimeTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(dateTimeSystem);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(dateTimeSystem);
+                    break;
+                case "{SystemDateTime_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(dateTimeSystem);
+                    break;
+                case "{SystemDateTime_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(dateTimeSystem);
+                    break;
+                case "{SystemDateTime_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(dateTimeSystem);
+                    break;
+                case "{SystemDateTime_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(dateTimeSystem);
+                    break;
+                case "{SystemDateTime_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(dateTimeSystem);
+                    break;
+                case "{SystemDateTime_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(dateTimeSystem);
+                    break;
+                #endregion 
+
+                #region Filesystem
+                case "{FileName}":
+                    result = FileName; 
+                    break;
+                case "{FileNameWithoutExtension}":
+                    result = Path.GetFileNameWithoutExtension(FileName);
+                    break;
+                case "{FileNameWithoutDateTime}":
+                    result = fileDateTimeFormats.RemoveAllDateTimes(Path.GetFileNameWithoutExtension(FileName));
+                    break;
+                case "{FileExtension}":
+                    result = Path.GetExtension(FileName);
+                    break;
+                case "{FileDirectory}":
+                    result = FileDirectory;
+                    break;
+                case "{FileSize}": 
+                    result = FileSize == null ? null : ((long)FileSize).ToString(CultureInfo.InvariantCulture); 
+                    break;
+                case "{FileDateCreated}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateCreated);
+                    else result = TimeZoneLibrary.ToStringFilename(FileDateCreated);
+                    break;
+                case "{FileDateCreatedDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateCreated);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileDateCreated);
+                    break;
+                case "{FileDateCreatedTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateCreated);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileDateCreated);
+                    break;
+                case "{FileDateCreated_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(FileDateCreated);
+                    break;
+                case "{FileDateCreated_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(FileDateCreated); 
+                    break;
+                case "{FileDateCreated_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(FileDateCreated); 
+                    break;
+                case "{FileDateCreated_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(FileDateCreated); 
+                    break;
+                case "{FileDateCreated_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(FileDateCreated); 
+                    break;
+                case "{FileDateCreated_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(FileDateCreated); 
+                    break;
+                case "{FileDateModified}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateModified);
+                    else result = TimeZoneLibrary.ToStringFilename(FileDateModified);
+                    break;
+                case "{FileDateModifiedDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateModified);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileDateModified);
+                    break;
+                case "{FileDateModifiedTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateModified);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileDateModified);
+                    break;
+                case "{FileDateModified_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(FileDateModified);
+                    break;
+                case "{FileDateModified_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(FileDateModified);
+                    break;
+                case "{FileDateModified_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(FileDateModified);
+                    break;
+                case "{FileDateModified_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(FileDateModified);
+                    break;
+                case "{FileDateModified_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(FileDateModified);
+                    break;
+                case "{FileDateModified_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(FileDateModified);
+                    break;
+                case "{FileLastAccessed}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileLastAccessed);
+                    else result = TimeZoneLibrary.ToStringFilename(FileLastAccessed);
+                    break;
+                case "{FileLastAccessedDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileLastAccessed);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileLastAccessed);
+                    break;
+                case "{FileLastAccessedTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileLastAccessed);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileLastAccessed);
+                    break;
+                case "{FileLastAccessed_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(FileLastAccessed);
+                    break;
+                case "{FileLastAccessed_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(FileLastAccessed);
+                    break;
+                case "{FileLastAccessed_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(FileLastAccessed);
+                    break;
+                case "{FileLastAccessed_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(FileLastAccessed);
+                    break;
+                case "{FileLastAccessed_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(FileLastAccessed);
+                    break;
+                case "{FileLastAccessed_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(FileLastAccessed);
+                    break;
+                case "{FileMimeType}":
+                    result = FileMimeType;
+                    break;
+                #endregion
+
+                #region Personal
+                case "{PersonalTitle}":
+                    result = PersonalTitle;
+                    break;
+                case "{PersonalDescription}":
+                    result = PersonalDescription;
+                    break;
+                case "{PersonalComments}":
+                    result = PersonalComments;
+                    break;
+                case "{PersonalRating}":
+                    result = PersonalRating == null ? null : ((byte)PersonalRating).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{PersonalRatingPercent}":
+                    result = PersonalRatingPercent == null ? null : ((byte)PersonalRatingPercent).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{PersonalAuthor}":
+                    result = PersonalAuthor;
+                    break;
+                case "{PersonalAlbum}":
+                    result = PersonalAlbum;
+                    break;
+                #endregion
+
+                #region Face Region
+                case "{PersonalRegionInfoMP}":
+                    result = personalRegionInfoMP;
+                    break;
+                case "{PersonalRegionInfo}":
+                    result = personalRegionInfo;
+                    break;
+
+                //Keyword
+                case "{PersonalKeywordsList}":
+                    result = personalKeywordList;
+                    break;
+                case "{PersonalKeywordsXML}":
+                    result = personalKeywordsXML;
+                    break;
+                #endregion
+
+                #region Camera
+                case "{CameraMake}":
+                    result = CameraMake;
+                    break;
+                case "{CameraModel}":
+                    result = CameraModel;
+                    break;
+                #endregion
+
+                #region Media
+                case "{MediaDateTaken}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(MediaDateTaken);
+                    else result = TimeZoneLibrary.ToStringFilename(MediaDateTaken);
+                    break;
+                case "{MediaDateTakenDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(MediaDateTaken);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(MediaDateTaken);
+                    break;
+                case "{MediaDateTakenTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(MediaDateTaken);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(MediaDateTaken);
+                    break;
+                case "{MediaDateTaken_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(MediaDateTaken);
+                    break;
+                case "{MediaDateTaken_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(MediaDateTaken);
+                    break;
+                case "{MediaDateTaken_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(MediaDateTaken);
+                    break;
+                case "{MediaDateTaken_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(MediaDateTaken);
+                    break;
+                case "{MediaDateTaken_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(MediaDateTaken);
+                    break;
+                case "{MediaDateTaken_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(MediaDateTaken);
+                    break;
+                case "{MediaWidth}": 
+                    result = MediaWidth == null ? null : ((int)MediaWidth).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{MediaHeight}":
+                    result = MediaHeight == null ? null : ((int)MediaHeight).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{MediaOrientation}":
+                    result = MediaOrientation == null ? null : ((int)MediaOrientation).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{MediaVideoLength}":
+                    result = MediaVideoLength == null ? null : ((int)MediaVideoLength).ToString(CultureInfo.InvariantCulture);
+                    break;
+                #endregion
+
+                #region Location
+                case "{LocationAltitude}":
+                    result = LocationAltitude == null ? null : ((double)LocationAltitude).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{LocationLatitude}":
+                    result = LocationLatitude == null ? null : ((double)LocationLatitude).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{LocationLongitude}":
+                    result = LocationLongitude == null ? null : ((double)LocationLongitude).ToString(CultureInfo.InvariantCulture);
+                    break;
+                case "{LocationDateTime}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(LocationDateTime);
+                    else result = TimeZoneLibrary.ToStringFilename(LocationDateTime);
+                    break;
+                case "{LocationDateTimeUTC}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolUTC(LocationDateTime);
+                    else result = TimeZoneLibrary.ToStringFilenameUTC(LocationDateTime);
+                    break;
+                case "{LocationDateTimeDateStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(LocationDateTime);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(LocationDateTime);                    
+                    break;
+                case "{LocationDateTimeTimeStamp}":
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(LocationDateTime);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(LocationDateTime);
+                    break;            
+                case "{LocationDateTime_yyyy}":
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(LocationDateTime);
+                    break;
+                case "{LocationDateTime_MM}":
+                    result = TimeZoneLibrary.ToStringDateTime_MM(LocationDateTime);
+                    break;
+                case "{LocationDateTime_dd}":
+                    result = TimeZoneLibrary.ToStringDateTime_dd(LocationDateTime);
+                    break;
+                case "{LocationDateTime_HH}":
+                    result = TimeZoneLibrary.ToStringDateTime_HH(LocationDateTime);
+                    break;
+                case "{LocationDateTime_mm}":
+                    result = TimeZoneLibrary.ToStringDateTime_mm(LocationDateTime);
+                    break;
+                case "{LocationDateTime_ss}":
+                    result = TimeZoneLibrary.ToStringDateTime_ss(LocationDateTime);
+                    break;                
+                case "{LocationName}":
+                    result = LocationName;                     
+                    break;
+                case "{LocationCountry}":
+                    result = LocationCountry; 
+                    break;
+                case "{LocationState}":
+                    result = LocationState; 
+                    break;
+                case "{LocationCity}":
+                    result = LocationCity; 
+                    break;
+                case "{LocationDistrict}":
+                    result = locationDistrict; //metadataToWrite.LocationState
+                    break;
+                case "{LocationRegion}":
+                    result = locationRegion; //metadataToWrite.LocationCity
+                    break;
+                #endregion 
+            }
+            if (convertNullToBlank && result == null) result = "";
+            return result;
+        }
+
+        public string ReplaceVariables(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, List<string> allowedFileNameDateTimeFormats,
+            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML)
+        {
+            string result = stringWithVariables;
+            string[] variables = Metadata.ListOfProperties();
+            foreach (string variable in variables)
+            {
+                while (result.Contains(variable)) result = result.Replace(variable, GetPropertyValue(variable, useExifFormat, convertNullToBlank,
+                    allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML));
+            }
+
+            return result;
+        }
+
+        public string ReplaceVariables(string stringWithVariables, string keyword)
+        {
+            string result = stringWithVariables;
+            while (result.Contains("{KeywordItem}")) result = result.Replace("{KeywordItem}", keyword);            
+            return result;
+        }
     }
 }
 

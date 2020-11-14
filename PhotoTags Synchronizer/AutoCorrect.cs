@@ -164,7 +164,7 @@ namespace PhotoTagsSynchronizer
 
             #region Keywords backup
             if (BackupDateTakenBeforeUpdate && metadata?.MediaDateTaken != null)
-                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringDateTimeSortable(metadata?.MediaDateTaken)));            
+                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken)));            
             if (BackupGPGDateTimeUTCBeforeUpdate && metadata?.LocationDateTime != null)
                 metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)));
             #endregion
@@ -344,7 +344,7 @@ namespace PhotoTagsSynchronizer
 
             
             if (BackupDateTakenAfterUpdate && metadata?.MediaDateTaken != null)
-                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringDateTimeSortable(metadata?.MediaDateTaken)));
+                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken)));
             if (BackupGPGDateTimeUTCAfterUpdate && metadata?.LocationDateTime != null)
                 metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)));
             if (BackupRegionFaceNames)

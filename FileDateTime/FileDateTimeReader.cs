@@ -15,12 +15,16 @@ namespace FileDateTime
             this.allowedFormats = allowedFormatList.OrderByDescending(x => x.Length).ToList();
         }
 
-        public FileDateTimeReader(string allowedFormatsString) : this(
-                new List<string>(
+        public FileDateTimeReader(string allowedFormatsString) : this(FileDateTimeReader.ConvertStringOfDatesToList(allowedFormatsString))
+        {
+        }
+
+        public static List<string> ConvertStringOfDatesToList(string allowedFormatsString)
+        {
+            return new List<string>(
                 allowedFormatsString.Split(new string[] {
                 Environment.NewLine, CultureInfo.CurrentCulture.TextInfo.ListSeparator, CultureInfo.InvariantCulture.TextInfo.ListSeparator, "\t"},
-                StringSplitOptions.RemoveEmptyEntries)))
-        {
+                StringSplitOptions.RemoveEmptyEntries));
         }
 
         private int MaxLength()

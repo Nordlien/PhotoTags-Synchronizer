@@ -70,7 +70,7 @@ namespace PhotoTagsSynchronizer
                     DateTime? dateTimeLocal = TimeZoneLibrary.ParseDateTimeAsLocal(dataTimeString.Substring(0, TimeZoneLibrary.AllowedDateTimeFormatsWithoutTimeZone[0].Length));
 
                     DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex, new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagMediaDateTaken),
-                         TimeZoneLibrary.ToStringDateTimeSortable(dateTimeLocal), false);
+                         TimeZoneLibrary.ToStringSortable(dateTimeLocal), false);
 
                     DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex, new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
                         TimeZoneLibrary.ToStringW3CDTF_UTC(((DateTimeOffset)dateTimeZoneResult).UtcDateTime), false);
@@ -82,7 +82,7 @@ namespace PhotoTagsSynchronizer
                     {
                         DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
                             new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagMediaDateTaken),
-                            TimeZoneLibrary.ToStringDateTimeSortable((DateTime)dateTime), false);
+                            TimeZoneLibrary.ToStringSortable((DateTime)dateTime), false);
                     }
                     else
                     {

@@ -179,8 +179,12 @@ namespace Exiftool
 
         #endregion
 
+        
+
         #region WriteMetadata
-        public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, int writeCount)
+        public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, int writeCount,
+            List<string> allowedFileNameDateTimeFormats,
+            string writeMetadataTags, string writeMetadataKeywordItems, bool writeAlbumProperties, bool writeKeywordProperties)
         {
             if (writeCount == 0) return;
             if (metadataListToWrite.Count != metadataListOriginal.Count) return;
@@ -202,247 +206,123 @@ namespace Exiftool
                     if (metadataToWrite == metadataOriginal) continue; //No changes found in data, No data to write
                     Logger.Info("Create EXIF updated argu file for: " + metadataToWrite.FileFullPath);
 
-                    sw.WriteLine("-charset");
-                    sw.WriteLine("filename=UTF8");
-                    sw.WriteLine("-overwrite_original_in_place");
-                    sw.WriteLine("-m");
-                    sw.WriteLine("-F");
-
-                    if (metadataOriginal != null && metadataToWrite.LocationDateTime != metadataOriginal.LocationDateTime)
-                    {
-                        sw.WriteLine("-XMP-exif:GPSDateTime=" + TimeZone.TimeZoneLibrary.ToStringExiftoolUTC(metadataToWrite.LocationDateTime));
-                        sw.WriteLine("-XMP:GPSDateTime=" + TimeZone.TimeZoneLibrary.ToStringExiftoolUTC(metadataToWrite.LocationDateTime));
-                        sw.WriteLine("-GPS:GPSDateStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolDateStamp(metadataToWrite.LocationDateTime));
-                        sw.WriteLine("-GPS:GPSTimeStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolTimeStamp(metadataToWrite.LocationDateTime));
-                        sw.WriteLine("-GPSDateStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolDateStamp(metadataToWrite.LocationDateTime));
-                        sw.WriteLine("-GPSTimeStamp=" + TimeZone.TimeZoneLibrary.ToStringExiftoolTimeStamp(metadataToWrite.LocationDateTime));                        
-                    }
-
-                    if (metadataOriginal != null && metadataToWrite.MediaDateTaken != metadataOriginal.MediaDateTaken)
-                    {
-                        //("specifies when an image was digitized" - MWG)
-                        sw.WriteLine("-Composite:SubSecCreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
-                        sw.WriteLine("-EXIF:CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
-                        sw.WriteLine("-XMP-xmp:CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
-                        sw.WriteLine("-XMP:CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
-                        sw.WriteLine("-IPTC:DigitalCreationDate=" + TimeZone.TimeZoneLibrary.ToStringExiftoolDateStamp(metadataToWrite.MediaDateTaken));
-                        sw.WriteLine("-IPTC:DigitalCreationTime=" + TimeZone.TimeZoneLibrary.ToStringExiftoolTimeStamp(metadataToWrite.MediaDateTaken));
-                        //("specifies when a photo was taken" - MWG)
-                        sw.WriteLine("-Composite:SubSecDateTimeOriginal=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
-                        sw.WriteLine("-ExifIFD:DateTimeOriginal=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
-                        sw.WriteLine("-EXIF:DateTimeOriginal=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
-                        sw.WriteLine("-XMP-photoshop:DateCreated=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken));
-                        sw.WriteLine("-IPTC:DateCreated=" + TimeZone.TimeZoneLibrary.ToStringExiftoolDateStamp(metadataToWrite.MediaDateTaken));
-                        sw.WriteLine("-IPTC:TimeCreated=" + TimeZone.TimeZoneLibrary.ToStringExiftoolTimeStamp(metadataToWrite.MediaDateTaken));
-
-                        sw.WriteLine("-CreateDate=" + TimeZone.TimeZoneLibrary.ToStringExiftool(metadataToWrite.MediaDateTaken)); //http://metadataworkinggroup.org/
-                    }
-
-                    #region Album
-                    if (metadataOriginal != null && metadataToWrite.PersonalAlbum != metadataOriginal.PersonalAlbum)
-                    {
-                        //XMP:Album the note says this is a user-defined tag?  Why not use the standard XMP-xmpDM:Album
-                        sw.WriteLine("-XMP-xmpDM:Album=" + metadataToWrite.PersonalAlbum);
-                        sw.WriteLine("-XMP:Album=" + metadataToWrite.PersonalAlbum);
-                        sw.WriteLine("-IPTC:Headline=" + metadataToWrite.PersonalAlbum);
-                        sw.WriteLine("-XMP-photoshop:Headline=" + metadataToWrite.PersonalAlbum);
-                        sw.WriteLine("-ItemList:Album=" + metadataToWrite.PersonalAlbum); //QuickTime
-                    }
-                    #endregion
-
-                    #region Artist
-                    if (metadataOriginal != null && metadataToWrite.PersonalAuthor != metadataOriginal.PersonalAuthor)
-                    {
-                        sw.WriteLine("-EXIF:Artist=" + metadataToWrite.PersonalAuthor);
-                        sw.WriteLine("-IPTC:By-line=" + metadataToWrite.PersonalAuthor);
-                        sw.WriteLine("-XMP-dc:Creator=" + metadataToWrite.PersonalAuthor);
-                        sw.WriteLine("-XMP:Creator=" + metadataToWrite.PersonalAuthor);
-                        sw.WriteLine("-EXIF:XPAuthor=" + metadataToWrite.PersonalAuthor);
-                        sw.WriteLine("-ItemList:Author=" + metadataToWrite.PersonalAuthor); //QuickTime
-                        sw.WriteLine("-Creator=" + metadataToWrite.PersonalAuthor); //http://metadataworkinggroup.org/
-                    }
-                    #endregion
-
-                    #region Comment
-                    if (metadataOriginal != null && metadataToWrite.PersonalComments != metadataOriginal.PersonalComments)
-                    {
-                        sw.WriteLine("-File:Comment=" + metadataToWrite.PersonalComments);
-                        sw.WriteLine("-ExifIFD:UserComment=" + metadataToWrite.PersonalComments);
-                        sw.WriteLine("-EXIF:UserComment=" + metadataToWrite.PersonalComments);
-                        sw.WriteLine("-EXIF:XPComment=" + metadataToWrite.PersonalComments);
-                        sw.WriteLine("-XMP-album:Notes=" + metadataToWrite.PersonalComments);
-                        sw.WriteLine("-XMP-acdsee:Notes=" + metadataToWrite.PersonalComments);
-                        sw.WriteLine("-XMP:UserComment=" + metadataToWrite.PersonalComments);
-                        sw.WriteLine("-XMP:Notes=" + metadataToWrite.PersonalComments);
-                        sw.WriteLine("-ItemList:Comment=" + metadataToWrite.PersonalComments); //QuickTime
-                    }
-                    #endregion
-
-                    #region Description
-                    if (metadataOriginal != null && metadataToWrite.PersonalDescription != metadataOriginal.PersonalDescription)
-                    {
-                        sw.WriteLine("-EXIF:ImageDescription=" + metadataToWrite.PersonalDescription);
-                        sw.WriteLine("-XMP:ImageDescription=" + metadataToWrite.PersonalDescription);
-                        sw.WriteLine("-XMP-dc:Description=" + metadataToWrite.PersonalDescription);
-                        sw.WriteLine("-XMP:Description=" + metadataToWrite.PersonalDescription);
-                        sw.WriteLine("-IPTC:Caption-Abstract=" + metadataToWrite.PersonalDescription);
-                        sw.WriteLine("-ItemList:Description=" + metadataToWrite.PersonalDescription); //QuickTime
-                        sw.WriteLine("-Description=" + metadataToWrite.PersonalDescription); //http://metadataworkinggroup.org/
-                    }
-                    #endregion
-
-                    #region Rating
-                    if (metadataOriginal != null && metadataToWrite.PersonalRatingPercent != metadataOriginal.PersonalRatingPercent) 
-                    {
-                        sw.WriteLine("-XMP-microsoft:RatingPercent=" + 
-                            (metadataToWrite.PersonalRatingPercent == null ? "" : ((float)metadataToWrite.PersonalRatingPercent).ToString(CultureInfo.InvariantCulture)));
-                        sw.WriteLine("-XMP:RatingPercent=" + 
-                            (metadataToWrite.PersonalRatingPercent == null ? "" : ((float)metadataToWrite.PersonalRatingPercent).ToString(CultureInfo.InvariantCulture)));
-                        sw.WriteLine("-EXIF:RatingPercent=" + 
-                            (metadataToWrite.PersonalRatingPercent == null ? "" : ((float)metadataToWrite.PersonalRatingPercent).ToString(CultureInfo.InvariantCulture)));
-                    }
-
-                    if (metadataOriginal != null && metadataToWrite.PersonalRating != metadataOriginal.PersonalRating) 
-                    {
-                        sw.WriteLine("-XMP-xmp:Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
-                        sw.WriteLine("-XMP:Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
-                        sw.WriteLine("-XMP-acdsee:Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
-                        sw.WriteLine("-EXIF:Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture)));
-                        sw.WriteLine("-ItemList:Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture))); //QuickTime                        
-                        sw.WriteLine("-Rating=" + (metadataToWrite.PersonalRating == null ? "" : ((byte)metadataToWrite.PersonalRating).ToString(CultureInfo.InvariantCulture))); //http://metadataworkinggroup.org/
-                    }
-                    #endregion
-
-                    #region Title
-                    if (metadataOriginal != null && metadataToWrite.PersonalTitle != metadataOriginal.PersonalTitle) 
-                    {
-                        sw.WriteLine("-ItemList:Title=" + metadataToWrite.PersonalTitle);
-                        sw.WriteLine("-EXIF:XPTitle=" + metadataToWrite.PersonalTitle);
-                        sw.WriteLine("-XMP-dc:Title=" + metadataToWrite.PersonalTitle);
-                        sw.WriteLine("-XMP:Title=" + metadataToWrite.PersonalTitle);
-                        sw.WriteLine("-ItemList:Title=" + metadataToWrite.PersonalTitle); //QuickTime
-                    }
-                    #endregion
-
-                    #region Altitude
-                    if (metadataOriginal != null && metadataToWrite.LocationAltitude != metadataOriginal.LocationAltitude)
-                    {
-                        /*
-                        Writing MIE-GPS:GPSAltitude
-                        Writing XMP-exif:GPSAltitude if tag exists
-                        Writing GPS:GPSAltitude
-                        */
-                    }
-                    #endregion 
-
-                    #region Latitude
-                    if (metadataOriginal != null && metadataToWrite.LocationLatitude != metadataOriginal.LocationLatitude) 
-                    {
-                        if (metadataToWrite.LocationLatitude != null)
-                        {                            
-                            sw.WriteLine("-EXIF:GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-XMP-exif:GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-XMP:GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-GPS:GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-GPSLatitude=" + ((float)metadataToWrite.LocationLatitude).ToString(CultureInfo.InvariantCulture));
-                        }
-                    }
-                    #endregion
-
-                    #region Longitude
-                    if (metadataOriginal != null && metadataToWrite.LocationLongitude != metadataOriginal.LocationLongitude) 
-                    {
-                        if (metadataToWrite.LocationLongitude != null)
-                        {
-                            sw.WriteLine("-EXIF:GPSLongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-XMP-exif:GPSLongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));                            
-                            sw.WriteLine("-XMP:GPSLongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-GPS:GPSLongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));
-                            sw.WriteLine("-GPSLongitude=" + ((float)metadataToWrite.LocationLongitude).ToString(CultureInfo.InvariantCulture));
-                        }
-                    }
-                    #endregion
-
-                    #region Location - Name
-                    if (metadataOriginal != null && metadataToWrite.LocationName != metadataOriginal.LocationName) 
-                    {
-                        sw.WriteLine("-XMP:Location=" + metadataToWrite.LocationName);
-                        sw.WriteLine("-XMP-iptcCore:Location=" + metadataToWrite.LocationName);
-                        sw.WriteLine("-XMP-iptcExt:LocationShownSublocation=" + metadataToWrite.LocationName);
-                        sw.WriteLine("-XMP:LocationCreatedSublocation=" + metadataToWrite.LocationName);                        
-                        sw.WriteLine("-IPTC:Sub-location=" + metadataToWrite.LocationName);
-                        sw.WriteLine("-Sub-location=" + metadataToWrite.LocationName);
-                        sw.WriteLine("-Location=" + metadataToWrite.LocationName); //http://metadataworkinggroup.org/
-                    }
-                    #endregion
-
-                    #region Location - State
-                    if (metadataOriginal != null && metadataToWrite.LocationState != metadataOriginal.LocationState) 
-                    {
-                        sw.WriteLine("-XMP-iptcExt:LocationShownProvinceState=" + metadataToWrite.LocationState);
-                        sw.WriteLine("-XMP-photoshop:State=" + metadataToWrite.LocationState);
-                        sw.WriteLine("-IPTC:Province-State=" + metadataToWrite.LocationState);
-                        sw.WriteLine("-XMP:State=" + metadataToWrite.LocationState);
-                        sw.WriteLine("-State=" + metadataToWrite.LocationState); //http://metadataworkinggroup.org/
-
-                        //sw.WriteLine("-XMP:LocationShownProvinceState=" + metadata.LocationState);
-                    }
-                    #endregion
-
-                    #region Location - City
-                    if (metadataOriginal != null && metadataToWrite.LocationCity != metadataOriginal.LocationCity)
-                    {
-                        sw.WriteLine("-XMP-photoshop:City=" + metadataToWrite.LocationCity);
-                        sw.WriteLine("-XMP-iptcExt:LocationShownCity=" + metadataToWrite.LocationCity);
-                        sw.WriteLine("-IPTC:City=" + metadataToWrite.LocationCity);
-                        sw.WriteLine("-XMP:City=" + metadataToWrite.LocationCity);
-                        sw.WriteLine("-City=" + metadataToWrite.LocationCity); //http://metadataworkinggroup.org/
-                    }
-                    #endregion
-
-                    #region Location - Country
-                    if (metadataOriginal != null && metadataToWrite.LocationCountry != metadataOriginal.LocationCountry)
-                    {                     
-                        sw.WriteLine("-IPTC:Country-PrimaryLocationName=" + metadataToWrite.LocationCountry);
-                        sw.WriteLine("-XMP-photoshop:Country=" + metadataToWrite.LocationCountry);
-                        sw.WriteLine("-XMP-iptcExt:LocationShownCountryName=" + metadataToWrite.LocationCountry);
-                        sw.WriteLine("-XMP:Country=" + metadataToWrite.LocationCountry);
-                        sw.WriteLine("-Country=" + metadataToWrite.LocationCountry); //http://metadataworkinggroup.org/
-                    }
-                    #endregion
-
-                    /*
-                    Keywords	yes+	IPTC:Keywords
-                                        XMP-dc:Subject
-                                        CurrentIPTCDigest
-                                        IPTCDigest
-                    */
-                    #region Write Keyword ***List***
-                    //-Category 
-                    sw.WriteLine("-Subject=");              //XMP:Subject
-                    sw.WriteLine("-Keyword=");              //IPTC:Keywords
-                    sw.WriteLine("-Keywords=");             //IPTC:Keywords 
-                    sw.WriteLine("-XPKeywords=");           //XPKeywords Not writebale
-                    sw.WriteLine("-Category=");             //Delete for video and image formats
-                    sw.WriteLine("-CatalogSets=");
-
-                    sw.WriteLine("-HierarchicalKeywords=");
-                    sw.WriteLine("-HierarchicalSubject=");
-                    
-                    sw.WriteLine("-LastKeywordXMP=");       //-XMP:LastKeywordXMP= Didn't work change to LastKeywordXMP=
-                    sw.WriteLine("-LastKeywordIPTC=");      //-XMP:LastKeywordIPTC= Didn't work change to -LastKeywordIPTC=
-
-                    sw.WriteLine("-TagsList=");      //-TagsList=
-
-                    Logger.Debug("---MIMETYPE----:" + metadataToWrite.FileMimeType);
                     bool isVideoFormat = false;
                     bool isImageFormat = true;
-                    if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName))) 
+                    if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName)))
                     {
                         isVideoFormat = true;
                         isImageFormat = false;
                     }
 
+                    if (isVideoFormat && writeAlbumProperties)
+                    {
+                        WindowsProperty.WindowsPropertyWriter windowsPropertyWriter = new WindowsProperty.WindowsPropertyWriter();
+                        string keywordTags = "";
+                        foreach (KeywordTag keywordTag in metadataToWrite.PersonalKeywordTags)
+                        {
+                            if (keywordTags.Length > 0) keywordTags += ";";
+                            keywordTags += keywordTag;
+                        }
+
+                        windowsPropertyWriter.Write(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), keywordTags);
+                    }
+
+                    if (isVideoFormat && writeKeywordProperties)
+                    {
+                        WindowsProperty.WindowsPropertyWriter windowsPropertyWriter2 = new WindowsProperty.WindowsPropertyWriter();
+                        windowsPropertyWriter2.WriteAlbum(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), metadataToWrite.PersonalAlbum);
+                    }
+
+
+                    //-Categories={PersonalKeywordsXML}
+                    #region Write Keyword XML string 
+                    string keywordCategories = "<Categories>";
+                    foreach (KeywordTag tagHierarchy in metadataToWrite.PersonalKeywordTags)
+                    {
+                        string[] tagHierarchyList = tagHierarchy.Keyword.Split('/');
+                        for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++)
+                        {
+                            if (tagNumber == tagHierarchyList.Length - 1) keywordCategories += "<Category Assigned=\"1\">";
+                            else keywordCategories += "<Category Assigned=\"0\">";
+
+                            keywordCategories += tagHierarchyList[tagNumber];
+                        }
+                        for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++) keywordCategories += "</Category>";
+                    }
+                    keywordCategories += "</Categories>";
+                    #endregion
+
+                    //-XPKeywords={PersonalKeywordsList}
+                    #region Write Keywords String
+                    string personalKeywordsList = "";
+                    if (isImageFormat)
+                    {
+                        //Write 'Windows XP Explorer XPkeywords' in one line. Windows Explorer use ; as seperator
+                        String keywords = "";
+                        foreach (KeywordTag tag in metadataToWrite.PersonalKeywordTags)
+                        {
+                            if (!string.IsNullOrWhiteSpace(keywords))
+                                keywords += "\t" + tag.Keyword;
+                            else
+                                keywords = tag.Keyword;
+                        }
+                        personalKeywordsList = keywords.Replace("\t", ";");
+                    }
+                    #endregion
+
+                    //-ImageRegion=
+                    #region IPTC region tags - ImageRegion
+                    #endregion
+
+                    //-RegionInfoMP={PersonalRegionInfoMP}
+                    #region Microsoft region tags - RegionInfoMP 
+                    string personalRegionInfoMP = "";                    
+                    if (metadataToWrite.PersonalRegionList.Count > 0)
+                    {
+                        bool needComma = false;
+                        personalRegionInfoMP += "{Regions=[";
+                        foreach (RegionStructure region in metadataToWrite.PersonalRegionList)
+                        {
+                            RectangleF rectangleF = region.GetRegionInfoMPRectangleF(metadataToWrite.MediaSize);
+                            if (needComma) personalRegionInfoMP += ",";
+                            personalRegionInfoMP += "{PersonDisplayName=" + region.Name + ",Rectangle=" +
+                                rectangleF.X.ToString(CultureInfo.InvariantCulture) + "|," +
+                                rectangleF.Y.ToString(CultureInfo.InvariantCulture) + "|," +
+                                rectangleF.Width.ToString(CultureInfo.InvariantCulture) + "|," +
+                                rectangleF.Height.ToString(CultureInfo.InvariantCulture) + "}";
+                            needComma = true;
+                        }
+                        personalRegionInfoMP += "]}";
+                    }
+                    #endregion
+
+                    //-RegionInfo={PersonalRegionInfo}
+                    #region MWG Regions Tags - RegionInfo
+                    string personalRegionInfo = "";
+                    if (metadataToWrite.PersonalRegionList.Count > 0)
+                    {
+                        bool needComma = false;
+                        personalRegionInfo += "-RegionInfo={AppliedToDimensions={W=" + metadataToWrite.MediaWidth + 
+                            ",H=" + metadataToWrite.MediaHeight + 
+                            ",Unit=pixel}," + 
+                            "RegionList=[";
+                        foreach (RegionStructure region in metadataToWrite.PersonalRegionList)
+                        {
+                            RectangleF rectangleF = region.GetRegionInfoRectangleF(metadataToWrite.MediaSize);
+                            if (needComma) personalRegionInfo += ",";
+                            personalRegionInfo += "{Area={W=" + rectangleF.Width.ToString(CultureInfo.InvariantCulture) +
+                                ",H=" + rectangleF.Height.ToString(CultureInfo.InvariantCulture) +
+                                ",X=" + rectangleF.X.ToString(CultureInfo.InvariantCulture) +
+                                ",Y=" + rectangleF.Y.ToString(CultureInfo.InvariantCulture) +
+                                ",Unit=normalized},Name=" + region.Name + "}";
+                            needComma = true;
+                        }
+                        personalRegionInfo += "]}";
+                    }
+
+
+                    Logger.Debug("---MIMETYPE----:" + metadataToWrite.FileMimeType);
+                    
 
                     if (isVideoFormat)
                     { 
@@ -457,23 +337,11 @@ namespace Exiftool
                         windowsPropertyWriter.Write(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), keywordTags);
                     }
 
-        if (isVideoFormat)
-        {
-            WindowsProperty.WindowsPropertyWriter windowsPropertyWriter2 = new WindowsProperty.WindowsPropertyWriter();
-            windowsPropertyWriter2.WriteAlbum(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), metadataToWrite.PersonalAlbum);
-        }
-
-                    foreach (KeywordTag tag in metadataOriginal.PersonalKeywordTags)
+                    if (isVideoFormat)
                     {
-                        sw.WriteLine("-Keywords-=" + tag.Keyword);
-                        sw.WriteLine("-Subject-=" + tag.Keyword);
-                        sw.WriteLine("-TagsList-=" + tag.Keyword);
-                        sw.WriteLine("-CatalogSets-=" + tag.Keyword); 
-//if (isImageFormat) sw.WriteLine("-Category-=" + tag.Keyword); 
-                        //sw.WriteLine("-LastKeywordXMP-=" + tag.Keyword);    //Warning: [minor] Fixed incorrect URI for xmlns:MicrosoftPhoto
-                        //sw.WriteLine("-LastKeywordIPTC-=" + tag.Keyword);   //Warning: [minor] Fixed incorrect URI for xmlns:MicrosoftPhoto
+                        WindowsProperty.WindowsPropertyWriter windowsPropertyWriter2 = new WindowsProperty.WindowsPropertyWriter();
+                        windowsPropertyWriter2.WriteAlbum(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), metadataToWrite.PersonalAlbum);
                     }
-                    
 
                     foreach (KeywordTag tag in metadataToWrite.PersonalKeywordTags)
                     {                        
@@ -486,93 +354,46 @@ namespace Exiftool
                         //sw.WriteLine("-LastKeywordXMP+=" + tag.Keyword);  //Warning: [minor] Fixed incorrect URI for xmlns:MicrosoftPhoto
                         //sw.WriteLine("-LastKeywordIPTC+=" + tag.Keyword); //Warning: [minor] Fixed incorrect URI for xmlns:MicrosoftPhoto                         
                     }
+
                     #endregion
 
-                    #region Write Keyword XML string 
-                    sw.Write("-Categories=<Categories>");
-                    foreach (KeywordTag tagHierarchy in metadataToWrite.PersonalKeywordTags)
+                    /*
+                    -Categories={PersonalKeywordsXML}
+                    -XPKeywords={PersonalKeywordsList}
+                    -ImageRegion=
+                    -RegionInfoMP={PersonalRegionInfoMP}
+                    -RegionInfo={PersonalRegionInfo}
+                    */
+
+                    /*
+                    string writeMetadataTags = Properties.Settings.Default.WriteMetadataTags;
+                    string writeMetadataKeywordItems = Properties.Settings.Default.WriteMetadataKeywordItems;
+                    bool writeAlbumProperties = Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum;
+                    bool writeKeywordProperties = Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords;
+                    */
+
+                    string tagsToWrite = metadataToWrite.ReplaceVariables(writeMetadataTags, true, true, allowedFileNameDateTimeFormats, 
+                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories);
+
+                    sw.WriteLine(tagsToWrite);
+
+
+                    #region Write Keyword ***List***
+
+                    foreach (KeywordTag keywordTag in metadataOriginal.PersonalKeywordTags)
                     {
-                        string[] tagHierarchyList = tagHierarchy.Keyword.Split('/');
-                        for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++)
-                        {
-                            if (tagNumber == tagHierarchyList.Length - 1)
-                                sw.Write("<Category Assigned=\"1\">");
-                            else
-                                sw.Write("<Category Assigned=\"0\">");
-                            sw.Write(tagHierarchyList[tagNumber]);
-                        }
-                        for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++) sw.Write("</Category>");
+                        string keywordItemToWrite = metadataToWrite.ReplaceVariables(writeMetadataKeywordItems, true, true, allowedFileNameDateTimeFormats,
+                            personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories);
+                        keywordItemToWrite = metadataToWrite.ReplaceVariables(keywordItemToWrite, keywordTag.Keyword);
+
+                        sw.WriteLine(keywordItemToWrite);                        
                     }
-                    sw.WriteLine("</Categories>");
+
                     #endregion
 
-                    #region Write Keywords String
-                    if (isImageFormat)
-                    {
-                        //Write 'Windows XP Explorer XPkeywords' in one line. Windows Explorer use ; as seperator
-                        String keywords = "";
-                        foreach (KeywordTag tag in metadataToWrite.PersonalKeywordTags)
-                        {
-                            if (!string.IsNullOrWhiteSpace(keywords))
-                                keywords += "\t" + tag.Keyword;
-                            else
-                                keywords = tag.Keyword;
-                        }
-                        sw.WriteLine("-XPKeywords=" + keywords.Replace("\t", ";"));
-                    }
-                    #endregion
-
-                    bool needComma;
-                    
-                    #region IPTC region tags - ImageRegion
-                    sw.WriteLine("-ImageRegion=");
-                    #endregion
-
-                    #region Microsoft region tags - RegionInfoMP 
-                    sw.WriteLine("-RegionInfoMP=");
-                    if (metadataToWrite.PersonalRegionList.Count > 0)
-                    {
-                        needComma = false;
-                        sw.Write("-RegionInfoMP={Regions=[");
-                        foreach (RegionStructure region in metadataToWrite.PersonalRegionList)
-                        {
-                            RectangleF rectangleF = region.GetRegionInfoMPRectangleF(metadataToWrite.MediaSize);
-                            if (needComma) sw.Write(",");
-                            sw.Write("{PersonDisplayName=" + region.Name + ",Rectangle=" + 
-                                rectangleF.X.ToString(CultureInfo.InvariantCulture) + "|," + 
-                                rectangleF.Y.ToString(CultureInfo.InvariantCulture) + "|," + 
-                                rectangleF.Width.ToString(CultureInfo.InvariantCulture) + "|," + 
-                                rectangleF.Height.ToString(CultureInfo.InvariantCulture) + "}");
-                            needComma = true;
-                        }
-                        sw.WriteLine("]}");
-                    }
-                    #endregion
-
-                    #region MWG Regions Tags - RegionInfo
-                    sw.WriteLine("-RegionInfo=");
-                    if (metadataToWrite.PersonalRegionList.Count > 0)
-                    {
-                        needComma = false;
-                        sw.Write("-RegionInfo={AppliedToDimensions={W=" + metadataToWrite.MediaWidth + ",H=" + metadataToWrite.MediaHeight + ",Unit=pixel}," +
-                                "RegionList=[");
-                        foreach (RegionStructure region in metadataToWrite.PersonalRegionList)
-                        {
-                            RectangleF rectangleF = region.GetRegionInfoRectangleF(metadataToWrite.MediaSize);
-                            if (needComma) sw.Write(",");
-                            sw.Write("{Area={W=" + rectangleF.Width.ToString(CultureInfo.InvariantCulture) + 
-                                ",H=" + rectangleF.Height.ToString(CultureInfo.InvariantCulture) +
-                                ",X=" + rectangleF.X.ToString(CultureInfo.InvariantCulture) + 
-                                ",Y=" + rectangleF.Y.ToString(CultureInfo.InvariantCulture) + 
-                                ",Unit=normalized},Name=" + region.Name + "}");
-                            needComma = true;
-                        }
-                        sw.WriteLine("]}");
-                    }
-                    sw.WriteLine(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName));
+                    sw.WriteLine(metadataToWrite.FileFullPath);
                     sw.WriteLine("-execute");
                 }
-                #endregion 
 
             }
 

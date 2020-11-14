@@ -430,5 +430,104 @@ namespace PhotoTagsSynchronizer.Properties {
                 this["AutoCorrect"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-charset\r\nfilename=UTF8\r\n-overwrite_original_in_place\r\n-m\r\n-F\r\n\r\n-XMP-exif:GPSDat" +
+            "eTime={LocationDateTimeUTC}\r\n-XMP:GPSDateTime={LocationDateTimeUTC}\r\n-GPS:GPSDat" +
+            "eStamp={LocationDateTimeDateStamp}\r\n-GPS:GPSTimeStamp={LocationDateTimeTimeStamp" +
+            "}\r\n-GPSDateStamp={LocationDateTimeDateStamp}\r\n-GPSTimeStamp={LocationDateTimeTim" +
+            "eStamp}\r\n                    \r\n-Composite:SubSecCreateDate={MediaDateTaken}\r\n-EX" +
+            "IF:CreateDate={MediaDateTaken}\r\n-XMP-xmp:CreateDate={MediaDateTaken}\r\n-XMP:Creat" +
+            "eDate={MediaDateTaken}\r\n-IPTC:DigitalCreationDate={MediaDateTakenDateStamp}\r\n-IP" +
+            "TC:DigitalCreationTime={MediaDateTakenTimeStamp}\r\n\r\n-Composite:SubSecDateTimeOri" +
+            "ginal={MediaDateTaken}\r\n-ExifIFD:DateTimeOriginal={MediaDateTaken}\r\n-EXIF:DateTi" +
+            "meOriginal={MediaDateTaken)}\r\n-XMP-photoshop:DateCreated={MediaDateTaken}\r\n-IPTC" +
+            ":DateCreated={MediaDateTakenDateStamp}\r\n-IPTC:TimeCreated={MediaDateTakenTimeSta" +
+            "mp}\r\n-CreateDate={MediaDateTaken}\r\n\r\n-XMP-xmpDM:Album={PersonalAlbum}\r\n-XMP:Albu" +
+            "m={PersonalAlbum}\r\n-IPTC:Headline={PersonalAlbum}\r\n-XMP-photoshop:Headline={Pers" +
+            "onalAlbum}\r\n-ItemList:Album={PersonalAlbum}\r\n\r\n-EXIF:Artist={PersonalAuthor}\r\n-I" +
+            "PTC:By-line={PersonalAuthor}\r\n-XMP-dc:Creator={PersonalAuthor}\r\n-XMP:Creator={Pe" +
+            "rsonalAuthor}\r\n-EXIF:XPAuthor={PersonalAuthor}\r\n-ItemList:Author={PersonalAuthor" +
+            "} \r\n-Creator={PersonalAuthor} \r\n\r\n-File:Comment={PersonalComments}\r\n-ExifIFD:Use" +
+            "rComment={PersonalComments}\r\n-EXIF:UserComment={PersonalComments}\r\n-EXIF:XPComme" +
+            "nt={PersonalComments}\r\n-XMP-album:Notes={PersonalComments}\r\n-XMP-acdsee:Notes={P" +
+            "ersonalComments}\r\n-XMP:UserComment={PersonalComments}\r\n-XMP:Notes={PersonalComme" +
+            "nts}\r\n-ItemList:Comment={PersonalComments} \r\n     \r\n-EXIF:ImageDescription={Pers" +
+            "onalDescription}\r\n-XMP:ImageDescription={PersonalDescription}\r\n-XMP-dc:Descripti" +
+            "on={PersonalDescription}\r\n-XMP:Description={PersonalDescription}\r\n-IPTC:Caption-" +
+            "Abstract={PersonalDescription}\r\n-ItemList:Description={PersonalDescription} \r\n-D" +
+            "escription={PersonalDescription} \r\n            \r\n#region Rating\r\n-XMP-microsoft:" +
+            "RatingPercent={PersonalRatingPercent}\r\n-XMP:RatingPercent={PersonalRatingPercent" +
+            "}\r\n-EXIF:RatingPercent={PersonalRatingPercent}\r\n\r\n-XMP-xmp:Rating={PersonalRatin" +
+            "g}\r\n-XMP:Rating={PersonalRating}\r\n-XMP-acdsee:Rating={PersonalRating}\r\n-EXIF:Rat" +
+            "ing={PersonalRating}\r\n-ItemList:Rating={PersonalRating}                       \r\n" +
+            "-Rating={PersonalRating}\r\n\r\n-ItemList:Title={PersonalTitle}\r\n-EXIF:XPTitle={Pers" +
+            "onalTitle}\r\n-XMP-dc:Title={PersonalTitle}\r\n-XMP:Title={PersonalTitle}\r\n-ItemList" +
+            ":Title={PersonalTitle} \r\n\r\n-EXIF:GPSLatitude={LocationLatitude}\r\n-XMP-exif:GPSLa" +
+            "titude={LocationLatitude}\r\n-XMP:GPSLatitude={LocationLatitude}\r\n-GPS:GPSLatitude" +
+            "={LocationLatitude}\r\n-GPSLatitude={LocationLatitude}\r\n\r\n-EXIF:GPSLongitude={Loca" +
+            "tionLongitude}\r\n-XMP-exif:GPSLongitude={LocationLongitude}\r\n-XMP:GPSLongitude={L" +
+            "ocationLongitude}\r\n-GPS:GPSLongitude={LocationLongitude}\r\n-GPSLongitude={Locatio" +
+            "nLongitude}\r\n\r\n-XMP:Location={LocationName}\r\n-XMP-iptcCore:Location={LocationNam" +
+            "e}\r\n-XMP-iptcExt:LocationShownSublocation={LocationName}\r\n-XMP:LocationCreatedSu" +
+            "blocation={LocationName}\r\n-IPTC:Sub-location={LocationName}\r\n-Sub-location={Loca" +
+            "tionName}\r\n-Location={LocationName} \r\n\r\n-XMP-iptcExt:LocationShownProvinceState=" +
+            "{LocationState}\r\n-XMP-photoshop:State={LocationState}\r\n-IPTC:Province-State={Loc" +
+            "ationState}\r\n-XMP:State={LocationState}\r\n-State={LocationState} \r\n\r\n\r\n-XMP-photo" +
+            "shop:City={LocationCity}\r\n-XMP-iptcExt:LocationShownCity={LocationCity}\r\n-IPTC:C" +
+            "ity={LocationCity}\r\n-XMP:City={LocationCity}\r\n-City={LocationCity} \r\n\r\n-IPTC:Cou" +
+            "ntry-PrimaryLocationName={LocationCountry}\r\n-XMP-photoshop:Country={LocationCoun" +
+            "try}\r\n-XMP-iptcExt:LocationShownCountryName={LocationCountry}\r\n-XMP:Country={Loc" +
+            "ationCountry}\r\n-Country={LocationCountry} \r\n\r\n-Subject=\r\n-Keyword=\r\n-Keywords=\r\n" +
+            "-XPKeywords=\r\n-Category=\r\n-CatalogSets=\r\n\r\n-HierarchicalKeywords=\r\n-Hierarchical" +
+            "Subject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-TagsList=\r\n\r\n-Categories={Person" +
+            "alKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n-ImageRegion=\r\n-RegionInfoMP" +
+            "={PersonalRegionInfoMP}\r\n-RegionInfo={PersonalRegionInfo}")]
+        public string WriteMetadataTags {
+            get {
+                return ((string)(this["WriteMetadataTags"]));
+            }
+            set {
+                this["WriteMetadataTags"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-Keywords+={KeywordItem}\r\n-Subject+={KeywordItem}\r\n-TagsList+={KeywordItem}\r\n-Cat" +
+            "alogSets+={KeywordItem}")]
+        public string WriteMetadataKeywordItems {
+            get {
+                return ((string)(this["WriteMetadataKeywordItems"]));
+            }
+            set {
+                this["WriteMetadataKeywordItems"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WriteMetadataPropertiesVideoAlbum {
+            get {
+                return ((bool)(this["WriteMetadataPropertiesVideoAlbum"]));
+            }
+            set {
+                this["WriteMetadataPropertiesVideoAlbum"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WriteMetadataPropertiesVideoKeywords {
+            get {
+                return ((bool)(this["WriteMetadataPropertiesVideoKeywords"]));
+            }
+            set {
+                this["WriteMetadataPropertiesVideoKeywords"] = value;
+            }
+        }
     }
 }

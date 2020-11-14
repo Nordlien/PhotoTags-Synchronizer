@@ -716,7 +716,14 @@ namespace PhotoTagsSynchronizer
                         try
                         {
                             UpdateStatusAction("Write metadata to " + metadataWriteQueue.Count + " media files...");
-                            ExiftoolWriter.WriteMetadata(metadataWriteQueue, metadataOrginalQueue, metadataWriteQueue.Count);
+                            string writeMetadataTags = Properties.Settings.Default.WriteMetadataTags;
+                            string writeMetadataKeywordItems = Properties.Settings.Default.WriteMetadataKeywordItems;
+                            bool writeAlbumProperties = Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum;
+                            bool writeKeywordProperties = Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords;
+                            List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
+
+                            ExiftoolWriter.WriteMetadata(metadataWriteQueue, metadataOrginalQueue, metadataWriteQueue.Count,
+                                allowedFileNameDateTimeFormats, writeMetadataTags, writeMetadataKeywordItems, writeAlbumProperties, writeKeywordProperties);
                         }
                         catch (Exception ex)
                         {

@@ -74,9 +74,17 @@
     <Compile Include="RegionThumbnailHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FileDateTime\FileDateTime.csproj">
+      <Project>{83CA452E-ABE2-43BA-A7C3-F47954279F85}</Project>
+      <Name>FileDateTime</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj">
       <Project>{c14ac62e-7b1a-471b-8660-e9c28d89f316}</Project>
       <Name>SqliteDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TimeZone\TimeZone.csproj">
+      <Project>{D76D9728-D687-43FA-AF77-A724B4818944}</Project>
+      <Name>TimeZone</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

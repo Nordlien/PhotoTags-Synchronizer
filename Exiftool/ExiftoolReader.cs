@@ -1059,14 +1059,14 @@ namespace Exiftool
 
                                 oldExifToolRatingPercent = new ExiftoolData(exifToolData); //Use this Rating as old. To keep sync
                                 exifToolData.Parameter = ((float)metadata.PersonalRatingPercent).ToString(CultureInfo.InvariantCulture);
-                                metadata.PersonalRatingPercent = ConvertAndCheckFloatFromString(metadata.PersonalRatingPercent, exifToolData, oldExifToolRatingPercent,
+                                metadata.PersonalRatingPercent = ConvertAndCheckByteFromString(metadata.PersonalRatingPercent, exifToolData, oldExifToolRatingPercent,
                                     CompositeTags.RatingPercent, ref metadata.errors);
                                 oldExifToolRatingPercent = new ExiftoolData(exifToolData);
 
                                 break;
                             case CompositeTags.RatingPercent:
                                 //Reading: 88-100+ = 5 Stars, 63-87 = 4 stars, 38-62 = 3 stars, 13-37 = 2 stars, 1-12 = 1 star, no tag or 0 = 0 star
-                                metadata.PersonalRatingPercent = ConvertAndCheckFloatFromString(metadata.PersonalRatingPercent,
+                                metadata.PersonalRatingPercent = ConvertAndCheckByteFromString(metadata.PersonalRatingPercent,
                                     exifToolData, oldExifToolRatingPercent,
                                     CompositeTags.RatingPercent, ref metadata.errors);
                                 oldExifToolRatingPercent = new ExiftoolData(exifToolData);

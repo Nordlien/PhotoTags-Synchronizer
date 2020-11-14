@@ -12,11 +12,7 @@ namespace PhotoTagsSynchronizer
 {
     public partial class Config : Form
     {
-        public MetadataReadPrioity MetadataReadPrioity
-        {
-            get;
-            set;
-        } //= new MetadataReadPrioity();
+        public MetadataReadPrioity MetadataReadPrioity { get;  set; } //= new MetadataReadPrioity();
 
         private Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryCopy = new Dictionary<MetadataPriorityKey, MetadataPriorityValues>();
         private AutoCorrect autoCorrect = new AutoCorrect();
@@ -377,16 +373,28 @@ namespace PhotoTagsSynchronizer
             PopulateMetadataRead();
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             PopulateAutoCorrectPoperties();
+            PopulateMetadataWritePoperties();
         }
 
         private void buttonConfigSave_Click(object sender, EventArgs e)
         {
+            //AutoCorrect
             GetAutoCorrectPoperties();
             Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
-            
+
+            //Metadata Write
+            Properties.Settings.Default.WriteMetadataTags = textBoxMetadataWriteTags.Text;
+            Properties.Settings.Default.WriteMetadataKeywordItems = textBoxMetadataWriteKeywordItems.Text;
+            Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum = checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Checked;
+            Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords = checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Checked;
+
+            //Filename date formates
             Properties.Settings.Default.RenameDateFormats = textBoxConfigFilenameDateFormats.Text;
+            
+            //Save config file
             Properties.Settings.Default.Save();
 
+            //Metadata Read
             MetadataReadPrioity.MetadataPrioityDictionary = metadataPrioityDictionaryCopy;
             MetadataReadPrioity.WriteAlways();
             this.Close();
@@ -737,6 +745,23 @@ namespace PhotoTagsSynchronizer
         private void numericUpDownLocationAccurateInterval_ValueChanged(object sender, EventArgs e)
         {
             labelLocationTimeZoneAccurate.Text = "5. Find new locations in camra owner's hirstory. ±" + (int)numericUpDownLocationAccurateInterval.Value + " minutes";
+        }
+
+
+
+        private void PopulateMetadataWritePoperties()
+        {
+            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties());
+            
+            textBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
+            textBoxMetadataWriteKeywordItems.Text = Properties.Settings.Default.WriteMetadataKeywordItems;
+            checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Checked = Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum;
+            checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Checked = Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords;
+        }
+
+        private void comboBoxMetadataWriteStandardTags_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
         }
     }
 }
