@@ -919,54 +919,15 @@ namespace DataGridViewGeneric
                 else
                     currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
 
-                if (!isHistoryColumn)
-                {
-                    Debug.WriteLine("---:  " + currentDataGridViewGenericColumn.ReadWriteAccess);
-                    Debug.WriteLine("Old:  " + currentDataGridViewGenericColumn.Metadata.FileDateModified);
-                    Debug.WriteLine("New:  " + metadata.FileDateModified);
-                    Debug.WriteLine("File: " + File.GetLastWriteTime(metadata.FileFullPath));
-                }
-                if (!isHistoryColumn && !currentDataGridViewGenericColumn.HasFileBeenUpdated) 
+                if (metadata != null && !isHistoryColumn && !currentDataGridViewGenericColumn.HasFileBeenUpdated) 
                     currentDataGridViewGenericColumn.HasFileBeenUpdated = (metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified); //If edit Column
-                if (currentDataGridViewGenericColumn.HasFileBeenUpdated)
-                {
-                    //Debug
-                }
                 
-                /*
-                if (!isHistoryColumn) // && !currentDataGridViewGenericColumn.HasFileBeenUpdated) 
-                    currentDataGridViewGenericColumn.HasFileBeenUpdated = (File.GetLastWriteTime(metadata.FileFullPath) > currentDataGridViewGenericColumn.Metadata.FileDateModified); //If edit Column
-                */
-                if (currentDataGridViewGenericColumn.HasFileBeenUpdated)
-                {
-                    //Debug
-                }
-                /*{
-                    if (!currentDataGridViewGenericColumn.HasFileBeenUpdated) (File.GetLastWriteTime(metadata.FileFullPath) > metadata.FileDateModified);
-                    
-                    for(int columnCheckIndex = 0; columnCheckIndex < GetColumnCount(dataGridView); columnCheckIndex++)
-                    {
-                        DataGridViewGenericColumn checkDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnCheckIndex);
-                        if (columnCheckIndex != columnIndex &&
-                            checkDataGridViewGenericColumn.FileEntryImage.FullFilePath == currentDataGridViewGenericColumn.FileEntryImage.FullFilePath &&
-                            currentDataGridViewGenericColumn.Metadata.FileDateModified < checkDataGridViewGenericColumn.Metadata.FileDateModified)
-                        {
-                            currentDataGridViewGenericColumn.HasFileBeenUpdated = true;
-
-                        } // else checkDataGridViewGenericColumn.HasFileBeenUpdated = false;
-                    }
-                    //currentDataGridViewGenericColumn.HasFileBeenUpdated = (File.GetLastWriteTime(metadata.FileFullPath) > metadata.FileDateModified); //If edit Column
-                }*/
-
-                if (metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified) 
+                if (metadata != null && metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified) 
                     currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
                 currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
                 dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
 
                 SetCellBackgroundColorForColumn(dataGridView, columnIndex);
-
-                //currentDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                
 
                 //Hide and show columns
                 if (isErrorColumn) //Check if error column first, can be historical, and error

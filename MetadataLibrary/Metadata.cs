@@ -749,11 +749,11 @@ namespace MetadataLibrary
                     else result = TimeZoneLibrary.ToStringFilename(dateTimeSystem); 
                     break;
                 case "{SystemDateTimeDateStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(dateTimeSystem);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(dateTimeSystem);
                     else result = TimeZoneLibrary.ToStringFilenameDateStamp(dateTimeSystem);
                     break;
                 case "{SystemDateTimeTimeStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(dateTimeSystem);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(dateTimeSystem);
                     else result = TimeZoneLibrary.ToStringFilenameTimeStamp(dateTimeSystem);
                     break;
                 case "{SystemDateTime_yyyy}":
@@ -800,11 +800,11 @@ namespace MetadataLibrary
                     else result = TimeZoneLibrary.ToStringFilename(FileDateCreated);
                     break;
                 case "{FileDateCreatedDateStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateCreated);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(FileDateCreated);
                     else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileDateCreated);
                     break;
                 case "{FileDateCreatedTimeStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateCreated);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(FileDateCreated);
                     else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileDateCreated);
                     break;
                 case "{FileDateCreated_yyyy}":
@@ -830,11 +830,11 @@ namespace MetadataLibrary
                     else result = TimeZoneLibrary.ToStringFilename(FileDateModified);
                     break;
                 case "{FileDateModifiedDateStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateModified);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(FileDateModified);
                     else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileDateModified);
                     break;
                 case "{FileDateModifiedTimeStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateModified);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(FileDateModified);
                     else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileDateModified);
                     break;
                 case "{FileDateModified_yyyy}":
@@ -860,11 +860,11 @@ namespace MetadataLibrary
                     else result = TimeZoneLibrary.ToStringFilename(FileLastAccessed);
                     break;
                 case "{FileLastAccessedDateStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileLastAccessed);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(FileLastAccessed);
                     else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileLastAccessed);
                     break;
                 case "{FileLastAccessedTimeStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileLastAccessed);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(FileLastAccessed);
                     else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileLastAccessed);
                     break;
                 case "{FileLastAccessed_yyyy}":
@@ -950,8 +950,8 @@ namespace MetadataLibrary
                     else result = TimeZoneLibrary.ToStringFilenameDateStamp(MediaDateTaken);
                     break;
                 case "{MediaDateTakenTimeStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(MediaDateTaken);
-                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(MediaDateTaken);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(MediaDateTaken);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(MediaDateTaken);
                     break;
                 case "{MediaDateTaken_yyyy}":
                     result = TimeZoneLibrary.ToStringDateTime_yyyy(MediaDateTaken);

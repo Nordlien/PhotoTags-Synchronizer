@@ -1209,8 +1209,10 @@ namespace PhotoTagsSynchronizer
             {
                 exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
                 config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
+                config.ThumbnailSizes = thumbnailSizes;
                 config.Init();
                 config.ShowDialog();
+                maxThumbnailSize = Properties.Settings.Default.ApplicationThumbnail;
             }
         }
         #endregion

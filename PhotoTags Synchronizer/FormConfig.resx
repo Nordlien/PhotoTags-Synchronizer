@@ -117,148 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="textBox2.Text" xml:space="preserve">
+    <value>Media files can contain multimple metadata tags with same purpose. Therfore it important to write same value to all tags. If your application tags is not written back to media file, you can added support for it here. Read Exiftool documentation for supported tags.</value>
+  </data>
   <data name="textBox1.Text" xml:space="preserve">
     <value>When reading metadata tags from media files, the media file can contain multiple tags with same purpose. Sometimes they may have diffrent value. The priority are used to select what tag to use. High number the higher priority.</value>
   </data>
   <metadata name="contextMenuStripMetadataRead.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="textBoxMetadataWriteTags.Text" xml:space="preserve">
-    <value>-charset
-filename=UTF8
--overwrite_original_in_place
--m
--F
-
--XMP-exif:GPSDateTime={LocationDateTimeUTC}
--XMP:GPSDateTime={LocationDateTimeUTC}
--GPS:GPSDateStamp={LocationDateTimeDateStamp}
--GPS:GPSTimeStamp={LocationDateTimeTimeStamp}
--GPSDateStamp={LocationDateTimeDateStamp}
--GPSTimeStamp={LocationDateTimeTimeStamp}
-                    
--Composite:SubSecCreateDate={MediaDateTaken}
--EXIF:CreateDate={MediaDateTaken}
--XMP-xmp:CreateDate={MediaDateTaken}
--XMP:CreateDate={MediaDateTaken}
--IPTC:DigitalCreationDate={MediaDateTakenDateStamp}
--IPTC:DigitalCreationTime={MediaDateTakenTimeStamp}
-
--Composite:SubSecDateTimeOriginal={MediaDateTaken}
--ExifIFD:DateTimeOriginal={MediaDateTaken}
--EXIF:DateTimeOriginal={MediaDateTaken)}
--XMP-photoshop:DateCreated={MediaDateTaken}
--IPTC:DateCreated={MediaDateTakenDateStamp}
--IPTC:TimeCreated={MediaDateTakenTimeStamp}
--CreateDate={MediaDateTaken}
-
--XMP-xmpDM:Album={PersonalAlbum}
--XMP:Album={PersonalAlbum}
--IPTC:Headline={PersonalAlbum}
--XMP-photoshop:Headline={PersonalAlbum}
--ItemList:Album={PersonalAlbum}
-
--EXIF:Artist={PersonalAuthor}
--IPTC:By-line={PersonalAuthor}
--XMP-dc:Creator={PersonalAuthor}
--XMP:Creator={PersonalAuthor}
--EXIF:XPAuthor={PersonalAuthor}
--ItemList:Author={PersonalAuthor} 
--Creator={PersonalAuthor} 
-
--File:Comment={PersonalComments}
--ExifIFD:UserComment={PersonalComments}
--EXIF:UserComment={PersonalComments}
--EXIF:XPComment={PersonalComments}
--XMP-album:Notes={PersonalComments}
--XMP-acdsee:Notes={PersonalComments}
--XMP:UserComment={PersonalComments}
--XMP:Notes={PersonalComments}
--ItemList:Comment={PersonalComments} 
-     
--EXIF:ImageDescription={PersonalDescription}
--XMP:ImageDescription={PersonalDescription}
--XMP-dc:Description={PersonalDescription}
--XMP:Description={PersonalDescription}
--IPTC:Caption-Abstract={PersonalDescription}
--ItemList:Description={PersonalDescription} 
--Description={PersonalDescription} 
-            
-#region Rating
--XMP-microsoft:RatingPercent={PersonalRatingPercent}
--XMP:RatingPercent={PersonalRatingPercent}
--EXIF:RatingPercent={PersonalRatingPercent}
-
--XMP-xmp:Rating={PersonalRating}
--XMP:Rating={PersonalRating}
--XMP-acdsee:Rating={PersonalRating}
--EXIF:Rating={PersonalRating}
--ItemList:Rating={PersonalRating}                       
--Rating={PersonalRating}
-
--ItemList:Title={PersonalTitle}
--EXIF:XPTitle={PersonalTitle}
--XMP-dc:Title={PersonalTitle}
--XMP:Title={PersonalTitle}
--ItemList:Title={PersonalTitle} 
-
--EXIF:GPSLatitude={LocationLatitude}
--XMP-exif:GPSLatitude={LocationLatitude}
--XMP:GPSLatitude={LocationLatitude}
--GPS:GPSLatitude={LocationLatitude}
--GPSLatitude={LocationLatitude}
-
--EXIF:GPSLongitude={LocationLongitude}
--XMP-exif:GPSLongitude={LocationLongitude}
--XMP:GPSLongitude={LocationLongitude}
--GPS:GPSLongitude={LocationLongitude}
--GPSLongitude={LocationLongitude}
-
--XMP:Location={LocationName}
--XMP-iptcCore:Location={LocationName}
--XMP-iptcExt:LocationShownSublocation={LocationName}
--XMP:LocationCreatedSublocation={LocationName}
--IPTC:Sub-location={LocationName}
--Sub-location={LocationName}
--Location={LocationName} 
-
--XMP-iptcExt:LocationShownProvinceState={LocationState}
--XMP-photoshop:State={LocationState}
--IPTC:Province-State={LocationState}
--XMP:State={LocationState}
--State={LocationState} 
-
-
--XMP-photoshop:City={LocationCity}
--XMP-iptcExt:LocationShownCity={LocationCity}
--IPTC:City={LocationCity}
--XMP:City={LocationCity}
--City={LocationCity} 
-
--IPTC:Country-PrimaryLocationName={LocationCountry}
--XMP-photoshop:Country={LocationCountry}
--XMP-iptcExt:LocationShownCountryName={LocationCountry}
--XMP:Country={LocationCountry}
--Country={LocationCountry} 
-
--Subject=
--Keyword=
--Keywords=
--XPKeywords=
--Category=
--CatalogSets=
-
--HierarchicalKeywords=
--HierarchicalSubject=
--LastKeywordXMP=
--LastKeywordIPTC=
--TagsList=
-
--RegionInfoMP={RegionInfoMP}</value>
-  </data>
-  <data name="textBox2.Text" xml:space="preserve">
-    <value>Media files can contain multimple metadata tags with same purpose. Therfore it important to write same value to all tags. If your application tags is not written back to media file, you can added support for it here. Read Exiftool documentation for supported tags.</value>
-  </data>
   <data name="textBoxConfigFilenameDateFormats.Text" xml:space="preserve">
     <value>yyyy-MM-dd HH-mm-ss
 yyyy-MM-dd_HH-mm-ss

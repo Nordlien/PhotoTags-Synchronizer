@@ -274,28 +274,24 @@ namespace PhotoTagsSynchronizer
                     while (queueSaveThumbnails.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
                         if (queueSaveThumbnails[0] != null)
-                        {
-                            Size size = maxThumbnailSize;
+                        {                            
+                            if (!databaseAndCacheThumbnail.DoesThumbnailExist(queueSaveThumbnails[0]))
                             {
-                                if (!databaseAndCacheThumbnail.DoesThumbnailExist(
-                                    queueSaveThumbnails[0], size.ToString()))
+                                try
                                 {
-                                    try
+                                    databaseAndCacheThumbnail.TransactionBeginBatch();
+                                    databaseAndCacheThumbnail.WriteThumbnail(queueSaveThumbnails[0], queueSaveThumbnails[0].Image);
+                                    databaseAndCacheThumbnail.TransactionCommitBatch();
+                                    lock (GlobalData.populateSelectedLock) //A PopulateSelectedGrid already in progress, wait untill complete
                                     {
-                                        databaseAndCacheThumbnail.TransactionBeginBatch();
-                                        databaseAndCacheThumbnail.WriteThumbnail(queueSaveThumbnails[0], queueSaveThumbnails[0].Image);
-                                        databaseAndCacheThumbnail.TransactionCommitBatch();
-                                        lock (GlobalData.populateSelectedLock) //A PopulateSelectedGrid already in progress, wait untill complete
-                                        {
-                                            PopulateImageOnFileEntryOnSelectedGrivViewInvoke(queueSaveThumbnails[0]);
-                                        }
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Logger.Error("ThreadSaveThumbnail: " + e.Message);
+                                        PopulateImageOnFileEntryOnSelectedGrivViewInvoke(queueSaveThumbnails[0]);
                                     }
                                 }
-                            }
+                                catch (Exception e)
+                                {
+                                    Logger.Error("ThreadSaveThumbnail: " + e.Message);
+                                }
+                            }                            
                         }
 
                         try

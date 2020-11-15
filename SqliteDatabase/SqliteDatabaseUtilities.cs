@@ -205,7 +205,7 @@ namespace SqliteDatabase
         {
 #if MonoSqlite
             if (obj == null || obj == DBNull.Value) return (byte?)null;
-            return (byte?)(float?)obj; //Was float in database, now database changed to byte, backward compablity 
+            return (byte?)(long?)obj; //Was float in database, now database changed to byte, backward compablity 
 #else
             if (obj == null || obj == DBNull.Value) return (byte?)null; 
             return (byte?)obj;

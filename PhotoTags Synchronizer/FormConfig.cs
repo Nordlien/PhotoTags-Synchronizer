@@ -13,31 +13,105 @@ namespace PhotoTagsSynchronizer
     public partial class Config : Form
     {
         public MetadataReadPrioity MetadataReadPrioity { get;  set; } //= new MetadataReadPrioity();
+        public Size[] ThumbnailSizes { get; set; }
 
         private Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryCopy = new Dictionary<MetadataPriorityKey, MetadataPriorityValues>();
         private AutoCorrect autoCorrect = new AutoCorrect();
 
+
         public Config()
         {
             InitializeComponent();
-            textBoxConfigFilenameDateFormats.Text = Properties.Settings.Default.RenameDateFormats;
-
-            SortedDictionary<string, string> listAllTags = new CompositeTags().ListAllTags();
-            foreach (KeyValuePair<string, string> tag in listAllTags.OrderBy(key => key.Value))
-            {
-                ToolStripMenuItem newTagItem = new ToolStripMenuItem();
-                newTagItem.Name = tag.Value;
-                newTagItem.Size = new System.Drawing.Size(224, 26);
-                newTagItem.Text = tag.Value;
-                newTagItem.Click += new System.EventHandler(this.ToolStripMenuItemMoveAndAssign_Click);
-                this.toolStripMenuItemMetadataReadMove.DropDownItems.Add(newTagItem);
-            }
-
             
 
+            
         }
 
-        #region AutoCorrect
+        #region All tabs - Init - Save - Close
+        public void Init()
+        {
+            //PopulateApplication()
+            PopulateApplication();
+
+            //Metadata Filename Date formats
+            textBoxConfigFilenameDateFormats.Text = Properties.Settings.Default.RenameDateFormats;
+
+            //Metadata Read
+            PopulateMetadataReadToolStripMenu();
+            CopyMetadataReadPrioity(MetadataReadPrioity.MetadataPrioityDictionary, metadataPrioityDictionaryCopy);
+            PopulateMetadataRead(dataGridViewMetadataReadPriority);
+            
+            //AutoCorrect
+            autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+            PopulateAutoCorrectPoperties();
+            //Metadata Write
+            PopulateMetadataWritePoperties();
+        }
+
+        private void Config_Load(object sender, EventArgs e)
+        {
+            dataGridViewMetadataReadPriority.Focus();
+        }
+
+        private void buttonConfigSave_Click(object sender, EventArgs e)
+        {
+            //Application
+            SaveApplicationConfig();
+
+            //AutoCorrect
+            GetAutoCorrectPoperties();
+            Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
+
+            //Metadata Write
+            Properties.Settings.Default.WriteMetadataTags = textBoxMetadataWriteTags.Text;
+            Properties.Settings.Default.WriteMetadataKeywordItems = textBoxMetadataWriteKeywordItems.Text;
+            Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum = checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Checked;
+            Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords = checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Checked;
+
+            //Filename date formates
+            Properties.Settings.Default.RenameDateFormats = textBoxConfigFilenameDateFormats.Text;
+
+            //Save config file
+            Properties.Settings.Default.Save();
+
+            //Metadata Read
+            MetadataReadPrioity.MetadataPrioityDictionary = metadataPrioityDictionaryCopy;
+            MetadataReadPrioity.WriteAlways();
+            this.Close();
+        }
+
+        private void buttonConfigCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion 
+
+        public void PopulateApplication()
+        {
+            for (int i = 0; i < ThumbnailSizes.Length; i++)
+                comboBoxApplicationThumbnailSizes.Items.Add(ThumbnailSizes[i].ToString());
+
+            comboBoxApplicationThumbnailSizes.Text = Properties.Settings.Default.ApplicationThumbnail.ToString();
+        }
+
+        public void SaveApplicationConfig()
+        {
+            Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
+        }
+
+        #region Metadata Write - Populate and Save
+        private void PopulateMetadataWritePoperties()
+        {
+            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties());
+
+            textBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
+            textBoxMetadataWriteKeywordItems.Text = Properties.Settings.Default.WriteMetadataKeywordItems;
+            checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Checked = Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum;
+            checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Checked = Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords;
+        }
+        #endregion
+
+        #region AutoCorrect - Populate and Save
         private void PopulateAutoCorrectListOrder(ImageListViewOrder imageListViewOrder, List<MetadataBrokerTypes> listPriority)
         {
             ListViewItem listViewItem;
@@ -366,46 +440,20 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region All tabs - Init - Save - Close
-        public void Init()
+        #region Metadata Read - Populate and Save
+        private void PopulateMetadataReadToolStripMenu()
         {
-            CopyMetadataReadPrioity(MetadataReadPrioity.MetadataPrioityDictionary, metadataPrioityDictionaryCopy);
-            PopulateMetadataRead();
-            autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-            PopulateAutoCorrectPoperties();
-            PopulateMetadataWritePoperties();
+            SortedDictionary<string, string> listAllTags = new CompositeTags().ListAllTags();
+            foreach (KeyValuePair<string, string> tag in listAllTags.OrderBy(key => key.Value))
+            {
+                ToolStripMenuItem newTagItem = new ToolStripMenuItem();
+                newTagItem.Name = tag.Value;
+                newTagItem.Size = new System.Drawing.Size(224, 26);
+                newTagItem.Text = tag.Value;
+                newTagItem.Click += new System.EventHandler(this.ToolStripMenuItemMoveAndAssign_Click);
+                this.toolStripMenuItemMetadataReadMove.DropDownItems.Add(newTagItem);
+            }
         }
-
-        private void buttonConfigSave_Click(object sender, EventArgs e)
-        {
-            //AutoCorrect
-            GetAutoCorrectPoperties();
-            Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
-
-            //Metadata Write
-            Properties.Settings.Default.WriteMetadataTags = textBoxMetadataWriteTags.Text;
-            Properties.Settings.Default.WriteMetadataKeywordItems = textBoxMetadataWriteKeywordItems.Text;
-            Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum = checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Checked;
-            Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords = checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Checked;
-
-            //Filename date formates
-            Properties.Settings.Default.RenameDateFormats = textBoxConfigFilenameDateFormats.Text;
-            
-            //Save config file
-            Properties.Settings.Default.Save();
-
-            //Metadata Read
-            MetadataReadPrioity.MetadataPrioityDictionary = metadataPrioityDictionaryCopy;
-            MetadataReadPrioity.WriteAlways();
-            this.Close();
-        }
-
-        private void buttonConfigCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        #endregion 
-
 
         public void CopyMetadataReadPrioity(Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionarySource,
             Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryDestination)
@@ -417,12 +465,6 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        #region Config Read Metadata - Populate
-
-        public void PopulateMetadataRead()
-        {
-            PopulateMetadataRead(dataGridViewMetadataReadPriority);
-        }
 
         private void PopulateMetadataRead(DataGridView dataGridView)
         {
@@ -467,7 +509,9 @@ namespace PhotoTagsSynchronizer
             }
             isCellValueUpdating = false;
         }
+        #endregion
 
+        #region Metadata Read - DataGridView Assign when ToolStripMenuItemMoveAndAssign_Click
         public void AssignSelectedToNewTag(DataGridView dataGridView, Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionary, string composite)
         {
             List<int> rowSelected = DataGridViewHandler.GetRowSelected(dataGridView);
@@ -492,7 +536,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Config - Read Metadata - Drag and Drop
+        #region Metadata Read - Drag and Drop
         private Rectangle dragBoxFromMouseDown;
         private int rowIndexFromMouseDown;
         private int rowIndexOfItemUnderMouseToDrop;
@@ -589,7 +633,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Config - Read Metadata - Cell Changed
+        #region Metadata Read - Cell Changed
         private bool isCellValueUpdating = false;
         private void dataGridViewMetadataReadPriority_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -614,7 +658,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Config - Read Metadata - Keydown and Item Click, Clipboard
+        #region Metadata Read - Keydown and Item Click, Clipboard
         private void dataGridViewMetadataReadPriority_KeyDown(object sender, KeyEventArgs e)
         {
             DataGridViewHandler.KeyDownEventHandler(sender, e);
@@ -712,7 +756,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Config - Read Metadata - CellPaining 
+        #region Metadata Read - CellPaining 
         private void dataGridViewMetadataReadPriority_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -727,16 +771,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        private void tabControlConfig_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Config_Load(object sender, EventArgs e)
-        {
-            dataGridViewMetadataReadPriority.Focus();
-        }
-
+        #region AutoCorrect - Updated label when value changes
         private void numericUpDownLocationGuessInterval_ValueChanged(object sender, EventArgs e)
         {
             labelLocationTimeZoneGuess.Text = "2. Try find location in camera owner's history, ±" + (int)numericUpDownLocationGuessInterval.Value + " hours";
@@ -746,22 +781,18 @@ namespace PhotoTagsSynchronizer
         {
             labelLocationTimeZoneAccurate.Text = "5. Find new locations in camra owner's hirstory. ±" + (int)numericUpDownLocationAccurateInterval.Value + " minutes";
         }
+        #endregion
 
-
-
-        private void PopulateMetadataWritePoperties()
-        {
-            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties());
-            
-            textBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
-            textBoxMetadataWriteKeywordItems.Text = Properties.Settings.Default.WriteMetadataKeywordItems;
-            checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Checked = Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum;
-            checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Checked = Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords;
-        }
-
+        #region Metadata Write - Insert Variable from after Selected in Combobox
         private void comboBoxMetadataWriteStandardTags_SelectionChangeCommitted(object sender, EventArgs e)
         {
-
+            textBoxMetadataWriteTags.Focus();
+            var insertText = comboBoxMetadataWriteStandardTags.Text;
+            var selectionIndex = textBoxMetadataWriteTags.SelectionStart;
+            textBoxMetadataWriteTags.Text = textBoxMetadataWriteTags.Text.Remove(selectionIndex, textBoxMetadataWriteTags.SelectionLength);
+            textBoxMetadataWriteTags.Text = textBoxMetadataWriteTags.Text.Insert(selectionIndex, insertText);
+            textBoxMetadataWriteTags.SelectionStart = selectionIndex + insertText.Length;
         }
+        #endregion 
     }
 }

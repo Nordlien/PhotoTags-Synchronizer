@@ -33,13 +33,10 @@ namespace PhotoTagsSynchronizer
           new Size (144, 144),  //1
           new Size (192, 192),  //2
           new Size (256, 256),  //3
-          new Size (384, 384)   //4 //Making this to big will eat memory and create app slow due to limit in momory and sqlite
+          new Size (384, 384)   //4 //Making this to big will eat memory and create app slow due to limit in memory and sqlite
         };
         private const int defaultThumbnailSizeNumber = 1;
-        private Size maxThumbnailSize
-        {
-            get { return thumbnailSizes[thumbnailSizes.Length - 3]; }
-        }
+        private Size maxThumbnailSize {get; set;} = new Size(192, 192);
 
         private readonly ChromiumWebBrowser browser;
         private FileSystemWatcher fileSystemWatcher = new FileSystemWatcher();
@@ -204,7 +201,8 @@ namespace PhotoTagsSynchronizer
             //Rename
             textBoxRenameNewName.Text = Properties.Settings.Default.RenameVariable;
             isSettingDefaultComboxValues = false;
-
+            //Application
+            maxThumbnailSize = Properties.Settings.Default.ApplicationThumbnail;
 
             isFormLoading = true;
 

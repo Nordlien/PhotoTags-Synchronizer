@@ -302,7 +302,7 @@ namespace Exiftool
                     if (metadataToWrite.PersonalRegionList.Count > 0)
                     {
                         bool needComma = false;
-                        personalRegionInfo += "-RegionInfo={AppliedToDimensions={W=" + metadataToWrite.MediaWidth + 
+                        personalRegionInfo += "{AppliedToDimensions={W=" + metadataToWrite.MediaWidth + 
                             ",H=" + metadataToWrite.MediaHeight + 
                             ",Unit=pixel}," + 
                             "RegionList=[";
@@ -320,9 +320,6 @@ namespace Exiftool
                         personalRegionInfo += "]}";
                     }
 
-
-                    Logger.Debug("---MIMETYPE----:" + metadataToWrite.FileMimeType);
-                    
 
                     if (isVideoFormat)
                     { 

@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Config));
             this.tabControlConfig = new System.Windows.Forms.TabControl();
+            this.tabPageApplication = new System.Windows.Forms.TabPage();
+            this.panelApplication = new System.Windows.Forms.Panel();
+            this.comboBoxApplicationThumbnailSizes = new System.Windows.Forms.ComboBox();
+            this.labelApplicationThumbnailSize = new System.Windows.Forms.Label();
             this.tabPageMetadataRead = new System.Windows.Forms.TabPage();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.dataGridViewMetadataReadPriority = new System.Windows.Forms.DataGridView();
@@ -144,6 +148,8 @@
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.tabControlConfig.SuspendLayout();
+            this.tabPageApplication.SuspendLayout();
+            this.panelApplication.SuspendLayout();
             this.tabPageMetadataRead.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).BeginInit();
             this.contextMenuStripMetadataRead.SuspendLayout();
@@ -175,6 +181,7 @@
             this.tabControlConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlConfig.Controls.Add(this.tabPageApplication);
             this.tabControlConfig.Controls.Add(this.tabPageMetadataRead);
             this.tabControlConfig.Controls.Add(this.tabPageMetadataWrite);
             this.tabControlConfig.Controls.Add(this.tabPageFileDateTimeFormats);
@@ -186,7 +193,44 @@
             this.tabControlConfig.SelectedIndex = 0;
             this.tabControlConfig.Size = new System.Drawing.Size(739, 479);
             this.tabControlConfig.TabIndex = 0;
-            this.tabControlConfig.SelectedIndexChanged += new System.EventHandler(this.tabControlConfig_SelectedIndexChanged);
+            // 
+            // tabPageApplication
+            // 
+            this.tabPageApplication.Controls.Add(this.panelApplication);
+            this.tabPageApplication.Location = new System.Drawing.Point(4, 25);
+            this.tabPageApplication.Name = "tabPageApplication";
+            this.tabPageApplication.Size = new System.Drawing.Size(731, 450);
+            this.tabPageApplication.TabIndex = 5;
+            this.tabPageApplication.Text = "Application";
+            this.tabPageApplication.UseVisualStyleBackColor = true;
+            // 
+            // panelApplication
+            // 
+            this.panelApplication.Controls.Add(this.comboBoxApplicationThumbnailSizes);
+            this.panelApplication.Controls.Add(this.labelApplicationThumbnailSize);
+            this.panelApplication.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelApplication.Location = new System.Drawing.Point(0, 0);
+            this.panelApplication.Name = "panelApplication";
+            this.panelApplication.Size = new System.Drawing.Size(731, 450);
+            this.panelApplication.TabIndex = 0;
+            // 
+            // comboBoxApplicationThumbnailSizes
+            // 
+            this.comboBoxApplicationThumbnailSizes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxApplicationThumbnailSizes.FormattingEnabled = true;
+            this.comboBoxApplicationThumbnailSizes.Location = new System.Drawing.Point(132, 24);
+            this.comboBoxApplicationThumbnailSizes.Name = "comboBoxApplicationThumbnailSizes";
+            this.comboBoxApplicationThumbnailSizes.Size = new System.Drawing.Size(172, 24);
+            this.comboBoxApplicationThumbnailSizes.TabIndex = 1;
+            // 
+            // labelApplicationThumbnailSize
+            // 
+            this.labelApplicationThumbnailSize.AutoSize = true;
+            this.labelApplicationThumbnailSize.Location = new System.Drawing.Point(8, 27);
+            this.labelApplicationThumbnailSize.Name = "labelApplicationThumbnailSize";
+            this.labelApplicationThumbnailSize.Size = new System.Drawing.Size(107, 17);
+            this.labelApplicationThumbnailSize.TabIndex = 0;
+            this.labelApplicationThumbnailSize.Text = "Thumbnail size:";
             // 
             // tabPageMetadataRead
             // 
@@ -417,8 +461,6 @@
             this.textBoxMetadataWriteKeywordItems.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(713, 91);
             this.textBoxMetadataWriteKeywordItems.TabIndex = 2;
-            this.textBoxMetadataWriteKeywordItems.Text = "-Keywords+={KeywordItem}\r\n-Subject+={KeywordItem}\r\n-TagsList+={KeywordItem}\r\n-Cat" +
-    "alogSets+={KeywordItem}";
             // 
             // groupBoxMetadataWriteProperties
             // 
@@ -471,6 +513,7 @@
             // 
             this.comboBoxMetadataWriteStandardTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxMetadataWriteStandardTags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMetadataWriteStandardTags.FormattingEnabled = true;
             this.comboBoxMetadataWriteStandardTags.Location = new System.Drawing.Point(124, 21);
             this.comboBoxMetadataWriteStandardTags.Name = "comboBoxMetadataWriteStandardTags";
@@ -490,7 +533,6 @@
             this.textBoxMetadataWriteTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxMetadataWriteTags.Size = new System.Drawing.Size(705, 147);
             this.textBoxMetadataWriteTags.TabIndex = 1;
-            this.textBoxMetadataWriteTags.Text = resources.GetString("textBoxMetadataWriteTags.Text");
             // 
             // label6
             // 
@@ -1535,6 +1577,9 @@
             this.Text = "Config";
             this.Load += new System.EventHandler(this.Config_Load);
             this.tabControlConfig.ResumeLayout(false);
+            this.tabPageApplication.ResumeLayout(false);
+            this.panelApplication.ResumeLayout(false);
+            this.panelApplication.PerformLayout();
             this.tabPageMetadataRead.ResumeLayout(false);
             this.tabPageMetadataRead.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).EndInit();
@@ -1694,5 +1739,9 @@
         private System.Windows.Forms.TextBox textBoxMetadataWriteKeywordItems;
         private System.Windows.Forms.CheckBox checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo;
         private System.Windows.Forms.CheckBox checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo;
+        private System.Windows.Forms.TabPage tabPageApplication;
+        private System.Windows.Forms.Panel panelApplication;
+        private System.Windows.Forms.ComboBox comboBoxApplicationThumbnailSizes;
+        private System.Windows.Forms.Label labelApplicationThumbnailSize;
     }
 }

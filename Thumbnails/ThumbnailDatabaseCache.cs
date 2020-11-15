@@ -77,7 +77,7 @@ namespace Thumbnails
             return image;
         }
 
-        public bool DoesThumbnailExist(FileEntry fileEntry, string size)
+        public bool DoesThumbnailExist(FileEntry fileEntry)
         {
             object exisit = null;
 
