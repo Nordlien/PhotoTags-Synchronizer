@@ -107,11 +107,12 @@ namespace PhotoTagsSynchronizer
                 if (thumbnailImage == null)
                 {
                     //Was not readed from database, need to cache to database
-                    thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FullFilePath, maxThumbnailSize);
+                    thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FullFilePath, ThumbnailSaveSize);
                     if (thumbnailImage != null)
                     {
                         Image cloneBitmap = new Bitmap(thumbnailImage); //Need create a clone, due to GDI + not thread safe
                         AddQueueAllUpadtedFileEntry(new FileEntryImage(fileEntry, cloneBitmap));
+                        thumbnailImage = Manina.Windows.Forms.Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true);
                     } else
                     {
                         Logger.Warn("Was not able to ger thumbnail from file: " + fileEntry.FullFilePath);

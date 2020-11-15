@@ -1080,26 +1080,31 @@ namespace PhotoTagsSynchronizer
         private void toolStripButtonThumbnailSize1_Click(object sender, EventArgs e)
         {
             imageListView1.ThumbnailSize = thumbnailSizes[4];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = 4;
         }
 
         private void toolStripButtonThumbnailSize2_Click(object sender, EventArgs e)
         {
             imageListView1.ThumbnailSize = thumbnailSizes[3];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = 3;
         }
 
         private void toolStripButtonThumbnailSize3_Click(object sender, EventArgs e)
         {
             imageListView1.ThumbnailSize = thumbnailSizes[2];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = 2;
         }
 
         private void toolStripButtonThumbnailSize4_Click(object sender, EventArgs e)
         {
             imageListView1.ThumbnailSize = thumbnailSizes[1];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = 1;
         }
 
         private void toolStripButtonThumbnailSize5_Click(object sender, EventArgs e)
         {
             imageListView1.ThumbnailSize = thumbnailSizes[0];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = 0;
         }
         #endregion
 
@@ -1212,7 +1217,7 @@ namespace PhotoTagsSynchronizer
                 config.ThumbnailSizes = thumbnailSizes;
                 config.Init();
                 config.ShowDialog();
-                maxThumbnailSize = Properties.Settings.Default.ApplicationThumbnail;
+                ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
             }
         }
         #endregion

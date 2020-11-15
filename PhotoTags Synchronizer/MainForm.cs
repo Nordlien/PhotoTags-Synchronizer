@@ -29,14 +29,16 @@ namespace PhotoTagsSynchronizer
 
         private readonly Size[] thumbnailSizes =
         {
-          new Size (128, 128),  //0
-          new Size (144, 144),  //1
-          new Size (192, 192),  //2
-          new Size (256, 256),  //3
-          new Size (384, 384)   //4 //Making this to big will eat memory and create app slow due to limit in memory and sqlite
+          new Size ( 64,  64),
+          new Size ( 96,  96),
+          new Size (128, 128),  
+          new Size (144, 144),  
+          new Size (192, 192)  
+          //Making this to big will eat memory and create app slow due to limit in memory and sqlite
         };
-        private const int defaultThumbnailSizeNumber = 1;
-        private Size maxThumbnailSize {get; set;} = new Size(192, 192);
+        private int defaultThumbnailSizeNumber = 1;
+        private Size ThumbnailSaveSize {get; set;} = new Size(192, 192);
+        private Size ThumbnailMaxUpsize { get; set; } = new Size(192, 192);
 
         private readonly ChromiumWebBrowser browser;
         private FileSystemWatcher fileSystemWatcher = new FileSystemWatcher();
@@ -79,7 +81,7 @@ namespace PhotoTagsSynchronizer
 
             SplashForm.UpdateStatus("Initialize component..."); //6 
             InitializeComponent();
-            imageListView1.ThumbnailSize = thumbnailSizes[defaultThumbnailSizeNumber];
+            imageListView1.ThumbnailSize = thumbnailSizes[Properties.Settings.Default.ThumbmailViewSizeIndex];
             toolStripButtonThumbnailSize1.Text = "Thumbnail size " + thumbnailSizes[4].Width + "x" + thumbnailSizes[4].Height;
             toolStripButtonThumbnailSize1.ToolTipText = toolStripButtonThumbnailSize1.Text;
             toolStripButtonThumbnailSize2.Text = "Thumbnail size " + thumbnailSizes[3].Width + "x" + thumbnailSizes[3].Height;
@@ -126,6 +128,9 @@ namespace PhotoTagsSynchronizer
             databaseGoogleLocationHistory = new GoogleLocationHistoryDatabaseCache(databaseUtilitiesSqliteMetadata);
             databaseAndCacheMetadataExiftool = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
             databaseAndCacheThumbnail = new ThumbnailDatabaseCache(databaseUtilitiesSqliteMetadata);
+            
+            databaseAndCacheThumbnail.UpsizeThumbnailSize = ThumbnailMaxUpsize;
+
             databaseExiftoolData = new ExiftoolDataDatabase(databaseUtilitiesSqliteMetadata);
             databaseExiftoolWarning = new ExiftoolWarningDatabase(databaseUtilitiesSqliteMetadata);
 
@@ -202,7 +207,7 @@ namespace PhotoTagsSynchronizer
             textBoxRenameNewName.Text = Properties.Settings.Default.RenameVariable;
             isSettingDefaultComboxValues = false;
             //Application
-            maxThumbnailSize = Properties.Settings.Default.ApplicationThumbnail;
+            ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
 
             isFormLoading = true;
 

@@ -521,5 +521,8 @@ filename=UTF8
     <Setting Name="ApplicationThumbnail" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">192, 192</Value>
     </Setting>
+    <Setting Name="ThumbmailViewSizeIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

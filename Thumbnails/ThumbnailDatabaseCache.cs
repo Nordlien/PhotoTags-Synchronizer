@@ -31,8 +31,8 @@ namespace Thumbnails
         {
             dbTools.TransactionCommitBatch();
         }
+        public Size UpsizeThumbnailSize { get; set; } = new Size(192, 192);
 
-        
 
         public void WriteThumbnail(FileEntry fileEntry, Image image) 
         {
@@ -74,26 +74,12 @@ namespace Thumbnails
                     }
                 }
             }
-            return image;
+
+            return image == null ? null : 
+                Manina.Windows.Forms.Utility.ThumbnailFromImage(image, UpsizeThumbnailSize, Color.White, true);
         }
 
-        public bool DoesThumbnailExist(FileEntry fileEntry)
-        {
-            object exisit = null;
-
-            string sqlCommand =
-                "SELECT 1 FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                commandDatabase.Prepare();
-
-                exisit = commandDatabase.ExecuteScalar();
-            }
-            return exisit != null;
-        }
+        
 
         public void DeleteThumbnail(FileEntry fileEntry)
         {
@@ -156,6 +142,28 @@ namespace Thumbnails
             }
             return fileEntries;
         }
+
+        public bool DoesThumbnailExist(FileEntry fileEntry)
+        {
+            if (CacheContainsKey(fileEntry)) return true;
+            return ReadCache(fileEntry) != null; //Read Thumbnail and put in cache, will need the thumbnail soon anywhy 
+            /*
+            object exisit = null;
+
+            string sqlCommand =
+                "SELECT 1 FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
+                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
+                commandDatabase.Prepare();
+
+                exisit = commandDatabase.ExecuteScalar();
+            }
+            return exisit != null;*/
+        }
+
 
         #region Cache
         Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();

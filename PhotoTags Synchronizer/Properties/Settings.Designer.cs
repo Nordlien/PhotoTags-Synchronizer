@@ -540,5 +540,17 @@ namespace PhotoTagsSynchronizer.Properties {
                 this["ApplicationThumbnail"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int ThumbmailViewSizeIndex {
+            get {
+                return ((int)(this["ThumbmailViewSizeIndex"]));
+            }
+            set {
+                this["ThumbmailViewSizeIndex"] = value;
+            }
+        }
     }
 }
