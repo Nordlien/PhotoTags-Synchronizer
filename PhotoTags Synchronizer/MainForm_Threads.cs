@@ -144,6 +144,9 @@ namespace PhotoTagsSynchronizer
 
             if (dataGridViewGenericColumn.FileEntryImage.Image == null)
                 dataGridViewGenericColumn.FileEntryImage.Image = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(dataGridViewGenericColumn.FileEntryImage);
+
+            if (databaseAndCacheThumbnail.DoesMetadataMissThumbnailInRegion(dataGridViewGenericColumn.Metadata))
+                AddQueueCreateRegionFromPoster(dataGridViewGenericColumn.Metadata);
             return true;
         }
 
@@ -193,7 +196,7 @@ namespace PhotoTagsSynchronizer
                 metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.WindowsLivePhotoGallery));
                 if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntryImage);
 
-                if (fileEntryImage.Image != null) AddQueueThumbnailMedia(fileEntryImage);
+                AddQueueThumbnailMedia(fileEntryImage);
             }
             StartThreads();
             SetWaitQueueEmptyFlag();
@@ -276,6 +279,7 @@ namespace PhotoTagsSynchronizer
                     {
                         if (queueSaveThumbnails[0] != null)
                         {
+                            
                             if (!databaseAndCacheThumbnail.DoesThumbnailExist(queueSaveThumbnails[0]))
                             {
                                 try
@@ -358,7 +362,13 @@ namespace PhotoTagsSynchronizer
                                                     queueThumbnailRegion[thumbnailIndex].FileLastAccessed == queueThumbnailRegion[0].FileLastAccessed &&
                                                     queueThumbnailRegion[thumbnailIndex].PersonalRegionList.Count > 0)
                                                 {
-                                                    
+
+/*
+1. Saving data saved 2,3 x Faces, WLPG, MP, Exif
+2. Missing Exif data in List of Face Regions in queueThumbnailRegion.RegionList
+3. Microsoft Photos Icon missin on faces for edit.
+*/
+
                                                     //Metadata found and updated, updated DataGricView
                                                     RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, queueThumbnailRegion[thumbnailIndex], image);
                                                     queueCount--;

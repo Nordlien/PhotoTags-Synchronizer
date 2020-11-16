@@ -1490,13 +1490,6 @@ namespace DataGridViewGeneric
             return GetCellValue(dataGridView[columnIndex, rowIndex]);
         }
 
-        /*
-        public static string GetCellValueString(DataGridView dataGridView, int columnIndex, int rowIndex)
-        {
-            return GetCellValue(dataGridView[columnIndex, rowIndex]) == null ? "" : dataGridView[columnIndex, rowIndex].Value.ToString();
-        }
-        */
-
         public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             if (columnIndex > -1 && rowIndex > -1)

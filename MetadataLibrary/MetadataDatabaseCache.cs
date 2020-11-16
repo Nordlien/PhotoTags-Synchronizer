@@ -533,7 +533,11 @@ namespace MetadataLibrary
                     "AND Round(AreaWidth, 7) = Round(@AreaWidth, 7) " +
                     "AND Round(AreaHeight, 7) = Round(@AreaHeight, 7) " +
                     "AND RegionStructureType = @RegionStructureType";
-             
+            
+            if (region.AreaX != Math.Round((float)region.AreaX, 5))
+            {
+                //Break; //There been issue values have become wrong
+            }
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);

@@ -978,13 +978,8 @@ namespace PhotoTagsSynchronizer
                         e.Handled = false;
                         return;
                     }
-                    else if (region.Thumbnail != null)
-                    {
-                        regionThumbnail = region.Thumbnail;
-                    }
-
+                    else if (region.Thumbnail != null) regionThumbnail = region.Thumbnail;
                     DataGridViewHandler.DrawImageAndSubText(sender, e, regionThumbnail, e.Value.ToString(), DataGridViewHandler.ColorHeaderImage);
-
 
                     e.Handled = true;
                 }

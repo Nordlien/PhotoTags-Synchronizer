@@ -169,6 +169,7 @@ namespace SqliteDatabase
         }
 
         public const string SqliteDateTimeFormat = "INTEGER";
+        public const string SqliteDecimalFormat = "DECIMAL(10, 5)";
 
         public long ConvertFromDateTimeToDBVal(DateTime? dateTime)
         {
@@ -400,10 +401,10 @@ namespace SqliteDatabase
                     "MediaWidth INTEGER, " +
                     "MediaHeight INTEGER, " +
                     "MediaOrientation INTEGER, " +
-                    "MediaVideoLength REAL, " +
-                    "LocationAltitude REAL, " +
-                    "LocationLatitude REAL, " +
-                    "LocationLongitude REAL, " +
+                    "MediaVideoLength "+ SqliteDecimalFormat +", " +
+                    "LocationAltitude " + SqliteDecimalFormat + ", " +
+                    "LocationLatitude " + SqliteDecimalFormat + ", " +
+                    "LocationLongitude " + SqliteDecimalFormat + ", " +
                     "LocationDateTime " + SqliteDateTimeFormat + ", " +
                     "LocationName TEXT, " +
                     "LocationCountry TEXT, " +
@@ -423,7 +424,7 @@ namespace SqliteDatabase
                         "FileName               TEXT NOT NULL, " +
                         "FileDateModified       " + SqliteDateTimeFormat + " NOT NULL, " +
                         "Keyword                TEXT NOT NULL, " +
-                        "Confidence             REAL, " +
+                        "Confidence             " + SqliteDecimalFormat + ", " +
                         "UNIQUE (Broker, FileDirectory, FileName, FileDateModified, Keyword) )"; 
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
@@ -438,10 +439,10 @@ namespace SqliteDatabase
                         "FileDateModified       " + SqliteDateTimeFormat + " NOT NULL, " +
                         "Type                   TEXT, " +
                         "Name                   TEXT, " +
-                        "AreaX                  REAL, " +
-                        "AreaY                  REAL, " +
-                        "AreaWidth              REAL, " +
-                        "AreaHeight             REAL, " +
+                        "AreaX                  " + SqliteDecimalFormat + ", " +
+                        "AreaY                  " + SqliteDecimalFormat + ", " +
+                        "AreaWidth              " + SqliteDecimalFormat + ", " +
+                        "AreaHeight             " + SqliteDecimalFormat + ", " +
                         "RegionStructureType    INTEGER, " +
                         "Thumbnail              BLOB, " +
                         "UNIQUE (Broker, FileDirectory, FileName, FileDateModified, Type, Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType) )"; 
@@ -511,10 +512,10 @@ namespace SqliteDatabase
                 sqlCommand = "CREATE TABLE LocationHistory ( " +
                     "UserAccount        TEXT NOT NULL, " +
                     "TimeStamp          " + SqliteDateTimeFormat + ", " +  
-                    "Latitude           REAL, " +
-                    "Longitude          REAL, " +
-                    "Altitude           REAL, " +
-                    "Accuracy           REAL, " +
+                    "Latitude           "+ SqliteDecimalFormat +", " +
+                    "Longitude          "+ SqliteDecimalFormat +", " +
+                    "Altitude           "+ SqliteDecimalFormat +", " +
+                    "Accuracy           "+ SqliteDecimalFormat +", " +
                     "UNIQUE (UserAccount, TimeStamp) )";
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
@@ -530,8 +531,8 @@ namespace SqliteDatabase
                 */
 
                 sqlCommand = "CREATE TABLE LocationName (" +
-                    "Latitude   REAL NOT NULL, " +
-                    "Longitude  REAL NOT NULL, " +
+                    "Latitude   "+ SqliteDecimalFormat +" NOT NULL, " +
+                    "Longitude  "+ SqliteDecimalFormat +" NOT NULL, " +
                     "Name       TEXT NOT NULL, " +
                     "City       TEXT, " +
                     "Province   TEXT, " +

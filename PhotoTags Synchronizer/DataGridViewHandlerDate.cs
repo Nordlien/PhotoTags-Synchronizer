@@ -219,17 +219,27 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.GetColumnCount(dataGridView); //Rememebr coulmn count before AddColumnOrUpdate
 
                 FileEntryBroker fileEntryBrokerReadVersion = fileEntryBroker;
-                
+
                 Metadata metadata;
+                //It's the edit column, edit column is a new column copy og last known data
                 if (fileEntryBroker.LastWriteDateTime == DataGridViewHandler.DateTimeForEditableMediaFile)
-                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fullFilePath, (DateTime)dateTimeNewest, MetadataBrokerTypes.ExifTool)));
+                {
+                    fileEntryBrokerReadVersion = new FileEntryBroker(fullFilePath, (DateTime)dateTimeNewest, MetadataBrokerTypes.ExifTool);
+                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion));
+                }
                 else
+                {
                     metadata = DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion);
-    
-                int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView, new FileEntryImage(fileEntryBrokerReadVersion),
-                    metadata, dateTimeForEditableMediaFile,
-                    DataGridViewHandler.IsCurrentFile(fileEntryBrokerReadVersion, dateTimeForEditableMediaFile) ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));
+                }
+
+                int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView,
+                    new FileEntryImage(fileEntryBroker),                                                    /* This Column idenity                                      */
+                    metadata,                                                                               /* Metadata will save on column                             */
+                    dateTimeForEditableMediaFile,                                                           /* idenify what column that we can edit                     */
+                    DataGridViewHandler.IsCurrentFile(fileEntryBroker, dateTimeForEditableMediaFile) ?      /* Metadata.FileEntry read date, fileEntryBroker fake future version */
+                    ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly,            /* this will set histority columns as read only columns    */
+                    showWhatColumns,                                                                        /* show Edit | Hisorical columns | Error columns            */
+                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));  /* New cells will have this value                           */
                 if (columnIndex == -1) continue;
 
                 //Media

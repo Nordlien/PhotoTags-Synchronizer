@@ -143,25 +143,26 @@ namespace Thumbnails
             return fileEntries;
         }
 
+        public bool DoesMetadataMissThumbnailInRegion(Metadata metadata)
+        {
+            bool needCreateThumbnail = false;
+            if (metadata != null)
+            {
+                foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
+                {
+                    if (regionStructure.Thumbnail == null)
+                    {
+                        needCreateThumbnail = true;
+                        break;
+                    }
+                }
+            }
+            return needCreateThumbnail;
+        }
         public bool DoesThumbnailExist(FileEntry fileEntry)
         {
             if (CacheContainsKey(fileEntry)) return true;
             return ReadCache(fileEntry) != null; //Read Thumbnail and put in cache, will need the thumbnail soon anywhy 
-            /*
-            object exisit = null;
-
-            string sqlCommand =
-                "SELECT 1 FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                commandDatabase.Prepare();
-
-                exisit = commandDatabase.ExecuteScalar();
-            }
-            return exisit != null;*/
         }
 
 
