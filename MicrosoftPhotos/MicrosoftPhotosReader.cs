@@ -123,8 +123,8 @@ namespace MicrosoftPhotos
                             metadata.LocationCity = dbTools.ConvertFromDBValString(reader["LocationDistrict_Name"]);
                             metadata.LocationState = dbTools.ConvertFromDBValString(reader["LocationRegion_Name"]);
 
-                            metadata.LocationLatitude = dbTools.ConvertFromDBValDouble(reader["Item_Latitude"]);
-                            metadata.LocationLongitude = dbTools.ConvertFromDBValDouble(reader["Item_Longitude"]);
+                            metadata.LocationLatitude = dbTools.ConvertFromDBValFloat(reader["Item_Latitude"]);
+                            metadata.LocationLongitude = dbTools.ConvertFromDBValFloat(reader["Item_Longitude"]);
                             break;
                         }
                     }
@@ -175,10 +175,10 @@ namespace MicrosoftPhotos
                         {
                             RegionStructure region = new RegionStructure();
                             region.Name = dbTools.ConvertFromDBValString(reader["Person_Name"]);
-                            region.AreaX = (float)dbTools.ConvertFromDBValDouble(reader["Face_Rect_Left"]);
-                            region.AreaY = (float)dbTools.ConvertFromDBValDouble(reader["Face_Rect_Top"]);
-                            region.AreaWidth = (float)dbTools.ConvertFromDBValDouble(reader["Face_Rect_Width"]);
-                            region.AreaHeight = (float)dbTools.ConvertFromDBValDouble(reader["Face_Rect_Height"]);
+                            region.AreaX = (float)dbTools.ConvertFromDBValFloat(reader["Face_Rect_Left"]);
+                            region.AreaY = (float)dbTools.ConvertFromDBValFloat(reader["Face_Rect_Top"]);
+                            region.AreaWidth = (float)dbTools.ConvertFromDBValFloat(reader["Face_Rect_Width"]);
+                            region.AreaHeight = (float)dbTools.ConvertFromDBValFloat(reader["Face_Rect_Height"]);
                             region.Type = "Face";
                             region.RegionStructureType = RegionStructureTypes.MicrosoftPhotosDatabase;
                             metadata.PersonalRegionListAddIfNotExists(region);
@@ -226,7 +226,7 @@ namespace MicrosoftPhotos
                         {
                             KeywordTag keywordTag = new KeywordTag(
                                 dbTools.ConvertFromDBValString(reader["TagVariant_Text"]), 
-                                (double)dbTools.ConvertFromDBValDouble(reader["ItemTags_Confidence"])
+                                (double)dbTools.ConvertFromDBValFloat(reader["ItemTags_Confidence"])
                                 );
 
                             if (metadata.PersonalKeywordTags.Contains(keywordTag))

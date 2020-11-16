@@ -364,7 +364,9 @@ namespace PhotoTagsSynchronizer
                                                 {
 
 /*
-1. Saving data saved 2,3 x Faces, WLPG, MP, Exif
+1. Saving data saved 2,3 x Faces, WLPG, MP, Exif, 
+
+                                                    FAIL PICTURE FOR THUMBNAIL WHEN has Windows Photos
 2. Missing Exif data in List of Face Regions in queueThumbnailRegion.RegionList
 3. Microsoft Photos Icon missin on faces for edit.
 */

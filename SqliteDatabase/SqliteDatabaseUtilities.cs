@@ -29,8 +29,10 @@ namespace SqliteDatabase
         private int numberOfTransactionbeforeCommit = 10000;
         private int elapsedMillisecondsBeforeCommit = 5000;
         private object transactionLock = new object();
-        public static int FloatAndDoubleNumberOfDecimals { get; set; } = 5;
-        public static int FloatAndDoubleNumberOfDecimalsShort { get; set; } = 2;
+        public static int NumberOfDecimals { get; set; } = 5;
+        public static int NumberOfDecimalsShort { get; set; } = 2;
+        public const string SqliteDateTimeFormat = "INTEGER";
+        public const string SqliteNumberFormat = "DECIMAL(10,5)";
 
 
         public SqliteDatabaseUtilities(DatabaseType type, int numberOfTransactionbeforeCommit, int elapsedMillisecondsBeforeCommit)
@@ -168,8 +170,7 @@ namespace SqliteDatabase
             return covertedDateTime;
         }
 
-        public const string SqliteDateTimeFormat = "INTEGER";
-        public const string SqliteDecimalFormat = "DECIMAL(10, 5)";
+        
 
         public long ConvertFromDateTimeToDBVal(DateTime? dateTime)
         {
@@ -240,15 +241,14 @@ namespace SqliteDatabase
         }
 
        
-        public double? ConvertFromDBValDouble(object obj)
+        public float? ConvertFromDBValFloat(object obj)
         {
-            if (obj == null || obj == DBNull.Value) return (double?) null;
+            if (obj == null || obj == DBNull.Value) return (float?) null;
 
 #if MonoSqlite
-            //I used (double?)(float?) That gave sometimes wrong numbers
-            return (double?)Math.Round((float)obj, FloatAndDoubleNumberOfDecimals); // (double?)double.Parse(((float)obj).ToString("G5"), System.Globalization.CultureInfo.CurrentCulture);
+            return (float?)Math.Round((float)obj, NumberOfDecimals); 
 #else
-                return (double?)obj;
+                return (float?)obj;
 #endif
 
         }
@@ -401,10 +401,10 @@ namespace SqliteDatabase
                     "MediaWidth INTEGER, " +
                     "MediaHeight INTEGER, " +
                     "MediaOrientation INTEGER, " +
-                    "MediaVideoLength "+ SqliteDecimalFormat +", " +
-                    "LocationAltitude " + SqliteDecimalFormat + ", " +
-                    "LocationLatitude " + SqliteDecimalFormat + ", " +
-                    "LocationLongitude " + SqliteDecimalFormat + ", " +
+                    "MediaVideoLength " + SqliteNumberFormat + ", " +
+                    "LocationAltitude " + SqliteNumberFormat + ", " +
+                    "LocationLatitude " + SqliteNumberFormat + ", " +
+                    "LocationLongitude " + SqliteNumberFormat + ", " +
                     "LocationDateTime " + SqliteDateTimeFormat + ", " +
                     "LocationName TEXT, " +
                     "LocationCountry TEXT, " +
@@ -424,7 +424,7 @@ namespace SqliteDatabase
                         "FileName               TEXT NOT NULL, " +
                         "FileDateModified       " + SqliteDateTimeFormat + " NOT NULL, " +
                         "Keyword                TEXT NOT NULL, " +
-                        "Confidence             " + SqliteDecimalFormat + ", " +
+                        "Confidence             " + SqliteNumberFormat + ", " +
                         "UNIQUE (Broker, FileDirectory, FileName, FileDateModified, Keyword) )"; 
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
@@ -439,10 +439,10 @@ namespace SqliteDatabase
                         "FileDateModified       " + SqliteDateTimeFormat + " NOT NULL, " +
                         "Type                   TEXT, " +
                         "Name                   TEXT, " +
-                        "AreaX                  " + SqliteDecimalFormat + ", " +
-                        "AreaY                  " + SqliteDecimalFormat + ", " +
-                        "AreaWidth              " + SqliteDecimalFormat + ", " +
-                        "AreaHeight             " + SqliteDecimalFormat + ", " +
+                        "AreaX                  " + SqliteNumberFormat + ", " +
+                        "AreaY                  " + SqliteNumberFormat + ", " +
+                        "AreaWidth              " + SqliteNumberFormat + ", " +
+                        "AreaHeight             " + SqliteNumberFormat + ", " +
                         "RegionStructureType    INTEGER, " +
                         "Thumbnail              BLOB, " +
                         "UNIQUE (Broker, FileDirectory, FileName, FileDateModified, Type, Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType) )"; 
@@ -512,10 +512,10 @@ namespace SqliteDatabase
                 sqlCommand = "CREATE TABLE LocationHistory ( " +
                     "UserAccount        TEXT NOT NULL, " +
                     "TimeStamp          " + SqliteDateTimeFormat + ", " +  
-                    "Latitude           "+ SqliteDecimalFormat +", " +
-                    "Longitude          "+ SqliteDecimalFormat +", " +
-                    "Altitude           "+ SqliteDecimalFormat +", " +
-                    "Accuracy           "+ SqliteDecimalFormat +", " +
+                    "Latitude           " + SqliteNumberFormat + ", " +
+                    "Longitude          " + SqliteNumberFormat + ", " +
+                    "Altitude           " + SqliteNumberFormat + ", " +
+                    "Accuracy           " + SqliteNumberFormat + ", " +
                     "UNIQUE (UserAccount, TimeStamp) )";
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
@@ -531,8 +531,8 @@ namespace SqliteDatabase
                 */
 
                 sqlCommand = "CREATE TABLE LocationName (" +
-                    "Latitude   "+ SqliteDecimalFormat +" NOT NULL, " +
-                    "Longitude  "+ SqliteDecimalFormat +" NOT NULL, " +
+                    "Latitude  " + SqliteNumberFormat + " NOT NULL, " +
+                    "Longitude  " + SqliteNumberFormat + " NOT NULL, " +
                     "Name       TEXT NOT NULL, " +
                     "City       TEXT, " +
                     "Province   TEXT, " +

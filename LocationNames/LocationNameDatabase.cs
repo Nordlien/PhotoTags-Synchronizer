@@ -98,7 +98,7 @@ namespace LocationNames
             string sqlCommand = "SELECT MAX (ABS(Latitude - @Latitude), ABS(Longitude - @Longitude)) AS Distance, " +
                 "Latitude, Longitude, Name, City, Province, Country FROM LocationName WHERE " +
                 "Latitude > (@Latitude - 0.001) AND (Latitude< @Latitude + 0.001)" +
-                "AND Longitude > (@Longitude - 0.001) AND Longitude< (@Longitude + 0.0001) " +
+                "AND Longitude > (@Longitude - 0.001) AND Longitude< (@Longitude + 0.001) " +
                 "ORDER BY Distance DESC";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -111,8 +111,8 @@ namespace LocationNames
                     while (reader.Read())
                     {
                         metadata = new Metadata(MetadataBrokerTypes.NominatimAPI);
-                        metadata.LocationLatitude = dbTools.ConvertFromDBValDouble(reader["Latitude"]);
-                        metadata.LocationLongitude = dbTools.ConvertFromDBValDouble(reader["Longitude"]);
+                        metadata.LocationLatitude = dbTools.ConvertFromDBValFloat(reader["Latitude"]);
+                        metadata.LocationLongitude = dbTools.ConvertFromDBValFloat(reader["Longitude"]);
                         metadata.LocationName = dbTools.ConvertFromDBValString(reader["Name"]);
                         metadata.LocationCity = dbTools.ConvertFromDBValString(reader["City"]);
                         metadata.LocationState = dbTools.ConvertFromDBValString(reader["Province"]);

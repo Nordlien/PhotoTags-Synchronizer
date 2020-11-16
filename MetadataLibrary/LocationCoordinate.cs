@@ -11,14 +11,14 @@ namespace MetadataLibrary
             Longitude = 0;
         }
 
-        public LocationCoordinate(double latitude, double longitude)
+        public LocationCoordinate(float latitude, float longitude)
         {
             Latitude = latitude;
             Longitude = longitude;
         }
 
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -66,8 +66,8 @@ namespace MetadataLibrary
             {
                 //System.Globalization.CultureInfo.CurrentCulture
                 if (
-                    double.TryParse(latitideAndlogitude[0], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.CurrentCulture, out Double latitudeCurrentCulture) &&
-                    double.TryParse(latitideAndlogitude[1], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.CurrentCulture, out Double longitudeCurrentCulture))
+                    float.TryParse(latitideAndlogitude[0], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.CurrentCulture, out float latitudeCurrentCulture) &&
+                    float.TryParse(latitideAndlogitude[1], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.CurrentCulture, out float longitudeCurrentCulture))
                 {
                     result = new LocationCoordinate(latitudeCurrentCulture, longitudeCurrentCulture);
                     return true;
@@ -75,8 +75,8 @@ namespace MetadataLibrary
 
                 //System.Globalization.CultureInfo.InvariantCulture
                 if (
-                    double.TryParse(latitideAndlogitude[0], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out Double latitudeInvariantCulture) &&
-                    double.TryParse(latitideAndlogitude[1], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out Double longitudeInvariantCulture))
+                    float.TryParse(latitideAndlogitude[0], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out float latitudeInvariantCulture) &&
+                    float.TryParse(latitideAndlogitude[1], System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out float longitudeInvariantCulture))
                 {
                     result = new LocationCoordinate(latitudeInvariantCulture, longitudeInvariantCulture);
                     return true;

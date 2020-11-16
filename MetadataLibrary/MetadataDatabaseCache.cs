@@ -83,9 +83,9 @@ namespace MetadataLibrary
                         metadata.MediaWidth = dbTools.ConvertFromDBValInt(reader["MediaWidth"]);
                         metadata.MediaHeight = dbTools.ConvertFromDBValInt(reader["MediaHeight"]);
                         metadata.MediaOrientation = dbTools.ConvertFromDBValInt(reader["MediaOrientation"]);
-                        metadata.LocationAltitude = dbTools.ConvertFromDBValDouble(reader["LocationAltitude"]);
-                        metadata.LocationLatitude = dbTools.ConvertFromDBValDouble(reader["LocationLatitude"]);
-                        metadata.LocationLongitude = dbTools.ConvertFromDBValDouble(reader["LocationLongitude"]);
+                        metadata.LocationAltitude = dbTools.ConvertFromDBValFloat(reader["LocationAltitude"]);
+                        metadata.LocationLatitude = dbTools.ConvertFromDBValFloat(reader["LocationLatitude"]);
+                        metadata.LocationLongitude = dbTools.ConvertFromDBValFloat(reader["LocationLongitude"]);
                         metadata.LocationDateTime = dbTools.ConvertFromDBValDateTimeUtc(reader["LocationDateTime"]);
                         metadata.LocationName = dbTools.ConvertFromDBValString(reader["LocationName"]);
                         metadata.LocationCountry = dbTools.ConvertFromDBValString(reader["LocationCountry"]);
@@ -118,7 +118,7 @@ namespace MetadataLibrary
                         metadata.PersonalKeywordTagsAddIfNotExists(
                             new KeywordTag(
                             dbTools.ConvertFromDBValString(reader["Keyword"]),
-                            (double)dbTools.ConvertFromDBValDouble(reader["Confidence"]))
+                            (float)dbTools.ConvertFromDBValFloat(reader["Confidence"]))
                             );
                     }
 
@@ -146,10 +146,10 @@ namespace MetadataLibrary
                         RegionStructure region = new RegionStructure();
                         region.Type = dbTools.ConvertFromDBValString(reader["Type"]);
                         region.Name = dbTools.ConvertFromDBValString(reader["Name"]);
-                        region.AreaX = (float)dbTools.ConvertFromDBValDouble(reader["AreaX"]);
-                        region.AreaY = (float)dbTools.ConvertFromDBValDouble(reader["AreaY"]);
-                        region.AreaWidth = (float)dbTools.ConvertFromDBValDouble(reader["AreaWidth"]);
-                        region.AreaHeight = (float)dbTools.ConvertFromDBValDouble(reader["AreaHeight"]);
+                        region.AreaX = (float)dbTools.ConvertFromDBValFloat(reader["AreaX"]);
+                        region.AreaY = (float)dbTools.ConvertFromDBValFloat(reader["AreaY"]);
+                        region.AreaWidth = (float)dbTools.ConvertFromDBValFloat(reader["AreaWidth"]);
+                        region.AreaHeight = (float)dbTools.ConvertFromDBValFloat(reader["AreaHeight"]);
                         region.RegionStructureType = (RegionStructureTypes)(int)dbTools.ConvertFromDBValInt(reader["RegionStructureType"]);
                         region.Thumbnail = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
                         metadata.PersonalRegionListAddIfNotExists(region);
@@ -528,16 +528,12 @@ namespace MetadataLibrary
                     "AND FileDateModified = @FileDateModified " +
                     "AND Type = @Type " +
                     "AND Name IS @Name " +
-                    "AND Round(AreaX, 7) = Round(@AreaX, 7) " +
-                    "AND Round(AreaY, 7) = Round(@AreaY, 7) " +
-                    "AND Round(AreaWidth, 7) = Round(@AreaWidth, 7) " +
-                    "AND Round(AreaHeight, 7) = Round(@AreaHeight, 7) " +
+                    "AND Round(AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
                     "AND RegionStructureType = @RegionStructureType";
-            
-            if (region.AreaX != Math.Round((float)region.AreaX, 5))
-            {
-                //Break; //There been issue values have become wrong
-            }
+                        
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
@@ -573,10 +569,10 @@ namespace MetadataLibrary
                     "AND FileDateModified = @FileDateModified " +
                     "AND Type = @Type " +
                     "AND Name = @Name " +
-                    "AND Round(AreaX, 7) = Round(@AreaX, 7) " +
-                    "AND Round(AreaY, 7) = Round(@AreaY, 7) " +
-                    "AND Round(AreaWidth, 7) = Round(@AreaWidth, 7) " +
-                    "AND Round(AreaHeight, 7) = Round(@AreaHeight, 7) " +
+                    "AND Round(AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
                     "AND RegionStructureType = @RegionStructureType";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {

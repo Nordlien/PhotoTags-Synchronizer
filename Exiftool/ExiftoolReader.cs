@@ -461,7 +461,7 @@ namespace Exiftool
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
             float? newValue = float.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
 
-            if (newValue.HasValue) newValue = (float)Math.Round((float)newValue, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimals);
+            if (newValue.HasValue) newValue = (float)Math.Round((float)newValue, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
 
             if (oldValue.HasValue && Math.Abs((float)newValue - (float)oldValue) >= 0.000000000001) //Due not not excant numbers in float
             {
@@ -483,13 +483,13 @@ namespace Exiftool
             return newValue;
         }
 
-        private Double? ConvertAndCheckDoubleFromString(Double? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        private float? ConvertAndCheckDoubleFromString(float? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
-            Double? newValue = Double.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
-            if (newValue.HasValue) newValue = (double)Math.Round((double)newValue, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimals);
+            float? newValue = float.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
+            if (newValue.HasValue) newValue = (float)Math.Round((float)newValue, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
 
-            if (oldValue.HasValue && Math.Abs((double)newValue - (double)oldValue) >= 0.000000000001) //Due not not excant numbers in float
+            if (oldValue.HasValue && Math.Abs((float)newValue - (float)oldValue) >= 0.000000000001) //Due not not excant numbers in float
             {
                 string warning = string.Format(CultureInfo.InvariantCulture,
                     "Warning! Metadata missmatching between two metadata values.\r\n" +
@@ -1441,7 +1441,7 @@ namespace Exiftool
                             
                             case "GPSAltitude":
                             case CompositeTags.GPSAltitude:
-                                double? newAltitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationAltitude, exifToolData, oldExifToolGPSAltitude,
+                                float? newAltitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationAltitude, exifToolData, oldExifToolGPSAltitude,
                                     CompositeTags.GPSAltitude, ref metadata.errors);
 
                                 if (metadata.LocationAltitude == null) metadata.LocationAltitude = newAltitudeValue;
@@ -1449,7 +1449,7 @@ namespace Exiftool
                                 break;
                             case "GPSLatitude":
                             case CompositeTags.GPSLatitude:
-                                double? newLatitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLatitude,
+                                float? newLatitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLatitude,
                                     exifToolData, oldExifToolGPSLatitude,
                                     CompositeTags.GPSLatitude, ref metadata.errors);
 
@@ -1462,7 +1462,7 @@ namespace Exiftool
                                 //BUG In ExifTool data, some postition is truncated in EXIF:GPS
                                 //EXIF:GPS          GPSLongitude    27
                                 //XMP:XMP-exif      GPSLongitude    27.4822166666667
-                                double? newLongitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, exifToolData, oldExifToolGPSLongitude,
+                                float? newLongitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, exifToolData, oldExifToolGPSLongitude,
                                     CompositeTags.GPSLongitude, ref metadata.errors);
                                 if (metadata.LocationLongitude == null) metadata.LocationLongitude = newLongitudeValue; //Override only if null value
                                 oldExifToolGPSLongitude = new ExiftoolData(exifToolData);
@@ -1475,13 +1475,13 @@ namespace Exiftool
 
                                 ExiftoolData tempExiftoolData = new ExiftoolData(exifToolData);
                                 tempExiftoolData.Parameter = coordinates[0];
-                                double? newLocationLatitude = ConvertAndCheckDoubleFromString(metadata.LocationLatitude, tempExiftoolData, oldExifToolGPSLatitude,
+                                float? newLocationLatitude = ConvertAndCheckDoubleFromString(metadata.LocationLatitude, tempExiftoolData, oldExifToolGPSLatitude,
                                     CompositeTags.GPSCoordinatesLatitude, ref metadata.errors);
                                 if (newLocationLatitude == null) metadata.LocationLatitude = newLocationLatitude;
                                 oldExifToolGPSLatitude = new ExiftoolData(exifToolData);
 
                                 tempExiftoolData.Parameter = coordinates[1];
-                                double? newLocationLongitude = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, tempExiftoolData, oldExifToolGPSLongitude,
+                                float? newLocationLongitude = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, tempExiftoolData, oldExifToolGPSLongitude,
                                     CompositeTags.GPSCoordinatesLongitude, ref metadata.errors);
                                 if (newLocationLongitude == null) metadata.LocationLongitude = newLocationLongitude;
                                 oldExifToolGPSLongitude = new ExiftoolData(exifToolData);

@@ -437,10 +437,26 @@ namespace MetadataLibrary
         private Image thumbnail; 
         
         public string Type { get => type; set => type = value; }
-        public float AreaX { get => areaX; set => areaX = value; }
-        public float AreaY { get => areaY; set => areaY = value; }
-        public float AreaWidth { get => areaWidth; set => areaWidth = value; }
-        public float AreaHeight { get => areaHeight; set => areaHeight = value; }
+        public float AreaX
+        {
+            get => areaX;
+            set => areaX = (float)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
+        }
+        public float AreaY 
+        {
+            get => areaY;
+            set => areaY = (float)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
+        }
+        public float AreaWidth 
+        { 
+            get => areaWidth; 
+            set => areaWidth = (float)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
+        }
+        public float AreaHeight 
+        { 
+            get => areaHeight; 
+            set => areaHeight = (float)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
+        }
         public string Name { get => name; set => name = value; }
         public RegionStructureTypes RegionStructureType { get => regionStructureType; set => regionStructureType = value; }
         public Image Thumbnail { get => thumbnail; set => thumbnail = value; }
@@ -563,7 +579,7 @@ namespace MetadataLibrary
 
         private RectangleF GetRegionAbstractRectangle()
         {
-            return new RectangleF(AreaX, AreaY, AreaWidth, AreaHeight);
+            return new RectangleF((float)AreaX, (float)AreaY, (float)AreaWidth, (float)AreaHeight);
         }
 
         /*

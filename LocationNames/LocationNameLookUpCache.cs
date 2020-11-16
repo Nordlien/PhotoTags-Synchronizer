@@ -18,7 +18,7 @@ namespace LocationNames
 
 
 
-        public Metadata AddressLookup(double latitude, double longitude)
+        public Metadata AddressLookup(float latitude, float longitude)
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
 
@@ -73,7 +73,7 @@ namespace LocationNames
             
         }
 
-        public void AddressUpdate(CommonDatabaseTransaction commonDatabaseTransaction, double mediaLatitude, double mediaLongitude, string locationName, string locationCity, string locationState, string locationCountry)
+        public void AddressUpdate(CommonDatabaseTransaction commonDatabaseTransaction, float mediaLatitude, float mediaLongitude, string locationName, string locationCity, string locationState, string locationCountry)
         {
             Metadata metadata = AddressLookup(mediaLatitude, mediaLongitude);
             if (metadata != null)

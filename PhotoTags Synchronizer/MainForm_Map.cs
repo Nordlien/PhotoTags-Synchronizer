@@ -381,8 +381,8 @@ namespace PhotoTagsSynchronizer
 
                 CommonDatabaseTransaction commonDatabaseTransaction = databaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
                 locationAddress.AddressUpdate(commonDatabaseTransaction,
-                    (double)gridViewGenericColumn.Metadata.LocationLatitude,
-                    (double)gridViewGenericColumn.Metadata.LocationLongitude,
+                    (float)gridViewGenericColumn.Metadata.LocationLatitude,
+                    (float)gridViewGenericColumn.Metadata.LocationLongitude,
                     (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagLocationName), //Name
                     (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCity), //City
                     (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagProvince), //State

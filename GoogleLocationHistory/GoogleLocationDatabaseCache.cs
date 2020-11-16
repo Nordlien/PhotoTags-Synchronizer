@@ -97,19 +97,19 @@ namespace GoogleLocationHistory
                 {
                     Metadata metadata = new Metadata(MetadataBrokerTypes.GoogleLocationHistory);
                     DateTime? minTimeStamp = null;
-                    double? minLatitude = null;
-                    double? minLongitude = null;
-                    double? minAltitude = null;
-                    double? minAccuracy = null;
+                    float? minLatitude = null;
+                    float? minLongitude = null;
+                    float? minAltitude = null;
+                    float? minAccuracy = null;
 
                     if (reader.Read())
                     {
                         //UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy
                         minTimeStamp = (DateTime)dbTools.ConvertFromDBValDateTimeUtc(reader["TimeStamp"]); 
-                        minLatitude = dbTools.ConvertFromDBValDouble(reader["Latitude"]);
-                        minLongitude = dbTools.ConvertFromDBValDouble(reader["Longitude"]);
-                        minAltitude = dbTools.ConvertFromDBValDouble(reader["Altitude"]);
-                        minAccuracy = dbTools.ConvertFromDBValDouble(reader["Accuracy"]);
+                        minLatitude = dbTools.ConvertFromDBValFloat(reader["Latitude"]);
+                        minLongitude = dbTools.ConvertFromDBValFloat(reader["Longitude"]);
+                        minAltitude = dbTools.ConvertFromDBValFloat(reader["Altitude"]);
+                        minAccuracy = dbTools.ConvertFromDBValFloat(reader["Accuracy"]);
                     }
                     else
                     {
@@ -128,10 +128,10 @@ namespace GoogleLocationHistory
                     {
                         //UserAccount, TimeStamp, Latitude, Longitude, Altitude, Accuracy
                         DateTime? maxTimeStamp = (DateTime)dbTools.ConvertFromDBValDateTimeUtc(reader["TimeStamp"]); 
-                        double? maxLatitude = dbTools.ConvertFromDBValDouble(reader["Latitude"]);
-                        double? maxLongitude = dbTools.ConvertFromDBValDouble(reader["Longitude"]);
-                        double? maxAltitude = dbTools.ConvertFromDBValDouble(reader["Altitude"]);
-                        double? maxAccuracy = dbTools.ConvertFromDBValDouble(reader["Accuracy"]);
+                        float? maxLatitude = dbTools.ConvertFromDBValFloat(reader["Latitude"]);
+                        float? maxLongitude = dbTools.ConvertFromDBValFloat(reader["Longitude"]);
+                        float? maxAltitude = dbTools.ConvertFromDBValFloat(reader["Altitude"]);
+                        float? maxAccuracy = dbTools.ConvertFromDBValFloat(reader["Accuracy"]);
 
                         Double lowDiffInSeconds = Math.Abs((minTimeStamp - datetime).Value.TotalSeconds);
                         Double highDiffInSeconds = Math.Abs((maxTimeStamp - datetime).Value.TotalSeconds);
@@ -140,18 +140,18 @@ namespace GoogleLocationHistory
                             return null;
 
 
-                        metadata.LocationAltitude =
-                                ((minAltitude * (totalDifInSeconds - lowDiffInSeconds)) +
+                        metadata.LocationAltitude = (float)
+                                (((minAltitude * (totalDifInSeconds - lowDiffInSeconds)) +
                                 (maxAltitude * (totalDifInSeconds - highDiffInSeconds)))
-                                / totalDifInSeconds;
-                        metadata.LocationLatitude =
-                                ((minLatitude * (totalDifInSeconds - lowDiffInSeconds)) +
+                                / totalDifInSeconds);
+                        metadata.LocationLatitude = (float)
+                                (((minLatitude * (totalDifInSeconds - lowDiffInSeconds)) +
                                 (maxLatitude * (totalDifInSeconds - highDiffInSeconds)))
-                                / totalDifInSeconds;
-                        metadata.LocationLongitude =
-                                ((minLongitude * (totalDifInSeconds - lowDiffInSeconds)) +
+                                / totalDifInSeconds);
+                        metadata.LocationLongitude = (float)
+                                (((minLongitude * (totalDifInSeconds - lowDiffInSeconds)) +
                                 (maxLongitude * (totalDifInSeconds - highDiffInSeconds)))
-                                / totalDifInSeconds;
+                                / totalDifInSeconds);
 
                         return metadata;
                     }

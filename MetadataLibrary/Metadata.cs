@@ -30,9 +30,9 @@ namespace MetadataLibrary
         private Int32? mediaVideoLength;
 
         //Location
-        private Double? locationAltitude;
-        private Double? locationLatitude;
-        private Double? locationLongitude;
+        private float? locationAltitude;
+        private float? locationLatitude;
+        private float? locationLongitude;
         private DateTime? locationDateTime;
         private String locationName;
         private String locationCountry;
@@ -244,7 +244,7 @@ namespace MetadataLibrary
             get
             {
                 if (locationLatitude != null && locationLongitude != null)
-                    return new LocationCoordinate((double)locationLatitude, (double)locationLongitude);
+                    return new LocationCoordinate((float)locationLatitude, (float)locationLongitude);
                 else
                     return null;
             }
@@ -464,7 +464,7 @@ namespace MetadataLibrary
                     if (personalRatingPercent != null)
                     {
                         //Don't change e.g. 89% to 75%
-                        if (ConvertRatingPercentToRetingStars((float)personalRatingPercent) != personalRating)
+                        if (ConvertRatingPercentToRetingStars((byte)personalRatingPercent) != personalRating)
                             personalRatingPercent = ConvertRatingStarsToRatingPercent((byte)personalRating);
                     }
                     else personalRatingPercent = ConvertRatingStarsToRatingPercent((byte)personalRating);
@@ -474,7 +474,7 @@ namespace MetadataLibrary
             }
         }
 
-        private byte ConvertRatingPercentToRetingStars(float personalRatingPercent)
+        private byte ConvertRatingPercentToRetingStars(byte personalRatingPercent)
         {
             if (personalRatingPercent > 87)
             {
@@ -594,20 +594,20 @@ namespace MetadataLibrary
         #endregion 
 
         #region Properties Location
-        public Double? LocationAltitude
+        public float? LocationAltitude
         {
             get => locationAltitude;
-            set => locationAltitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimalsShort));
+            set => locationAltitude = (value == null ? (float?)null : (float?)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimalsShort));
         }
-        public Double? LocationLatitude
+        public float? LocationLatitude
         {
             get => locationLatitude;
-            set => locationLatitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimals));
+            set => locationLatitude = (value == null ? (float?)null : (float?)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals));
         }
-        public Double? LocationLongitude
+        public float? LocationLongitude
         {
             get => locationLongitude;
-            set => locationLongitude = (value == null ? (double?)null : (double?)Math.Round((double)value, SqliteDatabase.SqliteDatabaseUtilities.FloatAndDoubleNumberOfDecimals));
+            set => locationLongitude = (value == null ? (float?)null : (float?)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals));
         }
         public DateTime? LocationDateTime { get => locationDateTime; set => locationDateTime = value; }
         public String LocationName { get => locationName; set => locationName = value; }
@@ -987,13 +987,13 @@ namespace MetadataLibrary
 
                 #region Location
                 case "{LocationAltitude}":
-                    result = LocationAltitude == null ? null : ((double)LocationAltitude).ToString(CultureInfo.InvariantCulture);
+                    result = LocationAltitude == null ? null : ((float)LocationAltitude).ToString(CultureInfo.InvariantCulture);
                     break;
                 case "{LocationLatitude}":
-                    result = LocationLatitude == null ? null : ((double)LocationLatitude).ToString(CultureInfo.InvariantCulture);
+                    result = LocationLatitude == null ? null : ((float)LocationLatitude).ToString(CultureInfo.InvariantCulture);
                     break;
                 case "{LocationLongitude}":
-                    result = LocationLongitude == null ? null : ((double)LocationLongitude).ToString(CultureInfo.InvariantCulture);
+                    result = LocationLongitude == null ? null : ((float)LocationLongitude).ToString(CultureInfo.InvariantCulture);
                     break;
                 case "{LocationDateTime}":
                     if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(LocationDateTime);
