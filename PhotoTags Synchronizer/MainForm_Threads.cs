@@ -99,7 +99,7 @@ namespace PhotoTagsSynchronizer
         /// <returns></returns>
         private Image GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(FileEntry fileEntry)
         {
-            
+
             Image thumbnailImage;
             try
             {
@@ -142,7 +142,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
             if (dataGridViewGenericColumn == null) return false;
 
-            if (dataGridViewGenericColumn.FileEntryImage.Image == null) 
+            if (dataGridViewGenericColumn.FileEntryImage.Image == null)
                 dataGridViewGenericColumn.FileEntryImage.Image = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(dataGridViewGenericColumn.FileEntryImage);
             return true;
         }
@@ -186,7 +186,7 @@ namespace PhotoTagsSynchronizer
                 //If Metadata don't exisit in database, put it in read queue
                 Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.ExifTool));
                 if (metadata == null) AddQueueExiftool(fileEntryImage);
-                
+
                 metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.MicrosoftPhotos));
                 if (metadata == null) AddQueueMicrosoftPhotos(fileEntryImage);
 
@@ -233,7 +233,7 @@ namespace PhotoTagsSynchronizer
         public void AddQueueMicrosoftPhotos(FileEntry fileEntry)
         {
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            if (!queueMetadataMicrosoftPhotos.Contains(fileEntry)) queueMetadataMicrosoftPhotos.Add(fileEntry);            
+            if (!queueMetadataMicrosoftPhotos.Contains(fileEntry)) queueMetadataMicrosoftPhotos.Add(fileEntry);
         }
         #endregion
 
@@ -250,7 +250,7 @@ namespace PhotoTagsSynchronizer
         public void AddQueueWindowsLivePhotoGallery(FileEntry fileEntry)
         {
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            if (!queueMetadataWindowsLivePhotoGallery.Contains(fileEntry)) queueMetadataWindowsLivePhotoGallery.Add(fileEntry);            
+            if (!queueMetadataWindowsLivePhotoGallery.Contains(fileEntry)) queueMetadataWindowsLivePhotoGallery.Add(fileEntry);
         }
         #endregion
 
@@ -275,7 +275,7 @@ namespace PhotoTagsSynchronizer
                     while (queueSaveThumbnails.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
                         if (queueSaveThumbnails[0] != null)
-                        {                            
+                        {
                             if (!databaseAndCacheThumbnail.DoesThumbnailExist(queueSaveThumbnails[0]))
                             {
                                 try
@@ -292,13 +292,13 @@ namespace PhotoTagsSynchronizer
                                 {
                                     Logger.Error("ThreadSaveThumbnail: " + e.Message);
                                 }
-                            }                            
+                            }
                         }
 
                         try
                         {
                             queueSaveThumbnails.RemoveAt(0);
-                        }catch (Exception ex)
+                        } catch (Exception ex)
                         {
                             Logger.Error("ThreadSaveThumbnail: " + ex.Message);
                         }
@@ -331,80 +331,65 @@ namespace PhotoTagsSynchronizer
 
                     while (queueThumbnailRegion.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
-                        int queueCount = queueThumbnailRegion.Count;
-                        List<int> positons = new List<int>();
+                        int queueCount = queueThumbnailRegion.Count; //Mark count that we will work with. 
+                                                                     //List<int> positons = new List<int>();
 
                         if (queueThumbnailRegion[0] != null)
                         {
-
                             try
                             {
-                                for (int i = 0; i < queueCount; i++)
+                                Image image = LoadMediaCoverArtPoster(Path.Combine(queueThumbnailRegion[0].FileDirectory, queueThumbnailRegion[0].FileName));
+
+                                if (image != null) //Failed load cover art, often occur after filed is moved or deleted
                                 {
-                                    if (queueThumbnailRegion[i].FileName == queueThumbnailRegion[0].FileName &&
-                                        queueThumbnailRegion[i].FileDirectory == queueThumbnailRegion[0].FileDirectory &&
-                                        queueThumbnailRegion[i].FileLastAccessed == queueThumbnailRegion[0].FileLastAccessed &&
-                                        queueThumbnailRegion[i].PersonalRegionList.Count > 0)
+                                    databaseAndCacheMetadataExiftool.TransactionBeginBatch();
+
+                                    bool foundFile = false;
+                                    do //Remove all with same filename in the queue
                                     {
-                                        switch (queueThumbnailRegion[i].Broker)
+                                        foundFile = false;
+                                        //Check Exiftool, Microsoft Phontos, Windows Live Photo Gallery in queue also
+                                        if (queueCount > 1 && queueThumbnailRegion.Count > 1)                                         
                                         {
-                                            case MetadataBrokerTypes.ExifTool:
-                                                positons.Add(i);
-                                                break;
-                                            case MetadataBrokerTypes.MicrosoftPhotos:
-                                                positons.Add(i);
-                                                break;
-                                            case MetadataBrokerTypes.WindowsLivePhotoGallery:
-                                                positons.Add(i);
-                                                break;
-                                            default:
-                                                throw new Exception("Not implemented yet");
-
-                                        }
-                                    }
-                                }
-
-                                if (positons.Count > 0)
-                                {
-
-                                    Image image = LoadMediaCoverArtPoster(Path.Combine(queueThumbnailRegion[0].FileDirectory, queueThumbnailRegion[0].FileName));
-
-                                    if (image != null) //Failed load cover art, often occur after filed is moved or deleted
-                                    {
-                                        databaseAndCacheMetadataExiftool.TransactionBeginBatch();
-
-                                        foreach (int pos in positons)
-                                        {
-                                            RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool,
-                                                queueThumbnailRegion[pos], image);
-
-                                            lock (GlobalData.populateSelectedLock) //A PopulateSelectedGrid already in progress, wait untill complete
+                                            for (int thumbnailIndex = 0; thumbnailIndex < queueThumbnailRegion.Count; thumbnailIndex++)
                                             {
-                                                PopulateMetadataOnFileOnActiveDataGrivViewInvoke(queueThumbnailRegion[pos].FileFullPath); //Metadata found and updated, updated DataGricView
+                                                if (queueThumbnailRegion[thumbnailIndex].FileName == queueThumbnailRegion[0].FileName &&
+                                                    queueThumbnailRegion[thumbnailIndex].FileDirectory == queueThumbnailRegion[0].FileDirectory &&
+                                                    queueThumbnailRegion[thumbnailIndex].FileLastAccessed == queueThumbnailRegion[0].FileLastAccessed &&
+                                                    queueThumbnailRegion[thumbnailIndex].PersonalRegionList.Count > 0)
+                                                {
+                                                    
+                                                    //Metadata found and updated, updated DataGricView
+                                                    RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, queueThumbnailRegion[thumbnailIndex], image);
+                                                    queueCount--;
+                                                    queueThumbnailRegion.RemoveAt(thumbnailIndex);
+                                                    
+                                                    foundFile = true;
+                                                    break;
+                                                }
                                             }
                                         }
+                                    } while (foundFile);
 
-                                        databaseAndCacheMetadataExiftool.TransactionCommitBatch();
-                                    } 
-                                    else 
-                                        Logger.Error("ThreadReadMediaPosterSaveRegions failt to create 'face' region thumbails from file. Due to not exist anymore. File:" + queueThumbnailRegion[0].FileName);
+                                    RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, queueThumbnailRegion[0], image);
+                                    databaseAndCacheMetadataExiftool.TransactionCommitBatch();
+                                    PopulateMetadataOnFileOnActiveDataGrivViewInvoke(queueThumbnailRegion[0].FileFullPath); //Updated Gridview
+                                    queueCount--;
+                                    queueThumbnailRegion.RemoveAt(0);
+                                    //Thread.Sleep(2000);
                                 }
+                                else Logger.Error("ThreadReadMediaPosterSaveRegions failt to create 'face' region thumbails from file. Due to not exist anymore. File:" + queueThumbnailRegion[0].FileName);
+
                             }
+
                             catch (Exception e)
                             {
                                 Logger.Error("ThreadReadMediaPosterSaveRegions failt to create 'face' region thumbails" + e.Message);
                             }
 
                         }
-
-                        if (positons.Count == 0) positons.Add(0);
-                        positons.Reverse(); //Remove last number first, then at last 0. If remove 0 first, number x wil become at x-1 in list
-
-                        foreach (int pos in positons)
-                        {
-                            queueThumbnailRegion.RemoveAt(pos);
-                        }
-
+                    
+    
                         UpdateStatusReadWriteStatus_NeedToBeUpated();
                     }
                     SetWaitQueueEmptyFlag();
