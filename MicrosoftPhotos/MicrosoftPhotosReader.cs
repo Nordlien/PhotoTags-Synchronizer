@@ -30,9 +30,6 @@ namespace MicrosoftPhotos
             string fileDirectory = Path.GetDirectoryName(fullFilePath);
             string fileName = Path.GetFileName(fullFilePath);
 
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             String query = "SELECT(WITH RECURSIVE " +
                 "under_alice(folderid, folderlevel, foldername) AS( " +
                 "VALUES(Item_ParentFolderId, 0, NULL) " +
@@ -133,10 +130,6 @@ namespace MicrosoftPhotos
             }
             if (metadata == null) return null;
 
-            stopwatch.Stop();
-            Logger.Trace("---Microsoft photos read metadata {0}ms {1}", stopwatch.ElapsedMilliseconds, fullFilePath);
-            stopwatch.Restart();
-
             query = "SELECT(WITH RECURSIVE " +
                 "under_alice(folderid, folderlevel, foldername) AS( " +
                 "VALUES(Item_ParentFolderId, 0, NULL) " +
@@ -159,7 +152,6 @@ namespace MicrosoftPhotos
                 "INNER JOIN Person ON Person.Person_Id = Face_PersonId " +
                 "WHERE " +
                 "Item.Item_Filename LIKE @FileName";
-            //"AND ItemPath = '" + path + "%'";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(query, dbTools.ConnectionDatabase))
             {
@@ -188,11 +180,6 @@ namespace MicrosoftPhotos
                     }
                 }
             }
-
-            stopwatch.Stop();
-            if (stopwatch.ElapsedMilliseconds>200) Logger.Trace("---Microsoft photos read rect {0}ms {1}", stopwatch.ElapsedMilliseconds, fullFilePath);
-            
-            stopwatch.Restart();
 
             query = "SELECT (WITH RECURSIVE under_alice(folderid, folderlevel, foldername) AS(VALUES(Item_ParentFolderId, 0, NULL) " + 
                 "UNION ALL SELECT Folder_ParentFolderId, under_alice.folderlevel + 1 AS folderlevel, Folder_DisplayName " +
@@ -226,26 +213,14 @@ namespace MicrosoftPhotos
                         {
                             KeywordTag keywordTag = new KeywordTag(
                                 dbTools.ConvertFromDBValString(reader["TagVariant_Text"]), 
-                                (double)dbTools.ConvertFromDBValFloat(reader["ItemTags_Confidence"])
+                                (float)dbTools.ConvertFromDBValFloat(reader["ItemTags_Confidence"])
                                 );
-
-                            if (metadata.PersonalKeywordTags.Contains(keywordTag))
-                            { 
-                            //DEBUG
-                            }
                             metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
-
-                            
                         }
                     }
 
                 }
             }
-
-            stopwatch.Stop();
-            if (stopwatch.ElapsedMilliseconds > 200) Logger.Trace("---Microsoft photos read variant {0}ms {1}", stopwatch.ElapsedMilliseconds, fullFilePath);
-            
-
             return metadata;
 
         }

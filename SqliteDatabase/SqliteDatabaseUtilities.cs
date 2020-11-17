@@ -243,15 +243,21 @@ namespace SqliteDatabase
        
         public float? ConvertFromDBValFloat(object obj)
         {
-            if (obj == null || obj == DBNull.Value) return (float?) null;
-
+            if (obj == null || obj == DBNull.Value) return null;
 #if MonoSqlite
-            return (float?)Math.Round((float)obj, NumberOfDecimals); 
+            if (obj is float)
+                return (float?)Math.Round((float)obj, NumberOfDecimals);
+            if (obj is decimal)
+                return (float?)Math.Round((decimal)obj, NumberOfDecimals);
+            throw new Exception("Error in number format");
+            //return null;
 #else
                 return (float?)obj;
 #endif
 
         }
+
+      
 
         public string ConvertFromDBValString(object obj)
         {

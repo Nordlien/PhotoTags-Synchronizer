@@ -68,9 +68,9 @@ namespace GoogleLocationHistory
 
                     GoogleJsonLocations googleJsonLocations = new GoogleJsonLocations();
                     googleJsonLocations.Accuracy = 0;
-                    googleJsonLocations.Altitude = vector[i].Altitude == null ? 0 : (double)vector[i].Altitude;
-                    googleJsonLocations.Latitude = vector[i].Latitude;
-                    googleJsonLocations.Longitude = vector[i].Longitude;
+                    googleJsonLocations.Altitude = vector[i].Altitude == null ? 0 : (float)vector[i].Altitude;
+                    googleJsonLocations.Latitude = (float)vector[i].Latitude;
+                    googleJsonLocations.Longitude = (float)vector[i].Longitude;
                     googleJsonLocations.Timestamp = whenElement[i];
 
                     googleLocationDatabaseCache.WriteLocationHistory(username, googleJsonLocations);

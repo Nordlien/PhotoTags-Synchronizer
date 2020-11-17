@@ -7,25 +7,34 @@ namespace MetadataLibrary
     [Serializable]
     public struct KeywordTag
     {
+        
+
         public string Keyword { get; set; }
-        public double Confidence { get; set; }
+
+        private float confidence;
+
+        public float Confidence 
+        {
+            get { return confidence; }
+            set { confidence = (float)Math.Round((float)value, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals); }
+        }
 
         public KeywordTag(KeywordTag keyword)
         {
             Keyword = keyword.Keyword;
-            Confidence = keyword.Confidence;
+            confidence = (float)Math.Round(keyword.Confidence, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals); 
         }
 
-        public KeywordTag(string keyword) 
+        public KeywordTag(string keyword)
         {
-            Keyword = keyword;
-            Confidence = 1.0;
+            this.Keyword = keyword;
+            this.confidence = 1.0F;
         }
 
-        public KeywordTag(string keyword, double confidence) 
+        public KeywordTag(string keyword, float confidence)
         {
-            Keyword = keyword;
-            Confidence = confidence;
+            this.Keyword = keyword;
+            this.confidence = (float)Math.Round(confidence, SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals);
         }
 
         public override bool Equals(object obj)

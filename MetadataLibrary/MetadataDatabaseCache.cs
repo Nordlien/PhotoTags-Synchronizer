@@ -9,6 +9,7 @@ using SqliteDatabase;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 
@@ -515,10 +516,10 @@ namespace MetadataLibrary
             dbTools.TransactionCommitBatch();
         }
 
-        public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region)
+        public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region, Size imageSize)
         {
             CacheRemove(file);
-
+            
             string sqlCommand =
                     "UPDATE MediaPersonalRegions " +
                     "SET Thumbnail = @Thumbnail " +

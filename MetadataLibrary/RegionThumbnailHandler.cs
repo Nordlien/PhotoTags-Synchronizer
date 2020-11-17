@@ -5,6 +5,7 @@ namespace MetadataLibrary
 {
     public static class RegionThumbnailHandler
     {
+        public static Size FaceThumbnailSize { get; set; } = new Size(100, 100);
         public static Size GetSizedImageBounds(Size size, Size fit, bool acceptToScaleUp)
         {
             float f = Math.Max((float)size.Width / (float)fit.Width, (float)size.Height / (float)fit.Height);
@@ -20,7 +21,7 @@ namespace MetadataLibrary
             Bitmap regionThumbnail;
             Rectangle rectangleInImage = region.GetImageRegionPixelRectangle(image.Size);
 
-            Size thumbnailSize = GetSizedImageBounds(rectangleInImage.Size, new Size(200, 200), false);
+            Size thumbnailSize = GetSizedImageBounds(rectangleInImage.Size, FaceThumbnailSize, false);
             regionThumbnail = new Bitmap(thumbnailSize.Width, thumbnailSize.Height);
 
             using (Graphics grD = Graphics.FromImage(regionThumbnail))
@@ -43,7 +44,7 @@ namespace MetadataLibrary
                 {
                     regionStructure = metadata.PersonalRegionList[i];
                     regionStructure.Thumbnail = CopyRegionFromImage(image, regionStructure);
-                    metadataDatabase.UpdateRegionThumbnail(metadata.FileEntryBroker, regionStructure);
+                    metadataDatabase.UpdateRegionThumbnail(metadata.FileEntryBroker, regionStructure, image.Size);
                 }
             }
 

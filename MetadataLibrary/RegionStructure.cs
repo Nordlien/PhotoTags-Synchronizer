@@ -476,14 +476,14 @@ namespace MetadataLibrary
 
         public RegionStructure(RegionStructure region)
         {
-            type = region.type;
-            areaX = region.areaX;
-            areaY = region.areaY;
-            areaWidth = region.areaWidth;
-            areaHeight = region.areaHeight;
-            name = region.name;
-            regionStructureType = region.regionStructureType;
-            thumbnail = region.thumbnail;
+            Type = region.type;
+            AreaX = region.areaX;
+            AreaY = region.areaY;
+            AreaWidth = region.areaWidth;
+            AreaHeight = region.areaHeight;
+            Name = region.name;
+            RegionStructureType = region.regionStructureType;
+            Thumbnail = thumbnail == null ? null : new Bitmap(region.thumbnail);
         }
 
         private Rectangle GetAbstractRectangle()
@@ -693,10 +693,12 @@ namespace MetadataLibrary
             }
 
             //In case of wrong size in EXIF data, check size and make sure not copy outside allocateded picture
-            if (rectangleCopyFrom.X < 0) rectangleCopyFrom.X = 0;
-            if (rectangleCopyFrom.Y < 0) rectangleCopyFrom.Y = 0;
-            if (rectangleCopyFrom.X + rectangleCopyFrom.Width > regionPixelSize.Width) rectangleCopyFrom.Width = regionPixelSize.Width;
-            if (rectangleCopyFrom.Y + rectangleCopyFrom.Height > regionPixelSize.Height) rectangleCopyFrom.Height = regionPixelSize.Height;
+            if (rectangleCopyFrom.X < 0 || rectangleCopyFrom.X > imagePixelSize.Width) rectangleCopyFrom.X = 0;
+            if (rectangleCopyFrom.Y < 0 || rectangleCopyFrom.Y > imagePixelSize.Height) rectangleCopyFrom.Y = 0;
+            if (rectangleCopyFrom.X + rectangleCopyFrom.Width > imagePixelSize.Width) 
+                rectangleCopyFrom.Width = imagePixelSize.Width - rectangleCopyFrom.X;
+            if (rectangleCopyFrom.Y + rectangleCopyFrom.Height > imagePixelSize.Height) 
+                rectangleCopyFrom.Height = imagePixelSize.Height - rectangleCopyFrom.Y;
 
             return rectangleCopyFrom;
         }
@@ -743,10 +745,12 @@ namespace MetadataLibrary
             }
 
             //In case of wrong size in EXIF data, check size and make sure not copy outside allocateded picture
-            if (rectangleAbstract.X < 0) rectangleAbstract.X = 0;
-            if (rectangleAbstract.Y < 0) rectangleAbstract.Y = 0;
-            if (rectangleAbstract.X + rectangleAbstract.Width > regionPixelRectangle.Width) rectangleAbstract.Width = regionPixelRectangle.Width;
-            if (rectangleAbstract.Y + rectangleAbstract.Height > regionPixelRectangle.Height) rectangleAbstract.Height = regionPixelRectangle.Height;
+            if (rectangleAbstract.X < 0 || rectangleAbstract.X > imagePixelSize.Width) rectangleAbstract.X = 0;
+            if (rectangleAbstract.Y < 0 || rectangleAbstract.Y > imagePixelSize.Height) rectangleAbstract.X = 0;
+            if (rectangleAbstract.X + rectangleAbstract.Width > imagePixelSize.Width) 
+                rectangleAbstract.Width = imagePixelSize.Width - rectangleAbstract.X;
+            if (rectangleAbstract.Y + rectangleAbstract.Height > imagePixelSize.Height) 
+                rectangleAbstract.Height = imagePixelSize.Height - rectangleAbstract.Y;
 
             return rectangleAbstract;
         }

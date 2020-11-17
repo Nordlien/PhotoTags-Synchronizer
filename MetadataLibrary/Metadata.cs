@@ -36,8 +36,8 @@ namespace MetadataLibrary
         private DateTime? locationDateTime;
         private String locationName;
         private String locationCountry;
-        private String locationDistrict;
-        private String locationRegion;
+        private String locationCity;
+        private String locationState;
 
         #region Constructors
         public Metadata(MetadataBrokerTypes broker)
@@ -77,21 +77,21 @@ namespace MetadataLibrary
             CameraModel = metadata.CameraModel;
 
             //Media
-            mediaDateTaken = metadata.mediaDateTaken;
-            mediaWidth = metadata.mediaWidth;
-            mediaHeight = metadata.mediaHeight;
-            mediaOrientation = metadata.mediaOrientation;
-            mediaVideoLength = metadata.mediaVideoLength;
+            MediaDateTaken = metadata.mediaDateTaken;
+            MediaWidth = metadata.mediaWidth;
+            MediaHeight = metadata.mediaHeight;
+            MediaOrientation = metadata.mediaOrientation;
+            MediaVideoLength = metadata.mediaVideoLength;
 
             //Location
-            locationAltitude = metadata.locationAltitude;
-            locationLatitude = metadata.locationLatitude;
-            locationLongitude = metadata.locationLongitude;
-            locationDateTime = metadata.locationDateTime;
-            locationName = metadata.locationName;
-            locationCountry = metadata.locationCountry;
-            locationDistrict = metadata.locationDistrict;
-            locationRegion = metadata.locationRegion;
+            LocationAltitude = metadata.locationAltitude;
+            LocationLatitude = metadata.locationLatitude;
+            LocationLongitude = metadata.locationLongitude;
+            LocationDateTime = metadata.locationDateTime;
+            LocationName = metadata.locationName;
+            LocationCountry = metadata.locationCountry;
+            LocationCity = metadata.locationCity;
+            LocationState = metadata.locationState;
 
         }
         #endregion 
@@ -175,8 +175,8 @@ namespace MetadataLibrary
             if (m1.locationDateTime != m2.locationDateTime) return false;
             if (m1.locationName != m2.locationName) return false;
             if (m1.locationCountry != m2.locationCountry) return false;
-            if (m1.locationDistrict != m2.locationDistrict) return false;
-            if (m1.locationRegion != m2.locationRegion) return false;
+            if (m1.locationCity != m2.locationCity) return false;
+            if (m1.locationState != m2.locationState) return false;
 
             return true;
 
@@ -223,8 +223,8 @@ namespace MetadataLibrary
             if (locationDateTime != null) hashCode += locationDateTime.GetHashCode();
             if (locationName != null) hashCode += locationName.GetHashCode();
             if (locationCountry != null) hashCode += locationCountry.GetHashCode();
-            if (locationDistrict != null) hashCode += locationDistrict.GetHashCode();
-            if (locationRegion != null) hashCode += locationRegion.GetHashCode();
+            if (locationCity != null) hashCode += locationCity.GetHashCode();
+            if (locationState != null) hashCode += locationState.GetHashCode();
 
             foreach (RegionStructure region in personalRegionList) hashCode += region.GetHashCode();
             foreach (KeywordTag tag in personalTagList) hashCode += tag.GetHashCode();
@@ -252,13 +252,13 @@ namespace MetadataLibrary
             {
                 if (value != null)
                 {
-                    locationLatitude = value.Latitude;
-                    locationLongitude = value.Longitude;
+                    LocationLatitude = value.Latitude;
+                    LocationLongitude = value.Longitude;
                 }
                 else
                 {
-                    locationLatitude = null;
-                    locationLongitude = null;
+                    LocationLatitude = null;
+                    LocationLongitude = null;
                 }
             }
 
@@ -367,8 +367,8 @@ namespace MetadataLibrary
             if (m1.locationDateTime != m2.locationDateTime) errors += AddError("Location DateTime", m1.locationDateTime, m2.locationDateTime);
             if (m1.locationName != m2.locationName) errors += AddError("Location Name", m1.locationName, m2.locationName);
             if (m1.locationCountry != m2.locationCountry) errors += AddError("Location Country", m1.locationCountry, m2.locationCountry);
-            if (m1.locationDistrict != m2.locationDistrict) errors += AddError("Location District", m1.locationDistrict, m2.locationDistrict);
-            if (m1.locationRegion != m2.locationRegion) errors += AddError("Location Region", m1.locationRegion, m2.locationRegion);
+            if (m1.locationCity != m2.locationCity) errors += AddError("Location District", m1.locationCity, m2.locationCity);
+            if (m1.locationState != m2.locationState) errors += AddError("Location Region", m1.locationState, m2.locationState);
 
             if (VerifyRegionStructureList(m1.personalRegionList, m2.personalRegionList) == false)
             {
@@ -612,8 +612,8 @@ namespace MetadataLibrary
         public DateTime? LocationDateTime { get => locationDateTime; set => locationDateTime = value; }
         public String LocationName { get => locationName; set => locationName = value; }
         public string LocationCountry { get => locationCountry; set => locationCountry = value; }
-        public string LocationCity { get => locationDistrict; set => locationDistrict = value; }
-        public string LocationState { get => locationRegion; set => locationRegion = value; }
+        public string LocationCity { get => locationCity; set => locationCity = value; }
+        public string LocationState { get => locationState; set => locationState = value; }
         #endregion
 
 
@@ -1042,10 +1042,10 @@ namespace MetadataLibrary
                     result = LocationCity; 
                     break;
                 case "{LocationDistrict}":
-                    result = locationDistrict; //metadataToWrite.LocationState
+                    result = locationCity; //metadataToWrite.LocationState
                     break;
                 case "{LocationRegion}":
-                    result = locationRegion; //metadataToWrite.LocationCity
+                    result = locationState; //metadataToWrite.LocationCity
                     break;
                 #endregion 
             }

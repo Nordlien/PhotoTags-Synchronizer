@@ -9,6 +9,7 @@ using DataGridViewGeneric;
 using NLog;
 using Exiftool;
 using Manina.Windows.Forms;
+using System.Diagnostics;
 
 namespace PhotoTagsSynchronizer
 {
@@ -331,81 +332,72 @@ namespace PhotoTagsSynchronizer
             if (_ThreadThumbnailRegion == null || (!_ThreadThumbnailRegion.IsAlive && queueThumbnailRegion.Count > 0))
             {
                 _ThreadThumbnailRegion = new Thread(() =>
-                {
-
+                {                    
                     while (queueThumbnailRegion.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
                         int queueCount = queueThumbnailRegion.Count; //Mark count that we will work with. 
-                                                                     //List<int> positons = new List<int>();
 
-                        if (queueThumbnailRegion[0] != null)
+                        try
                         {
-                            try
-                            {
-                                Image image = LoadMediaCoverArtPoster(Path.Combine(queueThumbnailRegion[0].FileDirectory, queueThumbnailRegion[0].FileName));
+                            FileEntry fileEntry = new FileEntry(queueThumbnailRegion[0].FileEntryBroker);
+                            Image image = null;
+                            if (File.GetLastWriteTime(fileEntry.FullFilePath) == fileEntry.LastWriteDateTime) image = LoadMediaCoverArtPoster(fileEntry.FullFilePath);
 
-                                if (image != null) //Failed load cover art, often occur after filed is moved or deleted
+                            if (image != null) databaseAndCacheMetadataExiftool.TransactionBeginBatch();
+                            bool foundFile = false;
+                            do //Remove all with same filename in the queue
+                            {
+                                foundFile = false;
+                                //Check Exiftool, Microsoft Phontos, Windows Live Photo Gallery in queue also
+
+                                for (int thumbnailIndex = 0; thumbnailIndex < Math.Min(queueCount, queueThumbnailRegion.Count); thumbnailIndex++)
                                 {
-                                    databaseAndCacheMetadataExiftool.TransactionBeginBatch();
-
-                                    bool foundFile = false;
-                                    do //Remove all with same filename in the queue
+                                    if (queueThumbnailRegion[thumbnailIndex].FileFullPath == fileEntry.FullFilePath &&
+                                        queueThumbnailRegion[thumbnailIndex].FileDateModified == fileEntry.LastWriteDateTime)
                                     {
-                                        foundFile = false;
-                                        //Check Exiftool, Microsoft Phontos, Windows Live Photo Gallery in queue also
-                                        if (queueCount > 1 && queueThumbnailRegion.Count > 1)                                         
+                                        /*
+                                        1. Saving data saved 2,3 x Faces, WLPG, MP, Exif, 
+
+                                                                                            FAIL PICTURE FOR THUMBNAIL WHEN has Windows Photos
+                                        2. Missing Exif data in List of Face Regions in queueThumbnailRegion.RegionList
+                                        3. Microsoft Photos Icon missin on faces for edit.
+                                        */
+
+                                        if (image != null) //Failed load cover art, often occur after filed is moved or deleted
                                         {
-                                            for (int thumbnailIndex = 0; thumbnailIndex < queueThumbnailRegion.Count; thumbnailIndex++)
-                                            {
-                                                if (queueThumbnailRegion[thumbnailIndex].FileName == queueThumbnailRegion[0].FileName &&
-                                                    queueThumbnailRegion[thumbnailIndex].FileDirectory == queueThumbnailRegion[0].FileDirectory &&
-                                                    queueThumbnailRegion[thumbnailIndex].FileLastAccessed == queueThumbnailRegion[0].FileLastAccessed &&
-                                                    queueThumbnailRegion[thumbnailIndex].PersonalRegionList.Count > 0)
-                                                {
+                                            //Metadata found and updated, updated DataGricView
+                                            RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, queueThumbnailRegion[thumbnailIndex], image);
+                                            foundFile = true;
+                                            
+                                        } else Logger.Error("ThreadReadMediaPosterSaveRegions failt to create 'face' region thumbails from file. Due to not exist anymore. File:" + queueThumbnailRegion[0].FileName);
 
-/*
-1. Saving data saved 2,3 x Faces, WLPG, MP, Exif, 
+                                        queueCount--;
+                                        queueThumbnailRegion.RemoveAt(thumbnailIndex);
 
-                                                    FAIL PICTURE FOR THUMBNAIL WHEN has Windows Photos
-2. Missing Exif data in List of Face Regions in queueThumbnailRegion.RegionList
-3. Microsoft Photos Icon missin on faces for edit.
-*/
-
-                                                    //Metadata found and updated, updated DataGricView
-                                                    RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, queueThumbnailRegion[thumbnailIndex], image);
-                                                    queueCount--;
-                                                    queueThumbnailRegion.RemoveAt(thumbnailIndex);
-                                                    
-                                                    foundFile = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    } while (foundFile);
-
-                                    RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, queueThumbnailRegion[0], image);
-                                    databaseAndCacheMetadataExiftool.TransactionCommitBatch();
-                                    PopulateMetadataOnFileOnActiveDataGrivViewInvoke(queueThumbnailRegion[0].FileFullPath); //Updated Gridview
-                                    queueCount--;
-                                    queueThumbnailRegion.RemoveAt(0);
-                                    //Thread.Sleep(2000);
+                                        if (foundFile) break; //No need to search more.
+                                    }
                                 }
-                                else Logger.Error("ThreadReadMediaPosterSaveRegions failt to create 'face' region thumbails from file. Due to not exist anymore. File:" + queueThumbnailRegion[0].FileName);
+                                
+                            } while (foundFile);
 
-                            }
 
-                            catch (Exception e)
+                            if (image != null)
                             {
-                                Logger.Error("ThreadReadMediaPosterSaveRegions failt to create 'face' region thumbails" + e.Message);
+                                databaseAndCacheMetadataExiftool.TransactionCommitBatch();
+                                PopulateMetadataOnFileOnActiveDataGrivViewInvoke(fileEntry.FullFilePath); //Updated Gridview
                             }
+                            image = null;
 
                         }
-                    
-    
+
+                        catch (Exception e)
+                        {
+                            Logger.Error("ThreadReadMediaPosterSaveRegions failt to create 'face' region thumbails" + e.Message);
+                        }
+
                         UpdateStatusReadWriteStatus_NeedToBeUpated();
                     }
                     SetWaitQueueEmptyFlag();
-                    Application.DoEvents();
                 });
 
                 _ThreadThumbnailRegion.Start();

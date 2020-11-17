@@ -21,9 +21,11 @@ namespace GoogleLocationHistory
             set { timestamp = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(long.Parse(value)); }
         }
 
-        private Double latitudeE7;
-        public double Latitude { get => latitudeE7; set => latitudeE7 = value; }
-        public string LatitudeE7
+        private float latitudeE7;
+        public float Latitude { get => latitudeE7; set => latitudeE7 = value; }
+
+        
+        /*public string LatitudeE7
         {
             get
             {
@@ -34,15 +36,16 @@ namespace GoogleLocationHistory
                 //They seem to have an integer overflow error in preparing the data for the takeout (downloading the kml directly from google maps for a specific day works correct).
                 //If the number is greater than 1800000000 for longitude, 900000000 for latitude you need to subtract 2^32 (=4294967296) and you get the correct latitudeE7 or longitudeE7.
 
-                latitudeE7 = (Double.Parse(value));
-                if (latitudeE7 > 900000000.0) latitudeE7 -= 4294967296.0;
-                latitudeE7 /= 10000000.0;
+                latitudeE7 = (float.Parse(value));
+                if (latitudeE7 > 900000000.0) latitudeE7 -= 4294967296.0F;
+                latitudeE7 /= 10000000.0F;
             }
-        }
+        }*/
+        private float longitudeE7; 
 
-        private Double longitudeE7;
-        public double Longitude { get => longitudeE7; set => longitudeE7 = value; }
-        public string LongitudeE7
+
+        public float Longitude { get => longitudeE7; set => longitudeE7 = value; }
+        /*public string LongitudeE7
         {
             get
             {
@@ -53,25 +56,14 @@ namespace GoogleLocationHistory
                 //They seem to have an integer overflow error in preparing the data for the takeout (downloading the kml directly from google maps for a specific day works correct).
                 //If the number is greater than 1800000000 for longitude, 900000000 for latitude you need to subtract 2^32 (=4294967296) and you get the correct latitudeE7 or longitudeE7.
 
-                longitudeE7 = Double.Parse(value);
-                if (longitudeE7 > 1800000000.0) longitudeE7 -= 4294967296.0;
-                longitudeE7 /= 10000000.0;
+                longitudeE7 = float.Parse(value);
+                if (longitudeE7 > 1800000000.0) longitudeE7 -= 4294967296.0F;
+                longitudeE7 /= 10000000.0F;
             }
-        }
+        }*/
 
-        private double altitude;
-        public Double Altitude
-        {
-            get
-            {
-                return altitude * 1;
-            }
-            set
-            {
-                altitude = value / 1;
-            }
-        }
-        public Double Accuracy
+        private float altitude;
+        public float Altitude
         {
             get
             {
@@ -82,7 +74,17 @@ namespace GoogleLocationHistory
                 altitude = value;
             }
         }
-
+        public float Accuracy
+        {
+            get
+            {
+                return altitude;
+            }
+            set
+            {
+                altitude = value;
+            }
+        }
     }
 
     public class GoogleLocationHistoryItems
