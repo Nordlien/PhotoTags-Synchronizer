@@ -2710,9 +2710,9 @@ namespace DataGridViewGeneric
         
         public static void CellPaintingColumnHeader(object sender, DataGridViewCellPaintingEventArgs e, Dictionary<string, string> errorFileEntries)
         {
+            
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
-
             if (e.RowIndex == -1 && e.ColumnIndex >= 0)
             {
                 if (!(dataGridView.Columns[e.ColumnIndex].Tag is DataGridViewGenericColumn)) return;
@@ -2769,6 +2769,7 @@ namespace DataGridViewGeneric
                     DrawImageAndSubText(sender, e, fileEntryColumn.Image, cellText, ColorHeaderImage);
                     
             }
+            
         }
 
         public static void CellPaintingTriState(object sender, DataGridViewCellPaintingEventArgs e, DataGridView dataGridView, string header)

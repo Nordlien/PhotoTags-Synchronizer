@@ -130,7 +130,8 @@ namespace MetadataLibrary
                     "SELECT " +
                     "Broker, FileDirectory, FileName, FileDateModified, Type, " +
                     "Name, AreaX, AreaY, AreaWidth, AreaHeight, RegionStructureType, Thumbnail " +
-                    "FROM MediaPersonalRegions WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
+                    "FROM MediaPersonalRegions " +
+                    "WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
@@ -558,6 +559,7 @@ namespace MetadataLibrary
             }
         }
 
+        /*
         public Image ReadRegionThumbnail(FileEntryBroker file, RegionStructure region)
         {
             Image image = null;
@@ -602,8 +604,9 @@ namespace MetadataLibrary
                 }
             }
             return image;
-        }
+        } */
 
+        
         private void DeleteDirectoryMediaMetadata(MetadataBrokerTypes broker, string fileDirectory)
         {
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +

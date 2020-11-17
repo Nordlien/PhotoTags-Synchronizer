@@ -103,20 +103,23 @@ namespace PhotoTagsSynchronizer
 
             Image thumbnailImage;
             try
-            {
+            {                
                 thumbnailImage = databaseAndCacheThumbnail.ReadCache(fileEntry);
+             
                 if (thumbnailImage == null)
                 {
                     //Was not readed from database, need to cache to database
                     thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FullFilePath, ThumbnailSaveSize);
+                    
                     if (thumbnailImage != null)
                     {
                         Image cloneBitmap = new Bitmap(thumbnailImage); //Need create a clone, due to GDI + not thread safe
                         AddQueueAllUpadtedFileEntry(new FileEntryImage(fileEntry, cloneBitmap));
-                        thumbnailImage = Manina.Windows.Forms.Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true);
-                    } else
+                        thumbnailImage = Manina.Windows.Forms.Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true);                        
+                    }
+                    else
                     {
-                        Logger.Warn("Was not able to ger thumbnail from file: " + fileEntry.FullFilePath);
+                        Logger.Warn("Was not able to get thumbnail from file: " + fileEntry.FullFilePath);
                         thumbnailImage = (Image)Properties.Resources.load_image_error_general;
                     }
                 }
@@ -142,12 +145,12 @@ namespace PhotoTagsSynchronizer
 
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
             if (dataGridViewGenericColumn == null) return false;
-
-            if (dataGridViewGenericColumn.FileEntryImage.Image == null)
-                dataGridViewGenericColumn.FileEntryImage.Image = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(dataGridViewGenericColumn.FileEntryImage);
-
-            if (databaseAndCacheThumbnail.DoesMetadataMissThumbnailInRegion(dataGridViewGenericColumn.Metadata))
-                AddQueueCreateRegionFromPoster(dataGridViewGenericColumn.Metadata);
+            //if (dataGridViewGenericColumn.FileEntryImage.Image == null)
+            //    dataGridViewGenericColumn.FileEntryImage.Image = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(dataGridViewGenericColumn.Metadata.FileEntryBroker);
+            if (dataGridViewGenericColumn.FileEntryImage.Image == null) dataGridViewGenericColumn.FileEntryImage.Image = databaseAndCacheThumbnail.ReadCache(dataGridViewGenericColumn.Metadata.FileEntryBroker);
+            if (dataGridViewGenericColumn.FileEntryImage.Image == null) AddQueueAllUpadtedFileEntry(new FileEntryImage(dataGridViewGenericColumn.Metadata.FileEntryBroker, null));
+            if (databaseAndCacheThumbnail.DoesMetadataMissThumbnailInRegion(dataGridViewGenericColumn.Metadata)) AddQueueCreateRegionFromPoster(dataGridViewGenericColumn.Metadata);
+            
             return true;
         }
 
@@ -185,19 +188,19 @@ namespace PhotoTagsSynchronizer
                 if (fileEntryImage.LastWriteDateTime == null)
                 {
                     //WHen file is Gone, LastWriteDateTime become null
+
+                    //If Metadata don't exisit in database, put it in read queue
+                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.ExifTool));
+                    if (metadata == null) AddQueueExiftool(fileEntryImage);
+
+                    metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.MicrosoftPhotos));
+                    if (metadata == null) AddQueueMicrosoftPhotos(fileEntryImage);
+
+                    metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.WindowsLivePhotoGallery));
+                    if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntryImage);
+
+                    AddQueueThumbnailMedia(fileEntryImage);
                 }
-
-                //If Metadata don't exisit in database, put it in read queue
-                Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.ExifTool));
-                if (metadata == null) AddQueueExiftool(fileEntryImage);
-
-                metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.MicrosoftPhotos));
-                if (metadata == null) AddQueueMicrosoftPhotos(fileEntryImage);
-
-                metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.WindowsLivePhotoGallery));
-                if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntryImage);
-
-                AddQueueThumbnailMedia(fileEntryImage);
             }
             StartThreads();
             SetWaitQueueEmptyFlag();
@@ -278,10 +281,14 @@ namespace PhotoTagsSynchronizer
 
                     while (queueSaveThumbnails.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
+
+
                         if (queueSaveThumbnails[0] != null)
                         {
-                            
-                            if (!databaseAndCacheThumbnail.DoesThumbnailExist(queueSaveThumbnails[0]))
+                            if (queueSaveThumbnails[0].Image == null) 
+                                queueSaveThumbnails[0].Image = LoadMediaCoverArtThumbnail(queueSaveThumbnails[0].FullFilePath, ThumbnailSaveSize);
+
+                            if (queueSaveThumbnails[0].Image != null && !databaseAndCacheThumbnail.DoesThumbnailExist(queueSaveThumbnails[0]))
                             {
                                 try
                                 {
@@ -360,7 +367,7 @@ namespace PhotoTagsSynchronizer
 
                                                                                             FAIL PICTURE FOR THUMBNAIL WHEN has Windows Photos
                                         2. Missing Exif data in List of Face Regions in queueThumbnailRegion.RegionList
-                                        3. Microsoft Photos Icon missin on faces for edit.
+                                        3. Microsoft Photos Icon missing on faces for edit.
                                         */
 
                                         if (image != null) //Failed load cover art, often occur after filed is moved or deleted

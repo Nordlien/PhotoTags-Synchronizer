@@ -1489,12 +1489,7 @@ namespace Exiftool
                                 break;
                             case CompositeTags.GPSDateTime:
                             case "GPSDateTime":
-                                //if (regionType == "XMP:XMP-exif" && command == "GPSDateTime")
-                                //{                                   
-                                    if (!exifToolData.Parameter.EndsWith("Z", true, CultureInfo.InvariantCulture)) 
-                                        exifToolData.Parameter += "Z"; //GPS Time needs to be UTC
-                                //}
-
+                                if (!exifToolData.Parameter.EndsWith("Z", true, CultureInfo.InvariantCulture)) exifToolData.Parameter += "Z"; //GPS Time needs to be UTC
                                 metadata.LocationDateTime = ConvertAndCheckDateFromString(metadata.LocationDateTime,
                                     exifToolData, oldExifToolGPSDateTime,
                                     CompositeTags.GPSDateTime, ref metadata.errors);

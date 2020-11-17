@@ -1015,12 +1015,14 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
-
+            
             DataGridViewUpdateThumbnail(dataGridView, e);
+            
             DataGridViewHandler.CellPaintingHandleDefault(sender, e);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+            
         }
         #endregion
 
