@@ -767,39 +767,18 @@ namespace MetadataLibrary
             
             List<String> mediaFilesNoInDatabase = new List<String>();
 
-            /*
-            string sqlCommand = "SELECT 1 FROM MediaMetadata WHERE " +
-                "Broker = @Broker AND " +
-                "FileDirectory = @FileDirectory AND " +
-                "FileName = @FileName AND " +
-                "FileDateModified = @FileDateModified " +
-                "LIMIT 1";
+            foreach (FileEntry file in files)
+            {
+                FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FullFilePath, file.LastWriteDateTime, broker);
 
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {*/
-                foreach (FileEntry file in files)
+                if (!CacheContainsKey(fileEntryBroker)) //Check if already in queue, due to screen refreash and reloads etc...
                 {
-                    FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FullFilePath, file.LastWriteDateTime, broker);
-                    
-                    if (!CacheContainsKey(fileEntryBroker)) //Check if already in queue, due to screen refreash and reloads etc...
-                    {
-                        Metadata metadata = ReadCache(fileEntryBroker);
-                        if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FullFilePath);
-                        /*
-                        commandDatabase.Parameters.AddWithValue("@Broker", broker);
-                        commandDatabase.Parameters.AddWithValue("@FileDirectory", file.Directory);
-                        commandDatabase.Parameters.AddWithValue("@FileName", file.FileName);
-                        commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
-                        var value = commandDatabase.ExecuteScalar();
+                    Metadata metadata = ReadCache(fileEntryBroker);
+                    if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FullFilePath);
 
-                        if (value == null)
-                        {
-                            mediaFilesNoInDatabase.Add(fileEntryBroker.FullFilePath);
-                        }*/
-                    }
                 }
-            //}
-
+            }
+            
             return mediaFilesNoInDatabase;
         }
 

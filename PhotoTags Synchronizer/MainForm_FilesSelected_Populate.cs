@@ -8,6 +8,7 @@ using static Manina.Windows.Forms.ImageListView;
 using System.IO;
 using System.Collections.Generic;
 using FileDateTime;
+using System.Threading;
 
 namespace PhotoTagsSynchronizer
 {
@@ -188,6 +189,12 @@ namespace PhotoTagsSynchronizer
 
         private void UpdateThumbnailOnImageListViewItems(ImageListView imageListView, List<Metadata> updatedMetadata)
         {
+            if (GlobalData.retrieveImageCount > 0) 
+            {
+                Thread.Sleep(100); //Wait until all ImageListView events are removed
+                //DEBGUG BREAK
+            }
+
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
             try
             {
@@ -238,7 +245,7 @@ namespace PhotoTagsSynchronizer
                 foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
                 {
                     AddQueueAllUpadtedFileEntry(new FileEntryImage(imageListViewItem.FullFileName, imageListViewItem.DateModified));
-                    
+           
                 }
                 StartThreads();
 

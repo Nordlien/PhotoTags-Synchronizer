@@ -45,8 +45,6 @@ namespace PhotoTagsSynchronizer
             toolStripStatusAction.Text = text;
             timerActionStatusRemove.Stop(); //Restart
             timerActionStatusRemove.Start();
-
-            
         }
 
 

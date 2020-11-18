@@ -61,6 +61,24 @@ namespace PhotoTagsSynchronizer
                 );
         }
 
+        private bool IsThreadRunningExcept_ThreadThumbnailRegion()
+        {
+            return 
+                queueSaveThumbnails.Count > 0 ||
+                queueMetadataExiftool.Count > 0 ||
+                queueMetadataWindowsLivePhotoGallery.Count > 0 ||
+                queueMetadataMicrosoftPhotos.Count > 0 ||
+                //queueThumbnailRegion.Count > 0 ||
+                queueSaveMetadataUpdatedByUser.Count > 0;
+            /* return (
+                (_ThreadThumbnailMedia == null || _ThreadThumbnailMedia.IsAlive) ||
+                (_ThreadExiftool == null || _ThreadExiftool.IsAlive) ||
+                (_ThreadWindowsLiveGallery == null || _ThreadWindowsLiveGallery.IsAlive) ||
+                (_ThreadMicrosoftPhotos == null || _ThreadMicrosoftPhotos.IsAlive) ||
+                (_ThreadSaveMetadata == null || _ThreadSaveMetadata.IsAlive)
+                );*/ 
+        }
+
         private void SetWaitQueueEmptyFlag()
         {
             if (queueSaveThumbnails.Count == 0 &&
@@ -71,7 +89,7 @@ namespace PhotoTagsSynchronizer
                 queueSaveMetadataUpdatedByUser.Count == 0
                 )
             {
-                //When out of memory, then wait for chache to empty
+                //When out of memory, then wait for cache to empty
 
                 if (WaitCacheEmpty != null)
                 {
@@ -177,30 +195,33 @@ namespace PhotoTagsSynchronizer
         {
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
             if (!queueSaveThumbnails.Contains(fileEntryImage)) queueSaveThumbnails.Add(fileEntryImage);
+            else if (fileEntryImage.Image != null)
+            {
+                int index = queueSaveThumbnails.IndexOf(fileEntryImage);
+                if (index >= 0) 
+                    queueSaveThumbnails[index].Image = fileEntryImage.Image; //Image has been found, updated the entry, so image will not be needed to load again.
+            }
         }
         #endregion
 
         #region AddQueue - AddQueueAllUpadtedFileEntry(FileEntryImage fileEntryImage) - for read missing metadata
         public void AddQueueAllUpadtedFileEntry(FileEntryImage fileEntryImage)
         {
-            if (File.GetLastWriteTime(fileEntryImage.FullFilePath) == fileEntryImage.LastWriteDateTime) //Don't add old files in queue
+            //WHen file is DELETE, LastWriteDateTime become null
+            if (fileEntryImage.LastWriteDateTime != null && File.GetLastWriteTime(fileEntryImage.FullFilePath) == fileEntryImage.LastWriteDateTime) //Don't add old files in queue
             {
-                if (fileEntryImage.LastWriteDateTime != null)
-                {
-                    //WHen file is Gone, LastWriteDateTime become null
+                //If Metadata don't exisit in database, put it in read queue
+                Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.ExifTool));
+                if (metadata == null) AddQueueExiftool(fileEntryImage);
 
-                    //If Metadata don't exisit in database, put it in read queue
-                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.ExifTool));
-                    if (metadata == null) AddQueueExiftool(fileEntryImage);
+                metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.MicrosoftPhotos));
+                if (metadata == null) AddQueueMicrosoftPhotos(fileEntryImage);
 
-                    metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.MicrosoftPhotos));
-                    if (metadata == null) AddQueueMicrosoftPhotos(fileEntryImage);
+                metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.WindowsLivePhotoGallery));
+                if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntryImage);
 
-                    metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.WindowsLivePhotoGallery));
-                    if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntryImage);
-
-                    AddQueueThumbnailMedia(fileEntryImage);
-                }
+                if (databaseAndCacheThumbnail.ReadCache(fileEntryImage) == null) AddQueueThumbnailMedia(fileEntryImage);
+                
             }
             StartThreads();
             SetWaitQueueEmptyFlag();
@@ -277,45 +298,35 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadThumbnailMedia = new Thread(() =>
                 {
-                    _ThreadThumbnailMedia.Priority = ThreadPriority.Lowest;
+                    //_ThreadThumbnailMedia.Priority = ThreadPriority.Lowest;
 
                     while (queueSaveThumbnails.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
-                        if (queueSaveThumbnails[0] != null)
-                        {
-                            if (queueSaveThumbnails[0].Image == null) 
-                                queueSaveThumbnails[0].Image = LoadMediaCoverArtThumbnail(queueSaveThumbnails[0].FullFilePath, ThumbnailSaveSize);
-
-                            if (queueSaveThumbnails[0].Image != null && !databaseAndCacheThumbnail.DoesThumbnailExist(queueSaveThumbnails[0]))
-                            {
-                                try
-                                {
-                                    databaseAndCacheThumbnail.TransactionBeginBatch();
-                                    databaseAndCacheThumbnail.WriteThumbnail(queueSaveThumbnails[0], queueSaveThumbnails[0].Image);
-                                    databaseAndCacheThumbnail.TransactionCommitBatch();
-                                    lock (GlobalData.populateSelectedLock) //A PopulateSelectedGrid already in progress, wait untill complete
-                                    {
-                                        PopulateImageOnFileEntryOnSelectedGrivViewInvoke(queueSaveThumbnails[0]);
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    Logger.Error("ThreadSaveThumbnail: " + e.Message);
-                                }
-                            }
-                        }
-
                         try
                         {
-                            queueSaveThumbnails.RemoveAt(0);
+                            FileEntryImage fileEntryImage = new FileEntryImage(queueSaveThumbnails[0]);
+                            if (fileEntryImage.Image == null)
+                                fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FullFilePath, ThumbnailSaveSize);
+
+                            if (fileEntryImage.Image != null && !databaseAndCacheThumbnail.DoesThumbnailExist(fileEntryImage))
+                            {
+                                databaseAndCacheThumbnail.TransactionBeginBatch();
+                                databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
+                                databaseAndCacheThumbnail.TransactionCommitBatch();
+                                //A PopulateSelectedGrid already in progress, wait untill complete
+                                lock (GlobalData.populateSelectedLock) PopulateImageOnFileEntryOnSelectedGrivViewInvoke(fileEntryImage);                                
+                            }
+
+                        
+                            if (queueSaveThumbnails.Count>0) queueSaveThumbnails.RemoveAt(0);
                         } catch (Exception ex)
                         {
                             Logger.Error("ThreadSaveThumbnail: " + ex.Message);
                         }
                         UpdateStatusReadWriteStatus_NeedToBeUpated();
                     }
+                    StartThreads();
                     SetWaitQueueEmptyFlag();
-                    Application.DoEvents();
                 });
 
                 _ThreadThumbnailMedia.Start();
@@ -336,9 +347,12 @@ namespace PhotoTagsSynchronizer
         {
             if (_ThreadThumbnailRegion == null || (!_ThreadThumbnailRegion.IsAlive && queueThumbnailRegion.Count > 0))
             {
+                if (IsThreadRunningExcept_ThreadThumbnailRegion()) 
+                    return; //Wait other thread to finnish first. Otherwise it will generate high load on disk use
+
                 _ThreadThumbnailRegion = new Thread(() =>
                 {                    
-                    while (queueThumbnailRegion.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
+                    while (queueThumbnailRegion.Count > 0 && !GlobalData.IsApplicationClosing && !IsThreadRunningExcept_ThreadThumbnailRegion()) //In case some more added to the queue
                     {
                         int queueCount = queueThumbnailRegion.Count; //Mark count that we will work with. 
 
@@ -504,6 +518,7 @@ namespace PhotoTagsSynchronizer
                     }
 
                     exiftoolReader.MetadataGroupPrioityWrite(); //Updated json config file if new tags found
+                    StartThreads();
                     SetWaitQueueEmptyFlag();
                 });
 
@@ -512,54 +527,49 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Thread - EmptyQueue(MetadataBrokerTypes broker, MetadataDatabaseCache database, ImetadataReader reader, List<FileEntry> metadataReadQueue, int maksCount)
+        #region Thread - EmptyQueue(MetadataBrokerTypes broker, MetadataDatabaseCache database, ImetadataReader reader, List<FileEntry> metadataReadQueue)
         private void EmptyQueue(MetadataBrokerTypes broker, MetadataDatabaseCache database,
-            ImetadataReader reader, List<FileEntry> metadataReadQueue, int maksCount)
+            ImetadataReader reader, List<FileEntry> metadataReadQueue)
         {
-            int countRead = 0;
-            while (metadataReadQueue.Count > 0 && countRead < maksCount && !GlobalData.IsApplicationClosing) //In case some more added to the queue
+            //if (reader != null) //database reader becomes null when not open, e.g. due to database was locked when starting the app 
+            //or application (Windows Live Photo Galelery or Microsot Photos) was not installed
+            while (metadataReadQueue.Count > 0 && !GlobalData.IsApplicationClosing && reader != null) //In case some more added to the queue
             {
-                int indexWithImage = 0;
-                FileEntry fileEntry = metadataReadQueue[indexWithImage];
+                FileEntry fileEntry = new FileEntry(metadataReadQueue[0]);
                 Metadata metadata;
 
-                if (reader != null) //database reader becomes null when not open, e.g. due to database was locked when starting the app 
-                                    //or application (Windows Live Photo Galelery or Microsot Photos) was not installed
+                if (File.Exists(fileEntry.FullFilePath))
                 {
-                    if (File.Exists(fileEntry.FullFilePath))
+                    metadata = reader.Read(broker, fileEntry.FullFilePath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
+                    if (metadata != null) // && broker != MetadataBrokerTypes.WindowsLivePhotoGallery)
                     {
-                        metadata = reader.Read(broker, fileEntry.FullFilePath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
-                        if (metadata != null) // && broker != MetadataBrokerTypes.WindowsLivePhotoGallery)
-                        {
-                            //Windows Live Photo Gallery writes direclty to database from sepearte thread when found
-                            database.TransactionBeginBatch();
-                            database.Write(metadata);
+                        //Windows Live Photo Gallery writes direclty to database from sepearte thread when found
+                        database.TransactionBeginBatch();
+                        database.Write(metadata);
+                        AddQueueCreateRegionFromPoster(metadata);
+                        database.TransactionCommitBatch();
 
-                            AddQueueCreateRegionFromPoster(metadata);
-                            database.TransactionCommitBatch();
+                        //A PopulateSelectedGrid already in progress, wait untill complete, Metadata found and updated, updated DataGricView
+                        lock (GlobalData.populateSelectedLock) PopulateMetadataOnFileOnActiveDataGrivViewInvoke(metadata.FileFullPath);                         
+                    } /*else
+                    {
+                        metadata = new Metadata(broker);
+                        metadata.FileEntryBroker.Broker = broker;
+                        metadata.FileName = metadataReadQueue[indexWithImage].FileName;
+                        metadata.FileDirectory = metadataReadQueue[indexWithImage].Directory;
+                        metadata.FileDateModified = metadataReadQueue[indexWithImage].LastWriteDateTime;
+                        database.TransactionBeginBatch();
+                        database.Write(metadata);
+                        database.TransactionCommitBatch();
+                    }*/
+                } 
+                else Logger.Warn("File don't exsist anymore: " + fileEntry.FullFilePath);
 
-                            lock (GlobalData.populateSelectedLock) //A PopulateSelectedGrid already in progress, wait untill complete
-                            {
-                                PopulateMetadataOnFileOnActiveDataGrivViewInvoke(metadata.FileFullPath); //Metadata found and updated, updated DataGricView
-                            }
-                        }
-                    } 
-                    else 
-                        Logger.Warn("File don't exsist anymore: " + fileEntry.FullFilePath);
-
-                }
-
-
-                lock (metadataReadQueue)
-                {
-                    //if (thumbnailQueue[0].Image != null) thumbnailQueue[0].Image.Dispose();
-                    metadataReadQueue.RemoveRange(indexWithImage, 1); //Remove from queue after read. Otherwise wrong text in status bar
-                }
-
+                metadataReadQueue.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
                 UpdateStatusReadWriteStatus_NeedToBeUpated();
-                countRead++;
             }
-
+            StartThreads();
+            SetWaitQueueEmptyFlag();
         }
         #endregion
 
@@ -575,7 +585,7 @@ namespace PhotoTagsSynchronizer
                     {
                         int currentLastIndex = queueMetadataWindowsLivePhotoGallery.Count - 1;
 
-                        EmptyQueue(MetadataBrokerTypes.WindowsLivePhotoGallery, databaseAndCacheMetadataWindowsLivePhotoGallery, databaseWindowsLivePhotGallery, queueMetadataWindowsLivePhotoGallery, int.MaxValue);
+                        EmptyQueue(MetadataBrokerTypes.WindowsLivePhotoGallery, databaseAndCacheMetadataWindowsLivePhotoGallery, databaseWindowsLivePhotGallery, queueMetadataWindowsLivePhotoGallery);
                         UpdateStatusReadWriteStatus_NeedToBeUpated();
                     }
 
@@ -597,12 +607,10 @@ namespace PhotoTagsSynchronizer
                 {
                     while (queueMetadataMicrosoftPhotos.Count > 0 && !GlobalData.IsApplicationClosing)
                     {
-                        int currentLastIndex = queueMetadataMicrosoftPhotos.Count - 1;
-
-                        EmptyQueue(MetadataBrokerTypes.MicrosoftPhotos, databaseAndCacheMetadataMicrosoftPhotos, databaseWindowsPhotos, queueMetadataMicrosoftPhotos, int.MaxValue);
+                        EmptyQueue(MetadataBrokerTypes.MicrosoftPhotos, databaseAndCacheMetadataMicrosoftPhotos, databaseWindowsPhotos, queueMetadataMicrosoftPhotos);
                         UpdateStatusReadWriteStatus_NeedToBeUpated();
                     }
-
+                    
                 });
 
                 _ThreadMicrosoftPhotos.Start();

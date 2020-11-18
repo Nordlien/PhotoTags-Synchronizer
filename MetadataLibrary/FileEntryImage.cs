@@ -14,6 +14,11 @@ namespace MetadataLibrary
 
         public FileEntry FileEntry { get => new FileEntry(fullFilePath, lastWriteDateTime); }
 
+        public FileEntryImage(FileEntryImage fileEntryImage) : base (fileEntryImage.FileEntry)
+        {
+            Image = new Bitmap(fileEntryImage.image);
+        }
+
         public FileEntryImage(FileEntry fileEntry) : base(fileEntry.FullFilePath, fileEntry.LastWriteDateTime)
         {
 

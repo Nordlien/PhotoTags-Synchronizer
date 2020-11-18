@@ -363,6 +363,13 @@ namespace Manina.Windows.Forms
             /// </summary>
             internal bool InsertInternal(int index, ImageListViewItem item)
             {
+                if (index < 0)
+                {
+                    return false;
+                    //DEBUG break; //I guess this fails when select loading data evenet and removed the content
+                    //throw new Exception("I guess this fails when select loading data evenet and removed the content, need debug");
+                }
+
                 // Check if the file already exists
                 if (mImageListView != null && !mImageListView.AllowDuplicateFileNames)
                 {
@@ -371,10 +378,7 @@ namespace Manina.Windows.Forms
                 }
                 item.owner = this;
                 item.mIndex = index;
-                if (index < 0)
-                {
-                    //DEBUG break; //I guess this fails when select loading data evenet and removed the content
-                }
+                
                 for (int i = index; i < mItems.Count; i++) 
                     mItems[i].mIndex++;
                 mItems.Insert(index, item);
