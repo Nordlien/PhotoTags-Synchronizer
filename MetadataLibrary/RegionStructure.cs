@@ -483,7 +483,7 @@ namespace MetadataLibrary
             AreaHeight = region.areaHeight;
             Name = region.name;
             RegionStructureType = region.regionStructureType;
-            Thumbnail = thumbnail == null ? null : new Bitmap(region.thumbnail);
+            Thumbnail = region.thumbnail == null ? null : new Bitmap(region.thumbnail);
         }
 
         private Rectangle GetAbstractRectangle()

@@ -848,7 +848,7 @@ namespace DataGridViewGeneric
             FileEntryImage fileEntryImage, Metadata metadata, DateTime dateTimeForEditableMediaFile,
             ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
-            int columnIndex = GetColumnIndex(dataGridView, fileEntryImage); //Find column Idex for Filename and date last written
+            int columnIndex = GetColumnIndex(dataGridView, fileEntryImage); //Find column Index for Filename and date last written
 
             bool isErrorColumn = (metadata != null) && (metadata.Broker & MetadataBrokerTypes.ExifToolWriteError) > 0;
             bool showErrorColumns = (showWhatColumns & ShowWhatColumns.ErrorColumns) > 0;
