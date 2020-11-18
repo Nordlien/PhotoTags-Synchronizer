@@ -270,7 +270,7 @@ namespace WindowsProperty
         public Image GetThumbnail (string fullFileName)
         {
             Bitmap image = null;
-            Console.WriteLine("WindowsPropertyReader.GetThumbnail:" + File.Exists(fullFileName));
+            //Console.WriteLine("WindowsPropertyReader.GetThumbnail:" + File.Exists(fullFileName));
             if (File.Exists(fullFileName))
             {
                 ShellFile shellFile = ShellFile.FromFilePath(fullFileName);

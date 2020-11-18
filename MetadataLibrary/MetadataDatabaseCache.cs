@@ -767,7 +767,7 @@ namespace MetadataLibrary
             
             List<String> mediaFilesNoInDatabase = new List<String>();
 
-
+            /*
             string sqlCommand = "SELECT 1 FROM MediaMetadata WHERE " +
                 "Broker = @Broker AND " +
                 "FileDirectory = @FileDirectory AND " +
@@ -776,13 +776,16 @@ namespace MetadataLibrary
                 "LIMIT 1";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
+            {*/
                 foreach (FileEntry file in files)
                 {
                     FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FullFilePath, file.LastWriteDateTime, broker);
-
+                    
                     if (!CacheContainsKey(fileEntryBroker)) //Check if already in queue, due to screen refreash and reloads etc...
                     {
+                        Metadata metadata = ReadCache(fileEntryBroker);
+                        if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FullFilePath);
+                        /*
                         commandDatabase.Parameters.AddWithValue("@Broker", broker);
                         commandDatabase.Parameters.AddWithValue("@FileDirectory", file.Directory);
                         commandDatabase.Parameters.AddWithValue("@FileName", file.FileName);
@@ -792,10 +795,10 @@ namespace MetadataLibrary
                         if (value == null)
                         {
                             mediaFilesNoInDatabase.Add(fileEntryBroker.FullFilePath);
-                        }
+                        }*/
                     }
                 }
-            }
+            //}
 
             return mediaFilesNoInDatabase;
         }

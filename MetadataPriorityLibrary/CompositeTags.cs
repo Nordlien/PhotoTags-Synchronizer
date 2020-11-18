@@ -55,7 +55,6 @@ namespace MetadataPriorityLibrary
             foreach (var prop in compositeTags.GetType().GetFields())
             {
                 dictionary.Add(prop.Name, (string)prop.GetValue(this));
-                //Console.WriteLine("{0}={1}", prop.Name, prop.GetValue(foo, null));
             }
             return dictionary;
         }

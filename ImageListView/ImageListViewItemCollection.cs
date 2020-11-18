@@ -371,7 +371,11 @@ namespace Manina.Windows.Forms
                 }
                 item.owner = this;
                 item.mIndex = index;
-                for (int i = index; i < mItems.Count; i++)
+                if (index < 0)
+                {
+                    //DEBUG break; //I guess this fails when select loading data evenet and removed the content
+                }
+                for (int i = index; i < mItems.Count; i++) 
                     mItems[i].mIndex++;
                 mItems.Insert(index, item);
                 if (mImageListView != null)

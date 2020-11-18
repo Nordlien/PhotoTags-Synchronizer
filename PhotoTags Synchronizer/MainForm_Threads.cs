@@ -185,7 +185,7 @@ namespace PhotoTagsSynchronizer
         {
             if (File.GetLastWriteTime(fileEntryImage.FullFilePath) == fileEntryImage.LastWriteDateTime) //Don't add old files in queue
             {
-                if (fileEntryImage.LastWriteDateTime == null)
+                if (fileEntryImage.LastWriteDateTime != null)
                 {
                     //WHen file is Gone, LastWriteDateTime become null
 
@@ -281,8 +281,6 @@ namespace PhotoTagsSynchronizer
 
                     while (queueSaveThumbnails.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
-
-
                         if (queueSaveThumbnails[0] != null)
                         {
                             if (queueSaveThumbnails[0].Image == null) 

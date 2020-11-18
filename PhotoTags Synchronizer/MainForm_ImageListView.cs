@@ -45,7 +45,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                Console.WriteLine("LoadMediaCoverArtThumbnail: " + fullFilePath);
+                //Console.WriteLine("LoadMediaCoverArtThumbnail: " + fullFilePath);
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
@@ -203,9 +203,7 @@ namespace PhotoTagsSynchronizer
         /// <param name="e"></param>
         private void imageListView1_RetrieveItemThumbnail(object sender, RetrieveItemThumbnailEventArgs e)
         {
-            Console.WriteLine("imageListView1_RetrieveItemThumbnail: " +
-                (GlobalData.IsApplicationClosing ? "AppClosing" : "") +
-                (GlobalData.IsDragAndDropActive ? "IsDragAndDropActive" : ""));
+            //Console.WriteLine("imageListView1_RetrieveItemThumbnail: " + (GlobalData.IsApplicationClosing ? "AppClosing" : "") + (GlobalData.IsDragAndDropActive ? "IsDragAndDropActive" : ""));
 
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.DoNotRefreshImageListView) return;
