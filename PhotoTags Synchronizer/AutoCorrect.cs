@@ -153,8 +153,11 @@ namespace PhotoTagsSynchronizer
             GoogleLocationHistoryDatabaseCache databaseGoogleLocationHistory
             )
         {
-            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool);            
+            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool);
             Metadata metadata = metadataDatabaseCacheExiftool.ReadCache(fileEntryBrokerExiftool);
+            if (metadata == null) 
+                return null; //DEBUG Why NULL
+            metadata = new Metadata(metadata); //Make a copy
 
             FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos);            
             Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.ReadCache(fileEntryBrokerMicrosoftPhotos);
@@ -308,6 +311,16 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Face region
+            //Remove duplicates Name and Area regions (Don't care about source)
+            /*
+            No need, due to get removed in Save....
+            List<RegionStructure> tempList = new List<RegionStructure>(); 
+            foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
+                if (!regionStructure.DoesThisRectangleAndNameExistInList(tempList)) tempList.Add(regionStructure);
+            metadata.PersonalRegionList.Clear();
+            foreach (RegionStructure regionStructure in tempList) metadata.PersonalRegionList.Add(regionStructure);
+            */
+
             if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotos != null)
             {
                 foreach (RegionStructure regionStructure in metadataMicrosoftPhotos.PersonalRegionList)

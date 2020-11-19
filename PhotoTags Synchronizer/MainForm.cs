@@ -36,7 +36,6 @@ namespace PhotoTagsSynchronizer
           new Size (192, 192)  
           //Making this to big will eat memory and create app slow due to limit in memory and sqlite
         };
-        private int defaultThumbnailSizeNumber = 1;
         private Size ThumbnailSaveSize {get; set;} = new Size(192, 192);
         private Size ThumbnailMaxUpsize { get; set; } = new Size(192, 192);
 
@@ -128,7 +127,6 @@ namespace PhotoTagsSynchronizer
             databaseGoogleLocationHistory = new GoogleLocationHistoryDatabaseCache(databaseUtilitiesSqliteMetadata);
             databaseAndCacheMetadataExiftool = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
             databaseAndCacheThumbnail = new ThumbnailDatabaseCache(databaseUtilitiesSqliteMetadata);
-            
             databaseAndCacheThumbnail.UpsizeThumbnailSize = ThumbnailMaxUpsize;
 
             databaseExiftoolData = new ExiftoolDataDatabase(databaseUtilitiesSqliteMetadata);

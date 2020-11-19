@@ -16,7 +16,7 @@ namespace MetadataLibrary
 
         public FileEntryImage(FileEntryImage fileEntryImage) : base (fileEntryImage.FileEntry)
         {
-            Image = new Bitmap(fileEntryImage.image);
+            Image = fileEntryImage.image == null ? null : new Bitmap(fileEntryImage.image);
         }
 
         public FileEntryImage(FileEntry fileEntry) : base(fileEntry.FullFilePath, fileEntry.LastWriteDateTime)

@@ -533,14 +533,15 @@ namespace MetadataLibrary
                 personalRegionList.Add(regionStructure);
         }
 
+        public void PersonalRegionListAddIfNotAreaAndNameExists(RegionStructure regionStructure)
+        {
+            if (!regionStructure.DoesThisRectangleAndNameExistInList(personalRegionList)) personalRegionList.Add(regionStructure);
+        }
+        
+
         public void PersonalRegionListAddIfNameNotExists(RegionStructure regionStructure)
         {
-            bool doesNameExists = false;
-            foreach (RegionStructure regionStructureSearch in personalRegionList)
-            {
-                if (regionStructure.Name == regionStructureSearch.Name) doesNameExists = true;
-            }
-            if (!doesNameExists) personalRegionList.Add(regionStructure);
+            if (!regionStructure.DoesThisNameExistInList(personalRegionList)) personalRegionList.Add(regionStructure);
         }
 
         public List<KeywordTag> PersonalKeywordTags

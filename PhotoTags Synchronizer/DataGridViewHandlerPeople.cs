@@ -28,9 +28,8 @@ namespace PhotoTagsSynchronizer
                 if (switchStates == SwitchStates.On)
                 {
                     RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndex);
-                    metadata.PersonalRegionListAddIfNotExists(regionStructure);
-                }
-                
+                    metadata.PersonalRegionListAddIfNotAreaAndNameExists(regionStructure);
+                }               
             }
         }
 
@@ -171,8 +170,21 @@ namespace PhotoTagsSynchronizer
                     ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly,            /* this will set histority columns as read only columns    */
                     showWhatColumns,                                                                        /* show Edit | Hisorical columns | Error columns            */
                     new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));  /* New cells will have this value                           */
+
+                columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryBroker);
                 if (columnIndex == -1) continue;                                                         /* -1 - Don't need show column, due to hidden / do now show */
 
+
+                /*DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null)
+                {
+                    if (dataGridViewGenericColumn.Metadata != null && dataGridViewGenericColumn.FileEntryImage.Image == null)
+                    {
+                        dataGridViewGenericColumn.FileEntryImage.Image = databaseAndCacheThumbnail.ReadCache(dataGridViewGenericColumn.Metadata.FileEntryBroker);
+                        if (dataGridViewGenericColumn.FileEntryImage.Image == null) AddQueueAllUpadtedFileEntry(new FileEntryImage(dataGridViewGenericColumn.Metadata.FileEntryBroker, null));
+                    }
+                    if (databaseAndCacheThumbnail.DoesMetadataMissThumbnailInRegion(dataGridViewGenericColumn.Metadata)) AddQueueCreateRegionFromPoster(dataGridViewGenericColumn.Metadata);
+                }*/
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerPeople));
 

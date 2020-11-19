@@ -461,14 +461,14 @@ namespace DataGridViewGeneric
             switch (size)
             {
                 case DataGridViewSize.Small:
-                    return 200;
+                    return 230;
                 case DataGridViewSize.Medium:
-                    return 200;
+                    return 230;
                 case DataGridViewSize.Large:
-                    return 200;
+                    return 230;
 
                 case DataGridViewSize.Small | DataGridViewSize.RenameSize:
-                    return 200; //Rename Grid
+                    return 230; //Rename Grid
                 case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
                     return 400; //Rename Grid
                 case DataGridViewSize.Large | DataGridViewSize.RenameSize:
@@ -918,10 +918,32 @@ namespace DataGridViewGeneric
                     isMetadataAlreadyAgregated = true;
                 else
                     currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
-
-                if (metadata != null && !isHistoryColumn && !currentDataGridViewGenericColumn.HasFileBeenUpdated) 
+               
+                if (metadata != null && !isHistoryColumn && !currentDataGridViewGenericColumn.HasFileBeenUpdated)
+                {
                     currentDataGridViewGenericColumn.HasFileBeenUpdated = (metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified); //If edit Column
-                
+                    if (currentDataGridViewGenericColumn.HasFileBeenUpdated && currentDataGridViewGenericColumn.Metadata != null)
+                    {
+                        Metadata metadataCompare = new Metadata(currentDataGridViewGenericColumn.Metadata);
+                        metadataCompare.FileDateCreated = metadata.FileDateCreated;
+                        metadataCompare.FileDateModified = metadata.FileDateModified;
+                        metadataCompare.FileLastAccessed = metadata.FileLastAccessed;
+                        metadataCompare.FileSize = metadata.FileSize;
+                        if (metadataCompare == metadata) //Are updated data been changed and looks diffrent
+                        {
+                            currentDataGridViewGenericColumn.HasFileBeenUpdated = false; //Don't need to show warning, metadata updated in the background
+                            
+                        } else //Metadate is upgraded, but user haven't changed anything, update data on the DataGridView
+                        {
+                            if (!DataGridViewHandler.IsDataGridViewDirty(dataGridView))
+                            {
+                                isMetadataAlreadyAgregated = false;
+                                currentDataGridViewGenericColumn.HasFileBeenUpdated = false;
+                            }
+                        }
+                    }                    
+                }
+                                
                 if (metadata != null && metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified) 
                     currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
                 currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
@@ -2406,9 +2428,9 @@ namespace DataGridViewGeneric
         #region CellPainting Draw Functions 
         public static void DrawImageAndSubText(object sender, DataGridViewCellPaintingEventArgs e, Image image, string text, Color backgroundColor)
         {
-            //lock (image)
-            {
-                Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
+            Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
+            if (image != null)
+            {                
                 Size thumbnailSize = CalulateCellImageSizeInRectagle(rectangleRoundedCellBounds, image.Size);
 
                 if ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected)
@@ -2430,20 +2452,21 @@ namespace DataGridViewGeneric
                     e.CellBounds.Top + e.CellBounds.Height - 1,
                     e.CellBounds.Left + e.CellBounds.Width - 1,
                     e.CellBounds.Top + e.CellBounds.Height - 1);
-
-                if (text != null)
-                {
-                    SizeF sizeF = e.Graphics.MeasureString(text, ((DataGridView)sender).Font, rectangleRoundedCellBounds.Size);
-
-                    var rectF = new RectangleF(
-                        rectangleRoundedCellBounds.X + 2,
-                        rectangleRoundedCellBounds.Y + rectangleRoundedCellBounds.Height - sizeF.Height - 2,
-                        sizeF.Width, sizeF.Height);
-                    //Filling a 50% transparent rectangle before drawing the string.
-                    e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.White)), rectF);
-                    e.Graphics.DrawString(text, ((DataGridView)sender).Font, new SolidBrush(Color.Black), rectF);
-                }
             }
+
+            if (text != null)
+            {
+                SizeF sizeF = e.Graphics.MeasureString(text, ((DataGridView)sender).Font, rectangleRoundedCellBounds.Size);
+
+                var rectF = new RectangleF(
+                    rectangleRoundedCellBounds.X + 2,
+                    rectangleRoundedCellBounds.Y + rectangleRoundedCellBounds.Height - sizeF.Height - 2,
+                    sizeF.Width, sizeF.Height);
+                //Filling a 50% transparent rectangle before drawing the string.
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.White)), rectF);
+                e.Graphics.DrawString(text, ((DataGridView)sender).Font, new SolidBrush(Color.Black), rectF);
+            }
+            
         }
 
         public static void DrawImageOnRightSide(object sender, DataGridViewCellPaintingEventArgs e, Image image)
@@ -2644,27 +2667,30 @@ namespace DataGridViewGeneric
                 DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
                 if (dataGridViewGenericColumn == null) return;
                 Image image = dataGridViewGenericColumn.FileEntryImage.Image;
-
-                Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
-                Size thumbnailSize = CalulateCellImageSizeInRectagle(rectangleRoundedCellBounds, image.Size);
-
-                for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                if (image != null)
                 {
-                    MetadataLibrary.RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, rowIndex);
-                    if (region != null)
+
+                    Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
+                    Size thumbnailSize = CalulateCellImageSizeInRectagle(rectangleRoundedCellBounds, image.Size);
+
+                    for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
                     {
-                        Rectangle rectangleCenterThumbnail = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
-                        e.Graphics.DrawRectangle(new Pen(Color.Black, 1), rectangleCenterThumbnail.X, rectangleCenterThumbnail.Y, rectangleCenterThumbnail.Width, rectangleCenterThumbnail.Height);
+                        MetadataLibrary.RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, rowIndex);
+                        if (region != null)
+                        {
+                            Rectangle rectangleCenterThumbnail = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
+                            e.Graphics.DrawRectangle(new Pen(Color.Black, 1), rectangleCenterThumbnail.X, rectangleCenterThumbnail.Y, rectangleCenterThumbnail.Width, rectangleCenterThumbnail.Height);
 
-                        Rectangle rectangleRegion = region.GetImageRegionPixelRectangle(thumbnailSize);
+                            Rectangle rectangleRegion = region.GetImageRegionPixelRectangle(thumbnailSize);
 
-                        e.Graphics.DrawRectangle(new Pen(Color.White, 1), rectangleCenterThumbnail.X + rectangleRegion.X, rectangleCenterThumbnail.Y + rectangleRegion.Y, rectangleRegion.Width, rectangleRegion.Height);
+                            e.Graphics.DrawRectangle(new Pen(Color.White, 1), rectangleCenterThumbnail.X + rectangleRegion.X, rectangleCenterThumbnail.Y + rectangleRegion.Y, rectangleRegion.Width, rectangleRegion.Height);
 
-                        if (dataGridView[e.ColumnIndex, rowIndex].Selected) e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.White)), 
-                            rectangleCenterThumbnail.X + rectangleRegion.X, rectangleCenterThumbnail.Y + rectangleRegion.Y, rectangleRegion.Width, rectangleRegion.Height);
+                            if (dataGridView[e.ColumnIndex, rowIndex].Selected) e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.White)),
+                                rectangleCenterThumbnail.X + rectangleRegion.X, rectangleCenterThumbnail.Y + rectangleRegion.Y, rectangleRegion.Width, rectangleRegion.Height);
+
+                        }
 
                     }
-
                 }
             }
         }
@@ -2761,12 +2787,15 @@ namespace DataGridViewGeneric
                     }
                 }
 
+                Image image = fileEntryColumn.Image;
+                if (image == null) 
+                    image = (Image)Properties.Resources.load_image;
                 if (hasFileKnownErrors)
-                    DrawImageAndSubText(sender, e, fileEntryColumn.Image, cellText, ColorHeaderError);
+                    DrawImageAndSubText(sender, e, image, cellText, ColorHeaderError);
                 else if (dataGridViewGenericColumn.HasFileBeenUpdated)
-                    DrawImageAndSubText(sender, e, fileEntryColumn.Image, cellText, ColorHeaderWarning);
+                    DrawImageAndSubText(sender, e, image, cellText, ColorHeaderWarning);
                 else
-                    DrawImageAndSubText(sender, e, fileEntryColumn.Image, cellText, ColorHeaderImage);
+                    DrawImageAndSubText(sender, e, image, cellText, ColorHeaderImage);
                     
             }
             

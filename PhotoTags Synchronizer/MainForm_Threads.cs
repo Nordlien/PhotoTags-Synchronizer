@@ -163,10 +163,19 @@ namespace PhotoTagsSynchronizer
 
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
             if (dataGridViewGenericColumn == null) return false;
-            //if (dataGridViewGenericColumn.FileEntryImage.Image == null)
-            //    dataGridViewGenericColumn.FileEntryImage.Image = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(dataGridViewGenericColumn.Metadata.FileEntryBroker);
-            if (dataGridViewGenericColumn.FileEntryImage.Image == null) dataGridViewGenericColumn.FileEntryImage.Image = databaseAndCacheThumbnail.ReadCache(dataGridViewGenericColumn.Metadata.FileEntryBroker);
-            if (dataGridViewGenericColumn.FileEntryImage.Image == null) AddQueueAllUpadtedFileEntry(new FileEntryImage(dataGridViewGenericColumn.Metadata.FileEntryBroker, null));
+
+            if (dataGridViewGenericColumn.FileEntryImage.Image == null)
+            {
+                FileEntry fileEntryReadImageFile;
+                if (dataGridViewGenericColumn.Metadata != null && dataGridViewGenericColumn.Metadata.FileEntryBroker != null) 
+                    fileEntryReadImageFile = dataGridViewGenericColumn.Metadata.FileEntryBroker; //Read FileEntry from Metadata 
+                else 
+                    fileEntryReadImageFile = dataGridViewGenericColumn.FileEntryImage; //Read FileEntry From column info
+
+                dataGridViewGenericColumn.FileEntryImage.Image = databaseAndCacheThumbnail.ReadCache(fileEntryReadImageFile);
+                //Was not in cache, add to queue for read
+                if (dataGridViewGenericColumn.FileEntryImage.Image == null) AddQueueAllUpadtedFileEntry(new FileEntryImage(fileEntryReadImageFile, null));
+            }
             if (databaseAndCacheThumbnail.DoesMetadataMissThumbnailInRegion(dataGridViewGenericColumn.Metadata)) AddQueueCreateRegionFromPoster(dataGridViewGenericColumn.Metadata);
             
             return true;
@@ -195,7 +204,8 @@ namespace PhotoTagsSynchronizer
         {
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
             if (!queueSaveThumbnails.Contains(fileEntryImage)) queueSaveThumbnails.Add(fileEntryImage);
-            else if (fileEntryImage.Image != null)
+            else 
+            if (fileEntryImage.Image != null)
             {
                 int index = queueSaveThumbnails.IndexOf(fileEntryImage);
                 if (index >= 0) 
@@ -208,20 +218,22 @@ namespace PhotoTagsSynchronizer
         public void AddQueueAllUpadtedFileEntry(FileEntryImage fileEntryImage)
         {
             //WHen file is DELETE, LastWriteDateTime become null
-            if (fileEntryImage.LastWriteDateTime != null && File.GetLastWriteTime(fileEntryImage.FullFilePath) == fileEntryImage.LastWriteDateTime) //Don't add old files in queue
+            if (fileEntryImage.LastWriteDateTime != null)
             {
-                //If Metadata don't exisit in database, put it in read queue
-                Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.ExifTool));
-                if (metadata == null) AddQueueExiftool(fileEntryImage);
+                if (File.GetLastWriteTime(fileEntryImage.FullFilePath) == fileEntryImage.LastWriteDateTime) //Don't add old files in queue
+                {
+                    //If Metadata don't exisit in database, put it in read queue
+                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.ExifTool));
+                    if (metadata == null) AddQueueExiftool(fileEntryImage);
 
-                metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.MicrosoftPhotos));
-                if (metadata == null) AddQueueMicrosoftPhotos(fileEntryImage);
+                    metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.MicrosoftPhotos));
+                    if (metadata == null) AddQueueMicrosoftPhotos(fileEntryImage);
 
-                metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.WindowsLivePhotoGallery));
-                if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntryImage);
+                    metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.WindowsLivePhotoGallery));
+                    if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntryImage);
+                }
 
                 if (databaseAndCacheThumbnail.ReadCache(fileEntryImage) == null) AddQueueThumbnailMedia(fileEntryImage);
-                
             }
             StartThreads();
             SetWaitQueueEmptyFlag();
@@ -314,7 +326,11 @@ namespace PhotoTagsSynchronizer
                                 databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
                                 databaseAndCacheThumbnail.TransactionCommitBatch();
                                 //A PopulateSelectedGrid already in progress, wait untill complete
-                                lock (GlobalData.populateSelectedLock) PopulateImageOnFileEntryOnSelectedGrivViewInvoke(fileEntryImage);                                
+                                lock (GlobalData.populateSelectedLock) PopulateImageOnFileEntryOnSelectedGrivViewInvoke(fileEntryImage);
+                            }
+                            else
+                            {
+                                //DEBUG
                             }
 
                         

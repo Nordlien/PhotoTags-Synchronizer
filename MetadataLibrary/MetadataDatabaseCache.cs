@@ -517,7 +517,7 @@ namespace MetadataLibrary
             dbTools.TransactionCommitBatch();
         }
 
-        public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region, Size imageSize)
+        public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region)
         {
             CacheRemove(file);
             

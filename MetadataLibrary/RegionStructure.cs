@@ -548,6 +548,15 @@ namespace MetadataLibrary
             return false;
         }
 
+        public bool DoesThisNameExistInList(List<RegionStructure> regionStructures)
+        {
+            foreach (RegionStructure regionStructure in regionStructures)
+            {
+                if (NameEqual(Name, regionStructure.Name)) return true;
+            }
+            return false;
+        }
+
         public override string ToString()
         {
             return name ?? "";

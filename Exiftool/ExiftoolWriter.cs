@@ -270,6 +270,13 @@ namespace Exiftool
                     }
                     #endregion
 
+
+                    //Remove duplicates Name and Area regions (Don't care about source)
+                    List<RegionStructure> regionWriteListWithoutDuplicate = new List<RegionStructure>();
+                    foreach (RegionStructure regionStructure in metadataToWrite.PersonalRegionList)
+                        if (!regionStructure.DoesThisRectangleAndNameExistInList(regionWriteListWithoutDuplicate)) regionWriteListWithoutDuplicate.Add(regionStructure);
+                    
+
                     //-ImageRegion=
                     #region IPTC region tags - ImageRegion
                     #endregion
@@ -277,11 +284,11 @@ namespace Exiftool
                     //-RegionInfoMP={PersonalRegionInfoMP}
                     #region Microsoft region tags - RegionInfoMP 
                     string personalRegionInfoMP = "";                    
-                    if (metadataToWrite.PersonalRegionList.Count > 0)
+                    if (regionWriteListWithoutDuplicate.Count > 0)
                     {
                         bool needComma = false;
                         personalRegionInfoMP += "{Regions=[";
-                        foreach (RegionStructure region in metadataToWrite.PersonalRegionList)
+                        foreach (RegionStructure region in regionWriteListWithoutDuplicate)
                         {
                             RectangleF rectangleF = region.GetRegionInfoMPRectangleF(metadataToWrite.MediaSize);
                             if (needComma) personalRegionInfoMP += ",";
@@ -299,14 +306,14 @@ namespace Exiftool
                     //-RegionInfo={PersonalRegionInfo}
                     #region MWG Regions Tags - RegionInfo
                     string personalRegionInfo = "";
-                    if (metadataToWrite.PersonalRegionList.Count > 0)
+                    if (regionWriteListWithoutDuplicate.Count > 0)
                     {
                         bool needComma = false;
                         personalRegionInfo += "{AppliedToDimensions={W=" + metadataToWrite.MediaWidth + 
                             ",H=" + metadataToWrite.MediaHeight + 
                             ",Unit=pixel}," + 
                             "RegionList=[";
-                        foreach (RegionStructure region in metadataToWrite.PersonalRegionList)
+                        foreach (RegionStructure region in regionWriteListWithoutDuplicate)
                         {
                             RectangleF rectangleF = region.GetRegionInfoRectangleF(metadataToWrite.MediaSize);
                             if (needComma) personalRegionInfo += ",";

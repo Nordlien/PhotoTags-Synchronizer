@@ -44,7 +44,7 @@ namespace MetadataLibrary
                 {
                     regionStructure = metadata.PersonalRegionList[i];
                     regionStructure.Thumbnail = CopyRegionFromImage(image, regionStructure);
-                    metadataDatabase.UpdateRegionThumbnail(metadata.FileEntryBroker, regionStructure, image.Size);
+                    metadataDatabase.UpdateRegionThumbnail(metadata.FileEntryBroker, regionStructure);
                 }
             }
 
