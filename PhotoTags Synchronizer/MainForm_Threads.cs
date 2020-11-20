@@ -39,6 +39,11 @@ namespace PhotoTagsSynchronizer
         private Dictionary<string, string> queueErrorQueue = new Dictionary<string, string>();
 
         #region Start Thread, IsAnyThreadRunning, Tell when all queues are empty
+        private void timerStartThread_Tick(object sender, EventArgs e)
+        {
+            StartThreads();
+            SetWaitQueueEmptyFlag();
+        }
 
         private void StartThreads()
         {
@@ -70,13 +75,6 @@ namespace PhotoTagsSynchronizer
                 queueMetadataMicrosoftPhotos.Count > 0 ||
                 //queueThumbnailRegion.Count > 0 ||
                 queueSaveMetadataUpdatedByUser.Count > 0;
-            /* return (
-                (_ThreadThumbnailMedia == null || _ThreadThumbnailMedia.IsAlive) ||
-                (_ThreadExiftool == null || _ThreadExiftool.IsAlive) ||
-                (_ThreadWindowsLiveGallery == null || _ThreadWindowsLiveGallery.IsAlive) ||
-                (_ThreadMicrosoftPhotos == null || _ThreadMicrosoftPhotos.IsAlive) ||
-                (_ThreadSaveMetadata == null || _ThreadSaveMetadata.IsAlive)
-                );*/ 
         }
 
         private void SetWaitQueueEmptyFlag()
@@ -196,6 +194,8 @@ namespace PhotoTagsSynchronizer
                     PopulateMetadataOnFileOnActiveDataGrivViewInvoke(metadata.FileFullPath); //Metadata found and updated, updated DataGricView
                 }
             }
+            StartThreads();
+            SetWaitQueueEmptyFlag();
         }
         #endregion
 
@@ -390,14 +390,6 @@ namespace PhotoTagsSynchronizer
                                     if (queueThumbnailRegion[thumbnailIndex].FileFullPath == fileEntry.FullFilePath &&
                                         queueThumbnailRegion[thumbnailIndex].FileDateModified == fileEntry.LastWriteDateTime)
                                     {
-                                        /*
-                                        1. Saving data saved 2,3 x Faces, WLPG, MP, Exif, 
-
-                                                                                            FAIL PICTURE FOR THUMBNAIL WHEN has Windows Photos
-                                        2. Missing Exif data in List of Face Regions in queueThumbnailRegion.RegionList
-                                        3. Microsoft Photos Icon missing on faces for edit.
-                                        */
-
                                         if (image != null) //Failed load cover art, often occur after filed is moved or deleted
                                         {
                                             //Metadata found and updated, updated DataGricView
@@ -432,6 +424,7 @@ namespace PhotoTagsSynchronizer
 
                         UpdateStatusReadWriteStatus_NeedToBeUpated();
                     }
+                    StartThreads();
                     SetWaitQueueEmptyFlag();
                 });
 

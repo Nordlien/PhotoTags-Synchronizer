@@ -431,72 +431,10 @@ namespace PhotoTagsSynchronizer
 
 
 
+
         #endregion
 
         
     }
 }
-
-
-
-
-/////////////////////////////////////////////////////////////////
-//https://github.com/radioman/greatmaps / Maps library
-//https://www.nuget.org/packages/Nominatim.API/ Address lockup
-
-//Image reading
-//https://imageprocessor.org/imageprocessor/imagefactory/tint/ Image Processor
-
-//Exiftool
-//Start Exiftool Process in a better way
-//https://github.com/madelson/MedallionShell/ //Star commadn Shell and support encoding
-//Another option would be to HTML encode the problematic characters and use exiftool's -E (escapeHTML) option. For example -E -City="&#x158;&#xED;&#x10D;any"
-//https://github.com/Ruslan-B/FFmpeg.AutoGen Exiftool Wrapper
-//https://github.com/AerisG222/NExifTool Exiftool Wrapper
-
-//FFMPEG
-//https://xabe.net/product/xabe-ffmpeg/ FFMPEG Wrapper
-//https://www.nrecosite.com/video_converter_net.aspx FFMPEG Embedded
-//var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-//ffMpeg.GetVideoThumbnail(pathToVideoFile, thumbJpegStream,5);
-/*
-    * NReco.VideoConverter (FFMpeg wrapper)
--------------------------------------
-Website (release notes, examples etc): https://www.nrecosite.com/video_converter_net.aspx
-API documentation: https://www.nrecosite.com/doc/NReco.VideoConverter/
-Nuget package: https://www.nuget.org/packages/NReco.VideoConverter/
-
-NReco.VideoConverter (FFMpeg wrapper) - customer settinings / args
-https://stackoverflow.com/questions/34234263/how-to-use-nreco-ffmpeg-convertmedia-with-filter-complex
-ffMpeg.ConvertMedia(this.Video + ".mov", 
-    null, // autodetect by input file extension 
-    outPutVideo1 + ".mp4", 
-    null, // autodetect by output file extension 
-    new NReco.VideoConverter.ConvertSettings() {
-        CustomOutputArgs = " -filter_complex \"[0] yadif=0:-1:0,scale=iw*sar:ih,scale='if(gt(a,16/9),1280,-2)':'if(gt(a,16/9),-2,720)'[scaled];[scaled] pad=1280:720:(ow-iw)/2:(oh-ih)/2:black \" -c:v libx264 -c:a mp3 -ab 128k "
-    }
-);
-
-License
--------
-VideoConverter can be used for FREE in single-deployment projects (websites, intranet/extranet) or applications for company's internal business purposes (redistributed only internally inside the company). 
-Commercial license (included into enterprise source code pack) is required for:
-1) Applications for external redistribution (ISV)
-2) SaaS deployments
-
-How to use
-----------
-var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-ffMpeg.ConvertMedia("input.mov", "output.mp4", Format.mp4);
-*/
-
-//Metadata
-//Taglib.sharp
-//https://github.com/mono/taglib-sharp _ Metadata Read and Write ***** LOT OF FORMATS *****
-//Example: Get thumbnail from file -- https://stackoverflow.com/questions/17904184/using-taglib-to-display-the-cover-art-in-a-image-box-in-wpf
-//
-//https://github.com/drewnoakes/metadata-extractor
-
-
-
 

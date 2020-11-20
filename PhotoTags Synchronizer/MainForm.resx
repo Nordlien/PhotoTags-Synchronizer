@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>511, 1</value>
+    <value>305, 5</value>
   </metadata>
   <metadata name="contextMenuStripTreeViewFolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>25, 36</value>
+    <value>17, 49</value>
   </metadata>
   <metadata name="contextMenuStripImageListView.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>294, 37</value>
+    <value>300, 49</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="imageListView1.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -159,7 +159,7 @@
 </value>
   </data>
   <metadata name="contextMenuStripTagsAndKeywords.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1083, 38</value>
+    <value>808, 49</value>
   </metadata>
   <data name="toolStripMenuItemTagsBrokerCopyText.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -218,10 +218,10 @@
 </value>
   </data>
   <metadata name="contextMenuStripPeople.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>880, 6</value>
+    <value>583, 5</value>
   </metadata>
   <metadata name="contextMenuStripMap.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1113, 6</value>
+    <value>824, 5</value>
   </metadata>
   <data name="toolStripMenuItemMapCopyNotOverwrite.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -310,10 +310,10 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
 </value>
   </data>
   <metadata name="contextMenuStripExifTool.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>858, 35</value>
+    <value>576, 49</value>
   </metadata>
   <metadata name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>237, 1</value>
+    <value>31, 5</value>
   </metadata>
   <data name="thumbnailsToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -935,16 +935,19 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
 </value>
   </data>
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>352, 1</value>
+    <value>146, 5</value>
   </metadata>
   <data name="openFileDialog.Filter" xml:space="preserve">
     <value>All image files (*.bmp, *.gif, *.jpg, *.jepg, *.jpe, *.jif, *.png, *.tif, *.tiff, *.tga)|*.bmp;*.gif;*.jpg;*.jepg;*.jpe;*.jif;*.png;*.tif;*.tiff;*.tga|BMP (*.bmp)|*.bmp|GIF (*.gif)|*.gif|JPEG (*.jpg, *.jepg, *.jpe, *.jif)|*.jpg;*.jepg;*.jpe;*.jif|PNG (*.png)|*.png|TIFF (*.tif, *.tiff)|*.tif;*.tiff|TGA (*.tga)|*.tga|All files (*.*)|*.*</value>
   </data>
   <metadata name="timerShowErrorMessage.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>15, 1</value>
+    <value>1114, 6</value>
   </metadata>
   <metadata name="timerActionStatusRemove.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>639, 1</value>
+    <value>1111, 49</value>
+  </metadata>
+  <metadata name="timerStartThread.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1336, 6</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>85</value>

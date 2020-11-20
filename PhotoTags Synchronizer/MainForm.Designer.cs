@@ -227,6 +227,7 @@ namespace PhotoTagsSynchronizer
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.timerShowErrorMessage = new System.Windows.Forms.Timer(this.components);
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
+            this.timerStartThread = new System.Windows.Forms.Timer(this.components);
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -2030,9 +2031,9 @@ namespace PhotoTagsSynchronizer
             this.tabPageFileRename.Controls.Add(this.label1);
             this.tabPageFileRename.Controls.Add(this.textBoxRenameNewName);
             this.tabPageFileRename.Controls.Add(this.dataGridViewRename);
-            this.tabPageFileRename.Location = new System.Drawing.Point(4, 26);
+            this.tabPageFileRename.Location = new System.Drawing.Point(4, 25);
             this.tabPageFileRename.Name = "tabPageFileRename";
-            this.tabPageFileRename.Size = new System.Drawing.Size(536, 643);
+            this.tabPageFileRename.Size = new System.Drawing.Size(536, 644);
             this.tabPageFileRename.TabIndex = 8;
             this.tabPageFileRename.Tag = "Rename";
             this.tabPageFileRename.Text = "Rename";
@@ -2146,7 +2147,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.Name = "dataGridViewRename";
             this.dataGridViewRename.RowHeadersWidth = 51;
             this.dataGridViewRename.RowTemplate.Height = 24;
-            this.dataGridViewRename.Size = new System.Drawing.Size(533, 539);
+            this.dataGridViewRename.Size = new System.Drawing.Size(533, 540);
             this.dataGridViewRename.TabIndex = 0;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewRename_CellPainting);
@@ -2488,6 +2489,12 @@ namespace PhotoTagsSynchronizer
             this.timerActionStatusRemove.Interval = 2000;
             this.timerActionStatusRemove.Tick += new System.EventHandler(this.timerActionStatusRemove_Tick);
             // 
+            // timerStartThread
+            // 
+            this.timerStartThread.Enabled = true;
+            this.timerStartThread.Interval = 1000;
+            this.timerStartThread.Tick += new System.EventHandler(this.timerStartThread_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2757,6 +2764,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewAutoCorrect;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Timer timerStartThread;
     }
 }
 
