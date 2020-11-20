@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="DinamicStreamJsonParser.cs" />
     <Compile Include="GoogleJsonActivity.cs" />
+    <Compile Include="GoogleJsonLocations.cs" />
     <Compile Include="GoogleLocationDatabaseCache.cs" />
     <Compile Include="GoogleLocationHistoryItems.cs" />
     <Compile Include="GoogleLocationHistoryJson.cs" />

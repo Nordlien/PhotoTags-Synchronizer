@@ -88,28 +88,15 @@ namespace PhotoTagsSynchronizer
 
                 int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, dataGridViewGenericRow);
                 DataGridViewGenericCellStatus dataGridViewGenericCellStatus;
-                if (rowIndex == -1)
-                {
-                    dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false);
-                    
-                }
+                if (rowIndex == -1) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false);
                 else dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex);
 
-                dataGridViewGenericCellStatus.MetadataBrokerTypes = dataGridViewGenericCellStatus.MetadataBrokerTypes | metadataBrokerType;
+                dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
                 if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Disabled || dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
                     dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off;
                 
-
                 rowIndex = AddRow(dataGridView, metadata, columnIndex, dataGridViewGenericRow, DataGridViewHandler.DeepCopy(region), dataGridViewGenericCellStatus);
-
                 dataGridView.Rows[rowIndex].Height = DataGridViewHandler.GetCellRowHeight(dataGridView);
-
-                //Update with old Broker | new Broker
-                /*DataGridViewHandler.SetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex,
-                        DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) | metadataBrokerType);
-                DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex,
-                    (DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) ==
-                    MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off);*/
 
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, ""); //Clean first, avoid duplication
             }

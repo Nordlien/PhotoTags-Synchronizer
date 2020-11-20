@@ -290,6 +290,7 @@ namespace PhotoTagsSynchronizer
         public void GPSCoordinatedClicked(DataGridView dataGridView, int columnIndex, int rowIndex)
         {            
             if (!dataGridView.Enabled) return;
+            if (columnIndex < 0 || rowIndex < 0) return;
             if (dataGridView.SelectedCells.Count > 1) return;
 
             if (dataGridViewMap[columnIndex, rowIndex].Value != null)
