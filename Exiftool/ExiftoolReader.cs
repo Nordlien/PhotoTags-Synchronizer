@@ -456,7 +456,7 @@ namespace Exiftool
             return newValue;
         }
 
-        private float? ConvertAndCheckFloatFromString(float? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        /*private float? ConvertAndCheckFloatFromString(float? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
             float? newValue = float.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
@@ -481,7 +481,7 @@ namespace Exiftool
             }
 
             return newValue;
-        }
+        }*/
 
         private float? ConvertAndCheckDoubleFromString(float? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
@@ -1363,7 +1363,11 @@ namespace Exiftool
 
                             #region Location
                             case CompositeTags.LocationStruct:
-                            case "LocationCreated": //		LocationCreated		[{Sublocation=sdfsfdf}]
+                            case "LocationShown":
+                            case "LocationCreated": 
+                                //		            LocationCreated		[{Sublocation=sdfsfdf}]
+                                //XMP:XMP-iptcExt	LocationCreated	    [{Sublocation=--Location name--}]
+                                //XMP:XMP-iptcExt	LocationShown	    [{City=--City--,CountryName=--Country--,ProvinceState=--Province--,Sublocation=--Location name--}]
                                 #region LocationCreated
                                 if (parameter == "{Sublocation=}") break; //Empty list, skip
 
@@ -1371,6 +1375,7 @@ namespace Exiftool
                                 StructObject structObjectLocation;
                                 string lastKnownFieldNameLocation = "";
 
+                                
                                 while (structDeSerializationLocation.Read(out structObjectLocation))
                                 {
                                     switch (structObjectLocation.Type)
@@ -1392,12 +1397,46 @@ namespace Exiftool
                                         case StructTypes.Value:
                                             switch (lastKnownFieldNameLocation)
                                             {
+                                                /*
+                                                ExiftoolData tempExiftoolData = new ExiftoolData(exifToolData);
+                                                tempExiftoolData.Parameter = coordinates[0];
+                                                float? newLocationLatitude = ConvertAndCheckDoubleFromString(metadata.LocationLatitude, tempExiftoolData, oldExifToolGPSLatitude,
+                                                    CompositeTags.GPSCoordinatesLatitude, ref metadata.errors);
+                                                if (newLocationLatitude == null) metadata.LocationLatitude = newLocationLatitude;
+                                                oldExifToolGPSLatitude = new ExiftoolData(exifToolData);
+
+                                                tempExiftoolData.Parameter = coordinates[1];
+                                                float? newLocationLongitude = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, tempExiftoolData, oldExifToolGPSLongitude,
+                                                    CompositeTags.GPSCoordinatesLongitude, ref metadata.errors);
+                                                if (newLocationLongitude == null) metadata.LocationLongitude = newLocationLongitude;
+                                                oldExifToolGPSLongitude = new ExiftoolData(exifToolData);
+                                                */
                                                 case "Sublocation":
+                                                    
                                                     exifToolData.Parameter = structObjectLocation.Value;
                                                     metadata.LocationName = ConvertAndCheckStringFromString(metadata.LocationName, exifToolData, oldExifToolLocationName,
-                                                        CompositeTags.Location, ref metadata.errors);
+                                                        CompositeTags.LocationStruct, ref metadata.errors);
                                                     oldExifToolLocationName = new ExiftoolData(exifToolData);
                                                     break;
+                                                case "City":
+                                                    exifToolData.Parameter = structObjectLocation.Value;
+                                                    metadata.LocationCity = ConvertAndCheckStringFromString(metadata.LocationCity, exifToolData, oldExifToolLocationCity,
+                                                        CompositeTags.LocationStruct, ref metadata.errors);
+                                                    oldExifToolLocationCity = new ExiftoolData(exifToolData);
+                                                    break;
+                                                case "CountryName":
+                                                    exifToolData.Parameter = structObjectLocation.Value;
+                                                    metadata.LocationCountry = ConvertAndCheckStringFromString(metadata.LocationCountry, exifToolData, oldExifToolLocationCountry,
+                                                        CompositeTags.LocationStruct, ref metadata.errors);
+                                                    oldExifToolLocationCountry = new ExiftoolData(exifToolData);
+                                                    break;
+                                                case "ProvinceState":
+                                                    exifToolData.Parameter = structObjectLocation.Value;
+                                                    metadata.LocationState = ConvertAndCheckStringFromString(metadata.LocationState, exifToolData, oldExifToolLocationState,
+                                                        CompositeTags.LocationStruct, ref metadata.errors);
+                                                    oldExifToolLocationState = new ExiftoolData(exifToolData);
+                                                    break;
+
                                             }
                                             lastKnownFieldNameLocation = ""; 
                                             break;

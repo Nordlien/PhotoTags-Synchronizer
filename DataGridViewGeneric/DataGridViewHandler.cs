@@ -2431,7 +2431,7 @@ namespace DataGridViewGeneric
             Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
             if (image != null)
             {                
-                Size thumbnailSize = CalulateCellImageSizeInRectagle(rectangleRoundedCellBounds, image.Size);
+                Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
 
                 if ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected)
                     e.Graphics.FillRectangle(new SolidBrush(e.CellStyle.SelectionBackColor),
@@ -2551,15 +2551,16 @@ namespace DataGridViewGeneric
             return new Rectangle(rectangle.Left + 4, rectangle.Top + 4, rectangle.Width - 5, rectangle.Height - 5);
         }
 
-        public static Size CalulateCellImageSizeInRectagle(Rectangle rectangleRoundedCellBounds, Size imageSize)
+        public static Size CalulateCellImageSizeInRectagleWithUpScale(Rectangle rectangleRoundedCellBounds, Size imageSize)
         {
+            
             int thumbnailSpace = 4;
 
             float f = System.Math.Max(
                     (float)imageSize.Width / ((float)rectangleRoundedCellBounds.Width - (thumbnailSpace * 2f)),
                     (float)imageSize.Height / ((float)rectangleRoundedCellBounds.Height - (thumbnailSpace * 2f)));
 
-            if (f < 1.0f) f = 1.0f; // Do not upsize small images
+            //if (f < 1.0f) f = 1.0f; // Do not upsize small images
             return new Size ( (int)System.Math.Round((float)imageSize.Width / f), (int)System.Math.Round((float)imageSize.Height / f));
         }    
 
@@ -2605,7 +2606,7 @@ namespace DataGridViewGeneric
 
             Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(
                 new Rectangle (0, 0, dataGridView.Columns[columnIndex].Width, dataGridView.ColumnHeadersHeight));
-            Size thumbnailSize = CalulateCellImageSizeInRectagle(rectangleRoundedCellBounds, image.Size);
+            Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
             Rectangle rectangleCenterThumbnail = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
 
             Rectangle rectangleMouse = GetRectangleFromMouseCoorinate(x1, y1, x2, y2);
@@ -2671,7 +2672,7 @@ namespace DataGridViewGeneric
                 {
 
                     Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
-                    Size thumbnailSize = CalulateCellImageSizeInRectagle(rectangleRoundedCellBounds, image.Size);
+                    Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
 
                     for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
                     {

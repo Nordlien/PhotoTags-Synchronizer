@@ -45,6 +45,9 @@ namespace PhotoTagsSynchronizer
                         dataGridView, new FileEntryImage(fileEntry), null, dateTimeForEditableMediaFile,
                         DataGridViewHandler.IsCurrentFile(fileEntry, dateTimeForEditableMediaFile) ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
                         new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));
+
+                    /* Force updated, every time, new data arrives */
+                    if (columnIndex == -1) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);    
                     if (columnIndex == -1) continue;
 
                     //Clear old content, in case of new values are updated or deleted

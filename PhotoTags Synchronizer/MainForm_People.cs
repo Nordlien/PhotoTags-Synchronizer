@@ -79,7 +79,7 @@ namespace PhotoTagsSynchronizer
                 Image image = dataGridViewGenericColumn.FileEntryImage.Image;
                 Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
                     new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
-                Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagle(rectangleRoundedCellBounds, image.Size);
+                Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
                 Rectangle rectangleCenterThumbnail = DataGridViewHandler.CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
 
                 if (DataGridViewHandler.IsMouseWithinRectangle(e.X, e.Y, rectangleCenterThumbnail))
@@ -121,7 +121,7 @@ namespace PhotoTagsSynchronizer
                 Image image = dataGridViewGenericColumn.FileEntryImage.Image;
                 Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
                     new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
-                Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagle(rectangleRoundedCellBounds, image.Size);
+                Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
                 Rectangle rectangleCenterThumbnail = DataGridViewHandler.CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
 
                 if (DataGridViewHandler.IsMouseWithinRectangle(e.X, e.Y, rectangleCenterThumbnail))
@@ -172,7 +172,7 @@ namespace PhotoTagsSynchronizer
                 Image image = dataGridViewGenericColumn.FileEntryImage.Image;              
                 Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
                     new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
-                Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagle(rectangleRoundedCellBounds, image.Size);
+                Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
                 Rectangle rectangleCenterThumbnail = DataGridViewHandler.CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
 
                 if (DataGridViewHandler.IsMouseWithinRectangle (e.X, e.Y, rectangleCenterThumbnail))

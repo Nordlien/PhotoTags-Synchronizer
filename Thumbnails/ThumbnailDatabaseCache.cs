@@ -75,8 +75,7 @@ namespace Thumbnails
                 }
             }
 
-            return image == null ? null : 
-                Manina.Windows.Forms.Utility.ThumbnailFromImage(image, UpsizeThumbnailSize, Color.White, true);
+            return image; //== null ? null : Manina.Windows.Forms.Utility.ThumbnailFromImage(image, UpsizeThumbnailSize, Color.White, true);
         }
 
         

@@ -84,17 +84,32 @@ namespace PhotoTagsSynchronizer
 
             foreach (RegionStructure region in metadata.PersonalRegionList)
             {
-                int rowIndex = AddRow(dataGridView, metadata, columnIndex, new DataGridViewGenericRow(headerPeople, region.Name ?? ""), DataGridViewHandler.DeepCopy(region), 
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false));
+                DataGridViewGenericRow dataGridViewGenericRow = new DataGridViewGenericRow(headerPeople, region.Name ?? "");
+
+                int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, dataGridViewGenericRow);
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus;
+                if (rowIndex == -1)
+                {
+                    dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false);
+                    
+                }
+                else dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex);
+
+                dataGridViewGenericCellStatus.MetadataBrokerTypes = dataGridViewGenericCellStatus.MetadataBrokerTypes | metadataBrokerType;
+                if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Disabled || dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
+                    dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off;
+                
+
+                rowIndex = AddRow(dataGridView, metadata, columnIndex, dataGridViewGenericRow, DataGridViewHandler.DeepCopy(region), dataGridViewGenericCellStatus);
 
                 dataGridView.Rows[rowIndex].Height = DataGridViewHandler.GetCellRowHeight(dataGridView);
 
                 //Update with old Broker | new Broker
-                DataGridViewHandler.SetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex,
+                /*DataGridViewHandler.SetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex,
                         DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) | metadataBrokerType);
                 DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex,
-                    (DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) == 
-                    MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off);
+                    (DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) ==
+                    MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off);*/
 
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, ""); //Clean first, avoid duplication
             }
@@ -171,20 +186,8 @@ namespace PhotoTagsSynchronizer
                     showWhatColumns,                                                                        /* show Edit | Hisorical columns | Error columns            */
                     new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));  /* New cells will have this value                           */
 
-                columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryBroker);
+                columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryBroker);    /* Force updated, every time, new data arrives */
                 if (columnIndex == -1) continue;                                                         /* -1 - Don't need show column, due to hidden / do now show */
-
-
-                /*DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericColumn != null)
-                {
-                    if (dataGridViewGenericColumn.Metadata != null && dataGridViewGenericColumn.FileEntryImage.Image == null)
-                    {
-                        dataGridViewGenericColumn.FileEntryImage.Image = databaseAndCacheThumbnail.ReadCache(dataGridViewGenericColumn.Metadata.FileEntryBroker);
-                        if (dataGridViewGenericColumn.FileEntryImage.Image == null) AddQueueAllUpadtedFileEntry(new FileEntryImage(dataGridViewGenericColumn.Metadata.FileEntryBroker, null));
-                    }
-                    if (databaseAndCacheThumbnail.DoesMetadataMissThumbnailInRegion(dataGridViewGenericColumn.Metadata)) AddQueueCreateRegionFromPoster(dataGridViewGenericColumn.Metadata);
-                }*/
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerPeople));
 

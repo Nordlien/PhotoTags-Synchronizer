@@ -539,7 +539,7 @@ namespace SqliteDatabase
                 sqlCommand = "CREATE TABLE LocationName (" +
                     "Latitude  " + SqliteNumberFormat + " NOT NULL, " +
                     "Longitude  " + SqliteNumberFormat + " NOT NULL, " +
-                    "Name       TEXT NOT NULL, " +
+                    "Name       TEXT, " +
                     "City       TEXT, " +
                     "Province   TEXT, " +
                     "Country    TEXT, " +
