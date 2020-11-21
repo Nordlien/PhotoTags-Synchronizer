@@ -9,6 +9,8 @@ using LocationNames;
 using DataGridViewGeneric;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace PhotoTagsSynchronizer
 {
@@ -413,9 +415,122 @@ namespace PhotoTagsSynchronizer
             if (dataGridView.SelectedCells.Count == 1)
                 GPSCoordinatedClicked(dataGridView, dataGridView.CurrentCell.ColumnIndex, dataGridView.CurrentCell.RowIndex);
             else
-                MessageBox.Show("You can only show map with one from one active cell", "Too many cells selected");
-        }
+            {
+                string coordinates = "";
+                /*
+                coordinates =
+                        "      [9.2, 48.8, 'Cities1']," +
+                        "      [8.4, 49.0, 'Cities1']," +
+                        "      [6.2, 48.7, 'Cities2']," +
+                        "      [2.5, 48.9, 'Cities2']," +
+                        "      [-1.4, 50.9, 'Cities3']," +
+                        "      [6.6, 51.8, 'Cities3']," +
+                        "      [8.6, 49.4, 'Cities4']," +
+                        "      [11.6, 48.1, 'Cities4']";
+                */
+                string locationMap = "";
+                foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
+                {
+                    
+                    if (LocationCoordinate.TryParse(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex), out LocationCoordinate locationCoordinate))
+                    {
+                        locationMap = (locationCoordinate.Longitude).ToString(CultureInfo.InvariantCulture) + ", " +
+                            (locationCoordinate.Latitude).ToString(CultureInfo.InvariantCulture);
 
+                        if (coordinates != "") coordinates += ", ";
+                        coordinates += 
+                            "[" +
+                            (locationCoordinate.Longitude).ToString(CultureInfo.InvariantCulture) + ", " +
+                            (locationCoordinate.Latitude).ToString(CultureInfo.InvariantCulture) +
+                            ", 'Face']";
+                    }                    
+                    
+                }
+                string htmlPage =
+                    "<html>" + "\r\n" +
+                    "<head>" + "\r\n" +
+                    "  <title>Openlayers Marker Array Multilayer Example</title>" + "\r\n" +
+                    "</head>" + "\r\n" +
+                    "<body>" + "\r\n" +
+                    "  <div id=\"mapdiv\"></div>" + "\r\n" +
+                    "  <script src=\"http://www.openlayers.org/api/OpenLayers.js\"></script>" + "\r\n" +
+                    "  <script>" + "\r\n" +
+                    "    // Adapted from: harrywood.co.uk" + "\r\n" +
+                    "    epsg4326 = new OpenLayers.Projection(\"EPSG:4326\")" + "\r\n" +
+                    "    map = new OpenLayers.Map({" + "\r\n" +
+                    "      div: \"mapdiv\"," + "\r\n" +
+                    "      displayProjection: epsg4326   // With this setting, lat and lon are displayed correctly in MousePosition and permanent anchor" + "\r\n" +
+                    "    });" + "\r\n" +
+                    "    //   map = new OpenLayers.Map(\"mapdiv\");" + "\r\n" +
+                    "    map.addLayer(new OpenLayers.Layer.OSM());" + "\r\n" +
+                    "    map.addLayer(new OpenLayers.Layer.OSM(\"Wikimedia\"," + "\r\n" +
+                    "      [\"https://maps.wikimedia.org/osm-intl/${z}/${x}/${y}.png\"]," + "\r\n" +
+                    "      {" + "\r\n" +
+                    "        attribution: \"&copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> and contributors, under an <a href='http://www.openstreetmap.org/copyright' title='ODbL'>open license</a>. <a href='https://www.mediawiki.org/wiki/Maps'>Wikimedia's new style (beta)</a>\"," + "\r\n" +
+                    "        \"tileOptions\": { \"crossOriginKeyword\": null }" + "\r\n" +
+                    "      })" + "\r\n" +
+                    "   );" + "\r\n" +
+                    "    // See https://wiki.openstreetmap.org/wiki/Tile_servers for other OSM-based layers" + "\r\n" +
+                    "    map.addControls([" + "\r\n" +
+                    "      new OpenLayers.Control.MousePosition()," + "\r\n" +
+                    "      new OpenLayers.Control.ScaleLine()," + "\r\n" +
+                    "      new OpenLayers.Control.LayerSwitcher()," + "\r\n" +
+                    "      new OpenLayers.Control.Permalink({ anchor: true })" + "\r\n" +
+                    "    ]);" + "\r\n" +
+                    "    projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)" + "\r\n" +
+                    "    var lonLat = new OpenLayers.LonLat(" + locationMap +").transform(epsg4326, projectTo);" + "\r\n" +
+                    "    var zoom = 7;" + "\r\n" +
+                    "    if (!map.getCenter()) {" + "\r\n" +
+                    "      map.setCenter(lonLat, zoom);" + "\r\n" +
+                    "    }" + "\r\n" +
+                    "    // Put your point-definitions here" + "\r\n" +
+                    "    var markers = [" + "\r\n" +
+                         coordinates + "\r\n" +
+                    "    ];" + "\r\n" +
+                    "    var colorList = [\"red\", \"blue\", \"yellow\"];" + "\r\n" +
+                    "    var layerName = [markers[0][2]];" + "\r\n" +
+                    "    var styleArray = [new OpenLayers.StyleMap({ pointRadius: 6, fillColor: colorList[0], fillOpacity: 0.5 })];" + "\r\n" +
+                    "    var vectorLayer = [new OpenLayers.Layer.Vector(layerName[0], { styleMap: styleArray[0] })];		// First element defines first Layer" + "\r\n" +
+                    "    var j = 0;" + "\r\n" +
+                    "    for (var i = 1; i < markers.length; i++) {" + "\r\n" +
+                    "      if (!layerName.includes(markers[i][2])) {" + "\r\n" +
+                    "        j++;" + "\r\n" +
+                    "        layerName.push(markers[i][2]);															// If new layer name found it is created" + "\r\n" +
+                    "        styleArray.push(new OpenLayers.StyleMap({ pointRadius: 6, fillColor: colorList[j % colorList.length], fillOpacity: 0.5 }));" + "\r\n" +
+                    "        vectorLayer.push(new OpenLayers.Layer.Vector(layerName[j], { styleMap: styleArray[j] }));" + "\r\n" +
+                    "      }" + "\r\n" +
+                    "    }" + "\r\n" +
+                    "    //Loop through the markers array" + "\r\n" +
+                    "    for (var i = 0; i < markers.length; i++) {" + "\r\n" +
+                    "      var lon = markers[i][0];" + "\r\n" +
+                    "      var lat = markers[i][1];" + "\r\n" +
+                    "      var feature = new OpenLayers.Feature.Vector(" + "\r\n" +
+                    "        new OpenLayers.Geometry.Point(lon, lat).transform(epsg4326, projectTo)," + "\r\n" +
+                    "        { description: \"marker number \" + i }" + "\r\n" +
+                    "        // see http://dev.openlayers.org/docs/files/OpenLayers/Feature/Vector-js.html#OpenLayers.Feature.Vector.Constants for more options" + "\r\n" +
+                    "      );" + "\r\n" +
+                    "      vectorLayer[layerName.indexOf(markers[i][2])].addFeatures(feature);" + "\r\n" +
+                    "    }" + "\r\n" +
+                    "    for (var i = 0; i < layerName.length; i++) {" + "\r\n" +
+                    "      map.addLayer(vectorLayer[i]);" + "\r\n" +
+                    "    }" + "\r\n" +
+                    "  </script>" + "\r\n" +
+                    "</body>" + "\r\n" +
+                    "</html>" + "\r\n";
+
+                //Create directory, filename and remove old arg file
+                string exiftoolArgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
+                if (!Directory.Exists(exiftoolArgPath)) Directory.CreateDirectory(exiftoolArgPath);
+                string exiftoolArgFile = Path.Combine(exiftoolArgPath, "openstreetmap.html");
+                if (File.Exists(exiftoolArgFile)) File.Delete(exiftoolArgFile);
+
+                using (StreamWriter sw = new StreamWriter(exiftoolArgFile, false, Encoding.UTF8))
+                {
+                    sw.WriteLine(htmlPage);
+                }
+                browser.Load(exiftoolArgFile);
+            }
+        }
         #endregion
 
         private void toolStripMenuItemMapReloadLocationUsingNominatim_Click(object sender, EventArgs e)
