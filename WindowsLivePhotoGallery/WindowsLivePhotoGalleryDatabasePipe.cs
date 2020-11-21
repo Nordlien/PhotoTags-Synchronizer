@@ -30,7 +30,7 @@ namespace WindowsLivePhotoGallery
         {
             client.ServerMessage += Client_ServerMessage;
             client.Error += Client_Error;
-            client.Start(); 
+            client.Start(TimeSpan.FromSeconds(30)); 
         }
 
         private void Client_Error(Exception exception)

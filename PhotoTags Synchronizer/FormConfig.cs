@@ -21,10 +21,7 @@ namespace PhotoTagsSynchronizer
 
         public Config()
         {
-            InitializeComponent();
-            
-
-            
+            InitializeComponent(); 
         }
 
         #region All tabs - Init - Save - Close
@@ -92,11 +89,13 @@ namespace PhotoTagsSynchronizer
                 comboBoxApplicationThumbnailSizes.Items.Add(ThumbnailSizes[i].ToString());
 
             comboBoxApplicationThumbnailSizes.Text = Properties.Settings.Default.ApplicationThumbnail.ToString();
+            textBoxApplicationPreferredLanguages.Text = Properties.Settings.Default.ApplicationPreferredLanguages;
         }
 
         public void SaveApplicationConfig()
         {
             Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
+            Properties.Settings.Default.ApplicationPreferredLanguages = textBoxApplicationPreferredLanguages.Text;
         }
 
         #region Metadata Write - Populate and Save
@@ -786,6 +785,7 @@ namespace PhotoTagsSynchronizer
         #region Metadata Write - Insert Variable from after Selected in Combobox
         private void comboBoxMetadataWriteStandardTags_SelectionChangeCommitted(object sender, EventArgs e)
         {
+
             textBoxMetadataWriteTags.Focus();
             var insertText = comboBoxMetadataWriteStandardTags.Text;
             var selectionIndex = textBoxMetadataWriteTags.SelectionStart;
@@ -793,6 +793,17 @@ namespace PhotoTagsSynchronizer
             textBoxMetadataWriteTags.Text = textBoxMetadataWriteTags.Text.Insert(selectionIndex, insertText);
             textBoxMetadataWriteTags.SelectionStart = selectionIndex + insertText.Length;
         }
-        #endregion 
+        #endregion
+
+        private void comboBoxApplicationLanguages_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+            textBoxApplicationPreferredLanguages.Focus();
+            var insertText = comboBoxApplicationLanguages.Text.Split(' ', '\t')[0];
+            var selectionIndex = textBoxApplicationPreferredLanguages.SelectionStart;
+            textBoxApplicationPreferredLanguages.Text = textBoxApplicationPreferredLanguages.Text.Remove(selectionIndex, textBoxApplicationPreferredLanguages.SelectionLength);
+            textBoxApplicationPreferredLanguages.Text = textBoxApplicationPreferredLanguages.Text.Insert(selectionIndex, insertText);
+            textBoxApplicationPreferredLanguages.SelectionStart = selectionIndex + insertText.Length;
+        }
     }
 }

@@ -409,11 +409,9 @@ filename=UTF8
 
 -EXIF:Artist={PersonalAuthor}
 -IPTC:By-line={PersonalAuthor}
--XMP-dc:Creator={PersonalAuthor}
--XMP:Creator={PersonalAuthor}
 -EXIF:XPAuthor={PersonalAuthor}
--ItemList:Author={PersonalAuthor} 
--Creator={PersonalAuthor} 
+-ItemList:Author={PersonalAuthor}
+-Creator={PersonalAuthor}
 
 -File:Comment={PersonalComments}
 -ExifIFD:UserComment={PersonalComments}
@@ -432,7 +430,7 @@ filename=UTF8
 -IPTC:Caption-Abstract={PersonalDescription}
 -ItemList:Description={PersonalDescription} 
 -Description={PersonalDescription} 
- 
+
 -XMP-microsoft:RatingPercent={PersonalRatingPercent}
 -XMP:RatingPercent={PersonalRatingPercent}
 -EXIF:RatingPercent={PersonalRatingPercent}
@@ -474,6 +472,7 @@ filename=UTF8
 -IPTC:Province-State={LocationState}
 -XMP:State={LocationState}
 -State={LocationState} 
+
 
 -XMP-photoshop:City={LocationCity}
 -XMP-iptcExt:LocationShownCity={LocationCity}
@@ -523,6 +522,9 @@ filename=UTF8
     </Setting>
     <Setting Name="ThumbmailViewSizeIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="ApplicationPreferredLanguages" Type="System.String" Scope="User">
+      <Value Profile="(Default)">en;q=0.5,no;q=0.3,ru;q=0.2,*;q=0.1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

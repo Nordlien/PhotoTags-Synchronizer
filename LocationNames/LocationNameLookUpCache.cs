@@ -11,9 +11,11 @@ namespace LocationNames
     {
 
         private SqliteDatabaseUtilities dbTools;
-        public LocationNameLookUpCache(SqliteDatabaseUtilities databaseTools)
+        public string PreferredLanguagesString { get; set; } = "en"; //"en;q=0.5,no;q=0.3,ru;q=0.2,*;q=0.1";
+        public LocationNameLookUpCache(SqliteDatabaseUtilities databaseTools, string preferredLanguagesString)
         {
             dbTools = databaseTools;
+            PreferredLanguagesString = preferredLanguagesString;
         }
 
 
@@ -23,23 +25,19 @@ namespace LocationNames
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
 
             Metadata metadata = locationNameCache.ReadLocationName(latitude, longitude);
-            if (metadata != null)
-            {               
-                return metadata;
-            }
-
+            if (metadata != null) return metadata;
+      
             var y = new ReverseGeocoder();
             var r2 = y.ReverseGeocode(new ReverseGeocodeRequest
             {
-                Longitude = longitude,  //Longitude = 10.7542963027778
-                Latitude = latitude, //Latitude = 59.9028396605556, 
+                Longitude = longitude, 
+                Latitude = latitude,  
 
                 BreakdownAddressElements = true,
                 ShowExtraTags = true,
                 ShowAlternativeNames = true,
-                ShowGeoJSON = true//,
-                //PreferredLanguages = "en-US;q=0.8,en;q=0.5,nb;q=0.4,no;q=0.3,ru;q=0.2;*;q=0.1",
-
+                ShowGeoJSON = true,
+                PreferredLanguages = PreferredLanguagesString
             }); 
             r2.Wait();
 
@@ -73,7 +71,15 @@ namespace LocationNames
             
         }
 
-        public void AddressUpdate(CommonDatabaseTransaction commonDatabaseTransaction, float mediaLatitude, float mediaLongitude, string locationName, string locationCity, string locationState, string locationCountry)
+        public void DeleteLocation(float mediaLatitude, float mediaLongitude)
+        {
+            LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
+            locationNameCache.TransactionBeginBatch();
+            locationNameCache.DeleteLocationName(mediaLatitude, mediaLongitude);
+            locationNameCache.TransactionCommitBatch();
+        }
+
+        public void AddressUpdate(float mediaLatitude, float mediaLongitude, string locationName, string locationCity, string locationState, string locationCountry)
         {
             Metadata metadata = AddressLookup(mediaLatitude, mediaLongitude);
             if (metadata != null)

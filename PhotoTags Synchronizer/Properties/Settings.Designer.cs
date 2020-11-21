@@ -447,42 +447,41 @@ namespace PhotoTagsSynchronizer.Properties {
             "p}\r\n-CreateDate={MediaDateTaken}\r\n\r\n-XMP-xmpDM:Album={PersonalAlbum}\r\n-XMP:Album" +
             "={PersonalAlbum}\r\n-IPTC:Headline={PersonalAlbum}\r\n-XMP-photoshop:Headline={Perso" +
             "nalAlbum}\r\n-ItemList:Album={PersonalAlbum}\r\n\r\n-EXIF:Artist={PersonalAuthor}\r\n-IP" +
-            "TC:By-line={PersonalAuthor}\r\n-XMP-dc:Creator={PersonalAuthor}\r\n-XMP:Creator={Per" +
-            "sonalAuthor}\r\n-EXIF:XPAuthor={PersonalAuthor}\r\n-ItemList:Author={PersonalAuthor}" +
-            " \r\n-Creator={PersonalAuthor} \r\n\r\n-File:Comment={PersonalComments}\r\n-ExifIFD:User" +
-            "Comment={PersonalComments}\r\n-EXIF:UserComment={PersonalComments}\r\n-EXIF:XPCommen" +
-            "t={PersonalComments}\r\n-XMP-album:Notes={PersonalComments}\r\n-XMP-acdsee:Notes={Pe" +
-            "rsonalComments}\r\n-XMP:UserComment={PersonalComments}\r\n-XMP:Notes={PersonalCommen" +
-            "ts}\r\n-ItemList:Comment={PersonalComments} \r\n     \r\n-EXIF:ImageDescription={Perso" +
-            "nalDescription}\r\n-XMP:ImageDescription={PersonalDescription}\r\n-XMP-dc:Descriptio" +
-            "n={PersonalDescription}\r\n-XMP:Description={PersonalDescription}\r\n-IPTC:Caption-A" +
-            "bstract={PersonalDescription}\r\n-ItemList:Description={PersonalDescription} \r\n-De" +
-            "scription={PersonalDescription} \r\n \r\n-XMP-microsoft:RatingPercent={PersonalRatin" +
-            "gPercent}\r\n-XMP:RatingPercent={PersonalRatingPercent}\r\n-EXIF:RatingPercent={Pers" +
-            "onalRatingPercent}\r\n\r\n-XMP-xmp:Rating={PersonalRating}\r\n-XMP:Rating={PersonalRat" +
-            "ing}\r\n-XMP-acdsee:Rating={PersonalRating}\r\n-EXIF:Rating={PersonalRating}\r\n-Ratin" +
-            "g={PersonalRating}\r\n\r\n-ItemList:Title={PersonalTitle}\r\n-EXIF:XPTitle={PersonalTi" +
-            "tle}\r\n-XMP-dc:Title={PersonalTitle}\r\n-XMP:Title={PersonalTitle}\r\n-ItemList:Title" +
-            "={PersonalTitle} \r\n\r\n-EXIF:GPSLatitude={LocationLatitude}\r\n-XMP-exif:GPSLatitude" +
-            "={LocationLatitude}\r\n-XMP:GPSLatitude={LocationLatitude}\r\n-GPS:GPSLatitude={Loca" +
-            "tionLatitude}\r\n-GPSLatitude={LocationLatitude}\r\n\r\n-EXIF:GPSLongitude={LocationLo" +
-            "ngitude}\r\n-XMP-exif:GPSLongitude={LocationLongitude}\r\n-XMP:GPSLongitude={Locatio" +
-            "nLongitude}\r\n-GPS:GPSLongitude={LocationLongitude}\r\n-GPSLongitude={LocationLongi" +
-            "tude}\r\n\r\n-XMP:Location={LocationName}\r\n-XMP-iptcCore:Location={LocationName}\r\n-X" +
-            "MP-iptcExt:LocationShownSublocation={LocationName}\r\n-XMP:LocationCreatedSublocat" +
-            "ion={LocationName}\r\n-IPTC:Sub-location={LocationName}\r\n-Sub-location={LocationNa" +
-            "me}\r\n-Location={LocationName} \r\n\r\n-XMP-iptcExt:LocationShownProvinceState={Locat" +
-            "ionState}\r\n-XMP-photoshop:State={LocationState}\r\n-IPTC:Province-State={LocationS" +
-            "tate}\r\n-XMP:State={LocationState}\r\n-State={LocationState} \r\n\r\n-XMP-photoshop:Cit" +
-            "y={LocationCity}\r\n-XMP-iptcExt:LocationShownCity={LocationCity}\r\n-IPTC:City={Loc" +
-            "ationCity}\r\n-XMP:City={LocationCity}\r\n-City={LocationCity} \r\n\r\n-IPTC:Country-Pri" +
-            "maryLocationName={LocationCountry}\r\n-XMP-photoshop:Country={LocationCountry}\r\n-X" +
-            "MP-iptcExt:LocationShownCountryName={LocationCountry}\r\n-XMP:Country={LocationCou" +
-            "ntry}\r\n-Country={LocationCountry} \r\n\r\n-Subject=\r\n-Keyword=\r\n-Keywords=\r\n-XPKeywo" +
-            "rds=\r\n-Category=\r\n-CatalogSets=\r\n\r\n-HierarchicalKeywords=\r\n-HierarchicalSubject=" +
-            "\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-TagsList=\r\n\r\n-Categories={PersonalKeywor" +
-            "dsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n-ImageRegion=\r\n-RegionInfoMP={Person" +
-            "alRegionInfoMP}\r\n-RegionInfo={PersonalRegionInfo}")]
+            "TC:By-line={PersonalAuthor}\r\n-EXIF:XPAuthor={PersonalAuthor}\r\n-ItemList:Author={" +
+            "PersonalAuthor}\r\n-Creator={PersonalAuthor}\r\n\r\n-File:Comment={PersonalComments}\r\n" +
+            "-ExifIFD:UserComment={PersonalComments}\r\n-EXIF:UserComment={PersonalComments}\r\n-" +
+            "EXIF:XPComment={PersonalComments}\r\n-XMP-album:Notes={PersonalComments}\r\n-XMP-acd" +
+            "see:Notes={PersonalComments}\r\n-XMP:UserComment={PersonalComments}\r\n-XMP:Notes={P" +
+            "ersonalComments}\r\n-ItemList:Comment={PersonalComments} \r\n     \r\n-EXIF:ImageDescr" +
+            "iption={PersonalDescription}\r\n-XMP:ImageDescription={PersonalDescription}\r\n-XMP-" +
+            "dc:Description={PersonalDescription}\r\n-XMP:Description={PersonalDescription}\r\n-I" +
+            "PTC:Caption-Abstract={PersonalDescription}\r\n-ItemList:Description={PersonalDescr" +
+            "iption} \r\n-Description={PersonalDescription} \r\n\r\n-XMP-microsoft:RatingPercent={P" +
+            "ersonalRatingPercent}\r\n-XMP:RatingPercent={PersonalRatingPercent}\r\n-EXIF:RatingP" +
+            "ercent={PersonalRatingPercent}\r\n\r\n-XMP-xmp:Rating={PersonalRating}\r\n-XMP:Rating=" +
+            "{PersonalRating}\r\n-XMP-acdsee:Rating={PersonalRating}\r\n-EXIF:Rating={PersonalRat" +
+            "ing}\r\n-Rating={PersonalRating}\r\n\r\n-ItemList:Title={PersonalTitle}\r\n-EXIF:XPTitle" +
+            "={PersonalTitle}\r\n-XMP-dc:Title={PersonalTitle}\r\n-XMP:Title={PersonalTitle}\r\n-It" +
+            "emList:Title={PersonalTitle} \r\n\r\n-EXIF:GPSLatitude={LocationLatitude}\r\n-XMP-exif" +
+            ":GPSLatitude={LocationLatitude}\r\n-XMP:GPSLatitude={LocationLatitude}\r\n-GPS:GPSLa" +
+            "titude={LocationLatitude}\r\n-GPSLatitude={LocationLatitude}\r\n\r\n-EXIF:GPSLongitude" +
+            "={LocationLongitude}\r\n-XMP-exif:GPSLongitude={LocationLongitude}\r\n-XMP:GPSLongit" +
+            "ude={LocationLongitude}\r\n-GPS:GPSLongitude={LocationLongitude}\r\n-GPSLongitude={L" +
+            "ocationLongitude}\r\n\r\n-XMP:Location={LocationName}\r\n-XMP-iptcCore:Location={Locat" +
+            "ionName}\r\n-XMP-iptcExt:LocationShownSublocation={LocationName}\r\n-XMP:LocationCre" +
+            "atedSublocation={LocationName}\r\n-IPTC:Sub-location={LocationName}\r\n-Sub-location" +
+            "={LocationName}\r\n-Location={LocationName} \r\n\r\n-XMP-iptcExt:LocationShownProvince" +
+            "State={LocationState}\r\n-XMP-photoshop:State={LocationState}\r\n-IPTC:Province-Stat" +
+            "e={LocationState}\r\n-XMP:State={LocationState}\r\n-State={LocationState} \r\n\r\n\r\n-XMP" +
+            "-photoshop:City={LocationCity}\r\n-XMP-iptcExt:LocationShownCity={LocationCity}\r\n-" +
+            "IPTC:City={LocationCity}\r\n-XMP:City={LocationCity}\r\n-City={LocationCity} \r\n\r\n-IP" +
+            "TC:Country-PrimaryLocationName={LocationCountry}\r\n-XMP-photoshop:Country={Locati" +
+            "onCountry}\r\n-XMP-iptcExt:LocationShownCountryName={LocationCountry}\r\n-XMP:Countr" +
+            "y={LocationCountry}\r\n-Country={LocationCountry} \r\n\r\n-Subject=\r\n-Keyword=\r\n-Keywo" +
+            "rds=\r\n-XPKeywords=\r\n-Category=\r\n-CatalogSets=\r\n\r\n-HierarchicalKeywords=\r\n-Hierar" +
+            "chicalSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-TagsList=\r\n\r\n-Categories={" +
+            "PersonalKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n-ImageRegion=\r\n-Region" +
+            "InfoMP={PersonalRegionInfoMP}\r\n-RegionInfo={PersonalRegionInfo}")]
         public string WriteMetadataTags {
             get {
                 return ((string)(this["WriteMetadataTags"]));
@@ -550,6 +549,18 @@ namespace PhotoTagsSynchronizer.Properties {
             }
             set {
                 this["ThumbmailViewSizeIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en;q=0.5,no;q=0.3,ru;q=0.2,*;q=0.1")]
+        public string ApplicationPreferredLanguages {
+            get {
+                return ((string)(this["ApplicationPreferredLanguages"]));
+            }
+            set {
+                this["ApplicationPreferredLanguages"] = value;
             }
         }
     }

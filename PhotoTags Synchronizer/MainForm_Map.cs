@@ -371,17 +371,16 @@ namespace PhotoTagsSynchronizer
             ///////////////////////////////////////////////////////////////////////////
             if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerNominatim))
             {
-                if (gridViewGenericColumn.Metadata.LocationLatitude == null ||
-                    gridViewGenericColumn.Metadata.LocationLongitude == null) 
+                if (gridViewGenericColumn.Metadata.LocationLatitude == null || gridViewGenericColumn.Metadata.LocationLongitude == null) 
                 {
                     isDataGridViewMaps_CellValueChanging = false;
                     return; 
                 }
 
-                LocationNameLookUpCache locationAddress = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata);
+                LocationNameLookUpCache locationAddress = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
 
                 CommonDatabaseTransaction commonDatabaseTransaction = databaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
-                locationAddress.AddressUpdate(commonDatabaseTransaction,
+                locationAddress.AddressUpdate(
                     (float)gridViewGenericColumn.Metadata.LocationLatitude,
                     (float)gridViewGenericColumn.Metadata.LocationLongitude,
                     (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagLocationName), //Name
@@ -419,6 +418,29 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
+        private void toolStripMenuItemMapReloadLocationUsingNominatim_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewMap;
+            List<int> selectedColumns = DataGridViewHandler.GetColumnSelected(dataGridView);
+            if (selectedColumns.Count == 0) return;
+
+            isDataGridViewMaps_CellValueChanging = true;
+            int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagCoordinates);
+
+            //Delete from database cache
+            foreach (int columnIndex in selectedColumns)
+            {
+                string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, rowIndex);
+                DataGridViewHandlerMap.DeleteMapNomnatatim(LocationCoordinate.Parse(coordinate));
+            }
+
+            //Reload data from Nomnatatim or if from database in case equal
+            foreach (int columnIndex in selectedColumns)
+            {
+                string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, columnIndex, rowIndex);
+                DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, LocationCoordinate.Parse(coordinate));
+            }
+            isDataGridViewMaps_CellValueChanging = false;
+        }
     }
 }

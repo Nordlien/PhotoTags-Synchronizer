@@ -330,6 +330,11 @@
     <None Include="Resources\SubfoldersFolder.png" />
     <None Include="Resources\SelectAll.png" />
     <None Include="Resources\ShowLocation.png" />
+    <None Include="Resources\TextCopyAndReplace.png" />
+    <None Include="Resources\TextCopy.png" />
+    <None Include="Resources\LocationCopyReplace.png" />
+    <None Include="Resources\LocationReload.png" />
+    <None Include="Resources\LocationCopy.png" />
     <Content Include="x64\sqlite3.def">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

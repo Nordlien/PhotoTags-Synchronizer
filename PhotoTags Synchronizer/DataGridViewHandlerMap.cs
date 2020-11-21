@@ -18,7 +18,7 @@ namespace PhotoTagsSynchronizer
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }
-        public static LocationNameLookUpCache DatabaseLocationAddress { get; set; }
+        public static LocationNameLookUpCache DatabaseAndCacheLocationAddress { get; set; }
         public static CameraOwnersDatabaseCache DatabaseAndCacheCameraOwner { get; set; }
         public static GoogleLocationHistoryDatabaseCache DatabaseGoogleLocationHistory {get; set; }
         public static int TimeZoneShift { get; set; } = 0;
@@ -157,11 +157,16 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateGrivViewMapNomnatatim
+        public static void DeleteMapNomnatatim(LocationCoordinate locationCoordinate)
+        {
+            if (locationCoordinate != null) DatabaseAndCacheLocationAddress.DeleteLocation(locationCoordinate.Latitude, locationCoordinate.Longitude);
+        }
+
         public static void PopulateGrivViewMapNomnatatim(DataGridView dataGridView, int columnIndex, LocationCoordinate locationCoordinate)
         {
             Metadata metadataLocation = null;
             
-            if (locationCoordinate != null) metadataLocation = DatabaseLocationAddress.AddressLookup(locationCoordinate.Latitude, locationCoordinate.Longitude);
+            if (locationCoordinate != null) metadataLocation = DatabaseAndCacheLocationAddress.AddressLookup(locationCoordinate.Latitude, locationCoordinate.Longitude);
             bool isReadOnly = (metadataLocation == null);
             //isReadOnly = false;
             AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagLocationName, ReadWriteAccess.AllowCellReadAndWrite), metadataLocation?.LocationName, isReadOnly); 
@@ -172,6 +177,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+      
 
         public static void PopulateFile(DataGridView dataGridView, string fullFilePath, ShowWhatColumns showWhatColumns, DateTime dateTimeForEditableMediaFile)
 

@@ -1223,6 +1223,7 @@ namespace PhotoTagsSynchronizer
                 config.Init();
                 config.ShowDialog();
                 ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
+                databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
             }
         }
         #endregion
@@ -1286,5 +1287,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        
     }
 }

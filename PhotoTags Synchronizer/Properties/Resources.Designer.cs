@@ -313,6 +313,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LocationReload {
+            get {
+                object obj = ResourceManager.GetObject("LocationReload", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Paste {
             get {
                 object obj = ResourceManager.GetObject("Paste", resourceCulture);
@@ -426,6 +436,26 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap SubfoldersFolder {
             get {
                 object obj = ResourceManager.GetObject("SubfoldersFolder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TextCopy {
+            get {
+                object obj = ResourceManager.GetObject("TextCopy", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TextCopyAndReplace {
+            get {
+                object obj = ResourceManager.GetObject("TextCopyAndReplace", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

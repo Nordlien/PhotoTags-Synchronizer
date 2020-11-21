@@ -133,7 +133,7 @@ namespace PhotoTagsSynchronizer
             databaseExiftoolWarning = new ExiftoolWarningDatabase(databaseUtilitiesSqliteMetadata);
 
             databaseAndCahceCameraOwner = new CameraOwnersDatabaseCache(databaseUtilitiesSqliteMetadata);
-            databaseLocationAddress = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata);
+            databaseLocationAddress = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
 
             //databaseUtilitiesSqliteWindowsLivePhotoGallery = new SqliteDatabaseUtilities(DatabaseType.SqliteWindowsLivePhotoGallaryCache);
             //databaseAndCacheMetadataWindowsLivePhotoGallery = new MetadataDatabaseCache(databaseUtilitiesSqliteWindowsLivePhotoGallery);
@@ -426,6 +426,7 @@ namespace PhotoTagsSynchronizer
 
             imageListView1.Focus();
         }
+
 
 
 
