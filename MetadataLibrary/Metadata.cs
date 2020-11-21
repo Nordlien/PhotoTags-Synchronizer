@@ -140,9 +140,9 @@ namespace MetadataLibrary
             if (m1.FileName != m2.FileName) return false;
             if (m1.fileDirectory != m2.fileDirectory) return false;
             if (m1.FileSize != m2.FileSize) return false;
-            if (m1.FileDateCreated != m2.FileDateCreated) return false;
-            if (m1.FileDateModified != m2.FileDateModified) return false;
-            if (m1.FileLastAccessed != m2.FileLastAccessed) return false;
+            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateCreated, m2.FileDateCreated)) return false;
+            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateModified, m2.FileDateModified)) return false;
+            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileLastAccessed, m2.FileLastAccessed)) return false;
             if (m1.FileMimeType != m2.FileMimeType) return false;
 
             //Personal
@@ -162,7 +162,7 @@ namespace MetadataLibrary
             if (m1.CameraModel != m2.CameraModel) return false;
 
             //Media
-            if (m1.mediaDateTaken != m2.mediaDateTaken) return false;
+            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.mediaDateTaken, m2.mediaDateTaken)) return false;
             if (m1.mediaWidth != m2.mediaWidth) return false;
             if (m1.mediaHeight != m2.mediaHeight) return false;
             if (m1.mediaOrientation != m2.mediaOrientation) return false;
@@ -172,7 +172,7 @@ namespace MetadataLibrary
             if (m1.locationAltitude != m2.locationAltitude) return false;
             if (m1.locationLatitude != m2.locationLatitude) return false;
             if (m1.locationLongitude != m2.locationLongitude) return false;
-            if (m1.locationDateTime != m2.locationDateTime) return false;
+            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.locationDateTime, m2.locationDateTime)) return false;
             if (m1.locationName != m2.locationName) return false;
             if (m1.locationCountry != m2.locationCountry) return false;
             if (m1.locationCity != m2.locationCity) return false;

@@ -264,8 +264,6 @@ namespace TimeZone
         }
         #endregion 
 
-        //TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataLocationLatitude, (double)metadataLocationLongitude);
-
         public static TimeSpan? CalulateTimeDiffrent(DateTime? dateTime1, DateTime? dateTime2)
         {
             if (dateTime1 != null && dateTime2 != null)
@@ -283,16 +281,39 @@ namespace TimeZone
 
             return CalulateTimeDiffrent(dateTime1, dateTime2);
         }
-        
-        
-        public static bool VerifyTimeZoon(double metadataLocationLatitude, double metadataLocationLongitude, DateTime dateTimeMediaTaken, DateTime dateTimeLocation)
+
+        #region Check DateTime Equal -accept one secound mismatch
+        public static bool IsDateTimeEqualWithinOneSecond(DateTime? c1, DateTime? c2)
+        {
+            if (c1 == null && c2 == null) return true;
+            if (c1 == null && c2 != null) return false;
+            if (c1 != null && c2 == null) return false;
+
+            TimeSpan t = ((DateTime)c1).Subtract((DateTime)c2);
+            if (System.Math.Abs(t.TotalSeconds) < 1)
+            {
+                return true;
+            }
+            return false;
+        }
+        #endregion
+        public static bool IsTimeZoneEqual(double metadataLocationLatitude, double metadataLocationLongitude, DateTime dateTimeMediaTaken, DateTime dateTimeLocation, out string TimeZoneVerfification)
         {
             DateTime dateTimeMediaTakenWithoutZone = new DateTime(dateTimeMediaTaken.Ticks);
             DateTime dateTimeLocationUTC = new DateTime(dateTimeLocation.ToUniversalTime().Ticks, DateTimeKind.Utc);
             TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation(metadataLocationLatitude, metadataLocationLongitude);
             TimeSpan timeSpanForDate = timeZoneInfoGPSLocation.GetUtcOffset(dateTimeLocation);
-            TimeSpan timeSpanBetweenLocalAndUTC = dateTimeMediaTakenWithoutZone - dateTimeLocationUTC;
-            return IsTimeSpanEqual(timeSpanForDate, timeSpanBetweenLocalAndUTC, 15);
+            
+            TimeZoneVerfification = 
+                "Media Digitized: " + dateTimeMediaTakenWithoutZone.ToString() + "\r\n" +
+                "GPS UTC date/time: " + dateTimeLocationUTC.ToString() + "\r\n" +
+                "Time zone name (Lat,Long): " + timeZoneInfoGPSLocation.DisplayName + "\r\n" +
+                "Base UTC offset (Lat,Long): " + timeZoneInfoGPSLocation.BaseUtcOffset.ToString() + "\r\n" +
+                "Daylight/Standard time (GPS clock):" + (timeZoneInfoGPSLocation.IsDaylightSavingTime(dateTimeLocationUTC) ? timeZoneInfoGPSLocation.DaylightName : timeZoneInfoGPSLocation.StandardName) + "\r\n" +
+                "Offset UTC offset (GPS clock): " + timeZoneInfoGPSLocation.GetUtcOffset(dateTimeLocationUTC).ToString() + "\r\n" +
+                "Time Span between GPS and Digitized: " + timeSpanForDate.ToString();
+
+            return IsTimeSpanEqual(timeSpanForDate, timeZoneInfoGPSLocation.GetUtcOffset(dateTimeLocationUTC), 15);
         }
     }
 }

@@ -112,8 +112,6 @@ namespace Exiftool
 
         #endregion
 
-        
-
         #region WriteMetadata
         public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, int writeCount,
             List<string> allowedFileNameDateTimeFormats,
