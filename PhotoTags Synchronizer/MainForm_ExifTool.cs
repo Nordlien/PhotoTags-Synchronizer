@@ -13,7 +13,8 @@ namespace PhotoTagsSynchronizer
         
         public void PopulateExiftoolToolStripMenuItems()
         {
-            
+            toolStripMenuItemExiftoolAssignCompositeTag.DropDownItems.Clear();
+
             SortedDictionary<string, string> listAllTags = new CompositeTags().ListAllTags();
             foreach (KeyValuePair<string, string> tag in listAllTags.OrderBy(key => key.Value))
             {
@@ -21,6 +22,7 @@ namespace PhotoTagsSynchronizer
                 newTagItem.Name = tag.Value;
                 newTagItem.Size = new System.Drawing.Size(224, 26);
                 newTagItem.Text = tag.Value;
+                
                 toolStripMenuItemExiftoolAssignCompositeTag.DropDownItems.Add(newTagItem);
 
 

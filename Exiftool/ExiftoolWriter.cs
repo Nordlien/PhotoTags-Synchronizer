@@ -10,73 +10,6 @@ using System.Drawing;
 using NLog;
 using System.Threading;
 
-/*
-https://exiftool.org/forum/index.php?topic=7178.0
-I did some testing to try and figure out the priority of which metadata Google Photos uses as the date for images.  Here are the results from highest priority to lowest.
-
-IPTC:DateCreated + IPTC:TimeCreated
-EXIF:DateTimeOriginal
-XMP:DateTimeOriginal
-EXIF:CreateDate
-XMP:CreateDate
-EXIF:ModifyDate
-XMP:ModifyDate
-GPS:GPSDateStamp + GPS:GPSTimeStamp + TimeZone Modifier (-6 hours in my test)
-System:FileModifyDate +Timezone modifier.  This one was odd, as it was different than the gps timezone modifier.  My computer's current timezone is -7 hours, but Google Photos set it to -4 hours and adjusted the time.  So, the file was set to 12:20 and changed it to 15:20.
-
-Personally, I would suggest making sure that EXIF:DateTimeOriginal is set properly as that is a better standard in my opinion.   IPTC:DateCreated + IPTC:TimeCreated are not set as often in most pictures straight out of a camera in my experience.
-
-Edit:  Checking for other metadata.  Google Photos seems to ignore everything else except a description.  It only checks IPTC:Caption-Abstract and XMP:Description, in that order.
-
-----
-https://exiftool.org/forum/index.php/topic,6959.0.html 
-Lightroom Metadata	Actual Tags Written
-Capture Time	EXIF:DateTimeOriginal
-IPTC:DateCreated
-IPTC:TimeCreated
-XMP:DateCreated
-Persons Shown	XMP:PersonInImage
-Title	XMP:Title
-IPTC:ObjectName
-Label	XMP:Label
-Rating	XMP:Rating
-Caption	EXIF:ImageDescription
-IPTC:Caption-Abstract
-XMP:Description
-Note: If there are multiple lines, Lightroom will use Carriage Returns in Caption-Abstract, but Line Feeds in ImageDescription and Description
-User Comment	EXIF:UserComment
-GPS Data
-GPS
-Altitude
-Writes to EXIF GPS block.  Will erase XMP GPS data if it exists.
-GPSLatitudeRef
-GPSLatitude
-GPSLongitudeRef
-GPSLongitude
-GPSAltitude
-GPSTimeStamp
-GPSImgDirectionRef
-GPSImgDirection
-GPSMapDatum
-Contact->Creator	EXIF:Artist
-IPTC:By-line
-XMP:Creator
-
-
-f you have to write multiple regions, you can just add them on, but you must keep names and the matching dimensions in the same order. For example
-
-exiftool 
--RegionPersonDisplayName=findus_l 
--RegionRectangle="0.48, 0.418, 0.059333, 0.089" 
--RegionPersonDisplayName="John Smith" 
--RegionRectangle="0.37645533, 0.04499886, 0.35111009, 0.26633097" 
-/path/to/files
-
-
-These commands would overwrite any existing region data. If you are adding new names without overwriting, you would change the equal signs to PlusEqual +=.
-*/
-
-
 namespace Exiftool
 {
     public static class ExiftoolWriter
@@ -214,6 +147,7 @@ namespace Exiftool
                         isImageFormat = false;
                     }
 
+                    #region Write Album Properties - for videos
                     if (isVideoFormat && writeAlbumProperties)
                     {
                         WindowsProperty.WindowsPropertyWriter windowsPropertyWriter = new WindowsProperty.WindowsPropertyWriter();
@@ -226,16 +160,17 @@ namespace Exiftool
 
                         windowsPropertyWriter.Write(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), keywordTags);
                     }
+                    #endregion
 
+                    #region Write Keyword Properties - for videos
                     if (isVideoFormat && writeKeywordProperties)
                     {
                         WindowsProperty.WindowsPropertyWriter windowsPropertyWriter2 = new WindowsProperty.WindowsPropertyWriter();
                         windowsPropertyWriter2.WriteAlbum(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), metadataToWrite.PersonalAlbum);
                     }
+                    #endregion 
 
-
-                    //-Categories={PersonalKeywordsXML}
-                    #region Write Keyword XML string 
+                    #region Create Variable -Categories={PersonalKeywordsXML}
                     string keywordCategories = "<Categories>";
                     foreach (KeywordTag tagHierarchy in metadataToWrite.PersonalKeywordTags)
                     {
@@ -252,8 +187,7 @@ namespace Exiftool
                     keywordCategories += "</Categories>";
                     #endregion
 
-                    //-XPKeywords={PersonalKeywordsList}
-                    #region Write Keywords String
+                    #region Create Variable -XPKeywords={PersonalKeywordsList}
                     string personalKeywordsList = "";
                     if (isImageFormat)
                     {
@@ -275,14 +209,12 @@ namespace Exiftool
                     List<RegionStructure> regionWriteListWithoutDuplicate = new List<RegionStructure>();
                     foreach (RegionStructure regionStructure in metadataToWrite.PersonalRegionList)
                         if (!regionStructure.DoesThisRectangleAndNameExistInList(regionWriteListWithoutDuplicate)) regionWriteListWithoutDuplicate.Add(regionStructure);
-                    
 
-                    //-ImageRegion=
-                    #region IPTC region tags - ImageRegion
+
+                    #region Create Variable -ImageRegion= (IPTC region tags - ImageRegion)
                     #endregion
 
-                    //-RegionInfoMP={PersonalRegionInfoMP}
-                    #region Microsoft region tags - RegionInfoMP 
+                    #region Create Variable -RegionInfoMP={PersonalRegionInfoMP} - Microsoft region tags 
                     string personalRegionInfoMP = "";                    
                     if (regionWriteListWithoutDuplicate.Count > 0)
                     {
@@ -303,8 +235,7 @@ namespace Exiftool
                     }
                     #endregion
 
-                    //-RegionInfo={PersonalRegionInfo}
-                    #region MWG Regions Tags - RegionInfo
+                    #region Create Variable -RegionInfo={PersonalRegionInfo} - MWG Regions Tags 
                     string personalRegionInfo = "";
                     if (regionWriteListWithoutDuplicate.Count > 0)
                     {
@@ -361,40 +292,23 @@ namespace Exiftool
 
                     #endregion
 
-                    /*
-                    -Categories={PersonalKeywordsXML}
-                    -XPKeywords={PersonalKeywordsList}
-                    -ImageRegion=
-                    -RegionInfoMP={PersonalRegionInfoMP}
-                    -RegionInfo={PersonalRegionInfo}
-                    */
-
-                    /*
-                    string writeMetadataTags = Properties.Settings.Default.WriteMetadataTags;
-                    string writeMetadataKeywordItems = Properties.Settings.Default.WriteMetadataKeywordItems;
-                    bool writeAlbumProperties = Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum;
-                    bool writeKeywordProperties = Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords;
-                    */
-
+                    
                     string tagsToWrite = metadataToWrite.ReplaceVariables(writeMetadataTags, true, true, allowedFileNameDateTimeFormats, 
                         personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories);
 
-                    sw.WriteLine(tagsToWrite);
-
-
-                    #region Write Keyword ***List***
-
+                    #region Add Keyword tags - ***List***
+                    tagsToWrite += "\r\n";
                     foreach (KeywordTag keywordTag in metadataOriginal.PersonalKeywordTags)
                     {
                         string keywordItemToWrite = metadataToWrite.ReplaceVariables(writeMetadataKeywordItems, true, true, allowedFileNameDateTimeFormats,
                             personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories);
                         keywordItemToWrite = metadataToWrite.ReplaceVariables(keywordItemToWrite, keywordTag.Keyword);
 
-                        sw.WriteLine(keywordItemToWrite);                        
+                        tagsToWrite += keywordItemToWrite + "\r\n";                        
                     }
-
                     #endregion
 
+                    sw.WriteLine(tagsToWrite);
                     sw.WriteLine(metadataToWrite.FileFullPath);
                     sw.WriteLine("-execute");
                 }

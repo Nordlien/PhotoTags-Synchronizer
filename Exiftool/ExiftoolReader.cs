@@ -483,7 +483,7 @@ namespace Exiftool
             return newValue;
         }*/
 
-        private float? ConvertAndCheckDoubleFromString(float? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
+        private float? ConvertAndCheckNumberFromString(float? oldValue, ExiftoolData exifToolDataConvertThis, ExiftoolData exifToolDataPrevious, String compositeTag, ref String error)
         {
             MetadataReadPrioity.Add(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
             float? newValue = float.Parse(exifToolDataConvertThis.Parameter, CultureInfo.InvariantCulture);
@@ -1396,21 +1396,7 @@ namespace Exiftool
                                             goto case StructTypes.Value;
                                         case StructTypes.Value:
                                             switch (lastKnownFieldNameLocation)
-                                            {
-                                                /*
-                                                ExiftoolData tempExiftoolData = new ExiftoolData(exifToolData);
-                                                tempExiftoolData.Parameter = coordinates[0];
-                                                float? newLocationLatitude = ConvertAndCheckDoubleFromString(metadata.LocationLatitude, tempExiftoolData, oldExifToolGPSLatitude,
-                                                    CompositeTags.GPSCoordinatesLatitude, ref metadata.errors);
-                                                if (newLocationLatitude == null) metadata.LocationLatitude = newLocationLatitude;
-                                                oldExifToolGPSLatitude = new ExiftoolData(exifToolData);
-
-                                                tempExiftoolData.Parameter = coordinates[1];
-                                                float? newLocationLongitude = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, tempExiftoolData, oldExifToolGPSLongitude,
-                                                    CompositeTags.GPSCoordinatesLongitude, ref metadata.errors);
-                                                if (newLocationLongitude == null) metadata.LocationLongitude = newLocationLongitude;
-                                                oldExifToolGPSLongitude = new ExiftoolData(exifToolData);
-                                                */
+                                            {                                                
                                                 case "Sublocation":
                                                     
                                                     exifToolData.Parameter = structObjectLocation.Value;
@@ -1480,7 +1466,7 @@ namespace Exiftool
                             
                             case "GPSAltitude":
                             case CompositeTags.GPSAltitude:
-                                float? newAltitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationAltitude, exifToolData, oldExifToolGPSAltitude,
+                                float? newAltitudeValue = ConvertAndCheckNumberFromString(metadata.LocationAltitude, exifToolData, oldExifToolGPSAltitude,
                                     CompositeTags.GPSAltitude, ref metadata.errors);
 
                                 if (metadata.LocationAltitude == null) metadata.LocationAltitude = newAltitudeValue;
@@ -1488,7 +1474,7 @@ namespace Exiftool
                                 break;
                             case "GPSLatitude":
                             case CompositeTags.GPSLatitude:
-                                float? newLatitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLatitude,
+                                float? newLatitudeValue = ConvertAndCheckNumberFromString(metadata.LocationLatitude,
                                     exifToolData, oldExifToolGPSLatitude,
                                     CompositeTags.GPSLatitude, ref metadata.errors);
 
@@ -1501,7 +1487,7 @@ namespace Exiftool
                                 //BUG In ExifTool data, some postition is truncated in EXIF:GPS
                                 //EXIF:GPS          GPSLongitude    27
                                 //XMP:XMP-exif      GPSLongitude    27.4822166666667
-                                float? newLongitudeValue = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, exifToolData, oldExifToolGPSLongitude,
+                                float? newLongitudeValue = ConvertAndCheckNumberFromString(metadata.LocationLongitude, exifToolData, oldExifToolGPSLongitude,
                                     CompositeTags.GPSLongitude, ref metadata.errors);
                                 if (metadata.LocationLongitude == null) metadata.LocationLongitude = newLongitudeValue; //Override only if null value
                                 oldExifToolGPSLongitude = new ExiftoolData(exifToolData);
@@ -1514,13 +1500,13 @@ namespace Exiftool
 
                                 ExiftoolData tempExiftoolData = new ExiftoolData(exifToolData);
                                 tempExiftoolData.Parameter = coordinates[0];
-                                float? newLocationLatitude = ConvertAndCheckDoubleFromString(metadata.LocationLatitude, tempExiftoolData, oldExifToolGPSLatitude,
+                                float? newLocationLatitude = ConvertAndCheckNumberFromString(metadata.LocationLatitude, tempExiftoolData, oldExifToolGPSLatitude,
                                     CompositeTags.GPSCoordinatesLatitude, ref metadata.errors);
                                 if (newLocationLatitude == null) metadata.LocationLatitude = newLocationLatitude;
                                 oldExifToolGPSLatitude = new ExiftoolData(exifToolData);
 
                                 tempExiftoolData.Parameter = coordinates[1];
-                                float? newLocationLongitude = ConvertAndCheckDoubleFromString(metadata.LocationLongitude, tempExiftoolData, oldExifToolGPSLongitude,
+                                float? newLocationLongitude = ConvertAndCheckNumberFromString(metadata.LocationLongitude, tempExiftoolData, oldExifToolGPSLongitude,
                                     CompositeTags.GPSCoordinatesLongitude, ref metadata.errors);
                                 if (newLocationLongitude == null) metadata.LocationLongitude = newLocationLongitude;
                                 oldExifToolGPSLongitude = new ExiftoolData(exifToolData);

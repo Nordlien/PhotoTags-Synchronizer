@@ -328,6 +328,7 @@ namespace PhotoTagsSynchronizer
                         dataGridView.Enabled = false; //Remember datagrid_CellPainting will be triggered when change Enable state
                         dataGridView.SuspendLayout();
                         DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
+                        DataGridViewHandlerExiftoolWarnings.exiftoolReader = exiftoolReader;
                         DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, showWhatColumns);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         dataGridView.ResumeLayout();
@@ -335,7 +336,7 @@ namespace PhotoTagsSynchronizer
                         break;
                     case "Properties":
                         dataGridView.Enabled = false; //Remember datagrid_CellPainting will be triggered when change Enable state
-                        dataGridView.SuspendLayout();
+                        dataGridView.SuspendLayout();                        
                         DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
                         DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);

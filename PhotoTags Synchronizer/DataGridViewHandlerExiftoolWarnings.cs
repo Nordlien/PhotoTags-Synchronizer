@@ -6,12 +6,14 @@ using DataGridViewGeneric;
 using static Manina.Windows.Forms.ImageListView;
 using Manina.Windows.Forms;
 using System;
+using MetadataPriorityLibrary;
 
 namespace PhotoTagsSynchronizer
 {
     public static class DataGridViewHandlerExiftoolWarnings
     {
         public static ExiftoolWarningDatabase DatabaseExiftoolWarning { get; set; }
+        public static ExiftoolReader exiftoolReader { get; set; }
 
         public static List<FileEntry> ListFileEntryDateVersions(string fullFileName)
         {
@@ -65,10 +67,25 @@ namespace PhotoTagsSynchronizer
                             lastRegion = exiftoolWarningData.NewExiftoolData.Region;
                         }
 
-                        DataGridViewHandler.AddRow(dataGridView, columnIndex, 
-                            new DataGridViewGenericRow(exiftoolWarningData.NewExiftoolData.Region, exiftoolWarningData.NewExiftoolData.Command, true, null),
+                        MetadataPriorityKey metadataPriorityKey = new MetadataPriorityKey(exiftoolWarningData.NewExiftoolData.Region, exiftoolWarningData.NewExiftoolData.Command);
+                        MetadataPriorityGroup metadataPriorityGroup = null;
+                        
+                        bool priorityKeyExisit = exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary.ContainsKey(metadataPriorityKey);
+                        if (priorityKeyExisit)
+                        {
+                            metadataPriorityGroup = new MetadataPriorityGroup(metadataPriorityKey, exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[metadataPriorityKey]);
+                            if (metadataPriorityGroup.MetadataPriorityValues.Composite == CompositeTags.NotDefined) priorityKeyExisit = false;
+                        }
+
+                        int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, 
+                            new DataGridViewGenericRow(exiftoolWarningData.NewExiftoolData.Region, exiftoolWarningData.NewExiftoolData.Command, true, metadataPriorityKey),
                             exiftoolWarningData.WarningMessage, 
                             new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));
+                        
+                        if (priorityKeyExisit)
+                            DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, metadataPriorityGroup.ToString());
+                        else
+                            DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, "");
                     }
                 }
             }
