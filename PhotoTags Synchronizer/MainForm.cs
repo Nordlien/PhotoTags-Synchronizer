@@ -437,40 +437,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        private void toolStripMenuItemExiftoolWarningCopy_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItemExiftoolWarningFind_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItemExiftoolWarningMarkFavorite_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItemExiftoolWarningRemoveFavorite_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItemExiftoolWarningToggleFavorite_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItemExiftoolWarningShowFavorite_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItemExiftoolWarningHideEqual_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
         
     }

@@ -330,7 +330,7 @@ namespace PhotoTagsSynchronizer
                             }
                             else
                             {
-                                //DEBUG
+                                //DEBUG, Manage to reproduce when select lot files and run log AutoCorrect Updates, Refresh
                             }
 
                         

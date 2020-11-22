@@ -20,7 +20,7 @@ namespace PhotoTagsSynchronizer
             {
                 queueMetadataExiftool.Remove(fileEntry);
             }
-            UpdateStatusAction("EXIF data saved: " + fileEntry.FileName);
+            UpdateStatusAction("Exiftool read and cached: " + fileEntry.FileName);
             UpdateStatusReadWriteStatus_NeedToBeUpated(); //Update number count also
         }
 

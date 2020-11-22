@@ -156,7 +156,7 @@ namespace PhotoTagsSynchronizer
             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool);
             Metadata metadata = metadataDatabaseCacheExiftool.ReadCache(fileEntryBrokerExiftool);
             if (metadata == null) 
-                return null; //DEBUG Why NULL
+                return null; //DEBUG Why NULL - I manage to reproduce, select lot of files, select AutoCorrect many, many times.
             metadata = new Metadata(metadata); //Make a copy
 
             FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos);            

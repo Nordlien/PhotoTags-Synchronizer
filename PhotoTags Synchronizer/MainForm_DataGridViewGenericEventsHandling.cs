@@ -18,7 +18,7 @@ namespace PhotoTagsSynchronizer
         //Properties
         //Rename
         //TagsAndKeywords
-
+        
         #region Cut
         //Date
         //Exiftool
@@ -80,6 +80,14 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
         }
         //ExiftoolWarning
+        private void toolStripMenuItemExiftoolWarningCopy_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewExifToolWarning;
+            if (!dataGridView.Enabled) return;
+
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
         //Map
         private void toolStripMenuItemMapCopy_Click(object sender, EventArgs e)
         {
@@ -305,6 +313,16 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
         //ExiftoolWarning
+        private void toolStripMenuItemExiftoolWarningFind_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewExifToolWarning;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+            //ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
         //Map
         private void toolStripMenuItemMapFind_Click(object sender, EventArgs e)
         {
@@ -409,6 +427,12 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
         //ExiftoolWarning
+        private void toolStripMenuItemExiftoolWarningMarkFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewExifToolWarning;
+            DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
+            DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
+        }
         //Map
         private void toolStripMenuItemMapMarkFavorite_Click(object sender, EventArgs e)
         {
@@ -440,8 +464,16 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemExiftoolRemoveFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
+            DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
+            DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
         //ExiftoolWarning
+        private void toolStripMenuItemExiftoolWarningRemoveFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewExifToolWarning;
+            DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
+            DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
+        }
         //Map
         private void toolStripMenuItemMapRemoveFavorite_Click(object sender, EventArgs e)
         {
@@ -477,6 +509,12 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
         //ExiftoolWarning
+        private void toolStripMenuItemExiftoolWarningToggleFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewExifToolWarning;
+            DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
+            DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
+        }
         //Map
         private void toolStripMenuItemMapToggleFavorite_Click(object sender, EventArgs e)
         {
@@ -512,6 +550,12 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
         //ExiftoolWarning
+        private void toolStripMenuItemExiftoolWarningShowFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewExifToolWarning;
+            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, showFavoriteRowsToolStripMenuItem);
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
+        }
         //Map
         private void toolStripMenuItemMapShowFavorite_Click(object sender, EventArgs e)
         {
@@ -547,6 +591,12 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
         //ExiftoolWarning
+        private void toolStripMenuItemExiftoolWarningHideEqual_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewExifToolWarning;
+            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, hideEqualRowsToolStripMenuItem);
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
+        }
         //Map
         private void toolStripMenuItemMapHideEqual_Click(object sender, EventArgs e)
         {
@@ -1035,7 +1085,7 @@ namespace PhotoTagsSynchronizer
         //Rename
         //TagsAndKeywords
 
-
+       
 
     }
 }
