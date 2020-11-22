@@ -429,13 +429,28 @@ namespace PhotoTagsSynchronizer
                         "      [11.6, 48.1, 'Cities4']";
                 */
                 string locationMap = "";
+                bool isDefaultSet = false;
+                float maxLongitude = 0;
+                float minLongitude = 0;
+                float maxLatitude = 0;
+                float minLatitude = 0;
                 foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
                 {
                     
                     if (LocationCoordinate.TryParse(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex), out LocationCoordinate locationCoordinate))
-                    {
-                        locationMap = (locationCoordinate.Longitude).ToString(CultureInfo.InvariantCulture) + ", " +
-                            (locationCoordinate.Latitude).ToString(CultureInfo.InvariantCulture);
+                    {                        
+                        if (!isDefaultSet)
+                        {
+                            isDefaultSet = true;
+                            maxLongitude = locationCoordinate.Longitude;
+                            minLongitude = locationCoordinate.Longitude;
+                            maxLatitude = locationCoordinate.Latitude;
+                            minLatitude = locationCoordinate.Latitude;
+                        }
+                        if (locationCoordinate.Longitude > maxLongitude) maxLongitude = locationCoordinate.Longitude;
+                        if (locationCoordinate.Longitude < minLongitude) minLongitude = locationCoordinate.Longitude;
+                        if (locationCoordinate.Latitude > maxLatitude) maxLatitude = locationCoordinate.Latitude;
+                        if (locationCoordinate.Latitude < minLatitude) minLatitude = locationCoordinate.Latitude;
 
                         if (coordinates != "") coordinates += ", ";
                         coordinates += 
@@ -443,9 +458,36 @@ namespace PhotoTagsSynchronizer
                             (locationCoordinate.Longitude).ToString(CultureInfo.InvariantCulture) + ", " +
                             (locationCoordinate.Latitude).ToString(CultureInfo.InvariantCulture) +
                             ", 'Face']";
-                    }                    
-                    
+                    }                                        
                 }
+                
+                float mapLongitude = (maxLongitude + minLongitude) / 2;
+                float mapLatitude = (maxLatitude + minLatitude) / 2;
+                locationMap = mapLongitude.ToString(CultureInfo.InvariantCulture) + ", " + mapLatitude.ToString(CultureInfo.InvariantCulture);
+
+                
+                float distanceLatitude = maxLatitude - minLatitude;
+                float distanceLongitude = maxLongitude - minLongitude;
+                float distanceMax = Math.Max(distanceLatitude, distanceLongitude);
+
+                int zoomLevel = 1;
+                if (distanceMax < 0.01) zoomLevel = 15; //OK
+                else if (distanceMax < 00.02) 
+                    zoomLevel = 13;
+                else if (distanceMax < 00.03) zoomLevel = 12; //OK
+                else if (distanceMax < 00.40) 
+                    zoomLevel = 11;
+                else if (distanceMax < 00.50) 
+                    zoomLevel = 10;
+                else if (distanceMax < 00.60) zoomLevel = 9; //0.54
+                else if (distanceMax < 00.80) 
+                    zoomLevel = 8;
+                else if (distanceMax < 01.10) zoomLevel = 7; //OK
+                else if (distanceMax < 05.00) zoomLevel = 6; //OK; Test 2.83
+                else if (distanceMax < 10.00) zoomLevel = 3;
+                else if (distanceMax < 18.00) zoomLevel = 3; //OK
+                else if (distanceMax < 25.00) zoomLevel = 2; //OK
+                
                 string htmlPage =
                     "<html>" + "\r\n" +
                     "<head>" + "\r\n" +
@@ -479,7 +521,7 @@ namespace PhotoTagsSynchronizer
                     "    ]);" + "\r\n" +
                     "    projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)" + "\r\n" +
                     "    var lonLat = new OpenLayers.LonLat(" + locationMap +").transform(epsg4326, projectTo);" + "\r\n" +
-                    "    var zoom = 7;" + "\r\n" +
+                    "    var zoom = " +  zoomLevel.ToString() + ";" + "\r\n" +
                     "    if (!map.getCenter()) {" + "\r\n" +
                     "      map.setCenter(lonLat, zoom);" + "\r\n" +
                     "    }" + "\r\n" +
