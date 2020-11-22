@@ -182,7 +182,7 @@ namespace PhotoTagsSynchronizer
             //3. If location's found, find time zone
             //4. Adjust DateTaken with found time zone
             //5. Find new locations in camra owner's hirstory. ±1 hour
-            if (metadata?.LocationLatitude == null && metadata?.LocationLongitude == null)
+            if (metadata?.LocationLatitude == null || metadata?.LocationLongitude == null)
             {
                 string cameraOwner = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadata?.CameraMake, metadata?.CameraModel);
                 if (!string.IsNullOrEmpty(cameraOwner))
@@ -236,9 +236,18 @@ namespace PhotoTagsSynchronizer
             {
                 if (UpdateGPSDateTime)
                 {
-                    DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
-                    TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
-                    metadata.LocationDateTime = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);                    
+                    if (metadata?.MediaDateTaken != null)
+                    {
+                        DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
+                        TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
+                        metadata.LocationDateTime = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
+                    }
+                    else if (metadata?.LocationDateTime != null)
+                    {
+                        //DateTime mediaDateUTC = new DateTime(((DateTime)metadata?.LocationDateTime).Ticks, DateTimeKind.Utc);
+                        //TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
+                        //metadata.MediaDateTaken = TimeZoneInfo.ConvertTimeToUtc(mediaDateUTC, timeZoneInfo);
+                    }
                 }
             }
             #endregion    

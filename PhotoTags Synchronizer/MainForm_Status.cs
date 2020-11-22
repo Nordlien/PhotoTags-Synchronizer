@@ -6,6 +6,7 @@ using SqliteDatabase;
 using DataGridViewGeneric;
 using Manina.Windows.Forms;
 using MetadataLibrary;
+using System.Collections.Generic;
 
 namespace PhotoTagsSynchronizer
 {
@@ -48,6 +49,8 @@ namespace PhotoTagsSynchronizer
         }
 
 
+
+
         private void UpdateStatusReadWriteStatus_NeedToBeUpated()
         {
             if (InvokeRequired)
@@ -72,9 +75,69 @@ namespace PhotoTagsSynchronizer
                 queueMetadataMicrosoftPhotos.Count,
                 queueSaveThumbnails.Count,
                 regionCount,
-                queueSaveMetadataUpdatedByUser.Count,
+                CountSave(), //queueSaveMetadataUpdatedByUser.Count,
                 queueVerifyMetadata.Count);
         }
         #endregion
+
+
+        Dictionary<string, long> fileSaveSize = null; // new Dictionary<string, long>();
+        private void ShowExiftoolSaveProgressClear()
+        {
+            fileSaveSize = new Dictionary<string, long>();
+            //timerShowExiftoolSaveProgress.Start();
+            //Application.DoEvents();
+        }
+
+        private void ShowExiftoolSaveProgressStop()
+        {
+            //fileSaveSize = null;
+            //timerShowExiftoolSaveProgress.Stop();
+        }
+
+        private void ShowExiftoolSaveAddWatcher(string fullFileName)
+        {
+             if (!fileSaveSize.ContainsKey(fullFileName)) fileSaveSize.Add(fullFileName, 0);
+        }
+
+        private int CountSave()
+        {
+
+
+            int countToSave = 0; 
+            try
+            {
+                countToSave = queueSaveMetadataUpdatedByUser.Count;
+                if (queueSaveMetadataUpdatedByUser.Count == 0 || fileSaveSize == null) 
+                    return countToSave;
+
+                countToSave = queueSaveMetadataUpdatedByUser.Count + 1; //In progress is also counted
+                foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize)
+                {
+                    if (fileSaveSize[keyValuePair.Key] != 0) countToSave--;
+                }
+            }
+            catch { }
+            return countToSave;
+        }
+
+        private void timerShowExiftoolSaveProgress_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (fileSaveSize == null) return;
+                foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize)
+                {
+                    string tempFile = keyValuePair.Key + "_exiftool_tmp";
+                    if (File.Exists(tempFile))
+                    {
+                        long tempFileSize = new FileInfo(tempFile).Length;
+                        if (keyValuePair.Value != tempFileSize)  UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
+                        fileSaveSize[keyValuePair.Key] = tempFileSize;
+                    }
+                }
+            }
+            catch { }
+        }
     }
 }

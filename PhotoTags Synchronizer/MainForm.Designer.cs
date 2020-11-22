@@ -181,6 +181,15 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemExiftoolHideEqual = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageExifToolWarning = new System.Windows.Forms.TabPage();
             this.dataGridViewExifToolWarning = new System.Windows.Forms.DataGridView();
+            this.contextMenuStripExiftoolWarning = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningFind = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningHideEqual = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageFileProperties = new System.Windows.Forms.TabPage();
             this.dataGridViewProperties = new System.Windows.Forms.DataGridView();
             this.tabPageFileRename = new System.Windows.Forms.TabPage();
@@ -228,15 +237,7 @@ namespace PhotoTagsSynchronizer
             this.timerShowErrorMessage = new System.Windows.Forms.Timer(this.components);
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
-            this.contextMenuStripExiftoolWarning = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningHideEqual = new System.Windows.Forms.ToolStripMenuItem();
+            this.timerShowExiftoolSaveProgress = new System.Windows.Forms.Timer(this.components);
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -280,12 +281,12 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripExifTool.SuspendLayout();
             this.tabPageExifToolWarning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExifToolWarning)).BeginInit();
+            this.contextMenuStripExiftoolWarning.SuspendLayout();
             this.tabPageFileProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProperties)).BeginInit();
             this.tabPageFileRename.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRename)).BeginInit();
             this.toolStrip.SuspendLayout();
-            this.contextMenuStripExiftoolWarning.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -1968,10 +1969,10 @@ namespace PhotoTagsSynchronizer
             // tabPageExifToolWarning
             // 
             this.tabPageExifToolWarning.Controls.Add(this.dataGridViewExifToolWarning);
-            this.tabPageExifToolWarning.Location = new System.Drawing.Point(4, 26);
+            this.tabPageExifToolWarning.Location = new System.Drawing.Point(4, 25);
             this.tabPageExifToolWarning.Name = "tabPageExifToolWarning";
             this.tabPageExifToolWarning.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageExifToolWarning.Size = new System.Drawing.Size(536, 643);
+            this.tabPageExifToolWarning.Size = new System.Drawing.Size(536, 644);
             this.tabPageExifToolWarning.TabIndex = 5;
             this.tabPageExifToolWarning.Tag = "Warning";
             this.tabPageExifToolWarning.Text = "Warnings";
@@ -1997,11 +1998,97 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.ReadOnly = true;
             this.dataGridViewExifToolWarning.RowHeadersWidth = 51;
             this.dataGridViewExifToolWarning.RowTemplate.Height = 24;
-            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(530, 637);
+            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(530, 638);
             this.dataGridViewExifToolWarning.TabIndex = 0;
             this.dataGridViewExifToolWarning.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifToolWarning_CellBeginEdit);
             this.dataGridViewExifToolWarning.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifToolWarning_CellPainting);
             this.dataGridViewExifToolWarning.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewExifToolWarningData_KeyDown);
+            // 
+            // contextMenuStripExiftoolWarning
+            // 
+            this.contextMenuStripExiftoolWarning.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripExiftoolWarning.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag,
+            this.toolStripMenuItemExiftoolWarningCopy,
+            this.toolStripMenuItemExiftoolWarningFind,
+            this.toolStripMenuItemExiftoolWarningMarkFavorite,
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite,
+            this.toolStripMenuItemExiftoolWarningToggleFavorite,
+            this.toolStripMenuItemExiftoolWarningShowFavorite,
+            this.toolStripMenuItemExiftoolWarningHideEqual});
+            this.contextMenuStripExiftoolWarning.Name = "contextMenuStripMap";
+            this.contextMenuStripExiftoolWarning.Size = new System.Drawing.Size(303, 212);
+            // 
+            // toolStripMenuItemtoolExiftoolWarningAssignCompositeTag
+            // 
+            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Name = "toolStripMenuItemtoolExiftoolWarningAssignCompositeTag";
+            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Text = "Assign Composite Tag";
+            // 
+            // toolStripMenuItemExiftoolWarningCopy
+            // 
+            this.toolStripMenuItemExiftoolWarningCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemExiftoolWarningCopy.Name = "toolStripMenuItemExiftoolWarningCopy";
+            this.toolStripMenuItemExiftoolWarningCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemExiftoolWarningCopy.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningCopy.Text = "Copy";
+            this.toolStripMenuItemExiftoolWarningCopy.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningCopy_Click);
+            // 
+            // toolStripMenuItemExiftoolWarningFind
+            // 
+            this.toolStripMenuItemExiftoolWarningFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
+            this.toolStripMenuItemExiftoolWarningFind.Name = "toolStripMenuItemExiftoolWarningFind";
+            this.toolStripMenuItemExiftoolWarningFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.toolStripMenuItemExiftoolWarningFind.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningFind.Text = "Find";
+            this.toolStripMenuItemExiftoolWarningFind.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningFind_Click);
+            // 
+            // toolStripMenuItemExiftoolWarningMarkFavorite
+            // 
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.Name = "toolStripMenuItemExiftoolWarningMarkFavorite";
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.Text = "Mark as favorite";
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningMarkFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolWarningRemoveFavorite
+            // 
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Name = "toolStripMenuItemExiftoolWarningRemoveFavorite";
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Text = "Remove as favorite";
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningRemoveFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolWarningToggleFavorite
+            // 
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.Name = "toolStripMenuItemExiftoolWarningToggleFavorite";
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.Text = "Toggle favorite";
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningToggleFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolWarningShowFavorite
+            // 
+            this.toolStripMenuItemExiftoolWarningShowFavorite.Name = "toolStripMenuItemExiftoolWarningShowFavorite";
+            this.toolStripMenuItemExiftoolWarningShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.B)));
+            this.toolStripMenuItemExiftoolWarningShowFavorite.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningShowFavorite.Text = "Show favorite rows";
+            this.toolStripMenuItemExiftoolWarningShowFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningShowFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolWarningHideEqual
+            // 
+            this.toolStripMenuItemExiftoolWarningHideEqual.Name = "toolStripMenuItemExiftoolWarningHideEqual";
+            this.toolStripMenuItemExiftoolWarningHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.B)));
+            this.toolStripMenuItemExiftoolWarningHideEqual.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningHideEqual.Text = "Hide equal rows";
+            this.toolStripMenuItemExiftoolWarningHideEqual.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningHideEqual_Click);
             // 
             // tabPageFileProperties
             // 
@@ -2506,91 +2593,11 @@ namespace PhotoTagsSynchronizer
             this.timerStartThread.Interval = 1000;
             this.timerStartThread.Tick += new System.EventHandler(this.timerStartThread_Tick);
             // 
-            // contextMenuStripExiftoolWarning
+            // timerShowExiftoolSaveProgress
             // 
-            this.contextMenuStripExiftoolWarning.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripExiftoolWarning.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag,
-            this.toolStripMenuItemExiftoolWarningCopy,
-            this.toolStripMenuItemExiftoolWarningFind,
-            this.toolStripMenuItemExiftoolWarningMarkFavorite,
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite,
-            this.toolStripMenuItemExiftoolWarningToggleFavorite,
-            this.toolStripMenuItemExiftoolWarningShowFavorite,
-            this.toolStripMenuItemExiftoolWarningHideEqual});
-            this.contextMenuStripExiftoolWarning.Name = "contextMenuStripMap";
-            this.contextMenuStripExiftoolWarning.Size = new System.Drawing.Size(303, 212);
-            // 
-            // toolStripMenuItemtoolStripMenuItemExiftoolWarningAssignCompositeTag
-            // 
-            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Name = "toolStripMenuItemtoolStripMenuItemExiftoolWarningAssignCompositeTag";
-            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Text = "Assign Composite Tag";
-            // 
-            // toolStripMenuItemExiftoolWarningCopy
-            // 
-            this.toolStripMenuItemExiftoolWarningCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.toolStripMenuItemExiftoolWarningCopy.Name = "toolStripMenuItemExiftoolWarningCopy";
-            this.toolStripMenuItemExiftoolWarningCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemExiftoolWarningCopy.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningCopy.Text = "Copy";
-            this.toolStripMenuItemExiftoolWarningCopy.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningCopy_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningFind
-            // 
-            this.toolStripMenuItemExiftoolWarningFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
-            this.toolStripMenuItemExiftoolWarningFind.Name = "toolStripMenuItemExiftoolWarningFind";
-            this.toolStripMenuItemExiftoolWarningFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.toolStripMenuItemExiftoolWarningFind.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningFind.Text = "Find";
-            this.toolStripMenuItemExiftoolWarningFind.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningFind_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningMarkFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Name = "toolStripMenuItemExiftoolWarningMarkFavorite";
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Text = "Mark as favorite";
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningMarkFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningRemoveFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Name = "toolStripMenuItemExiftoolWarningRemoveFavorite";
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Text = "Remove as favorite";
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningRemoveFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningToggleFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Name = "toolStripMenuItemExiftoolWarningToggleFavorite";
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Text = "Toggle favorite";
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningToggleFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningShowFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningShowFavorite.Name = "toolStripMenuItemExiftoolWarningShowFavorite";
-            this.toolStripMenuItemExiftoolWarningShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.B)));
-            this.toolStripMenuItemExiftoolWarningShowFavorite.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningShowFavorite.Text = "Show favorite rows";
-            this.toolStripMenuItemExiftoolWarningShowFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningShowFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningHideEqual
-            // 
-            this.toolStripMenuItemExiftoolWarningHideEqual.Name = "toolStripMenuItemExiftoolWarningHideEqual";
-            this.toolStripMenuItemExiftoolWarningHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.B)));
-            this.toolStripMenuItemExiftoolWarningHideEqual.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningHideEqual.Text = "Hide equal rows";
-            this.toolStripMenuItemExiftoolWarningHideEqual.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningHideEqual_Click);
+            this.timerShowExiftoolSaveProgress.Enabled = true;
+            this.timerShowExiftoolSaveProgress.Interval = 400;
+            this.timerShowExiftoolSaveProgress.Tick += new System.EventHandler(this.timerShowExiftoolSaveProgress_Tick);
             // 
             // MainForm
             // 
@@ -2658,6 +2665,7 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripExifTool.ResumeLayout(false);
             this.tabPageExifToolWarning.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExifToolWarning)).EndInit();
+            this.contextMenuStripExiftoolWarning.ResumeLayout(false);
             this.tabPageFileProperties.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProperties)).EndInit();
             this.tabPageFileRename.ResumeLayout(false);
@@ -2665,7 +2673,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRename)).EndInit();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
-            this.contextMenuStripExiftoolWarning.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2872,6 +2879,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningToggleFavorite;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningShowFavorite;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningHideEqual;
+        private System.Windows.Forms.Timer timerShowExiftoolSaveProgress;
     }
 }
 

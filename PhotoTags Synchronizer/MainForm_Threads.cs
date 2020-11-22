@@ -687,6 +687,8 @@ namespace PhotoTagsSynchronizer
                 {
                     while (queueSaveMetadataUpdatedByUser.Count > 0) // && !GlobalData.IsApplicationClosing)
                     {
+                        ShowExiftoolSaveProgressClear();
+
                         int writeCount = queueSaveMetadataUpdatedByUser.Count;
                         List<Metadata> metadataWriteQueue = new List<Metadata>();
                         List<Metadata> metadataOrginalQueue = new List<Metadata>();
@@ -704,7 +706,7 @@ namespace PhotoTagsSynchronizer
 
                             //If file not blocked by process, then add to write queue or otherwise wait to late queue
                             if (ExiftoolWriter.IsFileLockedByProcess(metadataWrite.FileFullPath))
-                            {
+                            {                                
                                 queueSaveMetadataUpdatedByUser.Add(metadataWrite);
                                 queueSaveMetadataBeforeUserUpdate.Add(metadataOrginal);
                             }
@@ -712,6 +714,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 if (!GlobalData.IsApplicationClosing)
                                 {
+                                    ShowExiftoolSaveAddWatcher(metadataWrite.FileEntryBroker.FullFilePath);
                                     metadataWriteQueue.Add(metadataWrite);
                                     metadataOrginalQueue.Add(metadataOrginal);
                                 } else
@@ -772,7 +775,10 @@ namespace PhotoTagsSynchronizer
                         UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
 
                         metadataWriteQueue.Clear();
+                        ShowExiftoolSaveProgressStop();
                     }
+
+                    
                     UpdateStatusReadWriteStatus_NeedToBeUpated();
                 });
 
