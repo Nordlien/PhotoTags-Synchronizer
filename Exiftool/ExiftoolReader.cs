@@ -705,13 +705,9 @@ namespace Exiftool
                             CheckTimeZone(metadata, ref metadata.errors);
 
                             #region Write Metadata and trigger Event afterNewMediaFoundEvent
-                            //ConvertRegion(metadata.PersonalRegionList, tempRegionRectangle, tempRegionPersonDisplayName);
-                            //ConvertRegion(metadata.PersonalRegionList, tempRegionType, tempRegionName, tempRegionAreaH, tempRegionAreaW, tempRegionAreaX, tempRegionAreaY);
-
                             metadataDatabaseCache.TransactionBeginBatch();
                             metadataDatabaseCache.Write(metadata);
-                            metadataDatabaseCache.TransactionCommitBatch();                            
-                            
+                            metadataDatabaseCache.TransactionCommitBatch();                                                      
                             if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
                             #endregion
 
@@ -721,14 +717,6 @@ namespace Exiftool
                             CleanAllOldExiftoolDataForReadNewFile();
                             metadata = null; //Start with new empty data when new file found
                             exiftoolDatas = new List<ExiftoolData>();
-                            /*tempRegionRectangle = "";
-                            tempRegionPersonDisplayName = "";
-                            tempRegionType = null;
-                            tempRegionAreaH = null;
-                            tempRegionAreaW = null;
-                            tempRegionAreaX = null;
-                            tempRegionAreaY = null;
-                            tempRegionName = null;*/
                             #endregion 
                         }
                     }
@@ -1495,13 +1483,9 @@ namespace Exiftool
                 process.WaitForExit(1500);
 
                 #region Write last Metadata and trigger Event afterNewMediaFoundEvent
-                if (metadata != null) //Save the last one, remover we save everytime, when new file found
+                if (metadata != null && metadata.FileLastAccessed != null) //Save the last one, remover we save everytime, when new file found
                 {
                     CheckTimeZone(metadata, ref metadata.errors);
-
-                    //ConvertRegion(metadata.PersonalRegionList, tempRegionRectangle, tempRegionPersonDisplayName);
-                    //ConvertRegion(metadata.PersonalRegionList, tempRegionType, tempRegionName, tempRegionAreaH, tempRegionAreaW, tempRegionAreaX, tempRegionAreaY);
-
                     metaDataCollections.Add(metadata);
 
                     metadataDatabaseCache.TransactionBeginBatch();
@@ -1509,14 +1493,18 @@ namespace Exiftool
                     metadataDatabaseCache.TransactionCommitBatch();
 
                     if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                } else
+                {
+                    string error = "Failed reading data from Exiftool. Using arguments: " + arguments +"\r\n";
+                    Logger.Error("ERROR: " + error);
+                    throw new Exception(error);
                 }
                 #endregion 
 
                 #region Log error
-                string error = "";
-                while (!process.StandardError.EndOfStream)
+                if (!process.StandardError.EndOfStream)
                 {
-                    error += process.StandardError.ReadLine() + "\r\n";
+                    string error = process.StandardError.ReadToEnd() + "\r\n";
                     Logger.Error("ERROR: " + error);
                     throw new Exception(error);
                 }

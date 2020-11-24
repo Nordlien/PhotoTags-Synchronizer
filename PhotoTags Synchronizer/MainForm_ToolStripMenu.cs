@@ -88,9 +88,11 @@ namespace PhotoTagsSynchronizer
 
                 Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
 
+                ////DataGridViewHandler.
                 if (GlobalData.IsAgregatedTags)
                     DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
-
+                    
+                
                 if (GlobalData.IsAgregatedMap)
                     DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
 
@@ -102,6 +104,7 @@ namespace PhotoTagsSynchronizer
 
                 metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
                 metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
+
 
                 dataGridViewGenericColumn.Metadata = metadataFromDataGridView; //Updated the column with Metadata according to the user input
             }

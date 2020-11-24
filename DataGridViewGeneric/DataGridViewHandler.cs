@@ -27,7 +27,7 @@ namespace DataGridViewGeneric
     {
         public static Color ColorReadOnly = SystemColors.GradientInactiveCaption;
         public static Color ColorError = Color.FromArgb(255, 192, 192);
-        public static Color ColorFavourite = SystemColors.ControlLight; 
+        public static Color ColorFavourite = SystemColors.ControlLight;
         public static Color ColorReadOnlyFavourite = SystemColors.MenuHighlight;
         public static Color ColorHeader = SystemColors.Control;
         public static Color ColorCellEditable = SystemColors.ControlLightLight;
@@ -62,7 +62,11 @@ namespace DataGridViewGeneric
             return dataGridView.SelectedCells.Count;
         }
 
-        
+        public static void ClearFileBeenUpdated(DataGridView dataGridView, int columnIndex)
+        {
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            dataGridViewGenericColumn.HasFileBeenUpdated = false;
+        }
 
         #region DataGridView events handling
         private void DataGridView_RowValidated(object sender, DataGridViewCellEventArgs e)

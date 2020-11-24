@@ -452,9 +452,7 @@ namespace PhotoTagsSynchronizer
                         lock (queueMetadataExiftool)
                         {
                             rangeToRemove = Math.Min(queueMetadataExiftool.Count, 30);
-                            metaFileNotInDatabase.AddRange(
-                                databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerTypes.ExifTool, queueMetadataExiftool.GetRange(0, rangeToRemove))
-                                );
+                            metaFileNotInDatabase.AddRange(databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerTypes.ExifTool, queueMetadataExiftool.GetRange(0, rangeToRemove)));
 
                             int removeAt = 0;
                             for (int i = 0; i < rangeToRemove; i++)
@@ -482,9 +480,6 @@ namespace PhotoTagsSynchronizer
                             if (argumnetLength > 2047) range--;
 
                             List<String> useExiftoolOnThisSubsetOfFiles = metaFileNotInDatabase.GetRange(0, range);
-
-                            //foreach (string removeErrorFile in useExiftoolOnThisSubsetOfFiles) RemoveError(removeErrorFile);
-
                             List<Metadata> metadataListUpdatesByExiftool = exiftoolReader.Read(MetadataBrokerTypes.ExifTool, useExiftoolOnThisSubsetOfFiles);
 
                             AddQueueMetadataConvertRegion(metadataListUpdatesByExiftool);
@@ -628,21 +623,8 @@ namespace PhotoTagsSynchronizer
         #region AddQueue - AddQueueSaveMetadataUpdatedByUser
         public void AddQueueSaveMetadataUpdatedByUser(Metadata metadataToSave, Metadata metadataOriginal)
         {
-
-            //int locationForMetadataFoundInList = Metadata.FindMetadataInList(queueSaveMetadataUpdatedByUser, metadataToSave);
-
-            //if (locationForMetadataFoundInList==-1)
-            //{
-                //-1 = Not found, add to save queue
-                queueSaveMetadataUpdatedByUser.Add(metadataToSave);
-                queueSaveMetadataBeforeUserUpdate.Add(metadataOriginal);
-            //}
-            //else //Found, updated save with latest save data, in case not saved and new values added
-            //{ 
-            //    queueSaveMetadataUpdatedByUser[locationForMetadataFoundInList] = metadataToSave;
-            //    queueSaveMetadataBeforeUserUpdate[locationForMetadataFoundInList] = metadataOriginal;
-            //}
-            
+            queueSaveMetadataUpdatedByUser.Add(metadataToSave);
+            queueSaveMetadataBeforeUserUpdate.Add(metadataOriginal);
             UpdateStatusReadWriteStatus_NeedToBeUpated();   
         }
         #endregion
@@ -703,11 +685,14 @@ namespace PhotoTagsSynchronizer
                             queueSaveMetadataUpdatedByUser.RemoveAt(0);
                             queueSaveMetadataBeforeUserUpdate.RemoveAt(0);
 
-                            //If file not blocked by process, then add to write queue or otherwise wait to late queue
-                            if (ExiftoolWriter.IsFileLockedByProcess(metadataWrite.FileFullPath))
+                            //If file not blocked by process, then add to write queue or otherwise put last in queue
+                            //If wait to be read, read first, write after
+                            if (queueMetadataExiftool.Contains(metadataWrite.FileEntryBroker) ||
+                                metaFileNotInDatabase.Contains(metadataWrite.FileEntryBroker.FullFilePath) ||
+                                ExiftoolWriter.IsFileLockedByProcess(metadataWrite.FileFullPath))
                             {                                
                                 queueSaveMetadataUpdatedByUser.Add(metadataWrite);
-                                queueSaveMetadataBeforeUserUpdate.Add(metadataOrginal);
+                                queueSaveMetadataBeforeUserUpdate.Add(metadataOrginal);                                
                             }
                             else
                             {
@@ -716,7 +701,8 @@ namespace PhotoTagsSynchronizer
                                     ShowExiftoolSaveAddWatcher(metadataWrite.FileEntryBroker.FullFilePath);
                                     metadataWriteQueue.Add(metadataWrite);
                                     metadataOrginalQueue.Add(metadataOrginal);
-                                } else
+                                } 
+                                else
                                 {                                    
                                     Logger.Warn("Was not able to save all data before closing the application");
                                 }
@@ -744,10 +730,8 @@ namespace PhotoTagsSynchronizer
                                 {
                                     if (File.GetLastWriteTime(metadataWrite.FileFullPath) == metadataWrite.FileDateModified)
                                     {
-                                        Metadata metadataError = new Metadata(metadataWrite)
-                                        {
-                                            FileDateModified = DateTime.Now
-                                        };
+                                        Metadata metadataError = new Metadata(metadataWrite);
+                                        metadataError.FileDateModified = DateTime.Now;                                        
                                         metadataError.Broker |= MetadataBrokerTypes.ExifToolWriteError;
                                         databaseAndCacheMetadataExiftool.TransactionBeginBatch();
                                         databaseAndCacheMetadataExiftool.Write(metadataError);
@@ -765,6 +749,7 @@ namespace PhotoTagsSynchronizer
                             }
                         }
 
+                        Thread.Sleep(100); //Wait in case of loop
                         ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(metadataWriteQueue);
                         
                         AddQueueVerifyMetadata(metadataWriteQueue);
