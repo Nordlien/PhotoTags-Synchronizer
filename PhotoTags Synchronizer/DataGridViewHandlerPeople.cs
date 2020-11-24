@@ -87,15 +87,19 @@ namespace PhotoTagsSynchronizer
                 DataGridViewGenericRow dataGridViewGenericRow = new DataGridViewGenericRow(headerPeople, region.Name ?? "");
 
                 int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, dataGridViewGenericRow);
-                DataGridViewGenericCellStatus dataGridViewGenericCellStatus;
-                if (rowIndex == -1) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false);
-                else dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex);
+                
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus; 
+                if (rowIndex == -1) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false); //By default, empty and disabled
+                else dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex); //Remember current status, in case of updates
+
+                rowIndex = AddRow(dataGridView, metadata, columnIndex, dataGridViewGenericRow, DataGridViewHandler.DeepCopy(region),
+                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false)); //Other cell for thisrow will by default be Empty and disabled
 
                 dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
                 if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Disabled || dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
                     dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off;
-                
-                rowIndex = AddRow(dataGridView, metadata, columnIndex, dataGridViewGenericRow, DataGridViewHandler.DeepCopy(region), dataGridViewGenericCellStatus);
+                DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+
                 dataGridView.Rows[rowIndex].Height = DataGridViewHandler.GetCellRowHeight(dataGridView);
 
                 DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, ""); //Clean first, avoid duplication
@@ -171,7 +175,7 @@ namespace PhotoTagsSynchronizer
                     DataGridViewHandler.IsCurrentFile(fileEntryBroker, dateTimeForEditableMediaFile) ?      /* Metadata.FileEntry read date, fileEntryBroker fake future version */
                     ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly,            /* this will set histority columns as read only columns    */
                     showWhatColumns,                                                                        /* show Edit | Hisorical columns | Error columns            */
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));  /* New cells will have this value                           */
+                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));  /* New cells will have this value                           */
 
                 columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryBroker);    /* Force updated, every time, new data arrives */
                 if (columnIndex == -1) continue;                                                         /* -1 - Don't need show column, due to hidden / do now show */

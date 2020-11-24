@@ -111,7 +111,7 @@ namespace PhotoTagsSynchronizer
                 if (queueSaveMetadataUpdatedByUser.Count == 0 || fileSaveSize == null) 
                     return countToSave;
 
-                countToSave = queueSaveMetadataUpdatedByUser.Count + 1; //In progress is also counted
+                countToSave = queueSaveMetadataUpdatedByUser.Count; 
                 foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize)
                 {
                     if (fileSaveSize[keyValuePair.Key] != 0) countToSave--;

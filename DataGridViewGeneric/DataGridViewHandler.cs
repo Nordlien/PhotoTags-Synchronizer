@@ -1181,10 +1181,7 @@ namespace DataGridViewGeneric
             if (!dataGridViewGenericRow.IsHeader)
             {
                 if (writeValue) dataGridView[columnIndex, rowIndex].Value = value;                
-                if (dataGridViewGenericRow.IsMultiLine)
-                {
-                    dataGridView.Columns[columnIndex].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-                }
+                if (dataGridViewGenericRow.IsMultiLine) dataGridView.Columns[columnIndex].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             } 
             else dataGridViewGenericCellStatusDefault.CellReadOnly = true;
 
@@ -1195,8 +1192,7 @@ namespace DataGridViewGeneric
             if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
 
             SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
-            //SetCellStatusDefaults(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefaults);
-
+            
             SetCellBackGroundColorForRow(dataGridView, rowIndex);
 
             return rowIndex;
