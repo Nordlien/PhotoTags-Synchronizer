@@ -618,6 +618,7 @@ namespace MetadataLibrary
         #endregion
 
 
+        #region Vaiable Properties
         private static string[] arrayOfProperties = null;
 
         public static string[] ListOfProperties()
@@ -644,6 +645,7 @@ namespace MetadataLibrary
                 listOfProperties.Add("{FileExtension}");
                 listOfProperties.Add("{FileDirectory}");
                 listOfProperties.Add("{FileSize}");
+                
                 listOfProperties.Add("{FileDateCreated}");
                 listOfProperties.Add("{FileDateCreatedDateStamp}");
                 listOfProperties.Add("{FileDateCreatedTimeStamp}");
@@ -653,7 +655,10 @@ namespace MetadataLibrary
                 listOfProperties.Add("{FileDateCreated_HH}");
                 listOfProperties.Add("{FileDateCreated_mm}");
                 listOfProperties.Add("{FileDateCreated_ss}");
-                listOfProperties.Add("{FileDateModified}");
+
+                listOfProperties.Add("{FileDateModified}"); 
+                listOfProperties.Add("{IfFileDateModifiedChanged}");
+
                 listOfProperties.Add("{FileDateModifiedDateStamp}");
                 listOfProperties.Add("{FileDateModifiedTimeStamp}");
                 listOfProperties.Add("{FileDateModified_yyyy}");
@@ -671,24 +676,39 @@ namespace MetadataLibrary
                 listOfProperties.Add("{FileLastAccessed_HH}");
                 listOfProperties.Add("{FileLastAccessed_mm}");
                 listOfProperties.Add("{FileLastAccessed_ss}");
+
                 listOfProperties.Add("{FileMimeType}");
 
                 //Personal
                 listOfProperties.Add("{PersonalTitle}");
+                listOfProperties.Add("{IfPersonalTitleChanged}");
+
                 listOfProperties.Add("{PersonalDescription}");
+                listOfProperties.Add("{IfPersonalDescriptionChanged}");
+
                 listOfProperties.Add("{PersonalComments}");
+                listOfProperties.Add("{IfPersonalCommentsChanged}");
+                
                 listOfProperties.Add("{PersonalRating}");
+                listOfProperties.Add("{IfPersonalRatingChanged}");
                 listOfProperties.Add("{PersonalRatingPercent}");
+
                 listOfProperties.Add("{PersonalAuthor}");
+                listOfProperties.Add("{IfPersonalAuthorChanged}");
+
                 listOfProperties.Add("{PersonalAlbum}");
+                listOfProperties.Add("{IfPersonalAlbumChanged}");
 
                 //Region
                 listOfProperties.Add("{PersonalRegionInfoMP}");
                 listOfProperties.Add("{PersonalRegionInfo}");
+                listOfProperties.Add("{IfPersonalRegionChanged}");
 
                 //Keyword
                 listOfProperties.Add("{PersonalKeywordsList}");
                 listOfProperties.Add("{PersonalKeywordsXML}");
+                listOfProperties.Add("{PersonalKeywordItems}");
+                listOfProperties.Add("{IfPersonalKeywordsChanged}");
 
                 //Camera
                 listOfProperties.Add("{CameraMake}");
@@ -696,6 +716,8 @@ namespace MetadataLibrary
 
                 //Media
                 listOfProperties.Add("{MediaDateTaken}");
+                listOfProperties.Add("{IfMediaDateTakenChanged}");
+
                 listOfProperties.Add("{MediaDateTakenDateStamp}");
                 listOfProperties.Add("{MediaDateTakenTimeStamp}");
                 listOfProperties.Add("{MediaDateTaken_yyyy}");
@@ -704,6 +726,7 @@ namespace MetadataLibrary
                 listOfProperties.Add("{MediaDateTaken_HH}");
                 listOfProperties.Add("{MediaDateTaken_mm}");
                 listOfProperties.Add("{MediaDateTaken_ss}");
+
                 listOfProperties.Add("{MediaWidth}");
                 listOfProperties.Add("{MediaHeight}");
                 listOfProperties.Add("{MediaOrientation}");
@@ -711,9 +734,17 @@ namespace MetadataLibrary
 
                 //Location
                 listOfProperties.Add("{LocationAltitude}");
+                listOfProperties.Add("{IfLocationAltitudeChanged}");
+                
                 listOfProperties.Add("{LocationLatitude}");
+                listOfProperties.Add("{IfLocationLatitudeChanged}");
+
                 listOfProperties.Add("{LocationLongitude}");
+                listOfProperties.Add("{IfLocationLongitudeChanged}");
+
                 listOfProperties.Add("{LocationDateTime}");
+                listOfProperties.Add("{IfLocationDateTimeChanged}");
+                
                 listOfProperties.Add("{LocationDateTimeUTC}");
                 listOfProperties.Add("{LocationDateTimeDateStamp}");
                 listOfProperties.Add("{LocationDateTimeTimeStamp}");
@@ -723,10 +754,18 @@ namespace MetadataLibrary
                 listOfProperties.Add("{LocationDateTime_HH}");
                 listOfProperties.Add("{LocationDateTime_mm}");
                 listOfProperties.Add("{LocationDateTime_ss}");
+
                 listOfProperties.Add("{LocationName}");
+                listOfProperties.Add("{IfLocationNameChanged}");
+
                 listOfProperties.Add("{LocationCity}");
+                listOfProperties.Add("{IfLocationCityChanged}");
+
                 listOfProperties.Add("{LocationState}");
+                listOfProperties.Add("{IfLocationStateChanged}");
+
                 listOfProperties.Add("{LocationCountry}");
+                listOfProperties.Add("{IfLocationCountryChanged}");
                 //listOfProperties.Add("{LocationDistrict}");
                 //listOfProperties.Add("{LocationRegion}");
 
@@ -737,7 +776,7 @@ namespace MetadataLibrary
 
         public string GetPropertyValue(string variableName, bool useExifFormat, bool convertNullToBlank,
             List<string> allowedFileNameDateTimeFormats, 
-            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML)
+            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItems)
         {
             string result = variableName;
             DateTime dateTimeSystem = DateTime.Now;
@@ -930,6 +969,9 @@ namespace MetadataLibrary
                 case "{PersonalKeywordsXML}":
                     result = personalKeywordsXML;
                     break;
+                case "{PersonalKeywordsItems}":
+                    result = personalKeywordItems;
+                    break;
                 #endregion
 
                 #region Camera
@@ -1054,26 +1096,162 @@ namespace MetadataLibrary
             return result;
         }
 
+        #endregion
+
+        #region Replace Variable with Propertiy values
+        private bool HasValueChanged(string variable, Metadata metadata)
+        {           
+            bool result = false;
+            switch (variable)
+            {
+                //System
+                case "{IfFileDateModifiedChanged}":
+                    if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(this.FileLastAccessed, metadata.FileLastAccessed)) result = true;
+                    break;
+
+                //Personal
+                case "{IfPersonalTitleChanged}":
+                    if (this.PersonalTitle != metadata.PersonalTitle) result = true;
+                    break;
+                case "{IfPersonalDescriptionChanged}":
+                    if (this.PersonalDescription != metadata.PersonalDescription) result = true;
+                    break;
+                case "{IfPersonalCommentsChanged}":
+                    if (this.PersonalComments != metadata.PersonalComments) result = true;
+                    break;
+                case "{IfPersonalRatingChanged}":
+                    if (this.personalRating != metadata.personalRating) result = true;
+                    if (this.personalRatingPercent != metadata.personalRatingPercent) result = true;
+                    break;
+                case "{IfPersonalAuthorChanged}":
+                    if (this.PersonalAuthor != metadata.PersonalAuthor) result = true;
+                    break;
+                case "{IfPersonalAlbumChanged}":
+                    if (this.PersonalAlbum != metadata.PersonalAlbum) result = true;
+                    break;
+                //Region
+                case "{IfPersonalRegionChanged}":
+                    if (VerifyRegionStructureList(this.personalRegionList, metadata.personalRegionList) == false) result = true;                    
+                    break;
+                //Keyword
+                case "{IfPersonalKeywordsChanged}":
+                    if (VerifyKeywordList(this.personalTagList, metadata.personalTagList) == false) result = true;
+                    break;
+                //Media
+                case "{IfMediaDateTakenChanged}":
+                    if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(this.MediaDateTaken, metadata.MediaDateTaken)) result = true;
+                    break;
+                //Location
+                case "{IfLocationAltitudeChanged}":
+                    if (this.locationAltitude != metadata.locationAltitude) result = true;
+                    break;
+                case "{IfLocationLatitudeChanged}":
+                    if (this.locationLatitude != metadata.locationLatitude) result = true;
+                    break;
+                case "{IfLocationLongitudeChanged}":
+                    if (this.locationLongitude != metadata.locationLongitude) result = true;
+                    break;
+                case "{IfLocationDateTimeChanged}":
+                    if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(this.locationDateTime, metadata.locationDateTime)) result = true;
+                    break;
+                case "{IfLocationNameChanged}":
+                    if (this.locationName != metadata.locationName) result = true;
+                    break;
+                case "{IfLocationCityChanged}":
+                    if (this.locationCountry != metadata.locationCountry) result = true;
+                    break;
+                case "{IfLocationStateChanged}":
+                    if (this.locationCity != metadata.locationCity) result = true;
+                    break;
+                case "{IfLocationCountryChanged}":
+                    if (this.locationState != metadata.locationState) result = true;
+                    break;
+            }
+            return result;
+        }
+
+        private string AddLine(string line, string variable, bool alwaysWrite, Metadata metadata, ref bool vaiableFound)
+        {
+            if (line.Contains(variable))
+            {
+                vaiableFound = true;
+                line = line.Replace(variable, "");
+                //If always write, then line will be added
+                //If not always write, then check if vaiable is changed
+                if (!alwaysWrite && !HasValueChanged(variable, metadata)) line = ""; 
+            }
+
+            return line;
+        }
+
+        public string RemoveLines(string stringWithVariables, Metadata metadata, bool alwaysWrite)
+        {
+            string result = "";
+            string addLine;
+            string[] lines = stringWithVariables.Replace("\r\n", "\n").Split('\n');
+            
+            foreach (string line in lines)
+            {
+                addLine = line;
+                bool vaiableFound = false;
+                do
+                {
+                    vaiableFound = false;
+                    //File
+                    addLine = AddLine(addLine, "{IfFileDateModifiedChanged}", alwaysWrite, metadata, ref vaiableFound);
+
+                    //Personal
+                    addLine = AddLine(addLine, "{IfPersonalTitleChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfPersonalDescriptionChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfPersonalCommentsChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfPersonalRatingChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfPersonalAuthorChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfPersonalAlbumChanged}", alwaysWrite, metadata, ref vaiableFound);
+
+                    //Region
+                    addLine = AddLine(addLine, "{IfPersonalRegionChanged}", alwaysWrite, metadata, ref vaiableFound);
+
+                    //Keyword
+                    addLine = AddLine(addLine, "{IfPersonalKeywordsChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    //Media
+                    addLine = AddLine(addLine, "{IfMediaDateTakenChanged}", alwaysWrite, metadata, ref vaiableFound);
+
+                    //Location
+                    addLine = AddLine(addLine, "{IfLocationAltitudeChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfLocationLatitudeChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfLocationLongitudeChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfLocationDateTimeChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfLocationNameChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfLocationCityChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfLocationStateChanged}", alwaysWrite, metadata, ref vaiableFound);
+                    addLine = AddLine(addLine, "{IfLocationCountryChanged}", alwaysWrite, metadata, ref vaiableFound);
+                } while (vaiableFound);
+                if (!string.IsNullOrWhiteSpace(addLine)) result +=  addLine + "\r\n";
+            }
+            return result;
+        }
+
         public string ReplaceVariables(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, List<string> allowedFileNameDateTimeFormats,
-            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML)
+            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItems)
         {
             string result = stringWithVariables;
             string[] variables = Metadata.ListOfProperties();
             foreach (string variable in variables)
             {
                 while (result.Contains(variable)) result = result.Replace(variable, GetPropertyValue(variable, useExifFormat, convertNullToBlank,
-                    allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML));
+                    allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItems));
             }
 
             return result;
         }
 
-        public string ReplaceVariables(string stringWithVariables, string keyword)
+        public string ReplaceKeywordItemVariables(string stringWithVariables, string keyword)
         {
             string result = stringWithVariables;
             while (result.Contains("{KeywordItem}")) result = result.Replace("{KeywordItem}", keyword);            
             return result;
         }
+        #endregion 
     }
 }
 

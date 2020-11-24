@@ -130,7 +130,6 @@ namespace Exiftool
             {
                 for (int updatedRecord = 0; updatedRecord < writeCount; updatedRecord++)
                 {
-
                     Metadata metadataToWrite = metadataListToWrite[updatedRecord];
                     Metadata metadataOriginal = metadataListOriginal[updatedRecord];
 
@@ -256,7 +255,7 @@ namespace Exiftool
                         personalRegionInfo += "]}";
                     }
 
-
+                    /*
                     if (isVideoFormat)
                     { 
                         WindowsProperty.WindowsPropertyWriter windowsPropertyWriter = new WindowsProperty.WindowsPropertyWriter();
@@ -286,25 +285,28 @@ namespace Exiftool
                         //Warning: Sorry, ItemList is not writable
                         //sw.WriteLine("-LastKeywordXMP+=" + tag.Keyword);  //Warning: [minor] Fixed incorrect URI for xmlns:MicrosoftPhoto
                         //sw.WriteLine("-LastKeywordIPTC+=" + tag.Keyword); //Warning: [minor] Fixed incorrect URI for xmlns:MicrosoftPhoto                         
-                    }
+                    }*/
 
                     #endregion
 
-                    
-                    string tagsToWrite = metadataToWrite.ReplaceVariables(writeMetadataTags, true, true, allowedFileNameDateTimeFormats, 
-                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories);
 
-                    #region Add Keyword tags - ***List***
-                    tagsToWrite += "\r\n";
+                    #region Create Variable - Keyword items - ***Loop of keyword items***
+                    string personalKeywordItems = ""; 
                     foreach (KeywordTag keywordTag in metadataOriginal.PersonalKeywordTags)
                     {
                         string keywordItemToWrite = metadataToWrite.ReplaceVariables(writeMetadataKeywordItems, true, true, allowedFileNameDateTimeFormats,
-                            personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories);
-                        keywordItemToWrite = metadataToWrite.ReplaceVariables(keywordItemToWrite, keywordTag.Keyword);
+                            personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "");
+                        keywordItemToWrite = metadataToWrite.ReplaceKeywordItemVariables(keywordItemToWrite, keywordTag.Keyword);
 
-                        tagsToWrite += keywordItemToWrite + "\r\n";                        
+                        personalKeywordItems += keywordItemToWrite + "\r\n";
                     }
                     #endregion
+
+                    string tagsToWrite = metadataToWrite.RemoveLines(writeMetadataTags, metadataOriginal, false);
+                    tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, true, true, allowedFileNameDateTimeFormats, 
+                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordItems);
+
+                    
 
                     sw.WriteLine(tagsToWrite);
                     sw.WriteLine(metadataToWrite.FileFullPath);

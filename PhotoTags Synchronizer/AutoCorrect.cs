@@ -133,7 +133,7 @@ namespace PhotoTagsSynchronizer
         public bool UpdateLocationCountry { get; set; } = true;
         #endregion
 
-
+        #region Congig De- Serialization
         public string SerializeThis()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
@@ -143,7 +143,9 @@ namespace PhotoTagsSynchronizer
         {
             return JsonConvert.DeserializeObject<AutoCorrect>(configString); 
         }
+        #endregion
 
+        #region FixAndSave
         public Metadata FixAndSave(FileEntry fileEntry,
             MetadataDatabaseCache metadataDatabaseCacheExiftool,
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos,
@@ -440,9 +442,8 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            
-
             return metadata;
         }
+        #endregion 
     }
 }
