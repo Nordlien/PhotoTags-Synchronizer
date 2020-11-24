@@ -256,6 +256,7 @@ namespace PhotoTagsSynchronizer
             {
                 //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
                 if (!queueMetadataExiftool.Contains(fileEntry)) queueMetadataExiftool.Add(fileEntry);
+                RemoveError(fileEntry.FullFilePath);
             }
         }
         #endregion
@@ -441,7 +442,7 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadExiftool = new Thread(() =>
                 {
-                    Thread.Sleep(100); //Wait more to become updated;
+                    Thread.Sleep(300); //Wait more to become updated;
 
                     while (queueMetadataExiftool.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
@@ -482,10 +483,7 @@ namespace PhotoTagsSynchronizer
 
                             List<String> useExiftoolOnThisSubsetOfFiles = metaFileNotInDatabase.GetRange(0, range);
 
-                            foreach (string removeErrorFile in useExiftoolOnThisSubsetOfFiles)
-                            {
-                                RemoveError(removeErrorFile);
-                            }
+                            //foreach (string removeErrorFile in useExiftoolOnThisSubsetOfFiles) RemoveError(removeErrorFile);
 
                             List<Metadata> metadataListUpdatesByExiftool = exiftoolReader.Read(MetadataBrokerTypes.ExifTool, useExiftoolOnThisSubsetOfFiles);
 
@@ -631,18 +629,19 @@ namespace PhotoTagsSynchronizer
         public void AddQueueSaveMetadataUpdatedByUser(Metadata metadataToSave, Metadata metadataOriginal)
         {
 
-            int locationForMetadataFoundInList = Metadata.FindMetadataInList(queueSaveMetadataUpdatedByUser, metadataToSave);
+            //int locationForMetadataFoundInList = Metadata.FindMetadataInList(queueSaveMetadataUpdatedByUser, metadataToSave);
 
-            if (locationForMetadataFoundInList==-1)
-            {
+            //if (locationForMetadataFoundInList==-1)
+            //{
                 //-1 = Not found, add to save queue
                 queueSaveMetadataUpdatedByUser.Add(metadataToSave);
                 queueSaveMetadataBeforeUserUpdate.Add(metadataOriginal);
-            }
-            else //Found, updated save with latest save data, in case not saved and new values added
-            { 
-                queueSaveMetadataUpdatedByUser[locationForMetadataFoundInList] = metadataToSave;
-            }
+            //}
+            //else //Found, updated save with latest save data, in case not saved and new values added
+            //{ 
+            //    queueSaveMetadataUpdatedByUser[locationForMetadataFoundInList] = metadataToSave;
+            //    queueSaveMetadataBeforeUserUpdate[locationForMetadataFoundInList] = metadataOriginal;
+            //}
             
             UpdateStatusReadWriteStatus_NeedToBeUpated();   
         }

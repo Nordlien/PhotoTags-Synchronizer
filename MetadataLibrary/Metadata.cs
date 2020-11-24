@@ -1084,12 +1084,6 @@ namespace MetadataLibrary
                 case "{LocationCity}":
                     result = LocationCity; 
                     break;
-                case "{LocationDistrict}":
-                    result = locationCity; //metadataToWrite.LocationState
-                    break;
-                case "{LocationRegion}":
-                    result = locationState; //metadataToWrite.LocationCity
-                    break;
                 #endregion 
             }
             if (convertNullToBlank && result == null) result = "";
@@ -1157,13 +1151,13 @@ namespace MetadataLibrary
                 case "{IfLocationNameChanged}":
                     if (this.locationName != metadata.locationName) result = true;
                     break;
-                case "{IfLocationCityChanged}":
+                case "{IfLocationCountryChanged}":
                     if (this.locationCountry != metadata.locationCountry) result = true;
                     break;
-                case "{IfLocationStateChanged}":
+                case "{IfLocationCityChanged}":
                     if (this.locationCity != metadata.locationCity) result = true;
                     break;
-                case "{IfLocationCountryChanged}":
+                case "{IfLocationStateChanged}":
                     if (this.locationState != metadata.locationState) result = true;
                     break;
             }

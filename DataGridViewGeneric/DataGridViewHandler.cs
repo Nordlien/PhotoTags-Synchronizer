@@ -931,8 +931,7 @@ namespace DataGridViewGeneric
                         metadataCompare.FileSize = metadata.FileSize;
                         if (metadataCompare == metadata) //Are updated data been changed and looks diffrent
                         {
-                            currentDataGridViewGenericColumn.HasFileBeenUpdated = false; //Don't need to show warning, metadata updated in the background
-                            
+                            currentDataGridViewGenericColumn.HasFileBeenUpdated = false; //Don't need to show warning, metadata updated in the background                            
                         } else //Metadate is upgraded, but user haven't changed anything, update data on the DataGridView
                         {
                             if (!DataGridViewHandler.IsDataGridViewDirty(dataGridView))

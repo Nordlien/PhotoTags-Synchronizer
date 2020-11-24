@@ -100,8 +100,10 @@ namespace PhotoTagsSynchronizer
                 if (GlobalData.IsAgregatedDate)
                     DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
 
-                metadataListFromDataGridView.Add(metadataFromDataGridView);
-                metadataListOriginalExiftool.Add(dataGridViewGenericColumn.Metadata);
+                metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
+                metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
+
+                dataGridViewGenericColumn.Metadata = metadataFromDataGridView; //Updated the column with Metadata according to the user input
             }
         }
 
