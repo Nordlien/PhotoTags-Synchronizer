@@ -65,7 +65,7 @@ namespace DataGridViewGeneric
         public static void ClearFileBeenUpdated(DataGridView dataGridView, int columnIndex)
         {
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            dataGridViewGenericColumn.HasFileBeenUpdated = false;
+            dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
         }
 
         #region DataGridView events handling
@@ -360,6 +360,12 @@ namespace DataGridViewGeneric
             DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
             if (dataGridViewGenericData == null) return false;
             return dataGridViewGenericData.IsDirty;
+        }
+
+        public static void ClearDataGridViewDirty(DataGridView dataGridView)
+        {
+            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
+            if (dataGridViewGenericData != null) dataGridViewGenericData.IsDirty = false; 
         }
         #endregion
 
@@ -918,45 +924,56 @@ namespace DataGridViewGeneric
             else
             {
                 DataGridViewGenericColumn currentDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (currentDataGridViewGenericColumn != null && currentDataGridViewGenericColumn.Metadata != null) 
-                    isMetadataAlreadyAgregated = true;
-                else
-                    currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
-               
-                if (metadata != null && !isHistoryColumn && !currentDataGridViewGenericColumn.HasFileBeenUpdated)
+                if (currentDataGridViewGenericColumn == null || currentDataGridViewGenericColumn.Metadata == null)
                 {
-                    currentDataGridViewGenericColumn.HasFileBeenUpdated = (metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified); //If edit Column
-                    if (currentDataGridViewGenericColumn.HasFileBeenUpdated && currentDataGridViewGenericColumn.Metadata != null)
-                    {
-                        if (!DataGridViewHandler.IsDataGridViewDirty(dataGridView)) //If user haven changed anything, updated DataGridView
-                        {
-                            isMetadataAlreadyAgregated = false;
-                            currentDataGridViewGenericColumn.HasFileBeenUpdated = false;
-                        }
-                        else //User has changed the data (or maybe no)
-                        {
-                            Metadata metadataCompare = new Metadata(currentDataGridViewGenericColumn.Metadata);
-                            metadataCompare.FileDateCreated = metadata.FileDateCreated;
-                            metadataCompare.FileDateModified = metadata.FileDateModified;
-                            metadataCompare.FileLastAccessed = metadata.FileLastAccessed;
-                            metadataCompare.FileSize = metadata.FileSize;
-                            if (metadataCompare == metadata) //Check if read data been looks diffrent compare to what inside DataGridView
-                            {
-                                //Metadate is upgraded, but user haven't changed anything, update data on the DataGridView
-                                isMetadataAlreadyAgregated = true;
-                                currentDataGridViewGenericColumn.HasFileBeenUpdated = false;
-                            } else
-                            {
-                                //Metadate is upgraded, but user has changed anything and need feedback, that DataGridView are showing diffrent data
-                                isMetadataAlreadyAgregated = true;
-                                currentDataGridViewGenericColumn.HasFileBeenUpdated = true;
-                            }                            
-                        }
-                    }                    
+                    currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
+                    currentDataGridViewGenericColumn.Metadata = metadata; 
                 }
-                                
-                if (metadata != null && metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified) 
-                    currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
+                else
+                {
+                    if (metadata != null && currentDataGridViewGenericColumn.Metadata != null && !isHistoryColumn)
+                    {
+                        Metadata metadataDataGridView = new Metadata(currentDataGridViewGenericColumn.Metadata);
+                        metadataDataGridView.FileDateCreated = metadata.FileDateCreated;
+                        metadataDataGridView.FileDateModified = metadata.FileDateModified;
+                        metadataDataGridView.FileLastAccessed = metadata.FileLastAccessed;
+                        metadataDataGridView.FileSize = metadata.FileSize;
+
+                        if (metadataDataGridView == metadata && //Check if read data been looks diffrent compare to what inside DataGridView
+                            !IsDataGridViewDirty(dataGridView)) //**** HACK, Lot of old metadata are push in also, e.g. thumbnail, region force updates **** 
+
+                        {
+                            //Metadate is upgraded, but user haven't changed anything, update data on the DataGridView
+                            isMetadataAlreadyAgregated = true;
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+                            currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
+                        }
+                        else
+                        {
+                            //New data has arrived
+                            if (IsDataGridViewDirty(dataGridView)) //
+                            {
+                                isMetadataAlreadyAgregated = true; //Do not refresh, da are changed by user, do not overwrite
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true;
+                                //Don't updated, due to we keep another vrsion, currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
+                            }
+                            else
+                            {
+                                isMetadataAlreadyAgregated = false;
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
+                            }
+                        }
+                    }
+                    else
+                    {
+                        isMetadataAlreadyAgregated = false;
+                        currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+                        currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
+                    }
+
+                }
+
                 currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
                 dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
 
@@ -2758,7 +2775,7 @@ namespace DataGridViewGeneric
                 bool hasFileKnownErrors = (errorFileEntries.ContainsKey(fileEntryColumn.FileEntry.FullFilePath));
 
                 string cellText = "";
-                if (dataGridViewGenericColumn.HasFileBeenUpdated) cellText += "File updated!!\r\n";
+                if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) cellText += "File updated!!\r\n";
 
 
                 if (dataGridViewGenericColumn.Metadata != null)
@@ -2800,7 +2817,7 @@ namespace DataGridViewGeneric
                     image = (Image)Properties.Resources.load_image;
                 if (hasFileKnownErrors)
                     DrawImageAndSubText(sender, e, image, cellText, ColorHeaderError);
-                else if (dataGridViewGenericColumn.HasFileBeenUpdated)
+                else if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning)
                     DrawImageAndSubText(sender, e, image, cellText, ColorHeaderWarning);
                 else
                     DrawImageAndSubText(sender, e, image, cellText, ColorHeaderImage);

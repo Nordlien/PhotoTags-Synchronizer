@@ -28,7 +28,7 @@ namespace DataGridViewGeneric
         public Metadata Metadata { get; set; }
         public ReadWriteAccess ReadWriteAccess { get; set; }
 
-        public bool HasFileBeenUpdated { 
+        public bool HasFileBeenUpdatedGiveUserAwarning { 
             get;
             set; 
         } = false;

@@ -90,18 +90,28 @@ namespace PhotoTagsSynchronizer
 
                 ////DataGridViewHandler.
                 if (GlobalData.IsAgregatedTags)
+                {
+                    DataGridViewHandler.ClearDataGridViewDirty(dataGridViewTagsAndKeywords);
                     DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
-                    
-                
+                }
+
                 if (GlobalData.IsAgregatedMap)
+                {
+                    DataGridViewHandler.ClearDataGridViewDirty(dataGridViewMap);
                     DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
+                }
 
                 if (GlobalData.IsAgregatedPeople)
+                {
+                    DataGridViewHandler.ClearDataGridViewDirty(dataGridViewPeople);
                     DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
+                }
 
                 if (GlobalData.IsAgregatedDate)
+                {
+                    DataGridViewHandler.ClearDataGridViewDirty(dataGridViewDate);
                     DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
-
+                }
                 metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
                 metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
 

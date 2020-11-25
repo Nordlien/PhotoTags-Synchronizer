@@ -52,7 +52,7 @@ namespace PhotoTagsSynchronizer
         public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntry fileEntryColumn)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
-            DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
+            //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
 
             //Get Date and Time for DataGridView
             string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();

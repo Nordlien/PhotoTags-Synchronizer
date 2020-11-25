@@ -79,35 +79,44 @@ namespace PhotoTagsSynchronizer
         #endregion
 
 
-        Dictionary<string, long> fileSaveSize = null; // new Dictionary<string, long>();
+        Dictionary<string, long> fileSaveSize = new Dictionary<string, long>();
         private void ShowExiftoolSaveProgressClear()
         {
-            fileSaveSize = new Dictionary<string, long>();
+            lock (fileSaveSize)
+            {
+                fileSaveSize.Clear();
+            }
             //timerShowExiftoolSaveProgress.Start();
             //Application.DoEvents();
         }
 
         private void ShowExiftoolSaveProgressStop()
         {
-            //fileSaveSize = null;
+            //fileSaveSizefileSaveSize.Clear();
             //timerShowExiftoolSaveProgress.Stop();
         }
 
         private void AddWatcherShowExiftoolSaveProcessQueue(string fullFileName)
         {
-             if (!fileSaveSize.ContainsKey(fullFileName)) fileSaveSize.Add(fullFileName, 0);
+            lock (fileSaveSize)
+            {
+                if (!fileSaveSize.ContainsKey(fullFileName)) fileSaveSize.Add(fullFileName, 0);
+            }
         }
 
         private int CountSaveQueue()
         {
-            int countToSave = commonQueueSaveMetadataUpdatedByUser.Count;  
-            try 
+            int countToSave = commonQueueSaveMetadataUpdatedByUser.Count;
+            try
             {
-                if (commonQueueSaveMetadataUpdatedByUser.Count == 0 || fileSaveSize == null) return countToSave;
-                countToSave = commonQueueSaveMetadataUpdatedByUser.Count + 1; 
-                foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize) if (keyValuePair.Value != 0) countToSave--;
-                if (countToSave > commonQueueSaveMetadataUpdatedByUser.Count) countToSave = commonQueueSaveMetadataUpdatedByUser.Count;
-                if (countToSave == 0) countToSave = 1;
+                lock (fileSaveSize)
+                {
+                    if (commonQueueSaveMetadataUpdatedByUser.Count == 0 || fileSaveSize.Count == 0) return countToSave;
+                    countToSave = commonQueueSaveMetadataUpdatedByUser.Count + 1;
+                    foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize) if (keyValuePair.Value != 0) countToSave--;
+                    if (countToSave > commonQueueSaveMetadataUpdatedByUser.Count) countToSave = commonQueueSaveMetadataUpdatedByUser.Count;
+                    if (countToSave == 0) countToSave = 1;
+                }
             }
             catch { } //It's not thread safe, if error, don't care
             return countToSave;
@@ -117,15 +126,18 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                if (fileSaveSize == null) return;
-                foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize)
+                lock (fileSaveSize)
                 {
-                    string tempFile = keyValuePair.Key + "_exiftool_tmp";
-                    if (File.Exists(tempFile))
+                    if (fileSaveSize.Count == 0) return;
+                    foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize)
                     {
-                        long tempFileSize = new FileInfo(tempFile).Length;
-                        if (keyValuePair.Value != tempFileSize) UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
-                        fileSaveSize[keyValuePair.Key] = tempFileSize;
+                        string tempFile = keyValuePair.Key + "_exiftool_tmp";
+                        if (File.Exists(tempFile))
+                        {
+                            long tempFileSize = new FileInfo(tempFile).Length;
+                            if (keyValuePair.Value != tempFileSize) UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
+                            fileSaveSize[keyValuePair.Key] = tempFileSize;
+                        }
                     }
                 }
             }

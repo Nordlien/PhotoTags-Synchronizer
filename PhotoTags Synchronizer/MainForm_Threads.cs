@@ -573,6 +573,12 @@ namespace PhotoTagsSynchronizer
                             Metadata metadataWrite = commonQueueSaveMetadataUpdatedByUser[0];
                             Metadata metadataOrginal = commonOrigialMetadataBeforeUserUpdate[0];
 
+                            Debug.WriteLine("Write:" + metadataWrite.PersonalAlbum);
+                            Debug.WriteLine("Write:" + metadataWrite.PersonalTitle);
+                            Debug.WriteLine("Write:" + metadataWrite.PersonalDescription);
+                            Debug.WriteLine("Write:" + metadataWrite.PersonalComments);
+                            Debug.WriteLine("Write:" + metadataWrite.PersonalAuthor);
+
                             //Remove
                             commonQueueSaveMetadataUpdatedByUser.RemoveAt(0);
                             commonOrigialMetadataBeforeUserUpdate.RemoveAt(0);
@@ -743,6 +749,12 @@ namespace PhotoTagsSynchronizer
                                 private List<Metadata> commonQueueSaveMetadataBeforeUserUpdate = new List<Metadata>();
                                 private List<Metadata> commonQueueVerifyMetadataWrittenByExiftool = new List<Metadata>();
                                 */
+                                Debug.WriteLine("Read:" + metadataRead.PersonalAlbum);
+                                Debug.WriteLine("Read:" + metadataRead.PersonalTitle);
+                                Debug.WriteLine("Read:" + metadataRead.PersonalDescription);
+                                Debug.WriteLine("Read:" + metadataRead.PersonalComments);
+                                Debug.WriteLine("Read:" + metadataRead.PersonalAuthor);
+
                                 if (ExiftoolWriter.HasWriteMetadataErrors(metadataRead,
                                     commonQueueMetadataWrittenByExiftoolReadyToVerify,
                                     commonQueueSaveMetadataUpdatedByUser,

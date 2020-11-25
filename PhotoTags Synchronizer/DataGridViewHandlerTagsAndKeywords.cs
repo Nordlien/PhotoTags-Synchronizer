@@ -38,8 +38,7 @@ namespace PhotoTagsSynchronizer
             int keywordsEnds = DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, headerKeywords);
 
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
-            DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
-
+            //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
 
             metadata.PersonalAlbum = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagAlbum); 
             metadata.PersonalTitle = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagTitle);

@@ -20,7 +20,7 @@ namespace PhotoTagsSynchronizer
         public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntry fileEntry)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
-            DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
+            //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
 
             metadata.PersonalRegionList.Clear();
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCount(dataGridView); rowIndex++)
