@@ -113,12 +113,14 @@ namespace Exiftool
         #endregion
 
         #region WriteMetadata
-        public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, int writeCount,
-            List<string> allowedFileNameDateTimeFormats,
-            string writeMetadataTags, string writeMetadataKeywordItems, bool writeAlbumProperties, bool writeKeywordProperties)
+        public static List<Metadata> WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, 
+            List<string> allowedFileNameDateTimeFormats, string writeMetadataTags, string writeMetadataKeywordItems, bool writeAlbumProperties, bool writeKeywordProperties)
         {
-            if (writeCount == 0) return;
-            if (metadataListToWrite.Count != metadataListOriginal.Count) return;
+            List<Metadata> metadataSaved = new List<Metadata>();
+
+            if (metadataListToWrite.Count <= 0) return metadataSaved;
+            if (metadataListToWrite.Count != metadataListOriginal.Count) return metadataSaved;
+            int writeCount = metadataListToWrite.Count;
 
             //Create directory, filename and remove old arg file
             string exiftoolArgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
@@ -134,6 +136,7 @@ namespace Exiftool
                     Metadata metadataOriginal = metadataListOriginal[updatedRecord];
 
                     if (metadataToWrite == metadataOriginal) continue; //No changes found in data, No data to write
+                    metadataSaved.Add(metadataToWrite);
                     Logger.Info("Create EXIF updated argu file for: " + metadataToWrite.FileFullPath);
 
                     bool isVideoFormat = false;
@@ -201,12 +204,11 @@ namespace Exiftool
                     }
                     #endregion
 
-
-                    //Remove duplicates Name and Area regions (Don't care about source)
+                    #region Remove duplicates Name and Area regions (Don't care about source)
                     List<RegionStructure> regionWriteListWithoutDuplicate = new List<RegionStructure>();
                     foreach (RegionStructure regionStructure in metadataToWrite.PersonalRegionList)
                         if (!regionStructure.DoesThisRectangleAndNameExistInList(regionWriteListWithoutDuplicate)) regionWriteListWithoutDuplicate.Add(regionStructure);
-
+                    #endregion
 
                     #region Create Variable -ImageRegion= (IPTC region tags - ImageRegion)
                     #endregion
@@ -311,8 +313,7 @@ namespace Exiftool
                     sw.WriteLine(tagsToWrite);
                     sw.WriteLine(metadataToWrite.FileFullPath);
                     sw.WriteLine("-execute");
-                }
-
+                } 
             }
 
 
@@ -379,11 +380,15 @@ namespace Exiftool
                 throw new Exception(exiftoolOutput);
             #endregion
 
+            return metadataSaved;
         }
         #endregion
 
         #region Verify HasWriteMetadataErrors
-        public static bool HasWriteMetadataErrors(Metadata metadataRead, List<Metadata> metadataWaitingVerify, List<Metadata> metadataWaitingSaving, out Metadata metadataUpdatedByUserCopy, out string message)
+        public static bool HasWriteMetadataErrors(Metadata metadataRead, 
+            List<Metadata> metadataWrittenByExiftoolWaitVerify,       /* Data was got to by  after saved */ 
+            List<Metadata> metadataSaveExiftoolParameter,   /* Data sent to exiftool for saving */ 
+            out Metadata metadataUpdatedByUserCopy, out string message)
         {
             //Out parameter default
             message = "";
@@ -391,15 +396,17 @@ namespace Exiftool
 
             bool foundErrors = false;
 
-            int verifyPosition = Metadata.FindMetadataInList(metadataWaitingVerify, metadataRead);
-            if (verifyPosition == -1) return false; //continue; //No need for verify
+            int verifyPosition = Metadata.FindFileEntryInList(metadataWrittenByExiftoolWaitVerify, metadataRead.FileEntryBroker);
+            if (verifyPosition == -1) 
+                return false; //No need for verify, the metadata was only read, most likly first time read (without save, read and verify)
 
-            if (Metadata.FindMetadataInList(metadataWaitingSaving, metadataRead) != -1) return false; //continue; //A new version waiting to be saves exists, not need to verify before saved
+            //if (Metadata.FindFileEntryInList(metadataSaveExiftoolParameter, metadataRead.FileEntryBroker) != -1) 
+            //    return false; //A new version waiting to be saves exists, not need to verify before saved
 
-            metadataUpdatedByUserCopy = new Metadata(metadataWaitingVerify[verifyPosition]); //Copy data to verify
-            metadataWaitingVerify.RemoveAt(verifyPosition);
+            metadataUpdatedByUserCopy = new Metadata(metadataWrittenByExiftoolWaitVerify[verifyPosition]); //Copy data to verify
+            metadataWrittenByExiftoolWaitVerify.RemoveAt(verifyPosition);
 
-            metadataUpdatedByUserCopy.FileDateModified = metadataRead.FileDateModified;   //This has changed, do not care
+            metadataUpdatedByUserCopy.FileDateModified = metadataRead.FileDateModified;   //After save, this was updated
             metadataUpdatedByUserCopy.FileLastAccessed = metadataRead.FileLastAccessed;   //This has changed, do not care
             metadataUpdatedByUserCopy.FileSize = metadataRead.FileSize;                   //This has changed, do not care
             metadataUpdatedByUserCopy.Errors = metadataRead.Errors;                       //This has changed, do not care, Hopefully this is gone

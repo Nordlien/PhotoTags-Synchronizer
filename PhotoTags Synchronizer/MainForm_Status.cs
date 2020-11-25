@@ -16,9 +16,9 @@ namespace PhotoTagsSynchronizer
         #region Update Status Bar
         private void ExiftoolReader_afterNewMediaFoundEvent(FileEntry fileEntry)
         {
-            lock (queueMetadataExiftool)
+            lock (commonQueueReadMetadataFromExiftool)
             {
-                queueMetadataExiftool.Remove(fileEntry);
+                commonQueueReadMetadataFromExiftool.Remove(fileEntry);
             }
             UpdateStatusAction("Exiftool read and cached: " + fileEntry.FileName);
             UpdateStatusReadWriteStatus_NeedToBeUpated(); //Update number count also
@@ -49,8 +49,6 @@ namespace PhotoTagsSynchronizer
         }
 
 
-
-
         private void UpdateStatusReadWriteStatus_NeedToBeUpated()
         {
             if (InvokeRequired)
@@ -65,18 +63,18 @@ namespace PhotoTagsSynchronizer
             try
             {
                 //It's not thread safe
-                foreach (Metadata metadataRegionCount in queueThumbnailRegion) regionCount += metadataRegionCount.PersonalRegionList.Count;
+                foreach (Metadata metadataRegionCount in commonQueueReadPosterAndSaveFaceThumbnails) regionCount += metadataRegionCount.PersonalRegionList.Count;
             } catch { }
 
             toolStripStatusQueue.Text = string.Format("Exif:{0} Processing:{1} WLPG:{2} MP:{3} Thumbnails: {4} Regions: {5} Saving: {6} Verify: {7}",
-                queueMetadataExiftool.Count,
-                metaFileNotInDatabase.Count,
-                queueMetadataWindowsLivePhotoGallery.Count,
-                queueMetadataMicrosoftPhotos.Count,
-                queueSaveThumbnails.Count,
+                commonQueueReadMetadataFromExiftool.Count,
+                mediaFilesNotInDatabase.Count,
+                commonQueueReadMetadataFromWindowsLivePhotoGallery.Count,
+                commonQueueReadMetadataFromMicrosoftPhotos.Count,
+                commonQueueSaveThumbnailToDatabase.Count,
                 regionCount,
-                CountSave(), //queueSaveMetadataUpdatedByUser.Count,
-                queueVerifyMetadata.Count);
+                CountSaveQueue(), //queueSaveMetadataUpdatedByUser.Count,
+                commonQueueMetadataWrittenByExiftoolReadyToVerify.Count);
         }
         #endregion
 
@@ -95,33 +93,27 @@ namespace PhotoTagsSynchronizer
             //timerShowExiftoolSaveProgress.Stop();
         }
 
-        private void ShowExiftoolSaveAddWatcher(string fullFileName)
+        private void AddWatcherShowExiftoolSaveProcessQueue(string fullFileName)
         {
              if (!fileSaveSize.ContainsKey(fullFileName)) fileSaveSize.Add(fullFileName, 0);
         }
 
-        private int CountSave()
+        private int CountSaveQueue()
         {
-
-
-            int countToSave = 0; 
-            try
+            int countToSave = commonQueueSaveMetadataUpdatedByUser.Count;  
+            try 
             {
-                countToSave = queueSaveMetadataUpdatedByUser.Count;
-                if (queueSaveMetadataUpdatedByUser.Count == 0 || fileSaveSize == null) 
-                    return countToSave;
-
-                countToSave = queueSaveMetadataUpdatedByUser.Count; 
-                foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize)
-                {
-                    if (fileSaveSize[keyValuePair.Key] != 0) countToSave--;
-                }
+                if (commonQueueSaveMetadataUpdatedByUser.Count == 0 || fileSaveSize == null) return countToSave;
+                countToSave = commonQueueSaveMetadataUpdatedByUser.Count + 1; 
+                foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize) if (keyValuePair.Value != 0) countToSave--;
+                if (countToSave > commonQueueSaveMetadataUpdatedByUser.Count) countToSave = commonQueueSaveMetadataUpdatedByUser.Count;
+                if (countToSave == 0) countToSave = 1;
             }
-            catch { }
+            catch { } //It's not thread safe, if error, don't care
             return countToSave;
         }
 
-        private void timerShowExiftoolSaveProgress_Tick(object sender, EventArgs e)
+        private void UpdateStatusSaveStatus()
         {
             try
             {
@@ -132,12 +124,17 @@ namespace PhotoTagsSynchronizer
                     if (File.Exists(tempFile))
                     {
                         long tempFileSize = new FileInfo(tempFile).Length;
-                        if (keyValuePair.Value != tempFileSize)  UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
+                        if (keyValuePair.Value != tempFileSize) UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
                         fileSaveSize[keyValuePair.Key] = tempFileSize;
                     }
                 }
             }
             catch { }
+        }
+
+        private void timerShowExiftoolSaveProgress_Tick(object sender, EventArgs e)
+        {
+            UpdateStatusSaveStatus();
         }
     }
 }

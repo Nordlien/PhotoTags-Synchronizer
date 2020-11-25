@@ -315,10 +315,10 @@ namespace PhotoTagsSynchronizer
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (queueSaveMetadataUpdatedByUser.Count > 0)
+            if (commonQueueSaveMetadataUpdatedByUser.Count > 0)
             {
                 if (MessageBox.Show(
-                    "There are " + queueSaveMetadataUpdatedByUser.Count + " unsaved media files. Are you sure you will close application?",
+                    "There are " + commonQueueSaveMetadataUpdatedByUser.Count + " unsaved media files. Are you sure you will close application?",
                     "Changed will get lost.", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                 {
                     e.Cancel = true;

@@ -928,21 +928,29 @@ namespace DataGridViewGeneric
                     currentDataGridViewGenericColumn.HasFileBeenUpdated = (metadata.FileDateModified > currentDataGridViewGenericColumn.Metadata.FileDateModified); //If edit Column
                     if (currentDataGridViewGenericColumn.HasFileBeenUpdated && currentDataGridViewGenericColumn.Metadata != null)
                     {
-                        Metadata metadataCompare = new Metadata(currentDataGridViewGenericColumn.Metadata);
-                        metadataCompare.FileDateCreated = metadata.FileDateCreated;
-                        metadataCompare.FileDateModified = metadata.FileDateModified;
-                        metadataCompare.FileLastAccessed = metadata.FileLastAccessed;
-                        metadataCompare.FileSize = metadata.FileSize;
-                        if (metadataCompare == metadata) //Are updated data been changed and looks diffrent
+                        if (!DataGridViewHandler.IsDataGridViewDirty(dataGridView)) //If user haven changed anything, updated DataGridView
                         {
-                            currentDataGridViewGenericColumn.HasFileBeenUpdated = false; //Don't need to show warning, metadata updated in the background                            
-                        } else //Metadate is upgraded, but user haven't changed anything, update data on the DataGridView
+                            isMetadataAlreadyAgregated = false;
+                            currentDataGridViewGenericColumn.HasFileBeenUpdated = false;
+                        }
+                        else //User has changed the data (or maybe no)
                         {
-                            if (!DataGridViewHandler.IsDataGridViewDirty(dataGridView))
+                            Metadata metadataCompare = new Metadata(currentDataGridViewGenericColumn.Metadata);
+                            metadataCompare.FileDateCreated = metadata.FileDateCreated;
+                            metadataCompare.FileDateModified = metadata.FileDateModified;
+                            metadataCompare.FileLastAccessed = metadata.FileLastAccessed;
+                            metadataCompare.FileSize = metadata.FileSize;
+                            if (metadataCompare == metadata) //Check if read data been looks diffrent compare to what inside DataGridView
                             {
-                                isMetadataAlreadyAgregated = false;
+                                //Metadate is upgraded, but user haven't changed anything, update data on the DataGridView
+                                isMetadataAlreadyAgregated = true;
                                 currentDataGridViewGenericColumn.HasFileBeenUpdated = false;
-                            }
+                            } else
+                            {
+                                //Metadate is upgraded, but user has changed anything and need feedback, that DataGridView are showing diffrent data
+                                isMetadataAlreadyAgregated = true;
+                                currentDataGridViewGenericColumn.HasFileBeenUpdated = true;
+                            }                            
                         }
                     }                    
                 }

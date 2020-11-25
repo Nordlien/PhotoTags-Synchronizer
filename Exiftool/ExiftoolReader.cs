@@ -619,7 +619,6 @@ namespace Exiftool
         }
         #endregion
 
-
         #region Read List of files
 
         public List<Metadata> Read(MetadataBrokerTypes broker, List<String> files)
@@ -676,14 +675,6 @@ namespace Exiftool
                 CleanAllOldExiftoolDataForReadNewFile();
                 Metadata metadata = null; //= new MetaData("ExifTool.exe");
                 List<ExiftoolData> exiftoolDatas = new List<ExiftoolData>();
-                /*string tempRegionRectangle = "";
-                string tempRegionPersonDisplayName = "";
-                string tempRegionType = null;
-                string tempRegionAreaH = null;
-                string tempRegionAreaW = null;
-                string tempRegionAreaX = null;
-                string tempRegionAreaY = null;
-                string tempRegionName = null;*/
                 #endregion
 
                 int fileNumber = 0;
@@ -1314,9 +1305,6 @@ namespace Exiftool
                             case CompositeTags.LocationStruct:
                             case "LocationShown":
                             case "LocationCreated": 
-                                //		            LocationCreated		[{Sublocation=sdfsfdf}]
-                                //XMP:XMP-iptcExt	LocationCreated	    [{Sublocation=--Location name--}]
-                                //XMP:XMP-iptcExt	LocationShown	    [{City=--City--,CountryName=--Country--,ProvinceState=--Province--,Sublocation=--Location name--}]
                                 #region LocationCreated
                                 if (parameter == "{Sublocation=}") break; //Empty list, skip
 
@@ -1434,8 +1422,6 @@ namespace Exiftool
                             case "GPSLongitude":
                             case CompositeTags.GPSLongitude:
                                 //BUG In ExifTool data, some postition is truncated in EXIF:GPS
-                                //EXIF:GPS          GPSLongitude    27
-                                //XMP:XMP-exif      GPSLongitude    27.4822166666667
                                 float? newLongitudeValue = ConvertAndCheckNumberFromString(metadata.LocationLongitude, exifToolData, oldExifToolGPSLongitude,
                                     CompositeTags.GPSLongitude, ref metadata.errors);
                                 if (metadata.LocationLongitude == null) metadata.LocationLongitude = newLongitudeValue; //Override only if null value

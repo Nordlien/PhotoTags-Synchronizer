@@ -278,39 +278,51 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Properties Helper - FindMetadataInList of Metadatas using full filename
-        public static int FindMetadataInList(List<Metadata> metadataListToCheck, Metadata findThis)
+
+        public static int FindFileEntryInList(List<Metadata> metadataListToCheck, FileEntry fileEntry)
         {
             if (metadataListToCheck == null) return -1;
             if (metadataListToCheck.Count == 0) return -1;
 
-            for (int i = 0; i < metadataListToCheck.Count; i++)
-            {
-                Metadata metadata = metadataListToCheck[i];
-                if (metadata != null &&
-                    metadata.FileName == findThis.FileName &&
-                    metadata.FileDirectory == findThis.FileDirectory)
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-        #endregion
-
-        #region Properties Helper - IsFullFilePathInList
-        public static bool IsFullFilePathInList(List<Metadata> queueSaveMetadataUpdatedByUser, string fullFilePath)
-        {
             try
             {
-                foreach (Metadata metatdata in queueSaveMetadataUpdatedByUser)
+                for (int i = 0; i < metadataListToCheck.Count; i++)
                 {
-                    if (metatdata.FileFullPath == fullFilePath) return true;
+                    Metadata metadata = metadataListToCheck[i];
+                    if (metadata != null && metadata.FileFullPath == fileEntry.FullFilePath && metadata.FileDateModified == fileEntry.LastWriteDateTime) return i;
                 }
             }
             catch { }
-            return false;
+            return -1;
+        }
+
+        #region Properties Helper - FindFullFilenameInList 
+        public static int FindFullFilenameInList(List<Metadata> metadataListToCheck, string findThis)
+        {
+            if (metadataListToCheck == null) return -1;
+            if (metadataListToCheck.Count == 0) return -1;
+
+            try
+            {
+                for (int i = 0; i < metadataListToCheck.Count; i++)
+                {
+                    Metadata metadata = metadataListToCheck[i];
+                    if (metadata != null && metadata.FileFullPath == findThis) return i;
+                }
+            } catch { }
+            return -1;
+        }
+
+        public static int FindFullFilenameInList(List<Metadata> metadataListToCheck, Metadata findThis)
+        {            
+            return FindFullFilenameInList(metadataListToCheck, findThis.FileFullPath);
+        }
+        #endregion
+
+        #region Properties Helper - IsFullFilenameInList
+        public static bool IsFullFilenameInList(List<Metadata> queueSaveMetadataUpdatedByUser, string fullFilePath)
+        {
+            return FindFullFilenameInList(queueSaveMetadataUpdatedByUser, fullFilePath) >= 0;
         }
         #endregion 
 
