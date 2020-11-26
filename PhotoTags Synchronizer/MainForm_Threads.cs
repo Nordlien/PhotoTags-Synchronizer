@@ -941,6 +941,7 @@ namespace PhotoTagsSynchronizer
             if (queueErrorQueue.ContainsKey(fullFilePath)) queueErrorQueue.Remove(fullFilePath);
         }
 
+        FormMessageBox formMessageBox = null;
         private void timerShowErrorMessage_Tick(object sender, EventArgs e)
         {
             timerShowErrorMessage.Stop();
@@ -950,7 +951,11 @@ namespace PhotoTagsSynchronizer
                 listOfErrors = "";
                 hasWriteAndVerifyMetadataErrors = false;
 
-                MessageBox.Show(errors, "Warning or Errors has occured!", MessageBoxButtons.OK);
+                //MessageBox.Show(errors, "Warning or Errors has occured!", MessageBoxButtons.OK);
+                if (formMessageBox == null) formMessageBox = new FormMessageBox(errors);
+                else formMessageBox.AppendMessage(errors);
+                formMessageBox.ShowDialog();
+                formMessageBox = null;
             }
             timerShowErrorMessage.Start();
         }
