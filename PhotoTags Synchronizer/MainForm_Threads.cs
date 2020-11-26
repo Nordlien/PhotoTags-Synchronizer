@@ -40,6 +40,54 @@ namespace PhotoTagsSynchronizer
         //Error handling
         private Dictionary<string, string> queueErrorQueue = new Dictionary<string, string>();
 
+
+        #region Lock
+        private int MediaFilesNotInDatabaseCount()
+        {
+            lock (mediaFilesNotInDatabase) return mediaFilesNotInDatabase.Count;
+        }
+
+        private int CommonQueueReadPosterAndSaveFaceThumbnailsCount()
+        {
+            lock (commonQueueReadPosterAndSaveFaceThumbnails) return commonQueueReadPosterAndSaveFaceThumbnails.Count;            
+        }
+
+        private int CommonQueueSaveThumbnailToDatabaseCount()
+        {
+            lock (commonQueueSaveThumbnailToDatabase) return commonQueueSaveThumbnailToDatabase.Count;
+        }
+
+        private int CommonQueueReadMetadataFromMicrosoftPhotosCount()
+        {
+            lock (commonQueueReadMetadataFromMicrosoftPhotos) return commonQueueReadMetadataFromMicrosoftPhotos.Count;
+        }
+
+        private int CommonQueueReadMetadataFromWindowsLivePhotoGalleryCount()
+        {
+            lock (commonQueueReadMetadataFromWindowsLivePhotoGallery) return commonQueueReadMetadataFromWindowsLivePhotoGallery.Count;
+        }
+
+        private int CommonQueueReadMetadataFromExiftoolCount()
+        {
+            lock (commonQueueReadMetadataFromExiftool) return commonQueueReadMetadataFromExiftool.Count;
+        }
+
+        private int CommonQueueSaveMetadataUpdatedByUserCount()
+        {
+            lock (commonQueueSaveMetadataUpdatedByUser) return commonQueueSaveMetadataUpdatedByUser.Count;
+        }
+
+        private int CommonOrigialMetadataBeforeUserUpdateCount()
+        {
+            lock (commonOrigialMetadataBeforeUserUpdate) return commonOrigialMetadataBeforeUserUpdate.Count;
+        }
+        private int CommonQueueMetadataWrittenByExiftoolReadyToVerifyCount()
+        {
+            lock (commonQueueMetadataWrittenByExiftoolReadyToVerify) return commonQueueMetadataWrittenByExiftoolReadyToVerify.Count;
+        }
+
+        #endregion
+
         #region Start Thread, IsAnyThreadRunning, Tell when all queues are empty
         private void timerStartThread_Tick(object sender, EventArgs e)
         {
@@ -71,22 +119,22 @@ namespace PhotoTagsSynchronizer
         private bool IsThreadRunningExcept_ThreadThumbnailRegion()
         {
             return 
-                commonQueueSaveThumbnailToDatabase.Count > 0 ||
-                commonQueueReadMetadataFromExiftool.Count > 0 ||
-                commonQueueReadMetadataFromWindowsLivePhotoGallery.Count > 0 ||
-                commonQueueReadMetadataFromMicrosoftPhotos.Count > 0 ||
+                CommonQueueSaveThumbnailToDatabaseCount() > 0 ||
+                CommonQueueReadMetadataFromExiftoolCount() > 0 ||
+                CommonQueueReadMetadataFromWindowsLivePhotoGalleryCount() > 0 ||
+                CommonQueueReadMetadataFromMicrosoftPhotosCount() > 0 ||
                 //queueThumbnailRegion.Count > 0 ||
-                commonQueueSaveMetadataUpdatedByUser.Count > 0;
+                CommonQueueSaveMetadataUpdatedByUserCount() > 0;
         }
 
         private void SetWaitQueueEmptyFlag()
         {
-            if (commonQueueSaveThumbnailToDatabase.Count == 0 &&
-                commonQueueReadMetadataFromExiftool.Count == 0 &&
-                commonQueueReadMetadataFromWindowsLivePhotoGallery.Count == 0 &&
-                commonQueueReadMetadataFromMicrosoftPhotos.Count == 0 &&
-                commonQueueReadPosterAndSaveFaceThumbnails.Count == 0 &&
-                commonQueueSaveMetadataUpdatedByUser.Count == 0
+            if (CommonQueueSaveThumbnailToDatabaseCount() == 0 &&
+                CommonQueueReadMetadataFromExiftoolCount() == 0 &&
+                CommonQueueReadMetadataFromWindowsLivePhotoGalleryCount() == 0 &&
+                CommonQueueReadMetadataFromMicrosoftPhotosCount() == 0 &&
+                CommonQueueReadPosterAndSaveFaceThumbnailsCount() == 0 &&
+                CommonQueueSaveMetadataUpdatedByUserCount() == 0
                 )
             {
                 //When out of memory, then wait for cache to empty
@@ -205,13 +253,16 @@ namespace PhotoTagsSynchronizer
         public void AddQueueThumbnailMedia(FileEntryImage fileEntryImage)
         {
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            if (!commonQueueSaveThumbnailToDatabase.Contains(fileEntryImage)) commonQueueSaveThumbnailToDatabase.Add(fileEntryImage);
-            else 
-            if (fileEntryImage.Image != null)
+            lock (commonQueueSaveThumbnailToDatabase)
             {
-                int index = commonQueueSaveThumbnailToDatabase.IndexOf(fileEntryImage);
-                if (index >= 0) 
-                    commonQueueSaveThumbnailToDatabase[index].Image = fileEntryImage.Image; //Image has been found, updated the entry, so image will not be needed to load again.
+                if (!commonQueueSaveThumbnailToDatabase.Contains(fileEntryImage)) commonQueueSaveThumbnailToDatabase.Add(fileEntryImage);
+                else
+                if (fileEntryImage.Image != null)
+                {
+                    int index = commonQueueSaveThumbnailToDatabase.IndexOf(fileEntryImage);
+                    if (index >= 0)
+                        commonQueueSaveThumbnailToDatabase[index].Image = fileEntryImage.Image; //Image has been found, updated the entry, so image will not be needed to load again.
+                }
             }
         }
         #endregion
@@ -258,8 +309,9 @@ namespace PhotoTagsSynchronizer
             {
                 //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
                 if (!commonQueueReadMetadataFromExiftool.Contains(fileEntry)) commonQueueReadMetadataFromExiftool.Add(fileEntry);
-                RemoveError(fileEntry.FullFilePath);
-            }
+            }    
+            RemoveError(fileEntry.FullFilePath);
+            
         }
         #endregion
 
@@ -276,7 +328,10 @@ namespace PhotoTagsSynchronizer
         public void AddQueueMicrosoftPhotos(FileEntry fileEntry)
         {
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            if (!commonQueueReadMetadataFromMicrosoftPhotos.Contains(fileEntry)) commonQueueReadMetadataFromMicrosoftPhotos.Add(fileEntry);
+            lock (commonQueueSaveThumbnailToDatabase)
+            {
+                if (!commonQueueReadMetadataFromMicrosoftPhotos.Contains(fileEntry)) commonQueueReadMetadataFromMicrosoftPhotos.Add(fileEntry);
+            }
         }
         #endregion
 
@@ -293,7 +348,10 @@ namespace PhotoTagsSynchronizer
         public void AddQueueWindowsLivePhotoGallery(FileEntry fileEntry)
         {
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            if (!commonQueueReadMetadataFromWindowsLivePhotoGallery.Contains(fileEntry)) commonQueueReadMetadataFromWindowsLivePhotoGallery.Add(fileEntry);
+            lock (commonQueueReadMetadataFromWindowsLivePhotoGallery)
+            {
+                if (!commonQueueReadMetadataFromWindowsLivePhotoGallery.Contains(fileEntry)) commonQueueReadMetadataFromWindowsLivePhotoGallery.Add(fileEntry);
+            }
         }
         #endregion
 
@@ -301,7 +359,10 @@ namespace PhotoTagsSynchronizer
         private void AddQueueCreateRegionFromPoster(Metadata metadata)
         {
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-            if (!commonQueueReadPosterAndSaveFaceThumbnails.Contains(metadata)) commonQueueReadPosterAndSaveFaceThumbnails.Add(metadata);
+            lock (commonQueueReadPosterAndSaveFaceThumbnails)
+            {
+                if (!commonQueueReadPosterAndSaveFaceThumbnails.Contains(metadata)) commonQueueReadPosterAndSaveFaceThumbnails.Add(metadata);
+            }
             ThreadReadMediaPosterSaveRegions();
         }
         #endregion
@@ -309,17 +370,22 @@ namespace PhotoTagsSynchronizer
         #region Thread - SaveThumbnail
         public void ThreadSaveThumbnail()
         {
-            if (_ThreadThumbnailMedia == null || (!_ThreadThumbnailMedia.IsAlive && commonQueueSaveThumbnailToDatabase.Count > 0))
+            if (_ThreadThumbnailMedia == null || (!_ThreadThumbnailMedia.IsAlive && CommonQueueSaveThumbnailToDatabaseCount() > 0))
             {
                 _ThreadThumbnailMedia = new Thread(() =>
                 {
                     //_ThreadThumbnailMedia.Priority = ThreadPriority.Lowest;
 
-                    while (commonQueueSaveThumbnailToDatabase.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
+                    while (CommonQueueSaveThumbnailToDatabaseCount() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
                         try
                         {
-                            FileEntryImage fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
+                            FileEntryImage fileEntryImage;
+                            lock (commonQueueSaveThumbnailToDatabase)
+                            {
+                                fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
+                            }
+
                             if (fileEntryImage.Image == null)
                                 fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FullFilePath, ThumbnailSaveSize);
 
@@ -336,8 +402,10 @@ namespace PhotoTagsSynchronizer
                                 //DEBUG, Manage to reproduce when select lot files and run log AutoCorrect Updates, Refresh
                             }
 
-                        
-                            if (commonQueueSaveThumbnailToDatabase.Count>0) commonQueueSaveThumbnailToDatabase.RemoveAt(0);
+                            lock (commonQueueSaveThumbnailToDatabase)
+                            {
+                                if (commonQueueSaveThumbnailToDatabase.Count > 0) commonQueueSaveThumbnailToDatabase.RemoveAt(0);
+                            }
                         } catch (Exception ex)
                         {
                             Logger.Error("ThreadSaveThumbnail: " + ex.Message);
@@ -364,16 +432,16 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         public void ThreadReadMediaPosterSaveRegions()
         {
-            if (_ThreadThumbnailRegion == null || (!_ThreadThumbnailRegion.IsAlive && commonQueueReadPosterAndSaveFaceThumbnails.Count > 0))
+            if (_ThreadThumbnailRegion == null || (!_ThreadThumbnailRegion.IsAlive && CommonQueueReadPosterAndSaveFaceThumbnailsCount() > 0))
             {
                 if (IsThreadRunningExcept_ThreadThumbnailRegion()) 
                     return; //Wait other thread to finnish first. Otherwise it will generate high load on disk use
 
                 _ThreadThumbnailRegion = new Thread(() =>
                 {                    
-                    while (commonQueueReadPosterAndSaveFaceThumbnails.Count > 0 && !GlobalData.IsApplicationClosing && !IsThreadRunningExcept_ThreadThumbnailRegion()) //In case some more added to the queue
+                    while (CommonQueueReadPosterAndSaveFaceThumbnailsCount() > 0 && !GlobalData.IsApplicationClosing && !IsThreadRunningExcept_ThreadThumbnailRegion()) //In case some more added to the queue
                     {
-                        int queueCount = commonQueueReadPosterAndSaveFaceThumbnails.Count; //Mark count that we will work with. 
+                        int queueCount = CommonQueueReadPosterAndSaveFaceThumbnailsCount(); //Mark count that we will work with. 
 
                         try
                         {
@@ -388,23 +456,29 @@ namespace PhotoTagsSynchronizer
                                 foundFile = false;
                                 //Check Exiftool, Microsoft Phontos, Windows Live Photo Gallery in queue also
 
-                                for (int thumbnailIndex = 0; thumbnailIndex < Math.Min(queueCount, commonQueueReadPosterAndSaveFaceThumbnails.Count); thumbnailIndex++)
+                                for (int thumbnailIndex = 0; thumbnailIndex < Math.Min(queueCount, CommonQueueReadPosterAndSaveFaceThumbnailsCount()); thumbnailIndex++)
                                 {
-                                    if (commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].FileFullPath == fileEntry.FullFilePath &&
-                                        commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].FileDateModified == fileEntry.LastWriteDateTime)
+                                    lock (commonQueueReadPosterAndSaveFaceThumbnails)
                                     {
-                                        if (image != null) //Failed load cover art, often occur after filed is moved or deleted
+                                        if (commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].FileFullPath == fileEntry.FullFilePath &&
+                                        commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].FileDateModified == fileEntry.LastWriteDateTime)
                                         {
-                                            //Metadata found and updated, updated DataGricView
-                                            RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex], image);
-                                            foundFile = true;
-                                            
-                                        } else Logger.Error("ThreadReadMediaPosterSaveRegions failt to create 'face' region thumbails from file. Due to not exist anymore. File:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
+                                            if (image != null) //Failed load cover art, often occur after filed is moved or deleted
+                                            {
+                                                //Metadata found and updated, updated DataGricView                                             
+                                                RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex], image);
+                                                foundFile = true;
 
-                                        queueCount--;
-                                        commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(thumbnailIndex);
+                                            }
+                                            else Logger.Error("ThreadReadMediaPosterSaveRegions failt to create 'face' region thumbails from file. Due to not exist anymore. File:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
 
-                                        if (foundFile) break; //No need to search more.
+                                            queueCount--;
+                                            lock (commonQueueReadPosterAndSaveFaceThumbnails)
+                                            {
+                                                commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(thumbnailIndex);
+                                            }
+                                            if (foundFile) break; //No need to search more.
+                                        }
                                     }
                                 }
                                 
@@ -443,7 +517,9 @@ namespace PhotoTagsSynchronizer
         {
             //if (reader != null) //database reader becomes null when not open, e.g. due to database was locked when starting the app 
             //or application (Windows Live Photo Galelery or Microsot Photos) was not installed
-            while (metadataReadQueue.Count > 0 && !GlobalData.IsApplicationClosing && reader != null) //In case some more added to the queue
+            int metadataReadQueueCount;
+            lock (metadataReadQueue) metadataReadQueueCount = metadataReadQueue.Count;
+            while (metadataReadQueueCount > 0 && !GlobalData.IsApplicationClosing && reader != null) //In case some more added to the queue
             {
                 FileEntry fileEntry = new FileEntry(metadataReadQueue[0]);
                 Metadata metadata;
@@ -475,8 +551,12 @@ namespace PhotoTagsSynchronizer
                 } 
                 else Logger.Warn("File don't exsist anymore: " + fileEntry.FullFilePath);
 
-                metadataReadQueue.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
+                lock (metadataReadQueue)
+                {
+                    metadataReadQueue.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
+                }
                 UpdateStatusReadWriteStatus_NeedToBeUpated();
+                lock (metadataReadQueue) metadataReadQueueCount = metadataReadQueue.Count;
             }
             StartThreads();
             SetWaitQueueEmptyFlag();
@@ -491,7 +571,7 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadWindowsLiveGallery = new Thread(() =>
                 {
-                    while (commonQueueReadMetadataFromWindowsLivePhotoGallery.Count > 0 && !GlobalData.IsApplicationClosing)
+                    while (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCount() > 0 && !GlobalData.IsApplicationClosing)
                     {
                         EmptyQueue(MetadataBrokerTypes.WindowsLivePhotoGallery, databaseAndCacheMetadataWindowsLivePhotoGallery, databaseWindowsLivePhotGallery, commonQueueReadMetadataFromWindowsLivePhotoGallery);
                         UpdateStatusReadWriteStatus_NeedToBeUpated();
@@ -513,7 +593,7 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadMicrosoftPhotos = new Thread(() =>
                 {
-                    while (commonQueueReadMetadataFromMicrosoftPhotos.Count > 0 && !GlobalData.IsApplicationClosing)
+                    while (CommonQueueReadMetadataFromMicrosoftPhotosCount() > 0 && !GlobalData.IsApplicationClosing)
                     {
                         EmptyQueue(MetadataBrokerTypes.MicrosoftPhotos, databaseAndCacheMetadataMicrosoftPhotos, databaseWindowsPhotos, commonQueueReadMetadataFromMicrosoftPhotos);
                         UpdateStatusReadWriteStatus_NeedToBeUpated();
@@ -529,8 +609,8 @@ namespace PhotoTagsSynchronizer
         #region AddQueue - AddQueueSaveMetadataUpdatedByUser
         public void AddQueueSaveMetadataUpdatedByUser(Metadata metadataToSave, Metadata metadataOriginal)
         {
-            commonQueueSaveMetadataUpdatedByUser.Add(metadataToSave);
-            commonOrigialMetadataBeforeUserUpdate.Add(metadataOriginal);
+            lock (metadataToSave) commonQueueSaveMetadataUpdatedByUser.Add(metadataToSave);
+            lock (metadataOriginal) commonOrigialMetadataBeforeUserUpdate.Add(metadataOriginal);
             UpdateStatusReadWriteStatus_NeedToBeUpated();   
         }
         #endregion
@@ -538,7 +618,7 @@ namespace PhotoTagsSynchronizer
         #region AddQueue - AddQueueVerifyMetadata(Metadata metadataToVerify)
         public void AddQueueVerifyMetadata(Metadata metadataToVerifyAfterSavedByExiftool)
         {            
-            commonQueueMetadataWrittenByExiftoolReadyToVerify.Add(metadataToVerifyAfterSavedByExiftool);
+            lock (commonQueueMetadataWrittenByExiftoolReadyToVerify) commonQueueMetadataWrittenByExiftoolReadyToVerify.Add(metadataToVerifyAfterSavedByExiftool);
             UpdateStatusReadWriteStatus_NeedToBeUpated();
         }
         #endregion 
@@ -546,10 +626,11 @@ namespace PhotoTagsSynchronizer
         #region Thread - ThreadSaveMetadata
         public void ThreadSaveMetadata()
         {
-            if (_ThreadSaveMetadata == null || (!_ThreadSaveMetadata.IsAlive && commonQueueSaveMetadataUpdatedByUser.Count > 0))
+            if (_ThreadSaveMetadata == null || (!_ThreadSaveMetadata.IsAlive && CommonQueueSaveMetadataUpdatedByUserCount() > 0))
             {
                 _ThreadSaveMetadata = new Thread(() =>
                 {
+                    Debug.WriteLine("ThreadSaveMetadata: 1");
                     #region Init Write Variables and Parameters
                     string writeMetadataTags = Properties.Settings.Default.WriteMetadataTags;
                     string writeMetadataKeywordItems = Properties.Settings.Default.WriteMetadataKeywordItems;
@@ -558,11 +639,12 @@ namespace PhotoTagsSynchronizer
                     List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
                     #endregion 
 
-                    while (commonQueueSaveMetadataUpdatedByUser.Count > 0) // && !GlobalData.IsApplicationClosing)
+                    while (CommonQueueSaveMetadataUpdatedByUserCount() > 0) // && !GlobalData.IsApplicationClosing)
                     {
+                        Debug.WriteLine("ThreadSaveMetadata: 2");
                         ShowExiftoolSaveProgressClear();
 
-                        int writeCount = commonQueueSaveMetadataUpdatedByUser.Count;
+                        int writeCount = CommonQueueSaveMetadataUpdatedByUserCount();
                         List<Metadata> queueSubsetSaveMetadata = new List<Metadata>();    //This new values for saving (changes done by user)
                         List<Metadata> queueSubsetOrginalMetadata = new List<Metadata>(); //Before updated by user, need this to check if any updates
                         List<Metadata> metadataUpdated = new List<Metadata>();
@@ -570,54 +652,54 @@ namespace PhotoTagsSynchronizer
                         for (int i = 0; i < writeCount; i++)
                         {
                             //Remeber 
-                            Metadata metadataWrite = commonQueueSaveMetadataUpdatedByUser[0];
-                            Metadata metadataOrginal = commonOrigialMetadataBeforeUserUpdate[0];
+                            Metadata metadataWrite;
+                            Metadata metadataOrginal;
 
-                            Debug.WriteLine("Write:" + metadataWrite.PersonalAlbum);
-                            Debug.WriteLine("Write:" + metadataWrite.PersonalTitle);
-                            Debug.WriteLine("Write:" + metadataWrite.PersonalDescription);
-                            Debug.WriteLine("Write:" + metadataWrite.PersonalComments);
-                            Debug.WriteLine("Write:" + metadataWrite.PersonalAuthor);
+                            lock (commonQueueSaveMetadataUpdatedByUser) metadataWrite = commonQueueSaveMetadataUpdatedByUser[0];
+                            lock (commonOrigialMetadataBeforeUserUpdate) metadataOrginal = commonOrigialMetadataBeforeUserUpdate[0];
 
                             //Remove
-                            commonQueueSaveMetadataUpdatedByUser.RemoveAt(0);
-                            commonOrigialMetadataBeforeUserUpdate.RemoveAt(0);
+                            lock (commonQueueSaveMetadataUpdatedByUser) commonQueueSaveMetadataUpdatedByUser.RemoveAt(0);
+                            lock (commonOrigialMetadataBeforeUserUpdate) commonOrigialMetadataBeforeUserUpdate.RemoveAt(0);
 
                             //If wait to be read, read first, write after, it's not the fastest logic but safer
                             if (commonQueueReadMetadataFromExiftool.Contains(metadataWrite.FileEntryBroker) ||
                                 mediaFilesNotInDatabase.Contains(metadataWrite.FileEntryBroker.FullFilePath)) 
                             {
-                                commonQueueSaveMetadataUpdatedByUser.Add(metadataWrite);
-                                commonOrigialMetadataBeforeUserUpdate.Add(metadataOrginal);
+                                lock (metadataWrite) commonQueueSaveMetadataUpdatedByUser.Add(metadataWrite);
+                                lock (metadataOrginal) commonOrigialMetadataBeforeUserUpdate.Add(metadataOrginal);
                             }
                             else
                             {
                                 if (!GlobalData.IsApplicationClosing)
                                 {
                                     AddWatcherShowExiftoolSaveProcessQueue(metadataWrite.FileEntryBroker.FullFilePath);
-                                    queueSubsetSaveMetadata.Add(metadataWrite);
-                                    queueSubsetOrginalMetadata.Add(metadataOrginal);
+                                    lock (metadataWrite) queueSubsetSaveMetadata.Add(metadataWrite);
+                                    lock (metadataOrginal) queueSubsetOrginalMetadata.Add(metadataOrginal);
                                 } else Logger.Warn("Was not able to save all data before closing the application");                                
                             }
                         }
                         #endregion
 
+                        Debug.WriteLine("ThreadSaveMetadata: 3");
                         if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(metadataUpdated); //E.g. some application writing to file, or OneDrive doing backup
-
+                        Debug.WriteLine("ThreadSaveMetadata: 3.1");
                         #region Save Metadatas using Exiftool
                         if (!GlobalData.IsApplicationClosing)
                         {
                             try
                             {
-
+                                Debug.WriteLine("ThreadSaveMetadata: 3.2");
                                 UpdateStatusAction("Batch update a subset of " + queueSubsetSaveMetadata.Count + " media files...");
                                 metadataUpdated = ExiftoolWriter.WriteMetadata(queueSubsetSaveMetadata, queueSubsetOrginalMetadata,
                                 allowedFileNameDateTimeFormats, writeMetadataTags, writeMetadataKeywordItems, writeAlbumProperties, writeKeywordProperties);
+                                Debug.WriteLine("ThreadSaveMetadata: 3.3");
 
                             } catch (Exception ex) { Logger.Error("EXIFTOOL.EXE error...\r\n\r\n" + ex.Message); }
                         }
                         #endregion 
 
+                        Debug.WriteLine("ThreadSaveMetadata: 4");
                         #region Check if all files was updated, if updated, add to verify queue
                         if (!GlobalData.IsApplicationClosing)
                         {
@@ -651,6 +733,7 @@ namespace PhotoTagsSynchronizer
                         }
                         #endregion
 
+                        Debug.WriteLine("ThreadSaveMetadata: 5");
                         if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(metadataUpdated); //E.g. OneDrive doing backup
                         
                         //Files are updated, need updated ImageListeView with new metadata, filesize, lastwritedate, etc...
@@ -662,13 +745,14 @@ namespace PhotoTagsSynchronizer
                         queueSubsetOrginalMetadata.Clear();
                         metadataUpdated.Clear();
 
+                        Debug.WriteLine("ThreadSaveMetadata: 6");
                         //Status updated for user
                         ShowExiftoolSaveProgressStop();
                         UpdateStatusReadWriteStatus_NeedToBeUpated();
 
                         Thread.Sleep(100); //Wait in case of loop
                     }
-
+                    Debug.WriteLine("ThreadSaveMetadata: 7");
                 });
 
                 _ThreadSaveMetadata.Start();
@@ -680,13 +764,13 @@ namespace PhotoTagsSynchronizer
         #region Thread - ThreadCollectMetadataExiftool
         public void ThreadCollectMetadataExiftool()
         {
-            if (_ThreadExiftool == null || (!_ThreadExiftool.IsAlive && commonQueueReadMetadataFromExiftool.Count > 0))
+            if (_ThreadExiftool == null || (!_ThreadExiftool.IsAlive && CommonQueueReadMetadataFromExiftoolCount() > 0))
             {
                 _ThreadExiftool = new Thread(() =>
                 {
                     Thread.Sleep(300); //Wait more to become updated;
 
-                    while (commonQueueReadMetadataFromExiftool.Count > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
+                    while (CommonQueueReadMetadataFromExiftoolCount() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
 
                         int rangeToRemove; //Remember how many in queue now
@@ -694,7 +778,7 @@ namespace PhotoTagsSynchronizer
                         #region From the Write Queue - Create a List of All files that not already in database
                         lock (commonQueueReadMetadataFromExiftool)
                         {
-                            rangeToRemove = Math.Min(commonQueueReadMetadataFromExiftool.Count, 30);
+                            rangeToRemove = Math.Min(CommonQueueReadMetadataFromExiftoolCount(), 30);
                             mediaFilesNotInDatabase.AddRange(databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerTypes.ExifTool, commonQueueReadMetadataFromExiftool.GetRange(0, rangeToRemove)));
                             commonQueueReadMetadataFromExiftool.RemoveRange(0, rangeToRemove);
                         }
@@ -743,18 +827,6 @@ namespace PhotoTagsSynchronizer
                             //Verify                             
                             foreach (Metadata metadataRead in metadataReadbackExiftoolAfterSaved)
                             {
-                                /*
-                                private List<FileEntry> commonQueueReadMetadataFromExiftool = new List<FileEntry>();
-                                private List<Metadata> commonQueueSaveMetadataUpdatedByUser = new List<Metadata>();
-                                private List<Metadata> commonQueueSaveMetadataBeforeUserUpdate = new List<Metadata>();
-                                private List<Metadata> commonQueueVerifyMetadataWrittenByExiftool = new List<Metadata>();
-                                */
-                                Debug.WriteLine("Read:" + metadataRead.PersonalAlbum);
-                                Debug.WriteLine("Read:" + metadataRead.PersonalTitle);
-                                Debug.WriteLine("Read:" + metadataRead.PersonalDescription);
-                                Debug.WriteLine("Read:" + metadataRead.PersonalComments);
-                                Debug.WriteLine("Read:" + metadataRead.PersonalAuthor);
-
                                 if (ExiftoolWriter.HasWriteMetadataErrors(metadataRead,
                                     commonQueueMetadataWrittenByExiftoolReadyToVerify,
                                     commonQueueSaveMetadataUpdatedByUser,

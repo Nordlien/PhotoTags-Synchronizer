@@ -981,7 +981,7 @@ namespace MetadataLibrary
                 case "{PersonalKeywordsXML}":
                     result = personalKeywordsXML;
                     break;
-                case "{PersonalKeywordsItems}":
+                case "{PersonalKeywordItems}":
                     result = personalKeywordItems;
                     break;
                 #endregion
@@ -1096,6 +1096,8 @@ namespace MetadataLibrary
                 case "{LocationCity}":
                     result = LocationCity; 
                     break;
+                default:
+                    throw new Exception("not implemented");
                 #endregion 
             }
             if (convertNullToBlank && result == null) result = "";
@@ -1244,7 +1246,8 @@ namespace MetadataLibrary
             string[] variables = Metadata.ListOfProperties();
             foreach (string variable in variables)
             {
-                while (result.Contains(variable)) result = result.Replace(variable, GetPropertyValue(variable, useExifFormat, convertNullToBlank,
+                while (result.Contains(variable)) 
+                    result = result.Replace(variable, GetPropertyValue(variable, useExifFormat, convertNullToBlank,
                     allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItems));
             }
 

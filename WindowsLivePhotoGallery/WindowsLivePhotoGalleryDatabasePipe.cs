@@ -185,7 +185,7 @@ namespace WindowsLivePhotoGallery
                 if (stopWatch.ElapsedMilliseconds > 10) Logger.Info("Push file request {0}ms...", stopWatch.ElapsedMilliseconds);
 
                 stopWatch.Restart();
-                if (waitEventPipeCommandReturn.WaitOne(300000)) 
+                if (waitEventPipeCommandReturn.WaitOne(60000)) 
                     return metadataReadFromPipe;
                 else 
                     Logger.Info("Wait message timeout... {0}", stopWatch.ElapsedMilliseconds);

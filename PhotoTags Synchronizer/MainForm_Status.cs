@@ -96,6 +96,11 @@ namespace PhotoTagsSynchronizer
             //timerShowExiftoolSaveProgress.Stop();
         }
 
+        private int FileSaveSizeCount()
+        {
+            lock (fileSaveSize) return fileSaveSize.Count;
+        }
+
         private void AddWatcherShowExiftoolSaveProcessQueue(string fullFileName)
         {
             lock (fileSaveSize)
@@ -111,7 +116,7 @@ namespace PhotoTagsSynchronizer
             {
                 lock (fileSaveSize)
                 {
-                    if (commonQueueSaveMetadataUpdatedByUser.Count == 0 || fileSaveSize.Count == 0) return countToSave;
+                    if (CommonQueueSaveMetadataUpdatedByUserCount() == 0 || fileSaveSize.Count == 0) return countToSave;
                     countToSave = commonQueueSaveMetadataUpdatedByUser.Count + 1;
                     foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize) if (keyValuePair.Value != 0) countToSave--;
                     if (countToSave > commonQueueSaveMetadataUpdatedByUser.Count) countToSave = commonQueueSaveMetadataUpdatedByUser.Count;

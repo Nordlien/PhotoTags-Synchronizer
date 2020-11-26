@@ -294,7 +294,7 @@ namespace Exiftool
 
                     #region Create Variable - Keyword items - ***Loop of keyword items***
                     string personalKeywordItems = ""; 
-                    foreach (KeywordTag keywordTag in metadataOriginal.PersonalKeywordTags)
+                    foreach (KeywordTag keywordTag in metadataToWrite.PersonalKeywordTags)
                     {
                         string keywordItemToWrite = metadataToWrite.ReplaceVariables(writeMetadataKeywordItems, true, true, allowedFileNameDateTimeFormats,
                             personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "");
