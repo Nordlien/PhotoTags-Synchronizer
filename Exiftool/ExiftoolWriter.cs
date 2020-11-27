@@ -291,7 +291,6 @@ namespace Exiftool
 
                     #endregion
 
-
                     #region Create Variable - Keyword delete
                     string personalKeywordDelete = "";
                     foreach (KeywordTag keywordTag in metadataOriginal.PersonalKeywordTags)

@@ -433,8 +433,8 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-charset\r\nfilename=UTF8\r\n-overwrite_original\r\n-m\r\n-F\r\n{SystemDateTime}{SystenDate" +
-            "TimeDateStamp}{SystenDateTimeTimeStamp}{SystemDateTime_yyyy}{SystemDateTime_MM}{" +
+        [global::System.Configuration.DefaultSettingValueAttribute("-charset\r\nfilename=UTF8\r\n-overwrite_original\r\n-m\r\n-F\r\n{SystemDateTime}{SystemDate" +
+            "TimeDateStamp}{SystemDateTimeTimeStamp}{SystemDateTime_yyyy}{SystemDateTime_MM}{" +
             "SystemDateTime_dd}{SystemDateTime_HH}{SystemDateTime_mm}{SystemDateTime_ss}{File" +
             "Name}{FileNameWithoutExtension}{FileNameWithoutDateTime}{FileExtension}{FileDire" +
             "ctory}{FileSize}{FileDateCreated}{FileDateCreatedDateStamp}{FileDateCreatedTimeS" +

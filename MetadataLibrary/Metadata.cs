@@ -641,8 +641,8 @@ namespace MetadataLibrary
 
                 //System
                 listOfProperties.Add("{SystemDateTime}");
-                listOfProperties.Add("{SystenDateTimeDateStamp}");
-                listOfProperties.Add("{SystenDateTimeTimeStamp}");
+                listOfProperties.Add("{SystemDateTimeDateStamp}");
+                listOfProperties.Add("{SystemDateTimeTimeStamp}");
                 listOfProperties.Add("{SystemDateTime_yyyy}");
                 listOfProperties.Add("{SystemDateTime_MM}");
                 listOfProperties.Add("{SystemDateTime_dd}");
@@ -779,8 +779,6 @@ namespace MetadataLibrary
 
                 listOfProperties.Add("{LocationCountry}");
                 listOfProperties.Add("{IfLocationCountryChanged}");
-                //listOfProperties.Add("{LocationDistrict}");
-                //listOfProperties.Add("{LocationRegion}");
 
                 arrayOfProperties = listOfProperties.ToArray();
             }
@@ -799,7 +797,7 @@ namespace MetadataLibrary
                 #region System
                 case "{SystemDateTime}":
                     if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(dateTimeSystem);
-                    else result = TimeZoneLibrary.ToStringFilename(dateTimeSystem); 
+                    else result = TimeZoneLibrary.ToStringFilename(dateTimeSystem);
                     break;
                 case "{SystemDateTimeDateStamp}":
                     if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(dateTimeSystem);

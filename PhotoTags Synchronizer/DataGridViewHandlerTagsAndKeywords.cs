@@ -117,11 +117,10 @@ namespace PhotoTagsSynchronizer
                         (DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off);
 
                     DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex);
-                    string toolTipText = DataGridViewHandler.GetCellToolTipText(dataGridView, columnIndex, rowIndex);
-                    toolTipText = "" + toolTipText + dataGridViewGenericCellStatus.CellReadOnly + " " + 
-                        dataGridViewGenericCellStatus.SwitchState.ToString() + " " + 
-                        dataGridViewGenericCellStatus.MetadataBrokerTypes.ToString() + "\r\n";
-                    DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, toolTipText);
+                    /*string toolTipText = DataGridViewHandler.GetCellToolTipText(dataGridView, columnIndex, rowIndex);
+                    string addToolTip = dataGridViewGenericCellStatus.SwitchState.ToString() + " " + dataGridViewGenericCellStatus.MetadataBrokerTypes.ToString();
+                    if (!toolTipText.Contains(addToolTip)) toolTipText += addToolTip + "\r\n";                         
+                    DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, toolTipText);*/
                     
                     DataGridViewHandler.SetCellStatusDefaultWhenRowAdded(dataGridView, DataGridViewHandler.GetRowCount(dataGridView) - 1, 
                         new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false));
