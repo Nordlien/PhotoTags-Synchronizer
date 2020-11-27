@@ -719,7 +719,8 @@ namespace MetadataLibrary
                 //Keyword
                 listOfProperties.Add("{PersonalKeywordsList}");
                 listOfProperties.Add("{PersonalKeywordsXML}");
-                listOfProperties.Add("{PersonalKeywordItems}");
+                listOfProperties.Add("{PersonalKeywordItemsDelete}");
+                listOfProperties.Add("{PersonalKeywordItemsAdd}");
                 listOfProperties.Add("{IfPersonalKeywordsChanged}");
 
                 //Camera
@@ -788,7 +789,7 @@ namespace MetadataLibrary
 
         public string GetPropertyValue(string variableName, bool useExifFormat, bool convertNullToBlank,
             List<string> allowedFileNameDateTimeFormats, 
-            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItems)
+            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsDelete, string personalKeywordItemsAdd)
         {
             string result = variableName;
             DateTime dateTimeSystem = DateTime.Now;
@@ -981,8 +982,11 @@ namespace MetadataLibrary
                 case "{PersonalKeywordsXML}":
                     result = personalKeywordsXML;
                     break;
-                case "{PersonalKeywordItems}":
-                    result = personalKeywordItems;
+                case "{PersonalKeywordItemsDelete}":
+                    result = personalKeywordItemsDelete;
+                    break;
+                case "{PersonalKeywordItemsAdd}":
+                    result = personalKeywordItemsAdd;
                     break;
                 #endregion
 
@@ -1240,7 +1244,7 @@ namespace MetadataLibrary
         }
 
         public string ReplaceVariables(string stringWithVariables, bool useExifFormat, bool convertNullToBlank, List<string> allowedFileNameDateTimeFormats,
-            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItems)
+            string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsDelete, string personalKeywordItemsAdd)
         {
             string result = stringWithVariables;
             string[] variables = Metadata.ListOfProperties();
@@ -1248,7 +1252,7 @@ namespace MetadataLibrary
             {
                 while (result.Contains(variable)) 
                     result = result.Replace(variable, GetPropertyValue(variable, useExifFormat, convertNullToBlank,
-                    allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItems));
+                    allowedFileNameDateTimeFormats, personalRegionInfoMP, personalRegionInfo, personalKeywordList, personalKeywordsXML, personalKeywordItemsDelete, personalKeywordItemsAdd));
             }
 
             return result;

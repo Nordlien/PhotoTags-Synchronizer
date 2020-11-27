@@ -476,14 +476,18 @@ namespace MetadataLibrary
 
         public RegionStructure(RegionStructure region)
         {
-            Type = region.type;
-            AreaX = region.areaX;
-            AreaY = region.areaY;
-            AreaWidth = region.areaWidth;
-            AreaHeight = region.areaHeight;
-            Name = region.name;
-            RegionStructureType = region.regionStructureType;
-            Thumbnail = region.thumbnail == null ? null : new Bitmap(region.thumbnail);
+            try
+            {
+                Type = region.type;
+                AreaX = region.areaX;
+                AreaY = region.areaY;
+                AreaWidth = region.areaWidth;
+                AreaHeight = region.areaHeight;
+                Name = region.name;
+                RegionStructureType = region.regionStructureType;
+                Thumbnail = region.thumbnail == null ? null : new Bitmap(region.thumbnail); //DEBUG: This is still not thread safe, need fix
+            }
+            catch { } //DEBUG: This is still not thread safe, need fix
         }
 
         private Rectangle GetAbstractRectangle()

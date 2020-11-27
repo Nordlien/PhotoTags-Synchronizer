@@ -61,7 +61,8 @@ namespace PhotoTagsSynchronizer
 
             //Metadata Write
             Properties.Settings.Default.WriteMetadataTags = textBoxMetadataWriteTags.Text;
-            Properties.Settings.Default.WriteMetadataKeywordItems = textBoxMetadataWriteKeywordItems.Text;
+            Properties.Settings.Default.WriteMetadataKeywordAdd = textBoxMetadataWriteKeywordAdd.Text;
+            Properties.Settings.Default.WriteMetadataKeywordDelete = textBoxMetadataWriteKeywordDelete.Text;
             Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum = checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Checked;
             Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords = checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Checked;
 
@@ -104,7 +105,8 @@ namespace PhotoTagsSynchronizer
             comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties());
 
             textBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
-            textBoxMetadataWriteKeywordItems.Text = Properties.Settings.Default.WriteMetadataKeywordItems;
+            textBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.WriteMetadataKeywordAdd;
+            textBoxMetadataWriteKeywordDelete.Text = Properties.Settings.Default.WriteMetadataKeywordDelete;
             checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Checked = Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum;
             checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Checked = Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords;
         }

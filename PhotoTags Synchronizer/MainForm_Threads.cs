@@ -633,7 +633,8 @@ namespace PhotoTagsSynchronizer
                     Debug.WriteLine("ThreadSaveMetadata: 1");
                     #region Init Write Variables and Parameters
                     string writeMetadataTags = Properties.Settings.Default.WriteMetadataTags;
-                    string writeMetadataKeywordItems = Properties.Settings.Default.WriteMetadataKeywordItems;
+                    string writeMetadataKeywordDelete = Properties.Settings.Default.WriteMetadataKeywordDelete;
+                    string writeMetadataKeywordAdd = Properties.Settings.Default.WriteMetadataKeywordAdd;
                     bool writeAlbumProperties = Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum;
                     bool writeKeywordProperties = Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords;
                     List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
@@ -692,7 +693,7 @@ namespace PhotoTagsSynchronizer
                                 Debug.WriteLine("ThreadSaveMetadata: 3.2");
                                 UpdateStatusAction("Batch update a subset of " + queueSubsetSaveMetadata.Count + " media files...");
                                 metadataUpdated = ExiftoolWriter.WriteMetadata(queueSubsetSaveMetadata, queueSubsetOrginalMetadata,
-                                allowedFileNameDateTimeFormats, writeMetadataTags, writeMetadataKeywordItems, writeAlbumProperties, writeKeywordProperties);
+                                allowedFileNameDateTimeFormats, writeMetadataTags, writeMetadataKeywordDelete, writeMetadataKeywordAdd, writeAlbumProperties, writeKeywordProperties);
                                 Debug.WriteLine("ThreadSaveMetadata: 3.3");
 
                             } catch (Exception ex) { Logger.Error("EXIFTOOL.EXE error...\r\n\r\n" + ex.Message); }

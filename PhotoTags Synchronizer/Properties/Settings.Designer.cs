@@ -547,12 +547,12 @@ namespace PhotoTagsSynchronizer.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-Keywords+={KeywordItem}\r\n-Subject+={KeywordItem}\r\n-TagsList+={KeywordItem}\r\n-Cat" +
             "alogSets+={KeywordItem}")]
-        public string WriteMetadataKeywordItems {
+        public string WriteMetadataKeywordAdd {
             get {
-                return ((string)(this["WriteMetadataKeywordItems"]));
+                return ((string)(this["WriteMetadataKeywordAdd"]));
             }
             set {
-                this["WriteMetadataKeywordItems"] = value;
+                this["WriteMetadataKeywordAdd"] = value;
             }
         }
         
@@ -613,6 +613,19 @@ namespace PhotoTagsSynchronizer.Properties {
             }
             set {
                 this["ApplicationPreferredLanguages"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-Keywords-={KeywordItem}\r\n-Subject-={KeywordItem}\r\n-TagsList-={KeywordItem}\r\n-Cat" +
+            "alogSets-={KeywordItem}")]
+        public string WriteMetadataKeywordDelete {
+            get {
+                return ((string)(this["WriteMetadataKeywordDelete"]));
+            }
+            set {
+                this["WriteMetadataKeywordDelete"] = value;
             }
         }
     }

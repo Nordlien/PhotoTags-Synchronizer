@@ -510,7 +510,7 @@ filename=UTF8
 
 {IfPersonalKeywordsChanged}{PersonalKeywordItems}</Value>
     </Setting>
-    <Setting Name="WriteMetadataKeywordItems" Type="System.String" Scope="User">
+    <Setting Name="WriteMetadataKeywordAdd" Type="System.String" Scope="User">
       <Value Profile="(Default)">-Keywords+={KeywordItem}
 -Subject+={KeywordItem}
 -TagsList+={KeywordItem}
@@ -530,6 +530,12 @@ filename=UTF8
     </Setting>
     <Setting Name="ApplicationPreferredLanguages" Type="System.String" Scope="User">
       <Value Profile="(Default)">en;q=0.5,no;q=0.3,ru;q=0.2,*;q=0.1</Value>
+    </Setting>
+    <Setting Name="WriteMetadataKeywordDelete" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-Keywords-={KeywordItem}
+-Subject-={KeywordItem}
+-TagsList-={KeywordItem}
+-CatalogSets-={KeywordItem}</Value>
     </Setting>
   </Settings>
 </SettingsFile>

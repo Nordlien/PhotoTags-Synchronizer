@@ -128,6 +128,21 @@ namespace PhotoTagsSynchronizer
                     DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, DataGridViewHandler.GetRowCount(dataGridView) - 1);
                 }
             }
+
+            //If updated, check if any keyword are removed from the list
+            int keywordsStarts = DataGridViewHandler.GetRowHeadingItemStarts(dataGridView, headerKeywords);
+            int keywordsEnds = DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, headerKeywords);
+            
+            for (int rowIndex = keywordsStarts; rowIndex <= keywordsEnds; rowIndex++)
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                SwitchStates switchStates = DataGridViewHandler.GetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex);
+                if (switchStates == SwitchStates.On)
+                {
+                    if (!metadata.PersonalKeywordTags.Contains(new KeywordTag(dataGridViewGenericRow.RowName)))
+                        DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex, SwitchStates.Off); 
+                }
+            }
         }
 
         public static void PopulateFile(DataGridView dataGridView, string fullFilePath, ShowWhatColumns showWhatColumns, DateTime dateTimeForEditableMediaFile)

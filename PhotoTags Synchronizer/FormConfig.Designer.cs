@@ -33,6 +33,16 @@
             this.tabControlConfig = new System.Windows.Forms.TabControl();
             this.tabPageApplication = new System.Windows.Forms.TabPage();
             this.panelApplication = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelApplicationPreferredLanguages = new System.Windows.Forms.Label();
+            this.textBoxApplicationPreferredLanguages = new System.Windows.Forms.TextBox();
+            this.comboBoxApplicationLanguages = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
             this.comboBoxApplicationThumbnailSizes = new System.Windows.Forms.ComboBox();
             this.labelApplicationThumbnailSize = new System.Windows.Forms.Label();
             this.tabPageMetadataRead = new System.Windows.Forms.TabPage();
@@ -55,7 +65,7 @@
             this.tabPageMetadataWrite = new System.Windows.Forms.TabPage();
             this.panelMetadataWrite = new System.Windows.Forms.Panel();
             this.groupBoxMetadataWriteKeywordItems = new System.Windows.Forms.GroupBox();
-            this.textBoxMetadataWriteKeywordItems = new System.Windows.Forms.TextBox();
+            this.textBoxMetadataWriteKeywordAdd = new System.Windows.Forms.TextBox();
             this.groupBoxMetadataWriteProperties = new System.Windows.Forms.GroupBox();
             this.checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo = new System.Windows.Forms.CheckBox();
             this.checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo = new System.Windows.Forms.CheckBox();
@@ -147,19 +157,14 @@
             this.dataGridViewExtended1 = new DataGridViewExtended.DataGridViewExtended();
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
-            this.labelApplicationPreferredLanguages = new System.Windows.Forms.Label();
-            this.textBoxApplicationPreferredLanguages = new System.Windows.Forms.TextBox();
-            this.comboBoxApplicationLanguages = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
+            this.textBoxMetadataWriteKeywordDelete = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabPageMetadataRead.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).BeginInit();
             this.contextMenuStripMetadataRead.SuspendLayout();
@@ -184,8 +189,6 @@
             this.groupBoxDateTimeDigitized.SuspendLayout();
             this.tabPageCameraOwner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlConfig
@@ -203,7 +206,7 @@
             this.tabControlConfig.Margin = new System.Windows.Forms.Padding(2);
             this.tabControlConfig.Name = "tabControlConfig";
             this.tabControlConfig.SelectedIndex = 0;
-            this.tabControlConfig.Size = new System.Drawing.Size(739, 479);
+            this.tabControlConfig.Size = new System.Drawing.Size(739, 588);
             this.tabControlConfig.TabIndex = 0;
             // 
             // tabPageApplication
@@ -226,6 +229,313 @@
             this.panelApplication.Name = "panelApplication";
             this.panelApplication.Size = new System.Drawing.Size(731, 450);
             this.panelApplication.TabIndex = 0;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.label20);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.labelApplicationPreferredLanguages);
+            this.groupBox2.Controls.Add(this.textBoxApplicationPreferredLanguages);
+            this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
+            this.groupBox2.Location = new System.Drawing.Point(3, 128);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(725, 156);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Nominatim look-up";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(160, 119);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(491, 17);
+            this.label20.TabIndex = 7;
+            this.label20.Text = "When location infomration is found, this data will be cached in local database";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(160, 102);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(436, 17);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Nominatim location look-up will only be preformed once per location.";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(160, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(338, 17);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Language for city and country on Nominatim Lookup";
+            // 
+            // labelApplicationPreferredLanguages
+            // 
+            this.labelApplicationPreferredLanguages.AutoSize = true;
+            this.labelApplicationPreferredLanguages.Location = new System.Drawing.Point(5, 71);
+            this.labelApplicationPreferredLanguages.Name = "labelApplicationPreferredLanguages";
+            this.labelApplicationPreferredLanguages.Size = new System.Drawing.Size(139, 17);
+            this.labelApplicationPreferredLanguages.TabIndex = 2;
+            this.labelApplicationPreferredLanguages.Text = "PreferredLanguages";
+            // 
+            // textBoxApplicationPreferredLanguages
+            // 
+            this.textBoxApplicationPreferredLanguages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(163, 68);
+            this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(557, 22);
+            this.textBoxApplicationPreferredLanguages.TabIndex = 3;
+            // 
+            // comboBoxApplicationLanguages
+            // 
+            this.comboBoxApplicationLanguages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxApplicationLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxApplicationLanguages.FormattingEnabled = true;
+            this.comboBoxApplicationLanguages.Items.AddRange(new object[] {
+            "af - Afrikaans",
+            "sq - Albanian",
+            "ar - Arabic (Standard)",
+            "ar-dz - Arabic (Algeria)",
+            "ar-bh - Arabic (Bahrain)",
+            "ar-eg - Arabic (Egypt)",
+            "ar-iq - Arabic (Iraq)",
+            "ar-jo - Arabic (Jordan)",
+            "ar-kw - Arabic (Kuwait)",
+            "ar-lb - Arabic (Lebanon)",
+            "ar-ly - Arabic (Libya)",
+            "ar-ma - Arabic (Morocco)",
+            "ar-om - Arabic (Oman)",
+            "ar-qa - Arabic (Qatar)",
+            "ar-sa - Arabic (Saudi Arabia)",
+            "ar-sy - Arabic (Syria)",
+            "ar-tn - Arabic (Tunisia)",
+            "ar-ae - Arabic (U.A.E.)",
+            "ar-ye - Arabic (Yemen)",
+            "ar - Aragonese",
+            "hy - Armenian",
+            "as - Assamese",
+            "ast - Asturian",
+            "az - Azerbaijani",
+            "eu - Basque",
+            "bg - Bulgarian",
+            "be - Belarusian",
+            "bn - Bengali",
+            "bs - Bosnian",
+            "br - Breton",
+            "bg - Bulgarian",
+            "my - Burmese",
+            "ca - Catalan",
+            "ch - Chamorro",
+            "ce - Chechen",
+            "zh - Chinese",
+            "zh-hk - Chinese (Hong Kong)",
+            "zh-cn - Chinese (PRC)",
+            "zh-sg - Chinese (Singapore)",
+            "zh-tw - Chinese (Taiwan)",
+            "cv - Chuvash",
+            "co - Corsican",
+            "cr - Cree",
+            "hr - Croatian",
+            "cs - Czech",
+            "da - Danish",
+            "nl - Dutch (Standard)",
+            "nl-be - Dutch (Belgian)",
+            "en - English",
+            "en-au - English (Australia)",
+            "en-bz - English (Belize)",
+            "en-ca - English (Canada)",
+            "en-ie - English (Ireland)",
+            "en-jm - English (Jamaica)",
+            "en-nz - English (New Zealand)",
+            "en-ph - English (Philippines)",
+            "en-za - English (South Africa)",
+            "en-tt - English (Trinidad & Tobago)",
+            "en-gb - English (United Kingdom)",
+            "en-us - English (United States)",
+            "en-zw - English (Zimbabwe)",
+            "eo - Esperanto",
+            "et - Estonian",
+            "fo - Faeroese",
+            "fa - Farsi",
+            "fj - Fijian",
+            "fi - Finnish",
+            "fr - French (Standard)",
+            "fr-be - French (Belgium)",
+            "fr-ca - French (Canada)",
+            "fr-fr - French (France)",
+            "fr-lu - French (Luxembourg)",
+            "fr-mc - French (Monaco)",
+            "fr-ch - French (Switzerland)",
+            "fy - Frisian",
+            "fur - Friulian",
+            "gd - Gaelic (Scots)",
+            "gd-ie - Gaelic (Irish)",
+            "gl - Galacian",
+            "ka - Georgian",
+            "de - German (Standard)",
+            "de-at - German (Austria)",
+            "de-de - German (Germany)",
+            "de-li - German (Liechtenstein)",
+            "de-lu - German (Luxembourg)",
+            "de-ch - German (Switzerland)",
+            "el - Greek",
+            "gu - Gujurati",
+            "ht - Haitian",
+            "he - Hebrew",
+            "hi - Hindi",
+            "hu - Hungarian",
+            "is - Icelandic",
+            "id - Indonesian",
+            "iu - Inuktitut",
+            "ga - Irish",
+            "it - Italian (Standard)",
+            "it-ch - Italian (Switzerland)",
+            "ja - Japanese",
+            "kn - Kannada",
+            "ks - Kashmiri",
+            "kk - Kazakh",
+            "km - Khmer",
+            "ky - Kirghiz",
+            "tlh - Klingon",
+            "ko - Korean",
+            "ko-kp - Korean (North Korea)",
+            "ko-kr - Korean (South Korea)",
+            "la - Latin",
+            "lv - Latvian",
+            "lt - Lithuanian",
+            "lb - Luxembourgish",
+            "mk - FYRO Macedonian",
+            "ms - Malay",
+            "ml - Malayalam",
+            "mt - Maltese",
+            "mi - Maori",
+            "mr - Marathi",
+            "mo - Moldavian",
+            "nv - Navajo",
+            "ng - Ndonga",
+            "ne - Nepali",
+            "no - Norwegian",
+            "nb - Norwegian (Bokmal)",
+            "nn - Norwegian (Nynorsk)",
+            "oc - Occitan",
+            "or - Oriya",
+            "om - Oromo",
+            "fa - Persian",
+            "fa-ir - Persian/Iran",
+            "pl - Polish",
+            "pt - Portuguese",
+            "pt-br - Portuguese (Brazil)",
+            "pa - Punjabi",
+            "pa-in - Punjabi (India)",
+            "pa-pk - Punjabi (Pakistan)",
+            "qu - Quechua",
+            "rm - Rhaeto-Romanic",
+            "ro - Romanian",
+            "ro-mo - Romanian (Moldavia)",
+            "ru - Russian",
+            "ru-mo - Russian (Moldavia)",
+            "sz - Sami (Lappish)",
+            "sg - Sango",
+            "sa - Sanskrit",
+            "sc - Sardinian",
+            "gd - Scots Gaelic",
+            "sd - Sindhi",
+            "si - Singhalese",
+            "sr - Serbian",
+            "sk - Slovak",
+            "sl - Slovenian",
+            "so - Somani",
+            "sb - Sorbian",
+            "es - Spanish",
+            "es-ar - Spanish (Argentina)",
+            "es-bo - Spanish (Bolivia)",
+            "es-cl - Spanish (Chile)",
+            "es-co - Spanish (Colombia)",
+            "es-cr - Spanish (Costa Rica)",
+            "es-do - Spanish (Dominican Republic)",
+            "es-ec - Spanish (Ecuador)",
+            "es-sv - Spanish (El Salvador)",
+            "es-gt - Spanish (Guatemala)",
+            "es-hn - Spanish (Honduras)",
+            "es-mx - Spanish (Mexico)",
+            "es-ni - Spanish (Nicaragua)",
+            "es-pa - Spanish (Panama)",
+            "es-py - Spanish (Paraguay)",
+            "es-pe - Spanish (Peru)",
+            "es-pr - Spanish (Puerto Rico)",
+            "es-es - Spanish (Spain)",
+            "es-uy - Spanish (Uruguay)",
+            "es-ve - Spanish (Venezuela)",
+            "sx - Sutu",
+            "sw - Swahili",
+            "sv - Swedish",
+            "sv-fi - Swedish (Finland)",
+            "sv-sv - Swedish (Sweden)",
+            "ta - Tamil",
+            "tt - Tatar",
+            "te - Teluga",
+            "th - Thai",
+            "tig - Tigre",
+            "ts - Tsonga",
+            "tn - Tswana",
+            "tr - Turkish",
+            "tk - Turkmen",
+            "uk - Ukrainian",
+            "hsb - Upper Sorbian",
+            "ur - Urdu",
+            "ve - Venda",
+            "vi - Vietnamese",
+            "vo - Volapuk",
+            "wa - Walloon",
+            "cy - Welsh",
+            "xh - Xhosa",
+            "ji - Yiddish",
+            "zu - Zulu"});
+            this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(163, 38);
+            this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(557, 24);
+            this.comboBoxApplicationLanguages.TabIndex = 4;
+            this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.label25);
+            this.groupBox1.Controls.Add(this.label24);
+            this.groupBox1.Controls.Add(this.comboBoxApplicationThumbnailSizes);
+            this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(725, 119);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Thumbnail size";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(160, 86);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(482, 17);
+            this.label25.TabIndex = 3;
+            this.label25.Text = "Smaler size = faster and much smaller database, but more blury thumbnails";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(160, 69);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(410, 17);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "This is the size of thumbnail saved in the local cache database. ";
             // 
             // comboBoxApplicationThumbnailSizes
             // 
@@ -434,7 +744,7 @@
             this.tabPageMetadataWrite.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageMetadataWrite.Name = "tabPageMetadataWrite";
             this.tabPageMetadataWrite.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageMetadataWrite.Size = new System.Drawing.Size(731, 450);
+            this.tabPageMetadataWrite.Size = new System.Drawing.Size(731, 559);
             this.tabPageMetadataWrite.TabIndex = 1;
             this.tabPageMetadataWrite.Text = "Metadata Write";
             this.tabPageMetadataWrite.UseVisualStyleBackColor = true;
@@ -449,31 +759,34 @@
             this.panelMetadataWrite.Location = new System.Drawing.Point(2, 2);
             this.panelMetadataWrite.Margin = new System.Windows.Forms.Padding(2);
             this.panelMetadataWrite.Name = "panelMetadataWrite";
-            this.panelMetadataWrite.Size = new System.Drawing.Size(727, 446);
+            this.panelMetadataWrite.Size = new System.Drawing.Size(727, 555);
             this.panelMetadataWrite.TabIndex = 4;
             // 
             // groupBoxMetadataWriteKeywordItems
             // 
-            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.textBoxMetadataWriteKeywordItems);
+            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.label27);
+            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.label26);
+            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.textBoxMetadataWriteKeywordDelete);
+            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.textBoxMetadataWriteKeywordAdd);
             this.groupBoxMetadataWriteKeywordItems.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxMetadataWriteKeywordItems.Location = new System.Drawing.Point(0, 98);
             this.groupBoxMetadataWriteKeywordItems.Name = "groupBoxMetadataWriteKeywordItems";
-            this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(727, 143);
+            this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(727, 303);
             this.groupBoxMetadataWriteKeywordItems.TabIndex = 16;
             this.groupBoxMetadataWriteKeywordItems.TabStop = false;
             this.groupBoxMetadataWriteKeywordItems.Text = "Keyword tag items";
             // 
-            // textBoxMetadataWriteKeywordItems
+            // textBoxMetadataWriteKeywordAdd
             // 
-            this.textBoxMetadataWriteKeywordItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxMetadataWriteKeywordAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxMetadataWriteKeywordItems.Location = new System.Drawing.Point(5, 32);
-            this.textBoxMetadataWriteKeywordItems.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxMetadataWriteKeywordItems.Multiline = true;
-            this.textBoxMetadataWriteKeywordItems.Name = "textBoxMetadataWriteKeywordItems";
-            this.textBoxMetadataWriteKeywordItems.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(713, 91);
-            this.textBoxMetadataWriteKeywordItems.TabIndex = 2;
+            this.textBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(5, 188);
+            this.textBoxMetadataWriteKeywordAdd.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxMetadataWriteKeywordAdd.Multiline = true;
+            this.textBoxMetadataWriteKeywordAdd.Name = "textBoxMetadataWriteKeywordAdd";
+            this.textBoxMetadataWriteKeywordAdd.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(713, 91);
+            this.textBoxMetadataWriteKeywordAdd.TabIndex = 2;
             // 
             // groupBoxMetadataWriteProperties
             // 
@@ -515,9 +828,9 @@
             this.groupBoxMetadataWriteTags.Controls.Add(this.comboBoxMetadataWriteStandardTags);
             this.groupBoxMetadataWriteTags.Controls.Add(this.textBoxMetadataWriteTags);
             this.groupBoxMetadataWriteTags.Controls.Add(this.label6);
-            this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(0, 241);
+            this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(0, 407);
             this.groupBoxMetadataWriteTags.Name = "groupBoxMetadataWriteTags";
-            this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(721, 202);
+            this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(721, 145);
             this.groupBoxMetadataWriteTags.TabIndex = 14;
             this.groupBoxMetadataWriteTags.TabStop = false;
             this.groupBoxMetadataWriteTags.Text = "Exiftool Write tags configuration ";
@@ -544,7 +857,7 @@
             this.textBoxMetadataWriteTags.Multiline = true;
             this.textBoxMetadataWriteTags.Name = "textBoxMetadataWriteTags";
             this.textBoxMetadataWriteTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteTags.Size = new System.Drawing.Size(705, 147);
+            this.textBoxMetadataWriteTags.Size = new System.Drawing.Size(705, 90);
             this.textBoxMetadataWriteTags.TabIndex = 1;
             // 
             // label6
@@ -1555,7 +1868,7 @@
             // buttonConfigSave
             // 
             this.buttonConfigSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonConfigSave.Location = new System.Drawing.Point(615, 483);
+            this.buttonConfigSave.Location = new System.Drawing.Point(615, 592);
             this.buttonConfigSave.Margin = new System.Windows.Forms.Padding(2);
             this.buttonConfigSave.Name = "buttonConfigSave";
             this.buttonConfigSave.Size = new System.Drawing.Size(81, 31);
@@ -1567,7 +1880,7 @@
             // buttonConfigCancel
             // 
             this.buttonConfigCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonConfigCancel.Location = new System.Drawing.Point(524, 483);
+            this.buttonConfigCancel.Location = new System.Drawing.Point(524, 592);
             this.buttonConfigCancel.Margin = new System.Windows.Forms.Padding(2);
             this.buttonConfigCancel.Name = "buttonConfigCancel";
             this.buttonConfigCancel.Size = new System.Drawing.Size(81, 31);
@@ -1576,317 +1889,40 @@
             this.buttonConfigCancel.UseVisualStyleBackColor = true;
             this.buttonConfigCancel.Click += new System.EventHandler(this.buttonConfigCancel_Click);
             // 
-            // labelApplicationPreferredLanguages
+            // textBoxMetadataWriteKeywordDelete
             // 
-            this.labelApplicationPreferredLanguages.AutoSize = true;
-            this.labelApplicationPreferredLanguages.Location = new System.Drawing.Point(5, 71);
-            this.labelApplicationPreferredLanguages.Name = "labelApplicationPreferredLanguages";
-            this.labelApplicationPreferredLanguages.Size = new System.Drawing.Size(139, 17);
-            this.labelApplicationPreferredLanguages.TabIndex = 2;
-            this.labelApplicationPreferredLanguages.Text = "PreferredLanguages";
-            // 
-            // textBoxApplicationPreferredLanguages
-            // 
-            this.textBoxApplicationPreferredLanguages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxMetadataWriteKeywordDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(163, 68);
-            this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(557, 22);
-            this.textBoxApplicationPreferredLanguages.TabIndex = 3;
+            this.textBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(5, 56);
+            this.textBoxMetadataWriteKeywordDelete.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxMetadataWriteKeywordDelete.Multiline = true;
+            this.textBoxMetadataWriteKeywordDelete.Name = "textBoxMetadataWriteKeywordDelete";
+            this.textBoxMetadataWriteKeywordDelete.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(713, 91);
+            this.textBoxMetadataWriteKeywordDelete.TabIndex = 3;
             // 
-            // comboBoxApplicationLanguages
+            // label26
             // 
-            this.comboBoxApplicationLanguages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxApplicationLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxApplicationLanguages.FormattingEnabled = true;
-            this.comboBoxApplicationLanguages.Items.AddRange(new object[] {
-            "af - Afrikaans",
-            "sq - Albanian",
-            "ar - Arabic (Standard)",
-            "ar-dz - Arabic (Algeria)",
-            "ar-bh - Arabic (Bahrain)",
-            "ar-eg - Arabic (Egypt)",
-            "ar-iq - Arabic (Iraq)",
-            "ar-jo - Arabic (Jordan)",
-            "ar-kw - Arabic (Kuwait)",
-            "ar-lb - Arabic (Lebanon)",
-            "ar-ly - Arabic (Libya)",
-            "ar-ma - Arabic (Morocco)",
-            "ar-om - Arabic (Oman)",
-            "ar-qa - Arabic (Qatar)",
-            "ar-sa - Arabic (Saudi Arabia)",
-            "ar-sy - Arabic (Syria)",
-            "ar-tn - Arabic (Tunisia)",
-            "ar-ae - Arabic (U.A.E.)",
-            "ar-ye - Arabic (Yemen)",
-            "ar - Aragonese",
-            "hy - Armenian",
-            "as - Assamese",
-            "ast - Asturian",
-            "az - Azerbaijani",
-            "eu - Basque",
-            "bg - Bulgarian",
-            "be - Belarusian",
-            "bn - Bengali",
-            "bs - Bosnian",
-            "br - Breton",
-            "bg - Bulgarian",
-            "my - Burmese",
-            "ca - Catalan",
-            "ch - Chamorro",
-            "ce - Chechen",
-            "zh - Chinese",
-            "zh-hk - Chinese (Hong Kong)",
-            "zh-cn - Chinese (PRC)",
-            "zh-sg - Chinese (Singapore)",
-            "zh-tw - Chinese (Taiwan)",
-            "cv - Chuvash",
-            "co - Corsican",
-            "cr - Cree",
-            "hr - Croatian",
-            "cs - Czech",
-            "da - Danish",
-            "nl - Dutch (Standard)",
-            "nl-be - Dutch (Belgian)",
-            "en - English",
-            "en-au - English (Australia)",
-            "en-bz - English (Belize)",
-            "en-ca - English (Canada)",
-            "en-ie - English (Ireland)",
-            "en-jm - English (Jamaica)",
-            "en-nz - English (New Zealand)",
-            "en-ph - English (Philippines)",
-            "en-za - English (South Africa)",
-            "en-tt - English (Trinidad & Tobago)",
-            "en-gb - English (United Kingdom)",
-            "en-us - English (United States)",
-            "en-zw - English (Zimbabwe)",
-            "eo - Esperanto",
-            "et - Estonian",
-            "fo - Faeroese",
-            "fa - Farsi",
-            "fj - Fijian",
-            "fi - Finnish",
-            "fr - French (Standard)",
-            "fr-be - French (Belgium)",
-            "fr-ca - French (Canada)",
-            "fr-fr - French (France)",
-            "fr-lu - French (Luxembourg)",
-            "fr-mc - French (Monaco)",
-            "fr-ch - French (Switzerland)",
-            "fy - Frisian",
-            "fur - Friulian",
-            "gd - Gaelic (Scots)",
-            "gd-ie - Gaelic (Irish)",
-            "gl - Galacian",
-            "ka - Georgian",
-            "de - German (Standard)",
-            "de-at - German (Austria)",
-            "de-de - German (Germany)",
-            "de-li - German (Liechtenstein)",
-            "de-lu - German (Luxembourg)",
-            "de-ch - German (Switzerland)",
-            "el - Greek",
-            "gu - Gujurati",
-            "ht - Haitian",
-            "he - Hebrew",
-            "hi - Hindi",
-            "hu - Hungarian",
-            "is - Icelandic",
-            "id - Indonesian",
-            "iu - Inuktitut",
-            "ga - Irish",
-            "it - Italian (Standard)",
-            "it-ch - Italian (Switzerland)",
-            "ja - Japanese",
-            "kn - Kannada",
-            "ks - Kashmiri",
-            "kk - Kazakh",
-            "km - Khmer",
-            "ky - Kirghiz",
-            "tlh - Klingon",
-            "ko - Korean",
-            "ko-kp - Korean (North Korea)",
-            "ko-kr - Korean (South Korea)",
-            "la - Latin",
-            "lv - Latvian",
-            "lt - Lithuanian",
-            "lb - Luxembourgish",
-            "mk - FYRO Macedonian",
-            "ms - Malay",
-            "ml - Malayalam",
-            "mt - Maltese",
-            "mi - Maori",
-            "mr - Marathi",
-            "mo - Moldavian",
-            "nv - Navajo",
-            "ng - Ndonga",
-            "ne - Nepali",
-            "no - Norwegian",
-            "nb - Norwegian (Bokmal)",
-            "nn - Norwegian (Nynorsk)",
-            "oc - Occitan",
-            "or - Oriya",
-            "om - Oromo",
-            "fa - Persian",
-            "fa-ir - Persian/Iran",
-            "pl - Polish",
-            "pt - Portuguese",
-            "pt-br - Portuguese (Brazil)",
-            "pa - Punjabi",
-            "pa-in - Punjabi (India)",
-            "pa-pk - Punjabi (Pakistan)",
-            "qu - Quechua",
-            "rm - Rhaeto-Romanic",
-            "ro - Romanian",
-            "ro-mo - Romanian (Moldavia)",
-            "ru - Russian",
-            "ru-mo - Russian (Moldavia)",
-            "sz - Sami (Lappish)",
-            "sg - Sango",
-            "sa - Sanskrit",
-            "sc - Sardinian",
-            "gd - Scots Gaelic",
-            "sd - Sindhi",
-            "si - Singhalese",
-            "sr - Serbian",
-            "sk - Slovak",
-            "sl - Slovenian",
-            "so - Somani",
-            "sb - Sorbian",
-            "es - Spanish",
-            "es-ar - Spanish (Argentina)",
-            "es-bo - Spanish (Bolivia)",
-            "es-cl - Spanish (Chile)",
-            "es-co - Spanish (Colombia)",
-            "es-cr - Spanish (Costa Rica)",
-            "es-do - Spanish (Dominican Republic)",
-            "es-ec - Spanish (Ecuador)",
-            "es-sv - Spanish (El Salvador)",
-            "es-gt - Spanish (Guatemala)",
-            "es-hn - Spanish (Honduras)",
-            "es-mx - Spanish (Mexico)",
-            "es-ni - Spanish (Nicaragua)",
-            "es-pa - Spanish (Panama)",
-            "es-py - Spanish (Paraguay)",
-            "es-pe - Spanish (Peru)",
-            "es-pr - Spanish (Puerto Rico)",
-            "es-es - Spanish (Spain)",
-            "es-uy - Spanish (Uruguay)",
-            "es-ve - Spanish (Venezuela)",
-            "sx - Sutu",
-            "sw - Swahili",
-            "sv - Swedish",
-            "sv-fi - Swedish (Finland)",
-            "sv-sv - Swedish (Sweden)",
-            "ta - Tamil",
-            "tt - Tatar",
-            "te - Teluga",
-            "th - Thai",
-            "tig - Tigre",
-            "ts - Tsonga",
-            "tn - Tswana",
-            "tr - Turkish",
-            "tk - Turkmen",
-            "uk - Ukrainian",
-            "hsb - Upper Sorbian",
-            "ur - Urdu",
-            "ve - Venda",
-            "vi - Vietnamese",
-            "vo - Volapuk",
-            "wa - Walloon",
-            "cy - Welsh",
-            "xh - Xhosa",
-            "ji - Yiddish",
-            "zu - Zulu"});
-            this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(163, 38);
-            this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(557, 24);
-            this.comboBoxApplicationLanguages.TabIndex = 4;
-            this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(9, 37);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(116, 17);
+            this.label26.TabIndex = 4;
+            this.label26.Text = "Delete keywords:";
             // 
-            // label1
+            // label27
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(160, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(338, 17);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Language for city and country on Nominatim Lookup";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.label25);
-            this.groupBox1.Controls.Add(this.label24);
-            this.groupBox1.Controls.Add(this.comboBoxApplicationThumbnailSizes);
-            this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(725, 119);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Thumbnail size";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.label20);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.labelApplicationPreferredLanguages);
-            this.groupBox2.Controls.Add(this.textBoxApplicationPreferredLanguages);
-            this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
-            this.groupBox2.Location = new System.Drawing.Point(3, 128);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(725, 156);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Nominatim look-up";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(160, 102);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(436, 17);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Nominatim location look-up will only be preformed once per location.";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(160, 119);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(491, 17);
-            this.label20.TabIndex = 7;
-            this.label20.Text = "When location infomration is found, this data will be cached in local database";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(160, 69);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(410, 17);
-            this.label24.TabIndex = 2;
-            this.label24.Text = "This is the size of thumbnail saved in the local cache database. ";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(160, 86);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(482, 17);
-            this.label25.TabIndex = 3;
-            this.label25.Text = "Smaler size = faster and much smaller database, but more blury thumbnails";
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(9, 169);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(100, 17);
+            this.label27.TabIndex = 5;
+            this.label27.Text = "Add keywords:";
             // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(739, 515);
+            this.ClientSize = new System.Drawing.Size(739, 624);
             this.Controls.Add(this.buttonConfigCancel);
             this.Controls.Add(this.buttonConfigSave);
             this.Controls.Add(this.tabControlConfig);
@@ -1899,6 +1935,10 @@
             this.tabControlConfig.ResumeLayout(false);
             this.tabPageApplication.ResumeLayout(false);
             this.panelApplication.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabPageMetadataRead.ResumeLayout(false);
             this.tabPageMetadataRead.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).EndInit();
@@ -1939,10 +1979,6 @@
             this.groupBoxDateTimeDigitized.PerformLayout();
             this.tabPageCameraOwner.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2059,7 +2095,7 @@
         private System.Windows.Forms.GroupBox groupBoxMetadataWriteProperties;
         private System.Windows.Forms.GroupBox groupBoxMetadataWriteTags;
         private System.Windows.Forms.GroupBox groupBoxMetadataWriteKeywordItems;
-        private System.Windows.Forms.TextBox textBoxMetadataWriteKeywordItems;
+        private System.Windows.Forms.TextBox textBoxMetadataWriteKeywordAdd;
         private System.Windows.Forms.CheckBox checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo;
         private System.Windows.Forms.CheckBox checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo;
         private System.Windows.Forms.TabPage tabPageApplication;
@@ -2076,5 +2112,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox textBoxMetadataWriteKeywordDelete;
     }
 }
