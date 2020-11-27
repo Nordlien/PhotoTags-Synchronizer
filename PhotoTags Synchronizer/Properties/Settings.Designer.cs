@@ -433,55 +433,107 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-charset\r\nfilename=UTF8\r\n-overwrite_original_in_place\r\n-m\r\n-F\r\n\r\n-XMP-exif:GPSDat" +
-            "eTime={LocationDateTimeUTC}\r\n-XMP:GPSDateTime={LocationDateTimeUTC}\r\n-GPS:GPSDat" +
-            "eStamp={LocationDateTimeDateStamp}\r\n-GPS:GPSTimeStamp={LocationDateTimeTimeStamp" +
-            "}\r\n-GPSDateStamp={LocationDateTimeDateStamp}\r\n-GPSTimeStamp={LocationDateTimeTim" +
-            "eStamp}\r\n                    \r\n-Composite:SubSecCreateDate={MediaDateTaken}\r\n-EX" +
-            "IF:CreateDate={MediaDateTaken}\r\n-XMP-xmp:CreateDate={MediaDateTaken}\r\n-XMP:Creat" +
-            "eDate={MediaDateTaken}\r\n-IPTC:DigitalCreationDate={MediaDateTakenDateStamp}\r\n-IP" +
-            "TC:DigitalCreationTime={MediaDateTakenTimeStamp}\r\n\r\n-Composite:SubSecDateTimeOri" +
-            "ginal={MediaDateTaken}\r\n-ExifIFD:DateTimeOriginal={MediaDateTaken}\r\n-EXIF:DateTi" +
-            "meOriginal={MediaDateTaken}\r\n-XMP-photoshop:DateCreated={MediaDateTaken}\r\n-IPTC:" +
-            "DateCreated={MediaDateTakenDateStamp}\r\n-IPTC:TimeCreated={MediaDateTakenTimeStam" +
-            "p}\r\n-CreateDate={MediaDateTaken}\r\n\r\n-XMP-xmpDM:Album={PersonalAlbum}\r\n-XMP:Album" +
-            "={PersonalAlbum}\r\n-IPTC:Headline={PersonalAlbum}\r\n-XMP-photoshop:Headline={Perso" +
-            "nalAlbum}\r\n-ItemList:Album={PersonalAlbum}\r\n\r\n-EXIF:Artist={PersonalAuthor}\r\n-IP" +
-            "TC:By-line={PersonalAuthor}\r\n-EXIF:XPAuthor={PersonalAuthor}\r\n-ItemList:Author={" +
-            "PersonalAuthor}\r\n-Creator={PersonalAuthor}\r\n\r\n-File:Comment={PersonalComments}\r\n" +
-            "-ExifIFD:UserComment={PersonalComments}\r\n-EXIF:UserComment={PersonalComments}\r\n-" +
-            "EXIF:XPComment={PersonalComments}\r\n-XMP-album:Notes={PersonalComments}\r\n-XMP-acd" +
-            "see:Notes={PersonalComments}\r\n-XMP:UserComment={PersonalComments}\r\n-XMP:Notes={P" +
-            "ersonalComments}\r\n-ItemList:Comment={PersonalComments} \r\n     \r\n-EXIF:ImageDescr" +
-            "iption={PersonalDescription}\r\n-XMP:ImageDescription={PersonalDescription}\r\n-XMP-" +
-            "dc:Description={PersonalDescription}\r\n-XMP:Description={PersonalDescription}\r\n-I" +
-            "PTC:Caption-Abstract={PersonalDescription}\r\n-ItemList:Description={PersonalDescr" +
-            "iption} \r\n-Description={PersonalDescription} \r\n\r\n-XMP-microsoft:RatingPercent={P" +
-            "ersonalRatingPercent}\r\n-XMP:RatingPercent={PersonalRatingPercent}\r\n-EXIF:RatingP" +
-            "ercent={PersonalRatingPercent}\r\n\r\n-XMP-xmp:Rating={PersonalRating}\r\n-XMP:Rating=" +
-            "{PersonalRating}\r\n-XMP-acdsee:Rating={PersonalRating}\r\n-EXIF:Rating={PersonalRat" +
-            "ing}\r\n-Rating={PersonalRating}\r\n\r\n-ItemList:Title={PersonalTitle}\r\n-EXIF:XPTitle" +
-            "={PersonalTitle}\r\n-XMP-dc:Title={PersonalTitle}\r\n-XMP:Title={PersonalTitle}\r\n-It" +
-            "emList:Title={PersonalTitle} \r\n\r\n-EXIF:GPSLatitude={LocationLatitude}\r\n-XMP-exif" +
-            ":GPSLatitude={LocationLatitude}\r\n-XMP:GPSLatitude={LocationLatitude}\r\n-GPS:GPSLa" +
-            "titude={LocationLatitude}\r\n-GPSLatitude={LocationLatitude}\r\n\r\n-EXIF:GPSLongitude" +
-            "={LocationLongitude}\r\n-XMP-exif:GPSLongitude={LocationLongitude}\r\n-XMP:GPSLongit" +
-            "ude={LocationLongitude}\r\n-GPS:GPSLongitude={LocationLongitude}\r\n-GPSLongitude={L" +
-            "ocationLongitude}\r\n\r\n-XMP:Location={LocationName}\r\n-XMP-iptcCore:Location={Locat" +
-            "ionName}\r\n-XMP-iptcExt:LocationShownSublocation={LocationName}\r\n-XMP:LocationCre" +
-            "atedSublocation={LocationName}\r\n-IPTC:Sub-location={LocationName}\r\n-Sub-location" +
-            "={LocationName}\r\n-Location={LocationName} \r\n\r\n-XMP-iptcExt:LocationShownProvince" +
-            "State={LocationState}\r\n-XMP-photoshop:State={LocationState}\r\n-IPTC:Province-Stat" +
-            "e={LocationState}\r\n-XMP:State={LocationState}\r\n-State={LocationState} \r\n\r\n\r\n-XMP" +
-            "-photoshop:City={LocationCity}\r\n-XMP-iptcExt:LocationShownCity={LocationCity}\r\n-" +
-            "IPTC:City={LocationCity}\r\n-XMP:City={LocationCity}\r\n-City={LocationCity} \r\n\r\n-IP" +
-            "TC:Country-PrimaryLocationName={LocationCountry}\r\n-XMP-photoshop:Country={Locati" +
-            "onCountry}\r\n-XMP-iptcExt:LocationShownCountryName={LocationCountry}\r\n-XMP:Countr" +
-            "y={LocationCountry}\r\n-Country={LocationCountry} \r\n\r\n-Subject=\r\n-Keyword=\r\n-Keywo" +
-            "rds=\r\n-XPKeywords=\r\n-Category=\r\n-CatalogSets=\r\n\r\n-HierarchicalKeywords=\r\n-Hierar" +
-            "chicalSubject=\r\n-LastKeywordXMP=\r\n-LastKeywordIPTC=\r\n-TagsList=\r\n\r\n-Categories={" +
-            "PersonalKeywordsXML}\r\n-XPKeywords={PersonalKeywordsList}\r\n-ImageRegion=\r\n-Region" +
-            "InfoMP={PersonalRegionInfoMP}\r\n-RegionInfo={PersonalRegionInfo}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-charset\r\nfilename=UTF8\r\n-overwrite_original\r\n-m\r\n-F\r\n{SystemDateTime}{SystenDate" +
+            "TimeDateStamp}{SystenDateTimeTimeStamp}{SystemDateTime_yyyy}{SystemDateTime_MM}{" +
+            "SystemDateTime_dd}{SystemDateTime_HH}{SystemDateTime_mm}{SystemDateTime_ss}{File" +
+            "Name}{FileNameWithoutExtension}{FileNameWithoutDateTime}{FileExtension}{FileDire" +
+            "ctory}{FileSize}{FileDateCreated}{FileDateCreatedDateStamp}{FileDateCreatedTimeS" +
+            "tamp}{FileDateCreated_yyyy}{FileDateCreated_MM}{FileDateCreated_dd}{FileDateCrea" +
+            "ted_HH}{FileDateCreated_mm}{FileDateCreated_ss}{FileDateModified}{IfFileDateModi" +
+            "fiedChanged}{FileDateModifiedDateStamp}{FileDateModifiedTimeStamp}{FileDateModif" +
+            "ied_yyyy}{FileDateModified_MM}{FileDateModified_dd}{FileDateModified_HH}{FileDat" +
+            "eModified_mm}{FileDateModified_ss}{FileLastAccessed}{FileLastAccessedDateStamp}{" +
+            "FileLastAccessedTimeStamp}{FileLastAccessed_yyyy}{FileLastAccessed_MM}{FileLastA" +
+            "ccessed_dd}{FileLastAccessed_HH}{FileLastAccessed_mm}{FileLastAccessed_ss}{FileM" +
+            "imeType}{PersonalTitle}{IfPersonalTitleChanged}{PersonalDescription}{IfPersonalD" +
+            "escriptionChanged}{PersonalComments}{IfPersonalCommentsChanged}{PersonalRating}{" +
+            "IfPersonalRatingChanged}{PersonalRatingPercent}{PersonalAuthor}{IfPersonalAuthor" +
+            "Changed}{PersonalAlbum}{IfPersonalAlbumChanged}{PersonalRegionInfoMP}\r\n{IfLocati" +
+            "onDateTimeChanged}-XMP-exif:GPSDateTime={LocationDateTimeUTC}\r\n{IfLocationDateTi" +
+            "meChanged}-XMP:GPSDateTime={LocationDateTimeUTC}\r\n{IfLocationDateTimeChanged}-GP" +
+            "S:GPSDateStamp={LocationDateTimeDateStamp}\r\n{IfLocationDateTimeChanged}-GPS:GPST" +
+            "imeStamp={LocationDateTimeTimeStamp}\r\n{IfLocationDateTimeChanged}-GPSDateStamp={" +
+            "LocationDateTimeDateStamp}\r\n{IfLocationDateTimeChanged}-GPSTimeStamp={LocationDa" +
+            "teTimeTimeStamp}\r\n                    \r\n{IfMediaDateTakenChanged}-Composite:SubS" +
+            "ecCreateDate={MediaDateTaken}\r\n{IfMediaDateTakenChanged}-EXIF:CreateDate={MediaD" +
+            "ateTaken}\r\n{IfMediaDateTakenChanged}-XMP-xmp:CreateDate={MediaDateTaken}\r\n{IfMed" +
+            "iaDateTakenChanged}-XMP:CreateDate={MediaDateTaken}\r\n{IfMediaDateTakenChanged}-X" +
+            "MP:DateTimeOriginal={MediaDateTaken}\r\n{IfMediaDateTakenChanged}-IPTC:DigitalCrea" +
+            "tionDate={MediaDateTakenDateStamp}\r\n{IfMediaDateTakenChanged}-IPTC:DigitalCreati" +
+            "onTime={MediaDateTakenTimeStamp}\r\n\r\n{IfMediaDateTakenChanged}-Composite:SubSecDa" +
+            "teTimeOriginal={MediaDateTaken}\r\n{IfMediaDateTakenChanged}-ExifIFD:DateTimeOrigi" +
+            "nal={MediaDateTaken}\r\n{IfMediaDateTakenChanged}-EXIF:DateTimeOriginal={MediaDate" +
+            "Taken}\r\n{IfMediaDateTakenChanged}-XMP-photoshop:DateCreated={MediaDateTaken}\r\n{I" +
+            "fMediaDateTakenChanged}-IPTC:DateCreated={MediaDateTakenDateStamp}\r\n{IfMediaDate" +
+            "TakenChanged}-IPTC:TimeCreated={MediaDateTakenTimeStamp}\r\n{IfMediaDateTakenChang" +
+            "ed}-CreateDate={MediaDateTaken}\r\n\r\n{IfPersonalAlbumChanged}-XMP-xmpDM:Album={Per" +
+            "sonalAlbum}\r\n{IfPersonalAlbumChanged}-XMP:Album={PersonalAlbum}\r\n{IfPersonalAlbu" +
+            "mChanged}-IPTC:Headline={PersonalAlbum}\r\n{IfPersonalAlbumChanged}-XMP-photoshop:" +
+            "Headline={PersonalAlbum}\r\n{IfPersonalAlbumChanged}-ItemList:Album={PersonalAlbum" +
+            "}\r\n\r\n{IfPersonalAuthorChanged}-EXIF:Artist={PersonalAuthor}\r\n{IfPersonalAuthorCh" +
+            "anged}-IPTC:By-line={PersonalAuthor}\r\n{IfPersonalAuthorChanged}-EXIF:XPAuthor={P" +
+            "ersonalAuthor}\r\n{IfPersonalAuthorChanged}-ItemList:Author={PersonalAuthor}\r\n{IfP" +
+            "ersonalAuthorChanged}-Creator={PersonalAuthor}\r\n\r\n{IfPersonalCommentsChanged}-Fi" +
+            "le:Comment={PersonalComments}\r\n{IfPersonalCommentsChanged}-ExifIFD:UserComment={" +
+            "PersonalComments}\r\n{IfPersonalCommentsChanged}-EXIF:UserComment={PersonalComment" +
+            "s}\r\n{IfPersonalCommentsChanged}-EXIF:XPComment={PersonalComments}\r\n{IfPersonalCo" +
+            "mmentsChanged}-XMP-album:Notes={PersonalComments}\r\n{IfPersonalCommentsChanged}-X" +
+            "MP-acdsee:Notes={PersonalComments}\r\n{IfPersonalCommentsChanged}-XMP:UserComment=" +
+            "{PersonalComments}\r\n{IfPersonalCommentsChanged}-XMP:Notes={PersonalComments}\r\n{I" +
+            "fPersonalCommentsChanged}-ItemList:Comment={PersonalComments} \r\n     \r\n{IfPerson" +
+            "alDescriptionChanged}-EXIF:ImageDescription={PersonalDescription}\r\n{IfPersonalDe" +
+            "scriptionChanged}-XMP:ImageDescription={PersonalDescription}\r\n{IfPersonalDescrip" +
+            "tionChanged}-XMP-dc:Description={PersonalDescription}\r\n{IfPersonalDescriptionCha" +
+            "nged}-XMP:Description={PersonalDescription}\r\n{IfPersonalDescriptionChanged}-IPTC" +
+            ":Caption-Abstract={PersonalDescription}\r\n{IfPersonalDescriptionChanged}-ItemList" +
+            ":Description={PersonalDescription} \r\n{IfPersonalDescriptionChanged}-Description=" +
+            "{PersonalDescription} \r\n\r\n{IfPersonalRatingChanged}-XMP-microsoft:RatingPercent=" +
+            "{PersonalRatingPercent}\r\n{IfPersonalRatingChanged}-XMP:RatingPercent={PersonalRa" +
+            "tingPercent}\r\n{IfPersonalRatingChanged}-EXIF:RatingPercent={PersonalRatingPercen" +
+            "t}\r\n\r\n{IfPersonalRatingChanged}-XMP-xmp:Rating={PersonalRating}\r\n{IfPersonalRati" +
+            "ngChanged}-XMP:Rating={PersonalRating}\r\n{IfPersonalRatingChanged}-XMP-acdsee:Rat" +
+            "ing={PersonalRating}\r\n{IfPersonalRatingChanged}-EXIF:Rating={PersonalRating}\r\n{I" +
+            "fPersonalRatingChanged}-Rating={PersonalRating}\r\n\r\n{IfPersonalTitleChanged}-Item" +
+            "List:Title={PersonalTitle}\r\n{IfPersonalTitleChanged}-EXIF:XPTitle={PersonalTitle" +
+            "}\r\n{IfPersonalTitleChanged}-XMP-dc:Title={PersonalTitle}\r\n{IfPersonalTitleChange" +
+            "d}-XMP:Title={PersonalTitle}\r\n{IfPersonalTitleChanged}-ItemList:Title={PersonalT" +
+            "itle} \r\n\r\n{IfLocationLatitudeChanged}-EXIF:GPSLatitude={LocationLatitude}\r\n{IfLo" +
+            "cationLatitudeChanged}-XMP-exif:GPSLatitude={LocationLatitude}\r\n{IfLocationLatit" +
+            "udeChanged}-XMP:GPSLatitude={LocationLatitude}\r\n{IfLocationLatitudeChanged}-GPS:" +
+            "GPSLatitude={LocationLatitude}\r\n{IfLocationLatitudeChanged}-GPSLatitude={Locatio" +
+            "nLatitude}\r\n\r\n{IfLocationLongitudeChanged}-EXIF:GPSLongitude={LocationLongitude}" +
+            "\r\n{IfLocationLongitudeChanged}-XMP-exif:GPSLongitude={LocationLongitude}\r\n{IfLoc" +
+            "ationLongitudeChanged}-XMP:GPSLongitude={LocationLongitude}\r\n{IfLocationLongitud" +
+            "eChanged}-GPS:GPSLongitude={LocationLongitude}\r\n{IfLocationLongitudeChanged}-GPS" +
+            "Longitude={LocationLongitude}\r\n\r\n{IfLocationNameChanged}-XMP:Location={LocationN" +
+            "ame}\r\n{IfLocationNameChanged}-XMP-iptcCore:Location={LocationName}\r\n{IfLocationN" +
+            "ameChanged}-XMP-iptcExt:LocationShownSublocation={LocationName}\r\n{IfLocationName" +
+            "Changed}-XMP:LocationCreatedSublocation={LocationName}\r\n{IfLocationNameChanged}-" +
+            "IPTC:Sub-location={LocationName}\r\n{IfLocationNameChanged}-Sub-location={Location" +
+            "Name}\r\n{IfLocationNameChanged}-Location={LocationName} \r\n\r\n{IfLocationStateChang" +
+            "ed}-XMP-iptcExt:LocationShownProvinceState={LocationState}\r\n{IfLocationStateChan" +
+            "ged}-XMP-photoshop:State={LocationState}\r\n{IfLocationStateChanged}-IPTC:Province" +
+            "-State={LocationState}\r\n{IfLocationStateChanged}-XMP:State={LocationState}\r\n{IfL" +
+            "ocationStateChanged}-State={LocationState} \r\n\r\n\r\n{IfLocationCityChanged}-XMP-pho" +
+            "toshop:City={LocationCity}\r\n{IfLocationCityChanged}-XMP-iptcExt:LocationShownCit" +
+            "y={LocationCity}\r\n{IfLocationCityChanged}-IPTC:City={LocationCity}\r\n{IfLocationC" +
+            "ityChanged}-XMP:City={LocationCity}\r\n{IfLocationCityChanged}-City={LocationCity}" +
+            " \r\n\r\n{IfLocationCountryChanged}-IPTC:Country-PrimaryLocationName={LocationCountr" +
+            "y}\r\n{IfLocationCountryChanged}-XMP-photoshop:Country={LocationCountry}\r\n{IfLocat" +
+            "ionCountryChanged}-XMP-iptcExt:LocationShownCountryName={LocationCountry}\r\n{IfLo" +
+            "cationCountryChanged}-XMP:Country={LocationCountry}\r\n{IfLocationCountryChanged}-" +
+            "Country={LocationCountry} \r\n\r\n{IfPersonalRegionChanged}-ImageRegion=\r\n{IfPersona" +
+            "lRegionChanged}-RegionInfoMP={PersonalRegionInfoMP}\r\n{IfPersonalRegionChanged}-R" +
+            "egionInfo={PersonalRegionInfo}\r\n\r\n{IfPersonalKeywordsChanged}-Subject=\r\n{IfPerso" +
+            "nalKeywordsChanged}-Keyword=\r\n{IfPersonalKeywordsChanged}-Keywords=\r\n{IfPersonal" +
+            "KeywordsChanged}-XPKeywords=\r\n{IfPersonalKeywordsChanged}-Category=\r\n{IfPersonal" +
+            "KeywordsChanged}-Categories=\r\n{IfPersonalKeywordsChanged}-CatalogSets=\r\n\r\n{IfPer" +
+            "sonalKeywordsChanged}-HierarchicalKeywords=\r\n{IfPersonalKeywordsChanged}-Hierarc" +
+            "hicalSubject=\r\n{IfPersonalKeywordsChanged}-LastKeywordXMP=\r\n{IfPersonalKeywordsC" +
+            "hanged}-LastKeywordIPTC=\r\n{IfPersonalKeywordsChanged}-TagsList=\r\n\r\n{IfPersonalKe" +
+            "ywordsChanged}-Categories={PersonalKeywordsXML}\r\n{IfPersonalKeywordsChanged}-XPK" +
+            "eywords={PersonalKeywordsList}\r\n\r\n{IfPersonalKeywordsChanged}{PersonalKeywordIte" +
+            "ms}")]
         public string WriteMetadataTags {
             get {
                 return ((string)(this["WriteMetadataTags"]));
