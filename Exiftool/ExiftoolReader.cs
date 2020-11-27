@@ -78,6 +78,8 @@ namespace Exiftool
 
         private void CleanAllOldExiftoolDataForReadNewFile()
         {
+            MetadataReadPrioity.CleanHighestPriority();
+
             oldKeywordList = null;
             oldExifToolKeywords = new ExiftoolData();
 
@@ -366,15 +368,15 @@ namespace Exiftool
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
-                //return oldDate; //Do to bug in composite Date Time and this comming last in list
-                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
-                    return newValue;
-                else
-                    return oldValue;
             }
 
-            return newValue;
-            
+            int prioirty = MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            int highestPrioity = MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag);
+            MetadataReadPrioity.SetCompositeTagsHighestPrioity(compositeTag, prioirty);
+
+            if (prioirty > highestPrioity) return newValue;
+            else return oldValue;
+
         }
         #endregion
 
@@ -395,13 +397,14 @@ namespace Exiftool
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
-                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
-                    return newValue;
-                else
-                    return oldValue;
             }
 
-            return newValue;
+            int prioirty = MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            int highestPrioity = MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag);
+            MetadataReadPrioity.SetCompositeTagsHighestPrioity(compositeTag, prioirty);
+
+            if (prioirty > highestPrioity) return newValue;
+            else return oldValue;
         }
         #endregion
 
@@ -422,13 +425,14 @@ namespace Exiftool
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
-                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
-                    return newValue;
-                else
-                    return oldValue;
             }
 
-            return newValue;
+            int prioirty = MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            int highestPrioity = MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag);
+            MetadataReadPrioity.SetCompositeTagsHighestPrioity(compositeTag, prioirty);
+
+            if (prioirty > highestPrioity) return newValue;
+            else return oldValue;
         }
         #endregion
 
@@ -449,13 +453,14 @@ namespace Exiftool
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
-                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
-                    return newValue;
-                else
-                    return oldValue;
             }
 
-            return newValue;
+            int prioirty = MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            int highestPrioity = MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag);
+            MetadataReadPrioity.SetCompositeTagsHighestPrioity(compositeTag, prioirty);
+
+            if (prioirty > highestPrioity) return newValue;
+            else return oldValue;
         }
         #endregion
 
@@ -477,12 +482,14 @@ namespace Exiftool
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
-                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
-                    return newValue;
-                else
-                    return oldValue;
             }
-            return newValue;        
+
+            int prioirty = MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            int highestPrioity = MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag);
+            MetadataReadPrioity.SetCompositeTagsHighestPrioity(compositeTag, prioirty);
+
+            if (prioirty > highestPrioity) return newValue;
+            else return oldValue;
         }
         #endregion
 
@@ -503,100 +510,15 @@ namespace Exiftool
                 error += warning;
                 ExiftoolTagsWarning_Write(exifToolDataPrevious, exifToolDataConvertThis, warning);
 
-                if (MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag) > MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag))
-                    return newValue;
-                else
-                    return oldValue;
             }
 
-            return newValue;
+            int prioirty = MetadataReadPrioity.Get(exifToolDataConvertThis.Region, exifToolDataConvertThis.Command, compositeTag);
+            int highestPrioity = MetadataReadPrioity.GetCompositeTagsHighestPrioity(compositeTag);
+            MetadataReadPrioity.SetCompositeTagsHighestPrioity(compositeTag, prioirty);
+                
+            if (prioirty > highestPrioity) return newValue;
+            else return oldValue;
         }
-        #endregion
-
-        #region Convert Region
-        /*        
-        private void ConvertRegion(List<RegionStructure> regionStructures, string tempRegionRectangle, string tempRegionPersonDisplayName)
-        {
-            string[] regionRectangles = string.IsNullOrWhiteSpace(tempRegionRectangle) ? null : tempRegionRectangle.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
-            string[] regionPersonDisplayNames = string.IsNullOrWhiteSpace(tempRegionPersonDisplayName) ? null : tempRegionPersonDisplayName.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
-
-            if (regionRectangles == null) return;
-
-
-            for (int regionNumber = 0; regionNumber < regionRectangles.Length; regionNumber++)
-            {
-                RegionStructure regionStructure = new RegionStructure();
-                regionStructure.RegionStructureType = RegionStructureTypes.WindowsLivePhotoGallery;
-                regionStructure.Type = "Face";
-
-                int nameOffset = regionRectangles.Length - regionPersonDisplayNames.Length;
-                int namePosition = regionNumber - nameOffset;
-
-               if (namePosition >= 0 && namePosition < regionPersonDisplayNames.Length)
-                    regionStructure.Name = regionPersonDisplayNames[namePosition];
-                else
-                    regionStructure.Name = null; // "(Unknow)";
-
-                if (regionRectangles != null && regionNumber < regionRectangles.Length)
-                {
-                    string[] valueArray = regionRectangles[regionNumber].Split(',');
-                    if (valueArray.Length == 4)
-                    {
-                        regionStructure.AreaX = float.Parse(valueArray[0], CultureInfo.InvariantCulture);
-                        regionStructure.AreaY = float.Parse(valueArray[1], CultureInfo.InvariantCulture);
-                        regionStructure.AreaWidth = float.Parse(valueArray[2], CultureInfo.InvariantCulture);
-                        regionStructure.AreaHeight = float.Parse(valueArray[3], CultureInfo.InvariantCulture);
-                    }
-                }
-                regionStructures.Add(regionStructure);
-            }
-
-        }
-
-        private void ConvertRegion(List<RegionStructure> regionStructures, string tempRegionType, string tempRegionName,
-            string tempRegionAreaH, string tempRegionAreaW, string tempRegionAreaX, string tempRegionAreaY)
-        {
-            string[] regionType = string.IsNullOrWhiteSpace(tempRegionType) ? null : tempRegionType.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
-            string[] regionAreaName = string.IsNullOrWhiteSpace(tempRegionName) ? null : tempRegionName.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
-            string[] regionAreaH = string.IsNullOrWhiteSpace(tempRegionAreaH) ? null : tempRegionAreaH.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
-            string[] regionAreaW = string.IsNullOrWhiteSpace(tempRegionAreaW) ? null : tempRegionAreaW.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
-            string[] regionAreaX = string.IsNullOrWhiteSpace(tempRegionAreaX) ? null : tempRegionAreaX.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
-            string[] regionAreaY = string.IsNullOrWhiteSpace(tempRegionAreaY) ? null : tempRegionAreaY.Split(_ExiftoolTabSeperators, StringSplitOptions.None);
-
-            int maxCount = 0;
-            if (regionType != null && regionType.Length > maxCount) maxCount = regionType.Length;
-            if (regionAreaName != null && regionAreaName.Length > maxCount) maxCount = regionAreaName.Length;
-            if (regionAreaH != null && regionAreaH.Length > maxCount) maxCount = regionAreaH.Length;
-            if (regionAreaW != null && regionAreaW.Length > maxCount) maxCount = regionAreaW.Length;
-            if (regionAreaX != null && regionAreaX.Length > maxCount) maxCount = regionAreaX.Length;
-            if (regionAreaY != null && regionAreaY.Length > maxCount) maxCount = regionAreaY.Length;
-
-            if (maxCount == 0) return;
-
-            for (int regionNumber = 0; regionNumber < maxCount; regionNumber++)
-            {
-                RegionStructure regionStructure = new RegionStructure();
-
-                regionStructure.RegionStructureType = RegionStructureTypes.MetadataWorkingGroup;
-
-                if (regionType != null && regionNumber < regionType.Length)
-                    regionStructure.Type = regionType[regionNumber];
-                else
-                    regionStructure.Type = "Face";
-
-                if (regionType != null && regionNumber < regionAreaName.Length)
-                    regionStructure.Name = regionAreaName[regionNumber];
-                else
-                    regionStructure.Name = null; // "(Unknown)";
-
-                regionStructure.AreaHeight = float.Parse(regionAreaH[regionNumber], CultureInfo.InvariantCulture);
-                regionStructure.AreaWidth = float.Parse(regionAreaW[regionNumber], CultureInfo.InvariantCulture);
-                regionStructure.AreaX = float.Parse(regionAreaX[regionNumber], CultureInfo.InvariantCulture);
-                regionStructure.AreaY = float.Parse(regionAreaY[regionNumber], CultureInfo.InvariantCulture);
-                regionStructures.Add(regionStructure);
-            }
-        }        
-        */
         #endregion
 
         #region Read Metadata
@@ -619,7 +541,7 @@ namespace Exiftool
         }
         #endregion
 
-        #region Read List of files
+        #region Read
 
         public List<Metadata> Read(MetadataBrokerTypes broker, List<String> files)
         {

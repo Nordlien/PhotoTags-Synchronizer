@@ -14,13 +14,21 @@ namespace MetadataPriorityLibrary
         private Dictionary<string, int> metadataCompositeTagHighestPrioity = new Dictionary<string, int>();
         private bool isMetadataGroupPrioityDictionaryDirty = false;
 
+        public void CleanHighestPriority()
+        {
+            metadataCompositeTagHighestPrioity = new Dictionary<string, int>();
+        }
+
         public int GetCompositeTagsHighestPrioity(string compositeTag)
         {
-            if (!metadataCompositeTagHighestPrioity.ContainsKey(compositeTag))
-            {
-                metadataCompositeTagHighestPrioity.Add(compositeTag, Int32.MinValue); 
-            }
+            if (!metadataCompositeTagHighestPrioity.ContainsKey(compositeTag)) metadataCompositeTagHighestPrioity.Add(compositeTag, Int32.MinValue);             
             return metadataCompositeTagHighestPrioity[compositeTag];
+        }
+
+        public void SetCompositeTagsHighestPrioity(string compositeTag, int highestPrioity)
+        {
+            if (!metadataCompositeTagHighestPrioity.ContainsKey(compositeTag)) metadataCompositeTagHighestPrioity.Add(compositeTag, highestPrioity);            
+            if (highestPrioity > metadataCompositeTagHighestPrioity[compositeTag]) metadataCompositeTagHighestPrioity[compositeTag] = highestPrioity;
         }
 
         public string CreteFilename()
