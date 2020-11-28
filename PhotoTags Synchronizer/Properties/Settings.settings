@@ -516,12 +516,6 @@ filename=UTF8
 -TagsList+={KeywordItem}
 -CatalogSets+={KeywordItem}</Value>
     </Setting>
-    <Setting Name="WriteMetadataPropertiesVideoAlbum" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="WriteMetadataPropertiesVideoKeywords" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="ApplicationThumbnail" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">192, 192</Value>
     </Setting>
@@ -536,6 +530,63 @@ filename=UTF8
 -Subject-={KeywordItem}
 -TagsList-={KeywordItem}
 -CatalogSets-={KeywordItem}</Value>
+    </Setting>
+    <Setting Name="XtraAtomKeywordsVariable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{PersonalKeywordsList}</Value>
+    </Setting>
+    <Setting Name="XtraAtomKeywordsVideo" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomCategoriesVariable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{PersonalKeywordsList}</Value>
+    </Setting>
+    <Setting Name="XtraAtomCategoriesVideo" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomAlbumVariable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{PersonalAlbum}</Value>
+    </Setting>
+    <Setting Name="XtraAtomAlbumVideo" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomSubtitleVariable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{PersonalDescription}</Value>
+    </Setting>
+    <Setting Name="XtraAtomSubtitleVideo" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomSubtitlePicture" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomSubjectVariable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{PersonalDescription}</Value>
+    </Setting>
+    <Setting Name="XtraAtomSubjectVideo" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomSubjectPicture" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomCommentVariable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{PersonalComments}</Value>
+    </Setting>
+    <Setting Name="XtraAtomCommentVideo" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomCommentPicture" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomRatingVideo" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomRatingPicture" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="XtraAtomArtistVariable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{PersonalAuthor}</Value>
+    </Setting>
+    <Setting Name="XtraAtomArtistVideo" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

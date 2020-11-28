@@ -612,5 +612,18 @@ namespace DataGridViewGeneric
         {
 
         }
+
+        private void tabControlFindAndReplace_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (tabControlFindAndReplace.SelectedIndex)
+            {
+                case 0: 
+                    this.AcceptButton = FindButton1;
+                    break;
+                case 1:
+                    this.AcceptButton = FindButton2;
+                    break;
+            }
+        }
     }
 }

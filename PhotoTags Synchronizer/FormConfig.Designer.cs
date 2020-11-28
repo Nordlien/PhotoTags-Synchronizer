@@ -65,10 +65,37 @@
             this.tabPageMetadataWrite = new System.Windows.Forms.TabPage();
             this.panelMetadataWrite = new System.Windows.Forms.Panel();
             this.groupBoxMetadataWriteKeywordItems = new System.Windows.Forms.GroupBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.textBoxMetadataWriteKeywordDelete = new System.Windows.Forms.TextBox();
             this.textBoxMetadataWriteKeywordAdd = new System.Windows.Forms.TextBox();
             this.groupBoxMetadataWriteProperties = new System.Windows.Forms.GroupBox();
-            this.checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo = new System.Windows.Forms.CheckBox();
-            this.checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo = new System.Windows.Forms.CheckBox();
+            this.label36 = new System.Windows.Forms.Label();
+            this.comboBoxWriteXtraAtomVariables = new System.Windows.Forms.ComboBox();
+            this.textBoxWriteXtraAtomComment = new System.Windows.Forms.TextBox();
+            this.textBoxWriteXtraAtomSubject = new System.Windows.Forms.TextBox();
+            this.textBoxWriteXtraAtomSubtitle = new System.Windows.Forms.TextBox();
+            this.textBoxWriteXtraAtomAlbum = new System.Windows.Forms.TextBox();
+            this.textBoxWriteXtraAtomCategories = new System.Windows.Forms.TextBox();
+            this.textBoxWriteXtraAtomKeywords = new System.Windows.Forms.TextBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.checkBoxWriteXtraAtomRatingPicture = new System.Windows.Forms.CheckBox();
+            this.checkBoxWriteXtraAtomRatingVideo = new System.Windows.Forms.CheckBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.checkBoxWriteXtraAtomCommentPicture = new System.Windows.Forms.CheckBox();
+            this.checkBoxWriteXtraAtomSubjectPicture = new System.Windows.Forms.CheckBox();
+            this.checkBoxWriteXtraAtomCommentVideo = new System.Windows.Forms.CheckBox();
+            this.checkBoxWriteXtraAtomSubjectVideo = new System.Windows.Forms.CheckBox();
+            this.checkBoxWriteXtraAtomSubtitleVideo = new System.Windows.Forms.CheckBox();
+            this.checkBoxWriteXtraAtomAlbumVideo = new System.Windows.Forms.CheckBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.checkBoxWriteXtraAtomCategoriesVideo = new System.Windows.Forms.CheckBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.checkBoxWriteXtraAtomKeywordsVideo = new System.Windows.Forms.CheckBox();
             this.groupBoxMetadataWriteTags = new System.Windows.Forms.GroupBox();
             this.comboBoxMetadataWriteStandardTags = new System.Windows.Forms.ComboBox();
             this.textBoxMetadataWriteTags = new System.Windows.Forms.TextBox();
@@ -157,9 +184,9 @@
             this.dataGridViewExtended1 = new DataGridViewExtended.DataGridViewExtended();
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
-            this.textBoxMetadataWriteKeywordDelete = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.checkBoxWriteXtraAtomArtistVideo = new System.Windows.Forms.CheckBox();
+            this.textBoxWriteXtraAtomArtist = new System.Windows.Forms.TextBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
@@ -214,7 +241,7 @@
             this.tabPageApplication.Controls.Add(this.panelApplication);
             this.tabPageApplication.Location = new System.Drawing.Point(4, 25);
             this.tabPageApplication.Name = "tabPageApplication";
-            this.tabPageApplication.Size = new System.Drawing.Size(731, 450);
+            this.tabPageApplication.Size = new System.Drawing.Size(731, 559);
             this.tabPageApplication.TabIndex = 5;
             this.tabPageApplication.Text = "Application";
             this.tabPageApplication.UseVisualStyleBackColor = true;
@@ -227,7 +254,7 @@
             this.panelApplication.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelApplication.Location = new System.Drawing.Point(0, 0);
             this.panelApplication.Name = "panelApplication";
-            this.panelApplication.Size = new System.Drawing.Size(731, 450);
+            this.panelApplication.Size = new System.Drawing.Size(731, 559);
             this.panelApplication.TabIndex = 0;
             // 
             // groupBox2
@@ -563,7 +590,7 @@
             this.tabPageMetadataRead.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageMetadataRead.Name = "tabPageMetadataRead";
             this.tabPageMetadataRead.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageMetadataRead.Size = new System.Drawing.Size(731, 450);
+            this.tabPageMetadataRead.Size = new System.Drawing.Size(731, 559);
             this.tabPageMetadataRead.TabIndex = 0;
             this.tabPageMetadataRead.Text = "Metadata Read";
             this.tabPageMetadataRead.UseVisualStyleBackColor = true;
@@ -596,7 +623,7 @@
             this.dataGridViewMetadataReadPriority.Name = "dataGridViewMetadataReadPriority";
             this.dataGridViewMetadataReadPriority.RowHeadersWidth = 51;
             this.dataGridViewMetadataReadPriority.RowTemplate.Height = 24;
-            this.dataGridViewMetadataReadPriority.Size = new System.Drawing.Size(729, 401);
+            this.dataGridViewMetadataReadPriority.Size = new System.Drawing.Size(729, 510);
             this.dataGridViewMetadataReadPriority.TabIndex = 0;
             this.dataGridViewMetadataReadPriority.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewMetadataReadPriority_CellBeginEdit);
             this.dataGridViewMetadataReadPriority.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewMetadataReadPriority_CellPainting);
@@ -769,12 +796,42 @@
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.textBoxMetadataWriteKeywordDelete);
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.textBoxMetadataWriteKeywordAdd);
             this.groupBoxMetadataWriteKeywordItems.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxMetadataWriteKeywordItems.Location = new System.Drawing.Point(0, 98);
+            this.groupBoxMetadataWriteKeywordItems.Location = new System.Drawing.Point(0, 289);
             this.groupBoxMetadataWriteKeywordItems.Name = "groupBoxMetadataWriteKeywordItems";
-            this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(727, 303);
+            this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(706, 303);
             this.groupBoxMetadataWriteKeywordItems.TabIndex = 16;
             this.groupBoxMetadataWriteKeywordItems.TabStop = false;
             this.groupBoxMetadataWriteKeywordItems.Text = "Keyword tag items";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(9, 169);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(100, 17);
+            this.label27.TabIndex = 5;
+            this.label27.Text = "Add keywords:";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(9, 37);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(116, 17);
+            this.label26.TabIndex = 4;
+            this.label26.Text = "Delete keywords:";
+            // 
+            // textBoxMetadataWriteKeywordDelete
+            // 
+            this.textBoxMetadataWriteKeywordDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(5, 56);
+            this.textBoxMetadataWriteKeywordDelete.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxMetadataWriteKeywordDelete.Multiline = true;
+            this.textBoxMetadataWriteKeywordDelete.Name = "textBoxMetadataWriteKeywordDelete";
+            this.textBoxMetadataWriteKeywordDelete.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(692, 91);
+            this.textBoxMetadataWriteKeywordDelete.TabIndex = 3;
             // 
             // textBoxMetadataWriteKeywordAdd
             // 
@@ -785,40 +842,278 @@
             this.textBoxMetadataWriteKeywordAdd.Multiline = true;
             this.textBoxMetadataWriteKeywordAdd.Name = "textBoxMetadataWriteKeywordAdd";
             this.textBoxMetadataWriteKeywordAdd.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(713, 91);
+            this.textBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(692, 91);
             this.textBoxMetadataWriteKeywordAdd.TabIndex = 2;
             // 
             // groupBoxMetadataWriteProperties
             // 
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomArtist);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomArtistVideo);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.label37);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.label36);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.comboBoxWriteXtraAtomVariables);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomComment);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomSubject);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomSubtitle);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomAlbum);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomCategories);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomKeywords);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.label35);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomRatingPicture);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomRatingVideo);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.label34);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomCommentPicture);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomSubjectPicture);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomCommentVideo);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomSubjectVideo);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomSubtitleVideo);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomAlbumVideo);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.label33);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.label32);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.label31);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.label30);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomCategoriesVideo);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.label29);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.label28);
+            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomKeywordsVideo);
             this.groupBoxMetadataWriteProperties.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxMetadataWriteProperties.Location = new System.Drawing.Point(0, 0);
             this.groupBoxMetadataWriteProperties.Name = "groupBoxMetadataWriteProperties";
-            this.groupBoxMetadataWriteProperties.Size = new System.Drawing.Size(727, 98);
+            this.groupBoxMetadataWriteProperties.Size = new System.Drawing.Size(706, 289);
             this.groupBoxMetadataWriteProperties.TabIndex = 15;
             this.groupBoxMetadataWriteProperties.TabStop = false;
-            this.groupBoxMetadataWriteProperties.Text = "Write using windows properies:";
+            this.groupBoxMetadataWriteProperties.Text = "Write Windows Xtra atom properties:";
             // 
-            // checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo
+            // label36
             // 
-            this.checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.AutoSize = true;
-            this.checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Location = new System.Drawing.Point(12, 58);
-            this.checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Name = "checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo";
-            this.checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Size = new System.Drawing.Size(384, 21);
-            this.checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.TabIndex = 5;
-            this.checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Text = "Write Keywords using Windows Properties on Video files";
-            this.checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.UseVisualStyleBackColor = true;
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(295, 30);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(71, 17);
+            this.label36.TabIndex = 25;
+            this.label36.Text = "Variables:";
             // 
-            // checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo
+            // comboBoxWriteXtraAtomVariables
             // 
-            this.checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.AutoSize = true;
-            this.checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Location = new System.Drawing.Point(12, 31);
-            this.checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Name = "checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo";
-            this.checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Size = new System.Drawing.Size(362, 21);
-            this.checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.TabIndex = 4;
-            this.checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Text = "Write Album using Windows Properties on Video files";
-            this.checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.UseVisualStyleBackColor = true;
+            this.comboBoxWriteXtraAtomVariables.FormattingEnabled = true;
+            this.comboBoxWriteXtraAtomVariables.Location = new System.Drawing.Point(372, 27);
+            this.comboBoxWriteXtraAtomVariables.Name = "comboBoxWriteXtraAtomVariables";
+            this.comboBoxWriteXtraAtomVariables.Size = new System.Drawing.Size(325, 24);
+            this.comboBoxWriteXtraAtomVariables.TabIndex = 24;
+            // 
+            // textBoxWriteXtraAtomComment
+            // 
+            this.textBoxWriteXtraAtomComment.Location = new System.Drawing.Point(372, 189);
+            this.textBoxWriteXtraAtomComment.Name = "textBoxWriteXtraAtomComment";
+            this.textBoxWriteXtraAtomComment.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomComment.TabIndex = 23;
+            // 
+            // textBoxWriteXtraAtomSubject
+            // 
+            this.textBoxWriteXtraAtomSubject.Location = new System.Drawing.Point(372, 162);
+            this.textBoxWriteXtraAtomSubject.Name = "textBoxWriteXtraAtomSubject";
+            this.textBoxWriteXtraAtomSubject.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomSubject.TabIndex = 22;
+            // 
+            // textBoxWriteXtraAtomSubtitle
+            // 
+            this.textBoxWriteXtraAtomSubtitle.Location = new System.Drawing.Point(372, 135);
+            this.textBoxWriteXtraAtomSubtitle.Name = "textBoxWriteXtraAtomSubtitle";
+            this.textBoxWriteXtraAtomSubtitle.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomSubtitle.TabIndex = 21;
+            // 
+            // textBoxWriteXtraAtomAlbum
+            // 
+            this.textBoxWriteXtraAtomAlbum.Location = new System.Drawing.Point(372, 108);
+            this.textBoxWriteXtraAtomAlbum.Name = "textBoxWriteXtraAtomAlbum";
+            this.textBoxWriteXtraAtomAlbum.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomAlbum.TabIndex = 20;
+            // 
+            // textBoxWriteXtraAtomCategories
+            // 
+            this.textBoxWriteXtraAtomCategories.Location = new System.Drawing.Point(372, 83);
+            this.textBoxWriteXtraAtomCategories.Name = "textBoxWriteXtraAtomCategories";
+            this.textBoxWriteXtraAtomCategories.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomCategories.TabIndex = 19;
+            // 
+            // textBoxWriteXtraAtomKeywords
+            // 
+            this.textBoxWriteXtraAtomKeywords.Location = new System.Drawing.Point(372, 57);
+            this.textBoxWriteXtraAtomKeywords.Name = "textBoxWriteXtraAtomKeywords";
+            this.textBoxWriteXtraAtomKeywords.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomKeywords.TabIndex = 18;
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(9, 30);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(220, 17);
+            this.label35.TabIndex = 17;
+            this.label35.Text = "Write on video and or picture files";
+            // 
+            // checkBoxWriteXtraAtomRatingPicture
+            // 
+            this.checkBoxWriteXtraAtomRatingPicture.AutoSize = true;
+            this.checkBoxWriteXtraAtomRatingPicture.Location = new System.Drawing.Point(243, 247);
+            this.checkBoxWriteXtraAtomRatingPicture.Name = "checkBoxWriteXtraAtomRatingPicture";
+            this.checkBoxWriteXtraAtomRatingPicture.Size = new System.Drawing.Size(74, 21);
+            this.checkBoxWriteXtraAtomRatingPicture.TabIndex = 16;
+            this.checkBoxWriteXtraAtomRatingPicture.Text = "Picture";
+            this.checkBoxWriteXtraAtomRatingPicture.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWriteXtraAtomRatingVideo
+            // 
+            this.checkBoxWriteXtraAtomRatingVideo.AutoSize = true;
+            this.checkBoxWriteXtraAtomRatingVideo.Location = new System.Drawing.Point(139, 247);
+            this.checkBoxWriteXtraAtomRatingVideo.Name = "checkBoxWriteXtraAtomRatingVideo";
+            this.checkBoxWriteXtraAtomRatingVideo.Size = new System.Drawing.Size(66, 21);
+            this.checkBoxWriteXtraAtomRatingVideo.TabIndex = 15;
+            this.checkBoxWriteXtraAtomRatingVideo.Text = "Video";
+            this.checkBoxWriteXtraAtomRatingVideo.UseVisualStyleBackColor = true;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(9, 248);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(86, 17);
+            this.label34.TabIndex = 14;
+            this.label34.Text = "Write Rating";
+            // 
+            // checkBoxWriteXtraAtomCommentPicture
+            // 
+            this.checkBoxWriteXtraAtomCommentPicture.AutoSize = true;
+            this.checkBoxWriteXtraAtomCommentPicture.Location = new System.Drawing.Point(243, 193);
+            this.checkBoxWriteXtraAtomCommentPicture.Name = "checkBoxWriteXtraAtomCommentPicture";
+            this.checkBoxWriteXtraAtomCommentPicture.Size = new System.Drawing.Size(74, 21);
+            this.checkBoxWriteXtraAtomCommentPicture.TabIndex = 13;
+            this.checkBoxWriteXtraAtomCommentPicture.Text = "Picture";
+            this.checkBoxWriteXtraAtomCommentPicture.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWriteXtraAtomSubjectPicture
+            // 
+            this.checkBoxWriteXtraAtomSubjectPicture.AutoSize = true;
+            this.checkBoxWriteXtraAtomSubjectPicture.Location = new System.Drawing.Point(243, 166);
+            this.checkBoxWriteXtraAtomSubjectPicture.Name = "checkBoxWriteXtraAtomSubjectPicture";
+            this.checkBoxWriteXtraAtomSubjectPicture.Size = new System.Drawing.Size(74, 21);
+            this.checkBoxWriteXtraAtomSubjectPicture.TabIndex = 12;
+            this.checkBoxWriteXtraAtomSubjectPicture.Text = "Picture";
+            this.checkBoxWriteXtraAtomSubjectPicture.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWriteXtraAtomCommentVideo
+            // 
+            this.checkBoxWriteXtraAtomCommentVideo.AutoSize = true;
+            this.checkBoxWriteXtraAtomCommentVideo.Location = new System.Drawing.Point(139, 193);
+            this.checkBoxWriteXtraAtomCommentVideo.Name = "checkBoxWriteXtraAtomCommentVideo";
+            this.checkBoxWriteXtraAtomCommentVideo.Size = new System.Drawing.Size(66, 21);
+            this.checkBoxWriteXtraAtomCommentVideo.TabIndex = 11;
+            this.checkBoxWriteXtraAtomCommentVideo.Text = "Video";
+            this.checkBoxWriteXtraAtomCommentVideo.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWriteXtraAtomSubjectVideo
+            // 
+            this.checkBoxWriteXtraAtomSubjectVideo.AutoSize = true;
+            this.checkBoxWriteXtraAtomSubjectVideo.Location = new System.Drawing.Point(139, 166);
+            this.checkBoxWriteXtraAtomSubjectVideo.Name = "checkBoxWriteXtraAtomSubjectVideo";
+            this.checkBoxWriteXtraAtomSubjectVideo.Size = new System.Drawing.Size(66, 21);
+            this.checkBoxWriteXtraAtomSubjectVideo.TabIndex = 10;
+            this.checkBoxWriteXtraAtomSubjectVideo.Text = "Video";
+            this.checkBoxWriteXtraAtomSubjectVideo.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWriteXtraAtomSubtitleVideo
+            // 
+            this.checkBoxWriteXtraAtomSubtitleVideo.AutoSize = true;
+            this.checkBoxWriteXtraAtomSubtitleVideo.Location = new System.Drawing.Point(139, 139);
+            this.checkBoxWriteXtraAtomSubtitleVideo.Name = "checkBoxWriteXtraAtomSubtitleVideo";
+            this.checkBoxWriteXtraAtomSubtitleVideo.Size = new System.Drawing.Size(66, 21);
+            this.checkBoxWriteXtraAtomSubtitleVideo.TabIndex = 9;
+            this.checkBoxWriteXtraAtomSubtitleVideo.Text = "Video";
+            this.checkBoxWriteXtraAtomSubtitleVideo.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWriteXtraAtomAlbumVideo
+            // 
+            this.checkBoxWriteXtraAtomAlbumVideo.AutoSize = true;
+            this.checkBoxWriteXtraAtomAlbumVideo.Location = new System.Drawing.Point(139, 112);
+            this.checkBoxWriteXtraAtomAlbumVideo.Name = "checkBoxWriteXtraAtomAlbumVideo";
+            this.checkBoxWriteXtraAtomAlbumVideo.Size = new System.Drawing.Size(66, 21);
+            this.checkBoxWriteXtraAtomAlbumVideo.TabIndex = 8;
+            this.checkBoxWriteXtraAtomAlbumVideo.Text = "Video";
+            this.checkBoxWriteXtraAtomAlbumVideo.UseVisualStyleBackColor = true;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(9, 194);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(104, 17);
+            this.label33.TabIndex = 7;
+            this.label33.Text = "Write Comment";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(9, 167);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(92, 17);
+            this.label32.TabIndex = 6;
+            this.label32.Text = "Write Subject";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(9, 140);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(92, 17);
+            this.label31.TabIndex = 5;
+            this.label31.Text = "Write Subtitle";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(9, 113);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(84, 17);
+            this.label30.TabIndex = 4;
+            this.label30.Text = "Write Album";
+            // 
+            // checkBoxWriteXtraAtomCategoriesVideo
+            // 
+            this.checkBoxWriteXtraAtomCategoriesVideo.AutoSize = true;
+            this.checkBoxWriteXtraAtomCategoriesVideo.Location = new System.Drawing.Point(139, 85);
+            this.checkBoxWriteXtraAtomCategoriesVideo.Name = "checkBoxWriteXtraAtomCategoriesVideo";
+            this.checkBoxWriteXtraAtomCategoriesVideo.Size = new System.Drawing.Size(66, 21);
+            this.checkBoxWriteXtraAtomCategoriesVideo.TabIndex = 3;
+            this.checkBoxWriteXtraAtomCategoriesVideo.Text = "Video";
+            this.checkBoxWriteXtraAtomCategoriesVideo.UseVisualStyleBackColor = true;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(9, 86);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(113, 17);
+            this.label29.TabIndex = 2;
+            this.label29.Text = "Write Categories";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(9, 59);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(106, 17);
+            this.label28.TabIndex = 1;
+            this.label28.Text = "Write Keywords";
+            // 
+            // checkBoxWriteXtraAtomKeywordsVideo
+            // 
+            this.checkBoxWriteXtraAtomKeywordsVideo.AutoSize = true;
+            this.checkBoxWriteXtraAtomKeywordsVideo.Location = new System.Drawing.Point(139, 58);
+            this.checkBoxWriteXtraAtomKeywordsVideo.Name = "checkBoxWriteXtraAtomKeywordsVideo";
+            this.checkBoxWriteXtraAtomKeywordsVideo.Size = new System.Drawing.Size(66, 21);
+            this.checkBoxWriteXtraAtomKeywordsVideo.TabIndex = 0;
+            this.checkBoxWriteXtraAtomKeywordsVideo.Text = "Video";
+            this.checkBoxWriteXtraAtomKeywordsVideo.UseVisualStyleBackColor = true;
             // 
             // groupBoxMetadataWriteTags
             // 
@@ -830,7 +1125,7 @@
             this.groupBoxMetadataWriteTags.Controls.Add(this.label6);
             this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(0, 407);
             this.groupBoxMetadataWriteTags.Name = "groupBoxMetadataWriteTags";
-            this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(721, 145);
+            this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(679, 185);
             this.groupBoxMetadataWriteTags.TabIndex = 14;
             this.groupBoxMetadataWriteTags.TabStop = false;
             this.groupBoxMetadataWriteTags.Text = "Exiftool Write tags configuration ";
@@ -843,7 +1138,7 @@
             this.comboBoxMetadataWriteStandardTags.FormattingEnabled = true;
             this.comboBoxMetadataWriteStandardTags.Location = new System.Drawing.Point(124, 21);
             this.comboBoxMetadataWriteStandardTags.Name = "comboBoxMetadataWriteStandardTags";
-            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(588, 24);
+            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(546, 24);
             this.comboBoxMetadataWriteStandardTags.TabIndex = 6;
             this.comboBoxMetadataWriteStandardTags.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteStandardTags_SelectionChangeCommitted);
             // 
@@ -852,12 +1147,12 @@
             this.textBoxMetadataWriteTags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxMetadataWriteTags.Location = new System.Drawing.Point(7, 50);
+            this.textBoxMetadataWriteTags.Location = new System.Drawing.Point(7, 104);
             this.textBoxMetadataWriteTags.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxMetadataWriteTags.Multiline = true;
             this.textBoxMetadataWriteTags.Name = "textBoxMetadataWriteTags";
             this.textBoxMetadataWriteTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteTags.Size = new System.Drawing.Size(705, 90);
+            this.textBoxMetadataWriteTags.Size = new System.Drawing.Size(663, 76);
             this.textBoxMetadataWriteTags.TabIndex = 1;
             // 
             // label6
@@ -890,7 +1185,7 @@
             this.tabPageFileDateTimeFormats.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageFileDateTimeFormats.Name = "tabPageFileDateTimeFormats";
             this.tabPageFileDateTimeFormats.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageFileDateTimeFormats.Size = new System.Drawing.Size(731, 450);
+            this.tabPageFileDateTimeFormats.Size = new System.Drawing.Size(731, 559);
             this.tabPageFileDateTimeFormats.TabIndex = 2;
             this.tabPageFileDateTimeFormats.Text = "File date formats";
             this.tabPageFileDateTimeFormats.UseVisualStyleBackColor = true;
@@ -919,7 +1214,7 @@
             this.textBoxConfigFilenameDateFormats.Multiline = true;
             this.textBoxConfigFilenameDateFormats.Name = "textBoxConfigFilenameDateFormats";
             this.textBoxConfigFilenameDateFormats.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxConfigFilenameDateFormats.Size = new System.Drawing.Size(725, 395);
+            this.textBoxConfigFilenameDateFormats.Size = new System.Drawing.Size(725, 504);
             this.textBoxConfigFilenameDateFormats.TabIndex = 0;
             this.textBoxConfigFilenameDateFormats.Text = resources.GetString("textBoxConfigFilenameDateFormats.Text");
             // 
@@ -931,7 +1226,7 @@
             this.tabPageAutoCorrect.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageAutoCorrect.Name = "tabPageAutoCorrect";
             this.tabPageAutoCorrect.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageAutoCorrect.Size = new System.Drawing.Size(731, 450);
+            this.tabPageAutoCorrect.Size = new System.Drawing.Size(731, 559);
             this.tabPageAutoCorrect.TabIndex = 3;
             this.tabPageAutoCorrect.Text = "AutoCorrect";
             this.tabPageAutoCorrect.UseVisualStyleBackColor = true;
@@ -955,7 +1250,7 @@
             this.panelAutoCorrect.Margin = new System.Windows.Forms.Padding(2);
             this.panelAutoCorrect.MinimumSize = new System.Drawing.Size(587, 240);
             this.panelAutoCorrect.Name = "panelAutoCorrect";
-            this.panelAutoCorrect.Size = new System.Drawing.Size(726, 372);
+            this.panelAutoCorrect.Size = new System.Drawing.Size(726, 481);
             this.panelAutoCorrect.TabIndex = 1;
             // 
             // groupBoxRename
@@ -1850,7 +2145,7 @@
             this.tabPageCameraOwner.Location = new System.Drawing.Point(4, 25);
             this.tabPageCameraOwner.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageCameraOwner.Name = "tabPageCameraOwner";
-            this.tabPageCameraOwner.Size = new System.Drawing.Size(731, 450);
+            this.tabPageCameraOwner.Size = new System.Drawing.Size(731, 559);
             this.tabPageCameraOwner.TabIndex = 4;
             this.tabPageCameraOwner.Text = "Camera Owner";
             this.tabPageCameraOwner.UseVisualStyleBackColor = true;
@@ -1889,35 +2184,31 @@
             this.buttonConfigCancel.UseVisualStyleBackColor = true;
             this.buttonConfigCancel.Click += new System.EventHandler(this.buttonConfigCancel_Click);
             // 
-            // textBoxMetadataWriteKeywordDelete
+            // label37
             // 
-            this.textBoxMetadataWriteKeywordDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(5, 56);
-            this.textBoxMetadataWriteKeywordDelete.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxMetadataWriteKeywordDelete.Multiline = true;
-            this.textBoxMetadataWriteKeywordDelete.Name = "textBoxMetadataWriteKeywordDelete";
-            this.textBoxMetadataWriteKeywordDelete.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(713, 91);
-            this.textBoxMetadataWriteKeywordDelete.TabIndex = 3;
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(9, 221);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(77, 17);
+            this.label37.TabIndex = 26;
+            this.label37.Text = "Write Artist";
             // 
-            // label26
+            // checkBoxWriteXtraAtomArtistVideo
             // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(9, 37);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(116, 17);
-            this.label26.TabIndex = 4;
-            this.label26.Text = "Delete keywords:";
+            this.checkBoxWriteXtraAtomArtistVideo.AutoSize = true;
+            this.checkBoxWriteXtraAtomArtistVideo.Location = new System.Drawing.Point(139, 220);
+            this.checkBoxWriteXtraAtomArtistVideo.Name = "checkBoxWriteXtraAtomArtistVideo";
+            this.checkBoxWriteXtraAtomArtistVideo.Size = new System.Drawing.Size(66, 21);
+            this.checkBoxWriteXtraAtomArtistVideo.TabIndex = 27;
+            this.checkBoxWriteXtraAtomArtistVideo.Text = "Video";
+            this.checkBoxWriteXtraAtomArtistVideo.UseVisualStyleBackColor = true;
             // 
-            // label27
+            // textBoxWriteXtraAtomArtist
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(9, 169);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(100, 17);
-            this.label27.TabIndex = 5;
-            this.label27.Text = "Add keywords:";
+            this.textBoxWriteXtraAtomArtist.Location = new System.Drawing.Point(372, 218);
+            this.textBoxWriteXtraAtomArtist.Name = "textBoxWriteXtraAtomArtist";
+            this.textBoxWriteXtraAtomArtist.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomArtist.TabIndex = 29;
             // 
             // Config
             // 
@@ -2096,8 +2387,6 @@
         private System.Windows.Forms.GroupBox groupBoxMetadataWriteTags;
         private System.Windows.Forms.GroupBox groupBoxMetadataWriteKeywordItems;
         private System.Windows.Forms.TextBox textBoxMetadataWriteKeywordAdd;
-        private System.Windows.Forms.CheckBox checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo;
-        private System.Windows.Forms.CheckBox checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo;
         private System.Windows.Forms.TabPage tabPageApplication;
         private System.Windows.Forms.Panel panelApplication;
         private System.Windows.Forms.ComboBox comboBoxApplicationThumbnailSizes;
@@ -2115,5 +2404,34 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox textBoxMetadataWriteKeywordDelete;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomKeywordsVideo;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomCategoriesVideo;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomCommentVideo;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomSubjectVideo;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomSubtitleVideo;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomAlbumVideo;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomCommentPicture;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomSubjectPicture;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomRatingVideo;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.ComboBox comboBoxWriteXtraAtomVariables;
+        private System.Windows.Forms.TextBox textBoxWriteXtraAtomComment;
+        private System.Windows.Forms.TextBox textBoxWriteXtraAtomSubject;
+        private System.Windows.Forms.TextBox textBoxWriteXtraAtomSubtitle;
+        private System.Windows.Forms.TextBox textBoxWriteXtraAtomAlbum;
+        private System.Windows.Forms.TextBox textBoxWriteXtraAtomCategories;
+        private System.Windows.Forms.TextBox textBoxWriteXtraAtomKeywords;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomRatingPicture;
+        private System.Windows.Forms.TextBox textBoxWriteXtraAtomArtist;
+        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomArtistVideo;
+        private System.Windows.Forms.Label label37;
     }
 }

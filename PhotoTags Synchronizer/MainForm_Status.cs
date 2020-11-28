@@ -117,10 +117,9 @@ namespace PhotoTagsSynchronizer
                 lock (fileSaveSize)
                 {
                     if (CommonQueueSaveMetadataUpdatedByUserCount() == 0 || fileSaveSize.Count == 0) return countToSave;
-                    countToSave = commonQueueSaveMetadataUpdatedByUser.Count + 1;
-                    foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize) if (keyValuePair.Value != 0) countToSave--;
-                    if (countToSave > commonQueueSaveMetadataUpdatedByUser.Count) countToSave = commonQueueSaveMetadataUpdatedByUser.Count;
-                    if (countToSave == 0) countToSave = 1;
+                    countToSave = commonQueueSaveMetadataUpdatedByUser.Count; //In the queue
+                    foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize) if (keyValuePair.Value == 0) countToSave++; //In progress with Exiftool
+                    if (countToSave >= 0) countToSave++; //Something is in progress saving
                 }
             }
             catch { } //It's not thread safe, if error, don't care

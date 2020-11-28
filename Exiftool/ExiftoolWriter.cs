@@ -9,12 +9,15 @@ using ImageAndMovieFileExtentions;
 using System.Drawing;
 using NLog;
 using System.Threading;
+using WindowsProperty;
 
 namespace Exiftool
 {
     public static class ExiftoolWriter
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public static object SystemProperties { get; private set; }
 
         #region Compare orginal red metadata with what user has updated 
         public static List<int> GetListOfMetadataChangedByUser(List<Metadata> metadataListOriginal, List<Metadata> metadataListToWrite)
@@ -114,7 +117,15 @@ namespace Exiftool
 
         #region WriteMetadata
         public static List<Metadata> WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, 
-            List<string> allowedFileNameDateTimeFormats, string writeMetadataTags, string writeMetadataKeywordDelete, string writeMetadataKeywordAdd, bool writeAlbumProperties, bool writeKeywordProperties)
+            List<string> allowedFileNameDateTimeFormats, string writeMetadataTags, string writeMetadataKeywordDelete, string writeMetadataKeywordAdd,
+            string writeXtraAtomAlbum, bool writeXtraAtomAlbumVideo,
+            string writeXtraAtomCategories, bool writeXtraAtomCategoriesVideo,
+            string writeXtraAtomComment, bool writeXtraAtomCommentPicture, bool writeXtraAtomCommentVideo,
+            string writeXtraAtomKeywords, bool writeXtraAtomKeywordsVideo,
+            bool writeXtraAtomRatingPicture, bool writeXtraAtomRatingVideo,
+            string writeXtraAtomSubject, bool writeXtraAtomSubjectPicture, bool wtraAtomSubjectVideo,
+            string writeXtraAtomSubtitle, bool writeXtraAtomSubtitleVideo,
+            string writeXtraAtomArtist, bool writeXtraAtomArtistVideo)
         {
             List<Metadata> metadataSaved = new List<Metadata>();
 
@@ -147,29 +158,16 @@ namespace Exiftool
                         isImageFormat = false;
                     }
 
-                    #region Write Album Properties - for videos
-                    if (isVideoFormat && writeAlbumProperties)
-                    {
-                        WindowsProperty.WindowsPropertyWriter windowsPropertyWriter = new WindowsProperty.WindowsPropertyWriter();
-                        string keywordTags = "";
-                        foreach (KeywordTag keywordTag in metadataToWrite.PersonalKeywordTags)
-                        {
-                            if (keywordTags.Length > 0) keywordTags += ";";
-                            keywordTags += keywordTag;
-                        }
 
-                        windowsPropertyWriter.Write(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), keywordTags);
-                    }
-                    #endregion
-
-                    #region Write Keyword Properties - for videos
-                    if (isVideoFormat && writeKeywordProperties)
+                    #region Create Variable -XPKeywords={PersonalKeywordsList}
+                    string personalKeywordsList = "";
+                    foreach (KeywordTag keywordTag in metadataToWrite.PersonalKeywordTags)
                     {
-                        WindowsProperty.WindowsPropertyWriter windowsPropertyWriter2 = new WindowsProperty.WindowsPropertyWriter();
-                        windowsPropertyWriter2.WriteAlbum(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), metadataToWrite.PersonalAlbum);
+                        if (personalKeywordsList.Length > 0) personalKeywordsList += ";";
+                        personalKeywordsList += keywordTag;
                     }
                     #endregion 
-
+                    
                     #region Create Variable -Categories={PersonalKeywordsXML}
                     string keywordCategories = "<Categories>";
                     foreach (KeywordTag tagHierarchy in metadataToWrite.PersonalKeywordTags)
@@ -185,23 +183,6 @@ namespace Exiftool
                         for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++) keywordCategories += "</Category>";
                     }
                     keywordCategories += "</Categories>";
-                    #endregion
-
-                    #region Create Variable -XPKeywords={PersonalKeywordsList}
-                    string personalKeywordsList = "";
-                    if (isImageFormat)
-                    {
-                        //Write 'Windows XP Explorer XPkeywords' in one line. Windows Explorer use ; as seperator
-                        String keywords = "";
-                        foreach (KeywordTag tag in metadataToWrite.PersonalKeywordTags)
-                        {
-                            if (!string.IsNullOrWhiteSpace(keywords))
-                                keywords += "\t" + tag.Keyword;
-                            else
-                                keywords = tag.Keyword;
-                        }
-                        personalKeywordsList = keywords.Replace("\t", ";");
-                    }
                     #endregion
 
                     #region Remove duplicates Name and Area regions (Don't care about source)
@@ -315,9 +296,47 @@ namespace Exiftool
                     }
                     #endregion
 
+                    #region Replace Variable 
                     string tagsToWrite = metadataToWrite.RemoveLines(writeMetadataTags, metadataOriginal, false);
-                    tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, true, true, allowedFileNameDateTimeFormats, 
+                    tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, true, true, allowedFileNameDateTimeFormats,
                         personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
+                    string writeXtraAtomAlbumReult = metadataToWrite.ReplaceVariables(writeXtraAtomAlbum, true, true, allowedFileNameDateTimeFormats,
+                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
+                    string writeXtraAtomCategoriesResult = metadataToWrite.ReplaceVariables(writeXtraAtomCategories, true, true, allowedFileNameDateTimeFormats,
+                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
+                    string writeXtraAtomCommentResult = metadataToWrite.ReplaceVariables(writeXtraAtomComment, true, true, allowedFileNameDateTimeFormats,
+                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
+                    string writeXtraAtomKeywordsResult = metadataToWrite.ReplaceVariables(writeXtraAtomKeywords, true, true, allowedFileNameDateTimeFormats,
+                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
+                    string writeXtraAtomSubjectResult = metadataToWrite.ReplaceVariables(writeXtraAtomSubject, true, true, allowedFileNameDateTimeFormats,
+                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
+                    string writeXtraAtomSubtitleResult = metadataToWrite.ReplaceVariables(writeXtraAtomSubtitle, true, true, allowedFileNameDateTimeFormats,
+                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
+                    #endregion
+
+                    using (WindowsPropertyWriter windowsPropertyWriter = new WindowsPropertyWriter(metadataToWrite.FileFullPath))
+                    {
+                        if (isVideoFormat)
+                        {
+                            if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(writeXtraAtomKeywordsResult);
+                            if (writeXtraAtomCategoriesVideo) windowsPropertyWriter.WriteCategories(writeXtraAtomCategoriesResult);
+                            if (writeXtraAtomAlbumVideo) windowsPropertyWriter.WriteAlbum(writeXtraAtomAlbumReult);
+
+                            if (writeXtraAtomSubtitleVideo) windowsPropertyWriter.WriteSubtitle_Description(writeXtraAtomSubtitleResult);
+                            if (writeXtraAtomArtistVideo) windowsPropertyWriter.WriteArtist_Author(metadataToWrite.PersonalAuthor);
+
+                            if (wtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(writeXtraAtomSubjectResult);
+                            if (writeXtraAtomCommentVideo) windowsPropertyWriter.WriteComment(metadataToWrite.PersonalComments);
+                            if (writeXtraAtomRatingVideo) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                        }
+                        else if (isImageFormat)
+                        {
+                            if (writeXtraAtomSubjectPicture) windowsPropertyWriter.WriteSubject_Description(writeXtraAtomSubjectResult);
+                            if (writeXtraAtomCommentPicture) windowsPropertyWriter.WriteComment(metadataToWrite.PersonalComments);
+                            if (writeXtraAtomRatingPicture) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                        }
+                        windowsPropertyWriter.Close();
+                    }
 
                     sw.WriteLine(tagsToWrite);
                     sw.WriteLine(metadataToWrite.FileFullPath);
@@ -326,7 +345,7 @@ namespace Exiftool
             }
 
 
-            #region Exiftool Write
+                        #region Exiftool Write
             String path = NativeMethods.GetFullPathOfExeFile("exiftool.exe");
             string arguments = "-charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"" + NativeMethods.ShortFileName(exiftoolArgFile) + "\"";
             bool hasExiftoolErrorMessage = false;
@@ -387,13 +406,13 @@ namespace Exiftool
             }
             if (hasExiftoolErrorMessage)  
                 throw new Exception(exiftoolOutput);
-            #endregion
+                        #endregion
 
             return metadataSaved;
         }
-        #endregion
+#endregion
 
-        #region Verify HasWriteMetadataErrors
+                        #region Verify HasWriteMetadataErrors
         public static bool HasWriteMetadataErrors(Metadata metadataRead, 
             List<Metadata> metadataWrittenByExiftoolWaitVerify,       /* Data was got to by  after saved */ 
             List<Metadata> metadataSaveExiftoolParameter,   /* Data sent to exiftool for saving */ 
@@ -434,7 +453,7 @@ namespace Exiftool
             return foundErrors;
             
         }
-        #endregion
+                        #endregion
     }
 
 

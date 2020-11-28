@@ -60,9 +60,6 @@ namespace DataGridViewGeneric
             this.FindWhatTextBox2 = new System.Windows.Forms.TextBox();
             this.FindLabel2 = new System.Windows.Forms.Label();
             this.contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapSave = new System.Windows.Forms.ToolStripMenuItem();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,9 +68,12 @@ namespace DataGridViewGeneric
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapSave = new System.Windows.Forms.ToolStripMenuItem();
             this.markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleRowsAsFavouriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlFindAndReplace.SuspendLayout();
             this.FindPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -95,6 +95,7 @@ namespace DataGridViewGeneric
             this.tabControlFindAndReplace.SelectedIndex = 0;
             this.tabControlFindAndReplace.Size = new System.Drawing.Size(699, 267);
             this.tabControlFindAndReplace.TabIndex = 0;
+            this.tabControlFindAndReplace.SelectedIndexChanged += new System.EventHandler(this.tabControlFindAndReplace_SelectedIndexChanged);
             // 
             // FindPage
             // 
@@ -483,34 +484,7 @@ namespace DataGridViewGeneric
             this.toggleShowFavouriteRowsToolStripMenuItem,
             this.toggleHideEqualRowsValuesToolStripMenuItem});
             this.contextMenuStripDataGridViewGeneric.Name = "contextMenuStripMap";
-            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(241, 396);
-            // 
-            // toggleShowFavouriteRowsToolStripMenuItem
-            // 
-            this.toggleShowFavouriteRowsToolStripMenuItem.Checked = true;
-            this.toggleShowFavouriteRowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.toggleShowFavouriteRowsToolStripMenuItem.Name = "toggleShowFavouriteRowsToolStripMenuItem";
-            this.toggleShowFavouriteRowsToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.toggleShowFavouriteRowsToolStripMenuItem.Text = "Show only favorite rows";
-            this.toggleShowFavouriteRowsToolStripMenuItem.Click += new System.EventHandler(this.toggleShowFavouriteRowsToolStripMenuItem_Click);
-            // 
-            // toggleHideEqualRowsValuesToolStripMenuItem
-            // 
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Checked = true;
-            this.toggleHideEqualRowsValuesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Name = "toggleHideEqualRowsValuesToolStripMenuItem";
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Text = "Hide equal rows";
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Click += new System.EventHandler(this.toggleHideEqualRowsValuesToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItemMapSave
-            // 
-            this.toolStripMenuItemMapSave.Image = global::DataGridViewGeneric.Properties.Resources.Save;
-            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
-            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(240, 26);
-            this.toolStripMenuItemMapSave.Text = "Save";
-            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
+            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(241, 368);
             // 
             // cutToolStripMenuItem
             // 
@@ -584,6 +558,15 @@ namespace DataGridViewGeneric
             this.replaceToolStripMenuItem.Text = "Replace";
             this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
             // 
+            // toolStripMenuItemMapSave
+            // 
+            this.toolStripMenuItemMapSave.Image = global::DataGridViewGeneric.Properties.Resources.Save;
+            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
+            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemMapSave.Text = "Save";
+            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
+            // 
             // markAsFavoriteToolStripMenuItem
             // 
             this.markAsFavoriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteSelect;
@@ -608,9 +591,27 @@ namespace DataGridViewGeneric
             this.toggleRowsAsFavouriteToolStripMenuItem.Text = "Toggle favorite";
             this.toggleRowsAsFavouriteToolStripMenuItem.Click += new System.EventHandler(this.toggleRowsAsFavouriteToolStripMenuItem_Click);
             // 
+            // toggleShowFavouriteRowsToolStripMenuItem
+            // 
+            this.toggleShowFavouriteRowsToolStripMenuItem.Checked = true;
+            this.toggleShowFavouriteRowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.toggleShowFavouriteRowsToolStripMenuItem.Name = "toggleShowFavouriteRowsToolStripMenuItem";
+            this.toggleShowFavouriteRowsToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
+            this.toggleShowFavouriteRowsToolStripMenuItem.Text = "Show only favorite rows";
+            this.toggleShowFavouriteRowsToolStripMenuItem.Click += new System.EventHandler(this.toggleShowFavouriteRowsToolStripMenuItem_Click);
+            // 
+            // toggleHideEqualRowsValuesToolStripMenuItem
+            // 
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Checked = true;
+            this.toggleHideEqualRowsValuesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Name = "toggleHideEqualRowsValuesToolStripMenuItem";
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Text = "Hide equal rows";
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Click += new System.EventHandler(this.toggleHideEqualRowsValuesToolStripMenuItem_Click);
+            // 
             // FindAndReplaceForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AcceptButton = this.FindButton1;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(699, 267);
             this.Controls.Add(this.tabControlFindAndReplace);

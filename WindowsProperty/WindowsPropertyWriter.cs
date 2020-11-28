@@ -6,50 +6,134 @@ using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 namespace WindowsProperty
 {
 
-    public class WindowsPropertyWriter
+    public class WindowsPropertyWriter : IDisposable
     {
-        public void Write(string fullFileName, string tags)
+        private ShellFile shellFile;
+        private ShellPropertyWriter propertyWriter;
+        //private IShellProperty shellProperty;
+
+        public WindowsPropertyWriter(string fullFileName)
         {
             try
             {
-                var file = ShellFile.FromFilePath(fullFileName);
-
-                var mediaTags = file.Properties.GetProperty(SystemProperties.System.Keywords);
-                ShellPropertyWriter propertyWriter = file.Properties.GetPropertyWriter();
-                propertyWriter.WriteProperty(SystemProperties.System.Keywords, tags);
-                //propertyWriter.WriteProperty(SystemProperties.System.Music.AlbumTitle, album);
-                //propertyWriter.WriteProperty(SystemProperties.System.Rating, Rating);
-                //propertyWriter.WriteProperty(SystemProperties.System.Comment, entry.Description);
-
-                propertyWriter.Close();
-            } catch (Exception e)
-            {
-                
+                shellFile = ShellFile.FromFilePath(fullFileName);
+                propertyWriter = shellFile.Properties.GetPropertyWriter();
             }
-            
+            catch { }
+        }
+        public void Dispose()
+        {
+            try 
+            { 
+                propertyWriter.Dispose();
+                propertyWriter = null;
+                shellFile.Dispose();
+                shellFile = null;
+                //shellProperty = null;
+            }
+            catch { }        
         }
 
-        public void WriteAlbum(string fullFileName, string album)
+        public void Close()
         {
             try
             {
-                var file = ShellFile.FromFilePath(fullFileName);
-
-                var mediaTags = file.Properties.GetProperty(SystemProperties.System.Keywords);
-                ShellPropertyWriter propertyWriter = file.Properties.GetPropertyWriter();
-                //propertyWriter.WriteProperty(SystemProperties.System.Keywords, tags);
-                propertyWriter.WriteProperty(SystemProperties.System.Music.AlbumTitle, album);
-
-                //propertyWriter.WriteProperty(SystemProperties.System.Rating, Rating);
-                //propertyWriter.WriteProperty(SystemProperties.System.Comment, entry.Description);
-
                 propertyWriter.Close();
             }
-            catch (Exception e)
+            catch { }
+        }
+
+        public void WriteKeywords(string tags)
+        {
+            try
             {
+                propertyWriter.WriteProperty(SystemProperties.System.Keywords, tags);
 
+
+                propertyWriter.WriteProperty(SystemProperties.System.Photo.PeopleNames, tags);
             }
+            catch { }
+        }
 
+        public void WriteNames(string names)
+        {
+            try
+            {
+                propertyWriter.WriteProperty(SystemProperties.System.Photo.PeopleNames, names);
+            }
+            catch { }
+        }
+
+        public void WriteCategories(string categories)
+        {
+            try
+            {
+                propertyWriter.WriteProperty(SystemProperties.System.Category, categories);
+            }
+            catch { }
+        }
+        
+
+        public void WriteAlbum(string album)
+        {
+            try
+            {
+                propertyWriter.WriteProperty(SystemProperties.System.Music.AlbumTitle, album);
+            }
+            catch { }
+        }
+
+        public void WriteSubtitle_Description(string description)
+        {
+            try
+            {
+                propertyWriter.WriteProperty(SystemProperties.System.Media.Subtitle, description);
+            }
+            catch { }
+        }
+        public void WriteSubject_Description(string subject)
+        {
+            try
+            {
+                propertyWriter.WriteProperty(SystemProperties.System.Subject, subject);
+            }
+            catch { }
+        }
+
+        public void WriteComment(string comment)
+        {
+            try
+            {
+                propertyWriter.WriteProperty(SystemProperties.System.Comment, comment);
+            }
+            catch { }
+        }
+
+        public void WriteDateTaken(DateTime dateTime)
+        {
+            try
+            {
+                propertyWriter.WriteProperty(SystemProperties.System.Photo.DateTaken, dateTime);
+            }
+            catch { }
+        }
+
+        public void WriteArtist_Author(string author)
+        {
+            try
+            {
+                propertyWriter.WriteProperty(SystemProperties.System.Music.Artist, author);
+            }
+            catch { }
+        }
+      
+        public void WriteRating(int rating)
+        {
+            try
+            {
+                propertyWriter.WriteProperty(SystemProperties.System.Rating, rating);
+            }
+            catch { }
         }
     }
 

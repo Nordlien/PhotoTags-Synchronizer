@@ -558,30 +558,6 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool WriteMetadataPropertiesVideoAlbum {
-            get {
-                return ((bool)(this["WriteMetadataPropertiesVideoAlbum"]));
-            }
-            set {
-                this["WriteMetadataPropertiesVideoAlbum"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool WriteMetadataPropertiesVideoKeywords {
-            get {
-                return ((bool)(this["WriteMetadataPropertiesVideoKeywords"]));
-            }
-            set {
-                this["WriteMetadataPropertiesVideoKeywords"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("192, 192")]
         public global::System.Drawing.Size ApplicationThumbnail {
             get {
@@ -626,6 +602,234 @@ namespace PhotoTagsSynchronizer.Properties {
             }
             set {
                 this["WriteMetadataKeywordDelete"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{PersonalKeywordsList}")]
+        public string XtraAtomKeywordsVariable {
+            get {
+                return ((string)(this["XtraAtomKeywordsVariable"]));
+            }
+            set {
+                this["XtraAtomKeywordsVariable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomKeywordsVideo {
+            get {
+                return ((bool)(this["XtraAtomKeywordsVideo"]));
+            }
+            set {
+                this["XtraAtomKeywordsVideo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{PersonalKeywordsList}")]
+        public string XtraAtomCategoriesVariable {
+            get {
+                return ((string)(this["XtraAtomCategoriesVariable"]));
+            }
+            set {
+                this["XtraAtomCategoriesVariable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomCategoriesVideo {
+            get {
+                return ((bool)(this["XtraAtomCategoriesVideo"]));
+            }
+            set {
+                this["XtraAtomCategoriesVideo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{PersonalAlbum}")]
+        public string XtraAtomAlbumVariable {
+            get {
+                return ((string)(this["XtraAtomAlbumVariable"]));
+            }
+            set {
+                this["XtraAtomAlbumVariable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomAlbumVideo {
+            get {
+                return ((bool)(this["XtraAtomAlbumVideo"]));
+            }
+            set {
+                this["XtraAtomAlbumVideo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{PersonalDescription}")]
+        public string XtraAtomSubtitleVariable {
+            get {
+                return ((string)(this["XtraAtomSubtitleVariable"]));
+            }
+            set {
+                this["XtraAtomSubtitleVariable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomSubtitleVideo {
+            get {
+                return ((bool)(this["XtraAtomSubtitleVideo"]));
+            }
+            set {
+                this["XtraAtomSubtitleVideo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomSubtitlePicture {
+            get {
+                return ((bool)(this["XtraAtomSubtitlePicture"]));
+            }
+            set {
+                this["XtraAtomSubtitlePicture"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{PersonalDescription}")]
+        public string XtraAtomSubjectVariable {
+            get {
+                return ((string)(this["XtraAtomSubjectVariable"]));
+            }
+            set {
+                this["XtraAtomSubjectVariable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomSubjectVideo {
+            get {
+                return ((bool)(this["XtraAtomSubjectVideo"]));
+            }
+            set {
+                this["XtraAtomSubjectVideo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomSubjectPicture {
+            get {
+                return ((bool)(this["XtraAtomSubjectPicture"]));
+            }
+            set {
+                this["XtraAtomSubjectPicture"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{PersonalComments}")]
+        public string XtraAtomCommentVariable {
+            get {
+                return ((string)(this["XtraAtomCommentVariable"]));
+            }
+            set {
+                this["XtraAtomCommentVariable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomCommentVideo {
+            get {
+                return ((bool)(this["XtraAtomCommentVideo"]));
+            }
+            set {
+                this["XtraAtomCommentVideo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomCommentPicture {
+            get {
+                return ((bool)(this["XtraAtomCommentPicture"]));
+            }
+            set {
+                this["XtraAtomCommentPicture"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomRatingVideo {
+            get {
+                return ((bool)(this["XtraAtomRatingVideo"]));
+            }
+            set {
+                this["XtraAtomRatingVideo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomRatingPicture {
+            get {
+                return ((bool)(this["XtraAtomRatingPicture"]));
+            }
+            set {
+                this["XtraAtomRatingPicture"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{PersonalAuthor}")]
+        public string XtraAtomArtistVariable {
+            get {
+                return ((string)(this["XtraAtomArtistVariable"]));
+            }
+            set {
+                this["XtraAtomArtistVariable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XtraAtomArtistVideo {
+            get {
+                return ((bool)(this["XtraAtomArtistVideo"]));
+            }
+            set {
+                this["XtraAtomArtistVideo"] = value;
             }
         }
     }

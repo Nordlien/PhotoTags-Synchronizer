@@ -63,8 +63,27 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.WriteMetadataTags = textBoxMetadataWriteTags.Text;
             Properties.Settings.Default.WriteMetadataKeywordAdd = textBoxMetadataWriteKeywordAdd.Text;
             Properties.Settings.Default.WriteMetadataKeywordDelete = textBoxMetadataWriteKeywordDelete.Text;
-            Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum = checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Checked;
-            Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords = checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Checked;
+
+            Properties.Settings.Default.XtraAtomAlbumVideo = checkBoxWriteXtraAtomAlbumVideo.Checked;
+            Properties.Settings.Default.XtraAtomCategoriesVideo = checkBoxWriteXtraAtomCategoriesVideo.Checked;
+            Properties.Settings.Default.XtraAtomCommentPicture = checkBoxWriteXtraAtomCommentPicture.Checked;
+            Properties.Settings.Default.XtraAtomCommentVideo = checkBoxWriteXtraAtomCommentVideo.Checked;
+            Properties.Settings.Default.XtraAtomKeywordsVideo = checkBoxWriteXtraAtomKeywordsVideo.Checked;
+            Properties.Settings.Default.XtraAtomRatingPicture = checkBoxWriteXtraAtomRatingPicture.Checked;
+            Properties.Settings.Default.XtraAtomRatingVideo = checkBoxWriteXtraAtomRatingVideo.Checked;
+            Properties.Settings.Default.XtraAtomSubjectPicture = checkBoxWriteXtraAtomSubjectPicture.Checked;
+            Properties.Settings.Default.XtraAtomSubjectVideo = checkBoxWriteXtraAtomSubjectVideo.Checked;
+            Properties.Settings.Default.XtraAtomSubtitleVideo = checkBoxWriteXtraAtomSubtitleVideo.Checked;
+            Properties.Settings.Default.XtraAtomArtistVideo = checkBoxWriteXtraAtomArtistVideo.Checked;
+
+            Properties.Settings.Default.XtraAtomArtistVariable = textBoxWriteXtraAtomArtist.Text;            
+            Properties.Settings.Default.XtraAtomAlbumVariable = textBoxWriteXtraAtomAlbum.Text;
+            Properties.Settings.Default.XtraAtomCategoriesVariable = textBoxWriteXtraAtomCategories.Text;
+            Properties.Settings.Default.XtraAtomCommentVariable = textBoxWriteXtraAtomComment.Text;
+            Properties.Settings.Default.XtraAtomKeywordsVariable = textBoxWriteXtraAtomKeywords.Text;
+            Properties.Settings.Default.XtraAtomSubjectVariable = textBoxWriteXtraAtomSubject.Text;
+            Properties.Settings.Default.XtraAtomSubtitleVariable = textBoxWriteXtraAtomSubtitle.Text;
+
 
             //Filename date formates
             Properties.Settings.Default.RenameDateFormats = textBoxConfigFilenameDateFormats.Text;
@@ -107,8 +126,26 @@ namespace PhotoTagsSynchronizer
             textBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
             textBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.WriteMetadataKeywordAdd;
             textBoxMetadataWriteKeywordDelete.Text = Properties.Settings.Default.WriteMetadataKeywordDelete;
-            checkBoxMetadataWriteUsingPropertiesOnAlbumForVideo.Checked = Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum;
-            checkBoxMetadataWriteUsingPropertiesOnKeywordsForVideo.Checked = Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords;
+
+            checkBoxWriteXtraAtomAlbumVideo.Checked = Properties.Settings.Default.XtraAtomAlbumVideo;
+            checkBoxWriteXtraAtomCategoriesVideo.Checked = Properties.Settings.Default.XtraAtomCategoriesVideo;
+            checkBoxWriteXtraAtomCommentPicture.Checked = Properties.Settings.Default.XtraAtomCommentPicture;
+            checkBoxWriteXtraAtomCommentVideo.Checked = Properties.Settings.Default.XtraAtomCommentVideo;
+            checkBoxWriteXtraAtomKeywordsVideo.Checked = Properties.Settings.Default.XtraAtomKeywordsVideo;
+            checkBoxWriteXtraAtomRatingPicture.Checked = Properties.Settings.Default.XtraAtomRatingPicture;
+            checkBoxWriteXtraAtomRatingVideo.Checked = Properties.Settings.Default.XtraAtomRatingVideo;
+            checkBoxWriteXtraAtomSubjectPicture.Checked = Properties.Settings.Default.XtraAtomSubjectPicture;
+            checkBoxWriteXtraAtomSubjectVideo.Checked = Properties.Settings.Default.XtraAtomSubjectVideo;
+            checkBoxWriteXtraAtomSubtitleVideo.Checked = Properties.Settings.Default.XtraAtomSubtitleVideo;
+            checkBoxWriteXtraAtomArtistVideo.Checked = Properties.Settings.Default.XtraAtomArtistVideo;
+
+            textBoxWriteXtraAtomArtist.Text = Properties.Settings.Default.XtraAtomArtistVariable;
+            textBoxWriteXtraAtomAlbum.Text = Properties.Settings.Default.XtraAtomAlbumVariable;
+            textBoxWriteXtraAtomCategories.Text = Properties.Settings.Default.XtraAtomCategoriesVariable;
+            textBoxWriteXtraAtomComment.Text = Properties.Settings.Default.XtraAtomCommentVariable;
+            textBoxWriteXtraAtomKeywords.Text = Properties.Settings.Default.XtraAtomKeywordsVariable;
+            textBoxWriteXtraAtomSubject.Text = Properties.Settings.Default.XtraAtomSubjectVariable;
+            textBoxWriteXtraAtomSubtitle.Text = Properties.Settings.Default.XtraAtomSubtitleVariable;
         }
         #endregion
 

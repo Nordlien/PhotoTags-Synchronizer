@@ -635,14 +635,38 @@ namespace PhotoTagsSynchronizer
                     string writeMetadataTags = Properties.Settings.Default.WriteMetadataTags;
                     string writeMetadataKeywordDelete = Properties.Settings.Default.WriteMetadataKeywordDelete;
                     string writeMetadataKeywordAdd = Properties.Settings.Default.WriteMetadataKeywordAdd;
-                    bool writeAlbumProperties = Properties.Settings.Default.WriteMetadataPropertiesVideoAlbum;
-                    bool writeKeywordProperties = Properties.Settings.Default.WriteMetadataPropertiesVideoKeywords;
+
+                    string writeXtraAtomAlbum = Properties.Settings.Default.XtraAtomAlbumVariable;
+                    bool writeXtraAtomAlbumVideo = Properties.Settings.Default.XtraAtomAlbumVideo;
+
+                    string writeXtraAtomCategories = Properties.Settings.Default.XtraAtomCategoriesVariable;
+                    bool writeXtraAtomCategoriesVideo = Properties.Settings.Default.XtraAtomCategoriesVideo;
+
+                    string writeXtraAtomComment = Properties.Settings.Default.XtraAtomCommentVariable;
+                    bool writeXtraAtomCommentPicture = Properties.Settings.Default.XtraAtomCommentPicture;
+                    bool writeXtraAtomCommentVideo = Properties.Settings.Default.XtraAtomCommentVideo;
+
+                    string writeXtraAtomKeywords = Properties.Settings.Default.XtraAtomKeywordsVariable;
+                    bool writeXtraAtomKeywordsVideo = Properties.Settings.Default.XtraAtomKeywordsVideo;
+
+                    bool writeXtraAtomRatingPicture = Properties.Settings.Default.XtraAtomRatingPicture;
+                    bool writeXtraAtomRatingVideo = Properties.Settings.Default.XtraAtomRatingVideo;
+
+                    string writeXtraAtomSubject = Properties.Settings.Default.XtraAtomSubjectVariable;
+                    bool writeXtraAtomSubjectPicture = Properties.Settings.Default.XtraAtomSubjectPicture;
+                    bool wtraAtomSubjectVideo = Properties.Settings.Default.XtraAtomSubjectVideo;
+
+                    string writeXtraAtomSubtitle = Properties.Settings.Default.XtraAtomSubtitleVariable;
+                    bool writeXtraAtomSubtitleVideo = Properties.Settings.Default.XtraAtomSubtitleVideo;
+
+                    string writeXtraAtomArtist = Properties.Settings.Default.XtraAtomArtistVariable;
+                    bool writeXtraAtomArtistVideo = Properties.Settings.Default.XtraAtomArtistVideo;
+
                     List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
                     #endregion 
 
                     while (CommonQueueSaveMetadataUpdatedByUserCount() > 0) // && !GlobalData.IsApplicationClosing)
                     {
-                        Debug.WriteLine("ThreadSaveMetadata: 2");
                         ShowExiftoolSaveProgressClear();
 
                         int writeCount = CommonQueueSaveMetadataUpdatedByUserCount();
@@ -682,25 +706,28 @@ namespace PhotoTagsSynchronizer
                         }
                         #endregion
 
-                        Debug.WriteLine("ThreadSaveMetadata: 3");
                         if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(metadataUpdated); //E.g. some application writing to file, or OneDrive doing backup
-                        Debug.WriteLine("ThreadSaveMetadata: 3.1");
+                        
                         #region Save Metadatas using Exiftool
                         if (!GlobalData.IsApplicationClosing)
                         {
                             try
                             {
-                                Debug.WriteLine("ThreadSaveMetadata: 3.2");
                                 UpdateStatusAction("Batch update a subset of " + queueSubsetSaveMetadata.Count + " media files...");
                                 metadataUpdated = ExiftoolWriter.WriteMetadata(queueSubsetSaveMetadata, queueSubsetOrginalMetadata,
-                                allowedFileNameDateTimeFormats, writeMetadataTags, writeMetadataKeywordDelete, writeMetadataKeywordAdd, writeAlbumProperties, writeKeywordProperties);
-                                Debug.WriteLine("ThreadSaveMetadata: 3.3");
-
+                                allowedFileNameDateTimeFormats, writeMetadataTags, writeMetadataKeywordDelete, writeMetadataKeywordAdd,
+                                writeXtraAtomAlbum, writeXtraAtomAlbumVideo,
+                                writeXtraAtomCategories, writeXtraAtomCategoriesVideo,
+                                writeXtraAtomComment, writeXtraAtomCommentPicture, writeXtraAtomCommentVideo,
+                                writeXtraAtomKeywords, writeXtraAtomKeywordsVideo,
+                                writeXtraAtomRatingPicture, writeXtraAtomRatingVideo,
+                                writeXtraAtomSubject, writeXtraAtomSubjectPicture, wtraAtomSubjectVideo,
+                                writeXtraAtomSubtitle, writeXtraAtomSubtitleVideo,
+                                writeXtraAtomArtist, writeXtraAtomArtistVideo);                                
                             } catch (Exception ex) { Logger.Error("EXIFTOOL.EXE error...\r\n\r\n" + ex.Message); }
                         }
                         #endregion 
 
-                        Debug.WriteLine("ThreadSaveMetadata: 4");
                         #region Check if all files was updated, if updated, add to verify queue
                         if (!GlobalData.IsApplicationClosing)
                         {
@@ -734,7 +761,6 @@ namespace PhotoTagsSynchronizer
                         }
                         #endregion
 
-                        Debug.WriteLine("ThreadSaveMetadata: 5");
                         if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(metadataUpdated); //E.g. OneDrive doing backup
                         
                         //Files are updated, need updated ImageListeView with new metadata, filesize, lastwritedate, etc...
@@ -746,7 +772,6 @@ namespace PhotoTagsSynchronizer
                         queueSubsetOrginalMetadata.Clear();
                         metadataUpdated.Clear();
 
-                        Debug.WriteLine("ThreadSaveMetadata: 6");
                         //Status updated for user
                         ShowExiftoolSaveProgressStop();
                         UpdateStatusReadWriteStatus_NeedToBeUpated();
