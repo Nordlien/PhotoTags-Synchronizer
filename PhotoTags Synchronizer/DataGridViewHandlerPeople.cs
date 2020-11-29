@@ -90,14 +90,14 @@ namespace PhotoTagsSynchronizer
                 int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, dataGridViewGenericRow);
                 
                 DataGridViewGenericCellStatus dataGridViewGenericCellStatus; 
-                if (rowIndex == -1) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false); //By default, empty and disabled
+                if (rowIndex == -1) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Undefine, false); //By default, empty and disabled
                 else dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex); //Remember current status, in case of updates
 
                 rowIndex = AddRow(dataGridView, metadata, columnIndex, dataGridViewGenericRow, DataGridViewHandler.DeepCopy(region),
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false)); //Other cell for thisrow will by default be Empty and disabled
+                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Undefine, false)); //Other cell for this row will by default be Empty and disabled
 
                 dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
-                if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Disabled || dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
+                if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
                     dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off;
                 DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
 
@@ -107,7 +107,7 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private static void PopulatePeopleTooltip(DataGridView dataGridView, Metadata metadata, int columnIndex, MetadataBrokerTypes metadataBrokerType)
+        private static void PopulatePeopleTooltip(DataGridView dataGridView, Metadata metadata, int columnIndex)
         {
 
             foreach (RegionStructure region in metadata.PersonalRegionList)
@@ -198,9 +198,9 @@ namespace PhotoTagsSynchronizer
                         new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.MicrosoftPhotos));
                     if (metadataMicrosoftPhotos != null) PopulatePeople(dataGridView, metadataMicrosoftPhotos, columnIndex, MetadataBrokerTypes.MicrosoftPhotos);
 
-                    PopulatePeopleTooltip(dataGridView, metadata, columnIndex, MetadataBrokerTypes.ExifTool);
-                    if (metadataWindowsLivePhotoGallery != null) PopulatePeopleTooltip(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, MetadataBrokerTypes.WindowsLivePhotoGallery);
-                    if (metadataMicrosoftPhotos != null) PopulatePeopleTooltip(dataGridView, metadataMicrosoftPhotos, columnIndex, MetadataBrokerTypes.MicrosoftPhotos);
+                    PopulatePeopleTooltip(dataGridView, metadata, columnIndex);
+                    if (metadataWindowsLivePhotoGallery != null) PopulatePeopleTooltip(dataGridView, metadataWindowsLivePhotoGallery, columnIndex);
+                    if (metadataMicrosoftPhotos != null) PopulatePeopleTooltip(dataGridView, metadataMicrosoftPhotos, columnIndex);
                 }
             }
             DataGridViewHandler.Refresh(dataGridView);

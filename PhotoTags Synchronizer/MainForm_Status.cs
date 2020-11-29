@@ -13,28 +13,16 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
-        #region Update Status Bar
-        private void ExiftoolReader_afterNewMediaFoundEvent(FileEntry fileEntry)
-        {
-            lock (commonQueueReadMetadataFromExiftool)
-            {
-                commonQueueReadMetadataFromExiftool.Remove(fileEntry);
-            }
-            UpdateStatusAction("Exiftool read and cached: " + fileEntry.FileName);
-            UpdateStatusReadWriteStatus_NeedToBeUpated(); //Update number count also
-        }
 
+        #region UpdateStatusAction - Remove (+Timer stop)
         private void timerActionStatusRemove_Tick(object sender, EventArgs e)
         {
             timerActionStatusRemove.Stop();
             toolStripStatusAction.Text = "Waiting actions...";
         }
+        #endregion
 
-        private void imageListView1_ThumbnailCaching(object sender, ItemEventArgs e)
-        {
-            UpdateStatusAction(string.Format("Cacheing image: {0}", e.Item.Text));
-        }
-
+        #region UpdateStatusAction - (+Timer start)
         private void UpdateStatusAction(string text)
         {
             if (InvokeRequired)
@@ -47,13 +35,33 @@ namespace PhotoTagsSynchronizer
             timerActionStatusRemove.Stop(); //Restart
             timerActionStatusRemove.Start();
         }
+        #endregion 
 
+        #region UpdatedStatusAction - Trigger by imageListView1_ThumbnailCaching
+        private void imageListView1_ThumbnailCaching(object sender, ItemEventArgs e)
+        {
+            UpdateStatusAction(string.Format("Cacheing image: {0}", e.Item.Text));
+        }
+        #endregion
 
-        private void UpdateStatusReadWriteStatus_NeedToBeUpated()
+        #region UpdateStatusAction & UpdateStatusAllQueueStatus - Trigger by ExiftoolReader_afterNewMediaFoundEvent
+        private void ExiftoolReader_afterNewMediaFoundEvent(FileEntry fileEntry)
+        {
+            lock (commonQueueReadMetadataFromExiftool)
+            {
+                commonQueueReadMetadataFromExiftool.Remove(fileEntry);
+            }
+            UpdateStatusAction("Exiftool read and cached: " + fileEntry.FileName);
+            UpdateStatusAllQueueStatus(); //Update number count also
+        }
+        #endregion
+
+        #region UpdateStatusAllQueueStatus
+        private void UpdateStatusAllQueueStatus()
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action(UpdateStatusReadWriteStatus_NeedToBeUpated));
+                this.BeginInvoke(new Action(UpdateStatusAllQueueStatus));
                 return;
             }
 
@@ -78,7 +86,38 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region UpdateExiftoolSaveStatus - Trigger by Timer Tick
+        private void timerShowExiftoolSaveProgress_Tick(object sender, EventArgs e)
+        {
+            UpdateExiftoolSaveStatus();
+        }
+        #endregion
 
+        #region UpdateExiftoolSaveStatus - Show Exiftool write progress
+        private void UpdateExiftoolSaveStatus()
+        {
+            try
+            {
+                lock (fileSaveSize)
+                {
+                    if (fileSaveSize.Count == 0) return;
+                    foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize)
+                    {
+                        string tempFile = keyValuePair.Key + "_exiftool_tmp";
+                        if (File.Exists(tempFile))
+                        {
+                            long tempFileSize = new FileInfo(tempFile).Length;
+                            if (keyValuePair.Value != tempFileSize) UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
+                            fileSaveSize[keyValuePair.Key] = tempFileSize;
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+        #endregion 
+
+        #region UpdateExiftoolSaveStatus - Helper functions
         Dictionary<string, long> fileSaveSize = new Dictionary<string, long>();
         private void ShowExiftoolSaveProgressClear()
         {
@@ -125,32 +164,10 @@ namespace PhotoTagsSynchronizer
             catch { } //It's not thread safe, if error, don't care
             return countToSave;
         }
+        #endregion 
 
-        private void UpdateStatusSaveStatus()
-        {
-            try
-            {
-                lock (fileSaveSize)
-                {
-                    if (fileSaveSize.Count == 0) return;
-                    foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize)
-                    {
-                        string tempFile = keyValuePair.Key + "_exiftool_tmp";
-                        if (File.Exists(tempFile))
-                        {
-                            long tempFileSize = new FileInfo(tempFile).Length;
-                            if (keyValuePair.Value != tempFileSize) UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
-                            fileSaveSize[keyValuePair.Key] = tempFileSize;
-                        }
-                    }
-                }
-            }
-            catch { }
-        }
+        
 
-        private void timerShowExiftoolSaveProgress_Tick(object sender, EventArgs e)
-        {
-            UpdateStatusSaveStatus();
-        }
+        
     }
 }

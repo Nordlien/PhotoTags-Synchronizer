@@ -183,11 +183,11 @@ namespace WindowsLivePhotoGalleryServer
 
                     //Location
                     metadata.LocationName = table.Rows[0].Field<String>("LocationName");
-                    metadata.LocationLatitude = table.Rows[0].Field<float?>("LocationLat");    //Fixed address location, tagged location in map
-                    metadata.LocationLongitude = table.Rows[0].Field<float?>("LocationLong");  //Fixed address location, tagged location in map
+                    metadata.LocationLatitude = (float?)table.Rows[0].Field<double?>("LocationLat");    //Fixed address location, tagged location in map
+                    metadata.LocationLongitude = (float?)table.Rows[0].Field<double?>("LocationLong");  //Fixed address location, tagged location in map
                                                                                                 //If -999, GPS location missiong, use tagged location
-                    if (table.Rows[0].Field<float?>("Latitude") != -999) metadata.LocationLatitude = (float?)table.Rows[0].Field<float?>("Latitude");       //Real GPS location
-                    if (table.Rows[0].Field<float?>("Longitude") != -999) metadata.LocationLongitude = (float?)table.Rows[0].Field<float?>("Longitude");     //Real GPS location
+                    if (table.Rows[0].Field<double?>("Latitude") != -999) metadata.LocationLatitude = (float?)table.Rows[0].Field<double?>("Latitude");       //Real GPS location
+                    if (table.Rows[0].Field<double?>("Longitude") != -999) metadata.LocationLongitude = (float?)table.Rows[0].Field<double?>("Longitude");     //Real GPS location
                 }
             }
 
@@ -217,10 +217,10 @@ namespace WindowsLivePhotoGalleryServer
                         RegionStructure region = new RegionStructure();
 
                         region.Name = (String)row["Name"];
-                        region.AreaX = (float)Math.Round((float)row["Left"], 5);
-                        region.AreaY = (float)Math.Round((float)row["Top"], 5);
-                        region.AreaWidth = (float)Math.Round((float)row["Width"], 5);
-                        region.AreaHeight = (float)Math.Round((float)row["Height"], 5);
+                        region.AreaX = (float)Math.Round((double)row["Left"], 5);
+                        region.AreaY = (float)Math.Round((double)row["Top"], 5);
+                        region.AreaWidth = (float)Math.Round((double)row["Width"], 5);
+                        region.AreaHeight = (float)Math.Round((double)row["Height"], 5);
                         region.Type = "Face";
                         region.RegionStructureType = RegionStructureTypes.WindowsLivePhotoGalleryDatabase;
                         metadata.PersonalRegionListAddIfNotExists(region);

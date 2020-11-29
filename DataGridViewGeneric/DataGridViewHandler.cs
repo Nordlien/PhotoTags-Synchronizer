@@ -2782,13 +2782,13 @@ namespace DataGridViewGeneric
                 {
                     switch (GetDataGridSizeLargeMediumSmall(dataGridView))
                     {
-                        case DataGridViewSize.Small: //Small DataGridViewSize.Small | DataGridViewSize.RenameSize:
+                        case DataGridViewSize.Small: 
                             cellText += fileEntryColumn.FileName;
                             break;
-                        case DataGridViewSize.Medium: //Medium DataGridViewSize.Medium | DataGridViewSize.RenameSize:
+                        case DataGridViewSize.Medium: 
                             cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FileName;
                             break;
-                        case DataGridViewSize.Large: //Large DataGridViewSize.Large | DataGridViewSize.RenameSize:
+                        case DataGridViewSize.Large: 
                             cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FullFilePath;
                             break;
                         default: 

@@ -117,15 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="textBox2.Text" xml:space="preserve">
-    <value>Media files can contain multimple metadata tags with same purpose. Therfore it important to write same value to all tags. If your application tags is not written back to media file, you can added support for it here. Read Exiftool documentation for supported tags.</value>
-  </data>
   <data name="textBox1.Text" xml:space="preserve">
     <value>When reading metadata tags from media files, the media file can contain multiple tags with same purpose. Sometimes they may have diffrent value. The priority are used to select what tag to use. High number the higher priority.</value>
   </data>
   <metadata name="contextMenuStripMetadataRead.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="textBox2.Text" xml:space="preserve">
+    <value>Media files can contain multimple metadata tags with same purpose. Therfore it important to write same value to all tags. If your application tags is not written back to media file, you can added support for it here. Read Exiftool documentation for supported tags.</value>
+  </data>
   <data name="textBoxConfigFilenameDateFormats.Text" xml:space="preserve">
     <value>yyyy-MM-dd HH-mm-ss
 yyyy-MM-dd_HH-mm-ss

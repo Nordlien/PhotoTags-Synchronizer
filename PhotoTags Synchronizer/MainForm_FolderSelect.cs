@@ -36,7 +36,7 @@ namespace PhotoTagsSynchronizer
 
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //Even when 0 selected files, allocate data and flags, etc...
 
-            UpdateStatusReadWriteStatus_NeedToBeUpated();
+            UpdateStatusAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
 

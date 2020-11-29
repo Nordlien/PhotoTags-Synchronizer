@@ -92,7 +92,7 @@ namespace PhotoTagsSynchronizer
         private void timerStartThread_Tick(object sender, EventArgs e)
         {
             StartThreads();
-            SetWaitQueueEmptyFlag();
+            TriggerAutoResetEventQueueEmpty();
         }
 
         private void StartThreads()
@@ -127,7 +127,7 @@ namespace PhotoTagsSynchronizer
                 CommonQueueSaveMetadataUpdatedByUserCount() > 0;
         }
 
-        private void SetWaitQueueEmptyFlag()
+        private void TriggerAutoResetEventQueueEmpty()
         {
             if (CommonQueueSaveThumbnailToDatabaseCount() == 0 &&
                 CommonQueueReadMetadataFromExiftoolCount() == 0 &&
@@ -245,7 +245,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
             StartThreads();
-            SetWaitQueueEmptyFlag();
+            TriggerAutoResetEventQueueEmpty();
         }
         #endregion
 
@@ -289,7 +289,7 @@ namespace PhotoTagsSynchronizer
                 if (databaseAndCacheThumbnail.ReadCache(fileEntryImage) == null) AddQueueThumbnailMedia(fileEntryImage);
             }
             StartThreads();
-            SetWaitQueueEmptyFlag();
+            TriggerAutoResetEventQueueEmpty();
         }
         #endregion
 
@@ -410,10 +410,10 @@ namespace PhotoTagsSynchronizer
                         {
                             Logger.Error("ThreadSaveThumbnail: " + ex.Message);
                         }
-                        UpdateStatusReadWriteStatus_NeedToBeUpated();
+                        UpdateStatusAllQueueStatus();
                     }
                     StartThreads();
-                    SetWaitQueueEmptyFlag();
+                    TriggerAutoResetEventQueueEmpty();
                 });
 
                 _ThreadThumbnailMedia.Start();
@@ -499,10 +499,10 @@ namespace PhotoTagsSynchronizer
                             Logger.Error("ThreadReadMediaPosterSaveRegions failt to create 'face' region thumbails" + e.Message);
                         }
 
-                        UpdateStatusReadWriteStatus_NeedToBeUpated();
+                        UpdateStatusAllQueueStatus();
                     }
                     StartThreads();
-                    SetWaitQueueEmptyFlag();
+                    TriggerAutoResetEventQueueEmpty();
                 });
 
                 _ThreadThumbnailRegion.Start();
@@ -555,11 +555,11 @@ namespace PhotoTagsSynchronizer
                 {
                     metadataReadQueue.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
                 }
-                UpdateStatusReadWriteStatus_NeedToBeUpated();
+                UpdateStatusAllQueueStatus();
                 lock (metadataReadQueue) metadataReadQueueCount = metadataReadQueue.Count;
             }
             StartThreads();
-            SetWaitQueueEmptyFlag();
+            TriggerAutoResetEventQueueEmpty();
         }
         #endregion
 
@@ -574,7 +574,7 @@ namespace PhotoTagsSynchronizer
                     while (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCount() > 0 && !GlobalData.IsApplicationClosing)
                     {
                         EmptyQueue(MetadataBrokerTypes.WindowsLivePhotoGallery, databaseAndCacheMetadataWindowsLivePhotoGallery, databaseWindowsLivePhotGallery, commonQueueReadMetadataFromWindowsLivePhotoGallery);
-                        UpdateStatusReadWriteStatus_NeedToBeUpated();
+                        UpdateStatusAllQueueStatus();
                     }
 
                 });
@@ -596,7 +596,7 @@ namespace PhotoTagsSynchronizer
                     while (CommonQueueReadMetadataFromMicrosoftPhotosCount() > 0 && !GlobalData.IsApplicationClosing)
                     {
                         EmptyQueue(MetadataBrokerTypes.MicrosoftPhotos, databaseAndCacheMetadataMicrosoftPhotos, databaseWindowsPhotos, commonQueueReadMetadataFromMicrosoftPhotos);
-                        UpdateStatusReadWriteStatus_NeedToBeUpated();
+                        UpdateStatusAllQueueStatus();
                     }
                     
                 });
@@ -611,7 +611,7 @@ namespace PhotoTagsSynchronizer
         {
             lock (metadataToSave) commonQueueSaveMetadataUpdatedByUser.Add(metadataToSave);
             lock (metadataOriginal) commonOrigialMetadataBeforeUserUpdate.Add(metadataOriginal);
-            UpdateStatusReadWriteStatus_NeedToBeUpated();   
+            UpdateStatusAllQueueStatus();   
         }
         #endregion
 
@@ -619,7 +619,7 @@ namespace PhotoTagsSynchronizer
         public void AddQueueVerifyMetadata(Metadata metadataToVerifyAfterSavedByExiftool)
         {            
             lock (commonQueueMetadataWrittenByExiftoolReadyToVerify) commonQueueMetadataWrittenByExiftoolReadyToVerify.Add(metadataToVerifyAfterSavedByExiftool);
-            UpdateStatusReadWriteStatus_NeedToBeUpated();
+            UpdateStatusAllQueueStatus();
         }
         #endregion 
 
@@ -774,7 +774,7 @@ namespace PhotoTagsSynchronizer
 
                         //Status updated for user
                         ShowExiftoolSaveProgressStop();
-                        UpdateStatusReadWriteStatus_NeedToBeUpated();
+                        UpdateStatusAllQueueStatus();
 
                         Thread.Sleep(100); //Wait in case of loop
                     }
@@ -876,13 +876,13 @@ namespace PhotoTagsSynchronizer
 
                             mediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
 
-                            UpdateStatusReadWriteStatus_NeedToBeUpated();
+                            UpdateStatusAllQueueStatus();
                         }
                     }
 
                     exiftoolReader.MetadataGroupPrioityWrite(); //Updated json config file if new tags found
                     StartThreads();
-                    SetWaitQueueEmptyFlag();
+                    TriggerAutoResetEventQueueEmpty();
                 });
 
                 _ThreadExiftool.Start();

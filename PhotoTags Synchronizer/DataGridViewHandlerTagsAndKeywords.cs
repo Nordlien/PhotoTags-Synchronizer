@@ -108,23 +108,15 @@ namespace PhotoTagsSynchronizer
                     int rowIndex = AddRow(dataGridView, columnIndex, 
                         new DataGridViewGenericRow(headerKeywords, tag.Keyword, ReadWriteAccess.ForceCellToReadOnly), 
                         tag.Keyword, 
-                        new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));
+                        new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Undefine, true));
 
                     //Updated default cell status with new staus
-                    DataGridViewHandler.SetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex,
-                        DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) | metadataBrokerType);
-                    DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex, 
-                        (DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off);
-
                     DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex);
-                    /*string toolTipText = DataGridViewHandler.GetCellToolTipText(dataGridView, columnIndex, rowIndex);
-                    string addToolTip = dataGridViewGenericCellStatus.SwitchState.ToString() + " " + dataGridViewGenericCellStatus.MetadataBrokerTypes.ToString();
-                    if (!toolTipText.Contains(addToolTip)) toolTipText += addToolTip + "\r\n";                         
-                    DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, toolTipText);*/
-                    
-                    DataGridViewHandler.SetCellStatusDefaultWhenRowAdded(dataGridView, DataGridViewHandler.GetRowCount(dataGridView) - 1, 
-                        new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false));
-                    DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, DataGridViewHandler.GetRowCount(dataGridView) - 1);
+
+                    dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
+                    if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
+                        dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off;
+                    DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
                 }
             }
 
@@ -134,12 +126,20 @@ namespace PhotoTagsSynchronizer
             
             for (int rowIndex = keywordsStarts; rowIndex <= keywordsEnds; rowIndex++)
             {
-                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                SwitchStates switchStates = DataGridViewHandler.GetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex);
-                if (switchStates == SwitchStates.On)
-                {
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex);
+                if ((dataGridViewGenericCellStatus.MetadataBrokerTypes & metadataBrokerType) == metadataBrokerType)
+                {                                        
+
+                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+
                     if (!metadata.PersonalKeywordTags.Contains(new KeywordTag(dataGridViewGenericRow.RowName)))
-                        DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex, SwitchStates.Off); 
+                    {
+                        if ((dataGridViewGenericCellStatus.MetadataBrokerTypes & metadataBrokerType) == MetadataBrokerTypes.ExifTool && dataGridViewGenericCellStatus.SwitchState == SwitchStates.On)
+                            dataGridViewGenericCellStatus.SwitchState = SwitchStates.Undefine;
+
+                        dataGridViewGenericCellStatus.MetadataBrokerTypes &= ~metadataBrokerType; //Remove flag if line deleted
+                        DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+                    }
                 }
             }
         }

@@ -1207,7 +1207,7 @@ namespace Exiftool
 
                                 break;
                             case CompositeTags.KeywordsMicrosoft:
-                            case "XPKeywords": //Always ; sepearated list | EXIF:IFD0 XPKeywords Keyword1;Keyword2;Keyword3
+                            case "XPKeywords": 
                                 MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.KeywordsMicrosoft);
                                 List<string> keywordListXP = parameter.Split(';').ToList();
                                 

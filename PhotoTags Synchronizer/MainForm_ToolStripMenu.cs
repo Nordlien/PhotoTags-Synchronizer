@@ -288,7 +288,7 @@ namespace PhotoTagsSynchronizer
             filesCutCopyPasteDrag.DeleteFilesMetadataForReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
 
             FilesSelected();
-            UpdateStatusReadWriteStatus_NeedToBeUpated();
+            UpdateStatusAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
         #endregion 
@@ -299,7 +299,7 @@ namespace PhotoTagsSynchronizer
             filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(folderTreeViewFolder, imageListView1);
 
             FilesSelected();
-            UpdateStatusReadWriteStatus_NeedToBeUpated();
+            UpdateStatusAllQueueStatus();
         }
         #endregion
 
@@ -323,7 +323,7 @@ namespace PhotoTagsSynchronizer
             imageListView1.Refresh();
             Application.DoEvents();
             FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
-            UpdateStatusReadWriteStatus_NeedToBeUpated();
+            UpdateStatusAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -344,7 +344,7 @@ namespace PhotoTagsSynchronizer
             folderTreeViewFolder.Enabled = true;
             imageListView1.Enabled = true;
             
-            UpdateStatusReadWriteStatus_NeedToBeUpated();
+            UpdateStatusAllQueueStatus();
 
         }
         #endregion

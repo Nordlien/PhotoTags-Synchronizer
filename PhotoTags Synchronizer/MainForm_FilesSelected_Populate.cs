@@ -221,7 +221,7 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
                 PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewInvoke(imageListViewSelectItems);
-                UpdateStatusReadWriteStatus_NeedToBeUpated();
+                UpdateStatusAllQueueStatus();
             }
         }
 
