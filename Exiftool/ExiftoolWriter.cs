@@ -339,13 +339,11 @@ namespace Exiftool
                     }
 
                     sw.WriteLine(tagsToWrite);
-                    sw.WriteLine(metadataToWrite.FileFullPath);
-                    sw.WriteLine("-execute");
                 } 
             }
 
 
-                        #region Exiftool Write
+            #region Exiftool Write
             String path = NativeMethods.GetFullPathOfExeFile("exiftool.exe");
             string arguments = "-charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"" + NativeMethods.ShortFileName(exiftoolArgFile) + "\"";
             bool hasExiftoolErrorMessage = false;

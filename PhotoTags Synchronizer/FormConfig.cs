@@ -18,6 +18,8 @@ namespace PhotoTagsSynchronizer
         private Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryCopy = new Dictionary<MetadataPriorityKey, MetadataPriorityValues>();
         private AutoCorrect autoCorrect = new AutoCorrect();
 
+        private bool isPopulation = false;
+
 
         public Config()
         {
@@ -27,6 +29,7 @@ namespace PhotoTagsSynchronizer
         #region All tabs - Init - Save - Close
         public void Init()
         {
+            isPopulation = true;
             //PopulateApplication()
             PopulateApplication();
 
@@ -43,6 +46,7 @@ namespace PhotoTagsSynchronizer
             PopulateAutoCorrectPoperties();
             //Metadata Write
             PopulateMetadataWritePoperties();
+            isPopulation = false;
         }
 
         private void Config_Load(object sender, EventArgs e)
@@ -117,37 +121,6 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
             Properties.Settings.Default.ApplicationPreferredLanguages = textBoxApplicationPreferredLanguages.Text;
         }
-
-        #region Metadata Write - Populate and Save
-        private void PopulateMetadataWritePoperties()
-        {
-            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties());
-
-            textBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
-            textBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.WriteMetadataKeywordAdd;
-            textBoxMetadataWriteKeywordDelete.Text = Properties.Settings.Default.WriteMetadataKeywordDelete;
-
-            checkBoxWriteXtraAtomAlbumVideo.Checked = Properties.Settings.Default.XtraAtomAlbumVideo;
-            checkBoxWriteXtraAtomCategoriesVideo.Checked = Properties.Settings.Default.XtraAtomCategoriesVideo;
-            checkBoxWriteXtraAtomCommentPicture.Checked = Properties.Settings.Default.XtraAtomCommentPicture;
-            checkBoxWriteXtraAtomCommentVideo.Checked = Properties.Settings.Default.XtraAtomCommentVideo;
-            checkBoxWriteXtraAtomKeywordsVideo.Checked = Properties.Settings.Default.XtraAtomKeywordsVideo;
-            checkBoxWriteXtraAtomRatingPicture.Checked = Properties.Settings.Default.XtraAtomRatingPicture;
-            checkBoxWriteXtraAtomRatingVideo.Checked = Properties.Settings.Default.XtraAtomRatingVideo;
-            checkBoxWriteXtraAtomSubjectPicture.Checked = Properties.Settings.Default.XtraAtomSubjectPicture;
-            checkBoxWriteXtraAtomSubjectVideo.Checked = Properties.Settings.Default.XtraAtomSubjectVideo;
-            checkBoxWriteXtraAtomSubtitleVideo.Checked = Properties.Settings.Default.XtraAtomSubtitleVideo;
-            checkBoxWriteXtraAtomArtistVideo.Checked = Properties.Settings.Default.XtraAtomArtistVideo;
-
-            textBoxWriteXtraAtomArtist.Text = Properties.Settings.Default.XtraAtomArtistVariable;
-            textBoxWriteXtraAtomAlbum.Text = Properties.Settings.Default.XtraAtomAlbumVariable;
-            textBoxWriteXtraAtomCategories.Text = Properties.Settings.Default.XtraAtomCategoriesVariable;
-            textBoxWriteXtraAtomComment.Text = Properties.Settings.Default.XtraAtomCommentVariable;
-            textBoxWriteXtraAtomKeywords.Text = Properties.Settings.Default.XtraAtomKeywordsVariable;
-            textBoxWriteXtraAtomSubject.Text = Properties.Settings.Default.XtraAtomSubjectVariable;
-            textBoxWriteXtraAtomSubtitle.Text = Properties.Settings.Default.XtraAtomSubtitleVariable;
-        }
-        #endregion
 
         #region AutoCorrect - Populate and Save
         private void PopulateAutoCorrectListOrder(ImageListViewOrder imageListViewOrder, List<MetadataBrokerTypes> listPriority)
@@ -478,7 +451,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Metadata Read - Populate and Save
+        #region Metadata Read - Populate
         private void PopulateMetadataReadToolStripMenu()
         {
             SortedDictionary<string, string> listAllTags = new CompositeTags().ListAllTags();
@@ -821,28 +794,255 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Metadata Write - Insert Variable from after Selected in Combobox
-        private void comboBoxMetadataWriteStandardTags_SelectionChangeCommitted(object sender, EventArgs e)
+        #region Metadata Write - Populate Window
+        private void PopulateMetadataWritePoperties()
         {
+            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties());
+            comboBoxWriteXtraAtomVariables.Items.AddRange(Metadata.ListOfProperties());
+            comboBoxMetadataWriteKeywordTags.Items.AddRange(Metadata.ListOfProperties());
 
-            textBoxMetadataWriteTags.Focus();
-            var insertText = comboBoxMetadataWriteStandardTags.Text;
-            var selectionIndex = textBoxMetadataWriteTags.SelectionStart;
-            textBoxMetadataWriteTags.Text = textBoxMetadataWriteTags.Text.Remove(selectionIndex, textBoxMetadataWriteTags.SelectionLength);
-            textBoxMetadataWriteTags.Text = textBoxMetadataWriteTags.Text.Insert(selectionIndex, insertText);
-            textBoxMetadataWriteTags.SelectionStart = selectionIndex + insertText.Length;
+            textBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
+            textBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.WriteMetadataKeywordAdd;
+            textBoxMetadataWriteKeywordDelete.Text = Properties.Settings.Default.WriteMetadataKeywordDelete;
+
+            checkBoxWriteXtraAtomAlbumVideo.Checked = Properties.Settings.Default.XtraAtomAlbumVideo;
+            checkBoxWriteXtraAtomCategoriesVideo.Checked = Properties.Settings.Default.XtraAtomCategoriesVideo;
+            checkBoxWriteXtraAtomCommentPicture.Checked = Properties.Settings.Default.XtraAtomCommentPicture;
+            checkBoxWriteXtraAtomCommentVideo.Checked = Properties.Settings.Default.XtraAtomCommentVideo;
+            checkBoxWriteXtraAtomKeywordsVideo.Checked = Properties.Settings.Default.XtraAtomKeywordsVideo;
+            checkBoxWriteXtraAtomRatingPicture.Checked = Properties.Settings.Default.XtraAtomRatingPicture;
+            checkBoxWriteXtraAtomRatingVideo.Checked = Properties.Settings.Default.XtraAtomRatingVideo;
+            checkBoxWriteXtraAtomSubjectPicture.Checked = Properties.Settings.Default.XtraAtomSubjectPicture;
+            checkBoxWriteXtraAtomSubjectVideo.Checked = Properties.Settings.Default.XtraAtomSubjectVideo;
+            checkBoxWriteXtraAtomSubtitleVideo.Checked = Properties.Settings.Default.XtraAtomSubtitleVideo;
+            checkBoxWriteXtraAtomArtistVideo.Checked = Properties.Settings.Default.XtraAtomArtistVideo;
+
+            textBoxWriteXtraAtomArtist.Text = Properties.Settings.Default.XtraAtomArtistVariable;
+            textBoxWriteXtraAtomAlbum.Text = Properties.Settings.Default.XtraAtomAlbumVariable;
+            textBoxWriteXtraAtomCategories.Text = Properties.Settings.Default.XtraAtomCategoriesVariable;
+            textBoxWriteXtraAtomComment.Text = Properties.Settings.Default.XtraAtomCommentVariable;
+            textBoxWriteXtraAtomKeywords.Text = Properties.Settings.Default.XtraAtomKeywordsVariable;
+            textBoxWriteXtraAtomSubject.Text = Properties.Settings.Default.XtraAtomSubjectVariable;
+            textBoxWriteXtraAtomSubtitle.Text = Properties.Settings.Default.XtraAtomSubtitleVariable;
         }
         #endregion
 
+        #region Metadata Write - Insert Variable from after Selected in Combobox
+        private void SelectionChangeCommitted(TextBox textBox, string insertText)
+        {
+            if (!isPopulation)
+            {
+                textBox.Focus();
+                var selectionIndex = textBox.SelectionStart;
+                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
+                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
+                textBox.SelectionStart = selectionIndex + insertText.Length;
+            }
+        }
+
+        private void comboBoxMetadataWriteStandardTags_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SelectionChangeCommitted(textBoxMetadataWriteTags, comboBoxMetadataWriteStandardTags.Text);
+        }
+        
+
         private void comboBoxApplicationLanguages_SelectionChangeCommitted(object sender, EventArgs e)
         {
-
-            textBoxApplicationPreferredLanguages.Focus();
             var insertText = comboBoxApplicationLanguages.Text.Split(' ', '\t')[0];
-            var selectionIndex = textBoxApplicationPreferredLanguages.SelectionStart;
-            textBoxApplicationPreferredLanguages.Text = textBoxApplicationPreferredLanguages.Text.Remove(selectionIndex, textBoxApplicationPreferredLanguages.SelectionLength);
-            textBoxApplicationPreferredLanguages.Text = textBoxApplicationPreferredLanguages.Text.Insert(selectionIndex, insertText);
-            textBoxApplicationPreferredLanguages.SelectionStart = selectionIndex + insertText.Length;
+            SelectionChangeCommitted(textBoxApplicationPreferredLanguages, insertText);
         }
+
+        private void comboBoxMetadataWriteKeywordTags_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (activeEnterDeleteKeywords != null) SelectionChangeCommitted(activeEnterDeleteKeywords, comboBoxMetadataWriteKeywordTags.Text);
+        }
+
+        private void comboBoxWriteXtraAtomVariables_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (activeXtraAtomTextbox != null) SelectionChangeCommitted(activeXtraAtomTextbox, comboBoxWriteXtraAtomVariables.Text);
+        }
+        #endregion
+
+        #region Metadata Write - Set Active XtraAtom Textbox
+        TextBox activeXtraAtomTextbox = null;
+        private void textBoxWriteXtraAtomKeywords_Enter(object sender, EventArgs e)
+        {
+            activeXtraAtomTextbox = (TextBox)sender;
+        }
+
+        private void textBoxWriteXtraAtomCategories_Enter(object sender, EventArgs e)
+        {
+            activeXtraAtomTextbox = (TextBox)sender;
+        }
+
+        private void textBoxWriteXtraAtomAlbum_Enter(object sender, EventArgs e)
+        {
+            activeXtraAtomTextbox = (TextBox)sender;
+        }
+
+        private void textBoxWriteXtraAtomSubtitle_Enter(object sender, EventArgs e)
+        {
+            activeXtraAtomTextbox = (TextBox)sender;
+        }
+
+        private void textBoxWriteXtraAtomSubject_Enter(object sender, EventArgs e)
+        {
+            activeXtraAtomTextbox = (TextBox)sender;
+        }
+
+        private void textBoxWriteXtraAtomComment_Enter(object sender, EventArgs e)
+        {
+            activeXtraAtomTextbox = (TextBox)sender;
+        }
+
+        private void textBoxWriteXtraAtomArtist_Enter(object sender, EventArgs e)
+        {
+            activeXtraAtomTextbox = (TextBox)sender;
+        }
+        #endregion
+
+        #region Metadata Write - Set activeEnterDeleteKeywords TextBox
+        TextBox activeEnterDeleteKeywords = null;
+        private void textBoxMetadataWriteKeywordDelete_Enter(object sender, EventArgs e)
+        {
+            activeEnterDeleteKeywords = (TextBox)sender;
+        }
+
+        private void textBoxMetadataWriteKeywordAdd_Enter(object sender, EventArgs e)
+        {
+            activeEnterDeleteKeywords = (TextBox)sender;
+        }
+        #endregion
+
     }
 }
+
+/*
+-Keywords-={KeywordItem}
+-Subject-={KeywordItem}
+-TagsList-={KeywordItem}
+-CatalogSets-={KeywordItem}
+
+-Keywords+={KeywordItem}
+-Subject+={KeywordItem}
+-TagsList+={KeywordItem}
+-CatalogSets+={KeywordItem}
+
+
+-charset
+filename=UTF8
+-overwrite_original
+-m
+-F
+{IfLocationDateTimeChanged}-XMP-exif:GPSDateTime={LocationDateTimeUTC}
+{IfLocationDateTimeChanged}-XMP:GPSDateTime={LocationDateTimeUTC}
+{IfLocationDateTimeChanged}-GPS:GPSDateStamp={LocationDateTimeDateStamp}
+{IfLocationDateTimeChanged}-GPS:GPSTimeStamp={LocationDateTimeTimeStamp}
+{IfLocationDateTimeChanged}-GPSDateStamp={LocationDateTimeDateStamp}
+{IfLocationDateTimeChanged}-GPSTimeStamp={LocationDateTimeTimeStamp}
+{IfMediaDateTakenChanged}-Composite:SubSecCreateDate={MediaDateTaken}
+{IfMediaDateTakenChanged}-EXIF:CreateDate={MediaDateTaken}
+{IfMediaDateTakenChanged}-XMP-xmp:CreateDate={MediaDateTaken}
+{IfMediaDateTakenChanged}-XMP:CreateDate={MediaDateTaken}
+{IfMediaDateTakenChanged}-XMP:DateTimeOriginal={MediaDateTaken}
+{IfMediaDateTakenChanged}-IPTC:DigitalCreationDate={MediaDateTakenDateStamp}
+{IfMediaDateTakenChanged}-IPTC:DigitalCreationTime={MediaDateTakenTimeStamp}
+{IfMediaDateTakenChanged}-Composite:SubSecDateTimeOriginal={MediaDateTaken}
+{IfMediaDateTakenChanged}-ExifIFD:DateTimeOriginal={MediaDateTaken}
+{IfMediaDateTakenChanged}-EXIF:DateTimeOriginal={MediaDateTaken}
+{IfMediaDateTakenChanged}-XMP-photoshop:DateCreated={MediaDateTaken}
+{IfMediaDateTakenChanged}-IPTC:DateCreated={MediaDateTakenDateStamp}
+{IfMediaDateTakenChanged}-IPTC:TimeCreated={MediaDateTakenTimeStamp}
+{IfMediaDateTakenChanged}-CreateDate={MediaDateTaken}
+{IfPersonalAlbumChanged}-XMP-xmpDM:Album={PersonalAlbum}
+{IfPersonalAlbumChanged}-XMP:Album={PersonalAlbum}
+{IfPersonalAlbumChanged}-IPTC:Headline={PersonalAlbum}
+{IfPersonalAlbumChanged}-XMP-photoshop:Headline={PersonalAlbum}
+{IfPersonalAlbumChanged}-ItemList:Album={PersonalAlbum}
+{IfPersonalAuthorChanged}-EXIF:Artist={PersonalAuthor}
+{IfPersonalAuthorChanged}-IPTC:By-line={PersonalAuthor}
+{IfPersonalAuthorChanged}-EXIF:XPAuthor={PersonalAuthor}
+{IfPersonalAuthorChanged}-ItemList:Author={PersonalAuthor}
+{IfPersonalAuthorChanged}-Creator={PersonalAuthor}
+{IfPersonalCommentsChanged}-File:Comment={PersonalComments}
+{IfPersonalCommentsChanged}-ExifIFD:UserComment={PersonalComments}
+{IfPersonalCommentsChanged}-EXIF:UserComment={PersonalComments}
+{IfPersonalCommentsChanged}-EXIF:XPComment={PersonalComments}
+{IfPersonalCommentsChanged}-XMP-album:Notes={PersonalComments}
+{IfPersonalCommentsChanged}-XMP-acdsee:Notes={PersonalComments}
+{IfPersonalCommentsChanged}-XMP:UserComment={PersonalComments}
+{IfPersonalCommentsChanged}-XMP:Notes={PersonalComments}
+{IfPersonalCommentsChanged}-ItemList:Comment={PersonalComments}
+{IfPersonalDescriptionChanged}-EXIF:ImageDescription={PersonalDescription}
+{IfPersonalDescriptionChanged}-XMP:ImageDescription={PersonalDescription}
+{IfPersonalDescriptionChanged}-XMP-dc:Description={PersonalDescription}
+{IfPersonalDescriptionChanged}-XMP:Description={PersonalDescription}
+{IfPersonalDescriptionChanged}-IPTC:Caption-Abstract={PersonalDescription}
+{IfPersonalDescriptionChanged}-ItemList:Description={PersonalDescription}
+{IfPersonalDescriptionChanged}-Description={PersonalDescription}
+{IfPersonalRatingChanged}-XMP-microsoft:RatingPercent={PersonalRatingPercent}
+{IfPersonalRatingChanged}-XMP:RatingPercent={PersonalRatingPercent}
+{IfPersonalRatingChanged}-EXIF:RatingPercent={PersonalRatingPercent}
+{IfPersonalRatingChanged}-XMP-xmp:Rating={PersonalRating}
+{IfPersonalRatingChanged}-XMP:Rating={PersonalRating}
+{IfPersonalRatingChanged}-XMP-acdsee:Rating={PersonalRating}
+{IfPersonalRatingChanged}-EXIF:Rating={PersonalRating}
+{IfPersonalRatingChanged}-Rating={PersonalRating}
+{IfPersonalTitleChanged}-ItemList:Title={PersonalTitle}
+{IfPersonalTitleChanged}-EXIF:XPTitle={PersonalTitle}
+{IfPersonalTitleChanged}-XMP-dc:Title={PersonalTitle}
+{IfPersonalTitleChanged}-XMP:Title={PersonalTitle}
+{IfPersonalTitleChanged}-ItemList:Title={PersonalTitle}
+{IfLocationLatitudeChanged}-EXIF:GPSLatitude={LocationLatitude}
+{IfLocationLatitudeChanged}-XMP-exif:GPSLatitude={LocationLatitude}
+{IfLocationLatitudeChanged}-XMP:GPSLatitude={LocationLatitude}
+{IfLocationLatitudeChanged}-GPS:GPSLatitude={LocationLatitude}
+{IfLocationLatitudeChanged}-GPSLatitude={LocationLatitude}
+{IfLocationLongitudeChanged}-EXIF:GPSLongitude={LocationLongitude}
+{IfLocationLongitudeChanged}-XMP-exif:GPSLongitude={LocationLongitude}
+{IfLocationLongitudeChanged}-XMP:GPSLongitude={LocationLongitude}
+{IfLocationLongitudeChanged}-GPS:GPSLongitude={LocationLongitude}
+{IfLocationLongitudeChanged}-GPSLongitude={LocationLongitude}
+{IfLocationNameChanged}-XMP:Location={LocationName}
+{IfLocationNameChanged}-XMP-iptcCore:Location={LocationName}
+{IfLocationNameChanged}-XMP-iptcExt:LocationShownSublocation={LocationName}
+{IfLocationNameChanged}-XMP:LocationCreatedSublocation={LocationName}
+{IfLocationNameChanged}-IPTC:Sub-location={LocationName}
+{IfLocationNameChanged}-Sub-location={LocationName}
+{IfLocationNameChanged}-Location={LocationName}
+{IfLocationStateChanged}-XMP-iptcExt:LocationShownProvinceState={LocationState}
+{IfLocationStateChanged}-XMP-photoshop:State={LocationState}
+{IfLocationStateChanged}-IPTC:Province-State={LocationState}
+{IfLocationStateChanged}-XMP:State={LocationState}
+{IfLocationStateChanged}-State={LocationState}
+{IfLocationCityChanged}-XMP-photoshop:City={LocationCity}
+{IfLocationCityChanged}-XMP-iptcExt:LocationShownCity={LocationCity}
+{IfLocationCityChanged}-IPTC:City={LocationCity}
+{IfLocationCityChanged}-XMP:City={LocationCity}
+{IfLocationCityChanged}-City={LocationCity}
+{IfLocationCountryChanged}-IPTC:Country-PrimaryLocationName={LocationCountry}
+{IfLocationCountryChanged}-XMP-photoshop:Country={LocationCountry}
+{IfLocationCountryChanged}-XMP-iptcExt:LocationShownCountryName={LocationCountry}
+{IfLocationCountryChanged}-XMP:Country={LocationCountry}
+{IfLocationCountryChanged}-Country={LocationCountry}
+{IfPersonalRegionChanged}-ImageRegion=
+{IfPersonalRegionChanged}-RegionInfoMP={PersonalRegionInfoMP}
+{IfPersonalRegionChanged}-RegionInfo={PersonalRegionInfo}
+{IfPersonalKeywordsChanged}-Subject=
+{IfPersonalKeywordsChanged}-Keyword=
+{IfPersonalKeywordsChanged}-Keywords=
+{IfPersonalKeywordsChanged}-XPKeywords=
+{IfPersonalKeywordsChanged}-Category=
+{IfPersonalKeywordsChanged}-Categories=
+{IfPersonalKeywordsChanged}-CatalogSets=
+{IfPersonalKeywordsChanged}-HierarchicalKeywords=
+{IfPersonalKeywordsChanged}-HierarchicalSubject=
+{IfPersonalKeywordsChanged}-LastKeywordXMP=
+{IfPersonalKeywordsChanged}-LastKeywordIPTC=
+{IfPersonalKeywordsChanged}-TagsList=
+{IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}
+{IfPersonalKeywordsChanged}-XPKeywords={PersonalKeywordsList}
+{IfPersonalKeywordsChanged}{PersonalKeywordItems}
+{FileFullPath}
+-execute
+*/

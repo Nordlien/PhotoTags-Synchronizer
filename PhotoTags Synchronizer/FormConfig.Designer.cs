@@ -65,6 +65,7 @@
             this.tabPageMetadataWrite = new System.Windows.Forms.TabPage();
             this.panelMetadataWrite = new System.Windows.Forms.Panel();
             this.groupBoxMetadataWriteKeywordItems = new System.Windows.Forms.GroupBox();
+            this.comboBoxMetadataWriteKeywordTags = new System.Windows.Forms.ComboBox();
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.textBoxMetadataWriteKeywordDelete = new System.Windows.Forms.TextBox();
@@ -187,6 +188,7 @@
             this.dataGridViewExtended1 = new DataGridViewExtended.DataGridViewExtended();
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
+            this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
@@ -216,6 +218,7 @@
             this.groupBoxDateTimeDigitized.SuspendLayout();
             this.tabPageCameraOwner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).BeginInit();
+            this.panelAvoidResizeIssues.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlConfig
@@ -229,11 +232,12 @@
             this.tabControlConfig.Controls.Add(this.tabPageFileDateTimeFormats);
             this.tabControlConfig.Controls.Add(this.tabPageAutoCorrect);
             this.tabControlConfig.Controls.Add(this.tabPageCameraOwner);
-            this.tabControlConfig.Location = new System.Drawing.Point(0, 0);
+            this.tabControlConfig.Location = new System.Drawing.Point(2, 2);
             this.tabControlConfig.Margin = new System.Windows.Forms.Padding(2);
+            this.tabControlConfig.MinimumSize = new System.Drawing.Size(739, 777);
             this.tabControlConfig.Name = "tabControlConfig";
             this.tabControlConfig.SelectedIndex = 0;
-            this.tabControlConfig.Size = new System.Drawing.Size(739, 777);
+            this.tabControlConfig.Size = new System.Drawing.Size(895, 777);
             this.tabControlConfig.TabIndex = 0;
             // 
             // tabPageApplication
@@ -241,7 +245,7 @@
             this.tabPageApplication.Controls.Add(this.panelApplication);
             this.tabPageApplication.Location = new System.Drawing.Point(4, 25);
             this.tabPageApplication.Name = "tabPageApplication";
-            this.tabPageApplication.Size = new System.Drawing.Size(731, 711);
+            this.tabPageApplication.Size = new System.Drawing.Size(887, 748);
             this.tabPageApplication.TabIndex = 5;
             this.tabPageApplication.Text = "Application";
             this.tabPageApplication.UseVisualStyleBackColor = true;
@@ -254,7 +258,7 @@
             this.panelApplication.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelApplication.Location = new System.Drawing.Point(0, 0);
             this.panelApplication.Name = "panelApplication";
-            this.panelApplication.Size = new System.Drawing.Size(731, 711);
+            this.panelApplication.Size = new System.Drawing.Size(887, 748);
             this.panelApplication.TabIndex = 0;
             // 
             // groupBox2
@@ -269,7 +273,7 @@
             this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
             this.groupBox2.Location = new System.Drawing.Point(3, 128);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(725, 156);
+            this.groupBox2.Size = new System.Drawing.Size(881, 156);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nominatim look-up";
@@ -316,7 +320,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(163, 68);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(557, 22);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(713, 22);
             this.textBoxApplicationPreferredLanguages.TabIndex = 3;
             // 
             // comboBoxApplicationLanguages
@@ -527,7 +531,7 @@
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(163, 38);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(557, 24);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(713, 24);
             this.comboBoxApplicationLanguages.TabIndex = 4;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
             // 
@@ -541,7 +545,7 @@
             this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(725, 119);
+            this.groupBox1.Size = new System.Drawing.Size(881, 119);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thumbnail size";
@@ -590,7 +594,7 @@
             this.tabPageMetadataRead.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageMetadataRead.Name = "tabPageMetadataRead";
             this.tabPageMetadataRead.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageMetadataRead.Size = new System.Drawing.Size(731, 559);
+            this.tabPageMetadataRead.Size = new System.Drawing.Size(887, 748);
             this.tabPageMetadataRead.TabIndex = 0;
             this.tabPageMetadataRead.Text = "Metadata Read";
             this.tabPageMetadataRead.UseVisualStyleBackColor = true;
@@ -604,7 +608,7 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(725, 36);
+            this.textBox1.Size = new System.Drawing.Size(881, 36);
             this.textBox1.TabIndex = 2;
             this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
@@ -623,7 +627,7 @@
             this.dataGridViewMetadataReadPriority.Name = "dataGridViewMetadataReadPriority";
             this.dataGridViewMetadataReadPriority.RowHeadersWidth = 51;
             this.dataGridViewMetadataReadPriority.RowTemplate.Height = 24;
-            this.dataGridViewMetadataReadPriority.Size = new System.Drawing.Size(729, 510);
+            this.dataGridViewMetadataReadPriority.Size = new System.Drawing.Size(885, 699);
             this.dataGridViewMetadataReadPriority.TabIndex = 0;
             this.dataGridViewMetadataReadPriority.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewMetadataReadPriority_CellBeginEdit);
             this.dataGridViewMetadataReadPriority.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewMetadataReadPriority_CellPainting);
@@ -765,60 +769,79 @@
             // 
             // tabPageMetadataWrite
             // 
+            this.tabPageMetadataWrite.AutoScroll = true;
             this.tabPageMetadataWrite.Controls.Add(this.panelMetadataWrite);
             this.tabPageMetadataWrite.Controls.Add(this.textBox2);
             this.tabPageMetadataWrite.Location = new System.Drawing.Point(4, 25);
             this.tabPageMetadataWrite.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageMetadataWrite.Name = "tabPageMetadataWrite";
             this.tabPageMetadataWrite.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageMetadataWrite.Size = new System.Drawing.Size(731, 748);
+            this.tabPageMetadataWrite.Size = new System.Drawing.Size(887, 748);
             this.tabPageMetadataWrite.TabIndex = 1;
             this.tabPageMetadataWrite.Text = "Metadata Write";
             this.tabPageMetadataWrite.UseVisualStyleBackColor = true;
             // 
             // panelMetadataWrite
             // 
+            this.panelMetadataWrite.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelMetadataWrite.AutoScroll = true;
             this.panelMetadataWrite.Controls.Add(this.groupBoxMetadataWriteKeywordItems);
             this.panelMetadataWrite.Controls.Add(this.groupBoxMetadataWriteProperties);
             this.panelMetadataWrite.Controls.Add(this.groupBoxMetadataWriteTags);
-            this.panelMetadataWrite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMetadataWrite.Location = new System.Drawing.Point(2, 2);
+            this.panelMetadataWrite.Location = new System.Drawing.Point(2, 45);
             this.panelMetadataWrite.Margin = new System.Windows.Forms.Padding(2);
             this.panelMetadataWrite.Name = "panelMetadataWrite";
-            this.panelMetadataWrite.Size = new System.Drawing.Size(727, 744);
+            this.panelMetadataWrite.Size = new System.Drawing.Size(880, 698);
             this.panelMetadataWrite.TabIndex = 4;
             // 
             // groupBoxMetadataWriteKeywordItems
             // 
+            this.groupBoxMetadataWriteKeywordItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.comboBoxMetadataWriteKeywordTags);
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.label27);
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.label26);
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.textBoxMetadataWriteKeywordDelete);
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.textBoxMetadataWriteKeywordAdd);
             this.groupBoxMetadataWriteKeywordItems.Location = new System.Drawing.Point(0, 289);
+            this.groupBoxMetadataWriteKeywordItems.MinimumSize = new System.Drawing.Size(743, 257);
             this.groupBoxMetadataWriteKeywordItems.Name = "groupBoxMetadataWriteKeywordItems";
-            this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(706, 281);
+            this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(838, 257);
             this.groupBoxMetadataWriteKeywordItems.TabIndex = 16;
             this.groupBoxMetadataWriteKeywordItems.TabStop = false;
             this.groupBoxMetadataWriteKeywordItems.Text = "Keyword tag items";
             // 
+            // comboBoxMetadataWriteKeywordTags
+            // 
+            this.comboBoxMetadataWriteKeywordTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxMetadataWriteKeywordTags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMetadataWriteKeywordTags.FormattingEnabled = true;
+            this.comboBoxMetadataWriteKeywordTags.Location = new System.Drawing.Point(372, 27);
+            this.comboBoxMetadataWriteKeywordTags.Name = "comboBoxMetadataWriteKeywordTags";
+            this.comboBoxMetadataWriteKeywordTags.Size = new System.Drawing.Size(457, 24);
+            this.comboBoxMetadataWriteKeywordTags.TabIndex = 25;
+            this.comboBoxMetadataWriteKeywordTags.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteKeywordTags_SelectionChangeCommitted);
+            // 
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(9, 169);
+            this.label27.Location = new System.Drawing.Point(6, 141);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(100, 17);
+            this.label27.Size = new System.Drawing.Size(164, 17);
             this.label27.TabIndex = 5;
-            this.label27.Text = "Add keywords:";
+            this.label27.Text = "For every new keywords:";
             // 
             // label26
             // 
             this.label26.AutoSize = true;
             this.label26.Location = new System.Drawing.Point(9, 37);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(116, 17);
+            this.label26.Size = new System.Drawing.Size(299, 17);
             this.label26.TabIndex = 4;
-            this.label26.Text = "Delete keywords:";
+            this.label26.Text = "For every keyword deleted and before adding:";
             // 
             // textBoxMetadataWriteKeywordDelete
             // 
@@ -829,23 +852,27 @@
             this.textBoxMetadataWriteKeywordDelete.Multiline = true;
             this.textBoxMetadataWriteKeywordDelete.Name = "textBoxMetadataWriteKeywordDelete";
             this.textBoxMetadataWriteKeywordDelete.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(692, 91);
+            this.textBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(824, 83);
             this.textBoxMetadataWriteKeywordDelete.TabIndex = 3;
+            this.textBoxMetadataWriteKeywordDelete.Enter += new System.EventHandler(this.textBoxMetadataWriteKeywordDelete_Enter);
             // 
             // textBoxMetadataWriteKeywordAdd
             // 
             this.textBoxMetadataWriteKeywordAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(5, 175);
+            this.textBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(5, 160);
             this.textBoxMetadataWriteKeywordAdd.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxMetadataWriteKeywordAdd.Multiline = true;
             this.textBoxMetadataWriteKeywordAdd.Name = "textBoxMetadataWriteKeywordAdd";
             this.textBoxMetadataWriteKeywordAdd.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(692, 91);
+            this.textBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(824, 83);
             this.textBoxMetadataWriteKeywordAdd.TabIndex = 2;
+            this.textBoxMetadataWriteKeywordAdd.Enter += new System.EventHandler(this.textBoxMetadataWriteKeywordAdd_Enter);
             // 
             // groupBoxMetadataWriteProperties
             // 
+            this.groupBoxMetadataWriteProperties.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomArtist);
             this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomArtistVideo);
             this.groupBoxMetadataWriteProperties.Controls.Add(this.label37);
@@ -875,19 +902,23 @@
             this.groupBoxMetadataWriteProperties.Controls.Add(this.label29);
             this.groupBoxMetadataWriteProperties.Controls.Add(this.label28);
             this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomKeywordsVideo);
-            this.groupBoxMetadataWriteProperties.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxMetadataWriteProperties.Location = new System.Drawing.Point(1, 3);
+            this.groupBoxMetadataWriteProperties.MinimumSize = new System.Drawing.Size(706, 289);
             this.groupBoxMetadataWriteProperties.Name = "groupBoxMetadataWriteProperties";
-            this.groupBoxMetadataWriteProperties.Size = new System.Drawing.Size(706, 289);
+            this.groupBoxMetadataWriteProperties.Size = new System.Drawing.Size(838, 289);
             this.groupBoxMetadataWriteProperties.TabIndex = 15;
             this.groupBoxMetadataWriteProperties.TabStop = false;
             this.groupBoxMetadataWriteProperties.Text = "Write Windows Xtra atom properties:";
             // 
             // textBoxWriteXtraAtomArtist
             // 
+            this.textBoxWriteXtraAtomArtist.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomArtist.Location = new System.Drawing.Point(372, 218);
             this.textBoxWriteXtraAtomArtist.Name = "textBoxWriteXtraAtomArtist";
-            this.textBoxWriteXtraAtomArtist.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomArtist.Size = new System.Drawing.Size(457, 22);
             this.textBoxWriteXtraAtomArtist.TabIndex = 29;
+            this.textBoxWriteXtraAtomArtist.Enter += new System.EventHandler(this.textBoxWriteXtraAtomArtist_Enter);
             // 
             // checkBoxWriteXtraAtomArtistVideo
             // 
@@ -919,53 +950,75 @@
             // 
             // comboBoxWriteXtraAtomVariables
             // 
+            this.comboBoxWriteXtraAtomVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxWriteXtraAtomVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxWriteXtraAtomVariables.FormattingEnabled = true;
             this.comboBoxWriteXtraAtomVariables.Location = new System.Drawing.Point(372, 27);
             this.comboBoxWriteXtraAtomVariables.Name = "comboBoxWriteXtraAtomVariables";
-            this.comboBoxWriteXtraAtomVariables.Size = new System.Drawing.Size(325, 24);
+            this.comboBoxWriteXtraAtomVariables.Size = new System.Drawing.Size(457, 24);
             this.comboBoxWriteXtraAtomVariables.TabIndex = 24;
+            this.comboBoxWriteXtraAtomVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxWriteXtraAtomVariables_SelectionChangeCommitted);
             // 
             // textBoxWriteXtraAtomComment
             // 
+            this.textBoxWriteXtraAtomComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomComment.Location = new System.Drawing.Point(372, 189);
             this.textBoxWriteXtraAtomComment.Name = "textBoxWriteXtraAtomComment";
-            this.textBoxWriteXtraAtomComment.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomComment.Size = new System.Drawing.Size(457, 22);
             this.textBoxWriteXtraAtomComment.TabIndex = 23;
+            this.textBoxWriteXtraAtomComment.Enter += new System.EventHandler(this.textBoxWriteXtraAtomComment_Enter);
             // 
             // textBoxWriteXtraAtomSubject
             // 
+            this.textBoxWriteXtraAtomSubject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomSubject.Location = new System.Drawing.Point(372, 162);
             this.textBoxWriteXtraAtomSubject.Name = "textBoxWriteXtraAtomSubject";
-            this.textBoxWriteXtraAtomSubject.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomSubject.Size = new System.Drawing.Size(457, 22);
             this.textBoxWriteXtraAtomSubject.TabIndex = 22;
+            this.textBoxWriteXtraAtomSubject.Enter += new System.EventHandler(this.textBoxWriteXtraAtomSubject_Enter);
             // 
             // textBoxWriteXtraAtomSubtitle
             // 
+            this.textBoxWriteXtraAtomSubtitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomSubtitle.Location = new System.Drawing.Point(372, 135);
             this.textBoxWriteXtraAtomSubtitle.Name = "textBoxWriteXtraAtomSubtitle";
-            this.textBoxWriteXtraAtomSubtitle.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomSubtitle.Size = new System.Drawing.Size(457, 22);
             this.textBoxWriteXtraAtomSubtitle.TabIndex = 21;
+            this.textBoxWriteXtraAtomSubtitle.Enter += new System.EventHandler(this.textBoxWriteXtraAtomSubtitle_Enter);
             // 
             // textBoxWriteXtraAtomAlbum
             // 
+            this.textBoxWriteXtraAtomAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomAlbum.Location = new System.Drawing.Point(372, 108);
             this.textBoxWriteXtraAtomAlbum.Name = "textBoxWriteXtraAtomAlbum";
-            this.textBoxWriteXtraAtomAlbum.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomAlbum.Size = new System.Drawing.Size(457, 22);
             this.textBoxWriteXtraAtomAlbum.TabIndex = 20;
+            this.textBoxWriteXtraAtomAlbum.Enter += new System.EventHandler(this.textBoxWriteXtraAtomAlbum_Enter);
             // 
             // textBoxWriteXtraAtomCategories
             // 
+            this.textBoxWriteXtraAtomCategories.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomCategories.Location = new System.Drawing.Point(372, 83);
             this.textBoxWriteXtraAtomCategories.Name = "textBoxWriteXtraAtomCategories";
-            this.textBoxWriteXtraAtomCategories.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomCategories.Size = new System.Drawing.Size(457, 22);
             this.textBoxWriteXtraAtomCategories.TabIndex = 19;
+            this.textBoxWriteXtraAtomCategories.Enter += new System.EventHandler(this.textBoxWriteXtraAtomCategories_Enter);
             // 
             // textBoxWriteXtraAtomKeywords
             // 
+            this.textBoxWriteXtraAtomKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomKeywords.Location = new System.Drawing.Point(372, 57);
             this.textBoxWriteXtraAtomKeywords.Name = "textBoxWriteXtraAtomKeywords";
-            this.textBoxWriteXtraAtomKeywords.Size = new System.Drawing.Size(325, 22);
+            this.textBoxWriteXtraAtomKeywords.Size = new System.Drawing.Size(457, 22);
             this.textBoxWriteXtraAtomKeywords.TabIndex = 18;
+            this.textBoxWriteXtraAtomKeywords.Enter += new System.EventHandler(this.textBoxWriteXtraAtomKeywords_Enter);
             // 
             // label35
             // 
@@ -1141,12 +1194,15 @@
             // 
             // groupBoxMetadataWriteTags
             // 
+            this.groupBoxMetadataWriteTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxMetadataWriteTags.Controls.Add(this.comboBoxMetadataWriteStandardTags);
             this.groupBoxMetadataWriteTags.Controls.Add(this.textBoxMetadataWriteTags);
             this.groupBoxMetadataWriteTags.Controls.Add(this.label6);
-            this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(3, 576);
+            this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(4, 552);
+            this.groupBoxMetadataWriteTags.MinimumSize = new System.Drawing.Size(703, 145);
             this.groupBoxMetadataWriteTags.Name = "groupBoxMetadataWriteTags";
-            this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(703, 145);
+            this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(835, 355);
             this.groupBoxMetadataWriteTags.TabIndex = 14;
             this.groupBoxMetadataWriteTags.TabStop = false;
             this.groupBoxMetadataWriteTags.Text = "Exiftool Write tags configuration ";
@@ -1159,7 +1215,7 @@
             this.comboBoxMetadataWriteStandardTags.FormattingEnabled = true;
             this.comboBoxMetadataWriteStandardTags.Location = new System.Drawing.Point(124, 21);
             this.comboBoxMetadataWriteStandardTags.Name = "comboBoxMetadataWriteStandardTags";
-            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(573, 24);
+            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(705, 24);
             this.comboBoxMetadataWriteStandardTags.TabIndex = 6;
             this.comboBoxMetadataWriteStandardTags.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteStandardTags_SelectionChangeCommitted);
             // 
@@ -1173,7 +1229,7 @@
             this.textBoxMetadataWriteTags.Multiline = true;
             this.textBoxMetadataWriteTags.Name = "textBoxMetadataWriteTags";
             this.textBoxMetadataWriteTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteTags.Size = new System.Drawing.Size(690, 90);
+            this.textBoxMetadataWriteTags.Size = new System.Drawing.Size(822, 300);
             this.textBoxMetadataWriteTags.TabIndex = 1;
             // 
             // label6
@@ -1194,7 +1250,7 @@
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(674, 36);
+            this.textBox2.Size = new System.Drawing.Size(880, 36);
             this.textBox2.TabIndex = 3;
             this.textBox2.Text = resources.GetString("textBox2.Text");
             // 
@@ -1206,7 +1262,7 @@
             this.tabPageFileDateTimeFormats.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageFileDateTimeFormats.Name = "tabPageFileDateTimeFormats";
             this.tabPageFileDateTimeFormats.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageFileDateTimeFormats.Size = new System.Drawing.Size(731, 559);
+            this.tabPageFileDateTimeFormats.Size = new System.Drawing.Size(887, 748);
             this.tabPageFileDateTimeFormats.TabIndex = 2;
             this.tabPageFileDateTimeFormats.Text = "File date formats";
             this.tabPageFileDateTimeFormats.UseVisualStyleBackColor = true;
@@ -1220,7 +1276,7 @@
             this.textBox6.Multiline = true;
             this.textBox6.Name = "textBox6";
             this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(722, 36);
+            this.textBox6.Size = new System.Drawing.Size(878, 36);
             this.textBox6.TabIndex = 4;
             this.textBox6.Text = "When renaming media files. Date and time can be removed. This is list of date and" +
     " time formats, that will be removed from filename during rename tool. ";
@@ -1235,7 +1291,7 @@
             this.textBoxConfigFilenameDateFormats.Multiline = true;
             this.textBoxConfigFilenameDateFormats.Name = "textBoxConfigFilenameDateFormats";
             this.textBoxConfigFilenameDateFormats.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxConfigFilenameDateFormats.Size = new System.Drawing.Size(725, 504);
+            this.textBoxConfigFilenameDateFormats.Size = new System.Drawing.Size(881, 693);
             this.textBoxConfigFilenameDateFormats.TabIndex = 0;
             this.textBoxConfigFilenameDateFormats.Text = resources.GetString("textBoxConfigFilenameDateFormats.Text");
             // 
@@ -1247,7 +1303,7 @@
             this.tabPageAutoCorrect.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageAutoCorrect.Name = "tabPageAutoCorrect";
             this.tabPageAutoCorrect.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageAutoCorrect.Size = new System.Drawing.Size(731, 559);
+            this.tabPageAutoCorrect.Size = new System.Drawing.Size(887, 748);
             this.tabPageAutoCorrect.TabIndex = 3;
             this.tabPageAutoCorrect.Text = "AutoCorrect";
             this.tabPageAutoCorrect.UseVisualStyleBackColor = true;
@@ -1271,7 +1327,7 @@
             this.panelAutoCorrect.Margin = new System.Windows.Forms.Padding(2);
             this.panelAutoCorrect.MinimumSize = new System.Drawing.Size(587, 240);
             this.panelAutoCorrect.Name = "panelAutoCorrect";
-            this.panelAutoCorrect.Size = new System.Drawing.Size(726, 481);
+            this.panelAutoCorrect.Size = new System.Drawing.Size(882, 670);
             this.panelAutoCorrect.TabIndex = 1;
             // 
             // groupBoxRename
@@ -1286,7 +1342,7 @@
             this.groupBoxRename.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxRename.Name = "groupBoxRename";
             this.groupBoxRename.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxRename.Size = new System.Drawing.Size(705, 127);
+            this.groupBoxRename.Size = new System.Drawing.Size(861, 127);
             this.groupBoxRename.TabIndex = 5;
             this.groupBoxRename.TabStop = false;
             this.groupBoxRename.Text = "Rename media file(s)";
@@ -1349,7 +1405,7 @@
             this.groupBoxFaceRegion.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxFaceRegion.Name = "groupBoxFaceRegion";
             this.groupBoxFaceRegion.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxFaceRegion.Size = new System.Drawing.Size(705, 115);
+            this.groupBoxFaceRegion.Size = new System.Drawing.Size(861, 115);
             this.groupBoxFaceRegion.TabIndex = 2;
             this.groupBoxFaceRegion.TabStop = false;
             this.groupBoxFaceRegion.Text = "Face region fields";
@@ -1412,7 +1468,7 @@
             this.groupBoxKaywordTags.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxKaywordTags.Name = "groupBoxKaywordTags";
             this.groupBoxKaywordTags.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxKaywordTags.Size = new System.Drawing.Size(705, 457);
+            this.groupBoxKaywordTags.Size = new System.Drawing.Size(861, 457);
             this.groupBoxKaywordTags.TabIndex = 3;
             this.groupBoxKaywordTags.TabStop = false;
             this.groupBoxKaywordTags.Text = "Keyword tags";
@@ -1591,7 +1647,7 @@
             this.groupBoxAuthor.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxAuthor.Name = "groupBoxAuthor";
             this.groupBoxAuthor.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxAuthor.Size = new System.Drawing.Size(705, 148);
+            this.groupBoxAuthor.Size = new System.Drawing.Size(861, 148);
             this.groupBoxAuthor.TabIndex = 8;
             this.groupBoxAuthor.TabStop = false;
             this.groupBoxAuthor.Text = "Author";
@@ -1653,7 +1709,7 @@
             this.groupBoxAlbum.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxAlbum.Name = "groupBoxAlbum";
             this.groupBoxAlbum.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxAlbum.Size = new System.Drawing.Size(705, 141);
+            this.groupBoxAlbum.Size = new System.Drawing.Size(861, 141);
             this.groupBoxAlbum.TabIndex = 10;
             this.groupBoxAlbum.TabStop = false;
             this.groupBoxAlbum.Text = "Album";
@@ -1725,7 +1781,7 @@
             this.groupBoxTitle.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxTitle.Name = "groupBoxTitle";
             this.groupBoxTitle.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxTitle.Size = new System.Drawing.Size(705, 130);
+            this.groupBoxTitle.Size = new System.Drawing.Size(861, 130);
             this.groupBoxTitle.TabIndex = 6;
             this.groupBoxTitle.TabStop = false;
             this.groupBoxTitle.Text = "Title";
@@ -1799,7 +1855,7 @@
             this.groupBoxLocationName.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxLocationName.Location = new System.Drawing.Point(0, 498);
             this.groupBoxLocationName.Name = "groupBoxLocationName";
-            this.groupBoxLocationName.Size = new System.Drawing.Size(705, 296);
+            this.groupBoxLocationName.Size = new System.Drawing.Size(861, 296);
             this.groupBoxLocationName.TabIndex = 9;
             this.groupBoxLocationName.TabStop = false;
             this.groupBoxLocationName.Text = "Location information";
@@ -1915,7 +1971,7 @@
             this.groupBoxGPSLocation.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxGPSLocation.Name = "groupBoxGPSLocation";
             this.groupBoxGPSLocation.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxGPSLocation.Size = new System.Drawing.Size(705, 223);
+            this.groupBoxGPSLocation.Size = new System.Drawing.Size(861, 223);
             this.groupBoxGPSLocation.TabIndex = 4;
             this.groupBoxGPSLocation.TabStop = false;
             this.groupBoxGPSLocation.Text = "GPS Location and GPS Date and Time";
@@ -2087,7 +2143,7 @@
             this.groupBoxDateTimeDigitized.MinimumSize = new System.Drawing.Size(555, 103);
             this.groupBoxDateTimeDigitized.Name = "groupBoxDateTimeDigitized";
             this.groupBoxDateTimeDigitized.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxDateTimeDigitized.Size = new System.Drawing.Size(705, 275);
+            this.groupBoxDateTimeDigitized.Size = new System.Drawing.Size(861, 275);
             this.groupBoxDateTimeDigitized.TabIndex = 1;
             this.groupBoxDateTimeDigitized.TabStop = false;
             this.groupBoxDateTimeDigitized.Text = "Date and Time Digitized";
@@ -2156,7 +2212,7 @@
             this.textBoxHelpAutoCorrect.Multiline = true;
             this.textBoxHelpAutoCorrect.Name = "textBoxHelpAutoCorrect";
             this.textBoxHelpAutoCorrect.ReadOnly = true;
-            this.textBoxHelpAutoCorrect.Size = new System.Drawing.Size(727, 57);
+            this.textBoxHelpAutoCorrect.Size = new System.Drawing.Size(883, 57);
             this.textBoxHelpAutoCorrect.TabIndex = 0;
             this.textBoxHelpAutoCorrect.Text = resources.GetString("textBoxHelpAutoCorrect.Text");
             // 
@@ -2166,7 +2222,7 @@
             this.tabPageCameraOwner.Location = new System.Drawing.Point(4, 25);
             this.tabPageCameraOwner.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageCameraOwner.Name = "tabPageCameraOwner";
-            this.tabPageCameraOwner.Size = new System.Drawing.Size(731, 559);
+            this.tabPageCameraOwner.Size = new System.Drawing.Size(731, 748);
             this.tabPageCameraOwner.TabIndex = 4;
             this.tabPageCameraOwner.Text = "Camera Owner";
             this.tabPageCameraOwner.UseVisualStyleBackColor = true;
@@ -2184,10 +2240,10 @@
             // buttonConfigSave
             // 
             this.buttonConfigSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonConfigSave.Location = new System.Drawing.Point(615, 781);
+            this.buttonConfigSave.Location = new System.Drawing.Point(505, 794);
             this.buttonConfigSave.Margin = new System.Windows.Forms.Padding(2);
             this.buttonConfigSave.Name = "buttonConfigSave";
-            this.buttonConfigSave.Size = new System.Drawing.Size(81, 31);
+            this.buttonConfigSave.Size = new System.Drawing.Size(117, 31);
             this.buttonConfigSave.TabIndex = 1;
             this.buttonConfigSave.Text = "Save";
             this.buttonConfigSave.UseVisualStyleBackColor = true;
@@ -2196,22 +2252,31 @@
             // buttonConfigCancel
             // 
             this.buttonConfigCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonConfigCancel.Location = new System.Drawing.Point(524, 781);
+            this.buttonConfigCancel.Location = new System.Drawing.Point(365, 794);
             this.buttonConfigCancel.Margin = new System.Windows.Forms.Padding(2);
             this.buttonConfigCancel.Name = "buttonConfigCancel";
-            this.buttonConfigCancel.Size = new System.Drawing.Size(81, 31);
+            this.buttonConfigCancel.Size = new System.Drawing.Size(117, 31);
             this.buttonConfigCancel.TabIndex = 2;
             this.buttonConfigCancel.Text = "Cancel";
             this.buttonConfigCancel.UseVisualStyleBackColor = true;
             this.buttonConfigCancel.Click += new System.EventHandler(this.buttonConfigCancel_Click);
             // 
+            // panelAvoidResizeIssues
+            // 
+            this.panelAvoidResizeIssues.Controls.Add(this.buttonConfigSave);
+            this.panelAvoidResizeIssues.Controls.Add(this.buttonConfigCancel);
+            this.panelAvoidResizeIssues.Controls.Add(this.tabControlConfig);
+            this.panelAvoidResizeIssues.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelAvoidResizeIssues.Location = new System.Drawing.Point(0, 0);
+            this.panelAvoidResizeIssues.Name = "panelAvoidResizeIssues";
+            this.panelAvoidResizeIssues.Size = new System.Drawing.Size(899, 845);
+            this.panelAvoidResizeIssues.TabIndex = 3;
+            // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(739, 813);
-            this.Controls.Add(this.buttonConfigCancel);
-            this.Controls.Add(this.buttonConfigSave);
-            this.Controls.Add(this.tabControlConfig);
+            this.ClientSize = new System.Drawing.Size(899, 845);
+            this.Controls.Add(this.panelAvoidResizeIssues);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(616, 405);
@@ -2265,6 +2330,7 @@
             this.groupBoxDateTimeDigitized.PerformLayout();
             this.tabPageCameraOwner.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).EndInit();
+            this.panelAvoidResizeIssues.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2428,5 +2494,7 @@
         private System.Windows.Forms.TextBox textBoxWriteXtraAtomArtist;
         private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomArtistVideo;
         private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.ComboBox comboBoxMetadataWriteKeywordTags;
+        private System.Windows.Forms.Panel panelAvoidResizeIssues;
     }
 }

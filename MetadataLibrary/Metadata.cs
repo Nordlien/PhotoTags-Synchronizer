@@ -652,6 +652,7 @@ namespace MetadataLibrary
 
                 //Filesystem
                 listOfProperties.Add("{FileName}");
+                listOfProperties.Add("{FileFullPath}");
                 listOfProperties.Add("{FileNameWithoutExtension}");
                 listOfProperties.Add("{FileNameWithoutDateTime}");
                 listOfProperties.Add("{FileExtension}");
@@ -830,6 +831,9 @@ namespace MetadataLibrary
                 #region Filesystem
                 case "{FileName}":
                     result = FileName; 
+                    break;
+                case "{FileFullPath}":
+                    result = FileFullPath;
                     break;
                 case "{FileNameWithoutExtension}":
                     result = Path.GetFileNameWithoutExtension(FileName);

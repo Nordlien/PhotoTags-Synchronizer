@@ -147,4 +147,7 @@ yyyyMMdd</value>
     <value>AutoCorrect will read all Metadata that this application using "Metadata Read" priority, and try to save all metadata again and "duplication" same metadata in all types of tags confirgurated for congigurated in "Metadata Write". Then also try tix fix addional issued that you may confurate here.
 </value>
   </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>25</value>
+  </metadata>
 </root>
