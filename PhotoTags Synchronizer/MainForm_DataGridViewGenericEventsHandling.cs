@@ -786,77 +786,7 @@ namespace PhotoTagsSynchronizer
         //TagsAndKeywords
         private void dataGridViewTagsAndKeywords_KeyDown(object sender, KeyEventArgs e)
         {
-            triStateButtomClick = false;
-            #region Remove me
-            /*
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
-
-            if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.X) //Cut Ctrl-C
-            {
-                toolStripMenuItemMapPaste_Click(sender, null);
-                e.SuppressKeyPress = true;
-            }
-            else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.C) //Copy Ctrl-C
-            {
-                toolStripMenuItemMapCopy_Click(sender, null);
-                e.SuppressKeyPress = true;
-            }
-            else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.V) //Paste  Ctrl-V
-            {
-                toolStripMenuItemMapPaste_Click(sender, null);
-                e.SuppressKeyPress = true;
-            }
-            else if (!e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.Delete) //Delete
-            {
-                toolStripMenuItemMapDelete_Click(sender, null);
-                e.SuppressKeyPress = true;
-            }
-            else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.Z) //Undo Ctrl-Z 
-            {
-                toolStripMenuItemMapUndo_Click(sender, null);
-                e.SuppressKeyPress = true;
-            }
-            else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.Y) //Redo Ctrl-Y 
-            {
-                toolStripMenuItemMapRedo_Click(sender, null);
-                e.SuppressKeyPress = true;
-            }
-            else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.T) //Ctrl-T
-            {
-                TagActionToggle(dataGridView, NewState.Toggle);
-            }
-            else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.Space) //Ctrl-Space
-            {
-                TagActionToggle(dataGridView, NewState.Toggle);
-            }
-            else if (e.Control && e.Shift && !e.Alt && e.KeyCode == Keys.Space) //Ctrl-Shift-Space
-            {
-                TagActionToggle(dataGridView, NewState.Set);
-            }
-            else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.Delete) //Ctrl-Del
-            {
-                TagActionToggle(dataGridView, NewState.Remove);
-            }
-            else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.F) //Find Ctrl-F 
-            {
-                toolStripMenuItemMapFind_Click(sender, null);
-                e.SuppressKeyPress = true;
-            }
-            else if (e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.H) //Find and Replace Ctrl-H 
-            {
-                toolStripMenuItemMapReplace_Click(sender, null);
-                e.SuppressKeyPress = true;
-            }
-            else if (!e.Control && !e.Shift && !e.Alt && e.KeyCode == Keys.Apps) //Context menu 
-            {
-            }
-            */
-            //if (e.SuppressKeyPress) return;
-            #endregion
-
-            //DataGridViewHandler.KeyDownEventHandler(sender, e);
-    
+            triStateButtomClick = false; 
         }
         #endregion
 

@@ -349,10 +349,7 @@ namespace DataGridViewGeneric
         {
             //Commit changes ASAP, e.g. when SelectedIndexChanged will chnage the ValueChanges event be triggered
             dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
-
-            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
-            if (dataGridViewGenericData == null) return;
-            dataGridViewGenericData.IsDirty = true;
+            SetDataGridViewDirty(dataGridView);
         }
 
         public static bool IsDataGridViewDirty(DataGridView dataGridView)
@@ -366,6 +363,12 @@ namespace DataGridViewGeneric
         {
             DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
             if (dataGridViewGenericData != null) dataGridViewGenericData.IsDirty = false; 
+        }
+
+        public static void SetDataGridViewDirty(DataGridView dataGridView)
+        {
+            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
+            if (dataGridViewGenericData != null) dataGridViewGenericData.IsDirty = true;
         }
         #endregion
 
@@ -1999,8 +2002,6 @@ namespace DataGridViewGeneric
             return GetTriState(dataGridView, header, 0, keywordsStarts, 1, 1);
         }
 
-        
-
         private static Dictionary<CellLocation, DataGridViewGenericCell> SetNewTriStateValue(DataGridView dataGridView, TriState newTriState,
             int keywordHeaderIndex, int keywordsStarts, int keywordsEnds,
             int columnStart, int rowStart, int columnIncrement, int rowIncrement)
@@ -2149,6 +2150,7 @@ namespace DataGridViewGeneric
 
             if (gridViewGenericDataRow.HeaderName.Equals(header))
             {
+                SetDataGridViewDirty(dataGridView);
                 //All click 
                 if (gridViewGenericDataRow.IsHeader && columnIndex == -1)
                 {
@@ -2231,7 +2233,7 @@ namespace DataGridViewGeneric
             Refresh(dataGridView);
 
             if (updatedCells != null && updatedCells.Count > 0)
-            {
+            {                
                 ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
             }
 

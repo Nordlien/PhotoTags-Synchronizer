@@ -141,8 +141,8 @@ namespace PhotoTagsSynchronizer
         private bool isDataGridViewTagsAndKeywords_CellValueChanging = false;
         private void dataGridViewTagsAndKeywords_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (isDataGridViewTagsAndKeywords_CellValueChanging) return; //Avoid requirng isues
-            if (ClipboardUtility.IsClipboardActive)    return;                    
+            if (isDataGridViewTagsAndKeywords_CellValueChanging) return; //Avoid recursive isues
+            if (ClipboardUtility.IsClipboardActive) return;                    
             if (GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress) return;
 
             if (GlobalData.IsApplicationClosing) return;
@@ -154,11 +154,11 @@ namespace PhotoTagsSynchronizer
             isDataGridViewTagsAndKeywords_CellValueChanging = true;
             
             DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
-            string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
             if (gridViewGenericDataRow == null || //new row 
-                gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerTagsAndKeywords.headerKeywords)) //updated header row
+                gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerTagsAndKeywords.headerKeywords)) //Check if one of Keywords row(s)
             {
+                
                 if (DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, e.ColumnIndex, e.RowIndex))
                 {
                     DataGridViewHandler.SetCellStatusSwichStatus(dataGridView, e.ColumnIndex, e.RowIndex, SwitchStates.Off);
@@ -174,7 +174,7 @@ namespace PhotoTagsSynchronizer
                         return;
                     }
                         
-                    newTag = ValidateAndReturnTag(dataGridView, header, newTag);
+                    newTag = ValidateAndReturnTag(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords, newTag);
 
 
                     DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, e.RowIndex,
@@ -194,9 +194,8 @@ namespace PhotoTagsSynchronizer
                         }
                     }
                 }
-
-                DataGridViewHandler.Refresh(dataGridView);
             }
+            //else DataGridViewHandler.Refresh(dataGridView); Hack to refreash dropdown combobox with new values
             isDataGridViewTagsAndKeywords_CellValueChanging = false;
         }
         #endregion
