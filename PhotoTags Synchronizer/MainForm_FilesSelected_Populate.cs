@@ -107,7 +107,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn)
                 {
-                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryImage.FullFilePath == fullFilePath)
+                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryImage.FileFullPath == fullFilePath)
                     {
                         dataGridView.InvalidateCell(columnIndex, -1);
                     }

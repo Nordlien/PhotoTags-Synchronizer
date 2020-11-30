@@ -169,7 +169,7 @@ namespace PhotoTagsSynchronizer
                     {
                         string writeErrorDesciption =
                             "Error writing properties to file.\r\n\r\n" +
-                            "File: " + dataGridViewGenericColumn.FileEntryImage.FullFilePath + "\r\n\r\n" +
+                            "File: " + dataGridViewGenericColumn.FileEntryImage.FileFullPath + "\r\n\r\n" +
                             "Error message: " + ex.Message + "\r\n";
 
                         AddError(

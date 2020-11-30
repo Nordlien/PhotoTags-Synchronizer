@@ -24,8 +24,8 @@ namespace WindowsProperty
         public void Dispose()
         {
             try 
-            { 
-                propertyWriter.Dispose();
+            {
+                if (propertyWriter != null) propertyWriter.Dispose();
                 propertyWriter = null;
                 shellFile.Dispose();
                 shellFile = null;
@@ -38,7 +38,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.Close();
+                if (propertyWriter != null) propertyWriter.Close();
             }
             catch { }
         }
@@ -47,10 +47,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.WriteProperty(SystemProperties.System.Keywords, tags);
-
-
-                propertyWriter.WriteProperty(SystemProperties.System.Photo.PeopleNames, tags);
+                if (propertyWriter!=null) propertyWriter.WriteProperty(SystemProperties.System.Keywords, tags);
             }
             catch { }
         }
@@ -59,7 +56,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.WriteProperty(SystemProperties.System.Photo.PeopleNames, names);
+                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Photo.PeopleNames, names);
             }
             catch { }
         }
@@ -68,7 +65,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.WriteProperty(SystemProperties.System.Category, categories);
+                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Category, categories);
             }
             catch { }
         }
@@ -78,7 +75,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.WriteProperty(SystemProperties.System.Music.AlbumTitle, album);
+                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Music.AlbumTitle, album);
             }
             catch { }
         }
@@ -87,7 +84,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.WriteProperty(SystemProperties.System.Media.Subtitle, description);
+                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Media.Subtitle, description);
             }
             catch { }
         }
@@ -95,7 +92,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.WriteProperty(SystemProperties.System.Subject, subject);
+                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Subject, subject);
             }
             catch { }
         }
@@ -104,7 +101,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.WriteProperty(SystemProperties.System.Comment, comment);
+                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Comment, comment);
             }
             catch { }
         }
@@ -113,7 +110,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.WriteProperty(SystemProperties.System.Photo.DateTaken, dateTime);
+                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Photo.DateTaken, dateTime);
             }
             catch { }
         }
@@ -122,7 +119,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.WriteProperty(SystemProperties.System.Music.Artist, author);
+                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Music.Artist, author);
             }
             catch { }
         }
@@ -131,7 +128,7 @@ namespace WindowsProperty
         {
             try
             {
-                propertyWriter.WriteProperty(SystemProperties.System.Rating, rating);
+                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Rating, rating);
             }
             catch { }
         }

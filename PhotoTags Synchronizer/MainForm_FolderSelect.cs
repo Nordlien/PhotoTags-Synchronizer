@@ -90,7 +90,7 @@ namespace PhotoTagsSynchronizer
             imageListView1.SuspendLayout();
             for (int fileNumber = 0; fileNumber < filesFoundInDirectory.Length; fileNumber++)
             {
-                imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FullFilePath);
+                imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);
             }
 
             imageListView1.ResumeLayout(true);

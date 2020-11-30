@@ -33,8 +33,8 @@ namespace Exiftool
                 "MediaExiftoolTagsWarning WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified=@FileDateModified";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileEntry.FullFilePath));
-                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileEntry.FullFilePath));
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileEntry.FileFullPath));
+                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileEntry.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime)); 
                 commandDatabase.Prepare();
 

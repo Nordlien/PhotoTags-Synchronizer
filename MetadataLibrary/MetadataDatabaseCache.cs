@@ -54,8 +54,8 @@ namespace MetadataLibrary
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase)) 
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FullFilePath));
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FullFilePath));
+                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
 
                 commandDatabase.Prepare();
@@ -107,8 +107,8 @@ namespace MetadataLibrary
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FullFilePath));
-                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FullFilePath));
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
+                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
                 commandDatabase.Prepare();
 
@@ -135,8 +135,8 @@ namespace MetadataLibrary
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FullFilePath));
-                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FullFilePath));
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
+                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
 
                 commandDatabase.Prepare();
@@ -769,12 +769,12 @@ namespace MetadataLibrary
 
             foreach (FileEntry file in files)
             {
-                FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FullFilePath, file.LastWriteDateTime, broker);
+                FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FileFullPath, file.LastWriteDateTime, broker);
 
                 if (!CacheContainsKey(fileEntryBroker)) //Check if already in queue, due to screen refreash and reloads etc...
                 {
                     Metadata metadata = ReadCache(fileEntryBroker);
-                    if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FullFilePath);
+                    if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FileFullPath);
 
                 }
             }

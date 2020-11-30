@@ -11,7 +11,7 @@ namespace MetadataLibrary
         protected string fullFilePath;
         protected DateTime lastWriteDateTime;
 
-        public string FullFilePath { get => this.fullFilePath; set => this.fullFilePath = value; }
+        public string FileFullPath { get => this.fullFilePath; set => this.fullFilePath = value; }
         public DateTime LastWriteDateTime { get => this.lastWriteDateTime; set => this.lastWriteDateTime = value; }
 
         public FileEntry(FileEntry fileEntry)
@@ -67,7 +67,7 @@ namespace MetadataLibrary
 
         public int CompareTo(FileEntry other)
         {
-            int compare = FullFilePath.CompareTo(other.FullFilePath);
+            int compare = FileFullPath.CompareTo(other.FileFullPath);
             if (compare == 0)
             {
                 if (this.LastWriteDateTime > other.LastWriteDateTime) compare = -1;

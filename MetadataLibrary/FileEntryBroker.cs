@@ -14,7 +14,7 @@ namespace MetadataLibrary
         public FileEntryBroker(FileEntry fileEntry, MetadataBrokerTypes broker) : base(fileEntry)
         {
             this.broker = broker;
-            this.fullFilePath = fileEntry.FullFilePath;
+            this.fullFilePath = fileEntry.FileFullPath;
             this.lastWriteDateTime = fileEntry.LastWriteDateTime;
         }
 

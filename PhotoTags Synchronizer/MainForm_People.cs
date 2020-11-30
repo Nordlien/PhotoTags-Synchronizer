@@ -140,7 +140,7 @@ namespace PhotoTagsSynchronizer
                         dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
                         if (dataGridViewGenericColumn != null)
                         {
-                            Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryImage.FullFilePath);
+                            Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryImage.FileFullPath);
 
                             RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, cell.ColumnIndex, cell.RowIndex);
 

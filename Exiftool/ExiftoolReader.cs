@@ -19,9 +19,6 @@ namespace Exiftool
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private const string _ExiftoolTabSeperator = "{7ZAJ6A5GHJ}";
-        private string[] _ExiftoolTabSeperators = new string[] { _ExiftoolTabSeperator };
-
         private MetadataDatabaseCache metadataDatabaseCache;
         private ExiftoolDataDatabase metadataExiftoolDatabase;
         private ExiftoolWarningDatabase metadataExiftoolWarningDatabase;
@@ -588,9 +585,10 @@ namespace Exiftool
 
                     //Extra 
                     RedirectStandardInput = true,
-                    StandardOutputEncoding = Encoding.UTF8 //,
+                    StandardOutputEncoding = Encoding.UTF8 
                 };
-                process.Start();
+                
+                process.Start(); 
                 #endregion
 
                 #region Init all data for start "first/each file"
@@ -639,8 +637,8 @@ namespace Exiftool
                     {
                         fileNumber++;
                         metadata = new Metadata(MetadataBrokerTypes.ExifTool); //Get ready to read a meta data
-                        
-                        //Don't use exif file name, problem with UTF8 filenames therefor short windows 8 short names used instead
+
+                        //Don't use exif file name, problem with UTF8 filenames therefor short windows 8 short names used instead                        
                         metadata.FileName = Path.GetFileName(files[fileNumber - 1]);
                         metadata.FileDirectory = Path.GetDirectoryName(files[fileNumber - 1]);
                         metadata.FileDateModified = File.GetLastWriteTime(Path.Combine(metadata.FileDirectory, metadata.FileName));
@@ -679,16 +677,22 @@ namespace Exiftool
                         ConvertAndCheckDateFromString(metadata.FileDateModified, exifToolData, oldExifToolFileName,
                             CompositeTags.FileModificationDateTime, ref metadata.errors);
                         oldExifToolFilePath = new ExiftoolData(exifToolData);
+
+                        //In case of crash, delete old data
+                        metadataDatabaseCache.DeleteFileEntry(metadata.FileEntryBroker);
                     }
                     #endregion 
 
                     if (foundToSeperatorInLine >= 0)
                     {
                         #region Fill in exifToolData struct/class
-                        String[] parameters = readedLineFromExiftool.Split('\t');
-                        String regionType = parameters[0];
-                        String command = parameters[1];
-                        String parameter = parameters[2];
+                        //String[] parameters = readedLineFromExiftool.Split('\t'); //If tab in variable text, this will not work
+
+                        int regionEnd = readedLineFromExiftool.IndexOf('\t');
+                        String regionType = readedLineFromExiftool.Substring(0, regionEnd);
+                        int commandEnd = readedLineFromExiftool.IndexOf('\t', regionEnd + 1);
+                        String command = readedLineFromExiftool.Substring(regionEnd + 1, commandEnd - regionEnd - 1);                        
+                        String parameter = readedLineFromExiftool.Substring(commandEnd + 1, readedLineFromExiftool.Length - commandEnd - 1);
 
                         exifToolData = new ExiftoolData();
                         exifToolData.FileName = metadata.FileName;
@@ -696,7 +700,7 @@ namespace Exiftool
                         exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
                         exifToolData.Region = regionType;
                         exifToolData.Command = command;
-                        exifToolData.Parameter = parameter.Replace(_ExiftoolTabSeperator, System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator);
+                        exifToolData.Parameter = parameter; //.Replace(_ExiftoolTabSeperator, System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator);                        
                         #endregion 
 
                         #region Log all Exiftool Region, Command and Paramters
@@ -1409,6 +1413,7 @@ namespace Exiftool
                 }
                 #endregion 
 
+
                 #region Log error
                 if (!process.StandardError.EndOfStream)
                 {
@@ -1417,6 +1422,7 @@ namespace Exiftool
                     throw new Exception(error);
                 }
                 #endregion 
+
 
             } //Using process
             return metaDataCollections;

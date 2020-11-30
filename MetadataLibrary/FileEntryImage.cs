@@ -19,12 +19,12 @@ namespace MetadataLibrary
             Image = fileEntryImage.image == null ? null : new Bitmap(fileEntryImage.image);
         }
 
-        public FileEntryImage(FileEntry fileEntry) : base(fileEntry.FullFilePath, fileEntry.LastWriteDateTime)
+        public FileEntryImage(FileEntry fileEntry) : base(fileEntry.FileFullPath, fileEntry.LastWriteDateTime)
         {
 
         }
 
-        public FileEntryImage(FileEntry fileEntry, Image image) : this(fileEntry.FullFilePath, fileEntry.LastWriteDateTime, image)
+        public FileEntryImage(FileEntry fileEntry, Image image) : this(fileEntry.FileFullPath, fileEntry.LastWriteDateTime, image)
         {
 
         }

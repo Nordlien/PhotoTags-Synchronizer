@@ -785,7 +785,7 @@ namespace DataGridViewGeneric
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {
                 if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn &&
-                    ((DataGridViewGenericColumn)dataGridView.Columns[columnIndex].Tag).FileEntryImage.FullFilePath == fullFilePath)
+                    ((DataGridViewGenericColumn)dataGridView.Columns[columnIndex].Tag).FileEntryImage.FileFullPath == fullFilePath)
                 {
                     return columnIndex;
                 }
@@ -886,13 +886,13 @@ namespace DataGridViewGeneric
                 
                 dataGridViewColumn.Width = GetCellColumnsWidth(dataGridView);
                 
-                dataGridViewColumn.ToolTipText = fileEntryImage.LastWriteDateTime.ToString() + "\r\n" + fileEntryImage.FullFilePath;                
+                dataGridViewColumn.ToolTipText = fileEntryImage.LastWriteDateTime.ToString() + "\r\n" + fileEntryImage.FileFullPath;                
                 dataGridViewColumn.Tag = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
 
-                dataGridViewColumn.Name = fileEntryImage.FullFilePath;
-                dataGridViewColumn.HeaderText = fileEntryImage.FullFilePath;
+                dataGridViewColumn.Name = fileEntryImage.FileFullPath;
+                dataGridViewColumn.HeaderText = fileEntryImage.FileFullPath;
                 
-                int columnIndexFilename = GetColumnIndex(dataGridView, fileEntryImage.FullFilePath);
+                int columnIndexFilename = GetColumnIndex(dataGridView, fileEntryImage.FileFullPath);
                 if (columnIndexFilename == -1) //Not found
                 {                
                     columnIndex = dataGridView.Columns.Add(dataGridViewColumn);
@@ -902,7 +902,7 @@ namespace DataGridViewGeneric
                     //Short, newst always first
                     while (columnIndexFilename < dataGridView.Columns.Count &&
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column &&
-                        column.FileEntryImage.FullFilePath == fileEntryImage.FullFilePath &&
+                        column.FileEntryImage.FileFullPath == fileEntryImage.FileFullPath &&
                         column.FileEntryImage.LastWriteDateTime > fileEntryImage.LastWriteDateTime)
                     {
                         columnIndexFilename += 1;
@@ -910,7 +910,7 @@ namespace DataGridViewGeneric
 
                     if (columnIndexFilename < dataGridView.Columns.Count - 1 &&
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column2 &&
-                        column2.FileEntryImage.FullFilePath == fileEntryImage.FullFilePath &&
+                        column2.FileEntryImage.FileFullPath == fileEntryImage.FileFullPath &&
                         column2.FileEntryImage.LastWriteDateTime > fileEntryImage.LastWriteDateTime)
                     {
                         columnIndexFilename += 1;
@@ -2774,7 +2774,7 @@ namespace DataGridViewGeneric
                 DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
 
 
-                bool hasFileKnownErrors = (errorFileEntries.ContainsKey(fileEntryColumn.FileEntry.FullFilePath));
+                bool hasFileKnownErrors = (errorFileEntries.ContainsKey(fileEntryColumn.FileEntry.FileFullPath));
 
                 string cellText = "";
                 if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) cellText += "File updated!!\r\n";
@@ -2791,7 +2791,7 @@ namespace DataGridViewGeneric
                             cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FileName;
                             break;
                         case DataGridViewSize.Large: 
-                            cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FullFilePath;
+                            cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FileFullPath;
                             break;
                         default: 
                             throw new Exception("Not implemented");
@@ -2807,7 +2807,7 @@ namespace DataGridViewGeneric
                             cellText += fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FileName;
                             break;
                         case DataGridViewSize.Large: //Large
-                            cellText += fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FullFilePath;
+                            cellText += fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FileFullPath;
                             break;
                         default: 
                             throw new Exception("Not implemented");

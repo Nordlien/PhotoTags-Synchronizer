@@ -45,8 +45,8 @@ namespace Exiftool
                 "MediaExiftoolTags WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FullFilePath));
-                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FullFilePath));
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
+                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
                 commandDatabase.Prepare();
 
@@ -149,7 +149,7 @@ namespace Exiftool
                             dbTools.ConvertFromDBValString(reader["FileName"]),
                             (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]));
                         exifToolDates.Add(fileEntry);
-                        Logger.Trace(fileEntry.FullFilePath + " " + fileEntry.LastWriteDateTime);
+                        Logger.Trace(fileEntry.FileFullPath + " " + fileEntry.LastWriteDateTime);
                     }
                 }
 

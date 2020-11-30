@@ -278,7 +278,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-
+        #region Properties Helper - FindFileEntryInList
         public static int FindFileEntryInList(List<Metadata> metadataListToCheck, FileEntry fileEntry)
         {
             if (metadataListToCheck == null) return -1;
@@ -289,12 +289,13 @@ namespace MetadataLibrary
                 for (int i = 0; i < metadataListToCheck.Count; i++)
                 {
                     Metadata metadata = metadataListToCheck[i];
-                    if (metadata != null && metadata.FileFullPath == fileEntry.FullFilePath && metadata.FileDateModified == fileEntry.LastWriteDateTime) return i;
+                    if (metadata != null && metadata.FileFullPath == fileEntry.FileFullPath && metadata.FileDateModified == fileEntry.LastWriteDateTime) return i;
                 }
             }
             catch { }
             return -1;
         }
+        #endregion 
 
         #region Properties Helper - FindFullFilenameInList 
         public static int FindFullFilenameInList(List<Metadata> metadataListToCheck, string findThis)
@@ -630,7 +631,7 @@ namespace MetadataLibrary
         #endregion
 
 
-        #region Vaiable Properties
+        #region Variable Properties
         private static string[] arrayOfProperties = null;
 
         public static string[] ListOfProperties()
