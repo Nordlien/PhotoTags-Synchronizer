@@ -430,7 +430,6 @@ namespace Exiftool
         #region Verify HasWriteMetadataErrors
         public static bool HasWriteMetadataErrors(Metadata metadataRead, 
             List<Metadata> metadataWrittenByExiftoolWaitVerify,       /* Data was got to by  after saved */ 
-            List<Metadata> metadataSaveExiftoolParameter,   /* Data sent to exiftool for saving */ 
             out Metadata metadataUpdatedByUserCopy, out string message)
         {
             //Out parameter default
