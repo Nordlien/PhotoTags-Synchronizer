@@ -430,14 +430,7 @@ namespace PhotoTagsSynchronizer
 
 
 
-
-
-
-
-
         #endregion
-
-       
 
         
     }

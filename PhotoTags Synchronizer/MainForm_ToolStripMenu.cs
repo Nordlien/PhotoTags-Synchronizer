@@ -2,9 +2,11 @@
 using Exiftool;
 using Manina.Windows.Forms;
 using MetadataLibrary;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -1302,6 +1304,109 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
+
+        public void ShowFileInExplorer(string fileFullPath)
+        {
+            ProcessStartInfo proc = new ProcessStartInfo();
+            proc.FileName = "explorer.exe";
+            proc.Arguments = "/select, \"" + fileFullPath + "\"";
+            Process.Start(proc);
+
+        }
+
+        public void ShowOpenWithDialog(string path)
+        {
+            var args = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll");
+            args += ",OpenAs_RunDLL " + path;
+            Process.Start("rundll32.exe", args);
+        }
+
+        public void StartApplication(string fileFullPath)
+        {
+            Process.Start(fileFullPath);
+        }
+
+        public void StartEditApplication(string fileFullPath)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo(fileFullPath);
+            startInfo.Verb = "edit";
+            Process.Start(startInfo);
+        }
+
+        private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if (imageListView1.SelectedItems.Count > 0)
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                ShowOpenWithDialog(imageListViewItem.FullFileName);
+            }
+        }
+
+        private void openFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                StartApplication(imageListViewItem.FullFileName);
+            }
+        }
+
+        private void editFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                StartEditApplication(imageListViewItem.FullFileName);
+            }
+        }
+
+        private void openFileLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if (imageListView1.SelectedItems.Count > 0)
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                ShowFileInExplorer(imageListViewItem.FullFileName);
+            }
+        }
+
+        private void openFolderLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProcessStartInfo proc = new ProcessStartInfo();
+            proc.FileName = "explorer.exe";
+            proc.Arguments = folderTreeViewFolder.GetSelectedNodePath();
+            Process.Start(proc);
+        }
+
+        private void copyFileNamesToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageListView1.SelectedItems.Count > 0)
+            {
+                string text = "";
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                {
+                    text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FullFileName;
+                }
+                Clipboard.SetText(text);
+            }
+        }
+    }
+
+
+    public class Test
+    {
+        public void Test2()
+        {
+            
+            RegistryKey branch = Registry.CurrentUser;
+            branch = branch.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts", 
+                Microsoft.Win32.RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
+            var subKeyNames = branch.GetSubKeyNames();
+            var DisplayNames = new List<string>();
+            foreach (string subkey_name in branch.GetSubKeyNames())
+            {
+                using (RegistryKey subkey = branch.OpenSubKey(subkey_name))
+                {
+                    DisplayNames.Add((string)subkey.GetValue("DisplayName"));
+                }
+            }
+        }
     }
 }

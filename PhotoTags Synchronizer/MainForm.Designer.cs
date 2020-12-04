@@ -56,6 +56,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderReload = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderClearCache = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFolderLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageFilterTags = new System.Windows.Forms.TabPage();
             this.treeViewFilter = new System.Windows.Forms.TreeView();
             this.splitContainerImages = new System.Windows.Forms.SplitContainer();
@@ -63,6 +64,7 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripImageListView = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemImageListViewCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyFileNamesToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewRefreshFolder = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +72,9 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewAutoCorrect = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileWithAssociatedApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editFileWithAssociatedApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControlToolbox = new System.Windows.Forms.TabControl();
             this.tabPageTags = new System.Windows.Forms.TabPage();
@@ -238,6 +243,7 @@ namespace PhotoTagsSynchronizer
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
             this.timerShowExiftoolSaveProgress = new System.Windows.Forms.Timer(this.components);
+            this.openWithDialogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -428,9 +434,10 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderReadSubfolders,
             this.toolStripMenuItemTreeViewFolderReload,
             this.toolStripMenuItemTreeViewFolderClearCache,
-            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata});
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata,
+            this.openFolderLocationToolStripMenuItem});
             this.contextMenuStripTreeViewFolder.Name = "contextMenuStripImageListView";
-            this.contextMenuStripTreeViewFolder.Size = new System.Drawing.Size(390, 238);
+            this.contextMenuStripTreeViewFolder.Size = new System.Drawing.Size(390, 264);
             // 
             // toolStripMenuItemTreeViewFolderCut
             // 
@@ -512,6 +519,15 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Size = new System.Drawing.Size(389, 26);
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Text = "AutoCorrect metadata";
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click);
+            // 
+            // openFolderLocationToolStripMenuItem
+            // 
+            this.openFolderLocationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
+            this.openFolderLocationToolStripMenuItem.Name = "openFolderLocationToolStripMenuItem";
+            this.openFolderLocationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
+            this.openFolderLocationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.openFolderLocationToolStripMenuItem.Text = "Open Folder Location";
+            this.openFolderLocationToolStripMenuItem.Click += new System.EventHandler(this.openFolderLocationToolStripMenuItem_Click);
             // 
             // tabPageFilterTags
             // 
@@ -597,15 +613,20 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripImageListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemImageListViewCut,
             this.toolStripMenuItemImageListViewCopy,
+            this.copyFileNamesToClipboardToolStripMenuItem,
             this.toolStripMenuItemImageListViewPaste,
             this.toolStripMenuItemImageListViewDelete,
             this.toolStripMenuItemImageListViewRefreshFolder,
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata,
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory,
             this.toolStripMenuItemImageListViewSelectAll,
-            this.toolStripMenuItemImageListViewAutoCorrect});
+            this.toolStripMenuItemImageListViewAutoCorrect,
+            this.openFileLocationToolStripMenuItem,
+            this.openWithDialogToolStripMenuItem,
+            this.openFileWithAssociatedApplicationToolStripMenuItem,
+            this.editFileWithAssociatedApplicationToolStripMenuItem});
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
-            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 238);
+            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 396);
             // 
             // toolStripMenuItemImageListViewCut
             // 
@@ -624,6 +645,16 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewCopy.Size = new System.Drawing.Size(389, 26);
             this.toolStripMenuItemImageListViewCopy.Text = "Copy";
             this.toolStripMenuItemImageListViewCopy.Click += new System.EventHandler(this.toolStripMenuItemImageListViewCopy_Click);
+            // 
+            // copyFileNamesToClipboardToolStripMenuItem
+            // 
+            this.copyFileNamesToClipboardToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.copyFileNamesToClipboardToolStripMenuItem.Name = "copyFileNamesToClipboardToolStripMenuItem";
+            this.copyFileNamesToClipboardToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.copyFileNamesToClipboardToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.copyFileNamesToClipboardToolStripMenuItem.Text = "Copy file names to Clipboard";
+            this.copyFileNamesToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyFileNamesToClipboardToolStripMenuItem_Click);
             // 
             // toolStripMenuItemImageListViewPaste
             // 
@@ -688,6 +719,33 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewAutoCorrect.Size = new System.Drawing.Size(389, 26);
             this.toolStripMenuItemImageListViewAutoCorrect.Text = "AutoCorrect metadata";
             this.toolStripMenuItemImageListViewAutoCorrect.Click += new System.EventHandler(this.toolStripMenuItemImageListViewAutoCorrect_Click);
+            // 
+            // openFileLocationToolStripMenuItem
+            // 
+            this.openFileLocationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
+            this.openFileLocationToolStripMenuItem.Name = "openFileLocationToolStripMenuItem";
+            this.openFileLocationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
+            this.openFileLocationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.openFileLocationToolStripMenuItem.Text = "Open file Location";
+            this.openFileLocationToolStripMenuItem.Click += new System.EventHandler(this.openFileLocationToolStripMenuItem_Click);
+            // 
+            // openFileWithAssociatedApplicationToolStripMenuItem
+            // 
+            this.openFileWithAssociatedApplicationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
+            this.openFileWithAssociatedApplicationToolStripMenuItem.Name = "openFileWithAssociatedApplicationToolStripMenuItem";
+            this.openFileWithAssociatedApplicationToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.openFileWithAssociatedApplicationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.openFileWithAssociatedApplicationToolStripMenuItem.Text = "Open file with associated application";
+            this.openFileWithAssociatedApplicationToolStripMenuItem.Click += new System.EventHandler(this.openFileWithAssociatedApplicationToolStripMenuItem_Click);
+            // 
+            // editFileWithAssociatedApplicationToolStripMenuItem
+            // 
+            this.editFileWithAssociatedApplicationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
+            this.editFileWithAssociatedApplicationToolStripMenuItem.Name = "editFileWithAssociatedApplicationToolStripMenuItem";
+            this.editFileWithAssociatedApplicationToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.editFileWithAssociatedApplicationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.editFileWithAssociatedApplicationToolStripMenuItem.Text = "Edit file with associated application";
+            this.editFileWithAssociatedApplicationToolStripMenuItem.Click += new System.EventHandler(this.editFileWithAssociatedApplicationToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -807,7 +865,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewTagsAndKeywords.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTagsAndKeywords.ShowCellErrors = false;
             this.dataGridViewTagsAndKeywords.ShowRowErrors = false;
-            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(530, 424);
+            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(530, 423);
             this.dataGridViewTagsAndKeywords.TabIndex = 10;
             this.dataGridViewTagsAndKeywords.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTagsAndKeywords_CellBeginEdit);
             this.dataGridViewTagsAndKeywords.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewTagsAndKeywords_CellMouseClick);
@@ -2599,6 +2657,15 @@ namespace PhotoTagsSynchronizer
             this.timerShowExiftoolSaveProgress.Interval = 400;
             this.timerShowExiftoolSaveProgress.Tick += new System.EventHandler(this.timerShowExiftoolSaveProgress_Tick);
             // 
+            // openWithDialogToolStripMenuItem
+            // 
+            this.openWithDialogToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
+            this.openWithDialogToolStripMenuItem.Name = "openWithDialogToolStripMenuItem";
+            this.openWithDialogToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openWithDialogToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.openWithDialogToolStripMenuItem.Text = "Open with dialog...";
+            this.openWithDialogToolStripMenuItem.Click += new System.EventHandler(this.openWithDialogToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2880,6 +2947,12 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningShowFavorite;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningHideEqual;
         private System.Windows.Forms.Timer timerShowExiftoolSaveProgress;
+        private System.Windows.Forms.ToolStripMenuItem openFileLocationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openFolderLocationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyFileNamesToClipboardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openFileWithAssociatedApplicationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editFileWithAssociatedApplicationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openWithDialogToolStripMenuItem;
     }
 }
 

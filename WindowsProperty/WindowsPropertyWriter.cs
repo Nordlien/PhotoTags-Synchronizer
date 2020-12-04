@@ -10,127 +10,75 @@ namespace WindowsProperty
     {
         private ShellFile shellFile;
         private ShellPropertyWriter propertyWriter;
-        //private IShellProperty shellProperty;
-
+        
         public WindowsPropertyWriter(string fullFileName)
         {
-            try
-            {
-                shellFile = ShellFile.FromFilePath(fullFileName);
-                propertyWriter = shellFile.Properties.GetPropertyWriter();
-            }
-            catch { }
+            shellFile = ShellFile.FromFilePath(fullFileName);
+            propertyWriter = shellFile.Properties.GetPropertyWriter();
         }
+
         public void Dispose()
         {
-            try 
-            {
-                if (propertyWriter != null) propertyWriter.Dispose();
-                propertyWriter = null;
-                shellFile.Dispose();
-                shellFile = null;
-                //shellProperty = null;
-            }
-            catch { }        
+            if (propertyWriter != null) propertyWriter.Dispose();
+            propertyWriter = null;
+            shellFile.Dispose();
+            shellFile = null;
+            //shellProperty = null;
         }
 
         public void Close()
         {
-            try
-            {
-                if (propertyWriter != null) propertyWriter.Close();
-            }
-            catch { }
+            if (propertyWriter != null) propertyWriter.Close();
         }
 
         public void WriteKeywords(string tags)
         {
-            try
-            {
-                if (propertyWriter!=null) propertyWriter.WriteProperty(SystemProperties.System.Keywords, tags);
-            }
-            catch { }
+            if (propertyWriter!=null) propertyWriter.WriteProperty(SystemProperties.System.Keywords, tags);
         }
 
         public void WriteNames(string names)
         {
-            try
-            {
-                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Photo.PeopleNames, names);
-            }
-            catch { }
+            if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Photo.PeopleNames, names);
         }
 
         public void WriteCategories(string categories)
         {
-            try
-            {
-                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Category, categories);
-            }
-            catch { }
+            if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Category, categories);
         }
-        
+
 
         public void WriteAlbum(string album)
         {
-            try
-            {
-                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Music.AlbumTitle, album);
-            }
-            catch { }
+            if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Music.AlbumTitle, album);
         }
 
         public void WriteSubtitle_Description(string description)
         {
-            try
-            {
-                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Media.Subtitle, description);
-            }
-            catch { }
+            if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Media.Subtitle, description);
         }
         public void WriteSubject_Description(string subject)
         {
-            try
-            {
-                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Subject, subject);
-            }
-            catch { }
+            if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Subject, subject);
         }
 
         public void WriteComment(string comment)
         {
-            try
-            {
-                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Comment, comment);
-            }
-            catch { }
+            if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Comment, comment);
         }
 
         public void WriteDateTaken(DateTime dateTime)
         {
-            try
-            {
-                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Photo.DateTaken, dateTime);
-            }
-            catch { }
+            if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Photo.DateTaken, dateTime);
         }
 
         public void WriteArtist_Author(string author)
         {
-            try
-            {
-                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Music.Artist, author);
-            }
-            catch { }
+            if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Music.Artist, author);
         }
-      
+
         public void WriteRating(int rating)
         {
-            try
-            {
-                if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Rating, rating);
-            }
-            catch { }
+            if (propertyWriter != null) propertyWriter.WriteProperty(SystemProperties.System.Rating, rating);
         }
     }
 

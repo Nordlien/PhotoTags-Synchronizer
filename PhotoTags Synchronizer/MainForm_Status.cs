@@ -109,6 +109,7 @@ namespace PhotoTagsSynchronizer
                             long tempFileSize = new FileInfo(tempFile).Length;
                             if (keyValuePair.Value != tempFileSize) UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
                             fileSaveSize[keyValuePair.Key] = tempFileSize;
+UpdateStatusAllQueueStatus(); 
                             break;
                         }
                     }
@@ -130,6 +131,7 @@ namespace PhotoTagsSynchronizer
 
         private void ShowExiftoolSaveProgressStop()
         {
+            ShowExiftoolSaveProgressClear();
             //fileSaveSizefileSaveSize.Clear();
             //timerShowExiftoolSaveProgress.Stop();
         }
@@ -149,13 +151,13 @@ namespace PhotoTagsSynchronizer
 
         private int CountSaveQueue()
         {
-            int countToSave = commonQueueSaveMetadataUpdatedByUser.Count;
+            int countToSave = CommonQueueSaveMetadataUpdatedByUserCountLock();
             try
             {
+                
                 lock (fileSaveSizeLock)
-                {
-                    if (CommonQueueSaveMetadataUpdatedByUserCountLock() == 0 || fileSaveSize.Count == 0) return countToSave;
-                    countToSave = commonQueueSaveMetadataUpdatedByUser.Count; //In the queue
+                {                    
+                    if (countToSave == 0 && fileSaveSize.Count == 0) return countToSave; //Zero 0
                     foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize) if (keyValuePair.Value == 0) countToSave++; //In progress with Exiftool
                     if (countToSave >= 0) countToSave++; //Something is in progress saving
                 }

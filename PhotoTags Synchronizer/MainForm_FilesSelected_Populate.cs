@@ -129,6 +129,7 @@ namespace PhotoTagsSynchronizer
         {
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
+                System.Diagnostics.Debug.WriteLine("UpdateMetadataOnSelectedFilesOnActiveDataGrivView: imageListViewItem.FullFileName" + imageListViewItem.FullFileName);
                 PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListViewItem.FullFileName);
             }
         }

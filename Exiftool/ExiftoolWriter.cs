@@ -128,6 +128,8 @@ namespace Exiftool
 
         #region WriteMetadata
         public static List<Metadata> WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, 
+            out Dictionary<string, string> errorsWhenWriteProperties,
+            out List<FileEntry> filesUpdatedByWriteProperties,
             List<string> allowedFileNameDateTimeFormats, string writeMetadataTags, string writeMetadataKeywordDelete, string writeMetadataKeywordAdd,
             string writeXtraAtomAlbum, bool writeXtraAtomAlbumVideo,
             string writeXtraAtomCategories, bool writeXtraAtomCategoriesVideo,
@@ -138,6 +140,8 @@ namespace Exiftool
             string writeXtraAtomSubtitle, bool writeXtraAtomSubtitleVideo,
             string writeXtraAtomArtist, bool writeXtraAtomArtistVideo)
         {
+            errorsWhenWriteProperties = new Dictionary<string, string>();
+            filesUpdatedByWriteProperties = new List<FileEntry>();
             List<Metadata> metadataSaved = new List<Metadata>();
 
             if (metadataListToWrite.Count <= 0) return metadataSaved;
@@ -177,8 +181,8 @@ namespace Exiftool
                         if (personalKeywordsList.Length > 0) personalKeywordsList += ";";
                         personalKeywordsList += keywordTag;
                     }
-                    #endregion 
-                    
+                    #endregion
+
                     #region Create Variable -Categories={PersonalKeywordsXML}
                     string keywordCategories = "<Categories>";
                     foreach (KeywordTag tagHierarchy in metadataToWrite.PersonalKeywordTags)
@@ -206,7 +210,7 @@ namespace Exiftool
                     #endregion
 
                     #region Create Variable -RegionInfoMP={PersonalRegionInfoMP} - Microsoft region tags 
-                    string personalRegionInfoMP = "";                    
+                    string personalRegionInfoMP = "";
                     if (regionWriteListWithoutDuplicate.Count > 0)
                     {
                         bool needComma = false;
@@ -231,9 +235,9 @@ namespace Exiftool
                     if (regionWriteListWithoutDuplicate.Count > 0)
                     {
                         bool needComma = false;
-                        personalRegionInfo += "{AppliedToDimensions={W=" + metadataToWrite.MediaWidth + 
-                            ",H=" + metadataToWrite.MediaHeight + 
-                            ",Unit=pixel}," + 
+                        personalRegionInfo += "{AppliedToDimensions={W=" + metadataToWrite.MediaWidth +
+                            ",H=" + metadataToWrite.MediaHeight +
+                            ",Unit=pixel}," +
                             "RegionList=[";
                         foreach (RegionStructure region in regionWriteListWithoutDuplicate)
                         {
@@ -296,7 +300,7 @@ namespace Exiftool
                     #endregion
 
                     #region Create Variable - Keyword items - ***Loop of keyword items***
-                    string personalKeywordAdd = ""; 
+                    string personalKeywordAdd = "";
                     foreach (KeywordTag keywordTag in metadataToWrite.PersonalKeywordTags)
                     {
                         string keywordItemToWrite = metadataToWrite.ReplaceVariables(writeMetadataKeywordAdd, true, true, allowedFileNameDateTimeFormats,
@@ -324,48 +328,59 @@ namespace Exiftool
                     string writeXtraAtomSubtitleResult = metadataToWrite.ReplaceVariables(writeXtraAtomSubtitle, true, true, allowedFileNameDateTimeFormats,
                         personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
                     string writeXtraAtomArtistResult = metadataToWrite.ReplaceVariables(writeXtraAtomArtist, true, true, allowedFileNameDateTimeFormats,
-                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);                    
+                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
                     #endregion
 
                     #region Write Xtra Atrom using Property Writer
-                    if (writeXtraAtomKeywordsVideo || writeXtraAtomCategoriesVideo || writeXtraAtomAlbumVideo || writeXtraAtomSubtitleVideo || 
-                        writeXtraAtomArtistVideo || wtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo || 
+                    if (writeXtraAtomKeywordsVideo || writeXtraAtomCategoriesVideo || writeXtraAtomAlbumVideo || writeXtraAtomSubtitleVideo ||
+                        writeXtraAtomArtistVideo || wtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
                         writeXtraAtomSubjectPicture || writeXtraAtomCommentPicture || writeXtraAtomRatingPicture)
                     {
                         WaitLockedFilesToBecomeUnlocked(metadataToWrite.FileFullPath);
                         if (!IsFileLockedByProcess(metadataToWrite.FileFullPath))
                         {
-                            using (WindowsPropertyWriter windowsPropertyWriter = new WindowsPropertyWriter(metadataToWrite.FileFullPath))
+                            try
                             {
-                                if (isVideoFormat)
+                                using (WindowsPropertyWriter windowsPropertyWriter = new WindowsPropertyWriter(metadataToWrite.FileFullPath))
                                 {
-                                    
-                                    if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
-                                    if (writeXtraAtomCategoriesVideo) windowsPropertyWriter.WriteCategories(string.IsNullOrEmpty(writeXtraAtomCategoriesResult) ? null : writeXtraAtomCategoriesResult);
-                                    if (writeXtraAtomAlbumVideo) windowsPropertyWriter.WriteAlbum(string.IsNullOrEmpty(writeXtraAtomAlbumReult) ? null : writeXtraAtomAlbumReult);
+                                    if (isVideoFormat)
+                                    {
 
-                                    if (writeXtraAtomSubtitleVideo) windowsPropertyWriter.WriteSubtitle_Description(string.IsNullOrEmpty(writeXtraAtomSubtitleResult) ? null : writeXtraAtomSubtitleResult);
-                                    if (writeXtraAtomArtistVideo) windowsPropertyWriter.WriteArtist_Author(string.IsNullOrEmpty(writeXtraAtomArtistResult) ? null : writeXtraAtomArtistResult);
+                                        if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
+                                        if (writeXtraAtomCategoriesVideo) windowsPropertyWriter.WriteCategories(string.IsNullOrEmpty(writeXtraAtomCategoriesResult) ? null : writeXtraAtomCategoriesResult);
+                                        if (writeXtraAtomAlbumVideo) windowsPropertyWriter.WriteAlbum(string.IsNullOrEmpty(writeXtraAtomAlbumReult) ? null : writeXtraAtomAlbumReult);
 
-                                    if (wtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
-                                    if (writeXtraAtomCommentVideo) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
-                                    if (writeXtraAtomRatingVideo) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                                        if (writeXtraAtomSubtitleVideo) windowsPropertyWriter.WriteSubtitle_Description(string.IsNullOrEmpty(writeXtraAtomSubtitleResult) ? null : writeXtraAtomSubtitleResult);
+                                        if (writeXtraAtomArtistVideo) windowsPropertyWriter.WriteArtist_Author(string.IsNullOrEmpty(writeXtraAtomArtistResult) ? null : writeXtraAtomArtistResult);
+
+                                        if (wtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
+                                        if (writeXtraAtomCommentVideo) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
+                                        if (writeXtraAtomRatingVideo) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                                    }
+                                    else if (isImageFormat)
+                                    {
+                                        if (writeXtraAtomSubjectPicture) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
+                                        if (writeXtraAtomCommentPicture) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
+                                        if (writeXtraAtomRatingPicture) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                                    }
+
+                                    windowsPropertyWriter.Close();
+
+                                    filesUpdatedByWriteProperties.Add(new FileEntry(metadataToWrite.FileFullPath, File.GetLastWriteTime(metadataToWrite.FileFullPath)));
                                 }
-                                else if (isImageFormat)
-                                {
-                                    if (writeXtraAtomSubjectPicture) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
-                                    if (writeXtraAtomCommentPicture) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
-                                    if (writeXtraAtomRatingPicture) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
-                                }
-                                
-                                windowsPropertyWriter.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error("Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n" + ex.Message);
+                                errorsWhenWriteProperties.Add(metadataToWrite.FileFullPath, ex.Message);
                             }
                         }
                     }
-                    #endregion 
+                    #endregion
 
                     sw.WriteLine(tagsToWrite); //Append Exiftool argu file with new file attributes to write
-                } 
+                    
+                }
             }
 
             #region Exiftool Write

@@ -224,7 +224,7 @@ namespace PhotoTagsSynchronizer
 
         private void imageListView1_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
-            System.Diagnostics.Process.Start(Path.Combine(e.Item.FileDirectory, e.Item.FullFileName));
+            StartApplication(e.Item.FullFileName);
         }
 
     }
