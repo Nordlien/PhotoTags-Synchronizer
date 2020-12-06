@@ -2,7 +2,6 @@
 using Exiftool;
 using Manina.Windows.Forms;
 using MetadataLibrary;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;

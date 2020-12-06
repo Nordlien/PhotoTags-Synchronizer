@@ -212,8 +212,12 @@ namespace PhotoTagsSynchronizer
             for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
             {
                 DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null)
+                if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
+                {
+                    if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxTitle.Text) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, comboBoxTitle.Text);
+                    
+                }
             }
         }
 
@@ -228,8 +232,11 @@ namespace PhotoTagsSynchronizer
             for (int columnIndex = 0; columnIndex < dataGridViewTagsAndKeywords.Columns.Count; columnIndex++)
             {
                 DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null)
+                if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
+                {
+                    if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxDescription.Text) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, comboBoxDescription.Text);
+                }
             }
         }
 
@@ -244,8 +251,11 @@ namespace PhotoTagsSynchronizer
             for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
             {
                 DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null)
+                if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
+                {
+                    if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxComments.Text) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, comboBoxComments.Text);
+                }
             }
         }
 
@@ -260,8 +270,11 @@ namespace PhotoTagsSynchronizer
             for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
             {
                 DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null)
+                if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
+                {
+                    if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxAlbum.Text) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, comboBoxAlbum.Text);
+                }
             }
         }
 
@@ -276,8 +289,12 @@ namespace PhotoTagsSynchronizer
             for (int columnIndex = 0; columnIndex < dataGridView.Columns.Count; columnIndex++)
             {
                 DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericDataColumn.Metadata != null)
+                if (dataGridViewGenericDataColumn.Metadata != null && dataGridViewGenericDataColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite)
+                {
+                    if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != comboBoxAuthor.Text) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
+
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, comboBoxAuthor.Text);
+                }
             }
         }
 
@@ -299,7 +316,10 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridViewGenericColumn dataGridViewGenericDataColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
                 if (dataGridViewGenericDataColumn.Metadata != null)
+                {
+                    if (DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex) != (rating == null ? "" :rating.ToString()) ) DataGridViewHandler.SetDataGridViewDirty(dataGridView, columnIndex);
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, rating);
+                }
             }
         }
 
