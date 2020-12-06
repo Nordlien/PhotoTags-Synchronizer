@@ -73,8 +73,10 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewAutoCorrect = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openWithDialogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileWithAssociatedApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editFileWithAssociatedApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runSelectedToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControlToolbox = new System.Windows.Forms.TabControl();
             this.tabPageTags = new System.Windows.Forms.TabPage();
@@ -243,7 +245,6 @@ namespace PhotoTagsSynchronizer
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
             this.timerShowExiftoolSaveProgress = new System.Windows.Forms.Timer(this.components);
-            this.openWithDialogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -437,7 +438,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata,
             this.openFolderLocationToolStripMenuItem});
             this.contextMenuStripTreeViewFolder.Name = "contextMenuStripImageListView";
-            this.contextMenuStripTreeViewFolder.Size = new System.Drawing.Size(390, 264);
+            this.contextMenuStripTreeViewFolder.Size = new System.Drawing.Size(390, 292);
             // 
             // toolStripMenuItemTreeViewFolderCut
             // 
@@ -624,9 +625,10 @@ namespace PhotoTagsSynchronizer
             this.openFileLocationToolStripMenuItem,
             this.openWithDialogToolStripMenuItem,
             this.openFileWithAssociatedApplicationToolStripMenuItem,
-            this.editFileWithAssociatedApplicationToolStripMenuItem});
+            this.editFileWithAssociatedApplicationToolStripMenuItem,
+            this.runSelectedToolStripMenuItem1});
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
-            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 396);
+            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 394);
             // 
             // toolStripMenuItemImageListViewCut
             // 
@@ -729,6 +731,15 @@ namespace PhotoTagsSynchronizer
             this.openFileLocationToolStripMenuItem.Text = "Open file Location";
             this.openFileLocationToolStripMenuItem.Click += new System.EventHandler(this.openFileLocationToolStripMenuItem_Click);
             // 
+            // openWithDialogToolStripMenuItem
+            // 
+            this.openWithDialogToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
+            this.openWithDialogToolStripMenuItem.Name = "openWithDialogToolStripMenuItem";
+            this.openWithDialogToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openWithDialogToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.openWithDialogToolStripMenuItem.Text = "Open with dialog...";
+            this.openWithDialogToolStripMenuItem.Click += new System.EventHandler(this.openWithDialogToolStripMenuItem_Click);
+            // 
             // openFileWithAssociatedApplicationToolStripMenuItem
             // 
             this.openFileWithAssociatedApplicationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
@@ -746,6 +757,14 @@ namespace PhotoTagsSynchronizer
             this.editFileWithAssociatedApplicationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
             this.editFileWithAssociatedApplicationToolStripMenuItem.Text = "Edit file with associated application";
             this.editFileWithAssociatedApplicationToolStripMenuItem.Click += new System.EventHandler(this.editFileWithAssociatedApplicationToolStripMenuItem_Click);
+            // 
+            // runSelectedToolStripMenuItem1
+            // 
+            this.runSelectedToolStripMenuItem1.Name = "runSelectedToolStripMenuItem1";
+            this.runSelectedToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
+            this.runSelectedToolStripMenuItem1.Size = new System.Drawing.Size(389, 26);
+            this.runSelectedToolStripMenuItem1.Text = "Run...";
+            this.runSelectedToolStripMenuItem1.Click += new System.EventHandler(this.runSelectedLocationToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -2657,15 +2676,6 @@ namespace PhotoTagsSynchronizer
             this.timerShowExiftoolSaveProgress.Interval = 400;
             this.timerShowExiftoolSaveProgress.Tick += new System.EventHandler(this.timerShowExiftoolSaveProgress_Tick);
             // 
-            // openWithDialogToolStripMenuItem
-            // 
-            this.openWithDialogToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
-            this.openWithDialogToolStripMenuItem.Name = "openWithDialogToolStripMenuItem";
-            this.openWithDialogToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openWithDialogToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.openWithDialogToolStripMenuItem.Text = "Open with dialog...";
-            this.openWithDialogToolStripMenuItem.Click += new System.EventHandler(this.openWithDialogToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2953,6 +2963,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem openFileWithAssociatedApplicationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editFileWithAssociatedApplicationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openWithDialogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runSelectedToolStripMenuItem1;
     }
 }
 

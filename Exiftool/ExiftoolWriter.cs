@@ -286,7 +286,7 @@ namespace Exiftool
 
         #region CreateExiftoolArguFileText
         public static List<FileEntry> CreateExiftoolArguFileText(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
-            string writeMetadataTagsVariable, string writeMetadataKeywordDeleteVariable, string writeMetadataKeywordAddVariable, out string exiftoolArguFileText)
+            string writeMetadataTagsVariable, string writeMetadataKeywordDeleteVariable, string writeMetadataKeywordAddVariable, bool alwaysWrite, out string exiftoolArguFileText)
         {
             exiftoolArguFileText = "";
             List<FileEntry> filesNeedToBeUpadted = new List<FileEntry>();
@@ -300,10 +300,10 @@ namespace Exiftool
                 Metadata metadataToWrite = metadataListToWrite[updatedRecord];
                 Metadata metadataOriginal = metadataListOriginal[updatedRecord];
 
-                if (metadataToWrite == metadataOriginal) continue; //No changes found in data, No data to write
+                if (!alwaysWrite && metadataToWrite == metadataOriginal) continue; //No changes found in data, No data to write
                 filesNeedToBeUpadted.Add(metadataToWrite.FileEntryBroker);
 
-                string tagsToWrite = metadataToWrite.RemoveLines(writeMetadataTagsVariable, metadataOriginal, false);
+                string tagsToWrite = metadataToWrite.RemoveLines(writeMetadataTagsVariable, metadataOriginal, alwaysWrite);
                 string personalKeywordDelete = metadataOriginal.ReplaceVariables(writeMetadataKeywordDeleteVariable, allowedFileNameDateTimeFormats);
                 string personalKeywordAdd = metadataToWrite.ReplaceVariables(writeMetadataKeywordAddVariable, allowedFileNameDateTimeFormats);
                 tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordDelete, personalKeywordAdd);
@@ -330,9 +330,8 @@ namespace Exiftool
             string writeMetadataTagsVariable, string writeMetadataKeywordDeleteVariable, string writeMetadataKeywordAddVariable)
         {
             List<FileEntry> filesNeedToBeUpadted = CreateExiftoolArguFileText(
-                metadataListToWrite, metadataListOriginal, 
-                allowedFileNameDateTimeFormats, writeMetadataTagsVariable, 
-                writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, out string resultReplaceVariables);
+                metadataListToWrite, metadataListOriginal, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, 
+                false, out string resultReplaceVariables);
 
             if (filesNeedToBeUpadted.Count > 0) //Save if has anything to save
             {

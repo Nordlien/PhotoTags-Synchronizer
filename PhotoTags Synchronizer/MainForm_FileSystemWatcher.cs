@@ -28,7 +28,7 @@ namespace PhotoTagsSynchronizer
             foreach (ImageListViewItem item in imageListView1.Items)
             {
 
-                if (e.FullPath == Path.Combine(item.FileDirectory, item.FullFileName))
+                if (e.FullPath == Path.Combine(item.FileDirectory, item.FileFullPath))
                 {
                     if (File.Exists(e.FullPath) && File.GetLastWriteTime(e.FullPath) == item.DateModified)
                     {
@@ -44,10 +44,10 @@ namespace PhotoTagsSynchronizer
                     Logger.Trace("FileSystemWatcherOnChanged: " + e.FullPath + " " + e.ChangeType.ToString());
 
                     FileEntry fileEntry = new FileEntry(
-                    item.FileDirectory, item.FullFileName,
+                    item.FileDirectory, item.FileFullPath,
                     item.DateAccessed);
 
-                    AddQueueAllUpadtedFileEntry(new FileEntryImage(Path.Combine(item.FileDirectory, item.FullFileName), item.DateModified));
+                    AddQueueAllUpadtedFileEntry(new FileEntryImage(Path.Combine(item.FileDirectory, item.FileFullPath), item.DateModified));
                     //return;
                     throw new Exception("Add null ??"); // break;
                 }
@@ -69,7 +69,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem item in imageListView1.SelectedItems)
             {
-                if (e.FullPath == Path.Combine(item.FileDirectory, item.FullFileName))
+                if (e.FullPath == Path.Combine(item.FileDirectory, item.FileFullPath))
                 {
                     //imageListView1.SelectedItems.(item);
 
@@ -80,7 +80,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem item in imageListView1.Items)
             {
-                if (e.FullPath == item.FullFileName)
+                if (e.FullPath == item.FileFullPath)
                 {
                     //FileEntry fileEntry = new FileEntry(item.FileDirectory, item.FullFileName, item.DateModified);
 
@@ -111,7 +111,7 @@ namespace PhotoTagsSynchronizer
             Logger.Trace("FileSystemWatcherOnChanged: " + e.FullPath + " " + e.ChangeType.ToString());
             foreach (ImageListViewItem item in imageListView1.SelectedItems)
             {
-                if (e.FullPath == Path.Combine(item.FileDirectory, item.FullFileName) &&
+                if (e.FullPath == Path.Combine(item.FileDirectory, item.FileFullPath) &&
                     (File.Exists(e.FullPath) && File.GetLastWriteTime(e.FullPath) == item.DateModified))
                 {
                     Logger.Warn("FileSystemWatcherOnChanged was not created: " + e.FullPath + " " + e.ChangeType.ToString());

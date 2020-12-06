@@ -226,7 +226,7 @@ namespace Manina.Windows.Forms
                 if (isVirtualItem)
                     mImageListView.cacheManager.Add(Guid, mVirtualItemKey, mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                 else
-                    mImageListView.cacheManager.Add(Guid, FullFileName, mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
+                    mImageListView.cacheManager.Add(Guid, FileFullPath, mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                 return mImageListView.DefaultImage;
             }
             
@@ -266,7 +266,7 @@ namespace Manina.Windows.Forms
         /// Gets or sets the name of the image fie represented by this item.
         /// </summary>        
         [Category("Data"), Browsable(false), Description("Gets or sets the name of the image fie represented by this item.")]
-        public string FullFileName
+        public string FileFullPath
         {
             get
             {
@@ -541,7 +541,7 @@ namespace Manina.Windows.Forms
                     else
                         return DateModified.ToString("g");
                 case ColumnType.FileName:
-                    return FullFileName;
+                    return FileFullPath;
                 case ColumnType.Name:
                     return Text;
                 case ColumnType.FileDirectory:

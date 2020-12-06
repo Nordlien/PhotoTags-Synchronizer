@@ -847,7 +847,7 @@ namespace DataGridViewGeneric
             foreach (ImageListViewItem imageListViewItem in imageListViewItems)
             {
                 AddColumnOrUpdate(dataGridView, 
-                    new FileEntryImage(imageListViewItem.FullFileName, 
+                    new FileEntryImage(imageListViewItem.FileFullPath, 
                     useCurrentFileLastWrittenDate ? imageListViewItem.DateModified : DateTimeForEditableMediaFile, //Use currentFile Last Written date, or future file for always keep same column for edit 
                     (Image)imageListViewItem.ThumbnailImage.Clone()),
                     null,                                                                   //No metadata yet 
@@ -990,7 +990,6 @@ namespace DataGridViewGeneric
                             }
                         }
 
-                        
                     }
                     else
                     {

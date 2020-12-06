@@ -187,7 +187,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
             {
-                if (imageListViewItem.FullFileName == e.FullFilePath) //Only to find DateTime Modified in the stored in the ImageListView
+                if (imageListViewItem.FileFullPath == e.FullFilePath) //Only to find DateTime Modified in the stored in the ImageListView
                 {
                     PopulateImageOnFileEntryOnSelectedGrivViewInvoke(new FileEntryImage(e.FullFilePath, imageListViewItem.DateModified, e.LoadedImage)); //Also show error thumbnail
                     break;
@@ -224,7 +224,7 @@ namespace PhotoTagsSynchronizer
 
         private void imageListView1_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
-            StartApplication(e.Item.FullFileName);
+            StartApplication(e.Item.FileFullPath);
         }
 
     }

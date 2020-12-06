@@ -290,7 +290,7 @@ namespace Manina.Windows.Forms
                 Image img = mImageListView.cacheManager.GetRendererImage(item.Guid, size, UseEmbeddedThumbnails.Never); //JTN fix to show normal size picture  mImageListView.UseEmbeddedThumbnails);
 
                 if (img == null)
-                    mImageListView.cacheManager.AddToRendererCache(item.Guid, item.FullFileName, size, UseEmbeddedThumbnails.Never); //JTN fix to show normal size picture  mImageListView.UseEmbeddedThumbnails);
+                    mImageListView.cacheManager.AddToRendererCache(item.Guid, item.FileFullPath, size, UseEmbeddedThumbnails.Never); //JTN fix to show normal size picture  mImageListView.UseEmbeddedThumbnails);
 
                 return img;
             }

@@ -414,7 +414,7 @@ namespace Manina.Windows.Forms
                             }
                             else
                             {
-                                filenames.Add(item.FullFileName);
+                                filenames.Add(item.FileFullPath);
                             }
                         }
 
@@ -440,7 +440,7 @@ namespace Manina.Windows.Forms
                         {                          
                             foreach (ImageListViewItem item in mImageListView.SelectedItems)
                             {
-                                if (item.FullFileName == fullFilename)
+                                if (item.FileFullPath == fullFilename)
                                 {
                                     if (!File.Exists(fullFilename))
                                     {

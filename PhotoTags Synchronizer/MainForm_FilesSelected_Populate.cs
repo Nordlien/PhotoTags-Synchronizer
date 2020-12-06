@@ -131,8 +131,8 @@ namespace PhotoTagsSynchronizer
         {
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                System.Diagnostics.Debug.WriteLine("UpdateMetadataOnSelectedFilesOnActiveDataGrivView: imageListViewItem.FullFileName" + imageListViewItem.FullFileName);
-                PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListViewItem.FullFileName);
+                System.Diagnostics.Debug.WriteLine("UpdateMetadataOnSelectedFilesOnActiveDataGrivView: imageListViewItem.FullFileName" + imageListViewItem.FileFullPath);
+                PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListViewItem.FileFullPath);
             }
         }
 
@@ -243,7 +243,7 @@ namespace PhotoTagsSynchronizer
                 ImageListViewSuspendLayoutInvoke(imageListView);
                 foreach (ImageListViewItem item in imageListView.SelectedItems)
                 {
-                    if (item.FullFileName == fullFileName)
+                    if (item.FileFullPath == fullFileName)
                     {
                         existAndUpdated = true;
                         ImageListViewUpdateItemThumbnailAndMetadataInvoke(item);
@@ -290,7 +290,7 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
                 {
-                    AddQueueAllUpadtedFileEntry(new FileEntryImage(imageListViewItem.FullFileName, imageListViewItem.DateModified));
+                    AddQueueAllUpadtedFileEntry(new FileEntryImage(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
            
                 }
                 StartThreads();

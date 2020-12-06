@@ -327,7 +327,7 @@ namespace PhotoTagsSynchronizer
             //Populate one and one of selected files, (new versions of files can be added)
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                PopulateFile(dataGridView, imageListViewItem.FullFileName, showWhatColumns, 
+                PopulateFile(dataGridView, imageListViewItem.FileFullPath, showWhatColumns, 
                     useCurrentFileLastWrittenDate ? imageListViewItem.DateModified : DataGridViewHandler.DateTimeForEditableMediaFile);
             }
 

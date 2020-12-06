@@ -76,6 +76,14 @@ namespace PhotoTagsSynchronizer
             return (listOfUpdates.Count > 0);
         }
 
+        private void ClearDataGridDirtyFlag()
+        {
+            if (GlobalData.IsAgregatedTags) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewTagsAndKeywords);
+            if (GlobalData.IsAgregatedMap) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewMap);
+            if (GlobalData.IsAgregatedPeople) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewPeople);
+            if (GlobalData.IsAgregatedDate) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewDate);
+        }
+
         private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView)
         {
             metadataListOriginalExiftool = new List<Metadata>();
@@ -89,32 +97,13 @@ namespace PhotoTagsSynchronizer
 
                 Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
 
-                if (GlobalData.IsAgregatedTags)
-                {
-                    DataGridViewHandler.ClearDataGridViewDirty(dataGridViewTagsAndKeywords);
-                    DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
-                }
-
-                if (GlobalData.IsAgregatedMap)
-                {
-                    DataGridViewHandler.ClearDataGridViewDirty(dataGridViewMap);
-                    DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
-                }
-
-                if (GlobalData.IsAgregatedPeople)
-                {
-                    DataGridViewHandler.ClearDataGridViewDirty(dataGridViewPeople);
-                    DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
-                }
-
-                if (GlobalData.IsAgregatedDate)
-                {
-                    DataGridViewHandler.ClearDataGridViewDirty(dataGridViewDate);
-                    DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
-                }
+                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);                
+                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);               
+                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);                
+                if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
+                
                 metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
                 metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
-
 
                 dataGridViewGenericColumn.Metadata = metadataFromDataGridView; //Updated the column with Metadata according to the user input
             }
@@ -143,13 +132,13 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
+            ClearDataGridDirtyFlag(); //Clear before save; To track if become dirty during save process
             foreach (int updatedRecord in listOfUpdates)
             {
                 //Add only metadata to save queue that that has changed by users
                 AddQueueSaveMetadataUpdatedByUser(metadataListFromDataGridView[updatedRecord], metadataListOriginalExiftool[updatedRecord]);
             }
             ThreadSaveMetadata();
-
         }
 
         private void SaveProperties()
@@ -389,7 +378,7 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemImageListViewCut_Click(object sender, EventArgs e)
         {
             var droplist = new StringCollection();
-            foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FullFileName);
+            foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
 
             DataObject data = new DataObject();
             data.SetFileDropList(droplist);
@@ -406,7 +395,7 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemImageListViewCopy_Click(object sender, EventArgs e)
         {
             StringCollection droplist = new StringCollection();
-            foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FullFileName);
+            foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
 
             DataObject data = new DataObject();
             data.SetFileDropList(droplist);
@@ -428,7 +417,7 @@ namespace PhotoTagsSynchronizer
                 bool fileFound = false;
                 foreach (ImageListViewItem item in imageListView1.Items)
                 {
-                    if (item.FullFileName == fullFilename)
+                    if (item.FileFullPath == fullFilename)
                     {
                         fileFound = true;
                         break;
@@ -1137,10 +1126,10 @@ namespace PhotoTagsSynchronizer
                 foreach (ImageListViewItem item in imageListView1.SelectedItems)
                 {
                     item.BeginEdit();
-                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FullFileName))
+                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
                     {
                         img.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                        img.Save(item.FullFileName);
+                        img.Save(item.FileFullPath);
                     }
                     item.Update();
                     item.EndEdit();
@@ -1156,10 +1145,10 @@ namespace PhotoTagsSynchronizer
                 foreach (ImageListViewItem item in imageListView1.SelectedItems)
                 {
                     item.BeginEdit();
-                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FullFileName))
+                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
                     {
                         img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                        img.Save(item.FullFileName);
+                        img.Save(item.FileFullPath);
                     }
                     item.Update();
                     item.EndEdit();
@@ -1289,7 +1278,7 @@ namespace PhotoTagsSynchronizer
             {
                 Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
                 Metadata metadataToSave = autoCorrect.FixAndSave(
-                    new FileEntry(item.FullFileName, item.DateModified), 
+                    new FileEntry(item.FileFullPath, item.DateModified), 
                     databaseAndCacheMetadataExiftool, 
                     databaseAndCacheMetadataMicrosoftPhotos, 
                     databaseAndCacheMetadataWindowsLivePhotoGallery,
@@ -1336,7 +1325,7 @@ namespace PhotoTagsSynchronizer
             //if (imageListView1.SelectedItems.Count > 0)
             foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
             {
-                ShowOpenWithDialog(imageListViewItem.FullFileName);
+                ShowOpenWithDialog(imageListViewItem.FileFullPath);
             }
         }
 
@@ -1344,7 +1333,7 @@ namespace PhotoTagsSynchronizer
         {
             foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
             {
-                StartApplication(imageListViewItem.FullFileName);
+                StartApplication(imageListViewItem.FileFullPath);
             }
         }
 
@@ -1352,7 +1341,7 @@ namespace PhotoTagsSynchronizer
         {
             foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
             {
-                StartEditApplication(imageListViewItem.FullFileName);
+                StartEditApplication(imageListViewItem.FileFullPath);
             }
         }
 
@@ -1361,7 +1350,7 @@ namespace PhotoTagsSynchronizer
             //if (imageListView1.SelectedItems.Count > 0)
             foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
             {
-                ShowFileInExplorer(imageListViewItem.FullFileName);
+                ShowFileInExplorer(imageListViewItem.FileFullPath);
             }
         }
 
@@ -1380,10 +1369,85 @@ namespace PhotoTagsSynchronizer
                 string text = "";
                 foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
                 {
-                    text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FullFileName;
+                    text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FileFullPath;
                 }
                 Clipboard.SetText(text);
             }
         }
+
+        private void runSelectedLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageListView1.SelectedItems.Count > 0)
+            {
+                
+                
+
+                //Find what columns are updated / changed by user
+                /*List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
+                
+                if (listOfUpdates.Count == 0)
+                {
+                    MessageBox.Show("Can't find any value that was changed. Nothing is saved...");
+                    return;
+                }*/
+
+                string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
+                string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
+                string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
+                /*
+                string writeXtraAtomAlbumVariable = Properties.Settings.Default.XtraAtomAlbumVariable;
+                bool writeXtraAtomAlbumVideo = Properties.Settings.Default.XtraAtomAlbumVideo;
+
+                string writeXtraAtomCategoriesVariable = Properties.Settings.Default.XtraAtomCategoriesVariable;
+                bool writeXtraAtomCategoriesVideo = Properties.Settings.Default.XtraAtomCategoriesVideo;
+
+                string writeXtraAtomCommentVariable = Properties.Settings.Default.XtraAtomCommentVariable;
+                bool writeXtraAtomCommentPicture = Properties.Settings.Default.XtraAtomCommentPicture;
+                bool writeXtraAtomCommentVideo = Properties.Settings.Default.XtraAtomCommentVideo;
+
+                string writeXtraAtomKeywordsVariable = Properties.Settings.Default.XtraAtomKeywordsVariable;
+                bool writeXtraAtomKeywordsVideo = Properties.Settings.Default.XtraAtomKeywordsVideo;
+
+                bool writeXtraAtomRatingPicture = Properties.Settings.Default.XtraAtomRatingPicture;
+                bool writeXtraAtomRatingVideo = Properties.Settings.Default.XtraAtomRatingVideo;
+
+                string writeXtraAtomSubjectVariable = Properties.Settings.Default.XtraAtomSubjectVariable;
+                bool writeXtraAtomSubjectPicture = Properties.Settings.Default.XtraAtomSubjectPicture;
+                bool wtraAtomSubjectVideo = Properties.Settings.Default.XtraAtomSubjectVideo;
+
+                string writeXtraAtomSubtitleVariable = Properties.Settings.Default.XtraAtomSubtitleVariable;
+                bool writeXtraAtomSubtitleVideo = Properties.Settings.Default.XtraAtomSubtitleVideo;
+
+                string writeXtraAtomArtistVariable = Properties.Settings.Default.XtraAtomArtistVariable;
+                bool writeXtraAtomArtistVideo = Properties.Settings.Default.XtraAtomArtistVideo;
+                */
+
+                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
+
+                List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
+
+                ExiftoolWriter.CreateExiftoolArguFileText(
+                    metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, 
+                    true, out string exiftoolAgruFileText);
+
+                #region
+                List<string> selectedFiles = new List<string>();
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                {
+                    selectedFiles.Add(imageListViewItem.FileFullPath);
+                }
+                #endregion 
+
+                using (RunCommand runCommand = new RunCommand())
+                {
+                    runCommand.ArguFile = exiftoolAgruFileText;
+                    runCommand.Metadatas = metadataListFromDataGridView;
+                    runCommand.AllowedFileNameDateTimeFormats = allowedFileNameDateTimeFormats;
+                    runCommand.Init();
+                    runCommand.ShowDialog();
+                }
+            }
+        }
+
     }
 }

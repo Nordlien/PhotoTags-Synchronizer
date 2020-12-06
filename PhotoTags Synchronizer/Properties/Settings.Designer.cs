@@ -816,5 +816,54 @@ namespace PhotoTagsSynchronizer.Properties {
                 this["XtraAtomArtistVideo"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("cmd /K exiftool -t -a -G0:1 -s -n -P -struct \"{FileFullPath}\"")]
+        public string RunBatchCommand {
+            get {
+                return ((string)(this["RunBatchCommand"]));
+            }
+            set {
+                this["RunBatchCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"{" +
+            "TempFileArgumentFullPath}\"")]
+        public string RunArgumentCommand {
+            get {
+                return ((string)(this["RunArgumentCommand"]));
+            }
+            set {
+                this["RunArgumentCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RunOpenVideoWith {
+            get {
+                return ((string)(this["RunOpenVideoWith"]));
+            }
+            set {
+                this["RunOpenVideoWith"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("paint.exe")]
+        public string RunOpenPictureWith {
+            get {
+                return ((string)(this["RunOpenPictureWith"]));
+            }
+            set {
+                this["RunOpenPictureWith"] = value;
+            }
+        }
     }
 }

@@ -568,5 +568,17 @@ filename=UTF8
     <Setting Name="XtraAtomArtistVideo" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="RunBatchCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">cmd /K exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"</Value>
+    </Setting>
+    <Setting Name="RunArgumentCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ "{TempFileArgumentFullPath}"</Value>
+    </Setting>
+    <Setting Name="RunOpenVideoWith" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RunOpenPictureWith" Type="System.String" Scope="User">
+      <Value Profile="(Default)">paint.exe</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

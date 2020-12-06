@@ -119,7 +119,7 @@ namespace Manina.Windows.Forms
                                 mImageListView.cacheManager.Add(item.Guid, item.VirtualItemKey,
                                     mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                             else
-                                mImageListView.cacheManager.Add(item.Guid, item.FullFileName,
+                                mImageListView.cacheManager.Add(item.Guid, item.FileFullPath,
                                     mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                         }
                         mImageListView.itemCacheManager.Add(item);
@@ -335,7 +335,7 @@ namespace Manina.Windows.Forms
                 // Check if the file already exists
                 if (mImageListView != null && !item.isVirtualItem && !mImageListView.AllowDuplicateFileNames)
                 {
-                    if (mItems.Exists(a => string.Compare(a.FullFileName, item.FullFileName, StringComparison.OrdinalIgnoreCase) == 0))
+                    if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0))
                         return;
                 }
                 item.owner = this;
@@ -351,7 +351,7 @@ namespace Manina.Windows.Forms
                             mImageListView.cacheManager.Add(item.Guid, item.VirtualItemKey,
                                 mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                         else
-                            mImageListView.cacheManager.Add(item.Guid, item.FullFileName,
+                            mImageListView.cacheManager.Add(item.Guid, item.FileFullPath,
                                 mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                     }
 
@@ -373,7 +373,7 @@ namespace Manina.Windows.Forms
                 // Check if the file already exists
                 if (mImageListView != null && !mImageListView.AllowDuplicateFileNames)
                 {
-                    if (mItems.Exists(a => string.Compare(a.FullFileName, item.FullFileName, StringComparison.OrdinalIgnoreCase) == 0))
+                    if (mItems.Exists(a => string.Compare(a.FileFullPath, item.FileFullPath, StringComparison.OrdinalIgnoreCase) == 0))
                         return false;
                 }
                 item.owner = this;
@@ -392,7 +392,7 @@ namespace Manina.Windows.Forms
                             mImageListView.cacheManager.Add(item.Guid, item.VirtualItemKey,
                                 mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                         else
-                            mImageListView.cacheManager.Add(item.Guid, item.FullFileName,
+                            mImageListView.cacheManager.Add(item.Guid, item.FileFullPath,
                                 mImageListView.ThumbnailSize, mImageListView.UseEmbeddedThumbnails);
                     }
 
@@ -501,7 +501,7 @@ namespace Manina.Windows.Forms
                             result = (ax < ay ? -1 : (ax > ay ? 1 : 0));
                             break;
                         case ColumnType.FileName:
-                            result = string.Compare(x.FullFileName, y.FullFileName, StringComparison.InvariantCultureIgnoreCase);
+                            result = string.Compare(x.FileFullPath, y.FileFullPath, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         case ColumnType.FileDirectory:
                             result = string.Compare(x.FileDirectory, y.FileDirectory, StringComparison.InvariantCultureIgnoreCase);

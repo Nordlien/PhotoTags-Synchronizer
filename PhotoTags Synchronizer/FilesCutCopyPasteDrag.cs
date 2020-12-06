@@ -119,13 +119,13 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
-                    this.DeleteMetadataHirstory(imageListViewItem.FullFileName);
-                    File.Delete(imageListViewItem.FullFileName);
+                    this.DeleteMetadataHirstory(imageListViewItem.FileFullPath);
+                    File.Delete(imageListViewItem.FileFullPath);
                     imageListView.Items.Remove(imageListViewItem);
                 }
                 catch
                 {
-                    MessageBox.Show("Was not able to delete the file: " + imageListViewItem.FullFileName, "Deleting file failed", MessageBoxButtons.OK);
+                    MessageBox.Show("Was not able to delete the file: " + imageListViewItem.FileFullPath, "Deleting file failed", MessageBoxButtons.OK);
                 }                
             }
             imageListView.ResumeLayout();
@@ -192,7 +192,7 @@ namespace PhotoTagsSynchronizer
             foreach (ImageListViewItem item in itemCollection)
             {
                 if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
-                    this.DeleteMetadataFileEntry(new FileEntry(item.FullFileName, item.DateModified));
+                    this.DeleteMetadataFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
             }
 
             foreach (ImageListViewItem item in itemCollection)
@@ -225,7 +225,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem item in imageListView.SelectedItems)
             {
-                this.DeleteMetadataHirstory(item.FullFileName);
+                this.DeleteMetadataHirstory(item.FileFullPath);
             }
 
             foreach (ImageListViewItem item in imageListView.SelectedItems)

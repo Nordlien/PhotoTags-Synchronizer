@@ -43,7 +43,7 @@ namespace PhotoTagsSynchronizer
             ImageListViewItem foundItem = null;
             foreach (ImageListViewItem item in imageListViewItemCollection)
             {
-                if (item.FullFileName == fullFilename)
+                if (item.FileFullPath == fullFilename)
                 {
                     foundItem = item;
                     break;

@@ -95,7 +95,7 @@ namespace Manina.Windows.Forms
                 mItem = item;
                 mIsVirtualItem = item.isVirtualItem;
                 mVirtualItemKey = item.mVirtualItemKey;
-                mFileName = item.FullFileName;
+                mFileName = item.FileFullPath;
             }
         }
         #endregion
