@@ -990,50 +990,7 @@ namespace DataGridViewGeneric
                             }
                         }
 
-                        /*
-                        Metadata metadataDataGridView = new Metadata(currentDataGridViewGenericColumn.Metadata);
-                        metadataDataGridView.FileDateCreated = metadata.FileDateCreated;
-                        metadataDataGridView.FileDateModified = metadata.FileDateModified;
-                        metadataDataGridView.FileLastAccessed = metadata.FileLastAccessed;
-                        metadataDataGridView.FileSize = metadata.FileSize;
-
-                        //Equal data as before has arrived (This only check what is metadata are stored in column, not include users changes)
-                        if (metadataDataGridView == metadata) 
-                        {
-                            if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
-                            {
-                                isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files chan't be shown
-                            }
-                            else
-                            {
-                                //Metadate is upgraded, but user haven't changed anything, no need to updated DataGridView
-                                isMetadataAlreadyAgregated = true;
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
-                            }
-                        }
-                        else
-                        {
-                            //Diffrent data arrived (This only check what is metadata are stored in column, not include users changes)
-                            if (metadata.FileDateModified <= currentDataGridViewGenericColumn.Metadata.FileDateModified) // Check if old file, due to User click "reload metadata", then newest version delete before read
-                            {
-                                //Also include same date
-                                isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                            }
-                            else if (IsDataGridViewDirty(dataGridView, columnIndex))  
-                            {
-                                isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files chan't be shown
-                            }
-                            else
-                            {
-                                isMetadataAlreadyAgregated = false; //Refresh with newst data
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datafrid with new data
-                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
-                            }
-                        }*/
+                        
                     }
                     else
                     {
