@@ -160,7 +160,7 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
 
             List<FileEntryBroker> fileVersionDates = DatabaseAndCacheMetadataExiftool.ListFileEntryDateVersions(MetadataBrokerTypes.ExifTool, fullFilePath);
-
+            
             //If create a dummy column for newst, add this "dummy file" to queue
             DateTime? dateTimeNewest = null;
             if (dateTimeForEditableMediaFile == DataGridViewHandler.DateTimeForEditableMediaFile && fileVersionDates.Count > 0)
@@ -171,7 +171,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (FileEntryBroker fileEntryBroker in fileVersionDates)
             {
-                DataGridViewHandler.GetColumnCount(dataGridView); //Rememebr coulmn count before AddColumnOrUpdate
+                //DataGridViewHandler.GetColumnCount(dataGridView); //Rememebr coulmn count before AddColumnOrUpdate
 
                 FileEntryBroker fileEntryBrokerReadVersion = fileEntryBroker;
 
@@ -210,8 +210,7 @@ namespace PhotoTagsSynchronizer
                 // Microsoft Phontos
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos));
                 Metadata metadataMicrosoftPhotos = null;
-                if (metadata != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadCache(
-                    new FileEntryBroker (fileEntryBrokerReadVersion, MetadataBrokerTypes.MicrosoftPhotos));
+                if (metadata != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadCache(new FileEntryBroker (fileEntryBrokerReadVersion, MetadataBrokerTypes.MicrosoftPhotos));
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagAlbum), metadataMicrosoftPhotos?.PersonalAlbum, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagTitle), metadataMicrosoftPhotos?.PersonalTitle, true);
             
@@ -222,8 +221,7 @@ namespace PhotoTagsSynchronizer
                 //Windows Live Photo Gallery
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery));
                 Metadata metadataWindowsLivePhotoGallery = null;
-                if (metadata != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(
-                    new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.WindowsLivePhotoGallery));
+                if (metadata != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.WindowsLivePhotoGallery));
                
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagTitle), metadata?.PersonalTitle, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagRating), metadata?.PersonalRating, true);

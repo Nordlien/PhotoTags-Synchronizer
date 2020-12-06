@@ -13,6 +13,12 @@ using WindowsProperty;
 
 namespace Exiftool
 {
+    public class VariableReplaceMetadata
+    {
+
+    }
+
+
     public static class ExiftoolWriter
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -68,6 +74,7 @@ namespace Exiftool
             return false;
         }
 
+        /*
         public static bool IsFileReadOnlyOrLockedByProcess(string fullFilePath)
         {
             FileStream fs = null;            
@@ -85,22 +92,25 @@ namespace Exiftool
                 if (fs != null) fs.Close();
             }
             return false;
-        }
+        }*/
 
-        public static bool IsFileThatNeedUpdatedLockedByProcess(List<Metadata> metadataListToWrite)
+        public static bool IsFileReadOnly(string fileFullPath)
         {
-            if (metadataListToWrite.Count == 0) return false;
-
-            foreach (Metadata metadataToWrite in metadataListToWrite)
+            bool isReadOnly; 
+            try
             {
-                if (!File.Exists(metadataToWrite.FileFullPath)) return true; //In process rename
-                if (IsFileLockedByProcess(metadataToWrite.FileFullPath)) return true; //In process OneDrive backup / update
+                isReadOnly = new FileInfo(fileFullPath).IsReadOnly; 
+            } catch (Exception ex)
+            {
+                isReadOnly = true;
+                Logger.Warn(ex.Message);
             }
-
-            return false;
+            return isReadOnly;
         }
 
-        public static void WaitLockedFilesToBecomeUnlocked(string fileFullPath)
+        
+
+        public static void WaitLockedFileToBecomeUnlocked(string fileFullPath)
         {
             int maxRetry = 30;
             bool areAnyFileLocked;
@@ -112,339 +122,290 @@ namespace Exiftool
             } while (areAnyFileLocked);
         }
 
-        public static void WaitLockedFilesToBecomeUnlocked(List<Metadata> metadataListToWrite)
+        public static bool IsFileThatNeedUpdatedLockedByProcess(List<FileEntry> fileEntriesToCheck)
+        {
+            if (fileEntriesToCheck.Count == 0) return false;
+
+            foreach (FileEntry fileEntryToCheck in fileEntriesToCheck)
+            {
+
+                if (!File.Exists(fileEntryToCheck.FileFullPath)) return true; //In process rename
+                if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
+                if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath)) return true; //In process OneDrive backup / update
+            }
+            return false;
+        }
+
+        public static bool IsFileThatNeedUpdatedLockedByProcess(List<Metadata> fileEntriesToCheck)
+        {
+            if (fileEntriesToCheck.Count == 0) return false;
+
+            foreach (Metadata fileEntryToCheck in fileEntriesToCheck)
+            {
+
+                if (!File.Exists(fileEntryToCheck.FileFullPath)) return true; //In process rename
+                if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
+                if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath)) return true; //In process OneDrive backup / update
+            }
+            return false;
+        }
+
+        public static void WaitLockedFilesToBecomeUnlocked(List<FileEntry> fileEntriesToCheck)
         {
             int maxRetry = 30;
             bool areAnyFileLocked;
             do
             {
-                areAnyFileLocked = ExiftoolWriter.IsFileThatNeedUpdatedLockedByProcess(metadataListToWrite);
+                areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck);
                 if (areAnyFileLocked) Thread.Sleep(1000);
                 if (maxRetry-- < 0) areAnyFileLocked = false;
             } while (areAnyFileLocked);
         }
 
+        public static void WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck)
+        {
+            int maxRetry = 30;
+            bool areAnyFileLocked;
+            do
+            {
+                areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck);
+                if (areAnyFileLocked) Thread.Sleep(1000);
+                if (maxRetry-- < 0) areAnyFileLocked = false;
+            } while (areAnyFileLocked);
+        }
         #endregion
 
-        #region WriteMetadata
-        public static List<Metadata> WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, 
-            out Dictionary<string, string> errorsWhenWriteProperties,
-            out List<FileEntry> filesUpdatedByWriteProperties,
-            List<string> allowedFileNameDateTimeFormats, string writeMetadataTags, string writeMetadataKeywordDelete, string writeMetadataKeywordAdd,
-            string writeXtraAtomAlbum, bool writeXtraAtomAlbumVideo,
-            string writeXtraAtomCategories, bool writeXtraAtomCategoriesVideo,
-            string writeXtraAtomComment, bool writeXtraAtomCommentPicture, bool writeXtraAtomCommentVideo,
-            string writeXtraAtomKeywords, bool writeXtraAtomKeywordsVideo,
-            bool writeXtraAtomRatingPicture, bool writeXtraAtomRatingVideo,
-            string writeXtraAtomSubject, bool writeXtraAtomSubjectPicture, bool wtraAtomSubjectVideo,
-            string writeXtraAtomSubtitle, bool writeXtraAtomSubtitleVideo,
-            string writeXtraAtomArtist, bool writeXtraAtomArtistVideo)
-        {
-            errorsWhenWriteProperties = new Dictionary<string, string>();
-            filesUpdatedByWriteProperties = new List<FileEntry>();
-            List<Metadata> metadataSaved = new List<Metadata>();
 
-            if (metadataListToWrite.Count <= 0) return metadataSaved;
-            if (metadataListToWrite.Count != metadataListOriginal.Count) return metadataSaved;
+
+        #region Dictionary<string, string> WriteXtraAtom
+        public static List<FileEntry> WriteXtraAtom(
+            List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
+            string writeXtraAtomAlbumVariable, bool writeXtraAtomAlbumVideo,
+            string writeXtraAtomCategoriesVariable, bool writeXtraAtomCategoriesVideo,
+            string writeXtraAtomCommentVariable, bool writeXtraAtomCommentPicture, bool writeXtraAtomCommentVideo,
+            string writeXtraAtomKeywordsVariable, bool writeXtraAtomKeywordsVideo,
+            bool writeXtraAtomRatingPicture, bool writeXtraAtomRatingVideo,
+            string writeXtraAtomSubjectVariable, bool writeXtraAtomSubjectPicture, bool wtraAtomSubjectVideo,
+            string writeXtraAtomSubtitleVariable, bool writeXtraAtomSubtitleVideo,
+            string writeXtraAtomArtistVariable, bool writeXtraAtomArtistVideo,
+            out Dictionary<string, string> writeXtraAtomErrorMessageForFile)
+        {
+            writeXtraAtomErrorMessageForFile = new Dictionary<string, string>(); //Clear out values
+            List<FileEntry> filesUpdatedByWritePropertiesAndLastWriteTime = new List<FileEntry>();
+            
+            if (metadataListToWrite.Count <= 0) return filesUpdatedByWritePropertiesAndLastWriteTime;
+            if (metadataListToWrite.Count != metadataListOriginal.Count) return filesUpdatedByWritePropertiesAndLastWriteTime;
             int writeCount = metadataListToWrite.Count;
 
-            //Create directory, filename and remove old arg file
-            string exiftoolArgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
-            if (!Directory.Exists(exiftoolArgPath)) Directory.CreateDirectory(exiftoolArgPath);
-            string exiftoolArgFile = Path.Combine(exiftoolArgPath, "exiftool_arg.txt");
-            if (File.Exists(exiftoolArgFile)) File.Delete(exiftoolArgFile);
-            
-            using (StreamWriter sw = new StreamWriter(exiftoolArgFile, false, Encoding.UTF8))
+            for (int updatedRecord = 0; updatedRecord < writeCount; updatedRecord++)
             {
-                for (int updatedRecord = 0; updatedRecord < writeCount; updatedRecord++)
+                Metadata metadataToWrite = metadataListToWrite[updatedRecord];
+                Metadata metadataOriginal = metadataListOriginal[updatedRecord];
+
+                if (metadataToWrite == metadataOriginal) continue; //No changes found in data, No data to write
+
+                #region Is Video or Image format?
+                bool isVideoFormat = false;
+                bool isImageFormat = true;
+                if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName)))
                 {
-                    Metadata metadataToWrite = metadataListToWrite[updatedRecord];
-                    Metadata metadataOriginal = metadataListOriginal[updatedRecord];
+                    isVideoFormat = true;
+                    isImageFormat = false;
+                }
+                #endregion 
 
-                    if (metadataToWrite == metadataOriginal) continue; //No changes found in data, No data to write
-                    metadataSaved.Add(metadataToWrite);
-                    Logger.Info("Create Exiftool updated argu file for: " + metadataToWrite.FileFullPath);
+                #region Replace Variable 
+                string writeXtraAtomAlbumReult = metadataToWrite.ReplaceVariables(writeXtraAtomAlbumVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomCategoriesResult = metadataToWrite.ReplaceVariables(writeXtraAtomCategoriesVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomCommentResult = metadataToWrite.ReplaceVariables(writeXtraAtomCommentVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomKeywordsResult = metadataToWrite.ReplaceVariables(writeXtraAtomKeywordsVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomSubjectResult = metadataToWrite.ReplaceVariables(writeXtraAtomSubjectVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomSubtitleResult = metadataToWrite.ReplaceVariables(writeXtraAtomSubtitleVariable, allowedFileNameDateTimeFormats);
+                string writeXtraAtomArtistResult = metadataToWrite.ReplaceVariables(writeXtraAtomArtistVariable, allowedFileNameDateTimeFormats);
+                #endregion
 
-                    bool isVideoFormat = false;
-                    bool isImageFormat = true;
-                    if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName)))
+                #region Write Xtra Atrom using Property Writer
+                if (writeXtraAtomKeywordsVideo || writeXtraAtomCategoriesVideo || writeXtraAtomAlbumVideo || writeXtraAtomSubtitleVideo ||
+                    writeXtraAtomArtistVideo || wtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
+                    writeXtraAtomSubjectPicture || writeXtraAtomCommentPicture || writeXtraAtomRatingPicture)
+                {
+                    WaitLockedFileToBecomeUnlocked(metadataToWrite.FileFullPath);
+                    if (!IsFileReadOnly(metadataToWrite.FileFullPath) || !IsFileLockedByProcess(metadataToWrite.FileFullPath))
                     {
-                        isVideoFormat = true;
-                        isImageFormat = false;
-                    }
-
-
-                    #region Create Variable -XPKeywords={PersonalKeywordsList}
-                    string personalKeywordsList = "";
-                    foreach (KeywordTag keywordTag in metadataToWrite.PersonalKeywordTags)
-                    {
-                        if (personalKeywordsList.Length > 0) personalKeywordsList += ";";
-                        personalKeywordsList += keywordTag;
-                    }
-                    #endregion
-
-                    #region Create Variable -Categories={PersonalKeywordsXML}
-                    string keywordCategories = "<Categories>";
-                    foreach (KeywordTag tagHierarchy in metadataToWrite.PersonalKeywordTags)
-                    {
-                        string[] tagHierarchyList = tagHierarchy.Keyword.Split('/');
-                        for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++)
+                        try
                         {
-                            if (tagNumber == tagHierarchyList.Length - 1) keywordCategories += "<Category Assigned=\"1\">";
-                            else keywordCategories += "<Category Assigned=\"0\">";
-
-                            keywordCategories += tagHierarchyList[tagNumber];
-                        }
-                        for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++) keywordCategories += "</Category>";
-                    }
-                    keywordCategories += "</Categories>";
-                    #endregion
-
-                    #region Remove duplicates Name and Area regions (Don't care about source)
-                    List<RegionStructure> regionWriteListWithoutDuplicate = new List<RegionStructure>();
-                    foreach (RegionStructure regionStructure in metadataToWrite.PersonalRegionList)
-                        if (!regionStructure.DoesThisRectangleAndNameExistInList(regionWriteListWithoutDuplicate)) regionWriteListWithoutDuplicate.Add(regionStructure);
-                    #endregion
-
-                    #region Create Variable -ImageRegion= (IPTC region tags - ImageRegion)
-                    #endregion
-
-                    #region Create Variable -RegionInfoMP={PersonalRegionInfoMP} - Microsoft region tags 
-                    string personalRegionInfoMP = "";
-                    if (regionWriteListWithoutDuplicate.Count > 0)
-                    {
-                        bool needComma = false;
-                        personalRegionInfoMP += "{Regions=[";
-                        foreach (RegionStructure region in regionWriteListWithoutDuplicate)
-                        {
-                            RectangleF rectangleF = region.GetRegionInfoMPRectangleF(metadataToWrite.MediaSize);
-                            if (needComma) personalRegionInfoMP += ",";
-                            personalRegionInfoMP += "{PersonDisplayName=" + region.Name + ",Rectangle=" +
-                                rectangleF.X.ToString(CultureInfo.InvariantCulture) + "|," +
-                                rectangleF.Y.ToString(CultureInfo.InvariantCulture) + "|," +
-                                rectangleF.Width.ToString(CultureInfo.InvariantCulture) + "|," +
-                                rectangleF.Height.ToString(CultureInfo.InvariantCulture) + "}";
-                            needComma = true;
-                        }
-                        personalRegionInfoMP += "]}";
-                    }
-                    #endregion
-
-                    #region Create Variable -RegionInfo={PersonalRegionInfo} - MWG Regions Tags 
-                    string personalRegionInfo = "";
-                    if (regionWriteListWithoutDuplicate.Count > 0)
-                    {
-                        bool needComma = false;
-                        personalRegionInfo += "{AppliedToDimensions={W=" + metadataToWrite.MediaWidth +
-                            ",H=" + metadataToWrite.MediaHeight +
-                            ",Unit=pixel}," +
-                            "RegionList=[";
-                        foreach (RegionStructure region in regionWriteListWithoutDuplicate)
-                        {
-                            RectangleF rectangleF = region.GetRegionInfoRectangleF(metadataToWrite.MediaSize);
-                            if (needComma) personalRegionInfo += ",";
-                            personalRegionInfo += "{Area={W=" + rectangleF.Width.ToString(CultureInfo.InvariantCulture) +
-                                ",H=" + rectangleF.Height.ToString(CultureInfo.InvariantCulture) +
-                                ",X=" + rectangleF.X.ToString(CultureInfo.InvariantCulture) +
-                                ",Y=" + rectangleF.Y.ToString(CultureInfo.InvariantCulture) +
-                                ",Unit=normalized},Name=" + region.Name + "}";
-                            needComma = true;
-                        }
-                        personalRegionInfo += "]}";
-                    }
-
-                    /*
-                    if (isVideoFormat)
-                    { 
-                        WindowsProperty.WindowsPropertyWriter windowsPropertyWriter = new WindowsProperty.WindowsPropertyWriter();
-                        string keywordTags = "";
-                        foreach (KeywordTag keywordTag in metadataToWrite.PersonalKeywordTags)
-                        {
-                            if (keywordTags.Length > 0) keywordTags +=  ";";
-                            keywordTags += keywordTag;
-                        }
-
-                        windowsPropertyWriter.Write(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), keywordTags);
-                    }
-
-                    if (isVideoFormat)
-                    {
-                        WindowsProperty.WindowsPropertyWriter windowsPropertyWriter2 = new WindowsProperty.WindowsPropertyWriter();
-                        windowsPropertyWriter2.WriteAlbum(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName), metadataToWrite.PersonalAlbum);
-                    }
-
-                    foreach (KeywordTag tag in metadataToWrite.PersonalKeywordTags)
-                    {                        
-                        sw.WriteLine("-Keywords+=" + tag.Keyword);
-                        sw.WriteLine("-Subject+=" + tag.Keyword);
-                        sw.WriteLine("-TagsList+=" + tag.Keyword);
-                        sw.WriteLine("-CatalogSets+=" + tag.Keyword);
-//if (isImageFormat) sw.WriteLine("-Category+=" + tag.Keyword);
-                        //Warning: Sorry, ItemList is not writable
-                        //sw.WriteLine("-LastKeywordXMP+=" + tag.Keyword);  //Warning: [minor] Fixed incorrect URI for xmlns:MicrosoftPhoto
-                        //sw.WriteLine("-LastKeywordIPTC+=" + tag.Keyword); //Warning: [minor] Fixed incorrect URI for xmlns:MicrosoftPhoto                         
-                    }*/
-
-                    #endregion
-
-                    #region Create Variable - Keyword delete
-                    string personalKeywordDelete = "";
-                    foreach (KeywordTag keywordTag in metadataOriginal.PersonalKeywordTags)
-                    {
-                        string personalItemDelete = metadataToWrite.ReplaceVariables(writeMetadataKeywordDelete, true, true, allowedFileNameDateTimeFormats,
-                            personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "", "");
-                        personalItemDelete = metadataToWrite.ReplaceKeywordItemVariables(personalItemDelete, keywordTag.Keyword);
-
-                        personalKeywordDelete += personalItemDelete + "\r\n";
-                    }
-                    #endregion
-
-                    #region Create Variable - Keyword items - ***Loop of keyword items***
-                    string personalKeywordAdd = "";
-                    foreach (KeywordTag keywordTag in metadataToWrite.PersonalKeywordTags)
-                    {
-                        string keywordItemToWrite = metadataToWrite.ReplaceVariables(writeMetadataKeywordAdd, true, true, allowedFileNameDateTimeFormats,
-                            personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, "", "");
-                        keywordItemToWrite = metadataToWrite.ReplaceKeywordItemVariables(keywordItemToWrite, keywordTag.Keyword);
-
-                        personalKeywordAdd += keywordItemToWrite + "\r\n";
-                    }
-                    #endregion
-
-                    #region Replace Variable 
-                    string tagsToWrite = metadataToWrite.RemoveLines(writeMetadataTags, metadataOriginal, false);
-                    tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, true, true, allowedFileNameDateTimeFormats,
-                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
-                    string writeXtraAtomAlbumReult = metadataToWrite.ReplaceVariables(writeXtraAtomAlbum, true, true, allowedFileNameDateTimeFormats,
-                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
-                    string writeXtraAtomCategoriesResult = metadataToWrite.ReplaceVariables(writeXtraAtomCategories, true, true, allowedFileNameDateTimeFormats,
-                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
-                    string writeXtraAtomCommentResult = metadataToWrite.ReplaceVariables(writeXtraAtomComment, true, true, allowedFileNameDateTimeFormats,
-                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
-                    string writeXtraAtomKeywordsResult = metadataToWrite.ReplaceVariables(writeXtraAtomKeywords, true, true, allowedFileNameDateTimeFormats,
-                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
-                    string writeXtraAtomSubjectResult = metadataToWrite.ReplaceVariables(writeXtraAtomSubject, true, true, allowedFileNameDateTimeFormats,
-                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
-                    string writeXtraAtomSubtitleResult = metadataToWrite.ReplaceVariables(writeXtraAtomSubtitle, true, true, allowedFileNameDateTimeFormats,
-                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
-                    string writeXtraAtomArtistResult = metadataToWrite.ReplaceVariables(writeXtraAtomArtist, true, true, allowedFileNameDateTimeFormats,
-                        personalRegionInfoMP, personalRegionInfo, personalKeywordsList, keywordCategories, personalKeywordDelete, personalKeywordAdd);
-                    #endregion
-
-                    #region Write Xtra Atrom using Property Writer
-                    if (writeXtraAtomKeywordsVideo || writeXtraAtomCategoriesVideo || writeXtraAtomAlbumVideo || writeXtraAtomSubtitleVideo ||
-                        writeXtraAtomArtistVideo || wtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
-                        writeXtraAtomSubjectPicture || writeXtraAtomCommentPicture || writeXtraAtomRatingPicture)
-                    {
-                        WaitLockedFilesToBecomeUnlocked(metadataToWrite.FileFullPath);
-                        if (!IsFileLockedByProcess(metadataToWrite.FileFullPath))
-                        {
-                            try
+                            using (WindowsPropertyWriter windowsPropertyWriter = new WindowsPropertyWriter(metadataToWrite.FileFullPath))
                             {
-                                using (WindowsPropertyWriter windowsPropertyWriter = new WindowsPropertyWriter(metadataToWrite.FileFullPath))
+                                if (isVideoFormat)
                                 {
-                                    if (isVideoFormat)
-                                    {
 
-                                        if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
-                                        if (writeXtraAtomCategoriesVideo) windowsPropertyWriter.WriteCategories(string.IsNullOrEmpty(writeXtraAtomCategoriesResult) ? null : writeXtraAtomCategoriesResult);
-                                        if (writeXtraAtomAlbumVideo) windowsPropertyWriter.WriteAlbum(string.IsNullOrEmpty(writeXtraAtomAlbumReult) ? null : writeXtraAtomAlbumReult);
+                                    if (writeXtraAtomKeywordsVideo) windowsPropertyWriter.WriteKeywords(string.IsNullOrEmpty(writeXtraAtomKeywordsResult) ? null : writeXtraAtomKeywordsResult);
+                                    if (writeXtraAtomCategoriesVideo) windowsPropertyWriter.WriteCategories(string.IsNullOrEmpty(writeXtraAtomCategoriesResult) ? null : writeXtraAtomCategoriesResult);
+                                    if (writeXtraAtomAlbumVideo) windowsPropertyWriter.WriteAlbum(string.IsNullOrEmpty(writeXtraAtomAlbumReult) ? null : writeXtraAtomAlbumReult);
 
-                                        if (writeXtraAtomSubtitleVideo) windowsPropertyWriter.WriteSubtitle_Description(string.IsNullOrEmpty(writeXtraAtomSubtitleResult) ? null : writeXtraAtomSubtitleResult);
-                                        if (writeXtraAtomArtistVideo) windowsPropertyWriter.WriteArtist_Author(string.IsNullOrEmpty(writeXtraAtomArtistResult) ? null : writeXtraAtomArtistResult);
+                                    if (writeXtraAtomSubtitleVideo) windowsPropertyWriter.WriteSubtitle_Description(string.IsNullOrEmpty(writeXtraAtomSubtitleResult) ? null : writeXtraAtomSubtitleResult);
+                                    if (writeXtraAtomArtistVideo) windowsPropertyWriter.WriteArtist_Author(string.IsNullOrEmpty(writeXtraAtomArtistResult) ? null : writeXtraAtomArtistResult);
 
-                                        if (wtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
-                                        if (writeXtraAtomCommentVideo) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
-                                        if (writeXtraAtomRatingVideo) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
-                                    }
-                                    else if (isImageFormat)
-                                    {
-                                        if (writeXtraAtomSubjectPicture) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
-                                        if (writeXtraAtomCommentPicture) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
-                                        if (writeXtraAtomRatingPicture) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
-                                    }
-
-                                    windowsPropertyWriter.Close();
-
-                                    filesUpdatedByWriteProperties.Add(new FileEntry(metadataToWrite.FileFullPath, File.GetLastWriteTime(metadataToWrite.FileFullPath)));
+                                    if (wtraAtomSubjectVideo) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
+                                    if (writeXtraAtomCommentVideo) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
+                                    if (writeXtraAtomRatingVideo) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.Error("Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n" + ex.Message);
-                                errorsWhenWriteProperties.Add(metadataToWrite.FileFullPath, ex.Message);
+                                else if (isImageFormat)
+                                {
+                                    if (writeXtraAtomSubjectPicture) windowsPropertyWriter.WriteSubject_Description(string.IsNullOrEmpty(writeXtraAtomSubjectResult) ? null : writeXtraAtomSubjectResult);
+                                    if (writeXtraAtomCommentPicture) windowsPropertyWriter.WriteComment(string.IsNullOrEmpty(writeXtraAtomCommentResult) ? null : writeXtraAtomCommentResult);
+                                    if (writeXtraAtomRatingPicture) windowsPropertyWriter.WriteRating((metadataToWrite.PersonalRatingPercent == null ? (int)0 : (int)metadataToWrite.PersonalRatingPercent));
+                                }
+
+                                windowsPropertyWriter.Close();
+
+                                filesUpdatedByWritePropertiesAndLastWriteTime.Add(new FileEntry(metadataToWrite.FileFullPath, File.GetLastWriteTime(metadataToWrite.FileFullPath)));
                             }
                         }
+                        catch (Exception ex)
+                        {
+                            Logger.Error("Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n" + ex.Message);
+                            writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, ex.Message);
+                        }
+                    } else
+                    { //File readonly or locked
+
+                        string error = "Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n";
+                        if (IsFileReadOnly(metadataToWrite.FileFullPath)) error += "File is Read Only.\r\n";
+                        if (IsFileLockedByProcess(metadataToWrite.FileFullPath)) error += "File is locked by another process.\r\n";
+                        Logger.Error(error);
+                        writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, error);
                     }
-                    #endregion
-
-                    sw.WriteLine(tagsToWrite); //Append Exiftool argu file with new file attributes to write
-                    
                 }
+                #endregion
+
             }
+            return filesUpdatedByWritePropertiesAndLastWriteTime;
+        }
+        #endregion
 
-            #region Exiftool Write
-            String path = NativeMethods.GetFullPathOfExeFile("exiftool.exe");
-            string arguments = "-charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"" + NativeMethods.ShortFileName(exiftoolArgFile) + "\"";
-            bool hasExiftoolErrorMessage = false;
-            string exiftoolOutput = "";
+        #region CreateExiftoolArguFileText
+        public static List<FileEntry> CreateExiftoolArguFileText(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
+            string writeMetadataTagsVariable, string writeMetadataKeywordDeleteVariable, string writeMetadataKeywordAddVariable, out string exiftoolArguFileText)
+        {
+            exiftoolArguFileText = "";
+            List<FileEntry> filesNeedToBeUpadted = new List<FileEntry>();
 
-            using (var process = new Process
+            if (metadataListToWrite.Count <= 0) return filesNeedToBeUpadted;
+            if (metadataListToWrite.Count != metadataListOriginal.Count) return filesNeedToBeUpadted;
+            int writeCount = metadataListToWrite.Count;
+
+            for (int updatedRecord = 0; updatedRecord < writeCount; updatedRecord++)
             {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = path,
-                    Arguments = arguments,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true,
-                    RedirectStandardInput = true,
-                    StandardOutputEncoding = Encoding.UTF8 
-                }
-            })
-            {
-                bool result = process.Start();
-                string line;
-                
-                while (!process.StandardError.EndOfStream)
-                {
-                    line = process.StandardError.ReadLine();
-                    exiftoolOutput += line + "\r\n";
-                    if (!line.StartsWith("Warning")) hasExiftoolErrorMessage = true;
-                    Logger.Error("EXIFTOOL WRITE ERROR: " + line);
-                }
+                Metadata metadataToWrite = metadataListToWrite[updatedRecord];
+                Metadata metadataOriginal = metadataListOriginal[updatedRecord];
 
-                while (!process.StandardOutput.EndOfStream)
-                {
-                    line = process.StandardOutput.ReadLine();
-                    exiftoolOutput += line + "\r\n";
-                    if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
-                    Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
-                }
+                if (metadataToWrite == metadataOriginal) continue; //No changes found in data, No data to write
+                filesNeedToBeUpadted.Add(metadataToWrite.FileEntryBroker);
 
-                process.WaitForExit();
-                if (process.ExitCode != 0)
-                {
-                    hasExiftoolErrorMessage = true;
-                    Logger.Info("process.WaitForExit() " + process.ExitCode);
-                }
-
-                while (!process.HasExited) System.Threading.Thread.Sleep(100);
-     
-                process.Close();
-                process.Dispose();
+                string tagsToWrite = metadataToWrite.RemoveLines(writeMetadataTagsVariable, metadataOriginal, false);
+                string personalKeywordDelete = metadataOriginal.ReplaceVariables(writeMetadataKeywordDeleteVariable, allowedFileNameDateTimeFormats);
+                string personalKeywordAdd = metadataToWrite.ReplaceVariables(writeMetadataKeywordAddVariable, allowedFileNameDateTimeFormats);
+                tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordDelete, personalKeywordAdd);
+                exiftoolArguFileText += (exiftoolArguFileText == "" ? "" : "\r\n") + tagsToWrite;
             }
-            if (hasExiftoolErrorMessage) throw new Exception(exiftoolOutput);
-            #endregion
+            return filesNeedToBeUpadted;
+        }
+        #endregion 
 
-            return metadataSaved;
+        #region GetTempArguFileFullPath
+        public static string GetTempArguFileFullPath()
+        {
+            //Create directory, filename and remove old arg file
+            string exiftoolArgFileDirecory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
+            if (!Directory.Exists(exiftoolArgFileDirecory)) Directory.CreateDirectory(exiftoolArgFileDirecory);
+            string exiftoolArgFileFullPath = Path.Combine(exiftoolArgFileDirecory, "exiftool_arg.txt");
+            if (File.Exists(exiftoolArgFileFullPath)) File.Delete(exiftoolArgFileFullPath);
+            return exiftoolArgFileFullPath;
+        }
+        #endregion 
+
+        #region WriteMetadata
+        public static List<FileEntry> WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
+            string writeMetadataTagsVariable, string writeMetadataKeywordDeleteVariable, string writeMetadataKeywordAddVariable)
+        {
+            List<FileEntry> filesNeedToBeUpadted = CreateExiftoolArguFileText(
+                metadataListToWrite, metadataListOriginal, 
+                allowedFileNameDateTimeFormats, writeMetadataTagsVariable, 
+                writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, out string resultReplaceVariables);
+
+            if (filesNeedToBeUpadted.Count > 0) //Save if has anything to save
+            {
+                //Create directory, filename and remove old arg file
+                string exiftoolArgFileFullpath = GetTempArguFileFullPath();
+
+                using (StreamWriter sw = new StreamWriter(exiftoolArgFileFullpath, false, Encoding.UTF8))
+                {
+                    sw.WriteLine(resultReplaceVariables);
+                }
+
+                #region Exiftool Write
+                String path = NativeMethods.GetFullPathOfExeFile("exiftool.exe");
+                string arguments = "-charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"" + NativeMethods.ShortFileName(exiftoolArgFileFullpath) + "\"";
+                bool hasExiftoolErrorMessage = false;
+                string exiftoolOutput = "";
+
+                using (var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = path,
+                        Arguments = arguments,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        CreateNoWindow = true,
+                        RedirectStandardInput = true,
+                        StandardOutputEncoding = Encoding.UTF8
+                    }
+                })
+                {
+                    bool result = process.Start();
+                    string line;
+
+                    while (!process.StandardError.EndOfStream)
+                    {
+                        line = process.StandardError.ReadLine();
+                        exiftoolOutput += line + "\r\n";
+                        if (!line.StartsWith("Warning")) hasExiftoolErrorMessage = true;
+                        Logger.Error("EXIFTOOL WRITE ERROR: " + line);
+                    }
+
+                    while (!process.StandardOutput.EndOfStream)
+                    {
+                        line = process.StandardOutput.ReadLine();
+                        exiftoolOutput += line + "\r\n";
+                        if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
+                        Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
+                    }
+
+                    process.WaitForExit();
+                    if (process.ExitCode != 0)
+                    {
+                        hasExiftoolErrorMessage = true;
+                        Logger.Info("process.WaitForExit() " + process.ExitCode);
+                    }
+
+                    while (!process.HasExited) System.Threading.Thread.Sleep(100);
+
+                    process.Close();
+                    process.Dispose();
+                }
+                if (hasExiftoolErrorMessage) throw new Exception(exiftoolOutput);
+                #endregion
+            }
+            return filesNeedToBeUpadted;
         }
         #endregion
 
         #region Verify HasWriteMetadataErrors
-        public static bool HasWriteMetadataErrors(Metadata metadataRead, 
-            List<Metadata> metadataWrittenByExiftoolWaitVerify,       /* Data was got to by  after saved */ 
+        public static bool HasWriteMetadataErrors(Metadata metadataRead,    /* Data read back after saved and need to be verifyed */
+            List<Metadata> metadataWrittenByExiftoolWaitVerify,             /* This what should have been saved, check if same info read back */ 
             out Metadata metadataUpdatedByUserCopy, out string message)
         {
             //Out parameter default
@@ -454,11 +415,7 @@ namespace Exiftool
             bool foundErrors = false;
 
             int verifyPosition = Metadata.FindFileEntryInList(metadataWrittenByExiftoolWaitVerify, metadataRead.FileEntryBroker);
-            if (verifyPosition == -1) 
-                return false; //No need for verify, the metadata was only read, most likly first time read (without save, read and verify)
-
-            //if (Metadata.FindFileEntryInList(metadataSaveExiftoolParameter, metadataRead.FileEntryBroker) != -1) 
-            //    return false; //A new version waiting to be saves exists, not need to verify before saved
+            if (verifyPosition == -1) return false; //No need for verify, the metadata was only read, most likly first time read (without save, read and verify)
 
             metadataUpdatedByUserCopy = new Metadata(metadataWrittenByExiftoolWaitVerify[verifyPosition]); //Copy data to verify
             metadataWrittenByExiftoolWaitVerify.RemoveAt(verifyPosition);

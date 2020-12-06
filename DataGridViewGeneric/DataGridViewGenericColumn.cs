@@ -27,6 +27,7 @@ namespace DataGridViewGeneric
         public FileEntryImage FileEntryImage { get; set; }
         public Metadata Metadata { get; set; }
         public ReadWriteAccess ReadWriteAccess { get; set; }
+        public bool IsDirty { get; set; } = false;
 
         public bool HasFileBeenUpdatedGiveUserAwarning { 
             get;

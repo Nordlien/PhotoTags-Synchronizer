@@ -165,8 +165,7 @@ namespace DataGridViewGeneric
 
             dataGridView.TopLeftHeaderCell.Value = dataGridViewGenricData.TopCellName;
             dataGridView.EnableHeadersVisualStyles = false;
-            dataGridViewGenricData.IsDirty = false;
-
+            
             dataGridView.ColumnHeadersHeight = GetTopColumnHeaderHeigth(cellSize);
             //dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridView.RowHeadersWidth = GetFirstRowHeaderWidth(cellSize);
@@ -349,26 +348,39 @@ namespace DataGridViewGeneric
         {
             //Commit changes ASAP, e.g. when SelectedIndexChanged will chnage the ValueChanges event be triggered
             dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
-            SetDataGridViewDirty(dataGridView);
+            SetDataGridViewDirty(dataGridView, dataGridView.CurrentCell.ColumnIndex);
+        }
+
+        public static bool IsDataGridViewDirty(DataGridView dataGridView, int columnIndex)
+        {
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn == null) return false;
+            return dataGridViewGenericColumn.IsDirty;
         }
 
         public static bool IsDataGridViewDirty(DataGridView dataGridView)
         {
-            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
-            if (dataGridViewGenericData == null) return false;
-            return dataGridViewGenericData.IsDirty;
+            for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null) if (dataGridViewGenericColumn.IsDirty) return true;
+            }
+            return false;
         }
 
         public static void ClearDataGridViewDirty(DataGridView dataGridView)
         {
-            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
-            if (dataGridViewGenericData != null) dataGridViewGenericData.IsDirty = false; 
+            for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = false;
+            }            
         }
 
-        public static void SetDataGridViewDirty(DataGridView dataGridView)
+        public static void SetDataGridViewDirty(DataGridView dataGridView, int columnIndex)
         {
-            DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
-            if (dataGridViewGenericData != null) dataGridViewGenericData.IsDirty = true;
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = true;
         }
         #endregion
 
@@ -927,6 +939,7 @@ namespace DataGridViewGeneric
             else
             {
                 DataGridViewGenericColumn currentDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+
                 if (currentDataGridViewGenericColumn == null || currentDataGridViewGenericColumn.Metadata == null)
                 {
                     currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
@@ -942,28 +955,40 @@ namespace DataGridViewGeneric
                         metadataDataGridView.FileLastAccessed = metadata.FileLastAccessed;
                         metadataDataGridView.FileSize = metadata.FileSize;
 
-                        if (metadataDataGridView == metadata && //Check if read data been looks diffrent compare to what inside DataGridView
-                            !IsDataGridViewDirty(dataGridView)) //**** HACK, Lot of old metadata are push in also, e.g. thumbnail, region force updates **** 
-
+                        //Equal data as before has arrived (This only check what is metadata are stored in column, not include users changes)
+                        if (metadataDataGridView == metadata) 
                         {
-                            //Metadate is upgraded, but user haven't changed anything, update data on the DataGridView
-                            isMetadataAlreadyAgregated = true;
-                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                            currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
-                        }
-                        else
-                        {
-                            //New data has arrived
-                            if (IsDataGridViewDirty(dataGridView)) //
+                            if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
                             {
-                                isMetadataAlreadyAgregated = true; //Do not refresh, da are changed by user, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true;
-                                //Don't updated, due to we keep another vrsion, currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
+                                isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files chan't be shown
                             }
                             else
                             {
-                                isMetadataAlreadyAgregated = false;
+                                //Metadate is upgraded, but user haven't changed anything, no need to updated DataGridView
+                                isMetadataAlreadyAgregated = true;
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
+                            }
+                        }
+                        else
+                        {
+                            //Diffrent data arrived
+                            if (metadata.FileDateModified <= currentDataGridViewGenericColumn.Metadata.FileDateModified) // Check if old file, due to User click "reload metadata", then newest version delete before read
+                            {
+                                //Also include same date
+                                isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, do not overwrite
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                            }
+                            else if (IsDataGridViewDirty(dataGridView, columnIndex))  
+                            {
+                                isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files chan't be shown
+                            }
+                            else
+                            {
+                                isMetadataAlreadyAgregated = false; //Refresh with newst data
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datafrid with new data
                                 currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
                             }
                         }
@@ -1455,7 +1480,7 @@ namespace DataGridViewGeneric
         {            
             dataGridView.Parent.Focus(); //Hack to refresh DataGridViewComboBoxCell, do to it will not refresh before changed cell / cell lost focus
             dataGridView.Focus();
-            dataGridView.Refresh();
+            dataGridView.Refresh(); //This created Thread failure // Region????
         }
         #endregion
 
@@ -2150,7 +2175,7 @@ namespace DataGridViewGeneric
 
             if (gridViewGenericDataRow.HeaderName.Equals(header))
             {
-                SetDataGridViewDirty(dataGridView);
+                SetDataGridViewDirty(dataGridView, columnIndex);
                 //All click 
                 if (gridViewGenericDataRow.IsHeader && columnIndex == -1)
                 {

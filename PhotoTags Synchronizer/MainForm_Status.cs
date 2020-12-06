@@ -49,16 +49,16 @@ namespace PhotoTagsSynchronizer
         {
             lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Remove(fileEntry);            
             UpdateStatusAction("Exiftool read and cached: " + fileEntry.FileName);
-            UpdateStatusAllQueueStatus(); //Update number count also
+            DisplayAllQueueStatus(); //Update number count also
         }
         #endregion
 
         #region UpdateStatusAllQueueStatus        
-        private void UpdateStatusAllQueueStatus()
+        private void DisplayAllQueueStatus()
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action(UpdateStatusAllQueueStatus));
+                this.BeginInvoke(new Action(DisplayAllQueueStatus));
                 return;
             }
 
@@ -94,6 +94,10 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region UpdateExiftoolSaveStatus - Show Exiftool write progress
+        Dictionary<string, long> fileSaveSize = new Dictionary<string, long>();
+        private static readonly Object fileSaveSizeLock = new Object();
+
+
         private void UpdateExiftoolSaveStatus()
         {
             try
@@ -109,7 +113,7 @@ namespace PhotoTagsSynchronizer
                             long tempFileSize = new FileInfo(tempFile).Length;
                             if (keyValuePair.Value != tempFileSize) UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
                             fileSaveSize[keyValuePair.Key] = tempFileSize;
-UpdateStatusAllQueueStatus(); 
+DisplayAllQueueStatus(); 
                             break;
                         }
                     }
@@ -117,8 +121,8 @@ UpdateStatusAllQueueStatus();
             }
             catch { }
         }
-        Dictionary<string, long> fileSaveSize = new Dictionary<string, long>();
-        private static readonly Object fileSaveSizeLock = new Object();
+
+        
         private void ShowExiftoolSaveProgressClear()
         {
             lock (fileSaveSizeLock)
@@ -159,7 +163,7 @@ UpdateStatusAllQueueStatus();
                 {                    
                     if (countToSave == 0 && fileSaveSize.Count == 0) return countToSave; //Zero 0
                     foreach (KeyValuePair<string, long> keyValuePair in fileSaveSize) if (keyValuePair.Value == 0) countToSave++; //In progress with Exiftool
-                    if (countToSave >= 0) countToSave++; //Something is in progress saving
+                    //if (countToSave >= 0) countToSave++; //Something is in progress saving
                 }
             }
             catch { } //It's not thread safe, if error, don't care
@@ -167,8 +171,5 @@ UpdateStatusAllQueueStatus();
         }
         #endregion 
 
-        
-
-        
     }
 }

@@ -82,7 +82,7 @@ namespace PhotoTagsSynchronizer
             metadataListOriginalExiftool = new List<Metadata>();
             metadataListFromDataGridView = new List<Metadata>();
 
-            DataGridView dataGridView = GetActiveDataGridView();
+            DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, true);
             foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
             {
@@ -90,7 +90,6 @@ namespace PhotoTagsSynchronizer
 
                 Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
 
-                ////DataGridViewHandler.
                 if (GlobalData.IsAgregatedTags)
                 {
                     DataGridViewHandler.ClearDataGridViewDirty(dataGridViewTagsAndKeywords);
@@ -186,8 +185,8 @@ namespace PhotoTagsSynchronizer
             }
 
             GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-            UpdateThumbnailOnImageListViewItems(imageListView1, null);
-            UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
+            ImageListViewForceThumbnailRefreshAndThreads(imageListView1, null);
+            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
             //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
         }
@@ -290,7 +289,7 @@ namespace PhotoTagsSynchronizer
             filesCutCopyPasteDrag.DeleteFilesMetadataForReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
 
             FilesSelected();
-            UpdateStatusAllQueueStatus();
+            DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
         #endregion 
@@ -301,7 +300,7 @@ namespace PhotoTagsSynchronizer
             filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(folderTreeViewFolder, imageListView1);
 
             FilesSelected();
-            UpdateStatusAllQueueStatus();
+            DisplayAllQueueStatus();
         }
         #endregion
 
@@ -325,7 +324,7 @@ namespace PhotoTagsSynchronizer
             imageListView1.Refresh();
             Application.DoEvents();
             FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
-            UpdateStatusAllQueueStatus();
+            DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -346,7 +345,7 @@ namespace PhotoTagsSynchronizer
             folderTreeViewFolder.Enabled = true;
             imageListView1.Enabled = true;
             
-            UpdateStatusAllQueueStatus();
+            DisplayAllQueueStatus();
 
         }
         #endregion
@@ -1250,14 +1249,14 @@ namespace PhotoTagsSynchronizer
         {
             Properties.Settings.Default.ShowHistortyColumns = toolStripButtonHistortyColumns.Checked;
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
+            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
         }
 
         private void toolStripButtonErrorColumns_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            UpdateMetadataOnSelectedFilesOnActiveDataGrivView(imageListView1.SelectedItems);
+            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
         }
         #endregion
 
@@ -1385,27 +1384,6 @@ namespace PhotoTagsSynchronizer
                     text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FullFileName;
                 }
                 Clipboard.SetText(text);
-            }
-        }
-    }
-
-
-    public class Test
-    {
-        public void Test2()
-        {
-            
-            RegistryKey branch = Registry.CurrentUser;
-            branch = branch.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts", 
-                Microsoft.Win32.RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
-            var subKeyNames = branch.GetSubKeyNames();
-            var DisplayNames = new List<string>();
-            foreach (string subkey_name in branch.GetSubKeyNames())
-            {
-                using (RegistryKey subkey = branch.OpenSubKey(subkey_name))
-                {
-                    DisplayNames.Add((string)subkey.GetValue("DisplayName"));
-                }
             }
         }
     }

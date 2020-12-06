@@ -42,11 +42,12 @@ namespace PhotoTagsSynchronizer
             FilesSelected();
         }
 
-        private DataGridView GetActiveDataGridView()
+        //tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString()
+        private DataGridView GetActiveDataGridView(string tag)
         {
             try
             {
-                switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
+                switch (tag)
                 {
                     case "Tags":
                         return dataGridViewTagsAndKeywords;
@@ -86,21 +87,21 @@ namespace PhotoTagsSynchronizer
             
             if (GlobalData.IsPopulatingAnything()) return;
 
-            DataGridView dataGridView = GetActiveDataGridView();
+            DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             DataGridViewHandler.UpdateImageOnFile(dataGridView, fileEntryImage);
         }
 
-        private void RefreshImageOnFullFilePathOnGrivView(string fullFilePath)
+        private void RefreshHeaderImageOnActiveDataGrivView(string fullFilePath)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<string>(RefreshImageOnFullFilePathOnGrivView), fullFilePath);
+                this.BeginInvoke(new Action<string>(RefreshHeaderImageOnActiveDataGrivView), fullFilePath);
                 return;
             }
 
             if (GlobalData.IsPopulatingAnything()) return;
 
-            DataGridView dataGridView = GetActiveDataGridView();
+            DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             if (dataGridView == null) return;
             
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
@@ -116,16 +117,17 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
         }
 
-        private void RefreshImageOnSelectFilesOnActiveDataGrivView(ImageListViewSelectedItemCollection imageListViewSelectItems)
+        /*
+        private void RefreshHeaderImageOnActiveDataGrivView(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                RefreshImageOnFullFilePathOnGrivView(imageListViewItem.FullFileName);
+                RefreshHeaderImageOnActiveDataGrivView(imageListViewItem.FullFileName);
             }
         }
+        */
 
-
-        private void UpdateMetadataOnSelectedFilesOnActiveDataGrivView(ImageListViewSelectedItemCollection imageListViewSelectItems)
+        private void PopulateMetadataOnFileOnActiveDataGrivViewInvoke(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
@@ -134,23 +136,13 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void PopulateMetadataOnFileOnActiveDataGrivViewInvoke(string fullFilePath)
-        {           
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<string>(PopulateMetadataOnFileOnActiveDataGrivViewInvoke), fullFilePath);
-                return;
-            }
-
-            if (GlobalData.IsApplicationClosing) return;
-
-            DataGridView dataGridView = GetActiveDataGridView();
-
+        private void PopulateMetadataOnFileOnActiveDataGrivView(DataGridView dataGridView, string fullFilePath, string tag)
+        {
             lock (GlobalData.populateSelectedLock)
             {
                 DateTime dateTimeForEditableMediaFile = DataGridViewHandler.DateTimeForEditableMediaFile; //Else File.GetLastWriteTime(fullFilePath)
 
-                switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
+                switch (tag)
                 {
                     case "Tags":
                         DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
@@ -184,12 +176,61 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerRename.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
                         break;
                 }
-                //if (dataGridView != null) dataGridView.Refresh();
+            }
+        }
+       
+        private void PopulateMetadataOnFileOnActiveDataGrivViewInvoke(string fullFilePath)
+        {           
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string>(PopulateMetadataOnFileOnActiveDataGrivViewInvoke), fullFilePath);
+                return;
+            }
+
+            if (GlobalData.IsApplicationClosing) return;
+            DataGridView dataGridView;
+
+            if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Tags" || GlobalData.IsAgregatedTags)
+            {
+                dataGridView = GetActiveDataGridView("Tags");
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            }
+            
+            if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Map" || GlobalData.IsAgregatedMap)
+            {
+                dataGridView = GetActiveDataGridView("Map");
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            }
+
+            if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "People" || GlobalData.IsAgregatedMap)
+            {
+                dataGridView = GetActiveDataGridView("People");
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            }
+
+            if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Date" || GlobalData.IsAgregatedPeople)
+            {
+                dataGridView = GetActiveDataGridView("Date");
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            }
+
+            if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "ExifTool" || GlobalData.IsAgregatedPeople)
+            {
+                dataGridView = GetActiveDataGridView("ExifTool");
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            }
+
+            if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Warning" || GlobalData.IsAgregatedPeople)
+            {
+                dataGridView = GetActiveDataGridView("Warning");
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
         }
 
-        private void UpdateThumbnailOnImageListViewItems(ImageListView imageListView, List<Metadata> updatedMetadata)
+        private bool ImageListViewForceThumbnailRefreshAndThreads(ImageListView imageListView, string fullFileName)
         {
+            bool existAndUpdated = false;
+
             if (GlobalData.retrieveImageCount > 0) 
             {
                 Thread.Sleep(100); //Wait until all ImageListView events are removed
@@ -202,8 +243,12 @@ namespace PhotoTagsSynchronizer
                 ImageListViewSuspendLayoutInvoke(imageListView);
                 foreach (ImageListViewItem item in imageListView.SelectedItems)
                 {
-                    if (updatedMetadata == null) ImageListViewUpdateItemThumbnailAndMetadataInvoke(item);
-                    else if (Metadata.IsFullFilenameInList(updatedMetadata, item.FullFileName)) ImageListViewUpdateItemThumbnailAndMetadataInvoke(item);
+                    if (item.FullFileName == fullFileName)
+                    {
+                        existAndUpdated = true;
+                        ImageListViewUpdateItemThumbnailAndMetadataInvoke(item);
+                        break;
+                    }
                 }
                 ImageListViewResumeLayoutInvoke(imageListView);
             }
@@ -212,9 +257,9 @@ namespace PhotoTagsSynchronizer
                 //DID ImageListe update failed, because of thread???
             }
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+            return existAndUpdated;
         }
 
-        
 
         private void PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
@@ -222,7 +267,7 @@ namespace PhotoTagsSynchronizer
             {
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
                 PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewInvoke(imageListViewSelectItems);
-                UpdateStatusAllQueueStatus();
+                DisplayAllQueueStatus();
             }
         }
 
@@ -235,7 +280,7 @@ namespace PhotoTagsSynchronizer
         {
             if (InvokeRequired)
             {
-                _ = this.BeginInvoke(new Action<ImageListViewSelectedItemCollection>(UpdateMetadataOnSelectedFilesOnActiveDataGrivView), imageListViewSelectItems);
+                _ = this.BeginInvoke(new Action<ImageListViewSelectedItemCollection>(PopulateMetadataOnFileOnActiveDataGrivViewInvoke), imageListViewSelectItems);
                 return;
             }
 
@@ -250,7 +295,7 @@ namespace PhotoTagsSynchronizer
                 }
                 StartThreads();
 
-                DataGridView dataGridView = GetActiveDataGridView();
+                DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
                 switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
                 {
                     case "Tags":
