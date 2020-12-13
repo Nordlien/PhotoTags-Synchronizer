@@ -865,5 +865,41 @@ namespace PhotoTagsSynchronizer.Properties {
                 this["RunOpenPictureWith"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RunBatchCommandWaitExit {
+            get {
+                return ((bool)(this["RunBatchCommandWaitExit"]));
+            }
+            set {
+                this["RunBatchCommandWaitExit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RunOpenVideoWithWaitExit {
+            get {
+                return ((bool)(this["RunOpenVideoWithWaitExit"]));
+            }
+            set {
+                this["RunOpenVideoWithWaitExit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RunOpenImageWithWaitExit {
+            get {
+                return ((bool)(this["RunOpenImageWithWaitExit"]));
+            }
+            set {
+                this["RunOpenImageWithWaitExit"] = value;
+            }
+        }
     }
 }

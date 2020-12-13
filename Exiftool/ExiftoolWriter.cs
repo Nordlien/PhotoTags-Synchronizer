@@ -177,7 +177,7 @@ namespace Exiftool
 
 
 
-        #region Dictionary<string, string> WriteXtraAtom
+        #region WriteXtraAtom
         public static List<FileEntry> WriteXtraAtom(
             List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
             string writeXtraAtomAlbumVariable, bool writeXtraAtomAlbumVideo,
@@ -207,7 +207,7 @@ namespace Exiftool
                 #region Is Video or Image format?
                 bool isVideoFormat = false;
                 bool isImageFormat = true;
-                if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(Path.Combine(metadataToWrite.FileDirectory, metadataToWrite.FileName)))
+                if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(metadataToWrite.FileFullPath))
                 {
                     isVideoFormat = true;
                     isImageFormat = false;

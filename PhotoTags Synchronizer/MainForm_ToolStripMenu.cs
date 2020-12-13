@@ -1316,8 +1316,11 @@ namespace PhotoTagsSynchronizer
         public void StartEditApplication(string fileFullPath)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(fileFullPath);
-            startInfo.Verb = "edit";
-            Process.Start(startInfo);
+            if (startInfo.Verbs.Contains("edit"))
+            {
+                startInfo.Verb = "edit";
+                Process.Start(startInfo);
+            } 
         }
 
         private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)

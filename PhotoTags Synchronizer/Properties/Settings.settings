@@ -580,5 +580,14 @@ filename=UTF8
     <Setting Name="RunOpenPictureWith" Type="System.String" Scope="User">
       <Value Profile="(Default)">paint.exe</Value>
     </Setting>
+    <Setting Name="RunBatchCommandWaitExit" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RunOpenVideoWithWaitExit" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RunOpenImageWithWaitExit" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

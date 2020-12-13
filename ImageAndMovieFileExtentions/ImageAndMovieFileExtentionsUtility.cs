@@ -185,6 +185,36 @@ namespace ImageAndMovieFileExtentions
             return IsImageFormat(filename);
         }
         #endregion
+
+        public static List<string> GetVideoExtension(List<Metadata> metadatas)
+        {
+            List<string> extentions = new List<string>();
+
+            foreach (Metadata metadata in metadatas)
+            {
+                if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(metadata.FileFullPath))
+                {
+                    string extention = Path.GetExtension(metadata.FileFullPath);
+                    if (!extentions.Contains(extention)) extentions.Add(extention);
+                }
+            }
+            return extentions;
+        }
+
+        public static List<string> GetImageExtension(List<Metadata> metadatas)
+        {
+            List<string> extentions = new List<string>();
+
+            foreach (Metadata metadata in metadatas)
+            {
+                if (ImageAndMovieFileExtentionsUtility.IsImageFormat(metadata.FileFullPath))
+                {
+                    string extention = Path.GetExtension(metadata.FileFullPath);
+                    if (!extentions.Contains(extention)) extentions.Add(extention);
+                }
+            }
+            return extentions;
+        }
     }
 }
 

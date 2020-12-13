@@ -128,7 +128,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoCorrect.cs" />
-    <Compile Include="cApplicationData.cs" />
     <Compile Include="ChooseColumns.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,7 +238,6 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OpenWith.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -398,6 +396,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ApplicationAssociations\ApplicationAssociations.csproj">
+      <Project>{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}</Project>
+      <Name>ApplicationAssociations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CameraOwners\CameraOwners.csproj">
       <Project>{473e5009-1cdc-41cb-ab91-3f31051021dc}</Project>
       <Name>CameraOwners</Name>
