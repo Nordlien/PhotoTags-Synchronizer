@@ -31,36 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GeoTimeZone, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
-      <HintPath>..\packages\GeoTimeZone.4.1.0\lib\net461\GeoTimeZone.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NodaTime, Version=3.0.3.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NodaTime.3.0.3\lib\netstandard2.0\NodaTime.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="TimeZoneConverter, Version=3.3.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
-      <HintPath>..\packages\TimeZoneConverter.3.3.0\lib\net461\TimeZoneConverter.dll</HintPath>
-    </Reference>
-    <Reference Include="TimeZoneConverter.Posix, Version=2.2.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
-      <HintPath>..\packages\TimeZoneConverter.Posix.2.2.0\lib\net461\TimeZoneConverter.Posix.dll</HintPath>
-    </Reference>
-    <Reference Include="TimeZoneNames, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
-      <HintPath>..\packages\TimeZoneNames.4.1.0\lib\net461\TimeZoneNames.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TimeZoneLibrary.cs" />
@@ -68,7 +47,29 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="GeoTimeZone">
+      <Version>4.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="NodaTime">
+      <Version>3.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
+      <Version>5.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="TimeZoneConverter">
+      <Version>3.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="TimeZoneConverter.Posix">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="TimeZoneNames">
+      <Version>4.1.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
