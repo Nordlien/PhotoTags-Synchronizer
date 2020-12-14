@@ -80,31 +80,11 @@ namespace PhotoTagsSynchronizer
                 string userAccount = comboBoxUserAccount.Text.Trim();
 
                 Properties.Settings.Default.Reload();
-                //System.Collections.Specialized.StringCollection locationUsers = Properties.Settings.Default.LocationUsers;
                 List<string> locationUsers = databaseAndCahceCameraOwner.ReadCameraOwners();
-
-                /*
-                if (locationUsers == null)
-                {
-                    //locationUsers = new System.Collections.Specialized.StringCollection();
-                    locationUsers = new List<string>();
-                    locationUsers.Add(userAccount);
-                }
-                else
-                {
-                    if (!locationUsers.Contains(userAccount))
-                    {
-
-                        locationUsers.Insert(0, userAccount);
-                        int maxLength = 3;
-                        if (locationUsers.Count > maxLength) locationUsers.RemoveAt(maxLength - 1);
-                    }
-                }*/
 
                 try
                 {
                     Properties.Settings.Default.LocationUser = comboBoxUserAccount.Text;
-                    //Properties.Settings.Default.LocationUsers = locationUsers;
                     Properties.Settings.Default.Save();
                 } catch { }
                 

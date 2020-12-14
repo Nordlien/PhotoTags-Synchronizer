@@ -117,11 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="textBoxRunCommandExamples.Text" xml:space="preserve">
-    <value>Example 1: exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
-Example 2: "C:\Program files\Exiftool\exiftool" -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
-Example 3: cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"       
-Example 4: cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
-Example 5: explorer ms-photos?filename="{FileFullPath}"</value>
-  </data>
 </root>

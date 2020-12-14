@@ -436,6 +436,8 @@ Deps                   :
             return LoadResourceString(FullName, resource);
         }
 
+        //Fullname: Microsoft.YourPhone_1.20111.125.0_x64__8wekyb3d8bbwe
+        //FamilyName: Microsoft.YourPhone_8wekyb3d8bbwe
         private static IEnumerable<AppxPackage> QueryPackageInfo(string fullName, PackageConstants flags)
         {
             IntPtr infoRef;

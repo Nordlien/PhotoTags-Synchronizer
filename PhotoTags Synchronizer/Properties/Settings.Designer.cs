@@ -819,18 +819,6 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("cmd /K exiftool -t -a -G0:1 -s -n -P -struct \"{FileFullPath}\"")]
-        public string RunBatchCommand {
-            get {
-                return ((string)(this["RunBatchCommand"]));
-            }
-            set {
-                this["RunBatchCommand"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"{" +
             "TempFileArgumentFullPath}\"")]
         public string RunArgumentCommand {
@@ -844,61 +832,305 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RunOpenVideoWith {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ ""{TempFileArgumentFullPath}""</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection RunArgumentCommandList {
             get {
-                return ((string)(this["RunOpenVideoWith"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["RunArgumentCommandList"]));
             }
             set {
-                this["RunOpenVideoWith"] = value;
+                this["RunArgumentCommandList"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("paint.exe")]
-        public string RunOpenPictureWith {
+        [global::System.Configuration.DefaultSettingValueAttribute("exiftool -t -a -G0:1 -s -n -P -struct \"{FileFullPath}\"")]
+        public string RunBatchImageCommand {
             get {
-                return ((string)(this["RunOpenPictureWith"]));
+                return ((string)(this["RunBatchImageCommand"]));
             }
             set {
-                this["RunOpenPictureWith"] = value;
+                this["RunBatchImageCommand"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool RunBatchCommandWaitExit {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
+  <string>""C:\Program files\Exiftool\exiftool"" -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
+  <string>cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""       </string>
+  <string>cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
+  <string>explorer ms-photos?filename=""{FileFullPath}""</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection RunBatchImageCommandList {
             get {
-                return ((bool)(this["RunBatchCommandWaitExit"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchImageCommandList"]));
             }
             set {
-                this["RunBatchCommandWaitExit"] = value;
+                this["RunBatchImageCommandList"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool RunOpenVideoWithWaitExit {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RunBatchImageWaitForCommand {
             get {
-                return ((bool)(this["RunOpenVideoWithWaitExit"]));
+                return ((bool)(this["RunBatchImageWaitForCommand"]));
             }
             set {
-                this["RunOpenVideoWithWaitExit"] = value;
+                this["RunBatchImageWaitForCommand"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool RunOpenImageWithWaitExit {
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft.Windows.Photos_8wekyb3d8bbwe!App")]
+        public string RunBatchImageAppId {
             get {
-                return ((bool)(this["RunOpenImageWithWaitExit"]));
+                return ((string)(this["RunBatchImageAppId"]));
             }
             set {
-                this["RunOpenImageWithWaitExit"] = value;
+                this["RunBatchImageAppId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Microsoft.Windows.Photos_8wekyb3d8bbwe!App</string>
+  <string>Microsoft.ScreenSketch_8wekyb3d8bbwe!App</string>
+  <string>Microsoft.MSPaint_8wekyb3d8bbwe!Microsoft.MSPaint</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection RunBatchImageAppIdList {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchImageAppIdList"]));
+            }
+            set {
+                this["RunBatchImageAppIdList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("open")]
+        public string RunBatchImageVerb {
+            get {
+                return ((string)(this["RunBatchImageVerb"]));
+            }
+            set {
+                this["RunBatchImageVerb"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>open</string>\r\n  <string>edit</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection RunBatchImageVerbList {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchImageVerbList"]));
+            }
+            set {
+                this["RunBatchImageVerbList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RunBatchImageWaitForApp {
+            get {
+                return ((bool)(this["RunBatchImageWaitForApp"]));
+            }
+            set {
+                this["RunBatchImageWaitForApp"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("exiftool -t -a -G0:1 -s -n -P -struct \"{FileFullPath}\"")]
+        public string RunBatchVideoCommand {
+            get {
+                return ((string)(this["RunBatchVideoCommand"]));
+            }
+            set {
+                this["RunBatchVideoCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
+  <string>""C:\Program files\Exiftool\exiftool"" -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
+  <string>cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""       </string>
+  <string>cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
+  <string>explorer ms-photos?filename=""{FileFullPath}""</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection RunBatchVideoCommandList {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchVideoCommandList"]));
+            }
+            set {
+                this["RunBatchVideoCommandList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RunBatchVideoWaitForCommand {
+            get {
+                return ((bool)(this["RunBatchVideoWaitForCommand"]));
+            }
+            set {
+                this["RunBatchVideoWaitForCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft.Windows.Photos_8wekyb3d8bbwe!App")]
+        public string RunBatchVideoAppId {
+            get {
+                return ((string)(this["RunBatchVideoAppId"]));
+            }
+            set {
+                this["RunBatchVideoAppId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>Microsoft.Windows.Photos_8wekyb3d8bbwe!App</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection RunBatchVideoAppIdList {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchVideoAppIdList"]));
+            }
+            set {
+                this["RunBatchVideoAppIdList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RunBatchVideoWaitForApp {
+            get {
+                return ((bool)(this["RunBatchVideoWaitForApp"]));
+            }
+            set {
+                this["RunBatchVideoWaitForApp"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("open")]
+        public string RunBatchVideoVerb {
+            get {
+                return ((string)(this["RunBatchVideoVerb"]));
+            }
+            set {
+                this["RunBatchVideoVerb"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>open</string>\r\n  <string>edit</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection RunBatchVideoVerbList {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchVideoVerbList"]));
+            }
+            set {
+                this["RunBatchVideoVerbList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AppX43hnxtbyyps62jhe9sqpdzxn1790zetc")]
+        public string OpenWithImageProgId {
+            get {
+                return ((string)(this["OpenWithImageProgId"]));
+            }
+            set {
+                this["OpenWithImageProgId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("open")]
+        public string OpenWithImageVerb {
+            get {
+                return ((string)(this["OpenWithImageVerb"]));
+            }
+            set {
+                this["OpenWithImageVerb"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenWithImageWaitForExit {
+            get {
+                return ((bool)(this["OpenWithImageWaitForExit"]));
+            }
+            set {
+                this["OpenWithImageWaitForExit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AppX43hnxtbyyps62jhe9sqpdzxn1790zetc")]
+        public string OpenWithVideoProgId {
+            get {
+                return ((string)(this["OpenWithVideoProgId"]));
+            }
+            set {
+                this["OpenWithVideoProgId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("open")]
+        public string OpenWithVideoVerb {
+            get {
+                return ((string)(this["OpenWithVideoVerb"]));
+            }
+            set {
+                this["OpenWithVideoVerb"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenWithVideoWaitForExit {
+            get {
+                return ((bool)(this["OpenWithVideoWaitForExit"]));
+            }
+            set {
+                this["OpenWithVideoWaitForExit"] = value;
             }
         }
     }

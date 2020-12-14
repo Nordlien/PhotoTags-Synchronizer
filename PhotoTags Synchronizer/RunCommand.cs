@@ -30,64 +30,141 @@ namespace PhotoTagsSynchronizer
             
         }
 
+        
+
         #region Common - Init - Load Config
         public void Init()
         {
             isPopulation = true;
-            //Populate Vaiable combobox
-            //comboBoxArgumentFileCommandVariables.Items.AddRange(Metadata.ListOfProperties());
+
+
+            #region Tab - Argument file
             comboBoxArgumentFileCommandVariables.Items.Add("{TempFileArgumentFullPath}");
-            comboBoxBatchCommandCommandVariables.Items.AddRange(Metadata.ListOfProperties());
-
-            //List of files info box
-            foreach (Metadata metadata in Metadatas)
-            {
-                textBoxOpenWithSelectedFiles.Text += (textBoxOpenWithSelectedFiles.Text == "" ? "" : "\r\n") + metadata.FileFullPath;
-                textBoxBatchCommandSelectedFiles.Text += (textBoxBatchCommandSelectedFiles.Text == "" ? "" : "\r\n") + metadata.FileFullPath;
-            }
-
-            //Argu file
+            ComboBoxPopulate(comboBoxArgumentFileCommand, Properties.Settings.Default.RunArgumentCommandList, Properties.Settings.Default.RunArgumentCommand);
             textBoxArgumentFileArgumentFile.Text = ArguFile;
-            isPopulation = false;
+            #endregion
 
-            //Commands
-            textBoxArgumentFileCommand.Text = Properties.Settings.Default.RunArgumentCommand;
-            textBoxBatchCommandCommand.Text = Properties.Settings.Default.RunBatchCommand;
-            textBoxOpenImageWithCommand.Text = Properties.Settings.Default.RunOpenPictureWith;
-            textBoxOpenVideoWithCommand.Text = Properties.Settings.Default.RunOpenVideoWith;
-            checkBoxBatchCommandWaitForExit.Checked = Properties.Settings.Default.RunBatchCommandWaitExit;
-            checkBoxOpenImageWithWaitForExit.Checked = Properties.Settings.Default.RunOpenImageWithWaitExit;
-            checkBoxOpenVideoWithWaitForExit.Checked = Properties.Settings.Default.RunOpenVideoWithWaitExit;
+            #region Tab - Run batch - Command
+            comboBoxBatchRunImageVariables.Items.AddRange(Metadata.ListOfProperties());
+            comboBoxBatchRunVideoVariables.Items.AddRange(Metadata.ListOfProperties());
+            ComboBoxPopulate(comboBoxBatchRunImageCommand, Properties.Settings.Default.RunBatchImageCommandList, Properties.Settings.Default.RunBatchImageCommand);
+            ComboBoxPopulate(comboBoxBatchRunVideoCommand, Properties.Settings.Default.RunBatchVideoCommandList, Properties.Settings.Default.RunBatchVideoCommand);
+            checkBoxBatchRunImageWaitForCommandExit.Checked = Properties.Settings.Default.RunBatchImageWaitForCommand;
+            checkBoxBatchRunVideoWaitForCommandExit.Checked = Properties.Settings.Default.RunBatchVideoWaitForCommand;
+            #endregion
 
+            #region Tab - Run batch - App
+            foreach (Metadata metadata in Metadatas) textBoxBatchCommandSelectedFiles.Text += (textBoxBatchCommandSelectedFiles.Text == "" ? "" : "\r\n") + metadata.FileFullPath;
+
+            applicationDatas = ApplicationInstalled.ListInstalledApps();
+            for (int index = 0; index < applicationDatas.Count; index++)
+            {
+                comboBoxBatchRunImageApp.Items.Add(applicationDatas.Values[index].FriendlyAppName);
+                comboBoxBatchRunVideoApp.Items.Add(applicationDatas.Values[index].FriendlyAppName);
+            }
+            ComboBoxPopulate(comboBoxBatchRunImageApp, Properties.Settings.Default.RunBatchImageAppIdList, Properties.Settings.Default.RunBatchImageAppId);
+            ComboBoxPopulate(comboBoxBatchRunVideoApp, Properties.Settings.Default.RunBatchVideoAppIdList, Properties.Settings.Default.RunBatchVideoAppId);
+            ComboBoxPopulate(comboBoxBatchRunImageVerb, Properties.Settings.Default.RunBatchImageVerbList, Properties.Settings.Default.RunBatchImageVerb);
+            ComboBoxPopulate(comboBoxBatchRunVideoVerb, Properties.Settings.Default.RunBatchVideoVerbList, Properties.Settings.Default.RunBatchVideoVerb);
+            checkBoxBatchRunImageWaitForAppExit.Checked = Properties.Settings.Default.RunBatchImageWaitForApp;
+            checkBoxBatchRunVideoWaitForAppExit.Checked = Properties.Settings.Default.RunBatchVideoWaitForApp;
+            #endregion
+
+            #region Tab - Open with
+            foreach (Metadata metadata in Metadatas) textBoxOpenWithSelectedFiles.Text += (textBoxOpenWithSelectedFiles.Text == "" ? "" : "\r\n") + metadata.FileFullPath;
             //DataGridView video Open With...
             List<string> videoExtensions = ImageAndMovieFileExtentionsUtility.GetVideoExtension(Metadatas);
             List<string> imageExtensions = ImageAndMovieFileExtentionsUtility.GetImageExtension(Metadatas);
 
             PopulateOpenWithDataGridView(dataGridViewImages, imageExtensions);
             PopulateOpenWithDataGridView(dataGridViewVideos, videoExtensions);
-            SelectApplicationRow(dataGridViewImages, textBoxOpenImageWithCommand.Text);
-            SelectApplicationRow(dataGridViewVideos, textBoxOpenVideoWithCommand.Text);
 
-            //Batch run
-            //applicationDatas = ApplicationInstalled.ListInstalledApps2();
-            applicationDatas = AppxPackage.GetApps();
-            for (int index = 0; index < applicationDatas.Count; index++)
-            {
-                comboBoxBatchCommandImageApp.Items.Add(applicationDatas.Values[index].FriendlyAppName);
-            }
+            SelectApplicationRow(dataGridViewImages, Properties.Settings.Default.OpenWithImageProgId);
+            SelectApplicationRow(dataGridViewVideos, Properties.Settings.Default.OpenWithVideoProgId);
+
+            comboBoxBatchRunImageVerb.Text = Properties.Settings.Default.OpenWithImageVerb;
+            comboBoxBatchRunVideoVerb.Text = Properties.Settings.Default.OpenWithVideoVerb;
+
+            checkBoxOpenImageWithWaitForExit.Checked = Properties.Settings.Default.OpenWithImageWaitForExit;
+            checkBoxOpenVideoWithWaitForExit.Checked = Properties.Settings.Default.OpenWithVideoWaitForExit;
+            #endregion
+
+
+            isPopulation = false;
+
         }
         #endregion 
+
+        private void ComboBoxPopulate(ComboBox comboBox, System.Collections.Specialized.StringCollection valueList, string defaultValue)
+        {
+            comboBox.Items.Clear();
+            foreach (string valueItem in valueList)
+            {
+                comboBox.Items.Add(valueItem);
+            }
+            comboBox.Text = defaultValue;
+        }
+
+        private System.Collections.Specialized.StringCollection ComboBoxStringCollection(ComboBox comboBox)
+        {
+            System.Collections.Specialized.StringCollection stringCollection = new System.Collections.Specialized.StringCollection();
+            foreach (object item in comboBox.Items)
+            {
+                stringCollection.Add(item.ToString());
+            }
+            return stringCollection;
+        }
+
 
         #region Common - FormClosing - Save Config
         private void RunCommand_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Properties.Settings.Default.RunArgumentCommand = textBoxArgumentFileCommand.Text;
-            Properties.Settings.Default.RunBatchCommand = textBoxBatchCommandCommand.Text;
-            Properties.Settings.Default.RunOpenPictureWith = textBoxOpenImageWithCommand.Text;
-            Properties.Settings.Default.RunOpenVideoWith = textBoxOpenVideoWithCommand.Text;
-            Properties.Settings.Default.RunBatchCommandWaitExit = checkBoxBatchCommandWaitForExit.Checked;
-            Properties.Settings.Default.RunOpenImageWithWaitExit = checkBoxOpenImageWithWaitForExit.Checked;
-            Properties.Settings.Default.RunOpenVideoWithWaitExit = checkBoxOpenVideoWithWaitForExit.Checked;
+            #region Tab - Argument file
+            Properties.Settings.Default.RunArgumentCommandList = ComboBoxStringCollection(comboBoxArgumentFileCommand);
+            Properties.Settings.Default.RunArgumentCommand = comboBoxArgumentFileCommand.Text;
+            #endregion
+
+            #region Tab - Run batch - Command
+            Properties.Settings.Default.RunBatchImageCommandList = ComboBoxStringCollection(comboBoxBatchRunImageCommand);
+            Properties.Settings.Default.RunBatchImageCommand = comboBoxBatchRunImageCommand.Text;
+
+            Properties.Settings.Default.RunBatchVideoCommandList = ComboBoxStringCollection(comboBoxBatchRunVideoCommand);
+            Properties.Settings.Default.RunBatchVideoCommand = comboBoxBatchRunVideoCommand.Text;
+
+
+            Properties.Settings.Default.RunBatchImageWaitForCommand = checkBoxBatchRunImageWaitForCommandExit.Checked;
+            Properties.Settings.Default.RunBatchVideoWaitForCommand = checkBoxBatchRunVideoWaitForCommandExit.Checked;
+            #endregion
+
+            #region Tab - Run batch - App
+
+            Properties.Settings.Default.RunBatchImageAppIdList = ComboBoxStringCollection(comboBoxBatchRunImageApp);
+            Properties.Settings.Default.RunBatchImageAppId = comboBoxBatchRunImageApp.Text;
+
+            Properties.Settings.Default.RunBatchVideoAppIdList = ComboBoxStringCollection(comboBoxBatchRunVideoApp);
+            Properties.Settings.Default.RunBatchVideoAppId = comboBoxBatchRunVideoApp.Text;
+
+            Properties.Settings.Default.RunBatchImageVerbList = ComboBoxStringCollection(comboBoxBatchRunImageVerb);
+            Properties.Settings.Default.RunBatchImageVerb = comboBoxBatchRunImageVerb.Text;
+
+            Properties.Settings.Default.RunBatchVideoVerbList = ComboBoxStringCollection(comboBoxBatchRunVideoVerb);
+            Properties.Settings.Default.RunBatchVideoVerb = comboBoxBatchRunVideoVerb.Text;
+
+            checkBoxBatchRunImageWaitForAppExit.Checked = Properties.Settings.Default.RunBatchImageWaitForApp;
+            checkBoxBatchRunVideoWaitForAppExit.Checked = Properties.Settings.Default.RunBatchVideoWaitForApp;
+            #endregion
+
+            #region Tab - Open with
+            Properties.Settings.Default.OpenWithImageProgId = GetSelectProgId(dataGridViewImages); 
+            Properties.Settings.Default.OpenWithVideoProgId = GetSelectProgId(dataGridViewVideos);
+
+            Properties.Settings.Default.OpenWithImageVerb = comboBoxBatchRunImageVerb.Text;
+            Properties.Settings.Default.OpenWithVideoVerb = comboBoxBatchRunVideoVerb.Text;
+
+            Properties.Settings.Default.OpenWithImageWaitForExit = checkBoxOpenImageWithWaitForExit.Checked;
+            Properties.Settings.Default.OpenWithVideoWaitForExit = checkBoxOpenVideoWithWaitForExit.Checked;
+            #endregion 
+
             Properties.Settings.Default.Save();
         }
         #endregion
@@ -104,14 +181,28 @@ namespace PhotoTagsSynchronizer
                 textBox.SelectionStart = selectionIndex + insertText.Length;
             }
         }
+
+        private void SelectionChangeCommitted(ComboBox textBox, string insertText)
+        {
+            if (!isPopulation)
+            {
+                //textBox.Focus();
+                var selectionIndex = textBox.SelectionStart;
+                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
+                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
+                textBox.SelectionStart = selectionIndex + insertText.Length;
+            }
+        }
+
+        
         #endregion 
 
-        #region OpenWith - SelectApplicationRow
-        private void SelectApplicationRow(DataGridView dataGridView, string applicationLink)
+        #region OpenWith - Common - SelectApplicationRow
+        private void SelectApplicationRow(DataGridView dataGridView, string progId)
         {
             for (int rowIndex = 0; rowIndex < dataGridView.Rows.Count; rowIndex++)
             {
-                if (dataGridView.Rows[rowIndex].Cells["Command"].Value.ToString() == applicationLink)
+                if (dataGridView.Rows[rowIndex].Cells["ProgId"].Value.ToString() == progId)
                 {
                     dataGridView.CurrentCell = dataGridView[1, rowIndex];
                     dataGridView.Rows[rowIndex].Selected = true;
@@ -120,7 +211,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region OpenWith - PopulateOpenWithDataGridView
+        #region OpenWith - Common - PopulateOpenWithDataGridView
         private void PopulateOpenWithDataGridView(DataGridView dataGridView, List<string> extensions)
         {
             try
@@ -162,21 +253,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region OpenWith - CellEnter - Select row
-        private void dataGridViewImages_CellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewImages;
-            dataGridView.Rows[e.RowIndex].Selected = true;
-        }
-
-        private void dataGridViewVideos_CellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewVideos;
-            dataGridView.Rows[e.RowIndex].Selected = true;
-        }
-        #endregion 
-
-        #region OpenWith - FillComboBoxWithVerbs
+        #region OpenWith - Common - FillComboBoxWithVerbs
         private void FillComboBoxWithVerbs(ComboBox comboBox, string progId)
         {
             comboBox.Items.Clear();
@@ -193,7 +270,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region OpenWith - Select Verb
+        #region OpenWith - Common - Select Verb
         private void SelectVerb(ComboBox comboBox, string verb)
         {
             int foundIndex = -1;
@@ -204,6 +281,42 @@ namespace PhotoTagsSynchronizer
             if (foundIndex != -1) comboBox.SelectedIndex = foundIndex;
         }
         #endregion
+
+        #region OpenWith - Common - GetSelectedRowIndex
+        private int GetSelectedRowIndex(DataGridView dataGridView)
+        {
+            if (dataGridView.SelectedRows.Count >= 1) return dataGridView.SelectedRows[0].Index;
+            if (dataGridView.SelectedCells.Count >= 1) return dataGridView.SelectedCells[0].RowIndex;
+            return -1;
+        }
+        #endregion
+
+        #region OpenWith - Common - Get selected ProgId
+
+        private string GetSelectProgId(DataGridView dataGridView)
+        {
+            int rowIndex = GetSelectedRowIndex(dataGridView);
+            if (rowIndex > -1)
+            {
+                return dataGridView.Rows[rowIndex].Cells["ProgId"].Value.ToString();
+            }
+            return "";
+        }
+        #endregion 
+
+        #region OpenWith - CellEnter - Select row
+        private void dataGridViewImages_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewImages;
+            dataGridView.Rows[e.RowIndex].Selected = true;
+        }
+
+        private void dataGridViewVideos_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewVideos;
+            dataGridView.Rows[e.RowIndex].Selected = true;
+        }
+        #endregion 
 
         #region OpenWith - Image SelectionChanged
         private void dataGridViewImages_SelectionChanged(object sender, EventArgs e)
@@ -245,43 +358,37 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region OpenWith - GetSelectedRowIndex
-        private int GetSelectedRowIndex (DataGridView dataGridView)
-        {
-            if (dataGridView.SelectedRows.Count >= 1) return dataGridView.SelectedRows[0].Index;
-            if (dataGridView.SelectedCells.Count >= 1) return dataGridView.SelectedCells[0].RowIndex;
-            return -1;
-        }
-        #endregion
-
         #region OpenWith - Image - New verb selected
         private void comboBoxOpenImageWithVerbs_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewImages;
-            int rowIndex = GetSelectedRowIndex(dataGridView);
-            if (rowIndex > -1)
-            {
-                VerbLink verbLink = applicationAssociationsHandler.GetVerbLink(dataGridView.Rows[rowIndex].Cells["ProgId"].Value.ToString(), comboBoxOpenImageWithVerbs.SelectedItem.ToString());
-                if (verbLink != null) textBoxOpenImageWithCommand.Text = verbLink.Command;
-            }
+            DataGridView dataGridView = dataGridViewImages;            
+            VerbLink verbLink = applicationAssociationsHandler.GetVerbLink(GetSelectProgId(dataGridView), comboBoxOpenImageWithVerbs.SelectedItem.ToString());
+            if (verbLink != null) textBoxOpenImageWithCommand.Text = verbLink.Command;
+
         }
         #endregion
 
         #region OpenWith - Video - New verb selected
         private void comboBoxOpenVideoWithVerbs_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            DataGridView dataGridView = dataGridViewVideos;
-            int rowIndex = GetSelectedRowIndex(dataGridView);
-            if (rowIndex > -1)
-            {
-                VerbLink verbLink = applicationAssociationsHandler.GetVerbLink(dataGridView.Rows[rowIndex].Cells["ProgId"].Value.ToString(), comboBoxOpenImageWithVerbs.SelectedItem.ToString());
-                if (verbLink != null) textBoxOpenVideoWithCommand.Text = verbLink.Command;
-            }
-                       
+            DataGridView dataGridView = dataGridViewVideos;            
+            VerbLink verbLink = applicationAssociationsHandler.GetVerbLink(GetSelectProgId(dataGridView), comboBoxOpenVideoWithVerbs.SelectedItem.ToString());
+            if (verbLink != null) textBoxOpenVideoWithCommand.Text = verbLink.Command;
         }
-        #endregion 
+        #endregion
 
-        #region OpenWith - Run
+
+        private void ComboBoxAddTextToList(ComboBox comboBox)     
+        {
+            int indexOfText = comboBox.Items.IndexOf(comboBox.Text);
+            if (indexOfText > -1) comboBox.Items.RemoveAt(indexOfText); //Remove if exist
+            comboBox.Items.Insert(0, comboBox.Text); //Add first
+
+            int maxCount = 5;
+            while (comboBox.Items.Count > maxCount) comboBox.Items.RemoveAt(maxCount - 1);
+        }
+
+        #region OpenWith - Click
         private void buttonOpenWithOpenWith_Click(object sender, EventArgs e)
         {
             string errors = "";
@@ -304,28 +411,102 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Batch run - textBoxBatchCommandCommand_TextChanged
-        private void textBoxBatchCommandCommand_TextChanged(object sender, EventArgs e)
+        #region Batch run - Show RunBatch Eaxmple when - TextChanged
+
+        private void ShowRunBatchExample()
         {
-            textBoxCommandCommandExample.Text = "";
-            foreach (Metadata metadata in Metadatas)
-            {
-                textBoxCommandCommandExample.Text += (textBoxCommandCommandExample.Text == "" ? "" : "\r\n") + metadata.ReplaceVariables(textBoxBatchCommandCommand.Text, AllowedFileNameDateTimeFormats);
-            }
+            
+            textBoxRunBatchImageExample.Text = "";
+
+            if (tabControlBatchRunImage.SelectedTab.Tag.ToString() == "Command")
+                foreach (Metadata metadata in Metadatas) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") + 
+                        metadata.ReplaceVariables(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
+            else
+                foreach (Metadata metadata in Metadatas) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") +
+                        comboBoxBatchRunImageVerb.Text + " " + comboBoxBatchRunImageAppId.Text + " " + metadata.FileFullPath;
+
+            textBoxRunBatchVideoExample.Text = "";
+            if (tabControlBatchRunVideo.SelectedTab.Tag.ToString() == "Command")
+                foreach (Metadata metadata in Metadatas) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") + 
+                        metadata.ReplaceVariables(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
+            else
+                foreach (Metadata metadata in Metadatas) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") +
+                        comboBoxBatchRunVideoVerb.Text + " " + comboBoxBatchRunVideoAppId.Text + " " + metadata.FileFullPath;
+        }
+
+        private void tabControlBatchRunImage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowRunBatchExample();
+        }
+
+        private void tabControlBatchRunVideo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowRunBatchExample();
+        }
+
+        private void comboBoxBatchRunImageCommand_TextChanged(object sender, EventArgs e)
+        {
+            ShowRunBatchExample();
+        }
+
+        private void comboBoxBatchRunImageAppId_TextChanged(object sender, EventArgs e)
+        {
+            ShowRunBatchExample();
+        }
+
+        private void comboBoxBatchRunImageVerb_TextChanged(object sender, EventArgs e)
+        {
+            ShowRunBatchExample();
+        }
+
+        private void comboBoxBatchRunVideoCommand_TextChanged(object sender, EventArgs e)
+        {
+            ShowRunBatchExample();
+        }
+
+        private void comboBoxBatchRunVideoAppId_TextChanged(object sender, EventArgs e)
+        {
+            ShowRunBatchExample();
+        }
+
+        private void comboBoxBatchRunVideoVerb_TextChanged(object sender, EventArgs e)
+        {
+            ShowRunBatchExample();
         }
         #endregion
 
         #region Batch run - Click
         private void buttonBatchCommandBatchRun_Click(object sender, EventArgs e)
         {
+            ComboBoxAddTextToList(comboBoxBatchRunImageCommand);
+            ComboBoxAddTextToList(comboBoxBatchRunVideoCommand);
+
+            ComboBoxAddTextToList(comboBoxBatchRunImageApp);
+            ComboBoxAddTextToList(comboBoxBatchRunVideoApp);
+
+            ComboBoxAddTextToList(comboBoxBatchRunImageVerb);
+            ComboBoxAddTextToList(comboBoxBatchRunVideoVerb);
+
             string errors = "";
             foreach (Metadata metadata in Metadatas)
             {
-                string commandWithArguments = metadata.ReplaceVariables(textBoxBatchCommandCommand.Text, AllowedFileNameDateTimeFormats);
+                
                 try
                 {
-                    ApplicationActivation.ProcessRun(commandWithArguments, checkBoxBatchCommandWaitForExit.Checked);
-                } catch (Exception ex)
+                    string imageCommandWithArguments = metadata.ReplaceVariables(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
+                    string videoCommandWithArguments = metadata.ReplaceVariables(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
+
+                    if (tabControlBatchRunImage.SelectedTab.Tag.ToString() == "Command")
+                        ApplicationActivation.ProcessRun(imageCommandWithArguments, checkBoxBatchRunImageWaitForCommandExit.Checked);
+                    else
+                        ApplicationActivation.ActivateForFile(textBoxOpenImageWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunImageWaitForAppExit.Checked);
+                    
+                    if (tabControlBatchRunVideo.SelectedTab.Tag.ToString() == "Command")
+                        ApplicationActivation.ProcessRun(videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);
+                    else
+                        ApplicationActivation.ActivateForFile(textBoxOpenVideoWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunVideoWaitForAppExit.Checked);
+                }
+                catch (Exception ex)
                 {
                     errors += (errors == "" ? "" : "\r\n") + "File: " + metadata.FileFullPath + "\r\nError message: " + ex.Message;
                 }
@@ -334,14 +515,22 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Batch run - Variable selected
-        private void comboBoxBatchCommandCommandVariables_SelectionChangeCommitted(object sender, EventArgs e)
+        #region Batch run - Image - Variable selected
+        private void comboBoxBatchRunImageVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            SelectionChangeCommitted(textBoxBatchCommandCommand, comboBoxBatchCommandCommandVariables.Text);
+            SelectionChangeCommitted(comboBoxBatchRunImageCommand, comboBoxBatchRunImageVariables.Text);
+        }
+        #endregion
+
+        #region Batch run - Video - Variable selected
+        private void comboBoxBatchRunVideoVariables_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SelectionChangeCommitted(comboBoxBatchRunVideoCommand, comboBoxBatchRunVideoVariables.Text);
         }
         #endregion 
 
-        private void buttonOpenImageWithBrowser_Click(object sender, EventArgs e)
+        #region Batch run - Image - Browser
+        private void buttonBatchRunImageBrowser_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Select exe file you want to use for Image files.";
@@ -353,11 +542,14 @@ namespace PhotoTagsSynchronizer
             openFileDialog.ShowReadOnly = true;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                textBoxOpenImageWithCommand.Text = openFileDialog.FileName;
+                comboBoxBatchRunImageCommand.Text = openFileDialog.FileName;
             }
         }
+        #endregion
 
-        private void buttonOPenVideoWithBrowse_Click(object sender, EventArgs e)
+        #region Batch run - Video - Browser
+
+        private void buttonBatchRunVideoBrowser_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Select exe file you want to use for Video files.";
@@ -369,15 +561,35 @@ namespace PhotoTagsSynchronizer
             openFileDialog.ShowReadOnly = true;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                textBoxOpenVideoWithCommand.Text = openFileDialog.FileName;
+                comboBoxBatchRunVideoCommand.Text = openFileDialog.FileName;
             }
         }
+        #endregion
+
+        #region Bach run - Image - Example App Selected
+        private void comboBoxBatchCommandImageApp_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            comboBoxBatchRunImageAppId.Text = applicationDatas.Values[comboBoxBatchRunImageApp.SelectedIndex].ApplicationId;
+        }
+        #endregion 
+
+        #region Bach run - Image - Example App Selected
+
+        private void comboBoxBatchRunVideoApp_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            comboBoxBatchRunVideoAppId.Text = applicationDatas.Values[comboBoxBatchRunVideoApp.SelectedIndex].ApplicationId;
+        }
+        #endregion
+
+        
 
         #region ArumentFile run - Click 
         private void buttonArgumentFileRun_Click(object sender, EventArgs e)
         {
+            ComboBoxAddTextToList(comboBoxArgumentFileCommand);
+
             string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath();
-            string commandWithArguments = textBoxArgumentFileCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
+            string commandWithArguments = comboBoxArgumentFileCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
 
             System.IO.File.WriteAllText(tempArguFileFullPath, textBoxArgumentFileArgumentFile.Text);
             try
@@ -393,10 +605,8 @@ namespace PhotoTagsSynchronizer
         #region ArgumentFile run - Variable selected
         private void comboBoxArgumentFileCommandVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            SelectionChangeCommitted(textBoxArgumentFileCommand, comboBoxArgumentFileCommandVariables.Text);
+            SelectionChangeCommitted(comboBoxArgumentFileCommand, comboBoxArgumentFileCommandVariables.Text);
         }
-
-
         #endregion
 
 
@@ -438,5 +648,50 @@ namespace PhotoTagsSynchronizer
                                  new Size(e.Bounds.Height - 2, e.Bounds.Height - 2)));
             
         }
+
+        #region ComboBox Hack
+        private void RemeberComboBoxSelection(ComboBox comboBox)
+        {
+            comboBox.Tag = new ComboBoxSelection(comboBox);
+        }
+
+        private void SetComboBoxSelection(ComboBox comboBox)
+        {
+            if (comboBox.Tag is ComboBoxSelection comboBoxSelection)
+            {
+                comboBox.SelectionStart = comboBoxSelection.SelectionStart;
+                comboBox.SelectionLength = comboBoxSelection.SelectionLength;
+            }
+        }
+
+        private void comboBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            RemeberComboBoxSelection((ComboBox)sender);
+        }
+
+        private void comboBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            RemeberComboBoxSelection((ComboBox)sender);
+        }
+
+        private void comboBox_Leave(object sender, EventArgs e)
+        {
+            SetComboBoxSelection((ComboBox)sender);            
+        }
+
+        #endregion 
     }
+
+    public class ComboBoxSelection
+    {
+        public int SelectionStart { get; set; }
+        public int SelectionLength { get; set; }
+
+        public ComboBoxSelection (ComboBox comboBox)
+        {
+            SelectionStart = comboBox.SelectionStart;
+            SelectionLength = comboBox.SelectionLength;
+        }
+    }
+
 }

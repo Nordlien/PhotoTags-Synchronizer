@@ -9,44 +9,6 @@ namespace ApplicationAssociations
 {
     public class ProtocolAssociationsRegistry
     {
-        #region GetProgIdInstalled
-        public static List<string> GetAllProgs()
-        {
-            var regClis = Registry.ClassesRoot.OpenSubKey("CLSID");
-            var progs = new List<string>();
-
-            foreach (var clsid in regClis.GetSubKeyNames())
-            {
-                var regClsidKey = regClis.OpenSubKey(clsid);
-                var ProgID = regClsidKey.OpenSubKey("ProgID");
-                var regPath = regClsidKey.OpenSubKey("InprocServer32");
-
-                if (regPath == null)
-                    regPath = regClsidKey.OpenSubKey("LocalServer32");
-
-                if (ProgID != null)
-                {
-                    progs.Add(ProgID + "");
-                }
-                if (regPath != null && ProgID != null)
-                {
-                    var pid = ProgID.GetValue("");
-                    var filePath = regPath.GetValue("");
-                    //if (filePath.ToString().ToUpper().EndsWith)
-                    //progs.Add(pid + ""); // " -> " + filePath);
-                    regPath.Close();
-                }
-
-                regClsidKey.Close();
-            }
-
-            regClis.Close();
-            progs.Sort();
-
-            return progs;
-        }
-        #endregion 
-
         #region GetProgIdExtentionAssociations
         //--------------------------------------------------------------------------------
         //https://stackoverflow.com/questions/11981337/how-to-get-application-name-to-be-displayed-in-open-with-list

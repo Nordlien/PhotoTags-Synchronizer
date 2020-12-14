@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RunCommand));
             this.panelMain = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageOpenWith = new System.Windows.Forms.TabPage();
@@ -59,16 +58,45 @@
             this.textBoxOpenWithSelectedFiles = new System.Windows.Forms.TextBox();
             this.buttonOpenWithOpenWith = new System.Windows.Forms.Button();
             this.tabPageBatchCommand = new System.Windows.Forms.TabPage();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.textBoxRunCommandExamples = new System.Windows.Forms.TextBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.textBoxCommandCommandExample = new System.Windows.Forms.TextBox();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.checkBoxBatchCommandWaitForExit = new System.Windows.Forms.CheckBox();
+            this.tabControlBatchRunImage = new System.Windows.Forms.TabControl();
+            this.tabPageImageCommand = new System.Windows.Forms.TabPage();
+            this.comboBoxBatchRunImageCommand = new System.Windows.Forms.ComboBox();
+            this.buttonBatchRunImageBrowser = new System.Windows.Forms.Button();
+            this.checkBoxBatchRunImageWaitForCommandExit = new System.Windows.Forms.CheckBox();
+            this.comboBoxBatchRunImageVariables = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBoxBatchCommandCommand = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.comboBoxBatchCommandCommandVariables = new System.Windows.Forms.ComboBox();
+            this.tabPageImageApp = new System.Windows.Forms.TabPage();
+            this.checkBoxBatchRunImageWaitForAppExit = new System.Windows.Forms.CheckBox();
+            this.comboBoxBatchRunImageVerb = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.comboBoxBatchRunImageAppId = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.comboBoxBatchRunImageApp = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.textBoxRunBatchImageExample = new System.Windows.Forms.TextBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.tabControlBatchRunVideo = new System.Windows.Forms.TabControl();
+            this.tabPageVideoCommand = new System.Windows.Forms.TabPage();
+            this.comboBoxBatchRunVideoCommand = new System.Windows.Forms.ComboBox();
+            this.buttonBatchRunVideoBrowser = new System.Windows.Forms.Button();
+            this.checkBoxBatchRunVideoWaitForCommandExit = new System.Windows.Forms.CheckBox();
+            this.comboBoxBatchRunVideoVariables = new System.Windows.Forms.ComboBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.tabPageVideoApp = new System.Windows.Forms.TabPage();
+            this.checkBoxBatchRunVideoWaitForAppExit = new System.Windows.Forms.CheckBox();
+            this.comboBoxBatchRunVideoVerb = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.comboBoxBatchRunVideoAppId = new System.Windows.Forms.ComboBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.comboBoxBatchRunVideoApp = new System.Windows.Forms.ComboBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.textBoxRunBatchVideoExample = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBoxBatchCommandSelectedFiles = new System.Windows.Forms.TextBox();
             this.buttonBatchCommandBatchRun = new System.Windows.Forms.Button();
@@ -76,20 +104,11 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBoxArgumentFileArgumentFile = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBoxArgumentFileCommand = new System.Windows.Forms.TextBox();
+            this.comboBoxArgumentFileCommand = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxArgumentFileCommandVariables = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.buttonArgumentFileRun = new System.Windows.Forms.Button();
-            this.buttonOpenImageWithBrowser = new System.Windows.Forms.Button();
-            this.buttonOPenVideoWithBrowse = new System.Windows.Forms.Button();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.comboBoxBatchCommandImageApp = new System.Windows.Forms.ComboBox();
             this.panelMain.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageOpenWith.SuspendLayout();
@@ -103,20 +122,24 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVideos)).BeginInit();
             this.groupBox7.SuspendLayout();
             this.tabPageBatchCommand.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.tabPageArgumentFile.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.tabControl2.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.tabControlBatchRunImage.SuspendLayout();
+            this.tabPageImageCommand.SuspendLayout();
+            this.tabPageImageApp.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.tabControlBatchRunVideo.SuspendLayout();
+            this.tabPageVideoCommand.SuspendLayout();
+            this.tabPageVideoApp.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.tabPageArgumentFile.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -495,7 +518,6 @@
             // tabPageBatchCommand
             // 
             this.tabPageBatchCommand.Controls.Add(this.splitContainer2);
-            this.tabPageBatchCommand.Controls.Add(this.groupBox6);
             this.tabPageBatchCommand.Controls.Add(this.groupBox3);
             this.tabPageBatchCommand.Controls.Add(this.buttonBatchCommandBatchRun);
             this.tabPageBatchCommand.Location = new System.Drawing.Point(4, 25);
@@ -506,116 +528,465 @@
             this.tabPageBatchCommand.Text = "Batch command...";
             this.tabPageBatchCommand.UseVisualStyleBackColor = true;
             // 
-            // groupBox6
+            // splitContainer2
             // 
-            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox6.Controls.Add(this.textBoxRunCommandExamples);
-            this.groupBox6.Location = new System.Drawing.Point(6, 436);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(811, 98);
-            this.groupBox6.TabIndex = 23;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Exmaple commands (use copy and paste):";
+            this.splitContainer2.Location = new System.Drawing.Point(3, 129);
+            this.splitContainer2.Name = "splitContainer2";
             // 
-            // textBoxRunCommandExamples
+            // splitContainer2.Panel1
             // 
-            this.textBoxRunCommandExamples.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.splitContainer2.Panel1.Controls.Add(this.groupBox4);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.groupBox10);
+            this.splitContainer2.Size = new System.Drawing.Size(819, 441);
+            this.splitContainer2.SplitterDistance = 409;
+            this.splitContainer2.TabIndex = 32;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxRunCommandExamples.Location = new System.Drawing.Point(0, 21);
-            this.textBoxRunCommandExamples.Multiline = true;
-            this.textBoxRunCommandExamples.Name = "textBoxRunCommandExamples";
-            this.textBoxRunCommandExamples.ReadOnly = true;
-            this.textBoxRunCommandExamples.Size = new System.Drawing.Size(805, 71);
-            this.textBoxRunCommandExamples.TabIndex = 18;
-            this.textBoxRunCommandExamples.Text = resources.GetString("textBoxRunCommandExamples.Text");
+            this.groupBox4.Controls.Add(this.tabControlBatchRunImage);
+            this.groupBox4.Controls.Add(this.groupBox5);
+            this.groupBox4.Location = new System.Drawing.Point(5, 3);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(401, 435);
+            this.groupBox4.TabIndex = 21;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Run app or command for Image files:";
+            // 
+            // tabControlBatchRunImage
+            // 
+            this.tabControlBatchRunImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlBatchRunImage.Controls.Add(this.tabPageImageCommand);
+            this.tabControlBatchRunImage.Controls.Add(this.tabPageImageApp);
+            this.tabControlBatchRunImage.Location = new System.Drawing.Point(6, 35);
+            this.tabControlBatchRunImage.Name = "tabControlBatchRunImage";
+            this.tabControlBatchRunImage.SelectedIndex = 0;
+            this.tabControlBatchRunImage.Size = new System.Drawing.Size(389, 157);
+            this.tabControlBatchRunImage.TabIndex = 32;
+            this.tabControlBatchRunImage.SelectedIndexChanged += new System.EventHandler(this.tabControlBatchRunImage_SelectedIndexChanged);
+            // 
+            // tabPageImageCommand
+            // 
+            this.tabPageImageCommand.Controls.Add(this.comboBoxBatchRunImageCommand);
+            this.tabPageImageCommand.Controls.Add(this.buttonBatchRunImageBrowser);
+            this.tabPageImageCommand.Controls.Add(this.checkBoxBatchRunImageWaitForCommandExit);
+            this.tabPageImageCommand.Controls.Add(this.comboBoxBatchRunImageVariables);
+            this.tabPageImageCommand.Controls.Add(this.label3);
+            this.tabPageImageCommand.Controls.Add(this.label7);
+            this.tabPageImageCommand.Location = new System.Drawing.Point(4, 25);
+            this.tabPageImageCommand.Name = "tabPageImageCommand";
+            this.tabPageImageCommand.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageImageCommand.Size = new System.Drawing.Size(381, 128);
+            this.tabPageImageCommand.TabIndex = 0;
+            this.tabPageImageCommand.Tag = "Command";
+            this.tabPageImageCommand.Text = "Command";
+            this.tabPageImageCommand.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxBatchRunImageCommand
+            // 
+            this.comboBoxBatchRunImageCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunImageCommand.FormattingEnabled = true;
+            this.comboBoxBatchRunImageCommand.Location = new System.Drawing.Point(86, 65);
+            this.comboBoxBatchRunImageCommand.Name = "comboBoxBatchRunImageCommand";
+            this.comboBoxBatchRunImageCommand.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunImageCommand.TabIndex = 29;
+            this.comboBoxBatchRunImageCommand.TextChanged += new System.EventHandler(this.comboBoxBatchRunImageCommand_TextChanged);
+            this.comboBoxBatchRunImageCommand.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBox_KeyUp);
+            this.comboBoxBatchRunImageCommand.Leave += new System.EventHandler(this.comboBox_Leave);
+            this.comboBoxBatchRunImageCommand.MouseMove += new System.Windows.Forms.MouseEventHandler(this.comboBox_MouseMove);
+            // 
+            // buttonBatchRunImageBrowser
+            // 
+            this.buttonBatchRunImageBrowser.Location = new System.Drawing.Point(86, 3);
+            this.buttonBatchRunImageBrowser.Name = "buttonBatchRunImageBrowser";
+            this.buttonBatchRunImageBrowser.Size = new System.Drawing.Size(122, 26);
+            this.buttonBatchRunImageBrowser.TabIndex = 28;
+            this.buttonBatchRunImageBrowser.Text = "Browser...";
+            this.buttonBatchRunImageBrowser.UseVisualStyleBackColor = true;
+            this.buttonBatchRunImageBrowser.Click += new System.EventHandler(this.buttonBatchRunImageBrowser_Click);
+            // 
+            // checkBoxBatchRunImageWaitForCommandExit
+            // 
+            this.checkBoxBatchRunImageWaitForCommandExit.AutoSize = true;
+            this.checkBoxBatchRunImageWaitForCommandExit.Location = new System.Drawing.Point(86, 95);
+            this.checkBoxBatchRunImageWaitForCommandExit.Name = "checkBoxBatchRunImageWaitForCommandExit";
+            this.checkBoxBatchRunImageWaitForCommandExit.Size = new System.Drawing.Size(273, 21);
+            this.checkBoxBatchRunImageWaitForCommandExit.TabIndex = 19;
+            this.checkBoxBatchRunImageWaitForCommandExit.Text = "Wait for exit before run next command.";
+            this.checkBoxBatchRunImageWaitForCommandExit.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxBatchRunImageVariables
+            // 
+            this.comboBoxBatchRunImageVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunImageVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxBatchRunImageVariables.FormattingEnabled = true;
+            this.comboBoxBatchRunImageVariables.Location = new System.Drawing.Point(86, 35);
+            this.comboBoxBatchRunImageVariables.Name = "comboBoxBatchRunImageVariables";
+            this.comboBoxBatchRunImageVariables.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunImageVariables.TabIndex = 5;
+            this.comboBoxBatchRunImageVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunImageVariables_SelectionChangeCommitted);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 38);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(71, 17);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Variables:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 68);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(75, 17);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Command:";
+            // 
+            // tabPageImageApp
+            // 
+            this.tabPageImageApp.Controls.Add(this.checkBoxBatchRunImageWaitForAppExit);
+            this.tabPageImageApp.Controls.Add(this.comboBoxBatchRunImageVerb);
+            this.tabPageImageApp.Controls.Add(this.label15);
+            this.tabPageImageApp.Controls.Add(this.comboBoxBatchRunImageAppId);
+            this.tabPageImageApp.Controls.Add(this.label14);
+            this.tabPageImageApp.Controls.Add(this.comboBoxBatchRunImageApp);
+            this.tabPageImageApp.Controls.Add(this.label13);
+            this.tabPageImageApp.Location = new System.Drawing.Point(4, 25);
+            this.tabPageImageApp.Name = "tabPageImageApp";
+            this.tabPageImageApp.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageImageApp.Size = new System.Drawing.Size(381, 128);
+            this.tabPageImageApp.TabIndex = 1;
+            this.tabPageImageApp.Tag = "App";
+            this.tabPageImageApp.Text = "App";
+            this.tabPageImageApp.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxBatchRunImageWaitForAppExit
+            // 
+            this.checkBoxBatchRunImageWaitForAppExit.AutoSize = true;
+            this.checkBoxBatchRunImageWaitForAppExit.Location = new System.Drawing.Point(86, 95);
+            this.checkBoxBatchRunImageWaitForAppExit.Name = "checkBoxBatchRunImageWaitForAppExit";
+            this.checkBoxBatchRunImageWaitForAppExit.Size = new System.Drawing.Size(273, 21);
+            this.checkBoxBatchRunImageWaitForAppExit.TabIndex = 37;
+            this.checkBoxBatchRunImageWaitForAppExit.Text = "Wait for exit before run next command.";
+            this.checkBoxBatchRunImageWaitForAppExit.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxBatchRunImageVerb
+            // 
+            this.comboBoxBatchRunImageVerb.FormattingEnabled = true;
+            this.comboBoxBatchRunImageVerb.Location = new System.Drawing.Point(86, 65);
+            this.comboBoxBatchRunImageVerb.Name = "comboBoxBatchRunImageVerb";
+            this.comboBoxBatchRunImageVerb.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxBatchRunImageVerb.TabIndex = 36;
+            this.comboBoxBatchRunImageVerb.TextChanged += new System.EventHandler(this.comboBoxBatchRunImageVerb_TextChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 68);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(42, 17);
+            this.label15.TabIndex = 35;
+            this.label15.Text = "Verb:";
+            // 
+            // comboBoxBatchRunImageAppId
+            // 
+            this.comboBoxBatchRunImageAppId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunImageAppId.FormattingEnabled = true;
+            this.comboBoxBatchRunImageAppId.Location = new System.Drawing.Point(86, 35);
+            this.comboBoxBatchRunImageAppId.Name = "comboBoxBatchRunImageAppId";
+            this.comboBoxBatchRunImageAppId.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunImageAppId.TabIndex = 34;
+            this.comboBoxBatchRunImageAppId.TextChanged += new System.EventHandler(this.comboBoxBatchRunImageAppId_TextChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 9);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(72, 17);
+            this.label14.TabIndex = 33;
+            this.label14.Text = "Examples:";
+            // 
+            // comboBoxBatchRunImageApp
+            // 
+            this.comboBoxBatchRunImageApp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunImageApp.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.comboBoxBatchRunImageApp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxBatchRunImageApp.FormattingEnabled = true;
+            this.comboBoxBatchRunImageApp.Location = new System.Drawing.Point(86, 6);
+            this.comboBoxBatchRunImageApp.Name = "comboBoxBatchRunImageApp";
+            this.comboBoxBatchRunImageApp.Size = new System.Drawing.Size(290, 23);
+            this.comboBoxBatchRunImageApp.TabIndex = 32;
+            this.comboBoxBatchRunImageApp.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBoxBatchCommandImageApp_DrawItem);
+            this.comboBoxBatchRunImageApp.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchCommandImageApp_SelectionChangeCommitted);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 38);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(48, 17);
+            this.label13.TabIndex = 1;
+            this.label13.Text = "AppId:";
             // 
             // groupBox5
             // 
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox5.Controls.Add(this.textBoxCommandCommandExample);
-            this.groupBox5.Location = new System.Drawing.Point(6, 125);
+            this.groupBox5.Controls.Add(this.textBoxRunBatchImageExample);
+            this.groupBox5.Location = new System.Drawing.Point(6, 200);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(375, 114);
+            this.groupBox5.Size = new System.Drawing.Size(385, 229);
             this.groupBox5.TabIndex = 22;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Command lines to run:";
+            this.groupBox5.Text = "Batch run:";
             // 
-            // textBoxCommandCommandExample
+            // textBoxRunBatchImageExample
             // 
-            this.textBoxCommandCommandExample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textBoxRunBatchImageExample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCommandCommandExample.Location = new System.Drawing.Point(6, 21);
-            this.textBoxCommandCommandExample.Multiline = true;
-            this.textBoxCommandCommandExample.Name = "textBoxCommandCommandExample";
-            this.textBoxCommandCommandExample.ReadOnly = true;
-            this.textBoxCommandCommandExample.Size = new System.Drawing.Size(363, 87);
-            this.textBoxCommandCommandExample.TabIndex = 17;
+            this.textBoxRunBatchImageExample.Location = new System.Drawing.Point(6, 21);
+            this.textBoxRunBatchImageExample.Multiline = true;
+            this.textBoxRunBatchImageExample.Name = "textBoxRunBatchImageExample";
+            this.textBoxRunBatchImageExample.ReadOnly = true;
+            this.textBoxRunBatchImageExample.Size = new System.Drawing.Size(373, 202);
+            this.textBoxRunBatchImageExample.TabIndex = 17;
             // 
-            // groupBox4
+            // groupBox10
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Controls.Add(this.tabControl2);
-            this.groupBox4.Location = new System.Drawing.Point(5, 3);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(401, 295);
-            this.groupBox4.TabIndex = 21;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Run app or command for Image files:";
+            this.groupBox10.Controls.Add(this.tabControlBatchRunVideo);
+            this.groupBox10.Controls.Add(this.groupBox11);
+            this.groupBox10.Location = new System.Drawing.Point(3, 3);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(403, 435);
+            this.groupBox10.TabIndex = 22;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Run app or command for Video files:";
             // 
-            // checkBoxBatchCommandWaitForExit
+            // tabControlBatchRunVideo
             // 
-            this.checkBoxBatchCommandWaitForExit.AutoSize = true;
-            this.checkBoxBatchCommandWaitForExit.Location = new System.Drawing.Point(85, 98);
-            this.checkBoxBatchCommandWaitForExit.Name = "checkBoxBatchCommandWaitForExit";
-            this.checkBoxBatchCommandWaitForExit.Size = new System.Drawing.Size(273, 21);
-            this.checkBoxBatchCommandWaitForExit.TabIndex = 19;
-            this.checkBoxBatchCommandWaitForExit.Text = "Wait for exit before run next command.";
-            this.checkBoxBatchCommandWaitForExit.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 14);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 17);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Variables:";
-            // 
-            // textBoxBatchCommandCommand
-            // 
-            this.textBoxBatchCommandCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabControlBatchRunVideo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxBatchCommandCommand.Location = new System.Drawing.Point(85, 41);
-            this.textBoxBatchCommandCommand.Name = "textBoxBatchCommandCommand";
-            this.textBoxBatchCommandCommand.Size = new System.Drawing.Size(296, 22);
-            this.textBoxBatchCommandCommand.TabIndex = 15;
-            this.textBoxBatchCommandCommand.TextChanged += new System.EventHandler(this.textBoxBatchCommandCommand_TextChanged);
+            this.tabControlBatchRunVideo.Controls.Add(this.tabPageVideoCommand);
+            this.tabControlBatchRunVideo.Controls.Add(this.tabPageVideoApp);
+            this.tabControlBatchRunVideo.Location = new System.Drawing.Point(6, 35);
+            this.tabControlBatchRunVideo.Name = "tabControlBatchRunVideo";
+            this.tabControlBatchRunVideo.SelectedIndex = 0;
+            this.tabControlBatchRunVideo.Size = new System.Drawing.Size(389, 157);
+            this.tabControlBatchRunVideo.TabIndex = 32;
+            this.tabControlBatchRunVideo.SelectedIndexChanged += new System.EventHandler(this.tabControlBatchRunVideo_SelectedIndexChanged);
             // 
-            // label7
+            // tabPageVideoCommand
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 44);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(75, 17);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "Command:";
+            this.tabPageVideoCommand.Controls.Add(this.comboBoxBatchRunVideoCommand);
+            this.tabPageVideoCommand.Controls.Add(this.buttonBatchRunVideoBrowser);
+            this.tabPageVideoCommand.Controls.Add(this.checkBoxBatchRunVideoWaitForCommandExit);
+            this.tabPageVideoCommand.Controls.Add(this.comboBoxBatchRunVideoVariables);
+            this.tabPageVideoCommand.Controls.Add(this.label16);
+            this.tabPageVideoCommand.Controls.Add(this.label17);
+            this.tabPageVideoCommand.Location = new System.Drawing.Point(4, 25);
+            this.tabPageVideoCommand.Name = "tabPageVideoCommand";
+            this.tabPageVideoCommand.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageVideoCommand.Size = new System.Drawing.Size(381, 128);
+            this.tabPageVideoCommand.TabIndex = 0;
+            this.tabPageVideoCommand.Tag = "Command";
+            this.tabPageVideoCommand.Text = "Command";
+            this.tabPageVideoCommand.UseVisualStyleBackColor = true;
             // 
-            // comboBoxBatchCommandCommandVariables
+            // comboBoxBatchRunVideoCommand
             // 
-            this.comboBoxBatchCommandCommandVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxBatchRunVideoCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxBatchCommandCommandVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxBatchCommandCommandVariables.FormattingEnabled = true;
-            this.comboBoxBatchCommandCommandVariables.Location = new System.Drawing.Point(85, 11);
-            this.comboBoxBatchCommandCommandVariables.Name = "comboBoxBatchCommandCommandVariables";
-            this.comboBoxBatchCommandCommandVariables.Size = new System.Drawing.Size(296, 24);
-            this.comboBoxBatchCommandCommandVariables.TabIndex = 5;
-            this.comboBoxBatchCommandCommandVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchCommandCommandVariables_SelectionChangeCommitted);
+            this.comboBoxBatchRunVideoCommand.FormattingEnabled = true;
+            this.comboBoxBatchRunVideoCommand.Location = new System.Drawing.Point(86, 65);
+            this.comboBoxBatchRunVideoCommand.Name = "comboBoxBatchRunVideoCommand";
+            this.comboBoxBatchRunVideoCommand.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunVideoCommand.TabIndex = 29;
+            this.comboBoxBatchRunVideoCommand.TextChanged += new System.EventHandler(this.comboBoxBatchRunVideoCommand_TextChanged);
+            this.comboBoxBatchRunVideoCommand.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBox_KeyUp);
+            this.comboBoxBatchRunVideoCommand.Leave += new System.EventHandler(this.comboBox_Leave);
+            this.comboBoxBatchRunVideoCommand.MouseMove += new System.Windows.Forms.MouseEventHandler(this.comboBox_MouseMove);
+            // 
+            // buttonBatchRunVideoBrowser
+            // 
+            this.buttonBatchRunVideoBrowser.Location = new System.Drawing.Point(86, 3);
+            this.buttonBatchRunVideoBrowser.Name = "buttonBatchRunVideoBrowser";
+            this.buttonBatchRunVideoBrowser.Size = new System.Drawing.Size(122, 26);
+            this.buttonBatchRunVideoBrowser.TabIndex = 28;
+            this.buttonBatchRunVideoBrowser.Text = "Browser...";
+            this.buttonBatchRunVideoBrowser.UseVisualStyleBackColor = true;
+            this.buttonBatchRunVideoBrowser.Click += new System.EventHandler(this.buttonBatchRunVideoBrowser_Click);
+            // 
+            // checkBoxBatchRunVideoWaitForCommandExit
+            // 
+            this.checkBoxBatchRunVideoWaitForCommandExit.AutoSize = true;
+            this.checkBoxBatchRunVideoWaitForCommandExit.Location = new System.Drawing.Point(86, 95);
+            this.checkBoxBatchRunVideoWaitForCommandExit.Name = "checkBoxBatchRunVideoWaitForCommandExit";
+            this.checkBoxBatchRunVideoWaitForCommandExit.Size = new System.Drawing.Size(273, 21);
+            this.checkBoxBatchRunVideoWaitForCommandExit.TabIndex = 19;
+            this.checkBoxBatchRunVideoWaitForCommandExit.Text = "Wait for exit before run next command.";
+            this.checkBoxBatchRunVideoWaitForCommandExit.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxBatchRunVideoVariables
+            // 
+            this.comboBoxBatchRunVideoVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunVideoVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxBatchRunVideoVariables.FormattingEnabled = true;
+            this.comboBoxBatchRunVideoVariables.Location = new System.Drawing.Point(86, 35);
+            this.comboBoxBatchRunVideoVariables.Name = "comboBoxBatchRunVideoVariables";
+            this.comboBoxBatchRunVideoVariables.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunVideoVariables.TabIndex = 5;
+            this.comboBoxBatchRunVideoVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunVideoVariables_SelectionChangeCommitted);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 38);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(71, 17);
+            this.label16.TabIndex = 4;
+            this.label16.Text = "Variables:";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 68);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(75, 17);
+            this.label17.TabIndex = 14;
+            this.label17.Text = "Command:";
+            // 
+            // tabPageVideoApp
+            // 
+            this.tabPageVideoApp.Controls.Add(this.checkBoxBatchRunVideoWaitForAppExit);
+            this.tabPageVideoApp.Controls.Add(this.comboBoxBatchRunVideoVerb);
+            this.tabPageVideoApp.Controls.Add(this.label18);
+            this.tabPageVideoApp.Controls.Add(this.comboBoxBatchRunVideoAppId);
+            this.tabPageVideoApp.Controls.Add(this.label19);
+            this.tabPageVideoApp.Controls.Add(this.comboBoxBatchRunVideoApp);
+            this.tabPageVideoApp.Controls.Add(this.label20);
+            this.tabPageVideoApp.Location = new System.Drawing.Point(4, 25);
+            this.tabPageVideoApp.Name = "tabPageVideoApp";
+            this.tabPageVideoApp.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageVideoApp.Size = new System.Drawing.Size(381, 128);
+            this.tabPageVideoApp.TabIndex = 1;
+            this.tabPageVideoApp.Tag = "App";
+            this.tabPageVideoApp.Text = "App";
+            this.tabPageVideoApp.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxBatchRunVideoWaitForAppExit
+            // 
+            this.checkBoxBatchRunVideoWaitForAppExit.AutoSize = true;
+            this.checkBoxBatchRunVideoWaitForAppExit.Location = new System.Drawing.Point(86, 95);
+            this.checkBoxBatchRunVideoWaitForAppExit.Name = "checkBoxBatchRunVideoWaitForAppExit";
+            this.checkBoxBatchRunVideoWaitForAppExit.Size = new System.Drawing.Size(273, 21);
+            this.checkBoxBatchRunVideoWaitForAppExit.TabIndex = 37;
+            this.checkBoxBatchRunVideoWaitForAppExit.Text = "Wait for exit before run next command.";
+            this.checkBoxBatchRunVideoWaitForAppExit.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxBatchRunVideoVerb
+            // 
+            this.comboBoxBatchRunVideoVerb.FormattingEnabled = true;
+            this.comboBoxBatchRunVideoVerb.Location = new System.Drawing.Point(86, 65);
+            this.comboBoxBatchRunVideoVerb.Name = "comboBoxBatchRunVideoVerb";
+            this.comboBoxBatchRunVideoVerb.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxBatchRunVideoVerb.TabIndex = 36;
+            this.comboBoxBatchRunVideoVerb.TextChanged += new System.EventHandler(this.comboBoxBatchRunVideoVerb_TextChanged);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 68);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(42, 17);
+            this.label18.TabIndex = 35;
+            this.label18.Text = "Verb:";
+            // 
+            // comboBoxBatchRunVideoAppId
+            // 
+            this.comboBoxBatchRunVideoAppId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunVideoAppId.FormattingEnabled = true;
+            this.comboBoxBatchRunVideoAppId.Location = new System.Drawing.Point(86, 35);
+            this.comboBoxBatchRunVideoAppId.Name = "comboBoxBatchRunVideoAppId";
+            this.comboBoxBatchRunVideoAppId.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunVideoAppId.TabIndex = 34;
+            this.comboBoxBatchRunVideoAppId.TextChanged += new System.EventHandler(this.comboBoxBatchRunVideoAppId_TextChanged);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(6, 9);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(72, 17);
+            this.label19.TabIndex = 33;
+            this.label19.Text = "Examples:";
+            // 
+            // comboBoxBatchRunVideoApp
+            // 
+            this.comboBoxBatchRunVideoApp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunVideoApp.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.comboBoxBatchRunVideoApp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxBatchRunVideoApp.FormattingEnabled = true;
+            this.comboBoxBatchRunVideoApp.Location = new System.Drawing.Point(86, 6);
+            this.comboBoxBatchRunVideoApp.Name = "comboBoxBatchRunVideoApp";
+            this.comboBoxBatchRunVideoApp.Size = new System.Drawing.Size(290, 23);
+            this.comboBoxBatchRunVideoApp.TabIndex = 32;
+            this.comboBoxBatchRunVideoApp.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunVideoApp_SelectionChangeCommitted);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(6, 38);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(48, 17);
+            this.label20.TabIndex = 1;
+            this.label20.Text = "AppId:";
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox11.Controls.Add(this.textBoxRunBatchVideoExample);
+            this.groupBox11.Location = new System.Drawing.Point(6, 200);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(387, 229);
+            this.groupBox11.TabIndex = 22;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Batch run:";
+            // 
+            // textBoxRunBatchVideoExample
+            // 
+            this.textBoxRunBatchVideoExample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxRunBatchVideoExample.Location = new System.Drawing.Point(6, 21);
+            this.textBoxRunBatchVideoExample.Multiline = true;
+            this.textBoxRunBatchVideoExample.Name = "textBoxRunBatchVideoExample";
+            this.textBoxRunBatchVideoExample.ReadOnly = true;
+            this.textBoxRunBatchVideoExample.Size = new System.Drawing.Size(375, 202);
+            this.textBoxRunBatchVideoExample.TabIndex = 17;
             // 
             // groupBox3
             // 
@@ -692,7 +1063,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBoxArgumentFileCommand);
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.comboBoxArgumentFileCommand);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.comboBoxArgumentFileCommandVariables);
             this.groupBox1.Controls.Add(this.label6);
@@ -703,14 +1076,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Run command with argument file";
             // 
-            // textBoxArgumentFileCommand
+            // comboBoxArgumentFileCommand
             // 
-            this.textBoxArgumentFileCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxArgumentFileCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxArgumentFileCommand.Location = new System.Drawing.Point(83, 53);
-            this.textBoxArgumentFileCommand.Name = "textBoxArgumentFileCommand";
-            this.textBoxArgumentFileCommand.Size = new System.Drawing.Size(730, 22);
-            this.textBoxArgumentFileCommand.TabIndex = 11;
+            this.comboBoxArgumentFileCommand.FormattingEnabled = true;
+            this.comboBoxArgumentFileCommand.Location = new System.Drawing.Point(83, 53);
+            this.comboBoxArgumentFileCommand.Name = "comboBoxArgumentFileCommand";
+            this.comboBoxArgumentFileCommand.Size = new System.Drawing.Size(730, 24);
+            this.comboBoxArgumentFileCommand.TabIndex = 12;
+            this.comboBoxArgumentFileCommand.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBox_KeyUp);
+            this.comboBoxArgumentFileCommand.Leave += new System.EventHandler(this.comboBox_Leave);
+            this.comboBoxArgumentFileCommand.MouseMove += new System.Windows.Forms.MouseEventHandler(this.comboBox_MouseMove);
             // 
             // label4
             // 
@@ -753,113 +1130,6 @@
             this.buttonArgumentFileRun.UseVisualStyleBackColor = true;
             this.buttonArgumentFileRun.Click += new System.EventHandler(this.buttonArgumentFileRun_Click);
             // 
-            // buttonOpenImageWithBrowser
-            // 
-            this.buttonOpenImageWithBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOpenImageWithBrowser.Location = new System.Drawing.Point(85, 69);
-            this.buttonOpenImageWithBrowser.Name = "buttonOpenImageWithBrowser";
-            this.buttonOpenImageWithBrowser.Size = new System.Drawing.Size(122, 23);
-            this.buttonOpenImageWithBrowser.TabIndex = 28;
-            this.buttonOpenImageWithBrowser.Text = "Browser...";
-            this.buttonOpenImageWithBrowser.UseVisualStyleBackColor = true;
-            // 
-            // buttonOPenVideoWithBrowse
-            // 
-            this.buttonOPenVideoWithBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOPenVideoWithBrowse.Location = new System.Drawing.Point(60, 243);
-            this.buttonOPenVideoWithBrowse.Name = "buttonOPenVideoWithBrowse";
-            this.buttonOPenVideoWithBrowse.Size = new System.Drawing.Size(122, 23);
-            this.buttonOPenVideoWithBrowse.TabIndex = 31;
-            this.buttonOPenVideoWithBrowse.Text = "Browser...";
-            this.buttonOPenVideoWithBrowse.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer2.Location = new System.Drawing.Point(3, 129);
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.groupBox4);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.buttonOPenVideoWithBrowse);
-            this.splitContainer2.Size = new System.Drawing.Size(819, 301);
-            this.splitContainer2.SplitterDistance = 409;
-            this.splitContainer2.TabIndex = 32;
-            // 
-            // tabControl2
-            // 
-            this.tabControl2.Controls.Add(this.tabPage1);
-            this.tabControl2.Controls.Add(this.tabPage2);
-            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.Location = new System.Drawing.Point(3, 18);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(395, 274);
-            this.tabControl2.TabIndex = 32;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.buttonOpenImageWithBrowser);
-            this.tabPage1.Controls.Add(this.groupBox5);
-            this.tabPage1.Controls.Add(this.checkBoxBatchCommandWaitForExit);
-            this.tabPage1.Controls.Add(this.comboBoxBatchCommandCommandVariables);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.label7);
-            this.tabPage1.Controls.Add(this.textBoxBatchCommandCommand);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(387, 245);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Command";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.comboBoxBatchCommandImageApp);
-            this.tabPage2.Controls.Add(this.label13);
-            this.tabPage2.Controls.Add(this.textBox1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(387, 245);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "App";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(92, 43);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 22);
-            this.textBox1.TabIndex = 0;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 43);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(48, 17);
-            this.label13.TabIndex = 1;
-            this.label13.Text = "AppId:";
-            // 
-            // comboBoxBatchCommandImageApp
-            // 
-            this.comboBoxBatchCommandImageApp.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBoxBatchCommandImageApp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxBatchCommandImageApp.FormattingEnabled = true;
-            this.comboBoxBatchCommandImageApp.Location = new System.Drawing.Point(92, 6);
-            this.comboBoxBatchCommandImageApp.Name = "comboBoxBatchCommandImageApp";
-            this.comboBoxBatchCommandImageApp.Size = new System.Drawing.Size(249, 23);
-            this.comboBoxBatchCommandImageApp.TabIndex = 32;
-            this.comboBoxBatchCommandImageApp.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBoxBatchCommandImageApp_DrawItem);
-            // 
             // RunCommand
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -885,11 +1155,26 @@
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.tabPageBatchCommand.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.tabControlBatchRunImage.ResumeLayout(false);
+            this.tabPageImageCommand.ResumeLayout(false);
+            this.tabPageImageCommand.PerformLayout();
+            this.tabPageImageApp.ResumeLayout(false);
+            this.tabPageImageApp.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.tabControlBatchRunVideo.ResumeLayout(false);
+            this.tabPageVideoCommand.ResumeLayout(false);
+            this.tabPageVideoCommand.PerformLayout();
+            this.tabPageVideoApp.ResumeLayout(false);
+            this.tabPageVideoApp.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.tabPageArgumentFile.ResumeLayout(false);
@@ -897,15 +1182,6 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -918,25 +1194,22 @@
         private System.Windows.Forms.Button buttonOpenWithOpenWith;
         private System.Windows.Forms.TextBox textBoxOpenWithSelectedFiles;
         private System.Windows.Forms.TabPage tabPageBatchCommand;
-        private System.Windows.Forms.TextBox textBoxBatchCommandCommand;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button buttonBatchCommandBatchRun;
-        private System.Windows.Forms.ComboBox comboBoxBatchCommandCommandVariables;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunImageVariables;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxBatchCommandSelectedFiles;
         private System.Windows.Forms.TabPage tabPageArgumentFile;
         private System.Windows.Forms.Button buttonArgumentFileRun;
-        private System.Windows.Forms.TextBox textBoxArgumentFileCommand;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox comboBoxArgumentFileCommandVariables;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxArgumentFileArgumentFile;
-        private System.Windows.Forms.TextBox textBoxCommandCommandExample;
+        private System.Windows.Forms.TextBox textBoxRunBatchImageExample;
         private System.Windows.Forms.DataGridView dataGridViewImages;
         private System.Windows.Forms.DataGridView dataGridViewVideos;
-        private System.Windows.Forms.TextBox textBoxRunCommandExamples;
         private System.Windows.Forms.CheckBox checkBoxOpenImageWithWaitForExit;
-        private System.Windows.Forms.CheckBox checkBoxBatchCommandWaitForExit;
+        private System.Windows.Forms.CheckBox checkBoxBatchRunImageWaitForCommandExit;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxOpenVideoWithApplication;
@@ -949,7 +1222,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox textBoxOpenImageWithCommand;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -964,14 +1236,38 @@
         private System.Windows.Forms.TextBox textBoxOpenImageWithAppId;
         private System.Windows.Forms.TextBox textBoxOpenVideoWithAppId;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button buttonOPenVideoWithBrowse;
-        private System.Windows.Forms.Button buttonOpenImageWithBrowser;
+        private System.Windows.Forms.Button buttonBatchRunImageBrowser;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.TabControl tabControl2;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl tabControlBatchRunImage;
+        private System.Windows.Forms.TabPage tabPageImageCommand;
+        private System.Windows.Forms.TabPage tabPageImageApp;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ComboBox comboBoxBatchCommandImageApp;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunImageApp;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunImageCommand;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunImageAppId;
+        private System.Windows.Forms.ComboBox comboBoxArgumentFileCommand;
+        private System.Windows.Forms.CheckBox checkBoxBatchRunImageWaitForAppExit;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunImageVerb;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.TabControl tabControlBatchRunVideo;
+        private System.Windows.Forms.TabPage tabPageVideoCommand;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoCommand;
+        private System.Windows.Forms.Button buttonBatchRunVideoBrowser;
+        private System.Windows.Forms.CheckBox checkBoxBatchRunVideoWaitForCommandExit;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoVariables;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TabPage tabPageVideoApp;
+        private System.Windows.Forms.CheckBox checkBoxBatchRunVideoWaitForAppExit;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoVerb;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoAppId;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoApp;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.TextBox textBoxRunBatchVideoExample;
     }
 }
