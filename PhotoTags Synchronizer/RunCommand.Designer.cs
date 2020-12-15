@@ -74,7 +74,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.comboBoxBatchRunImageAppId = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.comboBoxBatchRunImageApp = new System.Windows.Forms.ComboBox();
+            this.comboBoxBatchRunImageAppExample = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.textBoxRunBatchImageExample = new System.Windows.Forms.TextBox();
@@ -93,7 +93,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.comboBoxBatchRunVideoAppId = new System.Windows.Forms.ComboBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.comboBoxBatchRunVideoApp = new System.Windows.Forms.ComboBox();
+            this.comboBoxBatchRunVideoAppExample = new System.Windows.Forms.ComboBox();
             this.label20 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.textBoxRunBatchVideoExample = new System.Windows.Forms.TextBox();
@@ -525,7 +525,7 @@
             this.tabPageBatchCommand.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageBatchCommand.Size = new System.Drawing.Size(825, 578);
             this.tabPageBatchCommand.TabIndex = 0;
-            this.tabPageBatchCommand.Text = "Batch command...";
+            this.tabPageBatchCommand.Text = "Run batch..";
             this.tabPageBatchCommand.UseVisualStyleBackColor = true;
             // 
             // splitContainer2
@@ -662,7 +662,7 @@
             this.tabPageImageApp.Controls.Add(this.label15);
             this.tabPageImageApp.Controls.Add(this.comboBoxBatchRunImageAppId);
             this.tabPageImageApp.Controls.Add(this.label14);
-            this.tabPageImageApp.Controls.Add(this.comboBoxBatchRunImageApp);
+            this.tabPageImageApp.Controls.Add(this.comboBoxBatchRunImageAppExample);
             this.tabPageImageApp.Controls.Add(this.label13);
             this.tabPageImageApp.Location = new System.Drawing.Point(4, 25);
             this.tabPageImageApp.Name = "tabPageImageApp";
@@ -721,19 +721,19 @@
             this.label14.TabIndex = 33;
             this.label14.Text = "Examples:";
             // 
-            // comboBoxBatchRunImageApp
+            // comboBoxBatchRunImageAppExample
             // 
-            this.comboBoxBatchRunImageApp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxBatchRunImageAppExample.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxBatchRunImageApp.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBoxBatchRunImageApp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxBatchRunImageApp.FormattingEnabled = true;
-            this.comboBoxBatchRunImageApp.Location = new System.Drawing.Point(86, 6);
-            this.comboBoxBatchRunImageApp.Name = "comboBoxBatchRunImageApp";
-            this.comboBoxBatchRunImageApp.Size = new System.Drawing.Size(290, 23);
-            this.comboBoxBatchRunImageApp.TabIndex = 32;
-            this.comboBoxBatchRunImageApp.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBoxBatchCommandImageApp_DrawItem);
-            this.comboBoxBatchRunImageApp.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchCommandImageApp_SelectionChangeCommitted);
+            this.comboBoxBatchRunImageAppExample.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.comboBoxBatchRunImageAppExample.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxBatchRunImageAppExample.FormattingEnabled = true;
+            this.comboBoxBatchRunImageAppExample.Location = new System.Drawing.Point(86, 6);
+            this.comboBoxBatchRunImageAppExample.Name = "comboBoxBatchRunImageAppExample";
+            this.comboBoxBatchRunImageAppExample.Size = new System.Drawing.Size(290, 23);
+            this.comboBoxBatchRunImageAppExample.TabIndex = 32;
+            this.comboBoxBatchRunImageAppExample.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBoxBatchCommandImageApp_DrawItem);
+            this.comboBoxBatchRunImageAppExample.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchCommandImageApp_SelectionChangeCommitted);
             // 
             // label13
             // 
@@ -884,7 +884,7 @@
             this.tabPageVideoApp.Controls.Add(this.label18);
             this.tabPageVideoApp.Controls.Add(this.comboBoxBatchRunVideoAppId);
             this.tabPageVideoApp.Controls.Add(this.label19);
-            this.tabPageVideoApp.Controls.Add(this.comboBoxBatchRunVideoApp);
+            this.tabPageVideoApp.Controls.Add(this.comboBoxBatchRunVideoAppExample);
             this.tabPageVideoApp.Controls.Add(this.label20);
             this.tabPageVideoApp.Location = new System.Drawing.Point(4, 25);
             this.tabPageVideoApp.Name = "tabPageVideoApp";
@@ -943,18 +943,19 @@
             this.label19.TabIndex = 33;
             this.label19.Text = "Examples:";
             // 
-            // comboBoxBatchRunVideoApp
+            // comboBoxBatchRunVideoAppExample
             // 
-            this.comboBoxBatchRunVideoApp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxBatchRunVideoAppExample.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxBatchRunVideoApp.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBoxBatchRunVideoApp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxBatchRunVideoApp.FormattingEnabled = true;
-            this.comboBoxBatchRunVideoApp.Location = new System.Drawing.Point(86, 6);
-            this.comboBoxBatchRunVideoApp.Name = "comboBoxBatchRunVideoApp";
-            this.comboBoxBatchRunVideoApp.Size = new System.Drawing.Size(290, 23);
-            this.comboBoxBatchRunVideoApp.TabIndex = 32;
-            this.comboBoxBatchRunVideoApp.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunVideoApp_SelectionChangeCommitted);
+            this.comboBoxBatchRunVideoAppExample.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.comboBoxBatchRunVideoAppExample.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxBatchRunVideoAppExample.FormattingEnabled = true;
+            this.comboBoxBatchRunVideoAppExample.Location = new System.Drawing.Point(86, 6);
+            this.comboBoxBatchRunVideoAppExample.Name = "comboBoxBatchRunVideoAppExample";
+            this.comboBoxBatchRunVideoAppExample.Size = new System.Drawing.Size(290, 23);
+            this.comboBoxBatchRunVideoAppExample.TabIndex = 32;
+            this.comboBoxBatchRunVideoAppExample.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBoxBatchRunVideoAppExample_DrawItem);
+            this.comboBoxBatchRunVideoAppExample.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunVideoApp_SelectionChangeCommitted);
             // 
             // label20
             // 
@@ -1035,7 +1036,7 @@
             this.tabPageArgumentFile.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageArgumentFile.Size = new System.Drawing.Size(825, 578);
             this.tabPageArgumentFile.TabIndex = 1;
-            this.tabPageArgumentFile.Text = "Argument file";
+            this.tabPageArgumentFile.Text = "Run Argument file";
             this.tabPageArgumentFile.UseVisualStyleBackColor = true;
             // 
             // groupBox2
@@ -1244,7 +1245,7 @@
         private System.Windows.Forms.TabPage tabPageImageCommand;
         private System.Windows.Forms.TabPage tabPageImageApp;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.ComboBox comboBoxBatchRunImageApp;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunImageAppExample;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox comboBoxBatchRunImageCommand;
         private System.Windows.Forms.ComboBox comboBoxBatchRunImageAppId;
@@ -1267,7 +1268,7 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ComboBox comboBoxBatchRunVideoAppId;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoApp;
+        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoAppExample;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.TextBox textBoxRunBatchVideoExample;

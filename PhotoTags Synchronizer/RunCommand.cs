@@ -30,7 +30,6 @@ namespace PhotoTagsSynchronizer
             
         }
 
-        
 
         #region Common - Init - Load Config
         public void Init()
@@ -59,11 +58,11 @@ namespace PhotoTagsSynchronizer
             applicationDatas = ApplicationInstalled.ListInstalledApps();
             for (int index = 0; index < applicationDatas.Count; index++)
             {
-                comboBoxBatchRunImageApp.Items.Add(applicationDatas.Values[index].FriendlyAppName);
-                comboBoxBatchRunVideoApp.Items.Add(applicationDatas.Values[index].FriendlyAppName);
+                comboBoxBatchRunImageAppExample.Items.Add(applicationDatas.Values[index].FriendlyAppName);
+                comboBoxBatchRunVideoAppExample.Items.Add(applicationDatas.Values[index].FriendlyAppName);
             }
-            ComboBoxPopulate(comboBoxBatchRunImageApp, Properties.Settings.Default.RunBatchImageAppIdList, Properties.Settings.Default.RunBatchImageAppId);
-            ComboBoxPopulate(comboBoxBatchRunVideoApp, Properties.Settings.Default.RunBatchVideoAppIdList, Properties.Settings.Default.RunBatchVideoAppId);
+            ComboBoxPopulate(comboBoxBatchRunImageAppId, Properties.Settings.Default.RunBatchImageAppIdList, Properties.Settings.Default.RunBatchImageAppId);
+            ComboBoxPopulate(comboBoxBatchRunVideoAppId, Properties.Settings.Default.RunBatchVideoAppIdList, Properties.Settings.Default.RunBatchVideoAppId);
             ComboBoxPopulate(comboBoxBatchRunImageVerb, Properties.Settings.Default.RunBatchImageVerbList, Properties.Settings.Default.RunBatchImageVerb);
             ComboBoxPopulate(comboBoxBatchRunVideoVerb, Properties.Settings.Default.RunBatchVideoVerbList, Properties.Settings.Default.RunBatchVideoVerb);
             checkBoxBatchRunImageWaitForAppExit.Checked = Properties.Settings.Default.RunBatchImageWaitForApp;
@@ -95,32 +94,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        private void ComboBoxPopulate(ComboBox comboBox, string valueListString, string defaultValue)
-        {
-            comboBox.Items.Clear();
-
-            string[] valueList = valueListString.Replace("\r\n", "\n").Split('\n');
-            if (valueList != null)
-            {
-                foreach (string valueItem in valueList)
-                {
-                    comboBox.Items.Add(valueItem);
-                }
-            }
-            comboBox.Text = defaultValue==null ? "": defaultValue;
-        }
-
-        private string ComboBoxStringCollection(ComboBox comboBox)
-        {
-            string resultListString = "";
-            foreach (object item in comboBox.Items)
-            {
-                resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
-            }
-            return resultListString;
-        }
-
-
         #region Common - FormClosing - Save Config
         private void RunCommand_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -143,11 +116,11 @@ namespace PhotoTagsSynchronizer
 
             #region Tab - Run batch - App
 
-            Properties.Settings.Default.RunBatchImageAppIdList = ComboBoxStringCollection(comboBoxBatchRunImageApp);
-            Properties.Settings.Default.RunBatchImageAppId = comboBoxBatchRunImageApp.Text;
+            Properties.Settings.Default.RunBatchImageAppIdList = ComboBoxStringCollection(comboBoxBatchRunImageAppId);
+            Properties.Settings.Default.RunBatchImageAppId = comboBoxBatchRunImageAppId.Text;
 
-            Properties.Settings.Default.RunBatchVideoAppIdList = ComboBoxStringCollection(comboBoxBatchRunVideoApp);
-            Properties.Settings.Default.RunBatchVideoAppId = comboBoxBatchRunVideoApp.Text;
+            Properties.Settings.Default.RunBatchVideoAppIdList = ComboBoxStringCollection(comboBoxBatchRunVideoAppId);
+            Properties.Settings.Default.RunBatchVideoAppId = comboBoxBatchRunVideoAppId.Text;
 
             Properties.Settings.Default.RunBatchImageVerbList = ComboBoxStringCollection(comboBoxBatchRunImageVerb);
             Properties.Settings.Default.RunBatchImageVerb = comboBoxBatchRunImageVerb.Text;
@@ -174,33 +147,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Common Selection Change DropDown - Insert Textbox
-        private void SelectionChangeCommitted(TextBox textBox, string insertText)
-        {
-            if (!isPopulation)
-            {
-                textBox.Focus();
-                var selectionIndex = textBox.SelectionStart;
-                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
-                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
-                textBox.SelectionStart = selectionIndex + insertText.Length;
-            }
-        }
-
-        private void SelectionChangeCommitted(ComboBox textBox, string insertText)
-        {
-            if (!isPopulation)
-            {
-                //textBox.Focus();
-                var selectionIndex = textBox.SelectionStart;
-                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
-                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
-                textBox.SelectionStart = selectionIndex + insertText.Length;
-            }
-        }
-
-        
-        #endregion 
 
         #region OpenWith - Common - SelectApplicationRow
         private void SelectApplicationRow(DataGridView dataGridView, string progId)
@@ -245,10 +191,10 @@ namespace PhotoTagsSynchronizer
 
                 dataGridView.DataSource = dtApps;                
                 dataGridView.Columns["Icon"].Width = 50;
-                dataGridView.Columns["Name"].Width = 240;
-                dataGridView.Columns["Command"].Visible = true;
-                dataGridView.Columns["ProgId"].Visible = true;
-                dataGridView.Columns["AppId"].Visible = true;
+                dataGridView.Columns["Name"].Width = 340;
+                dataGridView.Columns["Command"].Visible = false;
+                dataGridView.Columns["ProgId"].Visible = false;
+                dataGridView.Columns["AppId"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -382,17 +328,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-        private void ComboBoxAddTextToList(ComboBox comboBox)     
-        {
-            int indexOfText = comboBox.Items.IndexOf(comboBox.Text);
-            if (indexOfText > -1) comboBox.Items.RemoveAt(indexOfText); //Remove if exist
-            comboBox.Items.Insert(0, comboBox.Text); //Add first
-
-            int maxCount = 5;
-            while (comboBox.Items.Count > maxCount) comboBox.Items.RemoveAt(maxCount - 1);
-        }
-
         #region OpenWith - Click
         private void buttonOpenWithOpenWith_Click(object sender, EventArgs e)
         {
@@ -415,6 +350,7 @@ namespace PhotoTagsSynchronizer
 
         }
         #endregion
+
 
         #region Batch run - Show RunBatch Eaxmple when - TextChanged
 
@@ -486,8 +422,8 @@ namespace PhotoTagsSynchronizer
             ComboBoxAddTextToList(comboBoxBatchRunImageCommand);
             ComboBoxAddTextToList(comboBoxBatchRunVideoCommand);
 
-            ComboBoxAddTextToList(comboBoxBatchRunImageApp);
-            ComboBoxAddTextToList(comboBoxBatchRunVideoApp);
+            ComboBoxAddTextToList(comboBoxBatchRunImageAppId);
+            ComboBoxAddTextToList(comboBoxBatchRunVideoAppId);
 
             ComboBoxAddTextToList(comboBoxBatchRunImageVerb);
             ComboBoxAddTextToList(comboBoxBatchRunVideoVerb);
@@ -547,7 +483,7 @@ namespace PhotoTagsSynchronizer
             openFileDialog.ShowReadOnly = true;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                comboBoxBatchRunImageCommand.Text = openFileDialog.FileName;
+                comboBoxBatchRunImageCommand.Text = openFileDialog.FileName + " \"{FileFullPath}\"";
             }
         }
         #endregion
@@ -566,7 +502,7 @@ namespace PhotoTagsSynchronizer
             openFileDialog.ShowReadOnly = true;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                comboBoxBatchRunVideoCommand.Text = openFileDialog.FileName;
+                comboBoxBatchRunVideoCommand.Text = openFileDialog.FileName + " \"{FileFullPath}\"";
             }
         }
         #endregion
@@ -574,7 +510,7 @@ namespace PhotoTagsSynchronizer
         #region Bach run - Image - Example App Selected
         private void comboBoxBatchCommandImageApp_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            comboBoxBatchRunImageAppId.Text = applicationDatas.Values[comboBoxBatchRunImageApp.SelectedIndex].ApplicationId;
+            comboBoxBatchRunImageAppId.Text = applicationDatas.Values[comboBoxBatchRunImageAppExample.SelectedIndex].ApplicationId;
         }
         #endregion 
 
@@ -582,11 +518,10 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxBatchRunVideoApp_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            comboBoxBatchRunVideoAppId.Text = applicationDatas.Values[comboBoxBatchRunVideoApp.SelectedIndex].ApplicationId;
+            comboBoxBatchRunVideoAppId.Text = applicationDatas.Values[comboBoxBatchRunVideoAppExample.SelectedIndex].ApplicationId;
         }
         #endregion
 
-        
 
         #region ArumentFile run - Click 
         private void buttonArgumentFileRun_Click(object sender, EventArgs e)
@@ -614,16 +549,68 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-        // These could be properties used to customize the ComboBox appearance
-        Color cboForeColor = Color.Black;
-        Color cboBackColor = Color.WhiteSmoke;
-        private void comboBoxBatchCommandImageApp_DrawItem(object sender, DrawItemEventArgs e)
+        #region ComboBox - Settings - Convert String add to List
+        private void ComboBoxPopulate(ComboBox comboBox, string valueListString, string defaultValue)
         {
-            //ApplicationInstalled
-            ComboBox comboBox = (ComboBox)sender; //comboBoxBatchCommandImageApp;
+            comboBox.Items.Clear();
+
+            string[] valueList = valueListString.Replace("\r\n", "\n").Split('\n');
+            if (valueList != null)
+            {
+                foreach (string valueItem in valueList)
+                {
+                    comboBox.Items.Add(valueItem);
+                }
+            }
+            comboBox.Text = defaultValue == null ? "" : defaultValue;
+        }
+        #endregion
+
+        #region ComboBox - Settings - Convert List to string
+        private string ComboBoxStringCollection(ComboBox comboBox)
+        {
+            string resultListString = "";
+            foreach (object item in comboBox.Items)
+            {
+                resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
+            }
+            return resultListString;
+        }
+        #endregion 
+
+        #region ComboBox - Insert selected and cmomitted selection to Textbox
+        private void SelectionChangeCommitted(ComboBox textBox, string insertText)
+        {
+            if (!isPopulation)
+            {
+                //textBox.Focus();
+                var selectionIndex = textBox.SelectionStart;
+                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
+                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
+                textBox.SelectionStart = selectionIndex + insertText.Length;
+            }
+        }
+        #endregion 
+
+        #region ComboBox - Remeber last text and Add Text to list
+        private void ComboBoxAddTextToList(ComboBox comboBox)
+        {
+            string text = comboBox.Text;
+            int indexOfText = comboBox.Items.IndexOf(text); //Does it exist from before, remove to put first
+            if (indexOfText > -1) comboBox.Items.RemoveAt(indexOfText); //Remove if exist, in not already first
+            comboBox.Items.Insert(0, text); //Add first
+
+            int maxCount = 15;
+            while (comboBox.Items.Count > maxCount) comboBox.Items.RemoveAt(maxCount);
+            comboBox.Text = text;
+        }
+        #endregion 
+
+        #region ComboBox - Paint
+        private void PaintComboBoxItem (ComboBox comboBox, DrawItemEventArgs e)
+        {
             if (e.Index < 0) return;
-            Color foreColor = e.ForeColor;
+            Color foreColor = e.ForeColor; 
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
@@ -634,27 +621,33 @@ namespace PhotoTagsSynchronizer
             }
             else
             {
-                using (Brush backgbrush = new SolidBrush(cboBackColor))
+                using (Brush backgbrush = new SolidBrush(comboBox.BackColor))
                 {
                     e.Graphics.FillRectangle(backgbrush, e.Bounds);
-                    foreColor = cboForeColor;
+                    foreColor = comboBox.ForeColor;
                 }
             }
             using (Brush textbrush = new SolidBrush(foreColor))
             {
-                e.Graphics.DrawString(comboBox.Items[e.Index].ToString(),
-                                      e.Font, textbrush, e.Bounds.Height + 10, e.Bounds.Y,
-                                      StringFormat.GenericTypographic);
+                e.Graphics.DrawString(comboBox.Items[e.Index].ToString(), e.Font, textbrush, e.Bounds.Height + 10, e.Bounds.Y, StringFormat.GenericTypographic);
             }
 
-            //applicationDatas.Values[index]
-            e.Graphics.DrawImage(applicationDatas.Values[e.Index].Icon.ToBitmap(),
-                                 new Rectangle(e.Bounds.Location,
-                                 new Size(e.Bounds.Height - 2, e.Bounds.Height - 2)));
-            
+            e.Graphics.DrawImage(applicationDatas.Values[e.Index].Icon.ToBitmap(), new Rectangle(e.Bounds.Location, new Size(e.Bounds.Height - 2, e.Bounds.Height - 2)));
+
         }
 
-        #region ComboBox Hack
+        private void comboBoxBatchRunVideoAppExample_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            PaintComboBoxItem ((ComboBox)sender, e);
+        }
+
+        private void comboBoxBatchCommandImageApp_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            PaintComboBoxItem ((ComboBox)sender, e);             
+        }
+        #endregion
+
+        #region ComboBox - Text Selection Hack - Remember Selection
         private void RemeberComboBoxSelection(ComboBox comboBox)
         {
             comboBox.Tag = new ComboBoxSelection(comboBox);
@@ -684,9 +677,12 @@ namespace PhotoTagsSynchronizer
             SetComboBoxSelection((ComboBox)sender);            
         }
 
-        #endregion 
+        #endregion
+
+        
     }
 
+    #region ComboBox - Text Selction Hack - Remember ComboBoxSelection
     public class ComboBoxSelection
     {
         public int SelectionStart { get; set; }
@@ -698,5 +694,6 @@ namespace PhotoTagsSynchronizer
             SelectionLength = comboBox.SelectionLength;
         }
     }
+    #endregion 
 
 }
