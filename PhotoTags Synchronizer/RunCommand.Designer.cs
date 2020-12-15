@@ -543,19 +543,20 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox10);
-            this.splitContainer2.Size = new System.Drawing.Size(819, 441);
+            this.splitContainer2.Size = new System.Drawing.Size(819, 405);
             this.splitContainer2.SplitterDistance = 409;
             this.splitContainer2.TabIndex = 32;
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.tabControlBatchRunImage);
             this.groupBox4.Controls.Add(this.groupBox5);
             this.groupBox4.Location = new System.Drawing.Point(5, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(401, 435);
+            this.groupBox4.Size = new System.Drawing.Size(401, 399);
             this.groupBox4.TabIndex = 21;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Run app or command for Image files:";
@@ -751,7 +752,7 @@
             this.groupBox5.Controls.Add(this.textBoxRunBatchImageExample);
             this.groupBox5.Location = new System.Drawing.Point(6, 200);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(385, 229);
+            this.groupBox5.Size = new System.Drawing.Size(385, 193);
             this.groupBox5.TabIndex = 22;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Batch run:";
@@ -765,18 +766,19 @@
             this.textBoxRunBatchImageExample.Multiline = true;
             this.textBoxRunBatchImageExample.Name = "textBoxRunBatchImageExample";
             this.textBoxRunBatchImageExample.ReadOnly = true;
-            this.textBoxRunBatchImageExample.Size = new System.Drawing.Size(373, 202);
+            this.textBoxRunBatchImageExample.Size = new System.Drawing.Size(373, 166);
             this.textBoxRunBatchImageExample.TabIndex = 17;
             // 
             // groupBox10
             // 
-            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox10.Controls.Add(this.tabControlBatchRunVideo);
             this.groupBox10.Controls.Add(this.groupBox11);
             this.groupBox10.Location = new System.Drawing.Point(3, 3);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(403, 435);
+            this.groupBox10.Size = new System.Drawing.Size(403, 399);
             this.groupBox10.TabIndex = 22;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Run app or command for Video files:";
@@ -971,7 +973,7 @@
             this.groupBox11.Controls.Add(this.textBoxRunBatchVideoExample);
             this.groupBox11.Location = new System.Drawing.Point(6, 200);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(387, 229);
+            this.groupBox11.Size = new System.Drawing.Size(387, 193);
             this.groupBox11.TabIndex = 22;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Batch run:";
@@ -985,7 +987,7 @@
             this.textBoxRunBatchVideoExample.Multiline = true;
             this.textBoxRunBatchVideoExample.Name = "textBoxRunBatchVideoExample";
             this.textBoxRunBatchVideoExample.ReadOnly = true;
-            this.textBoxRunBatchVideoExample.Size = new System.Drawing.Size(375, 202);
+            this.textBoxRunBatchVideoExample.Size = new System.Drawing.Size(375, 166);
             this.textBoxRunBatchVideoExample.TabIndex = 17;
             // 
             // groupBox3
