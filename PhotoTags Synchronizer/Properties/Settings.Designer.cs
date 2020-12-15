@@ -819,34 +819,6 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"{" +
-            "TempFileArgumentFullPath}\"")]
-        public string RunArgumentCommand {
-            get {
-                return ((string)(this["RunArgumentCommand"]));
-            }
-            set {
-                this["RunArgumentCommand"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ ""{TempFileArgumentFullPath}""</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection RunArgumentCommandList {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["RunArgumentCommandList"]));
-            }
-            set {
-                this["RunArgumentCommandList"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("exiftool -t -a -G0:1 -s -n -P -struct \"{FileFullPath}\"")]
         public string RunBatchImageCommand {
             get {
@@ -859,17 +831,14 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
-  <string>""C:\Program files\Exiftool\exiftool"" -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
-  <string>cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""       </string>
-  <string>cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
-  <string>explorer ms-photos?filename=""{FileFullPath}""</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection RunBatchImageCommandList {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+""C:\Program files\Exiftool\exiftool"" -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""       
+cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+explorer ms-photos?filename=""{FileFullPath}""")]
+        public string RunBatchImageCommandList {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchImageCommandList"]));
+                return ((string)(this["RunBatchImageCommandList"]));
             }
             set {
                 this["RunBatchImageCommandList"] = value;
@@ -902,15 +871,11 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>Microsoft.Windows.Photos_8wekyb3d8bbwe!App</string>
-  <string>Microsoft.ScreenSketch_8wekyb3d8bbwe!App</string>
-  <string>Microsoft.MSPaint_8wekyb3d8bbwe!Microsoft.MSPaint</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection RunBatchImageAppIdList {
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft.Windows.Photos_8wekyb3d8bbwe!App\r\nMicrosoft.ScreenSketch_8wekyb3d8bbwe!" +
+            "App\r\nMicrosoft.MSPaint_8wekyb3d8bbwe!Microsoft.MSPaint")]
+        public string RunBatchImageAppIdList {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchImageAppIdList"]));
+                return ((string)(this["RunBatchImageAppIdList"]));
             }
             set {
                 this["RunBatchImageAppIdList"] = value;
@@ -931,12 +896,10 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>open</string>\r\n  <string>edit</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection RunBatchImageVerbList {
+        [global::System.Configuration.DefaultSettingValueAttribute("open\r\nedit")]
+        public string RunBatchImageVerbList {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchImageVerbList"]));
+                return ((string)(this["RunBatchImageVerbList"]));
             }
             set {
                 this["RunBatchImageVerbList"] = value;
@@ -969,17 +932,14 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
-  <string>""C:\Program files\Exiftool\exiftool"" -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
-  <string>cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""       </string>
-  <string>cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""</string>
-  <string>explorer ms-photos?filename=""{FileFullPath}""</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection RunBatchVideoCommandList {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+""C:\Program files\Exiftool\exiftool"" -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""       
+cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct ""{FileFullPath}""
+explorer ms-photos?filename=""{FileFullPath}""")]
+        public string RunBatchVideoCommandList {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchVideoCommandList"]));
+                return ((string)(this["RunBatchVideoCommandList"]));
             }
             set {
                 this["RunBatchVideoCommandList"] = value;
@@ -1012,12 +972,10 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>Microsoft.Windows.Photos_8wekyb3d8bbwe!App</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection RunBatchVideoAppIdList {
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft.Windows.Photos_8wekyb3d8bbwe!App")]
+        public string RunBatchVideoAppIdList {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchVideoAppIdList"]));
+                return ((string)(this["RunBatchVideoAppIdList"]));
             }
             set {
                 this["RunBatchVideoAppIdList"] = value;
@@ -1050,12 +1008,10 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>open</string>\r\n  <string>edit</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection RunBatchVideoVerbList {
+        [global::System.Configuration.DefaultSettingValueAttribute("open\r\nedit")]
+        public string RunBatchVideoVerbList {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["RunBatchVideoVerbList"]));
+                return ((string)(this["RunBatchVideoVerbList"]));
             }
             set {
                 this["RunBatchVideoVerbList"] = value;
@@ -1131,6 +1087,31 @@ namespace PhotoTagsSynchronizer.Properties {
             }
             set {
                 this["OpenWithVideoWaitForExit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RunArgumentCommandList {
+            get {
+                return ((string)(this["RunArgumentCommandList"]));
+            }
+            set {
+                this["RunArgumentCommandList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"{" +
+            "TempFileArgumentFullPath}\"")]
+        public string RunArgumentCommand {
+            get {
+                return ((string)(this["RunArgumentCommand"]));
+            }
+            set {
+                this["RunArgumentCommand"] = value;
             }
         }
     }

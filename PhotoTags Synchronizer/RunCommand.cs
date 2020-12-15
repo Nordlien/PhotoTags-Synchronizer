@@ -95,24 +95,29 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        private void ComboBoxPopulate(ComboBox comboBox, System.Collections.Specialized.StringCollection valueList, string defaultValue)
+        private void ComboBoxPopulate(ComboBox comboBox, string valueListString, string defaultValue)
         {
             comboBox.Items.Clear();
-            foreach (string valueItem in valueList)
+
+            string[] valueList = valueListString.Replace("\r\n", "\n").Split('\n');
+            if (valueList != null)
             {
-                comboBox.Items.Add(valueItem);
+                foreach (string valueItem in valueList)
+                {
+                    comboBox.Items.Add(valueItem);
+                }
             }
-            comboBox.Text = defaultValue;
+            comboBox.Text = defaultValue==null ? "": defaultValue;
         }
 
-        private System.Collections.Specialized.StringCollection ComboBoxStringCollection(ComboBox comboBox)
+        private string ComboBoxStringCollection(ComboBox comboBox)
         {
-            System.Collections.Specialized.StringCollection stringCollection = new System.Collections.Specialized.StringCollection();
+            string resultListString = "";
             foreach (object item in comboBox.Items)
             {
-                stringCollection.Add(item.ToString());
+                resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
             }
-            return stringCollection;
+            return resultListString;
         }
 
 

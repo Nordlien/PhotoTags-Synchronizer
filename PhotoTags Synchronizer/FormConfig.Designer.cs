@@ -1,4 +1,6 @@
-﻿namespace PhotoTagsSynchronizer
+﻿using DataGridViewExtended;
+
+namespace PhotoTagsSynchronizer
 {
     partial class Config
     {

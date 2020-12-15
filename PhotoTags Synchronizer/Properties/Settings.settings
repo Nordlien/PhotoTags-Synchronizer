@@ -568,27 +568,15 @@ filename=UTF8
     <Setting Name="XtraAtomArtistVideo" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="RunArgumentCommand" Type="System.String" Scope="User">
-      <Value Profile="(Default)">cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ "{TempFileArgumentFullPath}"</Value>
-    </Setting>
-    <Setting Name="RunArgumentCommandList" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ "{TempFileArgumentFullPath}"&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
     <Setting Name="RunBatchImageCommand" Type="System.String" Scope="User">
       <Value Profile="(Default)">exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"</Value>
     </Setting>
-    <Setting Name="RunBatchImageCommandList" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"&lt;/string&gt;
-  &lt;string&gt;"C:\Program files\Exiftool\exiftool" -t -a -G0:1 -s -n -P -struct "{FileFullPath}"&lt;/string&gt;
-  &lt;string&gt;cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"       &lt;/string&gt;
-  &lt;string&gt;cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"&lt;/string&gt;
-  &lt;string&gt;explorer ms-photos?filename="{FileFullPath}"&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+    <Setting Name="RunBatchImageCommandList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
+"C:\Program files\Exiftool\exiftool" -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
+cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"       
+cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
+explorer ms-photos?filename="{FileFullPath}"</Value>
     </Setting>
     <Setting Name="RunBatchImageWaitForCommand" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -596,23 +584,17 @@ filename=UTF8
     <Setting Name="RunBatchImageAppId" Type="System.String" Scope="User">
       <Value Profile="(Default)">Microsoft.Windows.Photos_8wekyb3d8bbwe!App</Value>
     </Setting>
-    <Setting Name="RunBatchImageAppIdList" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;Microsoft.Windows.Photos_8wekyb3d8bbwe!App&lt;/string&gt;
-  &lt;string&gt;Microsoft.ScreenSketch_8wekyb3d8bbwe!App&lt;/string&gt;
-  &lt;string&gt;Microsoft.MSPaint_8wekyb3d8bbwe!Microsoft.MSPaint&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+    <Setting Name="RunBatchImageAppIdList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Microsoft.Windows.Photos_8wekyb3d8bbwe!App
+Microsoft.ScreenSketch_8wekyb3d8bbwe!App
+Microsoft.MSPaint_8wekyb3d8bbwe!Microsoft.MSPaint</Value>
     </Setting>
     <Setting Name="RunBatchImageVerb" Type="System.String" Scope="User">
       <Value Profile="(Default)">open</Value>
     </Setting>
-    <Setting Name="RunBatchImageVerbList" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;open&lt;/string&gt;
-  &lt;string&gt;edit&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+    <Setting Name="RunBatchImageVerbList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">open
+edit</Value>
     </Setting>
     <Setting Name="RunBatchImageWaitForApp" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -620,15 +602,12 @@ filename=UTF8
     <Setting Name="RunBatchVideoCommand" Type="System.String" Scope="User">
       <Value Profile="(Default)">exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"</Value>
     </Setting>
-    <Setting Name="RunBatchVideoCommandList" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"&lt;/string&gt;
-  &lt;string&gt;"C:\Program files\Exiftool\exiftool" -t -a -G0:1 -s -n -P -struct "{FileFullPath}"&lt;/string&gt;
-  &lt;string&gt;cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"       &lt;/string&gt;
-  &lt;string&gt;cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"&lt;/string&gt;
-  &lt;string&gt;explorer ms-photos?filename="{FileFullPath}"&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+    <Setting Name="RunBatchVideoCommandList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
+"C:\Program files\Exiftool\exiftool" -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
+cmd.exe /K exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"       
+cmd.exe /K /C exiftool -t -a -G0:1 -s -n -P -struct "{FileFullPath}"
+explorer ms-photos?filename="{FileFullPath}"</Value>
     </Setting>
     <Setting Name="RunBatchVideoWaitForCommand" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -636,11 +615,8 @@ filename=UTF8
     <Setting Name="RunBatchVideoAppId" Type="System.String" Scope="User">
       <Value Profile="(Default)">Microsoft.Windows.Photos_8wekyb3d8bbwe!App</Value>
     </Setting>
-    <Setting Name="RunBatchVideoAppIdList" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;Microsoft.Windows.Photos_8wekyb3d8bbwe!App&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+    <Setting Name="RunBatchVideoAppIdList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Microsoft.Windows.Photos_8wekyb3d8bbwe!App</Value>
     </Setting>
     <Setting Name="RunBatchVideoWaitForApp" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -648,12 +624,9 @@ filename=UTF8
     <Setting Name="RunBatchVideoVerb" Type="System.String" Scope="User">
       <Value Profile="(Default)">open</Value>
     </Setting>
-    <Setting Name="RunBatchVideoVerbList" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;open&lt;/string&gt;
-  &lt;string&gt;edit&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+    <Setting Name="RunBatchVideoVerbList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">open
+edit</Value>
     </Setting>
     <Setting Name="OpenWithImageProgId" Type="System.String" Scope="User">
       <Value Profile="(Default)">AppX43hnxtbyyps62jhe9sqpdzxn1790zetc</Value>
@@ -672,6 +645,12 @@ filename=UTF8
     </Setting>
     <Setting Name="OpenWithVideoWaitForExit" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RunArgumentCommandList" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RunArgumentCommand" Type="System.String" Scope="User">
+      <Value Profile="(Default)">cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ "{TempFileArgumentFullPath}"</Value>
     </Setting>
   </Settings>
 </SettingsFile>
