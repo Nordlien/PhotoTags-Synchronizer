@@ -10,6 +10,7 @@ using System.Drawing;
 using NLog;
 using System.Threading;
 using WindowsProperty;
+using ApplicationAssociations;
 
 namespace Exiftool
 {

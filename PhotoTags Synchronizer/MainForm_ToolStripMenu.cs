@@ -1,4 +1,5 @@
-﻿using DataGridViewGeneric;
+﻿using ApplicationAssociations;
+using DataGridViewGeneric;
 using Exiftool;
 using Manina.Windows.Forms;
 using MetadataLibrary;
@@ -1292,77 +1293,66 @@ namespace PhotoTagsSynchronizer
         #endregion
 
 
-        public void ShowFileInExplorer(string fileFullPath)
-        {
-            ProcessStartInfo proc = new ProcessStartInfo();
-            proc.FileName = "explorer.exe";
-            proc.Arguments = "/select, \"" + fileFullPath + "\"";
-            Process.Start(proc);
 
-        }
-
-        public void ShowOpenWithDialog(string path)
-        {
-            var args = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll");
-            args += ",OpenAs_RunDLL " + path;
-            Process.Start("rundll32.exe", args);
-        }
-
-        public void StartApplication(string fileFullPath)
-        {
-            Process.Start(fileFullPath);
-        }
-
-        public void StartEditApplication(string fileFullPath)
-        {
-            ProcessStartInfo startInfo = new ProcessStartInfo(fileFullPath);
-            if (startInfo.Verbs.Contains("edit"))
-            {
-                startInfo.Verb = "edit";
-                Process.Start(startInfo);
-            } 
-        }
+       
 
         private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (imageListView1.SelectedItems.Count > 0)
             foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
             {
-                ShowOpenWithDialog(imageListViewItem.FileFullPath);
+                ApplicationActivation.ShowOpenWithDialog(imageListViewItem.FileFullPath);
             }
         }
 
         private void openFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string errorMessage = "";
             foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
             {
-                StartApplication(imageListViewItem.FileFullPath);
+                try {
+                    ApplicationActivation.ProcessRunOpenFile(imageListViewItem.FileFullPath);
+                }
+                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
             }
+            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
 
         private void editFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string errorMessage = "";
             foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
             {
-                StartEditApplication(imageListViewItem.FileFullPath);
+                try
+                {
+                    ApplicationActivation.ProcessRunEditFile(imageListViewItem.FileFullPath);
+                }
+                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
+                
             }
+            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
 
         private void openFileLocationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (imageListView1.SelectedItems.Count > 0)
+            string errorMessage = "";
             foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
             {
-                ShowFileInExplorer(imageListViewItem.FileFullPath);
+                try
+                {
+                    ApplicationActivation.ShowFileInExplorer(imageListViewItem.FileFullPath);
+                }
+                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
             }
+            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
 
         private void openFolderLocationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProcessStartInfo proc = new ProcessStartInfo();
-            proc.FileName = "explorer.exe";
-            proc.Arguments = folderTreeViewFolder.GetSelectedNodePath();
-            Process.Start(proc);
+            try
+            {
+                ApplicationActivation.ShowFolderInEplorer(folderTreeViewFolder.GetSelectedNodePath());
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK); }
         }
 
         private void copyFileNamesToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1381,49 +1371,11 @@ namespace PhotoTagsSynchronizer
         private void runSelectedLocationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (imageListView1.SelectedItems.Count > 0)
-            {
-                
-                
-
-                //Find what columns are updated / changed by user
-                /*List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
-                
-                if (listOfUpdates.Count == 0)
-                {
-                    MessageBox.Show("Can't find any value that was changed. Nothing is saved...");
-                    return;
-                }*/
-
+            {                
                 string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
                 string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
                 string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
-                /*
-                string writeXtraAtomAlbumVariable = Properties.Settings.Default.XtraAtomAlbumVariable;
-                bool writeXtraAtomAlbumVideo = Properties.Settings.Default.XtraAtomAlbumVideo;
-
-                string writeXtraAtomCategoriesVariable = Properties.Settings.Default.XtraAtomCategoriesVariable;
-                bool writeXtraAtomCategoriesVideo = Properties.Settings.Default.XtraAtomCategoriesVideo;
-
-                string writeXtraAtomCommentVariable = Properties.Settings.Default.XtraAtomCommentVariable;
-                bool writeXtraAtomCommentPicture = Properties.Settings.Default.XtraAtomCommentPicture;
-                bool writeXtraAtomCommentVideo = Properties.Settings.Default.XtraAtomCommentVideo;
-
-                string writeXtraAtomKeywordsVariable = Properties.Settings.Default.XtraAtomKeywordsVariable;
-                bool writeXtraAtomKeywordsVideo = Properties.Settings.Default.XtraAtomKeywordsVideo;
-
-                bool writeXtraAtomRatingPicture = Properties.Settings.Default.XtraAtomRatingPicture;
-                bool writeXtraAtomRatingVideo = Properties.Settings.Default.XtraAtomRatingVideo;
-
-                string writeXtraAtomSubjectVariable = Properties.Settings.Default.XtraAtomSubjectVariable;
-                bool writeXtraAtomSubjectPicture = Properties.Settings.Default.XtraAtomSubjectPicture;
-                bool wtraAtomSubjectVideo = Properties.Settings.Default.XtraAtomSubjectVideo;
-
-                string writeXtraAtomSubtitleVariable = Properties.Settings.Default.XtraAtomSubtitleVariable;
-                bool writeXtraAtomSubtitleVideo = Properties.Settings.Default.XtraAtomSubtitleVideo;
-
-                string writeXtraAtomArtistVariable = Properties.Settings.Default.XtraAtomArtistVariable;
-                bool writeXtraAtomArtistVideo = Properties.Settings.Default.XtraAtomArtistVideo;
-                */
+                
 
                 GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
 

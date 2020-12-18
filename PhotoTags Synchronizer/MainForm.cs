@@ -432,9 +432,13 @@ namespace PhotoTagsSynchronizer
 
 
 
+
         #endregion
 
-       
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

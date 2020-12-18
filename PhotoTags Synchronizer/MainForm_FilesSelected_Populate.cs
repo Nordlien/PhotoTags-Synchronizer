@@ -9,6 +9,7 @@ using System.IO;
 using System.Collections.Generic;
 using FileDateTime;
 using System.Threading;
+using ApplicationAssociations;
 
 namespace PhotoTagsSynchronizer
 {
@@ -25,11 +26,69 @@ namespace PhotoTagsSynchronizer
             //imageListView1.Enabled = false;
             PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //GlobalData.isPopulatingSelectedFiles start with true end with false;
             //imageListView1.Enabled = true;
+            PopulateImageListeViewToolStrip(imageListView1.SelectedItems);
 
             GlobalData.IsPopulatingImageListView = false;
             imageListView1.Focus();
         }
 
+
+
+        private void PopulateImageListeViewToolStrip(ImageListViewSelectedItemCollection imageListViewSelectedItems)
+        {
+            if (imageListViewSelectedItems.Count == 1) openWithDialogToolStripMenuItem.Visible = true;
+            else openWithDialogToolStripMenuItem.Visible = false;
+
+            List<string> extentions = new List<string>();
+            foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
+            {
+                string extention = Path.GetExtension(imageListViewItem.FileFullPath).ToLower();
+                if (!extentions.Contains(extention)) extentions.Add(extention);
+            }
+
+            ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
+            List<ApplicationData> listOfCommonOpenWith = applicationAssociationsHandler.OpenWithInCommon(extentions);
+
+            openMediaFilesWithToolStripMenuItem.DropDownItems.Clear();
+            if (listOfCommonOpenWith != null && listOfCommonOpenWith.Count > 0)
+            {
+                openMediaFilesWithToolStripMenuItem.Visible = true;
+                foreach (ApplicationData data in listOfCommonOpenWith)
+                {
+                    foreach (VerbLink verbLink in data.VerbLinks)
+                    {
+                        ApplicationData singelVerbApplicationData = new ApplicationData();
+                        singelVerbApplicationData.AppIconReference = data.AppIconReference;
+                        singelVerbApplicationData.ApplicationId = data.ApplicationId;
+                        singelVerbApplicationData.Command = data.Command;
+                        singelVerbApplicationData.FriendlyAppName = data.FriendlyAppName;
+                        singelVerbApplicationData.Icon = data.Icon;
+                        singelVerbApplicationData.ProgId = data.ProgId;
+                        singelVerbApplicationData.AddVerb(verbLink.Verb, verbLink.Command);
+
+                        ToolStripMenuItem toolStripMenuItemOpenWith = new ToolStripMenuItem(singelVerbApplicationData.FriendlyAppName.Replace("&", "&&") + " - " + verbLink.Verb, singelVerbApplicationData.Icon.ToBitmap());
+                        toolStripMenuItemOpenWith.Tag = singelVerbApplicationData;
+                        toolStripMenuItemOpenWith.Click += ToolStripMenuItemOpenWith_Click;
+                        openMediaFilesWithToolStripMenuItem.DropDownItems.Add(toolStripMenuItemOpenWith);
+                    }
+                }
+            }
+            else openMediaFilesWithToolStripMenuItem.Visible = false;
+
+        }
+
+        private void ToolStripMenuItemOpenWith_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
+            if (toolStripMenuItem.Tag is ApplicationData applicationData)
+            {
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                {
+                    if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);                    
+                }
+            }
+
+        }
 
         private void imageListView1_SelectionChanged(object sender, EventArgs e)
         {

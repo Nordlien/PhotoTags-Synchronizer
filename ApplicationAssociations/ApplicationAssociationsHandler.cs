@@ -136,7 +136,7 @@ namespace ApplicationAssociations
                 }
                 else //Removed from common list to that is not common for all
                 {
-                    List<ApplicationData> listOpenWithInBothList = null;
+                    List<ApplicationData> listOpenWithInBothList = new List<ApplicationData>();
                     foreach (ApplicationData applicationData in extentionApplications[extention])
                     {                        
                         //Check exist in common both list

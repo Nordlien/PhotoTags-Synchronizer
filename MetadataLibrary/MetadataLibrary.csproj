@@ -65,6 +65,10 @@
     <Compile Include="RegionThumbnailHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ApplicationAssociations\ApplicationAssociations.csproj">
+      <Project>{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}</Project>
+      <Name>ApplicationAssociations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FileDateTime\FileDateTime.csproj">
       <Project>{83CA452E-ABE2-43BA-A7C3-F47954279F85}</Project>
       <Name>FileDateTime</Name>

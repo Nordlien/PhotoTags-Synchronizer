@@ -31,10 +31,6 @@ namespace PhotoTagsSynchronizer
 
         [JsonProperty("DateTakenPriority")]
         public List<DateTimeSources> DateTakenPriority { get; set; } = new List<DateTimeSources>();
-
-
-
-
         #endregion
 
         #region GPS Location and Date Time
@@ -50,7 +46,6 @@ namespace PhotoTagsSynchronizer
         public bool UpdateGPSLocation { get; set; } = true;
         [JsonProperty("UpdateGPSDateTime")]
         public bool UpdateGPSDateTime { get; set; } = true;
-
         #endregion
 
         #region Keywords

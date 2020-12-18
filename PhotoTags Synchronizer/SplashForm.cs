@@ -46,16 +46,15 @@ namespace PhotoTagsSynchronizer
 
             if (_thread == null || !_thread.IsAlive)
             {
-                // Make sure it is only launched once.
-                if (splashForm != null) throw new Exception("Can't start two splash screens");
-
-                _thread = new Thread(new ThreadStart(SplashForm.ShowForm));
-                _thread.IsBackground = true;
-                _thread.SetApartmentState(ApartmentState.STA);
-                _thread.Start();
+                if (splashForm == null)
+                {
+                    _thread = new Thread(new ThreadStart(SplashForm.ShowForm));
+                    _thread.IsBackground = true;
+                    _thread.SetApartmentState(ApartmentState.STA);
+                    _thread.Start();
+                }
             }
-            else
-                throw new Exception("thread still alive");
+            else throw new Exception("thread still alive");
         }
 
         public SplashForm()

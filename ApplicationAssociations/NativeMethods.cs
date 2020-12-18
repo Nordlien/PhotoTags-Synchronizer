@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exiftool
+namespace ApplicationAssociations
 {
     
-    internal static class NativeMethods    
+    public static class NativeMethods    
     {
         // Define GetShortPathName API function.
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]

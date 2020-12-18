@@ -1,4 +1,5 @@
-﻿using FileDateTime;
+﻿using ApplicationAssociations;
+using FileDateTime;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -655,6 +656,7 @@ namespace MetadataLibrary
                 //Filesystem
                 listOfProperties.Add("{FileName}");
                 listOfProperties.Add("{FileFullPath}");
+                listOfProperties.Add("{FileFullPath.8.3}");
                 listOfProperties.Add("{FileNameWithoutExtension}");
                 listOfProperties.Add("{FileNameWithoutDateTime}");
                 listOfProperties.Add("{FileExtension}");
@@ -836,6 +838,9 @@ namespace MetadataLibrary
                     break;
                 case "{FileFullPath}":
                     result = FileFullPath;
+                    break;
+                case "{FileFullPath.8.3}":
+                    result = NativeMethods.ShortFileName(FileFullPath);
                     break;
                 case "{FileNameWithoutExtension}":
                     result = Path.GetFileNameWithoutExtension(FileName);

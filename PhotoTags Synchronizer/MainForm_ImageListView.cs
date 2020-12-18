@@ -2,13 +2,12 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
-using SqliteDatabase;
-using DataGridViewGeneric;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using ImageAndMovieFileExtentions;
 using System.Diagnostics;
 using System.Threading;
+using ApplicationAssociations;
 
 namespace PhotoTagsSynchronizer
 {
@@ -224,7 +223,13 @@ namespace PhotoTagsSynchronizer
 
         private void imageListView1_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
-            StartApplication(e.Item.FileFullPath);
+            try
+            {
+                ApplicationActivation.ProcessRunOpenFile(e.Item.FileFullPath);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK);
+            }
         }
 
     }

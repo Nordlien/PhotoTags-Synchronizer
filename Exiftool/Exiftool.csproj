@@ -52,7 +52,6 @@
     <Compile Include="ExiftoolWarningData.cs" />
     <Compile Include="ExiftoolWarningDatabase.cs" />
     <Compile Include="ExiftoolWriter.cs" />
-    <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StructDeSerialization.cs" />
   </ItemGroup>
@@ -60,6 +59,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ApplicationAssociations\ApplicationAssociations.csproj">
+      <Project>{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}</Project>
+      <Name>ApplicationAssociations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImageAndMovieFileExtentions\ImageAndMovieFileExtentions.csproj">
       <Project>{569C3820-EAFD-425C-A493-981A65AA9F4C}</Project>
       <Name>ImageAndMovieFileExtentions</Name>

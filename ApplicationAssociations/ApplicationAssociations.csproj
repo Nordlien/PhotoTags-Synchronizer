@@ -49,6 +49,7 @@
     <Compile Include="AppxPackage.cs" />
     <Compile Include="AssocQueryString.cs" />
     <Compile Include="ApplicationIcon.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

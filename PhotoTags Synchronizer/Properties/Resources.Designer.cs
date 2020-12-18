@@ -73,6 +73,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Association_Filetype {
+            get {
+                object obj = ResourceManager.GetObject("Association_Filetype", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AutoCorrect {
             get {
                 object obj = ResourceManager.GetObject("AutoCorrect", resourceCulture);
@@ -253,6 +263,26 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Image_Edit {
+            get {
+                object obj = ResourceManager.GetObject("Image_Edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Image_Open {
+            get {
+                object obj = ResourceManager.GetObject("Image_Open", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap KeywordDelete {
             get {
                 object obj = ResourceManager.GetObject("KeywordDelete", resourceCulture);
@@ -386,6 +416,16 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap Replace {
             get {
                 object obj = ResourceManager.GetObject("Replace", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Run_Command {
+            get {
+                object obj = ResourceManager.GetObject("Run_Command", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
