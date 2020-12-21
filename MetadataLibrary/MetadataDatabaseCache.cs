@@ -559,53 +559,6 @@ namespace MetadataLibrary
             }
         }
 
-        /*
-        public Image ReadRegionThumbnail(FileEntryBroker file, RegionStructure region)
-        {
-            Image image = null;
-
-            string sqlCommand =
-                    "SELECT Thumbnail FROM MediaPersonalRegions " +
-                    "WHERE Broker = @Broker " +
-                    "AND FileDirectory = @FileDirectory " +
-                    "AND FileName = @FileName " +
-                    "AND FileDateModified = @FileDateModified " +
-                    "AND Type = @Type " +
-                    "AND Name = @Name " +
-                    "AND Round(AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND Round(AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND Round(AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND Round(AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND RegionStructureType = @RegionStructureType";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", file.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", file.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
-                commandDatabase.Parameters.AddWithValue("@Type", region.Type);
-                commandDatabase.Parameters.AddWithValue("@Name", region.Name);
-                commandDatabase.Parameters.AddWithValue("@AreaX", region.AreaX);
-                commandDatabase.Parameters.AddWithValue("@AreaY", region.AreaY);
-                commandDatabase.Parameters.AddWithValue("@AreaWidth", region.AreaWidth);
-                commandDatabase.Parameters.AddWithValue("@AreaHeight", region.AreaHeight);
-                commandDatabase.Parameters.AddWithValue("@RegionStructureType", (int)region.RegionStructureType);
-
-                commandDatabase.Prepare();
-                commandDatabase.ExecuteNonQuery();
-
-                
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
-                    }
-                }
-            }
-            return image;
-        } */
-
         
         private void DeleteDirectoryMediaMetadata(MetadataBrokerTypes broker, string fileDirectory)
         {
@@ -784,6 +737,283 @@ namespace MetadataLibrary
 
         #endregion
 
+        #region ListAllPersonalAlbums()
+        public List<string> ListAllPersonalAlbums()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT PersonalAlbum FROM MediaMetadata";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAlbum"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion
+
+        #region ListAllMediaDateTakenYearAndMonth()
+        //SELECT strftime('%Y-%m-%d %H:%M:%S',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'Date1' FROM MediaMetadata ORDER BY Date1
+        //SELECT DISTINCT strftime('%Y-%m',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'MediaDateTaken' FROM MediaMetadata ORDER BY MediaDateTaken
+        public List<string> ListAllMediaDateTakenYearAndMonth()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT strftime('%Y-%m',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'MediaDateTaken' FROM MediaMetadata ORDER BY MediaDateTaken";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["MediaDateTaken"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion
+        
+
+        #region ListAllPersonalDescriptions()
+        public List<string> ListAllPersonalDescriptions()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT PersonalDescription FROM MediaMetadata";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["PersonalDescription"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion
+
+        #region ListAllPersonalTitles()
+        public List<string> ListAllPersonalTitles()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT PersonalTitle FROM MediaMetadata";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["PersonalTitle"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion
+
+        #region ListAllPersonalComments()
+        public List<string> ListAllPersonalComments()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT PersonalComments FROM MediaMetadata";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["PersonalComments"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion
+
+        #region ListAllPersonalAuthors()
+        public List<string> ListAllPersonalAuthors()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT PersonalAuthor FROM MediaMetadata";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAuthor"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion
+
+        #region ListAllPersonalRegions()
+        public List<string> ListAllPersonalRegions()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT Name FROM MediaPersonalRegions";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["Name"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion
+
+        #region ListAllLocationNames()
+        public List<string> ListAllLocationNames()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT LocationName FROM MediaMetadata";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["LocationName"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion
+
+        #region ListAllLocationCities()
+        public List<string> ListAllLocationCities()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT LocationCity FROM MediaMetadata";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["LocationCity"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion
+
+        #region ListAllLocationStates()
+        public List<string> ListAllLocationStates()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT LocationState FROM MediaMetadata";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["LocationState"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion
+
+        #region ListAllLocationCountries()
+        public List<string> ListAllLocationCountries()
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT LocationCountry FROM MediaMetadata";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["LocationCountry"]));
+                    }
+                }
+            }
+            return listing;
+        }
+        #endregion 
 
         #region Cache
         Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();

@@ -28,10 +28,13 @@ namespace PhotoTagsSynchronizer
             //imageListView1.Enabled = true;
             PopulateImageListeViewToolStrip(imageListView1.SelectedItems);
 
+            
+
             GlobalData.IsPopulatingImageListView = false;
             imageListView1.Focus();
         }
 
+        
 
 
         private void PopulateImageListeViewToolStrip(ImageListViewSelectedItemCollection imageListViewSelectedItems)

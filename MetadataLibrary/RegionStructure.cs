@@ -514,7 +514,7 @@ namespace MetadataLibrary
             if (string.IsNullOrEmpty(stringCell) && !string.IsNullOrEmpty(stringThis)) return false; //One name empty other not
             if (!string.IsNullOrEmpty(stringCell) && string.IsNullOrEmpty(stringThis)) return false; //One name empty other not            
             if (string.IsNullOrEmpty(stringCell) && string.IsNullOrEmpty(stringThis)) return true; //Both name empty, return equal
-            return stringCell.Trim() == stringCell.Trim();
+            return stringCell.Trim() == stringThis.Trim();
         }
 
         public override bool Equals(object obj)
@@ -542,7 +542,6 @@ namespace MetadataLibrary
             return !(c1 == c2);
         }
 
-        
         public bool DoesThisRectangleAndNameExistInList(List<RegionStructure> regionStructures)
         {
             foreach (RegionStructure regionStructure in regionStructures)
@@ -557,6 +556,15 @@ namespace MetadataLibrary
             foreach (RegionStructure regionStructure in regionStructures)
             {
                 if (NameEqual(Name, regionStructure.Name)) return true;
+            }
+            return false;
+        }
+
+        public static bool DoesThisNameExistInList(List<RegionStructure> regionStructures, string name)
+        {
+            foreach (RegionStructure regionStructure in regionStructures)
+            {
+                if (NameEqual(name, regionStructure.Name)) return true;
             }
             return false;
         }

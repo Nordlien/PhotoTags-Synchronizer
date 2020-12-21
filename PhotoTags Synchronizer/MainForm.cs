@@ -415,7 +415,11 @@ namespace PhotoTagsSynchronizer
             FolderSelected_AggregateListViewWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
 
+            PopulateTreeViewDatabaseFilter();
+            PopulateTreeViewFolderFilter(imageListView1.Items);
+
             GlobalData.IsPopulatingFolderTree = false;
+            
             SplashForm.CloseForm();
 
             Properties.Settings.Default.Reload();
@@ -433,12 +437,10 @@ namespace PhotoTagsSynchronizer
 
 
 
+
         #endregion
 
-        private void testToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 }
 

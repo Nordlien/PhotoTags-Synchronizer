@@ -15,7 +15,9 @@ namespace PhotoTagsSynchronizer
         public static DataGridViewHandler dataGridViewHandlerExiftoolTags = null;        
         public static DataGridViewHandler dataGridViewHandlerExiftoolWarning = null;       
         public static DataGridViewHandler dataGridViewHandlerProperties = null;
-        public static DataGridViewHandler dataGridViewHandlerRename = null;       
+        public static DataGridViewHandler dataGridViewHandlerRename = null;
+
+        public static bool lastReadFolderWasRecursive { get; set; } = false;
 
         public static int retrieveImageCount = 0;
         public static int retrieveThumbnailCount = 0;

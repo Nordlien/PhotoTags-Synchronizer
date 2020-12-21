@@ -270,7 +270,7 @@ namespace PhotoTagsSynchronizer
                 if (databaseAndCacheThumbnail.ReadCache(fileEntryImage) == null) AddQueueThumbnailMedia(fileEntryImage);
             } else
             {
-                Debug.WriteLine("AddQueueAllUpadtedFileEntry was delete: (Check why), renmae of exiftool maybe, need back then... " + fileEntryImage.FileFullPath);
+                Debug.WriteLine("AddQueueAllUpadtedFileEntry was delete: (Check why), renname of exiftool maybe, need back then... " + fileEntryImage.FileFullPath);
             }
             
             StartThreads();

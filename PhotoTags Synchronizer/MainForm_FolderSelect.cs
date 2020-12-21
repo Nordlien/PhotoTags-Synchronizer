@@ -1,40 +1,35 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
 using MetadataLibrary;
-using System.Threading;
-using System.Drawing;
 using ImageAndMovieFileExtentions;
 using Manina.Windows.Forms;
-using Exiftool;
 
 namespace PhotoTagsSynchronizer
 {
     
     public partial class MainForm : Form
     {
-        
-
-        private object folderSecletionLock = new object();
-        private const int sleepThread = 30;
-
 
         #region FolderSelcted Updated views
-        private void FolderSelected(bool recursive)
+        private void FolderSelected(bool recursive, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
-            
+
             GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
+
             
             folderTreeViewFolder.Enabled = false;
             FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
             folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
-
+            
+            if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
+            
             GlobalData.IsPopulatingFolderSelected = false;
 
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //Even when 0 selected files, allocate data and flags, etc...
+            
 
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
@@ -55,7 +50,7 @@ namespace PhotoTagsSynchronizer
                 //fileSystemWatcher.EnableRaisingEvents = false;
 
                 FolderSelected_AddFilesImageListView(selectedFolder, recursive);
-                
+                GlobalData.lastReadFolderWasRecursive = recursive;
                 StartThreads();
                 /*
                 fileSystemWatcher.BeginInit();
@@ -82,15 +77,24 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.Save();
             FileEntryImage[] filesFoundInDirectory;
 
+            bool isAndBetweenFieldTagsFolder = treeViewFilter.Nodes[rootNodeFolder].Checked;
+            FilterVerifyer filterVerifyerFolder = new FilterVerifyer(isAndBetweenFieldTagsFolder);
+            int valuesCountAdded = filterVerifyerFolder.AddFilerValuesFromRootNodesWithChilds(treeViewFilter, rootNodeFolder);
+
             filesFoundInDirectory = ImageAndMovieFileExtentionsUtility.ListAllMediaFiles(selectedFolder, recursive);
-            
+
             imageListView1.ClearSelection();
             imageListView1.Items.Clear();
             imageListView1.Enabled = false;
             imageListView1.SuspendLayout();
             for (int fileNumber = 0; fileNumber < filesFoundInDirectory.Length; fileNumber++)
             {
-                imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);
+                if (valuesCountAdded > 0) // no filter values added, no need read from database, this fjust for optimize speed
+                {
+                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(filesFoundInDirectory[fileNumber], MetadataBrokerTypes.ExifTool));
+                    if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);
+                }
+                else imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);
             }
 
             imageListView1.ResumeLayout(true);
