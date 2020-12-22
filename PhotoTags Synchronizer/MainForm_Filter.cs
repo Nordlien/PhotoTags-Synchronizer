@@ -9,12 +9,7 @@ using System.Drawing;
 
 namespace PhotoTagsSynchronizer
 {
-    public class FilterValue
-    {
-        string FieldValue { get; set; }
-        bool IsAnd { get; set; }
-    }
-
+    
     public class Filter
     {
         public bool IsAndBetweenValues { get; set; }
@@ -64,11 +59,6 @@ namespace PhotoTagsSynchronizer
             filters.Add(filter);
         }
 
-        const int ImageIndexUnion = 0;
-        const int ImageIndexIntersection = 1;
-        const int ImageIndexChecked = 2;
-        const int ImageIndexUnChecked = 3;
-        const int ImageIndexBlank = 4;
         
         public static void PopulateTreeViewBasicNodes(TreeView treeView, string rootNode)
         {
@@ -87,8 +77,6 @@ namespace PhotoTagsSynchronizer
             treeNode = treeView.Nodes[rootNode].Nodes.Add(FilterVerifyer.Countries, FilterVerifyer.Countries);
             treeNode = treeView.Nodes[rootNode].Nodes.Add(FilterVerifyer.Peoples, FilterVerifyer.Peoples);
             treeNode = treeView.Nodes[rootNode].Nodes.Add(FilterVerifyer.Keywords, FilterVerifyer.Keywords);
-            treeNode.StateImageIndex = ImageIndexUnion;
-            treeNode.SelectedImageIndex = ImageIndexIntersection;
         }
 
         public static void PopulateTreeViewWithValues(TreeView treeView, string keyRoot, string key, List<string> nodes)
@@ -96,13 +84,11 @@ namespace PhotoTagsSynchronizer
             foreach (string node in nodes)
             {
                 TreeNode treeNode = treeView.Nodes[keyRoot].Nodes[key].Nodes.Add(node);
-                treeNode.StateImageIndex = ImageIndexChecked;
-                treeNode.SelectedImageIndex = ImageIndexUnChecked;
-
             }
         }
 
-        public int AddFilterValuesFromTreeNodes(TreeView treeView, string rootNode, string tagNode)
+        #region Read Values - From One Tree Node
+        public int ReadValuesFromTreeNodes(TreeView treeView, string rootNode, string tagNode)
         {
             int valuesCountAdded = 0;
             if (treeView.Nodes[rootNode] == null) return valuesCountAdded;
@@ -121,30 +107,33 @@ namespace PhotoTagsSynchronizer
             Add(filter);
             return valuesCountAdded;
         }
+        #endregion 
 
-        public int AddFilerValuesFromRootNodesWithChilds(TreeView treeView, string rootNode)
+        #region Read Values - From All Tree Nodes 
+        public int ReadValuesFromRootNodesWithChilds(TreeView treeView, string rootNode)
         {
             int valuesCountAdded = 0;
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Albums);
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Titles);
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Comments);
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Descriptions);
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Authors);
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Ratings);
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Dates);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Albums);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Titles);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Comments);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Descriptions);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Authors);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Ratings);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Dates);
 
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Locations);
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Cities);
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.States);
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Countries);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Locations);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Cities);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.States);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Countries);
 
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Peoples);
-            valuesCountAdded += AddFilterValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Keywords);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Peoples);
+            valuesCountAdded += ReadValuesFromTreeNodes(treeView, rootNode, FilterVerifyer.Keywords);
 
             return valuesCountAdded;
         }
+        #endregion 
 
-
+        #region IndexOfFilter
         public int IndexOfFilter(string fieldName)
         {
             for (int index = 0; index < filters.Count; index++)
@@ -153,11 +142,11 @@ namespace PhotoTagsSynchronizer
             }
             return -1;
         }
+        #endregion
+
+        #region Verify Metadata agaist Read filter in class
         public bool VerifyMetadata(Metadata metadata)
-        {
-            
-
-
+        {           
             int indexAlbum = IndexOfFilter(Albums);
             bool foundAlbum;
             bool hasValueAlbum = (indexAlbum == -1 ? false : filters[indexAlbum].FilterValues.Count > 0);
@@ -270,125 +259,21 @@ namespace PhotoTagsSynchronizer
             else return 
                     foundAlbum | foundTitle | foundComment | foundPeople | foundKeyword | foundDescriptions | foundAuthor | foundRating | foundDate | foundLocation | foundCity | foundState | foundCountry;
         }
-
-        private string BuildWhere (string fieldSql, string field)
-        {
-            int indexTitle = IndexOfFilter(field);
-
-            string where = "";
-            if (indexTitle != -1 && filters[indexTitle].FilterValues.Count > 0)
-            {
-                foreach (string name in filters[indexTitle].FilterValues)
-                {
-                    where += (where == "" ? "" : " AND ") + fieldSql + " = \"" + name + "\"";
-                }
-            }
-            return where;
-        }
-
-        public string CreateSQLfilter()
-        {
-            /*
-            Albums 
-            Titles 
-            Comments 
-            Descriptions 
-            Authors 
-            Ratings 
-            Dates 
-
-            Locations 
-            Cities 
-            States 
-            Countries
-
-            Peoples 
-            Keywords
-            */
-
-            string sqlFilter = "";
-
-            sqlFilter += BuildWhere("PersonalAlbum", Albums);
-            sqlFilter += BuildWhere("PersonalTitle", Titles);
-            sqlFilter += BuildWhere("PersonalDescription", Descriptions);
-            sqlFilter += BuildWhere("PersonalAuthor", Authors);
-            //sqlFilter += BuildWhere("PersonalRating", Ratings);    //-----
-            //sqlFilter += BuildWhere("PersonalMediaDateTaken", Dates);      //-----
-            sqlFilter += BuildWhere("LocationName", Locations);
-            sqlFilter += BuildWhere("LocationState", Cities);
-            sqlFilter += BuildWhere("LocationState", States);
-            sqlFilter += BuildWhere("LocationCountry", Countries);
-            /*
-            
-            int indexPeople = IndexOfFilter(Peoples);
-            bool foundPeople;
-            bool hasValuePeople = (indexPeople == -1 ? false : filters[indexPeople].FilterValues.Count > 0);
-            if (indexPeople > -1 && filters[indexPeople].FilterValues.Count > 0)
-            {
-                bool foundPeopleSome = false;
-                bool foundPeopleAll = true;
-                foreach (string name in filters[indexPeople].FilterValues)
-                {
-                    if (RegionStructure.DoesThisNameExistInList(metadata.PersonalRegionList, name))
-                        foundPeopleSome = true;
-                    else 
-                        foundPeopleAll = false;
-                }
-
-                if (filters[indexPeople].IsAndBetweenValues) foundPeople = foundPeopleAll; //And / Intersection
-                else foundPeople = foundPeopleSome; //Or / Union
-            }
-            else foundPeople = IsAndBewteenFieldTags;
-
-            int indexKeyword = IndexOfFilter(Keywords);
-            bool foundKeyword;
-            bool hasValueKeyword = (indexKeyword == -1 ? false : filters[indexKeyword].FilterValues.Count > 0);
-            if (indexKeyword > -1 && filters[indexKeyword].FilterValues.Count > 0)
-            {
-                bool foundKeywordSome = false;
-                bool foundKeywordAll = true;
-                foreach (string name in filters[indexKeyword].FilterValues)
-                {
-                    if (metadata.PersonalKeywordTags.Contains(new KeywordTag(name))) foundKeywordSome = true;
-                    else foundKeywordAll = false;
-                }
-
-                if (filters[indexKeyword].IsAndBetweenValues) foundKeyword = foundKeywordAll; //And / Intersection
-                else foundKeyword = foundKeywordSome; //Or / Union
-            }
-            else foundKeyword = IsAndBewteenFieldTags;
-
-            */
-
-            
-
-            return sqlFilter;
-        }
+        #endregion 
     }
 
 
     public partial class MainForm : Form
     {
-        const string rootNodeAll = "NodeAll";
         const string rootNodeFolder = "NodeFolder";
-
         private void GetFilters(TreeView treeView)
         {                       
-            bool isAndBetweenFieldTagsAll = treeView.Nodes[rootNodeAll].Checked;            
-            FilterVerifyer filterVerifyerAll = new FilterVerifyer(isAndBetweenFieldTagsAll);
-
-            filterVerifyerAll.AddFilerValuesFromRootNodesWithChilds(treeView, rootNodeAll);
-
             bool isAndBetweenFieldTagsFolder = treeView.Nodes[rootNodeFolder].Checked;
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer(isAndBetweenFieldTagsFolder);
 
-            filterVerifyerFolder.AddFilerValuesFromRootNodesWithChilds(treeView, rootNodeFolder);
+            filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, rootNodeFolder);
             
-            filterVerifyerFolder.CreateSQLfilter();
-
-
             FolderSelected(GlobalData.lastReadFolderWasRecursive, false);
-
         }
 
 
@@ -396,69 +281,83 @@ namespace PhotoTagsSynchronizer
         {
             if (isThreeViewPopulating) return;
             GetFilters(treeViewFilter);
-
-
         }
 
+        private void ListViewRemoveNull (List<string> list)
+        {
+            if (list.Contains(null))
+            {
+                list.Remove(null);
+                list.Insert(0, "(Is blank)");
+            }
+        }
 
         private bool isThreeViewPopulating = false;
-        private void PopulateTreeViewDatabaseFilter()
+        private void PopulateDatabaseFilter()
         {
-            isThreeViewPopulating = true;
-
-            FilterVerifyer.PopulateTreeViewBasicNodes(treeViewFilter, rootNodeAll);
-
+            
             List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbums();
+            albums.Sort();
+            ListViewRemoveNull(albums);
+            comboBoxSearchAlbum.Items.AddRange(albums.ToArray());
+
             List<string> authors = databaseAndCacheMetadataExiftool.ListAllPersonalAuthors();
+            authors.Sort();
+            ListViewRemoveNull(authors);
+            comboBoxSearchAuthor.Items.AddRange(authors.ToArray());
+
             List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalComments();
+            comments.Sort();
+            ListViewRemoveNull(comments);
+            comboBoxSearchComments.Items.AddRange(comments.ToArray());
+
             List<string> descriptions = databaseAndCacheMetadataExiftool.ListAllPersonalDescriptions();
+            descriptions.Sort();
+            ListViewRemoveNull(descriptions);
+            comboBoxSearchDescription.Items.AddRange(descriptions.ToArray());
+
             List<string> titles = databaseAndCacheMetadataExiftool.ListAllPersonalTitles();
+            titles.Sort();
+            ListViewRemoveNull(titles);
+            comboBoxSearchTitle.Items.AddRange(titles.ToArray());
 
             List<string> locations = databaseAndCacheMetadataExiftool.ListAllLocationNames();
-            List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCities();
-            List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStates();
-            List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountries();
-            List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegions();
-            List<string> dates = databaseAndCacheMetadataExiftool.ListAllMediaDateTakenYearAndMonth();
-
-            List<string> ratings = new List<string>();
-            ratings.Add("Not rated");
-            ratings.Add("1");
-            ratings.Add("2");
-            ratings.Add("3");
-            ratings.Add("4");
-            ratings.Add("5");
-
-            string node = rootNodeAll;
-            albums.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Albums, albums);
-            titles.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Titles, titles);
-            comments.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Comments, comments);
-            descriptions.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Descriptions, descriptions);
-            authors.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Authors, authors);
-            ratings.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Ratings, ratings);
-            dates.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Dates, dates);
             locations.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Locations, locations);
-            cities.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Cities, cities);
-            states.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.States, states);
-            countries.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Countries, countries);
-            peoples.Sort();
-            FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Peoples, peoples);
-            //keywords.Sort();
-            //PopulateTreeView(node, FilterVerifyer.Keywords, keywords);
+            ListViewRemoveNull(locations);
+            comboBoxSearchLocationName.Items.AddRange(locations.ToArray());
 
-            isThreeViewPopulating = false;
+            List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCities();
+            cities.Sort();
+            ListViewRemoveNull(cities);
+            comboBoxSearchLocationCity.Items.AddRange(cities.ToArray());
+
+            List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStates();
+            states.Sort();
+            ListViewRemoveNull(states);
+            comboBoxSearchLocationState.Items.AddRange(states.ToArray());
+            
+            List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountries();
+            countries.Sort();
+            ListViewRemoveNull(countries);
+            comboBoxSearchLocationCountry.Items.AddRange(countries.ToArray());
+
+            List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegions();
+            peoples.Sort();
+            ListViewRemoveNull(peoples);
+            checkedListBoxSearchPeople.Items.AddRange(peoples.ToArray());
+
+            //dateTimePickerSearchDateFrom.
+            //dateTimePickerSearchDateFrom.
+            //comboBoxSearch.Items.AddRange(.ToArray());
+            /*
+            List<string> dates = databaseAndCacheMetadataExiftool.ListAllMediaDateTakenYearAndMonth();
+            .Sort();
+            comboBoxSearch.Items.AddRange(.ToArray());
+            */
+
         }
+
+        #region PopulateTreeViewFolderFilter
         private void PopulateTreeViewFolderFilter(ImageListView.ImageListViewItemCollection imageListViewSelectedItems)
         {
             FilterVerifyer.PopulateTreeViewBasicNodes(treeViewFilter, rootNodeFolder);
@@ -544,9 +443,7 @@ namespace PhotoTagsSynchronizer
             FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Keywords, keywords);
 
         }
-
-        
-        
+        #endregion 
 
     }
 }

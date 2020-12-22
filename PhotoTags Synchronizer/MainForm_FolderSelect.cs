@@ -79,7 +79,7 @@ namespace PhotoTagsSynchronizer
 
             bool isAndBetweenFieldTagsFolder = treeViewFilter.Nodes[rootNodeFolder].Checked;
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer(isAndBetweenFieldTagsFolder);
-            int valuesCountAdded = filterVerifyerFolder.AddFilerValuesFromRootNodesWithChilds(treeViewFilter, rootNodeFolder);
+            int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, rootNodeFolder);
 
             filesFoundInDirectory = ImageAndMovieFileExtentionsUtility.ListAllMediaFiles(selectedFolder, recursive);
 

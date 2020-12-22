@@ -407,7 +407,13 @@ namespace PhotoTagsSynchronizer
                     TriggerAutoResetEventQueueEmpty();
                 });
 
-                _ThreadThumbnailMedia.Start();
+                try
+                {
+                    _ThreadThumbnailMedia.Start();
+                } catch (Exception ex)
+                {
+                    Logger.Error("ThreadSaveThumbnail" + ex.Message);
+                }
             }
 
         }

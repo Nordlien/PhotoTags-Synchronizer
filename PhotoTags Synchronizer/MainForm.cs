@@ -414,7 +414,7 @@ namespace PhotoTagsSynchronizer
             FolderSelected_AggregateListViewWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
 
-            PopulateTreeViewDatabaseFilter();
+            PopulateDatabaseFilter();
             PopulateTreeViewFolderFilter(imageListView1.Items);
 
             GlobalData.IsPopulatingFolderTree = false;

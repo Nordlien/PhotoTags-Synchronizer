@@ -31,8 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("All");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Folder");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter (Has at least one value)");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -56,15 +55,24 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderClearCache = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata = new System.Windows.Forms.ToolStripMenuItem();
             this.openFolderLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPageFilterTags = new System.Windows.Forms.TabPage();
-            this.treeViewFilter = new System.Windows.Forms.TreeView();
             this.tabPageFilterSearch = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchKeyword = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchLocationCountry = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchLocationState = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchLocationCity = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchLocationName = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchAuthor = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchComments = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchDescription = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchTitle = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchAlbum = new System.Windows.Forms.CheckBox();
+            this.dateTimePickerSearchDateTo = new System.Windows.Forms.DateTimePicker();
+            this.label17 = new System.Windows.Forms.Label();
+            this.checkBoxSearchHasWarning = new System.Windows.Forms.CheckBox();
             this.comboBoxSearchKeyword = new System.Windows.Forms.ComboBox();
-            this.label16 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBoxSearchPeople = new System.Windows.Forms.CheckedListBox();
             this.comboBoxSearchLocationCountry = new System.Windows.Forms.ComboBox();
             this.comboBoxSearchLocationState = new System.Windows.Forms.ComboBox();
             this.comboBoxSearchLocationCity = new System.Windows.Forms.ComboBox();
@@ -86,7 +94,14 @@ namespace PhotoTagsSynchronizer
             this.label9 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBoxSearchRating = new System.Windows.Forms.GroupBox();
+            this.checkBoxSearchRating5 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchRating4 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchRating3 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchRating2 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchRating1 = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.tabPageFilterTags = new System.Windows.Forms.TabPage();
+            this.treeViewFilter = new System.Windows.Forms.TreeView();
             this.splitContainerImages = new System.Windows.Forms.SplitContainer();
             this.imageListView1 = new Manina.Windows.Forms.ImageListView();
             this.contextMenuStripImageListView = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -276,13 +291,8 @@ namespace PhotoTagsSynchronizer
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
             this.timerShowExiftoolSaveProgress = new System.Windows.Forms.Timer(this.components);
-            this.label17 = new System.Windows.Forms.Label();
-            this.dateTimePickerSearchDateTo = new System.Windows.Forms.DateTimePicker();
-            this.checkBoxSearchRating1 = new System.Windows.Forms.CheckBox();
-            this.checkBoxSearchRating2 = new System.Windows.Forms.CheckBox();
-            this.checkBoxSearchRating3 = new System.Windows.Forms.CheckBox();
-            this.checkBoxSearchRating4 = new System.Windows.Forms.CheckBox();
-            this.checkBoxSearchRating5 = new System.Windows.Forms.CheckBox();
+            this.buttonSearch = new System.Windows.Forms.Button();
+            this.checkBoxSearchAndSeleced = new System.Windows.Forms.CheckBox();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -295,11 +305,11 @@ namespace PhotoTagsSynchronizer
             this.tabControl1.SuspendLayout();
             this.tabPageFilterFolder.SuspendLayout();
             this.contextMenuStripTreeViewFolder.SuspendLayout();
-            this.tabPageFilterTags.SuspendLayout();
             this.tabPageFilterSearch.SuspendLayout();
             this.panel4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxSearchRating.SuspendLayout();
+            this.tabPageFilterTags.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerImages)).BeginInit();
             this.splitContainerImages.Panel1.SuspendLayout();
             this.splitContainerImages.Panel2.SuspendLayout();
@@ -427,8 +437,8 @@ namespace PhotoTagsSynchronizer
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPageFilterFolder);
-            this.tabControl1.Controls.Add(this.tabPageFilterTags);
             this.tabControl1.Controls.Add(this.tabPageFilterSearch);
+            this.tabControl1.Controls.Add(this.tabPageFilterTags);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -573,34 +583,6 @@ namespace PhotoTagsSynchronizer
             this.openFolderLocationToolStripMenuItem.Text = "Open Folder Location";
             this.openFolderLocationToolStripMenuItem.Click += new System.EventHandler(this.openFolderLocationToolStripMenuItem_Click);
             // 
-            // tabPageFilterTags
-            // 
-            this.tabPageFilterTags.Controls.Add(this.treeViewFilter);
-            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 25);
-            this.tabPageFilterTags.Name = "tabPageFilterTags";
-            this.tabPageFilterTags.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFilterTags.Size = new System.Drawing.Size(331, 644);
-            this.tabPageFilterTags.TabIndex = 1;
-            this.tabPageFilterTags.Text = "Filter";
-            this.tabPageFilterTags.UseVisualStyleBackColor = true;
-            // 
-            // treeViewFilter
-            // 
-            this.treeViewFilter.CheckBoxes = true;
-            this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
-            this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeAll";
-            treeNode1.Text = "All";
-            treeNode2.Name = "NodeFolder";
-            treeNode2.Text = "Folder";
-            this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            this.treeViewFilter.Size = new System.Drawing.Size(325, 638);
-            this.treeViewFilter.TabIndex = 0;
-            this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
-            // 
             // tabPageFilterSearch
             // 
             this.tabPageFilterSearch.Controls.Add(this.panel4);
@@ -614,11 +596,21 @@ namespace PhotoTagsSynchronizer
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.buttonSearch);
+            this.panel4.Controls.Add(this.checkBoxSearchKeyword);
+            this.panel4.Controls.Add(this.checkBoxSearchLocationCountry);
+            this.panel4.Controls.Add(this.checkBoxSearchLocationState);
+            this.panel4.Controls.Add(this.checkBoxSearchLocationCity);
+            this.panel4.Controls.Add(this.checkBoxSearchLocationName);
+            this.panel4.Controls.Add(this.checkBoxSearchAuthor);
+            this.panel4.Controls.Add(this.checkBoxSearchComments);
+            this.panel4.Controls.Add(this.checkBoxSearchDescription);
+            this.panel4.Controls.Add(this.checkBoxSearchTitle);
+            this.panel4.Controls.Add(this.checkBoxSearchAlbum);
             this.panel4.Controls.Add(this.dateTimePickerSearchDateTo);
             this.panel4.Controls.Add(this.label17);
-            this.panel4.Controls.Add(this.checkBox1);
+            this.panel4.Controls.Add(this.checkBoxSearchHasWarning);
             this.panel4.Controls.Add(this.comboBoxSearchKeyword);
-            this.panel4.Controls.Add(this.label16);
             this.panel4.Controls.Add(this.groupBox2);
             this.panel4.Controls.Add(this.comboBoxSearchLocationCountry);
             this.panel4.Controls.Add(this.comboBoxSearchLocationState);
@@ -648,15 +640,127 @@ namespace PhotoTagsSynchronizer
             this.panel4.Size = new System.Drawing.Size(325, 637);
             this.panel4.TabIndex = 18;
             // 
-            // checkBox1
+            // checkBoxSearchKeyword
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(119, 435);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(104, 21);
-            this.checkBox1.TabIndex = 29;
-            this.checkBox1.Text = "Has warning";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBoxSearchKeyword.AutoSize = true;
+            this.checkBoxSearchKeyword.Location = new System.Drawing.Point(95, 409);
+            this.checkBoxSearchKeyword.Name = "checkBoxSearchKeyword";
+            this.checkBoxSearchKeyword.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxSearchKeyword.TabIndex = 41;
+            this.checkBoxSearchKeyword.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchLocationCountry
+            // 
+            this.checkBoxSearchLocationCountry.AutoSize = true;
+            this.checkBoxSearchLocationCountry.Location = new System.Drawing.Point(95, 318);
+            this.checkBoxSearchLocationCountry.Name = "checkBoxSearchLocationCountry";
+            this.checkBoxSearchLocationCountry.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxSearchLocationCountry.TabIndex = 40;
+            this.checkBoxSearchLocationCountry.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchLocationState
+            // 
+            this.checkBoxSearchLocationState.AutoSize = true;
+            this.checkBoxSearchLocationState.Location = new System.Drawing.Point(95, 286);
+            this.checkBoxSearchLocationState.Name = "checkBoxSearchLocationState";
+            this.checkBoxSearchLocationState.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxSearchLocationState.TabIndex = 39;
+            this.checkBoxSearchLocationState.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchLocationCity
+            // 
+            this.checkBoxSearchLocationCity.AutoSize = true;
+            this.checkBoxSearchLocationCity.Location = new System.Drawing.Point(95, 256);
+            this.checkBoxSearchLocationCity.Name = "checkBoxSearchLocationCity";
+            this.checkBoxSearchLocationCity.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxSearchLocationCity.TabIndex = 38;
+            this.checkBoxSearchLocationCity.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchLocationName
+            // 
+            this.checkBoxSearchLocationName.AutoSize = true;
+            this.checkBoxSearchLocationName.Location = new System.Drawing.Point(95, 225);
+            this.checkBoxSearchLocationName.Name = "checkBoxSearchLocationName";
+            this.checkBoxSearchLocationName.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxSearchLocationName.TabIndex = 37;
+            this.checkBoxSearchLocationName.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchAuthor
+            // 
+            this.checkBoxSearchAuthor.AutoSize = true;
+            this.checkBoxSearchAuthor.Location = new System.Drawing.Point(95, 131);
+            this.checkBoxSearchAuthor.Name = "checkBoxSearchAuthor";
+            this.checkBoxSearchAuthor.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxSearchAuthor.TabIndex = 36;
+            this.checkBoxSearchAuthor.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchComments
+            // 
+            this.checkBoxSearchComments.AutoSize = true;
+            this.checkBoxSearchComments.Location = new System.Drawing.Point(95, 100);
+            this.checkBoxSearchComments.Name = "checkBoxSearchComments";
+            this.checkBoxSearchComments.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxSearchComments.TabIndex = 35;
+            this.checkBoxSearchComments.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchDescription
+            // 
+            this.checkBoxSearchDescription.AutoSize = true;
+            this.checkBoxSearchDescription.Location = new System.Drawing.Point(95, 69);
+            this.checkBoxSearchDescription.Name = "checkBoxSearchDescription";
+            this.checkBoxSearchDescription.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxSearchDescription.TabIndex = 34;
+            this.checkBoxSearchDescription.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchTitle
+            // 
+            this.checkBoxSearchTitle.AutoSize = true;
+            this.checkBoxSearchTitle.Location = new System.Drawing.Point(95, 38);
+            this.checkBoxSearchTitle.Name = "checkBoxSearchTitle";
+            this.checkBoxSearchTitle.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxSearchTitle.TabIndex = 33;
+            this.checkBoxSearchTitle.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchAlbum
+            // 
+            this.checkBoxSearchAlbum.AutoSize = true;
+            this.checkBoxSearchAlbum.Location = new System.Drawing.Point(95, 9);
+            this.checkBoxSearchAlbum.Name = "checkBoxSearchAlbum";
+            this.checkBoxSearchAlbum.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxSearchAlbum.TabIndex = 32;
+            this.checkBoxSearchAlbum.UseVisualStyleBackColor = true;
+            // 
+            // dateTimePickerSearchDateTo
+            // 
+            this.dateTimePickerSearchDateTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dateTimePickerSearchDateTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePickerSearchDateTo.Location = new System.Drawing.Point(119, 375);
+            this.dateTimePickerSearchDateTo.MaxDate = new System.DateTime(2200, 12, 31, 0, 0, 0, 0);
+            this.dateTimePickerSearchDateTo.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
+            this.dateTimePickerSearchDateTo.Name = "dateTimePickerSearchDateTo";
+            this.dateTimePickerSearchDateTo.ShowCheckBox = true;
+            this.dateTimePickerSearchDateTo.Size = new System.Drawing.Size(203, 24);
+            this.dateTimePickerSearchDateTo.TabIndex = 31;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(3, 381);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(103, 17);
+            this.label17.TabIndex = 30;
+            this.label17.Text = "DateTaken <=:";
+            // 
+            // checkBoxSearchHasWarning
+            // 
+            this.checkBoxSearchHasWarning.AutoSize = true;
+            this.checkBoxSearchHasWarning.Location = new System.Drawing.Point(95, 436);
+            this.checkBoxSearchHasWarning.Name = "checkBoxSearchHasWarning";
+            this.checkBoxSearchHasWarning.Size = new System.Drawing.Size(220, 21);
+            this.checkBoxSearchHasWarning.TabIndex = 29;
+            this.checkBoxSearchHasWarning.Text = "Has exiftool metadata warnings";
+            this.checkBoxSearchHasWarning.UseVisualStyleBackColor = true;
             // 
             // comboBoxSearchKeyword
             // 
@@ -668,38 +772,33 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchKeyword.Size = new System.Drawing.Size(203, 25);
             this.comboBoxSearchKeyword.TabIndex = 28;
             // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 436);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(87, 17);
-            this.label16.TabIndex = 27;
-            this.label16.Text = "Has warning:";
-            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.checkedListBox1);
-            this.groupBox2.Location = new System.Drawing.Point(0, 475);
+            this.groupBox2.Controls.Add(this.checkBoxSearchAndSeleced);
+            this.groupBox2.Controls.Add(this.checkedListBoxSearchPeople);
+            this.groupBox2.Location = new System.Drawing.Point(0, 463);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(322, 155);
+            this.groupBox2.Size = new System.Drawing.Size(322, 103);
             this.groupBox2.TabIndex = 26;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "People:";
             // 
-            // checkedListBox1
+            // checkedListBoxSearchPeople
             // 
-            this.checkedListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.checkedListBoxSearchPeople.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(6, 23);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(310, 118);
-            this.checkedListBox1.TabIndex = 0;
+            this.checkedListBoxSearchPeople.FormattingEnabled = true;
+            this.checkedListBoxSearchPeople.Items.AddRange(new object[] {
+            "sa",
+            "ssa"});
+            this.checkedListBoxSearchPeople.Location = new System.Drawing.Point(5, 55);
+            this.checkedListBoxSearchPeople.Name = "checkedListBoxSearchPeople";
+            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(310, 42);
+            this.checkedListBoxSearchPeople.TabIndex = 0;
             // 
             // comboBoxSearchLocationCountry
             // 
@@ -806,7 +905,10 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePickerSearchDateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerSearchDateFrom.Location = new System.Drawing.Point(119, 345);
+            this.dateTimePickerSearchDateFrom.MaxDate = new System.DateTime(2200, 12, 31, 0, 0, 0, 0);
+            this.dateTimePickerSearchDateFrom.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerSearchDateFrom.Name = "dateTimePickerSearchDateFrom";
+            this.dateTimePickerSearchDateFrom.ShowCheckBox = true;
             this.dateTimePickerSearchDateFrom.Size = new System.Drawing.Size(203, 24);
             this.dateTimePickerSearchDateFrom.TabIndex = 14;
             // 
@@ -907,14 +1009,89 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchRating.TabStop = false;
             this.groupBoxSearchRating.Text = "Rating";
             // 
+            // checkBoxSearchRating5
+            // 
+            this.checkBoxSearchRating5.AutoSize = true;
+            this.checkBoxSearchRating5.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.checkBoxSearchRating5.Location = new System.Drawing.Point(200, 20);
+            this.checkBoxSearchRating5.Name = "checkBoxSearchRating5";
+            this.checkBoxSearchRating5.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating5.TabIndex = 4;
+            this.checkBoxSearchRating5.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchRating4
+            // 
+            this.checkBoxSearchRating4.AutoSize = true;
+            this.checkBoxSearchRating4.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.checkBoxSearchRating4.Location = new System.Drawing.Point(152, 20);
+            this.checkBoxSearchRating4.Name = "checkBoxSearchRating4";
+            this.checkBoxSearchRating4.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating4.TabIndex = 3;
+            this.checkBoxSearchRating4.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchRating3
+            // 
+            this.checkBoxSearchRating3.AutoSize = true;
+            this.checkBoxSearchRating3.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.checkBoxSearchRating3.Location = new System.Drawing.Point(104, 20);
+            this.checkBoxSearchRating3.Name = "checkBoxSearchRating3";
+            this.checkBoxSearchRating3.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating3.TabIndex = 2;
+            this.checkBoxSearchRating3.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchRating2
+            // 
+            this.checkBoxSearchRating2.AutoSize = true;
+            this.checkBoxSearchRating2.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.checkBoxSearchRating2.Location = new System.Drawing.Point(56, 20);
+            this.checkBoxSearchRating2.Name = "checkBoxSearchRating2";
+            this.checkBoxSearchRating2.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating2.TabIndex = 1;
+            this.checkBoxSearchRating2.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchRating1
+            // 
+            this.checkBoxSearchRating1.AutoSize = true;
+            this.checkBoxSearchRating1.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.checkBoxSearchRating1.Location = new System.Drawing.Point(8, 20);
+            this.checkBoxSearchRating1.Name = "checkBoxSearchRating1";
+            this.checkBoxSearchRating1.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating1.TabIndex = 0;
+            this.checkBoxSearchRating1.UseVisualStyleBackColor = true;
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(3, 224);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(103, 17);
+            this.label13.Size = new System.Drawing.Size(65, 17);
             this.label13.TabIndex = 10;
-            this.label13.Text = "Location name:";
+            this.label13.Text = "Location:";
+            // 
+            // tabPageFilterTags
+            // 
+            this.tabPageFilterTags.Controls.Add(this.treeViewFilter);
+            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 25);
+            this.tabPageFilterTags.Name = "tabPageFilterTags";
+            this.tabPageFilterTags.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageFilterTags.Size = new System.Drawing.Size(331, 644);
+            this.tabPageFilterTags.TabIndex = 1;
+            this.tabPageFilterTags.Text = "Filter";
+            this.tabPageFilterTags.UseVisualStyleBackColor = true;
+            // 
+            // treeViewFilter
+            // 
+            this.treeViewFilter.CheckBoxes = true;
+            this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
+            this.treeViewFilter.Name = "treeViewFilter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Text = "Filter (Has at least one value)";
+            this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            this.treeViewFilter.Size = new System.Drawing.Size(325, 638);
+            this.treeViewFilter.TabIndex = 0;
+            this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
             // 
             // splitContainerImages
             // 
@@ -3057,74 +3234,27 @@ namespace PhotoTagsSynchronizer
             this.timerShowExiftoolSaveProgress.Interval = 400;
             this.timerShowExiftoolSaveProgress.Tick += new System.EventHandler(this.timerShowExiftoolSaveProgress_Tick);
             // 
-            // label17
+            // buttonSearch
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 381);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(103, 17);
-            this.label17.TabIndex = 30;
-            this.label17.Text = "DateTaken <=:";
+            this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSearch.Location = new System.Drawing.Point(50, 579);
+            this.buttonSearch.Name = "buttonSearch";
+            this.buttonSearch.Size = new System.Drawing.Size(202, 37);
+            this.buttonSearch.TabIndex = 42;
+            this.buttonSearch.Text = "Search";
+            this.buttonSearch.UseVisualStyleBackColor = true;
             // 
-            // dateTimePickerSearchDateTo
+            // checkBoxSearchAndSeleced
             // 
-            this.dateTimePickerSearchDateTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateTimePickerSearchDateTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePickerSearchDateTo.Location = new System.Drawing.Point(119, 375);
-            this.dateTimePickerSearchDateTo.Name = "dateTimePickerSearchDateTo";
-            this.dateTimePickerSearchDateTo.Size = new System.Drawing.Size(203, 24);
-            this.dateTimePickerSearchDateTo.TabIndex = 31;
-            // 
-            // checkBoxSearchRating1
-            // 
-            this.checkBoxSearchRating1.AutoSize = true;
-            this.checkBoxSearchRating1.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.checkBoxSearchRating1.Location = new System.Drawing.Point(8, 20);
-            this.checkBoxSearchRating1.Name = "checkBoxSearchRating1";
-            this.checkBoxSearchRating1.Size = new System.Drawing.Size(42, 24);
-            this.checkBoxSearchRating1.TabIndex = 0;
-            this.checkBoxSearchRating1.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchRating2
-            // 
-            this.checkBoxSearchRating2.AutoSize = true;
-            this.checkBoxSearchRating2.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.checkBoxSearchRating2.Location = new System.Drawing.Point(56, 20);
-            this.checkBoxSearchRating2.Name = "checkBoxSearchRating2";
-            this.checkBoxSearchRating2.Size = new System.Drawing.Size(42, 24);
-            this.checkBoxSearchRating2.TabIndex = 1;
-            this.checkBoxSearchRating2.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchRating3
-            // 
-            this.checkBoxSearchRating3.AutoSize = true;
-            this.checkBoxSearchRating3.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.checkBoxSearchRating3.Location = new System.Drawing.Point(104, 20);
-            this.checkBoxSearchRating3.Name = "checkBoxSearchRating3";
-            this.checkBoxSearchRating3.Size = new System.Drawing.Size(42, 24);
-            this.checkBoxSearchRating3.TabIndex = 2;
-            this.checkBoxSearchRating3.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchRating4
-            // 
-            this.checkBoxSearchRating4.AutoSize = true;
-            this.checkBoxSearchRating4.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.checkBoxSearchRating4.Location = new System.Drawing.Point(152, 20);
-            this.checkBoxSearchRating4.Name = "checkBoxSearchRating4";
-            this.checkBoxSearchRating4.Size = new System.Drawing.Size(42, 24);
-            this.checkBoxSearchRating4.TabIndex = 3;
-            this.checkBoxSearchRating4.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchRating5
-            // 
-            this.checkBoxSearchRating5.AutoSize = true;
-            this.checkBoxSearchRating5.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.checkBoxSearchRating5.Location = new System.Drawing.Point(200, 20);
-            this.checkBoxSearchRating5.Name = "checkBoxSearchRating5";
-            this.checkBoxSearchRating5.Size = new System.Drawing.Size(42, 24);
-            this.checkBoxSearchRating5.TabIndex = 4;
-            this.checkBoxSearchRating5.UseVisualStyleBackColor = true;
+            this.checkBoxSearchAndSeleced.AutoSize = true;
+            this.checkBoxSearchAndSeleced.Checked = true;
+            this.checkBoxSearchAndSeleced.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSearchAndSeleced.Location = new System.Drawing.Point(8, 23);
+            this.checkBoxSearchAndSeleced.Name = "checkBoxSearchAndSeleced";
+            this.checkBoxSearchAndSeleced.Size = new System.Drawing.Size(169, 21);
+            this.checkBoxSearchAndSeleced.TabIndex = 43;
+            this.checkBoxSearchAndSeleced.Text = "Need contain all names";
+            this.checkBoxSearchAndSeleced.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -3157,13 +3287,14 @@ namespace PhotoTagsSynchronizer
             this.tabControl1.ResumeLayout(false);
             this.tabPageFilterFolder.ResumeLayout(false);
             this.contextMenuStripTreeViewFolder.ResumeLayout(false);
-            this.tabPageFilterTags.ResumeLayout(false);
             this.tabPageFilterSearch.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBoxSearchRating.ResumeLayout(false);
             this.groupBoxSearchRating.PerformLayout();
+            this.tabPageFilterTags.ResumeLayout(false);
             this.splitContainerImages.Panel1.ResumeLayout(false);
             this.splitContainerImages.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerImages)).EndInit();
@@ -3425,11 +3556,10 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ImageList imageListFilter;
         private System.Windows.Forms.TabPage tabPageFilterSearch;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBoxSearchHasWarning;
         private System.Windows.Forms.ComboBox comboBoxSearchKeyword;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox checkedListBoxSearchPeople;
         private System.Windows.Forms.ComboBox comboBoxSearchLocationCountry;
         private System.Windows.Forms.ComboBox comboBoxSearchLocationState;
         private System.Windows.Forms.ComboBox comboBoxSearchLocationCity;
@@ -3459,6 +3589,18 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.CheckBox checkBoxSearchRating3;
         private System.Windows.Forms.CheckBox checkBoxSearchRating2;
         private System.Windows.Forms.CheckBox checkBoxSearchRating1;
+        private System.Windows.Forms.CheckBox checkBoxSearchKeyword;
+        private System.Windows.Forms.CheckBox checkBoxSearchLocationCountry;
+        private System.Windows.Forms.CheckBox checkBoxSearchLocationState;
+        private System.Windows.Forms.CheckBox checkBoxSearchLocationCity;
+        private System.Windows.Forms.CheckBox checkBoxSearchLocationName;
+        private System.Windows.Forms.CheckBox checkBoxSearchAuthor;
+        private System.Windows.Forms.CheckBox checkBoxSearchComments;
+        private System.Windows.Forms.CheckBox checkBoxSearchDescription;
+        private System.Windows.Forms.CheckBox checkBoxSearchTitle;
+        private System.Windows.Forms.CheckBox checkBoxSearchAlbum;
+        private System.Windows.Forms.Button buttonSearch;
+        private System.Windows.Forms.CheckBox checkBoxSearchAndSeleced;
     }
 }
 
