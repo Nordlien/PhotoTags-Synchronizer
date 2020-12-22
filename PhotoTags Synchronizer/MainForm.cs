@@ -399,7 +399,6 @@ namespace PhotoTagsSynchronizer
         #region MainForm_Load
         private void MainForm_Load(object sender, EventArgs e)
         {
-
             SplashForm.UpdateStatus("Initialize folder tree...");
             GlobalData.IsPopulatingFolderTree = true;
 
@@ -438,9 +437,10 @@ namespace PhotoTagsSynchronizer
 
 
 
+
         #endregion
 
-       
+        
     }
 }
 

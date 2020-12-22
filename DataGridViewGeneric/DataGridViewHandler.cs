@@ -1,10 +1,8 @@
 ﻿using Manina.Windows.Forms;
 using MetadataLibrary;
-using MetadataPriorityLibrary;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -25,6 +23,8 @@ namespace DataGridViewGeneric
 
     public partial class DataGridViewHandler
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public static Color ColorReadOnly = SystemColors.GradientInactiveCaption;
         public static Color ColorError = Color.FromArgb(255, 192, 192);
         public static Color ColorFavourite = SystemColors.ControlLight;
@@ -2754,8 +2754,13 @@ namespace DataGridViewGeneric
             if (!dataGridView.Enabled) return;
 
             if (DataGridViewHandler.GetIsPopulatingImage(dataGridView)) return;  //In progress updated the picture, can cause crash
-
-            e.Paint(e.ClipBounds, DataGridViewPaintParts.All);
+            try
+            {
+                e.Paint(e.ClipBounds, DataGridViewPaintParts.All);
+            } catch (Exception ex)
+            {
+                Logger.Error(ex.Message);    
+            }
             e.Handled = true;
         }
 

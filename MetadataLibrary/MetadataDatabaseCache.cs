@@ -35,8 +35,7 @@ namespace MetadataLibrary
             dbTools.TransactionCommitBatch();
         }
 
-
-        #region Tables: Metadata Tag and Region
+        #region Read
         private Metadata Read(FileEntryBroker file)
         {
             Metadata metadata = new Metadata(file.Broker);
@@ -160,7 +159,9 @@ namespace MetadataLibrary
             }
             return metadata;
         }
+        #endregion
 
+        #region Write
         public void Write(Metadata metadata)
         {
             if (metadata == null) throw new Exception("Error in DatabaseCache. metaData is Null. Error in code");
@@ -305,7 +306,9 @@ namespace MetadataLibrary
 
             dbTools.TransactionCommitBatch();
         }
+        #endregion
 
+        #region Copy
         public void Copy(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
             dbTools.TransactionBeginBatch();
@@ -421,7 +424,9 @@ namespace MetadataLibrary
             }
             dbTools.TransactionCommitBatch();
         }
+        #endregion
 
+        #region Move
         public void Move(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {      
             dbTools.TransactionBeginBatch();
@@ -516,7 +521,9 @@ namespace MetadataLibrary
             }
             dbTools.TransactionCommitBatch();
         }
+        #endregion
 
+        #region UpdateRegionThumbnail
         public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region)
         {
             CacheRemove(file);
@@ -558,8 +565,9 @@ namespace MetadataLibrary
                 commandDatabase.ExecuteNonQuery();
             }
         }
+        #endregion
 
-        
+        #region Delete Directoy - Mediadata
         private void DeleteDirectoryMediaMetadata(MetadataBrokerTypes broker, string fileDirectory)
         {
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
@@ -574,7 +582,9 @@ namespace MetadataLibrary
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+        #endregion
 
+        #region Delete Directory - Media PersonalRegions
         private void DeleteDirectoryMediaPersonalRegions(MetadataBrokerTypes broker, string fileDirectory)
         {
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
@@ -588,7 +598,9 @@ namespace MetadataLibrary
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+        #endregion
 
+        #region Delete Directory - Media PersonalKeywords 
         private void DeleteDirectoryMediaPersonalKeywords(MetadataBrokerTypes broker, string fileDirectory)
         {
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
@@ -602,7 +614,9 @@ namespace MetadataLibrary
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+        #endregion
 
+        #region Delete Directory
         public void DeleteDirectory(MetadataBrokerTypes broker, string fileDirectory)
         {
             ClearCache();
@@ -611,7 +625,9 @@ namespace MetadataLibrary
             DeleteDirectoryMediaPersonalRegions(broker, fileDirectory);
             DeleteDirectoryMediaPersonalKeywords(broker, fileDirectory);
         }
-        
+        #endregion
+
+        #region Delete File - Metadata
         private void DeleteFileMediaMetadata(FileEntryBroker fileEntryBroker)
         {
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
@@ -629,7 +645,9 @@ namespace MetadataLibrary
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+        #endregion
 
+        #region Delete File - Personal Regions
         private void DeleteFileMediaPersonalRegions(FileEntryBroker fileEntryBroker)
         {
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
@@ -647,7 +665,9 @@ namespace MetadataLibrary
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+        #endregion
 
+        #region Delete File - Personal Keywords
         private void DeleteFileMediaPersonalKeywords(FileEntryBroker fileEntryBroker)
         {
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
@@ -665,7 +685,9 @@ namespace MetadataLibrary
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+        #endregion
 
+        #region Delete File
         public void DeleteFileEntry(FileEntryBroker fileEntryBroker)
         {
             CacheRemove(fileEntryBroker);
@@ -675,7 +697,9 @@ namespace MetadataLibrary
             DeleteFileMediaPersonalKeywords(fileEntryBroker);
 
         }
+        #endregion
 
+        #region List Files - Date Versions
         public List<FileEntryBroker> ListFileEntryDateVersions(MetadataBrokerTypes broker, string fullFileName)
         {
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
@@ -713,7 +737,9 @@ namespace MetadataLibrary
 
             return fileEntryBrokers;
         }
+        #endregion
 
+        #region List Files - Missing Entries
         public List<String> ListAllMissingFileEntries(MetadataBrokerTypes broker, List<FileEntry> files)
         {
             if (files == null) return null;
@@ -734,7 +760,48 @@ namespace MetadataLibrary
             
             return mediaFilesNoInDatabase;
         }
+        #endregion
 
+        #region List files - Search
+        /*
+SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName
+--, MediaMetadata.FileDateModified
+--,MediaPersonalKeywords.Keyword, MediaPersonalRegions.Name, MediaExiftoolTagsWarning.Warning
+FROM MediaMetadata
+
+LEFT JOIN MediaPersonalKeywords ON 
+	MediaPersonalKeywords.Broker = MediaMetadata.Broker AND
+	MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND
+	MediaPersonalKeywords.FileName = MediaMetadata.FileName 
+
+LEFT JOIN MediaPersonalRegions ON 
+	MediaPersonalRegions.Broker = MediaMetadata.Broker AND
+	MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND
+	MediaPersonalRegions.FileName = MediaMetadata.FileName 
+
+LEFT JOIN MediaExiftoolTagsWarning ON 
+	--MediaExiftoolTagsWarning.Broker = MediaMetadata.Broker AND
+	MediaExiftoolTagsWarning.FileDirectory = MediaMetadata.FileDirectory AND
+	MediaExiftoolTagsWarning.FileName = MediaMetadata.FileName 
+	
+WHERE 
+	MediaMetadata.Broker = 1 
+	AND MediaMetadata.FileDateModified != 637423585770000000 
+	AND MediaMetadata.FileDateModified != 637424200784278170 
+	AND MediaMetadata.PersonalAlbum LIKE "%TestTags%"
+	AND (PersonalTitle LIKE "%" OR PersonalTitle IS NULL)
+	AND (PersonalComments LIKE "%" OR PersonalComments IS NULL)
+	AND (PersonalDescription LIKE "%" OR PersonalDescription IS NULL)
+	AND ((PersonalRatingPercent >= 50 AND PersonalRatingPercent < 75) OR PersonalRatingPercent IS NULL)
+	AND (LocationName LIKE "%" OR LocationName IS NULL)
+	AND (LocationCity LIKE "%" OR LocationCity IS NULL)
+	AND (LocationState LIKE "%" OR LocationState IS NULL)
+	AND (LocationCountry LIKE "%" OR LocationCountry IS NULL)
+AND (MediaPersonalRegions.Name = "Julie Monsen Nordlien" OR MediaPersonalRegions.Name = "Lukas Nordlien" OR MediaPersonalRegions.Name IS NULL)
+AND (MediaPersonalKeywords.Keyword LIKE "Sørenga" OR MediaPersonalKeywords.Keyword LIKE "Smile" OR MediaPersonalKeywords.Keyword IS NULL)
+AND (MediaExiftoolTagsWarning.Warning IS NOT NULL)
+LIMIT 6000
+        */
         #endregion
 
         #region ListAllPersonalAlbums()
@@ -789,7 +856,6 @@ namespace MetadataLibrary
         }
         #endregion
         
-
         #region ListAllPersonalDescriptions()
         public List<string> ListAllPersonalDescriptions()
         {
