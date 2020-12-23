@@ -786,8 +786,8 @@ LEFT JOIN MediaExiftoolTagsWarning ON
 	
 WHERE 
 	MediaMetadata.Broker = 1 
-	AND MediaMetadata.FileDateModified != 637423585770000000 
-	AND MediaMetadata.FileDateModified != 637424200784278170 
+	AND MediaMetadata.MediaDateTaken >= 637423585770000000 
+	AND MediaMetadata.MediaDateTaken <= 637424200784278170 
 	AND MediaMetadata.PersonalAlbum LIKE "%TestTags%"
 	AND (PersonalTitle LIKE "%" OR PersonalTitle IS NULL)
 	AND (PersonalComments LIKE "%" OR PersonalComments IS NULL)
@@ -802,6 +802,135 @@ AND (MediaPersonalKeywords.Keyword LIKE "Sørenga" OR MediaPersonalKeywords.Keyw
 AND (MediaExiftoolTagsWarning.Warning IS NOT NULL)
 LIMIT 6000
         */
+        public List<string> ListAllSearch(MetadataBrokerTypes broker, 
+            bool useMediaTakenFrom, DateTime mediaTakenFrom, bool useMediaTakenTo, DateTime mediaTakenTo,
+            bool usePersonalAlbum, string personalAlbum,
+            bool usePersonalTitle, string personalTitle,
+            bool usePersonalComments, string personalComments,
+            bool usePersonalDescription, string personalDescription,
+            bool isRatingNull, bool hasRating0, bool hasRating1, bool hasRating2, bool hasRating3, bool hasRating4, bool hasRating5,
+            bool useLocationName, string locationName,
+            bool useLocationCity, string locationCity,
+            bool useLocationState, string locationState,
+            bool useLocationCountry, string locationCountry,
+            bool useRegionNameList, bool needAlRegionNames, List<string> regionNameList,
+            bool useKeywordList, bool needAllKeywords, List<string> keywords,
+            bool checkIfHasExifWarning
+            )
+        {
+
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName " +
+                "FROM MediaMetadata ";
+
+            if (useKeywordList) sqlCommand +=
+                "LEFT JOIN MediaPersonalKeywords ON " +
+                "    MediaPersonalKeywords.Broker = MediaMetadata.Broker AND " +
+                "    MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND " +
+                "    MediaPersonalKeywords.FileName = MediaMetadata.FileName ";
+
+            if (useRegionNameList) sqlCommand += 
+                "LEFT JOIN MediaPersonalRegions ON " +
+                "    MediaPersonalRegions.Broker = MediaMetadata.Broker AND " +
+                "    MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND " +
+                "    MediaPersonalRegions.FileName = MediaMetadata.FileName ";
+
+            if (checkIfHasExifWarning) sqlCommand +=
+                "LEFT JOIN MediaExiftoolTagsWarning ON " +
+                "    MediaExiftoolTagsWarning.FileDirectory = MediaMetadata.FileDirectory AND " +
+                "    MediaExiftoolTagsWarning.FileName = MediaMetadata.FileName ";
+
+            sqlCommand += "WHERE MediaMetadata.Broker = @Broker ";
+
+            if (useMediaTakenFrom)      sqlCommand += "AND MediaDateTaken >= @MediaDateTakenFrom ";
+            if (useMediaTakenTo)        sqlCommand += "AND MediaDateTaken <= @MediaDateTakenTo ";
+            if (usePersonalAlbum)       sqlCommand += personalAlbum == null ? "AND PersonalAlbum IS NULL " : "AND PersonalAlbum LIKE @PersonalAlbum ";
+            if (usePersonalTitle)       sqlCommand += personalTitle == null ? "PersonalTitle IS NULL " : "AND PersonalTitle LIKE @PersonalTitle ";
+            if (usePersonalComments)    sqlCommand += personalComments == null ? "PersonalComments IS NULL" : "AND PersonalComments LIKE @PersonalComments ";
+            if (usePersonalDescription) sqlCommand += personalDescription == null ? "AND PersonalDescription IS NULL" : "AND PersonalDescription LIKE @PersonalDescription ";
+
+            string sqlRating = "";
+            if (isRatingNull) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent IS NULL)";
+            if (hasRating0) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent < 1)";
+            if (hasRating1) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >=  1 AND PersonalRatingPercent <= 12)";
+            if (hasRating2) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >  12 AND PersonalRatingPercent <= 37)";
+            if (hasRating3) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >  37 AND PersonalRatingPercent <= 62)";
+            if (hasRating4) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >  62 AND PersonalRatingPercent <= 87)";
+            if (hasRating5) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >  87)";
+            if (sqlRating != "") sqlCommand += " AND (" + sqlRating + ")";
+
+            if (useLocationName)   sqlCommand += locationName == null ? "AND LocationName IS NULL " : "AND LocationName LIKE @LocationName ";
+            if (useLocationCity)   sqlCommand += locationCity == null ? "AND LocationCity IS NULL " : "AND LocationCity LIKE @LocationCity ";
+            if (useLocationState)  sqlCommand += locationState == null ? "AND LocationState IS NULL " : "AND LocationState LIKE @LocationState ";
+            if (useLocationCountry) sqlCommand += locationCountry == null ? "AND LocationCountry IS NULL " : "AND LocationCountry LIKE @LocationCountry "; 
+
+            if (useRegionNameList && regionNameList != null && regionNameList.Count > 0)
+            {
+                string sqlRegionNames = "";
+
+                for (int index = 0; index < regionNameList.Count; index++)
+                {
+                    sqlRegionNames += (sqlRegionNames == "" ? "" : needAlRegionNames ? " AND " : " OR ") + "MediaPersonalRegions.Name = @MediaPersonalRegionsName" + index.ToString();
+                }
+                sqlCommand += "AND (" + sqlRegionNames + ") ";
+            }
+            if (useKeywordList && keywords != null && keywords.Count > 0)
+            {
+                string sqlKeywordList = "";
+                for (int index = 0; index < keywords.Count; index++)
+                {
+                    sqlKeywordList += (sqlKeywordList == "" ? "" : needAllKeywords ? " AND " : " OR ") + "MediaPersonalKeywords.Keyword LIKE @MediaPersonalKeywordsKeyword" + index.ToString();
+                }
+                sqlCommand += "AND (" + sqlKeywordList + ") ";
+            }
+            if (checkIfHasExifWarning) sqlCommand += "AND (MediaExiftoolTagsWarning.Warning IS NOT NULL) ";
+            sqlCommand += "LIMIT 1000";
+        
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                if (usePersonalAlbum) commandDatabase.Parameters.AddWithValue("@PersonalAlbum", personalAlbum);
+                if (usePersonalTitle) commandDatabase.Parameters.AddWithValue("@PersonalTitle", personalTitle);
+                if (usePersonalComments) commandDatabase.Parameters.AddWithValue("@PersonalComments", personalComments);
+                if (usePersonalDescription) commandDatabase.Parameters.AddWithValue("@PersonalDescription", personalDescription);
+                //commandDatabase.Parameters.AddWithValue("@PersonalRatingPercent", personalRating);
+                //commandDatabase.Parameters.AddWithValue("@PersonalAuthor", personalAuthor);                
+                
+                if (useMediaTakenFrom) commandDatabase.Parameters.AddWithValue("@MediaDateTakenFrom", dbTools.ConvertFromDateTimeToDBVal(mediaTakenFrom)); 
+                if (useMediaTakenTo) commandDatabase.Parameters.AddWithValue("@MediaDateTakenTo", dbTools.ConvertFromDateTimeToDBVal(mediaTakenTo));
+
+                if (useLocationName) commandDatabase.Parameters.AddWithValue("@LocationName", locationName);
+                if (useLocationCity) commandDatabase.Parameters.AddWithValue("@LocationCity", locationCity);
+                if (useLocationState) commandDatabase.Parameters.AddWithValue("@LocationState", locationState);
+                if (useLocationCountry) commandDatabase.Parameters.AddWithValue("@LocationCountry", locationCountry);
+
+                if (useRegionNameList && regionNameList != null && regionNameList.Count > 0)
+                {
+                    for (int index = 0; index < regionNameList.Count; index++) commandDatabase.Parameters.AddWithValue("@MediaPersonalRegionsName" + index.ToString(), regionNameList[index]);                    
+                }
+                if (useKeywordList && keywords != null && keywords.Count > 0)
+                {
+                    for (int index = 0; index < keywords.Count; index++) commandDatabase.Parameters.AddWithValue("@MediaPersonalKeywordsKeyword" + index.ToString(), keywords[index]);
+                }
+
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(Path.Combine(
+                            dbTools.ConvertFromDBValString(reader["FileDirectory"]),
+                            dbTools.ConvertFromDBValString(reader["FileName"])
+                            ));
+                    }
+                }
+            }
+            return listing;
+        }
         #endregion
 
         #region ListAllPersonalAlbums()

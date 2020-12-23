@@ -1,4 +1,5 @@
 ﻿using DataGridViewGeneric;
+using System.Collections.Generic;
 
 namespace PhotoTagsSynchronizer
 {
@@ -7,6 +8,9 @@ namespace PhotoTagsSynchronizer
         private static object isGlobalDataBeenUpdated = new object();
         public static readonly object populateSelectedLock = new object(); //Avoid gridview to update while updateing
         public static readonly object metadataUpdateLock = new object();
+
+        public static List<string> SerachFilterResult { get; set; }
+        public static bool SearchFolder { get; set; } = true;
 
         public static DataGridViewHandler dataGridViewHandlerTags = null;
         public static DataGridViewHandler dataGridViewHandlerMap = null;       

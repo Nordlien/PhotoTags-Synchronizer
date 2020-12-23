@@ -489,8 +489,9 @@ namespace MetadataLibrary
             }
         }
 
-        private byte ConvertRatingPercentToRetingStars(byte personalRatingPercent)
+        public static byte ConvertRatingPercentToRetingStars(byte personalRatingPercent)
         {
+            ////starRating = rating == 0 ? 0 : (uint)Math.Round((double)rating / 25.0) + 1;
             if (personalRatingPercent > 87)
             {
                 return 5;
@@ -499,7 +500,7 @@ namespace MetadataLibrary
             {
                 return 4;
             }
-            else if (personalRatingPercent > 38 && personalRatingPercent <= 62)
+            else if (personalRatingPercent > 37 && personalRatingPercent <= 62)
             {
                 return 3;
             }

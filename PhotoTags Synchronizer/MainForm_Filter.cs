@@ -272,8 +272,12 @@ namespace PhotoTagsSynchronizer
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer(isAndBetweenFieldTagsFolder);
 
             filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, rootNodeFolder);
-            
-            FolderSelected(GlobalData.lastReadFolderWasRecursive, false);
+
+            if (GlobalData.SearchFolder)
+                FolderSelected(GlobalData.lastReadFolderWasRecursive, false);
+            else 
+                FolderSearchFilter(GlobalData.SerachFilterResult, false);
+
         }
 
 
@@ -301,10 +305,10 @@ namespace PhotoTagsSynchronizer
             ListViewRemoveNull(albums);
             comboBoxSearchAlbum.Items.AddRange(albums.ToArray());
 
-            List<string> authors = databaseAndCacheMetadataExiftool.ListAllPersonalAuthors();
-            authors.Sort();
-            ListViewRemoveNull(authors);
-            comboBoxSearchAuthor.Items.AddRange(authors.ToArray());
+            //List<string> authors = databaseAndCacheMetadataExiftool.ListAllPersonalAuthors();
+            //authors.Sort();
+            //ListViewRemoveNull(authors);
+            //comboBoxSearchAuthor.Items.AddRange(authors.ToArray());
 
             List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalComments();
             comments.Sort();
@@ -445,6 +449,76 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            //comboBoxSearchAlbum
+            bool useMediaTakenFrom = dateTimePickerSearchDateFrom.Checked;
+            DateTime mediaTakenFrom = dateTimePickerSearchDateFrom.Value;
+            bool useMediaTakenTo = dateTimePickerSearchDateTo.Checked;
+            DateTime mediaTakenTo = dateTimePickerSearchDateTo.Value;
+
+            bool usePersonalAlbum = !string.IsNullOrWhiteSpace(comboBoxSearchAlbum.Text);
+            string personalAlbum = comboBoxSearchAlbum.Text;
+
+            bool usePersonalTitle = !string.IsNullOrWhiteSpace(comboBoxSearchTitle.Text);
+            string personalTitle = comboBoxSearchTitle.Text;
+
+            bool usePersonalComments = !string.IsNullOrWhiteSpace(comboBoxSearchComments.Text);
+            string personalComments = comboBoxSearchComments.Text;
+
+            bool usePersonalDescription = !string.IsNullOrWhiteSpace(comboBoxSearchDescription.Text);
+            string personalDescription = comboBoxSearchDescription.Text;
+
+            bool isRatingNull = checkBoxSearchRatingEmpty.Checked;
+            bool hasRating0 = checkBoxSearchRating0.Checked;
+            bool hasRating1 = checkBoxSearchRating1.Checked;
+            bool hasRating2 = checkBoxSearchRating2.Checked;
+            bool hasRating3 = checkBoxSearchRating3.Checked;
+            bool hasRating4 = checkBoxSearchRating4.Checked;
+            bool hasRating5 = checkBoxSearchRating5.Checked;
+
+            bool useLocationName = !string.IsNullOrWhiteSpace(comboBoxSearchLocationName.Text);
+            string locationName = comboBoxSearchLocationName.Text;
+
+            bool useLocationCity = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCity.Text);
+            string locationCity = comboBoxSearchLocationCity.Text; 
+
+            bool useLocationState = !string.IsNullOrWhiteSpace(comboBoxSearchLocationState.Text);
+            string locationState = comboBoxSearchLocationState.Text; 
+
+            bool useLocationCountry = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCountry.Text);
+            string locationCountry = comboBoxSearchLocationCountry.Text; 
+            
+            bool useRegionNameList = checkedListBoxSearchPeople.CheckedItems.Count > 0;
+            bool needAlRegionNames = checkBoxSearchAndSeleced.Checked;
+            List<string> regionNameList = new List<string>();
+            foreach (var checkedItem in checkedListBoxSearchPeople.CheckedItems) regionNameList.Add(checkedItem.ToString());
+            
+            bool useKeywordList = !string.IsNullOrWhiteSpace(comboBoxSearchKeyword.Text); 
+            bool needAllKeywords = false; 
+            List<string> keywords = new List<string>();
+            keywords.AddRange(comboBoxSearchKeyword.Text.Split(';'));
+            
+            bool checkIfHasExifWarning = checkBoxSearchHasWarning.Checked;
+
+            
+            GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerTypes.ExifTool, useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo,
+            usePersonalAlbum, personalAlbum,
+            usePersonalTitle, personalTitle,
+            usePersonalComments, personalComments,
+            usePersonalDescription, personalDescription,
+            isRatingNull, hasRating0, hasRating1, hasRating2, hasRating3, hasRating4, hasRating5,
+            useLocationName, locationName,
+            useLocationCity, locationCity,
+            useLocationState, locationState,
+            useLocationCountry, locationCountry,
+            useRegionNameList, needAlRegionNames, regionNameList,
+            useKeywordList, needAllKeywords, keywords,
+            checkIfHasExifWarning);
+            GlobalData.SearchFolder = false;
+            FolderSearchFilter(GlobalData.SerachFilterResult, true);
+        }
     }
 }
 

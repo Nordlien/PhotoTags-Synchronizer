@@ -57,12 +57,12 @@ namespace PhotoTagsSynchronizer
             this.openFolderLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageFilterSearch = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.buttonSearch = new System.Windows.Forms.Button();
             this.checkBoxSearchKeyword = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchLocationCountry = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchLocationState = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchLocationCity = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchLocationName = new System.Windows.Forms.CheckBox();
-            this.checkBoxSearchAuthor = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchComments = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchDescription = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchTitle = new System.Windows.Forms.CheckBox();
@@ -72,12 +72,12 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchHasWarning = new System.Windows.Forms.CheckBox();
             this.comboBoxSearchKeyword = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBoxSearchAndSeleced = new System.Windows.Forms.CheckBox();
             this.checkedListBoxSearchPeople = new System.Windows.Forms.CheckedListBox();
             this.comboBoxSearchLocationCountry = new System.Windows.Forms.ComboBox();
             this.comboBoxSearchLocationState = new System.Windows.Forms.ComboBox();
             this.comboBoxSearchLocationCity = new System.Windows.Forms.ComboBox();
             this.comboBoxSearchLocationName = new System.Windows.Forms.ComboBox();
-            this.comboBoxSearchAuthor = new System.Windows.Forms.ComboBox();
             this.comboBoxSearchComments = new System.Windows.Forms.ComboBox();
             this.comboBoxSearchDescription = new System.Windows.Forms.ComboBox();
             this.comboBoxSearchTitle = new System.Windows.Forms.ComboBox();
@@ -91,14 +91,15 @@ namespace PhotoTagsSynchronizer
             this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBoxSearchRating = new System.Windows.Forms.GroupBox();
+            this.checkBoxSearchRatingEmpty = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchRating5 = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchRating4 = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchRating3 = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchRating2 = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchRating1 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchRating0 = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
             this.tabPageFilterTags = new System.Windows.Forms.TabPage();
             this.treeViewFilter = new System.Windows.Forms.TreeView();
@@ -291,8 +292,6 @@ namespace PhotoTagsSynchronizer
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
             this.timerShowExiftoolSaveProgress = new System.Windows.Forms.Timer(this.components);
-            this.buttonSearch = new System.Windows.Forms.Button();
-            this.checkBoxSearchAndSeleced = new System.Windows.Forms.CheckBox();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -602,7 +601,6 @@ namespace PhotoTagsSynchronizer
             this.panel4.Controls.Add(this.checkBoxSearchLocationState);
             this.panel4.Controls.Add(this.checkBoxSearchLocationCity);
             this.panel4.Controls.Add(this.checkBoxSearchLocationName);
-            this.panel4.Controls.Add(this.checkBoxSearchAuthor);
             this.panel4.Controls.Add(this.checkBoxSearchComments);
             this.panel4.Controls.Add(this.checkBoxSearchDescription);
             this.panel4.Controls.Add(this.checkBoxSearchTitle);
@@ -616,7 +614,6 @@ namespace PhotoTagsSynchronizer
             this.panel4.Controls.Add(this.comboBoxSearchLocationState);
             this.panel4.Controls.Add(this.comboBoxSearchLocationCity);
             this.panel4.Controls.Add(this.comboBoxSearchLocationName);
-            this.panel4.Controls.Add(this.comboBoxSearchAuthor);
             this.panel4.Controls.Add(this.comboBoxSearchComments);
             this.panel4.Controls.Add(this.comboBoxSearchDescription);
             this.panel4.Controls.Add(this.comboBoxSearchTitle);
@@ -630,7 +627,6 @@ namespace PhotoTagsSynchronizer
             this.panel4.Controls.Add(this.label10);
             this.panel4.Controls.Add(this.label8);
             this.panel4.Controls.Add(this.label11);
-            this.panel4.Controls.Add(this.label9);
             this.panel4.Controls.Add(this.label12);
             this.panel4.Controls.Add(this.groupBoxSearchRating);
             this.panel4.Controls.Add(this.label13);
@@ -639,6 +635,17 @@ namespace PhotoTagsSynchronizer
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(325, 637);
             this.panel4.TabIndex = 18;
+            // 
+            // buttonSearch
+            // 
+            this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSearch.Location = new System.Drawing.Point(50, 579);
+            this.buttonSearch.Name = "buttonSearch";
+            this.buttonSearch.Size = new System.Drawing.Size(202, 37);
+            this.buttonSearch.TabIndex = 42;
+            this.buttonSearch.Text = "Search";
+            this.buttonSearch.UseVisualStyleBackColor = true;
+            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
             // 
             // checkBoxSearchKeyword
             // 
@@ -684,15 +691,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchLocationName.Size = new System.Drawing.Size(18, 17);
             this.checkBoxSearchLocationName.TabIndex = 37;
             this.checkBoxSearchLocationName.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchAuthor
-            // 
-            this.checkBoxSearchAuthor.AutoSize = true;
-            this.checkBoxSearchAuthor.Location = new System.Drawing.Point(95, 131);
-            this.checkBoxSearchAuthor.Name = "checkBoxSearchAuthor";
-            this.checkBoxSearchAuthor.Size = new System.Drawing.Size(18, 17);
-            this.checkBoxSearchAuthor.TabIndex = 36;
-            this.checkBoxSearchAuthor.UseVisualStyleBackColor = true;
             // 
             // checkBoxSearchComments
             // 
@@ -786,6 +784,18 @@ namespace PhotoTagsSynchronizer
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "People:";
             // 
+            // checkBoxSearchAndSeleced
+            // 
+            this.checkBoxSearchAndSeleced.AutoSize = true;
+            this.checkBoxSearchAndSeleced.Checked = true;
+            this.checkBoxSearchAndSeleced.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSearchAndSeleced.Location = new System.Drawing.Point(8, 23);
+            this.checkBoxSearchAndSeleced.Name = "checkBoxSearchAndSeleced";
+            this.checkBoxSearchAndSeleced.Size = new System.Drawing.Size(169, 21);
+            this.checkBoxSearchAndSeleced.TabIndex = 43;
+            this.checkBoxSearchAndSeleced.Text = "Need contain all names";
+            this.checkBoxSearchAndSeleced.UseVisualStyleBackColor = true;
+            // 
             // checkedListBoxSearchPeople
             // 
             this.checkedListBoxSearchPeople.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -839,16 +849,6 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchLocationName.Name = "comboBoxSearchLocationName";
             this.comboBoxSearchLocationName.Size = new System.Drawing.Size(203, 25);
             this.comboBoxSearchLocationName.TabIndex = 22;
-            // 
-            // comboBoxSearchAuthor
-            // 
-            this.comboBoxSearchAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchAuthor.FormattingEnabled = true;
-            this.comboBoxSearchAuthor.Location = new System.Drawing.Point(119, 127);
-            this.comboBoxSearchAuthor.Name = "comboBoxSearchAuthor";
-            this.comboBoxSearchAuthor.Size = new System.Drawing.Size(203, 25);
-            this.comboBoxSearchAuthor.TabIndex = 21;
             // 
             // comboBoxSearchComments
             // 
@@ -975,15 +975,6 @@ namespace PhotoTagsSynchronizer
             this.label11.TabIndex = 12;
             this.label11.Text = "State:";
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 130);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(55, 17);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "Author:";
-            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -997,17 +988,29 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxSearchRating.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxSearchRating.Controls.Add(this.checkBoxSearchRatingEmpty);
             this.groupBoxSearchRating.Controls.Add(this.checkBoxSearchRating5);
             this.groupBoxSearchRating.Controls.Add(this.checkBoxSearchRating4);
             this.groupBoxSearchRating.Controls.Add(this.checkBoxSearchRating3);
             this.groupBoxSearchRating.Controls.Add(this.checkBoxSearchRating2);
             this.groupBoxSearchRating.Controls.Add(this.checkBoxSearchRating1);
+            this.groupBoxSearchRating.Controls.Add(this.checkBoxSearchRating0);
             this.groupBoxSearchRating.Location = new System.Drawing.Point(0, 158);
             this.groupBoxSearchRating.Name = "groupBoxSearchRating";
             this.groupBoxSearchRating.Size = new System.Drawing.Size(322, 54);
             this.groupBoxSearchRating.TabIndex = 9;
             this.groupBoxSearchRating.TabStop = false;
             this.groupBoxSearchRating.Text = "Rating";
+            // 
+            // checkBoxSearchRatingEmpty
+            // 
+            this.checkBoxSearchRatingEmpty.AutoSize = true;
+            this.checkBoxSearchRatingEmpty.Location = new System.Drawing.Point(284, 20);
+            this.checkBoxSearchRatingEmpty.Name = "checkBoxSearchRatingEmpty";
+            this.checkBoxSearchRatingEmpty.Size = new System.Drawing.Size(37, 21);
+            this.checkBoxSearchRatingEmpty.TabIndex = 37;
+            this.checkBoxSearchRatingEmpty.Text = "?";
+            this.checkBoxSearchRatingEmpty.UseVisualStyleBackColor = true;
             // 
             // checkBoxSearchRating5
             // 
@@ -1058,6 +1061,16 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchRating1.Size = new System.Drawing.Size(42, 24);
             this.checkBoxSearchRating1.TabIndex = 0;
             this.checkBoxSearchRating1.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchRating0
+            // 
+            this.checkBoxSearchRating0.AutoSize = true;
+            this.checkBoxSearchRating0.Location = new System.Drawing.Point(248, 20);
+            this.checkBoxSearchRating0.Name = "checkBoxSearchRating0";
+            this.checkBoxSearchRating0.Size = new System.Drawing.Size(38, 21);
+            this.checkBoxSearchRating0.TabIndex = 36;
+            this.checkBoxSearchRating0.Text = "0";
+            this.checkBoxSearchRating0.UseVisualStyleBackColor = true;
             // 
             // label13
             // 
@@ -3234,28 +3247,6 @@ namespace PhotoTagsSynchronizer
             this.timerShowExiftoolSaveProgress.Interval = 400;
             this.timerShowExiftoolSaveProgress.Tick += new System.EventHandler(this.timerShowExiftoolSaveProgress_Tick);
             // 
-            // buttonSearch
-            // 
-            this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSearch.Location = new System.Drawing.Point(50, 579);
-            this.buttonSearch.Name = "buttonSearch";
-            this.buttonSearch.Size = new System.Drawing.Size(202, 37);
-            this.buttonSearch.TabIndex = 42;
-            this.buttonSearch.Text = "Search";
-            this.buttonSearch.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchAndSeleced
-            // 
-            this.checkBoxSearchAndSeleced.AutoSize = true;
-            this.checkBoxSearchAndSeleced.Checked = true;
-            this.checkBoxSearchAndSeleced.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSearchAndSeleced.Location = new System.Drawing.Point(8, 23);
-            this.checkBoxSearchAndSeleced.Name = "checkBoxSearchAndSeleced";
-            this.checkBoxSearchAndSeleced.Size = new System.Drawing.Size(169, 21);
-            this.checkBoxSearchAndSeleced.TabIndex = 43;
-            this.checkBoxSearchAndSeleced.Text = "Need contain all names";
-            this.checkBoxSearchAndSeleced.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3564,7 +3555,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ComboBox comboBoxSearchLocationState;
         private System.Windows.Forms.ComboBox comboBoxSearchLocationCity;
         private System.Windows.Forms.ComboBox comboBoxSearchLocationName;
-        private System.Windows.Forms.ComboBox comboBoxSearchAuthor;
         private System.Windows.Forms.ComboBox comboBoxSearchComments;
         private System.Windows.Forms.ComboBox comboBoxSearchDescription;
         private System.Windows.Forms.ComboBox comboBoxSearchTitle;
@@ -3578,7 +3568,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox groupBoxSearchRating;
         private System.Windows.Forms.Label label13;
@@ -3594,13 +3583,14 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.CheckBox checkBoxSearchLocationState;
         private System.Windows.Forms.CheckBox checkBoxSearchLocationCity;
         private System.Windows.Forms.CheckBox checkBoxSearchLocationName;
-        private System.Windows.Forms.CheckBox checkBoxSearchAuthor;
+        private System.Windows.Forms.CheckBox checkBoxSearchRating0;
         private System.Windows.Forms.CheckBox checkBoxSearchComments;
         private System.Windows.Forms.CheckBox checkBoxSearchDescription;
         private System.Windows.Forms.CheckBox checkBoxSearchTitle;
         private System.Windows.Forms.CheckBox checkBoxSearchAlbum;
         private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.CheckBox checkBoxSearchAndSeleced;
+        private System.Windows.Forms.CheckBox checkBoxSearchRatingEmpty;
     }
 }
 
