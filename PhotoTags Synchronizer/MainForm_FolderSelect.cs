@@ -18,6 +18,7 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
 
+            Application.UseWaitCursor = true;
 
             folderTreeViewFolder.Enabled = false;
             FolderSelected_AggregateListViewWithFilesFromSearchFilter(searchFilterResult);
@@ -25,6 +26,7 @@ namespace PhotoTagsSynchronizer
 
             if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
 
+            Application.UseWaitCursor = false;
             GlobalData.IsPopulatingFolderSelected = false;
 
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //Even when 0 selected files, allocate data and flags, etc...
@@ -40,13 +42,15 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingAnything()) return;
             GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
             GlobalData.SearchFolder = true;
+            Application.UseWaitCursor = true;
 
             folderTreeViewFolder.Enabled = false;
             FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
             folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
             
             if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
-            
+
+            Application.UseWaitCursor = false;
             GlobalData.IsPopulatingFolderSelected = false;
 
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //Even when 0 selected files, allocate data and flags, etc...

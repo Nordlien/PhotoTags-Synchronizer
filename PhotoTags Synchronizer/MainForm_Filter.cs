@@ -287,13 +287,10 @@ namespace PhotoTagsSynchronizer
             GetFilters(treeViewFilter);
         }
 
-        private void ListViewRemoveNull (List<string> list)
+        private void ListViewReplaceNullWithText (List<string> list)
         {
-            if (list.Contains(null))
-            {
-                list.Remove(null);
-                list.Insert(0, "(Is blank)");
-            }
+            if (list.Contains(null)) list.Remove(null);                
+            list.Insert(0, "(Is not defined)");
         }
 
         private bool isThreeViewPopulating = false;
@@ -302,52 +299,62 @@ namespace PhotoTagsSynchronizer
             
             List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbums();
             albums.Sort();
-            ListViewRemoveNull(albums);
+            ListViewReplaceNullWithText(albums);
+            comboBoxSearchAlbum.Items.Clear();
             comboBoxSearchAlbum.Items.AddRange(albums.ToArray());
 
             //List<string> authors = databaseAndCacheMetadataExiftool.ListAllPersonalAuthors();
             //authors.Sort();
             //ListViewRemoveNull(authors);
+            //comboBoxSearchAuthor.Items.Clear();
             //comboBoxSearchAuthor.Items.AddRange(authors.ToArray());
 
             List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalComments();
             comments.Sort();
-            ListViewRemoveNull(comments);
+            ListViewReplaceNullWithText(comments);
+            comboBoxSearchComments.Items.Clear();
             comboBoxSearchComments.Items.AddRange(comments.ToArray());
 
             List<string> descriptions = databaseAndCacheMetadataExiftool.ListAllPersonalDescriptions();
             descriptions.Sort();
-            ListViewRemoveNull(descriptions);
+            ListViewReplaceNullWithText(descriptions);
+            comboBoxSearchDescription.Items.Clear();
             comboBoxSearchDescription.Items.AddRange(descriptions.ToArray());
 
             List<string> titles = databaseAndCacheMetadataExiftool.ListAllPersonalTitles();
             titles.Sort();
-            ListViewRemoveNull(titles);
+            ListViewReplaceNullWithText(titles);
+            comboBoxSearchTitle.Items.Clear();
             comboBoxSearchTitle.Items.AddRange(titles.ToArray());
 
             List<string> locations = databaseAndCacheMetadataExiftool.ListAllLocationNames();
             locations.Sort();
-            ListViewRemoveNull(locations);
+            ListViewReplaceNullWithText(locations);
+            comboBoxSearchLocationName.Items.Clear();
             comboBoxSearchLocationName.Items.AddRange(locations.ToArray());
 
             List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCities();
             cities.Sort();
-            ListViewRemoveNull(cities);
+            ListViewReplaceNullWithText(cities);
+            comboBoxSearchLocationCity.Items.Clear();
             comboBoxSearchLocationCity.Items.AddRange(cities.ToArray());
 
             List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStates();
             states.Sort();
-            ListViewRemoveNull(states);
+            ListViewReplaceNullWithText(states);
+            comboBoxSearchLocationState.Items.Clear();
             comboBoxSearchLocationState.Items.AddRange(states.ToArray());
             
             List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountries();
             countries.Sort();
-            ListViewRemoveNull(countries);
+            ListViewReplaceNullWithText(countries);
+            comboBoxSearchLocationCountry.Items.Clear();
             comboBoxSearchLocationCountry.Items.AddRange(countries.ToArray());
 
             List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegions();
             peoples.Sort();
-            ListViewRemoveNull(peoples);
+            ListViewReplaceNullWithText(peoples);
+            checkedListBoxSearchPeople.Items.Clear();
             checkedListBoxSearchPeople.Items.AddRange(peoples.ToArray());
 
             //dateTimePickerSearchDateFrom.
@@ -459,16 +466,16 @@ namespace PhotoTagsSynchronizer
             DateTime mediaTakenTo = dateTimePickerSearchDateTo.Value;
 
             bool usePersonalAlbum = !string.IsNullOrWhiteSpace(comboBoxSearchAlbum.Text);
-            string personalAlbum = comboBoxSearchAlbum.Text;
+            string personalAlbum = comboBoxSearchAlbum.SelectedIndex == 0 ? null : comboBoxSearchAlbum.Text;
 
             bool usePersonalTitle = !string.IsNullOrWhiteSpace(comboBoxSearchTitle.Text);
-            string personalTitle = comboBoxSearchTitle.Text;
+            string personalTitle = comboBoxSearchTitle.SelectedIndex == 0 ? null : comboBoxSearchTitle.Text;
 
             bool usePersonalComments = !string.IsNullOrWhiteSpace(comboBoxSearchComments.Text);
-            string personalComments = comboBoxSearchComments.Text;
+            string personalComments = comboBoxSearchComments.SelectedIndex == 0 ? null : comboBoxSearchComments.Text;
 
             bool usePersonalDescription = !string.IsNullOrWhiteSpace(comboBoxSearchDescription.Text);
-            string personalDescription = comboBoxSearchDescription.Text;
+            string personalDescription = comboBoxSearchDescription.SelectedIndex == 0 ? null : comboBoxSearchDescription.Text;
 
             bool isRatingNull = checkBoxSearchRatingEmpty.Checked;
             bool hasRating0 = checkBoxSearchRating0.Checked;
@@ -479,43 +486,56 @@ namespace PhotoTagsSynchronizer
             bool hasRating5 = checkBoxSearchRating5.Checked;
 
             bool useLocationName = !string.IsNullOrWhiteSpace(comboBoxSearchLocationName.Text);
-            string locationName = comboBoxSearchLocationName.Text;
+            string locationName = comboBoxSearchLocationName.SelectedIndex == 0 ? null : comboBoxSearchLocationName.Text;
 
             bool useLocationCity = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCity.Text);
-            string locationCity = comboBoxSearchLocationCity.Text; 
+            string locationCity = comboBoxSearchLocationCity.SelectedIndex == 0 ? null : comboBoxSearchLocationCity.Text; 
 
             bool useLocationState = !string.IsNullOrWhiteSpace(comboBoxSearchLocationState.Text);
-            string locationState = comboBoxSearchLocationState.Text; 
+            string locationState = comboBoxSearchLocationState.SelectedIndex == 0 ? null : comboBoxSearchLocationState.Text; 
 
             bool useLocationCountry = !string.IsNullOrWhiteSpace(comboBoxSearchLocationCountry.Text);
-            string locationCountry = comboBoxSearchLocationCountry.Text; 
+            string locationCountry = comboBoxSearchLocationCountry.SelectedIndex == 0 ? null : comboBoxSearchLocationCountry.Text; 
             
             bool useRegionNameList = checkedListBoxSearchPeople.CheckedItems.Count > 0;
-            bool needAlRegionNames = checkBoxSearchAndSeleced.Checked;
+            bool needAlRegionNames = checkBoxSearchNeedAllNames.Checked;
             List<string> regionNameList = new List<string>();
-            foreach (var checkedItem in checkedListBoxSearchPeople.CheckedItems) regionNameList.Add(checkedItem.ToString());
-            
+            for (int index = 0; index < checkedListBoxSearchPeople.Items.Count; index++)
+            {
+                if (checkedListBoxSearchPeople.GetItemChecked(index))
+                {
+                    if (index == 0) regionNameList.Add(null);
+                    else
+                        regionNameList.Add(checkedListBoxSearchPeople.Items[index].ToString());
+                }
+            }
             bool useKeywordList = !string.IsNullOrWhiteSpace(comboBoxSearchKeyword.Text); 
-            bool needAllKeywords = false; 
+            bool needAllKeywords = checkBoxSearchNeedAllNames.Checked;  
             List<string> keywords = new List<string>();
             keywords.AddRange(comboBoxSearchKeyword.Text.Split(';'));
-            
+            if (checkBoxSearchKeywordIsNull.Checked) keywords.Add(null);
+                
             bool checkIfHasExifWarning = checkBoxSearchHasWarning.Checked;
 
-            
-            GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerTypes.ExifTool, useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo,
-            usePersonalAlbum, personalAlbum,
-            usePersonalTitle, personalTitle,
-            usePersonalComments, personalComments,
-            usePersonalDescription, personalDescription,
-            isRatingNull, hasRating0, hasRating1, hasRating2, hasRating3, hasRating4, hasRating5,
-            useLocationName, locationName,
-            useLocationCity, locationCity,
-            useLocationState, locationState,
-            useLocationCountry, locationCountry,
-            useRegionNameList, needAlRegionNames, regionNameList,
-            useKeywordList, needAllKeywords, keywords,
-            checkIfHasExifWarning);
+            bool isMediaTakenNull = checkBoxSearchMediaTakenIsNull.Checked;
+            bool useAndBetweenFields = checkBoxSerachFitsAllValues.Checked;
+
+            int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
+
+            GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerTypes.ExifTool, useAndBetweenFields, 
+                useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo, isMediaTakenNull,
+                usePersonalAlbum, personalAlbum,
+                usePersonalTitle, personalTitle,
+                usePersonalComments, personalComments,
+                usePersonalDescription, personalDescription,
+                isRatingNull, hasRating0, hasRating1, hasRating2, hasRating3, hasRating4, hasRating5,
+                useLocationName, locationName,
+                useLocationCity, locationCity,
+                useLocationState, locationState,
+                useLocationCountry, locationCountry,
+                useRegionNameList, needAlRegionNames, regionNameList,
+                useKeywordList, needAllKeywords, keywords,
+                checkIfHasExifWarning, maxRowsInResult);
             GlobalData.SearchFolder = false;
             FolderSearchFilter(GlobalData.SerachFilterResult, true);
         }

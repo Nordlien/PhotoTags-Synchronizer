@@ -1114,5 +1114,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["RunArgumentCommand"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int MaxRowsInSearchResult {
+            get {
+                return ((int)(this["MaxRowsInSearchResult"]));
+            }
+            set {
+                this["MaxRowsInSearchResult"] = value;
+            }
+        }
     }
 }

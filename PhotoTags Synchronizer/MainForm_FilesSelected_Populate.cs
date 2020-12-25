@@ -22,14 +22,13 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
 
             GlobalData.IsPopulatingImageListView = true;
-
+            Application.UseWaitCursor = true;
             //imageListView1.Enabled = false;
             PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //GlobalData.isPopulatingSelectedFiles start with true end with false;
             //imageListView1.Enabled = true;
             PopulateImageListeViewToolStrip(imageListView1.SelectedItems);
 
-            
-
+            Application.UseWaitCursor = false;
             GlobalData.IsPopulatingImageListView = false;
             imageListView1.Focus();
         }

@@ -801,9 +801,92 @@ AND (MediaPersonalRegions.Name = "Julie Monsen Nordlien" OR MediaPersonalRegions
 AND (MediaPersonalKeywords.Keyword LIKE "Sørenga" OR MediaPersonalKeywords.Keyword LIKE "Smile" OR MediaPersonalKeywords.Keyword IS NULL)
 AND (MediaExiftoolTagsWarning.Warning IS NOT NULL)
 LIMIT 6000
+
+
+SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName
+--, MediaMetadata.FileDateModified
+--,MediaPersonalKeywords.Keyword, MediaPersonalRegions.Name
+--, MediaExiftoolTagsWarning.Warning
+
+FROM MediaMetadata
+
+LEFT JOIN MediaExiftoolTagsWarning ON 
+	MediaExiftoolTagsWarning.FileDirectory = MediaMetadata.FileDirectory AND
+	MediaExiftoolTagsWarning.FileName = MediaMetadata.FileName 
+	
+WHERE 
+	MediaMetadata.Broker = 1 
+	--AND MediaMetadata.MediaDateTaken != 637423585770000000 
+	--AND MediaMetadata.MediaDateTaken != 637424200784278170 
+	--AND MediaMetadata.PersonalAlbum LIKE "%"
+	--AND (PersonalTitle LIKE "%" OR PersonalTitle IS NULL)
+	--AND (PersonalComments LIKE "%" OR PersonalComments IS NULL)
+	--AND (PersonalDescription LIKE "%" OR PersonalDescription IS NULL)
+	--AND ((PersonalRatingPercent >= 50 AND PersonalRatingPercent < 75) OR PersonalRatingPercent IS NULL)
+	--AND (LocationName LIKE "%" OR LocationName IS NULL)
+	--AND (LocationCity LIKE "%" OR LocationCity IS NULL)
+	--AND (LocationState LIKE "%" OR LocationState IS NULL)
+	--AND (LocationCountry LIKE "%" OR LocationCountry IS NULL)
+--AND (MediaPersonalRegions.Name = "Julie Monsen Nordlien" OR MediaPersonalRegions.Name = "Lukas Nordlien" OR MediaPersonalRegions.Name IS NULL)
+--AND (MediaPersonalKeywords.Keyword LIKE "Sørenga" OR MediaPersonalKeywords.Keyword LIKE "Smile" OR MediaPersonalKeywords.Keyword IS NULL)
+AND (MediaExiftoolTagsWarning.Warning IS NOT NULL)
+--AND EXISTS (SELECT 1
+--              FROM MediaPersonalRegions AS t2
+--              WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND
+--					MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND
+--					MediaPersonalRegions.FileName = MediaMetadata.FileName AND 
+--					MediaPersonalRegions.Name = "Lukas Nordlien")
+					
+--AND EXISTS (SELECT 1
+--              FROM MediaPersonalRegions AS t3
+--              WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND
+--					MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND
+--					MediaPersonalRegions.FileName = MediaMetadata.FileName AND 
+--					MediaPersonalRegions.Name = "Julie Monsen Nordlien")
+AND
+(
+(SELECT 1
+              FROM MediaPersonalRegions 
+              WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND
+					MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND
+					MediaPersonalRegions.FileName = MediaMetadata.FileName AND 
+					MediaPersonalRegions.Name = "Lukas Nordlien") = 1
+					
+OR 
+(SELECT 1
+              FROM MediaPersonalRegions 
+              WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND
+					MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND
+					MediaPersonalRegions.FileName = MediaMetadata.FileName AND 
+					MediaPersonalRegions.Name = "Julie Monsen Nordlien") = 1
+)
+AND
+(
+	(SELECT 1 
+	FROM MediaPersonalKeywords WHERE
+	MediaPersonalKeywords.Broker = MediaMetadata.Broker AND
+	MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND
+	MediaPersonalKeywords.FileName = MediaMetadata.FileName AND
+	MediaPersonalKeywords.Keyword LIKE "Sørenga") = 1
+
+	OR 
+		(SELECT 1 FROM MediaPersonalKeywords WHERE 
+	MediaPersonalKeywords.Broker = MediaMetadata.Broker AND
+	MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND
+	MediaPersonalKeywords.FileName = MediaMetadata.FileName AND
+	MediaPersonalKeywords.Keyword LIKE "Smile") = 1
+	OR 
+	(SELECT 1 FROM MediaPersonalKeywords WHERE 
+	MediaPersonalKeywords.Broker = MediaMetadata.Broker AND
+	MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND
+	MediaPersonalKeywords.FileName = MediaMetadata.FileName AND
+	MediaPersonalKeywords.Keyword IS NULL) = 1
+)
+					
+LIMIT 6000
         */
-        public List<string> ListAllSearch(MetadataBrokerTypes broker, 
-            bool useMediaTakenFrom, DateTime mediaTakenFrom, bool useMediaTakenTo, DateTime mediaTakenTo,
+        public List<string> ListAllSearch(MetadataBrokerTypes broker, bool useAndBetweenFields,
+            bool useMediaTakenFrom, DateTime mediaTakenFrom, bool useMediaTakenTo, DateTime mediaTakenTo, bool isMediaTakenNull,
             bool usePersonalAlbum, string personalAlbum,
             bool usePersonalTitle, string personalTitle,
             bool usePersonalComments, string personalComments,
@@ -815,41 +898,37 @@ LIMIT 6000
             bool useLocationCountry, string locationCountry,
             bool useRegionNameList, bool needAlRegionNames, List<string> regionNameList,
             bool useKeywordList, bool needAllKeywords, List<string> keywords,
-            bool checkIfHasExifWarning
+            bool checkIfHasExifWarning, int maxRowsInResult
             )
         {
-
+            
             List<string> listing = new List<string>();
 
-            string sqlCommand =
+            string sqlCommandBasicSelect =
                 "SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName " +
                 "FROM MediaMetadata ";
 
-            if (useKeywordList) sqlCommand +=
-                "LEFT JOIN MediaPersonalKeywords ON " +
-                "    MediaPersonalKeywords.Broker = MediaMetadata.Broker AND " +
-                "    MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND " +
-                "    MediaPersonalKeywords.FileName = MediaMetadata.FileName ";
 
-            if (useRegionNameList) sqlCommand += 
-                "LEFT JOIN MediaPersonalRegions ON " +
-                "    MediaPersonalRegions.Broker = MediaMetadata.Broker AND " +
-                "    MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND " +
-                "    MediaPersonalRegions.FileName = MediaMetadata.FileName ";
-
-            if (checkIfHasExifWarning) sqlCommand +=
+            if (checkIfHasExifWarning) sqlCommandBasicSelect +=
                 "LEFT JOIN MediaExiftoolTagsWarning ON " +
                 "    MediaExiftoolTagsWarning.FileDirectory = MediaMetadata.FileDirectory AND " +
                 "    MediaExiftoolTagsWarning.FileName = MediaMetadata.FileName ";
 
-            sqlCommand += "WHERE MediaMetadata.Broker = @Broker ";
+            sqlCommandBasicSelect += "WHERE MediaMetadata.Broker = @Broker AND MediaMetadata.FileDateModified = " + 
+                "(SELECT MAX(MediaMetadataNewst.FileDateModified) FROM MediaMetadata AS MediaMetadataNewst " + 
+                "WHERE MediaMetadataNewst.Broker = MediaMetadata.Broker AND MediaMetadataNewst.FileDirectory = MediaMetadata.FileDirectory AND MediaMetadataNewst.FileName = MediaMetadata.FileName) ";
 
-            if (useMediaTakenFrom)      sqlCommand += "AND MediaDateTaken >= @MediaDateTakenFrom ";
-            if (useMediaTakenTo)        sqlCommand += "AND MediaDateTaken <= @MediaDateTakenTo ";
-            if (usePersonalAlbum)       sqlCommand += personalAlbum == null ? "AND PersonalAlbum IS NULL " : "AND PersonalAlbum LIKE @PersonalAlbum ";
-            if (usePersonalTitle)       sqlCommand += personalTitle == null ? "PersonalTitle IS NULL " : "AND PersonalTitle LIKE @PersonalTitle ";
-            if (usePersonalComments)    sqlCommand += personalComments == null ? "PersonalComments IS NULL" : "AND PersonalComments LIKE @PersonalComments ";
-            if (usePersonalDescription) sqlCommand += personalDescription == null ? "AND PersonalDescription IS NULL" : "AND PersonalDescription LIKE @PersonalDescription ";
+            if (useMediaTakenFrom && useMediaTakenTo)
+                sqlCommandBasicSelect += "AND ((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken <= @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") +")";
+            else if (useMediaTakenFrom) sqlCommandBasicSelect += "AND (MediaDateTaken >= @MediaDateTakenFrom " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ")";
+            else if (useMediaTakenTo) sqlCommandBasicSelect += "AND (MediaDateTaken <= @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ")";
+
+            string sqlCommand = "";// += "AND ("; //In case of "OR" statmenet
+
+            if (usePersonalAlbum)       sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (personalAlbum == null ? "PersonalAlbum IS NULL " : "PersonalAlbum LIKE @PersonalAlbum ");
+            if (usePersonalTitle)       sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (personalTitle == null ? "PersonalTitle IS NULL " : "PersonalTitle LIKE @PersonalTitle ");
+            if (usePersonalComments)    sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (personalComments == null ? "PersonalComments IS NULL" : "PersonalComments LIKE @PersonalComments ");
+            if (usePersonalDescription) sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (personalDescription == null ? "AND PersonalDescription IS NULL" : "PersonalDescription LIKE @PersonalDescription ");
 
             string sqlRating = "";
             if (isRatingNull) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent IS NULL)";
@@ -859,12 +938,14 @@ LIMIT 6000
             if (hasRating3) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >  37 AND PersonalRatingPercent <= 62)";
             if (hasRating4) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >  62 AND PersonalRatingPercent <= 87)";
             if (hasRating5) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >  87)";
-            if (sqlRating != "") sqlCommand += " AND (" + sqlRating + ")";
+            if (sqlRating != "") sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + "(" + sqlRating + ") ";
 
-            if (useLocationName)   sqlCommand += locationName == null ? "AND LocationName IS NULL " : "AND LocationName LIKE @LocationName ";
-            if (useLocationCity)   sqlCommand += locationCity == null ? "AND LocationCity IS NULL " : "AND LocationCity LIKE @LocationCity ";
-            if (useLocationState)  sqlCommand += locationState == null ? "AND LocationState IS NULL " : "AND LocationState LIKE @LocationState ";
-            if (useLocationCountry) sqlCommand += locationCountry == null ? "AND LocationCountry IS NULL " : "AND LocationCountry LIKE @LocationCountry "; 
+            if (useLocationName)    sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (locationName == null ? "LocationName IS NULL " : "LocationName LIKE @LocationName ");
+            if (useLocationCity)    sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (locationCity == null ? "LocationCity IS NULL " : "LocationCity LIKE @LocationCity ");
+            if (useLocationState)   sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (locationState == null ? "LocationState IS NULL " : "LocationState LIKE @LocationState ");
+            if (useLocationCountry) sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (locationCountry == null ? "LocationCountry IS NULL " : "LocationCountry LIKE @LocationCountry ");
+
+            if (checkIfHasExifWarning) sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + "(MediaExiftoolTagsWarning.Warning IS NOT NULL) ";
 
             if (useRegionNameList && regionNameList != null && regionNameList.Count > 0)
             {
@@ -872,21 +953,34 @@ LIMIT 6000
 
                 for (int index = 0; index < regionNameList.Count; index++)
                 {
-                    sqlRegionNames += (sqlRegionNames == "" ? "" : needAlRegionNames ? " AND " : " OR ") + "MediaPersonalRegions.Name = @MediaPersonalRegionsName" + index.ToString();
+                    
+                    sqlRegionNames += (sqlRegionNames == "" ? "" : needAlRegionNames ? " AND " : " OR ") +  
+                        "(SELECT 1 FROM MediaPersonalRegions WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND " +
+                        "MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND " +
+                        "MediaPersonalRegions.FileName = MediaMetadata.FileName AND " +
+                        "MediaPersonalRegions.Name " + (regionNameList[index] == null ? "IS NULL) = 1" : "LIKE @MediaPersonalRegionsName" + index.ToString() + ") = 1");
                 }
-                sqlCommand += "AND (" + sqlRegionNames + ") ";
+                sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + "(" + sqlRegionNames + ") ";
             }
+
             if (useKeywordList && keywords != null && keywords.Count > 0)
             {
                 string sqlKeywordList = "";
+
                 for (int index = 0; index < keywords.Count; index++)
                 {
-                    sqlKeywordList += (sqlKeywordList == "" ? "" : needAllKeywords ? " AND " : " OR ") + "MediaPersonalKeywords.Keyword LIKE @MediaPersonalKeywordsKeyword" + index.ToString();
+                    sqlKeywordList += (sqlKeywordList == "" ? "" : needAllKeywords ? " AND " : " OR ") +
+                        "(SELECT 1 FROM MediaPersonalRegions WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND " +
+                        "MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND " +
+                        "MediaPersonalRegions.FileName = MediaMetadata.FileName AND " +
+                        "MediaPersonalRegions.Name " + (keywords[index] == null ? "IS NULL) = 1" : "LIKE @MediaPersonalKeywordsKeyword" + index.ToString() + ") = 1");
                 }
-                sqlCommand += "AND (" + sqlKeywordList + ") ";
+
+                sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + " (" + sqlKeywordList + ") ";
             }
-            if (checkIfHasExifWarning) sqlCommand += "AND (MediaExiftoolTagsWarning.Warning IS NOT NULL) ";
-            sqlCommand += "LIMIT 1000";
+
+            sqlCommand = sqlCommandBasicSelect + (sqlCommand == "" ? "" : "AND (" + sqlCommand + ") "); //"(" and ")" In case of "OR" statmenet
+            sqlCommand += "LIMIT " + maxRowsInResult.ToString();
         
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))

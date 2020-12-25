@@ -652,5 +652,8 @@ edit</Value>
     <Setting Name="RunArgumentCommand" Type="System.String" Scope="User">
       <Value Profile="(Default)">cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ "{TempFileArgumentFullPath}"</Value>
     </Setting>
+    <Setting Name="MaxRowsInSearchResult" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
