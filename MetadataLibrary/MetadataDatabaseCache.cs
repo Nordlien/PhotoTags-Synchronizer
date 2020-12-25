@@ -896,8 +896,8 @@ LIMIT 6000
             bool useLocationCity, string locationCity,
             bool useLocationState, string locationState,
             bool useLocationCountry, string locationCountry,
-            bool useRegionNameList, bool needAlRegionNames, List<string> regionNameList,
-            bool useKeywordList, bool needAllKeywords, List<string> keywords,
+            bool useRegionNameList, bool needAlRegionNames, List<string> regionNameList, bool withoutRegions,
+            bool useKeywordList, bool needAllKeywords, List<string> keywords, bool withoutKeywords,
             bool checkIfHasExifWarning, int maxRowsInResult
             )
         {
@@ -911,19 +911,22 @@ LIMIT 6000
 
             if (checkIfHasExifWarning) sqlCommandBasicSelect +=
                 "LEFT JOIN MediaExiftoolTagsWarning ON " +
-                "    MediaExiftoolTagsWarning.FileDirectory = MediaMetadata.FileDirectory AND " +
-                "    MediaExiftoolTagsWarning.FileName = MediaMetadata.FileName ";
+                "MediaExiftoolTagsWarning.FileDirectory = MediaMetadata.FileDirectory AND " +
+                "MediaExiftoolTagsWarning.FileName = MediaMetadata.FileName AND" +
+                "MediaExiftoolTagsWarning.FileDateModified = MediaMetadata.FileDateModified ";
 
             sqlCommandBasicSelect += "WHERE MediaMetadata.Broker = @Broker AND MediaMetadata.FileDateModified = " + 
                 "(SELECT MAX(MediaMetadataNewst.FileDateModified) FROM MediaMetadata AS MediaMetadataNewst " + 
                 "WHERE MediaMetadataNewst.Broker = MediaMetadata.Broker AND MediaMetadataNewst.FileDirectory = MediaMetadata.FileDirectory AND MediaMetadataNewst.FileName = MediaMetadata.FileName) ";
 
             if (useMediaTakenFrom && useMediaTakenTo)
-                sqlCommandBasicSelect += "AND ((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken <= @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") +")";
-            else if (useMediaTakenFrom) sqlCommandBasicSelect += "AND (MediaDateTaken >= @MediaDateTakenFrom " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ")";
-            else if (useMediaTakenTo) sqlCommandBasicSelect += "AND (MediaDateTaken <= @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ")";
+                sqlCommandBasicSelect += "AND ((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken <= @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") +") ";
+            else if (useMediaTakenFrom) sqlCommandBasicSelect += "AND (MediaDateTaken >= @MediaDateTakenFrom " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (useMediaTakenTo) sqlCommandBasicSelect += "AND (MediaDateTaken <= @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (isMediaTakenNull) sqlCommandBasicSelect += "AND MediaDateTaken IS NULL ";
 
-            string sqlCommand = "";// += "AND ("; //In case of "OR" statmenet
+
+            string sqlCommand = "";
 
             if (usePersonalAlbum)       sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (personalAlbum == null ? "PersonalAlbum IS NULL " : "PersonalAlbum LIKE @PersonalAlbum ");
             if (usePersonalTitle)       sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (personalTitle == null ? "PersonalTitle IS NULL " : "PersonalTitle LIKE @PersonalTitle ");
@@ -947,34 +950,70 @@ LIMIT 6000
 
             if (checkIfHasExifWarning) sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + "(MediaExiftoolTagsWarning.Warning IS NOT NULL) ";
 
-            if (useRegionNameList && regionNameList != null && regionNameList.Count > 0)
+            if ((useRegionNameList && regionNameList != null && regionNameList.Count > 0) || withoutRegions)
             {
-                string sqlRegionNames = "";
-
-                for (int index = 0; index < regionNameList.Count; index++)
+                string sqlRegionsNotInList = "";
+                if (withoutRegions)
                 {
-                    
-                    sqlRegionNames += (sqlRegionNames == "" ? "" : needAlRegionNames ? " AND " : " OR ") +  
+                    sqlRegionsNotInList  = 
                         "(SELECT 1 FROM MediaPersonalRegions WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND " +
                         "MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND " +
-                        "MediaPersonalRegions.FileName = MediaMetadata.FileName AND " +
-                        "MediaPersonalRegions.Name " + (regionNameList[index] == null ? "IS NULL) = 1" : "LIKE @MediaPersonalRegionsName" + index.ToString() + ") = 1");
+                        "MediaPersonalRegions.FileDateModified = MediaMetadata.FileDateModified AND " +
+                        "MediaPersonalRegions.FileName = MediaMetadata.FileName) IS NULL ";
                 }
+
+                string sqlRegionNames = "";
+                if ((useRegionNameList && regionNameList != null && regionNameList.Count > 0) || withoutRegions)
+                {
+                    for (int index = 0; index < regionNameList.Count; index++)
+                    {
+                        sqlRegionNames += (sqlRegionNames == "" ? "" : needAlRegionNames ? " AND " : " OR ") +
+                            "(SELECT 1 FROM MediaPersonalRegions WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND " +
+                            "MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND " +
+                            "MediaPersonalRegions.FileName = MediaMetadata.FileName AND " +
+                            "MediaPersonalRegions.FileDateModified = MediaMetadata.FileDateModified AND " +
+                            "MediaPersonalRegions.Name " + (regionNameList[index] == null ? "IS NULL) = 1" : "LIKE @MediaPersonalRegionsName" + index.ToString() + ") = 1");
+                    }
+                }
+                sqlRegionNames = 
+                    (sqlRegionsNotInList == "" ? "" : sqlRegionsNotInList) + 
+                    (sqlRegionsNotInList != "" && sqlRegionNames != "" ? " OR " : "") + 
+                    (sqlRegionNames == "" ? "" : " (" + sqlRegionNames + ")");
+
                 sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + "(" + sqlRegionNames + ") ";
             }
 
-            if (useKeywordList && keywords != null && keywords.Count > 0)
+            if ((useKeywordList && keywords != null && keywords.Count > 0) || withoutKeywords)
             {
-                string sqlKeywordList = "";
 
-                for (int index = 0; index < keywords.Count; index++)
+                string sqlKeywordNotInList = "";
+                if (withoutKeywords)
                 {
-                    sqlKeywordList += (sqlKeywordList == "" ? "" : needAllKeywords ? " AND " : " OR ") +
-                        "(SELECT 1 FROM MediaPersonalRegions WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND " +
-                        "MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND " +
-                        "MediaPersonalRegions.FileName = MediaMetadata.FileName AND " +
-                        "MediaPersonalRegions.Name " + (keywords[index] == null ? "IS NULL) = 1" : "LIKE @MediaPersonalKeywordsKeyword" + index.ToString() + ") = 1");
+                    sqlKeywordNotInList =
+                        "(SELECT 1 FROM MediaPersonalKeywords WHERE MediaPersonalKeywords.Broker = MediaMetadata.Broker AND " +
+                        "MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND " +
+                        "MediaPersonalKeywords.FileDateModified = MediaMetadata.FileDateModified AND " +
+                        "MediaPersonalKeywords.FileName = MediaMetadata.FileName) IS NULL ";
                 }
+
+                string sqlKeywordList = "";
+                if (useKeywordList && keywords != null && keywords.Count > 0)
+                {
+                    for (int index = 0; index < keywords.Count; index++)
+                    {
+                        sqlKeywordList += (sqlKeywordList == "" ? "" : needAllKeywords ? " AND " : " OR ") +
+                             "(SELECT 1 FROM MediaPersonalKeywords WHERE MediaPersonalKeywords.Broker = MediaMetadata.Broker AND " +
+                             "MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND " +
+                             "MediaPersonalKeywords.FileName = MediaMetadata.FileName AND " +
+                             "MediaPersonalKeywords.FileDateModified = MediaMetadata.FileDateModified AND " +
+                             "MediaPersonalKeywords.Keyword " + (keywords[index] == null ? "IS NULL) = 1" : "LIKE @MediaPersonalKeywordsKeyword" + index.ToString() + ") = 1");
+                    }
+                }
+
+                sqlKeywordList = 
+                    (sqlKeywordNotInList == "" ? "" : sqlKeywordNotInList) + 
+                    (sqlKeywordNotInList != "" && sqlKeywordList != "" ? " OR " : "") + 
+                    (sqlKeywordList == "" ? "" : " (" + sqlKeywordList + ")");
 
                 sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + " (" + sqlKeywordList + ") ";
             }
@@ -989,9 +1028,7 @@ LIMIT 6000
                 if (usePersonalAlbum) commandDatabase.Parameters.AddWithValue("@PersonalAlbum", personalAlbum);
                 if (usePersonalTitle) commandDatabase.Parameters.AddWithValue("@PersonalTitle", personalTitle);
                 if (usePersonalComments) commandDatabase.Parameters.AddWithValue("@PersonalComments", personalComments);
-                if (usePersonalDescription) commandDatabase.Parameters.AddWithValue("@PersonalDescription", personalDescription);
-                //commandDatabase.Parameters.AddWithValue("@PersonalRatingPercent", personalRating);
-                //commandDatabase.Parameters.AddWithValue("@PersonalAuthor", personalAuthor);                
+                if (usePersonalDescription) commandDatabase.Parameters.AddWithValue("@PersonalDescription", personalDescription);             
                 
                 if (useMediaTakenFrom) commandDatabase.Parameters.AddWithValue("@MediaDateTakenFrom", dbTools.ConvertFromDateTimeToDBVal(mediaTakenFrom)); 
                 if (useMediaTakenTo) commandDatabase.Parameters.AddWithValue("@MediaDateTakenTo", dbTools.ConvertFromDateTimeToDBVal(mediaTakenTo));

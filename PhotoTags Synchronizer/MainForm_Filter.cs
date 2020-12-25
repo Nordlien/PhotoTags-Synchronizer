@@ -498,7 +498,7 @@ namespace PhotoTagsSynchronizer
             string locationCountry = comboBoxSearchLocationCountry.SelectedIndex == 0 ? null : comboBoxSearchLocationCountry.Text; 
             
             bool useRegionNameList = checkedListBoxSearchPeople.CheckedItems.Count > 0;
-            bool needAlRegionNames = checkBoxSearchNeedAllNames.Checked;
+            bool needAllRegionNames = checkBoxSearchNeedAllNames.Checked; 
             List<string> regionNameList = new List<string>();
             for (int index = 0; index < checkedListBoxSearchPeople.Items.Count; index++)
             {
@@ -510,16 +510,19 @@ namespace PhotoTagsSynchronizer
                 }
             }
             bool useKeywordList = !string.IsNullOrWhiteSpace(comboBoxSearchKeyword.Text); 
-            bool needAllKeywords = checkBoxSearchNeedAllNames.Checked;  
+            bool needAllKeywords = checkBoxSearchNeedAllKeywords.Checked;  
             List<string> keywords = new List<string>();
             keywords.AddRange(comboBoxSearchKeyword.Text.Split(';'));
-            if (checkBoxSearchKeywordIsNull.Checked) keywords.Add(null);
+            //if (checkBoxSearchWithoutKeyword.Checked) keywords.Add(null);
                 
             bool checkIfHasExifWarning = checkBoxSearchHasWarning.Checked;
 
             bool isMediaTakenNull = checkBoxSearchMediaTakenIsNull.Checked;
             bool useAndBetweenFields = checkBoxSerachFitsAllValues.Checked;
 
+            bool withoutRegions = checkBoxSearchWithoutRegions.Checked;
+            bool withoutKeywords = checkBoxSearchWithoutKeyword.Checked;
+            
             int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
 
             GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerTypes.ExifTool, useAndBetweenFields, 
@@ -533,8 +536,8 @@ namespace PhotoTagsSynchronizer
                 useLocationCity, locationCity,
                 useLocationState, locationState,
                 useLocationCountry, locationCountry,
-                useRegionNameList, needAlRegionNames, regionNameList,
-                useKeywordList, needAllKeywords, keywords,
+                useRegionNameList, needAllRegionNames, regionNameList, withoutRegions,
+                useKeywordList, needAllKeywords, keywords, withoutKeywords,
                 checkIfHasExifWarning, maxRowsInResult);
             GlobalData.SearchFolder = false;
             FolderSearchFilter(GlobalData.SerachFilterResult, true);
