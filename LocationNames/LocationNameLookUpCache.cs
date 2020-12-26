@@ -45,12 +45,12 @@ namespace LocationNames
             {
                 metadata = new Metadata(MetadataBrokerTypes.NominatimAPI);
 
-                metadata.LocationCity = (r2.Result.Address.PostCode + " " + r2.Result.Address.City + " " + r2.Result.Address.Town + " " + r2.Result.Address.Village).Trim();
+                metadata.LocationCity = (r2.Result.Address.City + " " + r2.Result.Address.Town + " " + r2.Result.Address.Village).Trim().Replace("  ", " ");
                 metadata.LocationCountry = r2.Result.Address.Country;
                 metadata.LocationLatitude = latitude;
                 metadata.LocationLongitude = longitude;
                 metadata.LocationName = (r2.Result.Address.Road + " " + r2.Result.Address.HouseNumber).Trim();
-                metadata.LocationState = (r2.Result.Address.State + " " + r2.Result.Address.County + " " + r2.Result.Address.Suburb + " " + r2.Result.Address.District + " " + r2.Result.Address.Hamlet).Trim();
+                metadata.LocationState = (r2.Result.Address.State + " " + r2.Result.Address.County + " " + r2.Result.Address.Suburb + " " + r2.Result.Address.District + " " + r2.Result.Address.Hamlet).Trim().Replace("  ", " ");
 
                 metadata.LocationName = string.IsNullOrEmpty(metadata.LocationName) ? null : metadata.LocationName;
                 metadata.LocationState = string.IsNullOrEmpty(metadata.LocationState) ? null : metadata.LocationState;

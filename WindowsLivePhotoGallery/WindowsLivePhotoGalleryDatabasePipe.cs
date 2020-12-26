@@ -35,7 +35,10 @@ namespace WindowsLivePhotoGallery
 
         private void Client_Error(Exception exception)
         {
-            throw new NotImplementedException();
+            Logger.Trace("Client_Error " + exception.Message);
+            //throw new NotImplementedException();
+            errorOccurred = true;
+            //waitEventServerStarted.Set();
         }
 
         private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)

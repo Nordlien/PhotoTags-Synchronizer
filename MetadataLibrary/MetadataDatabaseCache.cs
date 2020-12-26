@@ -885,8 +885,9 @@ AND
 					
 LIMIT 6000
         */
-        public List<string> ListAllSearch(MetadataBrokerTypes broker, bool useAndBetweenFields,
+        public List<string> ListAllSearch(MetadataBrokerTypes broker, bool useAndBetweenGrups,
             bool useMediaTakenFrom, DateTime mediaTakenFrom, bool useMediaTakenTo, DateTime mediaTakenTo, bool isMediaTakenNull,
+            bool useAndBetweenTextTags,
             bool usePersonalAlbum, string personalAlbum,
             bool usePersonalTitle, string personalTitle,
             bool usePersonalComments, string personalComments,
@@ -904,35 +905,45 @@ LIMIT 6000
             
             List<string> listing = new List<string>();
 
-            string sqlCommandBasicSelect =
-                "SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName " +
-                "FROM MediaMetadata ";
+            string sqlCommandBasicSelect = "SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName FROM MediaMetadata ";
 
-
+            #region Warning
             if (checkIfHasExifWarning) sqlCommandBasicSelect +=
                 "LEFT JOIN MediaExiftoolTagsWarning ON " +
                 "MediaExiftoolTagsWarning.FileDirectory = MediaMetadata.FileDirectory AND " +
-                "MediaExiftoolTagsWarning.FileName = MediaMetadata.FileName AND" +
+                "MediaExiftoolTagsWarning.FileName = MediaMetadata.FileName AND " +
                 "MediaExiftoolTagsWarning.FileDateModified = MediaMetadata.FileDateModified ";
+            #endregion
 
-            sqlCommandBasicSelect += "WHERE MediaMetadata.Broker = @Broker AND MediaMetadata.FileDateModified = " + 
-                "(SELECT MAX(MediaMetadataNewst.FileDateModified) FROM MediaMetadata AS MediaMetadataNewst " + 
+            #region Get only newest records, not historical
+            sqlCommandBasicSelect += "WHERE MediaMetadata.Broker = @Broker AND MediaMetadata.FileDateModified = (SELECT MAX(MediaMetadataNewst.FileDateModified) FROM MediaMetadata AS MediaMetadataNewst " + 
                 "WHERE MediaMetadataNewst.Broker = MediaMetadata.Broker AND MediaMetadataNewst.FileDirectory = MediaMetadata.FileDirectory AND MediaMetadataNewst.FileName = MediaMetadata.FileName) ";
+            #endregion
 
-            if (useMediaTakenFrom && useMediaTakenTo)
-                sqlCommandBasicSelect += "AND ((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken <= @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") +") ";
-            else if (useMediaTakenFrom) sqlCommandBasicSelect += "AND (MediaDateTaken >= @MediaDateTakenFrom " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
-            else if (useMediaTakenTo) sqlCommandBasicSelect += "AND (MediaDateTaken <= @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
-            else if (isMediaTakenNull) sqlCommandBasicSelect += "AND MediaDateTaken IS NULL ";
-
+            #region DateTaken
+            if (useMediaTakenFrom && useMediaTakenTo) 
+                sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken <= @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") +") ";
+            else if (useMediaTakenFrom) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken >= @MediaDateTakenFrom " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (useMediaTakenTo) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken <= @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
+            else if (isMediaTakenNull) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "MediaDateTaken IS NULL ";
+            #endregion
 
             string sqlCommand = "";
 
-            if (usePersonalAlbum)       sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (personalAlbum == null ? "PersonalAlbum IS NULL " : "PersonalAlbum LIKE @PersonalAlbum ");
-            if (usePersonalTitle)       sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (personalTitle == null ? "PersonalTitle IS NULL " : "PersonalTitle LIKE @PersonalTitle ");
-            if (usePersonalComments)    sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (personalComments == null ? "PersonalComments IS NULL" : "PersonalComments LIKE @PersonalComments ");
-            if (usePersonalDescription) sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (personalDescription == null ? "AND PersonalDescription IS NULL" : "PersonalDescription LIKE @PersonalDescription ");
+            #region Text field tags
+            string sqlTextTags = "";
+            if (usePersonalAlbum)       sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalAlbum == null ? "PersonalAlbum IS NULL " : "PersonalAlbum LIKE @PersonalAlbum ");
+            if (usePersonalTitle)       sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalTitle == null ? "PersonalTitle IS NULL " : "PersonalTitle LIKE @PersonalTitle ");
+            if (usePersonalComments)    sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalComments == null ? "PersonalComments IS NULL " : "PersonalComments LIKE @PersonalComments ");
+            if (usePersonalDescription) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalDescription == null ? "PersonalDescription IS NULL " : "PersonalDescription LIKE @PersonalDescription ");
+            if (useLocationName)        sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationName == null ? "LocationName IS NULL " : "LocationName LIKE @LocationName ");
+            if (useLocationCity)        sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCity == null ? "LocationCity IS NULL " : "LocationCity LIKE @LocationCity ");
+            if (useLocationState)       sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationState == null ? "LocationState IS NULL " : "LocationState LIKE @LocationState ");
+            if (useLocationCountry)     sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCountry == null ? "LocationCountry IS NULL " : "LocationCountry LIKE @LocationCountry ");
+            if (sqlTextTags != "")      sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlTextTags + ") ";
+            #endregion
 
+            #region Rating
             string sqlRating = "";
             if (isRatingNull) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent IS NULL)";
             if (hasRating0) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent < 1)";
@@ -941,15 +952,14 @@ LIMIT 6000
             if (hasRating3) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >  37 AND PersonalRatingPercent <= 62)";
             if (hasRating4) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >  62 AND PersonalRatingPercent <= 87)";
             if (hasRating5) sqlRating += (sqlRating == "" ? "" : " OR ") + "(PersonalRatingPercent >  87)";
-            if (sqlRating != "") sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + "(" + sqlRating + ") ";
+            if (sqlRating != "") sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlRating + ") ";
+            #endregion
 
-            if (useLocationName)    sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (locationName == null ? "LocationName IS NULL " : "LocationName LIKE @LocationName ");
-            if (useLocationCity)    sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (locationCity == null ? "LocationCity IS NULL " : "LocationCity LIKE @LocationCity ");
-            if (useLocationState)   sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (locationState == null ? "LocationState IS NULL " : "LocationState LIKE @LocationState ");
-            if (useLocationCountry) sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + (locationCountry == null ? "LocationCountry IS NULL " : "LocationCountry LIKE @LocationCountry ");
+            #region Warning 
+            if (checkIfHasExifWarning) sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(MediaExiftoolTagsWarning.Warning IS NOT NULL) ";
+            #endregion
 
-            if (checkIfHasExifWarning) sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + "(MediaExiftoolTagsWarning.Warning IS NOT NULL) ";
-
+            #region Region Names
             if ((useRegionNameList && regionNameList != null && regionNameList.Count > 0) || withoutRegions)
             {
                 string sqlRegionsNotInList = "";
@@ -980,9 +990,11 @@ LIMIT 6000
                     (sqlRegionsNotInList != "" && sqlRegionNames != "" ? " OR " : "") + 
                     (sqlRegionNames == "" ? "" : " (" + sqlRegionNames + ")");
 
-                sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + "(" + sqlRegionNames + ") ";
+                sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlRegionNames + ") ";
             }
+            #endregion
 
+            #region Keywords
             if ((useKeywordList && keywords != null && keywords.Count > 0) || withoutKeywords)
             {
 
@@ -1015,38 +1027,52 @@ LIMIT 6000
                     (sqlKeywordNotInList != "" && sqlKeywordList != "" ? " OR " : "") + 
                     (sqlKeywordList == "" ? "" : " (" + sqlKeywordList + ")");
 
-                sqlCommand += (sqlCommand == "" ? "" : useAndBetweenFields ? "AND " : "OR ") + " (" + sqlKeywordList + ") ";
+                sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + " (" + sqlKeywordList + ") ";
             }
+            #endregion
 
-            sqlCommand = sqlCommandBasicSelect + (sqlCommand == "" ? "" : "AND (" + sqlCommand + ") "); //"(" and ")" In case of "OR" statmenet
+            sqlCommand = sqlCommandBasicSelect + (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND (" + sqlCommand + ") " : "OR (" + sqlCommand + ")");
+            //sqlCommand = sqlCommandBasicSelect + (sqlCommand == "" ? "" : "AND (" + sqlCommand + ") ");  
+            
+            #region Limit
             sqlCommand += "LIMIT " + maxRowsInResult.ToString();
-        
+            #endregion 
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+
+                #region DateTaken
+                if (useMediaTakenFrom) commandDatabase.Parameters.AddWithValue("@MediaDateTakenFrom", dbTools.ConvertFromDateTimeToDBVal(mediaTakenFrom));
+                if (useMediaTakenTo) commandDatabase.Parameters.AddWithValue("@MediaDateTakenTo", dbTools.ConvertFromDateTimeToDBVal(mediaTakenTo));
+                #endregion
+
+                #region Text field tags
                 if (usePersonalAlbum) commandDatabase.Parameters.AddWithValue("@PersonalAlbum", personalAlbum);
                 if (usePersonalTitle) commandDatabase.Parameters.AddWithValue("@PersonalTitle", personalTitle);
                 if (usePersonalComments) commandDatabase.Parameters.AddWithValue("@PersonalComments", personalComments);
                 if (usePersonalDescription) commandDatabase.Parameters.AddWithValue("@PersonalDescription", personalDescription);             
-                
-                if (useMediaTakenFrom) commandDatabase.Parameters.AddWithValue("@MediaDateTakenFrom", dbTools.ConvertFromDateTimeToDBVal(mediaTakenFrom)); 
-                if (useMediaTakenTo) commandDatabase.Parameters.AddWithValue("@MediaDateTakenTo", dbTools.ConvertFromDateTimeToDBVal(mediaTakenTo));
-
                 if (useLocationName) commandDatabase.Parameters.AddWithValue("@LocationName", locationName);
                 if (useLocationCity) commandDatabase.Parameters.AddWithValue("@LocationCity", locationCity);
                 if (useLocationState) commandDatabase.Parameters.AddWithValue("@LocationState", locationState);
                 if (useLocationCountry) commandDatabase.Parameters.AddWithValue("@LocationCountry", locationCountry);
+                #endregion
 
+                #region Region names
                 if (useRegionNameList && regionNameList != null && regionNameList.Count > 0)
                 {
                     for (int index = 0; index < regionNameList.Count; index++) commandDatabase.Parameters.AddWithValue("@MediaPersonalRegionsName" + index.ToString(), regionNameList[index]);                    
                 }
+                #endregion
+
+                #region Keywords
                 if (useKeywordList && keywords != null && keywords.Count > 0)
                 {
                     for (int index = 0; index < keywords.Count; index++) commandDatabase.Parameters.AddWithValue("@MediaPersonalKeywordsKeyword" + index.ToString(), keywords[index]);
                 }
+                #endregion
 
+                #region Read list of file fullpaths
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
@@ -1059,6 +1085,7 @@ LIMIT 6000
                             ));
                     }
                 }
+                #endregion 
             }
             return listing;
         }

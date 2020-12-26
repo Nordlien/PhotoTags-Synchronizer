@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter (Has at least one value)");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -57,6 +57,7 @@ namespace PhotoTagsSynchronizer
             this.openFolderLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageFilterSearch = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.checkBoxSerachFitsAllValues = new System.Windows.Forms.CheckBox();
             this.panelSearchFilter = new System.Windows.Forms.Panel();
             this.groupBoxSearchKeywords = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -73,11 +74,11 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchRating1 = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchRating0 = new System.Windows.Forms.CheckBox();
             this.groupBoxSearchPeople = new System.Windows.Forms.GroupBox();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.checkedListBoxSearchPeople = new System.Windows.Forms.CheckedListBox();
             this.checkBoxSearchWithoutRegions = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchNeedAllNames = new System.Windows.Forms.CheckBox();
-            this.checkedListBoxSearchPeople = new System.Windows.Forms.CheckedListBox();
             this.groupBoxSearchExtra = new System.Windows.Forms.GroupBox();
-            this.checkBoxSerachFitsAllValues = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchHasWarning = new System.Windows.Forms.CheckBox();
             this.groupBoxSearchMediaTaken = new System.Windows.Forms.GroupBox();
             this.checkBoxSearchMediaTakenIsNull = new System.Windows.Forms.CheckBox();
@@ -86,6 +87,7 @@ namespace PhotoTagsSynchronizer
             this.label17 = new System.Windows.Forms.Label();
             this.dateTimePickerSearchDateTo = new System.Windows.Forms.DateTimePicker();
             this.groupBoxSearchTags = new System.Windows.Forms.GroupBox();
+            this.checkBoxSearchUseAndBetweenTextTagFields = new System.Windows.Forms.CheckBox();
             this.comboBoxSearchComments = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -312,6 +314,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchKeywords.SuspendLayout();
             this.groupBoxSearchRating.SuspendLayout();
             this.groupBoxSearchPeople.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.groupBoxSearchExtra.SuspendLayout();
             this.groupBoxSearchMediaTaken.SuspendLayout();
             this.groupBoxSearchTags.SuspendLayout();
@@ -592,23 +595,37 @@ namespace PhotoTagsSynchronizer
             // tabPageFilterSearch
             // 
             this.tabPageFilterSearch.Controls.Add(this.panel4);
-            this.tabPageFilterSearch.Location = new System.Drawing.Point(4, 26);
+            this.tabPageFilterSearch.Location = new System.Drawing.Point(4, 25);
             this.tabPageFilterSearch.Name = "tabPageFilterSearch";
             this.tabPageFilterSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFilterSearch.Size = new System.Drawing.Size(330, 862);
+            this.tabPageFilterSearch.Size = new System.Drawing.Size(330, 863);
             this.tabPageFilterSearch.TabIndex = 2;
             this.tabPageFilterSearch.Text = "Search";
             this.tabPageFilterSearch.UseVisualStyleBackColor = true;
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.checkBoxSerachFitsAllValues);
             this.panel4.Controls.Add(this.panelSearchFilter);
             this.panel4.Controls.Add(this.buttonSearch);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(324, 856);
+            this.panel4.Size = new System.Drawing.Size(324, 857);
             this.panel4.TabIndex = 18;
+            // 
+            // checkBoxSerachFitsAllValues
+            // 
+            this.checkBoxSerachFitsAllValues.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxSerachFitsAllValues.AutoSize = true;
+            this.checkBoxSerachFitsAllValues.Checked = true;
+            this.checkBoxSerachFitsAllValues.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSerachFitsAllValues.Location = new System.Drawing.Point(3, 822);
+            this.checkBoxSerachFitsAllValues.Name = "checkBoxSerachFitsAllValues";
+            this.checkBoxSerachFitsAllValues.Size = new System.Drawing.Size(54, 21);
+            this.checkBoxSerachFitsAllValues.TabIndex = 26;
+            this.checkBoxSerachFitsAllValues.Text = "And";
+            this.checkBoxSerachFitsAllValues.UseVisualStyleBackColor = true;
             // 
             // panelSearchFilter
             // 
@@ -625,7 +642,7 @@ namespace PhotoTagsSynchronizer
             this.panelSearchFilter.Controls.Add(this.groupBoxSearchTags);
             this.panelSearchFilter.Location = new System.Drawing.Point(0, 0);
             this.panelSearchFilter.Name = "panelSearchFilter";
-            this.panelSearchFilter.Size = new System.Drawing.Size(319, 806);
+            this.panelSearchFilter.Size = new System.Drawing.Size(319, 807);
             this.panelSearchFilter.TabIndex = 2;
             // 
             // groupBoxSearchKeywords
@@ -648,7 +665,7 @@ namespace PhotoTagsSynchronizer
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(122, 52);
+            this.label9.Location = new System.Drawing.Point(124, 52);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(163, 17);
             this.label9.TabIndex = 44;
@@ -690,9 +707,9 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchWithoutKeyword.AutoSize = true;
             this.checkBoxSearchWithoutKeyword.Location = new System.Drawing.Point(124, 103);
             this.checkBoxSearchWithoutKeyword.Name = "checkBoxSearchWithoutKeyword";
-            this.checkBoxSearchWithoutKeyword.Size = new System.Drawing.Size(170, 21);
+            this.checkBoxSearchWithoutKeyword.Size = new System.Drawing.Size(185, 21);
             this.checkBoxSearchWithoutKeyword.TabIndex = 41;
-            this.checkBoxSearchWithoutKeyword.Text = "Without any keywords";
+            this.checkBoxSearchWithoutKeyword.Text = "Or without any keywords";
             this.checkBoxSearchWithoutKeyword.UseVisualStyleBackColor = true;
             // 
             // groupBoxSearchRating
@@ -789,38 +806,25 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchPeople.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxSearchPeople.Controls.Add(this.checkBoxSearchWithoutRegions);
-            this.groupBoxSearchPeople.Controls.Add(this.checkBoxSearchNeedAllNames);
-            this.groupBoxSearchPeople.Controls.Add(this.checkedListBoxSearchPeople);
+            this.groupBoxSearchPeople.Controls.Add(this.panel5);
             this.groupBoxSearchPeople.Location = new System.Drawing.Point(3, 674);
             this.groupBoxSearchPeople.MinimumSize = new System.Drawing.Size(313, 120);
             this.groupBoxSearchPeople.Name = "groupBoxSearchPeople";
-            this.groupBoxSearchPeople.Size = new System.Drawing.Size(313, 129);
+            this.groupBoxSearchPeople.Size = new System.Drawing.Size(313, 130);
             this.groupBoxSearchPeople.TabIndex = 26;
             this.groupBoxSearchPeople.TabStop = false;
             this.groupBoxSearchPeople.Text = "People:";
             // 
-            // checkBoxSearchWithoutRegions
+            // panel5
             // 
-            this.checkBoxSearchWithoutRegions.AutoSize = true;
-            this.checkBoxSearchWithoutRegions.Location = new System.Drawing.Point(123, 50);
-            this.checkBoxSearchWithoutRegions.Name = "checkBoxSearchWithoutRegions";
-            this.checkBoxSearchWithoutRegions.Size = new System.Drawing.Size(155, 21);
-            this.checkBoxSearchWithoutRegions.TabIndex = 44;
-            this.checkBoxSearchWithoutRegions.Text = "Whitout any regions";
-            this.checkBoxSearchWithoutRegions.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchNeedAllNames
-            // 
-            this.checkBoxSearchNeedAllNames.AutoSize = true;
-            this.checkBoxSearchNeedAllNames.Checked = true;
-            this.checkBoxSearchNeedAllNames.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSearchNeedAllNames.Location = new System.Drawing.Point(124, 23);
-            this.checkBoxSearchNeedAllNames.Name = "checkBoxSearchNeedAllNames";
-            this.checkBoxSearchNeedAllNames.Size = new System.Drawing.Size(175, 21);
-            this.checkBoxSearchNeedAllNames.TabIndex = 43;
-            this.checkBoxSearchNeedAllNames.Text = "When contain all names";
-            this.checkBoxSearchNeedAllNames.UseVisualStyleBackColor = true;
+            this.panel5.Controls.Add(this.checkedListBoxSearchPeople);
+            this.panel5.Controls.Add(this.checkBoxSearchWithoutRegions);
+            this.panel5.Controls.Add(this.checkBoxSearchNeedAllNames);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(3, 20);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(307, 107);
+            this.panel5.TabIndex = 16;
             // 
             // checkedListBoxSearchPeople
             // 
@@ -828,34 +832,44 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedListBoxSearchPeople.FormattingEnabled = true;
-            this.checkedListBoxSearchPeople.Location = new System.Drawing.Point(2, 77);
+            this.checkedListBoxSearchPeople.Location = new System.Drawing.Point(3, 62);
             this.checkedListBoxSearchPeople.Name = "checkedListBoxSearchPeople";
-            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(304, 4);
+            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(300, 23);
             this.checkedListBoxSearchPeople.TabIndex = 0;
+            // 
+            // checkBoxSearchWithoutRegions
+            // 
+            this.checkBoxSearchWithoutRegions.AutoSize = true;
+            this.checkBoxSearchWithoutRegions.Location = new System.Drawing.Point(121, 35);
+            this.checkBoxSearchWithoutRegions.Name = "checkBoxSearchWithoutRegions";
+            this.checkBoxSearchWithoutRegions.Size = new System.Drawing.Size(170, 21);
+            this.checkBoxSearchWithoutRegions.TabIndex = 44;
+            this.checkBoxSearchWithoutRegions.Text = "Or whitout any regions";
+            this.checkBoxSearchWithoutRegions.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchNeedAllNames
+            // 
+            this.checkBoxSearchNeedAllNames.AutoSize = true;
+            this.checkBoxSearchNeedAllNames.Checked = true;
+            this.checkBoxSearchNeedAllNames.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxSearchNeedAllNames.Location = new System.Drawing.Point(121, 8);
+            this.checkBoxSearchNeedAllNames.Name = "checkBoxSearchNeedAllNames";
+            this.checkBoxSearchNeedAllNames.Size = new System.Drawing.Size(175, 21);
+            this.checkBoxSearchNeedAllNames.TabIndex = 43;
+            this.checkBoxSearchNeedAllNames.Text = "When contain all names";
+            this.checkBoxSearchNeedAllNames.UseVisualStyleBackColor = true;
             // 
             // groupBoxSearchExtra
             // 
             this.groupBoxSearchExtra.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxSearchExtra.Controls.Add(this.checkBoxSerachFitsAllValues);
             this.groupBoxSearchExtra.Controls.Add(this.checkBoxSearchHasWarning);
-            this.groupBoxSearchExtra.Location = new System.Drawing.Point(2, 452);
-            this.groupBoxSearchExtra.MinimumSize = new System.Drawing.Size(313, 76);
+            this.groupBoxSearchExtra.Location = new System.Drawing.Point(3, 480);
             this.groupBoxSearchExtra.Name = "groupBoxSearchExtra";
-            this.groupBoxSearchExtra.Size = new System.Drawing.Size(313, 76);
+            this.groupBoxSearchExtra.Size = new System.Drawing.Size(313, 48);
             this.groupBoxSearchExtra.TabIndex = 2;
             this.groupBoxSearchExtra.TabStop = false;
             this.groupBoxSearchExtra.Text = "Attributes:";
-            // 
-            // checkBoxSerachFitsAllValues
-            // 
-            this.checkBoxSerachFitsAllValues.AutoSize = true;
-            this.checkBoxSerachFitsAllValues.Location = new System.Drawing.Point(124, 50);
-            this.checkBoxSerachFitsAllValues.Name = "checkBoxSerachFitsAllValues";
-            this.checkBoxSerachFitsAllValues.Size = new System.Drawing.Size(196, 21);
-            this.checkBoxSerachFitsAllValues.TabIndex = 26;
-            this.checkBoxSerachFitsAllValues.Text = "Need fit all values (else fit 1)";
-            this.checkBoxSerachFitsAllValues.UseVisualStyleBackColor = true;
             // 
             // checkBoxSearchHasWarning
             // 
@@ -887,11 +901,11 @@ namespace PhotoTagsSynchronizer
             // checkBoxSearchMediaTakenIsNull
             // 
             this.checkBoxSearchMediaTakenIsNull.AutoSize = true;
-            this.checkBoxSearchMediaTakenIsNull.Location = new System.Drawing.Point(123, 86);
+            this.checkBoxSearchMediaTakenIsNull.Location = new System.Drawing.Point(124, 86);
             this.checkBoxSearchMediaTakenIsNull.Name = "checkBoxSearchMediaTakenIsNull";
-            this.checkBoxSearchMediaTakenIsNull.Size = new System.Drawing.Size(113, 21);
+            this.checkBoxSearchMediaTakenIsNull.Size = new System.Drawing.Size(166, 21);
             this.checkBoxSearchMediaTakenIsNull.TabIndex = 32;
-            this.checkBoxSearchMediaTakenIsNull.Text = "Is not defined";
+            this.checkBoxSearchMediaTakenIsNull.Text = "Or when missing value";
             this.checkBoxSearchMediaTakenIsNull.UseVisualStyleBackColor = true;
             // 
             // dateTimePickerSearchDateFrom
@@ -944,6 +958,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxSearchTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxSearchTags.Controls.Add(this.checkBoxSearchUseAndBetweenTextTagFields);
             this.groupBoxSearchTags.Controls.Add(this.comboBoxSearchComments);
             this.groupBoxSearchTags.Controls.Add(this.label8);
             this.groupBoxSearchTags.Controls.Add(this.label7);
@@ -963,10 +978,20 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchTags.Location = new System.Drawing.Point(3, 175);
             this.groupBoxSearchTags.MinimumSize = new System.Drawing.Size(313, 271);
             this.groupBoxSearchTags.Name = "groupBoxSearchTags";
-            this.groupBoxSearchTags.Size = new System.Drawing.Size(313, 271);
+            this.groupBoxSearchTags.Size = new System.Drawing.Size(313, 299);
             this.groupBoxSearchTags.TabIndex = 2;
             this.groupBoxSearchTags.TabStop = false;
             this.groupBoxSearchTags.Text = "Search inside text field tags:";
+            // 
+            // checkBoxSearchUseAndBetweenTextTagFields
+            // 
+            this.checkBoxSearchUseAndBetweenTextTagFields.AutoSize = true;
+            this.checkBoxSearchUseAndBetweenTextTagFields.Location = new System.Drawing.Point(124, 272);
+            this.checkBoxSearchUseAndBetweenTextTagFields.Name = "checkBoxSearchUseAndBetweenTextTagFields";
+            this.checkBoxSearchUseAndBetweenTextTagFields.Size = new System.Drawing.Size(108, 21);
+            this.checkBoxSearchUseAndBetweenTextTagFields.TabIndex = 26;
+            this.checkBoxSearchUseAndBetweenTextTagFields.Text = "Need all to fit";
+            this.checkBoxSearchUseAndBetweenTextTagFields.UseVisualStyleBackColor = true;
             // 
             // comboBoxSearchComments
             // 
@@ -1123,7 +1148,7 @@ namespace PhotoTagsSynchronizer
             // buttonSearch
             // 
             this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSearch.Location = new System.Drawing.Point(118, 812);
+            this.buttonSearch.Location = new System.Drawing.Point(118, 813);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(202, 37);
             this.buttonSearch.TabIndex = 42;
@@ -1134,10 +1159,10 @@ namespace PhotoTagsSynchronizer
             // tabPageFilterTags
             // 
             this.tabPageFilterTags.Controls.Add(this.treeViewFilter);
-            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 25);
+            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 26);
             this.tabPageFilterTags.Name = "tabPageFilterTags";
             this.tabPageFilterTags.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFilterTags.Size = new System.Drawing.Size(330, 863);
+            this.tabPageFilterTags.Size = new System.Drawing.Size(330, 862);
             this.tabPageFilterTags.TabIndex = 1;
             this.tabPageFilterTags.Text = "Filter";
             this.tabPageFilterTags.UseVisualStyleBackColor = true;
@@ -1149,10 +1174,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
             this.treeViewFilter.Name = "treeViewFilter";
             treeNode1.Name = "NodeFolder";
-            treeNode1.Text = "Filter (Has at least one value)";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
+            this.treeViewFilter.Size = new System.Drawing.Size(324, 856);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
             // 
@@ -3330,13 +3356,15 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripTreeViewFolder.ResumeLayout(false);
             this.tabPageFilterSearch.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panelSearchFilter.ResumeLayout(false);
             this.groupBoxSearchKeywords.ResumeLayout(false);
             this.groupBoxSearchKeywords.PerformLayout();
             this.groupBoxSearchRating.ResumeLayout(false);
             this.groupBoxSearchRating.PerformLayout();
             this.groupBoxSearchPeople.ResumeLayout(false);
-            this.groupBoxSearchPeople.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.groupBoxSearchExtra.ResumeLayout(false);
             this.groupBoxSearchExtra.PerformLayout();
             this.groupBoxSearchMediaTaken.ResumeLayout(false);
@@ -3651,6 +3679,8 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.CheckBox checkBoxSearchMediaTakenIsNull;
         private System.Windows.Forms.Panel panelSearchFilter;
         private System.Windows.Forms.CheckBox checkBoxSearchWithoutRegions;
+        private System.Windows.Forms.CheckBox checkBoxSearchUseAndBetweenTextTagFields;
+        private System.Windows.Forms.Panel panel5;
     }
 }
 

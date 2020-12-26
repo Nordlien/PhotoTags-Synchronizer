@@ -75,9 +75,9 @@ namespace PhotoTagsSynchronizer
             imageListView1.Enabled = false;
             imageListView1.SuspendLayout();
 
-            bool isAndBetweenFieldTagsFolder = treeViewFilter.Nodes[rootNodeFolder].Checked;
-            FilterVerifyer filterVerifyerFolder = new FilterVerifyer(isAndBetweenFieldTagsFolder);
-            int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, rootNodeFolder);
+            //bool isAndBetweenFieldTagsFolder = treeViewFilter.Nodes[FilterVerifyer.Root].Checked;
+            FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
+            int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root);
 
             foreach (string fileFullPath in searchFilterResult)
             {
@@ -133,9 +133,8 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.Save();
             FileEntryImage[] filesFoundInDirectory;
 
-            bool isAndBetweenFieldTagsFolder = treeViewFilter.Nodes[rootNodeFolder].Checked;
-            FilterVerifyer filterVerifyerFolder = new FilterVerifyer(isAndBetweenFieldTagsFolder);
-            int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, rootNodeFolder);
+            FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
+            int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root);
 
             filesFoundInDirectory = ImageAndMovieFileExtentionsUtility.ListAllMediaFiles(selectedFolder, recursive);
 

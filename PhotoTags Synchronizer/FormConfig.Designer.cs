@@ -191,6 +191,9 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label38 = new System.Windows.Forms.Label();
+            this.numericUpDownApplicationMaxRowsInSearchResult = new System.Windows.Forms.NumericUpDown();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
@@ -221,6 +224,8 @@ namespace PhotoTagsSynchronizer
             this.tabPageCameraOwner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).BeginInit();
             this.panelAvoidResizeIssues.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownApplicationMaxRowsInSearchResult)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControlConfig
@@ -255,6 +260,7 @@ namespace PhotoTagsSynchronizer
             // panelApplication
             // 
             this.panelApplication.BackColor = System.Drawing.Color.Transparent;
+            this.panelApplication.Controls.Add(this.groupBox3);
             this.panelApplication.Controls.Add(this.groupBox2);
             this.panelApplication.Controls.Add(this.groupBox1);
             this.panelApplication.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -283,7 +289,7 @@ namespace PhotoTagsSynchronizer
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(160, 119);
+            this.label20.Location = new System.Drawing.Point(180, 119);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(491, 17);
             this.label20.TabIndex = 7;
@@ -292,7 +298,7 @@ namespace PhotoTagsSynchronizer
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(160, 102);
+            this.label2.Location = new System.Drawing.Point(180, 102);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(436, 17);
             this.label2.TabIndex = 6;
@@ -301,7 +307,7 @@ namespace PhotoTagsSynchronizer
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(160, 18);
+            this.label1.Location = new System.Drawing.Point(180, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(338, 17);
             this.label1.TabIndex = 5;
@@ -320,9 +326,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.textBoxApplicationPreferredLanguages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(163, 68);
+            this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(183, 68);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(713, 22);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(693, 22);
             this.textBoxApplicationPreferredLanguages.TabIndex = 3;
             // 
             // comboBoxApplicationLanguages
@@ -531,9 +537,9 @@ namespace PhotoTagsSynchronizer
             "xh - Xhosa",
             "ji - Yiddish",
             "zu - Zulu"});
-            this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(163, 38);
+            this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(183, 38);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(713, 24);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(693, 24);
             this.comboBoxApplicationLanguages.TabIndex = 4;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
             // 
@@ -555,7 +561,7 @@ namespace PhotoTagsSynchronizer
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(160, 86);
+            this.label25.Location = new System.Drawing.Point(180, 86);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(482, 17);
             this.label25.TabIndex = 3;
@@ -564,7 +570,7 @@ namespace PhotoTagsSynchronizer
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(160, 69);
+            this.label24.Location = new System.Drawing.Point(180, 69);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(410, 17);
             this.label24.TabIndex = 2;
@@ -574,7 +580,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxApplicationThumbnailSizes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxApplicationThumbnailSizes.FormattingEnabled = true;
-            this.comboBoxApplicationThumbnailSizes.Location = new System.Drawing.Point(163, 32);
+            this.comboBoxApplicationThumbnailSizes.Location = new System.Drawing.Point(183, 32);
             this.comboBoxApplicationThumbnailSizes.Name = "comboBoxApplicationThumbnailSizes";
             this.comboBoxApplicationThumbnailSizes.Size = new System.Drawing.Size(172, 24);
             this.comboBoxApplicationThumbnailSizes.TabIndex = 1;
@@ -810,7 +816,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxMetadataWriteKeywordItems.Location = new System.Drawing.Point(0, 289);
             this.groupBoxMetadataWriteKeywordItems.MinimumSize = new System.Drawing.Size(743, 257);
             this.groupBoxMetadataWriteKeywordItems.Name = "groupBoxMetadataWriteKeywordItems";
-            this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(838, 257);
+            this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(817, 257);
             this.groupBoxMetadataWriteKeywordItems.TabIndex = 16;
             this.groupBoxMetadataWriteKeywordItems.TabStop = false;
             this.groupBoxMetadataWriteKeywordItems.Text = "Keyword tag items";
@@ -823,7 +829,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMetadataWriteKeywordTags.FormattingEnabled = true;
             this.comboBoxMetadataWriteKeywordTags.Location = new System.Drawing.Point(372, 27);
             this.comboBoxMetadataWriteKeywordTags.Name = "comboBoxMetadataWriteKeywordTags";
-            this.comboBoxMetadataWriteKeywordTags.Size = new System.Drawing.Size(457, 24);
+            this.comboBoxMetadataWriteKeywordTags.Size = new System.Drawing.Size(436, 24);
             this.comboBoxMetadataWriteKeywordTags.TabIndex = 25;
             this.comboBoxMetadataWriteKeywordTags.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteKeywordTags_SelectionChangeCommitted);
             // 
@@ -854,7 +860,7 @@ namespace PhotoTagsSynchronizer
             this.textBoxMetadataWriteKeywordDelete.Multiline = true;
             this.textBoxMetadataWriteKeywordDelete.Name = "textBoxMetadataWriteKeywordDelete";
             this.textBoxMetadataWriteKeywordDelete.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(824, 83);
+            this.textBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(803, 83);
             this.textBoxMetadataWriteKeywordDelete.TabIndex = 3;
             this.textBoxMetadataWriteKeywordDelete.Enter += new System.EventHandler(this.textBoxMetadataWriteKeywordDelete_Enter);
             // 
@@ -867,7 +873,7 @@ namespace PhotoTagsSynchronizer
             this.textBoxMetadataWriteKeywordAdd.Multiline = true;
             this.textBoxMetadataWriteKeywordAdd.Name = "textBoxMetadataWriteKeywordAdd";
             this.textBoxMetadataWriteKeywordAdd.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(824, 83);
+            this.textBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(803, 83);
             this.textBoxMetadataWriteKeywordAdd.TabIndex = 2;
             this.textBoxMetadataWriteKeywordAdd.Enter += new System.EventHandler(this.textBoxMetadataWriteKeywordAdd_Enter);
             // 
@@ -907,7 +913,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxMetadataWriteProperties.Location = new System.Drawing.Point(1, 3);
             this.groupBoxMetadataWriteProperties.MinimumSize = new System.Drawing.Size(706, 289);
             this.groupBoxMetadataWriteProperties.Name = "groupBoxMetadataWriteProperties";
-            this.groupBoxMetadataWriteProperties.Size = new System.Drawing.Size(838, 289);
+            this.groupBoxMetadataWriteProperties.Size = new System.Drawing.Size(817, 289);
             this.groupBoxMetadataWriteProperties.TabIndex = 15;
             this.groupBoxMetadataWriteProperties.TabStop = false;
             this.groupBoxMetadataWriteProperties.Text = "Write Windows Xtra atom properties:";
@@ -918,7 +924,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomArtist.Location = new System.Drawing.Point(372, 218);
             this.textBoxWriteXtraAtomArtist.Name = "textBoxWriteXtraAtomArtist";
-            this.textBoxWriteXtraAtomArtist.Size = new System.Drawing.Size(457, 22);
+            this.textBoxWriteXtraAtomArtist.Size = new System.Drawing.Size(436, 22);
             this.textBoxWriteXtraAtomArtist.TabIndex = 29;
             this.textBoxWriteXtraAtomArtist.Enter += new System.EventHandler(this.textBoxWriteXtraAtomArtist_Enter);
             // 
@@ -958,7 +964,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxWriteXtraAtomVariables.FormattingEnabled = true;
             this.comboBoxWriteXtraAtomVariables.Location = new System.Drawing.Point(372, 27);
             this.comboBoxWriteXtraAtomVariables.Name = "comboBoxWriteXtraAtomVariables";
-            this.comboBoxWriteXtraAtomVariables.Size = new System.Drawing.Size(457, 24);
+            this.comboBoxWriteXtraAtomVariables.Size = new System.Drawing.Size(436, 24);
             this.comboBoxWriteXtraAtomVariables.TabIndex = 24;
             this.comboBoxWriteXtraAtomVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxWriteXtraAtomVariables_SelectionChangeCommitted);
             // 
@@ -968,7 +974,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomComment.Location = new System.Drawing.Point(372, 189);
             this.textBoxWriteXtraAtomComment.Name = "textBoxWriteXtraAtomComment";
-            this.textBoxWriteXtraAtomComment.Size = new System.Drawing.Size(457, 22);
+            this.textBoxWriteXtraAtomComment.Size = new System.Drawing.Size(436, 22);
             this.textBoxWriteXtraAtomComment.TabIndex = 23;
             this.textBoxWriteXtraAtomComment.Enter += new System.EventHandler(this.textBoxWriteXtraAtomComment_Enter);
             // 
@@ -978,7 +984,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomSubject.Location = new System.Drawing.Point(372, 162);
             this.textBoxWriteXtraAtomSubject.Name = "textBoxWriteXtraAtomSubject";
-            this.textBoxWriteXtraAtomSubject.Size = new System.Drawing.Size(457, 22);
+            this.textBoxWriteXtraAtomSubject.Size = new System.Drawing.Size(436, 22);
             this.textBoxWriteXtraAtomSubject.TabIndex = 22;
             this.textBoxWriteXtraAtomSubject.Enter += new System.EventHandler(this.textBoxWriteXtraAtomSubject_Enter);
             // 
@@ -988,7 +994,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomSubtitle.Location = new System.Drawing.Point(372, 135);
             this.textBoxWriteXtraAtomSubtitle.Name = "textBoxWriteXtraAtomSubtitle";
-            this.textBoxWriteXtraAtomSubtitle.Size = new System.Drawing.Size(457, 22);
+            this.textBoxWriteXtraAtomSubtitle.Size = new System.Drawing.Size(436, 22);
             this.textBoxWriteXtraAtomSubtitle.TabIndex = 21;
             this.textBoxWriteXtraAtomSubtitle.Enter += new System.EventHandler(this.textBoxWriteXtraAtomSubtitle_Enter);
             // 
@@ -998,7 +1004,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomAlbum.Location = new System.Drawing.Point(372, 108);
             this.textBoxWriteXtraAtomAlbum.Name = "textBoxWriteXtraAtomAlbum";
-            this.textBoxWriteXtraAtomAlbum.Size = new System.Drawing.Size(457, 22);
+            this.textBoxWriteXtraAtomAlbum.Size = new System.Drawing.Size(436, 22);
             this.textBoxWriteXtraAtomAlbum.TabIndex = 20;
             this.textBoxWriteXtraAtomAlbum.Enter += new System.EventHandler(this.textBoxWriteXtraAtomAlbum_Enter);
             // 
@@ -1008,7 +1014,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomCategories.Location = new System.Drawing.Point(372, 83);
             this.textBoxWriteXtraAtomCategories.Name = "textBoxWriteXtraAtomCategories";
-            this.textBoxWriteXtraAtomCategories.Size = new System.Drawing.Size(457, 22);
+            this.textBoxWriteXtraAtomCategories.Size = new System.Drawing.Size(436, 22);
             this.textBoxWriteXtraAtomCategories.TabIndex = 19;
             this.textBoxWriteXtraAtomCategories.Enter += new System.EventHandler(this.textBoxWriteXtraAtomCategories_Enter);
             // 
@@ -1018,7 +1024,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomKeywords.Location = new System.Drawing.Point(372, 57);
             this.textBoxWriteXtraAtomKeywords.Name = "textBoxWriteXtraAtomKeywords";
-            this.textBoxWriteXtraAtomKeywords.Size = new System.Drawing.Size(457, 22);
+            this.textBoxWriteXtraAtomKeywords.Size = new System.Drawing.Size(436, 22);
             this.textBoxWriteXtraAtomKeywords.TabIndex = 18;
             this.textBoxWriteXtraAtomKeywords.Enter += new System.EventHandler(this.textBoxWriteXtraAtomKeywords_Enter);
             // 
@@ -1204,7 +1210,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(4, 552);
             this.groupBoxMetadataWriteTags.MinimumSize = new System.Drawing.Size(703, 145);
             this.groupBoxMetadataWriteTags.Name = "groupBoxMetadataWriteTags";
-            this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(835, 355);
+            this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(814, 355);
             this.groupBoxMetadataWriteTags.TabIndex = 14;
             this.groupBoxMetadataWriteTags.TabStop = false;
             this.groupBoxMetadataWriteTags.Text = "Exiftool Write tags configuration ";
@@ -1217,7 +1223,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMetadataWriteStandardTags.FormattingEnabled = true;
             this.comboBoxMetadataWriteStandardTags.Location = new System.Drawing.Point(124, 21);
             this.comboBoxMetadataWriteStandardTags.Name = "comboBoxMetadataWriteStandardTags";
-            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(705, 24);
+            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(684, 24);
             this.comboBoxMetadataWriteStandardTags.TabIndex = 6;
             this.comboBoxMetadataWriteStandardTags.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteStandardTags_SelectionChangeCommitted);
             // 
@@ -1231,7 +1237,7 @@ namespace PhotoTagsSynchronizer
             this.textBoxMetadataWriteTags.Multiline = true;
             this.textBoxMetadataWriteTags.Name = "textBoxMetadataWriteTags";
             this.textBoxMetadataWriteTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxMetadataWriteTags.Size = new System.Drawing.Size(822, 300);
+            this.textBoxMetadataWriteTags.Size = new System.Drawing.Size(801, 300);
             this.textBoxMetadataWriteTags.TabIndex = 1;
             // 
             // label6
@@ -2224,7 +2230,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageCameraOwner.Location = new System.Drawing.Point(4, 25);
             this.tabPageCameraOwner.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageCameraOwner.Name = "tabPageCameraOwner";
-            this.tabPageCameraOwner.Size = new System.Drawing.Size(731, 748);
+            this.tabPageCameraOwner.Size = new System.Drawing.Size(887, 748);
             this.tabPageCameraOwner.TabIndex = 4;
             this.tabPageCameraOwner.Text = "Camera Owner";
             this.tabPageCameraOwner.UseVisualStyleBackColor = true;
@@ -2273,6 +2279,48 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Name = "panelAvoidResizeIssues";
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(899, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.numericUpDownApplicationMaxRowsInSearchResult);
+            this.groupBox3.Controls.Add(this.label38);
+            this.groupBox3.Location = new System.Drawing.Point(3, 290);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(881, 65);
+            this.groupBox3.TabIndex = 8;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Search result";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(6, 28);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(171, 17);
+            this.label38.TabIndex = 0;
+            this.label38.Text = "Max rows in search result:";
+            // 
+            // numericUpDownApplicationMaxRowsInSearchResult
+            // 
+            this.numericUpDownApplicationMaxRowsInSearchResult.Location = new System.Drawing.Point(183, 26);
+            this.numericUpDownApplicationMaxRowsInSearchResult.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.numericUpDownApplicationMaxRowsInSearchResult.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDownApplicationMaxRowsInSearchResult.Name = "numericUpDownApplicationMaxRowsInSearchResult";
+            this.numericUpDownApplicationMaxRowsInSearchResult.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownApplicationMaxRowsInSearchResult.TabIndex = 1;
+            this.numericUpDownApplicationMaxRowsInSearchResult.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             // 
             // Config
             // 
@@ -2333,6 +2381,9 @@ namespace PhotoTagsSynchronizer
             this.tabPageCameraOwner.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).EndInit();
             this.panelAvoidResizeIssues.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownApplicationMaxRowsInSearchResult)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2498,5 +2549,8 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.ComboBox comboBoxMetadataWriteKeywordTags;
         private System.Windows.Forms.Panel panelAvoidResizeIssues;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.NumericUpDown numericUpDownApplicationMaxRowsInSearchResult;
+        private System.Windows.Forms.Label label38;
     }
 }
