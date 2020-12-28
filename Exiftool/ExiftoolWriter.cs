@@ -24,7 +24,7 @@ namespace Exiftool
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static object SystemProperties { get; private set; }
+        //public static object SystemProperties { get; private set; }
 
         #region Compare orginal red metadata with what user has updated 
         public static List<int> GetListOfMetadataChangedByUser(List<Metadata> metadataListOriginal, List<Metadata> metadataListToWrite)
@@ -175,8 +175,6 @@ namespace Exiftool
             } while (areAnyFileLocked);
         }
         #endregion
-
-
 
         #region WriteXtraAtom
         public static List<FileEntry> WriteXtraAtom(

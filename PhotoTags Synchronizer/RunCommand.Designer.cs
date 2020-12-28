@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RunCommand));
             this.panelMain = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageOpenWith = new System.Windows.Forms.TabPage();
@@ -101,14 +103,36 @@
             this.textBoxBatchCommandSelectedFiles = new System.Windows.Forms.TextBox();
             this.buttonBatchCommandBatchRun = new System.Windows.Forms.Button();
             this.tabPageArgumentFile = new System.Windows.Forms.TabPage();
+            this.buttonArgumentFileCompare = new System.Windows.Forms.Button();
+            this.buttonArgumentFileLoad = new System.Windows.Forms.Button();
+            this.buttonArgumentFileSave = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBoxArgumentFileArgumentFile = new System.Windows.Forms.TextBox();
+            this.tabControlArgumentFile = new System.Windows.Forms.TabControl();
+            this.tabPageArgumentFileEditFields = new System.Windows.Forms.TabPage();
+            this.fastColoredTextBoxArgumentFileArgumentFile = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.tabPageArgumentFileAutoCorrect = new System.Windows.Forms.TabPage();
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect = new FastColoredTextBoxNS.FastColoredTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBoxArgumentFileCommand = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxArgumentFileCommandVariables = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.buttonArgumentFileRun = new System.Windows.Forms.Button();
+            this.tabPageArgumentFileBuilder = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.comboBoxArgumentFileBuilderCommand = new System.Windows.Forms.ComboBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.comboBoxArgumentFileBuilderCommandVariables = new System.Windows.Forms.ComboBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.buttonArgumentFileBuilderCompare = new System.Windows.Forms.Button();
+            this.buttonArgumentFileBuilderLoad = new System.Windows.Forms.Button();
+            this.buttonArgumentFileBuilderSave = new System.Windows.Forms.Button();
+            this.splitContainerARgumentFileBuilder = new System.Windows.Forms.SplitContainer();
+            this.buttonArgumentFileBuilderBuild = new System.Windows.Forms.Button();
+            this.fastColoredTextBoxArgumentFileBuilderSource = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.fastColoredTextBoxArgumentFileBuilderResult = new FastColoredTextBoxNS.FastColoredTextBox();
             this.panelMain.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageOpenWith.SuspendLayout();
@@ -139,7 +163,21 @@
             this.groupBox3.SuspendLayout();
             this.tabPageArgumentFile.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tabControlArgumentFile.SuspendLayout();
+            this.tabPageArgumentFileEditFields.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileArgumentFile)).BeginInit();
+            this.tabPageArgumentFileAutoCorrect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.tabPageArgumentFileBuilder.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerARgumentFileBuilder)).BeginInit();
+            this.splitContainerARgumentFileBuilder.Panel1.SuspendLayout();
+            this.splitContainerARgumentFileBuilder.Panel2.SuspendLayout();
+            this.splitContainerARgumentFileBuilder.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileBuilderSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileBuilderResult)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMain
@@ -156,6 +194,7 @@
             this.tabControl1.Controls.Add(this.tabPageOpenWith);
             this.tabControl1.Controls.Add(this.tabPageBatchCommand);
             this.tabControl1.Controls.Add(this.tabPageArgumentFile);
+            this.tabControl1.Controls.Add(this.tabPageArgumentFileBuilder);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -1028,6 +1067,9 @@
             // 
             // tabPageArgumentFile
             // 
+            this.tabPageArgumentFile.Controls.Add(this.buttonArgumentFileCompare);
+            this.tabPageArgumentFile.Controls.Add(this.buttonArgumentFileLoad);
+            this.tabPageArgumentFile.Controls.Add(this.buttonArgumentFileSave);
             this.tabPageArgumentFile.Controls.Add(this.groupBox2);
             this.tabPageArgumentFile.Controls.Add(this.groupBox1);
             this.tabPageArgumentFile.Controls.Add(this.buttonArgumentFileRun);
@@ -1039,30 +1081,151 @@
             this.tabPageArgumentFile.Text = "Run Argument file";
             this.tabPageArgumentFile.UseVisualStyleBackColor = true;
             // 
+            // buttonArgumentFileCompare
+            // 
+            this.buttonArgumentFileCompare.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonArgumentFileCompare.Location = new System.Drawing.Point(298, 540);
+            this.buttonArgumentFileCompare.Name = "buttonArgumentFileCompare";
+            this.buttonArgumentFileCompare.Size = new System.Drawing.Size(139, 30);
+            this.buttonArgumentFileCompare.TabIndex = 17;
+            this.buttonArgumentFileCompare.Text = "Compare...";
+            this.buttonArgumentFileCompare.UseVisualStyleBackColor = true;
+            this.buttonArgumentFileCompare.Click += new System.EventHandler(this.buttonArgumentFileCompare_Click);
+            // 
+            // buttonArgumentFileLoad
+            // 
+            this.buttonArgumentFileLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonArgumentFileLoad.Location = new System.Drawing.Point(153, 540);
+            this.buttonArgumentFileLoad.Name = "buttonArgumentFileLoad";
+            this.buttonArgumentFileLoad.Size = new System.Drawing.Size(139, 30);
+            this.buttonArgumentFileLoad.TabIndex = 16;
+            this.buttonArgumentFileLoad.Text = "Load";
+            this.buttonArgumentFileLoad.UseVisualStyleBackColor = true;
+            this.buttonArgumentFileLoad.Click += new System.EventHandler(this.buttonArgumentFileLoad_Click);
+            // 
+            // buttonArgumentFileSave
+            // 
+            this.buttonArgumentFileSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonArgumentFileSave.Location = new System.Drawing.Point(8, 540);
+            this.buttonArgumentFileSave.Name = "buttonArgumentFileSave";
+            this.buttonArgumentFileSave.Size = new System.Drawing.Size(139, 30);
+            this.buttonArgumentFileSave.TabIndex = 15;
+            this.buttonArgumentFileSave.Text = "Save";
+            this.buttonArgumentFileSave.UseVisualStyleBackColor = true;
+            this.buttonArgumentFileSave.Click += new System.EventHandler(this.buttonArgumentFileSave_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.textBoxArgumentFileArgumentFile);
+            this.groupBox2.Controls.Add(this.tabControlArgumentFile);
             this.groupBox2.Location = new System.Drawing.Point(0, 101);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(822, 433);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Argument file that will be created";
+            this.groupBox2.Text = "Argument file to be run:";
             // 
-            // textBoxArgumentFileArgumentFile
+            // tabControlArgumentFile
             // 
-            this.textBoxArgumentFileArgumentFile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabControlArgumentFile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxArgumentFileArgumentFile.Location = new System.Drawing.Point(12, 31);
-            this.textBoxArgumentFileArgumentFile.Multiline = true;
-            this.textBoxArgumentFileArgumentFile.Name = "textBoxArgumentFileArgumentFile";
-            this.textBoxArgumentFileArgumentFile.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxArgumentFileArgumentFile.Size = new System.Drawing.Size(804, 387);
-            this.textBoxArgumentFileArgumentFile.TabIndex = 7;
+            this.tabControlArgumentFile.Controls.Add(this.tabPageArgumentFileEditFields);
+            this.tabControlArgumentFile.Controls.Add(this.tabPageArgumentFileAutoCorrect);
+            this.tabControlArgumentFile.Location = new System.Drawing.Point(3, 21);
+            this.tabControlArgumentFile.Name = "tabControlArgumentFile";
+            this.tabControlArgumentFile.SelectedIndex = 0;
+            this.tabControlArgumentFile.Size = new System.Drawing.Size(813, 406);
+            this.tabControlArgumentFile.TabIndex = 28;
+            // 
+            // tabPageArgumentFileEditFields
+            // 
+            this.tabPageArgumentFileEditFields.Controls.Add(this.fastColoredTextBoxArgumentFileArgumentFile);
+            this.tabPageArgumentFileEditFields.Location = new System.Drawing.Point(4, 25);
+            this.tabPageArgumentFileEditFields.Name = "tabPageArgumentFileEditFields";
+            this.tabPageArgumentFileEditFields.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageArgumentFileEditFields.Size = new System.Drawing.Size(805, 377);
+            this.tabPageArgumentFileEditFields.TabIndex = 0;
+            this.tabPageArgumentFileEditFields.Tag = "ArgumentFile";
+            this.tabPageArgumentFileEditFields.Text = "Created from Config and Edited fields";
+            this.tabPageArgumentFileEditFields.UseVisualStyleBackColor = true;
+            // 
+            // fastColoredTextBoxArgumentFileArgumentFile
+            // 
+            this.fastColoredTextBoxArgumentFileArgumentFile.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.fastColoredTextBoxArgumentFileArgumentFile.AutoScrollMinSize = new System.Drawing.Size(31, 18);
+            this.fastColoredTextBoxArgumentFileArgumentFile.BackBrush = null;
+            this.fastColoredTextBoxArgumentFileArgumentFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fastColoredTextBoxArgumentFileArgumentFile.CharHeight = 18;
+            this.fastColoredTextBoxArgumentFileArgumentFile.CharWidth = 10;
+            this.fastColoredTextBoxArgumentFileArgumentFile.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.fastColoredTextBoxArgumentFileArgumentFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxArgumentFileArgumentFile.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileArgumentFile.IsReplaceMode = false;
+            this.fastColoredTextBoxArgumentFileArgumentFile.Location = new System.Drawing.Point(3, 3);
+            this.fastColoredTextBoxArgumentFileArgumentFile.Name = "fastColoredTextBoxArgumentFileArgumentFile";
+            this.fastColoredTextBoxArgumentFileArgumentFile.Paddings = new System.Windows.Forms.Padding(0);
+            this.fastColoredTextBoxArgumentFileArgumentFile.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.fastColoredTextBoxArgumentFileArgumentFile.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxArgumentFileArgumentFile.ServiceColors")));
+            this.fastColoredTextBoxArgumentFileArgumentFile.Size = new System.Drawing.Size(799, 371);
+            this.fastColoredTextBoxArgumentFileArgumentFile.TabIndex = 27;
+            this.fastColoredTextBoxArgumentFileArgumentFile.Zoom = 100;
+            this.fastColoredTextBoxArgumentFileArgumentFile.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxArgumentFileArgumentFile_TextChanged);
+            this.fastColoredTextBoxArgumentFileArgumentFile.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fastColoredTextBoxArgumentFileArgumentFile_KeyDown);
+            // 
+            // tabPageArgumentFileAutoCorrect
+            // 
+            this.tabPageArgumentFileAutoCorrect.Controls.Add(this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect);
+            this.tabPageArgumentFileAutoCorrect.Location = new System.Drawing.Point(4, 25);
+            this.tabPageArgumentFileAutoCorrect.Name = "tabPageArgumentFileAutoCorrect";
+            this.tabPageArgumentFileAutoCorrect.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageArgumentFileAutoCorrect.Size = new System.Drawing.Size(805, 377);
+            this.tabPageArgumentFileAutoCorrect.TabIndex = 1;
+            this.tabPageArgumentFileAutoCorrect.Tag = "AutoCorrect";
+            this.tabPageArgumentFileAutoCorrect.Text = "Created by Config setup and AutoCorrect";
+            this.tabPageArgumentFileAutoCorrect.UseVisualStyleBackColor = true;
+            // 
+            // fastColoredTextBoxArgumentFileArgumentFileAutoCorrect
+            // 
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.AutoScrollMinSize = new System.Drawing.Size(31, 18);
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.BackBrush = null;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.CharHeight = 18;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.CharWidth = 10;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Font = new System.Drawing.Font("Courier New", 9.75F);
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.IsReplaceMode = false;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Location = new System.Drawing.Point(3, 3);
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Name = "fastColoredTextBoxArgumentFileArgumentFileAutoCorrect";
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Paddings = new System.Windows.Forms.Padding(0);
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.ServiceColors")));
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Size = new System.Drawing.Size(799, 371);
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.TabIndex = 28;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Zoom = 100;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect_TextChanged);
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect_KeyDown);
             // 
             // groupBox1
             // 
@@ -1133,6 +1296,222 @@
             this.buttonArgumentFileRun.UseVisualStyleBackColor = true;
             this.buttonArgumentFileRun.Click += new System.EventHandler(this.buttonArgumentFileRun_Click);
             // 
+            // tabPageArgumentFileBuilder
+            // 
+            this.tabPageArgumentFileBuilder.Controls.Add(this.groupBox12);
+            this.tabPageArgumentFileBuilder.Controls.Add(this.groupBox6);
+            this.tabPageArgumentFileBuilder.Location = new System.Drawing.Point(4, 25);
+            this.tabPageArgumentFileBuilder.Name = "tabPageArgumentFileBuilder";
+            this.tabPageArgumentFileBuilder.Size = new System.Drawing.Size(825, 578);
+            this.tabPageArgumentFileBuilder.TabIndex = 3;
+            this.tabPageArgumentFileBuilder.Text = "Builder";
+            this.tabPageArgumentFileBuilder.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox6.Controls.Add(this.comboBoxArgumentFileBuilderCommand);
+            this.groupBox6.Controls.Add(this.label21);
+            this.groupBox6.Controls.Add(this.comboBoxArgumentFileBuilderCommandVariables);
+            this.groupBox6.Controls.Add(this.label22);
+            this.groupBox6.Location = new System.Drawing.Point(3, 3);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(819, 89);
+            this.groupBox6.TabIndex = 14;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Run command with argument file";
+            // 
+            // comboBoxArgumentFileBuilderCommand
+            // 
+            this.comboBoxArgumentFileBuilderCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxArgumentFileBuilderCommand.FormattingEnabled = true;
+            this.comboBoxArgumentFileBuilderCommand.Location = new System.Drawing.Point(83, 53);
+            this.comboBoxArgumentFileBuilderCommand.Name = "comboBoxArgumentFileBuilderCommand";
+            this.comboBoxArgumentFileBuilderCommand.Size = new System.Drawing.Size(730, 24);
+            this.comboBoxArgumentFileBuilderCommand.TabIndex = 12;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 27);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(71, 17);
+            this.label21.TabIndex = 8;
+            this.label21.Text = "Variables:";
+            // 
+            // comboBoxArgumentFileBuilderCommandVariables
+            // 
+            this.comboBoxArgumentFileBuilderCommandVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxArgumentFileBuilderCommandVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxArgumentFileBuilderCommandVariables.FormattingEnabled = true;
+            this.comboBoxArgumentFileBuilderCommandVariables.Location = new System.Drawing.Point(83, 24);
+            this.comboBoxArgumentFileBuilderCommandVariables.Name = "comboBoxArgumentFileBuilderCommandVariables";
+            this.comboBoxArgumentFileBuilderCommandVariables.Size = new System.Drawing.Size(730, 24);
+            this.comboBoxArgumentFileBuilderCommandVariables.TabIndex = 9;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(6, 56);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(75, 17);
+            this.label22.TabIndex = 10;
+            this.label22.Text = "Command:";
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.buttonArgumentFileBuilderBuild);
+            this.groupBox12.Controls.Add(this.splitContainerARgumentFileBuilder);
+            this.groupBox12.Controls.Add(this.buttonArgumentFileBuilderCompare);
+            this.groupBox12.Controls.Add(this.buttonArgumentFileBuilderLoad);
+            this.groupBox12.Controls.Add(this.buttonArgumentFileBuilderSave);
+            this.groupBox12.Controls.Add(this.button1);
+            this.groupBox12.Location = new System.Drawing.Point(3, 98);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(819, 477);
+            this.groupBox12.TabIndex = 15;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Argument file builder:";
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(674, 440);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(139, 30);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "Run";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // buttonArgumentFileBuilderCompare
+            // 
+            this.buttonArgumentFileBuilderCompare.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonArgumentFileBuilderCompare.Location = new System.Drawing.Point(295, 440);
+            this.buttonArgumentFileBuilderCompare.Name = "buttonArgumentFileBuilderCompare";
+            this.buttonArgumentFileBuilderCompare.Size = new System.Drawing.Size(139, 30);
+            this.buttonArgumentFileBuilderCompare.TabIndex = 20;
+            this.buttonArgumentFileBuilderCompare.Text = "Compare...";
+            this.buttonArgumentFileBuilderCompare.UseVisualStyleBackColor = true;
+            // 
+            // buttonArgumentFileBuilderLoad
+            // 
+            this.buttonArgumentFileBuilderLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonArgumentFileBuilderLoad.Location = new System.Drawing.Point(150, 440);
+            this.buttonArgumentFileBuilderLoad.Name = "buttonArgumentFileBuilderLoad";
+            this.buttonArgumentFileBuilderLoad.Size = new System.Drawing.Size(139, 30);
+            this.buttonArgumentFileBuilderLoad.TabIndex = 19;
+            this.buttonArgumentFileBuilderLoad.Text = "Load";
+            this.buttonArgumentFileBuilderLoad.UseVisualStyleBackColor = true;
+            // 
+            // buttonArgumentFileBuilderSave
+            // 
+            this.buttonArgumentFileBuilderSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonArgumentFileBuilderSave.Location = new System.Drawing.Point(5, 440);
+            this.buttonArgumentFileBuilderSave.Name = "buttonArgumentFileBuilderSave";
+            this.buttonArgumentFileBuilderSave.Size = new System.Drawing.Size(139, 30);
+            this.buttonArgumentFileBuilderSave.TabIndex = 18;
+            this.buttonArgumentFileBuilderSave.Text = "Save";
+            this.buttonArgumentFileBuilderSave.UseVisualStyleBackColor = true;
+            // 
+            // splitContainerARgumentFileBuilder
+            // 
+            this.splitContainerARgumentFileBuilder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainerARgumentFileBuilder.Location = new System.Drawing.Point(5, 21);
+            this.splitContainerARgumentFileBuilder.Name = "splitContainerARgumentFileBuilder";
+            this.splitContainerARgumentFileBuilder.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerARgumentFileBuilder.Panel1
+            // 
+            this.splitContainerARgumentFileBuilder.Panel1.Controls.Add(this.fastColoredTextBoxArgumentFileBuilderSource);
+            // 
+            // splitContainerARgumentFileBuilder.Panel2
+            // 
+            this.splitContainerARgumentFileBuilder.Panel2.Controls.Add(this.fastColoredTextBoxArgumentFileBuilderResult);
+            this.splitContainerARgumentFileBuilder.Size = new System.Drawing.Size(808, 404);
+            this.splitContainerARgumentFileBuilder.SplitterDistance = 202;
+            this.splitContainerARgumentFileBuilder.TabIndex = 21;
+            // 
+            // buttonArgumentFileBuilderBuild
+            // 
+            this.buttonArgumentFileBuilderBuild.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonArgumentFileBuilderBuild.Location = new System.Drawing.Point(440, 440);
+            this.buttonArgumentFileBuilderBuild.Name = "buttonArgumentFileBuilderBuild";
+            this.buttonArgumentFileBuilderBuild.Size = new System.Drawing.Size(139, 30);
+            this.buttonArgumentFileBuilderBuild.TabIndex = 22;
+            this.buttonArgumentFileBuilderBuild.Text = "Build";
+            this.buttonArgumentFileBuilderBuild.UseVisualStyleBackColor = true;
+            // 
+            // fastColoredTextBoxArgumentFileBuilderSource
+            // 
+            this.fastColoredTextBoxArgumentFileBuilderSource.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.fastColoredTextBoxArgumentFileBuilderSource.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fastColoredTextBoxArgumentFileBuilderSource.BackBrush = null;
+            this.fastColoredTextBoxArgumentFileBuilderSource.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fastColoredTextBoxArgumentFileBuilderSource.CharHeight = 18;
+            this.fastColoredTextBoxArgumentFileBuilderSource.CharWidth = 10;
+            this.fastColoredTextBoxArgumentFileBuilderSource.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.fastColoredTextBoxArgumentFileBuilderSource.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxArgumentFileBuilderSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileBuilderSource.Font = new System.Drawing.Font("Courier New", 9.75F);
+            this.fastColoredTextBoxArgumentFileBuilderSource.IsReplaceMode = false;
+            this.fastColoredTextBoxArgumentFileBuilderSource.Location = new System.Drawing.Point(0, 0);
+            this.fastColoredTextBoxArgumentFileBuilderSource.Name = "fastColoredTextBoxArgumentFileBuilderSource";
+            this.fastColoredTextBoxArgumentFileBuilderSource.Paddings = new System.Windows.Forms.Padding(0);
+            this.fastColoredTextBoxArgumentFileBuilderSource.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.fastColoredTextBoxArgumentFileBuilderSource.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxArgumentFileBuilderSource.ServiceColors")));
+            this.fastColoredTextBoxArgumentFileBuilderSource.Size = new System.Drawing.Size(808, 202);
+            this.fastColoredTextBoxArgumentFileBuilderSource.TabIndex = 0;
+            this.fastColoredTextBoxArgumentFileBuilderSource.Text = "fastColoredTextBox1";
+            this.fastColoredTextBoxArgumentFileBuilderSource.Zoom = 100;
+            // 
+            // fastColoredTextBoxArgumentFileBuilderResult
+            // 
+            this.fastColoredTextBoxArgumentFileBuilderResult.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.fastColoredTextBoxArgumentFileBuilderResult.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fastColoredTextBoxArgumentFileBuilderResult.BackBrush = null;
+            this.fastColoredTextBoxArgumentFileBuilderResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fastColoredTextBoxArgumentFileBuilderResult.CharHeight = 18;
+            this.fastColoredTextBoxArgumentFileBuilderResult.CharWidth = 10;
+            this.fastColoredTextBoxArgumentFileBuilderResult.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.fastColoredTextBoxArgumentFileBuilderResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxArgumentFileBuilderResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileBuilderResult.Font = new System.Drawing.Font("Courier New", 9.75F);
+            this.fastColoredTextBoxArgumentFileBuilderResult.IsReplaceMode = false;
+            this.fastColoredTextBoxArgumentFileBuilderResult.Location = new System.Drawing.Point(0, 0);
+            this.fastColoredTextBoxArgumentFileBuilderResult.Name = "fastColoredTextBoxArgumentFileBuilderResult";
+            this.fastColoredTextBoxArgumentFileBuilderResult.Paddings = new System.Windows.Forms.Padding(0);
+            this.fastColoredTextBoxArgumentFileBuilderResult.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.fastColoredTextBoxArgumentFileBuilderResult.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxArgumentFileBuilderResult.ServiceColors")));
+            this.fastColoredTextBoxArgumentFileBuilderResult.Size = new System.Drawing.Size(808, 198);
+            this.fastColoredTextBoxArgumentFileBuilderResult.TabIndex = 0;
+            this.fastColoredTextBoxArgumentFileBuilderResult.Text = "fastColoredTextBox2";
+            this.fastColoredTextBoxArgumentFileBuilderResult.Zoom = 100;
+            // 
             // RunCommand
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1182,9 +1561,23 @@
             this.groupBox3.PerformLayout();
             this.tabPageArgumentFile.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.tabControlArgumentFile.ResumeLayout(false);
+            this.tabPageArgumentFileEditFields.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileArgumentFile)).EndInit();
+            this.tabPageArgumentFileAutoCorrect.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabPageArgumentFileBuilder.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox12.ResumeLayout(false);
+            this.splitContainerARgumentFileBuilder.Panel1.ResumeLayout(false);
+            this.splitContainerARgumentFileBuilder.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerARgumentFileBuilder)).EndInit();
+            this.splitContainerARgumentFileBuilder.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileBuilderSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileBuilderResult)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1207,7 +1600,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox comboBoxArgumentFileCommandVariables;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBoxArgumentFileArgumentFile;
         private System.Windows.Forms.TextBox textBoxRunBatchImageExample;
         private System.Windows.Forms.DataGridView dataGridViewImages;
         private System.Windows.Forms.DataGridView dataGridViewVideos;
@@ -1272,5 +1664,28 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.TextBox textBoxRunBatchVideoExample;
+        private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxArgumentFileArgumentFile;
+        private System.Windows.Forms.TabPage tabPageArgumentFileBuilder;
+        private System.Windows.Forms.TabControl tabControlArgumentFile;
+        private System.Windows.Forms.TabPage tabPageArgumentFileEditFields;
+        private System.Windows.Forms.TabPage tabPageArgumentFileAutoCorrect;
+        private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxArgumentFileArgumentFileAutoCorrect;
+        private System.Windows.Forms.Button buttonArgumentFileLoad;
+        private System.Windows.Forms.Button buttonArgumentFileSave;
+        private System.Windows.Forms.Button buttonArgumentFileCompare;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.Button buttonArgumentFileBuilderBuild;
+        private System.Windows.Forms.SplitContainer splitContainerARgumentFileBuilder;
+        private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxArgumentFileBuilderSource;
+        private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxArgumentFileBuilderResult;
+        private System.Windows.Forms.Button buttonArgumentFileBuilderCompare;
+        private System.Windows.Forms.Button buttonArgumentFileBuilderLoad;
+        private System.Windows.Forms.Button buttonArgumentFileBuilderSave;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.ComboBox comboBoxArgumentFileBuilderCommand;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.ComboBox comboBoxArgumentFileBuilderCommandVariables;
+        private System.Windows.Forms.Label label22;
     }
 }

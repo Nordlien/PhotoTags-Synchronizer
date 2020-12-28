@@ -1,29 +1,42 @@
 ﻿using DataGridViewGeneric;
+using FastColoredTextBoxNS;
 using MetadataLibrary;
 using MetadataPriorityLibrary;
+using NLog;
+using NLog.Targets;
+using NLog.Targets.Wrappers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
+
+
     public partial class Config : Form
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public MetadataReadPrioity MetadataReadPrioity { get;  set; } //= new MetadataReadPrioity();
         public Size[] ThumbnailSizes { get; set; }
 
         private Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryCopy = new Dictionary<MetadataPriorityKey, MetadataPriorityValues>();
         private AutoCorrect autoCorrect = new AutoCorrect();
 
-        private bool isPopulation = false;
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeuwordAdd = null;
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeuwordDelete = null;
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeuwordWriteTags = null;
 
+        private bool isPopulation = false;
 
         public Config()
         {
             InitializeComponent(); 
+            
         }
 
         #region All tabs - Init - Save - Close
@@ -34,7 +47,7 @@ namespace PhotoTagsSynchronizer
             PopulateApplication();
 
             //Metadata Filename Date formats
-            textBoxConfigFilenameDateFormats.Text = Properties.Settings.Default.RenameDateFormats;
+            fastColoredTextBoxConfigFilenameDateFormats.Text = Properties.Settings.Default.RenameDateFormats;
 
             //Metadata Read
             PopulateMetadataReadToolStripMenu();
@@ -45,10 +58,88 @@ namespace PhotoTagsSynchronizer
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             if (autoCorrect == null) autoCorrect = new AutoCorrect();
             PopulateAutoCorrectPoperties();
+
             //Metadata Write
+            fastColoredTextBoxHandlerKeuwordAdd = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordAdd, true, MetadataReadPrioity.MetadataPrioityDictionary);
+            fastColoredTextBoxHandlerKeuwordDelete = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordDelete, true, MetadataReadPrioity.MetadataPrioityDictionary);
+            fastColoredTextBoxHandlerKeuwordWriteTags = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteTags, false, MetadataReadPrioity.MetadataPrioityDictionary);
             PopulateMetadataWritePoperties();
             isPopulation = false;
+
+            //Show log
+            string logFilename = GetLogFileName("logfile");
+            if (string.IsNullOrWhiteSpace(logFilename)) logFilename = "PhotoTagsSynchronizer_Log.txt";
+
+            if (File.Exists(logFilename))
+            {
+                fastColoredTextBoxShowLog.OpenBindingFile(logFilename, Encoding.UTF8);
+                fastColoredTextBoxShowLog.IsChanged = false;
+                fastColoredTextBoxShowLog.ClearUndo();
+                GC.Collect();
+                GC.GetTotalMemory(true);
+            }
+
+            logFilename = "Pipe\\WindowsLivePhotoGalleryServer_Log.txt";
+            if (File.Exists(logFilename))
+            {
+                fastColoredTextBoxShowPipe32Log.OpenBindingFile(logFilename, Encoding.UTF8);
+                fastColoredTextBoxShowPipe32Log.IsChanged = false;
+                fastColoredTextBoxShowPipe32Log.ClearUndo();
+                GC.Collect();
+                GC.GetTotalMemory(true);
+            }            
         }
+
+        #region Log - GetLogFileName(string targetName)
+        private string GetLogFileName(string targetName)
+        {
+            string fileName = null;
+
+            if (LogManager.Configuration != null && LogManager.Configuration.ConfiguredNamedTargets.Count != 0)
+            {
+                Target target = LogManager.Configuration.FindTargetByName(targetName);
+                if (target == null)
+                {
+                    return null;
+                    //throw new Exception("Could not find target named: " + targetName);
+                }
+
+                FileTarget fileTarget = null;
+                WrapperTargetBase wrapperTarget = target as WrapperTargetBase;
+
+                // Unwrap the target if necessary.
+                if (wrapperTarget == null)
+                {
+                    fileTarget = target as FileTarget;
+                }
+                else
+                {
+                    fileTarget = wrapperTarget.WrappedTarget as FileTarget;
+                }
+
+                if (fileTarget == null)
+                {
+                    return null;
+                    //throw new Exception("Could not get a FileTarget from " + target.GetType());
+                }
+
+                var logEventInfo = new LogEventInfo { TimeStamp = DateTime.Now };
+                fileName = fileTarget.FileName.Render(logEventInfo);
+            }
+            else
+            {
+                return null;
+                //throw new Exception("LogManager contains no Configuration or there are no named targets");
+            }
+
+            /*if (!File.Exists(fileName))
+            {
+                throw new Exception("File " + fileName + " does not exist");
+            }*/
+
+            return fileName;
+        }
+        #endregion 
 
         private void Config_Load(object sender, EventArgs e)
         {
@@ -67,9 +158,9 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
 
             //Metadata Write
-            Properties.Settings.Default.WriteMetadataTags = textBoxMetadataWriteTags.Text;
-            Properties.Settings.Default.WriteMetadataKeywordAdd = textBoxMetadataWriteKeywordAdd.Text;
-            Properties.Settings.Default.WriteMetadataKeywordDelete = textBoxMetadataWriteKeywordDelete.Text;
+            Properties.Settings.Default.WriteMetadataTags = fastColoredTextBoxMetadataWriteTags.Text;
+            Properties.Settings.Default.WriteMetadataKeywordAdd = fastColoredTextBoxMetadataWriteKeywordAdd.Text;
+            Properties.Settings.Default.WriteMetadataKeywordDelete = fastColoredTextBoxMetadataWriteKeywordDelete.Text;
 
             Properties.Settings.Default.XtraAtomAlbumVideo = checkBoxWriteXtraAtomAlbumVideo.Checked;
             Properties.Settings.Default.XtraAtomCategoriesVideo = checkBoxWriteXtraAtomCategoriesVideo.Checked;
@@ -93,7 +184,7 @@ namespace PhotoTagsSynchronizer
 
 
             //Filename date formates
-            Properties.Settings.Default.RenameDateFormats = textBoxConfigFilenameDateFormats.Text;
+            Properties.Settings.Default.RenameDateFormats = fastColoredTextBoxConfigFilenameDateFormats.Text;
 
             //Save config file
             Properties.Settings.Default.Save();
@@ -796,13 +887,14 @@ namespace PhotoTagsSynchronizer
         #region Metadata Write - Populate Window
         private void PopulateMetadataWritePoperties()
         {
-            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties());
-            comboBoxWriteXtraAtomVariables.Items.AddRange(Metadata.ListOfProperties());
-            comboBoxMetadataWriteKeywordTags.Items.AddRange(Metadata.ListOfProperties());
+            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties(false));
+            comboBoxWriteXtraAtomVariables.Items.AddRange(Metadata.ListOfProperties(false));
+            comboBoxMetadataWriteKeywordDelete.Items.AddRange(Metadata.ListOfProperties(true));
+            comboBoxMetadataWriteKeywordAdd.Items.AddRange(Metadata.ListOfProperties(true));
 
-            textBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
-            textBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.WriteMetadataKeywordAdd;
-            textBoxMetadataWriteKeywordDelete.Text = Properties.Settings.Default.WriteMetadataKeywordDelete;
+            fastColoredTextBoxMetadataWriteTags.Text = Properties.Settings.Default.WriteMetadataTags;
+            fastColoredTextBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.WriteMetadataKeywordAdd;
+            fastColoredTextBoxMetadataWriteKeywordDelete.Text = Properties.Settings.Default.WriteMetadataKeywordDelete;
 
             checkBoxWriteXtraAtomAlbumVideo.Checked = Properties.Settings.Default.XtraAtomAlbumVideo;
             checkBoxWriteXtraAtomCategoriesVideo.Checked = Properties.Settings.Default.XtraAtomCategoriesVideo;
@@ -839,11 +931,32 @@ namespace PhotoTagsSynchronizer
             }
         }
 
+        private void SelectionChangeCommitted(FastColoredTextBox textBox, string insertText)
+        {
+            if (!isPopulation)
+            {
+                textBox.Focus();
+                var selectionIndex = textBox.SelectionStart;
+                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
+                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
+                textBox.SelectionStart = selectionIndex + insertText.Length;
+            }
+        }
+
         private void comboBoxMetadataWriteStandardTags_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            SelectionChangeCommitted(textBoxMetadataWriteTags, comboBoxMetadataWriteStandardTags.Text);
+            SelectionChangeCommitted(fastColoredTextBoxMetadataWriteTags, comboBoxMetadataWriteStandardTags.Text);
         }
-        
+
+        private void comboBoxMetadataWriteKeywordAdd_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SelectionChangeCommitted(fastColoredTextBoxMetadataWriteKeywordAdd, comboBoxMetadataWriteKeywordAdd.Text);
+        }
+
+        private void comboBoxMetadataWriteKeywordDelete_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SelectionChangeCommitted(fastColoredTextBoxMetadataWriteKeywordDelete, comboBoxMetadataWriteKeywordDelete.Text);
+        }
 
         private void comboBoxApplicationLanguages_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -851,14 +964,9 @@ namespace PhotoTagsSynchronizer
             SelectionChangeCommitted(textBoxApplicationPreferredLanguages, insertText);
         }
 
-        private void comboBoxMetadataWriteKeywordTags_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            if (activeEnterDeleteKeywords != null) SelectionChangeCommitted(activeEnterDeleteKeywords, comboBoxMetadataWriteKeywordTags.Text);
-        }
-
         private void comboBoxWriteXtraAtomVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (activeXtraAtomTextbox != null) SelectionChangeCommitted(activeXtraAtomTextbox, comboBoxWriteXtraAtomVariables.Text);
+            SelectionChangeCommitted(activeXtraAtomTextbox, comboBoxWriteXtraAtomVariables.Text);
         }
         #endregion
 
@@ -900,19 +1008,84 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Metadata Write - Set activeEnterDeleteKeywords TextBox
-        TextBox activeEnterDeleteKeywords = null;
-        private void textBoxMetadataWriteKeywordDelete_Enter(object sender, EventArgs e)
-        {
-            activeEnterDeleteKeywords = (TextBox)sender;
+
+        #region FastColoredTextBox - events
+
+        private void fastColoredTextBoxMetadataWriteKeywordDelete_TextChanged(object sender, TextChangedEventArgs e)
+        {           
+            if (fastColoredTextBoxHandlerKeuwordDelete != null) fastColoredTextBoxHandlerKeuwordDelete.SyntaxHighlightProperties(sender, e);
         }
 
-        private void textBoxMetadataWriteKeywordAdd_Enter(object sender, EventArgs e)
+        private void fastColoredTextBoxMetadataWriteKeywordAdd_TextChanged(object sender, TextChangedEventArgs e)
         {
-            activeEnterDeleteKeywords = (TextBox)sender;
+            if (fastColoredTextBoxHandlerKeuwordAdd != null) fastColoredTextBoxHandlerKeuwordAdd.SyntaxHighlightProperties(sender, e);
+        }
+
+        private void fastColoredTextBoxMetadataWriteTags_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerKeuwordWriteTags != null) fastColoredTextBoxHandlerKeuwordWriteTags.SyntaxHighlightProperties(sender, e);
+        }
+
+        private void fastColoredTextBoxMetadataWriteKeywordDelete_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerKeuwordDelete != null) fastColoredTextBoxHandlerKeuwordDelete.KeyDown(sender, e);
+        }
+
+        private void fastColoredTextBoxMetadataWriteKeywordAdd_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerKeuwordAdd != null) fastColoredTextBoxHandlerKeuwordAdd.KeyDown(sender, e);
+        }
+
+        private void fastColoredTextBoxMetadataWriteTags_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerKeuwordWriteTags != null) fastColoredTextBoxHandlerKeuwordWriteTags.KeyDown(sender, e);
+        }
+        #endregion 
+
+        #region Log - App
+
+        private void fastColoredTextBoxShowLog_WordWrapNeeded(object sender, FastColoredTextBoxNS.WordWrapNeededEventArgs e)
+        {
+            FastColoredTextBoxHandler.WordWrapNeededLog(sender, e);
+        }
+
+        private void fastColoredTextBoxShowLog_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            FastColoredTextBoxHandler.SyntaxHighlightLog(fastColoredTextBoxShowLog);
+        }
+
+        private void fastColoredTextBoxShowLog_TextChangedDelayed(object sender, TextChangedEventArgs e)
+        {
+            FastColoredTextBoxHandler.SyntaxHighlightLog(fastColoredTextBoxShowLog);
+        }
+
+        private void fastColoredTextBoxShowLog_VisibleRangeChangedDelayed(object sender, EventArgs e)
+        {
+            FastColoredTextBoxHandler.SyntaxHighlightLog(fastColoredTextBoxShowLog);
         }
         #endregion
 
+        #region Log - Pipe 32
+        private void fastColoredTextBoxShowPipe32Log_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            FastColoredTextBoxHandler.SyntaxHighlightLog(fastColoredTextBoxShowPipe32Log);
+        }
+
+        private void fastColoredTextBoxShowPipe32Log_TextChangedDelayed(object sender, TextChangedEventArgs e)
+        {
+            FastColoredTextBoxHandler.SyntaxHighlightLog(fastColoredTextBoxShowPipe32Log);
+        }
+
+        private void fastColoredTextBoxShowPipe32Log_VisibleRangeChangedDelayed(object sender, EventArgs e)
+        {
+            FastColoredTextBoxHandler.SyntaxHighlightLog(fastColoredTextBoxShowPipe32Log);
+        }
+
+        private void fastColoredTextBoxShowPipe32Log_WordWrapNeeded(object sender, WordWrapNeededEventArgs e)
+        {
+            FastColoredTextBoxHandler.WordWrapNeededLog(sender, e);
+        }
+        #endregion 
     }
 }
 
@@ -1046,3 +1219,4 @@ filename=UTF8
 {FileFullPath}
 -execute
 */
+

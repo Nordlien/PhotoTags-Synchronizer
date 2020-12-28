@@ -1294,8 +1294,6 @@ namespace PhotoTagsSynchronizer
 
 
 
-       
-
         private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
@@ -1375,32 +1373,59 @@ namespace PhotoTagsSynchronizer
                 string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
                 string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
                 string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
-                
-
-                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
 
                 List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
 
+
+                #region Create ArgumentFile file
+                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
+                
                 ExiftoolWriter.CreateExiftoolArguFileText(
                     metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, 
                     true, out string exiftoolAgruFileText);
-
-                #region
-                List<string> selectedFiles = new List<string>();
-                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-                {
-                    selectedFiles.Add(imageListViewItem.FileFullPath);
-                }
                 #endregion 
+
+
+                #region AutoCorrect
+                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
+
+                metadataListOriginalExiftool = new List<Metadata>();
+                metadataListFromDataGridView = new List<Metadata>();
+
+                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                {
+                    Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
+                    Metadata metadataToSave = autoCorrect.FixAndSave(
+                        new FileEntry(item.FileFullPath, item.DateModified),
+                        databaseAndCacheMetadataExiftool,
+                        databaseAndCacheMetadataMicrosoftPhotos,
+                        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        databaseAndCahceCameraOwner,
+                        databaseLocationAddress,
+                        databaseGoogleLocationHistory);
+
+                    metadataListFromDataGridView.Add(new Metadata(metadataToSave));
+                    metadataListOriginalExiftool.Add(new Metadata(metadataOriginal));
+                }
+
+                ExiftoolWriter.CreateExiftoolArguFileText(
+                    metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
+                    true, out string exiftoolAutoCorrectFileText);
+                #endregion 
+
 
                 using (RunCommand runCommand = new RunCommand())
                 {
                     runCommand.ArguFile = exiftoolAgruFileText;
+                    runCommand.ArguFileAutoCorrect = exiftoolAutoCorrectFileText;
                     runCommand.Metadatas = metadataListFromDataGridView;
                     runCommand.AllowedFileNameDateTimeFormats = allowedFileNameDateTimeFormats;
+                    runCommand.MetadataPrioity = exiftoolReader.MetadataReadPrioity;
                     runCommand.Init();
                     runCommand.ShowDialog();
                 }
+
+
             }
         }
 

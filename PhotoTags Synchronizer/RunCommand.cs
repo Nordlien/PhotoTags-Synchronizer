@@ -2,6 +2,7 @@
 using Exiftool;
 using ImageAndMovieFileExtentions;
 using MetadataLibrary;
+using MetadataPriorityLibrary;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,9 +17,16 @@ namespace PhotoTagsSynchronizer
     public partial class RunCommand : Form
     {
         public string ArguFile { get; set; } = "";
+        public string ArguFileAutoCorrect { get; set; } = "";
+
+
+        public MetadataReadPrioity MetadataPrioity { get; set; } 
         public List<Metadata> Metadatas { get; set; } = new List<Metadata>();
         public List<string> AllowedFileNameDateTimeFormats { get; set; } = new List<string>();
         private bool isPopulation = false;
+
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerRunArgumentFile = null;
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerRunArgumentFileAutoCorrect = null;
 
         private ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
         private SortedList<string, ApplicationData> applicationDatas;
@@ -37,14 +45,19 @@ namespace PhotoTagsSynchronizer
 
 
             #region Tab - Argument file
+            fastColoredTextBoxHandlerRunArgumentFile = new FastColoredTextBoxHandler(fastColoredTextBoxArgumentFileArgumentFile, false, MetadataPrioity.MetadataPrioityDictionary);
+            fastColoredTextBoxHandlerRunArgumentFileAutoCorrect = new FastColoredTextBoxHandler(fastColoredTextBoxArgumentFileArgumentFileAutoCorrect, false, MetadataPrioity.MetadataPrioityDictionary);
+
             comboBoxArgumentFileCommandVariables.Items.Add("{TempFileArgumentFullPath}");
             ComboBoxPopulate(comboBoxArgumentFileCommand, Properties.Settings.Default.RunArgumentCommandList, Properties.Settings.Default.RunArgumentCommand);
-            textBoxArgumentFileArgumentFile.Text = ArguFile;
+            fastColoredTextBoxArgumentFileArgumentFile.Text = ArguFile;
+            fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text = ArguFileAutoCorrect;
+
             #endregion
 
             #region Tab - Run batch - Command
-            comboBoxBatchRunImageVariables.Items.AddRange(Metadata.ListOfProperties());
-            comboBoxBatchRunVideoVariables.Items.AddRange(Metadata.ListOfProperties());
+            comboBoxBatchRunImageVariables.Items.AddRange(Metadata.ListOfProperties(false));
+            comboBoxBatchRunVideoVariables.Items.AddRange(Metadata.ListOfProperties(false));
             ComboBoxPopulate(comboBoxBatchRunImageCommand, Properties.Settings.Default.RunBatchImageCommandList, Properties.Settings.Default.RunBatchImageCommand);
             ComboBoxPopulate(comboBoxBatchRunVideoCommand, Properties.Settings.Default.RunBatchVideoCommandList, Properties.Settings.Default.RunBatchVideoCommand);
             checkBoxBatchRunImageWaitForCommandExit.Checked = Properties.Settings.Default.RunBatchImageWaitForCommand;
@@ -525,16 +538,28 @@ namespace PhotoTagsSynchronizer
         #region ArumentFile run - Click 
         private void buttonArgumentFileRun_Click(object sender, EventArgs e)
         {
-            ComboBoxAddTextToList(comboBoxArgumentFileCommand);
-
-            string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath();
-            string commandWithArguments = comboBoxArgumentFileCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
-
-            System.IO.File.WriteAllText(tempArguFileFullPath, textBoxArgumentFileArgumentFile.Text);
             try
             {
-                ApplicationActivation.ProcessRun(commandWithArguments, false);
-            } catch (Exception ex)
+                ComboBoxAddTextToList(comboBoxArgumentFileCommand);
+
+                string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath();
+                string commandWithArguments = comboBoxArgumentFileCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
+
+                switch (tabControlArgumentFile.SelectedTab.Tag.ToString())
+                {
+                    case "ArgumentFile":
+                        System.IO.File.WriteAllText(tempArguFileFullPath, fastColoredTextBoxArgumentFileArgumentFile.Text);
+                        ApplicationActivation.ProcessRun(commandWithArguments, false);
+                        break;
+                    case "AutoCorrect":
+                        System.IO.File.WriteAllText(tempArguFileFullPath, fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text);
+                        ApplicationActivation.ProcessRun(commandWithArguments, false);
+                        break;
+                    default:
+                        throw new Exception("Has not been implemedted");
+                }
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -676,9 +701,118 @@ namespace PhotoTagsSynchronizer
             SetComboBoxSelection((ComboBox)sender);            
         }
 
+
         #endregion
 
-        
+        #region FastColoredTextBox - Events handling
+        private void fastColoredTextBoxArgumentFileArgumentFile_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerRunArgumentFile != null) fastColoredTextBoxHandlerRunArgumentFile.KeyDown(sender, e);
+        }
+
+        private void fastColoredTextBoxArgumentFileArgumentFile_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerRunArgumentFile != null) fastColoredTextBoxHandlerRunArgumentFile.SyntaxHighlightProperties(sender, e);
+        }
+
+        private void fastColoredTextBoxArgumentFileArgumentFileAutoCorrect_KeyDown(object sender, KeyEventArgs e)
+        {           
+            if (fastColoredTextBoxHandlerRunArgumentFileAutoCorrect != null) fastColoredTextBoxHandlerRunArgumentFileAutoCorrect.KeyDown(sender, e);
+        }
+
+        private void fastColoredTextBoxArgumentFileArgumentFileAutoCorrect_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerRunArgumentFileAutoCorrect != null) fastColoredTextBoxHandlerRunArgumentFileAutoCorrect.SyntaxHighlightProperties(sender, e);
+        }
+        #endregion
+
+        #region ArumentFile run - Save click
+        private void buttonArgumentFileSave_Click(object sender, EventArgs e)
+        {
+            try {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Title = "Save aurgument text file";
+                saveFileDialog1.CheckFileExists = false;
+                saveFileDialog1.CheckPathExists = true;
+                saveFileDialog1.DefaultExt = "txt";
+                saveFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    switch (tabControlArgumentFile.SelectedTab.Tag.ToString())
+                    {
+                        case "ArgumentFile":                            
+                            System.IO.File.WriteAllText(saveFileDialog1.FileName, fastColoredTextBoxArgumentFileArgumentFile.Text);
+                            break;
+                    case "AutoCorrect":
+                            System.IO.File.WriteAllText(saveFileDialog1.FileName, fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text);
+                            break;
+                        default:
+                            throw new Exception("Has not been implemedted");
+                    }
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion clic
+
+        #region ArumentFile run - Load click
+        private void buttonArgumentFileLoad_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog1 = new OpenFileDialog
+                {
+                    InitialDirectory = @"D:\",
+                    Title = "Browse Text Files",
+
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+
+                    DefaultExt = "txt",
+                    Filter = "txt files (*.txt)|*.txt",
+                    FilterIndex = 2,
+                    RestoreDirectory = true,
+
+                    ReadOnlyChecked = true,
+                    ShowReadOnly = true
+                };
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                   
+                    switch (tabControlArgumentFile.SelectedTab.Tag.ToString())
+                    {
+                        case "ArgumentFile":
+                            fastColoredTextBoxArgumentFileArgumentFile.Text = System.IO.File.ReadAllText(openFileDialog1.FileName);
+                            break;
+                        case "AutoCorrect":
+                            fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text = System.IO.File.ReadAllText(openFileDialog1.FileName);
+                            break;
+                        default:
+                            throw new Exception("Has not been implemedted");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion
+
+        #region ArumentFile run - Compare click
+        private void buttonArgumentFileCompare_Click(object sender, EventArgs e)
+        {
+            FormCompareText formCompareText = new FormCompareText();
+            formCompareText.Compare(fastColoredTextBoxArgumentFileArgumentFile.Text, fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text);
+            formCompareText.ShowDialog();
+        }
+        #endregion 
     }
 
     #region ComboBox - Text Selction Hack - Remember ComboBoxSelection

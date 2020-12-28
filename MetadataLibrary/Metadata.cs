@@ -635,12 +635,12 @@ namespace MetadataLibrary
 
 
         #region Variable Properties
-        private static string[] arrayOfProperties = null;
+        //private static string[] arrayOfProperties = null;
 
-        public static string[] ListOfProperties()
+        public static string[] ListOfProperties(bool addKeywordItems) 
         {
-            if (arrayOfProperties == null)
-            {
+            //if (arrayOfProperties == null)
+            //{
                 List<string> listOfProperties = new List<string>();
 
                 //System
@@ -723,6 +723,7 @@ namespace MetadataLibrary
                 listOfProperties.Add("{IfPersonalRegionChanged}");
 
                 //Keyword
+                if (addKeywordItems) listOfProperties.Add("{KeywordItem}");
                 listOfProperties.Add("{PersonalKeywordsList}");
                 listOfProperties.Add("{PersonalKeywordsXML}");
                 listOfProperties.Add("{PersonalKeywordItemsDelete}");
@@ -786,10 +787,11 @@ namespace MetadataLibrary
                 listOfProperties.Add("{LocationCountry}");
                 listOfProperties.Add("{IfLocationCountryChanged}");
 
-                arrayOfProperties = listOfProperties.ToArray();
-            }
-            return arrayOfProperties;
+            //arrayOfProperties = listOfProperties.ToArray();
+            //}
+            return listOfProperties.ToArray(); // arrayOfProperties;
         }
+
 
         public string GetPropertyValue(string variableName, bool useExifFormat, bool convertNullToBlank,
             List<string> allowedFileNameDateTimeFormats,
@@ -1258,7 +1260,7 @@ namespace MetadataLibrary
             string personalRegionInfoMP, string personalRegionInfo, string personalKeywordList, string personalKeywordsXML, string personalKeywordItemsDelete, string personalKeywordItemsAdd)
         {
             string result = stringWithVariables;
-            string[] variables = Metadata.ListOfProperties();
+            string[] variables = Metadata.ListOfProperties(false);
             foreach (string variable in variables)
             {
                 while (result.Contains(variable))

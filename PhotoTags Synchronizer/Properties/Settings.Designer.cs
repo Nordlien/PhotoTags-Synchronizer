@@ -515,9 +515,9 @@ namespace PhotoTagsSynchronizer.Properties {
             "ordsChanged}-HierarchicalKeywords=\r\n{IfPersonalKeywordsChanged}-HierarchicalSubj" +
             "ect=\r\n{IfPersonalKeywordsChanged}-LastKeywordXMP=\r\n{IfPersonalKeywordsChanged}-L" +
             "astKeywordIPTC=\r\n{IfPersonalKeywordsChanged}-TagsList=\r\n{IfPersonalKeywordsChang" +
-            "ed}-Categories={PersonalKeywordsXML}\r\n{IfPersonalKeywordsChanged}-XPKeywords={Pe" +
-            "rsonalKeywordsList}\r\n{IfPersonalKeywordsChanged}{PersonalKeywordItems}\r\n{FileFul" +
-            "lPath}\r\n-execute")]
+            "ed}{PersonalKeywordItemsDelete}\r\n{IfPersonalKeywordsChanged}{PersonalKeywordItem" +
+            "sAdd}\r\n{IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}\r\n{IfPersonal" +
+            "KeywordsChanged}-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
         public string WriteMetadataTags {
             get {
                 return ((string)(this["WriteMetadataTags"]));
