@@ -120,6 +120,7 @@
     <Compile Include="ChooseColumns.Designer.cs">
       <DependentUpon>ChooseColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="ComboBoxHandler.cs" />
     <Compile Include="DataGridViewHandlerExiftool.cs" />
     <Compile Include="DataGridViewHandlerExiftoolWarnings.cs" />
     <Compile Include="DataGridViewHandlerMap.cs" />

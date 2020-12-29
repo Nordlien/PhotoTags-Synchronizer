@@ -1279,12 +1279,10 @@ namespace MetadataLibrary
 
         public string ReplaceVariables(string stringWithVariables, List<string> allowedFileNameDateTimeFormats)
         {
-            return ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
-                VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), "", "");
+            return ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats, VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), "", "");
         }
 
-        public string ReplaceVariables(string stringWithVariables, List<string> allowedFileNameDateTimeFormats,
-            string personalKeywordItemsDelete, string personalKeywordItemsAdd)
+        public string ReplaceVariables(string stringWithVariables, List<string> allowedFileNameDateTimeFormats, string personalKeywordItemsDelete, string personalKeywordItemsAdd)
         {
             return ReplaceVariables(stringWithVariables, true, true, allowedFileNameDateTimeFormats,
                 VariablePersonalRegionInfoMP(), VariablePersonalRegionInfo(), VariablePersonalKeywordsList(), VariableKeywordCategories(), personalKeywordItemsDelete, personalKeywordItemsAdd);

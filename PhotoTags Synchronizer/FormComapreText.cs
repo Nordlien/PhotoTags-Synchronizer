@@ -24,8 +24,11 @@ namespace PhotoTagsSynchronizer
             redStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Red)));
         }
 
-        public void Compare(string firstText, string secondText)
+        public void Compare(string firstSource, string secondSource, string firstText, string secondText)
         {
+            labelFirst.Text = firstSource;
+            labelSecond.Text = secondSource;
+
             fctb1.Clear();
             fctb2.Clear();
 

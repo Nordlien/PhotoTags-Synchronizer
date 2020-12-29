@@ -1126,5 +1126,152 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["MaxRowsInSearchResult"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RunArgumentBuildCommandList {
+            get {
+                return ((string)(this["RunArgumentBuildCommandList"]));
+            }
+            set {
+                this["RunArgumentBuildCommandList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"{" +
+            "TempFileArgumentFullPath}\"")]
+        public string RunArgumentBuildCommand {
+            get {
+                return ((string)(this["RunArgumentBuildCommand"]));
+            }
+            set {
+                this["RunArgumentBuildCommand"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-Keywords+={KeywordItem}\r\n-Subject+={KeywordItem}\r\n-TagsList+={KeywordItem}\r\n-Cat" +
+            "alogSets+={KeywordItem}")]
+        public string RunArgumentBuildKeywordAdd {
+            get {
+                return ((string)(this["RunArgumentBuildKeywordAdd"]));
+            }
+            set {
+                this["RunArgumentBuildKeywordAdd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-Keywords-={KeywordItem}\r\n-Subject-={KeywordItem}\r\n-TagsList-={KeywordItem}\r\n-Cat" +
+            "alogSets-={KeywordItem}")]
+        public string RunArgumentBuildKeywordDelete {
+            get {
+                return ((string)(this["RunArgumentBuildKeywordDelete"]));
+            }
+            set {
+                this["RunArgumentBuildKeywordDelete"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-charset\r\nfilename=UTF8\r\n-overwrite_original\r\n-m\r\n-F\r\n{IfLocationDateTimeChanged}" +
+            "-XMP-exif:GPSDateTime={LocationDateTimeUTC}\r\n{IfLocationDateTimeChanged}-XMP:GPS" +
+            "DateTime={LocationDateTimeUTC}\r\n{IfLocationDateTimeChanged}-GPS:GPSDateStamp={Lo" +
+            "cationDateTimeDateStamp}\r\n{IfLocationDateTimeChanged}-GPS:GPSTimeStamp={Location" +
+            "DateTimeTimeStamp}\r\n{IfLocationDateTimeChanged}-GPSDateStamp={LocationDateTimeDa" +
+            "teStamp}\r\n{IfLocationDateTimeChanged}-GPSTimeStamp={LocationDateTimeTimeStamp}\r\n" +
+            "{IfMediaDateTakenChanged}-Composite:SubSecCreateDate={MediaDateTaken}\r\n{IfMediaD" +
+            "ateTakenChanged}-EXIF:CreateDate={MediaDateTaken}\r\n{IfMediaDateTakenChanged}-XMP" +
+            "-xmp:CreateDate={MediaDateTaken}\r\n{IfMediaDateTakenChanged}-XMP:CreateDate={Medi" +
+            "aDateTaken}\r\n{IfMediaDateTakenChanged}-XMP:DateTimeOriginal={MediaDateTaken}\r\n{I" +
+            "fMediaDateTakenChanged}-IPTC:DigitalCreationDate={MediaDateTakenDateStamp}\r\n{IfM" +
+            "ediaDateTakenChanged}-IPTC:DigitalCreationTime={MediaDateTakenTimeStamp}\r\n{IfMed" +
+            "iaDateTakenChanged}-Composite:SubSecDateTimeOriginal={MediaDateTaken}\r\n{IfMediaD" +
+            "ateTakenChanged}-ExifIFD:DateTimeOriginal={MediaDateTaken}\r\n{IfMediaDateTakenCha" +
+            "nged}-EXIF:DateTimeOriginal={MediaDateTaken}\r\n{IfMediaDateTakenChanged}-XMP-phot" +
+            "oshop:DateCreated={MediaDateTaken}\r\n{IfMediaDateTakenChanged}-IPTC:DateCreated={" +
+            "MediaDateTakenDateStamp}\r\n{IfMediaDateTakenChanged}-IPTC:TimeCreated={MediaDateT" +
+            "akenTimeStamp}\r\n{IfMediaDateTakenChanged}-CreateDate={MediaDateTaken}\r\n{IfPerson" +
+            "alAlbumChanged}-XMP-xmpDM:Album={PersonalAlbum}\r\n{IfPersonalAlbumChanged}-XMP:Al" +
+            "bum={PersonalAlbum}\r\n{IfPersonalAlbumChanged}-IPTC:Headline={PersonalAlbum}\r\n{If" +
+            "PersonalAlbumChanged}-XMP-photoshop:Headline={PersonalAlbum}\r\n{IfPersonalAlbumCh" +
+            "anged}-ItemList:Album={PersonalAlbum}\r\n{IfPersonalAuthorChanged}-EXIF:Artist={Pe" +
+            "rsonalAuthor}\r\n{IfPersonalAuthorChanged}-IPTC:By-line={PersonalAuthor}\r\n{IfPerso" +
+            "nalAuthorChanged}-EXIF:XPAuthor={PersonalAuthor}\r\n{IfPersonalAuthorChanged}-Item" +
+            "List:Author={PersonalAuthor}\r\n{IfPersonalAuthorChanged}-Creator={PersonalAuthor}" +
+            "\r\n{IfPersonalCommentsChanged}-File:Comment={PersonalComments}\r\n{IfPersonalCommen" +
+            "tsChanged}-ExifIFD:UserComment={PersonalComments}\r\n{IfPersonalCommentsChanged}-E" +
+            "XIF:UserComment={PersonalComments}\r\n{IfPersonalCommentsChanged}-EXIF:XPComment={" +
+            "PersonalComments}\r\n{IfPersonalCommentsChanged}-XMP-album:Notes={PersonalComments" +
+            "}\r\n{IfPersonalCommentsChanged}-XMP-acdsee:Notes={PersonalComments}\r\n{IfPersonalC" +
+            "ommentsChanged}-XMP:UserComment={PersonalComments}\r\n{IfPersonalCommentsChanged}-" +
+            "XMP:Notes={PersonalComments}\r\n{IfPersonalCommentsChanged}-ItemList:Comment={Pers" +
+            "onalComments}\r\n{IfPersonalDescriptionChanged}-EXIF:ImageDescription={PersonalDes" +
+            "cription}\r\n{IfPersonalDescriptionChanged}-XMP:ImageDescription={PersonalDescript" +
+            "ion}\r\n{IfPersonalDescriptionChanged}-XMP-dc:Description={PersonalDescription}\r\n{" +
+            "IfPersonalDescriptionChanged}-XMP:Description={PersonalDescription}\r\n{IfPersonal" +
+            "DescriptionChanged}-IPTC:Caption-Abstract={PersonalDescription}\r\n{IfPersonalDesc" +
+            "riptionChanged}-ItemList:Description={PersonalDescription}\r\n{IfPersonalDescripti" +
+            "onChanged}-Description={PersonalDescription}\r\n{IfPersonalRatingChanged}-XMP-micr" +
+            "osoft:RatingPercent={PersonalRatingPercent}\r\n{IfPersonalRatingChanged}-XMP:Ratin" +
+            "gPercent={PersonalRatingPercent}\r\n{IfPersonalRatingChanged}-EXIF:RatingPercent={" +
+            "PersonalRatingPercent}\r\n{IfPersonalRatingChanged}-XMP-xmp:Rating={PersonalRating" +
+            "}\r\n{IfPersonalRatingChanged}-XMP:Rating={PersonalRating}\r\n{IfPersonalRatingChang" +
+            "ed}-XMP-acdsee:Rating={PersonalRating}\r\n{IfPersonalRatingChanged}-EXIF:Rating={P" +
+            "ersonalRating}\r\n{IfPersonalRatingChanged}-Rating={PersonalRating}\r\n{IfPersonalTi" +
+            "tleChanged}-ItemList:Title={PersonalTitle}\r\n{IfPersonalTitleChanged}-EXIF:XPTitl" +
+            "e={PersonalTitle}\r\n{IfPersonalTitleChanged}-XMP-dc:Title={PersonalTitle}\r\n{IfPer" +
+            "sonalTitleChanged}-XMP:Title={PersonalTitle}\r\n{IfPersonalTitleChanged}-ItemList:" +
+            "Title={PersonalTitle}\r\n{IfLocationLatitudeChanged}-EXIF:GPSLatitude={LocationLat" +
+            "itude}\r\n{IfLocationLatitudeChanged}-XMP-exif:GPSLatitude={LocationLatitude}\r\n{If" +
+            "LocationLatitudeChanged}-XMP:GPSLatitude={LocationLatitude}\r\n{IfLocationLatitude" +
+            "Changed}-GPS:GPSLatitude={LocationLatitude}\r\n{IfLocationLatitudeChanged}-GPSLati" +
+            "tude={LocationLatitude}\r\n{IfLocationLongitudeChanged}-EXIF:GPSLongitude={Locatio" +
+            "nLongitude}\r\n{IfLocationLongitudeChanged}-XMP-exif:GPSLongitude={LocationLongitu" +
+            "de}\r\n{IfLocationLongitudeChanged}-XMP:GPSLongitude={LocationLongitude}\r\n{IfLocat" +
+            "ionLongitudeChanged}-GPS:GPSLongitude={LocationLongitude}\r\n{IfLocationLongitudeC" +
+            "hanged}-GPSLongitude={LocationLongitude}\r\n{IfLocationNameChanged}-XMP:Location={" +
+            "LocationName}\r\n{IfLocationNameChanged}-XMP-iptcCore:Location={LocationName}\r\n{If" +
+            "LocationNameChanged}-XMP-iptcExt:LocationShownSublocation={LocationName}\r\n{IfLoc" +
+            "ationNameChanged}-XMP:LocationCreatedSublocation={LocationName}\r\n{IfLocationName" +
+            "Changed}-IPTC:Sub-location={LocationName}\r\n{IfLocationNameChanged}-Sub-location=" +
+            "{LocationName}\r\n{IfLocationNameChanged}-Location={LocationName}\r\n{IfLocationStat" +
+            "eChanged}-XMP-iptcExt:LocationShownProvinceState={LocationState}\r\n{IfLocationSta" +
+            "teChanged}-XMP-photoshop:State={LocationState}\r\n{IfLocationStateChanged}-IPTC:Pr" +
+            "ovince-State={LocationState}\r\n{IfLocationStateChanged}-XMP:State={LocationState}" +
+            "\r\n{IfLocationStateChanged}-State={LocationState}\r\n{IfLocationCityChanged}-XMP-ph" +
+            "otoshop:City={LocationCity}\r\n{IfLocationCityChanged}-XMP-iptcExt:LocationShownCi" +
+            "ty={LocationCity}\r\n{IfLocationCityChanged}-IPTC:City={LocationCity}\r\n{IfLocation" +
+            "CityChanged}-XMP:City={LocationCity}\r\n{IfLocationCityChanged}-City={LocationCity" +
+            "}\r\n{IfLocationCountryChanged}-IPTC:Country-PrimaryLocationName={LocationCountry}" +
+            "\r\n{IfLocationCountryChanged}-XMP-photoshop:Country={LocationCountry}\r\n{IfLocatio" +
+            "nCountryChanged}-XMP-iptcExt:LocationShownCountryName={LocationCountry}\r\n{IfLoca" +
+            "tionCountryChanged}-XMP:Country={LocationCountry}\r\n{IfLocationCountryChanged}-Co" +
+            "untry={LocationCountry}\r\n{IfPersonalRegionChanged}-ImageRegion=\r\n{IfPersonalRegi" +
+            "onChanged}-RegionInfoMP={PersonalRegionInfoMP}\r\n{IfPersonalRegionChanged}-Region" +
+            "Info={PersonalRegionInfo}\r\n{IfPersonalKeywordsChanged}-Subject=\r\n{IfPersonalKeyw" +
+            "ordsChanged}-Keyword=\r\n{IfPersonalKeywordsChanged}-Keywords=\r\n{IfPersonalKeyword" +
+            "sChanged}-XPKeywords=\r\n{IfPersonalKeywordsChanged}-Category=\r\n{IfPersonalKeyword" +
+            "sChanged}-Categories=\r\n{IfPersonalKeywordsChanged}-CatalogSets=\r\n{IfPersonalKeyw" +
+            "ordsChanged}-HierarchicalKeywords=\r\n{IfPersonalKeywordsChanged}-HierarchicalSubj" +
+            "ect=\r\n{IfPersonalKeywordsChanged}-LastKeywordXMP=\r\n{IfPersonalKeywordsChanged}-L" +
+            "astKeywordIPTC=\r\n{IfPersonalKeywordsChanged}-TagsList=\r\n{IfPersonalKeywordsChang" +
+            "ed}{PersonalKeywordItemsDelete}\r\n{IfPersonalKeywordsChanged}{PersonalKeywordItem" +
+            "sAdd}\r\n{IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}\r\n{IfPersonal" +
+            "KeywordsChanged}-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
+        public string RunArgumentBuildKeywordTags {
+            get {
+                return ((string)(this["RunArgumentBuildKeywordTags"]));
+            }
+            set {
+                this["RunArgumentBuildKeywordTags"] = value;
+            }
+        }
     }
 }

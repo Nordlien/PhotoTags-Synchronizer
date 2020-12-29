@@ -1389,8 +1389,8 @@ namespace PhotoTagsSynchronizer
                 #region AutoCorrect
                 AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
 
-                metadataListOriginalExiftool = new List<Metadata>();
-                metadataListFromDataGridView = new List<Metadata>();
+                List<Metadata> metadataListEmpty = new List<Metadata>();
+                List<Metadata> metadataListFromDataGridViewAutoCorrect = new List<Metadata>();
 
                 foreach (ImageListViewItem item in imageListView1.SelectedItems)
                 {
@@ -1404,12 +1404,13 @@ namespace PhotoTagsSynchronizer
                         databaseLocationAddress,
                         databaseGoogleLocationHistory);
 
-                    metadataListFromDataGridView.Add(new Metadata(metadataToSave));
-                    metadataListOriginalExiftool.Add(new Metadata(metadataOriginal));
+                    metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
+                    metadataListEmpty.Add(new Metadata(metadataOriginal));
                 }
 
                 ExiftoolWriter.CreateExiftoolArguFileText(
-                    metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
+                    metadataListFromDataGridViewAutoCorrect, metadataListEmpty, allowedFileNameDateTimeFormats, 
+                    writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
                     true, out string exiftoolAutoCorrectFileText);
                 #endregion 
 
@@ -1418,9 +1419,12 @@ namespace PhotoTagsSynchronizer
                 {
                     runCommand.ArguFile = exiftoolAgruFileText;
                     runCommand.ArguFileAutoCorrect = exiftoolAutoCorrectFileText;
-                    runCommand.Metadatas = metadataListFromDataGridView;
+                    runCommand.MetadatasGridView = metadataListFromDataGridView;
+                    runCommand.MetadatasOriginal = metadataListOriginalExiftool;
+                    runCommand.MetadatasEmpty = metadataListEmpty;
                     runCommand.AllowedFileNameDateTimeFormats = allowedFileNameDateTimeFormats;
                     runCommand.MetadataPrioity = exiftoolReader.MetadataReadPrioity;
+
                     runCommand.Init();
                     runCommand.ShowDialog();
                 }

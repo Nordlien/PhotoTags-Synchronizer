@@ -21,22 +21,22 @@ namespace PhotoTagsSynchronizer
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public MetadataReadPrioity MetadataReadPrioity { get;  set; } //= new MetadataReadPrioity();
+        public MetadataReadPrioity MetadataReadPrioity { get; set; } //= new MetadataReadPrioity();
         public Size[] ThumbnailSizes { get; set; }
 
         private Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryCopy = new Dictionary<MetadataPriorityKey, MetadataPriorityValues>();
         private AutoCorrect autoCorrect = new AutoCorrect();
 
-        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeuwordAdd = null;
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeywordAdd = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeuwordDelete = null;
-        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeuwordWriteTags = null;
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeywordWriteTags = null;
 
         private bool isPopulation = false;
 
         public Config()
         {
-            InitializeComponent(); 
-            
+            InitializeComponent();
+
         }
 
         #region All tabs - Init - Save - Close
@@ -53,16 +53,16 @@ namespace PhotoTagsSynchronizer
             PopulateMetadataReadToolStripMenu();
             CopyMetadataReadPrioity(MetadataReadPrioity.MetadataPrioityDictionary, metadataPrioityDictionaryCopy);
             PopulateMetadataRead(dataGridViewMetadataReadPriority);
-            
+
             //AutoCorrect
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             if (autoCorrect == null) autoCorrect = new AutoCorrect();
             PopulateAutoCorrectPoperties();
 
             //Metadata Write
-            fastColoredTextBoxHandlerKeuwordAdd = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordAdd, true, MetadataReadPrioity.MetadataPrioityDictionary);
+            fastColoredTextBoxHandlerKeywordAdd = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordAdd, true, MetadataReadPrioity.MetadataPrioityDictionary);
             fastColoredTextBoxHandlerKeuwordDelete = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordDelete, true, MetadataReadPrioity.MetadataPrioityDictionary);
-            fastColoredTextBoxHandlerKeuwordWriteTags = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteTags, false, MetadataReadPrioity.MetadataPrioityDictionary);
+            fastColoredTextBoxHandlerKeywordWriteTags = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteTags, false, MetadataReadPrioity.MetadataPrioityDictionary);
             PopulateMetadataWritePoperties();
             isPopulation = false;
 
@@ -87,7 +87,7 @@ namespace PhotoTagsSynchronizer
                 fastColoredTextBoxShowPipe32Log.ClearUndo();
                 GC.Collect();
                 GC.GetTotalMemory(true);
-            }            
+            }
         }
 
         #region Log - GetLogFileName(string targetName)
@@ -174,7 +174,7 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.XtraAtomSubtitleVideo = checkBoxWriteXtraAtomSubtitleVideo.Checked;
             Properties.Settings.Default.XtraAtomArtistVideo = checkBoxWriteXtraAtomArtistVideo.Checked;
 
-            Properties.Settings.Default.XtraAtomArtistVariable = textBoxWriteXtraAtomArtist.Text;            
+            Properties.Settings.Default.XtraAtomArtistVariable = textBoxWriteXtraAtomArtist.Text;
             Properties.Settings.Default.XtraAtomAlbumVariable = textBoxWriteXtraAtomAlbum.Text;
             Properties.Settings.Default.XtraAtomCategoriesVariable = textBoxWriteXtraAtomCategories.Text;
             Properties.Settings.Default.XtraAtomCommentVariable = textBoxWriteXtraAtomComment.Text;
@@ -210,7 +210,7 @@ namespace PhotoTagsSynchronizer
             textBoxApplicationPreferredLanguages.Text = Properties.Settings.Default.ApplicationPreferredLanguages;
             numericUpDownApplicationMaxRowsInSearchResult.Value = Properties.Settings.Default.MaxRowsInSearchResult;
         }
-   
+
 
         #region AutoCorrect - Populate and Save
         private void PopulateAutoCorrectListOrder(ImageListViewOrder imageListViewOrder, List<MetadataBrokerTypes> listPriority)
@@ -323,7 +323,7 @@ namespace PhotoTagsSynchronizer
 
             PopulateAutoCorrectListOrder(imageListViewOrderTitle, autoCorrect.TitlePriority);
 
-            if (autoCorrect.UpdateTitle)            
+            if (autoCorrect.UpdateTitle)
             {
                 if (autoCorrect.UpdateTitleWithFirstInPrioity)
                     radioButtonTitleUseFirst.Checked = true;
@@ -389,8 +389,8 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Location Name, State, City, Country
-            if (!autoCorrect.UpdateLocation) radioButtonLocationNameDoNotChange.Checked = true;            
-            else if (autoCorrect.UpdateLocationOnlyWhenEmpty) radioButtonLocationNameChangeWhenEmpty.Checked = true;            
+            if (!autoCorrect.UpdateLocation) radioButtonLocationNameDoNotChange.Checked = true;
+            else if (autoCorrect.UpdateLocationOnlyWhenEmpty) radioButtonLocationNameChangeWhenEmpty.Checked = true;
             else radioButtonLocationNameChangeAlways.Checked = true;
 
             checkBoxUpdateLocationName.Checked = autoCorrect.UpdateLocationName;
@@ -470,7 +470,7 @@ namespace PhotoTagsSynchronizer
                     autoCorrect.UpdateAlbumWithFirstInPrioity = false;
             }
 
-            autoCorrect.KeywordTagConfidenceLevel = (90 - comboBoxKeywordsAiConfidence.SelectedIndex * 10) / 100.0;            
+            autoCorrect.KeywordTagConfidenceLevel = (90 - comboBoxKeywordsAiConfidence.SelectedIndex * 10) / 100.0;
             #endregion
 
             #region Keywords
@@ -526,7 +526,7 @@ namespace PhotoTagsSynchronizer
             else
             {
                 autoCorrect.UpdateLocation = true;
-                
+
                 if (radioButtonLocationNameChangeWhenEmpty.Checked)
                     autoCorrect.UpdateLocationOnlyWhenEmpty = true;
                 else
@@ -919,54 +919,30 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Metadata Write - Insert Variable from after Selected in Combobox
-        private void SelectionChangeCommitted(TextBox textBox, string insertText)
-        {
-            if (!isPopulation)
-            {
-                textBox.Focus();
-                var selectionIndex = textBox.SelectionStart;
-                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
-                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
-                textBox.SelectionStart = selectionIndex + insertText.Length;
-            }
-        }
-
-        private void SelectionChangeCommitted(FastColoredTextBox textBox, string insertText)
-        {
-            if (!isPopulation)
-            {
-                textBox.Focus();
-                var selectionIndex = textBox.SelectionStart;
-                textBox.Text = textBox.Text.Remove(selectionIndex, textBox.SelectionLength);
-                textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
-                textBox.SelectionStart = selectionIndex + insertText.Length;
-            }
-        }
-
         private void comboBoxMetadataWriteStandardTags_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            SelectionChangeCommitted(fastColoredTextBoxMetadataWriteTags, comboBoxMetadataWriteStandardTags.Text);
+            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxMetadataWriteTags, comboBoxMetadataWriteStandardTags.Text);
         }
 
         private void comboBoxMetadataWriteKeywordAdd_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            SelectionChangeCommitted(fastColoredTextBoxMetadataWriteKeywordAdd, comboBoxMetadataWriteKeywordAdd.Text);
+            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxMetadataWriteKeywordAdd, comboBoxMetadataWriteKeywordAdd.Text);
         }
 
         private void comboBoxMetadataWriteKeywordDelete_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            SelectionChangeCommitted(fastColoredTextBoxMetadataWriteKeywordDelete, comboBoxMetadataWriteKeywordDelete.Text);
+            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxMetadataWriteKeywordDelete, comboBoxMetadataWriteKeywordDelete.Text);
         }
 
         private void comboBoxApplicationLanguages_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var insertText = comboBoxApplicationLanguages.Text.Split(' ', '\t')[0];
-            SelectionChangeCommitted(textBoxApplicationPreferredLanguages, insertText);
+            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(textBoxApplicationPreferredLanguages, insertText);
         }
 
         private void comboBoxWriteXtraAtomVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            SelectionChangeCommitted(activeXtraAtomTextbox, comboBoxWriteXtraAtomVariables.Text);
+            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(activeXtraAtomTextbox, comboBoxWriteXtraAtomVariables.Text);
         }
         #endregion
 
@@ -1008,22 +984,21 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
         #region FastColoredTextBox - events
 
         private void fastColoredTextBoxMetadataWriteKeywordDelete_TextChanged(object sender, TextChangedEventArgs e)
-        {           
+        {
             if (fastColoredTextBoxHandlerKeuwordDelete != null) fastColoredTextBoxHandlerKeuwordDelete.SyntaxHighlightProperties(sender, e);
         }
 
         private void fastColoredTextBoxMetadataWriteKeywordAdd_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (fastColoredTextBoxHandlerKeuwordAdd != null) fastColoredTextBoxHandlerKeuwordAdd.SyntaxHighlightProperties(sender, e);
+            if (fastColoredTextBoxHandlerKeywordAdd != null) fastColoredTextBoxHandlerKeywordAdd.SyntaxHighlightProperties(sender, e);
         }
 
         private void fastColoredTextBoxMetadataWriteTags_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (fastColoredTextBoxHandlerKeuwordWriteTags != null) fastColoredTextBoxHandlerKeuwordWriteTags.SyntaxHighlightProperties(sender, e);
+            if (fastColoredTextBoxHandlerKeywordWriteTags != null) fastColoredTextBoxHandlerKeywordWriteTags.SyntaxHighlightProperties(sender, e);
         }
 
         private void fastColoredTextBoxMetadataWriteKeywordDelete_KeyDown(object sender, KeyEventArgs e)
@@ -1033,12 +1008,12 @@ namespace PhotoTagsSynchronizer
 
         private void fastColoredTextBoxMetadataWriteKeywordAdd_KeyDown(object sender, KeyEventArgs e)
         {
-            if (fastColoredTextBoxHandlerKeuwordAdd != null) fastColoredTextBoxHandlerKeuwordAdd.KeyDown(sender, e);
+            if (fastColoredTextBoxHandlerKeywordAdd != null) fastColoredTextBoxHandlerKeywordAdd.KeyDown(sender, e);
         }
 
         private void fastColoredTextBoxMetadataWriteTags_KeyDown(object sender, KeyEventArgs e)
         {
-            if (fastColoredTextBoxHandlerKeuwordWriteTags != null) fastColoredTextBoxHandlerKeuwordWriteTags.KeyDown(sender, e);
+            if (fastColoredTextBoxHandlerKeywordWriteTags != null) fastColoredTextBoxHandlerKeywordWriteTags.KeyDown(sender, e);
         }
         #endregion 
 

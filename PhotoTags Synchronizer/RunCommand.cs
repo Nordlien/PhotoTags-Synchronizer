@@ -19,14 +19,21 @@ namespace PhotoTagsSynchronizer
         public string ArguFile { get; set; } = "";
         public string ArguFileAutoCorrect { get; set; } = "";
 
-
-        public MetadataReadPrioity MetadataPrioity { get; set; } 
-        public List<Metadata> Metadatas { get; set; } = new List<Metadata>();
-        public List<string> AllowedFileNameDateTimeFormats { get; set; } = new List<string>();
         private bool isPopulation = false;
+        public MetadataReadPrioity MetadataPrioity { get; set; } 
+        public List<Metadata> MetadatasGridView { get; set; } = new List<Metadata>();
+        public List<Metadata> MetadatasOriginal { get; set; } = new List<Metadata>();
+        public List<Metadata> MetadatasEmpty { get; set; } = new List<Metadata>();
+
+        public List<string> AllowedFileNameDateTimeFormats { get; set; } = new List<string>();
 
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerRunArgumentFile = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerRunArgumentFileAutoCorrect = null;
+
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeywordAdd = null;
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeywordDelete = null;
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerKeywordWriteTags = null;
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerBuildResult = null;
 
         private ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
         private SortedList<string, ApplicationData> applicationDatas;
@@ -42,19 +49,6 @@ namespace PhotoTagsSynchronizer
         public void Init()
         {
             isPopulation = true;
-
-
-            #region Tab - Argument file
-            fastColoredTextBoxHandlerRunArgumentFile = new FastColoredTextBoxHandler(fastColoredTextBoxArgumentFileArgumentFile, false, MetadataPrioity.MetadataPrioityDictionary);
-            fastColoredTextBoxHandlerRunArgumentFileAutoCorrect = new FastColoredTextBoxHandler(fastColoredTextBoxArgumentFileArgumentFileAutoCorrect, false, MetadataPrioity.MetadataPrioityDictionary);
-
-            comboBoxArgumentFileCommandVariables.Items.Add("{TempFileArgumentFullPath}");
-            ComboBoxPopulate(comboBoxArgumentFileCommand, Properties.Settings.Default.RunArgumentCommandList, Properties.Settings.Default.RunArgumentCommand);
-            fastColoredTextBoxArgumentFileArgumentFile.Text = ArguFile;
-            fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text = ArguFileAutoCorrect;
-
-            #endregion
-
             #region Tab - Run batch - Command
             comboBoxBatchRunImageVariables.Items.AddRange(Metadata.ListOfProperties(false));
             comboBoxBatchRunVideoVariables.Items.AddRange(Metadata.ListOfProperties(false));
@@ -65,7 +59,7 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Tab - Run batch - App
-            foreach (Metadata metadata in Metadatas) textBoxBatchCommandSelectedFiles.Text += (textBoxBatchCommandSelectedFiles.Text == "" ? "" : "\r\n") + metadata.FileFullPath;
+            foreach (Metadata metadata in MetadatasGridView) textBoxBatchCommandSelectedFiles.Text += (textBoxBatchCommandSelectedFiles.Text == "" ? "" : "\r\n") + metadata.FileFullPath;
 
             applicationDatas = ApplicationInstalled.ListInstalledApps();
             for (int index = 0; index < applicationDatas.Count; index++)
@@ -82,10 +76,10 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Tab - Open with
-            foreach (Metadata metadata in Metadatas) textBoxOpenWithSelectedFiles.Text += (textBoxOpenWithSelectedFiles.Text == "" ? "" : "\r\n") + metadata.FileFullPath;
+            foreach (Metadata metadata in MetadatasGridView) textBoxOpenWithSelectedFiles.Text += (textBoxOpenWithSelectedFiles.Text == "" ? "" : "\r\n") + metadata.FileFullPath;
             //DataGridView video Open With...
-            List<string> videoExtensions = ImageAndMovieFileExtentionsUtility.GetVideoExtension(Metadatas);
-            List<string> imageExtensions = ImageAndMovieFileExtentionsUtility.GetImageExtension(Metadatas);
+            List<string> videoExtensions = ImageAndMovieFileExtentionsUtility.GetVideoExtension(MetadatasGridView);
+            List<string> imageExtensions = ImageAndMovieFileExtentionsUtility.GetImageExtension(MetadatasGridView);
 
             PopulateOpenWithDataGridView(dataGridViewImages, imageExtensions);
             PopulateOpenWithDataGridView(dataGridViewVideos, videoExtensions);
@@ -100,6 +94,36 @@ namespace PhotoTagsSynchronizer
             checkBoxOpenVideoWithWaitForExit.Checked = Properties.Settings.Default.OpenWithVideoWaitForExit;
             #endregion
 
+            #region Tab - Argument file
+            fastColoredTextBoxHandlerRunArgumentFile = new FastColoredTextBoxHandler(fastColoredTextBoxArgumentFileArgumentFile, false, MetadataPrioity.MetadataPrioityDictionary);
+            fastColoredTextBoxHandlerRunArgumentFileAutoCorrect = new FastColoredTextBoxHandler(fastColoredTextBoxArgumentFileArgumentFileAutoCorrect, false, MetadataPrioity.MetadataPrioityDictionary);
+
+            comboBoxArgumentFileCommandVariables.Items.Add("{TempFileArgumentFullPath}");
+            ComboBoxPopulate(comboBoxArgumentFileCommand, Properties.Settings.Default.RunArgumentCommandList, Properties.Settings.Default.RunArgumentCommand);
+            fastColoredTextBoxArgumentFileArgumentFile.Text = ArguFile;
+            fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text = ArguFileAutoCorrect;
+
+            #endregion
+
+            #region Tab - Build
+            fastColoredTextBoxHandlerKeywordAdd = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordAdd, true, MetadataPrioity.MetadataPrioityDictionary);
+            fastColoredTextBoxHandlerKeywordDelete = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordDelete, true, MetadataPrioity.MetadataPrioityDictionary);
+            fastColoredTextBoxHandlerKeywordWriteTags = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteTags, false, MetadataPrioity.MetadataPrioityDictionary);
+            fastColoredTextBoxHandlerBuildResult = new FastColoredTextBoxHandler(fastColoredTextBoxBuildResult, false, MetadataPrioity.MetadataPrioityDictionary);
+
+            comboBoxArgumentFileCommandVariables.Items.Add("{TempFileArgumentFullPath}");
+            ComboBoxPopulate(comboBoxArgumentFileBuilderCommand, Properties.Settings.Default.RunArgumentBuildCommandList, Properties.Settings.Default.RunArgumentBuildCommand);
+
+            comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties(false));
+            comboBoxMetadataWriteKeywordDelete.Items.AddRange(Metadata.ListOfProperties(true));
+            comboBoxMetadataWriteKeywordAdd.Items.AddRange(Metadata.ListOfProperties(true));
+
+            fastColoredTextBoxMetadataWriteKeywordAdd.Text = Properties.Settings.Default.RunArgumentBuildKeywordAdd;
+            fastColoredTextBoxMetadataWriteKeywordDelete.Text = Properties.Settings.Default.RunArgumentBuildKeywordDelete;
+            fastColoredTextBoxMetadataWriteTags.Text = Properties.Settings.Default.RunArgumentBuildKeywordTags;
+            //fastColoredTextBoxBuildResult.Text = ;
+            UpdateBuildResult();
+            #endregion
 
             isPopulation = false;
 
@@ -110,15 +134,15 @@ namespace PhotoTagsSynchronizer
         private void RunCommand_FormClosing(object sender, FormClosingEventArgs e)
         {
             #region Tab - Argument file
-            Properties.Settings.Default.RunArgumentCommandList = ComboBoxStringCollection(comboBoxArgumentFileCommand);
+            Properties.Settings.Default.RunArgumentCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxArgumentFileCommand);
             Properties.Settings.Default.RunArgumentCommand = comboBoxArgumentFileCommand.Text;
             #endregion
 
             #region Tab - Run batch - Command
-            Properties.Settings.Default.RunBatchImageCommandList = ComboBoxStringCollection(comboBoxBatchRunImageCommand);
+            Properties.Settings.Default.RunBatchImageCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunImageCommand);
             Properties.Settings.Default.RunBatchImageCommand = comboBoxBatchRunImageCommand.Text;
 
-            Properties.Settings.Default.RunBatchVideoCommandList = ComboBoxStringCollection(comboBoxBatchRunVideoCommand);
+            Properties.Settings.Default.RunBatchVideoCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunVideoCommand);
             Properties.Settings.Default.RunBatchVideoCommand = comboBoxBatchRunVideoCommand.Text;
 
 
@@ -128,16 +152,16 @@ namespace PhotoTagsSynchronizer
 
             #region Tab - Run batch - App
 
-            Properties.Settings.Default.RunBatchImageAppIdList = ComboBoxStringCollection(comboBoxBatchRunImageAppId);
+            Properties.Settings.Default.RunBatchImageAppIdList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunImageAppId);
             Properties.Settings.Default.RunBatchImageAppId = comboBoxBatchRunImageAppId.Text;
 
-            Properties.Settings.Default.RunBatchVideoAppIdList = ComboBoxStringCollection(comboBoxBatchRunVideoAppId);
+            Properties.Settings.Default.RunBatchVideoAppIdList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunVideoAppId);
             Properties.Settings.Default.RunBatchVideoAppId = comboBoxBatchRunVideoAppId.Text;
 
-            Properties.Settings.Default.RunBatchImageVerbList = ComboBoxStringCollection(comboBoxBatchRunImageVerb);
+            Properties.Settings.Default.RunBatchImageVerbList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunImageVerb);
             Properties.Settings.Default.RunBatchImageVerb = comboBoxBatchRunImageVerb.Text;
 
-            Properties.Settings.Default.RunBatchVideoVerbList = ComboBoxStringCollection(comboBoxBatchRunVideoVerb);
+            Properties.Settings.Default.RunBatchVideoVerbList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunVideoVerb);
             Properties.Settings.Default.RunBatchVideoVerb = comboBoxBatchRunVideoVerb.Text;
 
             checkBoxBatchRunImageWaitForAppExit.Checked = Properties.Settings.Default.RunBatchImageWaitForApp;
@@ -153,7 +177,16 @@ namespace PhotoTagsSynchronizer
 
             Properties.Settings.Default.OpenWithImageWaitForExit = checkBoxOpenImageWithWaitForExit.Checked;
             Properties.Settings.Default.OpenWithVideoWaitForExit = checkBoxOpenVideoWithWaitForExit.Checked;
-            #endregion 
+            #endregion
+
+            #region Tab - Builder
+            Properties.Settings.Default.RunArgumentBuildCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxArgumentFileBuilderCommand);
+            Properties.Settings.Default.RunArgumentBuildCommand = comboBoxArgumentFileBuilderCommand.Text;
+
+            Properties.Settings.Default.RunArgumentBuildKeywordAdd = fastColoredTextBoxMetadataWriteKeywordAdd.Text;
+            Properties.Settings.Default.RunArgumentBuildKeywordDelete = fastColoredTextBoxMetadataWriteKeywordDelete.Text;
+            Properties.Settings.Default.RunArgumentBuildKeywordTags = fastColoredTextBoxMetadataWriteTags.Text;
+            #endregion
 
             Properties.Settings.Default.Save();
         }
@@ -344,7 +377,7 @@ namespace PhotoTagsSynchronizer
         private void buttonOpenWithOpenWith_Click(object sender, EventArgs e)
         {
             string errors = "";
-            foreach (Metadata metadata in Metadatas)
+            foreach (Metadata metadata in MetadatasGridView)
             {
                 try
                 {
@@ -372,18 +405,18 @@ namespace PhotoTagsSynchronizer
             textBoxRunBatchImageExample.Text = "";
 
             if (tabControlBatchRunImage.SelectedTab.Tag.ToString() == "Command")
-                foreach (Metadata metadata in Metadatas) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") + 
+                foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") + 
                         metadata.ReplaceVariables(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
             else
-                foreach (Metadata metadata in Metadatas) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") +
+                foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") +
                         comboBoxBatchRunImageVerb.Text + " " + comboBoxBatchRunImageAppId.Text + " " + metadata.FileFullPath;
 
             textBoxRunBatchVideoExample.Text = "";
             if (tabControlBatchRunVideo.SelectedTab.Tag.ToString() == "Command")
-                foreach (Metadata metadata in Metadatas) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") + 
+                foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") + 
                         metadata.ReplaceVariables(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
             else
-                foreach (Metadata metadata in Metadatas) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") +
+                foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") +
                         comboBoxBatchRunVideoVerb.Text + " " + comboBoxBatchRunVideoAppId.Text + " " + metadata.FileFullPath;
         }
 
@@ -441,7 +474,7 @@ namespace PhotoTagsSynchronizer
             ComboBoxAddTextToList(comboBoxBatchRunVideoVerb);
 
             string errors = "";
-            foreach (Metadata metadata in Metadatas)
+            foreach (Metadata metadata in MetadatasGridView)
             {
                 
                 try
@@ -590,18 +623,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ComboBox - Settings - Convert List to string
-        private string ComboBoxStringCollection(ComboBox comboBox)
-        {
-            string resultListString = "";
-            foreach (object item in comboBox.Items)
-            {
-                resultListString += (resultListString == "" ? "" : "\r\n") + item.ToString();
-            }
-            return resultListString;
-        }
-        #endregion 
-
         #region ComboBox - Insert selected and cmomitted selection to Textbox
         private void SelectionChangeCommitted(ComboBox textBox, string insertText)
         {
@@ -672,58 +693,23 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ComboBox - Text Selection Hack - Remember Selection
-        private void RemeberComboBoxSelection(ComboBox comboBox)
-        {
-            comboBox.Tag = new ComboBoxSelection(comboBox);
-        }
-
-        private void SetComboBoxSelection(ComboBox comboBox)
-        {
-            if (comboBox.Tag is ComboBoxSelection comboBoxSelection)
-            {
-                comboBox.SelectionStart = comboBoxSelection.SelectionStart;
-                comboBox.SelectionLength = comboBoxSelection.SelectionLength;
-            }
-        }
+        
 
         private void comboBox_MouseMove(object sender, MouseEventArgs e)
         {
-            RemeberComboBoxSelection((ComboBox)sender);
+            ComboBoxHandler.RemeberComboBoxSelection((ComboBox)sender);
         }
 
         private void comboBox_KeyUp(object sender, KeyEventArgs e)
         {
-            RemeberComboBoxSelection((ComboBox)sender);
+            ComboBoxHandler.RemeberComboBoxSelection((ComboBox)sender);
         }
 
         private void comboBox_Leave(object sender, EventArgs e)
         {
-            SetComboBoxSelection((ComboBox)sender);            
+            ComboBoxHandler.SetComboBoxSelection((ComboBox)sender);            
         }
 
-
-        #endregion
-
-        #region FastColoredTextBox - Events handling
-        private void fastColoredTextBoxArgumentFileArgumentFile_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (fastColoredTextBoxHandlerRunArgumentFile != null) fastColoredTextBoxHandlerRunArgumentFile.KeyDown(sender, e);
-        }
-
-        private void fastColoredTextBoxArgumentFileArgumentFile_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
-        {
-            if (fastColoredTextBoxHandlerRunArgumentFile != null) fastColoredTextBoxHandlerRunArgumentFile.SyntaxHighlightProperties(sender, e);
-        }
-
-        private void fastColoredTextBoxArgumentFileArgumentFileAutoCorrect_KeyDown(object sender, KeyEventArgs e)
-        {           
-            if (fastColoredTextBoxHandlerRunArgumentFileAutoCorrect != null) fastColoredTextBoxHandlerRunArgumentFileAutoCorrect.KeyDown(sender, e);
-        }
-
-        private void fastColoredTextBoxArgumentFileArgumentFileAutoCorrect_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
-        {
-            if (fastColoredTextBoxHandlerRunArgumentFileAutoCorrect != null) fastColoredTextBoxHandlerRunArgumentFileAutoCorrect.SyntaxHighlightProperties(sender, e);
-        }
         #endregion
 
         #region ArumentFile run - Save click
@@ -809,24 +795,324 @@ namespace PhotoTagsSynchronizer
         private void buttonArgumentFileCompare_Click(object sender, EventArgs e)
         {
             FormCompareText formCompareText = new FormCompareText();
-            formCompareText.Compare(fastColoredTextBoxArgumentFileArgumentFile.Text, fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text);
+            formCompareText.Compare("Source: Edit by user", "Source: Created by AutoCorrect", fastColoredTextBoxArgumentFileArgumentFile.Text, fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text);
             formCompareText.ShowDialog();
         }
-        #endregion 
-    }
+        #endregion
 
-    #region ComboBox - Text Selction Hack - Remember ComboBoxSelection
-    public class ComboBoxSelection
-    {
-        public int SelectionStart { get; set; }
-        public int SelectionLength { get; set; }
 
-        public ComboBoxSelection (ComboBox comboBox)
+        #region Argument file tab - FastColoredTextBox - Events handling
+        private void fastColoredTextBoxArgumentFileArgumentFile_KeyDown(object sender, KeyEventArgs e)
         {
-            SelectionStart = comboBox.SelectionStart;
-            SelectionLength = comboBox.SelectionLength;
+            if (fastColoredTextBoxHandlerRunArgumentFile != null) fastColoredTextBoxHandlerRunArgumentFile.KeyDown(sender, e);
         }
-    }
-    #endregion 
 
+        private void fastColoredTextBoxArgumentFileArgumentFile_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerRunArgumentFile != null) fastColoredTextBoxHandlerRunArgumentFile.SyntaxHighlightProperties(sender, e);
+        }
+
+        private void fastColoredTextBoxArgumentFileArgumentFileAutoCorrect_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerRunArgumentFileAutoCorrect != null) fastColoredTextBoxHandlerRunArgumentFileAutoCorrect.KeyDown(sender, e);
+        }
+
+        private void fastColoredTextBoxArgumentFileArgumentFileAutoCorrect_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerRunArgumentFileAutoCorrect != null) fastColoredTextBoxHandlerRunArgumentFileAutoCorrect.SyntaxHighlightProperties(sender, e);
+        }
+        #endregion
+
+        #region Build tab - FastColoredTextBox - Events handling
+        private void fastColoredTextBoxMetadataWriteKeywordDelete_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerKeywordDelete != null) fastColoredTextBoxHandlerKeywordDelete.KeyDown(sender, e);
+        }
+
+        private void fastColoredTextBoxMetadataWriteKeywordDelete_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerKeywordDelete != null) fastColoredTextBoxHandlerKeywordDelete.SyntaxHighlightProperties(sender, e);
+        }
+
+        private void fastColoredTextBoxMetadataWriteKeywordAdd_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerKeywordAdd != null) fastColoredTextBoxHandlerKeywordAdd.KeyDown(sender, e);
+        }
+
+        private void fastColoredTextBoxMetadataWriteKeywordAdd_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerKeywordAdd != null) fastColoredTextBoxHandlerKeywordAdd.SyntaxHighlightProperties(sender, e);
+            
+        }
+
+        private void fastColoredTextBoxMetadataWriteTags_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerKeywordWriteTags != null) fastColoredTextBoxHandlerKeywordWriteTags.KeyDown(sender, e);
+        }
+        
+        private void fastColoredTextBoxMetadataWriteTags_TextChanging(object sender, FastColoredTextBoxNS.TextChangingEventArgs e)
+        {
+        }
+        private void fastColoredTextBoxMetadataWriteTags_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerKeywordWriteTags != null) fastColoredTextBoxHandlerKeywordWriteTags.SyntaxHighlightProperties(sender, e);
+        }
+
+
+        private void fastColoredTextBoxBuildResult_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerBuildResult != null) fastColoredTextBoxHandlerBuildResult.KeyDown(sender, e);
+        }
+
+        private void fastColoredTextBoxBuildResult_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerBuildResult != null) fastColoredTextBoxHandlerBuildResult.SyntaxHighlightProperties(sender, e);
+        }
+        #endregion
+
+        #region Build tab - ComboBox Handler 
+        private void comboBoxMetadataWriteKeywordDelete_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxMetadataWriteTags, comboBoxMetadataWriteStandardTags.Text);
+        }
+
+        private void comboBoxMetadataWriteKeywordAdd_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxMetadataWriteKeywordAdd, comboBoxMetadataWriteKeywordAdd.Text);
+        }
+
+        private void comboBoxMetadataWriteStandardTags_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxMetadataWriteTags, comboBoxMetadataWriteStandardTags.Text);
+        }
+        #endregion
+
+        #region Build tab - Input Add, Delete, Tags - Load and Save click
+        private void buttonMetadataWriteKeywordDeleteLoad_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog1 = new OpenFileDialog
+                {
+                    InitialDirectory = @"D:\",
+                    Title = "Browse Text Files",
+
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+
+                    DefaultExt = "txt",
+                    Filter = "txt files (*.txt)|*.txt",
+                    FilterIndex = 2,
+                    RestoreDirectory = true,
+
+                    ReadOnlyChecked = true,
+                    ShowReadOnly = true
+                };
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK) fastColoredTextBoxMetadataWriteKeywordDelete.Text = System.IO.File.ReadAllText(openFileDialog1.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonMetadataWriteKeywordDeleteSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Title = "Save aurgument text file";
+                saveFileDialog1.CheckFileExists = false;
+                saveFileDialog1.CheckPathExists = true;
+                saveFileDialog1.DefaultExt = "txt";
+                saveFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK) System.IO.File.WriteAllText(saveFileDialog1.FileName, fastColoredTextBoxMetadataWriteKeywordDelete.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonMetadataWriteKeywordAddLoad_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog1 = new OpenFileDialog
+                {
+                    InitialDirectory = @"D:\",
+                    Title = "Browse Text Files",
+
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+
+                    DefaultExt = "txt",
+                    Filter = "txt files (*.txt)|*.txt",
+                    FilterIndex = 2,
+                    RestoreDirectory = true,
+
+                    ReadOnlyChecked = true,
+                    ShowReadOnly = true
+                };
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK) fastColoredTextBoxMetadataWriteKeywordAdd.Text = System.IO.File.ReadAllText(openFileDialog1.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonMetadataWriteKeywordAddSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Title = "Save aurgument text file";
+                saveFileDialog1.CheckFileExists = false;
+                saveFileDialog1.CheckPathExists = true;
+                saveFileDialog1.DefaultExt = "txt";
+                saveFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK) System.IO.File.WriteAllText(saveFileDialog1.FileName, fastColoredTextBoxMetadataWriteKeywordAdd.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonMetadataWriteKeywordsLoad_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog1 = new OpenFileDialog
+                {
+                    InitialDirectory = @"D:\",
+                    Title = "Browse Text Files",
+
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+
+                    DefaultExt = "txt",
+                    Filter = "txt files (*.txt)|*.txt",
+                    FilterIndex = 2,
+                    RestoreDirectory = true,
+
+                    ReadOnlyChecked = true,
+                    ShowReadOnly = true
+                };
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK) fastColoredTextBoxMetadataWriteTags.Text = System.IO.File.ReadAllText(openFileDialog1.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonMetadataWriteKeywordsSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Title = "Save aurgument text file";
+                saveFileDialog1.CheckFileExists = false;
+                saveFileDialog1.CheckPathExists = true;
+                saveFileDialog1.DefaultExt = "txt";
+                saveFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK) System.IO.File.WriteAllText(saveFileDialog1.FileName, fastColoredTextBoxMetadataWriteTags.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Build tab - Result - Save click
+        private void buttonArgumentFileBuilderSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Title = "Save aurgument text file";
+                saveFileDialog1.CheckFileExists = false;
+                saveFileDialog1.CheckPathExists = true;
+                saveFileDialog1.DefaultExt = "txt";
+                saveFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK) System.IO.File.WriteAllText(saveFileDialog1.FileName, fastColoredTextBoxBuildResult.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion 
+
+        #region Build tab - Run click
+        private void buttonArgumentFileBuilderRun_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ComboBoxAddTextToList(comboBoxArgumentFileBuilderCommand);
+
+                string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath();
+                string commandWithArguments = comboBoxArgumentFileBuilderCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
+
+                System.IO.File.WriteAllText(tempArguFileFullPath, fastColoredTextBoxBuildResult.Text);
+                ApplicationActivation.ProcessRun(commandWithArguments, false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Build tab - Updated Build result
+        private void UpdateBuildResult()
+        {
+            ExiftoolWriter.CreateExiftoolArguFileText(
+                    MetadatasOriginal, MetadatasEmpty,
+                    AllowedFileNameDateTimeFormats,
+                    fastColoredTextBoxMetadataWriteTags.Text, fastColoredTextBoxMetadataWriteKeywordDelete.Text, fastColoredTextBoxMetadataWriteKeywordAdd.Text,
+                    true, out string exiftoolFileTextGridView);
+
+            fastColoredTextBoxBuildResult.Text = exiftoolFileTextGridView;
+        }
+        private void buttonArgumentFileBuilderBuild_Click(object sender, EventArgs e)
+        {
+            UpdateBuildResult();
+        }
+        #endregion
+
+        #region Build tab - Comapre click
+        private void buttonArgumentFileBuilderCompare_Click(object sender, EventArgs e)
+        {
+            ExiftoolWriter.CreateExiftoolArguFileText(
+                    MetadatasGridView, MetadatasEmpty,
+                    AllowedFileNameDateTimeFormats,
+                    fastColoredTextBoxMetadataWriteTags.Text, fastColoredTextBoxMetadataWriteKeywordDelete.Text, fastColoredTextBoxMetadataWriteKeywordAdd.Text,
+                    true, out string exiftoolFileTextOriginal);
+
+            FormCompareText formCompareText = new FormCompareText();
+            formCompareText.Compare("Source: Original from media files", "Source: Edit by users", exiftoolFileTextOriginal, fastColoredTextBoxBuildResult.Text);
+            formCompareText.ShowDialog();            
+        }
+        #endregion 
+
+    }
 }

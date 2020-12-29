@@ -38,6 +38,8 @@
             this.fctb1 = new FastColoredTextBoxNS.FastColoredTextBox();
             this.fctb2 = new FastColoredTextBoxNS.FastColoredTextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.labelFirst = new System.Windows.Forms.Label();
+            this.labelSecond = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.fctb1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fctb2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -92,6 +94,9 @@
             // 
             // fctb1
             // 
+            this.fctb1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.fctb1.AutoCompleteBracketsList = new char[] {
         '(',
         ')',
@@ -109,16 +114,15 @@
             this.fctb1.CharWidth = 10;
             this.fctb1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fctb1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fctb1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fctb1.IsReplaceMode = false;
-            this.fctb1.Location = new System.Drawing.Point(0, 0);
+            this.fctb1.Location = new System.Drawing.Point(0, 21);
             this.fctb1.Margin = new System.Windows.Forms.Padding(4);
             this.fctb1.Name = "fctb1";
             this.fctb1.Paddings = new System.Windows.Forms.Padding(0);
             this.fctb1.ReadOnly = true;
             this.fctb1.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fctb1.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fctb1.ServiceColors")));
-            this.fctb1.Size = new System.Drawing.Size(456, 484);
+            this.fctb1.Size = new System.Drawing.Size(431, 463);
             this.fctb1.TabIndex = 26;
             this.fctb1.Text = "fastColoredTextBox1";
             this.fctb1.Zoom = 100;
@@ -127,6 +131,9 @@
             // 
             // fctb2
             // 
+            this.fctb2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.fctb2.AutoCompleteBracketsList = new char[] {
         '(',
         ')',
@@ -144,16 +151,15 @@
             this.fctb2.CharWidth = 10;
             this.fctb2.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fctb2.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fctb2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fctb2.IsReplaceMode = false;
-            this.fctb2.Location = new System.Drawing.Point(0, 0);
+            this.fctb2.Location = new System.Drawing.Point(0, 21);
             this.fctb2.Margin = new System.Windows.Forms.Padding(4);
             this.fctb2.Name = "fctb2";
             this.fctb2.Paddings = new System.Windows.Forms.Padding(0);
             this.fctb2.ReadOnly = true;
             this.fctb2.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fctb2.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fctb2.ServiceColors")));
-            this.fctb2.Size = new System.Drawing.Size(470, 484);
+            this.fctb2.Size = new System.Drawing.Size(446, 463);
             this.fctb2.TabIndex = 27;
             this.fctb2.Text = "fastColoredTextBox2";
             this.fctb2.Zoom = 100;
@@ -171,15 +177,35 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.labelFirst);
             this.splitContainer1.Panel1.Controls.Add(this.fctb1);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.labelSecond);
             this.splitContainer1.Panel2.Controls.Add(this.fctb2);
             this.splitContainer1.Size = new System.Drawing.Size(931, 484);
             this.splitContainer1.SplitterDistance = 456;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 28;
+            // 
+            // labelFirst
+            // 
+            this.labelFirst.AutoSize = true;
+            this.labelFirst.Location = new System.Drawing.Point(3, 0);
+            this.labelFirst.Name = "labelFirst";
+            this.labelFirst.Size = new System.Drawing.Size(84, 17);
+            this.labelFirst.TabIndex = 27;
+            this.labelFirst.Text = "Source: first";
+            // 
+            // labelSecond
+            // 
+            this.labelSecond.AutoSize = true;
+            this.labelSecond.Location = new System.Drawing.Point(3, 0);
+            this.labelSecond.Name = "labelSecond";
+            this.labelSecond.Size = new System.Drawing.Size(107, 17);
+            this.labelSecond.TabIndex = 28;
+            this.labelSecond.Text = "Source: second";
             // 
             // FormCompareText
             // 
@@ -197,7 +223,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.fctb1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fctb2)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -215,5 +243,7 @@
         private FastColoredTextBoxNS.FastColoredTextBox fctb1;
         private FastColoredTextBoxNS.FastColoredTextBox fctb2;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Label labelFirst;
+        private System.Windows.Forms.Label labelSecond;
     }
 }

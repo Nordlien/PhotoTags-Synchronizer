@@ -178,7 +178,7 @@ namespace PhotoTagsSynchronizer
         #region Verify Metadata agaist Read filter in class
         public bool VerifyMetadata(Metadata metadata)
         {
-            
+            if (metadata == null) return true;
 
             int indexAlbum = IndexOfFilter(Albums);
             bool foundAlbum;

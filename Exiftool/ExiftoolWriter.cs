@@ -303,9 +303,14 @@ namespace Exiftool
                 filesNeedToBeUpadted.Add(metadataToWrite.FileEntryBroker);
 
                 string tagsToWrite = metadataToWrite.RemoveLines(writeMetadataTagsVariable, metadataOriginal, alwaysWrite);
+
                 string personalKeywordDelete = metadataOriginal.ReplaceVariables(writeMetadataKeywordDeleteVariable, allowedFileNameDateTimeFormats);
                 string personalKeywordAdd = metadataToWrite.ReplaceVariables(writeMetadataKeywordAddVariable, allowedFileNameDateTimeFormats);
-                tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordDelete, personalKeywordAdd);
+
+                string personalKeywordDeleteItems = metadataToWrite.VariablePersonalKeywords(personalKeywordDelete, allowedFileNameDateTimeFormats);
+                string personalKeywordAddItems = metadataToWrite.VariablePersonalKeywords(personalKeywordAdd, allowedFileNameDateTimeFormats);
+
+                tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordDeleteItems, personalKeywordAddItems);
                 exiftoolArguFileText += (exiftoolArguFileText == "" ? "" : "\r\n") + tagsToWrite;
             }
             return filesNeedToBeUpadted;
