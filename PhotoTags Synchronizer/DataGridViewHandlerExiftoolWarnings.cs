@@ -63,7 +63,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandler.AddRow(dataGridView, columnIndex, 
                                 new DataGridViewGenericRow(exiftoolWarningData.NewExiftoolData.Region),
                                 null, 
-                                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));
+                                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true), true);
                             lastRegion = exiftoolWarningData.NewExiftoolData.Region;
                         }
 
@@ -80,7 +80,7 @@ namespace PhotoTagsSynchronizer
                         int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, 
                             new DataGridViewGenericRow(exiftoolWarningData.NewExiftoolData.Region, exiftoolWarningData.NewExiftoolData.Command, true, metadataPriorityKey),
                             exiftoolWarningData.WarningMessage, 
-                            new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));
+                            new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true), true);
                         
                         if (priorityKeyExisit)
                             DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, metadataPriorityGroup.ToString());

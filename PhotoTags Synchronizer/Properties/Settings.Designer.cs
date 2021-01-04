@@ -1273,5 +1273,29 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["RunArgumentBuildKeywordTags"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int SuggestRegionNameTopMostCount {
+            get {
+                return ((int)(this["SuggestRegionNameTopMostCount"]));
+            }
+            set {
+                this["SuggestRegionNameTopMostCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int SuggestRegionNameNearbyDays {
+            get {
+                return ((int)(this["SuggestRegionNameNearbyDays"]));
+            }
+            set {
+                this["SuggestRegionNameNearbyDays"] = value;
+            }
+        }
     }
 }

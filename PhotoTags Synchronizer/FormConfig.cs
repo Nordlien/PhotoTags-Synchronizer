@@ -152,6 +152,8 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
             Properties.Settings.Default.ApplicationPreferredLanguages = textBoxApplicationPreferredLanguages.Text;
             Properties.Settings.Default.MaxRowsInSearchResult = (int)numericUpDownApplicationMaxRowsInSearchResult.Value;
+            Properties.Settings.Default.SuggestRegionNameNearbyDays = (int)numericUpDownPeopleSuggestNameDaysInterval.Value;
+            Properties.Settings.Default.SuggestRegionNameTopMostCount = (int)numericUpDownPeopleSuggestNameTopMost.Value;
 
             //AutoCorrect
             GetAutoCorrectPoperties();
@@ -199,8 +201,9 @@ namespace PhotoTagsSynchronizer
         {
             this.Close();
         }
-        #endregion 
+        #endregion
 
+        #region PopulateApplication()
         public void PopulateApplication()
         {
             for (int i = 0; i < ThumbnailSizes.Length; i++)
@@ -209,8 +212,10 @@ namespace PhotoTagsSynchronizer
             comboBoxApplicationThumbnailSizes.Text = Properties.Settings.Default.ApplicationThumbnail.ToString();
             textBoxApplicationPreferredLanguages.Text = Properties.Settings.Default.ApplicationPreferredLanguages;
             numericUpDownApplicationMaxRowsInSearchResult.Value = Properties.Settings.Default.MaxRowsInSearchResult;
+            numericUpDownPeopleSuggestNameDaysInterval.Value = Properties.Settings.Default.SuggestRegionNameNearbyDays;
+            numericUpDownPeopleSuggestNameTopMost.Value = Properties.Settings.Default.SuggestRegionNameTopMostCount;
         }
-
+        #endregion 
 
         #region AutoCorrect - Populate and Save
         private void PopulateAutoCorrectListOrder(ImageListViewOrder imageListViewOrder, List<MetadataBrokerTypes> listPriority)
@@ -596,7 +601,7 @@ namespace PhotoTagsSynchronizer
                 if (!compositeList.Contains(metadataPrioityGroup.MetadataPriorityValues.Composite))
                 {
                     compositeList.Add(metadataPrioityGroup.MetadataPriorityValues.Composite);
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex1, new DataGridViewGenericRow(metadataPrioityGroup.MetadataPriorityValues.Composite));
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex1, new DataGridViewGenericRow(metadataPrioityGroup.MetadataPriorityValues.Composite), true);
                 }
             }
 
@@ -606,7 +611,7 @@ namespace PhotoTagsSynchronizer
                     metadataPrioityGroup.MetadataPriorityValues.Composite,
                     metadataPrioityGroup.MetadataPriorityKey.Region + " | " + metadataPrioityGroup.MetadataPriorityKey.Tag,
                     metadataPrioityGroup.MetadataPriorityKey),
-                    metadataPrioityGroup.MetadataPriorityValues.Priority, false);
+                    metadataPrioityGroup.MetadataPriorityValues.Priority, false, true);
             }
             isCellValueUpdating = false;
         }

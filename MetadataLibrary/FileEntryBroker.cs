@@ -83,6 +83,20 @@ namespace MetadataLibrary
             return newestDate;
         }
 
+        public static DateTime? FindOldestDate(List<FileEntryBroker> fileVersionDates)
+        {
+            if (fileVersionDates.Count == 0) return null;
+
+            DateTime oldestDate = fileVersionDates[0].LastWriteDateTime;
+            foreach (FileEntryBroker fileEntryBrokerFindNewest in fileVersionDates)
+            {
+                if (fileEntryBrokerFindNewest.Broker == MetadataBrokerTypes.ExifTool &&
+                    fileEntryBrokerFindNewest.LastWriteDateTime < oldestDate)
+                    oldestDate = fileEntryBrokerFindNewest.LastWriteDateTime;
+            }
+            return oldestDate;
+        }
+
     }
 
 

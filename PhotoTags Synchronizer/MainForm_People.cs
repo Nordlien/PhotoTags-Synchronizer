@@ -62,7 +62,9 @@ namespace PhotoTagsSynchronizer
         private int peopleMouseMoveY = -1;
         private int peopleMouseDownColumn = int.MinValue;
         private bool drawingRegion = false;
-        
+
+        #region Cell header - Face region - CellMouseDown
+
         private void dataGridViewPeople_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             drawingRegion = false;
@@ -72,9 +74,35 @@ namespace PhotoTagsSynchronizer
 
             if (e.RowIndex == -1 && e.ColumnIndex >= 0)
             {
+                if (!DataGridViewHandler.IsColumnSelected(dataGridView, e.ColumnIndex))
+                {
+                    MessageBox.Show("You need to select a name cell for current media file.", "Missing selection on media file", MessageBoxButtons.OK);
+                    return;
+                }
+
                 DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
-                if (dataGridViewGenericColumn == null) return;
-                if (dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite) return;
+                if (dataGridViewGenericColumn == null || dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite)
+                {                    
+                    MessageBox.Show("You can only change region on current version on media file, not on historical or error log.", "Not correct column type", MessageBoxButtons.OK);
+                    return;
+                }
+
+                List<int> selectedRows = DataGridViewHandler.GetRowSelected(dataGridView);
+                if (selectedRows.Count != 1)
+                {
+                    MessageBox.Show("You can only create a region for one name cell at once.", "Wrong number of selection", MessageBoxButtons.OK);
+                    return;
+                }
+                else
+                {
+                    int selectedRow = selectedRows[0];
+                    
+                    if (DataGridViewHandler.GetCellReadOnly(dataGridView, e.ColumnIndex, selectedRow))
+                    {
+                        MessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK);
+                        return;
+                    }                    
+                }
 
                 Image image = dataGridViewGenericColumn.FileEntryImage.Image;
                 Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
@@ -93,6 +121,10 @@ namespace PhotoTagsSynchronizer
 
             }
         }
+        #endregion
+
+
+        #region Cell header - Face region - CellMouseLeave
 
         private void dataGridViewPeople_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
@@ -106,6 +138,9 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.Refresh(dataGridView);
             }
         }
+        #endregion
+
+        #region Cell header - Face region - CellMouseUp
 
         private void dataGridViewPeople_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -133,32 +168,42 @@ namespace PhotoTagsSynchronizer
 
                 dataGridView.InvalidateCell(e.ColumnIndex, e.RowIndex);
 
-                if (DataGridViewHandler.UpdateSelectedCellsWithNewMouseRegion(dataGridView, e.ColumnIndex, peopleMouseDownX, peopleMouseDownY, peopleMouseMoveX, peopleMouseMoveY))
+                if (Math.Abs(peopleMouseDownX - peopleMouseMoveX) > 1 && Math.Abs(peopleMouseMoveY - peopleMouseDownY) > 1)
                 {
-                    foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+                    if (DataGridViewHandler.UpdateSelectedCellsWithNewMouseRegion(dataGridView, e.ColumnIndex, peopleMouseDownX, peopleMouseDownY, peopleMouseMoveX, peopleMouseMoveY))
                     {
-                        dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
-                        if (dataGridViewGenericColumn != null)
+                        foreach (DataGridViewCell cell in dataGridView.SelectedCells)
                         {
-                            Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryImage.FileFullPath);
-
-                            RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, cell.ColumnIndex, cell.RowIndex);
-
-                            if (regionStructure != null)
+                            dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
+                            if (dataGridViewGenericColumn != null)
                             {
-                                if (imageCoverArt != null) regionStructure.Thumbnail = RegionThumbnailHandler.CopyRegionFromImage(imageCoverArt, regionStructure);
-                                else regionStructure.Thumbnail = (Image)Properties.Resources.FaceLoading;
+                                Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryImage.FileFullPath);
+
+                                RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, cell.ColumnIndex, cell.RowIndex);
+
+                                if (regionStructure != null)
+                                {
+                                    if (imageCoverArt != null) regionStructure.Thumbnail = RegionThumbnailHandler.CopyRegionFromImage(imageCoverArt, regionStructure);
+                                    else regionStructure.Thumbnail = (Image)Properties.Resources.FaceLoading;
+                                }
                             }
                         }
-                    }
 
-                    DataGridViewHandler.Refresh(dataGridView);
+                        DataGridViewHandler.Refresh(dataGridView);
+                    }
+                } else
+                {
+                    MessageBox.Show("Couldn't create a region. No region selection was made.", "No region selected", MessageBoxButtons.OK);
+                    peopleMouseDownColumn = int.MinValue;
                 }
-                
                 
             }
             peopleMouseDownColumn = int.MinValue;
         }
+        #endregion
+
+
+        #region Cell header - Face region - CellMouseMove
 
         private void dataGridViewPeople_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -186,12 +231,53 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         //Refesh 
         private void dataGridViewPeople_SelectionChanged(object sender, EventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
+            Debug.WriteLine("Refresh");
             DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        public AutoCompleteStringCollection ClientListDropDown()
+        {
+            List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerTypes.ExifTool, DateTime.Now.AddDays(-365), DateTime.Now);
+            AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
+            foreach (string regionName in regionNames)
+            {
+                if (!string.IsNullOrWhiteSpace(regionName)) autoCompleteStringCollection.Add(regionName);
+            }
+            return autoCompleteStringCollection;
+        }
+
+
+        private void dataGridViewPeople_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+
+            //if (DataGridViewHandler.IsRow dataGridView.CurrentCell.ColumnIndex == 1)
+            //if (DataGridViewHandler.IsRow dataGridView.CurrentCell.ColumnIndex == 1)
+            //{
+                TextBox prodCode = e.Control as TextBox;
+                if (prodCode != null)
+                {
+                    prodCode.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    prodCode.AutoCompleteCustomSource = ClientListDropDown();
+                    prodCode.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+                }
+            //}
+            //else
+            //{
+            //    TextBox prodCode = e.Control as TextBox;
+            //    if (prodCode != null)
+            //    {
+            //        prodCode.AutoCompleteMode = AutoCompleteMode.None;
+            //    }
+            //}
         }
     }
 }

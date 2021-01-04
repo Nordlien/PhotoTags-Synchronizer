@@ -49,7 +49,7 @@ namespace PhotoTagsSynchronizer
                 ReadWriteAccess.DefaultReadOnly, showWhatColumns, 
                 new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));
             
-            DataGridViewHandler.AddRowAndValueList(dataGridView, fileEntryImage, WindowsPropertyReader.Read(fileEntryImage.FileFullPath));
+            DataGridViewHandler.AddRowAndValueList(dataGridView, fileEntryImage, WindowsPropertyReader.Read(fileEntryImage.FileFullPath), true);
             
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);

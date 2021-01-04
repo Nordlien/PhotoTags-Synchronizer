@@ -244,13 +244,7 @@ namespace PhotoTagsSynchronizer
 
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
         {
-            int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, dataGridViewGenericCellStatusDefaults);
-            return rowIndex;
-        }
-
-        private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults, Metadata metadata)
-        {
-            int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, dataGridViewGenericCellStatusDefaults);
+            int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, dataGridViewGenericCellStatusDefaults, true);
             return rowIndex;
         }
 
@@ -273,7 +267,7 @@ namespace PhotoTagsSynchronizer
 
             
             FileEntryBroker fileEntryBroker = new FileEntryBroker(fullFilePath, dateTimeForEditableMediaFile, MetadataBrokerTypes.ExifTool);
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBroker);
+            Metadata metadata = DatabaseAndCacheMetadataExiftool.MetadataCacheRead(fileEntryBroker);
 
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, new FileEntryImage(headerNewFilename, dateTimeEditable));
             if (columnIndex == -1) return;

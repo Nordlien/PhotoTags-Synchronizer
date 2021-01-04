@@ -85,7 +85,7 @@ namespace PhotoTagsSynchronizer
                 {                    
                     if (valuesCountAdded > 0) // no filter values added, no need read from database, this fjust for optimize speed
                     {
-                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fileFullPath, File.GetLastWriteTime(fileFullPath), MetadataBrokerTypes.ExifTool));
+                        Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(new FileEntryBroker(fileFullPath, File.GetLastWriteTime(fileFullPath), MetadataBrokerTypes.ExifTool));
                         if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileFullPath);
                     }
                     else imageListView1.Items.Add(fileFullPath);                    
@@ -146,7 +146,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (valuesCountAdded > 0) // no filter values added, no need read from database, this fjust for optimize speed
                 {
-                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(filesFoundInDirectory[fileNumber], MetadataBrokerTypes.ExifTool));
+                    Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(new FileEntryBroker(filesFoundInDirectory[fileNumber], MetadataBrokerTypes.ExifTool));
                     if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);
                 }
                 else imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);

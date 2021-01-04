@@ -57,55 +57,170 @@ namespace DataGridViewGeneric
         private ToolStripMenuItem markAsFavoriteToolStripMenuItem;
         private ToolStripMenuItem removeAsFavoriteToolStripMenuItem;
 
-        public static int GetSelectedCellCount(DataGridView dataGridView)
-        {
-            return dataGridView.SelectedCells.Count;
-        }
+        
 
-        public static void ClearFileBeenUpdated(DataGridView dataGridView, int columnIndex)
+        public static bool IsCurrentFile(FileEntry fileEntry, DateTime lastWriteTime)
         {
-            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+            return (fileEntry.LastWriteDateTime == lastWriteTime);
         }
 
         #region DataGridView events handling
+
+        #region DataGridView events handling - RowValidated - Speed hack
         private void DataGridView_RowValidated(object sender, DataGridViewCellEventArgs e)
         {
+            //Do nothing, this speed up the DataGridView a lot
             //throw new NotImplementedException();
         }
+        #endregion 
 
+        #region DataGridView events handling - UserDeletingRow - NotImplementedException
         private void DataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
             throw new NotImplementedException();
         }
+        #endregion 
 
+        #region DataGridView events handling - CancelRowEdit - NotImplementedException
         private void DataGridView_CancelRowEdit(object sender, QuestionEventArgs e)
         {
             throw new NotImplementedException();
         }
+        #endregion 
 
+        #region DataGridView events handling - RowDirtyStateNeeded - NotImplementedException
         private void DataGridView_RowDirtyStateNeeded(object sender, QuestionEventArgs e)
         {
             throw new NotImplementedException();
         }
+        #endregion 
 
+        #region DataGridView events handling - NewRowNeeded - NotImplementedException
         private void DataGridView_NewRowNeeded(object sender, DataGridViewRowEventArgs e)
         {
             throw new NotImplementedException();
         }
+        #endregion 
 
+        #region DataGridView events handling - CellValuePushed - NotImplementedException
         private void DataGridView_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
         {
             throw new NotImplementedException();
         }
+        #endregion 
 
+        #region DataGridView events handling - CellValueNeeded - NotImplementedException
         private void DataGridView_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
             throw new NotImplementedException();
         }
         #endregion 
 
-        #region InitializeComponent and DataGridView
+        #region DataGridView events handling - CurrentCellDirtyStateChanged
+        private void DataGridView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            //Commit changes ASAP, e.g. when SelectedIndexChanged will chnage the ValueChanges event be triggered
+            dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            SetDataGridViewDirty(dataGridView, dataGridView.CurrentCell.ColumnIndex);
+        }
+        #endregion
+
+        #region DataGridView events handling - IsDataGridViewDirty
+        public static bool IsDataGridViewDirty(DataGridView dataGridView, int columnIndex)
+        {
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn == null) return false;
+            return dataGridViewGenericColumn.IsDirty;
+        }
+        #endregion
+
+        #region DataGridView events handling - IsDataGridViewDirty
+        public static bool IsDataGridViewDirty(DataGridView dataGridView)
+        {
+            for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null) if (dataGridViewGenericColumn.IsDirty) return true;
+            }
+            return false;
+        }
+        #endregion
+
+        #region DataGridView events handling - ClearDataGridViewDirty
+        public static void ClearDataGridViewDirty(DataGridView dataGridView)
+        {
+            for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = false;
+            }
+        }
+        #endregion
+
+        #region DataGridView events handling - SetDataGridViewDirty
+        public static void SetDataGridViewDirty(DataGridView dataGridView, int columnIndex)
+        {
+            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = true;
+        }
+        #endregion
+
+        #region DataGridView events handling - CellMouseDown - Select correct Cell when Right Click Mouse button
+        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.ColumnIndex == -1 && e.RowIndex >= 0) //Row selected
+                {
+                    if (!dataGridView.Rows[e.RowIndex].Selected)
+                    {
+                        dataGridView.ClearSelection();
+                        dataGridView.Rows[e.RowIndex].Selected = true;
+                    }
+                }
+                else if (e.ColumnIndex >= 0 && e.RowIndex == -1) //Column selected
+                {
+                    bool isColumnSelected = true;
+                    for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                    {
+                        if (!dataGridView[e.ColumnIndex, rowIndex].Selected)
+                        {
+                            isColumnSelected = false;
+                            break;
+                        }
+                    }
+
+                    if (!isColumnSelected)
+                    {
+                        dataGridView.ClearSelection();
+                        for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                        {
+                            dataGridView[e.ColumnIndex, rowIndex].Selected = true;
+                        }
+                    }
+                }
+                else if (e.ColumnIndex == -1 && e.RowIndex == -1) //Column selected
+                {
+                    dataGridView.SelectAll();
+                }
+                else
+                {
+                    if (!dataGridView[e.ColumnIndex, e.RowIndex].Selected)
+                    {
+                        dataGridView.CurrentCell = dataGridView[e.ColumnIndex, e.RowIndex];
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #endregion 
+
+        #region DataGridView Handling 
+
+        #region DataGridView Handling - Constructor
+
         public DataGridViewHandler(DataGridView dataGridView, string dataGridViewName, string topLeftHeaderCellName, DataGridViewSize cellSize)
         {
             this.dataGridView = dataGridView;
@@ -153,8 +268,9 @@ namespace DataGridViewGeneric
                 dataGridView.ContextMenuStrip = contextMenuStripDataGridViewGeneric;
             }
         }
+        #endregion
 
-        
+        #region DataGridView Handling - Clear
         public static void Clear(DataGridView dataGridView, DataGridViewSize cellSize)
         {
             DataGridViewGenericData dataGridViewGenricData = (DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag;
@@ -172,7 +288,9 @@ namespace DataGridViewGeneric
             //dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.EnableResizing;
             dataGridView.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
         }
+        #endregion
 
+        #region DataGridView Handling - InitializeComponent
         public void InitializeComponent(DataGridView dataGridView)
         {
             components = new System.ComponentModel.Container();
@@ -343,98 +461,8 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Event DataGridView_CurrentCellDirtyStateChanged
-        private void DataGridView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {
-            //Commit changes ASAP, e.g. when SelectedIndexChanged will chnage the ValueChanges event be triggered
-            dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
-            SetDataGridViewDirty(dataGridView, dataGridView.CurrentCell.ColumnIndex);
-        }
-
-        public static bool IsDataGridViewDirty(DataGridView dataGridView, int columnIndex)
-        {
-            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn == null) return false;
-            return dataGridViewGenericColumn.IsDirty;
-        }
-
-        public static bool IsDataGridViewDirty(DataGridView dataGridView)
-        {
-            for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++)
-            {
-                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericColumn != null) if (dataGridViewGenericColumn.IsDirty) return true;
-            }
-            return false;
-        }
-
-        public static void ClearDataGridViewDirty(DataGridView dataGridView)
-        {
-            for (int columnIndex = 0; columnIndex < GetColumnCount(dataGridView); columnIndex++)
-            {
-                DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = false;
-            }            
-        }
-
-        public static void SetDataGridViewDirty(DataGridView dataGridView, int columnIndex)
-        {
-            DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn != null) dataGridViewGenericColumn.IsDirty = true;
-        }
-        #endregion
-
-        #region Select correct Cell when Right Click Mouse button
-        private void DataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            DataGridView dataGridView = (DataGridView)sender;
-            if (e.Button == MouseButtons.Right)
-            {
-                if (e.ColumnIndex == -1 && e.RowIndex >= 0) //Row selected
-                {
-                    if (!dataGridView.Rows[e.RowIndex].Selected)
-                    {
-                        dataGridView.ClearSelection();
-                        dataGridView.Rows[e.RowIndex].Selected = true;
-                    }
-                }
-                else if (e.ColumnIndex >= 0 && e.RowIndex == -1) //Column selected
-                {
-                    bool isColumnSelected = true;
-                    for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
-                    {
-                        if (!dataGridView[e.ColumnIndex, rowIndex].Selected)
-                        {
-                            isColumnSelected = false;
-                            break;
-                        }
-                    }
-
-                    if (!isColumnSelected)
-                    {
-                        dataGridView.ClearSelection();
-                        for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
-                        {
-                            dataGridView[e.ColumnIndex, rowIndex].Selected = true;
-                        }
-                    }
-                }
-                else if (e.ColumnIndex == -1 && e.RowIndex == -1) //Column selected
-                {
-                    dataGridView.SelectAll();
-                }
-                else
-                {
-                    if (!dataGridView[e.ColumnIndex, e.RowIndex].Selected)
-                    {
-                        dataGridView.CurrentCell = dataGridView[e.ColumnIndex, e.RowIndex];
-                    }
-                }
-            }
-        }
-        #endregion
-
-        #region DataGridView Size for Column and Row Header, Row / Column size and resize 
+        #region DataGridView Handling - GetTopColumnHeaderHeigth
+        //DataGridView Size for Column and Row Header, Row / Column size and resize 
         public static int GetTopColumnHeaderHeigth(DataGridViewSize size)
         {
             switch (size)
@@ -457,7 +485,9 @@ namespace DataGridViewGeneric
                     throw new Exception("Not implemented");
             }
         }
+        #endregion
 
+        #region DataGridView Handling - GetCellHeigth
         public static int GetCellHeigth(DataGridViewSize size)
         {
             switch (size)
@@ -480,7 +510,9 @@ namespace DataGridViewGeneric
                     throw new Exception("Not implemented");
             }
         }
+        #endregion
 
+        #region DataGridView Handling - GetFirstRowHeaderWidth
         public static int GetFirstRowHeaderWidth(DataGridViewSize size)
         {
             switch (size)
@@ -505,7 +537,9 @@ namespace DataGridViewGeneric
                     throw new Exception("Not implemented");
             }
         }
+        #endregion
 
+        #region DataGridView Handling - GetCellWidth
         public static int GetCellWidth(DataGridViewSize size)
         {
             switch (size)
@@ -530,23 +564,30 @@ namespace DataGridViewGeneric
                     throw new Exception("Not implemented");
             }
         }
+        #endregion
 
-
+        #region DataGridView Handling - GetCellColumnsWidth
         public static int GetCellColumnsWidth(DataGridView dataGridView)
         {
             return GetCellWidth(GetDataGridSizeLargeMediumSmall(dataGridView));
         }
+        #endregion
 
+        #region DataGridView Handling - GetCellRowHeight
         public static int GetCellRowHeight(DataGridView dataGridView)
         {
             return GetCellHeigth(GetDataGridSizeLargeMediumSmall(dataGridView));
         }
+        #endregion
 
+        #region DataGridView Handling - GetDataGridSizeLargeMediumSmall
         public static DataGridViewSize GetDataGridSizeLargeMediumSmall(DataGridView dataGridView)
         {
             return GetDataGridViewGenericData(dataGridView)?.CellSize == null ? DataGridViewSize.Medium : GetDataGridViewGenericData(dataGridView).CellSize;
         }
+        #endregion
 
+        #region DataGridView Handling - SetCellSize
         public static void SetCellSize(DataGridView dataGridView, DataGridViewSize cellSize, bool changeCellRowsHeight)
         {
             DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
@@ -562,8 +603,13 @@ namespace DataGridViewGeneric
             }
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++) dataGridView.Columns[columnIndex].Width = GetCellWidth(cellSize);
         }
-        #endregion 
+        #endregion
 
+        #endregion
+
+        #region Suspend and Resume layout
+
+        #region Suspend and Resume layout - Local variables
         private static DataGridViewAutoSizeRowsMode dataGridViewAutoSizeRowsMode;
         private static DataGridViewAutoSizeColumnsMode dataGridViewAutoSizeColumnMode;
         private static DataGridViewRowHeadersWidthSizeMode dataGridViewRowHeadersWidthSizeMode;
@@ -572,7 +618,9 @@ namespace DataGridViewGeneric
         [DllImport("user32.dll")]
         private static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
         private const int WM_SETREDRAW = 11;
+        #endregion 
 
+        #region Suspend and Resume layout - SuspendLayout
         public static void SuspendLayout(DataGridView dataGridView)
         {
             dataGridView.SuspendLayout();
@@ -591,7 +639,9 @@ namespace DataGridViewGeneric
             // *** DataGridView population ***
             SendMessage(dataGridView.Handle, WM_SETREDRAW, false, 0);
         }
+        #endregion 
 
+        #region Suspend and Resume layout - ResumeLayout
         public static void ResumeLayout(DataGridView dataGridView)
         {
             //dataGridView.EndEdit();
@@ -606,114 +656,152 @@ namespace DataGridViewGeneric
             SendMessage(dataGridView.Handle, WM_SETREDRAW, true, 0);
             dataGridView.Refresh();
         }
+        #endregion 
 
-        public static bool IsCurrentFile(FileEntry fileEntry, DateTime lastWriteTime)
-        {
-            return (fileEntry.LastWriteDateTime == lastWriteTime);
-        }
+        #endregion
 
+        #region Populating handling
 
-        #region IsPopulating IsAgregated handling
-
+        #region Populating handling - IsPopulating
         public bool IsPopulating
         {
             get { return GetIsPopulating(dataGridView); }
             set { SetIsPopulating(dataGridView, value); }
         }
+        #endregion
 
+        #region Populating handling - GetIsPopulating
         public static bool GetIsPopulating(DataGridView dataGridView)
         {
             return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsPopulating;
         }
+        #endregion
 
+        #region Populating handling - SetIsPopulating
         public static void SetIsPopulating(DataGridView dataGridView, bool isPopulating)
         {
             ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsPopulating = isPopulating;
         }
+        #endregion
 
+        #region Populating handling - IsPopulatingFile
         public bool IsPopulatingFile
         {
             get { return GetIsPopulatingFile(dataGridView); }
             set { SetIsPopulatingFile(dataGridView, value); }
         }
+        #endregion
 
+        #region Populating handling - GetIsPopulatingFile
         public static bool GetIsPopulatingFile(DataGridView dataGridView)
         {
             return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsPopulatingFile;
         }
+        #endregion
 
+        #region Populating handling - SetIsPopulatingFile
         public static void SetIsPopulatingFile(DataGridView dataGridView, bool isPopulatingFile)
         {
             ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsPopulatingFile = isPopulatingFile;
         }
+        #endregion
 
+        #region Populating handling - IsPopulatingImage
         public bool IsPopulatingImage
         {
             get { return GetIsPopulatingImage(dataGridView); }
             set { SetIsPopulatingImage(dataGridView, value); }
         }
+        #endregion
 
+        #region Populating handling - GetIsPopulatingImage
         public static bool GetIsPopulatingImage(DataGridView dataGridView)
         {
             return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsPopulatingImage;
         }
+        #endregion
 
+        #region Populating handling - SetIsPopulatingImage
         public static void SetIsPopulatingImage(DataGridView dataGridView, bool isPopulatingImage)
         {
             ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsPopulatingImage = isPopulatingImage;
         }
+        #endregion
 
+        #endregion
+
+        #region Agregate handling
+
+        #region Agregate handling - IsAgregated
         public bool IsAgregated
         {
             get { return GetIsAgregated(dataGridView); }
             set { SetIsAgregated(dataGridView, value); }
         }
+        #endregion
 
+        #region Agregate handling - GetIsAgregated
         public static bool GetIsAgregated(DataGridView dataGridView)
         {
             return ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsAgregated;
         }
+        #endregion
 
+        #region Agregate handling - SetIsAgregated
         public static void SetIsAgregated(DataGridView dataGridView, bool isAgregated)
         {
             ((DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag).IsAgregated = isAgregated;
         }
         #endregion
 
-        #region Actions
+        #endregion
+
+        #region Action Handling
+
+        #region Action Handling - Cut
         public static void ActionCut(DataGridView dataGridView)
         {
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
         }
+        #endregion
 
+        #region Action Handling - Copy
         public static void ActionCopy(DataGridView dataGridView)
         {
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
         }
+        #endregion
 
+        #region Action Handling - Paste
         public static void ActionPaste(DataGridView dataGridView)
         {
             ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
         }
+        #endregion
 
+        #region Action Handling - Delete
         public static void ActionDelete(DataGridView dataGridView)
         {
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
         }
+        #endregion
 
+        #region Action Handling - Undo
         public static void ActionUndo(DataGridView dataGridView)
         {
             ClipboardUtility.UndoDataGridView(dataGridView);
         }
+        #endregion
 
+        #region Action Handling - Redo
         public static void ActionRedo(DataGridView dataGridView)
         {
             ClipboardUtility.RedoDataGridView(dataGridView);
         }
         #endregion
 
-        #region Action Find And Replace Form
+        #region Action Handling - ActionFindAndReplace
         static FindAndReplaceForm m_FindAndReplaceForm;
 
         public static void ActionFindAndReplace(DataGridView dataGridView, bool replaceTab)
@@ -730,7 +818,9 @@ namespace DataGridViewGeneric
                 m_FindAndReplaceForm.BringToFront();
             }
         }
+        #endregion
 
+        #region Action Handling - ActionFindAndReplace- BringToFront
         public static void BringToFrontFindAndReplace()
         {
             if (m_FindAndReplaceForm != null)
@@ -738,14 +828,20 @@ namespace DataGridViewGeneric
                 m_FindAndReplaceForm.BringToFront();
             }
         }
+        #endregion
 
+        #region Action Handling - ActionFindAndReplace - Close
         private static void FindAndReplaceForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             m_FindAndReplaceForm = null;
         }
         #endregion 
 
+        #endregion 
+
         #region DataGridViewGenericData handling
+
+        #region DataGridViewGenericData handling - GetDataGridViewGenericData
         public static DataGridViewGenericData GetDataGridViewGenericData(DataGridView dataGridView)
         {
             if (dataGridView.TopLeftHeaderCell.Tag == null)
@@ -756,16 +852,20 @@ namespace DataGridViewGeneric
             if (dataGridView.TopLeftHeaderCell.Tag.GetType() != typeof(DataGridViewGenericData)) return null;
             return (DataGridViewGenericData)dataGridView.TopLeftHeaderCell.Tag;
         }
+        #endregion
 
+        #region DataGridViewGenericData handling - GetDataGridViewName
         public static string GetDataGridViewName(DataGridView dataGridView)
         {
             return GetDataGridViewGenericData(dataGridView)?.DataGridViewName;
         }
-
+        #endregion
 
         #endregion
 
         #region Column handling
+
+        #region Column handling - GetColumnSelected
         public static List<int> GetColumnSelected(DataGridView dataGridView)
         {
             List<int> selectedColumns = new List<int>();
@@ -781,17 +881,39 @@ namespace DataGridViewGeneric
             }
             return selectedColumns;
         }
+        #endregion
 
+        #region Column handling - IstColumnSelected
+        public static bool IsColumnSelected(DataGridView dataGridView, int columnIndex)
+        {
+            foreach (DataGridViewColumn dataGridViewColumn in dataGridView.SelectedColumns)
+            {
+                if (dataGridViewColumn.Index == columnIndex) return true;
+            }
+
+            foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
+            {
+                if (dataGridViewCell.ColumnIndex == columnIndex) return true;
+            }
+            return false;
+        }
+        #endregion
+
+        #region Column handling - GetColumnCount
         public static int GetColumnCount(DataGridView dataGridView)
         {
             return dataGridView.ColumnCount;
         }
+        #endregion
 
+        #region Column handling - DoesColumnFilenameExist
         public static bool DoesColumnFilenameExist(DataGridView dataGridView, string fullFilePath)
         {
             return GetColumnIndex(dataGridView, fullFilePath) != -1;
         }
+        #endregion
 
+        #region Column handling - GetColumnIndex - fullFilePath
         public static int GetColumnIndex(DataGridView dataGridView, string fullFilePath)
         {
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
@@ -804,7 +926,9 @@ namespace DataGridViewGeneric
             }
             return -1; //Not found
         }
+        #endregion
 
+        #region Column handling - GetColumnIndex - fileEntry
         public static int GetColumnIndex(DataGridView dataGridView, FileEntry fileEntry)
         {
             //TODO: Add cache dictonary
@@ -818,8 +942,9 @@ namespace DataGridViewGeneric
             }
             return -1; //Not found
         }
+        #endregion
 
-        
+        #region Column handling - GetColumnDataGridViewGenericColumnList
         public static List<DataGridViewGenericColumn> GetColumnDataGridViewGenericColumnList(DataGridView dataGridView, bool onlyReadWriteAccessColumn)
         {
             List<DataGridViewGenericColumn> dataGridViewGenericColumnList = new List<DataGridViewGenericColumn>();
@@ -837,7 +962,9 @@ namespace DataGridViewGeneric
             }
             return dataGridViewGenericColumnList;
         }
+        #endregion
 
+        #region Column handling - AddColumnSelectedFiles
         public static DateTime DateTimeForEditableMediaFile = DateTime.Now.AddYears(200);
 
         public static void AddColumnSelectedFiles(
@@ -857,7 +984,9 @@ namespace DataGridViewGeneric
                     dataGridViewGenericCellStatusDefault);                                  //Default cell values
             }
         }
+        #endregion
 
+        #region Column handling - AddColumnOrUpdate
         /// <summary>
         /// Add a new column or find where column for FileEntry exists
         /// </summary>
@@ -1023,13 +1152,17 @@ namespace DataGridViewGeneric
             if (isMetadataAlreadyAgregated) return -1;
             else return columnIndex;
         }
+        #endregion
 
+        #region Column handling - IsColumnDataGridViewGenericColumn
         public static bool IsColumnDataGridViewGenericColumn(DataGridView dataGridView, int columnIndex)
         {
             if (columnIndex < 0 || columnIndex > dataGridView.ColumnCount) return false;
             return dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn;
         }
+        #endregion
 
+        #region Column handling - GetColumnDataGridViewGenericColumn
         public static DataGridViewGenericColumn GetColumnDataGridViewGenericColumn(DataGridView dataGridView, int columnIndex)
         {
             if (columnIndex < 0) return null;
@@ -1038,131 +1171,10 @@ namespace DataGridViewGeneric
         }
         #endregion 
 
+        #endregion 
+
         #region Rows handling
-        public static List<int> GetRowSelected(DataGridView dataGridView)
-        {
-            List<int> selectedRows = new List<int>();
-
-            foreach (DataGridViewRow dataGridViewRow in dataGridView.SelectedRows)
-            {
-                if (!selectedRows.Contains(dataGridViewRow.Index)) selectedRows.Add(dataGridViewRow.Index);
-            }
-
-            foreach (DataGridViewCell cell in dataGridView.SelectedCells)
-            {
-                if (!selectedRows.Contains(cell.RowIndex)) selectedRows.Add(cell.RowIndex);
-            }
-            return selectedRows;
-        }
-
-        public static bool IsRowDataGridViewGenericRow(DataGridView dataGridView, int rowIndex)
-        {
-            if (rowIndex < 0 || rowIndex > GetRowCount(dataGridView) - 1) return false;
-            return dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow;
-        }
-
-        public static DataGridViewGenericRow GetRowDataGridViewGenericRow(DataGridView dataGridView, int rowIndex)
-        {
-            if (rowIndex < 0) return null;
-            if (!IsRowDataGridViewGenericRow(dataGridView, rowIndex)) return null;
-            return (DataGridViewGenericRow)dataGridView.Rows[rowIndex].HeaderCell.Tag;
-        }
-
-        public static int GetRowCountWithoutEditRow(DataGridView dataGridView)
-        {
-            if (dataGridView.AllowUserToAddRows)
-                return dataGridView.RowCount - 1;
-            return dataGridView.RowCount;
-        }
-
-        public static int GetRowCount(DataGridView dataGridView)
-        {
-            return dataGridView.RowCount;
-        }
-
-        public static int FindFileEntryRow(DataGridView dataGridView, DataGridViewGenericRow dataGridViewGenericRow, int startSearchRow)
-        {
-            int lastHeaderRowFound = -1;
-            for (int rowIndex = startSearchRow; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
-            {
-                if (IsRowDataGridViewGenericRow(dataGridView, rowIndex))
-                {
-                    DataGridViewGenericRow dataGridViewGenericRowCheck = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-
-                    if (dataGridViewGenericRow.IsHeader && dataGridViewGenericRowCheck.IsHeader && //It correct header
-                       dataGridViewGenericRow.HeaderName == dataGridViewGenericRowCheck.HeaderName
-                       )
-                        return rowIndex;
-
-                    if (!dataGridViewGenericRow.IsHeader && !dataGridViewGenericRowCheck.IsHeader && //It correct row
-                        dataGridViewGenericRow.HeaderName == dataGridViewGenericRowCheck.HeaderName &&
-                        dataGridViewGenericRow.RowName == dataGridViewGenericRowCheck.RowName
-                        )
-                        return rowIndex;
-
-                    if (!dataGridViewGenericRow.IsHeader && //Remmeber last row found with same header name, regardless of hearer nor just value row
-                        dataGridViewGenericRow.HeaderName == dataGridViewGenericRowCheck.HeaderName
-                        )
-                        lastHeaderRowFound = rowIndex;
-                }
-
-            }
-            return lastHeaderRowFound;
-        }
-
-        public static int GetRowIndex(DataGridView dataGridView, DataGridViewGenericRow dataGridViewGenericRow)
-        {
-            for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
-            {
-                if (IsRowDataGridViewGenericRow(dataGridView, rowIndex) && GetRowDataGridViewGenericRow(dataGridView, rowIndex) == dataGridViewGenericRow)
-                    return rowIndex;
-            }
-            return -1;
-        }
-
-        public static int GetRowIndex(DataGridView dataGridView, string headerName)
-        {
-            return GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName));
-        }
-
-        public static int GetRowIndex(DataGridView dataGridView, string headerName, string rowName)
-        {
-            return GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
-        }
-
-        public static void AddRowAndValueList(DataGridView dataGridView, FileEntryImage fileEntryColumn, List<DataGridViewGenericRowAndValue> dataGridViewGenericRowAndValueList)
-        {
-            int columnIndex = GetColumnIndex(dataGridView, fileEntryColumn);
-
-            foreach (DataGridViewGenericRowAndValue dataGridViewGenericRowAndValue in dataGridViewGenericRowAndValueList)
-            {
-                int rowIndex = AddRow(dataGridView, columnIndex, dataGridViewGenericRowAndValue.DataGridViewGenericRow, 
-                    GetFavoriteList(dataGridView),
-                    dataGridViewGenericRowAndValue.DataGridViewGenericCell.Value,
-                    dataGridViewGenericRowAndValue.DataGridViewGenericCell.CellStatus, 0, true);
-
-                //if (rowIndex > -1) SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericRowAndValue.DataGridViewGenericCell.CellStatus);
-            }
-        }
-
-        public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow)
-        {
-            return AddRow(dataGridView, columnIndex, dataGridViewGenericRow, GetFavoriteList(dataGridView), null,
-                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true), 0, false);
-        }
-        
-        public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow, object value, bool cellReadOnly)
-        {
-            return AddRow(dataGridView, columnIndex, dataGridViewGenericRow, GetFavoriteList(dataGridView), value,
-                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, cellReadOnly), 0, true);
-        }
-
-        public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
-        {
-            return AddRow(dataGridView, columnIndex, dataGridViewGenericRow, GetFavoriteList(dataGridView), value,
-                dataGridViewGenericCellStatusDefaults, 0, true);
-        }
-
+        #region Rows handling - FastAutoSizeRowsHeight
         public static void FastAutoSizeRowsHeight(DataGridView dataGridView)
         {
             // Create a graphics object from the target grid. Used for measuring text size.
@@ -1187,18 +1199,218 @@ namespace DataGridViewGeneric
                     if (GetColumnCount(dataGridView) >= 1) //No need to resize if no columns
                     {
                         // Use the graphics object to measure the string size.
-                        
-                        
+
+
                         // If the calculated width is larger than the column header width, set the new column width.
                         if (maxHeight > dataGridView.Rows[rowIndex].Height)
                         {
-                            dataGridView.Rows[rowIndex].Height = maxHeight; 
+                            dataGridView.Rows[rowIndex].Height = maxHeight;
                         }
                     }
                 }
             }
         }
+        #endregion
 
+        #region Rows handling - GetRowSelected
+        public static List<int> GetRowSelected(DataGridView dataGridView)
+        {
+            List<int> selectedRows = new List<int>();
+
+            foreach (DataGridViewRow dataGridViewRow in dataGridView.SelectedRows)
+            {
+                if (!selectedRows.Contains(dataGridViewRow.Index)) selectedRows.Add(dataGridViewRow.Index);
+            }
+
+            foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+            {
+                if (!selectedRows.Contains(cell.RowIndex)) selectedRows.Add(cell.RowIndex);
+            }
+            return selectedRows;
+        }
+        #endregion
+
+        #region Rows handling - IsRowDataGridViewGenericRow
+        public static bool IsRowDataGridViewGenericRow(DataGridView dataGridView, int rowIndex)
+        {
+            if (rowIndex < 0 || rowIndex > GetRowCount(dataGridView) - 1) return false;
+            return dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow;
+        }
+        #endregion
+
+        #region Rows handling - GetRowDataGridViewGenericRow
+        public static DataGridViewGenericRow GetRowDataGridViewGenericRow(DataGridView dataGridView, int rowIndex)
+        {
+            if (rowIndex < 0) return null;
+            if (!IsRowDataGridViewGenericRow(dataGridView, rowIndex)) return null;
+            return (DataGridViewGenericRow)dataGridView.Rows[rowIndex].HeaderCell.Tag;
+        }
+        #endregion
+
+        #region Rows handling - GetRowCountWithoutEditRow
+        public static int GetRowCountWithoutEditRow(DataGridView dataGridView)
+        {
+            if (dataGridView.AllowUserToAddRows)
+                return dataGridView.RowCount - 1;
+            return dataGridView.RowCount;
+        }
+        #endregion
+
+        #region Rows handling - GetRowCount
+        public static int GetRowCount(DataGridView dataGridView)
+        {
+            return dataGridView.RowCount;
+        }
+        #endregion
+
+        #region Rows handling - FindFileEntryRow
+        public static int FindFileEntryRow(DataGridView dataGridView, DataGridViewGenericRow dataGridViewGenericRow, int startSearchRow, bool sort, out bool rowFound)
+        {
+            rowFound = false;
+            int lastHeaderRowFound = -1;
+
+            for (int rowIndex = startSearchRow; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            {
+                if (IsRowDataGridViewGenericRow(dataGridView, rowIndex))
+                {
+                    DataGridViewGenericRow dataGridViewGenericRowCheck = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+
+                    if (
+                       dataGridViewGenericRowCheck.IsHeader && 
+                       dataGridViewGenericRow.IsHeader && //It correct header
+                       dataGridViewGenericRow.HeaderName == dataGridViewGenericRowCheck.HeaderName
+                       )
+                    {
+                        rowFound = true;
+                        return rowIndex;
+                    }
+
+                    if (!dataGridViewGenericRowCheck.IsHeader && 
+                        !dataGridViewGenericRow.IsHeader && //It correct row
+                        dataGridViewGenericRowCheck.HeaderName == dataGridViewGenericRow.HeaderName &&
+                        dataGridViewGenericRowCheck.RowName == dataGridViewGenericRow.RowName 
+                        )
+                    {
+                        rowFound = true;
+                        return rowIndex;
+                    }
+
+                    if (sort)
+                    {
+                        
+                        if (dataGridViewGenericRow.IsHeader && //A normal row is add (not header)
+                                                                //dataGridViewGenericRowCheck.IsHeader &&  //If header, then check if same header name
+                            dataGridViewGenericRow.HeaderName.CompareTo(dataGridViewGenericRowCheck.HeaderName) >= 0)
+                            lastHeaderRowFound = rowIndex; //Remember head row found
+                        
+                        //Add sorted
+                        if (!dataGridViewGenericRow.IsHeader && //A normal row is add (not header)
+                            dataGridViewGenericRowCheck.IsHeader &&  //If header, then check if same header name
+                            dataGridViewGenericRowCheck.HeaderName == dataGridViewGenericRow.HeaderName)
+                            lastHeaderRowFound = rowIndex; //Remember head row found
+
+                        if (!dataGridViewGenericRow.IsHeader && //A normal row is add (not header)
+                            !dataGridViewGenericRowCheck.IsHeader &&  //If header, then check if same header name
+                            dataGridViewGenericRowCheck.HeaderName == dataGridViewGenericRow.HeaderName &&
+                            dataGridViewGenericRow.RowName.CompareTo(dataGridViewGenericRowCheck.RowName) >= 0)
+                            lastHeaderRowFound = rowIndex; //If lower or eaual, remeber last
+                    }
+                    else
+                    {
+                        //Add last
+                        if (!dataGridViewGenericRow.IsHeader && //Remmeber last row found with same header name, regardless of header or just value row
+                            //dataGridViewGenericRowCheck.IsHeader && - No need to check
+                            dataGridViewGenericRowCheck.HeaderName == dataGridViewGenericRow.HeaderName
+                            )
+                            lastHeaderRowFound = rowIndex;
+                    }
+                    
+
+                }
+
+            }
+            rowFound = false;
+            return lastHeaderRowFound;
+        }
+        #endregion
+
+        #region Rows handling - GetRowIndex
+        public static int GetRowIndex(DataGridView dataGridView, DataGridViewGenericRow dataGridViewGenericRow)
+        {
+            for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            {
+                if (IsRowDataGridViewGenericRow(dataGridView, rowIndex) && GetRowDataGridViewGenericRow(dataGridView, rowIndex) == dataGridViewGenericRow)
+                    return rowIndex;
+            }
+            return -1;
+        }
+        #endregion
+
+        #region Rows handling - GetRowIndex
+        public static int GetRowIndex(DataGridView dataGridView, string headerName)
+        {
+            return GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName));
+        }
+        #endregion
+
+        #region Rows handling - GetRowIndex
+        public static int GetRowIndex(DataGridView dataGridView, string headerName, string rowName)
+        {
+            return GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
+        }
+        #endregion
+
+        #region Row handling - DeleteRow
+        public static bool DeleteRow(DataGridView dataGridView, string headerName, string rowName)
+        {
+            int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
+            if (rowIndex > -1) dataGridView.Rows.RemoveAt(rowIndex);
+            return rowIndex != -1;
+        }
+        #endregion
+
+        #region Rows handling - AddRowAndValueList
+        public static void AddRowAndValueList(DataGridView dataGridView, FileEntryImage fileEntryColumn, List<DataGridViewGenericRowAndValue> dataGridViewGenericRowAndValueList, bool sort)
+        {
+            int columnIndex = GetColumnIndex(dataGridView, fileEntryColumn);
+
+            foreach (DataGridViewGenericRowAndValue dataGridViewGenericRowAndValue in dataGridViewGenericRowAndValueList)
+            {
+                int rowIndex = AddRow(dataGridView, columnIndex, dataGridViewGenericRowAndValue.DataGridViewGenericRow, 
+                    GetFavoriteList(dataGridView),
+                    dataGridViewGenericRowAndValue.DataGridViewGenericCell.Value,
+                    dataGridViewGenericRowAndValue.DataGridViewGenericCell.CellStatus, 0, true, sort);
+
+                //if (rowIndex > -1) SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericRowAndValue.DataGridViewGenericCell.CellStatus);
+            }
+        }
+        #endregion
+
+        #region Rows handling - AddRow
+        public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow, bool sort)
+        {
+            return AddRow(dataGridView, columnIndex, dataGridViewGenericRow, GetFavoriteList(dataGridView), null,
+                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true), 0, false, sort);
+        }
+        #endregion
+
+        #region Rows handling - AddRow
+        public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow, object value, bool cellReadOnly, bool sort)
+        {
+            return AddRow(dataGridView, columnIndex, dataGridViewGenericRow, GetFavoriteList(dataGridView), value,
+                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, cellReadOnly), 0, true, sort);
+        }
+        #endregion
+
+        #region Rows handling - AddRow
+        public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults, bool sort)
+        {
+            return AddRow(dataGridView, columnIndex, dataGridViewGenericRow, GetFavoriteList(dataGridView), value,
+                dataGridViewGenericCellStatusDefaults, 0, true, sort);
+        }
+        #endregion
+
+        #region Rows handling - AddRow
         /// <summary>
         /// 
         /// </summary>
@@ -1212,19 +1424,21 @@ namespace DataGridViewGeneric
         /// <param name="writeValue"></param>
         /// <returns></returns>
         public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow,
-            List<FavoriteRow> dataGridFavorites, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault, int startSearchRow, bool writeValue)
+            List<FavoriteRow> dataGridFavorites, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault, int startSearchRow, bool writeValue, bool sort)
         {
-            int rowIndex = FindFileEntryRow(dataGridView, dataGridViewGenericRow, startSearchRow);
+            
+            int rowIndex = FindFileEntryRow(dataGridView, dataGridViewGenericRow, startSearchRow, sort, out bool rowFound);
 
             DataGridViewGenericRow dataGridViewGenericRowCheck = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-            if (rowIndex == -1 ||
+            /*if (rowIndex == -1 ||
                 dataGridViewGenericRowCheck.IsHeader != dataGridViewGenericRow.IsHeader ||
                 dataGridViewGenericRowCheck.HeaderName != dataGridViewGenericRow.HeaderName ||
-                dataGridViewGenericRowCheck.RowName != dataGridViewGenericRow.RowName)
+                dataGridViewGenericRowCheck.RowName != dataGridViewGenericRow.RowName)*/
+            if (!rowFound) //If not found, add a new row
             {
-                //New row added
-                if (rowIndex == -1) rowIndex = GetRowCountWithoutEditRow(dataGridView);
-                else rowIndex++;
+                if (rowIndex == -1 && !sort) rowIndex = GetRowCountWithoutEditRow(dataGridView) - 1; //If not sorting, add last line
+                
+                rowIndex++;
 
                 dataGridView.Rows.Insert(rowIndex, 1);
                 SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, dataGridViewGenericRow);
@@ -1241,22 +1455,29 @@ namespace DataGridViewGeneric
 
             SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
 
-            //It's only possible to update ReadOnly field 
-            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-            if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
+            if (columnIndex != -1) //When adding empty row without value in a given column
+            {
+                //It's only possible to update ReadOnly field
 
-            SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
-            
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
+                if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
+
+                SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+            }
             SetCellBackGroundColorForRow(dataGridView, rowIndex);
 
             return rowIndex;
         }
+        #endregion
 
+        #region Rows handling - SetRowHeaderNameAndFontStyle
         public static void SetRowHeaderNameAndFontStyle(DataGridView dataGridView, int rowIndex, string headerName, string rowName, ReadWriteAccess readWriteAccess)
         {
             SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, new DataGridViewGenericRow(headerName, rowName, readWriteAccess));
         }
+        #endregion
 
+        #region Rows handling - SetRowHeaderNameAndFontStyle
         public static void SetRowHeaderNameAndFontStyle(DataGridView dataGridView, int rowIndex, DataGridViewGenericRow dataGridViewGenericRow)
         {
             dataGridView.Rows[rowIndex].HeaderCell.Tag = dataGridViewGenericRow;
@@ -1271,35 +1492,31 @@ namespace DataGridViewGeneric
                 dataGridView.Rows[rowIndex].HeaderCell.Value = dataGridViewGenericRow.RowName;
                 dataGridView.Rows[rowIndex].HeaderCell.Style.Font = new Font(dataGridView.Font, FontStyle.Regular);
             }
-            
         }
+        #endregion
 
+        #region Rows handling - GetRowName
         public static string GetRowName(DataGridView dataGridView, int rowIndex)
         {
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
             return dataGridViewGenericRow == null ? "" : dataGridViewGenericRow.RowName;
         }
+        #endregion
 
+        #region Rows handling - GetRowHeader
         public static string GetRowHeader(DataGridView dataGridView, int rowIndex)
         {
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
             return dataGridViewGenericRow == null ? "" : dataGridViewGenericRow.HeaderName;
         }
+        #endregion
 
-        
+        #region Rows handling - SetRowToolTipText
         public static void SetRowToolTipText(DataGridView dataGridView, int rowIndex, string toolTipText)
         {
             dataGridView.Rows[rowIndex].HeaderCell.ToolTipText = toolTipText;
         }
-
-        public static bool IsRowHeaderNameNullOrWhiteSpace(DataGridView dataGridView, int rowIndex)
-        {
-            return dataGridView.Rows[rowIndex].HeaderCell.Value == null || string.IsNullOrWhiteSpace(dataGridView.Rows[rowIndex].HeaderCell.Value.ToString());
-        }
-
-        
-
-        #endregion      
+        #endregion
 
         #region Row handling - Favorite handling
 
@@ -1461,19 +1678,28 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Cell Handling
+        #endregion
 
-        #region Refreash
-        public static CellLocation GetCellLocation(DataGridViewCell cell)
+
+
+        #region Clipboard - Get and Set Cell location
+        #region Refresh - GetCurrentCellLocation
+        public static CellLocation GetCurrentCellLocation(DataGridViewCell cell)
         {
             return new CellLocation(cell.ColumnIndex, cell.RowIndex);
         }
+        #endregion
 
+        #region Refresh - SetCurrentCellLocation
         public static void SetCurrentCellLocation(DataGridView dataGridView, CellLocation cell)
         {
             dataGridView.CurrentCell = dataGridView[cell.ColumnIndex, cell.RowIndex];
             if (dataGridView.CurrentCell is DataGridViewComboBoxCell) Refresh(dataGridView);
         }
+        #endregion
+        #endregion
+
+        #region Refresh - Refresh
         public static void Refresh(DataGridView dataGridView)
         {            
             dataGridView.Parent.Focus(); //Hack to refresh DataGridViewComboBoxCell, do to it will not refresh before changed cell / cell lost focus
@@ -1482,7 +1708,10 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Deep Copy
+
+
+        #region Cell Handling
+        #region Cell Handling - Deep Copy
         public static T DeepCopy<T>(T obj)
         {
             if (obj == null) return (T)(object)null;
@@ -1536,29 +1765,44 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Cell Tag and Value
+        #region Cell Handling - GetSelectedCellCount
+        public static int GetSelectedCellCount(DataGridView dataGridView)
+        {
+            return dataGridView.SelectedCells.Count;
+        }
+        #endregion 
+
+        #region Cell Handling - GetCellDataGridViewCell -  int columnIndex, int rowIndex
         public static DataGridViewCell GetCellDataGridViewCell(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return dataGridView[columnIndex, rowIndex];
         }
+        #endregion
 
+        #region Cell Handling - GetCellValue - int columnIndex, string headerName, string rowName
         public static object GetCellValue(DataGridView dataGridView, int columnIndex, string headerName, string rowName)
         {
             int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
             if (columnIndex > -1 && rowIndex > -1) return GetCellValue(dataGridView,columnIndex, rowIndex);
             else return null;
         }
+        #endregion
 
+        #region Cell Handling - GetCellValue - dataGridViewCell
         public static object GetCellValue(DataGridViewCell dataGridViewCell)
         {
             return dataGridViewCell.Value;
         }
+        #endregion
 
+        #region Cell Handling - GetCellValue - int columnIndex, int rowIndex
         public static object GetCellValue(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return GetCellValue(dataGridView[columnIndex, rowIndex]);
         }
+        #endregion
 
+        #region Cell Handling - GetCellValueNullOrStringTrim - int columnIndex, int rowIndex
         public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             if (columnIndex > -1 && rowIndex > -1)
@@ -1570,73 +1814,81 @@ namespace DataGridViewGeneric
             else return null;
             
         }
+        #endregion
 
+        #region Cell Handling - GetCellValueNullOrStringTrim - int columnIndex, string headerName, string rowName
         public static string GetCellValueNullOrStringTrim(DataGridView dataGridView, int columnIndex, string headerName, string rowName)
         {
             int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
             return GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex);
         }
+        #endregion
 
+        #region Cell Handling - IsCellNullOrWhiteSpace - int columnIndex, int rowIndex
         public static bool IsCellNullOrWhiteSpace(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return dataGridView[columnIndex, rowIndex].Value == null || string.IsNullOrWhiteSpace(dataGridView[columnIndex, rowIndex].Value.ToString().Trim());
         }
+        #endregion
 
+        #region Cell Handling - SetCellValue - int columnIndex, string headerName, string rowName, object value
         public static void SetCellValue(DataGridView dataGridView, int columnIndex, string headerName, string rowName, object value)
         {
             int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
             SetCellValue(dataGridView, columnIndex, rowIndex, value);
         }
+        #endregion
 
+        #region Cell Handling - SetCellValue - int columnIndex, int rowIndex, object value
         public static void SetCellValue(DataGridView dataGridView, int columnIndex, int rowIndex, object value)
         {
             if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex].Value = value;
         }
-        
         #endregion
 
-        #region Cell ToolTipText
-
+        #region Cell Handling - SetCellToolTipText
         public static void SetCellToolTipText(DataGridView dataGridView, int columnIndex, int rowIndex, string toolTipText)
         {
             dataGridView[columnIndex, rowIndex].ToolTipText = toolTipText;
         }
+        #endregion
 
+        #region Cell Handling - GetCellToolTipText
         public static string GetCellToolTipText(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return dataGridView[columnIndex, rowIndex].ToolTipText;
         }
         #endregion
 
-        #region Cell Contol Type
-        public static void SetCellControlType(DataGridView dataGridView, int columnIndex, string headerName, string rowName, DataGridViewCell dataGridViewCell)
-        {
-            int rowIndex = GetRowIndex(dataGridView, new DataGridViewGenericRow(headerName, rowName));
-            SetCellControlType(dataGridView, columnIndex, rowIndex, dataGridViewCell);
-        }
-
+        #region Cell Handling - SetCellControlType
         public static void SetCellControlType(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewCell dataGridViewCell)
         {
             if (rowIndex > -1 && columnIndex > -1) dataGridView[columnIndex, rowIndex] = dataGridViewCell;
         }
         #endregion
 
-        #region Cell DataGridViewGenericCell
+        #region Cell Handling - CopyCellDataGridViewGenericCell - dataGridViewCell
         public static DataGridViewGenericCell CopyCellDataGridViewGenericCell(DataGridViewCell dataGridViewCell)
         {
             return new DataGridViewGenericCell(DeepCopy(GetCellValue(dataGridViewCell)), DeepCopy(GetCellStatus(dataGridViewCell)));
         }
+        #endregion
 
+        #region Cell Handling - CopyCellDataGridViewGenericCell - int columnIndex, int rowIndex
         public static DataGridViewGenericCell CopyCellDataGridViewGenericCell(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return new DataGridViewGenericCell(DeepCopy(GetCellValue(dataGridView, columnIndex, rowIndex)), DeepCopy(GetCellStatus(dataGridView, columnIndex, rowIndex)));
         }
+        #endregion
 
+        #region Cell Handling - GetCellDataGridViewGenericCell - int columnIndex, int rowIndex
         public static DataGridViewGenericCell GetCellDataGridViewGenericCell(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return new DataGridViewGenericCell(GetCellValue(dataGridView, columnIndex, rowIndex), GetCellStatus(dataGridView, columnIndex, rowIndex));
         }
+        #endregion
 
+        #region Cell Handling - SetCellDataGridViewGenericCell - int columnIndex, int rowIndex, DataGridViewGenericCell dataGridViewGenericCell
         public static void SetCellDataGridViewGenericCell(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCell dataGridViewGenericCell)
         {
             if (rowIndex > -1 && columnIndex > -1)
@@ -1647,7 +1899,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Cell Region Structure
+        #region Cell Handling - GetCellRegionStructure - int columnIndex, int rowIndex
         public static RegionStructure GetCellRegionStructure(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             var regionObject = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
@@ -1660,28 +1912,36 @@ namespace DataGridViewGeneric
         }
         #endregion 
 
-        #region Cell Status
+        #region Cell Handling - IsCellDataGridViewGenericCellStatus - dataGridViewCell
+        public static bool IsCellDataGridViewGenericCellStatus(DataGridViewCell dataGridViewCell)
+        {
+            return (dataGridViewCell.Tag != null && dataGridViewCell.Tag.GetType() == typeof(DataGridViewGenericCellStatus));
+        }
+        #endregion
+
+        #region Cell Handling - IsCellDataGridViewGenericCellStatus - int columnIndex, int rowIndex
         public static bool IsCellDataGridViewGenericCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return IsCellDataGridViewGenericCellStatus(dataGridView[columnIndex, rowIndex]);
         }
+        #endregion
 
+        #region Cell Handling - GetCellStatus - dataGridViewCell
         public static DataGridViewGenericCellStatus GetCellStatus(DataGridViewCell dataGridViewCell)
         {
             if (!IsCellDataGridViewGenericCellStatus(dataGridViewCell)) return null;
             return (DataGridViewGenericCellStatus)dataGridViewCell.Tag;
         }
+        #endregion
 
-        public static bool IsCellDataGridViewGenericCellStatus(DataGridViewCell dataGridViewCell)
-        {
-            return (dataGridViewCell.Tag != null && dataGridViewCell.Tag.GetType() == typeof(DataGridViewGenericCellStatus));
-        }
-
+        #region Cell Handling - GetCellStatus - int columnIndex, int rowIndex
         public static DataGridViewGenericCellStatus GetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return GetCellStatus(dataGridView[columnIndex, rowIndex]);
         }
+        #endregion
 
+        #region Cell Handling - SetCellStatus - int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
         public static void SetCellStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
         {
             if (rowIndex > -1 && columnIndex > -1)
@@ -1689,7 +1949,9 @@ namespace DataGridViewGeneric
                 dataGridView[columnIndex, rowIndex].Tag = dataGridViewGenericCellStatus;
             }
         }
+        #endregion
 
+        #region Cell Handling - SetCellStatusDefaultWhenRowAdded - int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault
         public static void SetCellStatusDefaultWhenRowAdded(DataGridView dataGridView, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
             foreach (DataGridViewCell dataGridCell in dataGridView.Rows[rowIndex].Cells)
@@ -1704,7 +1966,9 @@ namespace DataGridViewGeneric
 
             }
         }
+        #endregion
 
+        #region Cell Handling - SetCellStatusDefaultColumnWhenAdded - int columnIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault
         private static void SetCellStatusDefaultColumnWhenAdded(DataGridView dataGridView, int columnIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
             for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
@@ -1718,12 +1982,9 @@ namespace DataGridViewGeneric
                 }
             }
         }
-       
-
         #endregion
 
-        #region Cell ReadOnly and Color 
-
+        #region Cell Handling - SetCellBackGroundColorForRow - int rowIndex
         public static void SetCellBackGroundColorForRow(DataGridView dataGridView, int rowIndex)
         {
             foreach (DataGridViewCell dataGridCell in dataGridView.Rows[rowIndex].Cells)
@@ -1731,7 +1992,9 @@ namespace DataGridViewGeneric
                 SetCellBackGroundColor(dataGridView, dataGridCell.ColumnIndex, rowIndex);
             }
         }
+        #endregion
 
+        #region Cell Handling - SetCellBackgroundColorForColumn - int columnIndex
         public static void SetCellBackgroundColorForColumn(DataGridView dataGridView, int columnIndex)
         {
             for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
@@ -1739,7 +2002,9 @@ namespace DataGridViewGeneric
                 SetCellBackGroundColor(dataGridView, columnIndex, rowIndex);
             }
         }
+        #endregion
 
+        #region Cell Handling - SetCellReadOnlyDependingOfStatus -  int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
         private static void SetCellReadOnlyDependingOfStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
         {
             //DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
@@ -1755,12 +2020,13 @@ namespace DataGridViewGeneric
                 dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.ForceCellToReadOnly))
                 dataGridView[columnIndex, rowIndex].ReadOnly = true;
         }
+        #endregion
 
+        #region Cell Handling - SetCellBackGroundColor - int columnIndex, int rowIndex
         private static void SetCellBackGroundColor(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-
 
             if (dataGridViewGenericRow == null)
             {
@@ -1783,20 +2049,24 @@ namespace DataGridViewGeneric
             if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null && (dataGridViewGenericColumn.Metadata.Broker & MetadataBrokerTypes.ExifToolWriteError) == MetadataBrokerTypes.ExifToolWriteError)
                 dataGridView[columnIndex, rowIndex].Style.BackColor = ColorError;
         }
+        #endregion
 
+        #region Cell Handling - GetCellReadOnly - int columnIndex, int rowIndex
         public static bool GetCellReadOnly(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return dataGridView[columnIndex, rowIndex].ReadOnly;
         }
         #endregion
 
-        #region Cell Switch Status
+        #region Cell Handling - GetCellStatusSwichStatus - int columnIndex, int rowIndex
         public static SwitchStates GetCellStatusSwichStatus(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
             return dataGridViewGenericCellStatus == null ? SwitchStates.Undefine : dataGridViewGenericCellStatus.SwitchState;
         }
+        #endregion
 
+        #region Cell Handling - SetCellStatusSwichStatus - int columnIndex, int rowIndex, SwitchStates switchState
         public static void SetCellStatusSwichStatus(DataGridView dataGridView, int columnIndex, int rowIndex, SwitchStates switchState)
         {
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
@@ -1809,24 +2079,19 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Cell Metadata Broker Type
+        #region Cell Handling - GetCellStatusMetadataBrokerType - int columnIndex, int rowIndex
         public static MetadataBrokerTypes GetCellStatusMetadataBrokerType(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
             return dataGridViewGenericCellStatus == null ? MetadataBrokerTypes.Empty : dataGridViewGenericCellStatus.MetadataBrokerTypes;
         }
-
-        public static void SetCellStatusMetadataBrokerType(DataGridView dataGridView, int columnIndex, int rowIndex, MetadataBrokerTypes metadataBrokerTypes)
-        {
-            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-            if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(metadataBrokerTypes, SwitchStates.Off, true);
-            dataGridViewGenericCellStatus.MetadataBrokerTypes = metadataBrokerTypes;
-        }
-        #endregion 
+        #endregion
 
         #endregion
 
-        #region Copy select Media Broker as Windows Life Photo Gallery, Microsoft Photots, Google Location History, etc... to correct Media File Tag
+        #region Copy Text within Grid
+        #region Copy Text within Grid - CopyCellFromBrokerToMedia
+        //Copy select Media Broker as Windows Life Photo Gallery, Microsoft Photots, Google Location History, etc... to correct Media File Tag
         private static Dictionary<CellLocation, DataGridViewGenericCell> CopyCellFromBrokerToMedia(DataGridView dataGridView, string targetHeader, int columnIndex, int rowIndex, bool doOwerwriteData)
         {
             Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
@@ -1848,12 +2113,13 @@ namespace DataGridViewGeneric
             }            
             return updatedCells;
         }
+        #endregion
 
+        #region Copy Text within Grid - CopySelectedCellFromBrokerToMedia
         public static void CopySelectedCellFromBrokerToMedia(DataGridView dataGridView, string targetHeader, bool overwrite)
         {
             Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
 
-            
             foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
             {
                 DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
@@ -1874,16 +2140,17 @@ namespace DataGridViewGeneric
                 }
             }
             
-            
             if (updatedCells != null && updatedCells.Count > 0)
             {
                 ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
             }
         }
-
         #endregion
+        #endregion 
 
         #region TriState handeling
+
+        #region TriState handeling - GetRowHeadingIndex
         public static int GetRowHeadingIndex(DataGridView dataGridView, string header)
         {
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCount(dataGridView); rowIndex++)
@@ -1898,14 +2165,18 @@ namespace DataGridViewGeneric
             }
             return dataGridView.RowCount;
         }
+        #endregion
 
+        #region TriState handeling - GetRowHeadingItemStarts
         public static int GetRowHeadingItemStarts(DataGridView dataGridView, string header)
         {
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, header);
             if (rowIndex > -1) return rowIndex + 1;
             return DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); ;
         }
+        #endregion
 
+        #region TriState handeling - GetRowHeadingItemsEnds
         public static int GetRowHeadingItemsEnds(DataGridView dataGridView, string header)
         {
             for (int rowIndex = DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView) - 1; rowIndex > -1 ; rowIndex--)
@@ -1924,7 +2195,9 @@ namespace DataGridViewGeneric
 
             return -1;
         }
+        #endregion
 
+        #region TriState handeling - GetTriState
         private static TriState GetTriState(DataGridView dataGridView, string header, int columnStart, int rowStart, int columnIncrement, int rowIncrement)
         {
             //Find the corrent state
@@ -2006,22 +2279,30 @@ namespace DataGridViewGeneric
                 columnState = TriState.Unchange;
             return columnState;
         }
+        #endregion
 
+        #region TriState handeling - GetColumnTriState
         public static TriState GetColumnTriState(DataGridView dataGridView, string header, int keywordsStarts, int columnIndex)
         {
             return GetTriState(dataGridView, header, columnIndex, keywordsStarts, 0, 1);
         }
+        #endregion
 
+        #region TriState handeling - GetRowTriState
         public static TriState GetRowTriState(DataGridView dataGridView, string header, int rowIndex)
         {
             return GetTriState(dataGridView, header, 0, rowIndex, 1, 0);
         }
+        #endregion
 
+        #region TriState handeling - GetAllTriState
         public static TriState GetAllTriState(DataGridView dataGridView, string header, int keywordsStarts)
         {
             return GetTriState(dataGridView, header, 0, keywordsStarts, 1, 1);
         }
+        #endregion
 
+        #region TriState handeling - SetNewTriStateValue
         private static Dictionary<CellLocation, DataGridViewGenericCell> SetNewTriStateValue(DataGridView dataGridView, TriState newTriState,
             int keywordHeaderIndex, int keywordsStarts, int keywordsEnds,
             int columnStart, int rowStart, int columnIncrement, int rowIncrement)
@@ -2097,7 +2378,9 @@ namespace DataGridViewGeneric
 
             return updatedCells;
         }
+        #endregion
 
+        #region TriState handeling - SetNextTriState
         private static Dictionary<CellLocation, DataGridViewGenericCell> SetNextTriState(DataGridView dataGridView, string header, NewState newState, int keywordHeaderIndex, int keywordsStarts, int keywordsEnds, int columnStart, int rowStart, int columnIncrement, int rowIncrement)
         {
             bool checkAll = rowIncrement == 1 && columnIncrement == 1;
@@ -2156,7 +2439,9 @@ namespace DataGridViewGeneric
             }
             return updatedCells;
         }
+        #endregion
 
+        #region TriState handeling - ToggleCells
         public static Dictionary<CellLocation, DataGridViewGenericCell> ToggleCells(DataGridView dataGridView, string header, NewState newState, int columnIndex, int rowIndex)
         {
             Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = null;
@@ -2224,7 +2509,9 @@ namespace DataGridViewGeneric
 
             return updatedCells;
         }
+        #endregion
 
+        #region TriState handeling - ToggleSelected
         public static void ToggleSelected(DataGridView dataGridView, string header, NewState newState) 
         {
             DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = dataGridView.SelectedCells;
@@ -2258,92 +2545,137 @@ namespace DataGridViewGeneric
             }
 
         }
-        #endregion 
+        #endregion
 
-        #region ToolStripMenuItem_Click
+        #endregion
+
+        #region ToolStripMenuItem Handling 
+
+        #region ToolStripMenuItem Handling - cut
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             ActionCut(dataGridView);
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - copy
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             ActionCopy(dataGridView);
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - paste
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             ActionPaste(dataGridView);
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - delete
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             ActionDelete(dataGridView);
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - undo
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             ActionUndo(dataGridView);
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - redo
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             ActionRedo(dataGridView);
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - find
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             ActionFindAndReplace(dataGridView, false);
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - replace
         private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             ActionFindAndReplace(dataGridView, true);
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - save
         private void toolStripMenuItemMapSave_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Not implemented");
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - toogle Favorite
         private void toggleRowsAsFavouriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!dataGridView.Enabled) return;
             ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - mark Favorite
         private void markAsFavoriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!dataGridView.Enabled) return;
             ActionSetRowsFavouriteState(dataGridView, NewState.Set);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - remove Favorite
         private void removeAsFavoriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!dataGridView.Enabled) return;
             ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        #endregion
 
+        #region ToolStripMenuItem Handling - toogle hide/show equals
+        private void toggleHideEqualRowsValuesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!dataGridView.Enabled) return;
+            ActionToggleStripMenuItem(dataGridView, toggleHideEqualRowsValuesToolStripMenuItem);
+            SetRowsVisbleStatus(dataGridView, toggleHideEqualRowsValuesToolStripMenuItem.Checked, toggleShowFavouriteRowsToolStripMenuItem.Checked);
+        }
+        #endregion
 
+        #region ToolStripMenuItem Handling - toogle show Favorite
+        private void toggleShowFavouriteRowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!dataGridView.Enabled) return;
+            ActionToggleStripMenuItem(dataGridView, toggleShowFavouriteRowsToolStripMenuItem);
+            SetRowsVisbleStatus(dataGridView, toggleHideEqualRowsValuesToolStripMenuItem.Checked, toggleShowFavouriteRowsToolStripMenuItem.Checked);
+        }
+        #endregion
+
+        #region ToolStripMenuItem Handling - Toogle handler - For hide/show Favorite and Hide/Show Equals
         public static void ActionToggleStripMenuItem(DataGridView dataGridView, ToolStripMenuItem toolStripMenuItem)
         {
             if (!dataGridView.Enabled) return;
@@ -2358,32 +2690,22 @@ namespace DataGridViewGeneric
                 toolStripMenuItem.CheckState = CheckState.Checked;
             }
         }
-
-
-        private void toggleShowFavouriteRowsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!dataGridView.Enabled) return;
-            ActionToggleStripMenuItem(dataGridView, toggleShowFavouriteRowsToolStripMenuItem);
-            SetRowsVisbleStatus(dataGridView, toggleHideEqualRowsValuesToolStripMenuItem.Checked, toggleShowFavouriteRowsToolStripMenuItem.Checked);
-        }
-
-        private void toggleHideEqualRowsValuesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!dataGridView.Enabled) return;
-            ActionToggleStripMenuItem(dataGridView, toggleHideEqualRowsValuesToolStripMenuItem);
-            SetRowsVisbleStatus(dataGridView, toggleHideEqualRowsValuesToolStripMenuItem.Checked, toggleShowFavouriteRowsToolStripMenuItem.Checked);
-        }
+        #endregion
 
         #endregion
 
         #region KeyDownEventHandler
+
+        #region KeyDownEventHandler - 
         public static void KeyDownEventHandler(object sender, KeyEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             KeyDownEventHandler(dataGridView, e);
         }
+        #endregion
 
+        #region KeyDownEventHandler - KeyDownEventHandler
         public static void KeyDownEventHandler(DataGridView dataGridView, KeyEventArgs e)
         {
 
@@ -2433,10 +2755,11 @@ namespace DataGridViewGeneric
 
             }
         }
+        #endregion
+
         #endregion 
 
         #region Image handling - Update Image on File
-
         public static void UpdateImageOnFile(DataGridView dataGridView, FileEntryImage fileEntryImage)
         {
             //-----------------------------------------------------------------
@@ -2468,10 +2791,10 @@ namespace DataGridViewGeneric
 
         #endregion 
 
-        #region CellPainting
+        #region Cell Paint handling
         private const int roundedRadius = 8;
 
-        #region CellPainting Draw Functions 
+        #region Cell Paint handling - DrawImageAndSubText
         public static void DrawImageAndSubText(object sender, DataGridViewCellPaintingEventArgs e, Image image, string text, Color backgroundColor)
         {
             Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
@@ -2514,29 +2837,27 @@ namespace DataGridViewGeneric
             }
             
         }
+        #endregion
 
+        #region Cell Paint handling - DrawImageOnRightSide
         public static void DrawImageOnRightSide(object sender, DataGridViewCellPaintingEventArgs e, Image image)
         {
             e.Graphics.DrawImage(image,
                 e.CellBounds.Left + e.CellBounds.Width - image.Width - 1,
                 e.CellBounds.Top + 1);
         }
+        #endregion
 
-        private static void DrawIcon16x16OnRightSide(object sender, DataGridViewCellPaintingEventArgs e, Image image)
-        {
-            e.Graphics.DrawImage(image,
-                 e.CellBounds.Left + e.CellBounds.Width - 20 - 1,
-                 e.CellBounds.Top + 1, 16, 16); // e.CellBounds.Width, e.CellBounds.Height);
-        }
-
-
+        #region Cell Paint handling - DrawIcon16x16OnLeftSide
         private static void DrawIcon16x16OnLeftSide(object sender, DataGridViewCellPaintingEventArgs e, Image image)
         {
             e.Graphics.DrawImage(image,
                 e.CellBounds.Left + 1,
                 e.CellBounds.Top + 1, 16, 16); // e.CellBounds.Width, e.CellBounds.Height);
         }
+        #endregion
 
+        #region Cell Paint handling - DrawTriStateButton
         public static void DrawTriStateButton(object sender, DataGridViewCellPaintingEventArgs e, TriState triState)
         {
             switch (triState)
@@ -2561,7 +2882,9 @@ namespace DataGridViewGeneric
                     break;
             }
         }
+        #endregion
 
+        #region Cell Paint handling - DrawIconsMetadataBrokerTypes
         public static void DrawIconsMetadataBrokerTypes(object sender, DataGridViewCellPaintingEventArgs e, MetadataBrokerTypes metadataBrokerTypes)
         {
             if ((metadataBrokerTypes & MetadataBrokerTypes.ExifTool) != 0)
@@ -2591,12 +2914,14 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Calculate Region Rectangle
+        #region Cell Paint handling - CalulateCellRoundedRectangleCellBounds
         public static Rectangle CalulateCellRoundedRectangleCellBounds(Rectangle rectangle)
         {
             return new Rectangle(rectangle.Left + 4, rectangle.Top + 4, rectangle.Width - 5, rectangle.Height - 5);
         }
+        #endregion
 
+        #region Cell Paint handling - CalulateCellImageSizeInRectagleWithUpScale
         public static Size CalulateCellImageSizeInRectagleWithUpScale(Rectangle rectangleRoundedCellBounds, Size imageSize)
         {
             
@@ -2608,8 +2933,10 @@ namespace DataGridViewGeneric
 
             //if (f < 1.0f) f = 1.0f; // Do not upsize small images
             return new Size ( (int)System.Math.Round((float)imageSize.Width / f), (int)System.Math.Round((float)imageSize.Height / f));
-        }    
+        }
+        #endregion
 
+        #region Cell Paint handling - CalulateCellImageCenterInRectagle
         public static Rectangle CalulateCellImageCenterInRectagle(Rectangle rectangleRoundedCellBounds, Size thumbnailSize)
         {
             return new Rectangle(rectangleRoundedCellBounds.X + ((rectangleRoundedCellBounds.Width - thumbnailSize.Width) / 2),
@@ -2618,7 +2945,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region CellPainting Mouse rectangle
+        #region Cell Paint handling - GetRectangleFromMouseCoorinate
         public static Rectangle GetRectangleFromMouseCoorinate(int x1, int y1, int x2, int y2)
         {
             int x = Math.Min(x1, x2);
@@ -2627,20 +2954,26 @@ namespace DataGridViewGeneric
             int height = Math.Max(y1, y2) - y;
             return new Rectangle(x, y, width, height);
         }
+        #endregion
 
+        #region Cell Paint handling - IsMouseWithinRectangle 
         public static bool IsMouseWithinRectangle(int x, int y, Rectangle rectangle)
         {
             return (x >= rectangle.X && y >= rectangle.Y &&
                     x <= rectangle.X + rectangle.Width && y <= rectangle.Y + rectangle.Height);
         }
+        #endregion
 
+        #region Cell Paint handling - CellPaintingColumnHeaderMouseRegion
         public static void CellPaintingColumnHeaderMouseRegion(object sender, DataGridViewCellPaintingEventArgs e, bool drawingRegion, int x1, int y1, int x2, int y2)
         {
             if (!drawingRegion) return;
             Rectangle rectangle = GetRectangleFromMouseCoorinate(x1, y1, x2, y2);
             e.Graphics.DrawRectangle(new Pen(Color.White, 1), e.CellBounds.X + rectangle.X, e.CellBounds.Y + rectangle.Y, rectangle.Width, rectangle.Height);
         }
+        #endregion
 
+        #region Cell Paint handling - UpdateSelectedCellsWithNewMouseRegion 
         public static bool UpdateSelectedCellsWithNewMouseRegion(DataGridView dataGridView, int columnIndex, int x1, int y1, int x2, int y2)
         {
             bool updated = false;
@@ -2703,7 +3036,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region CellPaintingColumnHeaderRegionsInThumbnail
+        #region Cell Paint handling - CellPaintingColumnHeaderRegionsInThumbnail 
         public static void CellPaintingColumnHeaderRegionsInThumbnail(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -2743,7 +3076,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Cell Paint Column Header, Favorite 
+        #region Cell Paint handling - CellPaintingHandleDefault
         public static void CellPaintingHandleDefault(object sender, DataGridViewCellPaintingEventArgs e)
         {
             //----------------------------------------------------
@@ -2763,7 +3096,9 @@ namespace DataGridViewGeneric
             }
             e.Handled = true;
         }
+        #endregion
 
+        #region Cell Paint handling - CellPaintingFavoriteAndToolTipsIcon
         public static void CellPaintingFavoriteAndToolTipsIcon(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -2784,8 +3119,10 @@ namespace DataGridViewGeneric
                     DrawIcon16x16OnLeftSide(sender, e, global::DataGridViewGeneric.Properties.Resources.ToolTipsText);
                 }
             }
-        }       
-        
+        }
+        #endregion
+
+        #region Cell Paint handling - CellPaintingColumnHeader
         public static void CellPaintingColumnHeader(object sender, DataGridViewCellPaintingEventArgs e, Dictionary<string, string> errorFileEntries)
         {
             
@@ -2852,7 +3189,9 @@ namespace DataGridViewGeneric
             }
             
         }
+        #endregion
 
+        #region Cell Paint handling - CellPaintingTriState
         public static void CellPaintingTriState(object sender, DataGridViewCellPaintingEventArgs e, DataGridView dataGridView, string header)
         {
             DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
@@ -2940,7 +3279,6 @@ namespace DataGridViewGeneric
             }
 
         }
-
         #endregion
 
 

@@ -73,7 +73,7 @@ namespace PhotoTagsSynchronizer
         #region Load Item Metadata Details
         private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
         {
-            Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(
+            Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(
                 new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerTypes.ExifTool));
 
             try

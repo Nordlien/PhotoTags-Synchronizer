@@ -151,16 +151,16 @@ namespace PhotoTagsSynchronizer
             )
         {
             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool);
-            Metadata metadata = metadataDatabaseCacheExiftool.ReadCache(fileEntryBrokerExiftool);
+            Metadata metadata = metadataDatabaseCacheExiftool.MetadataCacheRead(fileEntryBrokerExiftool);
             if (metadata == null) 
                 return null; //DEBUG Why NULL - I manage to reproduce, select lot of files, select AutoCorrect many, many times.
             metadata = new Metadata(metadata); //Make a copy
 
             FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos);            
-            Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.ReadCache(fileEntryBrokerMicrosoftPhotos);
+            Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRead(fileEntryBrokerMicrosoftPhotos);
 
             FileEntryBroker fileEntryBrokerMWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery);            
-            Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(fileEntryBrokerMWindowsLivePhotoGallery);
+            Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRead(fileEntryBrokerMWindowsLivePhotoGallery);
 
             #region Keywords backup
             if (BackupDateTakenBeforeUpdate && metadata?.MediaDateTaken != null)

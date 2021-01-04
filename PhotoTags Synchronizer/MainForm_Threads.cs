@@ -257,13 +257,13 @@ namespace PhotoTagsSynchronizer
                 if (File.GetLastWriteTime(fileEntryImage.FileFullPath) == fileEntryImage.LastWriteDateTime) //Don't add old files in queue
                 {
                     //If Metadata don't exisit in database, put it in read queue
-                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.ExifTool));
+                    Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.ExifTool));
                     if (metadata == null) AddQueueExiftool(fileEntryImage);
 
-                    metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.MicrosoftPhotos));
+                    metadata = databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRead(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.MicrosoftPhotos));
                     if (metadata == null) AddQueueMicrosoftPhotos(fileEntryImage);
 
-                    metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.WindowsLivePhotoGallery));
+                    metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRead(new FileEntryBroker(fileEntryImage, MetadataBrokerTypes.WindowsLivePhotoGallery));
                     if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntryImage);
                 }
 

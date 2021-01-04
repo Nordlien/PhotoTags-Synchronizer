@@ -70,10 +70,10 @@ namespace PhotoTagsSynchronizer
                     DateTime? dateTimeLocal = TimeZoneLibrary.ParseDateTimeAsLocal(dataTimeString.Substring(0, TimeZoneLibrary.AllowedDateTimeFormatsWithoutTimeZone[0].Length));
 
                     DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex, new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagMediaDateTaken),
-                         TimeZoneLibrary.ToStringSortable(dateTimeLocal), false);
+                         TimeZoneLibrary.ToStringSortable(dateTimeLocal), false, false);
 
                     DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex, new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
-                        TimeZoneLibrary.ToStringW3CDTF_UTC(((DateTimeOffset)dateTimeZoneResult).UtcDateTime), false);
+                        TimeZoneLibrary.ToStringW3CDTF_UTC(((DateTimeOffset)dateTimeZoneResult).UtcDateTime), false, false);
                 }
                 else
                 {
@@ -82,13 +82,13 @@ namespace PhotoTagsSynchronizer
                     {
                         DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
                             new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagMediaDateTaken),
-                            TimeZoneLibrary.ToStringSortable((DateTime)dateTime), false);
+                            TimeZoneLibrary.ToStringSortable((DateTime)dateTime), false, false);
                     }
                     else
                     {
                         DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
                             new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagMediaDateTaken),
-                            "Error", false);
+                            "Error", false, false);
                     }
                 }
             }
@@ -101,11 +101,11 @@ namespace PhotoTagsSynchronizer
                 if (dateTime != null)
                     DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
                         new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
-                        TimeZoneLibrary.ToStringW3CDTF_UTC((DateTime)dateTime), false);
+                        TimeZoneLibrary.ToStringW3CDTF_UTC((DateTime)dateTime), false, false);
                 else
                     DataGridViewHandler.AddRow(dataGridView, e.ColumnIndex,
                         new DataGridViewGenericRow(DataGridViewHandlerDate.headerMedia, DataGridViewHandlerDate.tagGPSLocationDateTime),
-                        "Error", false);
+                        "Error", false, false);
             }
             DataGridViewHandlerDate.PopulateTimeZone(dataGridView, e.ColumnIndex);
             isDataGridViewDate_CellValueChanging = false;

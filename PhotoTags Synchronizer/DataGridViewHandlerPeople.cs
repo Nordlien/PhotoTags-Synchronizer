@@ -12,10 +12,15 @@ namespace PhotoTagsSynchronizer
     public static class DataGridViewHandlerPeople 
     {
         public const string headerPeople = "People";
+        public const string headerPeopleSuggestion = "Suggestion";
+        public const string headerPeopleMostUsed = "Most used";
 
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }
+
+        public static int SuggestRegionNameTopMostCount { get; set; } = 10;
+        public static int SuggestRegionNameNearbyDays { get; set; } = 10;
 
         public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntry fileEntry)
         {
@@ -35,20 +40,21 @@ namespace PhotoTagsSynchronizer
         }
 
 
-        private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow)
+        private static int AddRowHeader(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
         {
-            return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow);
+            return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, sort);
         }
 
-        private static int AddRow(DataGridView dataGridView, Metadata metadata, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
+        private static int AddRowRegion(DataGridView dataGridView, Metadata metadata, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
         {
             int startSearchRow = 0;
-            bool notFound;
+            bool regionFound;
             int rowIndex;
             do
             {
+                //Find first row that fits with Region Name, then in region area not fit, is in use, find next
                 rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow,
-                    DataGridViewHandler.GetFavoriteList(dataGridView), (object)null, dataGridViewGenericCellStatusDefaults, startSearchRow, false);
+                    DataGridViewHandler.GetFavoriteList(dataGridView), (object)null, dataGridViewGenericCellStatusDefaults, startSearchRow, false, false);
                 object cellValue = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
                 
                 if (value != null && cellValue != null &&
@@ -64,15 +70,15 @@ namespace PhotoTagsSynchronizer
                         Rectangle mediaRectangleInput = regionStructureInput.GetImageRegionPixelRectangle(imageSize);
                         Rectangle mediaRectangleCell = regionStructureCell.GetImageRegionPixelRectangle(imageSize);
 
-                        if (RegionStructure.RectangleEqual (mediaRectangleInput, mediaRectangleCell)) notFound = false;
-                        else notFound = true;
+                        if (RegionStructure.RectangleEqual (mediaRectangleInput, mediaRectangleCell)) regionFound = true;
+                        else regionFound = false;
                     }
-                    else notFound = false;
+                    else regionFound = true;
                 }
-                else notFound = false;
+                else regionFound = true;
                 startSearchRow = rowIndex + 1;
 
-            } while (notFound);
+            } while (!regionFound);
 
             RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndex);
             if (regionStructure == null || metadata.Broker == MetadataBrokerTypes.ExifTool) 
@@ -80,12 +86,11 @@ namespace PhotoTagsSynchronizer
             return rowIndex;
         }
 
-        private static void PopulatePeople(DataGridView dataGridView, Metadata metadata, int columnIndex, MetadataBrokerTypes metadataBrokerType)
+        private static void PopulatePeople(DataGridView dataGridView, Metadata metadata, int columnIndex, MetadataBrokerTypes metadataBrokerType, ref List<string> regionNames)
         {            
-
             foreach (RegionStructure region in metadata.PersonalRegionList)
             {
-                DataGridViewGenericRow dataGridViewGenericRow = new DataGridViewGenericRow(headerPeople, region.Name ?? "");
+                DataGridViewGenericRow dataGridViewGenericRow = new DataGridViewGenericRow(headerPeople, region.Name);
 
                 int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, dataGridViewGenericRow);
                 
@@ -93,9 +98,14 @@ namespace PhotoTagsSynchronizer
                 if (rowIndex == -1) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Undefine, false); //By default, empty and disabled
                 else dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex); //Remember current status, in case of updates
 
-                rowIndex = AddRow(dataGridView, metadata, columnIndex, dataGridViewGenericRow, DataGridViewHandler.DeepCopy(region),
+                rowIndex = AddRowRegion(dataGridView, metadata, columnIndex, dataGridViewGenericRow, DataGridViewHandler.DeepCopy(region),
                     new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Undefine, false)); //Other cell for this row will by default be Empty and disabled
 
+                DataGridViewHandler.DeleteRow(dataGridView, headerPeopleSuggestion, region.Name);
+                DataGridViewHandler.DeleteRow(dataGridView, headerPeopleMostUsed, region.Name);
+                
+                if (!regionNames.Contains(region.Name)) regionNames.Add(region.Name);
+                
                 dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
                 if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
                     dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off;
@@ -112,8 +122,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (RegionStructure region in metadata.PersonalRegionList)
             {
-
-                int rowIndex = AddRow(dataGridView, metadata, columnIndex, new DataGridViewGenericRow(headerPeople, region.Name ?? ""), DataGridViewHandler.DeepCopy(region),
+                int rowIndex = AddRowRegion(dataGridView, metadata, columnIndex, new DataGridViewGenericRow(headerPeople, region.Name), DataGridViewHandler.DeepCopy(region),
                     new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, false));
                 
                 string toolTipText = DataGridViewHandler.GetCellToolTipText(dataGridView, columnIndex, rowIndex);
@@ -144,10 +153,27 @@ namespace PhotoTagsSynchronizer
 
             //If create a dummy column for newst, add this "dummy file" to queue
             DateTime? dateTimeNewest = null;
+            DateTime? dateTimeOldest = null;
             if (dateTimeForEditableMediaFile == DataGridViewHandler.DateTimeForEditableMediaFile && fileVersionDates.Count > 0)
             {
-                dateTimeNewest = FileEntryBroker.FindNewestDate(fileVersionDates); 
+                dateTimeNewest = FileEntryBroker.FindNewestDate(fileVersionDates);
+                dateTimeOldest = FileEntryBroker.FindNewestDate(fileVersionDates);
                 fileVersionDates.Add(new FileEntryBroker(fullFilePath, DataGridViewHandler.DateTimeForEditableMediaFile, MetadataBrokerTypes.ExifTool));
+            }
+
+            List<string> regionNamesAddedPeople = new List<string>();
+            List<string> regionNamesAddedTopMost = new List<string>();
+            List<string> regionNamesAddedDateInterval = new List<string>();
+
+            for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader)
+                {
+                    if (dataGridViewGenericRow.HeaderName == headerPeople && !regionNamesAddedPeople.Contains(dataGridViewGenericRow.RowName)) regionNamesAddedPeople.Add(dataGridViewGenericRow.RowName);
+                    else if (dataGridViewGenericRow.HeaderName == headerPeopleSuggestion && !regionNamesAddedDateInterval.Contains(dataGridViewGenericRow.RowName)) regionNamesAddedDateInterval.Add(dataGridViewGenericRow.RowName);
+                    else if (dataGridViewGenericRow.HeaderName == headerPeopleMostUsed && !regionNamesAddedTopMost.Contains(dataGridViewGenericRow.RowName)) regionNamesAddedTopMost.Add(dataGridViewGenericRow.RowName);
+                }
             }
 
             foreach (FileEntryBroker fileEntryBroker in fileVersionDates)
@@ -161,11 +187,11 @@ namespace PhotoTagsSynchronizer
                 if (fileEntryBroker.LastWriteDateTime == DataGridViewHandler.DateTimeForEditableMediaFile) 
                 {
                     fileEntryBrokerReadVersion = new FileEntryBroker(fullFilePath, (DateTime)dateTimeNewest, MetadataBrokerTypes.ExifTool);
-                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion));
+                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.MetadataCacheRead(fileEntryBrokerReadVersion));
                 }
                 else
                 {
-                    metadata = DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion);
+                    metadata = DatabaseAndCacheMetadataExiftool.MetadataCacheRead(fileEntryBrokerReadVersion);
                 }
                 //metadata = DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBrokerReadVersion);
 
@@ -181,28 +207,80 @@ namespace PhotoTagsSynchronizer
                 columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryBroker);    /* Force updated, every time, new data arrives */
                 if (columnIndex == -1) continue;                                                         /* -1 - Don't need show column, due to hidden / do now show */
 
-                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerPeople));
+                AddRowHeader(dataGridView, columnIndex, new DataGridViewGenericRow(headerPeople), false);
 
+                
                 if (metadata != null)
                 {
+                    
                     //Exif tool
-                    PopulatePeople(dataGridView, metadata, columnIndex, MetadataBrokerTypes.ExifTool);
+                    PopulatePeople(dataGridView, metadata, columnIndex, MetadataBrokerTypes.ExifTool, ref regionNamesAddedPeople);
 
                     //Windows Live Gallery
-                    Metadata metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.ReadCache(
+                    Metadata metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRead(
                         new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.WindowsLivePhotoGallery));                
-                    if (metadataWindowsLivePhotoGallery != null) PopulatePeople(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, MetadataBrokerTypes.WindowsLivePhotoGallery);
+                    if (metadataWindowsLivePhotoGallery != null) PopulatePeople(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, MetadataBrokerTypes.WindowsLivePhotoGallery, ref regionNamesAddedPeople);
 
                     //Microsoft Photos
-                    Metadata metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadCache(
+                    Metadata metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRead(
                         new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.MicrosoftPhotos));
-                    if (metadataMicrosoftPhotos != null) PopulatePeople(dataGridView, metadataMicrosoftPhotos, columnIndex, MetadataBrokerTypes.MicrosoftPhotos);
+                    if (metadataMicrosoftPhotos != null) PopulatePeople(dataGridView, metadataMicrosoftPhotos, columnIndex, MetadataBrokerTypes.MicrosoftPhotos, ref regionNamesAddedPeople);
 
                     PopulatePeopleTooltip(dataGridView, metadata, columnIndex);
                     if (metadataWindowsLivePhotoGallery != null) PopulatePeopleTooltip(dataGridView, metadataWindowsLivePhotoGallery, columnIndex);
                     if (metadataMicrosoftPhotos != null) PopulatePeopleTooltip(dataGridView, metadataMicrosoftPhotos, columnIndex);
                 }
             }
+
+            #region Suggestion of Names - Near date
+            int columnIndexDummy = -1;
+            List<string> regioNameSuggestions = null;
+            if (dateTimeOldest != null && dateTimeNewest != null)
+            {
+                DateTime dateTimeFrom = ((DateTime)dateTimeOldest).AddDays(-SuggestRegionNameNearbyDays);
+                DateTime dateTimeTo = ((DateTime)dateTimeNewest).AddDays(SuggestRegionNameNearbyDays);
+
+                bool isHeaderPeopleSuggestionAdded = false;
+                regioNameSuggestions = DatabaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerTypes.ExifTool, (DateTime)dateTimeFrom, (DateTime)dateTimeTo);
+                if (regioNameSuggestions != null && regioNameSuggestions.Count > 0)
+                {
+                    foreach (string regionName in regioNameSuggestions)
+                    {
+                        if (!string.IsNullOrWhiteSpace(regionName))
+                        {
+                            if (regionNamesAddedTopMost.Contains(regionName))
+                            {
+                                DataGridViewHandler.DeleteRow(dataGridView, headerPeopleMostUsed, regionName);
+                                regionNamesAddedTopMost.Remove(regionName);
+                            }
+
+                            if (!regionNamesAddedPeople.Contains(regionName))
+                            {
+                                if (!isHeaderPeopleSuggestionAdded)
+                                {
+                                    AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleSuggestion), false);
+                                    isHeaderPeopleSuggestionAdded = true;
+                                }
+                                AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleSuggestion, regionName), true);
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            #region Sugegstion of names - Top Most
+            List<string> regioNamesTopMost = DatabaseAndCacheMetadataExiftool.ListAllPersonalRegionNameNotInListCache(regionNamesAddedPeople, regioNameSuggestions, SuggestRegionNameTopMostCount - regionNamesAddedTopMost.Count);
+            if (regioNamesTopMost != null && regioNamesTopMost.Count > 0)
+            {
+                AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed), false);
+                foreach (string regionName in regioNamesTopMost)
+                {
+                    AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed, regionName), true);
+                }
+            }
+            #endregion 
+
             DataGridViewHandler.Refresh(dataGridView);
 
             //-----------------------------------------------------------------

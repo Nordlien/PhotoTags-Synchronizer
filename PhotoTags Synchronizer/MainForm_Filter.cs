@@ -387,7 +387,7 @@ namespace PhotoTagsSynchronizer
             comboBoxSearchLocationCountry.Items.Clear();
             comboBoxSearchLocationCountry.Items.AddRange(countries.ToArray());
 
-            List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegions();
+            List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
             peoples.Sort();
             ListViewReplaceNullWithText(peoples);
             checkedListBoxSearchPeople.Items.Clear();
@@ -427,7 +427,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
             {
-                Metadata metadata = databaseAndCacheMetadataExiftool.ReadCache(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerTypes.ExifTool));
+                Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerTypes.ExifTool));
 
                 if (metadata != null)
                 {

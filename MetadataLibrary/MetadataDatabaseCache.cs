@@ -12,10 +12,53 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-
+using System.Linq;
 
 namespace MetadataLibrary
 {
+    
+
+    public class MetadataRegionNameKey
+    {
+        public MetadataRegionNameKey(MetadataBrokerTypes metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
+        {
+            MetadataBrokerType = metadataBrokerType;
+            DateTimeFrom = dateTimeFrom;
+            DateTimeTo = dateTimeTo;
+        }
+
+        MetadataBrokerTypes MetadataBrokerType { get; set; }
+        DateTime DateTimeFrom { get; set; }
+        DateTime DateTimeTo { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is MetadataRegionNameKey key &&
+                   MetadataBrokerType == key.MetadataBrokerType &&
+                   DateTimeFrom == key.DateTimeFrom &&
+                   DateTimeTo == key.DateTimeTo;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -793585214;
+            hashCode = hashCode * -1521134295 + MetadataBrokerType.GetHashCode();
+            hashCode = hashCode * -1521134295 + DateTimeFrom.GetHashCode();
+            hashCode = hashCode * -1521134295 + DateTimeTo.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(MetadataRegionNameKey left, MetadataRegionNameKey right)
+        {
+            return EqualityComparer<MetadataRegionNameKey>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(MetadataRegionNameKey left, MetadataRegionNameKey right)
+        {
+            return !(left == right);
+        }
+    }
+
     public class MetadataDatabaseCache
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -50,7 +93,7 @@ namespace MetadataLibrary
                     "LocationAltitude, LocationLatitude, LocationLongitude, LocationDateTime, " +
                     "LocationName, LocationCountry, LocationCity, LocationState " +
                 "FROM MediaMetadata WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase)) 
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
@@ -79,7 +122,7 @@ namespace MetadataLibrary
                         metadata.PersonalAuthor = dbTools.ConvertFromDBValString(reader["PersonalAuthor"]);
                         metadata.CameraMake = dbTools.ConvertFromDBValString(reader["CameraMake"]);
                         metadata.CameraModel = dbTools.ConvertFromDBValString(reader["CameraModel"]);
-                        metadata.MediaDateTaken = dbTools.ConvertFromDBValDateTimeLocal(reader["MediaDateTaken"]); 
+                        metadata.MediaDateTaken = dbTools.ConvertFromDBValDateTimeLocal(reader["MediaDateTaken"]);
                         metadata.MediaWidth = dbTools.ConvertFromDBValInt(reader["MediaWidth"]);
                         metadata.MediaHeight = dbTools.ConvertFromDBValInt(reader["MediaHeight"]);
                         metadata.MediaOrientation = dbTools.ConvertFromDBValInt(reader["MediaOrientation"]);
@@ -99,10 +142,10 @@ namespace MetadataLibrary
                 }
             }
 
-             sqlCommand =
-                    "SELECT " +
-                        "Broker, FileDirectory, FileName, FileDateModified, Keyword, Confidence " +
-                    "FROM MediaPersonalKeywords WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
+            sqlCommand =
+                   "SELECT " +
+                       "Broker, FileDirectory, FileName, FileDateModified, Keyword, Confidence " +
+                   "FROM MediaPersonalKeywords WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
@@ -168,7 +211,7 @@ namespace MetadataLibrary
 
             dbTools.TransactionBeginBatch();
 
-            CacheUpdate(metadata);
+            MetadataCacheUpdate(metadata);
 
             string sqlCommand =
                 "INSERT INTO MediaMetadata (" +
@@ -293,14 +336,14 @@ namespace MetadataLibrary
                     if (region.Thumbnail == null) commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
                     else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(region.Thumbnail));
                     commandDatabase.Prepare();
-                    
+
                     if (commandDatabase.ExecuteNonQuery() == -1)
                     {
                         Logger.Error("Delete MediaPersonalRegions data due to previous application crash for file: " + metadata.FileFullPath);
                         //Delete all extries due to crash.
                         DeleteFileMediaPersonalRegions(metadata.FileEntryBroker);
                         commandDatabase.ExecuteNonQuery();
-                    }  
+                    }
                 }
             }
 
@@ -312,25 +355,25 @@ namespace MetadataLibrary
         public void Copy(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
             dbTools.TransactionBeginBatch();
-            
-           string sqlCommand =
-               "INSERT INTO MediaMetadata (" +
-                   "Broker, FileDirectory, FileName, FileSize, " +
-                   "FileDateCreated, FileDateModified, FileLastAccessed, FileMimeType, " +
-                   "PersonalTitle, PersonalAlbum, PersonalDescription, PersonalComments, PersonalRatingPercent,PersonalAuthor, " +
-                   "CameraMake, CameraModel, " +
-                   "MediaDateTaken, MediaWidth, MediaHeight, MediaOrientation, MediaVideoLength, " +
-                   "LocationAltitude, LocationLatitude, LocationLongitude, LocationDateTime, " +
-                   "LocationName, LocationCountry, LocationCity, LocationState, RowChangedDated) " +               
-                "SELECT " +
-                    "Broker, @NewFileDirectory, @NewFileName, FileSize, " +
+
+            string sqlCommand =
+                "INSERT INTO MediaMetadata (" +
+                    "Broker, FileDirectory, FileName, FileSize, " +
                     "FileDateCreated, FileDateModified, FileLastAccessed, FileMimeType, " +
                     "PersonalTitle, PersonalAlbum, PersonalDescription, PersonalComments, PersonalRatingPercent,PersonalAuthor, " +
                     "CameraMake, CameraModel, " +
                     "MediaDateTaken, MediaWidth, MediaHeight, MediaOrientation, MediaVideoLength, " +
                     "LocationAltitude, LocationLatitude, LocationLongitude, LocationDateTime, " +
-                    "LocationName, LocationCountry, LocationCity, LocationState, RowChangedDated " +
-                "FROM MediaMetadata WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
+                    "LocationName, LocationCountry, LocationCity, LocationState, RowChangedDated) " +
+                 "SELECT " +
+                     "Broker, @NewFileDirectory, @NewFileName, FileSize, " +
+                     "FileDateCreated, FileDateModified, FileLastAccessed, FileMimeType, " +
+                     "PersonalTitle, PersonalAlbum, PersonalDescription, PersonalComments, PersonalRatingPercent,PersonalAuthor, " +
+                     "CameraMake, CameraModel, " +
+                     "MediaDateTaken, MediaWidth, MediaHeight, MediaOrientation, MediaVideoLength, " +
+                     "LocationAltitude, LocationLatitude, LocationLongitude, LocationDateTime, " +
+                     "LocationName, LocationCountry, LocationCity, LocationState, RowChangedDated " +
+                 "FROM MediaMetadata WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -378,7 +421,7 @@ namespace MetadataLibrary
                 commandDatabase.ExecuteNonQuery();
             }
 
-            sqlCommand = 
+            sqlCommand =
                 "INSERT INTO MediaExiftoolTags (FileDirectory, FileName, FileDateModified, Region, Command, Parameter) " +
                 "SELECT @NewFileDirectory, @NewFileName, FileDateModified, Region, Command, Parameter FROM " +
                 "MediaExiftoolTags WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
@@ -394,7 +437,7 @@ namespace MetadataLibrary
             }
 
             sqlCommand =
-                "INSERT INTO MediaExiftoolTagsWarning " + 
+                "INSERT INTO MediaExiftoolTagsWarning " +
                     "(FileDirectory, FileName, FileDateModified, OldRegion, OldCommand, OldParameter, NewRegion, NewCommand, NewParameter, Warning) " +
                 "SELECT @NewFileDirectory, @NewFileName, FileDateModified, OldRegion, OldCommand, OldParameter, NewRegion, NewCommand, NewParameter, Warning FROM " +
                     "MediaExiftoolTagsWarning WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
@@ -428,13 +471,13 @@ namespace MetadataLibrary
 
         #region Move
         public void Move(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
-        {      
+        {
             dbTools.TransactionBeginBatch();
 
             ClearCache();
 
             string sqlCommand =
-                "UPDATE MediaMetadata SET " + 
+                "UPDATE MediaMetadata SET " +
                 "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
                 "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
@@ -449,7 +492,7 @@ namespace MetadataLibrary
             }
 
             sqlCommand =
-                "UPDATE MediaPersonalKeywords SET " + 
+                "UPDATE MediaPersonalKeywords SET " +
                 "FileDirectory = @NewFileDirectory, FileName = @NewFileName " +
                 "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
 
@@ -526,8 +569,8 @@ namespace MetadataLibrary
         #region UpdateRegionThumbnail
         public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region)
         {
-            CacheRemove(file);
-            
+            MetadataCacheRemove(file);
+
             string sqlCommand =
                     "UPDATE MediaPersonalRegions " +
                     "SET Thumbnail = @Thumbnail " +
@@ -542,7 +585,7 @@ namespace MetadataLibrary
                     "AND Round(AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
                     "AND Round(AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
                     "AND RegionStructureType = @RegionStructureType";
-                        
+
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
@@ -557,7 +600,7 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@AreaHeight", region.AreaHeight);
                 commandDatabase.Parameters.AddWithValue("@RegionStructureType", (int)region.RegionStructureType);
 
-                if (region.Thumbnail == null) 
+                if (region.Thumbnail == null)
                     commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
                 else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(region.Thumbnail));
 
@@ -690,7 +733,7 @@ namespace MetadataLibrary
         #region Delete File
         public void DeleteFileEntry(FileEntryBroker fileEntryBroker)
         {
-            CacheRemove(fileEntryBroker);
+            MetadataCacheRemove(fileEntryBroker);
 
             DeleteFileMediaMetadata(fileEntryBroker);
             DeleteFileMediaPersonalRegions(fileEntryBroker);
@@ -709,7 +752,7 @@ namespace MetadataLibrary
                     "Broker, FileDirectory, FileName, FileDateModified " +
                     "FROM MediaMetadata WHERE " +
                     "(Broker & @Broker) = @Broker AND " +
-                    "FileDirectory = @FileDirectory AND " + 
+                    "FileDirectory = @FileDirectory AND " +
                     "FileName = @FileName";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -743,148 +786,26 @@ namespace MetadataLibrary
         public List<String> ListAllMissingFileEntries(MetadataBrokerTypes broker, List<FileEntry> files)
         {
             if (files == null) return null;
-            
+
             List<String> mediaFilesNoInDatabase = new List<String>();
 
             foreach (FileEntry file in files)
             {
                 FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FileFullPath, file.LastWriteDateTime, broker);
 
-                if (!CacheContainsKey(fileEntryBroker)) //Check if already in queue, due to screen refreash and reloads etc...
+                if (!MetadataCacheContainsKey(fileEntryBroker)) //Check if already in queue, due to screen refreash and reloads etc...
                 {
-                    Metadata metadata = ReadCache(fileEntryBroker);
+                    Metadata metadata = MetadataCacheRead(fileEntryBroker);
                     if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FileFullPath);
 
                 }
             }
-            
+
             return mediaFilesNoInDatabase;
         }
         #endregion
 
         #region List files - Search
-        /*
-SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName
---, MediaMetadata.FileDateModified
---,MediaPersonalKeywords.Keyword, MediaPersonalRegions.Name, MediaExiftoolTagsWarning.Warning
-FROM MediaMetadata
-
-LEFT JOIN MediaPersonalKeywords ON 
-	MediaPersonalKeywords.Broker = MediaMetadata.Broker AND
-	MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND
-	MediaPersonalKeywords.FileName = MediaMetadata.FileName 
-
-LEFT JOIN MediaPersonalRegions ON 
-	MediaPersonalRegions.Broker = MediaMetadata.Broker AND
-	MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND
-	MediaPersonalRegions.FileName = MediaMetadata.FileName 
-
-LEFT JOIN MediaExiftoolTagsWarning ON 
-	--MediaExiftoolTagsWarning.Broker = MediaMetadata.Broker AND
-	MediaExiftoolTagsWarning.FileDirectory = MediaMetadata.FileDirectory AND
-	MediaExiftoolTagsWarning.FileName = MediaMetadata.FileName 
-	
-WHERE 
-	MediaMetadata.Broker = 1 
-	AND MediaMetadata.MediaDateTaken >= 637423585770000000 
-	AND MediaMetadata.MediaDateTaken <= 637424200784278170 
-	AND MediaMetadata.PersonalAlbum LIKE "%TestTags%"
-	AND (PersonalTitle LIKE "%" OR PersonalTitle IS NULL)
-	AND (PersonalComments LIKE "%" OR PersonalComments IS NULL)
-	AND (PersonalDescription LIKE "%" OR PersonalDescription IS NULL)
-	AND ((PersonalRatingPercent >= 50 AND PersonalRatingPercent < 75) OR PersonalRatingPercent IS NULL)
-	AND (LocationName LIKE "%" OR LocationName IS NULL)
-	AND (LocationCity LIKE "%" OR LocationCity IS NULL)
-	AND (LocationState LIKE "%" OR LocationState IS NULL)
-	AND (LocationCountry LIKE "%" OR LocationCountry IS NULL)
-AND (MediaPersonalRegions.Name = "Julie Monsen Nordlien" OR MediaPersonalRegions.Name = "Lukas Nordlien" OR MediaPersonalRegions.Name IS NULL)
-AND (MediaPersonalKeywords.Keyword LIKE "Sørenga" OR MediaPersonalKeywords.Keyword LIKE "Smile" OR MediaPersonalKeywords.Keyword IS NULL)
-AND (MediaExiftoolTagsWarning.Warning IS NOT NULL)
-LIMIT 6000
-
-
-SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName
---, MediaMetadata.FileDateModified
---,MediaPersonalKeywords.Keyword, MediaPersonalRegions.Name
---, MediaExiftoolTagsWarning.Warning
-
-FROM MediaMetadata
-
-LEFT JOIN MediaExiftoolTagsWarning ON 
-	MediaExiftoolTagsWarning.FileDirectory = MediaMetadata.FileDirectory AND
-	MediaExiftoolTagsWarning.FileName = MediaMetadata.FileName 
-	
-WHERE 
-	MediaMetadata.Broker = 1 
-	--AND MediaMetadata.MediaDateTaken != 637423585770000000 
-	--AND MediaMetadata.MediaDateTaken != 637424200784278170 
-	--AND MediaMetadata.PersonalAlbum LIKE "%"
-	--AND (PersonalTitle LIKE "%" OR PersonalTitle IS NULL)
-	--AND (PersonalComments LIKE "%" OR PersonalComments IS NULL)
-	--AND (PersonalDescription LIKE "%" OR PersonalDescription IS NULL)
-	--AND ((PersonalRatingPercent >= 50 AND PersonalRatingPercent < 75) OR PersonalRatingPercent IS NULL)
-	--AND (LocationName LIKE "%" OR LocationName IS NULL)
-	--AND (LocationCity LIKE "%" OR LocationCity IS NULL)
-	--AND (LocationState LIKE "%" OR LocationState IS NULL)
-	--AND (LocationCountry LIKE "%" OR LocationCountry IS NULL)
---AND (MediaPersonalRegions.Name = "Julie Monsen Nordlien" OR MediaPersonalRegions.Name = "Lukas Nordlien" OR MediaPersonalRegions.Name IS NULL)
---AND (MediaPersonalKeywords.Keyword LIKE "Sørenga" OR MediaPersonalKeywords.Keyword LIKE "Smile" OR MediaPersonalKeywords.Keyword IS NULL)
-AND (MediaExiftoolTagsWarning.Warning IS NOT NULL)
---AND EXISTS (SELECT 1
---              FROM MediaPersonalRegions AS t2
---              WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND
---					MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND
---					MediaPersonalRegions.FileName = MediaMetadata.FileName AND 
---					MediaPersonalRegions.Name = "Lukas Nordlien")
-					
---AND EXISTS (SELECT 1
---              FROM MediaPersonalRegions AS t3
---              WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND
---					MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND
---					MediaPersonalRegions.FileName = MediaMetadata.FileName AND 
---					MediaPersonalRegions.Name = "Julie Monsen Nordlien")
-AND
-(
-(SELECT 1
-              FROM MediaPersonalRegions 
-              WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND
-					MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND
-					MediaPersonalRegions.FileName = MediaMetadata.FileName AND 
-					MediaPersonalRegions.Name = "Lukas Nordlien") = 1
-					
-OR 
-(SELECT 1
-              FROM MediaPersonalRegions 
-              WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND
-					MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND
-					MediaPersonalRegions.FileName = MediaMetadata.FileName AND 
-					MediaPersonalRegions.Name = "Julie Monsen Nordlien") = 1
-)
-AND
-(
-	(SELECT 1 
-	FROM MediaPersonalKeywords WHERE
-	MediaPersonalKeywords.Broker = MediaMetadata.Broker AND
-	MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND
-	MediaPersonalKeywords.FileName = MediaMetadata.FileName AND
-	MediaPersonalKeywords.Keyword LIKE "Sørenga") = 1
-
-	OR 
-		(SELECT 1 FROM MediaPersonalKeywords WHERE 
-	MediaPersonalKeywords.Broker = MediaMetadata.Broker AND
-	MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND
-	MediaPersonalKeywords.FileName = MediaMetadata.FileName AND
-	MediaPersonalKeywords.Keyword LIKE "Smile") = 1
-	OR 
-	(SELECT 1 FROM MediaPersonalKeywords WHERE 
-	MediaPersonalKeywords.Broker = MediaMetadata.Broker AND
-	MediaPersonalKeywords.FileDirectory = MediaMetadata.FileDirectory AND
-	MediaPersonalKeywords.FileName = MediaMetadata.FileName AND
-	MediaPersonalKeywords.Keyword IS NULL) = 1
-)
-					
-LIMIT 6000
-        */
         public List<string> ListAllSearch(MetadataBrokerTypes broker, bool useAndBetweenGrups,
             bool useMediaTakenFrom, DateTime mediaTakenFrom, bool useMediaTakenTo, DateTime mediaTakenTo, bool isMediaTakenNull,
             bool useAndBetweenTextTags,
@@ -902,7 +823,7 @@ LIMIT 6000
             bool checkIfHasExifWarning, int maxRowsInResult
             )
         {
-            
+
             List<string> listing = new List<string>();
 
             string sqlCommandBasicSelect = "SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName FROM MediaMetadata ";
@@ -916,13 +837,13 @@ LIMIT 6000
             #endregion
 
             #region Get only newest records, not historical
-            sqlCommandBasicSelect += "WHERE MediaMetadata.Broker = @Broker AND MediaMetadata.FileDateModified = (SELECT MAX(MediaMetadataNewst.FileDateModified) FROM MediaMetadata AS MediaMetadataNewst " + 
+            sqlCommandBasicSelect += "WHERE MediaMetadata.Broker = @Broker AND MediaMetadata.FileDateModified = (SELECT MAX(MediaMetadataNewst.FileDateModified) FROM MediaMetadata AS MediaMetadataNewst " +
                 "WHERE MediaMetadataNewst.Broker = MediaMetadata.Broker AND MediaMetadataNewst.FileDirectory = MediaMetadata.FileDirectory AND MediaMetadataNewst.FileName = MediaMetadata.FileName) ";
             #endregion
 
             #region DateTaken
-            if (useMediaTakenFrom && useMediaTakenTo) 
-                sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken <= @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") +") ";
+            if (useMediaTakenFrom && useMediaTakenTo)
+                sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "((MediaDateTaken >= @MediaDateTakenFrom AND MediaDateTaken <= @MediaDateTakenTo) " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
             else if (useMediaTakenFrom) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken >= @MediaDateTakenFrom " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
             else if (useMediaTakenTo) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "(MediaDateTaken <= @MediaDateTakenTo " + (isMediaTakenNull ? "OR MediaDateTaken IS NULL " : "") + ") ";
             else if (isMediaTakenNull) sqlCommandBasicSelect += (useAndBetweenGrups ? "AND " : "OR ") + "MediaDateTaken IS NULL ";
@@ -932,15 +853,15 @@ LIMIT 6000
 
             #region Text field tags
             string sqlTextTags = "";
-            if (usePersonalAlbum)       sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalAlbum == null ? "PersonalAlbum IS NULL " : "PersonalAlbum LIKE @PersonalAlbum ");
-            if (usePersonalTitle)       sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalTitle == null ? "PersonalTitle IS NULL " : "PersonalTitle LIKE @PersonalTitle ");
-            if (usePersonalComments)    sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalComments == null ? "PersonalComments IS NULL " : "PersonalComments LIKE @PersonalComments ");
+            if (usePersonalAlbum) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalAlbum == null ? "PersonalAlbum IS NULL " : "PersonalAlbum LIKE @PersonalAlbum ");
+            if (usePersonalTitle) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalTitle == null ? "PersonalTitle IS NULL " : "PersonalTitle LIKE @PersonalTitle ");
+            if (usePersonalComments) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalComments == null ? "PersonalComments IS NULL " : "PersonalComments LIKE @PersonalComments ");
             if (usePersonalDescription) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (personalDescription == null ? "PersonalDescription IS NULL " : "PersonalDescription LIKE @PersonalDescription ");
-            if (useLocationName)        sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationName == null ? "LocationName IS NULL " : "LocationName LIKE @LocationName ");
-            if (useLocationCity)        sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCity == null ? "LocationCity IS NULL " : "LocationCity LIKE @LocationCity ");
-            if (useLocationState)       sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationState == null ? "LocationState IS NULL " : "LocationState LIKE @LocationState ");
-            if (useLocationCountry)     sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCountry == null ? "LocationCountry IS NULL " : "LocationCountry LIKE @LocationCountry ");
-            if (sqlTextTags != "")      sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlTextTags + ") ";
+            if (useLocationName) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationName == null ? "LocationName IS NULL " : "LocationName LIKE @LocationName ");
+            if (useLocationCity) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCity == null ? "LocationCity IS NULL " : "LocationCity LIKE @LocationCity ");
+            if (useLocationState) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationState == null ? "LocationState IS NULL " : "LocationState LIKE @LocationState ");
+            if (useLocationCountry) sqlTextTags += (sqlTextTags == "" ? "" : useAndBetweenTextTags ? "AND " : "OR ") + (locationCountry == null ? "LocationCountry IS NULL " : "LocationCountry LIKE @LocationCountry ");
+            if (sqlTextTags != "") sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlTextTags + ") ";
             #endregion
 
             #region Rating
@@ -965,7 +886,7 @@ LIMIT 6000
                 string sqlRegionsNotInList = "";
                 if (withoutRegions)
                 {
-                    sqlRegionsNotInList  = 
+                    sqlRegionsNotInList =
                         "(SELECT 1 FROM MediaPersonalRegions WHERE MediaPersonalRegions.Broker = MediaMetadata.Broker AND " +
                         "MediaPersonalRegions.FileDirectory = MediaMetadata.FileDirectory AND " +
                         "MediaPersonalRegions.FileDateModified = MediaMetadata.FileDateModified AND " +
@@ -985,9 +906,9 @@ LIMIT 6000
                             "MediaPersonalRegions.Name " + (regionNameList[index] == null ? "IS NULL) = 1" : "LIKE @MediaPersonalRegionsName" + index.ToString() + ") = 1");
                     }
                 }
-                sqlRegionNames = 
-                    (sqlRegionsNotInList == "" ? "" : sqlRegionsNotInList) + 
-                    (sqlRegionsNotInList != "" && sqlRegionNames != "" ? " OR " : "") + 
+                sqlRegionNames =
+                    (sqlRegionsNotInList == "" ? "" : sqlRegionsNotInList) +
+                    (sqlRegionsNotInList != "" && sqlRegionNames != "" ? " OR " : "") +
                     (sqlRegionNames == "" ? "" : " (" + sqlRegionNames + ")");
 
                 sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + "(" + sqlRegionNames + ") ";
@@ -1022,9 +943,9 @@ LIMIT 6000
                     }
                 }
 
-                sqlKeywordList = 
-                    (sqlKeywordNotInList == "" ? "" : sqlKeywordNotInList) + 
-                    (sqlKeywordNotInList != "" && sqlKeywordList != "" ? " OR " : "") + 
+                sqlKeywordList =
+                    (sqlKeywordNotInList == "" ? "" : sqlKeywordNotInList) +
+                    (sqlKeywordNotInList != "" && sqlKeywordList != "" ? " OR " : "") +
                     (sqlKeywordList == "" ? "" : " (" + sqlKeywordList + ")");
 
                 sqlCommand += (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND " : "OR ") + " (" + sqlKeywordList + ") ";
@@ -1033,7 +954,7 @@ LIMIT 6000
 
             sqlCommand = sqlCommandBasicSelect + (sqlCommand == "" ? "" : useAndBetweenGrups ? "AND (" + sqlCommand + ") " : "OR (" + sqlCommand + ")");
             //sqlCommand = sqlCommandBasicSelect + (sqlCommand == "" ? "" : "AND (" + sqlCommand + ") ");  
-            
+
             #region Limit
             sqlCommand += "LIMIT " + maxRowsInResult.ToString();
             #endregion 
@@ -1051,7 +972,7 @@ LIMIT 6000
                 if (usePersonalAlbum) commandDatabase.Parameters.AddWithValue("@PersonalAlbum", personalAlbum);
                 if (usePersonalTitle) commandDatabase.Parameters.AddWithValue("@PersonalTitle", personalTitle);
                 if (usePersonalComments) commandDatabase.Parameters.AddWithValue("@PersonalComments", personalComments);
-                if (usePersonalDescription) commandDatabase.Parameters.AddWithValue("@PersonalDescription", personalDescription);             
+                if (usePersonalDescription) commandDatabase.Parameters.AddWithValue("@PersonalDescription", personalDescription);
                 if (useLocationName) commandDatabase.Parameters.AddWithValue("@LocationName", locationName);
                 if (useLocationCity) commandDatabase.Parameters.AddWithValue("@LocationCity", locationCity);
                 if (useLocationState) commandDatabase.Parameters.AddWithValue("@LocationState", locationState);
@@ -1061,7 +982,7 @@ LIMIT 6000
                 #region Region names
                 if (useRegionNameList && regionNameList != null && regionNameList.Count > 0)
                 {
-                    for (int index = 0; index < regionNameList.Count; index++) commandDatabase.Parameters.AddWithValue("@MediaPersonalRegionsName" + index.ToString(), regionNameList[index]);                    
+                    for (int index = 0; index < regionNameList.Count; index++) commandDatabase.Parameters.AddWithValue("@MediaPersonalRegionsName" + index.ToString(), regionNameList[index]);
                 }
                 #endregion
 
@@ -1142,7 +1063,7 @@ LIMIT 6000
             return listing;
         }
         #endregion
-        
+
         #region ListAllPersonalDescriptions()
         public List<string> ListAllPersonalDescriptions()
         {
@@ -1236,31 +1157,6 @@ LIMIT 6000
                     while (reader.Read())
                     {
                         listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAuthor"]));
-                    }
-                }
-            }
-            return listing;
-        }
-        #endregion
-
-        #region ListAllPersonalRegions()
-        public List<string> ListAllPersonalRegions()
-        {
-
-            List<string> listing = new List<string>();
-
-            string sqlCommand =
-                "SELECT DISTINCT Name FROM MediaPersonalRegions";
-
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                commandDatabase.Prepare();
-
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["Name"]));
                     }
                 }
             }
@@ -1366,14 +1262,186 @@ LIMIT 6000
             }
             return listing;
         }
-        #endregion 
+        #endregion
 
-        #region Cache
+
+        #region ListAllPersonalRegionNameCountCache
+        private Dictionary<string, int> metadataRegionNameCountCache = null;
+        private string FakeNullHack = "{21332312hkhkjhk233213hkh1223gjh2jr8}";
+
+        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCacheClear
+        public void ListAllPersonalRegionNameCountCacheClear()
+        {
+            metadataRegionNameCountCache = null;
+            metadataRegionNameCountCache = new Dictionary<string, int>();
+        }
+        #endregion
+
+        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCount
+        public Dictionary<string, int> ListAllPersonalRegionNameCount()
+        {
+            //Private due to fake null hack
+            Dictionary<string, int> metadataRegionNameCountDictionary = new Dictionary<string, int>();
+
+            string sqlCommand =
+                "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions GROUP BY Name";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string name = dbTools.ConvertFromDBValString(reader["Name"]);
+                        if (name == null) name = FakeNullHack;
+                        metadataRegionNameCountDictionary.Add(name, (int)dbTools.ConvertFromDBValInt(reader["CountNames"]));
+                    }
+                }
+            }
+            return metadataRegionNameCountDictionary;
+        }
+        #endregion
+
+        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCache
+        private Dictionary<string, int> ListAllPersonalRegionNameCountCache()
+        {
+            //Private due to fake null hack
+            if (metadataRegionNameCountCache == null) metadataRegionNameCountCache = ListAllPersonalRegionNameCount();
+            return metadataRegionNameCountCache;
+        }
+        #endregion
+
+        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCache
+        public List<string> ListAllPersonalRegionNameNotInListCache(List<string> namesdontIncludeList1, List<string> namesdontIncludeList2, int topCount)
+        {
+            List<string> list = new List<string>();
+            Dictionary<string, int> metadataRegionNameCountDictionary = ListAllPersonalRegionNameCountCache();
+
+            var ordered = metadataRegionNameCountDictionary.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+
+            int count = 0;
+            if (count < topCount)
+            {
+                foreach (KeyValuePair<string, int> keyValuePair in ordered)
+                {
+                    bool doNotInclude = false;
+                    string name = keyValuePair.Key;
+                    if (name == FakeNullHack) name = null; //Fix fake null hack
+                    if (namesdontIncludeList1 != null && namesdontIncludeList1.Contains(keyValuePair.Key)) doNotInclude = true;
+                    if (namesdontIncludeList2 != null && namesdontIncludeList2.Contains(keyValuePair.Key)) doNotInclude = true;
+                    if (!doNotInclude)
+                    {
+                        list.Add(keyValuePair.Key == FakeNullHack ? null : keyValuePair.Key);
+                        count++;
+                        if (count >= topCount) break;
+                    }
+                }
+            }
+            list.Sort();
+            return list;
+        }
+        #endregion
+
+        #region 
+        public List<string> ListAllPersonalRegionsCache()
+        {
+            return ListAllPersonalRegionNameNotInListCache(null, null, int.MaxValue);
+        }
+        #endregion
+
+        #endregion
+
+        #region MetadataRegionNamesCache
+        Dictionary<MetadataRegionNameKey, List<string>> metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, List<string>>();
+
+        #region MetadataRegionNamesCache - MetadataRegionNamesCacheClear
+        public void MetadataRegionNamesCacheClear()
+        {
+            metadataRegionNamesCache = null;
+            metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, List<string>>();
+        }
+        #endregion
+
+        #region MetadataRegionNamesCache - ListAllRegionNamesCache
+        public List<string> ListAllRegionNamesCache(MetadataBrokerTypes metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
+        {
+            MetadataRegionNameKey metadataRegionNameKey = new MetadataRegionNameKey(metadataBrokerType, dateTimeFrom, dateTimeTo);
+            
+            if (MetadataRegionNamesCacheContainsKey(metadataRegionNameKey)) return MetadataRegionNamesCacheGet(metadataRegionNameKey);
+
+            List<string> regionNames = ListAllRegionNames(metadataBrokerType, dateTimeFrom, dateTimeTo);
+            if (regionNames != null)
+            {
+                MetadataRegionNamesCacheUpdate(metadataRegionNameKey, regionNames);
+                return regionNames;
+            }
+            else return null;            
+        }
+        #endregion
+
+        #region MetadataRegionNamesCache - ListAllRegionNames
+        public List<string> ListAllRegionNames(MetadataBrokerTypes metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
+        {
+            List<string> listing = new List<string>();
+
+            string sqlCommand =
+                "SELECT DISTINCT Name FROM MediaPersonalRegions " +
+                "WHERE Broker = @Broker AND FileDateModified >= @FileDateModifiedFrom AND FileDateModified <= @FileDateModifiedTo";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
+                commandDatabase.Parameters.AddWithValue("@FileDateModifiedFrom", dbTools.ConvertFromDateTimeToDBVal(dateTimeFrom));
+                commandDatabase.Parameters.AddWithValue("@FileDateModifiedTo", dbTools.ConvertFromDateTimeToDBVal(dateTimeTo));
+
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listing.Add(dbTools.ConvertFromDBValString(reader["Name"]));
+                    }
+                }
+            }
+
+
+            return listing;
+        }
+        #endregion
+
+        #region MetadataRegionNamesCache - MetadataRegionNamesCacheContainsKey
+        private bool MetadataRegionNamesCacheContainsKey(MetadataRegionNameKey key)
+        {
+            return metadataRegionNamesCache.ContainsKey(key);
+        }
+        #endregion
+
+        #region MetadataRegionNamesCache - MetadataRegionNamesCacheGet
+        private List<string> MetadataRegionNamesCacheGet(MetadataRegionNameKey key)
+        {
+            return metadataRegionNamesCache[key];
+        }
+        #endregion
+
+        #region MetadataRegionNamesCache - MetadataRegionNamesCacheUpdate
+        private void MetadataRegionNamesCacheUpdate(MetadataRegionNameKey key, List<string> regionNames)
+        {
+            //Update cache
+            if (MetadataRegionNamesCacheContainsKey(key)) metadataRegionNamesCache[key] = regionNames;
+            else metadataRegionNamesCache.Add(key, regionNames);
+        }
+        #endregion
+
+        #endregion
+
+        #region Cache Metadata
         Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
 
-        public SqliteDatabaseUtilities DbTools { get => dbTools; set => dbTools = value; }
-
-        private void CacheUpdate(Metadata metadata)
+        #region Cache Metadata - Updated
+        private void MetadataCacheUpdate(Metadata metadata)
         {
             if (metadata.FileName == null)
             {
@@ -1393,59 +1461,61 @@ LIMIT 6000
                 metadataCache.Add(file, metadata);
             }
         }
+        #endregion 
 
-        private bool CacheContainsKey(FileEntryBroker file)
+        #region Cache Metadata - Contains Key
+        private bool MetadataCacheContainsKey(FileEntryBroker file)
         {
             return metadataCache.ContainsKey(file);
         }
+        #endregion 
 
-        private Metadata CacheGet(FileEntryBroker file)
+        #region Cache Metadata - Get
+        private Metadata MetadataCacheGet(FileEntryBroker file)
         {
             return metadataCache[file];
         }
+        #endregion 
 
-        public void CacheRemove(FileEntryBroker file)
+        #region Cache Metadata - Remove
+        public void MetadataCacheRemove(FileEntryBroker file)
         {
             if (file == null) return;
-            if (CacheContainsKey(file))
+            if (MetadataCacheContainsKey(file))
             {
                 metadataCache.Remove(file);
             }
         }
+        #endregion 
 
-        public void CacheRemove(FileEntryBroker[] files)
+        #region Cache Metadata - Remove
+        public void MetadataCacheRemove(FileEntryBroker[] files)
         {
             if (files == null) return;
             foreach (FileEntryBroker file in files)
             {
-                if (CacheContainsKey(file))
+                if (MetadataCacheContainsKey(file))
                 {
                     metadataCache.Remove(file);
                 }
             }
         }
+        #endregion 
 
-        public void ClearCache()
+        #region Cache Metadata - Read 
+        public Metadata MetadataCacheRead(FileEntryBroker file)
         {
-            metadataCache = null;
-            metadataCache = new Dictionary<FileEntryBroker, Metadata>();            
-        }
-
-        
-
-        public Metadata ReadCache(FileEntryBroker file)
-        {
-            if (CacheContainsKey(file))
+            if (MetadataCacheContainsKey(file))
             {
-                return CacheGet(file);
-            }
+                return MetadataCacheGet(file);
+            }          
 
             Metadata metadata;
 
             metadata = Read(file);
             if (metadata != null)
             {
-                CacheUpdate(metadata);
+                MetadataCacheUpdate(metadata);
                 return metadata;
             }
             else
@@ -1453,7 +1523,28 @@ LIMIT 6000
                 return null;
             }
         }
+        #endregion 
+
+        #region Cache Metadata - Clear
+        public void MetadataCacheClear()
+        {
+            metadataCache = null;
+            metadataCache = new Dictionary<FileEntryBroker, Metadata>();
+        }
+        #endregion 
+
         #endregion
+
+        #region Cache - Clear
+        public void ClearCache()
+        {
+            MetadataCacheClear();
+            MetadataRegionNamesCacheClear();
+            ListAllPersonalRegionNameCountCacheClear();
+        }
+        #endregion 
+
+        
 
     }
 }
