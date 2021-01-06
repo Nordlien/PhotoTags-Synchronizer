@@ -47,23 +47,26 @@ namespace PhotoTagsSynchronizer
 
         private static int AddRowRegion(DataGridView dataGridView, MetadataBrokerTypes metadataBrokerType, Metadata metadata, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow, RegionStructure regionStructureToAdd, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
         {
-            
+            #region Find Row to Edit or Where to add
             bool rowFound = false;
             int lastHeaderRowFound = -1;
+
+            bool rowBlankFound = false;
+            int firstBlankFound = -1;
             int rowIndexRowFound = -1;
 
             int startSearchRow = 0;
             for (int rowIndex = startSearchRow; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
                 DataGridViewGenericRow dataGridViewGenericRowCheck = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                object cellValue = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
 
                 if (!dataGridViewGenericRowCheck.IsHeader &&
-                        !dataGridViewGenericRow.IsHeader && //It correct row
+                        !dataGridViewGenericRow.IsHeader && //Is row
                         dataGridViewGenericRowCheck.HeaderName == dataGridViewGenericRow.HeaderName &&
                         dataGridViewGenericRowCheck.RowName == dataGridViewGenericRow.RowName)
                 {
                     //Check if region match
-                    object cellValue = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
 
                     if (regionStructureToAdd != null && cellValue != null && cellValue.GetType() == typeof(RegionStructure))
                     {
@@ -82,6 +85,12 @@ namespace PhotoTagsSynchronizer
                                 break; // return rowIndex;
                             }
                         }
+                    }
+
+                    if (cellValue == null)
+                    {
+                        rowBlankFound = true;
+                        if (firstBlankFound == -1) firstBlankFound = rowIndex;
                     }
                 }
 
@@ -104,21 +113,31 @@ namespace PhotoTagsSynchronizer
                     lastHeaderRowFound = rowIndex; //If lower or eaual, remeber last
                 #endregion 
             }
+            #endregion
 
+            #region Update row or Add
             int rowIndexUsed;
-            if (rowFound)
-            { 
+            if (rowFound) //Found row and cell with correct region
+            {
                 rowIndexUsed = rowIndexRowFound;
-                RegionStructure regionStructureInCell = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndexRowFound);
+                RegionStructure regionStructureInCell = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndexUsed);
                 if (regionStructureInCell == null || metadata.Broker == MetadataBrokerTypes.ExifTool)
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexRowFound, regionStructureToAdd); //Prioritize ExifTool
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexUsed, regionStructureToAdd); //Prioritize ExifTool
+            } 
+            else if (rowBlankFound) //Found row and but no cell with correct region
+            {
+                rowIndexUsed = firstBlankFound;
+                RegionStructure regionStructureInCell = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndexUsed);
+                if (regionStructureInCell == null || metadata.Broker == MetadataBrokerTypes.ExifTool)
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexUsed, regionStructureToAdd); //Prioritize ExifTool
             }
-            else
+            else //No postion found, add on soreted location
             {
                 //lastHeaderRowFound
                 rowIndexUsed = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericRow,
                 DataGridViewHandler.GetFavoriteList(dataGridView), regionStructureToAdd, dataGridViewGenericCellStatusDefaults, lastHeaderRowFound, true, true, true);
             }
+            #endregion 
 
             #region Set default Cell status
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndexUsed)); //Remember current status, in case of updates
@@ -128,8 +147,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndexUsed, dataGridViewGenericCellStatus);
             #endregion 
 
-
-            dataGridView.Rows[rowIndexUsed].Height = DataGridViewHandler.GetCellRowHeight(dataGridView);
+            DataGridViewHandler.SetCellRowHeight(dataGridView, rowIndexUsed, DataGridViewHandler.GetCellRowHeight(dataGridView));
             DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndexUsed, ""); //Clean first, avoid duplication
 
             #region Delete from suggestion

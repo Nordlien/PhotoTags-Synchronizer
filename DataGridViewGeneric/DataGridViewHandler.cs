@@ -580,6 +580,13 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region DataGridView Handling - SetCellRowHeight
+        public static void SetCellRowHeight(DataGridView dataGridView, int rowIndex, int height)
+        {
+            dataGridView.Rows[rowIndex].Height = height;
+        }
+        #endregion
+
         #region DataGridView Handling - GetDataGridSizeLargeMediumSmall
         public static DataGridViewSize GetDataGridSizeLargeMediumSmall(DataGridView dataGridView)
         {

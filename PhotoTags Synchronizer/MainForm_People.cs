@@ -96,12 +96,13 @@ namespace PhotoTagsSynchronizer
                 else
                 {
                     int selectedRow = selectedRows[0];
-                    
-                    if (DataGridViewHandler.GetCellReadOnly(dataGridView, e.ColumnIndex, selectedRow))
+                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, selectedRow);
+
+                    if (dataGridViewGenericRow == null || dataGridViewGenericRow.IsHeader)
                     {
                         MessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK);
                         return;
-                    }                    
+                    } 
                 }
 
                 Image image = dataGridViewGenericColumn.FileEntryImage.Image;
@@ -123,9 +124,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
         #region Cell header - Face region - CellMouseLeave
-
         private void dataGridViewPeople_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             if (drawingRegion)
@@ -179,14 +178,20 @@ namespace PhotoTagsSynchronizer
                             {
                                 Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryImage.FileFullPath);
 
-                                RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, cell.ColumnIndex, cell.RowIndex);
+                                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
+                                dataGridViewGenericRow.HeaderName = DataGridViewHandlerPeople.headerPeople;
+                                DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, cell.RowIndex, dataGridViewGenericRow);
+                                DataGridViewHandler.SetCellRowHeight(dataGridView, cell.RowIndex, DataGridViewHandler.GetCellRowHeight(dataGridView));
 
+                                RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, cell.ColumnIndex, cell.RowIndex);
                                 if (regionStructure != null)
                                 {
                                     if (imageCoverArt != null) regionStructure.Thumbnail = RegionThumbnailHandler.CopyRegionFromImage(imageCoverArt, regionStructure);
                                     else regionStructure.Thumbnail = (Image)Properties.Resources.FaceLoading;
                                 }
-                            }
+                                
+
+                            }                            
                         }
 
                         DataGridViewHandler.Refresh(dataGridView);
@@ -202,9 +207,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
         #region Cell header - Face region - CellMouseMove
-
         private void dataGridViewPeople_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -236,10 +239,10 @@ namespace PhotoTagsSynchronizer
         //Refesh 
         private void dataGridViewPeople_SelectionChanged(object sender, EventArgs e)
         {
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
-            Debug.WriteLine("Refresh");
-            DataGridViewHandler.Refresh(dataGridView);
+            //DataGridView dataGridView = ((DataGridView)sender);
+            //if (!dataGridView.Enabled) return;
+            //Debug.WriteLine("Refresh");
+            //DataGridViewHandler.Refresh(dataGridView);
         }
 
         public AutoCompleteStringCollection ClientListDropDown()

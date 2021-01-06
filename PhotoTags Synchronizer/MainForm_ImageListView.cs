@@ -37,7 +37,6 @@ namespace PhotoTagsSynchronizer
             }
             else
                 return null;
-
         }
 
         private Image LoadMediaCoverArtThumbnail(string fullFilePath, Size maxSize)
