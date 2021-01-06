@@ -154,6 +154,7 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.MaxRowsInSearchResult = (int)numericUpDownApplicationMaxRowsInSearchResult.Value;
             Properties.Settings.Default.SuggestRegionNameNearbyDays = (int)numericUpDownPeopleSuggestNameDaysInterval.Value;
             Properties.Settings.Default.SuggestRegionNameTopMostCount = (int)numericUpDownPeopleSuggestNameTopMost.Value;
+            Properties.Settings.Default.RegionMissmatchProcent = (float)numericUpDownRegionMissmatchProcent.Value;
 
             //AutoCorrect
             GetAutoCorrectPoperties();
@@ -214,6 +215,7 @@ namespace PhotoTagsSynchronizer
             numericUpDownApplicationMaxRowsInSearchResult.Value = Properties.Settings.Default.MaxRowsInSearchResult;
             numericUpDownPeopleSuggestNameDaysInterval.Value = Properties.Settings.Default.SuggestRegionNameNearbyDays;
             numericUpDownPeopleSuggestNameTopMost.Value = Properties.Settings.Default.SuggestRegionNameTopMostCount;
+            numericUpDownRegionMissmatchProcent.Value = (decimal)Properties.Settings.Default.RegionMissmatchProcent;
         }
         #endregion 
 
@@ -601,7 +603,7 @@ namespace PhotoTagsSynchronizer
                 if (!compositeList.Contains(metadataPrioityGroup.MetadataPriorityValues.Composite))
                 {
                     compositeList.Add(metadataPrioityGroup.MetadataPriorityValues.Composite);
-                    DataGridViewHandler.AddRow(dataGridView, columnIndex1, new DataGridViewGenericRow(metadataPrioityGroup.MetadataPriorityValues.Composite), true);
+                    DataGridViewHandler.AddRow(dataGridView, columnIndex1, new DataGridViewGenericRow(metadataPrioityGroup.MetadataPriorityValues.Composite), false);
                 }
             }
 
@@ -611,7 +613,7 @@ namespace PhotoTagsSynchronizer
                     metadataPrioityGroup.MetadataPriorityValues.Composite,
                     metadataPrioityGroup.MetadataPriorityKey.Region + " | " + metadataPrioityGroup.MetadataPriorityKey.Tag,
                     metadataPrioityGroup.MetadataPriorityKey),
-                    metadataPrioityGroup.MetadataPriorityValues.Priority, false, true);
+                    metadataPrioityGroup.MetadataPriorityValues.Priority, false, false);
             }
             isCellValueUpdating = false;
         }

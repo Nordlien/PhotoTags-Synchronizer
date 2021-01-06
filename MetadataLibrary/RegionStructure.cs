@@ -434,8 +434,10 @@ namespace MetadataLibrary
         private float areaHeight;      
         private String name;
         private RegionStructureTypes regionStructureType;
-        private Image thumbnail; 
-        
+        private Image thumbnail;
+        private static float acceptRegionMissmatchProcent = 0.3F;
+
+
         public string Type { get => type; set => type = value; }
         public float AreaX
         {
@@ -500,13 +502,17 @@ namespace MetadataLibrary
             rectangle.Height = (int)Math.Round((rectangle.Height / 10F));
             return rectangle;
         }
+        public static void SetAcceptRegionMissmatchProcent (float newAcceptRegionMissmatchProcent)
+        {
+            acceptRegionMissmatchProcent = newAcceptRegionMissmatchProcent;
+        }
 
         public static bool RectangleEqual(Rectangle mediaRectangleInput, Rectangle mediaRectangleCell)
         {
-            return Math.Abs(mediaRectangleInput.X - mediaRectangleCell.X) < (Math.Max(mediaRectangleInput.Width, mediaRectangleCell.Width) * 0.2) && //Allow 20% diffrent i region size
-                Math.Abs(mediaRectangleInput.Y - mediaRectangleCell.Y) < (Math.Max(mediaRectangleInput.Height, mediaRectangleCell.Height) * 0.2) &&
-                Math.Abs(mediaRectangleInput.Height - mediaRectangleCell.Height) < (Math.Max(mediaRectangleInput.Height, mediaRectangleCell.Height) * 0.2) &&
-                Math.Abs(mediaRectangleInput.Width - mediaRectangleCell.Width) < (Math.Max(mediaRectangleInput.Width, mediaRectangleCell.Width) * 0.2);
+            return Math.Abs(mediaRectangleInput.X - mediaRectangleCell.X) < (Math.Max(mediaRectangleInput.Width, mediaRectangleCell.Width) * acceptRegionMissmatchProcent) && //Allow 20% diffrent i region size
+                Math.Abs(mediaRectangleInput.Y - mediaRectangleCell.Y) < (Math.Max(mediaRectangleInput.Height, mediaRectangleCell.Height) * acceptRegionMissmatchProcent) &&
+                Math.Abs(mediaRectangleInput.Height - mediaRectangleCell.Height) < (Math.Max(mediaRectangleInput.Height, mediaRectangleCell.Height) * acceptRegionMissmatchProcent) &&
+                Math.Abs(mediaRectangleInput.Width - mediaRectangleCell.Width) < (Math.Max(mediaRectangleInput.Width, mediaRectangleCell.Width) * acceptRegionMissmatchProcent);
         }
 
         private static bool NameEqual(string stringThis, string stringCell)
@@ -549,6 +555,15 @@ namespace MetadataLibrary
                 if (RegionStructure.RectangleEqual(GetAbstractRectangle(), regionStructure.GetAbstractRectangle()) && NameEqual(Name, regionStructure.Name)) return true;
             }
             return false;
+        }
+
+        public int IndexOfRectangleInList(List<RegionStructure> regionStructures)
+        {
+            for (int index = 0; index < regionStructures.Count; index++)
+            {
+                if (RegionStructure.RectangleEqual(GetAbstractRectangle(), regionStructures[index].GetAbstractRectangle()) ) return index;
+            }
+            return -1;
         }
 
         public bool DoesThisNameExistInList(List<RegionStructure> regionStructures)

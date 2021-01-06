@@ -34,8 +34,8 @@ namespace PhotoTagsSynchronizer
         //Check what data has been updated by users
         public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntry fileEntryColumn)
         {
-            int keywordsStarts = DataGridViewHandler.GetRowHeadingItemStarts(dataGridView, headerKeywords);
-            int keywordsEnds = DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, headerKeywords);
+            int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, headerKeywords);
+            int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, headerKeywords);
 
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
             //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
@@ -113,7 +113,7 @@ namespace PhotoTagsSynchronizer
                         new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Undefine, true), true);
 
                     //Updated default cell status with new staus
-                    DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex);
+                    DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex));
 
                     dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
                     if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
@@ -123,8 +123,8 @@ namespace PhotoTagsSynchronizer
             }
 
             //If updated, check if any keyword are removed from the list
-            int keywordsStarts = DataGridViewHandler.GetRowHeadingItemStarts(dataGridView, headerKeywords);
-            int keywordsEnds = DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, headerKeywords);
+            int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, headerKeywords);
+            int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, headerKeywords);
             
             for (int rowIndex = keywordsStarts; rowIndex <= keywordsEnds; rowIndex++)
             {

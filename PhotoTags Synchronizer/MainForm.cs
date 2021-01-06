@@ -422,6 +422,7 @@ namespace PhotoTagsSynchronizer
             SplashForm.CloseForm();
 
             Properties.Settings.Default.Reload();
+            RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
 
             isFormLoading = true;
             this.Size = Properties.Settings.Default.MainFormSize;

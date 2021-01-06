@@ -1229,6 +1229,7 @@ namespace PhotoTagsSynchronizer
                 config.ShowDialog();
                 ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
                 databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
+                RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
             }
         }
         #endregion

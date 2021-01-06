@@ -232,9 +232,9 @@ namespace PhotoTagsSynchronizer
 
         }
 
-        private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow)
+        private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
         {
-            return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow);
+            return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, sort);
         }
 
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, bool cellReadOnly)
@@ -276,7 +276,7 @@ namespace PhotoTagsSynchronizer
             string filename = Path.GetFileName(fullFilePath);
 
             //Media
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory));
+            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory), true);
             AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory, filename, metadata), CreateNewFilename(RenameVaribale, filename, metadata), false);
 
 

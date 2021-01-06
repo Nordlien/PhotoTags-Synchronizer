@@ -60,7 +60,7 @@ namespace PhotoTagsSynchronizer
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, 0, dataGridView.Columns.Count - 1,
                 DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
-                DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
+                DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
 
@@ -158,7 +158,7 @@ namespace PhotoTagsSynchronizer
             ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(
                 dataGridView, 0, dataGridView.Columns.Count - 1,
                 DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
-                DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
+                DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
@@ -203,7 +203,7 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, 0, dataGridView.Columns.Count - 1,
                 DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
-                DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header), true);
+                DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true);
             ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;

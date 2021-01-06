@@ -1288,8 +1288,7 @@ namespace DataGridViewGeneric
                     if (!dataGridViewGenericRowCheck.IsHeader && 
                         !dataGridViewGenericRow.IsHeader && //It correct row
                         dataGridViewGenericRowCheck.HeaderName == dataGridViewGenericRow.HeaderName &&
-                        dataGridViewGenericRowCheck.RowName == dataGridViewGenericRow.RowName 
-                        )
+                        dataGridViewGenericRowCheck.RowName == dataGridViewGenericRow.RowName)
                     {
                         rowFound = true;
                         return rowIndex;
@@ -1312,7 +1311,7 @@ namespace DataGridViewGeneric
                         if (!dataGridViewGenericRow.IsHeader && //A normal row is add (not header)
                             !dataGridViewGenericRowCheck.IsHeader &&  //If header, then check if same header name
                             dataGridViewGenericRowCheck.HeaderName == dataGridViewGenericRow.HeaderName &&
-                            dataGridViewGenericRow.RowName.CompareTo(dataGridViewGenericRowCheck.RowName) >= 0)
+                            dataGridViewGenericRow.RowName.CompareTo(dataGridViewGenericRowCheck.RowName) >= 0) 
                             lastHeaderRowFound = rowIndex; //If lower or eaual, remeber last
                     }
                     else
@@ -1333,6 +1332,8 @@ namespace DataGridViewGeneric
             return lastHeaderRowFound;
         }
         #endregion
+
+        
 
         #region Rows handling - GetRowIndex
         public static int GetRowIndex(DataGridView dataGridView, DataGridViewGenericRow dataGridViewGenericRow)
@@ -1424,21 +1425,25 @@ namespace DataGridViewGeneric
         /// <param name="writeValue"></param>
         /// <returns></returns>
         public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow,
-            List<FavoriteRow> dataGridFavorites, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault, int startSearchRow, bool writeValue, bool sort)
+            List<FavoriteRow> dataGridFavorites, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault, int startSearchRow, bool writeValue, bool sort, bool forceAddAfterStartSearchRow = false)
         {
-            
-            int rowIndex = FindFileEntryRow(dataGridView, dataGridViewGenericRow, startSearchRow, sort, out bool rowFound);
+            bool rowFound;
+            int rowIndex;
+            if (forceAddAfterStartSearchRow) 
+            {
+                rowIndex = startSearchRow;
+                rowFound = false;
+            }
+            else rowIndex = FindFileEntryRow(dataGridView, dataGridViewGenericRow, startSearchRow, sort, out rowFound);
 
-            DataGridViewGenericRow dataGridViewGenericRowCheck = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-            /*if (rowIndex == -1 ||
-                dataGridViewGenericRowCheck.IsHeader != dataGridViewGenericRow.IsHeader ||
-                dataGridViewGenericRowCheck.HeaderName != dataGridViewGenericRow.HeaderName ||
-                dataGridViewGenericRowCheck.RowName != dataGridViewGenericRow.RowName)*/
             if (!rowFound) //If not found, add a new row
             {
-                if (rowIndex == -1 && !sort) rowIndex = GetRowCountWithoutEditRow(dataGridView) - 1; //If not sorting, add last line
-                
-                rowIndex++;
+                if (rowIndex == -1)
+                { 
+                    if (sort) rowIndex = startSearchRow; //if sorting, add in begging of search
+                    else rowIndex = GetRowCountWithoutEditRow(dataGridView); //If not sorting, add last line
+                } 
+                else rowIndex++; //add row after found line
 
                 dataGridView.Rows.Insert(rowIndex, 1);
                 SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, dataGridViewGenericRow);
@@ -1520,25 +1525,32 @@ namespace DataGridViewGeneric
 
         #region Row handling - Favorite handling
 
+        #region Row handling - Favorite handling - GetFavoriteList
         public static List<FavoriteRow> GetFavoriteList(DataGridView dataGridView)
         {
             return GetDataGridViewGenericData(dataGridView)?.FavoriteList;
         }
+        #endregion
 
+        #region Row handling - Favorite handling - SetFavoriteList
         public static void SetFavoriteList(DataGridView dataGridView, List<FavoriteRow> dataGridFavoriteList)
         {
             DataGridViewGenericData dataGridViewGenericData = GetDataGridViewGenericData(dataGridView);
             if (dataGridViewGenericData == null) return;
             dataGridViewGenericData.FavoriteList = dataGridFavoriteList;
         }
+        #endregion
 
+        #region Row handling - Favorite handling - CreateFavoriteFilename
         private static string CreateFavoriteFilename(string dataGridViewName)
         {
             string jsonPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
             if (!Directory.Exists(jsonPath)) Directory.CreateDirectory(jsonPath);
             return Path.Combine(jsonPath, "Favourite." + dataGridViewName + ".json");
         }
+        #endregion
 
+        #region Row handling - Favorite handling - FavouriteRead
         public static List<FavoriteRow> FavouriteRead(string filename)
         {
             List<FavoriteRow> favouriteRows = new List<FavoriteRow>();
@@ -1548,18 +1560,23 @@ namespace DataGridViewGeneric
             }
             return favouriteRows;
         }
+        #endregion
 
+        #region Row handling - Favorite handling - FavouriteWrite
         public static void FavouriteWrite(string filename, List<FavoriteRow> favouriteRows)
         {
             File.WriteAllText(filename, JsonConvert.SerializeObject(favouriteRows, Newtonsoft.Json.Formatting.Indented));
         }
+        #endregion
 
+        #region Row handling - Favorite handling - FavouriteWrite
         public static void FavouriteWrite(DataGridView dataGridView, List<FavoriteRow> favouriteRows)
         {
             FavouriteWrite(CreateFavoriteFilename(GetDataGridViewName(dataGridView)), favouriteRows);
         }
+        #endregion
 
-
+        #region Row handling - Favorite handling - ActionSetRowsFavouriteState
         public static void ActionSetRowsFavouriteState(DataGridView dataGridView, NewState newState)
         {
             List<FavoriteRow> favouriteRows = GetFavoriteList(dataGridView);
@@ -1603,18 +1620,23 @@ namespace DataGridViewGeneric
             SetFavoriteList(dataGridView, favouriteRows);
 
         }
+        #endregion
 
+        #region Row handling - Favorite handling - SetRowFavoriteFlag
         public static void SetRowFavoriteFlag(DataGridView dataGridView, int rowIndex)
         {
             SetRowFavoriteFlag(dataGridView, rowIndex, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        #endregion
 
+        #region Row handling - Favorite handling - SetRowFavoriteFlag
         private static void SetRowFavoriteFlag(DataGridView dataGridView, int rowIndex, List<FavoriteRow> dataGridFavorites)
         {
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
 
             dataGridViewGenericRow.IsFavourite = dataGridFavorites.Contains(new FavoriteRow(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName, dataGridViewGenericRow.IsHeader));
         }
+        #endregion
 
         #endregion
 
@@ -2167,8 +2189,8 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region TriState handeling - GetRowHeadingItemStarts
-        public static int GetRowHeadingItemStarts(DataGridView dataGridView, string header)
+        #region TriState handeling - GetRowHeaderItemStarts
+        public static int GetRowHeaderItemStarts(DataGridView dataGridView, string header)
         {
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, header);
             if (rowIndex > -1) return rowIndex + 1;
@@ -2177,13 +2199,33 @@ namespace DataGridViewGeneric
         #endregion
 
         #region TriState handeling - GetRowHeadingItemsEnds
-        public static int GetRowHeadingItemsEnds(DataGridView dataGridView, string header)
+        public static int GetRowHeaderItemsEnds(DataGridView dataGridView, string header)
         {
             for (int rowIndex = DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView) - 1; rowIndex > -1 ; rowIndex--)
             {
                 DataGridViewGenericRow dataGridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
                 if (dataGridViewGenericDataRow != null &&
                     !dataGridViewGenericDataRow.IsHeader &&
+                    dataGridViewGenericDataRow.HeaderName.Equals(header))
+                {
+                    if (dataGridView.AllowUserToAddRows && rowIndex == dataGridView.RowCount)
+                        return rowIndex - 1;
+                    else
+                        return rowIndex;
+                }
+            }
+
+            return -1;
+        }
+        #endregion
+
+        #region TriState handeling - GetRowHeaderLast
+        public static int GetRowHeaderLast(DataGridView dataGridView, string header)
+        {
+            for (int rowIndex = DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView) - 1; rowIndex > -1; rowIndex--)
+            {
+                DataGridViewGenericRow dataGridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                if (dataGridViewGenericDataRow != null &&
                     dataGridViewGenericDataRow.HeaderName.Equals(header))
                 {
                     if (dataGridView.AllowUserToAddRows && rowIndex == dataGridView.RowCount)
@@ -2450,8 +2492,8 @@ namespace DataGridViewGeneric
             if (gridViewGenericDataRow == null) return updatedCells; //Don't paint anything TriState on "New Empty Row" for "new Keywords"
 
             int keywordHeaderStart = DataGridViewHandler.GetRowHeadingIndex(dataGridView, header);
-            int keywordsStarts = DataGridViewHandler.GetRowHeadingItemStarts(dataGridView, header);
-            int keywordsEnds = DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header);
+            int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, header);
+            int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header);
 
             if (gridViewGenericDataRow.HeaderName.Equals(header))
             {
@@ -3208,7 +3250,7 @@ namespace DataGridViewGeneric
             //If keywords row
             if (gridViewGenericDataRow.HeaderName.Equals(header))
             {
-                int keywordsStarts = DataGridViewHandler.GetRowHeadingItemStarts(dataGridView, header);
+                int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, header);
 
                 if (e.ColumnIndex > -1) //Row title clicked, Don't show icon over inputbox
                 {

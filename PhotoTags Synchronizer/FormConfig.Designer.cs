@@ -35,6 +35,17 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig = new System.Windows.Forms.TabControl();
             this.tabPageApplication = new System.Windows.Forms.TabPage();
             this.panelApplication = new System.Windows.Forms.Panel();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label44 = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.numericUpDownRegionMissmatchProcent = new System.Windows.Forms.NumericUpDown();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label42 = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.numericUpDownPeopleSuggestNameTopMost = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownPeopleSuggestNameDaysInterval = new System.Windows.Forms.NumericUpDown();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.numericUpDownApplicationMaxRowsInSearchResult = new System.Windows.Forms.NumericUpDown();
             this.label38 = new System.Windows.Forms.Label();
@@ -199,16 +210,14 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.numericUpDownPeopleSuggestNameDaysInterval = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownPeopleSuggestNameTopMost = new System.Windows.Forms.NumericUpDown();
-            this.label39 = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
-            this.label41 = new System.Windows.Forms.Label();
-            this.label42 = new System.Windows.Forms.Label();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRegionMissmatchProcent)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameTopMost)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameDaysInterval)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownApplicationMaxRowsInSearchResult)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -246,9 +255,6 @@ namespace PhotoTagsSynchronizer
             this.tabPageShowPipe32Log.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowPipe32Log)).BeginInit();
             this.panelAvoidResizeIssues.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameDaysInterval)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameTopMost)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControlConfig
@@ -285,6 +291,7 @@ namespace PhotoTagsSynchronizer
             // panelApplication
             // 
             this.panelApplication.BackColor = System.Drawing.Color.Transparent;
+            this.panelApplication.Controls.Add(this.groupBox5);
             this.panelApplication.Controls.Add(this.groupBox4);
             this.panelApplication.Controls.Add(this.groupBox3);
             this.panelApplication.Controls.Add(this.groupBox2);
@@ -294,6 +301,157 @@ namespace PhotoTagsSynchronizer
             this.panelApplication.Name = "panelApplication";
             this.panelApplication.Size = new System.Drawing.Size(766, 748);
             this.panelApplication.TabIndex = 0;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.label44);
+            this.groupBox5.Controls.Add(this.label43);
+            this.groupBox5.Controls.Add(this.numericUpDownRegionMissmatchProcent);
+            this.groupBox5.Location = new System.Drawing.Point(3, 452);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(760, 85);
+            this.groupBox5.TabIndex = 10;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Region";
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(6, 25);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(578, 17);
+            this.label44.TabIndex = 2;
+            this.label44.Text = "When region from diffrent AI engines find e.g. face, they don\'t have excat same r" +
+    "egion size";
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(6, 52);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(153, 17);
+            this.label43.TabIndex = 1;
+            this.label43.Text = "Accept region as equal";
+            // 
+            // numericUpDownRegionMissmatchProcent
+            // 
+            this.numericUpDownRegionMissmatchProcent.DecimalPlaces = 2;
+            this.numericUpDownRegionMissmatchProcent.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.numericUpDownRegionMissmatchProcent.Location = new System.Drawing.Point(183, 50);
+            this.numericUpDownRegionMissmatchProcent.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownRegionMissmatchProcent.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.numericUpDownRegionMissmatchProcent.Name = "numericUpDownRegionMissmatchProcent";
+            this.numericUpDownRegionMissmatchProcent.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownRegionMissmatchProcent.TabIndex = 0;
+            this.numericUpDownRegionMissmatchProcent.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            65536});
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.label42);
+            this.groupBox4.Controls.Add(this.label41);
+            this.groupBox4.Controls.Add(this.label40);
+            this.groupBox4.Controls.Add(this.label39);
+            this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameTopMost);
+            this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
+            this.groupBox4.Location = new System.Drawing.Point(3, 361);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(760, 85);
+            this.groupBox4.TabIndex = 9;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Region Name suggestions (People Face names)";
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(309, 51);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(291, 17);
+            this.label42.TabIndex = 11;
+            this.label42.Text = "Show most common names not already listed";
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(309, 23);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(356, 17);
+            this.label41.TabIndex = 10;
+            this.label41.Text = "Show names used in other media files with date interval";
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(6, 51);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(169, 17);
+            this.label40.TabIndex = 3;
+            this.label40.Text = "Number of most common:";
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(5, 23);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(112, 17);
+            this.label39.TabIndex = 2;
+            this.label39.Text = "Number of days:";
+            // 
+            // numericUpDownPeopleSuggestNameTopMost
+            // 
+            this.numericUpDownPeopleSuggestNameTopMost.Location = new System.Drawing.Point(183, 49);
+            this.numericUpDownPeopleSuggestNameTopMost.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.numericUpDownPeopleSuggestNameTopMost.Name = "numericUpDownPeopleSuggestNameTopMost";
+            this.numericUpDownPeopleSuggestNameTopMost.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownPeopleSuggestNameTopMost.TabIndex = 1;
+            this.numericUpDownPeopleSuggestNameTopMost.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownPeopleSuggestNameDaysInterval
+            // 
+            this.numericUpDownPeopleSuggestNameDaysInterval.Location = new System.Drawing.Point(183, 21);
+            this.numericUpDownPeopleSuggestNameDaysInterval.Maximum = new decimal(new int[] {
+            365,
+            0,
+            0,
+            0});
+            this.numericUpDownPeopleSuggestNameDaysInterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownPeopleSuggestNameDaysInterval.Name = "numericUpDownPeopleSuggestNameDaysInterval";
+            this.numericUpDownPeopleSuggestNameDaysInterval.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownPeopleSuggestNameDaysInterval.TabIndex = 0;
+            this.numericUpDownPeopleSuggestNameDaysInterval.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // groupBox3
             // 
@@ -2541,98 +2699,6 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(778, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Controls.Add(this.label42);
-            this.groupBox4.Controls.Add(this.label41);
-            this.groupBox4.Controls.Add(this.label40);
-            this.groupBox4.Controls.Add(this.label39);
-            this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameTopMost);
-            this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
-            this.groupBox4.Location = new System.Drawing.Point(3, 361);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(760, 85);
-            this.groupBox4.TabIndex = 9;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Region Name suggestions (People Face names)";
-            // 
-            // numericUpDownPeopleSuggestNameDaysInterval
-            // 
-            this.numericUpDownPeopleSuggestNameDaysInterval.Location = new System.Drawing.Point(183, 21);
-            this.numericUpDownPeopleSuggestNameDaysInterval.Maximum = new decimal(new int[] {
-            365,
-            0,
-            0,
-            0});
-            this.numericUpDownPeopleSuggestNameDaysInterval.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownPeopleSuggestNameDaysInterval.Name = "numericUpDownPeopleSuggestNameDaysInterval";
-            this.numericUpDownPeopleSuggestNameDaysInterval.Size = new System.Drawing.Size(120, 22);
-            this.numericUpDownPeopleSuggestNameDaysInterval.TabIndex = 0;
-            this.numericUpDownPeopleSuggestNameDaysInterval.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // numericUpDownPeopleSuggestNameTopMost
-            // 
-            this.numericUpDownPeopleSuggestNameTopMost.Location = new System.Drawing.Point(183, 49);
-            this.numericUpDownPeopleSuggestNameTopMost.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.numericUpDownPeopleSuggestNameTopMost.Name = "numericUpDownPeopleSuggestNameTopMost";
-            this.numericUpDownPeopleSuggestNameTopMost.Size = new System.Drawing.Size(120, 22);
-            this.numericUpDownPeopleSuggestNameTopMost.TabIndex = 1;
-            this.numericUpDownPeopleSuggestNameTopMost.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // label39
-            // 
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(5, 23);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(112, 17);
-            this.label39.TabIndex = 2;
-            this.label39.Text = "Number of days:";
-            // 
-            // label40
-            // 
-            this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(6, 51);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(169, 17);
-            this.label40.TabIndex = 3;
-            this.label40.Text = "Number of most common:";
-            // 
-            // label41
-            // 
-            this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(309, 23);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(356, 17);
-            this.label41.TabIndex = 10;
-            this.label41.Text = "Show names used in other media files with date interval";
-            // 
-            // label42
-            // 
-            this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(309, 51);
-            this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(291, 17);
-            this.label42.TabIndex = 11;
-            this.label42.Text = "Show most common names not already listed";
-            // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2647,6 +2713,13 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.ResumeLayout(false);
             this.tabPageApplication.ResumeLayout(false);
             this.panelApplication.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRegionMissmatchProcent)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameTopMost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameDaysInterval)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownApplicationMaxRowsInSearchResult)).EndInit();
@@ -2703,10 +2776,6 @@ namespace PhotoTagsSynchronizer
             this.tabPageShowPipe32Log.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowPipe32Log)).EndInit();
             this.panelAvoidResizeIssues.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameDaysInterval)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameTopMost)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2887,5 +2956,9 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.NumericUpDown numericUpDownPeopleSuggestNameTopMost;
         private System.Windows.Forms.NumericUpDown numericUpDownPeopleSuggestNameDaysInterval;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.NumericUpDown numericUpDownRegionMissmatchProcent;
     }
 }

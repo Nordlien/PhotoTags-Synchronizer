@@ -47,7 +47,7 @@ namespace MetadataLibrary
         }
 
         public Metadata(Metadata metadata)
-        {
+        {            
             errors = metadata.errors;
 
             //Broker
@@ -554,6 +554,69 @@ namespace MetadataLibrary
             if (!regionStructure.DoesThisRectangleAndNameExistInList(personalRegionList)) personalRegionList.Add(regionStructure);
         }
 
+        public void PersonalRegionRemoveNamelessDoubleRegions(List<RegionStructure> removeFromThisRegionStructures)
+        {            
+            bool foundRegion;
+            do
+            {
+                foundRegion = false;
+                int indexChecking = -1;
+                int indexFoundLocal = -1;
+
+                for (int indexSearch = 0; indexSearch < removeFromThisRegionStructures.Count; indexSearch++)
+                {
+                    if (string.IsNullOrWhiteSpace(removeFromThisRegionStructures[indexSearch].Name))
+                    {
+                        indexFoundLocal = removeFromThisRegionStructures[indexSearch].IndexOfRectangleInList(PersonalRegionList);
+
+                        if (indexFoundLocal != -1 && !string.IsNullOrWhiteSpace(PersonalRegionList[indexFoundLocal].Name))
+                        {
+                            indexChecking = indexSearch;
+                            break;
+                        }
+                    }
+                }
+
+                if (indexChecking != -1 && indexFoundLocal != -1)
+                {
+                    removeFromThisRegionStructures.RemoveAt(indexChecking);
+                    foundRegion = true;
+                }
+            } while (foundRegion);
+
+        }
+
+        public void PersonalRegionSetNamelessRegions(List<RegionStructure> updateNameOnThisRegionStructures)
+        {
+            bool foundRegion;
+            do
+            {
+                foundRegion = false;
+                int indexChecking = -1;
+                int indexFoundLocal = -1;
+
+                for (int indexSearch = 0; indexSearch < updateNameOnThisRegionStructures.Count; indexSearch++)
+                {
+                    if (string.IsNullOrWhiteSpace(updateNameOnThisRegionStructures[indexSearch].Name))
+                    {
+                        indexFoundLocal = updateNameOnThisRegionStructures[indexSearch].IndexOfRectangleInList(PersonalRegionList);
+
+                        if (indexFoundLocal != -1 && !string.IsNullOrWhiteSpace(PersonalRegionList[indexFoundLocal].Name))
+                        {
+                            indexChecking = indexSearch;
+                            break;
+                        }
+                    }
+                }
+
+                if (indexChecking != -1 && indexFoundLocal != -1)
+                {
+                    updateNameOnThisRegionStructures[indexChecking].Name = PersonalRegionList[indexFoundLocal].Name;
+                    foundRegion = true;
+                }
+            } while (foundRegion);
+            
+        }
 
         public void PersonalRegionListAddIfNameNotExists(RegionStructure regionStructure)
         {

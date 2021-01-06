@@ -21,7 +21,7 @@ namespace PhotoTagsSynchronizer
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
-            int keywordsStarts = DataGridViewHandler.GetRowHeadingItemStarts(dataGridView, header);
+            int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, header);
             int lastRowEdit = DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView);
 
             if (e.RowIndex >= keywordsStarts)
@@ -44,8 +44,8 @@ namespace PhotoTagsSynchronizer
             bool foundTagBefore;
             int number = 0;
 
-            int keywordsStarts = DataGridViewHandler.GetRowHeadingItemStarts(dataGridView, header);
-            int keywordsEnds = DataGridViewHandler.GetRowHeadingItemsEnds(dataGridView, header);
+            int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, header);
+            int keywordsEnds = DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header);
 
             do
             {
@@ -68,7 +68,7 @@ namespace PhotoTagsSynchronizer
         private void ValitedatePaste(DataGridView dataGridView, string header)
         {
             //int keywordsHeadingIndex = DataGridViewHandler.GetRowHeadingIndex(dataGridView, header);
-            int keywordsStarts = DataGridViewHandler.GetRowHeadingItemStarts(dataGridView, header);
+            int keywordsStarts = DataGridViewHandler.GetRowHeaderItemStarts(dataGridView, header);
 
             int rowIndex = keywordsStarts;
             while (rowIndex < DataGridViewHandler.GetRowCount(dataGridView) - 1) 

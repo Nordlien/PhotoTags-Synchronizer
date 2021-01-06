@@ -799,5 +799,8 @@ filename=UTF8
     <Setting Name="SuggestRegionNameNearbyDays" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="RegionMissmatchProcent" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
