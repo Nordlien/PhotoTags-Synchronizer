@@ -802,5 +802,10 @@ filename=UTF8
     <Setting Name="RegionMissmatchProcent" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.3</Value>
     </Setting>
+    <Setting Name="PeopleRename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Unknown 1
+Unknown 2
+Unknown 3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

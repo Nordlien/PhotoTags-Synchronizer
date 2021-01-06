@@ -1309,5 +1309,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["RegionMissmatchProcent"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Unknown 1\r\nUnknown 2\r\nUnknown 3")]
+        public string PeopleRename {
+            get {
+                return ((string)(this["PeopleRename"]));
+            }
+            set {
+                this["PeopleRename"] = value;
+            }
+        }
     }
 }

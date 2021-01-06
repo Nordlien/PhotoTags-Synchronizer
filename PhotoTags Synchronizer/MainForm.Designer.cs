@@ -173,9 +173,13 @@ namespace PhotoTagsSynchronizer
             this.tabPagePeople = new System.Windows.Forms.TabPage();
             this.dataGridViewPeople = new System.Windows.Forms.DataGridView();
             this.contextMenuStripPeople = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.peopleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleRenameFromLast1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleRenameFromLast2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleRenameFromLast3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleRenameFromMostUsed = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleRenameFromAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemPeopleSelected = new System.Windows.Forms.ToolStripMenuItem();
-            this.meToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleRenameSelected = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeoplePaste = new System.Windows.Forms.ToolStripMenuItem();
@@ -1926,9 +1930,9 @@ namespace PhotoTagsSynchronizer
             // tabPagePeople
             // 
             this.tabPagePeople.Controls.Add(this.dataGridViewPeople);
-            this.tabPagePeople.Location = new System.Drawing.Point(4, 26);
+            this.tabPagePeople.Location = new System.Drawing.Point(4, 25);
             this.tabPagePeople.Name = "tabPagePeople";
-            this.tabPagePeople.Size = new System.Drawing.Size(537, 862);
+            this.tabPagePeople.Size = new System.Drawing.Size(537, 863);
             this.tabPagePeople.TabIndex = 2;
             this.tabPagePeople.Tag = "People";
             this.tabPagePeople.Text = "People";
@@ -1946,7 +1950,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewPeople.Name = "dataGridViewPeople";
             this.dataGridViewPeople.RowHeadersWidth = 51;
             this.dataGridViewPeople.RowTemplate.Height = 24;
-            this.dataGridViewPeople.Size = new System.Drawing.Size(534, 866);
+            this.dataGridViewPeople.Size = new System.Drawing.Size(534, 867);
             this.dataGridViewPeople.TabIndex = 0;
             this.dataGridViewPeople.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPeople_CellBeginEdit);
             this.dataGridViewPeople.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPeople_CellMouseClick);
@@ -1964,7 +1968,11 @@ namespace PhotoTagsSynchronizer
             // 
             this.contextMenuStripPeople.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripPeople.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.peopleToolStripMenuItem,
+            this.toolStripMenuItemPeopleRenameFromLast1,
+            this.toolStripMenuItemPeopleRenameFromLast2,
+            this.toolStripMenuItemPeopleRenameFromLast3,
+            this.toolStripMenuItemPeopleRenameFromMostUsed,
+            this.toolStripMenuItemPeopleRenameFromAll,
             this.toolStripMenuItemPeopleCut,
             this.toolStripMenuItemPeopleCopy,
             this.toolStripMenuItemPeoplePaste,
@@ -1983,16 +1991,46 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleSelectPeopleTag,
             this.toolStripMenuItemPeopleRemovePeopleTag});
             this.contextMenuStripPeople.Name = "contextMenuStripMap";
-            this.contextMenuStripPeople.Size = new System.Drawing.Size(368, 472);
+            this.contextMenuStripPeople.Size = new System.Drawing.Size(368, 576);
             // 
-            // peopleToolStripMenuItem
+            // toolStripMenuItemPeopleRenameFromLast1
             // 
-            this.peopleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemPeopleRenameFromLast1.Name = "toolStripMenuItemPeopleRenameFromLast1";
+            this.toolStripMenuItemPeopleRenameFromLast1.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleRenameFromLast1.Tag = "Unknown 1";
+            this.toolStripMenuItemPeopleRenameFromLast1.Text = "Rename #1 - Unknown 1";
+            this.toolStripMenuItemPeopleRenameFromLast1.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameFromLast1_Click);
+            // 
+            // toolStripMenuItemPeopleRenameFromLast2
+            // 
+            this.toolStripMenuItemPeopleRenameFromLast2.Name = "toolStripMenuItemPeopleRenameFromLast2";
+            this.toolStripMenuItemPeopleRenameFromLast2.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleRenameFromLast2.Tag = "Unknown 2";
+            this.toolStripMenuItemPeopleRenameFromLast2.Text = "Rename #2 - Unknown 2";
+            this.toolStripMenuItemPeopleRenameFromLast2.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameFromLast2_Click);
+            // 
+            // toolStripMenuItemPeopleRenameFromLast3
+            // 
+            this.toolStripMenuItemPeopleRenameFromLast3.Name = "toolStripMenuItemPeopleRenameFromLast3";
+            this.toolStripMenuItemPeopleRenameFromLast3.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleRenameFromLast3.Tag = "Unknown 3";
+            this.toolStripMenuItemPeopleRenameFromLast3.Text = "Rename #3 - Unknown 3";
+            this.toolStripMenuItemPeopleRenameFromLast3.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameFromLast3_Click);
+            // 
+            // toolStripMenuItemPeopleRenameFromMostUsed
+            // 
+            this.toolStripMenuItemPeopleRenameFromMostUsed.Name = "toolStripMenuItemPeopleRenameFromMostUsed";
+            this.toolStripMenuItemPeopleRenameFromMostUsed.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleRenameFromMostUsed.Text = "Rename - From most used";
+            // 
+            // toolStripMenuItemPeopleRenameFromAll
+            // 
+            this.toolStripMenuItemPeopleRenameFromAll.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemPeopleSelected,
-            this.meToolStripMenuItem});
-            this.peopleToolStripMenuItem.Name = "peopleToolStripMenuItem";
-            this.peopleToolStripMenuItem.Size = new System.Drawing.Size(367, 26);
-            this.peopleToolStripMenuItem.Text = "People";
+            this.toolStripMenuItemPeopleRenameSelected});
+            this.toolStripMenuItemPeopleRenameFromAll.Name = "toolStripMenuItemPeopleRenameFromAll";
+            this.toolStripMenuItemPeopleRenameFromAll.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleRenameFromAll.Text = "Rename - List all";
             // 
             // ToolStripMenuItemPeopleSelected
             // 
@@ -2000,11 +2038,12 @@ namespace PhotoTagsSynchronizer
             this.ToolStripMenuItemPeopleSelected.Size = new System.Drawing.Size(163, 26);
             this.ToolStripMenuItemPeopleSelected.Text = "(Unknown)";
             // 
-            // meToolStripMenuItem
+            // toolStripMenuItemPeopleRenameSelected
             // 
-            this.meToolStripMenuItem.Name = "meToolStripMenuItem";
-            this.meToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
-            this.meToolStripMenuItem.Text = "Me";
+            this.toolStripMenuItemPeopleRenameSelected.Name = "toolStripMenuItemPeopleRenameSelected";
+            this.toolStripMenuItemPeopleRenameSelected.Size = new System.Drawing.Size(163, 26);
+            this.toolStripMenuItemPeopleRenameSelected.Text = "Me";
+            this.toolStripMenuItemPeopleRenameSelected.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
             // 
             // toolStripMenuItemPeopleCut
             // 
@@ -3595,9 +3634,9 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.TabPage tabPageFilterFolder;
         private System.Windows.Forms.TabPage tabPageFilterTags;
         private System.Windows.Forms.TreeView treeViewFilter;
-        private System.Windows.Forms.ToolStripMenuItem peopleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromAll;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPeopleSelected;
-        private System.Windows.Forms.ToolStripMenuItem meToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameSelected;
         private System.Windows.Forms.ToolStripButton toolStripButtonErrorColumns;
         private System.Windows.Forms.ToolStripButton toolStripButtonHistortyColumns;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
@@ -3710,6 +3749,10 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.CheckBox checkBoxSearchWithoutRegions;
         private System.Windows.Forms.CheckBox checkBoxSearchUseAndBetweenTextTagFields;
         private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromMostUsed;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast3;
     }
 }
 

@@ -326,6 +326,7 @@ namespace PhotoTagsSynchronizer
                 AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed), false);
                 foreach (string regionName in regioNamesTopMost)
                 {
+
                     AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed, regionName), true);
                 }
             }

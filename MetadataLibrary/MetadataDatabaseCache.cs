@@ -1313,8 +1313,15 @@ namespace MetadataLibrary
         }
         #endregion
 
+        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameTopCountCache
+        public List<string> ListAllPersonalRegionNameTopCountCache(int topCount)
+        {
+            return ListAllPersonalRegionNameNotInListCache(null, null, topCount, false);
+        }
+        #endregion
+
         #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCache
-        public List<string> ListAllPersonalRegionNameNotInListCache(List<string> namesdontIncludeList1, List<string> namesdontIncludeList2, int topCount)
+        public List<string> ListAllPersonalRegionNameNotInListCache(List<string> namesdontIncludeList1, List<string> namesdontIncludeList2, int topCount, bool includeEmpty = false)
         {
             List<string> list = new List<string>();
             Dictionary<string, int> metadataRegionNameCountDictionary = ListAllPersonalRegionNameCountCache();
@@ -1331,6 +1338,7 @@ namespace MetadataLibrary
                     if (name == FakeNullHack) name = null; //Fix fake null hack
                     if (namesdontIncludeList1 != null && namesdontIncludeList1.Contains(keyValuePair.Key)) doNotInclude = true;
                     if (namesdontIncludeList2 != null && namesdontIncludeList2.Contains(keyValuePair.Key)) doNotInclude = true;
+                    if (!includeEmpty && string.IsNullOrEmpty(name)) doNotInclude = true;
                     if (!doNotInclude)
                     {
                         list.Add(keyValuePair.Key == FakeNullHack ? null : keyValuePair.Key);

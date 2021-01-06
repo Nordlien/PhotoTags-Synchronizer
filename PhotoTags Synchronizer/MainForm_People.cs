@@ -51,7 +51,7 @@ namespace PhotoTagsSynchronizer
             region.Name = (string)e.Value;
             e.Value = region;
             e.ParsingApplied = true;
-           
+            PeopleAddNewLastUseName(region.Name);
         }
         #endregion
 
@@ -281,6 +281,136 @@ namespace PhotoTagsSynchronizer
             //        prodCode.AutoCompleteMode = AutoCompleteMode.None;
             //    }
             //}
+        }
+
+        private List<string> lastUsedNames = new List<string>();
+        private void PeopleAddNewLastUseName(string name)
+        {
+            if (lastUsedNames.Contains(name)) lastUsedNames.Remove(name);
+            lastUsedNames.Insert(0, name);
+            while (lastUsedNames.Count > 3) lastUsedNames.RemoveAt(3);
+
+            if (lastUsedNames.Count > 0)
+            {
+                SetPeopleStripToolMenu(toolStripMenuItemPeopleRenameFromLast1, 1, lastUsedNames[0]);
+                toolStripMenuItemPeopleRenameFromLast1.Visible = true;
+            }
+            else toolStripMenuItemPeopleRenameFromLast1.Visible = false;
+
+            if (lastUsedNames.Count > 1)
+            {
+                SetPeopleStripToolMenu(toolStripMenuItemPeopleRenameFromLast2, 2, lastUsedNames[1]);
+                toolStripMenuItemPeopleRenameFromLast2.Visible = true;
+            } else toolStripMenuItemPeopleRenameFromLast2.Visible = false;
+
+            if (lastUsedNames.Count > 2)
+            {
+                SetPeopleStripToolMenu(toolStripMenuItemPeopleRenameFromLast3, 3, lastUsedNames[2]);
+                toolStripMenuItemPeopleRenameFromLast3.Visible = true;
+            }
+            else toolStripMenuItemPeopleRenameFromLast3.Visible = false;
+        }
+
+        private void SetPeopleStripToolMenu(ToolStripMenuItem toolStripMenuItem, int number, string name)
+        {
+            toolStripMenuItem.Tag = name;
+            toolStripMenuItem.Text = "Rename #" + number + " " + name;
+
+            Properties.Settings.Default.PeopleRename = string.Join("\r\n", lastUsedNames.ToArray());
+
+        }
+
+        public void PopulatePeopleToolStripMenuItems()
+        {            
+            toolStripMenuItemPeopleRenameFromAll.DropDownItems.Clear();
+            toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Clear();
+            toolStripMenuItemPeopleRenameFromLast1.DropDownItems.Clear();
+
+            List<string> regioNames;
+            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameTopCountCache(10);
+            foreach (string name in regioNames)
+            {
+                ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
+                newTagSubItem.Name = name;
+                newTagSubItem.Text = name;
+                newTagSubItem.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
+                toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Add(newTagSubItem);
+            }
+
+            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
+            foreach (string name in regioNames)
+            {
+                ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
+                newTagSubItem.Name = name;
+                newTagSubItem.Text = name;
+                newTagSubItem.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
+                toolStripMenuItemPeopleRenameFromAll.DropDownItems.Add(newTagSubItem);
+            }
+
+            string[] renameNames = Properties.Settings.Default.PeopleRename.Replace("\r", "").Split('\n');
+
+            for (int i = renameNames.Length - 1; i >= 0; i--)
+            {
+                PeopleAddNewLastUseName(renameNames[i]);
+            }
+        }
+
+        private void PeopleRenameSelected(DataGridView dataGridView, string nameSelected)
+        {            
+            foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+            {
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
+
+                if (dataGridViewGenericColumn != null && dataGridViewGenericRow != null &&
+                    dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
+                    dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
+                    !dataGridViewGenericRow.IsHeader)
+                {
+                    object value = DataGridViewHandler.GetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex);
+                    if (value is MetadataLibrary.RegionStructure)
+                    {
+                        MetadataLibrary.RegionStructure region = (MetadataLibrary.RegionStructure)value;
+                        if (region == null) return;
+                        region.Name = nameSelected;
+                        PeopleAddNewLastUseName(nameSelected);
+                    }
+                }
+            }
+        }
+
+        private void toolStripMenuItemPeopleRenameSelected_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewPeople;
+            if (!dataGridView.Enabled) return;
+
+            PeopleRenameSelected(dataGridView, ((ToolStripMenuItem)sender).Name);
+
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void toolStripMenuItemPeopleRenameFromLast1_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewPeople;
+            if (!dataGridView.Enabled) return;
+            PeopleRenameSelected(dataGridView, (string)toolStripMenuItemPeopleRenameFromLast1.Tag);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void toolStripMenuItemPeopleRenameFromLast2_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewPeople;
+            if (!dataGridView.Enabled) return;
+            PeopleRenameSelected(dataGridView, (string)toolStripMenuItemPeopleRenameFromLast2.Tag);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void toolStripMenuItemPeopleRenameFromLast3_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewPeople;
+            if (!dataGridView.Enabled) return;
+            PeopleRenameSelected(dataGridView, (string)toolStripMenuItemPeopleRenameFromLast3.Tag);
+            DataGridViewHandler.Refresh(dataGridView);
         }
     }
 }

@@ -234,6 +234,8 @@ namespace PhotoTagsSynchronizer
 
             PopulateExiftoolToolStripMenuItems();
             PopulateExiftoolWarningToolStripMenuItems();
+            PopulatePeopleToolStripMenuItems();
+
             // Add event handlers for file system watcher.
             /*
             fileSystemWatcher.EnableRaisingEvents = false;
@@ -431,6 +433,8 @@ namespace PhotoTagsSynchronizer
 
             imageListView1.Focus();
         }
+
+
 
 
 
