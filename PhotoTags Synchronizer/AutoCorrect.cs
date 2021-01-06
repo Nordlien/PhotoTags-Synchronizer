@@ -154,19 +154,15 @@ namespace PhotoTagsSynchronizer
             Metadata metadata = metadataDatabaseCacheExiftool.MetadataCacheRead(fileEntryBrokerExiftool);
             if (metadata == null) 
                 return null; //DEBUG Why NULL - I manage to reproduce, select lot of files, select AutoCorrect many, many times.
-            metadata = new Metadata(metadata); //Make a copy
+            Metadata metadataCopy = new Metadata(metadata); //Make a copy
 
-            FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos);            
-            Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRead(fileEntryBrokerMicrosoftPhotos);
-
-            FileEntryBroker fileEntryBrokerMWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery);            
-            Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRead(fileEntryBrokerMWindowsLivePhotoGallery);
+            
 
             #region Keywords backup
-            if (BackupDateTakenBeforeUpdate && metadata?.MediaDateTaken != null)
-                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken)));            
-            if (BackupGPGDateTimeUTCBeforeUpdate && metadata?.LocationDateTime != null)
-                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)));
+            if (BackupDateTakenBeforeUpdate && metadataCopy?.MediaDateTaken != null)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringSortable(metadataCopy?.MediaDateTaken)));            
+            if (BackupGPGDateTimeUTCBeforeUpdate && metadataCopy?.LocationDateTime != null)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime)));
             #endregion
 
             #region Find best guess on GPS Location Latitude Longitude
@@ -179,21 +175,21 @@ namespace PhotoTagsSynchronizer
             //3. If location's found, find time zone
             //4. Adjust DateTaken with found time zone
             //5. Find new locations in camra owner's hirstory. ±1 hour
-            if (metadata?.LocationLatitude == null || metadata?.LocationLongitude == null)
+            if (metadataCopy?.LocationLatitude == null || metadataCopy?.LocationLongitude == null)
             {
-                string cameraOwner = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadata?.CameraMake, metadata?.CameraModel);
+                string cameraOwner = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadataCopy?.CameraMake, metadataCopy?.CameraModel);
                 if (!string.IsNullOrEmpty(cameraOwner))
                 {
                     #region Find or Guess UTC time
                     DateTime? dateTimeUTC = null;
 
-                    if (metadata?.LocationDateTime != null) //If has UTC time
+                    if (metadataCopy?.LocationDateTime != null) //If has UTC time
                     {
-                        dateTimeUTC = new DateTime(((DateTime)metadata?.LocationDateTime).Ticks, DateTimeKind.Utc);
+                        dateTimeUTC = new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc);
                     }
-                    else if (metadata?.MediaDateTaken != null) //Don't have UTC time, need try to Guess
+                    else if (metadataCopy?.MediaDateTaken != null) //Don't have UTC time, need try to Guess
                     {
-                        DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
+                        DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadataCopy?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
 
                         //Try find a location nearby
                         Metadata metadataLocationTimeZone = databaseGoogleLocationHistory.FindLocationBasedOnTime(
@@ -220,9 +216,9 @@ namespace PhotoTagsSynchronizer
                         if (metadataLocationBasedOnBestGuess != null)
                         {                            
                             //If allow update location, then updated metadata with found location
-                            metadata.LocationDateTime = dateTimeUTC;    
-                            metadata.LocationLatitude = metadataLocationBasedOnBestGuess.LocationLatitude;       
-                            metadata.LocationLongitude = metadataLocationBasedOnBestGuess.LocationLongitude;     
+                            metadataCopy.LocationDateTime = dateTimeUTC;    
+                            metadataCopy.LocationLatitude = metadataLocationBasedOnBestGuess.LocationLatitude;       
+                            metadataCopy.LocationLongitude = metadataLocationBasedOnBestGuess.LocationLongitude;     
                         }
                     }
                     #endregion
@@ -233,13 +229,13 @@ namespace PhotoTagsSynchronizer
             {
                 if (UpdateGPSDateTime)
                 {
-                    if (metadata?.MediaDateTaken != null)
+                    if (metadataCopy?.MediaDateTaken != null)
                     {
-                        DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadata?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
-                        TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
-                        metadata.LocationDateTime = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
+                        DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadataCopy?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
+                        TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
+                        metadataCopy.LocationDateTime = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
                     }
-                    else if (metadata?.LocationDateTime != null)
+                    else if (metadataCopy?.LocationDateTime != null)
                     {
                         //DateTime mediaDateUTC = new DateTime(((DateTime)metadata?.LocationDateTime).Ticks, DateTimeKind.Utc);
                         //TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
@@ -259,31 +255,31 @@ namespace PhotoTagsSynchronizer
                     switch (dateTimeSource)
                     {
                         case DateTimeSources.DateTaken:
-                            newDateTime = metadata?.MediaDateTaken;
+                            newDateTime = metadataCopy?.MediaDateTaken;
                             break;
                         case DateTimeSources.GPSDateAndTime:
-                            if (metadata?.LocationLatitude != null && metadata?.LocationLongitude != null && metadata?.LocationDateTime != null)
+                            if (metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null && metadataCopy?.LocationDateTime != null)
                             {
-                                TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadata?.LocationLatitude, (double)metadata?.LocationLongitude);
-                                DateTime dateTimeLocal = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadata?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
+                                TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
+                                DateTime dateTimeLocal = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc), timeZoneInfo);
                                 newDateTime = dateTimeLocal;
                             }
                             break;
                         case DateTimeSources.FirstDateFoundInFilename:
                             FileDateTimeReader fileDateTimeReader1 = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-                            List<DateTime> dates1 = fileDateTimeReader1.ListAllDateTimes(Path.GetFileNameWithoutExtension(metadata?.FileName));
+                            List<DateTime> dates1 = fileDateTimeReader1.ListAllDateTimes(Path.GetFileNameWithoutExtension(metadataCopy?.FileName));
                             if (dates1.Count > 0) newDateTime = dates1[0];
                             break;
                         case DateTimeSources.LastDateFoundInFilename:
                             FileDateTimeReader fileDateTimeReader2 = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-                            List<DateTime> dates2 = fileDateTimeReader2.ListAllDateTimes(Path.GetFileNameWithoutExtension(metadata?.FileName));
+                            List<DateTime> dates2 = fileDateTimeReader2.ListAllDateTimes(Path.GetFileNameWithoutExtension(metadataCopy?.FileName));
                             if (dates2.Count > 0) newDateTime = dates2[dates2.Count-1];
                             break;
                     }
                     if (UpdateTitleWithFirstInPrioity) break;
                     if (newDateTime != null) break;
                 }
-                if (newDateTime != null) metadata.MediaDateTaken = newDateTime;
+                if (newDateTime != null) metadataCopy.MediaDateTaken = newDateTime;
                 else { 
 
                 }
@@ -292,81 +288,97 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Location name, city, state, country
-            if (UpdateLocation && metadata?.LocationLatitude != null && metadata?.LocationLongitude != null)
+            if (UpdateLocation && metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null)
             {
                 if (!UpdateLocationOnlyWhenEmpty || 
-                    string.IsNullOrWhiteSpace(metadata?.LocationName) ||
-                    string.IsNullOrWhiteSpace(metadata?.LocationState) ||
-                    string.IsNullOrWhiteSpace(metadata?.LocationCity) ||
-                    string.IsNullOrWhiteSpace(metadata?.LocationCountry))
+                    string.IsNullOrWhiteSpace(metadataCopy?.LocationName) ||
+                    string.IsNullOrWhiteSpace(metadataCopy?.LocationState) ||
+                    string.IsNullOrWhiteSpace(metadataCopy?.LocationCity) ||
+                    string.IsNullOrWhiteSpace(metadataCopy?.LocationCountry))
                 {
-                    Metadata locationData = locationNameLookUpCache.AddressLookup((float)metadata?.LocationLatitude, (float)metadata?.LocationLongitude);
+                    Metadata locationData = locationNameLookUpCache.AddressLookup((float)metadataCopy?.LocationLatitude, (float)metadataCopy?.LocationLongitude);
                     if (locationData != null)
                     {
-                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadata?.LocationName))
-                            if (UpdateLocationName) metadata.LocationName = locationData.LocationName;
-                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadata?.LocationState))
-                            if (UpdateLocationState) metadata.LocationState = locationData.LocationState;
-                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadata?.LocationCity))
-                            if (UpdateLocationCity) metadata.LocationCity = locationData.LocationCity;
-                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadata?.LocationCountry))
-                            if (UpdateLocationCountry) metadata.LocationCountry = locationData.LocationCountry;
+                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadataCopy?.LocationName))
+                            if (UpdateLocationName) metadataCopy.LocationName = locationData.LocationName;
+                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadataCopy?.LocationState))
+                            if (UpdateLocationState) metadataCopy.LocationState = locationData.LocationState;
+                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadataCopy?.LocationCity))
+                            if (UpdateLocationCity) metadataCopy.LocationCity = locationData.LocationCity;
+                        if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadataCopy?.LocationCountry))
+                            if (UpdateLocationCountry) metadataCopy.LocationCountry = locationData.LocationCountry;
                     }
                 }
             }
             #endregion
 
+            FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos);
+            Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRead(fileEntryBrokerMicrosoftPhotos);
+            Metadata metadataMicrosoftPhotosCopy = metadataMicrosoftPhotos == null ? null : new Metadata(metadataMicrosoftPhotos);
+
+            FileEntryBroker fileEntryBrokerMWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery);
+            Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRead(fileEntryBrokerMWindowsLivePhotoGallery);
+            Metadata metadataWindowsLivePhotoGalleryCopy = metadataWindowsLivePhotoGallery == null ? null : new Metadata(metadataWindowsLivePhotoGallery);
+
             #region Face region
-            if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotos != null)
+
+            //Remove doubles and add names where missing, only work with copy, don't change metadata in buffer.
+            if (UseFaceRegionFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGalleryCopy != null) metadataWindowsLivePhotoGalleryCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
+            if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotosCopy != null) metadataMicrosoftPhotosCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
+
+            if (UseFaceRegionFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGalleryCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
+            if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotosCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
+
+            if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotosCopy != null)
             {
-                foreach (RegionStructure regionStructure in metadataMicrosoftPhotos.PersonalRegionList)
+                foreach (RegionStructure regionStructure in metadataMicrosoftPhotosCopy.PersonalRegionList)
                 {
-                    metadata.PersonalRegionListAddIfNameNotExists(regionStructure);
+                    metadataCopy.PersonalRegionListAddIfNameNotExists(regionStructure);
                 }
             }
 
-            if (UseFaceRegionFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGallery != null)
+            if (UseFaceRegionFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGalleryCopy != null)
             {
-                foreach (RegionStructure regionStructure in metadataWindowsLivePhotoGallery.PersonalRegionList)
+                foreach (RegionStructure regionStructure in metadataWindowsLivePhotoGalleryCopy.PersonalRegionList)
                 {
-                    metadata.PersonalRegionListAddIfNameNotExists(regionStructure);
+                    metadataCopy.PersonalRegionListAddIfNameNotExists(regionStructure);
                 }
             }
             #endregion
 
             #region Keywords
-            if (UseKeywordsFromMicrosoftPhotos && metadataMicrosoftPhotos != null)
+            if (UseKeywordsFromMicrosoftPhotos && metadataMicrosoftPhotosCopy != null)
             {
-                foreach (KeywordTag keywordTag in metadataMicrosoftPhotos.PersonalKeywordTags)
+                foreach (KeywordTag keywordTag in metadataMicrosoftPhotosCopy.PersonalKeywordTags)
                 {
-                    if (keywordTag.Confidence >= KeywordTagConfidenceLevel) metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
+                    if (keywordTag.Confidence >= KeywordTagConfidenceLevel) metadataCopy.PersonalKeywordTagsAddIfNotExists(keywordTag);
                 }
             }
 
-            if (UseKeywordsFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGallery != null)
+            if (UseKeywordsFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGalleryCopy != null)
             {
-                foreach (KeywordTag keywordTag in metadataWindowsLivePhotoGallery.PersonalKeywordTags)
+                foreach (KeywordTag keywordTag in metadataWindowsLivePhotoGalleryCopy.PersonalKeywordTags)
                 {
-                    if (keywordTag.Confidence >= KeywordTagConfidenceLevel) metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
+                    if (keywordTag.Confidence >= KeywordTagConfidenceLevel) metadataCopy.PersonalKeywordTagsAddIfNotExists(keywordTag);
                 }
             }
 
             
-            if (BackupDateTakenAfterUpdate && metadata?.MediaDateTaken != null)
-                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken)));
-            if (BackupGPGDateTimeUTCAfterUpdate && metadata?.LocationDateTime != null)
-                metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)));
+            if (BackupDateTakenAfterUpdate && metadataCopy?.MediaDateTaken != null)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringSortable(metadataCopy?.MediaDateTaken)));
+            if (BackupGPGDateTimeUTCAfterUpdate && metadataCopy?.LocationDateTime != null)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime)));
             if (BackupRegionFaceNames)
             {
-                foreach (RegionStructure regionStructure in metadata?.PersonalRegionList)
+                foreach (RegionStructure regionStructure in metadataCopy?.PersonalRegionList)
                 {
-                    metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(regionStructure.Name));
+                    metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(regionStructure.Name));
                 }
             }
-            if (BackupLocationName && !string.IsNullOrEmpty(metadata?.LocationName)) metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadata?.LocationName));
-            if (BackupLocationCity && !string.IsNullOrEmpty(metadata?.LocationCity)) metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadata?.LocationCity));
-            if (BackupLocationState && !string.IsNullOrEmpty(metadata?.LocationState)) metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadata?.LocationState));
-            if (BackupLocationCountry && !string.IsNullOrEmpty(metadata?.LocationCountry)) metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadata?.LocationCountry));
+            if (BackupLocationName && !string.IsNullOrEmpty(metadataCopy?.LocationName)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadataCopy?.LocationName));
+            if (BackupLocationCity && !string.IsNullOrEmpty(metadataCopy?.LocationCity)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadataCopy?.LocationCity));
+            if (BackupLocationState && !string.IsNullOrEmpty(metadataCopy?.LocationState)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadataCopy?.LocationState));
+            if (BackupLocationCountry && !string.IsNullOrEmpty(metadataCopy?.LocationCountry)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadataCopy?.LocationCountry));
 
             #endregion
 
@@ -381,7 +393,7 @@ namespace PhotoTagsSynchronizer
                     switch (metadataBrokerType)
                     {
                         case MetadataBrokerTypes.ExifTool:
-                            newTitle = (!string.IsNullOrEmpty(metadata?.PersonalTitle) ? metadata?.PersonalTitle : newTitle);
+                            newTitle = (!string.IsNullOrEmpty(metadataCopy?.PersonalTitle) ? metadataCopy?.PersonalTitle : newTitle);
                             break;
                         case MetadataBrokerTypes.MicrosoftPhotos:
                             newTitle = (!string.IsNullOrEmpty(metadataMicrosoftPhotos?.PersonalTitle) ? metadataMicrosoftPhotos?.PersonalTitle : newTitle);
@@ -393,7 +405,7 @@ namespace PhotoTagsSynchronizer
                     if (UpdateTitleWithFirstInPrioity) break;
                     if (!string.IsNullOrWhiteSpace(newTitle)) break;
                 }
-                metadata.PersonalTitle = newTitle;
+                metadataCopy.PersonalTitle = newTitle;
 
             }
             #endregion 
@@ -409,19 +421,19 @@ namespace PhotoTagsSynchronizer
                     switch (metadataBrokerType)
                     {
                         case MetadataBrokerTypes.ExifTool:
-                            newAlbum = (!string.IsNullOrEmpty(metadata?.PersonalAlbum) ? metadata?.PersonalAlbum : newAlbum);
+                            newAlbum = (!string.IsNullOrEmpty(metadataCopy?.PersonalAlbum) ? metadataCopy?.PersonalAlbum : newAlbum);
                             break;
                         case MetadataBrokerTypes.MicrosoftPhotos:
                             newAlbum = (!string.IsNullOrEmpty(metadataMicrosoftPhotos?.PersonalAlbum) ? metadataMicrosoftPhotos?.PersonalAlbum : newAlbum);
                             break;
                         case MetadataBrokerTypes.FileSystem:
-                            newAlbum = new DirectoryInfo(metadata.FileDirectory).Name;
+                            newAlbum = new DirectoryInfo(metadataCopy.FileDirectory).Name;
                             break;
                     }
                     if (UpdateAlbumWithFirstInPrioity) break;
                     if (!string.IsNullOrWhiteSpace(newAlbum)) break;
                 }
-                metadata.PersonalAlbum = newAlbum;
+                metadataCopy.PersonalAlbum = newAlbum;
 
             }
             #endregion
@@ -429,15 +441,15 @@ namespace PhotoTagsSynchronizer
             #region Author
             if (UpdateAuthor)
             {
-                if (!UpdateAuthorOnlyWhenEmpty || !string.IsNullOrWhiteSpace(metadata?.PersonalAuthor))
+                if (!UpdateAuthorOnlyWhenEmpty || !string.IsNullOrWhiteSpace(metadataCopy?.PersonalAuthor))
                 {
-                    string author = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadata?.CameraMake, metadata?.CameraModel);
-                    if (!string.IsNullOrWhiteSpace(author)) metadata.PersonalAuthor = author;
+                    string author = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadataCopy?.CameraMake, metadataCopy?.CameraModel);
+                    if (!string.IsNullOrWhiteSpace(author)) metadataCopy.PersonalAuthor = author;
                 }
             }
             #endregion
 
-            return metadata;
+            return metadataCopy;
         }
         #endregion 
     }

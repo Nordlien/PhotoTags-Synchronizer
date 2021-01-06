@@ -238,20 +238,20 @@ namespace PhotoTagsSynchronizer
 
                 if (metadata != null)
                 {
-                    Metadata metadataExifWithoutCopy = new Metadata(metadata);
+                    Metadata metadataCopy = new Metadata(metadata);
                     Metadata metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRead(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.WindowsLivePhotoGallery));
                     Metadata metadataWindowsLivePhotoGalleryCopy = metadataWindowsLivePhotoGallery == null ? null : new Metadata(metadataWindowsLivePhotoGallery);
                     Metadata metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRead(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.MicrosoftPhotos));
                     Metadata metadataMicrosoftPhotosCopy = metadataMicrosoftPhotos == null ? null : new Metadata(metadataMicrosoftPhotos);
 
                     //Remove doubles and add names where missing, only work with copy, don't change metadata in buffer.
-                    if (metadataWindowsLivePhotoGalleryCopy != null) metadataWindowsLivePhotoGalleryCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataExifWithoutCopy.PersonalRegionList);
-                    if (metadataMicrosoftPhotosCopy != null) metadataMicrosoftPhotosCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataExifWithoutCopy.PersonalRegionList);
-                    if (metadataWindowsLivePhotoGalleryCopy != null) metadataExifWithoutCopy.PersonalRegionSetNamelessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
-                    if (metadataMicrosoftPhotosCopy != null) metadataExifWithoutCopy.PersonalRegionSetNamelessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
+                    if (metadataWindowsLivePhotoGalleryCopy != null) metadataWindowsLivePhotoGalleryCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
+                    if (metadataMicrosoftPhotosCopy != null) metadataMicrosoftPhotosCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
+                    if (metadataWindowsLivePhotoGalleryCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
+                    if (metadataMicrosoftPhotosCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
 
                     //Populate 
-                    PopulatePeople(dataGridView, metadataExifWithoutCopy, columnIndex, MetadataBrokerTypes.ExifTool);
+                    PopulatePeople(dataGridView, metadataCopy, columnIndex, MetadataBrokerTypes.ExifTool);
                     if (metadataWindowsLivePhotoGallery != null) PopulatePeople(dataGridView, metadataWindowsLivePhotoGalleryCopy, columnIndex, MetadataBrokerTypes.WindowsLivePhotoGallery);
                     if (metadataMicrosoftPhotos != null) PopulatePeople(dataGridView, metadataMicrosoftPhotosCopy, columnIndex, MetadataBrokerTypes.MicrosoftPhotos);
 
