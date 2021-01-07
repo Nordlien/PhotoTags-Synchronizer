@@ -1418,6 +1418,28 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+
+        public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, DataGridViewGenericCellStatus dataGridViewGenericCellStatus, int columnIndex, int rowIndex)
+        {
+            DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+            DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+            //DataGridViewHandler.SetRowFavoriteFlag(dataGridView, rowIndexUsed, dataGridFavorites);
+            DataGridViewHandler.SetCellBackGroundColor(dataGridView, columnIndex, rowIndex);
+        }
+
+        public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, MetadataBrokerTypes metadataBrokerType, int columnIndex, int rowIndex)
+        {
+            #region Set default Cell status
+            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex)); //Remember current status, in case of updates
+            dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
+            if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Disabled) dataGridViewGenericCellStatus.SwitchState = SwitchStates.Undefine;
+            if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
+                dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off;
+            dataGridViewGenericCellStatus.CellReadOnly = false;
+            SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndex, rowIndex);
+            #endregion
+        }
+
         #region Rows handling - AddRow
         /// <summary>
         /// 
@@ -1470,10 +1492,8 @@ namespace DataGridViewGeneric
             if (columnIndex != -1) //When adding empty row without value in a given column
             {
                 //It's only possible to update ReadOnly field
-
                 DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
                 if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
-
                 SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
             }
             SetCellBackGroundColorForRow(dataGridView, rowIndex);
@@ -1911,7 +1931,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Cell Handling - GetCellDataGridViewGenericCell - int columnIndex, int rowIndex
-        public static DataGridViewGenericCell GetCellDataGridViewGenericCell(DataGridView dataGridView, int columnIndex, int rowIndex)
+        public static DataGridViewGenericCell GetCellDataGridViewGenericCellCopy(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             return new DataGridViewGenericCell(GetCellValue(dataGridView, columnIndex, rowIndex), GetCellStatus(dataGridView, columnIndex, rowIndex));
         }
@@ -2034,7 +2054,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Cell Handling - SetCellReadOnlyDependingOfStatus -  int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus
-        private static void SetCellReadOnlyDependingOfStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
+        public static void SetCellReadOnlyDependingOfStatus(DataGridView dataGridView, int columnIndex, int rowIndex, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
         {
             //DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
             if (dataGridViewGenericCellStatus != null)
@@ -2169,10 +2189,7 @@ namespace DataGridViewGeneric
                 }
             }
             
-            if (updatedCells != null && updatedCells.Count > 0)
-            {
-                ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
-            }
+            if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
         }
         #endregion
         #endregion 

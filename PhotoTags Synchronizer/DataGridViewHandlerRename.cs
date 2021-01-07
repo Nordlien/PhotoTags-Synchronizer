@@ -166,7 +166,7 @@ namespace PhotoTagsSynchronizer
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCell(dataGridView, columnIndex, rowIndex);
+                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
                 
                 if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
                 {
@@ -211,7 +211,7 @@ namespace PhotoTagsSynchronizer
             //WindowsPropertyReader.Write(dataGridView, columnIndex);
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
-                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCell(dataGridView, columnIndex, rowIndex);
+                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
 
                 if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
                 {

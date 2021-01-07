@@ -30,10 +30,14 @@ namespace DataGridViewGeneric
 
     public class DataGridViewGenericCell
     {
+        public DataGridViewGenericCell(DataGridViewGenericCell dataGridViewGenericCell) : this (dataGridViewGenericCell.Value, dataGridViewGenericCell.CellStatus)
+        {
+        }
+
         public DataGridViewGenericCell(object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatus)
         {
-            Value = value;
-            CellStatus = dataGridViewGenericCellStatus;
+            Value = DataGridViewHandler.DeepCopy(value);
+            CellStatus = dataGridViewGenericCellStatus == null ? null : new DataGridViewGenericCellStatus(dataGridViewGenericCellStatus);
         }
 
         public object Value { get; set; }

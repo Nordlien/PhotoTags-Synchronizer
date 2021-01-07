@@ -45,6 +45,17 @@ namespace PhotoTagsSynchronizer
             return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, sort);
         }
 
+        public static void SetCellDefault(DataGridView dataGridView, MetadataBrokerTypes metadataBrokerType, int columnIndex, int rowIndexUsed)
+        {
+            DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, metadataBrokerType, columnIndex, rowIndexUsed);
+        }
+
+        private static int AddRowSuggestion(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
+        {
+            DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true);
+            return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, null, dataGridViewGenericCellStatusDefault, sort);
+        }
+
         private static int AddRowRegion(DataGridView dataGridView, MetadataBrokerTypes metadataBrokerType, Metadata metadata, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow, RegionStructure regionStructureToAdd, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
         {
             #region Find Row to Edit or Where to add
@@ -137,18 +148,11 @@ namespace PhotoTagsSynchronizer
                 rowIndexUsed = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericRow,
                 DataGridViewHandler.GetFavoriteList(dataGridView), regionStructureToAdd, dataGridViewGenericCellStatusDefaults, lastHeaderRowFound, true, true, true);
             }
-            #endregion 
+            #endregion
 
-            #region Set default Cell status
-            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndexUsed)); //Remember current status, in case of updates
-            dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
-            if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
-                dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off;
-            DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndexUsed, dataGridViewGenericCellStatus);
-            #endregion 
+            SetCellDefault(dataGridView, metadataBrokerType, columnIndex, rowIndexUsed);
 
             DataGridViewHandler.SetCellRowHeight(dataGridView, rowIndexUsed, DataGridViewHandler.GetCellRowHeight(dataGridView));
-            DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndexUsed, ""); //Clean first, avoid duplication
 
             #region Delete from suggestion
             DataGridViewHandler.DeleteRow(dataGridView, headerPeopleSuggestion, regionStructureToAdd.Name);
@@ -162,11 +166,11 @@ namespace PhotoTagsSynchronizer
         {
             foreach (RegionStructure region in metadata.PersonalRegionList)
             {
-                DataGridViewGenericRow dataGridViewGenericRow = new DataGridViewGenericRow(headerPeople, region.Name);
+                DataGridViewGenericRow dataGridViewGenericRow = new DataGridViewGenericRow(headerPeople, region.Name, ReadWriteAccess.AllowCellReadAndWrite);
 
                 AddRowRegion(dataGridView, metadataBrokerType, metadata, columnIndex, dataGridViewGenericRow,
                     new RegionStructure(region),//DataGridViewHandler.DeepCopy(region),
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Undefine, false)); //Other cell for this row will by default be Empty and disabled
+                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Undefine, true)); //Other cell for this row will by default be Empty and disabled
             }
         }
 
@@ -215,6 +219,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
+            DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true);
             foreach (FileEntryBroker fileEntryBroker in fileVersionDates)
             {
                 DataGridViewHandler.GetColumnCount(dataGridView); //Rememebr coulmn count before AddColumnOrUpdate
@@ -241,19 +246,23 @@ namespace PhotoTagsSynchronizer
                     DataGridViewHandler.IsCurrentFile(fileEntryBroker, dateTimeForEditableMediaFile) ?      /* Metadata.FileEntry read date, fileEntryBroker fake future version */
                     ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly,            /* this will set histority columns as read only columns    */
                     showWhatColumns,                                                                        /* show Edit | Hisorical columns | Error columns            */
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));  /* New cells will have this value                           */
+                    dataGridViewGenericCellStatusDefault);  /* New cells will have this value                           */
 
                 columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryBroker);    /* Force updated, every time, new data arrives */
                 if (columnIndex == -1) continue;                                                         /* -1 - Don't need show column, due to hidden / do now show */
 
+
                 AddRowHeader(dataGridView, columnIndex, new DataGridViewGenericRow(headerPeople), false);
 
-                //Remove tooltips - Need remove, due to +=string and can get doublecated during updates 
+                //Remove column data, due to Populate People append data - 
                 for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
                 {
-                    DataGridViewHandler.SetCellToolTipText(dataGridView, columnIndex, rowIndex, "");
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, null);
+                    //DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefault);
+                    //DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatusDefault);
+                    DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatusDefault, columnIndex, rowIndex);
                 }
-
+                
                 if (metadata != null)
                 {
                     Metadata metadataCopy = new Metadata(metadata);
@@ -326,7 +335,6 @@ namespace PhotoTagsSynchronizer
                 AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed), false);
                 foreach (string regionName in regioNamesTopMost)
                 {
-
                     AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed, regionName), true);
                 }
             }

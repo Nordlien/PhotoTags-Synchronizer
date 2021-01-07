@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using DataGridViewGeneric;
@@ -236,15 +235,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        //Refesh 
-        private void dataGridViewPeople_SelectionChanged(object sender, EventArgs e)
-        {
-            //DataGridView dataGridView = ((DataGridView)sender);
-            //if (!dataGridView.Enabled) return;
-            //Debug.WriteLine("Refresh");
-            //DataGridViewHandler.Refresh(dataGridView);
-        }
-
         public AutoCompleteStringCollection ClientListDropDown()
         {
             List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerTypes.ExifTool, DateTime.Now.AddDays(-365), DateTime.Now);
@@ -356,7 +346,9 @@ namespace PhotoTagsSynchronizer
         }
 
         private void PeopleRenameSelected(DataGridView dataGridView, string nameSelected)
-        {            
+        {
+            Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
+
             foreach (DataGridViewCell cell in dataGridView.SelectedCells)
             {
                 DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
@@ -367,16 +359,31 @@ namespace PhotoTagsSynchronizer
                     dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
                     !dataGridViewGenericRow.IsHeader)
                 {
-                    object value = DataGridViewHandler.GetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex);
-                    if (value is MetadataLibrary.RegionStructure)
+                    DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, cell.ColumnIndex, cell.RowIndex);
+                    if (!dataGridViewGenericCell.CellStatus.CellReadOnly)
                     {
-                        MetadataLibrary.RegionStructure region = (MetadataLibrary.RegionStructure)value;
-                        if (region == null) return;
-                        region.Name = nameSelected;
-                        PeopleAddNewLastUseName(nameSelected);
+                        CellLocation cellLocation = new CellLocation(cell.ColumnIndex, cell.RowIndex);
+                        if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, new DataGridViewGenericCell(dataGridViewGenericCell));
+
+                        if (dataGridViewGenericCell.Value is RegionStructure)
+                        {
+                            RegionStructure region = (RegionStructure)dataGridViewGenericCell.Value;
+                            if (region != null)
+                            {
+                                region.Name = nameSelected;
+                                PeopleAddNewLastUseName(nameSelected);
+                                DataGridViewHandler.SetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex, region);
+                            }
+                        }
+                        DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerTypes.Empty, cell.ColumnIndex, cell.RowIndex);
                     }
+                    
                 }
             }
+
+            if (updatedCells != null && updatedCells.Count > 0) 
+                ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
+
         }
 
         private void toolStripMenuItemPeopleRenameSelected_Click(object sender, EventArgs e)
@@ -411,6 +418,19 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
             PeopleRenameSelected(dataGridView, (string)toolStripMenuItemPeopleRenameFromLast3.Tag);
             DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        private void dataGridViewPeople_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewPeople;
+            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true);
+            for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
+            {
+                DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndex, e.RowIndex);
+            }
+            DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, e.RowIndex, 
+                new DataGridViewGenericRow(DataGridViewHandlerPeople.headerPeople,
+                dataGridView[e.ColumnIndex, e.RowIndex].Value == null ? "" : dataGridView[e.ColumnIndex, e.RowIndex].Value.ToString(), ReadWriteAccess.AllowCellReadAndWrite));
         }
     }
 }
