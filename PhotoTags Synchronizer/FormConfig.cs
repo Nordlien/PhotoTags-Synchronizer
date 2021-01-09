@@ -405,6 +405,11 @@ namespace PhotoTagsSynchronizer
             checkBoxUpdateLocationState.Checked = autoCorrect.UpdateLocationState;
             checkBoxUpdateLocationCountry.Checked = autoCorrect.UpdateLocationCountry;
             #endregion
+
+            #region Rename
+            textBoxRenameTo.Text = autoCorrect.RenameVariable;
+            checkBoxRename.Checked = autoCorrect.RenameAfterAutoCorrect;
+            #endregion 
         }
 
         private void GetAutoCorrectPoperties()
@@ -545,6 +550,18 @@ namespace PhotoTagsSynchronizer
             autoCorrect.UpdateLocationState = checkBoxUpdateLocationState.Checked;
             autoCorrect.UpdateLocationCountry = checkBoxUpdateLocationCountry.Checked;
             #endregion
+
+            #region Rename
+            autoCorrect.RenameVariable = textBoxRenameTo.Text;
+            autoCorrect.RenameAfterAutoCorrect = checkBoxRename.Checked;
+            #endregion
+        }
+        #endregion
+        
+        #region AutoCorrect - Rename
+        private void comboBoxRenameVariables_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(textBoxRenameTo, comboBoxRenameVariables.Text);
         }
         #endregion
 
@@ -1067,7 +1084,9 @@ namespace PhotoTagsSynchronizer
         {
             FastColoredTextBoxHandler.WordWrapNeededLog(sender, e);
         }
-        #endregion 
+        #endregion
+
+        
     }
 }
 

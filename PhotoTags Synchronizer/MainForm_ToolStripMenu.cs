@@ -1267,9 +1267,14 @@ namespace PhotoTagsSynchronizer
                     databaseAndCahceCameraOwner,
                     databaseLocationAddress,
                     databaseGoogleLocationHistory);
-                if (metadataToSave != null) AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
+                if (metadataToSave != null) 
+                {
+                    AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
+                    AddQueueRename(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                }
             }
             StartThreads();
+ 
         }
 
 
@@ -1287,7 +1292,11 @@ namespace PhotoTagsSynchronizer
                     databaseAndCahceCameraOwner,
                     databaseLocationAddress,
                     databaseGoogleLocationHistory);
-                if (metadataToSave != null) AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
+                if (metadataToSave != null)
+                {
+                    AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
+                    AddQueueRename(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                }
             }
             StartThreads();
         }

@@ -10,6 +10,7 @@ using NLog;
 using Exiftool;
 using Manina.Windows.Forms;
 using System.Diagnostics;
+using FileDateTime;
 
 namespace PhotoTagsSynchronizer
 {
@@ -23,35 +24,39 @@ namespace PhotoTagsSynchronizer
         private Thread _ThreadThumbnailRegion = null;
 
         private Thread _ThreadSaveMetadata = null;
+        private Thread _ThreadRenameMedafiles = null;
 
         List<string> mediaFilesNotInDatabase = new List<string>(); //It's globale, just to manage to show count status
         //Read metadata
-        private List<Metadata> commonQueueReadPosterAndSaveFaceThumbnails = new List<Metadata>();
+        private List<Metadata>         commonQueueReadPosterAndSaveFaceThumbnails = new List<Metadata>();
         private static readonly Object commonQueueReadPosterAndSaveFaceThumbnailsLock = new Object();
 
-        private List<FileEntryImage> commonQueueSaveThumbnailToDatabase = new List<FileEntryImage>();
+        private List<FileEntryImage>   commonQueueSaveThumbnailToDatabase = new List<FileEntryImage>();
         private static readonly Object commonQueueSaveThumbnailToDatabaseLock = new Object();
 
-        private List<FileEntry> commonQueueReadMetadataFromMicrosoftPhotos = new List<FileEntry>();
+        private List<FileEntry>        commonQueueReadMetadataFromMicrosoftPhotos = new List<FileEntry>();
         private static readonly Object commonQueueReadMetadataFromMicrosoftPhotosLock = new Object();
-        private List<FileEntry> commonQueueReadMetadataFromWindowsLivePhotoGallery = new List<FileEntry>();
+        private List<FileEntry>        commonQueueReadMetadataFromWindowsLivePhotoGallery = new List<FileEntry>();
         private static readonly Object commonQueueReadMetadataFromWindowsLivePhotoGalleryLock = new Object();
 
-        private List<FileEntry> commonQueueReadMetadataFromExiftool = new List<FileEntry>();
+        private List<FileEntry>        commonQueueReadMetadataFromExiftool = new List<FileEntry>();
         private static readonly Object commonQueueReadMetadataFromExiftoolLock = new Object();
-        private List<Metadata> commonQueueSaveMetadataUpdatedByUser = new List<Metadata>();
+        private List<Metadata>         commonQueueSaveMetadataUpdatedByUser = new List<Metadata>();
         private static readonly Object commonQueueSaveMetadataUpdatedByUserLock = new Object();
-        private List<Metadata> commonOrigialMetadataBeforeUserUpdate = new List<Metadata>();
+        private List<Metadata>         commonOrigialMetadataBeforeUserUpdate = new List<Metadata>();
         private static readonly Object commonOrigialMetadataBeforeUserUpdateLock = new Object();
-        private List<Metadata> commonQueueMetadataWrittenByExiftoolReadyToVerify = new List<Metadata>();
+        private List<Metadata>         commonQueueMetadataWrittenByExiftoolReadyToVerify = new List<Metadata>();
         private static readonly Object commonQueueMetadataWrittenByExiftoolReadyToVerifyLock = new Object();
+
+        private static Dictionary<string, string> commonQueueRename = new Dictionary<string, string>();
+        private static readonly Object            commonQueueRenameLock = new Object();
+
         //Error handling
         private Dictionary<string, string> queueErrorQueue = new Dictionary<string, string>();
-        private static readonly Object queueErrorQueueLock = new Object();
+        private static readonly Object     queueErrorQueueLock = new Object();
 
 
         #region Lock
-
         private int CommonQueueReadPosterAndSaveFaceThumbnailsCountLock()
         {
             lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) return commonQueueReadPosterAndSaveFaceThumbnails.Count;            
@@ -91,6 +96,10 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock) return commonQueueMetadataWrittenByExiftoolReadyToVerify.Count;
         }
 
+        private int CommonQueueRenameCountLock()
+        {
+            lock (commonQueueRenameLock) return commonQueueRename.Count;
+        }
         #endregion
 
         #region Start Thread, IsAnyThreadRunning, Tell when all queues are empty
@@ -107,6 +116,7 @@ namespace PhotoTagsSynchronizer
             ThreadCollectMetadataWindowsLiveGallery();
             ThreadSaveThumbnail();
             ThreadSaveMetadata();
+            ThreadRename();
         }
 
         private bool IsAnyThreadRunning()
@@ -888,7 +898,14 @@ namespace PhotoTagsSynchronizer
                             #endregion
 
                             #region Read using Exiftool
-                            List<Metadata> metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerTypes.ExifTool, useExiftoolOnThisSubsetOfFiles);
+                            List<Metadata> metadataReadbackExiftoolAfterSaved = new List<Metadata>();
+                            try
+                            {
+                                metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerTypes.ExifTool, useExiftoolOnThisSubsetOfFiles);
+                            } catch (Exception ex)
+                            {
+                                Logger.Error("Running Exiftool failed");
+                            }
                             #endregion
 
                             #region Check if all files are read by Exiftool
@@ -1084,7 +1101,212 @@ namespace PhotoTagsSynchronizer
             item.Update();
             item.Selected = true;
         }
-        #endregion 
+        #endregion
 
+        #region Rename
+        public void AddQueueRename (string fullFileName, string renameVariable)
+        {
+            lock (commonQueueRenameLock)
+            {
+                if (commonQueueRename.ContainsKey(fullFileName))
+                {
+                    commonQueueRename[fullFileName] = renameVariable;
+                }
+                else
+                {
+                    commonQueueRename.Add(fullFileName, renameVariable);
+                }
+            }
+        }
+
+        
+
+        public void ThreadRename()
+        {
+            
+
+            if (_ThreadRenameMedafiles == null || (!_ThreadRenameMedafiles.IsAlive && CommonQueueRenameCountLock() > 0))
+            {
+                _ThreadRenameMedafiles = new Thread(() =>
+                {
+                    /*
+                    //_ThreadRenameMedafiles
+                    if (CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() == 0 &&
+                        //CommonQueueSaveThumbnailToDatabaseCountLock() == 0 &&
+                        CommonQueueReadMetadataFromMicrosoftPhotosCountLock() == 0 &&
+                        CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() == 0 &&
+                        CommonQueueReadMetadataFromExiftoolCountLock() == 0 &&
+                        CommonQueueSaveMetadataUpdatedByUserCountLock() == 0 &&
+                        //CommonOrigialMetadataBeforeUserUpdateCountLock() == 0 &&
+                        CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountLock() == 0)
+                    {
+                        //Rename
+                    }*/
+
+                    while (CommonQueueRenameCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                    {
+                        string fullFilename = "";
+                        string renameVaiable = "";
+                        bool fileInUse = false;
+                        #region Find a file ready for rename
+                        lock (commonQueueRenameLock)
+                        {
+
+                            foreach (KeyValuePair<string, string> keyValuePair in commonQueueRename)
+                            {
+                                fullFilename = keyValuePair.Key;
+                                renameVaiable = keyValuePair.Value;
+
+                                #region commonQueueReadPosterAndSaveFaceThumbnails
+                                lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
+                                {
+                                    foreach (Metadata metadata in commonQueueReadPosterAndSaveFaceThumbnails)
+                                    {
+                                        if (metadata.FileFullPath == fullFilename)
+                                        {
+                                            fileInUse = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                #endregion 
+
+                                #region commonQueueSaveThumbnailToDatabase
+                                if (!fileInUse)
+                                    lock (commonQueueSaveThumbnailToDatabaseLock)
+                                    {
+                                        foreach (FileEntryImage fileEntry in commonQueueSaveThumbnailToDatabase)
+                                        {
+                                            if (fileEntry.FileFullPath == fullFilename)
+                                            {
+                                                fileInUse = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                #endregion
+
+                                #region commonQueueReadMetadataFromMicrosoftPhotos
+                                if (!fileInUse) 
+                                    lock(commonQueueReadMetadataFromMicrosoftPhotosLock)
+                                    {
+                                        foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
+                                        {
+                                            if (fileEntry.FileFullPath == fullFilename)
+                                            {
+                                                fileInUse = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                #endregion
+
+                                #region commonQueueReadMetadataFromWindowsLivePhotoGallery
+                                if (!fileInUse)
+                                    lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock)
+                                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
+                                    {
+                                        if (fileEntry.FileFullPath == fullFilename)
+                                        {
+                                            fileInUse = true;
+                                            break;
+                                        }
+                                    }
+                                #endregion
+
+                                #region commonQueueReadMetadataFromExiftool
+                                if (!fileInUse)
+                                    lock(commonQueueReadMetadataFromExiftoolLock)
+                                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromExiftool)
+                                    {
+                                        if (fileEntry.FileFullPath == fullFilename)
+                                        {
+                                            fileInUse = true;
+                                            break;
+                                        }
+                                    }
+                                #endregion
+
+                                #region commonQueueSaveMetadataUpdatedByUser
+                                if (!fileInUse)
+                                    lock (commonQueueSaveMetadataUpdatedByUserLock)
+                                    {
+                                        foreach (Metadata metadata in commonQueueSaveMetadataUpdatedByUser)
+                                        {
+                                            if (metadata.FileFullPath == fullFilename)
+                                            {
+                                                fileInUse = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                #endregion
+                            
+                            }
+                        }
+                        #endregion 
+
+                        #region Remove from qeueu
+                        if (!fileInUse)
+                        {
+                            lock (commonQueueRenameLock)
+                            {
+                                if (commonQueueRename.ContainsKey(fullFilename)) commonQueueRename.Remove(fullFilename);
+                            }
+                        }
+                        #endregion
+
+                        #region Do the renameing process
+                        if (!fileInUse)
+                        {
+                            Dictionary<string, string> renameSuccess = new Dictionary<string, string>();
+                            Dictionary<string, string> renameFailed = new Dictionary<string, string>();
+
+                            Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(new FileEntryBroker(fullFilename, File.GetLastWriteTime(fullFilename), MetadataBrokerTypes.ExifTool));
+
+                            DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                            DataGridViewHandlerRename.RenameVaribale = renameVaiable;
+                            DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+
+                            string oldDirectory = Path.GetDirectoryName(fullFilename);
+                            
+                            string newFilename = DataGridViewHandlerRename.CreateNewFilename(renameVaiable, fullFilename, metadata);
+                            string newRelativeFilename = Path.Combine(oldDirectory, newFilename);
+                            string newFullFilename = Path.GetFullPath(newRelativeFilename);
+
+                           
+                            DataGridViewHandlerRename.RenameFile(fullFilename, newFullFilename, ref renameSuccess, ref renameFailed);
+                            
+                            UpdateImageViewListeAfterRename(renameSuccess, renameFailed, true);
+                            //FilesSelected(); 
+                        }
+                        #endregion
+
+
+                        //Status updated for user
+                        ShowExiftoolSaveProgressStop();
+                        DisplayAllQueueStatus();
+
+                        Thread.Sleep(100); //Wait in case of loop
+                    }
+
+                    StartThreads();
+                    TriggerAutoResetEventQueueEmpty();
+                });
+
+                _ThreadRenameMedafiles.Start();
+            }
+            /*
+            private List<Metadata> commonQueueSaveMetadataUpdatedByUser = new List<Metadata>();
+            private static readonly Object commonQueueSaveMetadataUpdatedByUserLock = new Object();
+            private List<Metadata> commonOrigialMetadataBeforeUserUpdate = new List<Metadata>();
+            private static readonly Object commonOrigialMetadataBeforeUserUpdateLock = new Object();
+            private List<Metadata> commonQueueMetadataWrittenByExiftoolReadyToVerify = new List<Metadata>();
+            private static readonly Object commonQueueMetadataWrittenByExiftoolReadyToVerifyLock = new Object();
+
+            private static Dictionary<string, string> commonQueueRename = new Dictionary<string, string>();
+            private static readonly Object commonQueueRenameLock = new Object();*/
+        }
+        #endregion 
     }
 }

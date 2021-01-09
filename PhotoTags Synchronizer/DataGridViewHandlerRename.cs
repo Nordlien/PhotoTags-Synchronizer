@@ -22,7 +22,7 @@ namespace PhotoTagsSynchronizer
         public static FileDateTimeReader FileDateTimeFormats { get; set; }
         public static string RenameVaribale { get; set; }
 
-        private static string CreateNewFilename(string newFilenameVariable, string oldFilename, Metadata metadata)
+        public static string CreateNewFilename(string newFilenameVariable, string oldFilename, Metadata metadata)
         {
             /*
             %Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%
@@ -152,7 +152,7 @@ namespace PhotoTagsSynchronizer
                 .Replace("?", "")
                 .Replace("*", "")
                 .Replace("/", "")
-                .Replace("\\", "")
+                //.Replace("\\", "")
                 .Replace("\"", "");
             return newFilename;
         }
@@ -188,14 +188,14 @@ namespace PhotoTagsSynchronizer
                 string newFilename = Path.GetFileName(newFullFilename);
                 string newDirectory = Path.GetDirectoryName(newFullFilename);
 
-                Directory.CreateDirectory(newDirectory);  
+                Directory.CreateDirectory(newDirectory);
                 File.Move(oldFullFilename, newFullFilename);
                 DatabaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
-                renameSuccess.Add(oldFullFilename, newFullFilename);
+                if (renameSuccess != null) renameSuccess.Add(oldFullFilename, newFullFilename);
             }
             catch (Exception ex)
             {
-                renameFailed.Add(oldFullFilename, newFullFilename);
+                if (renameFailed != null) renameFailed.Add(oldFullFilename, newFullFilename);
                 Logger.Error("Rename file failed: " + oldFullFilename + " to :" + newFullFilename + " " + ex.Message);
             }
         }
@@ -224,12 +224,9 @@ namespace PhotoTagsSynchronizer
                     string newRelativeFilename = Path.Combine(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
                     string newFullFilename = Path.GetFullPath(newRelativeFilename);
                     
-                    RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);
-                    
-
+                    RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);                 
                 }
             }
-
         }
 
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)

@@ -29,7 +29,6 @@ namespace PhotoTagsSynchronizer
             textBoxRenameNewName.Text = textBoxRenameNewName.Text.Remove(selectionIndex, textBoxRenameNewName.SelectionLength);
             textBoxRenameNewName.Text = textBoxRenameNewName.Text.Insert(selectionIndex, insertText);
             textBoxRenameNewName.SelectionStart = selectionIndex + insertText.Length;
-
         }
 
         private void buttonRenameUpdate_Click(object sender, EventArgs e)
@@ -53,7 +52,13 @@ namespace PhotoTagsSynchronizer
         }
 
         private void UpdateImageViewListeAfterRename(Dictionary<string, string> renameSuccess, Dictionary<string, string> renameFailed, bool onlyRenameAddbackToListView)
-        {            
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<Dictionary<string, string> , Dictionary<string, string>, bool>(UpdateImageViewListeAfterRename), renameSuccess, renameFailed, onlyRenameAddbackToListView);
+                return;
+            }
+
             //GlobalData.DoNotRefreshImageListView = true;
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 
@@ -95,7 +100,6 @@ namespace PhotoTagsSynchronizer
             imageListView1.ResumeLayout();
             #endregion
 
-            
 
             if (onlyRenameAddbackToListView)
             {
@@ -110,7 +114,6 @@ namespace PhotoTagsSynchronizer
 
 
             FilesSelected();
-            
             
         }
 
@@ -127,8 +130,6 @@ namespace PhotoTagsSynchronizer
         }
 
         #region Painting
-        
-    
         #endregion
     }
 }

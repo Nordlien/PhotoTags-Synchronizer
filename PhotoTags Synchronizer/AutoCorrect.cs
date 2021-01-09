@@ -128,6 +128,14 @@ namespace PhotoTagsSynchronizer
         public bool UpdateLocationCountry { get; set; } = true;
         #endregion
 
+        #region Rename
+        [JsonProperty("RenameVariable")]
+        public string RenameVariable { get; set; } = ".\\AutoCorrected\\%Trim%%MediaFileNow_DateTime% %FileNameWithoutDateTime%%Extension%";
+        [JsonProperty("RenameAfterAutoCorrect")]
+        public bool RenameAfterAutoCorrect { get; set; } = true;
+
+        #endregion
+
         #region Congig De- Serialization
         public string SerializeThis()
         {

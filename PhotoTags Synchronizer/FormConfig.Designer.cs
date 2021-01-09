@@ -1680,10 +1680,12 @@ namespace PhotoTagsSynchronizer
             // 
             // textBoxRenameTo
             // 
+            this.textBoxRenameTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRenameTo.Location = new System.Drawing.Point(165, 78);
             this.textBoxRenameTo.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxRenameTo.Name = "textBoxRenameTo";
-            this.textBoxRenameTo.Size = new System.Drawing.Size(501, 22);
+            this.textBoxRenameTo.Size = new System.Drawing.Size(558, 22);
             this.textBoxRenameTo.TabIndex = 4;
             // 
             // label10
@@ -1719,12 +1721,51 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxRenameVariables
             // 
+            this.comboBoxRenameVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxRenameVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRenameVariables.FormattingEnabled = true;
+            this.comboBoxRenameVariables.Items.AddRange(new object[] {
+            "%Trim%",
+            "%FileName%",
+            "%FileNameWithoutDateTime%",
+            "%Extension%",
+            "%MediaFileNow_DateTime%",
+            "%Media_DateTime%",
+            "%Media_yyyy%",
+            "%Media_MM%",
+            "%Media_dd%",
+            "%Media_HH%",
+            "%Media_mm%",
+            "%Media_ss%",
+            "%File_DateTime%",
+            "%File_yyyy%",
+            "%File_MM%",
+            "%File_dd%",
+            "%File_HH%",
+            "%File_mm%",
+            "%File_ss%",
+            "%Now_DateTime%",
+            "%Now_yyyy%",
+            "%Now_MM%",
+            "%Now_dd%",
+            "%Now_HH%",
+            "%Now_mm%",
+            "%Now_ss%",
+            "%GPS_DateTimeUTC%",
+            "%MediaAlbum%",
+            "%MediaTitle%",
+            "%MediaDescription%",
+            "%MediaAuthor%",
+            "%LocationName%",
+            "%LocationCountry%",
+            "%LocationState%"});
             this.comboBoxRenameVariables.Location = new System.Drawing.Point(165, 50);
             this.comboBoxRenameVariables.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxRenameVariables.Name = "comboBoxRenameVariables";
-            this.comboBoxRenameVariables.Size = new System.Drawing.Size(501, 24);
+            this.comboBoxRenameVariables.Size = new System.Drawing.Size(558, 24);
             this.comboBoxRenameVariables.TabIndex = 0;
+            this.comboBoxRenameVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxRenameVariables_SelectionChangeCommitted);
             // 
             // groupBoxFaceRegion
             // 
