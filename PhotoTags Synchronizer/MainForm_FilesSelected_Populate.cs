@@ -459,7 +459,9 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerRename.FileDateTimeFormats =new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
                         DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
                         DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-                        
+                        DataGridViewHandlerRename.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
+
+
                         DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
                         DataGridViewHandler.ResumeLayout(dataGridView);
                         dataGridView.Enabled = true;

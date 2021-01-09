@@ -44,9 +44,9 @@ namespace PhotoTagsSynchronizer
             GlobalData.SearchFolder = true;
             Application.UseWaitCursor = true;
 
-            folderTreeViewFolder.Enabled = false;
+            //folderTreeViewFolder.Enabled = false;
             FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
-            folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
+            //folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
             
             if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
 
@@ -55,7 +55,6 @@ namespace PhotoTagsSynchronizer
 
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //Even when 0 selected files, allocate data and flags, etc...
             
-
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
@@ -104,6 +103,8 @@ namespace PhotoTagsSynchronizer
             if (Directory.Exists(selectedFolder))
             {
                 //fileSystemWatcher.EnableRaisingEvents = false;
+
+                if (Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect) ClearQueueExiftool();
 
                 FolderSelected_AddFilesImageListView(selectedFolder, recursive);
                 GlobalData.lastReadFolderWasRecursive = recursive;

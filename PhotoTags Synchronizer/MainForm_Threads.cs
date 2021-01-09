@@ -310,6 +310,14 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        public void ClearQueueExiftool()
+        {
+            lock (commonQueueReadMetadataFromExiftoolLock)
+            {
+                commonQueueReadMetadataFromExiftool.Clear();
+            }
+        }
+
         #region AddQueue - AddQueueMicrosoftPhotos(FileEntry fileEntry)
         /// <summary>
         /// Add File Entry to Read "Metadata Queue"
@@ -422,7 +430,7 @@ namespace PhotoTagsSynchronizer
                     _ThreadThumbnailMedia.Start();
                 } catch (Exception ex)
                 {
-                    Logger.Error("ThreadSaveThumbnail" + ex.Message);
+                    Logger.Error("_ThreadThumbnailMedia failed to start. " + ex.Message);
                 }
             }
 
@@ -521,8 +529,13 @@ namespace PhotoTagsSynchronizer
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
                 });
-
-                _ThreadThumbnailRegion.Start();
+                try { 
+                    _ThreadThumbnailRegion.Start();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("_ThreadThumbnailRegion.Start failed. " + ex.Message);
+                }
             }
 
         }
@@ -597,9 +610,14 @@ namespace PhotoTagsSynchronizer
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
                 });
-
-                _ThreadWindowsLiveGallery.Start();
-
+                try
+                {
+                    _ThreadWindowsLiveGallery.Start();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("_ThreadWindowsLiveGallery.Start failed. " + ex.Message);
+                }
             }
         }
         #endregion
@@ -622,7 +640,13 @@ namespace PhotoTagsSynchronizer
                     TriggerAutoResetEventQueueEmpty();
                 });
 
-                _ThreadMicrosoftPhotos.Start();
+                try
+                {
+                    _ThreadMicrosoftPhotos.Start();
+                } catch (Exception ex)
+                {
+                    Logger.Error("_ThreadMicrosoftPhotos.Start failed. " + ex.Message);
+                }
             }
         }
         #endregion
@@ -846,8 +870,13 @@ namespace PhotoTagsSynchronizer
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
                 });
-                
-                _ThreadSaveMetadata.Start();
+                try { 
+                    _ThreadSaveMetadata.Start();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("_ThreadSaveMetadata.Start failed. " + ex.Message);
+                }
             }
         }
         #endregion
@@ -904,7 +933,7 @@ namespace PhotoTagsSynchronizer
                                 metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerTypes.ExifTool, useExiftoolOnThisSubsetOfFiles);
                             } catch (Exception ex)
                             {
-                                Logger.Error("Running Exiftool failed");
+                                Logger.Error("Running Exiftool failed" + ex.Message);
                             }
                             #endregion
 
@@ -961,8 +990,15 @@ namespace PhotoTagsSynchronizer
                     TriggerAutoResetEventQueueEmpty();
                 });
 
-                _ThreadExiftool.Start();
-            }
+                try
+                {
+                    _ThreadExiftool.Start();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("_ThreadExiftool.Start failed. " + ex.Message);
+                }
+        }
         }
         #endregion
 
@@ -1064,7 +1100,14 @@ namespace PhotoTagsSynchronizer
                 formMessageBox.ShowDialog();
                 formMessageBox = null;
             }
-            timerShowErrorMessage.Start();
+            try
+            {
+                timerShowErrorMessage.Start();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("timerShowErrorMessage.Start failed. " + ex.Message);
+            }
         }
         #endregion
 
@@ -1259,26 +1302,31 @@ namespace PhotoTagsSynchronizer
                         #region Do the renameing process
                         if (!fileInUse)
                         {
-                            Dictionary<string, string> renameSuccess = new Dictionary<string, string>();
-                            Dictionary<string, string> renameFailed = new Dictionary<string, string>();
-
                             Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(new FileEntryBroker(fullFilename, File.GetLastWriteTime(fullFilename), MetadataBrokerTypes.ExifTool));
 
-                            DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-                            DataGridViewHandlerRename.RenameVaribale = renameVaiable;
-                            DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                            if (metadata != null)
+                            {
+                                DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                                DataGridViewHandlerRename.RenameVaribale = renameVaiable;
+                                DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
 
-                            string oldDirectory = Path.GetDirectoryName(fullFilename);
-                            
-                            string newFilename = DataGridViewHandlerRename.CreateNewFilename(renameVaiable, fullFilename, metadata);
-                            string newRelativeFilename = Path.Combine(oldDirectory, newFilename);
-                            string newFullFilename = Path.GetFullPath(newRelativeFilename);
+                                #region Get Old Filename
+                                string oldDirectory = Path.GetDirectoryName(fullFilename);
+                                #endregion
 
-                           
-                            DataGridViewHandlerRename.RenameFile(fullFilename, newFullFilename, ref renameSuccess, ref renameFailed);
-                            
-                            UpdateImageViewListeAfterRename(renameSuccess, renameFailed, true);
-                            //FilesSelected(); 
+                                #region Get new Filename
+                                string newFilename = DataGridViewHandlerRename.CreateNewFilename(renameVaiable, fullFilename, metadata);
+                                string newRelativeFilename = Path.Combine(oldDirectory, newFilename);
+                                string newFullFilename = Path.GetFullPath(newRelativeFilename);
+                                #endregion 
+
+                                MoveFile(folderTreeViewFolder, imageListView1, fullFilename, newFullFilename);
+
+                            } else
+                            {
+                                Logger.Error("Was not able to read metadata after rename ");
+                            }
+
                         }
                         #endregion
 
@@ -1293,19 +1341,16 @@ namespace PhotoTagsSynchronizer
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
                 });
-
-                _ThreadRenameMedafiles.Start();
+                try
+                {
+                    _ThreadRenameMedafiles.Start();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("_ThreadRenameMedafiles.Start failed. " + ex.Message);
+                }
             }
-            /*
-            private List<Metadata> commonQueueSaveMetadataUpdatedByUser = new List<Metadata>();
-            private static readonly Object commonQueueSaveMetadataUpdatedByUserLock = new Object();
-            private List<Metadata> commonOrigialMetadataBeforeUserUpdate = new List<Metadata>();
-            private static readonly Object commonOrigialMetadataBeforeUserUpdateLock = new Object();
-            private List<Metadata> commonQueueMetadataWrittenByExiftoolReadyToVerify = new List<Metadata>();
-            private static readonly Object commonQueueMetadataWrittenByExiftoolReadyToVerifyLock = new Object();
-
-            private static Dictionary<string, string> commonQueueRename = new Dictionary<string, string>();
-            private static readonly Object commonQueueRenameLock = new Object();*/
+            
         }
         #endregion 
     }

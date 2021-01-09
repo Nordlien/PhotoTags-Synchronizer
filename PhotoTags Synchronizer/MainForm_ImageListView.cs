@@ -75,6 +75,7 @@ namespace PhotoTagsSynchronizer
             Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(
                 new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerTypes.ExifTool));
 
+            Application.DoEvents();
             try
             {
                 if (metadata == null || metadata.FileName == null)

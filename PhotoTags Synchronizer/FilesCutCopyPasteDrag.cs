@@ -13,6 +13,8 @@ namespace PhotoTagsSynchronizer
 {
     public class FilesCutCopyPasteDrag
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         private MetadataDatabaseCache databaseAndCacheMetadataExiftool;
         private MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery;
         private MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos;
@@ -20,6 +22,7 @@ namespace PhotoTagsSynchronizer
         private ExiftoolDataDatabase databaseExiftoolData;
         private ExiftoolWarningDatabase databaseExiftoolWarning;
 
+        #region FilesCutCopyPasteDrag - Constructor
         public FilesCutCopyPasteDrag(MetadataDatabaseCache databaseAndCacheMetadataExiftool, 
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery, 
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos, 
@@ -34,8 +37,9 @@ namespace PhotoTagsSynchronizer
             this.databaseExiftoolData = databaseExiftoolData ?? throw new ArgumentNullException(nameof(databaseExiftoolData));
             this.databaseExiftoolWarning = databaseExiftoolWarning ?? throw new ArgumentNullException(nameof(databaseExiftoolWarning));
         }
+        #endregion
 
-
+        #region FilesCutCopyPasteDrag - DeleteDirectory
         public void DeleteDirectory(string folder)
         {
             databaseAndCacheMetadataExiftool.DeleteDirectory(MetadataBrokerTypes.ExifTool, folder);
@@ -45,7 +49,9 @@ namespace PhotoTagsSynchronizer
             databaseExiftoolWarning.DeleteDirectory(folder);
             databaseAndCacheThumbnail.DeleteDirectory(folder);
         }
+        #endregion
 
+        #region FilesCutCopyPasteDrag - DeleteMetadataFileEntry
         public void DeleteMetadataFileEntry(FileEntry fileEntry)
         {
 
@@ -62,7 +68,9 @@ namespace PhotoTagsSynchronizer
             databaseExiftoolWarning.DeleteFileEntry(fileEntry);
             databaseAndCacheThumbnail.DeleteThumbnail(fileEntry);
         }
+        #endregion
 
+        #region FilesCutCopyPasteDrag - DeleteMetadataHirstory
         public void DeleteMetadataHirstory(string fullFilePath)
         {
 
@@ -108,7 +116,9 @@ namespace PhotoTagsSynchronizer
                 databaseAndCacheThumbnail.DeleteThumbnail(fileEntry);
             }
         }
+        #endregion
 
+        #region FilesCutCopyPasteDrag - DeleteSelectedFiles
         public void DeleteSelectedFiles(ImageListView imageListView)
         {
             GlobalData.IsPopulatingImageListView = true;
@@ -134,20 +144,30 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsPopulatingImageListView = false;
   
         }
+        #endregion
 
+        #region FilesCutCopyPasteDrag - RefeshFolderTree
         public void RefeshFolderTree(FolderTreeView folderTreeViewFolder, TreeNode targetNode)
         {
-            targetNode.Nodes.Clear();
+            if (targetNode != null)
+            {
+                targetNode.Nodes.Clear();
 
-            TreeNode ntn = new TreeNode();
-            ntn.Tag = "DUMMYNODE";
-            targetNode.Nodes.Add(ntn); //Internal use of TreeView as sign that subfolders exists
+                TreeNode ntn = new TreeNode();
+                ntn.Tag = "DUMMYNODE";
+                targetNode.Nodes.Add(ntn); //Internal use of TreeView as sign that subfolders exists
 
-            folderTreeViewFolder.SelectedNode = targetNode;
-            targetNode.Collapse();
-            targetNode.Expand();
+                folderTreeViewFolder.SelectedNode = targetNode;
+                targetNode.Collapse();
+                targetNode.Expand();
+            } else
+            {
+                //DEBUG: None node is selected
+            }
         }
+        #endregion
 
+        #region FilesCutCopyPasteDrag - DeleteFilesInFolder
         public void DeleteFilesInFolder(FolderTreeView folderTreeViewFolder, string folder)
         {
             string[] dirs = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
@@ -175,7 +195,9 @@ namespace PhotoTagsSynchronizer
 
             #endregion
         }
+        #endregion
 
+        #region FilesCutCopyPasteDrag - DeleteFilesMetadataForReload
         public void DeleteFilesMetadataForReload(FolderTreeView folderTreeViewFolder, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
         {
 
@@ -212,7 +234,9 @@ namespace PhotoTagsSynchronizer
             imageListView.Enabled = true;
             
         }
+        #endregion
 
+        #region FilesCutCopyPasteDrag - ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory
         public void ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(FolderTreeView folderTreeViewFolder, ImageListView imageListView)
         {
             if (GlobalData.IsPopulatingAnything()) return;
@@ -241,11 +265,14 @@ namespace PhotoTagsSynchronizer
             imageListView.ResumeLayout();
             imageListView.Enabled = true;
         }
-          
+        #endregion
+
+        #region FilesCutCopyPasteDrag - MoveFile
         public void MoveFile(string sourceFullFilename, string targetFullFilename)
         {
             if (File.Exists(sourceFullFilename))
-            {                
+            {    
+                
                 string oldFilename = Path.GetFileName(sourceFullFilename);
                 string oldDirectory = Path.GetDirectoryName(sourceFullFilename);
 
@@ -257,7 +284,25 @@ namespace PhotoTagsSynchronizer
                 databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
             }
         }
+        #endregion
 
+        #region 
+        public void RenameFile(string oldFullFilename, string newFullFilename, ref Dictionary<string, string> renameSuccess, ref Dictionary<string, string> renameFailed)
+        {
+            try
+            {
+                MoveFile(oldFullFilename, newFullFilename);
+                if (renameSuccess != null) renameSuccess.Add(oldFullFilename, newFullFilename);
+            }
+            catch (Exception ex)
+            {
+                if (renameFailed != null) renameFailed.Add(oldFullFilename, newFullFilename);
+                Logger.Error("Rename file failed: " + oldFullFilename + " to :" + newFullFilename + " " + ex.Message);
+            }
+        }
+        #endregion
+
+        #region FilesCutCopyPasteDrag - CopyFile
         public void CopyFile(string sourceFullFilename, string targetFullFilename)
         {
             if (File.Exists(sourceFullFilename))
@@ -274,5 +319,6 @@ namespace PhotoTagsSynchronizer
                 databaseAndCacheMetadataExiftool.Copy(oldDirectory, oldFilename, newDirectory, newFilename);
             }
         }
+        #endregion
     }
 }

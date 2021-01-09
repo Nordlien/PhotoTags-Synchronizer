@@ -148,7 +148,7 @@ namespace PhotoTagsSynchronizer
             exiftoolReader.afterNewMediaFoundEvent += ExiftoolReader_afterNewMediaFoundEvent;
 
             filesCutCopyPasteDrag = new FilesCutCopyPasteDrag(databaseAndCacheMetadataExiftool, databaseAndCacheMetadataWindowsLivePhotoGallery,
-            databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnail, databaseExiftoolData, databaseExiftoolWarning);
+                databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnail, databaseExiftoolData, databaseExiftoolWarning);
 
             SplashForm.UpdateStatus("Initialize database: Microsoft Photos...");
             try
@@ -304,10 +304,7 @@ namespace PhotoTagsSynchronizer
             _previousWindowsState = this.WindowState;
         }
 
-        private void MainForm_Shown(object sender, EventArgs e)
-        {
-            isFormLoading = false;
-        }
+        
 
         private void MainForm_Activated(object sender, EventArgs e)
         {
@@ -413,9 +410,7 @@ namespace PhotoTagsSynchronizer
             else
                 folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
             
-            FolderSelected_AggregateListViewWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
-            FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
-
+            
             PopulateDatabaseFilter();
             PopulateTreeViewFolderFilter(imageListView1.Items);
 
@@ -448,7 +443,14 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            isFormLoading = false;
+
+            FolderSelected_AggregateListViewWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
+            FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
+        }
+
     }
 }
 

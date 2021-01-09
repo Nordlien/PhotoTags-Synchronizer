@@ -35,96 +35,14 @@ namespace PhotoTagsSynchronizer
         {
             DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, Properties.Settings.Default.RenameVariable);
         }
-        
-
-        private ImageListViewItem FindItemInImageListView(ImageListViewItemCollection imageListViewItemCollection, string fullFilename)
-        {            
-            ImageListViewItem foundItem = null;
-            foreach (ImageListViewItem item in imageListViewItemCollection)
-            {
-                if (item.FileFullPath == fullFilename)
-                {
-                    foundItem = item;
-                    break;
-                }
-            }
-            return foundItem;
-        }
-
-        private void UpdateImageViewListeAfterRename(Dictionary<string, string> renameSuccess, Dictionary<string, string> renameFailed, bool onlyRenameAddbackToListView)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<Dictionary<string, string> , Dictionary<string, string>, bool>(UpdateImageViewListeAfterRename), renameSuccess, renameFailed, onlyRenameAddbackToListView);
-                return;
-            }
-
-            //GlobalData.DoNotRefreshImageListView = true;
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-
-            //Remove items with old names
-            imageListView1.SuspendLayout();
-            foreach (string filename in renameSuccess.Keys)
-            {
-                ImageListViewItem foundItem = FindItemInImageListView(imageListView1.Items, filename);
-                if (foundItem != null) imageListView1.Items.Remove(foundItem);
-            }
-
-            //Add new renames back to list
-            if (onlyRenameAddbackToListView)
-            {
-                foreach (string filename in renameSuccess.Values)
-                {
-                    imageListView1.Items.Add(filename);
-                }
-            }
-            
-            #region Also select items that didn't got renamed due to error in the ImageListView 
-            foreach (string filename in renameFailed.Keys)
-            {
-                DateTime dateTimeLastWriteTime = DateTime.Now;
-                try {
-                    dateTimeLastWriteTime = File.GetLastWriteTime(filename);
-                } catch { }
-                
-                AddError(
-                        Path.GetDirectoryName(filename),
-                        Path.GetFileName(filename),
-                        dateTimeLastWriteTime,
-                        AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename],
-                        "Failed rename " + filename + " to : " + renameFailed[filename]);
-
-                ImageListViewItem foundItem = FindItemInImageListView(imageListView1.Items, filename);
-                if (foundItem != null) foundItem.Selected = true;
-            }
-            imageListView1.ResumeLayout();
-            #endregion
-
-
-            if (onlyRenameAddbackToListView)
-            {
-                foreach (string filename in renameSuccess.Values)
-                {
-                    ImageListViewItem foundItem = FindItemInImageListView(imageListView1.Items, filename);
-                    if (foundItem != null) foundItem.Selected = true;
-                }
-            }
-            
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-
-
-            FilesSelected();
-            
-        }
 
         private void buttonRenameSave_Click(object sender, EventArgs e)
         {
-            
             Dictionary<string, string> renameSuccess;
             Dictionary<string, string> renameFailed;
             DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed);
 
-            UpdateImageViewListeAfterRename(renameSuccess, renameFailed, true);
+            UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
 
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
         }

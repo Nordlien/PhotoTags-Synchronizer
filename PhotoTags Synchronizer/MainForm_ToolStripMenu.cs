@@ -18,44 +18,11 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
-        #region About
-        private void toolStripButtonAbout_Click(object sender, EventArgs e)
-        {
-            FormAbout form = new FormAbout();
-            form.ShowDialog();
-            form.Dispose();
-        }
-        #endregion
+        
 
-        #region Import Google Locations
-        private void toolStripButtonImportGoogleLocation_Click(object sender, EventArgs e)
-        {
-            bool showLocationForm = true;
-            if (IsAnyDataUnsaved())
-            {
-                if (MessageBox.Show("Will you continue, all unsaved data will be lost?", "You have unsaved data", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-                    showLocationForm = false;
-            }
-            
-            if (showLocationForm)
-            {
-                LocationHistoryImportForm form = new LocationHistoryImportForm();
-                form.databaseTools = databaseUtilitiesSqliteMetadata;
-                form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
-                form.Init();
+        #region Save
 
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-                    databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
-                    //Update DataGridViews
-                    FilesSelected();
-                }
-            }
-        }
-        #endregion
-
-        #region Save 
+        #region Save - IsAnyDataUnsaved
         private bool IsAnyDataUnsaved()
         {
             bool isAnyDataUnsaved = false;
@@ -76,7 +43,9 @@ namespace PhotoTagsSynchronizer
             List<int> listOfUpdates = ExiftoolWriter.GetListOfMetadataChangedByUser(metadataListOriginalExiftool, metadataListFromDataGridView);
             return (listOfUpdates.Count > 0);
         }
+        #endregion
 
+        #region Save - ClearDataGridDirtyFlag
         private void ClearDataGridDirtyFlag()
         {
             if (GlobalData.IsAgregatedTags) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewTagsAndKeywords);
@@ -84,7 +53,9 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsAgregatedPeople) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewPeople);
             if (GlobalData.IsAgregatedDate) DataGridViewHandler.ClearDataGridViewDirty(dataGridViewDate);
         }
+        #endregion
 
+        #region Save - GetDataGridViewData
         private void GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView)
         {
             metadataListOriginalExiftool = new List<Metadata>();
@@ -109,7 +80,9 @@ namespace PhotoTagsSynchronizer
                 dataGridViewGenericColumn.Metadata = metadataFromDataGridView; //Updated the column with Metadata according to the user input
             }
         }
+        #endregion
 
+        #region Save - SaveDataGridViewMetadata
         private void SaveDataGridViewMetadata()
         {
             if (GlobalData.IsPopulatingAnything())
@@ -141,7 +114,9 @@ namespace PhotoTagsSynchronizer
             }
             ThreadSaveMetadata();
         }
+        #endregion
 
+        #region Save - SaveProperties
         private void SaveProperties()
         {
             DataGridView dataGridView = dataGridViewProperties;
@@ -179,7 +154,9 @@ namespace PhotoTagsSynchronizer
             //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
         }
+        #endregion
 
+        #region Save - SaveActiveTabData
         private void SaveActiveTabData()
         {
             if (GlobalData.IsPopulatingAnything()) return;
@@ -209,13 +186,18 @@ namespace PhotoTagsSynchronizer
             }
             GlobalData.IsSaveButtonPushed = false;
         }
+        #endregion
 
+        #endregion
+
+        #region ToolStrip - Clicked or Selected
+        #region ToolStrip - Save - Click 
         private void toolStripButtonSaveAllMetadata_Click(object sender, EventArgs e)
         {
             this.Activate();
             this.Validate(); //Get the latest changes, that are text in edit mode
             SaveActiveTabData();
-            this.Enabled = true;            
+            this.Enabled = true;
         }
 
         private void toolStripMenuItemPeopleSave_Click(object sender, EventArgs e)
@@ -241,10 +223,529 @@ namespace PhotoTagsSynchronizer
             SaveActiveTabData();
             this.Enabled = true;
         }
-
         #endregion
 
-        #region Refresh - Folder tree
+        #region ToolStrip - About - Click
+        private void toolStripButtonAbout_Click(object sender, EventArgs e)
+        {
+            FormAbout form = new FormAbout();
+            form.ShowDialog();
+            form.Dispose();
+        }
+        #endregion
+
+        #region ToolStrip - Import Google Locations - Click
+        private void toolStripButtonImportGoogleLocation_Click(object sender, EventArgs e)
+        {
+            bool showLocationForm = true;
+            if (IsAnyDataUnsaved())
+            {
+                if (MessageBox.Show("Will you continue, all unsaved data will be lost?", "You have unsaved data", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                    showLocationForm = false;
+            }
+
+            if (showLocationForm)
+            {
+                LocationHistoryImportForm form = new LocationHistoryImportForm();
+                form.databaseTools = databaseUtilitiesSqliteMetadata;
+                form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
+                form.Init();
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
+                    databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
+                    //Update DataGridViews
+                    FilesSelected();
+                }
+            }
+        }
+        #endregion
+
+        #region ToolStrip - Refreh Folder - Click
+        private void toolStripMenuItemRefreshFolder_Click(object sender, EventArgs e)
+        {
+            FolderSelected(false);
+            folderTreeViewFolder.Focus();
+        }
+        #endregion
+
+        #region ToolStrip - Select all Items - Click
+        private void toolStripMenuItemSelectAll_Click(object sender, EventArgs e)
+        {
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+            imageListView1.SelectAll();
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+            FilesSelected();
+        }
+        #endregion
+
+        #region ToolStrip - Switch Renderers - Click
+        private struct RendererItem
+        {
+            public Type Type;
+
+            public override string ToString()
+            {
+                return Type.Name;
+            }
+
+            public RendererItem(Type type)
+            {
+                Type = type;
+            }
+        }
+
+        private void renderertoolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (isFormLoading) return;
+            Properties.Settings.Default.RenderertoolStripComboBox = renderertoolStripComboBox.SelectedIndex;
+            Properties.Settings.Default.Save();
+            // Change the renderer
+            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+            RendererItem item = (RendererItem)renderertoolStripComboBox.SelectedItem;
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(item.Type.FullName) as ImageListView.ImageListViewRenderer;
+            imageListView1.SetRenderer(renderer);
+            imageListView1.Focus();
+        }
+        #endregion
+
+        #region ToolStrip - Switch View Modes - Click
+        private void thumbnailsToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Thumbnails;
+            rendererToolStripLabel.Visible = true;
+            renderertoolStripComboBox.Visible = true;
+            toolStripSeparatorRenderer.Visible = true;
+
+            renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
+            renderertoolStripComboBox_SelectedIndexChanged(null, null);
+        }
+
+        private void galleryToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Gallery;
+            rendererToolStripLabel.Visible = false;
+            renderertoolStripComboBox.Visible = false;
+            toolStripSeparatorRenderer.Visible = false;
+
+            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
+            imageListView1.SetRenderer(renderer);
+            imageListView1.Focus();
+        }
+
+        private void paneToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Pane;
+            rendererToolStripLabel.Visible = false;
+            renderertoolStripComboBox.Visible = false;
+            toolStripSeparatorRenderer.Visible = false;
+
+            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
+            imageListView1.SetRenderer(renderer);
+            imageListView1.Focus();
+        }
+
+        private void detailsToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Details;
+            rendererToolStripLabel.Visible = false;
+            renderertoolStripComboBox.Visible = false;
+            toolStripSeparatorRenderer.Visible = false;
+
+            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
+            imageListView1.SetRenderer(renderer);
+            imageListView1.Focus();
+        }
+        #endregion
+
+        #region ToolStrip - Modify Column Headers - Click
+        private void columnsToolStripButton_Click(object sender, EventArgs e)
+        {
+            ChooseColumns form = new ChooseColumns();
+            form.imageListView = imageListView1;
+            form.ShowDialog();
+        }
+        #endregion
+
+        #region ToolStrip - Change Thumbnail Size - Click
+
+        private void toolStripButtonThumbnailSize1_Click(object sender, EventArgs e)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[4];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = 4;
+            Properties.Settings.Default.Save();
+        }
+
+        private void toolStripButtonThumbnailSize2_Click(object sender, EventArgs e)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[3];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = 3;
+            Properties.Settings.Default.Save();
+        }
+
+        private void toolStripButtonThumbnailSize3_Click(object sender, EventArgs e)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[2];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = 2;
+            Properties.Settings.Default.Save();
+        }
+
+        private void toolStripButtonThumbnailSize4_Click(object sender, EventArgs e)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[1];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = 1;
+            Properties.Settings.Default.Save();
+        }
+
+        private void toolStripButtonThumbnailSize5_Click(object sender, EventArgs e)
+        {
+            imageListView1.ThumbnailSize = thumbnailSizes[0];
+            Properties.Settings.Default.ThumbmailViewSizeIndex = 0;
+            Properties.Settings.Default.Save();
+        }
+        #endregion
+
+        #region ToolStrip - Rotate Selected Images - Click
+        private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
+                "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                {
+                    item.BeginEdit();
+                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
+                    {
+                        img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                        img.Save(item.FileFullPath);
+                    }
+                    item.Update();
+                    item.EndEdit();
+                }
+            }
+        }
+
+        private void rotateCWToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
+                "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                {
+                    item.BeginEdit();
+                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
+                    {
+                        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                        img.Save(item.FileFullPath);
+                    }
+                    item.Update();
+                    item.EndEdit();
+                }
+            }
+        }
+        #endregion
+
+        #region ToolStrip - SetGridViewSize Small Medium Big - Click
+        private void SetGridViewSize(DataGridViewSize size)
+        {
+            switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
+            {
+                case "Tags":
+                    DataGridViewHandler.SetCellSize(dataGridViewTagsAndKeywords, size, false);
+                    Properties.Settings.Default.CellSizeKeywords = (int)size;
+                    break;
+                case "Map":
+                    DataGridViewHandler.SetCellSize(dataGridViewMap, size, false);
+                    Properties.Settings.Default.CellSizeMap = (int)size;
+                    break;
+                case "People":
+                    DataGridViewHandler.SetCellSize(dataGridViewPeople, size, true);
+                    Properties.Settings.Default.CellSizePeoples = (int)size;
+                    break;
+                case "Date":
+                    DataGridViewHandler.SetCellSize(dataGridViewDate, size, false);
+                    Properties.Settings.Default.CellSizeDates = (int)size;
+                    break;
+                case "ExifTool":
+                    DataGridViewHandler.SetCellSize(dataGridViewExifTool, size, false);
+                    Properties.Settings.Default.CellSizeExiftool = (int)size;
+                    break;
+                case "Warning":
+                    DataGridViewHandler.SetCellSize(dataGridViewExifToolWarning, size, false);
+                    Properties.Settings.Default.CellSizeWarnings = (int)size;
+                    break;
+                case "Properties":
+                    DataGridViewHandler.SetCellSize(dataGridViewProperties, size, false);
+                    Properties.Settings.Default.CellSizeProperties = (int)size;
+                    break;
+                case "Rename":
+                    DataGridViewHandler.SetCellSize(dataGridViewRename, (size | DataGridViewSize.RenameSize), false);
+                    Properties.Settings.Default.CellSizeRename = (int)size;
+                    break;
+                default:
+                    throw new Exception("Not implemented");
+            }
+        }
+
+        private void toolStripButtonGridBig_Click(object sender, EventArgs e)
+        {
+            SetGridViewSize(DataGridViewSize.Large);
+        }
+
+        private void toolStripButtonGridNormal_Click(object sender, EventArgs e)
+        {
+            SetGridViewSize(DataGridViewSize.Medium);
+        }
+
+        private void toolStripButtonGridSmall_Click(object sender, EventArgs e)
+        {
+            SetGridViewSize(DataGridViewSize.Small);
+        }
+        #endregion
+
+        #region ToolStrip - Show Config Window - Click
+        private void toolStripButtonConfig_Click(object sender, EventArgs e)
+        {
+            using (Config config = new Config())
+            {
+                exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
+                config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
+                config.ThumbnailSizes = thumbnailSizes;
+                config.Init();
+                config.ShowDialog();
+                ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
+                databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
+                RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
+            }
+        }
+        #endregion
+
+        #region ToolStrip - Show/Hide Historiy Columns - Click
+        private void toolStripButtonHistortyColumns_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowHistortyColumns = toolStripButtonHistortyColumns.Checked;
+            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
+            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
+        }
+        #endregion
+
+        #region ToolStrip - Show/Hide Error Columns - Click
+        private void toolStripButtonErrorColumns_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
+            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
+            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
+        }
+        #endregion
+
+        #region ToolStrip - AutoCorrect - Click
+        private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
+        {
+            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+            string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
+            string[] files = Directory.GetFiles(selectedFolder, "*.*");
+            foreach (string file in files)
+            {
+                Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
+                Metadata metadataToSave = autoCorrect.FixAndSave(
+                    new FileEntry(file, File.GetLastWriteTime(file)),
+                    databaseAndCacheMetadataExiftool,
+                    databaseAndCacheMetadataMicrosoftPhotos,
+                    databaseAndCacheMetadataWindowsLivePhotoGallery,
+                    databaseAndCahceCameraOwner,
+                    databaseLocationAddress,
+                    databaseGoogleLocationHistory);
+                if (metadataToSave != null)
+                {
+                    AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
+                    AddQueueRename(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                }
+            }
+            StartThreads();
+
+        }
+
+
+        private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
+        {
+            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
+            foreach (ImageListViewItem item in imageListView1.SelectedItems)
+            {
+                Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
+                Metadata metadataToSave = autoCorrect.FixAndSave(
+                    new FileEntry(item.FileFullPath, item.DateModified),
+                    databaseAndCacheMetadataExiftool,
+                    databaseAndCacheMetadataMicrosoftPhotos,
+                    databaseAndCacheMetadataWindowsLivePhotoGallery,
+                    databaseAndCahceCameraOwner,
+                    databaseLocationAddress,
+                    databaseGoogleLocationHistory);
+                if (metadataToSave != null)
+                {
+                    AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
+                    AddQueueRename(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                }
+            }
+            StartThreads();
+        }
+        #endregion
+
+        #region ToolStrip - OpenWith Dialog - Click
+        private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                ApplicationActivation.ShowOpenWithDialog(imageListViewItem.FileFullPath);
+            }
+        }
+        #endregion
+
+        #region ToolStrip - OpenWith Associated Application - Click
+        private void openFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string errorMessage = "";
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                try
+                {
+                    ApplicationActivation.ProcessRunOpenFile(imageListViewItem.FileFullPath);
+                }
+                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
+            }
+            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
+        }
+        #endregion
+
+        #region ToolStrip - EditWith Associated Application - Click
+        private void editFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string errorMessage = "";
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                try
+                {
+                    ApplicationActivation.ProcessRunEditFile(imageListViewItem.FileFullPath);
+                }
+                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
+
+            }
+            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
+        }
+        #endregion
+
+        #region ToolStrip - Open File Location - Click
+        private void openFileLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string errorMessage = "";
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                try
+                {
+                    ApplicationActivation.ShowFileInExplorer(imageListViewItem.FileFullPath);
+                }
+                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
+            }
+            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
+        }
+        #endregion
+
+        #region ToolStrip - Open Folder Location - Click
+        private void openFolderLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ApplicationActivation.ShowFolderInEplorer(folderTreeViewFolder.GetSelectedNodePath());
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK); }
+        }
+        #endregion
+
+        #region ToolStrip - Copy Filenames to Clipboard - Click
+        private void copyFileNamesToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageListView1.SelectedItems.Count > 0)
+            {
+                string text = "";
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                {
+                    text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FileFullPath;
+                }
+                Clipboard.SetText(text);
+            }
+        }
+        #endregion
+
+        #region ToolStrip - OpenWith / Run - Advance Dialog - Click
+        private void runSelectedLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageListView1.SelectedItems.Count > 0)
+            {
+                string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
+                string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
+                string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
+
+                List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
+
+                #region Create ArgumentFile file
+                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
+
+                ExiftoolWriter.CreateExiftoolArguFileText(
+                    metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
+                    true, out string exiftoolAgruFileText);
+                #endregion 
+
+                #region AutoCorrect
+                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
+
+                List<Metadata> metadataListEmpty = new List<Metadata>();
+                List<Metadata> metadataListFromDataGridViewAutoCorrect = new List<Metadata>();
+
+                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                {
+                    Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
+                    Metadata metadataToSave = autoCorrect.FixAndSave(
+                        new FileEntry(item.FileFullPath, item.DateModified),
+                        databaseAndCacheMetadataExiftool,
+                        databaseAndCacheMetadataMicrosoftPhotos,
+                        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        databaseAndCahceCameraOwner,
+                        databaseLocationAddress,
+                        databaseGoogleLocationHistory);
+
+                    metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
+                    metadataListEmpty.Add(new Metadata(metadataOriginal));
+                }
+
+                ExiftoolWriter.CreateExiftoolArguFileText(
+                    metadataListFromDataGridViewAutoCorrect, metadataListEmpty, allowedFileNameDateTimeFormats,
+                    writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
+                    true, out string exiftoolAutoCorrectFileText);
+                #endregion 
+
+                using (RunCommand runCommand = new RunCommand())
+                {
+                    runCommand.ArguFile = exiftoolAgruFileText;
+                    runCommand.ArguFileAutoCorrect = exiftoolAutoCorrectFileText;
+                    runCommand.MetadatasGridView = metadataListFromDataGridView;
+                    runCommand.MetadatasOriginal = metadataListOriginalExiftool;
+                    runCommand.MetadatasEmpty = metadataListEmpty;
+                    runCommand.AllowedFileNameDateTimeFormats = allowedFileNameDateTimeFormats;
+                    runCommand.MetadataPrioity = exiftoolReader.MetadataReadPrioity;
+
+                    runCommand.Init();
+                    runCommand.ShowDialog();
+                }
+
+
+            }
+        }
+        #endregion
+
+        #region ToolStrip - Refresh - Folder tree - Click
         private void toolStripMenuItemTreeViewFolderRefreshFolder_Click(object sender, EventArgs e)
         {
             GlobalData.DoNotRefreshImageListView = true;
@@ -256,7 +757,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Refresh - Items in listview 
+        #region ToolStrip - Refresh - Items in listview 
         private void toolStripMenuItemTreeViewFolderReadSubfolders_Click(object sender, EventArgs e)
         {
             FolderSelected(true);
@@ -264,7 +765,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Reload Metadata - Selected items
+        #region ToolStrip - Reload Metadata - Selected items - Click
         private void toolStripMenuItemReloadThumbnailAndMetadata_Click(object sender, EventArgs e)
         {
             filesCutCopyPasteDrag.DeleteFilesMetadataForReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
@@ -272,7 +773,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Reload Metadata - Folder
+        #region ToolStrip - Reload Metadata - Folder - Click
         private void toolStripMenuItemTreeViewFolderReload_Click(object sender, EventArgs e)
         {
             filesCutCopyPasteDrag.DeleteFilesMetadataForReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
@@ -283,7 +784,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Delete Metadata Hirstory - Selected Items
+        #region ToolStrip - Delete Metadata Hirstory - Selected Items - Click
         private void toolStripMenuItemReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory_Click(object sender, EventArgs e)
         {
             filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(folderTreeViewFolder, imageListView1);
@@ -293,8 +794,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Delete Metadata Hirstory - Directory
-
+        #region ToolStrip - Delete Metadata Hirstory - Directory - Click
         private void toolStripMenuItemTreeViewFolderClearCache_Click(object sender, EventArgs e)
         {
             string folder = this.folderTreeViewFolder.GetSelectedNodePath();
@@ -318,7 +818,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Delete Files - Items
+        #region ToolStrip - Delete Files - Items - Click
         private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
             if (GlobalData.IsPopulatingAnything()) return;
@@ -339,7 +839,10 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - Delete Files - Directory
+        #endregion
+
+        #region ImageListView - Click
+        #region ImageListView - Delete Files - Directory - Click
         private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
         {
             string folder = folderTreeViewFolder.GetSelectedNodePath();
@@ -375,7 +878,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - Cut Click
+        #region ImageListView - Cut - Click
         private void toolStripMenuItemImageListViewCut_Click(object sender, EventArgs e)
         {
             var droplist = new StringCollection();
@@ -392,7 +895,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ImageListView - Copy Click
+        #region ImageListView - Copy - Click
         private void toolStripMenuItemImageListViewCopy_Click(object sender, EventArgs e)
         {
             StringCollection droplist = new StringCollection();
@@ -409,7 +912,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region ImageListView - Paste Click
+        #region ImageListView - Paste - Click
         private void toolStripMenuItemImageListViewPaste_Click(object sender, EventArgs e)
         {
             StringCollection files = Clipboard.GetFileDropList();
@@ -428,9 +931,11 @@ namespace PhotoTagsSynchronizer
             }
 
         }
+        #endregion
         #endregion 
 
-        #region FolderTree - Cut Click
+        #region FoldeTree - Click
+        #region FolderTree - Cut - Click
         private void toolStripMenuItemTreeViewFolderCut_Click(object sender, EventArgs e)
         {
             string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
@@ -448,7 +953,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FolderTree - Copy Click
+        #region FolderTree - Copy - Click
         private void toolStripMenuItemTreeViewFolderCopy_Click(object sender, EventArgs e)
         {
             string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
@@ -466,15 +971,20 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region FolderTree - Paste Click
+        #region FolderTree - Paste - Click
         private void toolStripMenuItemTreeViewFolderPaste_Click(object sender, EventArgs e)
         {
             DragDropEffects dragDropEffects = DetectCopyOrMove();
             CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
         }
         #endregion
+        #endregion 
 
-        #region Detect Copy Or Move
+
+        TreeNode currentNodeWhenStartDragging = null; //Updated by DragEnter
+        private bool isInternalDrop = true;
+
+        #region FolderTree - Drag and Drop - Detect Copy Or Move
         private DragDropEffects DetectCopyOrMove()
         {
             try
@@ -505,222 +1015,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Copy files
-        private void CopyFiles(TreeNode targetNode, StringCollection files, string targetNodeDirectory)
-        {                       
-            foreach (string oldPath in files) //Move all files to target directory 
-            {
-                string sourceFullFilename = oldPath;
-                string filename = Path.GetFileName(sourceFullFilename);
-                string targetFullFilename = Path.Combine(targetNodeDirectory, filename);
-
-                try
-                {
-                    filesCutCopyPasteDrag.CopyFile(sourceFullFilename, targetFullFilename);
-                }
-                catch (Exception ex)
-                {
-                    DateTime dateTimeLastWriteTime = DateTime.Now;
-                    try
-                    {
-                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
-                    } catch { }
-
-                    AddError(
-                        Path.GetDirectoryName(sourceFullFilename),
-                        Path.GetFileName(sourceFullFilename),
-                        dateTimeLastWriteTime, sourceFullFilename, targetFullFilename,
-                        AddErrorFileSystemRegion, AddErrorFileSystemCopy, 
-                        "Failed copying file.\r\n\r\n" +
-                        "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
-                        "To file: " + targetFullFilename + "\r\n\r\n" +
-                        "Error message: " + ex.Message + "\r\n");
-                    Logger.Error("Error when copy file." + ex.Message);
-                }
-            }
-
-            GlobalData.DoNotRefreshImageListView = true;
-            folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
-            GlobalData.DoNotRefreshImageListView = false;
-
-            //FolderSelected();
-            FilesSelected();
-        }
-        #endregion
-
-        #region Move Files
-        private void MoveFiles(TreeNode targetNode, StringCollection files, string targetNodeDirectory)
-        {
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-            imageListView1.SuspendLayout();
-
-            foreach (string oldPath in files) //Move all files to target directory 
-            {
-                string sourceFullFilename = oldPath;
-                string filename = Path.GetFileName(sourceFullFilename);
-                string targetFullFilename = Path.Combine(targetNodeDirectory, filename);
-                try
-                {
-                    filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
-
-                    ImageListViewItem foundItem = FindItemInImageListView(imageListView1.Items, sourceFullFilename);
-                    if (foundItem != null) imageListView1.Items.Remove(foundItem);
-                }
-                catch (Exception ex)
-                {
-
-                    DateTime dateTimeLastWriteTime = DateTime.Now;
-                    try
-                    {
-                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
-                    }
-                    catch { }
-                    AddError(
-                        Path.GetDirectoryName(sourceFullFilename),
-                        Path.GetFileName(sourceFullFilename),
-                        dateTimeLastWriteTime,
-                        AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
-                        "Failed moving file.\r\n\r\n" +
-                        "From:" + sourceFullFilename + "\r\n\r\n" +
-                        "To: " + targetFullFilename + "\r\n\r\n" +
-                        "Error message: " + ex.Message + "\r\n");
-                    Logger.Error("Error when move file." + ex.Message);
-                }
-            }
-            imageListView1.ResumeLayout();
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-
-            GlobalData.DoNotRefreshImageListView = true;
-            folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
-            GlobalData.DoNotRefreshImageListView = false;
-
-            //FolderSelected();
-            FilesSelected();
-        }
-        #endregion
-
-        #region Move Folder
-        private void MoveFolder(TreeNode sourceNode, TreeNode targetNode, string sourceDirectory, string targetDirectory)
-        {
-            if (sourceDirectory == targetDirectory) return; //Can't move into itself. No need for error message
-
-            try
-            {
-
-                string[] allSourceFullFilenames = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
-
-                //----- Move all folder and files -----
-                Logger.Trace("Move folder from:" + sourceDirectory + " to: " + targetDirectory);
-                System.IO.Directory.Move(sourceDirectory, targetDirectory);
-
-                //------ Clear ImageListView -----
-                FolderSelectedNone();
-
-                //------ Update node tree -----
-                GlobalData.DoNotRefreshImageListView = true;
-                if (sourceNode != null) sourceNode.Remove();
-                filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, targetNode);
-                GlobalData.DoNotRefreshImageListView = false;
-
-                //------ Update database -----
-                foreach (string oldFullFilename in allSourceFullFilenames)
-                {
-                    string oldFilename = Path.GetFileName(oldFullFilename);
-                    string newFullFilename = Path.Combine(targetDirectory, oldFilename);
-                    Logger.Trace("Rename from:" + oldFullFilename + " to: " + newFullFilename);
-                    databaseAndCacheMetadataExiftool.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
-                }
-
-                //----- Updated ImageListView with files ------
-                FolderSelected(false);
-
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Error when move folder." + ex.Message);
-
-                AddError(
-                    sourceDirectory,
-                    AddErrorFileSystemRegion, AddErrorFileSystemMoveFolder, sourceDirectory, targetDirectory,
-                    "Failed moving directory.\r\n\r\n" +
-                    "From: " + sourceDirectory + "\r\n\r\n" +
-                    "To: " + targetDirectory + "\r\n\r\n" +
-                    "Error message:\r\n" + ex.Message);
-
-            }
-        }
-        #endregion
-
-        #region Copy Folder
-        private void CopyFolder(TreeNode sourceNode, TreeNode targetNode, string sourceDirectory, string tagretDirectory)
-        {
-
-            string[] allSourceFullFilenames = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
-
-            //----- Create directories and sub-directories
-            Directory.CreateDirectory(tagretDirectory);
-            foreach (string dirPath in Directory.GetDirectories(sourceDirectory, "*", SearchOption.AllDirectories))
-            {                
-                try
-                {
-                    Directory.CreateDirectory(dirPath.Replace(sourceDirectory, tagretDirectory));
-                }
-                catch (SystemException ex)
-                {
-                    Logger.Error("Error when create directory when copy all files from folder:" + ex.Message);
-                    AddError(dirPath, 
-                        AddErrorFileSystemRegion, AddErrorFileSystemCreateFolder, dirPath.Replace(sourceDirectory, tagretDirectory), dirPath.Replace(sourceDirectory, tagretDirectory),
-                        "Failed create directory\r\n\r\n" + 
-                        "Directory: " + dirPath + "\r\n\r\n" + 
-                        "Error message: " + ex.Message + "\r\n");
-
-                    
-                }
-            }
-
-            //Copy all the files & Replaces any files with the same name
-            foreach (string sourceFullFilename in allSourceFullFilenames)
-            {
-                string sourceFilename = Path.GetFileName(sourceFullFilename);
-                string targetFullFilename = Path.Combine(tagretDirectory, sourceFilename);
-                try
-                {
-                    Logger.Trace("Copy from:" + sourceFullFilename + " to: " + targetFullFilename);
-                    File.Copy(sourceFullFilename, sourceFullFilename.Replace(sourceDirectory, tagretDirectory), false);                    
-                    
-                    databaseAndCacheMetadataExiftool.Copy(
-                        Path.GetDirectoryName(sourceFullFilename), Path.GetFileName(sourceFullFilename), 
-                        Path.GetDirectoryName(targetFullFilename), Path.GetFileName(targetFullFilename));
-                }
-                catch (SystemException ex)
-                {
-                    DateTime dateTimeLastWriteTime = DateTime.Now;
-                    try
-                    {
-                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
-                    }
-                    catch { }
-                    AddError(
-                        Path.GetDirectoryName(sourceFullFilename),
-                        Path.GetFileName(sourceFullFilename),
-                        dateTimeLastWriteTime,
-                        AddErrorFileSystemRegion, AddErrorFileSystemCopy, sourceFullFilename, targetFullFilename,
-                        "Failed copying file.\r\n\r\n" +
-                        "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
-                        "To file: " + targetFullFilename + "\r\n\r\n" +
-                        "Error message: " + ex.Message + "\r\n");
-                }
-            }
-
-            //------ Update node tree -----
-            GlobalData.DoNotRefreshImageListView = true;
-            //if (sourceNode != null) sourceNode.Remove();
-            filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, targetNode);
-            GlobalData.DoNotRefreshImageListView = false;
-        }
-        #endregion
-
-        #region Copy or Move - Files or Folders
+        #region FolderTree - Drag and Drop -  Files or Folders
         private void CopyOrMove(DragDropEffects dragDropEffects, TreeNode targetNode, StringCollection fileDropList, string targetDirectory)
         {
             if (dragDropEffects == DragDropEffects.None)
@@ -733,7 +1028,7 @@ namespace PhotoTagsSynchronizer
             StringCollection directories = new StringCollection();
 
             int numberOfFilesAndFolders = 0;
-            string copyFromFolders = ""; 
+            string copyFromFolders = "";
             int countFoldersSelected = 0;
 
             foreach (string clipbordSourceFileOrDirectory in fileDropList)
@@ -756,13 +1051,13 @@ namespace PhotoTagsSynchronizer
                     if (countFoldersSelected < 3)
                     {
                         copyFromFolders += clipbordSourceFileOrDirectory + "\r\n";
-                        
+
                     }
                     else if (countFoldersSelected == 4) copyFromFolders += "and more directories...\r\n";
                 }
             }
 
-            if (numberOfFilesAndFolders <= 50 || 
+            if (numberOfFilesAndFolders <= 50 ||
                 (MessageBox.Show("You are about to " + dragDropEffects.ToString() + " " + (numberOfFilesAndFolders > 50 ? "over 50+" : numberOfFilesAndFolders.ToString()) + " files and/or folders.\r\n\r\n" +
                 "From:\r\n" + copyFromFolders + "\r\n\r\n" +
                 "To folder:\r\n" + targetDirectory + "\r\n\r\n" +
@@ -770,9 +1065,9 @@ namespace PhotoTagsSynchronizer
             {
 
                 if (dragDropEffects == DragDropEffects.Move)
-                    MoveFiles(targetNode, files, targetDirectory);
+                    MoveFiles(folderTreeViewFolder, imageListView1, files, targetDirectory);
                 else
-                    CopyFiles(targetNode, files, targetDirectory);
+                    CopyFiles(folderTreeViewFolder, files, targetDirectory);
 
                 foreach (string sourceDirectory in directories)
                 {
@@ -781,10 +1076,10 @@ namespace PhotoTagsSynchronizer
                     TreeNode sourceNode = folderTreeViewFolder.FindFolder(sourceDirectory);
 
                     if (dragDropEffects == DragDropEffects.Move)
-                        MoveFolder(sourceNode, targetNode, sourceDirectory, newTagretDirectory);                    
+                        MoveFolder(folderTreeViewFolder, sourceNode, targetNode, sourceDirectory, newTagretDirectory);
                     else
-                        CopyFolder(sourceNode, targetNode, sourceDirectory, newTagretDirectory);
-                }  
+                        CopyFolder(folderTreeViewFolder, targetNode, sourceDirectory, newTagretDirectory);
+                }
             }
 
             folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
@@ -793,10 +1088,6 @@ namespace PhotoTagsSynchronizer
 
         }
         #endregion
-
-
-        TreeNode currentNodeWhenStartDragging = null; //Updated by DragEnter
-        private bool isInternalDrop = true;
 
         #region FolderTree - Drag and Drop - Drop - Move/Copy Files - Move/Copy Folders
         private void folderTreeViewFolder_DragDrop(object sender, DragEventArgs e)
@@ -970,478 +1261,6 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
-
-        #region Refreh Folder
-        private void toolStripMenuItemRefreshFolder_Click(object sender, EventArgs e)
-        {
-            FolderSelected(false);
-            folderTreeViewFolder.Focus();
-        }
-        #endregion
-
-        #region Select all - Items
-        private void toolStripMenuItemSelectAll_Click(object sender, EventArgs e)
-        {
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-            imageListView1.SelectAll();
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-            FilesSelected();
-        }
-        #endregion
-
-        #region Switch Renderers
-        private struct RendererItem
-        {
-            public Type Type;
-
-            public override string ToString()
-            {
-                return Type.Name;
-            }
-
-            public RendererItem(Type type)
-            {
-                Type = type;
-            }
-        }
-
-        private void renderertoolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (isFormLoading) return;
-            Properties.Settings.Default.RenderertoolStripComboBox = renderertoolStripComboBox.SelectedIndex;
-            Properties.Settings.Default.Save();
-            // Change the renderer
-            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            RendererItem item = (RendererItem)renderertoolStripComboBox.SelectedItem;
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(item.Type.FullName) as ImageListView.ImageListViewRenderer;
-            imageListView1.SetRenderer(renderer);
-            imageListView1.Focus();
-        }
-        #endregion
-
-        #region Switch View Modes
-        private void thumbnailsToolStripButton_Click(object sender, EventArgs e)
-        {
-            imageListView1.View = Manina.Windows.Forms.View.Thumbnails;
-            rendererToolStripLabel.Visible = true;
-            renderertoolStripComboBox.Visible = true;
-            toolStripSeparatorRenderer.Visible = true;
-
-            renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
-            renderertoolStripComboBox_SelectedIndexChanged(null, null);
-        }
-
-        private void galleryToolStripButton_Click(object sender, EventArgs e)
-        {
-            imageListView1.View = Manina.Windows.Forms.View.Gallery;
-            rendererToolStripLabel.Visible = false;
-            renderertoolStripComboBox.Visible = false;
-            toolStripSeparatorRenderer.Visible = false;
-
-            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
-            imageListView1.SetRenderer(renderer);
-            imageListView1.Focus();
-        }
-
-        private void paneToolStripButton_Click(object sender, EventArgs e)
-        {
-            imageListView1.View = Manina.Windows.Forms.View.Pane;
-            rendererToolStripLabel.Visible = false;
-            renderertoolStripComboBox.Visible = false;
-            toolStripSeparatorRenderer.Visible = false;
-
-            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
-            imageListView1.SetRenderer(renderer);
-            imageListView1.Focus();
-        }
-
-        private void detailsToolStripButton_Click(object sender, EventArgs e)
-        {
-            imageListView1.View = Manina.Windows.Forms.View.Details;
-            rendererToolStripLabel.Visible = false;
-            renderertoolStripComboBox.Visible = false;
-            toolStripSeparatorRenderer.Visible = false;
-
-            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
-            imageListView1.SetRenderer(renderer);
-            imageListView1.Focus();
-        }
-        #endregion
-
-        #region Modify Column Headers
-        private void columnsToolStripButton_Click(object sender, EventArgs e)
-        {
-            ChooseColumns form = new ChooseColumns();
-            form.imageListView = imageListView1;
-            form.ShowDialog();
-        }
-        #endregion
-
-        #region Change Thumbnail Size
-
-        private void toolStripButtonThumbnailSize1_Click(object sender, EventArgs e)
-        {
-            imageListView1.ThumbnailSize = thumbnailSizes[4];
-            Properties.Settings.Default.ThumbmailViewSizeIndex = 4;
-            Properties.Settings.Default.Save();
-        }
-
-        private void toolStripButtonThumbnailSize2_Click(object sender, EventArgs e)
-        {
-            imageListView1.ThumbnailSize = thumbnailSizes[3];
-            Properties.Settings.Default.ThumbmailViewSizeIndex = 3;
-            Properties.Settings.Default.Save();
-        }
-
-        private void toolStripButtonThumbnailSize3_Click(object sender, EventArgs e)
-        {
-            imageListView1.ThumbnailSize = thumbnailSizes[2];
-            Properties.Settings.Default.ThumbmailViewSizeIndex = 2;
-            Properties.Settings.Default.Save(); 
-        }
-
-        private void toolStripButtonThumbnailSize4_Click(object sender, EventArgs e)
-        {
-            imageListView1.ThumbnailSize = thumbnailSizes[1];
-            Properties.Settings.Default.ThumbmailViewSizeIndex = 1;
-            Properties.Settings.Default.Save();
-        }
-
-        private void toolStripButtonThumbnailSize5_Click(object sender, EventArgs e)
-        {
-            imageListView1.ThumbnailSize = thumbnailSizes[0];
-            Properties.Settings.Default.ThumbmailViewSizeIndex = 0;
-            Properties.Settings.Default.Save();
-        }
-        #endregion
-
-        #region Rotate Selected Images
-        private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-            {
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
-                {
-                    item.BeginEdit();
-                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
-                    {
-                        img.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                        img.Save(item.FileFullPath);
-                    }
-                    item.Update();
-                    item.EndEdit();
-                }
-            }
-        }
-
-        private void rotateCWToolStripButton_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-            {
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
-                {
-                    item.BeginEdit();
-                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
-                    {
-                        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                        img.Save(item.FileFullPath);
-                    }
-                    item.Update();
-                    item.EndEdit();
-                }
-            }
-        }
-        #endregion
-
-
-        #region SetGridViewSize Small Medium Big
-        private void SetGridViewSize(DataGridViewSize size)
-        {
-            switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
-            {
-                case "Tags":
-                    DataGridViewHandler.SetCellSize(dataGridViewTagsAndKeywords, size, false);
-                    Properties.Settings.Default.CellSizeKeywords = (int)size;
-                    break;
-                case "Map":
-                    DataGridViewHandler.SetCellSize(dataGridViewMap, size, false);
-                    Properties.Settings.Default.CellSizeMap = (int)size;
-                    break;
-                case "People":
-                    DataGridViewHandler.SetCellSize(dataGridViewPeople, size, true);
-                    Properties.Settings.Default.CellSizePeoples = (int)size;
-                    break;
-                case "Date":
-                    DataGridViewHandler.SetCellSize(dataGridViewDate, size, false);
-                    Properties.Settings.Default.CellSizeDates = (int)size;
-                    break;
-                case "ExifTool":
-                    DataGridViewHandler.SetCellSize(dataGridViewExifTool, size, false);
-                    Properties.Settings.Default.CellSizeExiftool = (int)size;
-                    break;
-                case "Warning":
-                    DataGridViewHandler.SetCellSize(dataGridViewExifToolWarning, size, false);
-                    Properties.Settings.Default.CellSizeWarnings = (int)size;
-                    break;
-                case "Properties":
-                    DataGridViewHandler.SetCellSize(dataGridViewProperties, size, false);
-                    Properties.Settings.Default.CellSizeProperties = (int)size;
-                    break;
-                case "Rename":
-                    DataGridViewHandler.SetCellSize(dataGridViewRename, (size | DataGridViewSize.RenameSize), false);
-                    Properties.Settings.Default.CellSizeRename = (int)size;
-                    break;
-                default:
-                    throw new Exception("Not implemented");
-            }
-        }
-
-        private void toolStripButtonGridBig_Click(object sender, EventArgs e)
-        {
-            SetGridViewSize(DataGridViewSize.Large);
-        }
-
-        private void toolStripButtonGridNormal_Click(object sender, EventArgs e)
-        {
-            SetGridViewSize(DataGridViewSize.Medium);
-        }
-
-        private void toolStripButtonGridSmall_Click(object sender, EventArgs e)
-        {
-            SetGridViewSize(DataGridViewSize.Small);
-        }
-        #endregion
-
-        #region Show Config Window
-        private void toolStripButtonConfig_Click(object sender, EventArgs e)
-        {
-            using (Config config = new Config())
-            {
-                exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
-                config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
-                config.ThumbnailSizes = thumbnailSizes;
-                config.Init();
-                config.ShowDialog();
-                ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
-                databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
-                RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
-            }
-        }
-        #endregion
-
-        #region Show/Hide Historiy / Error Columns
-        private void toolStripButtonHistortyColumns_CheckedChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.ShowHistortyColumns = toolStripButtonHistortyColumns.Checked;
-            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
-        }
-
-        private void toolStripButtonErrorColumns_CheckedChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
-            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
-        }
-        #endregion
-
-        #region AutoCorrect
-        private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
-        {
-            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-            string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
-            string[] files = Directory.GetFiles(selectedFolder, "*.*");
-            foreach (string file in files)
-            {
-                Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
-                Metadata metadataToSave = autoCorrect.FixAndSave(
-                    new FileEntry(file, File.GetLastWriteTime(file)),
-                    databaseAndCacheMetadataExiftool,
-                    databaseAndCacheMetadataMicrosoftPhotos,
-                    databaseAndCacheMetadataWindowsLivePhotoGallery,
-                    databaseAndCahceCameraOwner,
-                    databaseLocationAddress,
-                    databaseGoogleLocationHistory);
-                if (metadataToSave != null) 
-                {
-                    AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
-                    AddQueueRename(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
-                }
-            }
-            StartThreads();
- 
-        }
-
-
-        private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
-        {
-            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
-            foreach (ImageListViewItem item in imageListView1.SelectedItems)
-            {
-                Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
-                Metadata metadataToSave = autoCorrect.FixAndSave(
-                    new FileEntry(item.FileFullPath, item.DateModified), 
-                    databaseAndCacheMetadataExiftool, 
-                    databaseAndCacheMetadataMicrosoftPhotos, 
-                    databaseAndCacheMetadataWindowsLivePhotoGallery,
-                    databaseAndCahceCameraOwner,
-                    databaseLocationAddress,
-                    databaseGoogleLocationHistory);
-                if (metadataToSave != null)
-                {
-                    AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
-                    AddQueueRename(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
-                }
-            }
-            StartThreads();
-        }
-        #endregion
-
-
-
-        private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-            {
-                ApplicationActivation.ShowOpenWithDialog(imageListViewItem.FileFullPath);
-            }
-        }
-
-        private void openFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string errorMessage = "";
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-            {
-                try {
-                    ApplicationActivation.ProcessRunOpenFile(imageListViewItem.FileFullPath);
-                }
-                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
-            }
-            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
-        }
-
-        private void editFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string errorMessage = "";
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-            {
-                try
-                {
-                    ApplicationActivation.ProcessRunEditFile(imageListViewItem.FileFullPath);
-                }
-                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
-                
-            }
-            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
-        }
-
-        private void openFileLocationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string errorMessage = "";
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-            {
-                try
-                {
-                    ApplicationActivation.ShowFileInExplorer(imageListViewItem.FileFullPath);
-                }
-                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
-            }
-            if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
-        }
-
-        private void openFolderLocationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ApplicationActivation.ShowFolderInEplorer(folderTreeViewFolder.GetSelectedNodePath());
-            }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK); }
-        }
-
-        private void copyFileNamesToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (imageListView1.SelectedItems.Count > 0)
-            {
-                string text = "";
-                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-                {
-                    text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FileFullPath;
-                }
-                Clipboard.SetText(text);
-            }
-        }
-
-        private void runSelectedLocationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (imageListView1.SelectedItems.Count > 0)
-            {                
-                string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
-                string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
-                string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
-
-                List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
-
-
-                #region Create ArgumentFile file
-                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
-                
-                ExiftoolWriter.CreateExiftoolArguFileText(
-                    metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, 
-                    true, out string exiftoolAgruFileText);
-                #endregion 
-
-
-                #region AutoCorrect
-                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
-
-                List<Metadata> metadataListEmpty = new List<Metadata>();
-                List<Metadata> metadataListFromDataGridViewAutoCorrect = new List<Metadata>();
-
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
-                {
-                    Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
-                    Metadata metadataToSave = autoCorrect.FixAndSave(
-                        new FileEntry(item.FileFullPath, item.DateModified),
-                        databaseAndCacheMetadataExiftool,
-                        databaseAndCacheMetadataMicrosoftPhotos,
-                        databaseAndCacheMetadataWindowsLivePhotoGallery,
-                        databaseAndCahceCameraOwner,
-                        databaseLocationAddress,
-                        databaseGoogleLocationHistory);
-
-                    metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
-                    metadataListEmpty.Add(new Metadata(metadataOriginal));
-                }
-
-                ExiftoolWriter.CreateExiftoolArguFileText(
-                    metadataListFromDataGridViewAutoCorrect, metadataListEmpty, allowedFileNameDateTimeFormats, 
-                    writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
-                    true, out string exiftoolAutoCorrectFileText);
-                #endregion 
-
-
-                using (RunCommand runCommand = new RunCommand())
-                {
-                    runCommand.ArguFile = exiftoolAgruFileText;
-                    runCommand.ArguFileAutoCorrect = exiftoolAutoCorrectFileText;
-                    runCommand.MetadatasGridView = metadataListFromDataGridView;
-                    runCommand.MetadatasOriginal = metadataListOriginalExiftool;
-                    runCommand.MetadatasEmpty = metadataListEmpty;
-                    runCommand.AllowedFileNameDateTimeFormats = allowedFileNameDateTimeFormats;
-                    runCommand.MetadataPrioity = exiftoolReader.MetadataReadPrioity;
-
-                    runCommand.Init();
-                    runCommand.ShowDialog();
-                }
-
-
-            }
-        }
 
     }
 }

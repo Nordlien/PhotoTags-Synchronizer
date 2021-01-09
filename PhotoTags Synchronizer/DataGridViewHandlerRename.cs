@@ -20,8 +20,12 @@ namespace PhotoTagsSynchronizer
         private static string headerNewFilename = "new filename";
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static FileDateTimeReader FileDateTimeFormats { get; set; }
+
+        public static FilesCutCopyPasteDrag FilesCutCopyPasteDrag { get; set; }
+
         public static string RenameVaribale { get; set; }
 
+        #region CreateNewFilename
         public static string CreateNewFilename(string newFilenameVariable, string oldFilename, Metadata metadata)
         {
             /*
@@ -156,13 +160,14 @@ namespace PhotoTagsSynchronizer
                 .Replace("\"", "");
             return newFilename;
         }
+        #endregion
 
+        #region UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
         public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, new FileEntryImage(headerNewFilename, dateTimeEditable));
             if (columnIndex == -1) return;
 
-            //WindowsPropertyReader.Write(dataGridView, columnIndex);
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
@@ -170,36 +175,13 @@ namespace PhotoTagsSynchronizer
                 
                 if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
                 {
-                    //FileEntryBroker fileEntryBroker = new FileEntryBroker(fullFilePath, dateTimeForEditableMediaFile, MetadataBrokerTypes.ExifTool);
-                    //Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadCache(fileEntryBroker);
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, CreateNewFilename(newFilenameVariable, dataGridViewGenericRow.RowName, dataGridViewGenericRow.Metadata));
                 }
             }
-
         }
+        #endregion
 
-        public static void RenameFile(string oldFullFilename, string newFullFilename, ref Dictionary<string, string> renameSuccess, ref Dictionary<string, string> renameFailed)
-        {
-            try
-            {
-                string oldFilename = Path.GetFileName(oldFullFilename);
-                string oldDirectory = Path.GetDirectoryName(oldFullFilename);
-
-                string newFilename = Path.GetFileName(newFullFilename);
-                string newDirectory = Path.GetDirectoryName(newFullFilename);
-
-                Directory.CreateDirectory(newDirectory);
-                File.Move(oldFullFilename, newFullFilename);
-                DatabaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
-                if (renameSuccess != null) renameSuccess.Add(oldFullFilename, newFullFilename);
-            }
-            catch (Exception ex)
-            {
-                if (renameFailed != null) renameFailed.Add(oldFullFilename, newFullFilename);
-                Logger.Error("Rename file failed: " + oldFullFilename + " to :" + newFullFilename + " " + ex.Message);
-            }
-        }
-
+        #region Write
         public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, string> renameFailed)
         {
             renameSuccess = new Dictionary<string, string>();
@@ -208,7 +190,6 @@ namespace PhotoTagsSynchronizer
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, new FileEntryImage(headerNewFilename, dateTimeEditable));
             if (columnIndex == -1) return;
 
-            //WindowsPropertyReader.Write(dataGridView, columnIndex);
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
                 DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
@@ -217,36 +198,48 @@ namespace PhotoTagsSynchronizer
                 {
                     DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
 
+                    #region Get Old filename from grid
                     string oldFilename = dataGridViewGenericRow.RowName;
                     string oldDirectory = dataGridViewGenericRow.HeaderName;
                     string oldFullFilename = Path.Combine(oldDirectory, oldFilename);
+                    #endregion
 
+                    #region Get New filename from grid
                     string newRelativeFilename = Path.Combine(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
                     string newFullFilename = Path.GetFullPath(newRelativeFilename);
-                    
-                    RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);                 
+                    #endregion 
+
+                    FilesCutCopyPasteDrag.RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);                 
                 }
             }
         }
+        #endregion
 
+        #region AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, bool sort)
         {
             return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, sort);
         }
+        #endregion
 
+        #region AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, bool cellReadOnly)
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, bool cellReadOnly)
         {
             return AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, cellReadOnly));
         }
+        #endregion
 
+        #region AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefaults)
         {
             int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, dataGridViewGenericCellStatusDefaults, true);
             return rowIndex;
         }
+        #endregion 
 
         private static DateTime dateTimeEditable = DataGridViewHandler.DateTimeForEditableMediaFile;
-        
+
+        #region PopulateFile
         public static void PopulateFile(DataGridView dataGridView, string fullFilePath, ShowWhatColumns showWhatColumns, DateTime dateTimeForEditableMediaFile)
         {
             //-----------------------------------------------------------------
@@ -281,8 +274,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion 
 
-
+        #region PopulateSelectedFiles
         public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, bool useCurrentFileLastWrittenDate, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -324,5 +318,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion 
     }
 }
