@@ -155,6 +155,9 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.SuggestRegionNameNearbyDays = (int)numericUpDownPeopleSuggestNameDaysInterval.Value;
             Properties.Settings.Default.SuggestRegionNameTopMostCount = (int)numericUpDownPeopleSuggestNameTopMost.Value;
             Properties.Settings.Default.RegionMissmatchProcent = (float)numericUpDownRegionMissmatchProcent.Value;
+            Properties.Settings.Default.AvoidOfflineMediaFiles = checkBoxApplicationAvoidReadMediaFromCloud.Checked;
+            Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect = checkBoxClearReadMediaQueueOnFolderSelect.Checked;
+            Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode = checkBoxApplicationImageListViewCacheModeOnDemand.Checked;
 
             //AutoCorrect
             GetAutoCorrectPoperties();
@@ -216,6 +219,10 @@ namespace PhotoTagsSynchronizer
             numericUpDownPeopleSuggestNameDaysInterval.Value = Properties.Settings.Default.SuggestRegionNameNearbyDays;
             numericUpDownPeopleSuggestNameTopMost.Value = Properties.Settings.Default.SuggestRegionNameTopMostCount;
             numericUpDownRegionMissmatchProcent.Value = (decimal)Properties.Settings.Default.RegionMissmatchProcent;
+
+            checkBoxApplicationAvoidReadMediaFromCloud.Checked = Properties.Settings.Default.AvoidOfflineMediaFiles;
+            checkBoxClearReadMediaQueueOnFolderSelect.Checked = Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect;
+            checkBoxApplicationImageListViewCacheModeOnDemand.Checked = Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode;
         }
         #endregion 
 

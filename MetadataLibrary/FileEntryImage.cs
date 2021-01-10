@@ -69,7 +69,8 @@ namespace MetadataLibrary
 
         public static bool operator ==(FileEntryImage left, FileEntryImage right)
         {
-            return EqualityComparer<FileEntryImage>.Default.Equals(left, right);
+            if (left is null) return right is null;
+            return left.Equals(right);
         }
 
         public static bool operator !=(FileEntryImage left, FileEntryImage right)

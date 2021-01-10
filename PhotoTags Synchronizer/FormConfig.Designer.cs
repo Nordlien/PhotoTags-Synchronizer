@@ -35,6 +35,9 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig = new System.Windows.Forms.TabControl();
             this.tabPageApplication = new System.Windows.Forms.TabPage();
             this.panelApplication = new System.Windows.Forms.Panel();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.checkBoxClearReadMediaQueueOnFolderSelect = new System.Windows.Forms.CheckBox();
+            this.checkBoxApplicationAvoidReadMediaFromCloud = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label44 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
@@ -210,9 +213,11 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
+            this.checkBoxApplicationImageListViewCacheModeOnDemand = new System.Windows.Forms.CheckBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRegionMissmatchProcent)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -291,6 +296,7 @@ namespace PhotoTagsSynchronizer
             // panelApplication
             // 
             this.panelApplication.BackColor = System.Drawing.Color.Transparent;
+            this.panelApplication.Controls.Add(this.groupBox6);
             this.panelApplication.Controls.Add(this.groupBox5);
             this.panelApplication.Controls.Add(this.groupBox4);
             this.panelApplication.Controls.Add(this.groupBox3);
@@ -301,6 +307,38 @@ namespace PhotoTagsSynchronizer
             this.panelApplication.Name = "panelApplication";
             this.panelApplication.Size = new System.Drawing.Size(766, 748);
             this.panelApplication.TabIndex = 0;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.checkBoxApplicationImageListViewCacheModeOnDemand);
+            this.groupBox6.Controls.Add(this.checkBoxClearReadMediaQueueOnFolderSelect);
+            this.groupBox6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud);
+            this.groupBox6.Location = new System.Drawing.Point(3, 543);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(760, 113);
+            this.groupBox6.TabIndex = 11;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Read media and listview";
+            // 
+            // checkBoxClearReadMediaQueueOnFolderSelect
+            // 
+            this.checkBoxClearReadMediaQueueOnFolderSelect.AutoSize = true;
+            this.checkBoxClearReadMediaQueueOnFolderSelect.Location = new System.Drawing.Point(8, 57);
+            this.checkBoxClearReadMediaQueueOnFolderSelect.Name = "checkBoxClearReadMediaQueueOnFolderSelect";
+            this.checkBoxClearReadMediaQueueOnFolderSelect.Size = new System.Drawing.Size(505, 21);
+            this.checkBoxClearReadMediaQueueOnFolderSelect.TabIndex = 1;
+            this.checkBoxClearReadMediaQueueOnFolderSelect.Text = "When select new folder, stop cache media to database from previous folder";
+            this.checkBoxClearReadMediaQueueOnFolderSelect.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxApplicationAvoidReadMediaFromCloud
+            // 
+            this.checkBoxApplicationAvoidReadMediaFromCloud.AutoSize = true;
+            this.checkBoxApplicationAvoidReadMediaFromCloud.Location = new System.Drawing.Point(8, 30);
+            this.checkBoxApplicationAvoidReadMediaFromCloud.Name = "checkBoxApplicationAvoidReadMediaFromCloud";
+            this.checkBoxApplicationAvoidReadMediaFromCloud.Size = new System.Drawing.Size(241, 21);
+            this.checkBoxApplicationAvoidReadMediaFromCloud.TabIndex = 0;
+            this.checkBoxApplicationAvoidReadMediaFromCloud.Text = "Avoid read media files from Cloud";
+            this.checkBoxApplicationAvoidReadMediaFromCloud.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -2740,6 +2778,17 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(778, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
             // 
+            // checkBoxApplicationImageListViewCacheModeOnDemand
+            // 
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.AutoSize = true;
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.Location = new System.Drawing.Point(8, 84);
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.Name = "checkBoxApplicationImageListViewCacheModeOnDemand";
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.Size = new System.Drawing.Size(607, 21);
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.TabIndex = 2;
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.Text = "Load Image Thumbnails On Demand (what\'s visible on screen). Unchecked load all at" +
+    " once.";
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.UseVisualStyleBackColor = true;
+            // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2754,6 +2803,8 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.ResumeLayout(false);
             this.tabPageApplication.ResumeLayout(false);
             this.panelApplication.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRegionMissmatchProcent)).EndInit();
@@ -3001,5 +3052,9 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.NumericUpDown numericUpDownRegionMissmatchProcent;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.CheckBox checkBoxClearReadMediaQueueOnFolderSelect;
+        private System.Windows.Forms.CheckBox checkBoxApplicationAvoidReadMediaFromCloud;
+        private System.Windows.Forms.CheckBox checkBoxApplicationImageListViewCacheModeOnDemand;
     }
 }

@@ -51,11 +51,14 @@ namespace PhotoTagsSynchronizer
         {
         }
 
+        #region Add filter
         public void Add (Filter filter)
         {
             filters.Add(filter);
         }
+        #endregion 
 
+        #region GetTreeNodeText
         public static string GetTreeNodeText(bool searchFolder, string treeNodeName, bool treeNodeChecked)
         {
             switch (treeNodeName)
@@ -81,9 +84,12 @@ namespace PhotoTagsSynchronizer
             }
             return treeNodeName;
         }
-        
+        #endregion 
+
+        #region PopulateTreeViewBasicNodes
         public static void PopulateTreeViewBasicNodes(TreeView treeView, string rootNode)
         {
+            GlobalData.IsPopulatingFilter = true;
             treeView.Nodes.Clear();
             TreeNode treeNode;
 
@@ -105,8 +111,11 @@ namespace PhotoTagsSynchronizer
             treeNode.Checked = true;
             treeNode = treeView.Nodes[rootNode].Nodes.Add(FilterVerifyer.Keywords, FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, FilterVerifyer.Keywords, true));
             treeNode.Checked = true;
+            GlobalData.IsPopulatingFilter = false;
         }
+        #endregion
 
+        #region PopulateTreeViewWithValues
         public static void PopulateTreeViewWithValues(TreeView treeView, string keyRoot, string key, List<string> nodes)
         {
             foreach (string node in nodes)
@@ -114,6 +123,7 @@ namespace PhotoTagsSynchronizer
                 TreeNode treeNode = treeView.Nodes[keyRoot].Nodes[key].Nodes.Add(node, FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, node, false));
             }
         }
+        #endregion 
 
         #region Read Values - From One Tree Node
         public int ReadValuesFromTreeNodes(TreeView treeView, string rootNode, string tagNode)
@@ -297,8 +307,9 @@ namespace PhotoTagsSynchronizer
 
 
     public partial class MainForm : Form
-    {        
-        private void GetFilters(TreeView treeView)
+    {
+        #region PopulateImageListViewUsingFilters(TreeView treeView)
+        private void PopulateImageListViewUsingFilters(TreeView treeView)
         {
             if (treeView.Nodes == null) return;
             if (treeView.Nodes[FilterVerifyer.Root] == null) return; 
@@ -310,26 +321,30 @@ namespace PhotoTagsSynchronizer
                 FolderSelected(GlobalData.lastReadFolderWasRecursive, false);
             else 
                 FolderSearchFilter(GlobalData.SerachFilterResult, false);
-
         }
+        #endregion
 
-
+        #region treeViewFilter_AfterCheck
         private void treeViewFilter_AfterCheck(object sender, TreeViewEventArgs e)
         {
+            if (GlobalData.IsPopulatingFilter) return; 
+
             TreeNode treeNode = e.Node;
             treeNode.Text = FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, treeNode.Name, treeNode.Checked);
 
-            if (isThreeViewPopulating) return;
-            GetFilters(treeViewFilter);
+            PopulateImageListViewUsingFilters(treeViewFilter);
         }
+        #endregion
 
+        #region ListViewReplaceNullWithText
         private void ListViewReplaceNullWithText (List<string> list)
         {
             if (list.Contains(null)) list.Remove(null);                
             list.Insert(0, "(Is not defined)");
         }
+        #endregion 
 
-        private bool isThreeViewPopulating = false;
+        #region PopulateDatabaseFilter
         private void PopulateDatabaseFilter()
         {
             
@@ -403,6 +418,7 @@ namespace PhotoTagsSynchronizer
             */
 
         }
+        #endregion 
 
         #region PopulateTreeViewFolderFilter
         private void PopulateTreeViewFolderFilter(ImageListView.ImageListViewItemCollection imageListViewSelectedItems)
@@ -458,8 +474,8 @@ namespace PhotoTagsSynchronizer
                     {
                         if (!string.IsNullOrEmpty(keywordTag.Keyword) && !keywords.Contains(keywordTag.Keyword)) keywords.Add(keywordTag.Keyword);
                     }
-
                 }
+                break;
             }
 
             string node = FilterVerifyer.Root;
@@ -491,9 +507,9 @@ namespace PhotoTagsSynchronizer
             FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Keywords, keywords);
 
         }
-        #endregion 
+        #endregion
 
-
+        #region Search - click
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             #region DateTaken
@@ -588,6 +604,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.SearchFolder = false;
             FolderSearchFilter(GlobalData.SerachFilterResult, true);
         }
+        #endregion 
     }
 }
 

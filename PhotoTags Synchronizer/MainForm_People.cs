@@ -175,7 +175,7 @@ namespace PhotoTagsSynchronizer
                             dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
                             if (dataGridViewGenericColumn != null)
                             {
-                                Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryImage.FileFullPath);
+                                Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryImage.FileFullPath, false);
 
                                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
                                 dataGridViewGenericRow.HeaderName = DataGridViewHandlerPeople.headerPeople;

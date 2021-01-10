@@ -60,7 +60,7 @@ namespace PhotoTagsSynchronizer
         private ExiftoolDataDatabase databaseExiftoolData;
         private ExiftoolWarningDatabase databaseExiftoolWarning;
 
-        private MicrosoftPhotosReader databaseWindowsPhotos;
+        private MicrosoftPhotosReader databaseMicrosoftPhotos;
         private WindowsLivePhotoGalleryDatabasePipe databaseWindowsLivePhotGallery;
 
         private FilesCutCopyPasteDrag filesCutCopyPasteDrag;
@@ -153,13 +153,13 @@ namespace PhotoTagsSynchronizer
             SplashForm.UpdateStatus("Initialize database: Microsoft Photos...");
             try
             {
-                databaseWindowsPhotos = new MicrosoftPhotosReader();
+                databaseMicrosoftPhotos = new MicrosoftPhotosReader();
             }
             catch (Exception e)
             {                
                 
                 SplashForm.AddWarning("Windows photo warning:\r\n" + e.Message + "\r\n");
-                databaseWindowsPhotos = null;
+                databaseMicrosoftPhotos = null;
             }
 
             SplashForm.UpdateStatus("Initialize database: Windows Live Photo Gallery...");
@@ -247,7 +247,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
         #region Resize and restore windows size when reopen application        
         private void tabControlToolbox_Selecting(object sender, TabControlCancelEventArgs e)
         {
@@ -311,7 +310,9 @@ namespace PhotoTagsSynchronizer
             SplashForm.BringToFrontSplashForm();
             DataGridViewHandler.BringToFrontFindAndReplace();
         }
+        #endregion
 
+        #region MainForm_FormClosing
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (commonQueueSaveMetadataUpdatedByUser.Count > 0)
@@ -355,6 +356,9 @@ namespace PhotoTagsSynchronizer
 
             //---------------------------------------------------------
 
+            imageListView1.Items.Clear();
+            imageListView1.ClearThumbnailCache();
+            imageListView1.Dispose();
             imageListView1.StoppBackgroundThreads();
 
             //---------------------------------------------------------
@@ -395,7 +399,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MainForm_Load
+        #region MainForm_Load / Shown
         private void MainForm_Load(object sender, EventArgs e)
         {
             SplashForm.UpdateStatus("Initialize folder tree...");
@@ -410,12 +414,11 @@ namespace PhotoTagsSynchronizer
             else
                 folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
             
-            
-            PopulateDatabaseFilter();
-            PopulateTreeViewFolderFilter(imageListView1.Items);
-
             GlobalData.IsPopulatingFolderTree = false;
-            
+
+            SplashForm.UpdateStatus("Populate filters...");
+            PopulateDatabaseFilter();
+
             SplashForm.CloseForm();
 
             Properties.Settings.Default.Reload();
@@ -429,27 +432,16 @@ namespace PhotoTagsSynchronizer
             imageListView1.Focus();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-        #endregion
-
         private void MainForm_Shown(object sender, EventArgs e)
         {
             isFormLoading = false;
 
             FolderSelected_AggregateListViewWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
+
+            PopulateTreeViewFolderFilter(imageListView1.Items);
         }
+        #endregion
 
     }
 }

@@ -90,6 +90,7 @@ namespace PhotoTagsSynchronizer
         public static bool DoNotRefreshDataGridViewWhileFileSelect { get; set; } = false;
         public static bool DoNotRefreshImageListView { get; set; } = false;
         public static bool IsDragAndDropActive { get; set; } = false;
+        public static bool IsPopulatingFilter { get; set; } = false;
 
         public static void SetDataNotAgreegatedOnGridViewForAnyTabs()
         {

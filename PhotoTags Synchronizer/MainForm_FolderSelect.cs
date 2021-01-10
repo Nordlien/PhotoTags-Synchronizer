@@ -42,7 +42,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingAnything()) return;
             GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
             GlobalData.SearchFolder = true;
-            Application.UseWaitCursor = true;
+            //Application.UseWaitCursor = true;
 
             //folderTreeViewFolder.Enabled = false;
             FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
@@ -50,7 +50,7 @@ namespace PhotoTagsSynchronizer
             
             if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
 
-            Application.UseWaitCursor = false;
+            //Application.UseWaitCursor = false;
             GlobalData.IsPopulatingFolderSelected = false;
 
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //Even when 0 selected files, allocate data and flags, etc...
@@ -104,7 +104,10 @@ namespace PhotoTagsSynchronizer
             {
                 //fileSystemWatcher.EnableRaisingEvents = false;
 
-                if (Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect) ClearQueueExiftool();
+                if (Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect)
+                {
+                    ClearQueueExiftool();
+                }
 
                 FolderSelected_AddFilesImageListView(selectedFolder, recursive);
                 GlobalData.lastReadFolderWasRecursive = recursive;
@@ -139,13 +142,18 @@ namespace PhotoTagsSynchronizer
 
             filesFoundInDirectory = ImageAndMovieFileExtentionsUtility.ListAllMediaFiles(selectedFolder, recursive);
 
+            if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) imageListView1.CacheMode = CacheMode.OnDemand;
+            imageListView1.CacheMode = CacheMode.Continuous;
+
             imageListView1.ClearSelection();
             imageListView1.Items.Clear();
+
+            if (Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect) imageListView1.ClearThumbnailCache();
             imageListView1.Enabled = false;
             imageListView1.SuspendLayout();
             for (int fileNumber = 0; fileNumber < filesFoundInDirectory.Length; fileNumber++)
             {
-                if (valuesCountAdded > 0) // no filter values added, no need read from database, this fjust for optimize speed
+                if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed
                 {
                     Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(new FileEntryBroker(filesFoundInDirectory[fileNumber], MetadataBrokerTypes.ExifTool));
                     if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);

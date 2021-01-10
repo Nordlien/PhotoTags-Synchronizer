@@ -495,6 +495,7 @@ namespace Manina.Windows.Forms
         /// </summary>
         public void ClearThumbnailCache()
         {
+
             cacheManager.Clear();
             Refresh();
         }

@@ -94,7 +94,6 @@ namespace MetadataLibrary
             for (int index = 0; index < fileEntries.Count; index++)
             {
                 if (fileEntries[index] == fileEntryToFind) return index;
-                
             }
             return - 1;
         }

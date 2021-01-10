@@ -2823,8 +2823,28 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #endregion 
+        #endregion
 
+        #region
+        public static void RefreshImageForFile(DataGridView dataGridView, string fullFilePath)
+        {
+            if (dataGridView == null) return;
+
+            for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
+            {
+                if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn)
+                {
+                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryImage.FileFullPath == fullFilePath)
+                    {
+                        dataGridView.InvalidateCell(columnIndex, -1);
+                    }
+                }
+            }
+
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+
+        #endregion
         #region Image handling - Update Image on File
         public static void UpdateImageOnFile(DataGridView dataGridView, FileEntryImage fileEntryImage)
         {
@@ -2854,7 +2874,6 @@ namespace DataGridViewGeneric
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, false);
             //-----------------------------------------------------------------
         }
-
         #endregion 
 
         #region Cell Paint handling

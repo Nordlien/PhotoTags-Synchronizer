@@ -1333,5 +1333,29 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ClearReadMediaQueueOnFolderSelect"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AvoidOfflineMediaFiles {
+            get {
+                return ((bool)(this["AvoidOfflineMediaFiles"]));
+            }
+            set {
+                this["AvoidOfflineMediaFiles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ImageViewLoadThumbnailOnDemandMode {
+            get {
+                return ((bool)(this["ImageViewLoadThumbnailOnDemandMode"]));
+            }
+            set {
+                this["ImageViewLoadThumbnailOnDemandMode"] = value;
+            }
+        }
     }
 }

@@ -322,7 +322,7 @@ namespace Manina.Windows.Forms
             {
                 if (!editCache.ContainsKey(guid))
                 {
-                    using (Image img = ImageFromFile(filename))
+                    using (Image img = RetrieveImageFromExternaThenFromFile(filename))
                     {
                         editCache.Add(guid, new Bitmap(img));
                     }
@@ -347,7 +347,7 @@ namespace Manina.Windows.Forms
                 {
                     VirtualItemImageEventArgs e = new VirtualItemImageEventArgs(mImageListView.Items[guid].mVirtualItemKey);
                     mImageListView.RetrieveVirtualItemImageInternal(e);
-                    if (!string.IsNullOrWhiteSpace(e.FileName)) editCache.Add(guid, ImageFromFile(e.FileName));
+                    if (!string.IsNullOrWhiteSpace(e.FileName)) editCache.Add(guid, RetrieveImageFromExternaThenFromFile(e.FileName));
                 }
             }
         }
@@ -396,9 +396,32 @@ namespace Manina.Windows.Forms
         {
             lock (lockObject)
             {
+                /*
+                    foreach (CacheItem item in thumbCache.Values)
+                        item.Dispose();
+                    thumbCache.Clear();
+
+                    
+                    foreach (Image img in editCache.Values)
+                        img.Dispose();
+                    editCache.Clear();
+
+                    foreach (CacheItem item in rendererToCache)
+                        item.Dispose();
+                    rendererToCache.Clear();
+                    if (rendererItem != null)
+                        rendererItem.Dispose();
+                */
                 foreach (CacheItem item in thumbCache.Values)
                     item.Dispose();
                 thumbCache.Clear();
+
+                //Added by JTN
+                foreach (CacheItem item in toCache)
+                    item.Dispose();
+                toCache.Clear();
+
+
                 removedItems.Clear();
 
                 memoryUsed = 0;
@@ -708,7 +731,7 @@ namespace Manina.Windows.Forms
         #endregion
 
         //JTN added / To get control
-        private Image ImageFromFile(string fileName)
+        private Image RetrieveImageFromExternaThenFromFile(string fileName)
         {
             Image image;
             RetrieveItemImageEventArgs e = new RetrieveItemImageEventArgs(fileName);
@@ -732,7 +755,7 @@ namespace Manina.Windows.Forms
             {
                 try
                 {
-                    Image image = ImageFromFile(fileName);
+                    Image image = RetrieveImageFromExternaThenFromFile(fileName);
                     if (image != null)
                     image = Utility.ThumbnailFromImage(image, size, Color.White, false);
                     wasThumbnailReadFromFile = false;   //Not from file, but from database cache
@@ -802,10 +825,10 @@ namespace Manina.Windows.Forms
                 return image;
             }
             else
-            {*/                
-            //return eRetrieveItemThumbnailEventArgs.Thumbnail;
-            //}
-        }
+            {*/
+                //return eRetrieveItemThumbnailEventArgs.Thumbnail;
+                //}
+            }
 
 
 

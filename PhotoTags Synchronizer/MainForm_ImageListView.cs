@@ -11,12 +11,36 @@ using ApplicationAssociations;
 
 namespace PhotoTagsSynchronizer
 {
-
+    
     public partial class MainForm : Form
     {
-        #region Load Media Full Cover Art Poster or Thumbnail
-        private Image LoadMediaCoverArtPoster(string fullFilePath)
+        private bool IsFileInCloud(string fullFileName)
         {
+            /*
+            FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS
+            4194304 (0x400000)
+            When this attribute is set, it means that the file or directory is not fully present locally. For a file that means that not all of its data is on local storage (e.g. it may be sparse with some data still in remote storage). For a directory it means that some of the directory contents are being virtualized from another location. Reading the file / enumerating the directory will be more expensive than normal, e.g. it will cause at least some of the file/directory content to be fetched from a remote store. Only kernel-mode callers can set this bit.
+    
+            1048576 (0x100000) Unknown flag
+            */
+            try
+            {
+                FileAttributes fileAttributes = File.GetAttributes(fullFileName);
+                if ((((int)fileAttributes) & 0x000400000) == 0x000400000)
+                    return true; 
+            } catch { }
+            return false; 
+        }
+
+        #region Load Media Full Cover Art Poster or Thumbnail
+        private Image LoadMediaCoverArtPoster(string fullFilePath, bool checkIfCloudFile)
+        {
+            //bool doNotReadFullFile = false;
+            if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
+            {
+                if (IsFileInCloud(fullFilePath)) return null;
+            }
+            
 
             if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
             {
@@ -39,28 +63,37 @@ namespace PhotoTagsSynchronizer
                 return null;
         }
 
-        private Image LoadMediaCoverArtThumbnail(string fullFilePath, Size maxSize)
+        private Image LoadMediaCoverArtThumbnail(string fullFilePath, Size maxSize, bool checkIfCloudFile)
         {
             try
             {
-                //Console.WriteLine("LoadMediaCoverArtThumbnail: " + fullFilePath);
+                bool doNotReadFullFile = false;
+                if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
+                {
+                    if (Properties.Settings.Default.AvoidOfflineMediaFiles)
+                    {
+                        if (IsFileInCloud(fullFilePath)) doNotReadFullFile = true; ;
+                    }
+                }
+
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
                     Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     if (image != null) return image;
 
-                    return Utility.ThumbnailFromImage(LoadMediaCoverArtPoster(fullFilePath), maxSize, Color.White, false);
+                    if (doNotReadFullFile) return image;
+
+                    return Utility.ThumbnailFromImage(LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile), maxSize, Color.White, false);
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
                 {
-                    Image image = Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White);
+                    WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
+                    Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     if (image != null) return image;
 
-                    WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
-                    image = windowsPropertyReader.GetThumbnail(fullFilePath);
-
-                    return image;
+                    if (doNotReadFullFile) return image;
+                    return Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White);                    
                 }
             }
             catch { }
@@ -138,7 +171,7 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
-                    Image fullSizeImage = LoadMediaCoverArtPoster(e.FullFilePath);
+                    Image fullSizeImage = LoadMediaCoverArtPoster(e.FullFilePath, true);
                     e.LoadedImage = fullSizeImage;
                     e.WasImageReadFromFile = true;
                     e.DidErrorOccourLoadMedia = false;
@@ -179,6 +212,12 @@ namespace PhotoTagsSynchronizer
                     e.WasImageReadFromFile = false;
                     e.DidErrorOccourLoadMedia = true;
                 }
+                if (e.LoadedImage == null && IsFileInCloud(e.FullFilePath))
+                {
+                    e.LoadedImage = (Image)Properties.Resources.load_image_error_onedrive;
+                    e.WasImageReadFromFile = false;
+                    e.DidErrorOccourLoadMedia = true;
+                }
                 #endregion
             } while (retry);
 
@@ -188,7 +227,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (imageListViewItem.FileFullPath == e.FullFilePath) //Only to find DateTime Modified in the stored in the ImageListView
                 {
-                    PopulateImageOnFileEntryOnSelectedGrivViewInvoke(new FileEntryImage(e.FullFilePath, imageListViewItem.DateModified, e.LoadedImage)); //Also show error thumbnail
+                    UpdateImageOnFileEntryOnSelectedGrivViewInvoke(new FileEntryImage(e.FullFilePath, imageListViewItem.DateModified, e.LoadedImage)); //Also show error thumbnail
                     break;
                 }
             }
@@ -209,6 +248,7 @@ namespace PhotoTagsSynchronizer
             if (imageListView1.IsDisposed) return;
             GlobalData.retrieveThumbnailCount++; //Counter to keey track of active threads. Can't quit application before thread empty
 
+            Console.WriteLine("imageListView1_RetrieveItemThumbnail " + GlobalData.retrieveThumbnailCount + " " + e.FileName);
             if (File.Exists(e.FileName))
             {
                 FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
@@ -217,6 +257,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Warn("File not exist: " + e.FileName);
             }
+            Application.DoEvents();
             GlobalData.retrieveThumbnailCount--;
         }
         #endregion

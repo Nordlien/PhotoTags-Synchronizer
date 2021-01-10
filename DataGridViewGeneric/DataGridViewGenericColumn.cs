@@ -58,6 +58,7 @@ namespace DataGridViewGeneric
 
         public static bool operator ==(DataGridViewGenericColumn left, DataGridViewGenericColumn right)
         {
+
             return EqualityComparer<DataGridViewGenericColumn>.Default.Equals(left, right);
         }
 

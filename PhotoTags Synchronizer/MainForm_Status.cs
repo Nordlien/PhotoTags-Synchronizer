@@ -113,7 +113,7 @@ namespace PhotoTagsSynchronizer
                             long tempFileSize = new FileInfo(tempFile).Length;
                             if (keyValuePair.Value != tempFileSize) UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
                             fileSaveSize[keyValuePair.Key] = tempFileSize;
-DisplayAllQueueStatus(); 
+                            DisplayAllQueueStatus(); 
                             break;
                         }
                     }

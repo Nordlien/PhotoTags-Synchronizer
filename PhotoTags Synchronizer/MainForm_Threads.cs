@@ -182,19 +182,30 @@ namespace PhotoTagsSynchronizer
              
                 if (thumbnailImage == null)
                 {
+                    try
+                    {
+                        if (IsFileInCloud(fileEntry.FileFullPath)) UpdateStatusAction("Cloud file: " + fileEntry.FileFullPath);
+                        else UpdateStatusAction("Read thumbnail for file: " + fileEntry.FileFullPath);
+                    } catch { }
+
                     //Was not readed from database, need to cache to database
-                    thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize);
-                    
+                    thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, true);
+
                     if (thumbnailImage != null)
                     {
                         Image cloneBitmap = new Bitmap(thumbnailImage); //Need create a clone, due to GDI + not thread safe
                         AddQueueAllUpadtedFileEntry(new FileEntryImage(fileEntry, cloneBitmap));
-                        thumbnailImage = Manina.Windows.Forms.Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true);                        
+                        thumbnailImage = Manina.Windows.Forms.Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true);
                     }
                     else
                     {
-                        Logger.Warn("Was not able to get thumbnail from file: " + fileEntry.FileFullPath);
-                        thumbnailImage = (Image)Properties.Resources.load_image_error_general;
+                        if (IsFileInCloud(fileEntry.FileFullPath)) 
+                            thumbnailImage = (Image)Properties.Resources.load_image_error_onedrive;
+                        else
+                        {
+                            Logger.Warn("Was not able to get thumbnail from file: " + fileEntry.FileFullPath);
+                            thumbnailImage = (Image)Properties.Resources.load_image_error_general;
+                        }
                     }
                 }
             }
@@ -392,9 +403,11 @@ namespace PhotoTagsSynchronizer
                                 fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
                             }
 
-                            if (fileEntryImage.Image == null) 
-                                fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize);
-
+                            if (fileEntryImage.Image == null)
+                            {
+                                fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
+                                if (fileEntryImage.Image != null) RefreshImageListView(fileEntryImage.FileFullPath);
+                            }
                             if (fileEntryImage.Image != null && !databaseAndCacheThumbnail.DoesThumbnailExist(fileEntryImage))
                             {
                                 databaseAndCacheThumbnail.TransactionBeginBatch();
@@ -402,7 +415,7 @@ namespace PhotoTagsSynchronizer
                                 databaseAndCacheThumbnail.TransactionCommitBatch();
 
                                 //A PopulateSelectedGrid already in progress, wait untill complete
-                                lock (GlobalData.populateSelectedLock) PopulateImageOnFileEntryOnSelectedGrivViewInvoke(fileEntryImage);
+                                lock (GlobalData.populateSelectedLock) UpdateImageOnFileEntryOnSelectedGrivViewInvoke(fileEntryImage);
                             }
                             else
                             {
@@ -489,7 +502,7 @@ namespace PhotoTagsSynchronizer
                                                 if (File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
                                                 {
 
-                                                    if (image == null) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath); //Only load once when found
+                                                    if (image == null) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, true); //Only load once when found
 
                                                     if (image != null) //If still Failed load cover art, often occur after filed is moved or deleted
                                                     {
@@ -540,58 +553,6 @@ namespace PhotoTagsSynchronizer
 
         }
         #endregion
-       
-        #region Thread - EmptyQueue(MetadataBrokerTypes broker, MetadataDatabaseCache database, ImetadataReader reader, List<FileEntry> metadataReadQueue)
-        private void EmptyQueue(MetadataBrokerTypes broker, MetadataDatabaseCache database,
-            ImetadataReader reader, List<FileEntry> metadataReadQueue)
-        {
-            //if (reader != null) //database reader becomes null when not open, e.g. due to database was locked when starting the app 
-            //or application (Windows Live Photo Galelery or Microsot Photos) was not installed
-            int metadataReadQueueCount;
-            metadataReadQueueCount = metadataReadQueue.Count;
-
-            while (metadataReadQueueCount > 0 && !GlobalData.IsApplicationClosing && reader != null) //In case some more added to the queue
-            {
-                FileEntry fileEntry;
-                if (broker == MetadataBrokerTypes.MicrosoftPhotos) lock (commonQueueReadMetadataFromMicrosoftPhotosLock) fileEntry = new FileEntry(metadataReadQueue[0]);
-                else lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) fileEntry = new FileEntry(metadataReadQueue[0]);
-                Metadata metadata;
-
-                if (File.Exists(fileEntry.FileFullPath))
-                {
-                    metadata = reader.Read(broker, fileEntry.FileFullPath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
-                    if (metadata != null) // && broker != MetadataBrokerTypes.WindowsLivePhotoGallery)
-                    {
-                        //Windows Live Photo Gallery writes direclty to database from sepearte thread when found
-                        database.TransactionBeginBatch();
-                        database.Write(metadata);
-                        database.TransactionCommitBatch();
-                        AddQueueCreateRegionFromPoster(metadata);
-                        
-                        PopulateMetadataOnFileOnActiveDataGrivViewInvoke(metadata.FileFullPath);                         
-                    } /*else
-                    {
-                        metadata = new Metadata(broker);
-                        metadata.FileEntryBroker.Broker = broker;
-                        metadata.FileName = metadataReadQueue[indexWithImage].FileName;
-                        metadata.FileDirectory = metadataReadQueue[indexWithImage].Directory;
-                        metadata.FileDateModified = metadataReadQueue[indexWithImage].LastWriteDateTime;
-                        database.TransactionBeginBatch();
-                        database.Write(metadata);
-                        database.TransactionCommitBatch();
-                    }*/
-                } 
-                else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
-
-                if (broker == MetadataBrokerTypes.MicrosoftPhotos) lock (commonQueueReadMetadataFromMicrosoftPhotosLock) metadataReadQueue.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
-                else lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) metadataReadQueue.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
-
-                DisplayAllQueueStatus();                
-                metadataReadQueueCount = metadataReadQueue.Count;
-            }
-            
-        }
-        #endregion
 
         #region Thread - ThreadCollectMetadataWindowsLiveGallery
         public void ThreadCollectMetadataWindowsLiveGallery()
@@ -601,8 +562,41 @@ namespace PhotoTagsSynchronizer
                 _ThreadWindowsLiveGallery = new Thread(() =>
                 {
                     while (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 && !GlobalData.IsApplicationClosing)
-                    {
-                        EmptyQueue(MetadataBrokerTypes.WindowsLivePhotoGallery, databaseAndCacheMetadataWindowsLivePhotoGallery, databaseWindowsLivePhotGallery, commonQueueReadMetadataFromWindowsLivePhotoGallery);
+                    {                        
+                        #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
+                        MetadataDatabaseCache database = databaseAndCacheMetadataWindowsLivePhotoGallery;
+                        ImetadataReader databaseSourceReader = databaseWindowsLivePhotGallery;
+                        MetadataBrokerTypes broker = MetadataBrokerTypes.WindowsLivePhotoGallery;
+
+                        while (databaseSourceReader != null && !GlobalData.IsApplicationClosing && CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0) //In case some more added to the queue
+                        {
+                            Metadata metadata;
+                            FileEntry fileEntry;
+                            lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) fileEntry = new FileEntry(commonQueueReadMetadataFromWindowsLivePhotoGallery[0]);
+                            
+                            if (File.Exists(fileEntry.FileFullPath))
+                            {
+                                metadata = databaseSourceReader.Read(broker, fileEntry.FileFullPath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
+                                if (metadata != null) // && broker != MetadataBrokerTypes.WindowsLivePhotoGallery)
+                                {
+                                    //Windows Live Photo Gallery writes direclty to database from sepearte thread when found
+                                    database.TransactionBeginBatch();
+                                    database.Write(metadata);
+                                    database.TransactionCommitBatch();
+                                    AddQueueCreateRegionFromPoster(metadata);
+
+                                    PopulateMetadataOnFileOnActiveDataGrivViewInvoke(metadata.FileFullPath);
+                                } 
+                            }
+                            else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
+
+                           
+                            lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) if(commonQueueReadMetadataFromWindowsLivePhotoGallery.Count>0) commonQueueReadMetadataFromWindowsLivePhotoGallery.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
+
+                            DisplayAllQueueStatus();
+                        }
+                        #endregion 
+
                         DisplayAllQueueStatus();
                     }
 
@@ -630,8 +624,41 @@ namespace PhotoTagsSynchronizer
                 _ThreadMicrosoftPhotos = new Thread(() =>
                 {
                     while (CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0 && !GlobalData.IsApplicationClosing)
-                    {                        
-                        EmptyQueue(MetadataBrokerTypes.MicrosoftPhotos, databaseAndCacheMetadataMicrosoftPhotos, databaseWindowsPhotos, commonQueueReadMetadataFromMicrosoftPhotos);                        
+                    {
+                        #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
+                        MetadataDatabaseCache database = databaseAndCacheMetadataMicrosoftPhotos;
+                        ImetadataReader databaseSourceReader = databaseMicrosoftPhotos;
+                        MetadataBrokerTypes broker = MetadataBrokerTypes.MicrosoftPhotos;
+
+
+                        while (databaseSourceReader != null && !GlobalData.IsApplicationClosing && CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0) //In case some more added to the queue
+                        {
+                            Metadata metadata;
+                            FileEntry fileEntry;
+                            lock (commonQueueReadMetadataFromMicrosoftPhotosLock) fileEntry = new FileEntry(commonQueueReadMetadataFromMicrosoftPhotos[0]);
+                            
+                            if (File.Exists(fileEntry.FileFullPath))
+                            {
+                                metadata = databaseSourceReader.Read(broker, fileEntry.FileFullPath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
+                                if (metadata != null) // && broker != MetadataBrokerTypes.WindowsLivePhotoGallery)
+                                {
+                                    //Windows Live Photo Gallery writes direclty to database from sepearte thread when found
+                                    database.TransactionBeginBatch();
+                                    database.Write(metadata);
+                                    database.TransactionCommitBatch();
+                                    AddQueueCreateRegionFromPoster(metadata);
+
+                                    PopulateMetadataOnFileOnActiveDataGrivViewInvoke(metadata.FileFullPath);
+                                }
+                            }
+                            else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
+
+                            lock (commonQueueReadMetadataFromMicrosoftPhotosLock) if (commonQueueReadMetadataFromMicrosoftPhotos.Count>0) commonQueueReadMetadataFromMicrosoftPhotos.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
+                            
+                            DisplayAllQueueStatus();
+                        }
+                        #endregion
+                        
                         DisplayAllQueueStatus();
                     }
 
@@ -974,7 +1001,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 AddQueueCreateRegionFromPoster(metadataRead);
                                 PopulateMetadataOnFileOnActiveDataGrivViewInvoke(metadataRead.FileFullPath);
-                                RefreshHeaderImageOnActiveDataGrivView(metadataRead.FileFullPath);
+                                RefreshHeaderImageAndRegionsOnActiveDataGridView(metadataRead.FileFullPath);
                             }
                             #endregion
 

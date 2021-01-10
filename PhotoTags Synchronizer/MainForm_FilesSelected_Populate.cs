@@ -138,55 +138,64 @@ namespace PhotoTagsSynchronizer
         }
 
 
-        private void PopulateImageOnFileEntryOnSelectedGrivViewInvoke(FileEntryImage fileEntryImage)
+        private void UpdateImageOnFileEntryOnSelectedGrivViewInvoke(FileEntryImage fileEntryImage)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<FileEntryImage>(PopulateImageOnFileEntryOnSelectedGrivViewInvoke), fileEntryImage);
+                this.BeginInvoke(new Action<FileEntryImage>(UpdateImageOnFileEntryOnSelectedGrivViewInvoke), fileEntryImage);
                 return;
             }
             
-            if (GlobalData.IsPopulatingAnything()) return;
-
-            DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
-            DataGridViewHandler.UpdateImageOnFile(dataGridView, fileEntryImage);
-        }
-
-        private void RefreshHeaderImageOnActiveDataGrivView(string fullFilePath)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<string>(RefreshHeaderImageOnActiveDataGrivView), fullFilePath);
-                return;
-            }
-
             if (GlobalData.IsPopulatingAnything()) return;
 
             DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             if (dataGridView == null) return;
+
+            DataGridViewHandler.UpdateImageOnFile(dataGridView, new FileEntryImage(fileEntryImage.FileFullPath, DataGridViewHandler.DateTimeForEditableMediaFile, fileEntryImage.Image));
+
             
-            for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
+        }
+
+        private void RefreshHeaderImageAndRegionsOnActiveDataGridView(string fullFilePath)
+        {
+            if (InvokeRequired)
             {
-                if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn)
+                this.BeginInvoke(new Action<string>(RefreshHeaderImageAndRegionsOnActiveDataGridView), fullFilePath);
+                return;
+            }
+
+            if (GlobalData.IsPopulatingAnything()) return;
+            DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            DataGridViewHandler.RefreshImageForFile(dataGridView, fullFilePath);
+        }
+
+        private void RefreshImageListView(string fullFilePath)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string>(RefreshImageListView), fullFilePath);
+                return;
+            }
+
+            if (GlobalData.IsPopulatingAnything()) return;
+
+            #region Updated Thumbnail in ImageListView
+
+            if (!IsFileInCloud(fullFilePath))
+            {
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
                 {
-                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryImage.FileFullPath == fullFilePath)
+                    if (imageListViewItem.FileFullPath == fullFilePath)
                     {
-                        dataGridView.InvalidateCell(columnIndex, -1);
+                        imageListViewItem.BeginEdit();
+                        imageListViewItem.Update();
+                        //imageListViewItem.ThumbnailImage = fileEntryImage.Image;
+                        imageListViewItem.EndEdit();
                     }
                 }
             }
-            DataGridViewHandler.Refresh(dataGridView);
+            #endregion
         }
-
-        /*
-        private void RefreshHeaderImageOnActiveDataGrivView(ImageListViewSelectedItemCollection imageListViewSelectItems)
-        {
-            foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
-            {
-                RefreshHeaderImageOnActiveDataGrivView(imageListViewItem.FullFileName);
-            }
-        }
-        */
 
         private void PopulateMetadataOnFileOnActiveDataGrivViewInvoke(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
