@@ -259,6 +259,7 @@
     <Compile Include="SplashForm.Designer.cs">
       <DependentUpon>SplashForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WaitCursor.cs" />
     <EmbeddedResource Include="ChooseColumns.resx">
       <DependentUpon>ChooseColumns.cs</DependentUpon>
       <SubType>Designer</SubType>

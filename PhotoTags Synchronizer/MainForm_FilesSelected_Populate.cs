@@ -13,27 +13,25 @@ using ApplicationAssociations;
 
 namespace PhotoTagsSynchronizer
 {
-    
+
     public partial class MainForm : Form
     {
+        #region FilesSelected
         private void FilesSelected()
         {
             if (GlobalData.IsPopulatingAnything()) return;
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
 
             GlobalData.IsPopulatingImageListView = true;
-            Application.UseWaitCursor = true;
-            //imageListView1.Enabled = false;
-            PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //GlobalData.isPopulatingSelectedFiles start with true end with false;
-            //imageListView1.Enabled = true;
-            PopulateImageListeViewToolStrip(imageListView1.SelectedItems);
-
-            Application.UseWaitCursor = false;
+            using (new WaitCursor())
+            {
+                //imageListView1.Enabled = false;
+                PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //GlobalData.isPopulatingSelectedFiles start with true end with false;                                                                                                                //imageListView1.Enabled = true;
+                PopulateImageListeViewToolStrip(imageListView1.SelectedItems);
+            }
             GlobalData.IsPopulatingImageListView = false;
             imageListView1.Focus();
         }
-
-        
 
 
         private void PopulateImageListeViewToolStrip(ImageListViewSelectedItemCollection imageListViewSelectedItems)

@@ -14,11 +14,6 @@ using ApplicationAssociations;
 
 namespace Exiftool
 {
-    public class VariableReplaceMetadata
-    {
-
-    }
-
 
     public static class ExiftoolWriter
     {
@@ -75,25 +70,6 @@ namespace Exiftool
             return false;
         }
 
-        /*
-        public static bool IsFileReadOnlyOrLockedByProcess(string fullFilePath)
-        {
-            FileStream fs = null;            
-            try
-            {
-                // NOTE: This doesn't handle situations where file is opened for writing by another process but put into write shared mode, it will not throw an exception and won't show it as write locked
-                fs = File.Open(fullFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None); // If we can't open file for reading and writing then it's locked by another process for writing
-            }            
-            catch (Exception)
-            {
-                return true; // This file has been locked
-            }
-            finally
-            {
-                if (fs != null) fs.Close();
-            }
-            return false;
-        }*/
 
         public static bool IsFileReadOnly(string fileFullPath)
         {
@@ -117,7 +93,8 @@ namespace Exiftool
             bool areAnyFileLocked;
             do
             {
-                areAnyFileLocked = IsFileLockedByProcess(fileFullPath);
+                if (File.Exists(fileFullPath)) areAnyFileLocked = IsFileLockedByProcess(fileFullPath);
+                else areAnyFileLocked = false;
                 if (areAnyFileLocked) Thread.Sleep(500);
                 if (maxRetry-- < 0) areAnyFileLocked = false;
             } while (areAnyFileLocked);

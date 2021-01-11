@@ -17,16 +17,14 @@ namespace PhotoTagsSynchronizer
             GlobalData.SearchFolder = false;
 
             GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
+            using (new WaitCursor())
+            {
+                folderTreeViewFolder.Enabled = false;
+                FolderSelected_AggregateListViewWithFilesFromSearchFilter(searchFilterResult);
+                folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
 
-            Application.UseWaitCursor = true;
-
-            folderTreeViewFolder.Enabled = false;
-            FolderSelected_AggregateListViewWithFilesFromSearchFilter(searchFilterResult);
-            folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
-
-            if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
-
-            Application.UseWaitCursor = false;
+                if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
+            }
             GlobalData.IsPopulatingFolderSelected = false;
 
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //Even when 0 selected files, allocate data and flags, etc...
@@ -42,15 +40,11 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingAnything()) return;
             GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
             GlobalData.SearchFolder = true;
-            //Application.UseWaitCursor = true;
-
-            //folderTreeViewFolder.Enabled = false;
-            FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
-            //folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
-            
-            if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
-
-            //Application.UseWaitCursor = false;
+            using (new WaitCursor())
+            {
+                FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
+                if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
+            }
             GlobalData.IsPopulatingFolderSelected = false;
 
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //Even when 0 selected files, allocate data and flags, etc...
