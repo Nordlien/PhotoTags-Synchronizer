@@ -1,108 +1,53 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using DataGridViewGeneric;
+using FileDateTime;
 using Manina.Windows.Forms;
 using MetadataLibrary;
-using DataGridViewGeneric;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 using WindowsProperty;
 using static Manina.Windows.Forms.ImageListView;
-using System.IO;
-using System.Collections.Generic;
-using FileDateTime;
-using System.Threading;
-using ApplicationAssociations;
 
 namespace PhotoTagsSynchronizer
 {
 
     public partial class MainForm : Form
     {
+        #region imageListView1 SelectionChanged -> FileSelected
+        private void imageListView1_SelectionChanged(object sender, EventArgs e)
+        {
+            imageListView1.Enabled = false; //When Enabled = true, slection was cancelled during Updating the grid
+            FilesSelected();
+            imageListView1.Enabled = true;
+        }
+        #endregion
+
         #region FilesSelected
         private void FilesSelected()
         {
             if (GlobalData.IsPopulatingAnything()) return;
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
-
-            GlobalData.IsPopulatingImageListView = true;
+            
             using (new WaitCursor())
             {
-                //imageListView1.Enabled = false;
-                PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //GlobalData.isPopulatingSelectedFiles start with true end with false;                                                                                                                //imageListView1.Enabled = true;
-                PopulateImageListeViewToolStrip(imageListView1.SelectedItems);
+                GlobalData.IsPopulatingImageListView = true;
+                GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+
+                PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewThread(imageListView1.SelectedItems);
+                PopulateImageListeViewOpenWithToolStripThread(imageListView1.SelectedItems);
+
+                DisplayAllQueueStatus();
+                GlobalData.IsPopulatingImageListView = false;
             }
-            GlobalData.IsPopulatingImageListView = false;
+            
             imageListView1.Focus();
         }
+        #endregion
 
-
-        private void PopulateImageListeViewToolStrip(ImageListViewSelectedItemCollection imageListViewSelectedItems)
-        {
-            if (imageListViewSelectedItems.Count == 1) openWithDialogToolStripMenuItem.Visible = true;
-            else openWithDialogToolStripMenuItem.Visible = false;
-
-            List<string> extentions = new List<string>();
-            foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
-            {
-                string extention = Path.GetExtension(imageListViewItem.FileFullPath).ToLower();
-                if (!extentions.Contains(extention)) extentions.Add(extention);
-            }
-
-            ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
-            List<ApplicationData> listOfCommonOpenWith = applicationAssociationsHandler.OpenWithInCommon(extentions);
-
-            openMediaFilesWithToolStripMenuItem.DropDownItems.Clear();
-            if (listOfCommonOpenWith != null && listOfCommonOpenWith.Count > 0)
-            {
-                openMediaFilesWithToolStripMenuItem.Visible = true;
-                foreach (ApplicationData data in listOfCommonOpenWith)
-                {
-                    foreach (VerbLink verbLink in data.VerbLinks)
-                    {
-                        ApplicationData singelVerbApplicationData = new ApplicationData();
-                        singelVerbApplicationData.AppIconReference = data.AppIconReference;
-                        singelVerbApplicationData.ApplicationId = data.ApplicationId;
-                        singelVerbApplicationData.Command = data.Command;
-                        singelVerbApplicationData.FriendlyAppName = data.FriendlyAppName;
-                        singelVerbApplicationData.Icon = data.Icon;
-                        singelVerbApplicationData.ProgId = data.ProgId;
-                        singelVerbApplicationData.AddVerb(verbLink.Verb, verbLink.Command);
-
-                        ToolStripMenuItem toolStripMenuItemOpenWith = new ToolStripMenuItem(singelVerbApplicationData.FriendlyAppName.Replace("&", "&&") + " - " + verbLink.Verb, singelVerbApplicationData.Icon.ToBitmap());
-                        toolStripMenuItemOpenWith.Tag = singelVerbApplicationData;
-                        toolStripMenuItemOpenWith.Click += ToolStripMenuItemOpenWith_Click;
-                        openMediaFilesWithToolStripMenuItem.DropDownItems.Add(toolStripMenuItemOpenWith);
-                    }
-                }
-            }
-            else openMediaFilesWithToolStripMenuItem.Visible = false;
-
-        }
-
-        private void ToolStripMenuItemOpenWith_Click(object sender, EventArgs e)
-        {
-            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
-            if (toolStripMenuItem.Tag is ApplicationData applicationData)
-            {
-                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-                {
-                    if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);                    
-                }
-            }
-
-        }
-
-        private void imageListView1_SelectionChanged(object sender, EventArgs e)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<object, EventArgs>(imageListView1_SelectionChanged), sender, e);
-                return;
-            }
-
-            FilesSelected();
-        }
-
-        //tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString()
-        private DataGridView GetActiveDataGridView(string tag)
+        #region DataGridView - GetDataGridViewForTag
+        private DataGridView GetDataGridViewForTag(string tag)
         {
             try
             {
@@ -134,8 +79,9 @@ namespace PhotoTagsSynchronizer
             }
             return null;
         }
+        #endregion
 
-
+        #region DataGridView - Update Image - OnFileEntry - OnSelectedGrivView
         private void UpdateImageOnFileEntryOnSelectedGrivViewInvoke(FileEntryImage fileEntryImage)
         {
             if (InvokeRequired)
@@ -146,14 +92,14 @@ namespace PhotoTagsSynchronizer
             
             if (GlobalData.IsPopulatingAnything()) return;
 
-            DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             if (dataGridView == null) return;
 
-            DataGridViewHandler.UpdateImageOnFile(dataGridView, new FileEntryImage(fileEntryImage.FileFullPath, DataGridViewHandler.DateTimeForEditableMediaFile, fileEntryImage.Image));
-
-            
+            DataGridViewHandler.UpdateImageOnFile(dataGridView, new FileEntryImage(fileEntryImage.FileFullPath, DataGridViewHandler.DateTimeForEditableMediaFile, fileEntryImage.Image)); 
         }
+        #endregion
 
+        #region DataGridView - Refresh Header Image And Regions - OnActiveDataGridView
         private void RefreshHeaderImageAndRegionsOnActiveDataGridView(string fullFilePath)
         {
             if (InvokeRequired)
@@ -163,38 +109,13 @@ namespace PhotoTagsSynchronizer
             }
 
             if (GlobalData.IsPopulatingAnything()) return;
-            DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
-            DataGridViewHandler.RefreshImageForFile(dataGridView, fullFilePath);
+            DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            DataGridViewHandler.RefreshImageForMediaFullFilename(dataGridView, fullFilePath);
         }
+        #endregion
 
-        private void RefreshImageListView(string fullFilePath)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<string>(RefreshImageListView), fullFilePath);
-                return;
-            }
 
-            if (GlobalData.IsPopulatingAnything()) return;
-
-            #region Updated Thumbnail in ImageListView
-
-            if (!IsFileInCloud(fullFilePath))
-            {
-                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
-                {
-                    if (imageListViewItem.FileFullPath == fullFilePath)
-                    {
-                        imageListViewItem.BeginEdit();
-                        imageListViewItem.Update();
-                        //imageListViewItem.ThumbnailImage = fileEntryImage.Image;
-                        imageListViewItem.EndEdit();
-                    }
-                }
-            }
-            #endregion
-        }
-
+        #region Populate - Metadata - OnFile - OnActive DataGrivView - Invoke
         private void PopulateMetadataOnFileOnActiveDataGrivViewInvoke(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
@@ -203,7 +124,9 @@ namespace PhotoTagsSynchronizer
                 PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListViewItem.FileFullPath);
             }
         }
+        #endregion 
 
+        #region Populate - Metadata - OnFile - OnActive DataGrivView
         private void PopulateMetadataOnFileOnActiveDataGrivView(DataGridView dataGridView, string fullFilePath, string tag)
         {
             lock (GlobalData.populateSelectedLock)
@@ -246,7 +169,9 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
-       
+        #endregion
+
+        #region Populate - Metadata - OnFile - OnActiveDataGrivView Invoke
         private void PopulateMetadataOnFileOnActiveDataGrivViewInvoke(string fullFilePath)
         {           
             if (InvokeRequired)
@@ -260,85 +185,52 @@ namespace PhotoTagsSynchronizer
 
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Tags" || GlobalData.IsAgregatedTags)
             {
-                dataGridView = GetActiveDataGridView("Tags");
+                dataGridView = GetDataGridViewForTag("Tags");
                 PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
             
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Map" || GlobalData.IsAgregatedMap)
             {
-                dataGridView = GetActiveDataGridView("Map");
+                dataGridView = GetDataGridViewForTag("Map");
                 PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
 
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "People" || GlobalData.IsAgregatedMap)
             {
-                dataGridView = GetActiveDataGridView("People");
+                dataGridView = GetDataGridViewForTag("People");
                 PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
 
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Date" || GlobalData.IsAgregatedPeople)
             {
-                dataGridView = GetActiveDataGridView("Date");
+                dataGridView = GetDataGridViewForTag("Date");
                 PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
 
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "ExifTool" || GlobalData.IsAgregatedPeople)
             {
-                dataGridView = GetActiveDataGridView("ExifTool");
+                dataGridView = GetDataGridViewForTag("ExifTool");
                 PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
 
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Warning" || GlobalData.IsAgregatedPeople)
             {
-                dataGridView = GetActiveDataGridView("Warning");
+                dataGridView = GetDataGridViewForTag("Warning");
                 PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
         }
+        #endregion
 
-        private bool ImageListViewForceThumbnailRefreshAndThreads(ImageListView imageListView, string fullFileName)
+
+        private void PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewThread(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
-            bool existAndUpdated = false;
-
-            if (GlobalData.retrieveImageCount > 0) 
-            {
-                Thread.Sleep(100); //Wait until all ImageListView events are removed
-                //DEBGUG BREAK
-            }
-
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-            try
-            {
-                ImageListViewSuspendLayoutInvoke(imageListView);
-                foreach (ImageListViewItem item in imageListView.SelectedItems)
-                {
-                    if (item.FileFullPath == fullFileName)
-                    {
-                        existAndUpdated = true;
-                        ImageListViewUpdateItemThumbnailAndMetadataInvoke(item);
-                        break;
-                    }
-                }
-                ImageListViewResumeLayoutInvoke(imageListView);
-            }
-            catch
-            {
-                //DID ImageListe update failed, because of thread???
-            }
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-            return existAndUpdated;
+            Thread threadPopulateDataGridView = new Thread(() => {
+                PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewInvoke(imageListView1.SelectedItems);
+            });
+            threadPopulateDataGridView.Start();
         }
 
-
-        private void PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(ImageListViewSelectedItemCollection imageListViewSelectItems)
-        {
-            lock (GlobalData.populateSelectedLock)
-            {
-                GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-                PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewInvoke(imageListViewSelectItems);
-                DisplayAllQueueStatus();
-            }
-        }
-
+        #region Populate - Details - OnSelected ImageListViewItems - OnActiveDataGridViewInvoke
         /// <summary>
         /// Populate Active DataGridView with Seleted Files from ImageListView
         /// PS. When selected new files, all DataGridViews are maked as dirty.
@@ -346,40 +238,40 @@ namespace PhotoTagsSynchronizer
         /// <param name="imageListViewSelectItems"></param>
         private void PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewInvoke(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
-            if (InvokeRequired)
+            
+            if (this.InvokeRequired)
             {
-                _ = this.BeginInvoke(new Action<ImageListViewSelectedItemCollection>(PopulateMetadataOnFileOnActiveDataGrivViewInvoke), imageListViewSelectItems);
+                //DEBUG:JTN
+                _ = this.BeginInvoke(new Action<ImageListViewSelectedItemCollection>(PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewInvoke), imageListViewSelectItems);
                 return;
             }
 
             if (GlobalData.IsApplicationClosing) return;
 
+            Debug.WriteLine("---lock (GlobalData.populateSelectedLock)");
             lock (GlobalData.populateSelectedLock)
-            {
+            {                
                 foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
                 {
                     AddQueueAllUpadtedFileEntry(new FileEntryImage(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
-           
                 }
                 StartThreads();
 
-                DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+                DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
                 switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
                 {
                     case "Tags":
                         ClearDetailViewTagsAndKeywords();
                         DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
-                        
-                        DataGridViewHandler.SuspendLayout(dataGridView);
-                        dataGridView.Enabled = false; //Remember datagrid_CellPainting will be triggered when change Enable state
 
+                        DataGridViewHandler.SuspendLayout(dataGridView);
+                        //dataGridView.Enabled = false; //Remember datagrid_CellPainting will be triggered when change Enable state
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                         DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, false, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns);
-
                         PopulateDetailViewTagsAndKeywords(dataGridView);
-                        dataGridView.Enabled = true;
+                        //dataGridView.Enabled = true;
                         DataGridViewHandler.ResumeLayout(dataGridView);
 
                         break;
@@ -468,16 +360,16 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerRename.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
 
-
                         DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
                         DataGridViewHandler.ResumeLayout(dataGridView);
                         dataGridView.Enabled = true;
                         break;
                 }
             }
+            Debug.WriteLine("---unlock (GlobalData.populateSelectedLock)");
         }
+        #endregion
 
-        
 
     }
 }

@@ -257,7 +257,7 @@ namespace PhotoTagsSynchronizer
         {
             isTabControlToolboxChanging = false;
             PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewInvoke(imageListView1.SelectedItems);
-            GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString()).Focus();
+            GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString()).Focus();
         }
 
         private void splitContainerMap_SplitterMoved(object sender, SplitterEventArgs e)
@@ -439,7 +439,7 @@ namespace PhotoTagsSynchronizer
             FolderSelected_AggregateListViewWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
 
-            PopulateTreeViewFolderFilter(imageListView1.Items);
+            PopulateTreeViewFolderFilterThread(imageListView1.Items);
         }
         #endregion
 

@@ -257,7 +257,7 @@ namespace PhotoTagsSynchronizer
 
             
             FileEntryBroker fileEntryBroker = new FileEntryBroker(fullFilePath, dateTimeForEditableMediaFile, MetadataBrokerTypes.ExifTool);
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.MetadataCacheRead(fileEntryBroker);
+            Metadata metadata = DatabaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(fileEntryBroker);
 
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, new FileEntryImage(headerNewFilename, dateTimeEditable));
             if (columnIndex == -1) return;

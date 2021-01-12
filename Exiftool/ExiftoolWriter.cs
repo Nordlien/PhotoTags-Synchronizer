@@ -38,7 +38,26 @@ namespace Exiftool
         }
         #endregion
 
-        #region Files locked, wait unlock
+        #region Files locked, wait unlock, in cloud
+        public static bool IsFileInCloud(string fullFileName)
+        {
+            /*
+            FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS
+            4194304 (0x400000)
+            When this attribute is set, it means that the file or directory is not fully present locally. For a file that means that not all of its data is on local storage (e.g. it may be sparse with some data still in remote storage). For a directory it means that some of the directory contents are being virtualized from another location. Reading the file / enumerating the directory will be more expensive than normal, e.g. it will cause at least some of the file/directory content to be fetched from a remote store. Only kernel-mode callers can set this bit.
+    
+            1048576 (0x100000) Unknown flag
+            */
+            try
+            {
+                FileAttributes fileAttributes = File.GetAttributes(fullFileName);
+                if ((((int)fileAttributes) & 0x000400000) == 0x000400000)
+                    return true;
+            }
+            catch { }
+            return false;
+        }
+
         public static bool IsFileLockedByProcess(string fullFilePath)
         {
             FileStream fs = null;
@@ -371,7 +390,7 @@ namespace Exiftool
                         Logger.Info("process.WaitForExit() " + process.ExitCode);
                     }
 
-                    while (!process.HasExited) System.Threading.Thread.Sleep(100);
+                    while (!process.HasExited) Thread.Sleep(100);
 
                     process.Close();
                     process.Dispose();

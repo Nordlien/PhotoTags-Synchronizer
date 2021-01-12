@@ -3,6 +3,7 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
@@ -182,12 +183,14 @@ namespace PhotoTagsSynchronizer
                 if (fileEntryBroker.LastWriteDateTime == DataGridViewHandler.DateTimeForEditableMediaFile)
                 {
                     fileEntryBrokerReadVersion = new FileEntryBroker(fullFilePath, (DateTime)dateTimeNewest, MetadataBrokerTypes.ExifTool);
-                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.MetadataCacheRead(fileEntryBrokerReadVersion));
+                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.MetadataCacheOnly(fileEntryBrokerReadVersion));
+                    //metadata = new Metadata(DatabaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(fileEntryBrokerReadVersion));
                 }
                 else
                 {
-                    metadata = DatabaseAndCacheMetadataExiftool.MetadataCacheRead(fileEntryBrokerReadVersion);
+                    metadata = DatabaseAndCacheMetadataExiftool.MetadataCacheOnly(fileEntryBrokerReadVersion);
                 }
+               
 
                 int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView,
                     new FileEntryImage(fileEntryBroker),                                                    /* This Column idenity                                      */
@@ -212,7 +215,7 @@ namespace PhotoTagsSynchronizer
                 // Microsoft Phontos
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos), false);
                 Metadata metadataMicrosoftPhotos = null;
-                if (metadata != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRead(new FileEntryBroker (fileEntryBrokerReadVersion, MetadataBrokerTypes.MicrosoftPhotos));
+                if (metadata != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.MetadataCacheReadOrDatabase(new FileEntryBroker (fileEntryBrokerReadVersion, MetadataBrokerTypes.MicrosoftPhotos));
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagAlbum), metadataMicrosoftPhotos?.PersonalAlbum, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos, tagTitle), metadataMicrosoftPhotos?.PersonalTitle, true);
             
@@ -223,7 +226,7 @@ namespace PhotoTagsSynchronizer
                 //Windows Live Photo Gallery
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery), false);
                 Metadata metadataWindowsLivePhotoGallery = null;
-                if (metadata != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRead(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.WindowsLivePhotoGallery));
+                if (metadata != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheReadOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.WindowsLivePhotoGallery));
                
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagTitle), metadata?.PersonalTitle, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagRating), metadata?.PersonalRating, true);
@@ -260,19 +263,19 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (DataGridViewHandler.GetIsAgregated(dataGridView)) return;
             if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+
             //Tell that work in progress, can start a new before done.
             DataGridViewHandler.SetIsPopulating(dataGridView, true);
             //Clear current DataGridView
-            DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
+            DataGridViewHandler.Clear(dataGridView, dataGridViewSize);            
             //Add Columns for all selected files, one column per select file
             DataGridViewHandler.AddColumnSelectedFiles(dataGridView, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
-                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true)); //ReadOnly until data is read
+                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true)); //ReadOnly until data is read         
             //Add all default rows
             //AddRowsDefault(dataGridView);
             //Tell data default columns and rows are agregated
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
-
 
             //Populate one and one of selected files, (new versions of files can be added)
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)

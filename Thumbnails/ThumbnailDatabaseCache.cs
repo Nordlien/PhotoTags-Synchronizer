@@ -161,7 +161,7 @@ namespace Thumbnails
         public bool DoesThumbnailExist(FileEntry fileEntry)
         {
             if (CacheContainsKey(fileEntry)) return true;
-            return ReadCache(fileEntry) != null; //Read Thumbnail and put in cache, will need the thumbnail soon anywhy 
+            return ReadCacheOrDatabase(fileEntry) != null; //Read Thumbnail and put in cache, will need the thumbnail soon anywhy 
         }
 
 
@@ -218,8 +218,16 @@ namespace Thumbnails
             thumbnailCache = new Dictionary<FileEntry, Image>();
         }
 
+        public Image ReadOnlyFromCache(FileEntry file)
+        {
+            if (CacheContainsKey(file))
+            {
+                return CacheGet(file);
+            }
+            return null;
+        }
 
-        public Image ReadCache(FileEntry file)
+        public Image ReadCacheOrDatabase(FileEntry file)
         {
             if (CacheContainsKey(file))
             {

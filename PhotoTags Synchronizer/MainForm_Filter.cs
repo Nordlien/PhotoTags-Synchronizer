@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using MetadataLibrary;
 using Manina.Windows.Forms;
+using System.Threading;
 
 namespace PhotoTagsSynchronizer
 {
@@ -421,8 +422,20 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulateTreeViewFolderFilter
-        private void PopulateTreeViewFolderFilter(ImageListView.ImageListViewItemCollection imageListViewSelectedItems)
+        private void PopulateTreeViewFolderFilterThread(ImageListView.ImageListViewItemCollection imageListViewItems)
         {
+            Thread threadPopulateFilter = new Thread(() => { PopulateTreeViewFolderFilterInvoke(imageListViewItems); });
+            threadPopulateFilter.Start();
+        }
+
+        private void PopulateTreeViewFolderFilterInvoke(ImageListView.ImageListViewItemCollection imageListViewItems)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<ImageListView.ImageListViewItemCollection>(PopulateTreeViewFolderFilterInvoke), imageListViewItems);
+                return;
+            }
+
             FilterVerifyer.PopulateTreeViewBasicNodes(treeViewFilter, FilterVerifyer.Root);
             
             List<string> albums = new List<string>();
@@ -441,10 +454,9 @@ namespace PhotoTagsSynchronizer
             List<string> peoples = new List<string>();
             List<string> keywords = new List<string>();
 
-            foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
+            foreach (ImageListViewItem imageListViewItem in imageListViewItems)
             {
-//NEED BREAK AFTER FOLDER CHANGED
-                Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerTypes.ExifTool));
+                Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerTypes.ExifTool));
 
                 if (metadata != null)
                 {
@@ -475,7 +487,6 @@ namespace PhotoTagsSynchronizer
                         if (!string.IsNullOrEmpty(keywordTag.Keyword) && !keywords.Contains(keywordTag.Keyword)) keywords.Add(keywordTag.Keyword);
                     }
                 }
-                break;
             }
 
             string node = FilterVerifyer.Root;

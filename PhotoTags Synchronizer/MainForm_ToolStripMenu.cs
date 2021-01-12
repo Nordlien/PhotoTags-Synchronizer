@@ -11,15 +11,15 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
+using static Manina.Windows.Forms.ImageListView;
 
 namespace PhotoTagsSynchronizer
 {
 
     public partial class MainForm : Form
     {
-        
-
         #region Save
 
         #region Save - IsAnyDataUnsaved
@@ -61,7 +61,7 @@ namespace PhotoTagsSynchronizer
             metadataListOriginalExiftool = new List<Metadata>();
             metadataListFromDataGridView = new List<Metadata>();
 
-            DataGridView dataGridView = GetActiveDataGridView(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, true);
             foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
             {
@@ -149,7 +149,7 @@ namespace PhotoTagsSynchronizer
             }
 
             GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-            ImageListViewForceThumbnailRefreshAndThreads(imageListView1, null);
+            ImageListViewReloadThumbnail(imageListView1, null);
             PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
             //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
@@ -190,7 +190,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region ToolStrip - Clicked or Selected
+        #region ToolStrip
         #region ToolStrip - Save - Click 
         private void toolStripButtonSaveAllMetadata_Click(object sender, EventArgs e)
         {
@@ -542,7 +542,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ToolStrip - AutoCorrect - Click
+        #region ToolStrip - AutoCorrect - Folder - Click
         private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
         {
             AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
@@ -566,10 +566,10 @@ namespace PhotoTagsSynchronizer
                 }
             }
             StartThreads();
-
         }
+        #endregion 
 
-
+        #region ToolStrip - AutoCorrect - Selected files - Click
         private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
         {
             AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
@@ -839,9 +839,80 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ToolStrip - Populate - OpenWith - ImageListeViewToolStrip
+
+        private void PopulateImageListeViewOpenWithToolStripThread(ImageListViewSelectedItemCollection imageListViewSelectedItems)
+        {
+            Thread threadPopulateOpenWith = new Thread(() => { PopulateImageListeViewOpenWithToolStripInvoke(imageListView1.SelectedItems); });
+            threadPopulateOpenWith.Start();
+        }
+
+        private void PopulateImageListeViewOpenWithToolStripInvoke(ImageListViewSelectedItemCollection imageListViewSelectedItems)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<ImageListViewSelectedItemCollection>(PopulateImageListeViewOpenWithToolStripInvoke), imageListViewSelectedItems);
+                return;
+            }
+
+            if (imageListViewSelectedItems.Count == 1) openWithDialogToolStripMenuItem.Visible = true;
+            else openWithDialogToolStripMenuItem.Visible = false;
+
+            List<string> extentions = new List<string>();
+            foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
+            {
+                string extention = Path.GetExtension(imageListViewItem.FileFullPath).ToLower();
+                if (!extentions.Contains(extention)) extentions.Add(extention);
+            }
+
+            ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
+            List<ApplicationData> listOfCommonOpenWith = applicationAssociationsHandler.OpenWithInCommon(extentions);
+
+            openMediaFilesWithToolStripMenuItem.DropDownItems.Clear();
+            if (listOfCommonOpenWith != null && listOfCommonOpenWith.Count > 0)
+            {
+                openMediaFilesWithToolStripMenuItem.Visible = true;
+                foreach (ApplicationData data in listOfCommonOpenWith)
+                {
+                    foreach (VerbLink verbLink in data.VerbLinks)
+                    {
+                        ApplicationData singelVerbApplicationData = new ApplicationData();
+                        singelVerbApplicationData.AppIconReference = data.AppIconReference;
+                        singelVerbApplicationData.ApplicationId = data.ApplicationId;
+                        singelVerbApplicationData.Command = data.Command;
+                        singelVerbApplicationData.FriendlyAppName = data.FriendlyAppName;
+                        singelVerbApplicationData.Icon = data.Icon;
+                        singelVerbApplicationData.ProgId = data.ProgId;
+                        singelVerbApplicationData.AddVerb(verbLink.Verb, verbLink.Command);
+
+                        ToolStripMenuItem toolStripMenuItemOpenWith = new ToolStripMenuItem(singelVerbApplicationData.FriendlyAppName.Replace("&", "&&") + " - " + verbLink.Verb, singelVerbApplicationData.Icon.ToBitmap());
+                        toolStripMenuItemOpenWith.Tag = singelVerbApplicationData;
+                        toolStripMenuItemOpenWith.Click += ToolStripMenuItemOpenWith_Click;
+                        openMediaFilesWithToolStripMenuItem.DropDownItems.Add(toolStripMenuItemOpenWith);
+                    }
+                }
+            }
+            else openMediaFilesWithToolStripMenuItem.Visible = false;
+        }
         #endregion
 
-        #region ImageListView - Click
+        #region ToolStrip - OpenWith - Click
+        private void ToolStripMenuItemOpenWith_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
+            if (toolStripMenuItem.Tag is ApplicationData applicationData)
+            {
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                {
+                    if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);
+                }
+            }
+        }
+        #endregion 
+
+        #endregion
+
+        #region ImageListView
         #region ImageListView - Delete Files - Directory - Click
         private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
         {
@@ -932,9 +1003,88 @@ namespace PhotoTagsSynchronizer
 
         }
         #endregion
+
+        #region ImageListView - SuspendLayout - Invoke
+        private void ImageListViewSuspendLayoutInvoke(ImageListView imageListView)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<ImageListView>(ImageListViewSuspendLayoutInvoke), imageListView);
+                return;
+            }
+
+            //imageListView.SuspendLayout(); //When this where, it crash, need debug why, this needed to avoid flashing
+        }
+        #endregion
+
+        #region ImageListView - ResumeLayout - Invoke
+        private void ImageListViewResumeLayoutInvoke(ImageListView imageListView)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<ImageListView>(ImageListViewResumeLayoutInvoke), imageListView);
+                return;
+            }
+
+            //imageListView.ResumeLayout(); //When this where, it crash, need debug why, this needed to avoid flashing
+        }
+        #endregion
+
+
+        #region ImageListView - Reload Thumbnail 
+        private void ImageListViewReloadThumbnail(ImageListView imageListView, string fullFileName)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<ImageListView, string>(ImageListViewReloadThumbnail), imageListView, fullFileName);
+                return;
+            }
+
+            //private void ImageListViewForceThumbnailRefreshAndThreads(ImageListView imageListView, string fullFileName)
+            //bool existAndUpdated = false;
+            //if (GlobalData.retrieveImageCount > 0) Thread.Sleep(100); //Wait until all ImageListView events are removed
+
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+            try
+            {
+                ImageListViewSuspendLayoutInvoke(imageListView);
+                foreach (ImageListViewItem item in imageListView.SelectedItems)
+                {
+                    if (item.FileFullPath == fullFileName)
+                    {
+                        //existAndUpdated = true;
+                        ImageListViewReloadThumbnail(item);
+                        break;
+                    }
+                }
+                ImageListViewResumeLayoutInvoke(imageListView);
+            }
+            catch
+            {
+                //DID ImageListe update failed, because of thread???
+            }
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+            //return existAndUpdated;
+        }
+        #endregion
+        
+        #region ImageListView - ReloadThumbnail - Invoke - ImageListViewItem
+        private void ImageListViewReloadThumbnail(ImageListViewItem imageListViewItem)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<ImageListViewItem>(ImageListViewReloadThumbnail), imageListViewItem);
+                return;
+            }
+
+            imageListViewItem.BeginEdit();
+            imageListViewItem.Update();
+            imageListViewItem.EndEdit();
+        }
+        #endregion
         #endregion 
 
-        #region FoldeTree - Click
+        #region FoldeTree
         #region FolderTree - Cut - Click
         private void toolStripMenuItemTreeViewFolderCut_Click(object sender, EventArgs e)
         {
@@ -978,9 +1128,9 @@ namespace PhotoTagsSynchronizer
             CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
         }
         #endregion
-        #endregion 
+        #endregion
 
-
+        #region Drag and Drop
         TreeNode currentNodeWhenStartDragging = null; //Updated by DragEnter
         private bool isInternalDrop = true;
 
@@ -1261,6 +1411,6 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
-
+        #endregion 
     }
 }

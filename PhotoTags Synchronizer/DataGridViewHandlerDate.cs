@@ -226,11 +226,11 @@ namespace PhotoTagsSynchronizer
                 if (fileEntryBroker.LastWriteDateTime == DataGridViewHandler.DateTimeForEditableMediaFile)
                 {
                     fileEntryBrokerReadVersion = new FileEntryBroker(fullFilePath, (DateTime)dateTimeNewest, MetadataBrokerTypes.ExifTool);
-                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.MetadataCacheRead(fileEntryBrokerReadVersion));
+                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(fileEntryBrokerReadVersion));
                 }
                 else
                 {
-                    metadata = DatabaseAndCacheMetadataExiftool.MetadataCacheRead(fileEntryBrokerReadVersion);
+                    metadata = DatabaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(fileEntryBrokerReadVersion);
                 }
 
                 int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView,

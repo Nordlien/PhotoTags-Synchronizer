@@ -8,39 +8,22 @@ using ImageAndMovieFileExtentions;
 using System.Diagnostics;
 using System.Threading;
 using ApplicationAssociations;
+using Exiftool;
 
 namespace PhotoTagsSynchronizer
 {
     
     public partial class MainForm : Form
     {
-        private bool IsFileInCloud(string fullFileName)
-        {
-            /*
-            FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS
-            4194304 (0x400000)
-            When this attribute is set, it means that the file or directory is not fully present locally. For a file that means that not all of its data is on local storage (e.g. it may be sparse with some data still in remote storage). For a directory it means that some of the directory contents are being virtualized from another location. Reading the file / enumerating the directory will be more expensive than normal, e.g. it will cause at least some of the file/directory content to be fetched from a remote store. Only kernel-mode callers can set this bit.
-    
-            1048576 (0x100000) Unknown flag
-            */
-            try
-            {
-                FileAttributes fileAttributes = File.GetAttributes(fullFileName);
-                if ((((int)fileAttributes) & 0x000400000) == 0x000400000)
-                    return true; 
-            } catch { }
-            return false; 
-        }
+        
 
         #region Load Media Full Cover Art Poster or Thumbnail
         private Image LoadMediaCoverArtPoster(string fullFilePath, bool checkIfCloudFile)
-        {
-            //bool doNotReadFullFile = false;
+        {            
             if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
             {
-                if (IsFileInCloud(fullFilePath)) return null;
+                if (ExiftoolWriter.IsFileInCloud(fullFilePath)) return null;
             }
-            
 
             if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
             {
@@ -72,7 +55,7 @@ namespace PhotoTagsSynchronizer
                 {
                     if (Properties.Settings.Default.AvoidOfflineMediaFiles)
                     {
-                        if (IsFileInCloud(fullFilePath)) doNotReadFullFile = true; ;
+                        if (ExiftoolWriter.IsFileInCloud(fullFilePath)) doNotReadFullFile = true; ;
                     }
                 }
 
@@ -105,7 +88,7 @@ namespace PhotoTagsSynchronizer
         #region Load Item Metadata Details
         private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
         {
-            Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(
+            Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(
                 new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerTypes.ExifTool));
 
             Application.DoEvents();
@@ -146,7 +129,6 @@ namespace PhotoTagsSynchronizer
 
 
         #region Load Images and create Thumbnail from picture and videos
-
 
         private AutoResetEvent WaitCacheEmpty = null; //When out of mempry, then wait for all data ready = new AutoResetEvent(false);
 
@@ -212,7 +194,7 @@ namespace PhotoTagsSynchronizer
                     e.WasImageReadFromFile = false;
                     e.DidErrorOccourLoadMedia = true;
                 }
-                if (e.LoadedImage == null && IsFileInCloud(e.FullFilePath))
+                if (e.LoadedImage == null && ExiftoolWriter.IsFileInCloud(e.FullFilePath))
                 {
                     e.LoadedImage = (Image)Properties.Resources.load_image_error_onedrive;
                     e.WasImageReadFromFile = false;

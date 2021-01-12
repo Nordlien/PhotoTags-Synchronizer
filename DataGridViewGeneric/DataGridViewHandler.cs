@@ -979,7 +979,7 @@ namespace DataGridViewGeneric
             ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
             foreach (ImageListViewItem imageListViewItem in imageListViewItems)
-            {
+            {                
                 AddColumnOrUpdate(dataGridView, 
                     new FileEntryImage(imageListViewItem.FileFullPath, 
                     useCurrentFileLastWrittenDate ? imageListViewItem.DateModified : DateTimeForEditableMediaFile, //Use currentFile Last Written date, or future file for always keep same column for edit 
@@ -1010,7 +1010,6 @@ namespace DataGridViewGeneric
             ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
             int columnIndex = GetColumnIndex(dataGridView, fileEntryImage); //Find column Index for Filename and date last written
-
             bool isErrorColumn = (metadata != null) && (metadata.Broker & MetadataBrokerTypes.ExifToolWriteError) > 0;
             bool showErrorColumns = (showWhatColumns & ShowWhatColumns.ErrorColumns) > 0;
             bool isHistoryColumn = (fileEntryImage.LastWriteDateTime < dateTimeForEditableMediaFile);
@@ -1042,7 +1041,7 @@ namespace DataGridViewGeneric
                 
                 int columnIndexFilename = GetColumnIndex(dataGridView, fileEntryImage.FileFullPath);
                 if (columnIndexFilename == -1) //Not found
-                {                
+                {
                     columnIndex = dataGridView.Columns.Add(dataGridViewColumn);
                 }
                 else
@@ -1135,7 +1134,6 @@ namespace DataGridViewGeneric
                     }
 
                 }
-
                 currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
                 dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
 
@@ -2762,7 +2760,7 @@ namespace DataGridViewGeneric
 
         #region KeyDownEventHandler
 
-        #region KeyDownEventHandler - 
+        #region KeyDownEventHandler - call none static KeyDownEventHandler
         public static void KeyDownEventHandler(object sender, KeyEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -2825,8 +2823,8 @@ namespace DataGridViewGeneric
 
         #endregion
 
-        #region
-        public static void RefreshImageForFile(DataGridView dataGridView, string fullFilePath)
+        #region DataGridView - Refresh - InvalidateCell for MediaFullFilename
+        public static void RefreshImageForMediaFullFilename(DataGridView dataGridView, string fullFilePath)
         {
             if (dataGridView == null) return;
 
@@ -2845,17 +2843,15 @@ namespace DataGridViewGeneric
         }
 
         #endregion
-        #region Image handling - Update Image on File
+
+        #region DataGridView - Update Image - for FileEntryImage
         public static void UpdateImageOnFile(DataGridView dataGridView, FileEntryImage fileEntryImage)
         {
-            //-----------------------------------------------------------------
-            //Chech if need to stop
+            
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
             if (DataGridViewHandler.GetIsPopulatingImage(dataGridView)) return;  //In progress doing so
-            DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);
-            //-----------------------------------------------------------------
 
-
+            DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);            
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {
                 if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn)
@@ -2870,9 +2866,8 @@ namespace DataGridViewGeneric
                     }
                 }
             }
-            //-----------------------------------------------------------------
+            
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, false);
-            //-----------------------------------------------------------------
         }
         #endregion 
 

@@ -23,7 +23,7 @@ namespace PhotoTagsSynchronizer
                 FolderSelected_AggregateListViewWithFilesFromSearchFilter(searchFilterResult);
                 folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
 
-                if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
+                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(imageListView1.Items);
             }
             GlobalData.IsPopulatingFolderSelected = false;
 
@@ -34,20 +34,22 @@ namespace PhotoTagsSynchronizer
             folderTreeViewFolder.Focus();
         }
 
-        #region FolderSelcted Updated views
+        #region FolderSelcted - Populate DataGridView, ImageListView 
         private void FolderSelected(bool recursive, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
-            GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
-            GlobalData.SearchFolder = true;
+            
             using (new WaitCursor())
             {
+                GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
+                GlobalData.SearchFolder = true;
                 FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
-                if (runPopulateFilter) PopulateTreeViewFolderFilter(imageListView1.Items);
-            }
-            GlobalData.IsPopulatingFolderSelected = false;
+                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(imageListView1.Items);
+                GlobalData.IsPopulatingFolderSelected = false;
 
-            FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems); //Even when 0 selected files, allocate data and flags, etc...
+            }
+
+            FilesSelected(); //Even when 0 selected files, allocate data and flags, etc...
             
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
@@ -78,7 +80,7 @@ namespace PhotoTagsSynchronizer
                 {                    
                     if (valuesCountAdded > 0) // no filter values added, no need read from database, this fjust for optimize speed
                     {
-                        Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(new FileEntryBroker(fileFullPath, File.GetLastWriteTime(fileFullPath), MetadataBrokerTypes.ExifTool));
+                        Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(new FileEntryBroker(fileFullPath, File.GetLastWriteTime(fileFullPath), MetadataBrokerTypes.ExifTool));
                         if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileFullPath);
                     }
                     else imageListView1.Items.Add(fileFullPath);                    
@@ -145,11 +147,12 @@ namespace PhotoTagsSynchronizer
             if (Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect) imageListView1.ClearThumbnailCache();
             imageListView1.Enabled = false;
             imageListView1.SuspendLayout();
+
             for (int fileNumber = 0; fileNumber < filesFoundInDirectory.Length; fileNumber++)
             {
                 if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed
                 {
-                    Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheRead(new FileEntryBroker(filesFoundInDirectory[fileNumber], MetadataBrokerTypes.ExifTool));
+                    Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(new FileEntryBroker(filesFoundInDirectory[fileNumber], MetadataBrokerTypes.ExifTool));
                     if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);
                 }
                 else imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);

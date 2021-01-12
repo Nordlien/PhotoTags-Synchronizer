@@ -220,11 +220,11 @@ namespace PhotoTagsSynchronizer
                 if (fileEntryBroker.LastWriteDateTime == DataGridViewHandler.DateTimeForEditableMediaFile)
                 {
                     fileEntryBrokerReadVersion = new FileEntryBroker(fullFilePath, (DateTime)dateTimeNewest, MetadataBrokerTypes.ExifTool);
-                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.MetadataCacheRead(fileEntryBrokerReadVersion));
+                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(fileEntryBrokerReadVersion));
                 }
                 else
                 {
-                    metadata = DatabaseAndCacheMetadataExiftool.MetadataCacheRead(fileEntryBrokerReadVersion);
+                    metadata = DatabaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(fileEntryBrokerReadVersion);
                 }
 
                 int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView,
@@ -274,7 +274,7 @@ namespace PhotoTagsSynchronizer
                 
                 //Microsoft Photos Locations
                 Metadata metadataMicrosoftPhotos = null;
-                if (metadata != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRead(
+                if (metadata != null) metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.MetadataCacheReadOrDatabase(
                     new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.MicrosoftPhotos));
                 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMicrosoftPhotos));
@@ -286,7 +286,7 @@ namespace PhotoTagsSynchronizer
                 
                 //Windows Live Photo Gallary Locations
                 Metadata metadataWindowsLivePhotoGallery = null;
-                if (metadata != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRead(
+                if (metadata != null) metadataWindowsLivePhotoGallery = DatabaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheReadOrDatabase(
                     new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerTypes.WindowsLivePhotoGallery));
 
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery));

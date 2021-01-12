@@ -795,7 +795,7 @@ namespace MetadataLibrary
 
                 if (!MetadataCacheContainsKey(fileEntryBroker)) //Check if already in queue, due to screen refreash and reloads etc...
                 {
-                    Metadata metadata = MetadataCacheRead(fileEntryBroker);
+                    Metadata metadata = MetadataCacheReadOrDatabase(fileEntryBroker);
                     if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FileFullPath);
 
                 }
@@ -1511,7 +1511,7 @@ namespace MetadataLibrary
         #endregion 
 
         #region Cache Metadata - Read 
-        public Metadata MetadataCacheRead(FileEntryBroker file)
+        public Metadata MetadataCacheReadOrDatabase(FileEntryBroker file)
         {
             if (MetadataCacheContainsKey(file))
             {
@@ -1530,6 +1530,17 @@ namespace MetadataLibrary
             {
                 return null;
             }
+        }
+        #endregion 
+
+        #region Cache Metadata - Read 
+        public Metadata MetadataCacheOnly(FileEntryBroker file)
+        {
+            if (MetadataCacheContainsKey(file))
+            {
+                return MetadataCacheGet(file);
+            }
+            return null;
         }
         #endregion 
 

@@ -873,7 +873,8 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Cell Painting
-        //Date
+
+        #region Cell Painting - Date
         private void dataGridViewDate_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -886,7 +887,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
         }
-        //Exiftool
+        #endregion
+
+        #region Cell Painting - Exiftool
         private void dataGridViewExifTool_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridViewUpdateThumbnail(dataGridViewExifTool, e); //Get Thumbnail or add thumbnail to read queue
@@ -895,9 +898,10 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-
         }
-        //ExiftoolWarning
+        #endregion
+
+        #region Cell Painting - ExiftoolWarning
         private void dataGridViewExifToolWarning_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridViewUpdateThumbnail(dataGridViewExifToolWarning, e); //Get Thumbnail or add thumbnail to read queue
@@ -906,7 +910,9 @@ namespace PhotoTagsSynchronizer
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
         }
-        //Map
+        #endregion
+
+        #region Cell Painting - Map
         private void dataGridViewMap_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -918,9 +924,12 @@ namespace PhotoTagsSynchronizer
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
         }
-        //People
+        #endregion
+
+        #region Cell Painting - People
         private void dataGridViewPeople_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
+            
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             string header = DataGridViewHandlerPeople.headerPeople;
@@ -967,8 +976,11 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             }
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+            
         }
-        //Properties
+        #endregion
+
+        #region Cell Painting - Properties
         private void dataGridViewProperties_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridViewUpdateThumbnail(dataGridViewProperties, e); //Get Thumbnail or add thumbnail to read queue
@@ -977,7 +989,9 @@ namespace PhotoTagsSynchronizer
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
         }
-        //Rename
+        #endregion
+
+        #region Cell Painting - Rename
         private void dataGridViewRename_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -989,14 +1003,16 @@ namespace PhotoTagsSynchronizer
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
         }
-        //TagsAndKeywords
+        #endregion
+
+        #region Cell Painting - TagsAndKeywords
         private void dataGridViewTagsAndKeywords_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
             
-            DataGridViewUpdateThumbnail(dataGridView, e);
+            //DataGridViewUpdateThumbnail(dataGridView, e);
             
             DataGridViewHandler.CellPaintingHandleDefault(sender, e);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
@@ -1004,6 +1020,8 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
             
         }
+        #endregion
+
         #endregion
 
         //Date
@@ -1015,6 +1033,6 @@ namespace PhotoTagsSynchronizer
         //Rename
         //TagsAndKeywords
 
-       
+
     }
 }

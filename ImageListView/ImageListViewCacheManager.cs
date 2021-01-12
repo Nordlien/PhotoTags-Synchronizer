@@ -60,7 +60,7 @@ namespace Manina.Windows.Forms
         private bool disposed;
         #endregion
 
-        //JTN
+        //JTN added; this can be removed, only need cleat Qeueue instead!!!!
         private bool stoppingBackgroundThreads = false;
         public void StoppBackgroundThreads()
         {
@@ -417,8 +417,7 @@ namespace Manina.Windows.Forms
                 thumbCache.Clear();
 
                 //Added by JTN
-                foreach (CacheItem item in toCache)
-                    item.Dispose();
+                foreach (CacheItem item in toCache) item.Dispose();
                 toCache.Clear();
 
 
