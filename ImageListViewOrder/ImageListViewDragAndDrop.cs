@@ -3,15 +3,13 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace DragNDrop
 {
 
-	//https://www.codeproject.com/Articles/7034/Drag-and-Drop-List-View
+    //https://www.codeproject.com/Articles/7034/Drag-and-Drop-List-View
 
-
-	public class ImageListViewDragAndDrop : ListView
+    public class ImageListViewDragAndDrop : ListView
 	{
 		#region Private Members
 

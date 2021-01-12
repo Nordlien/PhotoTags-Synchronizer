@@ -80,6 +80,8 @@ namespace PhotoTagsSynchronizer
 
             SplashForm.UpdateStatus("Initialize component..."); //6 
             InitializeComponent();
+            //treeViewFilter = new TreeWithoutDoubleClick();
+
             imageListView1.ThumbnailSize = thumbnailSizes[Properties.Settings.Default.ThumbmailViewSizeIndex];
             toolStripButtonThumbnailSize1.Text = "Thumbnail size " + thumbnailSizes[4].Width + "x" + thumbnailSizes[4].Height;
             toolStripButtonThumbnailSize1.ToolTipText = toolStripButtonThumbnailSize1.Text;
@@ -441,8 +443,9 @@ namespace PhotoTagsSynchronizer
 
             PopulateTreeViewFolderFilterThread(imageListView1.Items);
         }
-        #endregion
 
+
+        #endregion
     }
 }
 
