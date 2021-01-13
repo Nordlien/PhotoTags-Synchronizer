@@ -1084,7 +1084,6 @@ namespace DataGridViewGeneric
                 {
                     if (metadata != null && currentDataGridViewGenericColumn.Metadata != null && !isHistoryColumn)
                     {
-
                         if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
                         {
                             //Check if old file, due to User click "reload metadata", then newest version has become older that current
@@ -1124,7 +1123,6 @@ namespace DataGridViewGeneric
                                 currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
                             }
                         }
-
                     }
                     else
                     {

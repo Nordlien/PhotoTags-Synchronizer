@@ -149,7 +149,7 @@ namespace PhotoTagsSynchronizer
             }
 
             GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-            ImageListViewReloadThumbnail(imageListView1, null);
+            ImageListViewReloadThumbnailInvoke(imageListView1, null);
             PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
             //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
@@ -839,63 +839,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ToolStrip - Populate - OpenWith - ImageListeViewToolStrip
-
-        private void PopulateImageListeViewOpenWithToolStripThread(ImageListViewSelectedItemCollection imageListViewSelectedItems)
-        {
-            Thread threadPopulateOpenWith = new Thread(() => { PopulateImageListeViewOpenWithToolStripInvoke(imageListView1.SelectedItems); });
-            threadPopulateOpenWith.Start();
-        }
-
-        private void PopulateImageListeViewOpenWithToolStripInvoke(ImageListViewSelectedItemCollection imageListViewSelectedItems)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<ImageListViewSelectedItemCollection>(PopulateImageListeViewOpenWithToolStripInvoke), imageListViewSelectedItems);
-                return;
-            }
-
-            if (imageListViewSelectedItems.Count == 1) openWithDialogToolStripMenuItem.Visible = true;
-            else openWithDialogToolStripMenuItem.Visible = false;
-
-            List<string> extentions = new List<string>();
-            foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
-            {
-                string extention = Path.GetExtension(imageListViewItem.FileFullPath).ToLower();
-                if (!extentions.Contains(extention)) extentions.Add(extention);
-            }
-
-            ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
-            List<ApplicationData> listOfCommonOpenWith = applicationAssociationsHandler.OpenWithInCommon(extentions);
-
-            openMediaFilesWithToolStripMenuItem.DropDownItems.Clear();
-            if (listOfCommonOpenWith != null && listOfCommonOpenWith.Count > 0)
-            {
-                openMediaFilesWithToolStripMenuItem.Visible = true;
-                foreach (ApplicationData data in listOfCommonOpenWith)
-                {
-                    foreach (VerbLink verbLink in data.VerbLinks)
-                    {
-                        ApplicationData singelVerbApplicationData = new ApplicationData();
-                        singelVerbApplicationData.AppIconReference = data.AppIconReference;
-                        singelVerbApplicationData.ApplicationId = data.ApplicationId;
-                        singelVerbApplicationData.Command = data.Command;
-                        singelVerbApplicationData.FriendlyAppName = data.FriendlyAppName;
-                        singelVerbApplicationData.Icon = data.Icon;
-                        singelVerbApplicationData.ProgId = data.ProgId;
-                        singelVerbApplicationData.AddVerb(verbLink.Verb, verbLink.Command);
-
-                        ToolStripMenuItem toolStripMenuItemOpenWith = new ToolStripMenuItem(singelVerbApplicationData.FriendlyAppName.Replace("&", "&&") + " - " + verbLink.Verb, singelVerbApplicationData.Icon.ToBitmap());
-                        toolStripMenuItemOpenWith.Tag = singelVerbApplicationData;
-                        toolStripMenuItemOpenWith.Click += ToolStripMenuItemOpenWith_Click;
-                        openMediaFilesWithToolStripMenuItem.DropDownItems.Add(toolStripMenuItemOpenWith);
-                    }
-                }
-            }
-            else openMediaFilesWithToolStripMenuItem.Visible = false;
-        }
-        #endregion
-
         #region ToolStrip - OpenWith - Click
         private void ToolStripMenuItemOpenWith_Click(object sender, EventArgs e)
         {
@@ -1004,84 +947,19 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - SuspendLayout - Invoke
-        private void ImageListViewSuspendLayoutInvoke(ImageListView imageListView)
+        #region ImageListView - DoubleClick
+        private void imageListView1_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<ImageListView>(ImageListViewSuspendLayoutInvoke), imageListView);
-                return;
-            }
-
-            //imageListView.SuspendLayout(); //When this where, it crash, need debug why, this needed to avoid flashing
-        }
-        #endregion
-
-        #region ImageListView - ResumeLayout - Invoke
-        private void ImageListViewResumeLayoutInvoke(ImageListView imageListView)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<ImageListView>(ImageListViewResumeLayoutInvoke), imageListView);
-                return;
-            }
-
-            //imageListView.ResumeLayout(); //When this where, it crash, need debug why, this needed to avoid flashing
-        }
-        #endregion
-
-
-        #region ImageListView - Reload Thumbnail 
-        private void ImageListViewReloadThumbnail(ImageListView imageListView, string fullFileName)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<ImageListView, string>(ImageListViewReloadThumbnail), imageListView, fullFileName);
-                return;
-            }
-
-            //private void ImageListViewForceThumbnailRefreshAndThreads(ImageListView imageListView, string fullFileName)
-            //bool existAndUpdated = false;
-            //if (GlobalData.retrieveImageCount > 0) Thread.Sleep(100); //Wait until all ImageListView events are removed
-
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
             try
             {
-                ImageListViewSuspendLayoutInvoke(imageListView);
-                foreach (ImageListViewItem item in imageListView.SelectedItems)
-                {
-                    if (item.FileFullPath == fullFileName)
-                    {
-                        //existAndUpdated = true;
-                        ImageListViewReloadThumbnail(item);
-                        break;
-                    }
-                }
-                ImageListViewResumeLayoutInvoke(imageListView);
+                ApplicationActivation.ProcessRunOpenFile(e.Item.FileFullPath);
             }
-            catch
+            catch (Exception ex)
             {
-                //DID ImageListe update failed, because of thread???
+                MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK);
             }
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-            //return existAndUpdated;
         }
-        #endregion
-        
-        #region ImageListView - ReloadThumbnail - Invoke - ImageListViewItem
-        private void ImageListViewReloadThumbnail(ImageListViewItem imageListViewItem)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<ImageListViewItem>(ImageListViewReloadThumbnail), imageListViewItem);
-                return;
-            }
-
-            imageListViewItem.BeginEdit();
-            imageListViewItem.Update();
-            imageListViewItem.EndEdit();
-        }
-        #endregion
+        #endregion 
         #endregion 
 
         #region FoldeTree
@@ -1128,6 +1006,16 @@ namespace PhotoTagsSynchronizer
             CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
         }
         #endregion
+
+        #region FolderTree - Folder - Click
+        private void folderTreeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (GlobalData.IsDragAndDropActive) return;
+            if (GlobalData.DoNotRefreshImageListView) return;
+            FolderSelected(false);
+        }
+        #endregion 
+
         #endregion
 
         #region Drag and Drop

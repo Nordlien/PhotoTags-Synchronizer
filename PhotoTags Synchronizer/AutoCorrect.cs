@@ -159,7 +159,7 @@ namespace PhotoTagsSynchronizer
             )
         {
             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool);
-            Metadata metadata = metadataDatabaseCacheExiftool.MetadataCacheReadOrDatabase(fileEntryBrokerExiftool);
+            Metadata metadata = metadataDatabaseCacheExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
             if (metadata == null) 
                 return null; //DEBUG Why NULL - I manage to reproduce, select lot of files, select AutoCorrect many, many times.
             Metadata metadataCopy = new Metadata(metadata); //Make a copy
@@ -321,11 +321,11 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos);
-            Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheReadOrDatabase(fileEntryBrokerMicrosoftPhotos);
+            Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMicrosoftPhotos);
             Metadata metadataMicrosoftPhotosCopy = metadataMicrosoftPhotos == null ? null : new Metadata(metadataMicrosoftPhotos);
 
             FileEntryBroker fileEntryBrokerMWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery);
-            Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheReadOrDatabase(fileEntryBrokerMWindowsLivePhotoGallery);
+            Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMWindowsLivePhotoGallery);
             Metadata metadataWindowsLivePhotoGalleryCopy = metadataWindowsLivePhotoGallery == null ? null : new Metadata(metadataWindowsLivePhotoGallery);
 
             #region Face region

@@ -54,17 +54,11 @@ namespace PhotoTagsSynchronizer
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
-
-        private void folderTreeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if (GlobalData.IsDragAndDropActive) return;
-            if (GlobalData.DoNotRefreshImageListView) return;
-            FolderSelected(false);
-        }
-
+        
 
         private void FolderSelected_AggregateListViewWithFilesFromSearchFilter(List<string> searchFilterResult)
         {
+
             imageListView1.ClearSelection();
             imageListView1.Items.Clear();
             imageListView1.Enabled = false;
@@ -80,7 +74,7 @@ namespace PhotoTagsSynchronizer
                 {                    
                     if (valuesCountAdded > 0) // no filter values added, no need read from database, this fjust for optimize speed
                     {
-                        Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(new FileEntryBroker(fileFullPath, File.GetLastWriteTime(fileFullPath), MetadataBrokerTypes.ExifTool));
+                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileFullPath, File.GetLastWriteTime(fileFullPath), MetadataBrokerTypes.ExifTool));
                         if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileFullPath);
                     }
                     else imageListView1.Items.Add(fileFullPath);                    
@@ -90,7 +84,6 @@ namespace PhotoTagsSynchronizer
             imageListView1.Enabled = true;
 
             StartThreads();
-
         }
 
         //Folder selected after Form load/init, click new folder and clear cache and re-read folder
@@ -107,6 +100,7 @@ namespace PhotoTagsSynchronizer
 
                 FolderSelected_AddFilesImageListView(selectedFolder, recursive);
                 GlobalData.lastReadFolderWasRecursive = recursive;
+
                 StartThreads();
                 /*
                 fileSystemWatcher.BeginInit();
@@ -152,7 +146,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed
                 {
-                    Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(new FileEntryBroker(filesFoundInDirectory[fileNumber], MetadataBrokerTypes.ExifTool));
+                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(filesFoundInDirectory[fileNumber], MetadataBrokerTypes.ExifTool));
                     if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);
                 }
                 else imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);

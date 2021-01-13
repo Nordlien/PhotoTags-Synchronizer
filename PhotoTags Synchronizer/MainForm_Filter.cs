@@ -379,26 +379,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        private void RemoveRecursive(TreeNode treeNode)
-        {
-            if (treeNode.Tag is int)
-            {
-                if ((int)treeNode.Tag == FilterVerifyer.TagRegionOr && treeNode.Checked)
-                {
-                    isCorrectingDoubleClikcBug = true;
-                    treeNode.Checked = false;
-                    isCorrectingDoubleClikcBug = false;
-                }
-            }
-
-            foreach (TreeNode n in treeNode.Nodes)
-            {
-                RemoveRecursive(n);
-            }
-        }
-
-       
-
         #region treeViewFilter_AfterCheck
         private void treeViewFilter_AfterCheck(object sender, TreeViewEventArgs e)
         {
@@ -536,7 +516,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem imageListViewItem in imageListViewItems)
             {
-                Metadata metadata = databaseAndCacheMetadataExiftool.MetadataCacheReadOrDatabase(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerTypes.ExifTool));
+                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerTypes.ExifTool));
 
                 if (metadata != null)
                 {

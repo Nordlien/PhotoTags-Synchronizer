@@ -95,7 +95,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             if (dataGridView == null) return;
 
-            DataGridViewHandler.UpdateImageOnFile(dataGridView, new FileEntryImage(fileEntryImage.FileFullPath, DataGridViewHandler.DateTimeForEditableMediaFile, fileEntryImage.Image)); 
+            DataGridViewHandler.UpdateImageOnFile(dataGridView, fileEntryImage); 
         }
         #endregion
 
@@ -248,12 +248,11 @@ namespace PhotoTagsSynchronizer
 
             if (GlobalData.IsApplicationClosing) return;
 
-            Debug.WriteLine("---lock (GlobalData.populateSelectedLock)");
             lock (GlobalData.populateSelectedLock)
             {                
                 foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
                 {
-                    AddQueueAllUpadtedFileEntry(new FileEntryImage(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
+                    AddQueueAllUpdatedFileEntry(new FileEntryImage(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
                 }
                 StartThreads();
 
@@ -366,7 +365,6 @@ namespace PhotoTagsSynchronizer
                         break;
                 }
             }
-            Debug.WriteLine("---unlock (GlobalData.populateSelectedLock)");
         }
         #endregion
 

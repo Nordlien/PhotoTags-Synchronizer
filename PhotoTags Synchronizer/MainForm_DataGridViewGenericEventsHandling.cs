@@ -892,8 +892,8 @@ namespace PhotoTagsSynchronizer
         #region Cell Painting - Exiftool
         private void dataGridViewExifTool_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            DataGridViewUpdateThumbnail(dataGridViewExifTool, e); //Get Thumbnail or add thumbnail to read queue
-
+            DataGridView dataGridView = dataGridViewExifTool;
+            DataGridViewUpdateThumbnail(dataGridView, e); //Get Thumbnail or add thumbnail to read queue
             DataGridViewHandler.CellPaintingHandleDefault(sender, e);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
@@ -904,7 +904,8 @@ namespace PhotoTagsSynchronizer
         #region Cell Painting - ExiftoolWarning
         private void dataGridViewExifToolWarning_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            DataGridViewUpdateThumbnail(dataGridViewExifToolWarning, e); //Get Thumbnail or add thumbnail to read queue
+            DataGridView dataGridView = dataGridViewExifToolWarning;
+            DataGridViewUpdateThumbnail(dataGridView, e); //Get Thumbnail or add thumbnail to read queue
             DataGridViewHandler.CellPaintingHandleDefault(sender, e);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);

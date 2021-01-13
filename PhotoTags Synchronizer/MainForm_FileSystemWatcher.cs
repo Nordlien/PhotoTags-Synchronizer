@@ -47,7 +47,7 @@ namespace PhotoTagsSynchronizer
                     item.FileDirectory, item.FileFullPath,
                     item.DateAccessed);
 
-                    AddQueueAllUpadtedFileEntry(new FileEntryImage(Path.Combine(item.FileDirectory, item.FileFullPath), item.DateModified));
+                    AddQueueAllUpdatedFileEntry(new FileEntryImage(Path.Combine(item.FileDirectory, item.FileFullPath), item.DateModified));
                     //return;
                     throw new Exception("Add null ??"); // break;
                 }
