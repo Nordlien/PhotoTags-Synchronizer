@@ -249,11 +249,13 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
 
             lock (GlobalData.populateSelectedLock)
-            {                
-                foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
-                {
-                    AddQueueAllUpdatedFileEntry(new FileEntryImage(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
-                }
+            {   
+/*
+foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
+{
+    AddQueueAllUpdatedFileEntry(new FileEntryImage(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
+}
+*/
                 StartThreads();
 
                 DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
@@ -268,7 +270,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                        DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, false, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns);
+                        AddQueueLazyLoadning(DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, false, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns));
                         PopulateDetailViewTagsAndKeywords(dataGridView);
                         //dataGridView.Enabled = true;
                         DataGridViewHandler.ResumeLayout(dataGridView);

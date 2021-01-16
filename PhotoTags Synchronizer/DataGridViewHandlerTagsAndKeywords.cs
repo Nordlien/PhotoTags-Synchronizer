@@ -190,8 +190,7 @@ namespace PhotoTagsSynchronizer
                 {
                     metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
                 }
-                metadata = null;
-
+                
                 int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView,
                     new FileEntryImage(fileEntryBroker),                                                    /* This Column idenity                                      */
                     metadata,                                                                               /* Metadata will save on column                             */
@@ -256,13 +255,13 @@ namespace PhotoTagsSynchronizer
         }
 
 
-        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, bool useCurrentFileLastWrittenDate, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        public static List<FileEntryBroker> PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, bool useCurrentFileLastWrittenDate, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
-            if (GlobalData.IsApplicationClosing) return;
-            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return;
-            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (GlobalData.IsApplicationClosing) return null;
+            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return null;
 
             //Tell that work in progress, can start a new before done.
             DataGridViewHandler.SetIsPopulating(dataGridView, true);
@@ -277,11 +276,15 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
 
+            List<FileEntryBroker> allFileVersionDates = new List<FileEntryBroker>();
             //Populate one and one of selected files, (new versions of files can be added)
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                PopulateFile(dataGridView, imageListViewItem.FileFullPath, showWhatColumns, 
-                    useCurrentFileLastWrittenDate ? imageListViewItem.DateModified : DataGridViewHandler.DateTimeForEditableMediaFile);
+                List<FileEntryBroker> fileVersionDates = DatabaseAndCacheMetadataExiftool.ListFileEntryDateVersions(MetadataBrokerTypes.ExifTool, imageListViewItem.FileFullPath);
+
+                allFileVersionDates.AddRange(fileVersionDates);
+                //PopulateFile(dataGridView, imageListViewItem.FileFullPath, showWhatColumns, 
+                //    useCurrentFileLastWrittenDate ? imageListViewItem.DateModified : DataGridViewHandler.DateTimeForEditableMediaFile);
             }
 
             //-----------------------------------------------------------------
@@ -290,7 +293,7 @@ namespace PhotoTagsSynchronizer
             //Tell that work is done
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
-
+            return allFileVersionDates;
         }
     }
 }

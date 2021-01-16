@@ -165,6 +165,7 @@ namespace PhotoTagsSynchronizer
             ThreadSaveThumbnail();
             ThreadSaveMetadata(); 
             ThreadRename();
+            ThreadLazyLoadning();
         }
 
         private bool IsAnyThreadRunning()
@@ -207,7 +208,21 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region LazyLoadning
+        public void AddQueueLazyLoadning(List<FileEntryBroker> fileEntryBrokers)
+        {
+            if (fileEntryBrokers == null) return;
+            foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers) AddQueueLazyLoadning(fileEntryBroker);
+        }
 
+        public void AddQueueLazyLoadning(FileEntry fileEntry)
+        {
+            lock (commonQueueLazyLoadingLock)
+            {
+                //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
+                if (!commonQueueLazyLoading.Contains(fileEntry)) commonQueueLazyLoading.Add(fileEntry);
+            }
+            StartThreads();
+        }
 
         #region LazyLoadning - Thread LazyLoadning
         public void ThreadLazyLoadning()
@@ -226,55 +241,48 @@ namespace PhotoTagsSynchronizer
                             Metadata metadata;
                             FileEntry fileEntry;
 
+                            fileEntry = new FileEntry(commonQueueLazyLoading[queueIndex]);
+                            
+                            if (!dataGridViewFilenames.Contains(fileEntry.FileFullPath)) dataGridViewFilenames.Add(fileEntry.FileFullPath);
+
+                            if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool)) == null)
+                            {
+                                metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool));
+                               // if (metadata == null) AddQueueExiftool(fileEntry);                                 
+                            }
+                            
+                            if (databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos)) == null)
+                            {
+                                metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos));
+                                //if (metadata == null) AddQueueMicrosoftPhotos(fileEntry);
+                            }
+
+                            if (databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery)) == null)
+                            {
+                                metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery));
+                                //if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntry);
+                            }
+                        }
+
+                        foreach (string fileFullPath in dataGridViewFilenames)
+                        {
+                            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(fileFullPath);
+                        }
+
+                        for (int queueIndex = 0; queueIndex < queueCount; queueIndex++)
+                        {
+                            FileEntry fileEntry;
                             lock (commonQueueLazyLoadingLock)
                             {
                                 fileEntry = new FileEntry(commonQueueLazyLoading[0]);
                                 commonQueueLazyLoading.RemoveAt(0);
                             }
 
-                            if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool)) == null)
-                            {
-                                metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool));
-                                if (metadata != null)
-                                {
-                                    if (dataGridViewFilenames.Contains(metadata.FileFullPath)) dataGridViewFilenames.Add(fileEntry.FileFullPath);
-                                    //AddQueueExiftool(fileEntry);
-                                }
-                            }
-
-                            if (databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos)) == null)
-                            {
-                                metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos));
-                                if (metadata != null)
-                                {
-                                    if (dataGridViewFilenames.Contains(metadata.FileFullPath)) dataGridViewFilenames.Add(fileEntry.FileFullPath);
-                                    //AddQueueMicrosoftPhotos(fileEntry);
-                                }
-                            }
-
-                            if (databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery)) == null)
-                            {
-                                metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery));
-                                if (metadata != null)
-                                {
-                                    if (dataGridViewFilenames.Contains(metadata.FileFullPath)) dataGridViewFilenames.Add(fileEntry.FileFullPath);
-                                    //AddQueueWindowsLivePhotoGallery(fileEntry);
-                                }
-                            }
-
                             if (databaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntry) == null)
                             {
                                 Image image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntry);
-                                if (image != null)
-                                {
-                                    //if (dataGridViewFilenames.Contains(metadata.FileFullPath)) dataGridViewFilenames.Add(fileEntry.FileFullPath);
-                                    UpdateImageOnFileEntryOnSelectedGrivViewInvoke(new FileEntryImage(fileEntry, image));
-                                }
+                                if (image != null) UpdateImageOnFileEntryOnSelectedGrivViewInvoke(new FileEntryImage(fileEntry, image));
                             }
-                        }
-                        foreach (string fileFullPath in dataGridViewFilenames)
-                        {
-                            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(fileFullPath);
                         }
                     }
 
@@ -640,6 +648,7 @@ namespace PhotoTagsSynchronizer
 
                                     //if (!wasUpdated) 
                                     AddQueueAllUpdatedFileEntry(new FileEntryImage(currentMetadata.FileEntryBroker));
+
                                     ImageListViewReloadThumbnailInvoke(imageListView1, fileSuposeToBeUpdated.FileFullPath);
                                 }
                                 // Errors will be found when verify read
@@ -926,6 +935,7 @@ namespace PhotoTagsSynchronizer
                                             if (commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].PersonalRegionList.Count > 0)
                                             {
                                                 ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
+                                                
                                                 //Check if the current Metadata are same as newst file...
                                                 if (File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
                                                 {
@@ -942,7 +952,6 @@ namespace PhotoTagsSynchronizer
                                                         PopulateMetadataOnFileOnActiveDataGrivViewInvoke(fileEntryRegion.FileFullPath); //Updated Gridview
                                                     }
                                                     else Logger.Error("ThreadReadMediaPosterSaveRegions failed to create 'face' region thumbails from file. Due to mediafile do not exist anymore. File:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
-
                                                 }
                                                 else Logger.Info("Don't load posters when request are with Diffrent LastWrittenDateTime:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
 

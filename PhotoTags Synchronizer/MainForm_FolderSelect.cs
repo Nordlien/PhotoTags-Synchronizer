@@ -138,7 +138,8 @@ namespace PhotoTagsSynchronizer
             imageListView1.ClearSelection();
             imageListView1.Items.Clear();
 
-            if (Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect) imageListView1.ClearThumbnailCache();
+            if (Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect) 
+                imageListView1.ClearThumbnailCache();
             imageListView1.Enabled = false;
             imageListView1.SuspendLayout();
 
