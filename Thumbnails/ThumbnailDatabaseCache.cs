@@ -227,6 +227,15 @@ namespace Thumbnails
             return null;
         }
 
+        public Image ReadThumbnailFromCacheOnlyClone(FileEntry file)
+        {
+            if (CacheContainsKey(file))
+            {
+                return new Bitmap(CacheGet(file));
+            }
+            return null;
+        }
+
         public Image ReadThumbnailFromCacheOrDatabase(FileEntry file)
         {
             if (CacheContainsKey(file))

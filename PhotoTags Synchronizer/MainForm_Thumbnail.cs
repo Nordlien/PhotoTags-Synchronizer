@@ -1,0 +1,158 @@
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+using DataGridViewGeneric;
+using Exiftool;
+using ImageAndMovieFileExtentions;
+using Manina.Windows.Forms;
+using MetadataLibrary;
+using TimeZone;
+
+namespace PhotoTagsSynchronizer
+{
+
+    public partial class MainForm : Form
+    {
+        #region Thumbnail - Get Thumbnail And WriteNewToDatabase - AddQueueAllUpadtedFileEntry
+        /// <summary>
+        /// Load a Thumbnail for given file for last written datetime
+        ///     1. Read first from database and return Thumbnail
+        /// If not found, then read from file
+        ///     1. Then try load from Cover Art
+        ///     2. Then read full media and create thumbnail
+        ///     3. ---- Add MediaFile to Thread Qeueu with image as Parameter ---
+        ///     
+        /// Error handling:
+        ///     When faild loading, and error image will be return.
+        /// </summary>
+        /// <param name="fileEntry"></param>
+        /// <returns></returns>
+        private Image GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(FileEntry fileEntry)
+        {
+
+            Image thumbnailImage;
+            try
+            {
+                thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntry);
+
+                if (thumbnailImage == null)
+                {
+                    try
+                    {
+                        if (ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath)) UpdateStatusAction("Read thumbnail from Cloud: " + fileEntry.FileFullPath);
+                        else UpdateStatusAction("Read thumbnail from file: " + fileEntry.FileFullPath);
+                    }
+                    catch { }
+
+                    //Was not readed from database, need to cache to database
+                    thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, true);
+
+                    if (thumbnailImage != null)
+                    {
+                        /*Image cloneBitmap = new Bitmap(thumbnailImage); //Need create a clone, due to GDI + not thread safe
+
+                        AddQueueAllUpdatedFileEntry(new FileEntryImage(fileEntry, cloneBitmap));
+                        thumbnailImage = Manina.Windows.Forms.Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true);*/
+
+                        Image cloneBitmap = Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true); //Need create a clone, due to GDI + not thread safe
+                        AddQueueMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
+                        AddQueueSaveThumbnailMedia(new FileEntryImage(fileEntry, cloneBitmap));
+                        thumbnailImage = cloneBitmap;
+                    }
+                    else
+                    {
+                        if (ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath)) thumbnailImage = (Image)Properties.Resources.load_image_error_onedrive;
+                        else
+                        {
+                            Logger.Warn("Was not able to get thumbnail from file: " + fileEntry.FileFullPath);
+                            thumbnailImage = (Image)Properties.Resources.load_image_error_general;
+                        }
+                    }
+                }
+            }
+            catch (IOException ioe)
+            {
+                Logger.Warn("Load image error, OneDrive issues" + ioe.Message);
+                thumbnailImage = (Image)Properties.Resources.load_image_error_onedrive;
+            }
+            catch (Exception e)
+            {
+                Logger.Warn("Load image error: " + e.Message);
+                thumbnailImage = (Image)Properties.Resources.load_image_error_general;
+            }
+            return thumbnailImage;
+        }
+        #endregion
+
+        #region Thumbnail - LoadMediaCoverArtPoster
+        private Image LoadMediaCoverArtPoster(string fullFilePath, bool checkIfCloudFile)
+        {
+            if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
+            {
+                if (ExiftoolWriter.IsFileInCloud(fullFilePath)) return null;
+            }
+
+            if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
+            {
+                var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                //ffMpeg.ConvertProgress += FfMpeg_ConvertProgress;
+                //ffMpeg.LogReceived += FfMpeg_LogReceived;
+                Stream memoryStream = new MemoryStream();
+                ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
+
+                if (memoryStream.Length > 0)
+                    return Image.FromStream(memoryStream);
+                else
+                    return null;
+            }
+            else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
+            {
+                return Manina.Windows.Forms.Utility.LoadImageWithoutLock(fullFilePath);
+            }
+            else
+                return null;
+        }
+        #endregion 
+
+        #region Thumbnail - LoadMediaCoverArtThumbnail
+        private Image LoadMediaCoverArtThumbnail(string fullFilePath, Size maxSize, bool checkIfCloudFile)
+        {
+            try
+            {
+                bool doNotReadFullFile = false;
+                if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
+                {
+                    if (Properties.Settings.Default.AvoidOfflineMediaFiles)
+                    {
+                        if (ExiftoolWriter.IsFileInCloud(fullFilePath)) doNotReadFullFile = true; ;
+                    }
+                }
+
+                if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
+                {
+                    WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
+                    Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
+                    if (image != null) return image;
+
+                    if (doNotReadFullFile) return image;
+
+                    return Utility.ThumbnailFromImage(LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile), maxSize, Color.White, false);
+                }
+                else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
+                {
+                    WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
+                    Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
+                    if (image != null) return image;
+
+                    if (doNotReadFullFile) return image;
+                    return Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White);
+                }
+            }
+            catch { }
+
+            return null;
+        }
+        #endregion
+    }
+}

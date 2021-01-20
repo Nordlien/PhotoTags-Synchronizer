@@ -5,6 +5,10 @@ namespace DataGridViewGeneric
 {
     public class DataGridViewGenericCellStatus
     {
+        public static DataGridViewGenericCellStatus DefaultEmpty()
+        {
+            return new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
+        }
         public DataGridViewGenericCellStatus()
         {
             MetadataBrokerTypes = MetadataBrokerType.Empty;

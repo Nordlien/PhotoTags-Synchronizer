@@ -105,6 +105,12 @@ namespace PhotoTagsSynchronizer
                 }
 
                 Image image = dataGridViewGenericColumn.Thumbnail;
+                if (image == null)
+                {
+                    MessageBox.Show("No media has been load, please wait or reload the media to fetch thumbnail image.", "Not media has been loaded", MessageBoxButtons.OK);
+                    return;
+                }
+
                 Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
                     new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
                 Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);

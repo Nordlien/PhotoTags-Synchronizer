@@ -208,28 +208,16 @@ namespace PhotoTagsSynchronizer
 
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
+
+            //-----------------------------------------------------------------
+            Image thumbnail = new Bitmap(DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntryAttribute));
+            FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
+            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
+            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null) metadata = new Metadata(metadata); //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
+            ReadWriteAccess readWriteAccessColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------
 
-            //Also add dummy version for edit
-            //List<FileEntryAttribute> fileVersionAttributeDates = DatabaseAndCacheMetadataExiftool.ListFileEntryAttributes(MetadataBrokerType.ExifTool, fullFilePath);
-
-            //foreach (FileEntryAttribute fileEntryAttribute in fileVersionAttributeDates)
-            //{
-                FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
-
-                Metadata metadata = null;
-                //It's the edit column, edit column is a new column copy og last known data
-                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
-                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion));
-                else
-                    metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion); //Don't need make a copy, data will not be changed
-
-                Image thumbnail = null; // databaseAndCacheThumbnail.ReadThumbnailFromCacheOnly();
-
-                int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata,
-                    fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly,
-                    showWhatColumns,                                                                             /* Show Edit | Hisorical columns | Error columns            */
-                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true));  /* New cells will have this value                           */
             if (columnIndex != -1)
             {
                 //Media

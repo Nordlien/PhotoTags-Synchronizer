@@ -14,6 +14,7 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
+        /*
         private void FileSystemWatcherOnRenamed(object sender, RenamedEventArgs e)
         {
             if (!ImageAndMovieFileExtentionsUtility.IsMediaFormat(e.FullPath)) return;
@@ -47,7 +48,7 @@ namespace PhotoTagsSynchronizer
                     item.FileDirectory, item.FileFullPath,
                     item.DateAccessed);
 
-                    AddQueueAllUpdatedFileEntry(new FileEntryImage(Path.Combine(item.FileDirectory, item.FileFullPath), item.DateModified));
+                    AddQueueMetadataUpdatedFileEntry(new FileEntry(Path.Combine(item.FileDirectory, item.FileFullPath), item.DateModified));
                     //return;
                     throw new Exception("Add null ??"); // break;
                 }
@@ -131,5 +132,6 @@ namespace PhotoTagsSynchronizer
 
             //GlobalData.isPopulatingImageListView = false;
         }
+        */
     }
 }

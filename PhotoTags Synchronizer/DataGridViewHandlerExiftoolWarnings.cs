@@ -102,13 +102,13 @@ namespace PhotoTagsSynchronizer
 
         }
 
-        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        public static List<FileEntryAttribute> PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
-            if (GlobalData.IsApplicationClosing) return;
-            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return;
-            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (GlobalData.IsApplicationClosing) return null;
+            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return null;
             //Tell that work in progress, can start a new before done.
             DataGridViewHandler.SetIsPopulating(dataGridView, true);
             //Clear current DataGridView
@@ -122,12 +122,12 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
 
-
+            List<FileEntryAttribute> allFileEntryAttributeDateVersions = new List<FileEntryAttribute>();
             //Populate one and one of selected files
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                //PopulateFile(dataGridView, imageListViewItem.FileFullPath, showWhatColumns);
-                //List<FileEntryAttribute> fileEntries = DataGridViewHandlerExiftoolWarnings.ListFileEntryDateVersions(fullFilePath);
+                List<FileEntryAttribute> fileEntryAttributeDateVersions = DataGridViewHandlerExiftoolWarnings.ListFileEntryDateVersions(imageListViewItem.FileFullPath);
+                allFileEntryAttributeDateVersions.AddRange(fileEntryAttributeDateVersions);
             }
 
             //-----------------------------------------------------------------
@@ -136,6 +136,8 @@ namespace PhotoTagsSynchronizer
             //Tell that work is done
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
+
+            return allFileEntryAttributeDateVersions;
         }
 
     }

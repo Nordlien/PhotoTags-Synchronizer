@@ -878,11 +878,9 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewDate_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
-            DataGridViewUpdateThumbnail(dataGridView, e);
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e);
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
@@ -892,9 +890,7 @@ namespace PhotoTagsSynchronizer
         #region Cell Painting - Exiftool
         private void dataGridViewExifTool_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            DataGridView dataGridView = dataGridViewExifTool;
-            DataGridViewUpdateThumbnail(dataGridView, e); //Get Thumbnail or add thumbnail to read queue
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e);
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
@@ -904,9 +900,7 @@ namespace PhotoTagsSynchronizer
         #region Cell Painting - ExiftoolWarning
         private void dataGridViewExifToolWarning_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            DataGridView dataGridView = dataGridViewExifToolWarning;
-            DataGridViewUpdateThumbnail(dataGridView, e); //Get Thumbnail or add thumbnail to read queue
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e);
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
@@ -916,11 +910,7 @@ namespace PhotoTagsSynchronizer
         #region Cell Painting - Map
         private void dataGridViewMap_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
-
-            DataGridViewUpdateThumbnail(dataGridView, e); //Get Thumbnail or add thumbnail to read queue
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e);
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
@@ -930,19 +920,13 @@ namespace PhotoTagsSynchronizer
         #region Cell Painting - People
         private void dataGridViewPeople_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            
             DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
             string header = DataGridViewHandlerPeople.headerPeople;
 
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e);
-
-            DataGridViewUpdateThumbnail(dataGridView, e);
-
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             DataGridViewHandler.CellPaintingColumnHeaderRegionsInThumbnail(sender, e);
             DataGridViewHandler.CellPaintingColumnHeaderMouseRegion(sender, e, drawingRegion, peopleMouseDownX, peopleMouseDownY, peopleMouseMoveX, peopleMouseMoveY);
-
 
             DataGridViewGenericRow gridViewGenericDataRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
             if (gridViewGenericDataRow == null) return; //Don't paint anything TriState on "New Empty Row" for "new Keywords"
@@ -957,8 +941,6 @@ namespace PhotoTagsSynchronizer
             //If people region row
             if (gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerPeople.headerPeople))
             {
-//DataGridViewUpdateThumbnail(dataGridView, e); //Get Thumbnail or add thumbnail to read queue
-
                 if (!gridViewGenericDataRow.IsHeader && e.ColumnIndex > -1)
                 {
                     MetadataLibrary.RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, e.RowIndex);
@@ -984,8 +966,7 @@ namespace PhotoTagsSynchronizer
         #region Cell Painting - Properties
         private void dataGridViewProperties_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            DataGridViewUpdateThumbnail(dataGridViewProperties, e); //Get Thumbnail or add thumbnail to read queue
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e);
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
@@ -995,11 +976,7 @@ namespace PhotoTagsSynchronizer
         #region Cell Painting - Rename
         private void dataGridViewRename_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
-
-            //DataGridViewUpdateThumbnail(dataGridView, e);
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e);
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
             //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
@@ -1010,12 +987,9 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewTagsAndKeywords_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
-            
-            //DataGridViewUpdateThumbnail(dataGridView, e);
-            
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e);
+
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
             DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);

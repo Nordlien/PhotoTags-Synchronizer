@@ -19,11 +19,6 @@ namespace PhotoTagsSynchronizer
             WindowsPropertyReader.Write(dataGridView, columnIndex);
         }
 
-        public static void AddRowsDefault(DataGridView dataGridView)
-        {
-
-        }
-
         public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
 
         {
@@ -40,12 +35,9 @@ namespace PhotoTagsSynchronizer
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
             //-----------------------------------------------------------------
-
-
             Image image = WindowsPropertyReader.GetThumbnail(fileEntryAttribute.FileFullPath);
-            //FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fullFilePath, DateTime.Now, FileEntryVersion.ForEdit);
-
-            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew( 
+            
+            DataGridViewHandler.AddColumnOrUpdateNew( 
                 dataGridView, fileEntryAttribute, image, null, ReadWriteAccess.DefaultReadOnly, showWhatColumns, 
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true));
             
@@ -55,7 +47,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
         }
-
 
         public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
@@ -71,16 +62,13 @@ namespace PhotoTagsSynchronizer
             //Add Columns for all selected files, one column per select file
             DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, null, imageListViewSelectItems, true, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true)); 
-            //Add all default rows
-            AddRowsDefault(dataGridView);
             //Tell data default columns and rows are agregated
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
 
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                //PopulateFile(dataGridView, imageListViewItem.FileFullPath, showWhatColumns);
-                //FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(fullFilePath, DateTime.Now, FileEntryVersion.ForEdit);
+                PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current), showWhatColumns);
             }
 
             //-----------------------------------------------------------------

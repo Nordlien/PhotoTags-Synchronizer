@@ -888,12 +888,7 @@ namespace PhotoTagsSynchronizer
         #region Metadata Read - CellPaining 
         private void dataGridViewMetadataReadPriority_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
-            //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
-
-            //DataGridViewUpdateThumbnail(dataGridView, e);
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e);
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
             //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);

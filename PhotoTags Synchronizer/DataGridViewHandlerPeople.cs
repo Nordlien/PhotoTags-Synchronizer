@@ -209,25 +209,17 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            DateTime? dateTimeMediaTaken = null;
+            
 
+            //-----------------------------------------------------------------
+            Image thumbnail = new Bitmap(DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntryAttribute));
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
+            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
+            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null) metadata = new Metadata(metadata); //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
+            ReadWriteAccess readWriteAccessColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
+            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
+            //-----------------------------------------------------------------
 
-            Metadata metadata = null;
-            //It's the edit column, edit column is a new column copy og last known data
-            if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
-                metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion));
-            else
-                metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion); //Don't need make a copy, data will not be changed
-                
-            if (metadata?.MediaDateTaken != null && fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current) dateTimeMediaTaken = (DateTime)metadata?.MediaDateTaken;
-
-            Image thumbnail = null; // databaseAndCacheThumbnail.ReadThumbnailFromCacheOnly();
-
-            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata,
-                fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly,
-                showWhatColumns,                                                                             /* Show Edit | Hisorical columns | Error columns            */
-                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true));  /* New cells will have this value                           */
 
             if (columnIndex != -1)
             {
@@ -271,10 +263,10 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-
             #region Suggestion of Names - Near date
             int columnIndexDummy = -1;
             List<string> regioNameSuggestions = null;
+            DateTime? dateTimeMediaTaken = metadata?.MediaDateTaken;
             if (dateTimeMediaTaken != null)
             {
                 DateTime dateTimeFrom = ((DateTime)dateTimeMediaTaken).AddDays(-SuggestRegionNameNearbyDays);
@@ -343,7 +335,8 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheMetadataExiftool, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true)); //ReadOnly untill data is read
             //Add all default rows
-            //AddRowsDefault(dataGridView);
+            AddRowHeader(dataGridView, -1, new DataGridViewGenericRow(headerPeople), false);
+
             //Tell data default columns and rows are agregated
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------

@@ -125,19 +125,22 @@ namespace PhotoTagsSynchronizer
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 
             imageListView.SuspendLayout();
-            foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
-            {
-                try
+
+            lock (GlobalData.ImageListViewForEachLock)
+                foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
                 {
-                    this.DeleteMetadataHirstory(imageListViewItem.FileFullPath);
-                    File.Delete(imageListViewItem.FileFullPath);
-                    imageListView.Items.Remove(imageListViewItem);
+                    try
+                    {
+                        this.DeleteMetadataHirstory(imageListViewItem.FileFullPath);
+                        File.Delete(imageListViewItem.FileFullPath);
+                        imageListView.Items.Remove(imageListViewItem);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Was not able to delete the file: " + imageListViewItem.FileFullPath, "Deleting file failed", MessageBoxButtons.OK);
+                    }
                 }
-                catch
-                {
-                    MessageBox.Show("Was not able to delete the file: " + imageListViewItem.FileFullPath, "Deleting file failed", MessageBoxButtons.OK);
-                }                
-            }
+
             imageListView.ResumeLayout();
 
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
@@ -211,17 +214,20 @@ namespace PhotoTagsSynchronizer
             imageListView.Enabled = false;
             imageListView.SuspendLayout();
 
-            foreach (ImageListViewItem item in itemCollection)
+            lock (GlobalData.ImageListViewForEachLock)
             {
-                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
-                    this.DeleteMetadataFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
-            }
-
-            foreach (ImageListViewItem item in itemCollection)
-            {
-                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
+                foreach (ImageListViewItem item in itemCollection)
                 {
-                    item.Update();
+                    if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
+                        this.DeleteMetadataFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
+                }
+
+                foreach (ImageListViewItem item in itemCollection)
+                {
+                    if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
+                    {
+                        item.Update();
+                    }
                 }
             }
 
@@ -247,15 +253,18 @@ namespace PhotoTagsSynchronizer
             imageListView.Enabled = false;
             imageListView.SuspendLayout();
 
-            foreach (ImageListViewItem item in imageListView.SelectedItems)
+            lock (GlobalData.ImageListViewForEachLock)
             {
-                this.DeleteMetadataHirstory(item.FileFullPath);
-            }
+                foreach (ImageListViewItem item in imageListView.SelectedItems)
+                {
+                    this.DeleteMetadataHirstory(item.FileFullPath);
+                }
 
-            foreach (ImageListViewItem item in imageListView.SelectedItems)
-            {
-                item.Update();
-                item.Selected = true;
+                foreach (ImageListViewItem item in imageListView.SelectedItems)
+                {
+                    item.Update();
+                    item.Selected = true;
+                }
             }
 
             folderTreeViewFolder.Enabled = true;

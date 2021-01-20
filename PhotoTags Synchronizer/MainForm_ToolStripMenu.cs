@@ -150,7 +150,7 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             ImageListViewReloadThumbnailInvoke(imageListView1, null);
-            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
+            PopulateDataGridVIewForSelectedItemsInvoke(imageListView1.SelectedItems);
             //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
         }
@@ -415,16 +415,19 @@ namespace PhotoTagsSynchronizer
             if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
                 "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                lock (GlobalData.ImageListViewForEachLock)
                 {
-                    item.BeginEdit();
-                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
-                        img.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                        img.Save(item.FileFullPath);
+                        item.BeginEdit();
+                        using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
+                        {
+                            img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                            img.Save(item.FileFullPath);
+                        }
+                        item.Update();
+                        item.EndEdit();
                     }
-                    item.Update();
-                    item.EndEdit();
                 }
             }
         }
@@ -434,16 +437,19 @@ namespace PhotoTagsSynchronizer
             if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
                 "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                lock (GlobalData.ImageListViewForEachLock)
                 {
-                    item.BeginEdit();
-                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
-                        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                        img.Save(item.FileFullPath);
+                        item.BeginEdit();
+                        using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
+                        {
+                            img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                            img.Save(item.FileFullPath);
+                        }
+                        item.Update();
+                        item.EndEdit();
                     }
-                    item.Update();
-                    item.EndEdit();
                 }
             }
         }
@@ -529,7 +535,7 @@ namespace PhotoTagsSynchronizer
         {
             Properties.Settings.Default.ShowHistortyColumns = toolStripButtonHistortyColumns.Checked;
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
+            PopulateDataGridVIewForSelectedItemsInvoke(imageListView1.SelectedItems);
         }
         #endregion
 
@@ -538,7 +544,7 @@ namespace PhotoTagsSynchronizer
         {
             Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListView1.SelectedItems);
+            PopulateDataGridVIewForSelectedItemsInvoke(imageListView1.SelectedItems);
         }
         #endregion
 
@@ -572,22 +578,25 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - AutoCorrect - Selected files - Click
         private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
         {
-            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
-            foreach (ImageListViewItem item in imageListView1.SelectedItems)
+            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+            lock (GlobalData.ImageListViewForEachLock)
             {
-                Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
-                Metadata metadataToSave = autoCorrect.FixAndSave(
-                    new FileEntry(item.FileFullPath, item.DateModified),
-                    databaseAndCacheMetadataExiftool,
-                    databaseAndCacheMetadataMicrosoftPhotos,
-                    databaseAndCacheMetadataWindowsLivePhotoGallery,
-                    databaseAndCahceCameraOwner,
-                    databaseLocationAddress,
-                    databaseGoogleLocationHistory);
-                if (metadataToSave != null)
+                foreach (ImageListViewItem item in imageListView1.SelectedItems)
                 {
-                    AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
-                    AddQueueRename(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
+                    Metadata metadataToSave = autoCorrect.FixAndSave(
+                        new FileEntry(item.FileFullPath, item.DateModified),
+                        databaseAndCacheMetadataExiftool,
+                        databaseAndCacheMetadataMicrosoftPhotos,
+                        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        databaseAndCahceCameraOwner,
+                        databaseLocationAddress,
+                        databaseGoogleLocationHistory);
+                    if (metadataToSave != null)
+                    {
+                        AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
+                        AddQueueRename(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                    }
                 }
             }
             StartThreads();
@@ -597,9 +606,12 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - OpenWith Dialog - Click
         private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            lock (GlobalData.ImageListViewForEachLock)
             {
-                ApplicationActivation.ShowOpenWithDialog(imageListViewItem.FileFullPath);
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                {
+                    ApplicationActivation.ShowOpenWithDialog(imageListViewItem.FileFullPath);
+                }
             }
         }
         #endregion
@@ -608,13 +620,16 @@ namespace PhotoTagsSynchronizer
         private void openFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string errorMessage = "";
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            lock (GlobalData.ImageListViewForEachLock)
             {
-                try
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
                 {
-                    ApplicationActivation.ProcessRunOpenFile(imageListViewItem.FileFullPath);
+                    try
+                    {
+                        ApplicationActivation.ProcessRunOpenFile(imageListViewItem.FileFullPath);
+                    }
+                    catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
                 }
-                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
             }
             if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
@@ -624,14 +639,17 @@ namespace PhotoTagsSynchronizer
         private void editFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string errorMessage = "";
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            lock (GlobalData.ImageListViewForEachLock)
             {
-                try
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
                 {
-                    ApplicationActivation.ProcessRunEditFile(imageListViewItem.FileFullPath);
-                }
-                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
+                    try
+                    {
+                        ApplicationActivation.ProcessRunEditFile(imageListViewItem.FileFullPath);
+                    }
+                    catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
 
+                }
             }
             if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
@@ -641,13 +659,16 @@ namespace PhotoTagsSynchronizer
         private void openFileLocationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string errorMessage = "";
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            lock (GlobalData.ImageListViewForEachLock)
             {
-                try
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
                 {
-                    ApplicationActivation.ShowFileInExplorer(imageListViewItem.FileFullPath);
+                    try
+                    {
+                        ApplicationActivation.ShowFileInExplorer(imageListViewItem.FileFullPath);
+                    }
+                    catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
                 }
-                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
             }
             if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
@@ -670,9 +691,12 @@ namespace PhotoTagsSynchronizer
             if (imageListView1.SelectedItems.Count > 0)
             {
                 string text = "";
-                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                lock (GlobalData.ImageListViewForEachLock)
                 {
-                    text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FileFullPath;
+                    foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                    {
+                        text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FileFullPath;
+                    }
                 }
                 Clipboard.SetText(text);
             }
@@ -704,20 +728,23 @@ namespace PhotoTagsSynchronizer
                 List<Metadata> metadataListEmpty = new List<Metadata>();
                 List<Metadata> metadataListFromDataGridViewAutoCorrect = new List<Metadata>();
 
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                lock (GlobalData.ImageListViewForEachLock)
                 {
-                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
-                    Metadata metadataToSave = autoCorrect.FixAndSave(
-                        new FileEntry(item.FileFullPath, item.DateModified),
-                        databaseAndCacheMetadataExiftool,
-                        databaseAndCacheMetadataMicrosoftPhotos,
-                        databaseAndCacheMetadataWindowsLivePhotoGallery,
-                        databaseAndCahceCameraOwner,
-                        databaseLocationAddress,
-                        databaseGoogleLocationHistory);
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                    {
+                        Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
+                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                            new FileEntry(item.FileFullPath, item.DateModified),
+                            databaseAndCacheMetadataExiftool,
+                            databaseAndCacheMetadataMicrosoftPhotos,
+                            databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            databaseAndCahceCameraOwner,
+                            databaseLocationAddress,
+                            databaseGoogleLocationHistory);
 
-                    metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
-                    metadataListEmpty.Add(new Metadata(metadataOriginal));
+                        metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
+                        metadataListEmpty.Add(new Metadata(metadataOriginal));
+                    }
                 }
 
                 ExiftoolWriter.CreateExiftoolArguFileText(
@@ -809,7 +836,8 @@ namespace PhotoTagsSynchronizer
                 filesCutCopyPasteDrag.DeleteDirectory(folder);
             }
 
-            imageListView1.ClearThumbnailCache();
+            ImageListViewClearThumbnailCache(imageListView1);
+
             imageListView1.Refresh();
             Application.DoEvents();
             ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
@@ -845,9 +873,12 @@ namespace PhotoTagsSynchronizer
             ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
             if (toolStripMenuItem.Tag is ApplicationData applicationData)
             {
-                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                lock (GlobalData.ImageListViewForEachLock)
                 {
-                    if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);
+                    foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                    {
+                        if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);
+                    }
                 }
             }
         }
@@ -896,7 +927,10 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemImageListViewCut_Click(object sender, EventArgs e)
         {
             var droplist = new StringCollection();
-            foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
+            lock (GlobalData.ImageListViewForEachLock)
+            {
+                foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
+            }
 
             DataObject data = new DataObject();
             data.SetFileDropList(droplist);
@@ -913,7 +947,10 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemImageListViewCopy_Click(object sender, EventArgs e)
         {
             StringCollection droplist = new StringCollection();
-            foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
+            lock (GlobalData.ImageListViewForEachLock)
+            {
+                foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
+            }
 
             DataObject data = new DataObject();
             data.SetFileDropList(droplist);
@@ -933,14 +970,19 @@ namespace PhotoTagsSynchronizer
             foreach (string fullFilename in files)
             {
                 bool fileFound = false;
-                foreach (ImageListViewItem item in imageListView1.Items)
+
+                lock (GlobalData.ImageListViewForEachLock)
                 {
-                    if (item.FileFullPath == fullFilename)
+                    foreach (ImageListViewItem item in imageListView1.Items)
                     {
-                        fileFound = true;
-                        break;
+                        if (item.FileFullPath == fullFilename)
+                        {
+                            fileFound = true;
+                            break;
+                        }
                     }
                 }
+
                 if (!fileFound) imageListView1.Items.Add(fullFilename);
             }
 

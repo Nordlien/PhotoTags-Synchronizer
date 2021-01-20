@@ -1051,7 +1051,6 @@ namespace DataGridViewGeneric
                 if (currentDataGridViewGenericColumn == null || currentDataGridViewGenericColumn.Metadata == null)
                 {
                     currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
-                    //currentDataGridViewGenericColumn.Metadata = metadata; 
                 }
                 else
                 {
@@ -1443,9 +1442,14 @@ namespace DataGridViewGeneric
                 } 
                 else rowIndex++; //add row after found line
 
-                dataGridView.Rows.Insert(rowIndex, 1);
-                SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, dataGridViewGenericRow);
-                SetCellStatusDefaultWhenRowAdded(dataGridView, rowIndex, dataGridViewGenericCellStatusDefault);
+                if (rowIndex != -1)
+                {
+                    dataGridView.Rows.Insert(rowIndex, 1);
+                    SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, dataGridViewGenericRow);
+                    SetCellStatusDefaultWhenRowAdded(dataGridView, rowIndex, dataGridViewGenericCellStatusDefault);
+                }
+                else { }
+                
             }
             
             //If a value row, set the value
@@ -2816,7 +2820,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #region DataGridView - Update Image - for FileEntryImage
-        public static void SetDataGridImageOnFilename(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image image)
+        public static void SetDataGridImageOnFileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image image)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
             if (DataGridViewHandler.GetIsPopulatingImage(dataGridView)) return;  //In progress doing so
@@ -2828,7 +2832,6 @@ namespace DataGridViewGeneric
                 {
                     if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute == fileEntryAttribute)
                     {
-                        //Need Lock image
                         column.Thumbnail = image;
                         dataGridView.InvalidateCell(columnIndex, -1);
                     }
@@ -3125,19 +3128,11 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Cell Paint handling - CellPaintingHandleDefault
-        public static void CellPaintingHandleDefault(object sender, DataGridViewCellPaintingEventArgs e)
+        public static void CellPaintingHandleDefault(object sender, DataGridViewCellPaintingEventArgs e, bool paintHeaderRow)
         {
-            //----------------------------------------------------
-            //NB Call this first to load Thumbnail 
-            //DataGridViewUpdateThumbnail(dataGridViewTags, e);
-            //----------------------------------------------------
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
-
-            if (DataGridViewHandler.GetIsPopulatingImage(dataGridView)) return;  //In progress updated the picture, can cause crash
             try
-            {
-                e.Paint(e.ClipBounds, DataGridViewPaintParts.All);
+            {                
+                if (paintHeaderRow || e.ColumnIndex == -1 || e.RowIndex > -1) e.Paint(e.ClipBounds, DataGridViewPaintParts.All);
             } catch (Exception ex)
             {
                 Logger.Error(ex.Message);    

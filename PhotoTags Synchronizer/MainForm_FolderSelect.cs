@@ -8,7 +8,6 @@ using Manina.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
-    
     public partial class MainForm : Form
     {
         #region FolderSelected or FilterSearch clicked
@@ -34,7 +33,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FolderSearchFilter
+        #region FolderSearchFilter - Populate DataGridView, ImageListView 
         private void FolderSearchFilter(List<string> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;

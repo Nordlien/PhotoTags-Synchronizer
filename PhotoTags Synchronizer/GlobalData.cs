@@ -30,6 +30,10 @@ namespace PhotoTagsSynchronizer
         public static bool IsApplicationClosing { get; set; } = false;
         public static bool IsPopulatingFolderTree { get; set; } = true;
         public static bool IsPopulatingImageListView { get; set; } = false;
+
+        public static readonly object ImageListViewForEachLock = new object();
+        public static bool IsImageListViewForEachInProgressRequestStop { get; set; } = false;
+
         public static bool IsPopulatingFolderSelected { get; set; } = false;
         public static bool IsDataGridViewCutPasteDeleteFindReplaceInProgress { get; set; } = false;
 

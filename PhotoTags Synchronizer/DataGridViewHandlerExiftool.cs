@@ -34,11 +34,8 @@ namespace PhotoTagsSynchronizer
 
             DataGridViewHandler.SuspendLayout(dataGridView);
             //-----------------------------------------------------------------
-            //List<FileEntryAttribute> fileEntryAttribute = DatabaseExiftoolData.ListFileEntryDateVersions(fullFilePath);
             exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
-
-            //foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttribute)
-            //{         
+      
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
                 dataGridView, fileEntryAttribute, null, null,
                 ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
@@ -91,13 +88,13 @@ namespace PhotoTagsSynchronizer
         }
 
 
-        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        public static List<FileEntryAttribute> PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
-            if (GlobalData.IsApplicationClosing) return;
-            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return;
-            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+            if (GlobalData.IsApplicationClosing) return null;
+            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return null;
             //Tell that work in progress, can start a new before done.
             DataGridViewHandler.SetIsPopulating(dataGridView, true);
             //Clear current DataGridView
@@ -109,12 +106,11 @@ namespace PhotoTagsSynchronizer
             //Tell data default columns and rows are agregated
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
-
+            List<FileEntryAttribute> allFileEntryAttributeDateVersions = new List<FileEntryAttribute>();
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                //List<FileEntryAttribute> FileEntryAttributDates = DatabaseExiftoolData.ListFileEntryDateVersions(fullFilePath);
-                //PopulateFile(dataGridView, imageListViewItem.FileFullPath, showWhatColumns);
-
+                List<FileEntryAttribute> fileEntryAttributeDateVersions = DatabaseExiftoolData.ListFileEntryDateVersions(imageListViewItem.FileFullPath);
+                allFileEntryAttributeDateVersions.AddRange(fileEntryAttributeDateVersions);
             }
 
             //-----------------------------------------------------------------
@@ -123,6 +119,8 @@ namespace PhotoTagsSynchronizer
             //Tell that work is done
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
+
+            return allFileEntryAttributeDateVersions;
         }
     }
 }
