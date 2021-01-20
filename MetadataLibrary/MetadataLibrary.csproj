@@ -57,7 +57,7 @@
     <Compile Include="KeywordTag.cs" />
     <Compile Include="LocationCoordinate.cs" />
     <Compile Include="Metadata.cs" />
-    <Compile Include="MetadataBrokerTypes.cs" />
+    <Compile Include="MetadataBrokerType.cs" />
     <Compile Include="MetadataDatabaseCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionStructure.cs" />

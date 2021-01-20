@@ -69,10 +69,10 @@ namespace PhotoTagsSynchronizer
 
                 Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
 
-                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);                
-                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);               
-                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);                
-                if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryImage);
+                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);                
+                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);               
+                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);                
+                if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
                 
                 metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
                 metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
@@ -134,13 +134,13 @@ namespace PhotoTagsSynchronizer
                     {
                         string writeErrorDesciption =
                             "Error writing properties to file.\r\n\r\n" +
-                            "File: " + dataGridViewGenericColumn.FileEntryImage.FileFullPath + "\r\n\r\n" +
+                            "File: " + dataGridViewGenericColumn.FileEntryAttribute.FileFullPath + "\r\n\r\n" +
                             "Error message: " + ex.Message + "\r\n";
 
                         AddError(
-                            dataGridViewGenericColumn.FileEntryImage.Directory,
-                            dataGridViewGenericColumn.FileEntryImage.FileName,
-                            dataGridViewGenericColumn.FileEntryImage.LastWriteDateTime,
+                            dataGridViewGenericColumn.FileEntryAttribute.Directory,
+                            dataGridViewGenericColumn.FileEntryAttribute.FileName,
+                            dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime,
                             AddErrorPropertiesRegion, AddErrorPropertiesCommandWrite, AddErrorPropertiesParameterWrite, AddErrorPropertiesParameterWrite,
                             writeErrorDesciption);
                         Logger.Error(ex.Message);
@@ -550,7 +550,7 @@ namespace PhotoTagsSynchronizer
             string[] files = Directory.GetFiles(selectedFolder, "*.*");
             foreach (string file in files)
             {
-                Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
+                Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
                 Metadata metadataToSave = autoCorrect.FixAndSave(
                     new FileEntry(file, File.GetLastWriteTime(file)),
                     databaseAndCacheMetadataExiftool,
@@ -575,7 +575,7 @@ namespace PhotoTagsSynchronizer
             AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
             foreach (ImageListViewItem item in imageListView1.SelectedItems)
             {
-                Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
+                Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
                 Metadata metadataToSave = autoCorrect.FixAndSave(
                     new FileEntry(item.FileFullPath, item.DateModified),
                     databaseAndCacheMetadataExiftool,
@@ -706,7 +706,7 @@ namespace PhotoTagsSynchronizer
 
                 foreach (ImageListViewItem item in imageListView1.SelectedItems)
                 {
-                    Metadata metadataOriginal = new Metadata(MetadataBrokerTypes.Empty);
+                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
                     Metadata metadataToSave = autoCorrect.FixAndSave(
                         new FileEntry(item.FileFullPath, item.DateModified),
                         databaseAndCacheMetadataExiftool,
@@ -812,7 +812,7 @@ namespace PhotoTagsSynchronizer
             imageListView1.ClearThumbnailCache();
             imageListView1.Refresh();
             Application.DoEvents();
-            FolderSelected_AggregateListViewWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
+            ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }

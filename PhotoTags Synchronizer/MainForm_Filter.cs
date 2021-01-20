@@ -26,8 +26,6 @@ namespace PhotoTagsSynchronizer
         }
     }
 
-    
-
     public class FilterVerifyer
     {
         public const string Root = "Root";
@@ -349,22 +347,22 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : Form
     {
         #region PopulateImageListViewUsingFilters(TreeView treeView)
-        private void PopulateImageListViewUsingFilters(TreeView treeView)
+        private void PopulateImageListViewFromFolderOrUsingFilters(TreeView treeView)
         {
             if (treeView.Nodes == null) return;
-            if (treeView.Nodes[FilterVerifyer.Root] == null) return; 
+            if (treeView.Nodes[FilterVerifyer.Root] == null) return;
 
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
             filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, FilterVerifyer.Root);
 
             if (GlobalData.SearchFolder)
                 FolderSelected(GlobalData.lastReadFolderWasRecursive, false);
-            else 
+            else
                 FolderSearchFilter(GlobalData.SerachFilterResult, false);
         }
         #endregion
 
-        #region treeViewFilter_BeforeCheck
+        #region TreeViewFilter - BeforeCheck - Not allow all fileres to be checked
         bool isCorrectingDoubleClikcBug = false;
         private void treeViewFilter_BeforeCheck(object sender, TreeViewCancelEventArgs e)
         {
@@ -379,7 +377,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region treeViewFilter_AfterCheck
+        #region TreeViewFilter - AfterCheck
         private void treeViewFilter_AfterCheck(object sender, TreeViewEventArgs e)
         {
             if (GlobalData.IsPopulatingFilter) return;
@@ -392,12 +390,12 @@ namespace PhotoTagsSynchronizer
                 if ((int)treeNode.Tag == FilterVerifyer.TagRegionOrAnd ||
                     (int)treeNode.Tag == FilterVerifyer.TagRoot) treeNode.Text = FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, treeNode.Name, treeNode.Checked);
             }
-            PopulateImageListViewUsingFilters(treeViewFilter);
+            PopulateImageListViewFromFolderOrUsingFilters(treeViewFilter);
         }
         #endregion
 
-        #region ListViewReplaceNullWithText
-        private void ListViewReplaceNullWithText (List<string> list)
+        #region FilterReplaceNullWithIsNotDefineText
+        private void FilterReplaceNullWithIsNotDefineText (List<string> list)
         {
             if (list.Contains(null)) list.Remove(null);                
             list.Insert(0, "(Is not defined)");
@@ -410,7 +408,7 @@ namespace PhotoTagsSynchronizer
             
             List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbums();
             albums.Sort();
-            ListViewReplaceNullWithText(albums);
+            FilterReplaceNullWithIsNotDefineText(albums);
             comboBoxSearchAlbum.Items.Clear();
             comboBoxSearchAlbum.Items.AddRange(albums.ToArray());
 
@@ -422,49 +420,49 @@ namespace PhotoTagsSynchronizer
 
             List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalComments();
             comments.Sort();
-            ListViewReplaceNullWithText(comments);
+            FilterReplaceNullWithIsNotDefineText(comments);
             comboBoxSearchComments.Items.Clear();
             comboBoxSearchComments.Items.AddRange(comments.ToArray());
 
             List<string> descriptions = databaseAndCacheMetadataExiftool.ListAllPersonalDescriptions();
             descriptions.Sort();
-            ListViewReplaceNullWithText(descriptions);
+            FilterReplaceNullWithIsNotDefineText(descriptions);
             comboBoxSearchDescription.Items.Clear();
             comboBoxSearchDescription.Items.AddRange(descriptions.ToArray());
 
             List<string> titles = databaseAndCacheMetadataExiftool.ListAllPersonalTitles();
             titles.Sort();
-            ListViewReplaceNullWithText(titles);
+            FilterReplaceNullWithIsNotDefineText(titles);
             comboBoxSearchTitle.Items.Clear();
             comboBoxSearchTitle.Items.AddRange(titles.ToArray());
 
             List<string> locations = databaseAndCacheMetadataExiftool.ListAllLocationNames();
             locations.Sort();
-            ListViewReplaceNullWithText(locations);
+            FilterReplaceNullWithIsNotDefineText(locations);
             comboBoxSearchLocationName.Items.Clear();
             comboBoxSearchLocationName.Items.AddRange(locations.ToArray());
 
             List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCities();
             cities.Sort();
-            ListViewReplaceNullWithText(cities);
+            FilterReplaceNullWithIsNotDefineText(cities);
             comboBoxSearchLocationCity.Items.Clear();
             comboBoxSearchLocationCity.Items.AddRange(cities.ToArray());
 
             List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStates();
             states.Sort();
-            ListViewReplaceNullWithText(states);
+            FilterReplaceNullWithIsNotDefineText(states);
             comboBoxSearchLocationState.Items.Clear();
             comboBoxSearchLocationState.Items.AddRange(states.ToArray());
             
             List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountries();
             countries.Sort();
-            ListViewReplaceNullWithText(countries);
+            FilterReplaceNullWithIsNotDefineText(countries);
             comboBoxSearchLocationCountry.Items.Clear();
             comboBoxSearchLocationCountry.Items.AddRange(countries.ToArray());
 
             List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
             peoples.Sort();
-            ListViewReplaceNullWithText(peoples);
+            FilterReplaceNullWithIsNotDefineText(peoples);
             checkedListBoxSearchPeople.Items.Clear();
             checkedListBoxSearchPeople.Items.AddRange(peoples.ToArray());
 
@@ -480,13 +478,15 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region PopulateTreeViewFolderFilter
+        #region PopulateTreeViewFolderFilter - Thread
         private void PopulateTreeViewFolderFilterThread(ImageListView.ImageListViewItemCollection imageListViewItems)
         {
             Thread threadPopulateFilter = new Thread(() => { PopulateTreeViewFolderFilterInvoke(imageListViewItems); });
             threadPopulateFilter.Start();
         }
+        #endregion 
 
+        #region PopulateTreeViewFolderFilter - Invoke
         private void PopulateTreeViewFolderFilterInvoke(ImageListView.ImageListViewItemCollection imageListViewItems)
         {
             if (InvokeRequired)
@@ -516,7 +516,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem imageListViewItem in imageListViewItems)
             {
-                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerTypes.ExifTool));
+                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerType.ExifTool));
 
                 if (metadata != null)
                 {
@@ -581,8 +581,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Search - click
-        private void buttonSearch_Click(object sender, EventArgs e)
+        #region Filter - Search - click
+        private void buttonFilterSearch_Click(object sender, EventArgs e)
         {
             #region DateTaken
             bool useMediaTakenFrom = dateTimePickerSearchDateFrom.Checked;
@@ -658,7 +658,7 @@ namespace PhotoTagsSynchronizer
 
             int maxRowsInResult = Properties.Settings.Default.MaxRowsInSearchResult;
 
-            GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerTypes.ExifTool, useAndBetweenGroups, 
+            GlobalData.SerachFilterResult = databaseAndCacheMetadataExiftool.ListAllSearch(MetadataBrokerType.ExifTool, useAndBetweenGroups, 
                 useMediaTakenFrom, mediaTakenFrom, useMediaTakenTo, mediaTakenTo, isMediaTakenNull,
                 useAndBetweenTextTagFields,
                 usePersonalAlbum, personalAlbum,

@@ -7,24 +7,24 @@ namespace MetadataLibrary
     [Serializable]
     public class FileEntryBroker : FileEntry, IEquatable<FileEntryBroker>
     {
-        private MetadataBrokerTypes broker;
+        private MetadataBrokerType broker;
        
-        public MetadataBrokerTypes Broker { get => broker; set => broker = value; }
+        public MetadataBrokerType Broker { get => broker; set => broker = value; }
 
-        public FileEntryBroker(FileEntry fileEntry, MetadataBrokerTypes broker) : base(fileEntry)
+        public FileEntryBroker(FileEntry fileEntry, MetadataBrokerType broker) : base(fileEntry)
         {
             this.broker = broker;
             this.fullFilePath = fileEntry.FileFullPath;
             this.lastWriteDateTime = fileEntry.LastWriteDateTime;
         }
 
-        public FileEntryBroker(string fileDirectory, string fileName, DateTime lastAccessDateTime, MetadataBrokerTypes broker) 
+        public FileEntryBroker(string fileDirectory, string fileName, DateTime lastAccessDateTime, MetadataBrokerType broker) 
             : base(Path.Combine (fileDirectory, fileName), lastAccessDateTime)
         {
             this.broker = broker;
 
         }
-        public FileEntryBroker(string fullFilePath, DateTime lastAccessDateTime, MetadataBrokerTypes broker) : base(fullFilePath, lastAccessDateTime)
+        public FileEntryBroker(string fullFilePath, DateTime lastAccessDateTime, MetadataBrokerType broker) : base(fullFilePath, lastAccessDateTime)
         {
             this.broker = broker;
         }
@@ -74,11 +74,25 @@ namespace MetadataLibrary
             if (fileVersionDates.Count == 0) return null;
 
             DateTime newestDate = fileVersionDates[0].LastWriteDateTime;
-            foreach (FileEntryBroker fileEntryBrokerFindNewest in fileVersionDates)
+            foreach (FileEntryBroker fileEntryFindNewest in fileVersionDates)
             {
-                if (fileEntryBrokerFindNewest.Broker == MetadataBrokerTypes.ExifTool && 
-                    fileEntryBrokerFindNewest.LastWriteDateTime > newestDate )
-                    newestDate = fileEntryBrokerFindNewest.LastWriteDateTime;
+                if (//fileEntryFindNewest.Broker == MetadataBrokerTypes.ExifTool && 
+                    fileEntryFindNewest.LastWriteDateTime > newestDate )
+                    newestDate = fileEntryFindNewest.LastWriteDateTime;
+            }
+            return newestDate;
+        }
+
+        public static DateTime? FindNewestDate(List<FileEntryAttribute> fileVersionDates)
+        {
+            if (fileVersionDates.Count == 0) return null;
+
+            DateTime newestDate = fileVersionDates[0].LastWriteDateTime;
+            foreach (FileEntryAttribute fileEntryFindNewest in fileVersionDates)
+            {
+                if (//fileEntryFindNewest.Broker == MetadataBrokerTypes.ExifTool &&
+                    fileEntryFindNewest.LastWriteDateTime > newestDate)
+                    newestDate = fileEntryFindNewest.LastWriteDateTime;
             }
             return newestDate;
         }
@@ -90,7 +104,7 @@ namespace MetadataLibrary
             DateTime oldestDate = fileVersionDates[0].LastWriteDateTime;
             foreach (FileEntryBroker fileEntryBrokerFindNewest in fileVersionDates)
             {
-                if (fileEntryBrokerFindNewest.Broker == MetadataBrokerTypes.ExifTool &&
+                if (fileEntryBrokerFindNewest.Broker == MetadataBrokerType.ExifTool &&
                     fileEntryBrokerFindNewest.LastWriteDateTime < oldestDate)
                     oldestDate = fileEntryBrokerFindNewest.LastWriteDateTime;
             }

@@ -522,7 +522,7 @@ namespace Exiftool
         #region Read Metadata
 
         #region Read fullFilePath
-        public Metadata Read(MetadataBrokerTypes broker, string fullFilePath)
+        public Metadata Read(MetadataBrokerType broker, string fullFilePath)
         {
             List<String> files = new List<String>();
             files.Add(fullFilePath);
@@ -541,7 +541,7 @@ namespace Exiftool
 
         #region Read
 
-        public List<Metadata> Read(MetadataBrokerTypes broker, List<String> files)
+        public List<Metadata> Read(MetadataBrokerType broker, List<String> files)
         {
             List<Metadata> metaDataCollections = new List<Metadata>();
             if (files == null) return metaDataCollections;
@@ -637,7 +637,7 @@ namespace Exiftool
                     if (metadata == null)  //After loop we also check if metaData not null, to save the last file found
                     {
                         fileNumber++;
-                        metadata = new Metadata(MetadataBrokerTypes.ExifTool); //Get ready to read a meta data
+                        metadata = new Metadata(MetadataBrokerType.ExifTool); //Get ready to read a meta data
 
                         //Don't use exif file name, problem with UTF8 filenames therefor short windows 8 short names used instead                        
                         metadata.FileName = Path.GetFileName(files[fileNumber - 1]);

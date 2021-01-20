@@ -957,7 +957,7 @@ namespace PhotoTagsSynchronizer
             //If people region row
             if (gridViewGenericDataRow.HeaderName.Equals(DataGridViewHandlerPeople.headerPeople))
             {
-                DataGridViewUpdateThumbnail(dataGridView, e); //Get Thumbnail or add thumbnail to read queue
+//DataGridViewUpdateThumbnail(dataGridView, e); //Get Thumbnail or add thumbnail to read queue
 
                 if (!gridViewGenericDataRow.IsHeader && e.ColumnIndex > -1)
                 {

@@ -358,8 +358,8 @@ namespace PhotoTagsSynchronizer
 
             //---------------------------------------------------------
 
-            imageListView1.Items.Clear();
-            imageListView1.ClearThumbnailCache();
+            ImageListViewClearAll(imageListView1);
+
             imageListView1.Dispose();
             imageListView1.StoppBackgroundThreads();
 
@@ -391,10 +391,10 @@ namespace PhotoTagsSynchronizer
                 Thread.Sleep(100);
             }
 
-            SplashForm.UpdateStatus("Discounect databases...");
+            SplashForm.UpdateStatus("Disconnecting databases...");
             databaseUtilitiesSqliteMetadata.DatabaseClose(); //Close database after all background threads stopped
 
-            SplashForm.UpdateStatus("Dispose...");
+            SplashForm.UpdateStatus("Disposing...");
             imageListView1.Dispose();
             SplashForm.CloseForm();
 
@@ -438,7 +438,7 @@ namespace PhotoTagsSynchronizer
         {
             isFormLoading = false;
 
-            FolderSelected_AggregateListViewWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
+            ImageListViewAggregateWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
 
             PopulateTreeViewFolderFilterThread(imageListView1.Items);

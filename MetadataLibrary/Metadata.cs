@@ -41,7 +41,7 @@ namespace MetadataLibrary
         private String locationState;
 
         #region Constructors
-        public Metadata(MetadataBrokerTypes broker)
+        public Metadata(MetadataBrokerType broker)
         {
             Broker = broker;
         }
@@ -421,7 +421,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Properties MetadataBrokerTypes
-        public MetadataBrokerTypes Broker { get; set; }
+        public MetadataBrokerType Broker { get; set; }
         #endregion
 
         #region Properties File

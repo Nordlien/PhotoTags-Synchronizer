@@ -156,7 +156,6 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.SuggestRegionNameTopMostCount = (int)numericUpDownPeopleSuggestNameTopMost.Value;
             Properties.Settings.Default.RegionMissmatchProcent = (float)numericUpDownRegionMissmatchProcent.Value;
             Properties.Settings.Default.AvoidOfflineMediaFiles = checkBoxApplicationAvoidReadMediaFromCloud.Checked;
-            Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect = checkBoxClearReadMediaQueueOnFolderSelect.Checked;
             Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode = checkBoxApplicationImageListViewCacheModeOnDemand.Checked;
 
             //AutoCorrect
@@ -221,43 +220,42 @@ namespace PhotoTagsSynchronizer
             numericUpDownRegionMissmatchProcent.Value = (decimal)Properties.Settings.Default.RegionMissmatchProcent;
 
             checkBoxApplicationAvoidReadMediaFromCloud.Checked = Properties.Settings.Default.AvoidOfflineMediaFiles;
-            checkBoxClearReadMediaQueueOnFolderSelect.Checked = Properties.Settings.Default.ClearReadMediaQueueOnFolderSelect;
             checkBoxApplicationImageListViewCacheModeOnDemand.Checked = Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode;
         }
         #endregion 
 
         #region AutoCorrect - Populate and Save
-        private void PopulateAutoCorrectListOrder(ImageListViewOrder imageListViewOrder, List<MetadataBrokerTypes> listPriority)
+        private void PopulateAutoCorrectListOrder(ImageListViewOrder imageListViewOrder, List<MetadataBrokerType> listPriority)
         {
             ListViewItem listViewItem;
 
             imageListViewOrder.Items.Clear();
-            foreach (MetadataBrokerTypes metadataBroker in listPriority)
+            foreach (MetadataBrokerType metadataBroker in listPriority)
             {
                 switch (metadataBroker)
                 {
-                    case MetadataBrokerTypes.ExifTool:
+                    case MetadataBrokerType.ExifTool:
                         listViewItem = new ListViewItem();
                         listViewItem.Text = "Exiftool";
-                        listViewItem.Tag = MetadataBrokerTypes.ExifTool;
+                        listViewItem.Tag = MetadataBrokerType.ExifTool;
                         imageListViewOrder.Items.Add(listViewItem);
                         break;
-                    case MetadataBrokerTypes.MicrosoftPhotos:
+                    case MetadataBrokerType.MicrosoftPhotos:
                         listViewItem = new ListViewItem();
                         listViewItem.Text = "MicrosoftPhotos";
-                        listViewItem.Tag = MetadataBrokerTypes.MicrosoftPhotos;
+                        listViewItem.Tag = MetadataBrokerType.MicrosoftPhotos;
                         imageListViewOrder.Items.Add(listViewItem);
                         break;
-                    case MetadataBrokerTypes.WindowsLivePhotoGallery:
+                    case MetadataBrokerType.WindowsLivePhotoGallery:
                         listViewItem = new ListViewItem();
                         listViewItem.Text = "Windows Live Photo Gallery";
-                        listViewItem.Tag = MetadataBrokerTypes.WindowsLivePhotoGallery;
+                        listViewItem.Tag = MetadataBrokerType.WindowsLivePhotoGallery;
                         imageListViewOrder.Items.Add(listViewItem);
                         break;
-                    case MetadataBrokerTypes.FileSystem:
+                    case MetadataBrokerType.FileSystem:
                         listViewItem = new ListViewItem();
                         listViewItem.Text = "Subfolder name";
-                        listViewItem.Tag = MetadataBrokerTypes.FileSystem;
+                        listViewItem.Tag = MetadataBrokerType.FileSystem;
                         imageListViewOrder.Items.Add(listViewItem);
                         break;
                 }
@@ -330,9 +328,9 @@ namespace PhotoTagsSynchronizer
             #region Title            
             if (autoCorrect.TitlePriority == null || autoCorrect.TitlePriority.Count == 0)
             {
-                autoCorrect.TitlePriority.Add(MetadataBrokerTypes.ExifTool);
-                autoCorrect.TitlePriority.Add(MetadataBrokerTypes.MicrosoftPhotos);
-                autoCorrect.TitlePriority.Add(MetadataBrokerTypes.WindowsLivePhotoGallery);
+                autoCorrect.TitlePriority.Add(MetadataBrokerType.ExifTool);
+                autoCorrect.TitlePriority.Add(MetadataBrokerType.MicrosoftPhotos);
+                autoCorrect.TitlePriority.Add(MetadataBrokerType.WindowsLivePhotoGallery);
             }
 
             PopulateAutoCorrectListOrder(imageListViewOrderTitle, autoCorrect.TitlePriority);
@@ -351,9 +349,9 @@ namespace PhotoTagsSynchronizer
             #region Album
             if (autoCorrect.AlbumPriority == null || autoCorrect.AlbumPriority.Count == 0)
             {
-                autoCorrect.AlbumPriority.Add(MetadataBrokerTypes.ExifTool);
-                autoCorrect.AlbumPriority.Add(MetadataBrokerTypes.MicrosoftPhotos);
-                autoCorrect.AlbumPriority.Add(MetadataBrokerTypes.FileSystem);
+                autoCorrect.AlbumPriority.Add(MetadataBrokerType.ExifTool);
+                autoCorrect.AlbumPriority.Add(MetadataBrokerType.MicrosoftPhotos);
+                autoCorrect.AlbumPriority.Add(MetadataBrokerType.FileSystem);
             }
             PopulateAutoCorrectListOrder(imageListViewOrderAlbum, autoCorrect.AlbumPriority);
 
@@ -448,7 +446,7 @@ namespace PhotoTagsSynchronizer
             autoCorrect.TitlePriority.Clear();
             foreach (ListViewItem item in imageListViewOrderTitle.Items)
             {
-                autoCorrect.TitlePriority.Add((MetadataBrokerTypes)item.Tag);
+                autoCorrect.TitlePriority.Add((MetadataBrokerType)item.Tag);
             }
 
             if (radioButtonTitleDoNotChange.Checked)
@@ -471,7 +469,7 @@ namespace PhotoTagsSynchronizer
             autoCorrect.AlbumPriority.Clear();
             foreach (ListViewItem item in imageListViewOrderAlbum.Items)
             {
-                autoCorrect.AlbumPriority.Add((MetadataBrokerTypes)item.Tag);
+                autoCorrect.AlbumPriority.Add((MetadataBrokerType)item.Tag);
             }
 
             if (radioButtonAlbumDoNotChange.Checked)
@@ -607,11 +605,10 @@ namespace PhotoTagsSynchronizer
 
             DateTime dateTimeEditable = DateTime.Now;
 
-            int columnIndex1 = DataGridViewHandler.AddColumnOrUpdate(dataGridView,
-                new FileEntryImage("Priority", dateTimeEditable), //Heading
-                    null, dateTimeEditable,
-                    ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));
+            int columnIndex1 = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+                new FileEntryAttribute("Priority", dateTimeEditable, FileEntryVersion.Current), //Heading
+                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
             List<string> compositeList = new List<string>();
 

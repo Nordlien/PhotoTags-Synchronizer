@@ -121,6 +121,7 @@
       <DependentUpon>ChooseColumns.cs</DependentUpon>
     </Compile>
     <Compile Include="ComboBoxHandler.cs" />
+    <Compile Include="DataGridViewHandlerCommon.cs" />
     <Compile Include="DataGridViewHandlerExiftool.cs" />
     <Compile Include="DataGridViewHandlerExiftoolWarnings.cs" />
     <Compile Include="DataGridViewHandlerMap.cs" />

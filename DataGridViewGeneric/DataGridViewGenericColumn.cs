@@ -1,5 +1,6 @@
 ﻿using MetadataLibrary;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace DataGridViewGeneric
 {
@@ -24,34 +25,34 @@ namespace DataGridViewGeneric
 
     public class DataGridViewGenericColumn
     {
-        public FileEntryImage FileEntryImage { get; set; }
-        public Metadata Metadata { get; set; }
-        public ReadWriteAccess ReadWriteAccess { get; set; }
+        public FileEntryAttribute FileEntryAttribute { get; set; } = null;
+        public Image Thumbnail { get; set; } = null;
+        public Metadata Metadata { get; set; } = null;
+        public ReadWriteAccess ReadWriteAccess { get; set; } = ReadWriteAccess.DefaultReadOnly;
         public bool IsDirty { get; set; } = false;
+        public bool HasFileBeenUpdatedGiveUserAwarning {get; set; } = false;
 
-        public bool HasFileBeenUpdatedGiveUserAwarning { 
-            get;
-            set; 
-        } = false;
-
-        public DataGridViewGenericColumn(FileEntryImage fileEntryImage, Metadata metadata, ReadWriteAccess readWriteAccess)
+        public DataGridViewGenericColumn(FileEntryAttribute fileEntryAttribute, Image thumbnail, Metadata metadata, ReadWriteAccess readWriteAccess)
         {
-            this.FileEntryImage = fileEntryImage;
+            this.FileEntryAttribute = fileEntryAttribute;
             this.Metadata = metadata;
             this.ReadWriteAccess = readWriteAccess;
+            this.Thumbnail = thumbnail;
         }
 
+        /*
         public override bool Equals(object obj)
         {
             return obj is DataGridViewGenericColumn column &&
-                EqualityComparer<FileEntryImage>.Default.Equals(FileEntryImage, column.FileEntryImage) &&
+                EqualityComparer<FileEntryImage>.Default.Equals(FileEntryAttribute, column.FileEntryAttribute) &&
                 EqualityComparer<Metadata>.Default.Equals(Metadata, column.Metadata);
-        }
+        }*/
 
+        /*
         public override int GetHashCode()
         {
             int hashCode = -1761064430;
-            hashCode = hashCode * -1521134295 + EqualityComparer<FileEntryImage>.Default.GetHashCode(FileEntryImage);
+            hashCode = hashCode * -1521134295 + EqualityComparer<FileEntryImage>.Default.GetHashCode(FileEntryAttribute);
             hashCode = hashCode * -1521134295 + EqualityComparer<Metadata>.Default.GetHashCode(Metadata);
             return hashCode;
         }
@@ -66,5 +67,6 @@ namespace DataGridViewGeneric
         {
             return !(left == right);
         }
+        */
     }
 }

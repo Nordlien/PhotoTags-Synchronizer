@@ -104,7 +104,7 @@ namespace PhotoTagsSynchronizer
                     } 
                 }
 
-                Image image = dataGridViewGenericColumn.FileEntryImage.Image;
+                Image image = dataGridViewGenericColumn.Thumbnail;
                 Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
                     new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
                 Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
@@ -151,7 +151,7 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
                 if (dataGridViewGenericColumn == null) return;
-                Image image = dataGridViewGenericColumn.FileEntryImage.Image;
+                Image image = dataGridViewGenericColumn.Thumbnail;
                 Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
                     new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
                 Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
@@ -175,7 +175,7 @@ namespace PhotoTagsSynchronizer
                             dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
                             if (dataGridViewGenericColumn != null)
                             {
-                                Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryImage.FileFullPath, false);
+                                Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, false);
 
                                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
                                 dataGridViewGenericRow.HeaderName = DataGridViewHandlerPeople.headerPeople;
@@ -216,7 +216,7 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
                 if (dataGridViewGenericColumn == null) return;
-                Image image = dataGridViewGenericColumn.FileEntryImage.Image;              
+                Image image = dataGridViewGenericColumn.Thumbnail;              
                 Rectangle rectangleRoundedCellBounds = DataGridViewHandler.CalulateCellRoundedRectangleCellBounds(
                     new Rectangle(0, 0, dataGridView.Columns[e.ColumnIndex].Width, dataGridView.ColumnHeadersHeight));
                 Size thumbnailSize = DataGridViewHandler.CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
@@ -237,7 +237,7 @@ namespace PhotoTagsSynchronizer
 
         public AutoCompleteStringCollection ClientListDropDown()
         {
-            List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerTypes.ExifTool, DateTime.Now.AddDays(-365), DateTime.Now);
+            List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerType.ExifTool, DateTime.Now.AddDays(-365), DateTime.Now);
             AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
             foreach (string regionName in regionNames)
             {
@@ -375,7 +375,7 @@ namespace PhotoTagsSynchronizer
                                 DataGridViewHandler.SetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex, region);
                             }
                         }
-                        DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerTypes.Empty, cell.ColumnIndex, cell.RowIndex);
+                        DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerType.Empty, cell.ColumnIndex, cell.RowIndex);
                     }
                     
                 }
@@ -423,7 +423,7 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewPeople_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
-            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true);
+            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
             for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
             {
                 DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndex, e.RowIndex);

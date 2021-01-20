@@ -36,7 +36,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageApplication = new System.Windows.Forms.TabPage();
             this.panelApplication = new System.Windows.Forms.Panel();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.checkBoxClearReadMediaQueueOnFolderSelect = new System.Windows.Forms.CheckBox();
+            this.checkBoxApplicationImageListViewCacheModeOnDemand = new System.Windows.Forms.CheckBox();
             this.checkBoxApplicationAvoidReadMediaFromCloud = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label44 = new System.Windows.Forms.Label();
@@ -213,7 +213,6 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
-            this.checkBoxApplicationImageListViewCacheModeOnDemand = new System.Windows.Forms.CheckBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
@@ -311,24 +310,24 @@ namespace PhotoTagsSynchronizer
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.checkBoxApplicationImageListViewCacheModeOnDemand);
-            this.groupBox6.Controls.Add(this.checkBoxClearReadMediaQueueOnFolderSelect);
             this.groupBox6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud);
             this.groupBox6.Location = new System.Drawing.Point(3, 543);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(760, 113);
+            this.groupBox6.Size = new System.Drawing.Size(760, 92);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Read media and listview";
             // 
-            // checkBoxClearReadMediaQueueOnFolderSelect
+            // checkBoxApplicationImageListViewCacheModeOnDemand
             // 
-            this.checkBoxClearReadMediaQueueOnFolderSelect.AutoSize = true;
-            this.checkBoxClearReadMediaQueueOnFolderSelect.Location = new System.Drawing.Point(8, 57);
-            this.checkBoxClearReadMediaQueueOnFolderSelect.Name = "checkBoxClearReadMediaQueueOnFolderSelect";
-            this.checkBoxClearReadMediaQueueOnFolderSelect.Size = new System.Drawing.Size(505, 21);
-            this.checkBoxClearReadMediaQueueOnFolderSelect.TabIndex = 1;
-            this.checkBoxClearReadMediaQueueOnFolderSelect.Text = "When select new folder, stop cache media to database from previous folder";
-            this.checkBoxClearReadMediaQueueOnFolderSelect.UseVisualStyleBackColor = true;
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.AutoSize = true;
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.Location = new System.Drawing.Point(8, 57);
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.Name = "checkBoxApplicationImageListViewCacheModeOnDemand";
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.Size = new System.Drawing.Size(607, 21);
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.TabIndex = 2;
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.Text = "Load Image Thumbnails On Demand (what\'s visible on screen). Unchecked load all at" +
+    " once.";
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.UseVisualStyleBackColor = true;
             // 
             // checkBoxApplicationAvoidReadMediaFromCloud
             // 
@@ -1120,7 +1119,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(6, 168);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -1154,7 +1152,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(6, 57);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
@@ -1560,6 +1557,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(5, 51);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -1640,6 +1638,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConfigFilenameDateFormats.CharWidth = 10;
             this.fastColoredTextBoxConfigFilenameDateFormats.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConfigFilenameDateFormats.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConfigFilenameDateFormats.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConfigFilenameDateFormats.IsReplaceMode = false;
             this.fastColoredTextBoxConfigFilenameDateFormats.Location = new System.Drawing.Point(2, 46);
             this.fastColoredTextBoxConfigFilenameDateFormats.Name = "fastColoredTextBoxConfigFilenameDateFormats";
@@ -2676,7 +2675,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowLog.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowLog.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxShowLog.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowLog.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowLog.IsReplaceMode = false;
             this.fastColoredTextBoxShowLog.Location = new System.Drawing.Point(3, 3);
@@ -2724,6 +2722,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowPipe32Log.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowPipe32Log.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowPipe32Log.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowPipe32Log.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowPipe32Log.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowPipe32Log.IsReplaceMode = false;
             this.fastColoredTextBoxShowPipe32Log.Location = new System.Drawing.Point(0, 0);
@@ -2777,17 +2776,6 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Name = "panelAvoidResizeIssues";
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(778, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
-            // 
-            // checkBoxApplicationImageListViewCacheModeOnDemand
-            // 
-            this.checkBoxApplicationImageListViewCacheModeOnDemand.AutoSize = true;
-            this.checkBoxApplicationImageListViewCacheModeOnDemand.Location = new System.Drawing.Point(8, 84);
-            this.checkBoxApplicationImageListViewCacheModeOnDemand.Name = "checkBoxApplicationImageListViewCacheModeOnDemand";
-            this.checkBoxApplicationImageListViewCacheModeOnDemand.Size = new System.Drawing.Size(607, 21);
-            this.checkBoxApplicationImageListViewCacheModeOnDemand.TabIndex = 2;
-            this.checkBoxApplicationImageListViewCacheModeOnDemand.Text = "Load Image Thumbnails On Demand (what\'s visible on screen). Unchecked load all at" +
-    " once.";
-            this.checkBoxApplicationImageListViewCacheModeOnDemand.UseVisualStyleBackColor = true;
             // 
             // Config
             // 
@@ -3053,7 +3041,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.NumericUpDown numericUpDownRegionMissmatchProcent;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.CheckBox checkBoxClearReadMediaQueueOnFolderSelect;
         private System.Windows.Forms.CheckBox checkBoxApplicationAvoidReadMediaFromCloud;
         private System.Windows.Forms.CheckBox checkBoxApplicationImageListViewCacheModeOnDemand;
     }

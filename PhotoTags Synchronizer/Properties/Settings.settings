@@ -807,9 +807,6 @@ filename=UTF8
 Unknown 2
 Unknown 3</Value>
     </Setting>
-    <Setting Name="ClearReadMediaQueueOnFolderSelect" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="AvoidOfflineMediaFiles" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>

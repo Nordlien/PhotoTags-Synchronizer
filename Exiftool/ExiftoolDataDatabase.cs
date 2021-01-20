@@ -123,14 +123,14 @@ namespace Exiftool
         }
 
 
-        public List<FileEntry> ListFileEntryDateVersions(string fileName)
+        public List<FileEntryAttribute> ListFileEntryDateVersions(string fileName)
         {
             return ListFileEntryDateVersions(Path.GetFileName(fileName), Path.GetDirectoryName(fileName));
         }
 
-        public List<FileEntry> ListFileEntryDateVersions(string fileName, string fileDirectory)
+        public List<FileEntryAttribute> ListFileEntryDateVersions(string fileName, string fileDirectory)
         {
-            List<FileEntry> exifToolDates = new List<FileEntry>();
+            List<FileEntryAttribute> exifToolDates = new List<FileEntryAttribute>();
             string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaExiftoolTags " + 
                 "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -144,12 +144,11 @@ namespace Exiftool
                 {
                     while (reader.Read())
                     {
-                        FileEntry fileEntry = new FileEntry(
+                        FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             dbTools.ConvertFromDBValString(reader["FileName"]),
-                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]));
-                        exifToolDates.Add(fileEntry);
-                        Logger.Trace(fileEntry.FileFullPath + " " + fileEntry.LastWriteDateTime);
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]), FileEntryVersion.Historical);
+                        exifToolDates.Add(fileEntryAttribute);
                     }
                 }
 

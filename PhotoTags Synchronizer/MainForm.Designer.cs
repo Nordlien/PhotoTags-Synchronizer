@@ -1176,7 +1176,7 @@ namespace PhotoTagsSynchronizer
             this.buttonSearch.TabIndex = 42;
             this.buttonSearch.Text = "Search";
             this.buttonSearch.UseVisualStyleBackColor = true;
-            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
+            this.buttonSearch.Click += new System.EventHandler(this.buttonFilterSearch_Click);
             // 
             // tabPageFilterTags
             // 

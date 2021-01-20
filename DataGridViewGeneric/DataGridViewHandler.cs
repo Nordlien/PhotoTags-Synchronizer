@@ -1,5 +1,4 @@
-﻿using Manina.Windows.Forms;
-using MetadataLibrary;
+﻿using MetadataLibrary;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,6 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using static Manina.Windows.Forms.ImageListView;
 
 namespace DataGridViewGeneric
 {
@@ -59,10 +57,10 @@ namespace DataGridViewGeneric
 
         
 
-        public static bool IsCurrentFile(FileEntry fileEntry, DateTime lastWriteTime)
+        /*public static bool IsCurrentFile(FileEntry fileEntry, DateTime lastWriteTime)
         {
             return (fileEntry.LastWriteDateTime == lastWriteTime);
-        }
+        }*/
 
         #region DataGridView events handling
 
@@ -926,7 +924,7 @@ namespace DataGridViewGeneric
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {
                 if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn &&
-                    ((DataGridViewGenericColumn)dataGridView.Columns[columnIndex].Tag).FileEntryImage.FileFullPath == fullFilePath)
+                    ((DataGridViewGenericColumn)dataGridView.Columns[columnIndex].Tag).FileEntryAttribute.FileFullPath == fullFilePath)
                 {
                     return columnIndex;
                 }
@@ -936,13 +934,13 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Column handling - GetColumnIndex - fileEntry
-        public static int GetColumnIndex(DataGridView dataGridView, FileEntry fileEntry)
+        public static int GetColumnIndex(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
             //TODO: Add cache dictonary
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {
                 if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column &&
-                    (FileEntry)column.FileEntryImage == (FileEntry)fileEntry)
+                    column.FileEntryAttribute == fileEntryAttribute)
                 {
                     return columnIndex;
                 }
@@ -971,48 +969,15 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Column handling - AddColumnSelectedFiles
-        public static DateTime DateTimeForEditableMediaFile = DateTime.Now.AddYears(200);
-
-        public static void AddColumnSelectedFiles(
-            DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewItems, bool useCurrentFileLastWrittenDate, 
+        
+        #region Column handling - AddColumnOrUpdate 
+        public static int AddColumnOrUpdateNew(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image thumbnail, Metadata metadata, 
             ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
-            foreach (ImageListViewItem imageListViewItem in imageListViewItems)
-            {                
-                AddColumnOrUpdate(dataGridView, 
-                    new FileEntryImage(imageListViewItem.FileFullPath, 
-                    useCurrentFileLastWrittenDate ? imageListViewItem.DateModified : DateTimeForEditableMediaFile, //Use currentFile Last Written date, or future file for always keep same column for edit 
-                    (Image)imageListViewItem.ThumbnailImage.Clone()),
-                    null,                                                                   //No metadata yet 
-                    imageListViewItem.DateModified,                                         //Last known file modified date
-                    readWriteAccessForColumn,                                               //ForceReadOnly, AllowReadAndWrite
-                    showWhatColumns,                                                        //Show Historical columns? Erros columns?
-                    dataGridViewGenericCellStatusDefault);                                  //Default cell values
-            }
-        }
-        #endregion
-
-        #region Column handling - AddColumnOrUpdate
-        /// <summary>
-        /// Add a new column or find where column for FileEntry exists
-        /// </summary>
-        /// <param name="dataGridView">DataGridVIew to add / update column for</param>
-        /// <param name="fileEntryImage"></param>
-        /// <param name="metadata"></param>
-        /// <param name="dateTimeForEditableMediaFile"></param>
-        /// <param name="readWriteAccessForColumn"></param>
-        /// <param name="showWhatColumns"></param>
-        /// <param name="dataGridViewGenericCellStatusDefault"></param>
-        /// <returns>== -1 - if column not added, or already aggregated, >= 0 for where column exists or was added</returns>
-        public static int AddColumnOrUpdate(DataGridView dataGridView, 
-            FileEntryImage fileEntryImage, Metadata metadata, DateTime dateTimeForEditableMediaFile,
-            ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
-        {
-            int columnIndex = GetColumnIndex(dataGridView, fileEntryImage); //Find column Index for Filename and date last written
-            bool isErrorColumn = (metadata != null) && (metadata.Broker & MetadataBrokerTypes.ExifToolWriteError) > 0;
+            int columnIndex = GetColumnIndex(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
+            bool isErrorColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error;
             bool showErrorColumns = (showWhatColumns & ShowWhatColumns.ErrorColumns) > 0;
-            bool isHistoryColumn = (fileEntryImage.LastWriteDateTime < dateTimeForEditableMediaFile);
+            bool isHistoryColumn = (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Historical);
             bool showHirstoryColumns = (showWhatColumns & ShowWhatColumns.HistoryColumns) > 0;
 
             bool isMetadataAlreadyAgregated = false;
@@ -1033,32 +998,40 @@ namespace DataGridViewGeneric
                 
                 dataGridViewColumn.Width = GetCellColumnsWidth(dataGridView);
                 
-                dataGridViewColumn.ToolTipText = fileEntryImage.LastWriteDateTime.ToString() + "\r\n" + fileEntryImage.FileFullPath;                
-                dataGridViewColumn.Tag = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
+                dataGridViewColumn.ToolTipText = fileEntryAttribute.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttribute.FileFullPath;                
+                dataGridViewColumn.Tag = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
 
-                dataGridViewColumn.Name = fileEntryImage.FileFullPath;
-                dataGridViewColumn.HeaderText = fileEntryImage.FileFullPath;
+                dataGridViewColumn.Name = fileEntryAttribute.FileFullPath;
+                dataGridViewColumn.HeaderText = fileEntryAttribute.FileFullPath;
                 
-                int columnIndexFilename = GetColumnIndex(dataGridView, fileEntryImage.FileFullPath);
-                if (columnIndexFilename == -1) //Not found
+                int columnIndexFilename = GetColumnIndex(dataGridView, fileEntryAttribute.FileFullPath);
+                if (columnIndexFilename == -1) //Filename doesn't exist
                 {
-                    columnIndex = dataGridView.Columns.Add(dataGridViewColumn);
+                    columnIndex = dataGridView.Columns.Add(dataGridViewColumn); //Filename doesn't exist add to end.
                 }
                 else
                 {
                     //Short, newst always first
                     while (columnIndexFilename < dataGridView.Columns.Count &&
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column &&
-                        column.FileEntryImage.FileFullPath == fileEntryImage.FileFullPath &&
-                        column.FileEntryImage.LastWriteDateTime > fileEntryImage.LastWriteDateTime)
+                        column.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&            //Correct filename on column
+
+                        (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //History or Error column added, then find correct postion
+                        (column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ||              //Edit version, move to next column -> edit always first
+                        column.FileEntryAttribute.LastWriteDateTime < fileEntryAttribute.LastWriteDateTime)     //Is older, move next -> Newst always frist
+                        )) 
                     {
                         columnIndexFilename += 1;
                     }
 
                     if (columnIndexFilename < dataGridView.Columns.Count - 1 &&
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column2 &&
-                        column2.FileEntryImage.FileFullPath == fileEntryImage.FileFullPath &&
-                        column2.FileEntryImage.LastWriteDateTime > fileEntryImage.LastWriteDateTime)
+                        column2.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&           //Correct filename on column
+                        (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //History or Error column added, then find correct postion
+                        (column2.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ||             //Edit version, move to next column -> edit always first
+                        column2.FileEntryAttribute.LastWriteDateTime < fileEntryAttribute.LastWriteDateTime)    //Is older, move next -> Newst always frist
+                        )
+                        )
                     {
                         columnIndexFilename += 1;
                     }
@@ -1077,8 +1050,8 @@ namespace DataGridViewGeneric
 
                 if (currentDataGridViewGenericColumn == null || currentDataGridViewGenericColumn.Metadata == null)
                 {
-                    currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryImage, metadata, readWriteAccessForColumn);
-                    currentDataGridViewGenericColumn.Metadata = metadata; 
+                    currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
+                    //currentDataGridViewGenericColumn.Metadata = metadata; 
                 }
                 else
                 {
@@ -1374,7 +1347,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Rows handling - AddRowAndValueList
-        public static void AddRowAndValueList(DataGridView dataGridView, FileEntryImage fileEntryColumn, List<DataGridViewGenericRowAndValue> dataGridViewGenericRowAndValueList, bool sort)
+        public static void AddRowAndValueList(DataGridView dataGridView, FileEntryAttribute fileEntryColumn, List<DataGridViewGenericRowAndValue> dataGridViewGenericRowAndValueList, bool sort)
         {
             int columnIndex = GetColumnIndex(dataGridView, fileEntryColumn);
 
@@ -1394,7 +1367,7 @@ namespace DataGridViewGeneric
         public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow, bool sort)
         {
             return AddRow(dataGridView, columnIndex, dataGridViewGenericRow, GetFavoriteList(dataGridView), null,
-                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true), 0, false, sort);
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), 0, false, sort);
         }
         #endregion
 
@@ -1402,7 +1375,7 @@ namespace DataGridViewGeneric
         public static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericRow, object value, bool cellReadOnly, bool sort)
         {
             return AddRow(dataGridView, columnIndex, dataGridViewGenericRow, GetFavoriteList(dataGridView), value,
-                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, cellReadOnly), 0, true, sort);
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, cellReadOnly), 0, true, sort);
         }
         #endregion
 
@@ -1423,14 +1396,14 @@ namespace DataGridViewGeneric
             DataGridViewHandler.SetCellBackGroundColor(dataGridView, columnIndex, rowIndex);
         }
 
-        public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, MetadataBrokerTypes metadataBrokerType, int columnIndex, int rowIndex)
+        public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, MetadataBrokerType metadataBrokerType, int columnIndex, int rowIndex)
         {
             #region Set default Cell status
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex)); //Remember current status, in case of updates
             dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
             if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Disabled) dataGridViewGenericCellStatus.SwitchState = SwitchStates.Undefine;
             if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
-                dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerTypes.ExifTool) == MetadataBrokerTypes.ExifTool ? SwitchStates.On : SwitchStates.Off;
+                dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
             dataGridViewGenericCellStatus.CellReadOnly = false;
             SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndex, rowIndex);
             #endregion
@@ -2091,7 +2064,7 @@ namespace DataGridViewGeneric
                 else
                     dataGridView[columnIndex, rowIndex].Style.BackColor = ColorCellEditable;
             }
-            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null && (dataGridViewGenericColumn.Metadata.Broker & MetadataBrokerTypes.ExifToolWriteError) == MetadataBrokerTypes.ExifToolWriteError)
+            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null && (dataGridViewGenericColumn.Metadata.Broker & MetadataBrokerType.ExifToolWriteError) == MetadataBrokerType.ExifToolWriteError)
                 dataGridView[columnIndex, rowIndex].Style.BackColor = ColorError;
         }
         #endregion
@@ -2119,16 +2092,16 @@ namespace DataGridViewGeneric
                 switchState = SwitchStates.Disabled;
 
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-            if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, switchState, true);
+            if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, switchState, true);
             dataGridViewGenericCellStatus.SwitchState = switchState;
         }
         #endregion
 
         #region Cell Handling - GetCellStatusMetadataBrokerType - int columnIndex, int rowIndex
-        public static MetadataBrokerTypes GetCellStatusMetadataBrokerType(DataGridView dataGridView, int columnIndex, int rowIndex)
+        public static MetadataBrokerType GetCellStatusMetadataBrokerType(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-            return dataGridViewGenericCellStatus == null ? MetadataBrokerTypes.Empty : dataGridViewGenericCellStatus.MetadataBrokerTypes;
+            return dataGridViewGenericCellStatus == null ? MetadataBrokerType.Empty : dataGridViewGenericCellStatus.MetadataBrokerTypes;
         }
         #endregion
 
@@ -2292,7 +2265,7 @@ namespace DataGridViewGeneric
                         {
                             isAllDeleted = false;
 
-                            if ((GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) == 0)
+                            if ((GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerType.ExifTool) == 0)
                             {
                                 isSomeAdded = true;
                             }
@@ -2300,7 +2273,7 @@ namespace DataGridViewGeneric
                         else
                         {
                             isAllAdded = false;
-                            if ((GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) != 0)
+                            if ((GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerType.ExifTool) != 0)
                             {
                                 isSomeDeleted = true;
                             }
@@ -2393,7 +2366,7 @@ namespace DataGridViewGeneric
                         case TriState.SomethingAdded:
                             //if (dataGridViewGenericDataColumn.Metadata != null)
                             {
-                                if (GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) != MetadataBrokerTypes.Empty)
+                                if (GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) != MetadataBrokerType.Empty)
                                 {
                                     SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex, SwitchStates.On);
                                 }
@@ -2403,7 +2376,7 @@ namespace DataGridViewGeneric
                             SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex, SwitchStates.Off);
                             break;
                         case TriState.Unchange:
-                            if ((GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerTypes.ExifTool) != 0)
+                            if ((GetCellStatusMetadataBrokerType(dataGridView, columnIndex, rowIndex) & MetadataBrokerType.ExifTool) != 0)
                                 SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex, SwitchStates.On);
                             else
                                 SetCellStatusSwichStatus(dataGridView, columnIndex, rowIndex, SwitchStates.Off);
@@ -2830,7 +2803,7 @@ namespace DataGridViewGeneric
             {
                 if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn)
                 {
-                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryImage.FileFullPath == fullFilePath)
+                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute.FileFullPath == fullFilePath)
                     {
                         dataGridView.InvalidateCell(columnIndex, -1);
                     }
@@ -2843,9 +2816,8 @@ namespace DataGridViewGeneric
         #endregion
 
         #region DataGridView - Update Image - for FileEntryImage
-        public static void UpdateImageOnFile(DataGridView dataGridView, FileEntryImage fileEntryImage)
+        public static void SetDataGridImageOnFilename(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image image)
         {
-            
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
             if (DataGridViewHandler.GetIsPopulatingImage(dataGridView)) return;  //In progress doing so
 
@@ -2854,12 +2826,10 @@ namespace DataGridViewGeneric
             {
                 if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn)
                 {
-                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryImage == fileEntryImage)
+                    if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute == fileEntryAttribute)
                     {
-                        lock (fileEntryImage.Image)
-                        {
-                            column.FileEntryImage.Image = fileEntryImage.Image;
-                        }
+                        //Need Lock image
+                        column.Thumbnail = image;
                         dataGridView.InvalidateCell(columnIndex, -1);
                     }
                 }
@@ -2963,9 +2933,9 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Cell Paint handling - DrawIconsMetadataBrokerTypes
-        public static void DrawIconsMetadataBrokerTypes(object sender, DataGridViewCellPaintingEventArgs e, MetadataBrokerTypes metadataBrokerTypes)
+        public static void DrawIconsMetadataBrokerTypes(object sender, DataGridViewCellPaintingEventArgs e, MetadataBrokerType metadataBrokerTypes)
         {
-            if ((metadataBrokerTypes & MetadataBrokerTypes.ExifTool) != 0)
+            if ((metadataBrokerTypes & MetadataBrokerType.ExifTool) != 0)
             {
                 Image image = (Image)Properties.Resources.tag_source_exiftool;
                 e.Graphics.DrawImage(image,
@@ -2973,7 +2943,7 @@ namespace DataGridViewGeneric
                            e.CellBounds.Top + 1); // e.CellBounds.Width, e.CellBounds.Height);
             }
 
-            if ((metadataBrokerTypes & MetadataBrokerTypes.WindowsLivePhotoGallery) != 0)
+            if ((metadataBrokerTypes & MetadataBrokerType.WindowsLivePhotoGallery) != 0)
             {
                 Image image = (Image)Properties.Resources.tag_source_windows_live_photo_gallery;
                 e.Graphics.DrawImage(image,
@@ -2981,7 +2951,7 @@ namespace DataGridViewGeneric
                            e.CellBounds.Top + 1); // e.CellBounds.Width, e.CellBounds.Height);
             }
 
-            if ((metadataBrokerTypes & MetadataBrokerTypes.MicrosoftPhotos) != 0)
+            if ((metadataBrokerTypes & MetadataBrokerType.MicrosoftPhotos) != 0)
             {
                 Image image = (Image)Properties.Resources.tag_source_microsoft_photos;
                 e.Graphics.DrawImage(image,
@@ -3059,7 +3029,7 @@ namespace DataGridViewGeneric
             if (dataGridViewGenericColumn == null) return updated;
             if (dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite) return updated;
 
-            Image image = dataGridViewGenericColumn.FileEntryImage.Image;
+            Image image = dataGridViewGenericColumn.Thumbnail;
 
             Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(
                 new Rectangle (0, 0, dataGridView.Columns[columnIndex].Width, dataGridView.ColumnHeadersHeight));
@@ -3087,7 +3057,7 @@ namespace DataGridViewGeneric
 
                                 SetCellDataGridViewGenericCell(dataGridView, cells.ColumnIndex, cells.RowIndex,
                                     new DataGridViewGenericCell(new RegionStructure(), 
-                                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.On, false)));
+                                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.On, false)));
 
                                 regionStructure = GetCellRegionStructure(dataGridView, cells.ColumnIndex, cells.RowIndex);
                                 regionStructure.Name = dataGridViewGenericRow.RowName;
@@ -3124,7 +3094,7 @@ namespace DataGridViewGeneric
             {
                 DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
                 if (dataGridViewGenericColumn == null) return;
-                Image image = dataGridViewGenericColumn.FileEntryImage.Image;
+                Image image = dataGridViewGenericColumn.Thumbnail;
                 if (image != null)
                 {
 
@@ -3210,11 +3180,10 @@ namespace DataGridViewGeneric
             {
                 if (!(dataGridView.Columns[e.ColumnIndex].Tag is DataGridViewGenericColumn)) return;
                 
-                FileEntryImage fileEntryColumn = ((DataGridViewGenericColumn)dataGridView.Columns[e.ColumnIndex].Tag).FileEntryImage;
                 DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
+                FileEntryAttribute fileEntryAttributeColumn = dataGridViewGenericColumn.FileEntryAttribute;
 
-
-                bool hasFileKnownErrors = (errorFileEntries.ContainsKey(fileEntryColumn.FileEntry.FileFullPath));
+                bool hasFileKnownErrors = (errorFileEntries.ContainsKey(fileEntryAttributeColumn.FileEntry.FileFullPath));
 
                 string cellText = "";
                 if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) cellText += "File updated!!\r\n";
@@ -3225,13 +3194,13 @@ namespace DataGridViewGeneric
                     switch (GetDataGridSizeLargeMediumSmall(dataGridView))
                     {
                         case DataGridViewSize.Small: 
-                            cellText += fileEntryColumn.FileName;
+                            cellText += fileEntryAttributeColumn.FileName;
                             break;
                         case DataGridViewSize.Medium: 
-                            cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FileName;
+                            cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryAttributeColumn.FileName;
                             break;
                         case DataGridViewSize.Large: 
-                            cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryColumn.FileFullPath;
+                            cellText += dataGridViewGenericColumn.Metadata.FileDateModified.ToString() + "\r\n" + fileEntryAttributeColumn.FileFullPath;
                             break;
                         default: 
                             throw new Exception("Not implemented");
@@ -3241,28 +3210,24 @@ namespace DataGridViewGeneric
                     switch (GetDataGridSizeLargeMediumSmall(dataGridView))
                     {
                         case DataGridViewSize.Small: //Small
-                            cellText += fileEntryColumn.FileName;
+                            cellText += fileEntryAttributeColumn.FileName;
                             break;
                         case DataGridViewSize.Medium: //Medium
-                            cellText += fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FileName;
+                            cellText += fileEntryAttributeColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttributeColumn.FileName;
                             break;
                         case DataGridViewSize.Large: //Large
-                            cellText += fileEntryColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryColumn.FileFullPath;
+                            cellText += fileEntryAttributeColumn.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttributeColumn.FileFullPath;
                             break;
                         default: 
                             throw new Exception("Not implemented");
                     }
                 }
 
-                Image image = fileEntryColumn.Image;
-                if (image == null) 
-                    image = (Image)Properties.Resources.load_image;
-                if (hasFileKnownErrors)
-                    DrawImageAndSubText(sender, e, image, cellText, ColorHeaderError);
-                else if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning)
-                    DrawImageAndSubText(sender, e, image, cellText, ColorHeaderWarning);
-                else
-                    DrawImageAndSubText(sender, e, image, cellText, ColorHeaderImage);
+                Image image = dataGridViewGenericColumn.Thumbnail;
+                if (image == null) image = (Image)Properties.Resources.load_image;
+                if (hasFileKnownErrors) DrawImageAndSubText(sender, e, image, cellText, ColorHeaderError);
+                else if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) DrawImageAndSubText(sender, e, image, cellText, ColorHeaderWarning);
+                else DrawImageAndSubText(sender, e, image, cellText, ColorHeaderImage);
                     
             }
             
@@ -3336,14 +3301,14 @@ namespace DataGridViewGeneric
                         }
                         else if (DataGridViewHandler.GetCellStatusSwichStatus(dataGridView, e.ColumnIndex, e.RowIndex) == SwitchStates.On)
                         {
-                            if ((DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, e.ColumnIndex, e.RowIndex) & MetadataBrokerTypes.ExifTool) != 0)
+                            if ((DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, e.ColumnIndex, e.RowIndex) & MetadataBrokerType.ExifTool) != 0)
                                 DataGridViewHandler.DrawImageOnRightSide(sender, e, (Image)Properties.Resources.tri_state_switch_on);
                             else
                                 DataGridViewHandler.DrawImageOnRightSide(sender, e, (Image)Properties.Resources.tri_state_switch_on_add);
                         }
                         else
                         {
-                            if ((DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, e.ColumnIndex, e.RowIndex) & MetadataBrokerTypes.ExifTool) != 0)
+                            if ((DataGridViewHandler.GetCellStatusMetadataBrokerType(dataGridView, e.ColumnIndex, e.RowIndex) & MetadataBrokerType.ExifTool) != 0)
                                 DataGridViewHandler.DrawImageOnRightSide(sender, e, (Image)Properties.Resources.tri_state_switch_off_remove);
                             else
                                 DataGridViewHandler.DrawImageOnRightSide(sender, e, (Image)Properties.Resources.tri_state_switch_off);

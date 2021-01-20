@@ -4,7 +4,7 @@ using System;
 namespace MetadataLibrary
 {
     [Serializable]
-    public enum MetadataBrokerTypes 
+    public enum MetadataBrokerType 
     {
         Empty                   = 0b_0000_0000,  // 0
         ExifTool                = 0b_0000_0001,  // 1

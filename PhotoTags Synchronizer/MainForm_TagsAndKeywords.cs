@@ -28,12 +28,12 @@ namespace PhotoTagsSynchronizer
             {
                 //Update the row that become edit
                 DataGridViewHandler.SetCellStatusDefaultWhenRowAdded(dataGridView, lastRowEdit - 1, 
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, false));
+                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, false));
                 DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, lastRowEdit - 1);
 
                 //Updated the new empty row added
                 DataGridViewHandler.SetCellStatusDefaultWhenRowAdded(dataGridView, lastRowEdit,
-                                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, false));
+                                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, false));
                 DataGridViewHandler.SetCellBackGroundColorForRow(dataGridView, lastRowEdit);
             }
         }
@@ -97,7 +97,7 @@ namespace PhotoTagsSynchronizer
                                     DataGridViewHandler.GetRowName(dataGridView, rowIndex));
                             
                             DataGridViewHandler.SetCellStatus(dataGridView, column, rowIndex, 
-                                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, 
+                                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, 
                                 DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, column, rowIndex) ? SwitchStates.Off : SwitchStates.On, false));
                         } 
                         

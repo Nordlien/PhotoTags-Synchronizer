@@ -7,15 +7,18 @@ using static Manina.Windows.Forms.ImageListView;
 using Manina.Windows.Forms;
 using System;
 using MetadataPriorityLibrary;
+using System.Drawing;
+using Thumbnails;
 
 namespace PhotoTagsSynchronizer
 {
     public static class DataGridViewHandlerExiftool
     {
+        public static ThumbnailDatabaseCache DatabaseAndCacheThumbnail { get; set; }
         public static ExiftoolDataDatabase DatabaseExiftoolData { get; set; }
         public static ExiftoolReader exiftoolReader { get; set; }
 
-        public static void PopulateFile(DataGridView dataGridView, string fullFilePath, ShowWhatColumns showWhatColumns, DateTime dateTimeForEditableMediaFile)
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -24,54 +27,55 @@ namespace PhotoTagsSynchronizer
             if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;  //In progress doing so
 
             //Check if file is in DataGridView, and needs updated
-            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fullFilePath)) return;
+            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) return;
 
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
 
             DataGridViewHandler.SuspendLayout(dataGridView);
             //-----------------------------------------------------------------
-            List<FileEntry> fileEntries = DatabaseExiftoolData.ListFileEntryDateVersions(fullFilePath);
+            //List<FileEntryAttribute> fileEntryAttribute = DatabaseExiftoolData.ListFileEntryDateVersions(fullFilePath);
             exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
 
-            foreach (FileEntry fileEntry in fileEntries)
-            {         
-                int columnIndex = DataGridViewHandler.AddColumnOrUpdate(
-                    dataGridView, new FileEntryImage(fileEntry), null, dateTimeForEditableMediaFile,
-                    DataGridViewHandler.IsCurrentFile(fileEntry, dateTimeForEditableMediaFile) ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true));
+            //foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttribute)
+            //{         
+            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
+                dataGridView, fileEntryAttribute, null, null,
+                ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true));
 
-                /* Force updated, every time, new data arrives */
-                if (columnIndex == -1) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
-                if (columnIndex == -1) continue;
-
+            /* Force updated, every time, new data arrives */
+            if (columnIndex == -1) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryAttribute);
+            
+            if (columnIndex != -1)
+            {
                 //Clear old content, in case of new values are updated or deleted
                 for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++) DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, null);
 
-                List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.Read(fileEntry);
+                List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.Read(fileEntryAttribute);
                 string lastRegion = "";
                 foreach (ExiftoolData exiftoolData in exifToolDataList)
                 {
                     if (lastRegion != exiftoolData.Region)
                     {
                         DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(exiftoolData.Region), null,
-                            new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true), false);
+                            new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), false);
                         lastRegion = exiftoolData.Region;
                     }
 
                     MetadataPriorityKey metadataPriorityKey = new MetadataPriorityKey(exiftoolData.Region, exiftoolData.Command);
-                    MetadataPriorityGroup metadataPriorityGroup = null; 
+                    MetadataPriorityGroup metadataPriorityGroup = null;
                     bool priorityKeyExisit = exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary.ContainsKey(metadataPriorityKey);
                     if (priorityKeyExisit)
                     {
                         metadataPriorityGroup = new MetadataPriorityGroup(metadataPriorityKey, exiftoolReader.MetadataReadPrioity.MetadataPrioityDictionary[metadataPriorityKey]);
                         if (metadataPriorityGroup.MetadataPriorityValues.Composite == CompositeTags.NotDefined) priorityKeyExisit = false;
                     }
-                    
+
                     int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndex,
                         new DataGridViewGenericRow(exiftoolData.Region, exiftoolData.Command, true, metadataPriorityKey),
                         exiftoolData.Parameter,
-                        new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true), true);
+                        new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), true);
 
                     if (priorityKeyExisit)
                         DataGridViewHandler.SetRowToolTipText(dataGridView, rowIndex, metadataPriorityGroup.ToString());
@@ -86,7 +90,8 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
         }
 
-        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, bool useCurrentFileLastWrittenDate, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+
+        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -98,8 +103,7 @@ namespace PhotoTagsSynchronizer
             //Clear current DataGridView
             DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
             //Add Columns for all selected files, one column per select file
-            DataGridViewHandler.AddColumnSelectedFiles(dataGridView, imageListViewSelectItems, true, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
-                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true)); 
+            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, null, imageListViewSelectItems, true, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true)); 
             //Add all default rows
             //AddRowsDefault(dataGridView);
             //Tell data default columns and rows are agregated
@@ -108,8 +112,9 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                PopulateFile(dataGridView, imageListViewItem.FileFullPath, showWhatColumns, 
-                     useCurrentFileLastWrittenDate ? imageListViewItem.DateModified : DataGridViewHandler.DateTimeForEditableMediaFile);
+                //List<FileEntryAttribute> FileEntryAttributDates = DatabaseExiftoolData.ListFileEntryDateVersions(fullFilePath);
+                //PopulateFile(dataGridView, imageListViewItem.FileFullPath, showWhatColumns);
+
             }
 
             //-----------------------------------------------------------------

@@ -42,9 +42,9 @@ namespace PhotoTagsSynchronizer
         #region FilesCutCopyPasteDrag - DeleteDirectory
         public void DeleteDirectory(string folder)
         {
-            databaseAndCacheMetadataExiftool.DeleteDirectory(MetadataBrokerTypes.ExifTool, folder);
-            databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectory(MetadataBrokerTypes.MicrosoftPhotos, folder);
-            databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectory(MetadataBrokerTypes.WindowsLivePhotoGallery, folder);
+            databaseAndCacheMetadataExiftool.DeleteDirectory(MetadataBrokerType.ExifTool, folder);
+            databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectory(MetadataBrokerType.MicrosoftPhotos, folder);
+            databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectory(MetadataBrokerType.WindowsLivePhotoGallery, folder);
             databaseExiftoolData.DeleteDirectory(folder);
             databaseExiftoolWarning.DeleteDirectory(folder);
             databaseAndCacheThumbnail.DeleteDirectory(folder);
@@ -55,14 +55,14 @@ namespace PhotoTagsSynchronizer
         public void DeleteMetadataFileEntry(FileEntry fileEntry)
         {
 
-            databaseAndCacheMetadataExiftool.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool));
-            databaseAndCacheMetadataExiftool.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool));
+            databaseAndCacheMetadataExiftool.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+            databaseAndCacheMetadataExiftool.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
 
-            databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos));
-            databaseAndCacheMetadataMicrosoftPhotos.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos));
+            databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
+            databaseAndCacheMetadataMicrosoftPhotos.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
 
-            databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery));
-            databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery));
+            databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
+            databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
 
             databaseExiftoolData.DeleteFileMediaExiftoolTags(fileEntry);
             databaseExiftoolWarning.DeleteFileEntry(fileEntry);
@@ -74,7 +74,7 @@ namespace PhotoTagsSynchronizer
         public void DeleteMetadataHirstory(string fullFilePath)
         {
 
-            List<FileEntryBroker> fileEntryBrokers = databaseAndCacheMetadataExiftool.ListFileEntryDateVersions(MetadataBrokerTypes.ExifTool, fullFilePath);
+            List<FileEntryBroker> fileEntryBrokers = databaseAndCacheMetadataExiftool.ListFileEntryDateVersions(MetadataBrokerType.ExifTool, fullFilePath);
             foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
             {
                 databaseAndCacheMetadataExiftool.MetadataCacheRemove(fileEntryBroker);
@@ -82,7 +82,7 @@ namespace PhotoTagsSynchronizer
             }
 
             fileEntryBrokers =
-                databaseAndCacheMetadataMicrosoftPhotos.ListFileEntryDateVersions(MetadataBrokerTypes.MicrosoftPhotos, fullFilePath);
+                databaseAndCacheMetadataMicrosoftPhotos.ListFileEntryDateVersions(MetadataBrokerType.MicrosoftPhotos, fullFilePath);
             foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
             {
                 databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(fileEntryBroker);
@@ -90,27 +90,27 @@ namespace PhotoTagsSynchronizer
             }
 
             fileEntryBrokers =
-                databaseAndCacheMetadataWindowsLivePhotoGallery.ListFileEntryDateVersions(MetadataBrokerTypes.WindowsLivePhotoGallery, fullFilePath);
+                databaseAndCacheMetadataWindowsLivePhotoGallery.ListFileEntryDateVersions(MetadataBrokerType.WindowsLivePhotoGallery, fullFilePath);
             foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
             {
                 databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(fileEntryBroker);
                 databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntry(fileEntryBroker);
             }
 
-            List<FileEntry> fileEntries;
-            fileEntries = databaseExiftoolData.ListFileEntryDateVersions(fullFilePath);
-            foreach (FileEntry fileEntry in fileEntries)
+            List<FileEntryAttribute> fileEntryAttributes;
+            fileEntryAttributes = databaseExiftoolData.ListFileEntryDateVersions(fullFilePath);
+            foreach (FileEntry fileEntry in fileEntryAttributes)
             {
                 databaseExiftoolData.DeleteFileMediaExiftoolTags(fileEntry);
             }
 
-            fileEntries = databaseExiftoolWarning.ListFileEntryDateVersions(fullFilePath);
-            foreach (FileEntry fileEntry in fileEntries)
+            fileEntryAttributes = databaseExiftoolWarning.ListFileEntryDateVersions(fullFilePath);
+            foreach (FileEntry fileEntry in fileEntryAttributes)
             {
                 databaseExiftoolWarning.DeleteFileEntry(fileEntry);
             }
 
-            fileEntries = databaseAndCacheThumbnail.ListFileEntryDateVersions(fullFilePath);
+            List<FileEntry> fileEntries = databaseAndCacheThumbnail.ListFileEntryDateVersions(fullFilePath);
             foreach (FileEntry fileEntry in fileEntries)
             {
                 databaseAndCacheThumbnail.DeleteThumbnail(fileEntry);

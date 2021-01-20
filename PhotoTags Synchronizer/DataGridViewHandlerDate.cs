@@ -5,9 +5,11 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using Thumbnails;
 using TimeZone;
 using static Manina.Windows.Forms.ImageListView;
 
@@ -40,6 +42,8 @@ namespace PhotoTagsSynchronizer
         public static DataGridView DataGridViewMap { get; set; }
         public static string DataGridViewMapHeaderMedia { get; set; }
         public static string DataGridViewMapTagCoordinates { get; set; }
+
+        public static ThumbnailDatabaseCache DatabaseAndCacheThumbnail { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataMicrosoftPhotos { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataWindowsLivePhotoGallery { get; set; }
@@ -49,7 +53,7 @@ namespace PhotoTagsSynchronizer
 
 
         //Check what data has been updated by users
-        public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntry fileEntryColumn)
+        public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntryColumn)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
             //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
@@ -190,7 +194,8 @@ namespace PhotoTagsSynchronizer
 
         }
 
-        public static void PopulateFile(DataGridView dataGridView, string fullFilePath, ShowWhatColumns showWhatColumns, DateTime dateTimeForEditableMediaFile)
+
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -199,50 +204,34 @@ namespace PhotoTagsSynchronizer
             if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;  //In progress doing so
 
             //Check if file is in DataGridView
-            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fullFilePath)) return;
+            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) return;
 
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
             //-----------------------------------------------------------------
 
-            List<FileEntryBroker> fileVersionDates = DatabaseAndCacheMetadataExiftool.ListFileEntryDateVersions(MetadataBrokerTypes.ExifTool, fullFilePath);
+            //Also add dummy version for edit
+            //List<FileEntryAttribute> fileVersionAttributeDates = DatabaseAndCacheMetadataExiftool.ListFileEntryAttributes(MetadataBrokerType.ExifTool, fullFilePath);
 
-            //If create a dummy column for newst, add this "dummy file" to queue
-            DateTime? dateTimeNewest = null;
-            if (dateTimeForEditableMediaFile == DataGridViewHandler.DateTimeForEditableMediaFile && fileVersionDates.Count > 0)
-            {
-                dateTimeNewest = FileEntryBroker.FindNewestDate(fileVersionDates); //, DataGridViewHandler.DateTimeForEditableMediaFile);
-                fileVersionDates.Add(new FileEntryBroker(fullFilePath, DataGridViewHandler.DateTimeForEditableMediaFile, MetadataBrokerTypes.ExifTool));                
-            }
+            //foreach (FileEntryAttribute fileEntryAttribute in fileVersionAttributeDates)
+            //{
+                FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
 
-            foreach (FileEntryBroker fileEntryBroker in fileVersionDates)
-            {
-                DataGridViewHandler.GetColumnCount(dataGridView); //Rememebr coulmn count before AddColumnOrUpdate
-
-                FileEntryBroker fileEntryBrokerReadVersion = fileEntryBroker;
-
-                Metadata metadata;
+                Metadata metadata = null;
                 //It's the edit column, edit column is a new column copy og last known data
-                if (fileEntryBroker.LastWriteDateTime == DataGridViewHandler.DateTimeForEditableMediaFile)
-                {
-                    fileEntryBrokerReadVersion = new FileEntryBroker(fullFilePath, (DateTime)dateTimeNewest, MetadataBrokerTypes.ExifTool);
-                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerReadVersion));
-                }
+                if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current)
+                    metadata = new Metadata(DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion));
                 else
-                {
-                    metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerReadVersion);
-                }
+                    metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion); //Don't need make a copy, data will not be changed
 
-                int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView,
-                    new FileEntryImage(fileEntryBroker),                                                    /* This Column idenity                                      */
-                    metadata,                                                                               /* Metadata will save on column                             */
-                    dateTimeForEditableMediaFile,                                                           /* idenify what column that we can edit                     */
-                    DataGridViewHandler.IsCurrentFile(fileEntryBroker, dateTimeForEditableMediaFile) ?      /* Metadata.FileEntry read date, fileEntryBroker fake future version */
-                    ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly,            /* this will set histority columns as read only columns    */
-                    showWhatColumns,                                                                        /* show Edit | Hisorical columns | Error columns            */
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));  /* New cells will have this value                           */
-                if (columnIndex == -1) continue;
+                Image thumbnail = null; // databaseAndCacheThumbnail.ReadThumbnailFromCacheOnly();
 
+                int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata,
+                    fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly,
+                    showWhatColumns,                                                                             /* Show Edit | Hisorical columns | Error columns            */
+                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true));  /* New cells will have this value                           */
+            if (columnIndex != -1)
+            {
                 //Media
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia), false);
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMedia, tagMediaDateTaken), TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken), false, false);
@@ -255,7 +244,7 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename), false);
 
                 FileDateTimeReader fileDateTimeReader = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-                List<string> dates = fileDateTimeReader.ListAllDateTimesFound(Path.GetFileNameWithoutExtension(fullFilePath));
+                List<string> dates = fileDateTimeReader.ListAllDateTimesFound(Path.GetFileNameWithoutExtension(fileEntryAttribute.FileFullPath));
                 for (int i = 0; i < dates.Count; i++)
                 {
                     DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerDatesTimeInFilename, tagDatesFoundInFilename + (i + 1).ToString()), dates[i], true, false);
@@ -267,8 +256,6 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileDateModified), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileDateModified), true, false);
                 DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerMetadataDates, tagFileLastAccessed), TimeZoneLibrary.ToStringW3CDTF(metadata?.FileLastAccessed), true, false);
 
-
-
                 //Exiftool data
                 List<ExiftoolData> exifToolDataList = DatabaseExiftoolData.Read(fileEntryBrokerReadVersion);
                 string lastRegion = "";
@@ -278,14 +265,14 @@ namespace PhotoTagsSynchronizer
                     if (lastRegion != exiftoolData.Region)
                     {
                         DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(exiftoolData.Region), null,
-                            new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true), false);
+                            new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), false);
                         lastRegion = exiftoolData.Region;
                     }
 
                     if (exiftoolData.Command.Contains("Date") || exiftoolData.Command.Contains("Time") || exiftoolData.Command.Contains("UTC"))
                     {
                         DataGridViewHandler.AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(exiftoolData.Region, exiftoolData.Command), exiftoolData.Parameter,
-                            new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true), true);
+                            new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true), true);
                     }
                 }
 
@@ -299,12 +286,13 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
         }
 
+        
 
-        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, bool useCurrentFileLastWrittenDate, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        public static List<FileEntryAttribute> PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
-            if (GlobalData.IsApplicationClosing) return;
+            if (GlobalData.IsApplicationClosing) return null;
             if (DataGridViewHandler.GetIsAgregated(dataGridView))      
             {
                 //Normaly return if already if *Agregated*, but if, but we use data from Maps Tab, therfor update DataGridViewDate with new data from DataGridVIewMap
@@ -315,16 +303,17 @@ namespace PhotoTagsSynchronizer
                         PopulateTimeZone(dataGridView, columnIndex);
                     }
                 }
-                return;
+                return null;
             }
-            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
+
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return null;
             //Tell that work in progress, can start a new before done.
             DataGridViewHandler.SetIsPopulating(dataGridView, true);
             //Clear current DataGridView
             DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
             //Add Columns for all selected files, one column per select file
-            DataGridViewHandler.AddColumnSelectedFiles(dataGridView, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
-                new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true)); //ReadOnly until data is read
+            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheMetadataExiftool, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true)); //ReadOnly until data is read
             //Add all default rows
             //AddRowsDefault(dataGridView);
             //Tell data default columns and rows are agregated
@@ -332,11 +321,12 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
 
 
+            List<FileEntryAttribute> allFileEntryAttributeDateVersions = new List<FileEntryAttribute>();
             //Populate one and one of selected files, (new versions of files can be added)
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                PopulateFile(dataGridView, imageListViewItem.FileFullPath, showWhatColumns, 
-                    useCurrentFileLastWrittenDate ? imageListViewItem.DateModified : DataGridViewHandler.DateTimeForEditableMediaFile);
+                List<FileEntryAttribute> fileEntryAttributeDateVersions = DatabaseAndCacheMetadataExiftool.ListFileEntryAttributes(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
+                allFileEntryAttributeDateVersions.AddRange(fileEntryAttributeDateVersions);
             }
 
             //-----------------------------------------------------------------
@@ -345,7 +335,7 @@ namespace PhotoTagsSynchronizer
             //Tell that work is done
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
-
+            return allFileEntryAttributeDateVersions;
         }
     }
 }

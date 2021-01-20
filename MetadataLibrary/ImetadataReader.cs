@@ -5,7 +5,7 @@ namespace MetadataLibrary
   
     public interface ImetadataReader
     {
-        Metadata Read(MetadataBrokerTypes broker, string file);
+        Metadata Read(MetadataBrokerType broker, string file);
     }
 }
 

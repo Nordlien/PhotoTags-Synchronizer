@@ -28,7 +28,7 @@ namespace WindowsProperty
             DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
             if (dataGridViewGenericColumn == null) return; //continue;
 
-            string fullFileName = dataGridViewGenericColumn.FileEntryImage.FileFullPath;
+            string fullFileName = dataGridViewGenericColumn.FileEntryAttribute.FileFullPath;
     
             using (PropertyStore propertyStore = new PropertyStore(fullFileName, PropertyStore.GetFlags.ReadWrite | PropertyStore.GetFlags.SlowItem))
             {

@@ -43,7 +43,7 @@ namespace LocationNames
 
             if (r2.IsCompleted && !r2.IsFaulted && r2.Result != null)
             {
-                metadata = new Metadata(MetadataBrokerTypes.NominatimAPI);
+                metadata = new Metadata(MetadataBrokerType.NominatimAPI);
 
                 metadata.LocationCity = (r2.Result.Address.City + " " + r2.Result.Address.Town + " " + r2.Result.Address.Village).Trim().Replace("  ", " ");
                 metadata.LocationCountry = r2.Result.Address.Country;

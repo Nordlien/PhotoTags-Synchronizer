@@ -13,20 +13,6 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
-        private ImageListViewItem FindItemInImageListView(ImageListViewItemCollection imageListViewItemCollection, string fullFilename)
-        {
-            ImageListViewItem foundItem = null;
-            foreach (ImageListViewItem item in imageListViewItemCollection)
-            {
-                if (item.FileFullPath == fullFilename)
-                {
-                    foundItem = item;
-                    break;
-                }
-            }
-            return foundItem;
-        }
-
         #region Copy files
         private void CopyFiles(FolderTreeView folderTreeView, StringCollection files, string targetNodeDirectory)
         {
@@ -72,7 +58,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MoveFile
-        private void MoveFile (FolderTreeView folderTreeView, ImageListView imageListView, string sourceFullFilename, string targetFullFilename)
+        private void MoveFile(FolderTreeView folderTreeView, ImageListView imageListView, string sourceFullFilename, string targetFullFilename)
         {
             if (InvokeRequired)
             {
@@ -111,7 +97,7 @@ namespace PhotoTagsSynchronizer
                     "Error message: " + ex.Message + "\r\n");
                 Logger.Error("Error when move file." + ex.Message);
             }
-            
+
             imageListView.ResumeLayout();
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
 
@@ -195,7 +181,7 @@ namespace PhotoTagsSynchronizer
                 System.IO.Directory.Move(sourceDirectory, targetDirectory);
 
                 //------ Clear ImageListView -----
-                FolderSelectedNone();
+                ImageListViewClearAll(imageListView1);
 
                 //------ Update node tree -----
                 GlobalData.DoNotRefreshImageListView = true;
@@ -299,69 +285,5 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
-
-        private void UpdateImageViewListeAfterRename(ImageListView imageListView, Dictionary<string, string> renameSuccess, Dictionary<string, string> renameFailed, bool onlyRenameAddbackToListView)
-        {
-            /*if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<Dictionary<string, string>, Dictionary<string, string>, bool>(UpdateImageViewListeAfterRename), renameSuccess, renameFailed, onlyRenameAddbackToListView);
-                return;
-            }*/
-
-            //GlobalData.DoNotRefreshImageListView = true;
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-
-            //Remove items with old names
-            imageListView.SuspendLayout();
-            foreach (string filename in renameSuccess.Keys)
-            {
-                ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, filename);
-                if (foundItem != null) imageListView.Items.Remove(foundItem);
-            }
-
-            //Add new renames back to list
-            if (onlyRenameAddbackToListView)
-            {
-                foreach (string filename in renameSuccess.Values)
-                {
-                    imageListView.Items.Add(filename);
-                }
-            }
-
-            #region Also select items that didn't got renamed due to error in the ImageListView 
-            foreach (string filename in renameFailed.Keys)
-            {
-                DateTime dateTimeLastWriteTime = DateTime.Now;
-                try
-                {
-                    dateTimeLastWriteTime = File.GetLastWriteTime(filename);
-                }
-                catch { }
-
-                AddError(
-                        Path.GetDirectoryName(filename),
-                        Path.GetFileName(filename),
-                        dateTimeLastWriteTime,
-                        AddErrorFileSystemRegion, AddErrorFileSystemMove, filename, renameFailed[filename],
-                        "Failed rename " + filename + " to : " + renameFailed[filename]);
-
-                ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, filename);
-                if (foundItem != null) foundItem.Selected = true;
-            }
-            imageListView.ResumeLayout();
-            #endregion
-
-            if (onlyRenameAddbackToListView)
-            {
-                foreach (string filename in renameSuccess.Values)
-                {
-                    ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, filename);
-                    if (foundItem != null) foundItem.Selected = true;
-                }
-            }
-
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-        }
     }
 }

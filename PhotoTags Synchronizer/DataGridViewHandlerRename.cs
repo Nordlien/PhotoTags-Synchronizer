@@ -165,7 +165,7 @@ namespace PhotoTagsSynchronizer
         #region UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
         public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
         {
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, new FileEntryImage(headerNewFilename, dateTimeEditable));
+            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
             if (columnIndex == -1) return;
 
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
@@ -187,7 +187,7 @@ namespace PhotoTagsSynchronizer
             renameSuccess = new Dictionary<string, string>();
             renameFailed = new Dictionary<string, string>();
 
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, new FileEntryImage(headerNewFilename, dateTimeEditable));
+            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
             if (columnIndex == -1) return;
 
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
@@ -225,7 +225,7 @@ namespace PhotoTagsSynchronizer
         #region AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, bool cellReadOnly)
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow, object value, bool cellReadOnly)
         {
-            return AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, cellReadOnly));
+            return AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, value, new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, cellReadOnly));
         }
         #endregion
 
@@ -237,10 +237,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        private static DateTime dateTimeEditable = DataGridViewHandler.DateTimeForEditableMediaFile;
-
         #region PopulateFile
-        public static void PopulateFile(DataGridView dataGridView, string fullFilePath, ShowWhatColumns showWhatColumns, DateTime dateTimeForEditableMediaFile)
+        public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -255,20 +253,18 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
             //-----------------------------------------------------------------
 
-            
-            FileEntryBroker fileEntryBroker = new FileEntryBroker(fullFilePath, dateTimeForEditableMediaFile, MetadataBrokerTypes.ExifTool);
-            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBroker);
+            Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
 
-            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, new FileEntryImage(headerNewFilename, dateTimeEditable));
-            if (columnIndex == -1) return;
-            
-            string directory = Path.GetDirectoryName(fullFilePath);
-            string filename = Path.GetFileName(fullFilePath);
+            int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
+            if (columnIndex != -1)
+            {
+                string directory = fileEntryAttribute.Directory;
+                string filename = fileEntryAttribute.FileName;
 
-            //Media
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory), true);
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory, filename, metadata), CreateNewFilename(RenameVaribale, filename, metadata), false);
-
+                //Media
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory), true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(directory, filename, metadata), CreateNewFilename(RenameVaribale, filename, metadata), false);
+            }
 
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
@@ -277,7 +273,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulateSelectedFiles
-        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, bool useCurrentFileLastWrittenDate, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -291,13 +287,11 @@ namespace PhotoTagsSynchronizer
             //Add Columns for all selected files, one column per select file
             //DataGridViewHandler.AddColumnSelectedFiles(dataGridView, imageListViewSelectItems, true, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
             //  new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Disabled, true)); 
-            
-            int columnIndex = DataGridViewHandler.AddColumnOrUpdate(dataGridView,
-                new FileEntryImage(headerNewFilename, dateTimeEditable), //Heading
-                    null, dateTimeEditable,
-                    ReadWriteAccess.AllowCellReadAndWrite, 
-                    showWhatColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerTypes.Empty, SwitchStates.Off, true));
+
+            int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+                new FileEntryAttribute(headerNewFilename, DateTime.Now, FileEntryVersion.Current), null, null,
+                ReadWriteAccess.AllowCellReadAndWrite, showWhatColumns,
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
             //Add all default rows
             //AddRowsDefault(dataGridView);
@@ -307,8 +301,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                PopulateFile(dataGridView, imageListViewItem.FileFullPath, showWhatColumns, 
-                    useCurrentFileLastWrittenDate ? imageListViewItem.DateModified : DataGridViewHandler.DateTimeForEditableMediaFile);
+                PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current));
             }
 
             //-----------------------------------------------------------------

@@ -20,14 +20,14 @@ namespace MetadataLibrary
 
     public class MetadataRegionNameKey
     {
-        public MetadataRegionNameKey(MetadataBrokerTypes metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
+        public MetadataRegionNameKey(MetadataBrokerType metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
         {
             MetadataBrokerType = metadataBrokerType;
             DateTimeFrom = dateTimeFrom;
             DateTimeTo = dateTimeTo;
         }
 
-        MetadataBrokerTypes MetadataBrokerType { get; set; }
+        MetadataBrokerType MetadataBrokerType { get; set; }
         DateTime DateTimeFrom { get; set; }
         DateTime DateTimeTo { get; set; }
 
@@ -106,7 +106,7 @@ namespace MetadataLibrary
                 {
                     if (reader.Read())
                     {
-                        metadata.Broker = (MetadataBrokerTypes)dbTools.ConvertFromDBValLong(reader["Broker"]);
+                        metadata.Broker = (MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"]);
                         metadata.FileDirectory = dbTools.ConvertFromDBValString(reader["FileDirectory"]);
                         metadata.FileName = dbTools.ConvertFromDBValString(reader["FileName"]);
                         metadata.FileSize = dbTools.ConvertFromDBValLong(reader["FileSize"]);
@@ -611,7 +611,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete Directoy - Mediadata
-        private void DeleteDirectoryMediaMetadata(MetadataBrokerTypes broker, string fileDirectory)
+        private void DeleteDirectoryMediaMetadata(MetadataBrokerType broker, string fileDirectory)
         {
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
                             "Broker = @Broker AND " +
@@ -628,7 +628,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete Directory - Media PersonalRegions
-        private void DeleteDirectoryMediaPersonalRegions(MetadataBrokerTypes broker, string fileDirectory)
+        private void DeleteDirectoryMediaPersonalRegions(MetadataBrokerType broker, string fileDirectory)
         {
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
                             "Broker = @Broker AND " +
@@ -644,7 +644,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete Directory - Media PersonalKeywords 
-        private void DeleteDirectoryMediaPersonalKeywords(MetadataBrokerTypes broker, string fileDirectory)
+        private void DeleteDirectoryMediaPersonalKeywords(MetadataBrokerType broker, string fileDirectory)
         {
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
                             "Broker = @Broker AND " +
@@ -660,7 +660,7 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete Directory
-        public void DeleteDirectory(MetadataBrokerTypes broker, string fileDirectory)
+        public void DeleteDirectory(MetadataBrokerType broker, string fileDirectory)
         {
             ClearCache();
 
@@ -743,7 +743,7 @@ namespace MetadataLibrary
         #endregion
 
         #region List Files - Date Versions
-        public List<FileEntryBroker> ListFileEntryDateVersions(MetadataBrokerTypes broker, string fullFileName)
+        public List<FileEntryBroker> ListFileEntryDateVersions(MetadataBrokerType broker, string fullFileName)
         {
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
 
@@ -771,7 +771,7 @@ namespace MetadataLibrary
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             dbTools.ConvertFromDBValString(reader["FileName"]),
                             (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]),
-                            (MetadataBrokerTypes)dbTools.ConvertFromDBValLong(reader["Broker"])
+                            (MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"])
                             );
                         fileEntryBrokers.Add(fileEntryBroker);
                     }
@@ -780,10 +780,60 @@ namespace MetadataLibrary
 
             return fileEntryBrokers;
         }
+
+        public List<FileEntryAttribute> ListFileEntryAttributes(MetadataBrokerType broker, string fullFileName)
+        {
+            List<FileEntryAttribute> FileEntryAttributes = new List<FileEntryAttribute>();
+
+            string sqlCommand =
+                "SELECT " +
+                    "Broker, FileDirectory, FileName, FileDateModified " +
+                    "FROM MediaMetadata WHERE " +
+                    "(Broker & @Broker) = @Broker AND " +
+                    "FileDirectory = @FileDirectory AND " +
+                    "FileName = @FileName";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fullFileName));
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fullFileName));
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    FileEntryAttribute newstFileEntryAttributeForEdit = null;
+
+                    while (reader.Read())
+                    {
+                        bool isErrorVersion = false;
+                        DateTime currentMetadataDate = (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]);
+                        if (((MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"]) & MetadataBrokerType.ExifToolWriteError) == MetadataBrokerType.ExifToolWriteError) 
+                            isErrorVersion = true;
+                        FileEntryAttribute fileEntryAttribute = new FileEntryAttribute
+                            (
+                            dbTools.ConvertFromDBValString(reader["FileDirectory"]),
+                            dbTools.ConvertFromDBValString(reader["FileName"]),
+                            currentMetadataDate,
+                            isErrorVersion ? FileEntryVersion.Error : FileEntryVersion.Historical
+                            );
+                        FileEntryAttributes.Add(fileEntryAttribute);
+
+                        if (!isErrorVersion && (newstFileEntryAttributeForEdit == null || currentMetadataDate > newstFileEntryAttributeForEdit.LastWriteDateTime))
+                        {
+                            newstFileEntryAttributeForEdit = new FileEntryAttribute((FileEntry)fileEntryAttribute, FileEntryVersion.Current);
+                        }
+                    }
+                    if (newstFileEntryAttributeForEdit != null) FileEntryAttributes.Add(newstFileEntryAttributeForEdit);                    
+                }
+            }
+
+            return FileEntryAttributes;
+        }
         #endregion
 
         #region List Files - Missing Entries
-        public List<String> ListAllMissingFileEntries(MetadataBrokerTypes broker, List<FileEntry> files)
+        public List<String> ListAllMissingFileEntries(MetadataBrokerType broker, List<FileEntry> files)
         {
             if (files == null) return null;
 
@@ -805,7 +855,7 @@ namespace MetadataLibrary
         #endregion
 
         #region List files - Search
-        public List<string> ListAllSearch(MetadataBrokerTypes broker, bool useAndBetweenGrups,
+        public List<string> ListAllSearch(MetadataBrokerType broker, bool useAndBetweenGrups,
             bool useMediaTakenFrom, DateTime mediaTakenFrom, bool useMediaTakenTo, DateTime mediaTakenTo, bool isMediaTakenNull,
             bool useAndBetweenTextTags,
             bool usePersonalAlbum, string personalAlbum,
@@ -1372,7 +1422,7 @@ namespace MetadataLibrary
         #endregion
 
         #region MetadataRegionNamesCache - ListAllRegionNamesCache
-        public List<string> ListAllRegionNamesCache(MetadataBrokerTypes metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
+        public List<string> ListAllRegionNamesCache(MetadataBrokerType metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
         {
             MetadataRegionNameKey metadataRegionNameKey = new MetadataRegionNameKey(metadataBrokerType, dateTimeFrom, dateTimeTo);
             
@@ -1389,7 +1439,7 @@ namespace MetadataLibrary
         #endregion
 
         #region MetadataRegionNamesCache - ListAllRegionNames
-        public List<string> ListAllRegionNames(MetadataBrokerTypes metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
+        public List<string> ListAllRegionNames(MetadataBrokerType metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
         {
             List<string> listing = new List<string>();
 

@@ -1325,18 +1325,6 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ClearReadMediaQueueOnFolderSelect {
-            get {
-                return ((bool)(this["ClearReadMediaQueueOnFolderSelect"]));
-            }
-            set {
-                this["ClearReadMediaQueueOnFolderSelect"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool AvoidOfflineMediaFiles {
             get {
                 return ((bool)(this["AvoidOfflineMediaFiles"]));

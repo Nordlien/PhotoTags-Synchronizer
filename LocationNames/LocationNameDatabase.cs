@@ -110,7 +110,7 @@ namespace LocationNames
                 {
                     while (reader.Read())
                     {
-                        metadata = new Metadata(MetadataBrokerTypes.NominatimAPI);
+                        metadata = new Metadata(MetadataBrokerType.NominatimAPI);
                         metadata.LocationLatitude = dbTools.ConvertFromDBValFloat(reader["Latitude"]);
                         metadata.LocationLongitude = dbTools.ConvertFromDBValFloat(reader["Longitude"]);
                         metadata.LocationName = dbTools.ConvertFromDBValString(reader["Name"]);

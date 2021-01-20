@@ -95,7 +95,7 @@ namespace GoogleLocationHistory
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    Metadata metadata = new Metadata(MetadataBrokerTypes.GoogleLocationHistory);
+                    Metadata metadata = new Metadata(MetadataBrokerType.GoogleLocationHistory);
                     DateTime? minTimeStamp = null;
                     float? minLatitude = null;
                     float? minLongitude = null;

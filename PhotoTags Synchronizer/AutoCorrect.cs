@@ -92,7 +92,7 @@ namespace PhotoTagsSynchronizer
         [JsonProperty("UpdateTitleWithFirstInPrioity")]
         public bool UpdateTitleWithFirstInPrioity { get; set; } = false;
         [JsonProperty("TitlePriority")]
-        public List<MetadataBrokerTypes> TitlePriority { get; set; } = new List<MetadataBrokerTypes>();
+        public List<MetadataBrokerType> TitlePriority { get; set; } = new List<MetadataBrokerType>();
         #endregion 
 
         #region Album
@@ -101,7 +101,7 @@ namespace PhotoTagsSynchronizer
         [JsonProperty("UpdateAlbumWithFirstInPrioity")]
         public bool UpdateAlbumWithFirstInPrioity { get; set; } = false;
         [JsonProperty("AlbumPriority")]
-        public List<MetadataBrokerTypes> AlbumPriority { get; set; } = new List<MetadataBrokerTypes>();
+        public List<MetadataBrokerType> AlbumPriority { get; set; } = new List<MetadataBrokerType>();
         #endregion 
 
         #region Author
@@ -158,7 +158,7 @@ namespace PhotoTagsSynchronizer
             GoogleLocationHistoryDatabaseCache databaseGoogleLocationHistory
             )
         {
-            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerTypes.ExifTool);
+            FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
             Metadata metadata = metadataDatabaseCacheExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
             if (metadata == null) 
                 return null; //DEBUG Why NULL - I manage to reproduce, select lot of files, select AutoCorrect many, many times.
@@ -320,11 +320,11 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerTypes.MicrosoftPhotos);
+            FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos);
             Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMicrosoftPhotos);
             Metadata metadataMicrosoftPhotosCopy = metadataMicrosoftPhotos == null ? null : new Metadata(metadataMicrosoftPhotos);
 
-            FileEntryBroker fileEntryBrokerMWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerTypes.WindowsLivePhotoGallery);
+            FileEntryBroker fileEntryBrokerMWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery);
             Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMWindowsLivePhotoGallery);
             Metadata metadataWindowsLivePhotoGalleryCopy = metadataWindowsLivePhotoGallery == null ? null : new Metadata(metadataWindowsLivePhotoGallery);
 
@@ -396,17 +396,17 @@ namespace PhotoTagsSynchronizer
 
                 // Find first No empty string
                 string newTitle = null;
-                foreach (MetadataBrokerTypes metadataBrokerType in TitlePriority)
+                foreach (MetadataBrokerType metadataBrokerType in TitlePriority)
                 {
                     switch (metadataBrokerType)
                     {
-                        case MetadataBrokerTypes.ExifTool:
+                        case MetadataBrokerType.ExifTool:
                             newTitle = (!string.IsNullOrEmpty(metadataCopy?.PersonalTitle) ? metadataCopy?.PersonalTitle : newTitle);
                             break;
-                        case MetadataBrokerTypes.MicrosoftPhotos:
+                        case MetadataBrokerType.MicrosoftPhotos:
                             newTitle = (!string.IsNullOrEmpty(metadataMicrosoftPhotos?.PersonalTitle) ? metadataMicrosoftPhotos?.PersonalTitle : newTitle);
                             break;
-                        case MetadataBrokerTypes.WindowsLivePhotoGallery:
+                        case MetadataBrokerType.WindowsLivePhotoGallery:
                             newTitle = (!string.IsNullOrEmpty(metadataWindowsLivePhotoGallery?.PersonalTitle) ? metadataWindowsLivePhotoGallery?.PersonalTitle : newTitle);
                             break;
                     }
@@ -424,17 +424,17 @@ namespace PhotoTagsSynchronizer
 
                 // Find first No empty string
                 string newAlbum = null;
-                foreach (MetadataBrokerTypes metadataBrokerType in AlbumPriority)
+                foreach (MetadataBrokerType metadataBrokerType in AlbumPriority)
                 {
                     switch (metadataBrokerType)
                     {
-                        case MetadataBrokerTypes.ExifTool:
+                        case MetadataBrokerType.ExifTool:
                             newAlbum = (!string.IsNullOrEmpty(metadataCopy?.PersonalAlbum) ? metadataCopy?.PersonalAlbum : newAlbum);
                             break;
-                        case MetadataBrokerTypes.MicrosoftPhotos:
+                        case MetadataBrokerType.MicrosoftPhotos:
                             newAlbum = (!string.IsNullOrEmpty(metadataMicrosoftPhotos?.PersonalAlbum) ? metadataMicrosoftPhotos?.PersonalAlbum : newAlbum);
                             break;
-                        case MetadataBrokerTypes.FileSystem:
+                        case MetadataBrokerType.FileSystem:
                             newAlbum = new DirectoryInfo(metadataCopy.FileDirectory).Name;
                             break;
                     }

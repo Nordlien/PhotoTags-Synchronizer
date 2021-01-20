@@ -4,6 +4,7 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -15,14 +16,7 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
-        #region imageListView1 SelectionChanged -> FileSelected
-        private void imageListView1_SelectionChanged(object sender, EventArgs e)
-        {
-            imageListView1.Enabled = false; //When Enabled = true, slection was cancelled during Updating the grid
-            FilesSelected();
-            imageListView1.Enabled = true;
-        }
-        #endregion
+        
 
         #region FilesSelected
         private void FilesSelected()
@@ -36,7 +30,7 @@ namespace PhotoTagsSynchronizer
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
 
                 PopulateDetailsOnSelectedImageListViewItemsOnActiveDataGridViewThread(imageListView1.SelectedItems);
-                PopulateImageListeViewOpenWithToolStripThread(imageListView1.SelectedItems);
+                PopulateImageListViewOpenWithToolStripThread(imageListView1.SelectedItems);
 
                 DisplayAllQueueStatus();
                 GlobalData.IsPopulatingImageListView = false;
@@ -82,35 +76,35 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Update Image - OnFileEntry - OnSelectedGrivView
-        private void UpdateImageOnFileEntryOnSelectedGrivViewInvoke(FileEntryImage fileEntryImage)
+        private void UpdateImageOnFileEntryOnSelectedGrivViewInvoke(FileEntryAttribute fileEntryAttribute, Image image)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<FileEntryImage>(UpdateImageOnFileEntryOnSelectedGrivViewInvoke), fileEntryImage);
+                this.BeginInvoke(new Action<FileEntryAttribute, Image>(UpdateImageOnFileEntryOnSelectedGrivViewInvoke), fileEntryAttribute, image);
                 return;
             }
             
-            if (GlobalData.IsPopulatingAnything()) return;
+            //if (GlobalData.IsPopulatingAnything()) return;
 
             DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             if (dataGridView == null) return;
 
-            DataGridViewHandler.UpdateImageOnFile(dataGridView, fileEntryImage); 
+            DataGridViewHandler.SetDataGridImageOnFilename(dataGridView, fileEntryAttribute, image); 
         }
         #endregion
 
         #region DataGridView - Refresh Header Image And Regions - OnActiveDataGridView
-        private void RefreshHeaderImageAndRegionsOnActiveDataGridView(string fullFilePath)
+        private void RefreshHeaderImageAndRegionsOnActiveDataGridView(FileEntryAttribute fileEntryAttribute)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<string>(RefreshHeaderImageAndRegionsOnActiveDataGridView), fullFilePath);
+                this.BeginInvoke(new Action<FileEntryAttribute>(RefreshHeaderImageAndRegionsOnActiveDataGridView), fileEntryAttribute);
                 return;
             }
 
             if (GlobalData.IsPopulatingAnything()) return;
             DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
-            DataGridViewHandler.RefreshImageForMediaFullFilename(dataGridView, fullFilePath);
+            DataGridViewHandler.RefreshImageForMediaFullFilename(dataGridView, fileEntryAttribute.FileFullPath);
         }
         #endregion
 
@@ -120,51 +114,45 @@ namespace PhotoTagsSynchronizer
         {
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                System.Diagnostics.Debug.WriteLine("UpdateMetadataOnSelectedFilesOnActiveDataGrivView: imageListViewItem.FullFileName" + imageListViewItem.FileFullPath);
-                PopulateMetadataOnFileOnActiveDataGrivViewInvoke(imageListViewItem.FileFullPath);
+                PopulateMetadataOnFileOnActiveDataGrivViewInvoke(new FileEntryAttribute (imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current));
             }
         }
         #endregion 
 
         #region Populate - Metadata - OnFile - OnActive DataGrivView
-        private void PopulateMetadataOnFileOnActiveDataGrivView(DataGridView dataGridView, string fullFilePath, string tag)
+        private void PopulateMetadataOnFileOnActiveDataGrivView(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tag)
         {
             lock (GlobalData.populateSelectedLock)
-            {
-                DateTime dateTimeForEditableMediaFile = DataGridViewHandler.DateTimeForEditableMediaFile; //Else File.GetLastWriteTime(fullFilePath)
-
+            {                
                 switch (tag)
                 {
                     case "Tags":
-                        DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                         PopulateDetailViewTagsAndKeywords(dataGridView);
                         break;
                     case "People":
-                        DataGridViewHandlerPeople.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                         break;
                     case "Map":
-                        DataGridViewHandlerMap.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        DataGridViewHandlerMap.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                         break;
                     case "Date":
-                        DataGridViewHandlerDate.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        DataGridViewHandlerDate.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                         break;
                     case "ExifTool":
-                        dateTimeForEditableMediaFile = File.GetLastWriteTime(fullFilePath);
-                        DataGridViewHandlerExiftool.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        DataGridViewHandlerExiftool.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         break;
                     case "Warning":
-                        dateTimeForEditableMediaFile = File.GetLastWriteTime(fullFilePath);
-                        DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         break;
                     case "Properties":
-                        dateTimeForEditableMediaFile = File.GetLastWriteTime(fullFilePath);
-                        DataGridViewHandlerProperties.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        DataGridViewHandlerProperties.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         break;
                     case "Rename":
-                        DataGridViewHandlerRename.PopulateFile(dataGridView, fullFilePath, showWhatColumns, dateTimeForEditableMediaFile);
+                        //DataGridViewHandlerRename.PopulateFile(dataGridView, fileVersionAttribute, showWhatColumns);
                         break;
                 }
             }
@@ -172,11 +160,13 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Populate - Metadata - OnFile - OnActiveDataGrivView Invoke
-        private void PopulateMetadataOnFileOnActiveDataGrivViewInvoke(string fullFilePath)
+
+                   //PopulateMetadataOnFileOnActiveDataGrivView
+        private void PopulateMetadataOnFileOnActiveDataGrivViewInvoke(FileEntryAttribute fileEntryAttribute)
         {           
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<string>(PopulateMetadataOnFileOnActiveDataGrivViewInvoke), fullFilePath);
+                this.BeginInvoke(new Action<FileEntryAttribute>(PopulateMetadataOnFileOnActiveDataGrivViewInvoke), fileEntryAttribute);
                 return;
             }
 
@@ -186,37 +176,37 @@ namespace PhotoTagsSynchronizer
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Tags" || GlobalData.IsAgregatedTags)
             {
                 dataGridView = GetDataGridViewForTag("Tags");
-                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fileEntryAttribute, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
             
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Map" || GlobalData.IsAgregatedMap)
             {
                 dataGridView = GetDataGridViewForTag("Map");
-                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fileEntryAttribute, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
 
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "People" || GlobalData.IsAgregatedMap)
             {
                 dataGridView = GetDataGridViewForTag("People");
-                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fileEntryAttribute, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
 
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Date" || GlobalData.IsAgregatedPeople)
             {
                 dataGridView = GetDataGridViewForTag("Date");
-                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fileEntryAttribute, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
 
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "ExifTool" || GlobalData.IsAgregatedPeople)
             {
                 dataGridView = GetDataGridViewForTag("ExifTool");
-                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fileEntryAttribute, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
 
             if (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString() == "Warning" || GlobalData.IsAgregatedPeople)
             {
                 dataGridView = GetDataGridViewForTag("Warning");
-                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fullFilePath, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+                PopulateMetadataOnFileOnActiveDataGrivView(dataGridView, fileEntryAttribute, tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             }
         }
         #endregion
@@ -267,10 +257,12 @@ foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
 
                         DataGridViewHandler.SuspendLayout(dataGridView);
                         //dataGridView.Enabled = false; //Remember datagrid_CellPainting will be triggered when change Enable state
+                        DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                        AddQueueLazyLoadning(DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, false, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns));
+                        AddQueueLazyLoadning(
+                            DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns));
                         PopulateDetailViewTagsAndKeywords(dataGridView);
                         //dataGridView.Enabled = true;
                         DataGridViewHandler.ResumeLayout(dataGridView);
@@ -283,13 +275,15 @@ foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
 
                         DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
                         DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
+
+                        DataGridViewHandlerMap.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerMap.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerMap.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerMap.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                         DataGridViewHandlerMap.DatabaseGoogleLocationHistory = databaseGoogleLocationHistory;
                         DataGridViewHandlerMap.DatabaseAndCacheLocationAddress = databaseLocationAddress;
                         DataGridViewHandlerMap.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
-                        DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, false, (DataGridViewSize)Properties.Settings.Default.CellSizeMap, showWhatColumns);
+                        DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeMap, showWhatColumns);
 
                         DataGridViewHandler.ResumeLayout(dataGridView);
                         dataGridView.Enabled = true;
@@ -299,13 +293,14 @@ foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
                         dataGridView.Enabled = false; //Remember datagrid_CellPainting will be triggered when change Enable state
                         DataGridViewHandler.SuspendLayout(dataGridView);
 
+                        DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerPeople.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerPeople.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerPeople.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                         DataGridViewHandlerPeople.SuggestRegionNameNearbyDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
                         DataGridViewHandlerPeople.SuggestRegionNameTopMostCount = Properties.Settings.Default.SuggestRegionNameTopMostCount;
 
-                        DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, false, (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, showWhatColumns);
+                        DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, showWhatColumns);
 
                         DataGridViewHandler.ResumeLayout(dataGridView);
                         dataGridView.Enabled = true;
@@ -318,28 +313,32 @@ foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
                         DataGridViewHandlerDate.DataGridViewMap = dataGridViewMap;
                         DataGridViewHandlerDate.DataGridViewMapHeaderMedia = DataGridViewHandlerMap.headerMedia;
                         DataGridViewHandlerDate.DataGridViewMapTagCoordinates = DataGridViewHandlerMap.tagCoordinates;
+
+                        DataGridViewHandlerDate.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                        DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, false, (DataGridViewSize)Properties.Settings.Default.CellSizeDates, showWhatColumns);
+                        DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeDates, showWhatColumns);
 
                         DataGridViewHandler.ResumeLayout(dataGridView);
                         dataGridView.Enabled = true;
                         break;
-                    case "ExifTool":                        
+                    case "ExifTool":
                         //DataGridViewHandler.SuspendLayout(dataGridView); //Remember datagrid_CellPainting will be triggered when change Enable state
+                        DataGridViewHandlerExiftool.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerExiftool.DatabaseExiftoolData = databaseExiftoolData;
                         DataGridViewHandlerExiftool.exiftoolReader = exiftoolReader;
-                        DataGridViewHandlerExiftool.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, showWhatColumns);
+                        DataGridViewHandlerExiftool.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, showWhatColumns);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         //DataGridViewHandler.ResumeLayout(dataGridView);
                         break;
                     case "Warning":
                         dataGridView.Enabled = false; //Remember datagrid_CellPainting will be triggered when change Enable state
                         DataGridViewHandler.SuspendLayout(dataGridView);
+                        DataGridViewHandlerExiftoolWarnings.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
                         DataGridViewHandlerExiftoolWarnings.exiftoolReader = exiftoolReader;
-                        DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, showWhatColumns);
+                        DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, showWhatColumns);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         dataGridView.ResumeLayout();
                         dataGridView.Enabled = true;
@@ -347,8 +346,9 @@ foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
                     case "Properties":
                         dataGridView.Enabled = false; //Remember datagrid_CellPainting will be triggered when change Enable state
                         DataGridViewHandler.SuspendLayout(dataGridView);
+                        //DataGridViewHandlerProperties.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
-                        DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
+                        DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView);
                         DataGridViewHandler.ResumeLayout(dataGridView);
                         dataGridView.Enabled = true;
@@ -358,10 +358,11 @@ foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
                         DataGridViewHandler.SuspendLayout(dataGridView);
                         DataGridViewHandlerRename.FileDateTimeFormats =new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
                         DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                        //DataGridViewHandlerRename.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerRename.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
 
-                        DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, true, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
+                        DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
                         DataGridViewHandler.ResumeLayout(dataGridView);
                         dataGridView.Enabled = true;
                         break;
