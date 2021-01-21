@@ -18,6 +18,7 @@ namespace PhotoTagsSynchronizer
     public partial class MainForm : Form
     {
         private AutoResetEvent ReadImageOutOfMemoryWillWaitCacheEmpty = null; //When out of memory, then wait for all data ready = new AutoResetEvent(false);
+        private AutoResetEvent WaitThread_PopulateTreeViewFolderFilter_Stopped = null;
 
         #region ImageListView - Event - Retrieve Metadata
         private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
@@ -158,16 +159,15 @@ namespace PhotoTagsSynchronizer
                 #endregion
             } while (retry);
 
-            lock (GlobalData.ImageListViewForEachLock)
-                foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
+
+            foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
+            {
+                if (imageListViewItem.FileFullPath == e.FullFilePath) //Only to find DateTime Modified in the stored in the ImageListView
                 {
-                    if (imageListViewItem.FileFullPath == e.FullFilePath) //Only to find DateTime Modified in the stored in the ImageListView
-                    {
-                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(e.FullFilePath, imageListViewItem.DateModified, FileEntryVersion.Current), e.LoadedImage); //Also show error thumbnail
-                        break;
-                    }
+                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(e.FullFilePath, imageListViewItem.DateModified, FileEntryVersion.Current), e.LoadedImage); //Also show error thumbnail
+                    break;
                 }
-            
+            }
 
             GlobalData.retrieveImageCount--;
         }
@@ -182,35 +182,20 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        private void WaitIsImageListViewForEach()
-        {
-        }
-
         #region ImageListView - ClearAll
         private void ImageListViewClearAll(ImageListView imageListeView)
         {
-            GlobalData.IsImageListViewForEachInProgressRequestStop = true;
-            lock (GlobalData.ImageListViewForEachLock)
-            {
-                imageListeView.ClearSelection();
-                imageListeView.Items.Clear();
-                imageListeView.ClearThumbnailCache();
-                imageListeView.Refresh();
-            }
-            GlobalData.IsImageListViewForEachInProgressRequestStop = false;
+            imageListeView.ClearSelection();
+            imageListeView.Items.Clear();
+            imageListeView.ClearThumbnailCache();
+            imageListeView.Refresh();
         }
         #endregion
 
         #region ImageListView - ClearAll
         private void ImageListViewClearThumbnailCache(ImageListView imageListeView)
         {
-            GlobalData.IsImageListViewForEachInProgressRequestStop = true;
-            lock (GlobalData.ImageListViewForEachLock)
-            {
-                imageListeView.ClearThumbnailCache();
-            }
-            GlobalData.IsImageListViewForEachInProgressRequestStop = false;
-
+            imageListeView.ClearThumbnailCache();
         }
         #endregion
 
@@ -219,15 +204,12 @@ namespace PhotoTagsSynchronizer
         {
             ImageListViewItem foundItem = null;
 
-            lock (GlobalData.ImageListViewForEachLock)
+            foreach (ImageListViewItem item in imageListViewItemCollection)
             {
-                foreach (ImageListViewItem item in imageListViewItemCollection)
+                if (item.FileFullPath == fullFilename)
                 {
-                    if (item.FileFullPath == fullFilename)
-                    {
-                        foundItem = item;
-                        break;
-                    }
+                    foundItem = item;
+                    break;
                 }
             }
             return foundItem;
@@ -302,34 +284,41 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Populate - OpenWith - Thread
         private void PopulateImageListViewOpenWithToolStripThread(ImageListViewSelectedItemCollection imageListViewSelectedItems)
         {
-            Thread threadPopulateOpenWith = new Thread(() => { PopulateImageListViewOpenWithToolStripInvoke(imageListView1.SelectedItems); });
+            
+            List<FileEntry> imageListViewFileEntryCopy = new List<FileEntry>();
+            try
+            {
+                foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
+                {
+                    imageListViewFileEntryCopy.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified)); //Avoid crash when items gets updated
+                }
+            }
+            catch { }
+
+            Thread threadPopulateOpenWith = new Thread(() => { PopulateImageListViewOpenWithToolStripInvoke(imageListViewFileEntryCopy); });
             threadPopulateOpenWith.Start();
         }
         #endregion 
 
         #region ImageListView - Populate - OpenWith - Invoke
-        private void PopulateImageListViewOpenWithToolStripInvoke(ImageListViewSelectedItemCollection imageListViewSelectedItems)
+        private void PopulateImageListViewOpenWithToolStripInvoke(List<FileEntry> imageListViewSelectedFileEntryItems)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<ImageListViewSelectedItemCollection>(PopulateImageListViewOpenWithToolStripInvoke), imageListViewSelectedItems);
+                this.BeginInvoke(new Action<List<FileEntry>>(PopulateImageListViewOpenWithToolStripInvoke), imageListViewSelectedFileEntryItems);
                 return;
             }
 
-            
 
-            if (imageListViewSelectedItems.Count == 1) openWithDialogToolStripMenuItem.Visible = true;
+            if (imageListViewSelectedFileEntryItems.Count == 1) openWithDialogToolStripMenuItem.Visible = true;
             else openWithDialogToolStripMenuItem.Visible = false;
 
             List<string> extentions = new List<string>();
 
-            lock (GlobalData.ImageListViewForEachLock)
+            foreach (FileEntry fileEntry in imageListViewSelectedFileEntryItems)
             {
-                foreach (ImageListViewItem imageListViewItem in imageListViewSelectedItems)
-                {
-                    string extention = Path.GetExtension(imageListViewItem.FileFullPath).ToLower();
-                    if (!extentions.Contains(extention)) extentions.Add(extention);
-                }
+                string extention = Path.GetExtension(fileEntry.FileFullPath).ToLower();
+                if (!extentions.Contains(extention)) extentions.Add(extention);
             }
 
             ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
@@ -414,9 +403,7 @@ namespace PhotoTagsSynchronizer
 
                 if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) imageListView1.CacheMode = CacheMode.OnDemand;
                 imageListView1.CacheMode = CacheMode.Continuous;
-
                 ImageListViewClearAll(imageListView1);
-
                 imageListView1.Enabled = false;
 
                 ImageListViewSuspendLayoutInvoke(imageListView1);

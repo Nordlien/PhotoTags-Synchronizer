@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MetadataLibrary;
 using Manina.Windows.Forms;
 using System.Threading;
+using Exiftool;
 
 namespace PhotoTagsSynchronizer
 {
@@ -479,123 +480,160 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulateTreeViewFolderFilter - Thread
-        List<ImageListViewItem> imageListViewItemsCopy = null;
+        Thread threadPopulateFilter = null;
         private void PopulateTreeViewFolderFilterThread(ImageListView.ImageListViewItemCollection imageListViewItems)
         {
-            imageListViewItemsCopy = new List<ImageListViewItem>();
-            imageListViewItemsCopy.AddRange(imageListViewItems); //Avoid crash when items gets updated
+            GlobalData.IsImageListViewForEachInProgressRequestStop = true;
+
             
-            Thread threadPopulateFilter = new Thread(() => { PopulateTreeViewFolderFilterInvoke(imageListViewItemsCopy); });
+            if (threadPopulateFilter != null)
+            {
+                GlobalData.IsImageListViewForEachInProgressRequestStop = true;
+                Console.WriteLine("--Wait");
+                WaitThread_PopulateTreeViewFolderFilter_Stopped.WaitOne(60000);
+                Console.WriteLine("--Waited");
+            }
+
+            List<FileEntry> imageListViewFileEntryCopy = new List<FileEntry>();
+            try
+            {
+                foreach (ImageListViewItem imageListViewItem in imageListViewItems)
+                {
+                    imageListViewFileEntryCopy.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified)); //Avoid crash when items gets updated
+                }
+            } catch { }
+
+            threadPopulateFilter = new Thread(() => 
+            { 
+                PopulateTreeViewFolderFilterInvoke(imageListViewFileEntryCopy);
+                threadPopulateFilter = null;
+            });
             threadPopulateFilter.Start();
         }
         #endregion 
 
         #region PopulateTreeViewFolderFilter - Invoke
-        private void PopulateTreeViewFolderFilterInvoke(List<ImageListViewItem> imageListViewItems)
+        private void PopulateTreeViewFolderFilterInvoke(List<FileEntry> imageListViewFileEntryItems)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<List<ImageListViewItem>>(PopulateTreeViewFolderFilterInvoke), imageListViewItems);
+                this.BeginInvoke(new Action<List<FileEntry>>(PopulateTreeViewFolderFilterInvoke), imageListViewFileEntryItems);
                 return;
             }
+
+            Console.WriteLine("--WaitThread_PopulateTreeViewFolderFilter_Stopped = new AutoResetEvent(false);");
+            WaitThread_PopulateTreeViewFolderFilter_Stopped = new AutoResetEvent(false);
+
+            GlobalData.IsImageListViewForEachInProgressRequestStop = false;
             treeViewFilter.Enabled = false;
+            //folderTreeView1.Enable = false;
+            //Application.DoEvents();
 
-            lock (GlobalData.ImageListViewForEachLock)
+            FilterVerifyer.PopulateTreeViewBasicNodes(treeViewFilter, FilterVerifyer.Root);
+
+            List<string> albums = new List<string>();
+            List<string> titles = new List<string>();
+            List<string> comments = new List<string>();
+            List<string> descriptions = new List<string>();
+            List<string> authors = new List<string>();
+            List<string> ratings = new List<string>();
+            List<string> dates = new List<string>();
+
+            List<string> locations = new List<string>();
+            List<string> cities = new List<string>();
+            List<string> states = new List<string>();
+            List<string> countries = new List<string>();
+
+            List<string> peoples = new List<string>();
+            List<string> keywords = new List<string>();
+
+            try
             {
-                FilterVerifyer.PopulateTreeViewBasicNodes(treeViewFilter, FilterVerifyer.Root);
-
-                List<string> albums = new List<string>();
-                List<string> titles = new List<string>();
-                List<string> comments = new List<string>();
-                List<string> descriptions = new List<string>();
-                List<string> authors = new List<string>();
-                List<string> ratings = new List<string>();
-                List<string> dates = new List<string>();
-
-                List<string> locations = new List<string>();
-                List<string> cities = new List<string>();
-                List<string> states = new List<string>();
-                List<string> countries = new List<string>();
-
-                List<string> peoples = new List<string>();
-                List<string> keywords = new List<string>();
-
-                try
+                foreach (FileEntry fileEntry in imageListViewFileEntryItems)
                 {
-                    
-                    
-                    foreach (ImageListViewItem imageListViewItem in imageListViewItems)
+                    if (GlobalData.IsApplicationClosing) break;
+                    if (GlobalData.IsImageListViewForEachInProgressRequestStop) break;
+
+                    Metadata metadata = null;
+                    databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+
+                    Application.DoEvents();
+
+                    if (metadata != null)
                     {
-                        if (GlobalData.IsImageListViewForEachInProgressRequestStop) break;
-                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerType.ExifTool));
+                        if (!string.IsNullOrEmpty(metadata.LocationName) && !locations.Contains(metadata.LocationName)) locations.Add(metadata.LocationName);
+                        if (!string.IsNullOrEmpty(metadata.LocationCity) && !cities.Contains(metadata.LocationCity)) cities.Add(metadata.LocationCity);
+                        if (!string.IsNullOrEmpty(metadata.LocationState) && !states.Contains(metadata.LocationState)) states.Add(metadata.LocationState);
+                        if (!string.IsNullOrEmpty(metadata.LocationCountry) && !countries.Contains(metadata.LocationCountry)) countries.Add(metadata.LocationCountry);
 
-                        if (metadata != null)
+                        if (!string.IsNullOrEmpty(metadata.PersonalAlbum) && !albums.Contains(metadata.PersonalAlbum)) albums.Add(metadata.PersonalAlbum);
+                        if (!string.IsNullOrEmpty(metadata.PersonalTitle) && !titles.Contains(metadata.PersonalTitle)) titles.Add(metadata.PersonalTitle);
+                        if (!string.IsNullOrEmpty(metadata.PersonalComments) && !comments.Contains(metadata.PersonalComments)) comments.Add(metadata.PersonalComments);
+                        if (!string.IsNullOrEmpty(metadata.PersonalDescription) && !descriptions.Contains(metadata.PersonalDescription)) descriptions.Add(metadata.PersonalDescription);
+                        if (!string.IsNullOrEmpty(metadata.PersonalAuthor) && !authors.Contains(metadata.PersonalAuthor)) authors.Add(metadata.PersonalAuthor);
+                        if ((metadata.PersonalRating != null) && !ratings.Contains(metadata.PersonalRating.ToString())) ratings.Add(metadata.PersonalRating.ToString());
+
+                        if (metadata.MediaDateTaken != null)
                         {
-                            if (!string.IsNullOrEmpty(metadata.LocationName) && !locations.Contains(metadata.LocationName)) locations.Add(metadata.LocationName);
-                            if (!string.IsNullOrEmpty(metadata.LocationCity) && !cities.Contains(metadata.LocationCity)) cities.Add(metadata.LocationCity);
-                            if (!string.IsNullOrEmpty(metadata.LocationState) && !states.Contains(metadata.LocationState)) states.Add(metadata.LocationState);
-                            if (!string.IsNullOrEmpty(metadata.LocationCountry) && !countries.Contains(metadata.LocationCountry)) countries.Add(metadata.LocationCountry);
+                            string yearAndMonth = ((DateTime)metadata.MediaDateTaken).ToString("yyyy-MM");
+                            if (!dates.Contains(yearAndMonth)) dates.Add(yearAndMonth);
+                        }
+                        foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
+                        {
+                            if (!string.IsNullOrEmpty(regionStructure.Name) && !peoples.Contains(regionStructure.Name)) peoples.Add(regionStructure.Name);
+                        }
 
-                            if (!string.IsNullOrEmpty(metadata.PersonalAlbum) && !albums.Contains(metadata.PersonalAlbum)) albums.Add(metadata.PersonalAlbum);
-                            if (!string.IsNullOrEmpty(metadata.PersonalTitle) && !titles.Contains(metadata.PersonalTitle)) titles.Add(metadata.PersonalTitle);
-                            if (!string.IsNullOrEmpty(metadata.PersonalComments) && !comments.Contains(metadata.PersonalComments)) comments.Add(metadata.PersonalComments);
-                            if (!string.IsNullOrEmpty(metadata.PersonalDescription) && !descriptions.Contains(metadata.PersonalDescription)) descriptions.Add(metadata.PersonalDescription);
-                            if (!string.IsNullOrEmpty(metadata.PersonalAuthor) && !authors.Contains(metadata.PersonalAuthor)) authors.Add(metadata.PersonalAuthor);
-                            if ((metadata.PersonalRating != null) && !ratings.Contains(metadata.PersonalRating.ToString())) ratings.Add(metadata.PersonalRating.ToString());
-
-                            if (metadata.MediaDateTaken != null)
-                            {
-                                string yearAndMonth = ((DateTime)metadata.MediaDateTaken).ToString("yyyy-MM");
-                                if (!dates.Contains(yearAndMonth)) dates.Add(yearAndMonth);
-                            }
-                            foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
-                            {
-                                if (!string.IsNullOrEmpty(regionStructure.Name) && !peoples.Contains(regionStructure.Name)) peoples.Add(regionStructure.Name);
-                            }
-
-                            foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags)
-                            {
-                                if (!string.IsNullOrEmpty(keywordTag.Keyword) && !keywords.Contains(keywordTag.Keyword)) keywords.Add(keywordTag.Keyword);
-                            }
+                        foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags)
+                        {
+                            if (!string.IsNullOrEmpty(keywordTag.Keyword) && !keywords.Contains(keywordTag.Keyword)) keywords.Add(keywordTag.Keyword);
                         }
                     }
+                }
 
 
-                    if (!GlobalData.IsImageListViewForEachInProgressRequestStop)
-                    {
-                        string node = FilterVerifyer.Root;
-                        albums.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Albums, albums);
-                        titles.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Titles, titles);
-                        comments.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Comments, comments);
-                        descriptions.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Descriptions, descriptions);
-                        authors.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Authors, authors);
-                        ratings.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Ratings, ratings);
-                        dates.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Dates, dates);
-                        locations.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Locations, locations);
-                        cities.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Cities, cities);
-                        states.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.States, states);
-                        countries.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Countries, countries);
-                        peoples.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Peoples, peoples);
-                        keywords.Sort();
-                        FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Keywords, keywords);
-                    }
-                } catch 
+                if (!GlobalData.IsImageListViewForEachInProgressRequestStop)
                 {
-                    //Do nothing, collreaction modified, don't care.
+                    string node = FilterVerifyer.Root;
+                    albums.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Albums, albums);
+                    titles.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Titles, titles);
+                    comments.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Comments, comments);
+                    descriptions.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Descriptions, descriptions);
+                    authors.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Authors, authors);
+                    ratings.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Ratings, ratings);
+                    dates.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Dates, dates);
+                    locations.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Locations, locations);
+                    cities.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Cities, cities);
+                    states.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.States, states);
+                    countries.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Countries, countries);
+                    peoples.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Peoples, peoples);
+                    keywords.Sort();
+                    FilterVerifyer.PopulateTreeViewWithValues(treeViewFilter, node, FilterVerifyer.Keywords, keywords);
                 }
             }
+            catch
+            {
+                //Do nothing, collreaction modified, don't care.
+            }
+
+            if (WaitThread_PopulateTreeViewFolderFilter_Stopped != null)
+            {
+                WaitThread_PopulateTreeViewFolderFilter_Stopped.Set();
+                Console.WriteLine("--WaitThread_PopulateTreeViewFolderFilter_Stopped.Set();");
+            }
+
+            imageListViewFileEntryItems = null;
             treeViewFilter.Enabled = true;
         }
         #endregion

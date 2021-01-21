@@ -123,10 +123,7 @@ namespace PhotoTagsSynchronizer
                 bool doNotReadFullFile = false;
                 if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
                 {
-                    if (Properties.Settings.Default.AvoidOfflineMediaFiles)
-                    {
-                        if (ExiftoolWriter.IsFileInCloud(fullFilePath)) doNotReadFullFile = true; ;
-                    }
+                    if (ExiftoolWriter.IsFileInCloud(fullFilePath)) doNotReadFullFile = true; ;
                 }
 
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))

@@ -19,7 +19,7 @@ namespace PhotoTagsSynchronizer
         #region FilesSelected - Populate DataGridVIew, OpenWith...
         private void FilesSelected()
         {
-            if (GlobalData.IsPopulatingAnything()) return;
+            if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
             
             using (new WaitCursor())

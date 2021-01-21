@@ -196,6 +196,7 @@ namespace PhotoTagsSynchronizer
             Thread threadPopulateDataGridView = new Thread(() => {
                 PopulateDataGridViewForSelectedItemsInvoke(imageListView1.SelectedItems);
             });
+
             threadPopulateDataGridView.Start();
         }
         #endregion 

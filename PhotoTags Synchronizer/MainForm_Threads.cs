@@ -194,19 +194,20 @@ namespace PhotoTagsSynchronizer
             //When file is DELETE, LastWriteDateTime become null
             if (fileEntry.LastWriteDateTime != null)
             {
-                if (File.GetLastWriteTime(fileEntry.FileFullPath) == fileEntry.LastWriteDateTime) //Don't add old files in queue
-                {
-                    //If Metadata don't exisit in database, put it in read queue
-                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
-                    if (metadata == null) AddQueueExiftool(fileEntry);
+                
+                    if (File.GetLastWriteTime(fileEntry.FileFullPath) == fileEntry.LastWriteDateTime) //Don't add old files in queue
+                    {
+                        //If Metadata don't exisit in database, put it in read queue
+                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                        if (metadata == null) AddQueueExiftool(fileEntry);
 
-                    metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
-                    if (metadata == null) AddQueueMicrosoftPhotos(fileEntry);
+                        metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
+                        if (metadata == null) AddQueueMicrosoftPhotos(fileEntry);
 
-                    metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
-                    if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntry);
-                }
-                //if (databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntryImage) == null) AddQueueSaveThumbnail(fileEntryImage);
+                        metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
+                        if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntry);
+                    }
+
             }
             else
             {
@@ -224,7 +225,7 @@ namespace PhotoTagsSynchronizer
             if (fileEntryAttributes == null) return;
             lock (commonQueueLazyLoadingMetadataLock)
             {
-                foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes) if (!commonQueueLazyLoadingMetadata.Contains(fileEntryAttribute)) commonQueueLazyLoadingMetadata.Add(fileEntryAttribute); 
+                foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes) if (!commonQueueLazyLoadingMetadata.Contains(fileEntryAttribute)) commonQueueLazyLoadingMetadata.Add(fileEntryAttribute);
             }
             StartThreads();
         }
@@ -479,16 +480,33 @@ namespace PhotoTagsSynchronizer
                         if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
 
                         int rangeToRemove; //Remember how many in queue now
-                        mediaFilesNotInDatabase = new List<string>();
+                        List<string> mediaFilesNotInDatabaseCheckInCloud = new List<string>(); ;
 
                         #region From the Read Queue - Find files not alread in database
                         lock (commonQueueReadMetadataFromExiftoolLock)
                         {
                             rangeToRemove = commonQueueReadMetadataFromExiftool.Count;
-                            mediaFilesNotInDatabase.AddRange(databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerType.ExifTool, commonQueueReadMetadataFromExiftool.GetRange(0, rangeToRemove)));
+                            mediaFilesNotInDatabaseCheckInCloud.AddRange(databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerType.ExifTool, commonQueueReadMetadataFromExiftool.GetRange(0, rangeToRemove)));
                             commonQueueReadMetadataFromExiftool.RemoveRange(0, rangeToRemove);
                         }
                         #endregion
+
+                        #region Check if need avoid files in cloud, if yes, don't read files in cloud
+                        if (Properties.Settings.Default.AvoidOfflineMediaFiles)
+                        {
+                            foreach (string fullFileName in mediaFilesNotInDatabaseCheckInCloud)
+                            {
+                                //Don't add files from cloud in queue
+                                if (!ExiftoolWriter.IsFileInCloud(fullFileName)) mediaFilesNotInDatabase.Add(fullFileName);
+                            }
+                        }
+                        else
+                        {
+                            mediaFilesNotInDatabase.AddRange(mediaFilesNotInDatabaseCheckInCloud);
+                        }
+                        #endregion 
+
+                        
 
                         while (mediaFilesNotInDatabase.Count > 0 && !GlobalData.IsApplicationClosing)
                         {
