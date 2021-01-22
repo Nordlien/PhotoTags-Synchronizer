@@ -323,7 +323,7 @@ namespace PhotoTagsSynchronizer
             toolStripMenuItemPeopleRenameFromLast1.DropDownItems.Clear();
 
             List<string> regioNames;
-            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.ExifTool, 10);
+            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.ExifTool, Properties.Settings.Default.SuggestRegionNameTopMostCount);
             foreach (string name in regioNames)
             {
                 ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();

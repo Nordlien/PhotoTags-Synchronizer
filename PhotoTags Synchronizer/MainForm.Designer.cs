@@ -1181,10 +1181,10 @@ namespace PhotoTagsSynchronizer
             // tabPageFilterTags
             // 
             this.tabPageFilterTags.Controls.Add(this.treeViewFilter);
-            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 26);
+            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 25);
             this.tabPageFilterTags.Name = "tabPageFilterTags";
             this.tabPageFilterTags.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFilterTags.Size = new System.Drawing.Size(330, 862);
+            this.tabPageFilterTags.Size = new System.Drawing.Size(330, 863);
             this.tabPageFilterTags.TabIndex = 1;
             this.tabPageFilterTags.Text = "Filter";
             this.tabPageFilterTags.UseVisualStyleBackColor = true;
@@ -1200,7 +1200,7 @@ namespace PhotoTagsSynchronizer
             treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeViewFilter.Size = new System.Drawing.Size(324, 856);
+            this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -3080,7 +3080,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonAbout});
             this.toolStrip.Location = new System.Drawing.Point(4, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(837, 28);
+            this.toolStrip.Size = new System.Drawing.Size(876, 28);
             this.toolStrip.TabIndex = 0;
             // 
             // thumbnailsToolStripButton
@@ -3634,7 +3634,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageFilterFolder;
         private System.Windows.Forms.TabPage tabPageFilterTags;
-        private System.Windows.Forms.TreeView treeViewFilter;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromAll;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPeopleSelected;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameSelected;
@@ -3754,6 +3753,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromMostUsed;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast3;
+        private DragNDrop.TreeViewWithoutDoubleClick treeViewFilter;
     }
 }
 

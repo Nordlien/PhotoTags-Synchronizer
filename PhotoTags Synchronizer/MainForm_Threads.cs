@@ -194,20 +194,18 @@ namespace PhotoTagsSynchronizer
             //When file is DELETE, LastWriteDateTime become null
             if (fileEntry.LastWriteDateTime != null)
             {
-                
-                    if (File.GetLastWriteTime(fileEntry.FileFullPath) == fileEntry.LastWriteDateTime) //Don't add old files in queue
-                    {
-                        //If Metadata don't exisit in database, put it in read queue
-                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
-                        if (metadata == null) AddQueueExiftool(fileEntry);
+                if (File.GetLastWriteTime(fileEntry.FileFullPath) == fileEntry.LastWriteDateTime) //Don't add old files in queue
+                {
+                    //If Metadata don't exisit in database, put it in read queue
+                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                    if (metadata == null) AddQueueExiftool(fileEntry);
 
-                        metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
-                        if (metadata == null) AddQueueMicrosoftPhotos(fileEntry);
+                    metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
+                    if (metadata == null) AddQueueMicrosoftPhotos(fileEntry);
 
-                        metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
-                        if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntry);
-                    }
-
+                    metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
+                    if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntry);
+                }
             }
             else
             {
@@ -473,7 +471,7 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadExiftool = new Thread(() =>
                 {
-                    Thread.Sleep(300); //Wait more to become updated;
+                    //Thread.Sleep(300); //Wait more to become updated;
 
                     while (CommonQueueReadMetadataFromExiftoolCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
@@ -829,7 +827,7 @@ namespace PhotoTagsSynchronizer
                         ShowExiftoolSaveProgressStop();
                         DisplayAllQueueStatus();
 
-                        Thread.Sleep(100); //Wait in case of loop
+                        //Thread.Sleep(100); //Wait in case of loop
                     }
 
                     if (GlobalData.IsApplicationClosing)
@@ -1325,7 +1323,7 @@ namespace PhotoTagsSynchronizer
                         ShowExiftoolSaveProgressStop();
                         DisplayAllQueueStatus();
 
-                        Thread.Sleep(100); //Wait in case of loop
+                        //Thread.Sleep(100); //Wait in case of loop
                     }
 
                     StartThreads();

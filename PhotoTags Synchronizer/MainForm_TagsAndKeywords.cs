@@ -363,7 +363,7 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.MediaAiConfidence = comboBoxMediaAiConfidence.SelectedIndex;
             DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
 
-            PopulateDataGridVIewForSelectedItemsInvoke(imageListView1.SelectedItems);
+            PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
         }
         #endregion
 

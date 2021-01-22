@@ -782,13 +782,21 @@ namespace MetadataLibrary
 
         public List<FileEntryAttribute> ListFileEntryAttributes(MetadataBrokerType broker, string fullFileName)
         {
-            List<FileEntryAttribute> FileEntryAttributes = new List<FileEntryAttribute>();
+            List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
+            ListFileEntryAttributes2(ref fileEntryAttributes, broker, fullFileName);
+            MetadataBrokerType broker2 = broker | MetadataBrokerType.ExifToolWriteError;
+            ListFileEntryAttributes2(ref fileEntryAttributes, broker2, fullFileName);
+            return fileEntryAttributes;
+        }
 
+        public void ListFileEntryAttributes2(ref List<FileEntryAttribute> FileEntryAttributes, MetadataBrokerType broker, string fullFileName)
+        {
+            
             string sqlCommand =
                 "SELECT " +
                     "Broker, FileDirectory, FileName, FileDateModified " +
                     "FROM MediaMetadata WHERE " +
-                    "(Broker & @Broker) = @Broker AND " +
+                    "Broker = @Broker AND " +
                     "FileDirectory = @FileDirectory AND " +
                     "FileName = @FileName";
 
@@ -826,8 +834,7 @@ namespace MetadataLibrary
                     if (newstFileEntryAttributeForEdit != null) FileEntryAttributes.Add(newstFileEntryAttributeForEdit);                    
                 }
             }
-
-            return FileEntryAttributes;
+            //return FileEntryAttributes;
         }
         #endregion
 

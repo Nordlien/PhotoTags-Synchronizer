@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -181,12 +182,22 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Populate File - For Selected Files 
-        private void PopulateDataGridVIewForSelectedItemsInvoke(ImageListViewSelectedItemCollection imageListViewSelectItems)
+        private void PopulateDataGridViewSelectedItemsWithMediaFileVersions(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            List<FileEntryAttribute> lazyLoadingAllVersionOfMediaFile = new List<FileEntryAttribute>();
+
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current));
+                List<FileEntryAttribute> fileEntryAttributeDateVersions = databaseAndCacheMetadataExiftool.ListFileEntryAttributes(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
+                lazyLoadingAllVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }
+
+            AddQueueLazyLoadningMetadata(lazyLoadingAllVersionOfMediaFile);
+            AddQueueLazyLoadningThumbnail(lazyLoadingAllVersionOfMediaFile);
+            stopWatch.Stop();
+            Debug.WriteLine("TEST" + stopWatch.Elapsed.ToString());
         }
         #endregion 
 
@@ -237,9 +248,8 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                         
-                        lazyLoading = DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns);
-                        AddQueueLazyLoadningMetadata(lazyLoading);
-                        AddQueueLazyLoadningThumbnail(lazyLoading);
+                        DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns);
+                        PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
 
                         PopulateDetailViewTagsAndKeywords(dataGridView);
                         //dataGridView.Enabled = true;
@@ -261,10 +271,8 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerMap.DatabaseGoogleLocationHistory = databaseGoogleLocationHistory;
                         DataGridViewHandlerMap.DatabaseAndCacheLocationAddress = databaseLocationAddress;
                         DataGridViewHandlerMap.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
-                        lazyLoading = DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeMap, showWhatColumns);
-                        AddQueueLazyLoadningMetadata(lazyLoading);
-                        AddQueueLazyLoadningThumbnail(lazyLoading);
-
+                        DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeMap, showWhatColumns);
+                        PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
 
                         DataGridViewHandler.ResumeLayout(dataGridView);
                         dataGridView.Enabled = true;
@@ -280,11 +288,8 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerPeople.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                         DataGridViewHandlerPeople.SuggestRegionNameNearbyDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
                         DataGridViewHandlerPeople.SuggestRegionNameTopMostCount = Properties.Settings.Default.SuggestRegionNameTopMostCount;
-
-                        lazyLoading = DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, showWhatColumns);
-                        AddQueueLazyLoadningMetadata(lazyLoading);
-                        AddQueueLazyLoadningThumbnail(lazyLoading);
-
+                        DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, showWhatColumns);
+                        PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
 
                         DataGridViewHandler.ResumeLayout(dataGridView);
                         dataGridView.Enabled = true;
@@ -302,9 +307,8 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                        lazyLoading = DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeDates, showWhatColumns);
-                        AddQueueLazyLoadningMetadata(lazyLoading);
-                        AddQueueLazyLoadningThumbnail(lazyLoading);
+                        DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeDates, showWhatColumns);
+                        PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
 
                         DataGridViewHandler.ResumeLayout(dataGridView);
                         dataGridView.Enabled = true;

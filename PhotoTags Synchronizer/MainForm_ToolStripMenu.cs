@@ -150,7 +150,7 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             ImageListViewReloadThumbnailInvoke(imageListView1, null);
-            PopulateDataGridVIewForSelectedItemsInvoke(imageListView1.SelectedItems);
+            PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
             //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
         }
@@ -533,16 +533,20 @@ namespace PhotoTagsSynchronizer
         {
             Properties.Settings.Default.ShowHistortyColumns = toolStripButtonHistortyColumns.Checked;
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            PopulateDataGridVIewForSelectedItemsInvoke(imageListView1.SelectedItems);
+            PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
         }
         #endregion
 
         #region ToolStrip - Show/Hide Error Columns - Click
         private void toolStripButtonErrorColumns_CheckedChanged(object sender, EventArgs e)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            PopulateDataGridVIewForSelectedItemsInvoke(imageListView1.SelectedItems);
+            PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+            stopWatch.Stop();
+            Debug.WriteLine("_CheckedChanged:" + stopWatch.Elapsed.ToString());
         }
         #endregion
 

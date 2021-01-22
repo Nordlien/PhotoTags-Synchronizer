@@ -320,13 +320,13 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
         }
 
-        public static List<FileEntryAttribute> PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
+        public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
-            if (GlobalData.IsApplicationClosing) return null;
-            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return null;
-            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return null;
+            if (GlobalData.IsApplicationClosing) return;
+            if (DataGridViewHandler.GetIsAgregated(dataGridView)) return;
+            if (DataGridViewHandler.GetIsPopulating(dataGridView)) return;
             //Tell that work in progress, can start a new before done.
             DataGridViewHandler.SetIsPopulating(dataGridView, true);
             //Clear current DataGridView
@@ -334,29 +334,17 @@ namespace PhotoTagsSynchronizer
             //Add Columns for all selected files, one column per select file
             DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheMetadataExiftool, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true)); //ReadOnly untill data is read
+            
             //Add all default rows
             AddRowHeader(dataGridView, -1, new DataGridViewGenericRow(headerPeople), false);
 
             //Tell data default columns and rows are agregated
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
-
-
-            List<FileEntryAttribute> allFileEntryAttributeDateVersions = new List<FileEntryAttribute>();
-            //Populate one and one of selected files, (new versions of files can be added)
-            foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
-            {
-                List<FileEntryAttribute> fileEntryAttributeDateVersions = DatabaseAndCacheMetadataExiftool.ListFileEntryAttributes(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
-                allFileEntryAttributeDateVersions.AddRange(fileEntryAttributeDateVersions);
-            }
-
-            //-----------------------------------------------------------------
-            //Unlock
-            DataGridViewHandler.SetIsAgregated(dataGridView, true);
+         
             //Tell that work is done
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
-            return allFileEntryAttributeDateVersions;
         }
     }
 }
