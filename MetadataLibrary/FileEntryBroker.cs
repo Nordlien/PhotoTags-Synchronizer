@@ -4,6 +4,8 @@ using System.IO;
 
 namespace MetadataLibrary
 {
+    
+
     [Serializable]
     public class FileEntryBroker : FileEntry, IEquatable<FileEntryBroker>
     {

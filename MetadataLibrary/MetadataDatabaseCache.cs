@@ -9,13 +9,12 @@ using SqliteDatabase;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 
 namespace MetadataLibrary
 {
+    
     
 
     public class MetadataRegionNameKey
@@ -1062,24 +1061,21 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalAlbums()
-        public List<string> ListAllPersonalAlbums()
+        public List<string> ListAllPersonalAlbums(MetadataBrokerType metadataBrokerType)
         {
-
             List<string> listing = new List<string>();
 
             string sqlCommand =
-                "SELECT DISTINCT PersonalAlbum FROM MediaMetadata";
+                "SELECT DISTINCT PersonalAlbum FROM MediaMetadata WHERE Broker = @Broker";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAlbum"]));
-                    }
+                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAlbum"]));
                 }
             }
             return listing;
@@ -1089,16 +1085,17 @@ namespace MetadataLibrary
         #region ListAllMediaDateTakenYearAndMonth()
         //SELECT strftime('%Y-%m-%d %H:%M:%S',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'Date1' FROM MediaMetadata ORDER BY Date1
         //SELECT DISTINCT strftime('%Y-%m',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'MediaDateTaken' FROM MediaMetadata ORDER BY MediaDateTaken
-        public List<string> ListAllMediaDateTakenYearAndMonth()
+        public List<string> ListAllMediaDateTakenYearAndMonth(MetadataBrokerType metadataBrokerType)
         {
 
             List<string> listing = new List<string>();
 
             string sqlCommand =
-                "SELECT DISTINCT strftime('%Y-%m',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'MediaDateTaken' FROM MediaMetadata ORDER BY MediaDateTaken";
+                "SELECT DISTINCT strftime('%Y-%m',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'MediaDateTaken' FROM MediaMetadata ORDER BY MediaDateTaken WHERE Broker = @Broker";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
@@ -1114,24 +1111,21 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalDescriptions()
-        public List<string> ListAllPersonalDescriptions()
+        public List<string> ListAllPersonalDescriptions(MetadataBrokerType metadataBrokerType)
         {
-
             List<string> listing = new List<string>();
 
             string sqlCommand =
-                "SELECT DISTINCT PersonalDescription FROM MediaMetadata";
+                "SELECT DISTINCT PersonalDescription FROM MediaMetadata WHERE Broker = @Broker";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["PersonalDescription"]));
-                    }
+                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalDescription"]));
                 }
             }
             return listing;
@@ -1139,24 +1133,21 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalTitles()
-        public List<string> ListAllPersonalTitles()
+        public List<string> ListAllPersonalTitles(MetadataBrokerType metadataBrokerType)
         {
-
             List<string> listing = new List<string>();
 
             string sqlCommand =
-                "SELECT DISTINCT PersonalTitle FROM MediaMetadata";
+                "SELECT DISTINCT PersonalTitle FROM MediaMetadata WHERE Broker = @Broker";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["PersonalTitle"]));
-                    }
+                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalTitle"]));
                 }
             }
             return listing;
@@ -1164,24 +1155,21 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalComments()
-        public List<string> ListAllPersonalComments()
+        public List<string> ListAllPersonalComments(MetadataBrokerType metadataBrokerType)
         {
-
             List<string> listing = new List<string>();
 
             string sqlCommand =
-                "SELECT DISTINCT PersonalComments FROM MediaMetadata";
+                "SELECT DISTINCT PersonalComments FROM MediaMetadata WHERE Broker = @Broker";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["PersonalComments"]));
-                    }
+                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalComments"]));
                 }
             }
             return listing;
@@ -1189,24 +1177,22 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalAuthors()
-        public List<string> ListAllPersonalAuthors()
+        public List<string> ListAllPersonalAuthors(MetadataBrokerType metadataBrokerType)
         {
 
             List<string> listing = new List<string>();
 
             string sqlCommand =
-                "SELECT DISTINCT PersonalAuthor FROM MediaMetadata";
+                "SELECT DISTINCT PersonalAuthor FROM MediaMetadata WHERE Broker = @Broker";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAuthor"]));
-                    }
+                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAuthor"]));
                 }
             }
             return listing;
@@ -1214,24 +1200,21 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllLocationNames()
-        public List<string> ListAllLocationNames()
+        public List<string> ListAllLocationNames(MetadataBrokerType metadataBrokerType)
         {
-
             List<string> listing = new List<string>();
 
             string sqlCommand =
-                "SELECT DISTINCT LocationName FROM MediaMetadata";
+                "SELECT DISTINCT LocationName FROM MediaMetadata WHERE Broker = @Broker";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["LocationName"]));
-                    }
+                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["LocationName"]));
                 }
             }
             return listing;
@@ -1239,24 +1222,21 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllLocationCities()
-        public List<string> ListAllLocationCities()
+        public List<string> ListAllLocationCities(MetadataBrokerType metadataBrokerType)
         {
-
             List<string> listing = new List<string>();
 
             string sqlCommand =
-                "SELECT DISTINCT LocationCity FROM MediaMetadata";
+                "SELECT DISTINCT LocationCity FROM MediaMetadata WHERE Broker = @Broker";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["LocationCity"]));
-                    }
+                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["LocationCity"]));
                 }
             }
             return listing;
@@ -1264,24 +1244,21 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllLocationStates()
-        public List<string> ListAllLocationStates()
+        public List<string> ListAllLocationStates(MetadataBrokerType metadataBrokerType)
         {
-
             List<string> listing = new List<string>();
 
             string sqlCommand =
-                "SELECT DISTINCT LocationState FROM MediaMetadata";
+                "SELECT DISTINCT LocationState FROM MediaMetadata WHERE Broker = @Broker";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["LocationState"]));
-                    }
+                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["LocationState"]));
                 }
             }
             return listing;
@@ -1289,24 +1266,22 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllLocationCountries()
-        public List<string> ListAllLocationCountries()
+        public List<string> ListAllLocationCountries(MetadataBrokerType metadataBrokerType)
         {
 
             List<string> listing = new List<string>();
 
             string sqlCommand =
-                "SELECT DISTINCT LocationCountry FROM MediaMetadata";
+                "SELECT DISTINCT LocationCountry FROM MediaMetadata WHERE Broker = @Broker";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["LocationCountry"]));
-                    }
+                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["LocationCountry"]));
                 }
             }
             return listing;
@@ -1315,28 +1290,28 @@ namespace MetadataLibrary
 
 
         #region ListAllPersonalRegionNameCountCache
-        private Dictionary<string, int> metadataRegionNameCountCache = null;
-        private string FakeNullHack = "{21332312hkhkjhk233213hkh1223gjh2jr8}";
+        private Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>> metadataRegionNameCountCache = null;
 
         #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCacheClear
         public void ListAllPersonalRegionNameCountCacheClear()
         {
             metadataRegionNameCountCache = null;
-            metadataRegionNameCountCache = new Dictionary<string, int>();
+            metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
         }
         #endregion
 
         #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCount
-        public Dictionary<string, int> ListAllPersonalRegionNameCount()
+        private Dictionary<StringNullable, int> ListAllPersonalRegionNameCount(MetadataBrokerType metadataBrokerType)
         {
             //Private due to fake null hack
-            Dictionary<string, int> metadataRegionNameCountDictionary = new Dictionary<string, int>();
+            Dictionary<StringNullable, int> metadataRegionNameCountDictionary = new Dictionary<StringNullable, int>();
 
             string sqlCommand =
-                "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions GROUP BY Name";
+                "SELECT Name, Count(1) AS CountNames FROM MediaPersonalRegions WHERE Broker = @Broker GROUP BY Name";
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
@@ -1344,8 +1319,7 @@ namespace MetadataLibrary
                     while (reader.Read())
                     {
                         string name = dbTools.ConvertFromDBValString(reader["Name"]);
-                        if (name == null) name = FakeNullHack;
-                        metadataRegionNameCountDictionary.Add(name, (int)dbTools.ConvertFromDBValInt(reader["CountNames"]));
+                        metadataRegionNameCountDictionary.Add(new StringNullable(name), (int)dbTools.ConvertFromDBValInt(reader["CountNames"]));
                     }
                 }
             }
@@ -1354,43 +1328,37 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCache
-        private Dictionary<string, int> ListAllPersonalRegionNameCountCache()
+        private Dictionary<StringNullable, int> ListAllPersonalRegionNameCountCache(MetadataBrokerType metadataBrokerType)
         {
-            //Private due to fake null hack
-            if (metadataRegionNameCountCache == null) metadataRegionNameCountCache = ListAllPersonalRegionNameCount();
-            return metadataRegionNameCountCache;
-        }
-        #endregion
-
-        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameTopCountCache
-        public List<string> ListAllPersonalRegionNameTopCountCache(int topCount)
-        {
-            return ListAllPersonalRegionNameNotInListCache(null, null, topCount, false);
+            if (metadataRegionNameCountCache == null) metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
+            if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType)) metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
+            metadataRegionNameCountCache[metadataBrokerType] = ListAllPersonalRegionNameCount(metadataBrokerType);
+            return metadataRegionNameCountCache[metadataBrokerType];
         }
         #endregion
 
         #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCache
-        public List<string> ListAllPersonalRegionNameNotInListCache(List<string> namesdontIncludeList1, List<string> namesdontIncludeList2, int topCount, bool includeEmpty = false)
+        public List<string> ListAllPersonalRegionNameNotInListCache(MetadataBrokerType metadataBrokerType, List<string> namesdontIncludeList1, List<string> namesdontIncludeList2, int topCount, bool includeEmpty = false)
         {
             List<string> list = new List<string>();
-            Dictionary<string, int> metadataRegionNameCountDictionary = ListAllPersonalRegionNameCountCache();
+            Dictionary<StringNullable, int> metadataRegionNameCountDictionary = ListAllPersonalRegionNameCountCache(metadataBrokerType);
 
             var ordered = metadataRegionNameCountDictionary.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
 
             int count = 0;
             if (count < topCount)
             {
-                foreach (KeyValuePair<string, int> keyValuePair in ordered)
+                foreach (KeyValuePair<StringNullable, int> keyValuePair in ordered)
                 {
                     bool doNotInclude = false;
-                    string name = keyValuePair.Key;
-                    if (name == FakeNullHack) name = null; //Fix fake null hack
-                    if (namesdontIncludeList1 != null && namesdontIncludeList1.Contains(keyValuePair.Key)) doNotInclude = true;
-                    if (namesdontIncludeList2 != null && namesdontIncludeList2.Contains(keyValuePair.Key)) doNotInclude = true;
-                    if (!includeEmpty && string.IsNullOrEmpty(name)) doNotInclude = true;
+                    StringNullable brokerRegionName = keyValuePair.Key;
+                    if (namesdontIncludeList1 != null && namesdontIncludeList1.Contains(keyValuePair.Key.StringValue)) doNotInclude = true;
+                    if (namesdontIncludeList2 != null && namesdontIncludeList2.Contains(keyValuePair.Key.StringValue)) doNotInclude = true;
+                    if (!includeEmpty && string.IsNullOrEmpty(brokerRegionName.StringValue)) doNotInclude = true;
+                    
                     if (!doNotInclude)
                     {
-                        list.Add(keyValuePair.Key == FakeNullHack ? null : keyValuePair.Key);
+                        list.Add(keyValuePair.Key.StringValue);
                         count++;
                         if (count >= topCount) break;
                     }
@@ -1401,10 +1369,17 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region 
-        public List<string> ListAllPersonalRegionsCache()
+        #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameTopCountCache
+        public List<string> ListAllPersonalRegionNameTopCountCache(MetadataBrokerType metadataBrokerType, int topCount)
         {
-            return ListAllPersonalRegionNameNotInListCache(null, null, int.MaxValue);
+            return ListAllPersonalRegionNameNotInListCache(metadataBrokerType, null, null, topCount);
+        }
+        #endregion
+
+        #region ListAllPersonalRegionsCache
+        public List<string> ListAllPersonalRegionsCache(MetadataBrokerType metadataBrokerType)
+        {
+            return ListAllPersonalRegionNameTopCountCache(metadataBrokerType, int.MaxValue); 
         }
         #endregion
 
@@ -1457,13 +1432,9 @@ namespace MetadataLibrary
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["Name"]));
-                    }
+                    while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["Name"]));
                 }
             }
-
 
             return listing;
         }

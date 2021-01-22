@@ -44,8 +44,6 @@ namespace MetadataLibrary
             return hashCode;
         }
 
-
-
         public bool Equals(FileEntry other)
         {
             if (other is null) return false; // If parameter is null, return false.

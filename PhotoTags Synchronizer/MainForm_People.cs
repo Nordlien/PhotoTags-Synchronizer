@@ -323,7 +323,7 @@ namespace PhotoTagsSynchronizer
             toolStripMenuItemPeopleRenameFromLast1.DropDownItems.Clear();
 
             List<string> regioNames;
-            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameTopCountCache(10);
+            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.ExifTool, 10);
             foreach (string name in regioNames)
             {
                 ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
@@ -333,7 +333,7 @@ namespace PhotoTagsSynchronizer
                 toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Add(newTagSubItem);
             }
 
-            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
+            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache(MetadataBrokerType.ExifTool);
             foreach (string name in regioNames)
             {
                 ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();

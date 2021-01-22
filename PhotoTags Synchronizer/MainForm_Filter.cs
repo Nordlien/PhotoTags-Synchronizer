@@ -407,61 +407,61 @@ namespace PhotoTagsSynchronizer
         private void PopulateDatabaseFilter()
         {
             
-            List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbums();
+            List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbums(MetadataBrokerType.ExifTool);
             albums.Sort();
             FilterReplaceNullWithIsNotDefineText(albums);
             comboBoxSearchAlbum.Items.Clear();
             comboBoxSearchAlbum.Items.AddRange(albums.ToArray());
 
-            //List<string> authors = databaseAndCacheMetadataExiftool.ListAllPersonalAuthors();
+            //List<string> authors = databaseAndCacheMetadataExiftool.ListAllPersonalAuthors(MetadataBrokerType.ExifTool);
             //authors.Sort();
             //ListViewRemoveNull(authors);
             //comboBoxSearchAuthor.Items.Clear();
             //comboBoxSearchAuthor.Items.AddRange(authors.ToArray());
 
-            List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalComments();
+            List<string> comments = databaseAndCacheMetadataExiftool.ListAllPersonalComments(MetadataBrokerType.ExifTool);
             comments.Sort();
             FilterReplaceNullWithIsNotDefineText(comments);
             comboBoxSearchComments.Items.Clear();
             comboBoxSearchComments.Items.AddRange(comments.ToArray());
 
-            List<string> descriptions = databaseAndCacheMetadataExiftool.ListAllPersonalDescriptions();
+            List<string> descriptions = databaseAndCacheMetadataExiftool.ListAllPersonalDescriptions(MetadataBrokerType.ExifTool);
             descriptions.Sort();
             FilterReplaceNullWithIsNotDefineText(descriptions);
             comboBoxSearchDescription.Items.Clear();
             comboBoxSearchDescription.Items.AddRange(descriptions.ToArray());
 
-            List<string> titles = databaseAndCacheMetadataExiftool.ListAllPersonalTitles();
+            List<string> titles = databaseAndCacheMetadataExiftool.ListAllPersonalTitles(MetadataBrokerType.ExifTool);
             titles.Sort();
             FilterReplaceNullWithIsNotDefineText(titles);
             comboBoxSearchTitle.Items.Clear();
             comboBoxSearchTitle.Items.AddRange(titles.ToArray());
 
-            List<string> locations = databaseAndCacheMetadataExiftool.ListAllLocationNames();
+            List<string> locations = databaseAndCacheMetadataExiftool.ListAllLocationNames(MetadataBrokerType.ExifTool);
             locations.Sort();
             FilterReplaceNullWithIsNotDefineText(locations);
             comboBoxSearchLocationName.Items.Clear();
             comboBoxSearchLocationName.Items.AddRange(locations.ToArray());
 
-            List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCities();
+            List<string> cities = databaseAndCacheMetadataExiftool.ListAllLocationCities(MetadataBrokerType.ExifTool);
             cities.Sort();
             FilterReplaceNullWithIsNotDefineText(cities);
             comboBoxSearchLocationCity.Items.Clear();
             comboBoxSearchLocationCity.Items.AddRange(cities.ToArray());
 
-            List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStates();
+            List<string> states = databaseAndCacheMetadataExiftool.ListAllLocationStates(MetadataBrokerType.ExifTool);
             states.Sort();
             FilterReplaceNullWithIsNotDefineText(states);
             comboBoxSearchLocationState.Items.Clear();
             comboBoxSearchLocationState.Items.AddRange(states.ToArray());
             
-            List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountries();
+            List<string> countries = databaseAndCacheMetadataExiftool.ListAllLocationCountries(MetadataBrokerType.ExifTool);
             countries.Sort();
             FilterReplaceNullWithIsNotDefineText(countries);
             comboBoxSearchLocationCountry.Items.Clear();
             comboBoxSearchLocationCountry.Items.AddRange(countries.ToArray());
 
-            List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
+            List<string> peoples = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache(MetadataBrokerType.ExifTool);
             peoples.Sort();
             FilterReplaceNullWithIsNotDefineText(peoples);
             checkedListBoxSearchPeople.Items.Clear();
@@ -471,7 +471,7 @@ namespace PhotoTagsSynchronizer
             //dateTimePickerSearchDateFrom.
             //comboBoxSearch.Items.AddRange(.ToArray());
             /*
-            List<string> dates = databaseAndCacheMetadataExiftool.ListAllMediaDateTakenYearAndMonth();
+            List<string> dates = databaseAndCacheMetadataExiftool.ListAllMediaDateTakenYearAndMonth(MetadataBrokerType.ExifTool);
             .Sort();
             comboBoxSearch.Items.AddRange(.ToArray());
             */

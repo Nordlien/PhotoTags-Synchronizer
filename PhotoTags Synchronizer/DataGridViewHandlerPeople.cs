@@ -302,7 +302,7 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Sugegstion of names - Top Most
-            List<string> regioNamesTopMost = DatabaseAndCacheMetadataExiftool.ListAllPersonalRegionNameNotInListCache(regionNamesAddedPeople, regioNameSuggestions, SuggestRegionNameTopMostCount - regionNamesAddedTopMost.Count);
+            List<string> regioNamesTopMost = DatabaseAndCacheMetadataExiftool.ListAllPersonalRegionNameNotInListCache(MetadataBrokerType.ExifTool, regionNamesAddedPeople, regioNameSuggestions, SuggestRegionNameTopMostCount - regionNamesAddedTopMost.Count);
             if (regioNamesTopMost != null && regioNamesTopMost.Count > 0)
             {
                 AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed), false);
