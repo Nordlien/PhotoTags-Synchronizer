@@ -170,6 +170,8 @@ namespace PhotoTagsSynchronizer
                 CommonQueueSaveMetadataUpdatedByUserCountLock() > 0;
         }
 
+        
+
         private void TriggerAutoResetEventQueueEmpty()
         {
             if (CommonQueueSaveThumbnailToDatabaseCountLock() == 0 &&
@@ -187,6 +189,21 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region LazyLoadning - Metadata
+        public int ThreadLazyLoadingQueueSize()
+        {
+            return
+                //CommonQueueSaveThumbnailToDatabaseCountLock() +
+                mediaFilesNotInDatabase.Count + 
+                CommonQueueLazyLoadingThumbnailCountLock() +
+                CommonQueueLazyLoadingMetadataCountLock() +
+                CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock()+
+                CommonQueueReadMetadataFromMicrosoftPhotosCountLock()+
+                CommonQueueReadMetadataFromExiftoolCountLock(); //+
+                                                                //CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() +
+                                                                //CommonQueueReadMetadataFromMicrosoftPhotosCountLock() +
+                                                                //CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() +
+                                                                // CommonQueueSaveMetadataUpdatedByUserCountLock();
+        }
 
         #region LazyLoadning - Metadata - AddQueue - Read from Cache, then Database, then Source and Save
         public void AddQueueMetadataReadToCacheOrUpdateFromSoruce(FileEntry fileEntry)
@@ -236,6 +253,8 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadLazyLoadingMetadata = new Thread(() =>
                 {
+                    DataGridViewSuspendInvoke();
+                    
                     while (CommonQueueLazyLoadingMetadataCountLock() > 0 && !GlobalData.IsApplicationClosing)
                     {
                         int queueCount = CommonQueueLazyLoadingMetadataCountLock();
@@ -247,20 +266,17 @@ namespace PhotoTagsSynchronizer
 
                             if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool)) == null)
                             {
-                                metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
-                               // if (metadata == null) AddQueueExiftool(fileEntry);                                 
+                                metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));                                
                             }
                             
                             if (databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos)) == null)
                             {
                                 metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
-                                //if (metadata == null) AddQueueMicrosoftPhotos(fileEntry);
                             }
 
                             if (databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery)) == null)
                             {
                                 metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
-                                //if (metadata == null) AddQueueWindowsLivePhotoGallery(fileEntry);
                             }
 
                             PopulateDataGridViewForFileEntryAttributeInvoke(fileEntryAttribute);                            
@@ -270,10 +286,11 @@ namespace PhotoTagsSynchronizer
                         {
                             for (int queueIndex = 0; queueIndex < queueCount; queueIndex++) commonQueueLazyLoadingMetadata.RemoveAt(0);                            
                         }
-
-                        Application.DoEvents();
                     }
 
+                    DataGridViewResumeInvoke();
+                    
+                    Application.DoEvents();
                     StartThreads();
                 });
                 try
@@ -312,6 +329,8 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadLazyLoadingThumbnail = new Thread(() =>
                 {
+                    DataGridViewSuspendInvoke();
+
                     while (CommonQueueLazyLoadingThumbnailCountLock() > 0 && !GlobalData.IsApplicationClosing)
                     {
                         int queueCount = CommonQueueLazyLoadingThumbnailCountLock();
@@ -331,10 +350,11 @@ namespace PhotoTagsSynchronizer
                         {
                             for (int queueIndex = 0; queueIndex < queueCount; queueIndex++) commonQueueLazyLoadingThumbnail.RemoveAt(0);
                         }
-
-                        Application.DoEvents();
                     }
+                    
+                    DataGridViewResumeInvoke();
 
+                    Application.DoEvents();
                     StartThreads();
                 });
                 try
@@ -376,6 +396,8 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadThumbnailMedia = new Thread(() =>
                 {
+                    DataGridViewSuspendInvoke();
+
                     while (CommonQueueSaveThumbnailToDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue or App will close
                     {
                         if (CommonQueueReadMetadataFromExiftoolCountLock() > 0) break; //Wait all metadata readfirst
@@ -421,6 +443,9 @@ namespace PhotoTagsSynchronizer
                     }
 
                     if (GlobalData.IsApplicationClosing) lock (commonQueueSaveThumbnailToDatabaseLock) commonQueueSaveThumbnailToDatabase.Clear();
+
+                    DataGridViewResumeInvoke();
+                    
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
                 });
@@ -472,6 +497,7 @@ namespace PhotoTagsSynchronizer
                 _ThreadExiftool = new Thread(() =>
                 {
                     //Thread.Sleep(300); //Wait more to become updated;
+                    DataGridViewSuspendInvoke();
 
                     while (CommonQueueReadMetadataFromExiftoolCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                     {
@@ -588,6 +614,9 @@ namespace PhotoTagsSynchronizer
                     exiftoolReader.MetadataGroupPrioityWrite(); //Updated json config file if new tags found
 
                     if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Clear();
+
+                    DataGridViewResumeInvoke();
+                    
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
                 });
@@ -885,6 +914,8 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadWindowsLiveGallery = new Thread(() =>
                 {
+                    DataGridViewSuspendInvoke();
+
                     while (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 && !GlobalData.IsApplicationClosing)
                     {
                         #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
@@ -925,6 +956,9 @@ namespace PhotoTagsSynchronizer
                     }
 
                     if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromWindowsLivePhotoGallery.Clear();
+
+                    DataGridViewResumeInvoke();
+
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
                 });
@@ -971,6 +1005,8 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadMicrosoftPhotos = new Thread(() =>
                 {
+                    DataGridViewSuspendInvoke();
+
                     while (CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0 && !GlobalData.IsApplicationClosing)
                     {
                         #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
@@ -1010,6 +1046,9 @@ namespace PhotoTagsSynchronizer
                     }
 
                     if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromMicrosoftPhotosLock) commonQueueReadMetadataFromMicrosoftPhotos.Clear();
+
+                    DataGridViewResumeInvoke();
+
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
                 });
@@ -1057,7 +1096,8 @@ namespace PhotoTagsSynchronizer
                 if (IsThreadRunningExcept_ThreadThumbnailRegion()) return; //Wait other thread to finnish first. Otherwise it will generate high load on disk use
 
                 _ThreadThumbnailRegion = new Thread(() =>
-                {                    
+                {      
+                    
                     while (CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0 && !GlobalData.IsApplicationClosing && !IsThreadRunningExcept_ThreadThumbnailRegion()) //In case some more added to the queue
                     {
                         int queueCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock(); //Mark count that we will work with. 

@@ -615,10 +615,10 @@ namespace DataGridViewGeneric
         #region Suspend and Resume layout
 
         #region Suspend and Resume layout - Local variables
-        private static DataGridViewAutoSizeRowsMode dataGridViewAutoSizeRowsMode;
-        private static DataGridViewAutoSizeColumnsMode dataGridViewAutoSizeColumnMode;
-        private static DataGridViewRowHeadersWidthSizeMode dataGridViewRowHeadersWidthSizeMode;
-        private static DataGridViewColumnHeadersHeightSizeMode dataGridViewColumnHeadersHeightSizeMode;
+        private static DataGridViewAutoSizeRowsMode dataGridViewAutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+        private static DataGridViewAutoSizeColumnsMode dataGridViewAutoSizeColumnMode = DataGridViewAutoSizeColumnsMode.None;
+        private static DataGridViewRowHeadersWidthSizeMode dataGridViewRowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        private static DataGridViewColumnHeadersHeightSizeMode dataGridViewColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
         // *** API Declarations ***
         [DllImport("user32.dll")]
         private static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
@@ -626,40 +626,65 @@ namespace DataGridViewGeneric
         #endregion 
 
         #region Suspend and Resume layout - SuspendLayout
-        public static void SuspendLayout(DataGridView dataGridView)
+        private static int suspendCount = 0;
+        private static bool isSuspended = false; 
+        public static void SuspendLayout(DataGridView dataGridView, int queueSize)
         {
-            dataGridView.SuspendLayout();
-            dataGridViewAutoSizeRowsMode = dataGridView.AutoSizeRowsMode;
-            dataGridViewAutoSizeColumnMode = dataGridView.AutoSizeColumnsMode;
-            dataGridViewRowHeadersWidthSizeMode = dataGridView.RowHeadersWidthSizeMode;
-            dataGridViewColumnHeadersHeightSizeMode = dataGridView.ColumnHeadersHeightSizeMode;
-
-            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-
-            dataGridView.RowHeadersVisible = false;
+            Console.WriteLine("SuspendLayout Queue:" + queueSize + " Inside count:" + suspendCount);
+            suspendCount++;
+            //if (queueSize > 1) return;
+            if (suspendCount > 1) return; //Already suspended
             
-            // *** DataGridView population ***
-            SendMessage(dataGridView.Handle, WM_SETREDRAW, false, 0);
+
+            if (!isSuspended)
+            {
+                Console.WriteLine("-----------------SuspendLayout started");
+                dataGridView.SuspendLayout();
+
+                dataGridViewAutoSizeRowsMode = dataGridView.AutoSizeRowsMode;
+                dataGridViewAutoSizeColumnMode = dataGridView.AutoSizeColumnsMode;
+                dataGridViewRowHeadersWidthSizeMode = dataGridView.RowHeadersWidthSizeMode;
+                dataGridViewColumnHeadersHeightSizeMode = dataGridView.ColumnHeadersHeightSizeMode;
+
+                dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+                dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+
+                dataGridView.RowHeadersVisible = false;
+
+                SendMessage(dataGridView.Handle, WM_SETREDRAW, false, 0);
+
+                isSuspended = true;
+            }
+            
+
+            
         }
         #endregion 
 
         #region Suspend and Resume layout - ResumeLayout
-        public static void ResumeLayout(DataGridView dataGridView)
+        public static void ResumeLayout(DataGridView dataGridView, int queueSize)
         {
-            //dataGridView.EndEdit();
-            dataGridView.AutoSizeRowsMode = dataGridViewAutoSizeRowsMode;
-            dataGridView.AutoSizeColumnsMode = dataGridViewAutoSizeColumnMode;
-            dataGridView.RowHeadersWidthSizeMode = dataGridViewRowHeadersWidthSizeMode;
-            dataGridView.ColumnHeadersHeightSizeMode = dataGridViewColumnHeadersHeightSizeMode;
+            suspendCount--;
+            Console.WriteLine("ResumeLayout " + queueSize + " Inside count:" + suspendCount);
+            if (suspendCount == 0 && isSuspended)
+            {
+                if (queueSize > 0) return; //Wait new suspend
+                Console.WriteLine("-----------------ResumeLayout ended");
+                dataGridView.AutoSizeRowsMode = dataGridViewAutoSizeRowsMode;
+                dataGridView.AutoSizeColumnsMode = dataGridViewAutoSizeColumnMode;
+                dataGridView.RowHeadersWidthSizeMode = dataGridViewRowHeadersWidthSizeMode;
+                dataGridView.ColumnHeadersHeightSizeMode = dataGridViewColumnHeadersHeightSizeMode;
 
-            dataGridView.RowHeadersVisible = true;
-            dataGridView.ResumeLayout();
+                dataGridView.RowHeadersVisible = true;
+                dataGridView.ResumeLayout();
 
-            SendMessage(dataGridView.Handle, WM_SETREDRAW, true, 0);
-            dataGridView.Refresh();
+                SendMessage(dataGridView.Handle, WM_SETREDRAW, true, 0);
+                dataGridView.Refresh();
+                isSuspended = false;
+            }
+            else if (suspendCount < 0) suspendCount = 0;
         }
         #endregion 
 
@@ -1150,8 +1175,10 @@ namespace DataGridViewGeneric
 
         #region Rows handling
         #region Rows handling - FastAutoSizeRowsHeight
-        public static void FastAutoSizeRowsHeight(DataGridView dataGridView)
+        public static void FastAutoSizeRowsHeight(DataGridView dataGridView, int queueSize)
         {
+            if (queueSize > 0) return;
+
             // Create a graphics object from the target grid. Used for measuring text size.
             using (var gfx = dataGridView.CreateGraphics())
             {
@@ -1448,7 +1475,8 @@ namespace DataGridViewGeneric
                     SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, dataGridViewGenericRow);
                     SetCellStatusDefaultWhenRowAdded(dataGridView, rowIndex, dataGridViewGenericCellStatusDefault);
                 }
-                else { }
+                else {
+                }
                 
             }
             
@@ -2576,7 +2604,7 @@ namespace DataGridViewGeneric
 
                 }
             }
-            Refresh(dataGridView);
+            //Refresh(dataGridView);
 
             if (updatedCells != null && updatedCells.Count > 0)
             {                

@@ -300,6 +300,7 @@ namespace PhotoTagsSynchronizer
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
             this.timerShowExiftoolSaveProgress = new System.Windows.Forms.Timer(this.components);
+            this.toolStripProgressBarDataGridViewLoading = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -393,7 +394,8 @@ namespace PhotoTagsSynchronizer
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusFilesAndSelected,
             this.toolStripStatusQueue,
-            this.toolStripStatusAction});
+            this.toolStripStatusAction,
+            this.toolStripProgressBarDataGridViewLoading});
             this.statusStrip.Location = new System.Drawing.Point(0, 0);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1387, 30);
@@ -3080,7 +3082,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonAbout});
             this.toolStrip.Location = new System.Drawing.Point(4, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(876, 28);
+            this.toolStrip.Size = new System.Drawing.Size(837, 28);
             this.toolStrip.TabIndex = 0;
             // 
             // thumbnailsToolStripButton
@@ -3391,6 +3393,11 @@ namespace PhotoTagsSynchronizer
             this.timerShowExiftoolSaveProgress.Enabled = true;
             this.timerShowExiftoolSaveProgress.Interval = 400;
             this.timerShowExiftoolSaveProgress.Tick += new System.EventHandler(this.timerShowExiftoolSaveProgress_Tick);
+            // 
+            // toolStripProgressBarDataGridViewLoading
+            // 
+            this.toolStripProgressBarDataGridViewLoading.Name = "toolStripProgressBarDataGridViewLoading";
+            this.toolStripProgressBarDataGridViewLoading.Size = new System.Drawing.Size(100, 22);
             // 
             // MainForm
             // 
@@ -3754,6 +3761,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast3;
         private DragNDrop.TreeViewWithoutDoubleClick treeViewFilter;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarDataGridViewLoading;
     }
 }
 

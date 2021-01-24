@@ -313,7 +313,7 @@ namespace PhotoTagsSynchronizer
             }
             #endregion 
             
-            DataGridViewHandler.Refresh(dataGridView);
+            //DataGridViewHandler.Refresh(dataGridView);
 
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);

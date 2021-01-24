@@ -32,7 +32,6 @@ namespace PhotoTagsSynchronizer
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
 
-            DataGridViewHandler.SuspendLayout(dataGridView);
             //-----------------------------------------------------------------
             exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
       
@@ -82,7 +81,6 @@ namespace PhotoTagsSynchronizer
             }
 
             //-----------------------------------------------------------------
-            DataGridViewHandler.ResumeLayout(dataGridView);
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
         }
