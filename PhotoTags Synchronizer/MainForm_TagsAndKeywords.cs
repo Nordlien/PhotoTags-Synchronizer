@@ -370,18 +370,35 @@ namespace PhotoTagsSynchronizer
         #region PupulateDetalView
         private void ClearDetailViewTagsAndKeywords()
         {
+            EnableDetailViewTagsAndKeywords(false);
+
             comboBoxMediaAiConfidence.SelectedIndex = Properties.Settings.Default.MediaAiConfidence;
             comboBoxTitle.Items.Clear();
             comboBoxDescription.Items.Clear();
             comboBoxComments.Items.Clear();
             comboBoxAlbum.Items.Clear();
-
+            
             //groupBoxRating
             radioButtonRating1.Checked = false;
             radioButtonRating2.Checked = false;
             radioButtonRating3.Checked = false;
             radioButtonRating4.Checked = false;
             radioButtonRating5.Checked = false;
+        }
+
+        private void EnableDetailViewTagsAndKeywords(bool enable)
+        {
+            comboBoxMediaAiConfidence.Enabled = enable;
+            comboBoxTitle.Enabled = enable;
+            comboBoxDescription.Enabled = enable;
+            comboBoxComments.Enabled = enable;
+            comboBoxAlbum.Enabled = enable;
+            comboBoxAuthor.Enabled = enable;
+            radioButtonRating1.Enabled = enable;
+            radioButtonRating2.Enabled = enable;
+            radioButtonRating3.Enabled = enable;
+            radioButtonRating4.Enabled = enable;
+            radioButtonRating5.Enabled = enable;
         }
 
         private void AddToListBox(DataGridView dataGridView, ComboBox comboBox, int columnIndex, string sourceHeader, string rowTag)
@@ -395,7 +412,9 @@ namespace PhotoTagsSynchronizer
                 if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !comboBox.Items.Contains(value.ToString()))
                     comboBox.Items.Add(value.ToString());
             }
+            EnableDetailViewTagsAndKeywords(true);
         }
+
 
         private void PopulateDetailViewTagsAndKeywords(DataGridView dataGridView)
         {

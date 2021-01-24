@@ -155,12 +155,10 @@ namespace PhotoTagsSynchronizer
         {
             lock (GlobalData.populateSelectedLock)
             {
-                //DataGridViewHandler.SuspendLayout(dataGridView, ThreadLazyLoadingQueueSize());
                 SuspendLayout();
                 int threadLazyLoadingQueueSize = ThreadLazyLoadingQueueSize();
                 if (threadLazyLoadingQueueSize > toolStripProgressBarDataGridViewLoading.Maximum) toolStripProgressBarDataGridViewLoading.Maximum = threadLazyLoadingQueueSize;
-                if (toolStripProgressBarDataGridViewLoading.Maximum = )
-                toolStripProgressBarDataGridViewLoading.Value = toolStripProgressBarDataGridViewLoading.Maximum - ThreadLazyLoadingQueueSize();
+                toolStripProgressBarDataGridViewLoading.Value = toolStripProgressBarDataGridViewLoading.Maximum - threadLazyLoadingQueueSize;
                 switch (tag)
                 {
                     case "Tags":
@@ -178,21 +176,16 @@ namespace PhotoTagsSynchronizer
                         break;
                     case "ExifTool":
                         DataGridViewHandlerExiftool.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        //DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadQueueSize());
                         break;
                     case "Warning":
                         DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        //DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadQueueSize());
                         break;
                     case "Properties":
                         DataGridViewHandlerProperties.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        //DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadQueueSize());
                         break;
                     case "Rename":
-                        //DataGridViewHandlerRename.PopulateFile(dataGridView, fileVersionAttribute, showWhatColumns);
                         break;
                 }
-                //DataGridViewHandler.ResumeLayout(dataGridView, ThreadLazyLoadingQueueSize());
                 ResumeLayout();
             }
         }
@@ -220,8 +213,6 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - Populate File - For Selected Files 
         private void PopulateDataGridViewSelectedItemsWithMediaFileVersions(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
             List<FileEntryAttribute> lazyLoadingAllVersionOfMediaFile = new List<FileEntryAttribute>();
 
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
@@ -229,11 +220,8 @@ namespace PhotoTagsSynchronizer
                 List<FileEntryAttribute> fileEntryAttributeDateVersions = databaseAndCacheMetadataExiftool.ListFileEntryAttributes(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
                 lazyLoadingAllVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }
-            Debug.WriteLine("TEST" + stopWatch.Elapsed.ToString());
             AddQueueLazyLoadningMetadata(lazyLoadingAllVersionOfMediaFile);
             AddQueueLazyLoadningThumbnail(lazyLoadingAllVersionOfMediaFile);
-            stopWatch.Stop();
-            Debug.WriteLine("TEST" + stopWatch.Elapsed.ToString());
         }
         #endregion 
 
@@ -247,6 +235,46 @@ namespace PhotoTagsSynchronizer
             threadPopulateDataGridView.Start();
         }
         #endregion 
+
+        private void PopulateDataGridViewForSelectedItemsExtrasInvoke()
+        {
+            if (this.InvokeRequired)
+            {
+                BeginInvoke(new Action(PopulateDataGridViewForSelectedItemsExtrasInvoke));
+                return;
+            }
+
+            if (GlobalData.IsApplicationClosing) return;
+
+            lock (GlobalData.populateSelectedLock)
+            {
+
+                DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+                switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
+                {
+                    case "Tags":
+                        PopulateDetailViewTagsAndKeywords(dataGridView);
+                        break;
+                    case "Map":
+                        break;
+                    case "People":
+                        break;
+                    case "Date":
+                        break;
+                    case "ExifTool":
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSize());
+                        break;
+                    case "Warning":
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSize());
+                        break;
+                    case "Properties":
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSize());
+                        break;
+                    case "Rename":
+                        break;
+                }
+            }
+        }
 
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke
         /// <summary>
@@ -271,8 +299,6 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
                 List<FileEntryAttribute> lazyLoading;
 
-                //dataGridView.Enabled = false; //Remember datagrid_CellPainting will be triggered when change Enable state
-                //DataGridViewHandler.SuspendLayout(dataGridView, ThreadLazyLoadingQueueSize()); //Force suspend 
                 SuspendLayout();
 
                 switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
@@ -286,7 +312,6 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                         DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns);
                         PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
-                        PopulateDetailViewTagsAndKeywords(dataGridView);
                         break;
                     case "Map":
                         splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
@@ -329,7 +354,6 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerExiftool.DatabaseExiftoolData = databaseExiftoolData;
                         DataGridViewHandlerExiftool.exiftoolReader = exiftoolReader;
                         lazyLoading = DataGridViewHandlerExiftool.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, showWhatColumns);
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSize());
                         AddQueueLazyLoadningMetadata(lazyLoading);
                         AddQueueLazyLoadningThumbnail(lazyLoading);
                         break;
@@ -338,14 +362,12 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
                         DataGridViewHandlerExiftoolWarnings.exiftoolReader = exiftoolReader;
                         lazyLoading = DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, showWhatColumns);
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSize());
                         AddQueueLazyLoadningMetadata(lazyLoading);
                         AddQueueLazyLoadningThumbnail(lazyLoading);
                         break;
                     case "Properties":
                         DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
                         DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSize());
                         break;
                     case "Rename":
                         DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
@@ -356,7 +378,6 @@ namespace PhotoTagsSynchronizer
                         break;
                 }
 
-                //DataGridViewHandler.ResumeLayout(dataGridView, ThreadLazyLoadingQueueSize());
                 ResumeLayout();
             }
         }

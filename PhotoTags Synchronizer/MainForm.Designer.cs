@@ -40,6 +40,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusQueue = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusAction = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBarDataGridViewLoading = new System.Windows.Forms.ToolStripProgressBar();
             this.splitContainerFolder = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageFilterFolder = new System.Windows.Forms.TabPage();
@@ -300,7 +301,6 @@ namespace PhotoTagsSynchronizer
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
             this.timerShowExiftoolSaveProgress = new System.Windows.Forms.Timer(this.components);
-            this.toolStripProgressBarDataGridViewLoading = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -426,6 +426,12 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusAction.Name = "toolStripStatusAction";
             this.toolStripStatusAction.Size = new System.Drawing.Size(49, 24);
             this.toolStripStatusAction.Text = "Status";
+            // 
+            // toolStripProgressBarDataGridViewLoading
+            // 
+            this.toolStripProgressBarDataGridViewLoading.Name = "toolStripProgressBarDataGridViewLoading";
+            this.toolStripProgressBarDataGridViewLoading.Size = new System.Drawing.Size(100, 22);
+            this.toolStripProgressBarDataGridViewLoading.Visible = false;
             // 
             // splitContainerFolder
             // 
@@ -3393,11 +3399,6 @@ namespace PhotoTagsSynchronizer
             this.timerShowExiftoolSaveProgress.Enabled = true;
             this.timerShowExiftoolSaveProgress.Interval = 400;
             this.timerShowExiftoolSaveProgress.Tick += new System.EventHandler(this.timerShowExiftoolSaveProgress_Tick);
-            // 
-            // toolStripProgressBarDataGridViewLoading
-            // 
-            this.toolStripProgressBarDataGridViewLoading.Name = "toolStripProgressBarDataGridViewLoading";
-            this.toolStripProgressBarDataGridViewLoading.Size = new System.Drawing.Size(100, 22);
             // 
             // MainForm
             // 

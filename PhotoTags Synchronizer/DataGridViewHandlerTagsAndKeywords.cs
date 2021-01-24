@@ -224,6 +224,7 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
         }
 
+        
 
         public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {

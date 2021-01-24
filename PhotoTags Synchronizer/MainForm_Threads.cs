@@ -496,7 +496,6 @@ namespace PhotoTagsSynchronizer
             {
                 _ThreadExiftool = new Thread(() =>
                 {
-                    //Thread.Sleep(300); //Wait more to become updated;
                     DataGridViewSuspendInvoke();
 
                     while (CommonQueueReadMetadataFromExiftoolCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
@@ -616,7 +615,8 @@ namespace PhotoTagsSynchronizer
                     if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Clear();
 
                     DataGridViewResumeInvoke();
-                    
+                    PopulateDataGridViewForSelectedItemsExtrasInvoke();
+
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
                 });
