@@ -189,6 +189,8 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region LazyLoadning - Metadata
+        int updatedDataGridCount = 0;
+        
         public int ThreadLazyLoadingQueueSize()
         {
             return
@@ -198,7 +200,8 @@ namespace PhotoTagsSynchronizer
                 CommonQueueLazyLoadingMetadataCountLock() +
                 CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock()+
                 CommonQueueReadMetadataFromMicrosoftPhotosCountLock()+
-                CommonQueueReadMetadataFromExiftoolCountLock(); //+
+                CommonQueueReadMetadataFromExiftoolCountLock() +
+                updatedDataGridCount; //+
                                                                 //CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() +
                                                                 //CommonQueueReadMetadataFromMicrosoftPhotosCountLock() +
                                                                 //CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() +
@@ -240,7 +243,8 @@ namespace PhotoTagsSynchronizer
             if (fileEntryAttributes == null) return;
             lock (commonQueueLazyLoadingMetadataLock)
             {
-                foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes) if (!commonQueueLazyLoadingMetadata.Contains(fileEntryAttribute)) commonQueueLazyLoadingMetadata.Add(fileEntryAttribute);
+                foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes) 
+                    if (!commonQueueLazyLoadingMetadata.Contains(fileEntryAttribute)) commonQueueLazyLoadingMetadata.Add(fileEntryAttribute);
             }
             StartThreads();
         }
@@ -259,6 +263,7 @@ namespace PhotoTagsSynchronizer
                     {
                         int queueCount = CommonQueueLazyLoadingMetadataCountLock();
 
+                        updatedDataGridCount = queueCount;
                         for (int queueIndex = 0; queueIndex < queueCount; queueIndex++)
                         {
                             Metadata metadata;
@@ -279,12 +284,14 @@ namespace PhotoTagsSynchronizer
                                 metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
                             }
 
-                            PopulateDataGridViewForFileEntryAttributeInvoke(fileEntryAttribute);                            
+                            updatedDataGridCount--;
+                            PopulateDataGridViewForFileEntryAttributeInvoke(fileEntryAttribute, updatedDataGridCount);
                         }
 
                         lock (commonQueueLazyLoadingMetadataLock)
                         {
-                            for (int queueIndex = 0; queueIndex < queueCount; queueIndex++) commonQueueLazyLoadingMetadata.RemoveAt(0);                            
+                            for (int queueIndex = 0; queueIndex < queueCount; queueIndex++) 
+                                commonQueueLazyLoadingMetadata.RemoveAt(0);                            
                         }
                     }
 
@@ -529,8 +536,6 @@ namespace PhotoTagsSynchronizer
                         }
                         #endregion 
 
-                        
-
                         while (mediaFilesNotInDatabase.Count > 0 && !GlobalData.IsApplicationClosing)
                         {
                             #region Create a subset of files to Read using Exiftool command line with parameters, and remove subset from queue
@@ -580,6 +585,7 @@ namespace PhotoTagsSynchronizer
                             #endregion
 
                             #region Verify readback after saved. (Saved data is in "to be verified" queue)
+                            
                             foreach (Metadata metadataRead in metadataReadbackExiftoolAfterSaved)
                             {
                                 lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock)

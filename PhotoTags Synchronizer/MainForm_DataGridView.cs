@@ -120,6 +120,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region DataGridView - DataGridViewSuspendInvoke
         private void DataGridViewSuspendInvoke()
         {
             if (!this.IsHandleCreated) return;
@@ -135,7 +136,9 @@ namespace PhotoTagsSynchronizer
             toolStripProgressBarDataGridViewLoading.Maximum = threadLazyLoadingQueueSize;
             toolStripProgressBarDataGridViewLoading.Visible = true;
         }
+        #endregion 
 
+        #region DataGridView - DataGridViewResumeInvoke
         private void DataGridViewResumeInvoke()
         {
             if (!this.IsHandleCreated) return;
@@ -147,16 +150,36 @@ namespace PhotoTagsSynchronizer
             string tag = tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
             DataGridView dataGridView = GetDataGridViewForTag(tag);
             DataGridViewHandler.ResumeLayout(dataGridView, ThreadLazyLoadingQueueSize());
-            toolStripProgressBarDataGridViewLoading.Visible = false;
+            toolStripProgressBarDataGridViewLoading.Visible = true;
         }
+        #endregion 
+
+        #region DataGridView - Populate File - For FileEntryAttribute - Invoke
+        private void PopulateDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, int queueCount = 0)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<FileEntryAttribute, int>(PopulateDataGridViewForFileEntryAttributeInvoke), fileEntryAttribute, queueCount);
+                return;
+            }
+            if (GlobalData.IsApplicationClosing) return;
+
+            string tag = tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
+            if (IsActiveDataGridViewAgregated(tag))
+            {
+                DataGridView dataGridView = GetDataGridViewForTag(tag);
+                PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag, queueCount);
+            }
+        }
+        #endregion
 
         #region DataGridView - Populate File - For FileEntryAttribute and Tag
-        private void PopulateDataGrivViewForFileEntryAttributeAndTag(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tag)
+        private void PopulateDataGrivViewForFileEntryAttributeAndTag(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tag, int queueCount)
         {
             lock (GlobalData.populateSelectedLock)
             {
                 SuspendLayout();
-                int threadLazyLoadingQueueSize = ThreadLazyLoadingQueueSize();
+                int threadLazyLoadingQueueSize = ThreadLazyLoadingQueueSize() + queueCount;
                 if (threadLazyLoadingQueueSize > toolStripProgressBarDataGridViewLoading.Maximum) toolStripProgressBarDataGridViewLoading.Maximum = threadLazyLoadingQueueSize;
                 toolStripProgressBarDataGridViewLoading.Value = toolStripProgressBarDataGridViewLoading.Maximum - threadLazyLoadingQueueSize;
                 switch (tag)
@@ -191,25 +214,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Populate File - For FileEntryAttribute - Invoke
-        private void PopulateDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<FileEntryAttribute>(PopulateDataGridViewForFileEntryAttributeInvoke), fileEntryAttribute);
-                return;
-            }
-            if (GlobalData.IsApplicationClosing) return;
-
-            string tag = tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
-            if (IsActiveDataGridViewAgregated(tag))
-            {
-                DataGridView dataGridView = GetDataGridViewForTag(tag);
-                PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
-            }
-        }
-        #endregion
-
         #region DataGridView - Populate File - For Selected Files 
         private void PopulateDataGridViewSelectedItemsWithMediaFileVersions(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
@@ -234,8 +238,9 @@ namespace PhotoTagsSynchronizer
 
             threadPopulateDataGridView.Start();
         }
-        #endregion 
+        #endregion
 
+        #region DataGridView - PopulateDataGridViewForSelectedItemsExtrasInvoke
         private void PopulateDataGridViewForSelectedItemsExtrasInvoke()
         {
             if (this.InvokeRequired)
@@ -275,6 +280,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion
 
         #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke
         /// <summary>

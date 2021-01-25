@@ -143,7 +143,8 @@ namespace PhotoTagsSynchronizer
                     if (image != null) return image;
 
                     if (doNotReadFullFile) return image;
-                    return Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White);
+                    return ImageAndMovieFileExtentionsUtility.ThumbnailFromImage(fullFilePath, maxSize);
+                    //return Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White);
                 }
             }
             catch { }
