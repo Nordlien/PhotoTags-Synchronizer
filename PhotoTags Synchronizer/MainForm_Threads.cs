@@ -346,9 +346,9 @@ namespace PhotoTagsSynchronizer
                         {
                             FileEntryAttribute fileEntryAttribute = commonQueueLazyLoadingThumbnail[queueIndex];
 
-                            if (databaseAndCacheThumbnail.ReadThumbnailFromCacheOnly(fileEntryAttribute) == null)
+                            if (!databaseAndCacheThumbnail.DoesThumbnailExistInCache(fileEntryAttribute))
                             {
-                                Image image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntryAttribute);
+                                Image image = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntryAttribute.FileEntry);
                                 if (image != null) UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(fileEntryAttribute, image);
                             }
                         }

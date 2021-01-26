@@ -50,12 +50,8 @@ namespace PhotoTagsSynchronizer
 
                     if (thumbnailImage != null)
                     {
-                        /*Image cloneBitmap = new Bitmap(thumbnailImage); //Need create a clone, due to GDI + not thread safe
-
-                        AddQueueAllUpdatedFileEntry(new FileEntryImage(fileEntry, cloneBitmap));
-                        thumbnailImage = Manina.Windows.Forms.Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true);*/
-
                         Image cloneBitmap = Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true); //Need create a clone, due to GDI + not thread safe
+
                         AddQueueMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
                         AddQueueSaveThumbnailMedia(new FileEntryImage(fileEntry, cloneBitmap));
                         thumbnailImage = cloneBitmap;
@@ -108,7 +104,9 @@ namespace PhotoTagsSynchronizer
             }
             else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
             {
-                return Manina.Windows.Forms.Utility.LoadImageWithoutLock(fullFilePath);
+                Image image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath);
+                if (image == null) image = Utility.LoadImageWithoutLock(fullFilePath);
+                return image;
             }
             else
                 return null;
@@ -131,8 +129,7 @@ namespace PhotoTagsSynchronizer
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
                     Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     if (image != null) return image;
-
-                    if (doNotReadFullFile) return image;
+                    if (doNotReadFullFile) return image; //Don't read from file
 
                     return Utility.ThumbnailFromImage(LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile), maxSize, Color.White, false);
                 }
@@ -140,11 +137,12 @@ namespace PhotoTagsSynchronizer
                 {
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
                     Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
-                    if (image != null) return image;
+                    if (doNotReadFullFile) return image; //Don't read from file
 
-                    if (doNotReadFullFile) return image;
-                    return ImageAndMovieFileExtentionsUtility.ThumbnailFromImage(fullFilePath, maxSize);
-                    //return Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White);
+                    if (image == null) image = Utility.ThumbnailFromImage(ImageAndMovieFileExtentionsUtility.ThumbnailFromImage(fullFilePath), maxSize, Color.White, false);
+                    if (image == null) image = Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White);
+                    return image;
+                
                 }
             }
             catch { }

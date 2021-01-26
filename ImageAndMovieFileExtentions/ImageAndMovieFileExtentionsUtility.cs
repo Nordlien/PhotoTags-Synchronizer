@@ -4,6 +4,7 @@ using System.Linq;
 using MetadataLibrary;
 using ImageMagick;
 using System.Drawing;
+using System;
 
 namespace ImageAndMovieFileExtentions
 {
@@ -12,55 +13,95 @@ namespace ImageAndMovieFileExtentions
         public static Image LoadImage(string fullFilename)
         {
             Image thumbnailReturn = null;
-            using (var image = new MagickImage("Snakeware.jpg"))
+            using (var image = new MagickImage(fullFilename))
             {
+                /*
+                using (var collection = new MagickImageCollection())
+                {
+                    var settings = new MagickReadSettings();
+                    settings.FrameIndex = 0; // First page
+                    settings.FrameCount = 1; // Number of pages
+
+                    // Read only the first page of the pdf file
+                    collection.Read("Snakeware.pdf", settings);
+
+                    // Clear the collection
+                    collection.Clear();
+
+                    settings.FrameCount = 2; // Number of pages
+
+                    // Read the first two pages of the pdf file
+                    collection.Read("Snakeware.pdf", settings);
+                }
+                */
             }
             return thumbnailReturn;
         }
-        public static Image ThumbnailFromImage(string fullFilename, Size size)
+
+        public static Image ThumbnailFromImage(string fullFilename)
         {
             Image thumbnailReturn = null;
-
-            // Read image from file
             using (MagickImage image = new MagickImage(fullFilename))
             {
-                // Retrieve the exif information
                 var profile = image.GetExifProfile();
-                
                 // Create thumbnail from exif information
                 using (var thumbnail = profile.CreateThumbnail())
                 {
-
-                    //thumbnailReturn = 
-                    //ToBitmap();
-                    // Check if exif profile contains thumbnail and save it
-                    //if (thumbnail != null) thumbnail.Write("FujiFilmFinePixS1Pro.thumb.jpg");
                     if (thumbnail != null) thumbnailReturn = thumbnail.ToBitmap();
                 }
             }
             return thumbnailReturn;
+        }
 
-            /*   
-            
-            var file = new FileInfo(fullFilename);
-            using (MagickImage image = new MagickImage(file))
+        public static Metadata GetExif(string fullFilename)
+        {
+            Metadata metadata = null;
+            try
             {
+                using (MagickImage image = new MagickImage(fullFilename))
                 {
-                    image.Thumbnail(new MagickGeometry(size.Width, size.Width));
-                    thumbnail = new Bitmap(image);
-                    //image.Write(@"C:\temp\thumbnail.jpg");
+                    metadata = new Metadata(MetadataBrokerType.Empty);
+                    IExifProfile profile = image.GetExifProfile();
+
+                    IExifValue value;
+                    value = profile.GetValue(ExifTag.PixelXDimension);
+                    int number;
+                    if (value != null && int.TryParse(value.ToString(), out number)) metadata.MediaHeight = number;
+
+                    value = profile.GetValue(ExifTag.PixelYDimension);
+                    if (value != null && int.TryParse(value.ToString(), out number)) metadata.MediaHeight = number;
+
+                    DateTime dateTime;
+                    value = profile.GetValue(ExifTag.DateTimeDigitized);
+                    if (value != null && DateTime.TryParse(value.ToString(), out dateTime)) metadata.MediaDateTaken = dateTime;
+
+                    value = profile.GetValue(ExifTag.ImageDescription);
+                    if (value != null) metadata.PersonalDescription = value.ToString();
+
+                    value = profile.GetValue(ExifTag.Model);
+                    if (value != null) metadata.CameraModel = value.ToString();
+
+                    value = profile.GetValue(ExifTag.XPAuthor);
+                    if (value != null) metadata.PersonalAuthor = value.ToString();
+
+                    value = profile.GetValue(ExifTag.UserComment);
+                    if (value == null) value = profile.GetValue(ExifTag.XPComment);
+                    if (value != null) metadata.PersonalComments = value.ToString();
+
                 }
             }
-            */
+            catch { }
+
+            return metadata;
         }
 
 
         #region Video and Image Formats
         private static List<string> imageFormats = new List<string> {
             //Tag	        Mode	Description	Notes
-            ".AAI", //	    RW	    AAI Dune image	
-            ".APNG", //		RW	    Animated Portable Network Graphics	Note, you must use an explicit image format specifier to read an APNG (apng:myImage.apng) image sequence, otherwise it assumes a PNG image and only reads the first frame.
-            ".ART", //		RW	    PFS: 1st Publisher	Format originally used on the Macintosh (MacPaint?) and later used for PFS: 1st Publisher clip art.
+            ".AAI", //	    RW	AAI Dune image	
+            ".APNG", //		RW	Animated Portable Network Graphics	Note, you must use an explicit image format specifier to read an APNG (apng:myImage.apng) image sequence, otherwise it assumes a PNG image and only reads the first frame.
+            ".ART", //		RW	PFS: 1st Publisher	Format originally used on the Macintosh (MacPaint?) and later used for PFS: 1st Publisher clip art.
             ".ARW", //		R	Sony Digital Camera Alpha Raw Image Format	Set -define dng:use-camera-wb=true to use the RAW-embedded color profile for Sony cameras. You can also set these options: use-auto-wb, use-auto-bright, and output-color.
             ".AVI", //		R	Microsoft Audio/Visual Interleaved	
             ".AVS", //		RW	AVS X image	
@@ -318,7 +359,7 @@ namespace ImageAndMovieFileExtentions
             ".XCF", // – GIMP image (from Gimp's origin at the eXperimental Computing Facility of the University of California)
             ".XPM", // – X Window System Pixmap
             ".ZIF" // – Zoomable/Zoomify Image Format (a web-friendly, TIFF-based, zoomable image format) */
-        };
+            };
 
         //3GP, ASF, AVCHD, AVI,*.mkv, mov, .mpeg, .mpg, .mpe, mp4, WMV  
         //Video file formats by file extension 

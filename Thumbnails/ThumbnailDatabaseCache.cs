@@ -170,7 +170,7 @@ namespace Thumbnails
 
         private void CacheUpdate(FileEntry file, Image image)
         {
-            
+            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
             if (thumbnailCache.ContainsKey(file))
             {
                 thumbnailCache[file] = image;
@@ -183,17 +183,21 @@ namespace Thumbnails
 
         private bool CacheContainsKey(FileEntry file)
         {
+            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
             return thumbnailCache.ContainsKey(file);
         }
 
         private Image CacheGet(FileEntry file)
         {
+            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
             return thumbnailCache[file];
         }
 
         public void CacheRemove(FileEntry file)
         {
             if (file == null) return;
+            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
+
             if (CacheContainsKey(file))
             {
                 thumbnailCache.Remove(file);
@@ -203,7 +207,7 @@ namespace Thumbnails
         public void CacheRemove(FileEntry[] files)
         {
             if (files == null) return;
-            foreach (FileEntryBroker file in files)
+            foreach (FileEntry file in files)
             {
                 if (CacheContainsKey(file))
                 {
@@ -218,8 +222,14 @@ namespace Thumbnails
             thumbnailCache = new Dictionary<FileEntry, Image>();
         }
 
+        public bool DoesThumbnailExistInCache(FileEntry file)
+        {
+            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
+            return CacheContainsKey(file);
+        }
         public Image ReadThumbnailFromCacheOnly(FileEntry file)
         {
+            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
             if (CacheContainsKey(file))
             {
                 return CacheGet(file);
@@ -229,8 +239,11 @@ namespace Thumbnails
 
         public Image ReadThumbnailFromCacheOnlyClone(FileEntry file)
         {
+            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
+
             if (CacheContainsKey(file))
             {
+
                 return new Bitmap(CacheGet(file));
             }
             return null;
@@ -238,13 +251,10 @@ namespace Thumbnails
 
         public Image ReadThumbnailFromCacheOrDatabase(FileEntry file)
         {
-            if (CacheContainsKey(file))
-            {
-                return CacheGet(file);
-            }
-
+            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
+            if (CacheContainsKey(file)) return CacheGet(file);
+            
             Image image;
-
             image = Read(file);
             if (image != null)
             {

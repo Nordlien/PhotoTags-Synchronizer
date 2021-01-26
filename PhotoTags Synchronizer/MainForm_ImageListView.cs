@@ -28,12 +28,12 @@ namespace PhotoTagsSynchronizer
             Application.DoEvents();
             try
             {
+                if (metadata == null) metadata = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
                 if (metadata == null || metadata.FileName == null)
                 {
                     Utility.ShellImageFileInfo shellImageFileInfo = new Utility.ShellImageFileInfo();
                     shellImageFileInfo.ReadShellImageFileInfo(e.FileName);
                     e.FileMetadata = shellImageFileInfo;
-
                 }
                 else
                 {
