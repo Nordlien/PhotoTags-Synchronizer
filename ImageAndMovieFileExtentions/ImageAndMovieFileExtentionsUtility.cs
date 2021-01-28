@@ -5,6 +5,9 @@ using MetadataLibrary;
 using ImageMagick;
 using System.Drawing;
 using System;
+using System.Text;
+using System.Globalization;
+using Manina.Windows.Forms;
 
 namespace ImageAndMovieFileExtentions
 {
@@ -12,9 +15,10 @@ namespace ImageAndMovieFileExtentions
     {
         public static Image LoadImage(string fullFilename)
         {
-            Image thumbnailReturn = null;
+            Bitmap thumbnailReturn = null;
             using (var image = new MagickImage(fullFilename))
             {
+                thumbnailReturn = image.ToBitmap();
                 /*
                 using (var collection = new MagickImageCollection())
                 {
@@ -53,46 +57,162 @@ namespace ImageAndMovieFileExtentions
             return thumbnailReturn;
         }
 
-        public static Metadata GetExif(string fullFilename)
+        public static DateTime? ConvertDateTimeFromString(String dateTimeToConvert)
         {
-            Metadata metadata = null;
+            String[] dateFormats = { "yyyy:MM:dd HH:mm", "yyyy:MM:dd HH:mm:ss", "yyyy:MM:dd HH:mm:sszzz", "yyyy:MM:dd HH:mm:ss.fff", "yyyy:MM:dd HH:mm:ss.ff", "yyyy:MM:dd HH:mm:ss.ffff", "yyyy:MM:dd HH:mm:ss.fffff", "yyyy:MM:dd HH:mm:ss.ffffff" };
+            
             try
             {
+                DateTime dateTime;
+                if (DateTime.TryParseExact(dateTimeToConvert, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out dateTime))
+                {
+                    return dateTime;
+                }
+                else return null;
+            }
+            catch 
+            {
+                //Logger.Warn(dateTimeToConvert + " " + e.Message); //TODO: Need to fix problems with date formats
+                return null;
+            }
+        }
+
+        public static string CovertByteArrayToString(byte[] byteArray)
+        {
+            return Encoding.UTF8.GetString(byteArray);
+        }
+
+
+        public static Utility.ShellImageFileInfo GetExif(string fullFilename)
+        {
+            Utility.ShellImageFileInfo shellImageFileInfo = null;  
+            try
+            {
+        
                 using (MagickImage image = new MagickImage(fullFilename))
                 {
-                    metadata = new Metadata(MetadataBrokerType.Empty);
+                    shellImageFileInfo = new Utility.ShellImageFileInfo();
                     IExifProfile profile = image.GetExifProfile();
 
-                    IExifValue value;
-                    value = profile.GetValue(ExifTag.PixelXDimension);
-                    int number;
-                    if (value != null && int.TryParse(value.ToString(), out number)) metadata.MediaHeight = number;
+                    FileInfo info = new FileInfo(fullFilename);
+                    
+                    #region shellImageFileInfo.ApertureValue / ExifTag.ApertureValue
+                    var valueRational = profile.GetValue(ExifTag.ApertureValue);
+                    if (valueRational != null) shellImageFileInfo.ApertureValue = valueRational.ToString();
+                    #endregion
 
-                    value = profile.GetValue(ExifTag.PixelYDimension);
-                    if (value != null && int.TryParse(value.ToString(), out number)) metadata.MediaHeight = number;
+                    #region shellImageFileInfo.Artist / ExifTag.Artist
+                    var valueString = profile.GetValue(ExifTag.Artist);
+                    var valueByteArray = profile.GetValue(ExifTag.XPAuthor);
+                    if (valueString != null) shellImageFileInfo.Artist = valueString.Value;
+                    else if (valueByteArray != null) shellImageFileInfo.Artist = CovertByteArrayToString(valueByteArray.Value);
+                    #endregion
 
-                    DateTime dateTime;
-                    value = profile.GetValue(ExifTag.DateTimeDigitized);
-                    if (value != null && DateTime.TryParse(value.ToString(), out dateTime)) metadata.MediaDateTaken = dateTime;
+                    #region shellImageFileInfo.Copyright / ExifTag.Copyright
+                    valueString = profile.GetValue(ExifTag.Copyright);
+                    if (valueString != null) shellImageFileInfo.Copyright = valueString.Value;
+                    #endregion
 
-                    value = profile.GetValue(ExifTag.ImageDescription);
-                    if (value != null) metadata.PersonalDescription = value.ToString();
+                    #region shellImageFileInfo.CreationTime
+                    shellImageFileInfo.CreationTime = info.CreationTime;
+                    #endregion
 
-                    value = profile.GetValue(ExifTag.Model);
-                    if (value != null) metadata.CameraModel = value.ToString();
+                    #region shellImageFileInfo.DateTaken / ExifTag.DateTimeDigitized
+                    var valueDateTime = profile.GetValue(ExifTag.DateTimeDigitized);
+                    if (valueDateTime != null && ConvertDateTimeFromString(valueDateTime.Value) != null) shellImageFileInfo.DateTaken = (DateTime)ConvertDateTimeFromString(valueDateTime.Value);
+                    #endregion
 
-                    value = profile.GetValue(ExifTag.XPAuthor);
-                    if (value != null) metadata.PersonalAuthor = value.ToString();
+                    #region shellImageFileInfo.Dimensions / ExifTag.PixelXDimension, ExifTag.PixelYDimension
+                    var valueNumberX = profile.GetValue(ExifTag.PixelXDimension);
+                    var valueNumberY = profile.GetValue(ExifTag.PixelYDimension);
+                    if (valueNumberX != null && valueNumberY != null) shellImageFileInfo.Dimensions = new Size ((int)valueNumberX.Value, (int)valueNumberX.Value);
+                    #endregion
 
-                    value = profile.GetValue(ExifTag.UserComment);
-                    if (value == null) value = profile.GetValue(ExifTag.XPComment);
-                    if (value != null) metadata.PersonalComments = value.ToString();
+                    #region shellImageFileInfo.DirectoryName
+                    shellImageFileInfo.DirectoryName = info.DirectoryName;
+                    #endregion 
+
+                    #region shellImageFileInfo.DisplayName
+                    shellImageFileInfo.DisplayName = info.Name;
+                    #endregion 
+
+                    #region shellImageFileInfo.EquipmentModel / ExifTag.Model + ExifTag.Make
+                    valueString = profile.GetValue(ExifTag.Model);
+                    if (valueString != null) shellImageFileInfo.EquipmentModel = valueString.Value;
+
+                    valueString = profile.GetValue(ExifTag.Make);
+                    if (valueString != null) shellImageFileInfo.EquipmentModel += (shellImageFileInfo.EquipmentModel == null ? "" : " ") + valueString.Value;
+                    #endregion
+
+                    #region shellImageFileInfo.ExposureTime / ExifTag.ExposureTime
+                    valueRational = profile.GetValue(ExifTag.ExposureTime);
+                    if (valueRational != null) shellImageFileInfo.ExposureTime = valueRational.Value.ToString();
+                    #endregion
+
+                    #region shellImageFileInfo.Extension
+                    shellImageFileInfo.Extension = info.Extension.Trim().ToUpper();
+                    #endregion
+
+                    #region shellImageFileInfo.FileAttributes
+                    shellImageFileInfo.FileAttributes = info.Attributes;
+                    #endregion 
+
+                    #region shellImageFileInfo.FNumber / ExifTag.FNumber
+                    valueRational = profile.GetValue(ExifTag.FNumber);
+                    if (valueRational != null) shellImageFileInfo.FNumber = (float)valueRational.Value.ToDouble();
+                    #endregion 
+
+                    #region shellImageFileInfo.ImageDescription / ExifTag.ImageDescription
+                    valueString = profile.GetValue(ExifTag.ImageDescription);
+                    if (valueString != null) shellImageFileInfo.ImageDescription = valueString.Value;
+                    #endregion
+
+                    #region shellImageFileInfo.ISOSpeed / ExifTag.ISOSpeed
+                    var valueuInt = profile.GetValue(ExifTag.ISOSpeed);
+                    if (valueuInt != null) shellImageFileInfo.ISOSpeed = (ushort)valueuInt.Value;
+                    #endregion
+
+                    #region shellImageFileInfo.LastAccessTime
+                    shellImageFileInfo.LastAccessTime = info.LastAccessTime;
+                    #endregion
+
+                    #region shellImageFileInfo.LastWriteTime
+                    shellImageFileInfo.LastWriteTime = info.LastWriteTime;
+                    #endregion 
+
+                    #region shellImageFileInfo.Resolution / ExifTag.PixelScale (image.Density.X + image.Density.Y)
+                    var valueDouble = profile.GetValue(ExifTag.PixelScale);
+                    if (valueDouble != null)
+                    {
+                        image.Density.ChangeUnits(DensityUnit.PixelsPerInch);
+                        shellImageFileInfo.Resolution = new SizeF((float)image.Density.X, (float)image.Density.Y);
+                    }
+                    #endregion
+
+                    #region shellImageFileInfo.ShutterSpeed / ExifTag.ShutterSpeedValue
+                    var valueSignedRational = profile.GetValue(ExifTag.ShutterSpeedValue);
+                    if (valueSignedRational != null) shellImageFileInfo.ShutterSpeed = valueSignedRational.Value.ToString();
+                    #endregion
+
+                    #region shellImageFileInfo.Size
+                    shellImageFileInfo.Size = info.Length;
+                    #endregion
+
+                    #region shellImageFileInfo.TypeName
+                    shellImageFileInfo.TypeName = shellImageFileInfo.GetFileType(fullFilename, shellImageFileInfo.Extension);
+                    #endregion 
+
+                    #region shellImageFileInfo.UserComment / ExifTag.UserComment or ExifTag.XPComment
+                    valueByteArray = profile.GetValue(ExifTag.UserComment);
+                    if (valueByteArray == null) valueByteArray = profile.GetValue(ExifTag.XPComment);
+                    if (valueByteArray != null) shellImageFileInfo.UserComment = CovertByteArrayToString(valueByteArray.Value);
+                    #endregion 
 
                 }
             }
             catch { }
 
-            return metadata;
+            return shellImageFileInfo;
         }
 
 

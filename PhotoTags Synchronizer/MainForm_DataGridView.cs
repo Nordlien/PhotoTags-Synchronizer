@@ -149,7 +149,7 @@ namespace PhotoTagsSynchronizer
             }
             string tag = tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
             DataGridView dataGridView = GetDataGridViewForTag(tag);
-            DataGridViewHandler.ResumeLayout(dataGridView, ThreadLazyLoadingQueueSize());
+            if (DataGridViewHandler.ResumeLayout(dataGridView, ThreadLazyLoadingQueueSize())) PopulateDataGridViewForSelectedItemsExtrasInvoke();
             toolStripProgressBarDataGridViewLoading.Visible = true;
         }
         #endregion 
@@ -170,6 +170,7 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = GetDataGridViewForTag(tag);
                 PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag, queueCount);
             }
+            
         }
         #endregion
 
@@ -186,7 +187,7 @@ namespace PhotoTagsSynchronizer
                 {
                     case "Tags":
                         DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        PopulateDetailViewTagsAndKeywords(dataGridView);
+                        //PopulateDetailViewTagsAndKeywords(dataGridView);
                         break;
                     case "People":
                         DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
@@ -305,7 +306,7 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
                 List<FileEntryAttribute> lazyLoading;
 
-                SuspendLayout();
+                DataGridViewSuspendInvoke();
 
                 switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
                 {
@@ -374,6 +375,7 @@ namespace PhotoTagsSynchronizer
                     case "Properties":
                         DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
                         DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
+                        PopulateDataGridViewForSelectedItemsExtrasInvoke();
                         break;
                     case "Rename":
                         DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
@@ -384,7 +386,7 @@ namespace PhotoTagsSynchronizer
                         break;
                 }
 
-                ResumeLayout();
+                DataGridViewResumeInvoke();
             }
         }
         #endregion

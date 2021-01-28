@@ -295,6 +295,21 @@ namespace Manina.Windows.Forms
             }
             #endregion 
 
+            public string GetFileType(string path, string Extension)
+            {
+                if (cachedFileTypes == null) cachedFileTypes = new Dictionary<string, string>();
+                string typeName;
+                if (!cachedFileTypes.TryGetValue(Extension, out typeName))
+                {
+                    SHFILEINFO shinfo = new SHFILEINFO();
+                    if (structSize == 0) structSize = (uint)Marshal.SizeOf(shinfo);
+                    SHGetFileInfo(path, (FileAttributes)0, out shinfo, structSize, SHGFI.TypeName);
+                    typeName = shinfo.szTypeName;
+                    cachedFileTypes.Add(Extension, typeName);
+                }
+                return typeName;
+            }
+
             //Create for external use
             public void ReadShellImageFileInfo(string path)
             {
@@ -314,16 +329,15 @@ namespace Manina.Windows.Forms
                     DisplayName = info.Name;
                     Extension = info.Extension.Trim().ToUpper();
 
-                    string typeName;
-                    if (!cachedFileTypes.TryGetValue(Extension, out typeName))
-                    {
-                        SHFILEINFO shinfo = new SHFILEINFO();
-                        if (structSize == 0) structSize = (uint)Marshal.SizeOf(shinfo);
-                        SHGetFileInfo(path, (FileAttributes)0, out shinfo, structSize, SHGFI.TypeName);
-                        typeName = shinfo.szTypeName;
-                        cachedFileTypes.Add(Extension, typeName);
-                    }
-                    TypeName = typeName;
+                    //if (!cachedFileTypes.TryGetValue(Extension, out typeName))
+                    //{
+                    //SHFILEINFO shinfo = new SHFILEINFO();
+                    //if (structSize == 0) structSize = (uint)Marshal.SizeOf(shinfo);
+                    //SHGetFileInfo(path, (FileAttributes)0, out shinfo, structSize, SHGFI.TypeName);
+                    //typeName = shinfo.szTypeName;
+                    //cachedFileTypes.Add(Extension, typeName);
+                    //}
+                    TypeName = GetFileType(path, Extension);
 
                     if (Extension == ".JPG" || Extension == ".GIF" || Extension == ".JPEG" || Extension == ".BMP")
                     {

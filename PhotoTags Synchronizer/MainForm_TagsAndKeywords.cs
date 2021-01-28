@@ -73,12 +73,14 @@ namespace PhotoTagsSynchronizer
             int rowIndex = keywordsStarts;
             while (rowIndex < DataGridViewHandler.GetRowCount(dataGridView) - 1) 
             {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                
                 //If is Keywords rows
-                if ( !DataGridViewHandler.IsRowDataGridViewGenericRow(dataGridView, rowIndex) || DataGridViewHandler.GetRowHeader(dataGridView, rowIndex).Equals(header))
+                if (dataGridViewGenericRow == null || DataGridViewHandler.GetRowHeader(dataGridView, rowIndex).Equals(header))
                 {
                     for (int column = 0; column < dataGridView.Columns.Count; column++)
                     {
-                        if (!DataGridViewHandler.IsRowDataGridViewGenericRow(dataGridView, rowIndex))
+                        if (dataGridViewGenericRow == null)
                         {
                             if (!DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, column, rowIndex))
                             {
@@ -100,10 +102,10 @@ namespace PhotoTagsSynchronizer
                                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, 
                                 DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, column, rowIndex) ? SwitchStates.Off : SwitchStates.On, false));
                         } 
-                        
+
                     }
 
-                    if (!DataGridViewHandler.IsRowDataGridViewGenericRow(dataGridView, rowIndex))
+                    if (dataGridViewGenericRow == null)
                     {
                         DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, header, ValidateAndReturnTag(dataGridView, header, "(empty)"), ReadWriteAccess.AllowCellReadAndWrite);
                     }
@@ -385,7 +387,9 @@ namespace PhotoTagsSynchronizer
             radioButtonRating4.Checked = false;
             radioButtonRating5.Checked = false;
         }
+        #endregion
 
+        #region EnableDetailViewTagsAndKeywords(bool enable)
         private void EnableDetailViewTagsAndKeywords(bool enable)
         {
             comboBoxMediaAiConfidence.Enabled = enable;
@@ -399,8 +403,38 @@ namespace PhotoTagsSynchronizer
             radioButtonRating3.Enabled = enable;
             radioButtonRating4.Enabled = enable;
             radioButtonRating5.Enabled = enable;
-        }
 
+            if (enable)
+            {
+                comboBoxMediaAiConfidence.ResumeLayout();
+                comboBoxTitle.ResumeLayout();
+                comboBoxDescription.ResumeLayout();
+                comboBoxComments.ResumeLayout();
+                comboBoxAlbum.ResumeLayout();
+                comboBoxAuthor.ResumeLayout();
+                radioButtonRating1.ResumeLayout();
+                radioButtonRating2.ResumeLayout();
+                radioButtonRating3.ResumeLayout();
+                radioButtonRating4.ResumeLayout();
+                radioButtonRating5.ResumeLayout();
+            } else
+            {
+                comboBoxMediaAiConfidence.SuspendLayout();
+                comboBoxTitle.SuspendLayout();
+                comboBoxDescription.SuspendLayout();
+                comboBoxComments.SuspendLayout();
+                comboBoxAlbum.SuspendLayout();
+                comboBoxAuthor.SuspendLayout();
+                radioButtonRating1.SuspendLayout();
+                radioButtonRating2.SuspendLayout();
+                radioButtonRating3.SuspendLayout();
+                radioButtonRating4.SuspendLayout();
+                radioButtonRating5.SuspendLayout();
+            }
+        }
+        #endregion
+
+        #region AddToListBox
         private void AddToListBox(DataGridView dataGridView, ComboBox comboBox, int columnIndex, string sourceHeader, string rowTag)
         {
             int rowIndex;
@@ -412,10 +446,11 @@ namespace PhotoTagsSynchronizer
                 if (value != null && !string.IsNullOrWhiteSpace(value.ToString()) && !comboBox.Items.Contains(value.ToString()))
                     comboBox.Items.Add(value.ToString());
             }
-            EnableDetailViewTagsAndKeywords(true);
+            
         }
+        #endregion
 
-
+        #region PopulateDetailViewTagsAndKeywords(DataGridView dataGridView)
         private void PopulateDetailViewTagsAndKeywords(DataGridView dataGridView)
         {
             if (dataGridView == null) return;
@@ -436,10 +471,11 @@ namespace PhotoTagsSynchronizer
                     AddToListBox(dataGridView, comboBoxAuthor, columnIndex, sourceHeader, DataGridViewHandlerTagsAndKeywords.tagAuthor);
                 }
             }
+
+            EnableDetailViewTagsAndKeywords(true);
         }
+        #endregion 
 
-
-        #endregion
 
     }
 }

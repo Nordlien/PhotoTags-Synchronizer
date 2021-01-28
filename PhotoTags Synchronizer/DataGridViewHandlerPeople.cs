@@ -72,7 +72,7 @@ namespace PhotoTagsSynchronizer
             for (int rowIndex = startSearchRow; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
                 DataGridViewGenericRow dataGridViewGenericRowCheck = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                object cellValue = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex);
+               
 
                 if (!dataGridViewGenericRowCheck.IsHeader &&
                         !dataGridViewGenericRow.IsHeader && //Is row
@@ -80,11 +80,10 @@ namespace PhotoTagsSynchronizer
                         dataGridViewGenericRowCheck.RowName == dataGridViewGenericRow.RowName)
                 {
                     //Check if region match
+                    RegionStructure regionStructureInCell = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, rowIndex) as RegionStructure;
 
-                    if (regionStructureToAdd != null && cellValue != null && cellValue.GetType() == typeof(RegionStructure))
+                    if (regionStructureToAdd != null && regionStructureInCell != null)
                     {
-                        RegionStructure regionStructureInCell = (RegionStructure)cellValue;
-
                         if (metadata != null && metadata.MediaHeight != null && metadata.MediaWidth != null)
                         {
                             Size imageSize = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
@@ -100,7 +99,7 @@ namespace PhotoTagsSynchronizer
                         }
                     }
 
-                    if (cellValue == null)
+                    if (regionStructureInCell == null)
                     {
                         rowBlankFound = true;
                         if (firstBlankFound == -1) firstBlankFound = rowIndex;
