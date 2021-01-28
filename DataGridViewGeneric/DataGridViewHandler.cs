@@ -55,12 +55,6 @@ namespace DataGridViewGeneric
         private ToolStripMenuItem markAsFavoriteToolStripMenuItem;
         private ToolStripMenuItem removeAsFavoriteToolStripMenuItem;
 
-        
-
-        /*public static bool IsCurrentFile(FileEntry fileEntry, DateTime lastWriteTime)
-        {
-            return (fileEntry.LastWriteDateTime == lastWriteTime);
-        }*/
 
         #region DataGridView events handling
 
@@ -961,10 +955,9 @@ namespace DataGridViewGeneric
         #region Column handling - GetColumnIndex - fileEntry
         public static int GetColumnIndex(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
-            //TODO: Add cache dictonary
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
             {                
-                if (dataGridView.Columns[columnIndex].Tag is column DataGridViewGenericColumn && column.FileEntryAttribute == fileEntryAttribute)
+                if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute == fileEntryAttribute)
                 {
                     return columnIndex;
                 }
@@ -993,7 +986,6 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        
         #region Column handling - AddColumnOrUpdate 
         public static int AddColumnOrUpdateNew(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image thumbnail, Metadata metadata, 
             ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
@@ -1221,16 +1213,6 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        /*
-        #region Rows handling - IsRowDataGridViewGenericRow
-        public static bool IsRowDataGridViewGenericRow(DataGridView dataGridView, int rowIndex)
-        {
-            if (rowIndex < 0 || rowIndex > GetRowCount(dataGridView) - 1) return false;
-            return dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow;
-        }
-        #endregion
-        */
-
         #region Rows handling - GetRowDataGridViewGenericRow
         public static DataGridViewGenericRow GetRowDataGridViewGenericRow(DataGridView dataGridView, int rowIndex)
         {
@@ -1400,7 +1382,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-
+        #region SetCellDefaultAfterUpdated
         public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, DataGridViewGenericCellStatus dataGridViewGenericCellStatus, int columnIndex, int rowIndex)
         {
             DataGridViewHandler.SetCellStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
@@ -1408,10 +1390,11 @@ namespace DataGridViewGeneric
             //DataGridViewHandler.SetRowFavoriteFlag(dataGridView, rowIndexUsed, dataGridFavorites);
             DataGridViewHandler.SetCellBackGroundColor(dataGridView, columnIndex, rowIndex);
         }
+        #endregion
 
+        #region SetCellDefaultAfterUpdated
         public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, MetadataBrokerType metadataBrokerType, int columnIndex, int rowIndex)
         {
-            #region Set default Cell status
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex)); //Remember current status, in case of updates
             dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
             if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Disabled) dataGridViewGenericCellStatus.SwitchState = SwitchStates.Undefine;
@@ -1419,8 +1402,8 @@ namespace DataGridViewGeneric
                 dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
             dataGridViewGenericCellStatus.CellReadOnly = false;
             SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndex, rowIndex);
-            #endregion
         }
+        #endregion
 
         #region Rows handling - AddRow
         /// <summary>
@@ -1475,8 +1458,11 @@ namespace DataGridViewGeneric
             {
                 if (writeValue)
                 {
-                    if (dataGridView[columnIndex, rowIndex].Value != value) isValueUpdated = true;
-                    dataGridView[columnIndex, rowIndex].Value = value;
+                    if (dataGridView[columnIndex, rowIndex].Value != value)
+                    {
+                        isValueUpdated = true;
+                        dataGridView[columnIndex, rowIndex].Value = value;
+                    }
                 }
                 if (isValueUpdated && dataGridViewGenericRow.IsMultiLine) dataGridView.Columns[columnIndex].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             } 
@@ -1484,15 +1470,18 @@ namespace DataGridViewGeneric
 
             SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
 
-            if (columnIndex != -1) //When adding empty row without value in a given column
+            if (!rowFound || isValueUpdated)
             {
-                //It's only possible to update ReadOnly field
-                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-                if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
-                SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
-            }
+                if (columnIndex != -1) //When adding empty row without value in a given column
+                {
+                    //It's only possible to update ReadOnly field
+                    DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
+                    if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
+                    SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
+                }
 
-            if (!rowFound || isValueUpdated) SetCellBackGroundColorForRow(dataGridView, rowIndex); 
+                SetCellBackGroundColorForRow(dataGridView, rowIndex);
+            }
 
             return rowIndex;
         }
@@ -2055,28 +2044,28 @@ namespace DataGridViewGeneric
             DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
             DataGridViewGenericColumn dataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
+            Color newColor = Color.Empty;
+
             if (dataGridViewGenericRow == null)
             {
-                if (dataGridView[columnIndex, rowIndex].ReadOnly)
-                    dataGridView[columnIndex, rowIndex].Style.BackColor = ColorReadOnly;
-                else
-                    dataGridView[columnIndex, rowIndex].Style.BackColor = ColorCellEditable;
+                if (dataGridView[columnIndex, rowIndex].ReadOnly) newColor = ColorReadOnly;
+                else newColor = ColorCellEditable;
             }
             else
             {
-                if (dataGridViewGenericRow.IsFavourite && !dataGridView[columnIndex, rowIndex].ReadOnly)
-                    dataGridView[columnIndex, rowIndex].Style.BackColor = ColorFavourite;
+                if (dataGridViewGenericRow.IsFavourite && !dataGridView[columnIndex, rowIndex].ReadOnly) newColor = ColorFavourite;
                 else if (!dataGridViewGenericRow.IsFavourite && dataGridView[columnIndex, rowIndex].ReadOnly)
                 {
-                    if (dataGridView[columnIndex, rowIndex].Style.BackColor != ColorReadOnly) dataGridView[columnIndex, rowIndex].Style.BackColor = ColorReadOnly;
+                    if (dataGridView[columnIndex, rowIndex].Style.BackColor != ColorReadOnly) newColor = ColorReadOnly;
                 }
-                else if (dataGridViewGenericRow.IsFavourite && dataGridView[columnIndex, rowIndex].ReadOnly)
-                    dataGridView[columnIndex, rowIndex].Style.BackColor = ColorReadOnlyFavourite;
-                else
-                    dataGridView[columnIndex, rowIndex].Style.BackColor = ColorCellEditable;
+                else if (dataGridViewGenericRow.IsFavourite && dataGridView[columnIndex, rowIndex].ReadOnly) newColor = ColorReadOnlyFavourite;
+                else newColor = ColorCellEditable;
             }
-            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null && (dataGridViewGenericColumn.Metadata.Broker & MetadataBrokerType.ExifToolWriteError) == MetadataBrokerType.ExifToolWriteError)
-                dataGridView[columnIndex, rowIndex].Style.BackColor = ColorError;
+
+            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null 
+                && (dataGridViewGenericColumn.Metadata.Broker & MetadataBrokerType.ExifToolWriteError) == MetadataBrokerType.ExifToolWriteError) newColor = ColorError;
+
+            if (newColor != Color.Empty && newColor != dataGridView[columnIndex, rowIndex].Style.BackColor) dataGridView[columnIndex, rowIndex].Style.BackColor = newColor;
         }
         #endregion
 

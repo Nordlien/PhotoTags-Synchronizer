@@ -243,8 +243,8 @@ namespace Thumbnails
 
             if (CacheContainsKey(file))
             {
-
-                return new Bitmap(CacheGet(file));
+                return CacheGet(file);
+                //return new Bitmap(CacheGet(file));
             }
             return null;
         }

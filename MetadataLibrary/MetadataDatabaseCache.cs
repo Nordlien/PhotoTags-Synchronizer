@@ -14,49 +14,6 @@ using System.Linq;
 
 namespace MetadataLibrary
 {
-    
-    
-
-    public class MetadataRegionNameKey
-    {
-        public MetadataRegionNameKey(MetadataBrokerType metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
-        {
-            MetadataBrokerType = metadataBrokerType;
-            DateTimeFrom = dateTimeFrom;
-            DateTimeTo = dateTimeTo;
-        }
-
-        MetadataBrokerType MetadataBrokerType { get; set; }
-        DateTime DateTimeFrom { get; set; }
-        DateTime DateTimeTo { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            return obj is MetadataRegionNameKey key &&
-                   MetadataBrokerType == key.MetadataBrokerType &&
-                   DateTimeFrom == key.DateTimeFrom &&
-                   DateTimeTo == key.DateTimeTo;
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = -793585214;
-            hashCode = hashCode * -1521134295 + MetadataBrokerType.GetHashCode();
-            hashCode = hashCode * -1521134295 + DateTimeFrom.GetHashCode();
-            hashCode = hashCode * -1521134295 + DateTimeTo.GetHashCode();
-            return hashCode;
-        }
-
-        public static bool operator ==(MetadataRegionNameKey left, MetadataRegionNameKey right)
-        {
-            return EqualityComparer<MetadataRegionNameKey>.Default.Equals(left, right);
-        }
-
-        public static bool operator !=(MetadataRegionNameKey left, MetadataRegionNameKey right)
-        {
-            return !(left == right);
-        }
-    }
 
     public class MetadataDatabaseCache
     {
@@ -210,7 +167,7 @@ namespace MetadataLibrary
 
             dbTools.TransactionBeginBatch();
 
-            MetadataCacheUpdate(metadata);
+            MetadataCacheUpdate(metadata.FileEntryBroker, metadata);
 
             string sqlCommand =
                 "INSERT INTO MediaMetadata (" +
@@ -1476,25 +1433,11 @@ namespace MetadataLibrary
         Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
 
         #region Cache Metadata - Updated
-        private void MetadataCacheUpdate(Metadata metadata)
+        private void MetadataCacheUpdate(FileEntryBroker fileEntryBroker, Metadata metadata)
         {
-            if (metadata.FileName == null)
-            {
-                return;
-            }
-            FileEntryBroker file = new FileEntryBroker(
-                Path.Combine(metadata.FileDirectory, metadata.FileName),
-                (DateTime)metadata.FileDateModified,
-                metadata.Broker);
             //Update cache
-            if (metadataCache.ContainsKey(file))
-            {
-                metadataCache[file] = metadata;
-            }
-            else
-            {
-                metadataCache.Add(file, metadata);
-            }
+            if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
+            else metadataCache.Add(fileEntryBroker, metadata);
         }
         #endregion 
 
@@ -1540,23 +1483,11 @@ namespace MetadataLibrary
         #region Cache Metadata - Read 
         public Metadata ReadMetadataFromCacheOrDatabase(FileEntryBroker file)
         {
-            if (MetadataCacheContainsKey(file))
-            {
-                return MetadataCacheGet(file);
-            }          
+            if (MetadataCacheContainsKey(file)) return MetadataCacheGet(file);
 
-            Metadata metadata;
-
-            metadata = Read(file);
-            if (metadata != null)
-            {
-                MetadataCacheUpdate(metadata);
-                return metadata;
-            }
-            else
-            {
-                return null;
-            }
+            Metadata metadata = Read(file);
+            MetadataCacheUpdate(file, metadata);
+            return metadata;
         }
         #endregion 
 

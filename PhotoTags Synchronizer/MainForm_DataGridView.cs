@@ -259,6 +259,7 @@ namespace PhotoTagsSynchronizer
                 switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
                 {
                     case "Tags":
+
                         PopulateDetailViewTagsAndKeywords(dataGridView);
                         break;
                     case "Map":

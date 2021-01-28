@@ -52,6 +52,7 @@
     <Compile Include="FileEntryColumn.cs" />
     <Compile Include="FileEntryImage.cs" />
     <Compile Include="FileEntry.cs" />
+    <Compile Include="MetadataRegionNameKey.cs" />
     <Compile Include="StringNullable.cs" />
     <Compile Include="IFileEntry.cs" />
     <Compile Include="ImetadataReader.cs" />
