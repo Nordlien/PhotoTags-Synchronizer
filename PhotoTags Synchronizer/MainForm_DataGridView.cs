@@ -222,7 +222,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
-                List<FileEntryAttribute> fileEntryAttributeDateVersions = databaseAndCacheMetadataExiftool.ListFileEntryAttributes(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
+                List<FileEntryAttribute> fileEntryAttributeDateVersions = databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
                 lazyLoadingAllVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }
             AddQueueLazyLoadningMetadata(lazyLoadingAllVersionOfMediaFile);

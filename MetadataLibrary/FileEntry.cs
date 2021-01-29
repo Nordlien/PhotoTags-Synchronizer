@@ -5,6 +5,7 @@ using System.IO;
 
 namespace MetadataLibrary
 {
+
     [Serializable]
     public class FileEntry : IComparable<FileEntry>, IEquatable<FileEntry>, IFileEntry
     {
@@ -93,14 +94,12 @@ namespace MetadataLibrary
             {
                 if (fileEntries[index] == fileEntryToFind) return index;
             }
-            return - 1;
+            return -1;
         }
 
         public static bool Contains(List<FileEntry> fileEntries, FileEntry fileEntryToFind)
-        {                        
+        {
             return FindIndex(fileEntries, fileEntryToFind) > -1;
         }
     }
-
-
 }

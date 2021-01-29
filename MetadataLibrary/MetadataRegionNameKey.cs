@@ -17,9 +17,9 @@ namespace MetadataLibrary
             DateTimeTo = dateTimeTo;
         }
 
-        MetadataBrokerType MetadataBrokerType { get; set; }
-        DateTime DateTimeFrom { get; set; }
-        DateTime DateTimeTo { get; set; }
+        public MetadataBrokerType MetadataBrokerType { get; set; }
+        public DateTime DateTimeFrom { get; set; }
+        public DateTime DateTimeTo { get; set; }
 
         public override bool Equals(object obj)
         {

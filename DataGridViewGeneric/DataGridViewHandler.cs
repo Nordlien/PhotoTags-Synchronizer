@@ -1031,7 +1031,7 @@ namespace DataGridViewGeneric
                     while (columnIndexFilename < dataGridView.Columns.Count &&
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column &&
                         column.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&            //Correct filename on column
-                        (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //History or Error column added, then find correct postion
+                        (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //Current version added, then find correct postion
                         (column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ||              //Edit version, move to next column -> edit always first
                         column.FileEntryAttribute.LastWriteDateTime < fileEntryAttribute.LastWriteDateTime)     //Is older, move next -> Newst always frist
                         )) 
@@ -1039,7 +1039,8 @@ namespace DataGridViewGeneric
                         columnIndexFilename += 1;
                     }
 
-                    if (columnIndexFilename < dataGridView.Columns.Count - 1 &&
+                    //Move error and historical version back
+                    if (columnIndexFilename < dataGridView.Columns.Count - 1 && 
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column2 &&
                         column2.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&           //Correct filename on column
                         (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //History or Error column added, then find correct postion
@@ -2062,8 +2063,10 @@ namespace DataGridViewGeneric
                 else newColor = ColorCellEditable;
             }
 
-            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null 
-                && (dataGridViewGenericColumn.Metadata.Broker & MetadataBrokerType.ExifToolWriteError) == MetadataBrokerType.ExifToolWriteError) newColor = ColorError;
+            if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Error) newColor = ColorError;
+
+            //if (dataGridViewGenericColumn != null && dataGridViewGenericColumn.Metadata != null 
+            //    && (dataGridViewGenericColumn.Metadata.Broker & MetadataBrokerType.ExifToolWriteError) == MetadataBrokerType.ExifToolWriteError) newColor = ColorError;
 
             if (newColor != Color.Empty && newColor != dataGridView[columnIndex, rowIndex].Style.BackColor) dataGridView[columnIndex, rowIndex].Style.BackColor = newColor;
         }

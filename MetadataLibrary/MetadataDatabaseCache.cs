@@ -165,6 +165,7 @@ namespace MetadataLibrary
         {
             if (metadata == null) throw new Exception("Error in DatabaseCache. metaData is Null. Error in code");
 
+            CacheRemove(metadata.FileEntryBroker); 
             dbTools.TransactionBeginBatch();
 
             MetadataCacheUpdate(metadata.FileEntryBroker, metadata);
@@ -310,6 +311,7 @@ namespace MetadataLibrary
         #region Copy
         public void Copy(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
+            ClearCache();
             dbTools.TransactionBeginBatch();
 
             string sqlCommand =
@@ -428,9 +430,8 @@ namespace MetadataLibrary
         #region Move
         public void Move(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
-            dbTools.TransactionBeginBatch();
-
             ClearCache();
+            dbTools.TransactionBeginBatch();
 
             string sqlCommand =
                 "UPDATE MediaMetadata SET " +
@@ -525,7 +526,7 @@ namespace MetadataLibrary
         #region UpdateRegionThumbnail
         public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region)
         {
-            MetadataCacheRemove(file);
+            CacheRemove(file);
 
             string sqlCommand =
                     "UPDATE MediaPersonalRegions " +
@@ -689,7 +690,7 @@ namespace MetadataLibrary
         #region Delete File
         public void DeleteFileEntry(FileEntryBroker fileEntryBroker)
         {
-            MetadataCacheRemove(fileEntryBroker);
+            CacheRemove(fileEntryBroker);
 
             DeleteFileMediaMetadata(fileEntryBroker);
             DeleteFileMediaPersonalRegions(fileEntryBroker);
@@ -698,8 +699,10 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region List Files - Date Versions
-        public List<FileEntryBroker> ListFileEntryDateVersions(MetadataBrokerType broker, string fullFileName)
+        #region List File Date Versions
+
+        #region List File Date Versions - Broker
+        public List<FileEntryBroker> ListFileEntryBrokerDateVersions(MetadataBrokerType broker, string fullFileName)
         {
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
 
@@ -736,17 +739,38 @@ namespace MetadataLibrary
 
             return fileEntryBrokers;
         }
+        #endregion 
 
-        public List<FileEntryAttribute> ListFileEntryAttributes(MetadataBrokerType broker, string fullFileName)
+        Dictionary<FileBroker, List<FileEntryAttribute>> listFileAttributeDateVersions = new Dictionary<FileBroker, List<FileEntryAttribute>>();
+
+        #region List File Date Versions - Attribute
+        public List<FileEntryAttribute> ListFileEntryAttributesCache(MetadataBrokerType broker, string fullFileName)
         {
+            FileBroker fileBroker = new FileBroker(broker, fullFileName);
+            if (listFileAttributeDateVersions.ContainsKey(fileBroker)) return listFileAttributeDateVersions[fileBroker];
+
+
             List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
             ListFileEntryAttributes2(ref fileEntryAttributes, broker, fullFileName);
             MetadataBrokerType broker2 = broker | MetadataBrokerType.ExifToolWriteError;
             ListFileEntryAttributes2(ref fileEntryAttributes, broker2, fullFileName);
+
+            listFileAttributeDateVersions.Add(fileBroker, fileEntryAttributes);
+
             return fileEntryAttributes;
         }
 
-        public void ListFileEntryAttributes2(ref List<FileEntryAttribute> FileEntryAttributes, MetadataBrokerType broker, string fullFileName)
+        private void ListFileEntryAttributesCacheRemove(FileBroker fileBroker)
+        {
+            if (listFileAttributeDateVersions.ContainsKey(fileBroker)) listFileAttributeDateVersions.Remove(fileBroker);
+        }
+
+        private void ListFileEntryAttributesCacheClear()
+        {
+            listFileAttributeDateVersions = new Dictionary<FileBroker, List<FileEntryAttribute>>();
+        }
+
+        private void ListFileEntryAttributes2(ref List<FileEntryAttribute> FileEntryAttributes, MetadataBrokerType broker, string fullFileName)
         {
             
             string sqlCommand =
@@ -793,6 +817,8 @@ namespace MetadataLibrary
             }
             //return FileEntryAttributes;
         }
+        #endregion 
+
         #endregion
 
         #region List Files - Missing Entries
@@ -1432,15 +1458,6 @@ namespace MetadataLibrary
         #region Cache Metadata
         Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
 
-        #region Cache Metadata - Updated
-        private void MetadataCacheUpdate(FileEntryBroker fileEntryBroker, Metadata metadata)
-        {
-            //Update cache
-            if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
-            else metadataCache.Add(fileEntryBroker, metadata);
-        }
-        #endregion 
-
         #region Cache Metadata - Contains Key
         private bool MetadataCacheContainsKey(FileEntryBroker file)
         {
@@ -1455,31 +1472,6 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        #region Cache Metadata - Remove
-        public void MetadataCacheRemove(FileEntryBroker file)
-        {
-            if (file == null) return;
-            if (MetadataCacheContainsKey(file))
-            {
-                metadataCache.Remove(file);
-            }
-        }
-        #endregion 
-
-        #region Cache Metadata - Remove
-        public void MetadataCacheRemove(FileEntryBroker[] files)
-        {
-            if (files == null) return;
-            foreach (FileEntryBroker file in files)
-            {
-                if (MetadataCacheContainsKey(file))
-                {
-                    metadataCache.Remove(file);
-                }
-            }
-        }
-        #endregion 
-
         #region Cache Metadata - Read 
         public Metadata ReadMetadataFromCacheOrDatabase(FileEntryBroker file)
         {
@@ -1491,7 +1483,7 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        #region Cache Metadata - Read 
+        #region Cache Metadata - Read - CacheOnly
         public Metadata ReadMetadataFromCacheOnly(FileEntryBroker file)
         {
             if (MetadataCacheContainsKey(file))
@@ -1502,21 +1494,48 @@ namespace MetadataLibrary
         }
         #endregion 
 
+        #region Cache Metadata - Remove
+        private void MetadataCacheRemove(FileEntryBroker fileEntryBroker)
+        {
+            if (fileEntryBroker == null) return;
+            if (MetadataCacheContainsKey(fileEntryBroker)) metadataCache.Remove(fileEntryBroker);
+        }
+        #endregion 
+
+        #region Cache Metadata - Updated
+        private void MetadataCacheUpdate(FileEntryBroker fileEntryBroker, Metadata metadata)
+        {
+            if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
+            else metadataCache.Add(fileEntryBroker, metadata);            
+        }
+        #endregion 
+
         #region Cache Metadata - Clear
         public void MetadataCacheClear()
         {
             metadataCache = null;
             metadataCache = new Dictionary<FileEntryBroker, Metadata>();
         }
-        #endregion 
+        #endregion
 
         #endregion
+
+        #region Cache - Remove
+        public void CacheRemove(FileEntryBroker fileEntryBroker)
+        {
+            MetadataCacheRemove(fileEntryBroker);
+            MetadataRegionNamesCacheClear();
+            ListAllPersonalRegionNameCountCacheClear();
+            ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker, fileEntryBroker.FileFullPath));
+        }
+        #endregion 
 
         #region Cache - Clear
         public void ClearCache()
         {
             MetadataCacheClear();
             MetadataRegionNamesCacheClear();
+            ListFileEntryAttributesCacheClear();
             ListAllPersonalRegionNameCountCacheClear();
         }
         #endregion 

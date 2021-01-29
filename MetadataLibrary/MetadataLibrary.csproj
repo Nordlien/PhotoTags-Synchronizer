@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileBroker.cs" />
     <Compile Include="FileEntryBroker.cs" />
     <Compile Include="FileEntryColumn.cs" />
     <Compile Include="FileEntryImage.cs" />
