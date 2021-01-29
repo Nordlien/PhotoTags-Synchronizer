@@ -1126,16 +1126,19 @@ namespace DataGridViewGeneric
                 SetCellBackgroundColorForColumn(dataGridView, columnIndex);
 
                 //Hide and show columns
-                if (isErrorColumn) //Check if error column first, can be historical, and error
+                 if (isErrorColumn) //Check if error column first, can be historical, and error
                 {
-                    if (showErrorColumns) dataGridView.Columns[columnIndex].Visible = true;
-                    else dataGridView.Columns[columnIndex].Visible = false;
-
+                    if (showErrorColumns) 
+                        dataGridView.Columns[columnIndex].Visible = true;
+                    else 
+                        dataGridView.Columns[columnIndex].Visible = false;
                 }                
                 else if (isHistoryColumn) 
                 {
-                    if (showHirstoryColumns) dataGridView.Columns[columnIndex].Visible = true;
-                    else dataGridView.Columns[columnIndex].Visible = false;
+                    if (showHirstoryColumns) 
+                        dataGridView.Columns[columnIndex].Visible = true;
+                    else 
+                        dataGridView.Columns[columnIndex].Visible = false;
                 }                
                 else dataGridView.Columns[columnIndex].Visible = true;
             }
@@ -1471,18 +1474,16 @@ namespace DataGridViewGeneric
 
             SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
 
-            if (!rowFound || isValueUpdated)
+            if (columnIndex != -1) //When adding empty row without value in a given column
             {
-                if (columnIndex != -1) //When adding empty row without value in a given column
-                {
-                    //It's only possible to update ReadOnly field
-                    DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-                    if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
-                    SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
-                }
-
-                SetCellBackGroundColorForRow(dataGridView, rowIndex);
+                //It's only possible to update ReadOnly field
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
+                if (dataGridViewGenericCellStatus != null) dataGridViewGenericCellStatus.CellReadOnly = dataGridViewGenericCellStatusDefault.CellReadOnly;
+                SetCellReadOnlyDependingOfStatus(dataGridView, columnIndex, rowIndex, dataGridViewGenericCellStatus);
             }
+
+            SetCellBackGroundColorForRow(dataGridView, rowIndex);
+       
 
             return rowIndex;
         }

@@ -26,7 +26,7 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
-
+        /*
         public static void AddVisibleFiles(List<FileEntryAttribute> allFileEntryAttributeDateVersions, List<FileEntryAttribute> fileEntryAttributeDateVersions, ShowWhatColumns showWhatColumns)
         {
             bool showErrorColumns = (showWhatColumns & ShowWhatColumns.ErrorColumns) > 0;
@@ -36,14 +36,17 @@ namespace PhotoTagsSynchronizer
                 switch (fileEntryAttribute.FileEntryVersion)
                 {
                     case FileEntryVersion.Historical:
-                        if (showHirstoryColumns) allFileEntryAttributeDateVersions.Add(fileEntryAttribute);
+                        if (!showHirstoryColumns) allFileEntryAttributeDateVersions.Add(new FileEntryAttribute(fileEntryAttribute.FileEntry,FileEntryVersion.Remove));
+                        else allFileEntryAttributeDateVersions.Add(fileEntryAttribute);
                         break;
                     case FileEntryVersion.Error:
-                        if (showErrorColumns) allFileEntryAttributeDateVersions.Add(fileEntryAttribute);
+                        if (!showErrorColumns) allFileEntryAttributeDateVersions.Add(new FileEntryAttribute(fileEntryAttribute.FileEntry, FileEntryVersion.Remove));
+                        else allFileEntryAttributeDateVersions.Add(fileEntryAttribute);
                         break;
                     case FileEntryVersion.Current:
                         allFileEntryAttributeDateVersions.Add(fileEntryAttribute);
                         break;
+
                     case FileEntryVersion.NotAvailable:
                     default:
                         throw new Exception("Not implmented");
@@ -51,5 +54,6 @@ namespace PhotoTagsSynchronizer
                 
             }
         }
+        */
     }
 }

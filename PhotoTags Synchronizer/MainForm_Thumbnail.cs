@@ -139,7 +139,7 @@ namespace PhotoTagsSynchronizer
                     Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     if (doNotReadFullFile) return image; //Don't read from file
 
-                    if (image == null) image = Utility.ThumbnailFromImage(ImageAndMovieFileExtentionsUtility.ThumbnailFromImage(fullFilePath), maxSize, Color.White, false);
+                    if (image == null) image = Utility.ThumbnailFromImage(ImageAndMovieFileExtentionsUtility.ThumbnailFromImage(fullFilePath, maxSize), maxSize, Color.White, false);
                     if (image == null) image = Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White);
                     return image;
                 

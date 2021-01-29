@@ -42,16 +42,23 @@ namespace ImageAndMovieFileExtentions
             return thumbnailReturn;
         }
 
-        public static Image ThumbnailFromImage(string fullFilename)
+        public static Image ThumbnailFromImage(string fullFilename, Size maxSize)
         {
             Image thumbnailReturn = null;
             using (MagickImage image = new MagickImage(fullFilename))
             {
                 var profile = image.GetExifProfile();
                 // Create thumbnail from exif information
-                using (var thumbnail = profile.CreateThumbnail())
+                if (profile != null)
                 {
-                    if (thumbnail != null) thumbnailReturn = thumbnail.ToBitmap();
+                    using (var thumbnail = profile.CreateThumbnail())
+                    {
+                        if (thumbnail != null) thumbnailReturn = thumbnail.ToBitmap();
+                    }
+                } else
+                {
+                    image.Thumbnail(new MagickGeometry(maxSize.Width, maxSize.Height));
+                    thumbnailReturn = image.ToBitmap();
                 }
             }
             return thumbnailReturn;

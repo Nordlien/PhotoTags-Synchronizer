@@ -224,7 +224,8 @@ namespace PhotoTagsSynchronizer
             {
                 List<FileEntryAttribute> fileEntryAttributeDateVersions = databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
                 lazyLoadingAllVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
-            }
+                //DataGridViewHandlerCommon.AddVisibleFiles(lazyLoadingAllVersionOfMediaFile, fileEntryAttributeDateVersions, showWhatColumns);
+            }            
             AddQueueLazyLoadningMetadata(lazyLoadingAllVersionOfMediaFile);
             AddQueueLazyLoadningThumbnail(lazyLoadingAllVersionOfMediaFile);
         }
