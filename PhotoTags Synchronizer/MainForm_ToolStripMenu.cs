@@ -627,7 +627,7 @@ namespace PhotoTagsSynchronizer
                 {
                     ApplicationActivation.ProcessRunOpenFile(imageListViewItem.FileFullPath);
                 }
-                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
+                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
            
             if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
@@ -645,7 +645,7 @@ namespace PhotoTagsSynchronizer
                 {
                     ApplicationActivation.ProcessRunEditFile(imageListViewItem.FileFullPath);
                 }
-                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
+                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
 
             if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
@@ -663,7 +663,7 @@ namespace PhotoTagsSynchronizer
                 {
                     ApplicationActivation.ShowFileInExplorer(imageListViewItem.FileFullPath);
                 }
-                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n" + ex.Message); }
+                catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
             
             if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
@@ -869,7 +869,14 @@ namespace PhotoTagsSynchronizer
 
                 foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
                 {
-                    if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);
+                    try
+                    {
+                        if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Can execute file. Error: " + ex.Message, "Can execute file", MessageBoxButtons.OK);
+                    }
                 }
                 
             }

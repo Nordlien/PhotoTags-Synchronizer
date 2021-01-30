@@ -158,12 +158,15 @@ namespace PhotoTagsSynchronizer
             ThreadCollectMetadataExiftool();            //Read from cache first, then exifdata, 
             ThreadCollectMetadataMicrosoftPhotos();
             ThreadCollectMetadataWindowsLiveGallery();
+            ThreadSaveMetadata();
             ThreadSaveThumbnail();
-            ThreadSaveMetadata(); 
+            ThreadReadMediaPosterSaveRegions();
+
             ThreadRename();
             ThreadLazyLoadningMetadata();
             ThreadLazyLoadningThumbnail();
             ThreadPreloadningMetadata();
+            
         }
 
         private bool IsAnyThreadRunning()
@@ -180,7 +183,7 @@ namespace PhotoTagsSynchronizer
 
         private bool IsThreadRunningExcept_ThreadThumbnailRegion()
         {
-            return 
+            return
                 CommonQueueSaveThumbnailToDatabaseCountLock() > 0 ||
                 CommonQueueReadMetadataFromExiftoolCountLock() > 0 ||
                 CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 ||
@@ -1171,7 +1174,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (!commonQueueReadPosterAndSaveFaceThumbnails.Contains(metadata)) commonQueueReadPosterAndSaveFaceThumbnails.Add(metadata);
             }
-            ThreadReadMediaPosterSaveRegions();
+            StartThreads();
         }
         #endregion
 

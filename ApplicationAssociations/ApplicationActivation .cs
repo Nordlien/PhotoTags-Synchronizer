@@ -216,7 +216,7 @@ namespace ApplicationAssociations
         #region ProcessRun(string commandWitharguments, string appUserModelId, string fileFullPath,  string verb, bool waitForExit)
         public static void ProcessRun(string commandWitharguments, string appUserModelId, string fileFullPath,  string verb, bool waitForExit)
         {
-            if (!string.IsNullOrWhiteSpace(appUserModelId)) ActivateForFile(appUserModelId, fileFullPath, verb, waitForExit);
+            if (!string.IsNullOrWhiteSpace(appUserModelId) && appUserModelId != "Chrome") ActivateForFile(appUserModelId, fileFullPath, verb, waitForExit);
             else
             {
                 SplitCommandAndAgrument(commandWitharguments, out string command, out string arguments);
@@ -225,6 +225,7 @@ namespace ApplicationAssociations
                     arguments = "\"" + fileFullPath +"\"";
                 } else
                 {
+                    arguments = arguments.Replace("--single-argument %1", "\"" + fileFullPath + "\""); //Chrome hack
                     arguments = arguments.Replace("\"%L\"", "\"" + fileFullPath + "\"");
                     arguments = arguments.Replace("%L", "\"" + fileFullPath + "\"");
                     arguments = arguments.Replace("\"%1\"", "\"" + fileFullPath + "\"");

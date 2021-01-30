@@ -1458,26 +1458,29 @@ namespace MetadataLibrary
         Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
 
         #region Cache Metadata - Contains Key
-        private bool MetadataCacheContainsKey(FileEntryBroker file)
+        private bool MetadataCacheContainsKey(FileEntryBroker fileEntryBroker)
         {
-            return metadataCache.ContainsKey(file);
+            if (!(fileEntryBroker is FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+            return metadataCache.ContainsKey(fileEntryBroker);
         }
         #endregion 
 
         #region Cache Metadata - Get
-        private Metadata MetadataCacheGet(FileEntryBroker file)
+        private Metadata MetadataCacheGet(FileEntryBroker fileEntryBroker)
         {
-            return metadataCache[file];
+            if (!(fileEntryBroker is FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result 
+            return metadataCache[fileEntryBroker];
         }
         #endregion 
 
         #region Cache Metadata - Read 
-        public Metadata ReadMetadataFromCacheOrDatabase(FileEntryBroker file)
+        public Metadata ReadMetadataFromCacheOrDatabase(FileEntryBroker fileEntryBroker)
         {
-            if (MetadataCacheContainsKey(file)) return MetadataCacheGet(file);
+            if (!(fileEntryBroker is FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+            if (MetadataCacheContainsKey(fileEntryBroker)) return MetadataCacheGet(fileEntryBroker);
 
-            Metadata metadata = Read(file);
-            MetadataCacheUpdate(file, metadata);
+            Metadata metadata = Read(fileEntryBroker);
+            MetadataCacheUpdate(fileEntryBroker, metadata);
             return metadata;
         }
         #endregion 
@@ -1497,6 +1500,8 @@ namespace MetadataLibrary
         private void MetadataCacheRemove(FileEntryBroker fileEntryBroker)
         {
             if (fileEntryBroker == null) return;
+            if (!(fileEntryBroker is FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+
             if (MetadataCacheContainsKey(fileEntryBroker)) metadataCache.Remove(fileEntryBroker);
         }
         #endregion 
@@ -1504,6 +1509,8 @@ namespace MetadataLibrary
         #region Cache Metadata - Updated
         private void MetadataCacheUpdate(FileEntryBroker fileEntryBroker, Metadata metadata)
         {
+            if (!(fileEntryBroker is FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+
             if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
             else metadataCache.Add(fileEntryBroker, metadata);            
         }

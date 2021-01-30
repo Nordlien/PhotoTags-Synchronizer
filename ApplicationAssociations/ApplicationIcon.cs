@@ -28,10 +28,18 @@ namespace ApplicationAssociations
         {
             try
             {
+                
                 if (!string.IsNullOrEmpty(iconFullPath))
                 {
-                    if (iconFullPath.ToUpper().EndsWith(".EXE") || iconFullPath.ToUpper().EndsWith(".DLL"))
+                    string iconFullPathUpper = iconFullPath.ToUpper();
+                    
+                    if (iconFullPathUpper.EndsWith(".DLL") || iconFullPathUpper.EndsWith(".EXE") || iconFullPathUpper.EndsWith(".EXE,0") || iconFullPathUpper.EndsWith(".EXE,1") || 
+                        iconFullPathUpper.EndsWith(".EXE,2") || iconFullPathUpper.EndsWith(".EXE,3") || iconFullPathUpper.EndsWith(".EXE,4") || iconFullPathUpper.EndsWith(".EXE,5"))
                     {
+                        if (iconFullPathUpper.EndsWith(",0") || iconFullPathUpper.EndsWith(",1") || iconFullPathUpper.EndsWith(",2") ||
+                            iconFullPathUpper.EndsWith(",3") || iconFullPathUpper.EndsWith(",4") || iconFullPathUpper.EndsWith(",5")) 
+                            iconFullPath = iconFullPath.Substring(0, iconFullPath.Length - 2);
+
                         Icon icon = Icon.ExtractAssociatedIcon(iconFullPath);
                         if (icon != null) return icon;
                     } else  if (iconFullPath.StartsWith("@{") )

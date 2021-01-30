@@ -13,19 +13,21 @@ namespace MetadataLibrary
        
         public MetadataBrokerType Broker { get => broker; set => broker = value; }
 
+        public FileEntryBroker(FileEntryBroker fileEntryBroker) : this(fileEntryBroker.FileFullPath, fileEntryBroker.LastWriteDateTime, fileEntryBroker.Broker)
+        {
+        }
+
         public FileEntryBroker(FileEntry fileEntry, MetadataBrokerType broker) : base(fileEntry)
         {
             this.broker = broker;
-            this.fullFilePath = fileEntry.FileFullPath;
-            this.lastWriteDateTime = fileEntry.LastWriteDateTime;
         }
 
         public FileEntryBroker(string fileDirectory, string fileName, DateTime lastAccessDateTime, MetadataBrokerType broker) 
             : base(Path.Combine (fileDirectory, fileName), lastAccessDateTime)
         {
             this.broker = broker;
-
         }
+
         public FileEntryBroker(string fullFilePath, DateTime lastAccessDateTime, MetadataBrokerType broker) : base(fullFilePath, lastAccessDateTime)
         {
             this.broker = broker;

@@ -124,7 +124,6 @@ namespace ApplicationAssociations
 
             foreach (string extention in extensions)
             {
-
                 if (commonExtentionApplications == null) //Build a common list to start with
                 {
                     commonExtentionApplications = new List<ApplicationData>();

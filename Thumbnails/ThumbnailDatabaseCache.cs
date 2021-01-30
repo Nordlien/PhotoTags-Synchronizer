@@ -168,50 +168,50 @@ namespace Thumbnails
         #region Cache
         Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();
 
-        private void CacheUpdate(FileEntry file, Image image)
+        private void CacheUpdate(FileEntry fileEntry, Image image)
         {
-            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
-            if (thumbnailCache.ContainsKey(file))
+            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (thumbnailCache.ContainsKey(fileEntry))
             {
-                thumbnailCache[file] = image;
+                thumbnailCache[fileEntry] = image;
             }
             else
             {
-                thumbnailCache.Add(file, image);
+                thumbnailCache.Add(fileEntry, image);
             }
         }
 
-        private bool CacheContainsKey(FileEntry file)
+        private bool CacheContainsKey(FileEntry fileEntry)
         {
-            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
-            return thumbnailCache.ContainsKey(file);
+            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            return thumbnailCache.ContainsKey(fileEntry);
         }
 
-        private Image CacheGet(FileEntry file)
+        private Image CacheGet(FileEntry fileEntry)
         {
-            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
-            return thumbnailCache[file];
+            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            return thumbnailCache[fileEntry];
         }
 
-        public void CacheRemove(FileEntry file)
+        public void CacheRemove(FileEntry fileEntry)
         {
-            if (file == null) return;
-            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
+            if (fileEntry == null) return;
+            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
 
-            if (CacheContainsKey(file))
+            if (CacheContainsKey(fileEntry))
             {
-                thumbnailCache.Remove(file);
+                thumbnailCache.Remove(fileEntry);
             }
         }
 
-        public void CacheRemove(FileEntry[] files)
+        public void CacheRemove(FileEntry[] fileEntries)
         {
-            if (files == null) return;
-            foreach (FileEntry file in files)
+            if (fileEntries == null) return;
+            foreach (FileEntry fileEntry in fileEntries)
             {
-                if (CacheContainsKey(file))
+                if (CacheContainsKey(fileEntry))
                 {
-                    thumbnailCache.Remove(file);
+                    thumbnailCache.Remove(fileEntry);
                 }
             }
         }
@@ -222,43 +222,42 @@ namespace Thumbnails
             thumbnailCache = new Dictionary<FileEntry, Image>();
         }
 
-        public bool DoesThumbnailExistInCache(FileEntry file)
+        public bool DoesThumbnailExistInCache(FileEntry fileEntry)
         {
-            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
-            return CacheContainsKey(file);
+            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            return CacheContainsKey(fileEntry);
         }
-        public Image ReadThumbnailFromCacheOnly(FileEntry file)
+        public Image ReadThumbnailFromCacheOnly(FileEntry fileEntry)
         {
-            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
-            if (CacheContainsKey(file))
+            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (CacheContainsKey(fileEntry))
             {
-                return CacheGet(file);
+                return CacheGet(fileEntry);
             }
             return null;
         }
 
-        public Image ReadThumbnailFromCacheOnlyClone(FileEntry file)
+        public Image ReadThumbnailFromCacheOnlyClone(FileEntry fileEntry)
         {
-            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
-
-            if (CacheContainsKey(file))
+            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (CacheContainsKey(fileEntry))
             {
-                return CacheGet(file);
+                return CacheGet(fileEntry);
                 //return new Bitmap(CacheGet(file));
             }
             return null;
         }
 
-        public Image ReadThumbnailFromCacheOrDatabase(FileEntry file)
+        public Image ReadThumbnailFromCacheOrDatabase(FileEntry fileEntry)
         {
-            if (file is FileEntryAttribute) file = new FileEntry(file); //When FileEntryAttribute it Will give wrong hash value
-            if (CacheContainsKey(file)) return CacheGet(file);
+            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (CacheContainsKey(fileEntry)) return CacheGet(fileEntry);
             
             Image image;
-            image = Read(file);
+            image = Read(fileEntry);
             if (image != null)
             {
-                CacheUpdate(file, image);
+                CacheUpdate(fileEntry, image);
                 return image;
             }
             else
