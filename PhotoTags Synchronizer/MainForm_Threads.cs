@@ -17,6 +17,7 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
+        private Thread _ThreadPreloadingMetadata = null;
         private Thread _ThreadLazyLoadingMetadata = null;
         private Thread _ThreadLazyLoadingThumbnail = null;
 
@@ -29,7 +30,9 @@ namespace PhotoTagsSynchronizer
         private Thread _ThreadSaveMetadata = null;
         private Thread _ThreadRenameMedafiles = null;
 
-        List<string> mediaFilesNotInDatabase = new List<string>(); //It's globale, just to manage to show count status
+        
+        private List<FileEntryAttribute> commonQueuePreloadingMetadata = new List<FileEntryAttribute>();
+        private static readonly Object commonQueuePreloadingMetadataLock = new Object();
 
         private List<FileEntryAttribute> commonQueueLazyLoadingMetadata = new List<FileEntryAttribute>();
         private static readonly Object commonQueueLazyLoadingMetadataLock = new Object();
@@ -56,6 +59,10 @@ namespace PhotoTagsSynchronizer
         //Exif
         private List<FileEntry>        commonQueueReadMetadataFromExiftool = new List<FileEntry>();
         private static readonly Object commonQueueReadMetadataFromExiftoolLock = new Object();
+        
+        private List<string>           mediaFilesNotInDatabase = new List<string>(); //It's globale, just to manage to show count status
+        private static readonly Object mediaFilesNotInDatabaseLock = new Object();
+
         private List<Metadata>         commonQueueSaveMetadataUpdatedByUser = new List<Metadata>();
         private static readonly Object commonQueueSaveMetadataUpdatedByUserLock = new Object();
         private List<Metadata>         commonOrigialMetadataBeforeUserUpdate = new List<Metadata>();
@@ -73,6 +80,11 @@ namespace PhotoTagsSynchronizer
 
 
         #region Lock
+        private int CommonQueuePreloadingMetadataCountLock()
+        {
+            lock (commonQueuePreloadingMetadataLock) return commonQueuePreloadingMetadata.Count;
+        }
+
         private int CommonQueueLazyLoadingMetadataCountLock()
         {
             lock (commonQueueLazyLoadingMetadataLock) return commonQueueLazyLoadingMetadata.Count;
@@ -117,6 +129,12 @@ namespace PhotoTagsSynchronizer
         {
             lock (commonOrigialMetadataBeforeUserUpdateLock) return commonOrigialMetadataBeforeUserUpdate.Count;
         }
+
+        private int MediaFilesNotInDatabaseCountLock()
+        {
+            lock (mediaFilesNotInDatabaseLock) return mediaFilesNotInDatabase.Count;            
+        }
+
         private int CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountLock()
         {
             lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock) return commonQueueMetadataWrittenByExiftoolReadyToVerify.Count;
@@ -145,6 +163,7 @@ namespace PhotoTagsSynchronizer
             ThreadRename();
             ThreadLazyLoadningMetadata();
             ThreadLazyLoadningThumbnail();
+            ThreadPreloadningMetadata();
         }
 
         private bool IsAnyThreadRunning()
@@ -195,7 +214,7 @@ namespace PhotoTagsSynchronizer
         {
             return
                 //CommonQueueSaveThumbnailToDatabaseCountLock() +
-                mediaFilesNotInDatabase.Count + 
+                MediaFilesNotInDatabaseCountLock() + 
                 CommonQueueLazyLoadingThumbnailCountLock() +
                 CommonQueueLazyLoadingMetadataCountLock() +
                 CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock()+
@@ -249,6 +268,52 @@ namespace PhotoTagsSynchronizer
             StartThreads();
         }
         #endregion
+
+        #region Preloadning - Metadata - AddQueue - Only Read
+        public void AddQueuePreloadningMetadata(FileEntryAttribute fileEntryAttribute)
+        {
+            lock (commonQueuePreloadingMetadataLock)
+            {
+                if (!commonQueuePreloadingMetadata.Contains(fileEntryAttribute)) commonQueuePreloadingMetadata.Add(fileEntryAttribute);
+            }
+            StartThreads();
+        }
+        #endregion
+
+        #region Preloadning - Metadata - Thread 
+        public void ThreadPreloadningMetadata()
+        {
+            if (_ThreadPreloadingMetadata == null || (!_ThreadPreloadingMetadata.IsAlive && ThreadLazyLoadingQueueSize() == 0))
+            {
+                _ThreadPreloadingMetadata = new Thread(() =>
+                {
+                    while (CommonQueuePreloadingMetadataCountLock() > 0 && !GlobalData.IsApplicationClosing && ThreadLazyLoadingQueueSize() == 0)
+                    {                        
+                        Metadata metadata;
+                        FileEntryAttribute fileEntryAttribute;
+                        lock (commonQueuePreloadingMetadataLock) fileEntryAttribute = new FileEntryAttribute(commonQueuePreloadingMetadata[0]);
+
+                        metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
+                        metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
+                        metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
+
+                        lock (commonQueuePreloadingMetadataLock) commonQueuePreloadingMetadata.RemoveAt(0);
+                    }
+                    Application.DoEvents();
+                    StartThreads();
+                });
+                try
+                {
+                    _ThreadPreloadingMetadata.Start();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("ThreadPreloadningMetadata.Start failed. " + ex.Message);
+                }
+            }
+
+        }
+        #endregion 
 
         #region LazyLoadning - Metadata - Thread 
         public void ThreadLazyLoadningMetadata()
@@ -325,7 +390,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("_ThreadLazyLoading.Start failed. " + ex.Message);
+                    Logger.Error("ThreadLazyLoadningMetadata.Start failed. " + ex.Message);
                 }
             }
 
@@ -389,7 +454,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("_ThreadLazyLoading.Start failed. " + ex.Message);
+                    Logger.Error("ThreadLazyLoadningThumbnail.Start failed. " + ex.Message);
                 }
             }
 
@@ -529,7 +594,7 @@ namespace PhotoTagsSynchronizer
                         if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
 
                         int rangeToRemove; //Remember how many in queue now
-                        List<string> mediaFilesNotInDatabaseCheckInCloud = new List<string>(); ;
+                        List<string> mediaFilesNotInDatabaseCheckInCloud = new List<string>(); 
 
                         #region From the Read Queue - Find files not alread in database
                         lock (commonQueueReadMetadataFromExiftoolLock)
@@ -555,7 +620,7 @@ namespace PhotoTagsSynchronizer
                         }
                         #endregion 
 
-                        while (mediaFilesNotInDatabase.Count > 0 && !GlobalData.IsApplicationClosing)
+                        while (MediaFilesNotInDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing)
                         {
                             #region Create a subset of files to Read using Exiftool command line with parameters, and remove subset from queue
                             int range = 0;
@@ -565,14 +630,18 @@ namespace PhotoTagsSynchronizer
                             //characters.
 
                             int argumnetLength = 80; //Init command length;
-                            while (argumnetLength < 2047 && range < mediaFilesNotInDatabase.Count)
+                            List<String> useExiftoolOnThisSubsetOfFiles;
+                            lock (mediaFilesNotInDatabaseLock)
                             {
-                                argumnetLength += mediaFilesNotInDatabase[range].Length + 3; //+3 = space and 2x"
-                                range++;
-                            }
-                            if (argumnetLength > 2047) range--;
+                                while (argumnetLength < 2047 && range < mediaFilesNotInDatabase.Count)
+                                {
+                                    argumnetLength += mediaFilesNotInDatabase[range].Length + 3; //+3 = space and 2x"
+                                    range++;
+                                }
 
-                            List<String> useExiftoolOnThisSubsetOfFiles = mediaFilesNotInDatabase.GetRange(0, range);
+                                if (argumnetLength > 2047) range--;
+                                useExiftoolOnThisSubsetOfFiles = mediaFilesNotInDatabase.GetRange(0, range);
+                            }
                             #endregion
 
                             #region Read using Exiftool
@@ -630,7 +699,7 @@ namespace PhotoTagsSynchronizer
                             }
                             #endregion
 
-                            mediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
+                            lock (mediaFilesNotInDatabaseLock) mediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
                             DisplayAllQueueStatus();
                         }
                     }
@@ -878,7 +947,7 @@ namespace PhotoTagsSynchronizer
                         mediaFilesWithChangesWillBeUpdated.Clear();
 
                         //Status updated for user
-                        ShowExiftoolSaveProgressStop();
+                        ShowExiftoolSaveProgressClear();
                         DisplayAllQueueStatus();
 
                         //Thread.Sleep(100); //Wait in case of loop
@@ -1385,7 +1454,7 @@ namespace PhotoTagsSynchronizer
                         #endregion
 
                         //Status updated for user
-                        ShowExiftoolSaveProgressStop();
+                        ShowExiftoolSaveProgressClear();
                         DisplayAllQueueStatus();
 
                         //Thread.Sleep(100); //Wait in case of loop

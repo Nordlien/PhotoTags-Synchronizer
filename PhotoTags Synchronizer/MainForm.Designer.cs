@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -301,6 +301,8 @@ namespace PhotoTagsSynchronizer
             this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
             this.timerShowExiftoolSaveProgress = new System.Windows.Forms.Timer(this.components);
+            this.timerStatusUpdate = new System.Windows.Forms.Timer(this.components);
+            this.timerUpdateDataGridViewLoadingProgressbarRemove = new System.Windows.Forms.Timer(this.components);
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -423,14 +425,20 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripStatusAction
             // 
+            this.toolStripStatusAction.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusAction.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.toolStripStatusAction.Name = "toolStripStatusAction";
-            this.toolStripStatusAction.Size = new System.Drawing.Size(49, 24);
-            this.toolStripStatusAction.Text = "Status";
+            this.toolStripStatusAction.Size = new System.Drawing.Size(124, 24);
+            this.toolStripStatusAction.Text = "Waiting actions...";
             // 
             // toolStripProgressBarDataGridViewLoading
             // 
             this.toolStripProgressBarDataGridViewLoading.Name = "toolStripProgressBarDataGridViewLoading";
             this.toolStripProgressBarDataGridViewLoading.Size = new System.Drawing.Size(100, 22);
+            this.toolStripProgressBarDataGridViewLoading.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.toolStripProgressBarDataGridViewLoading.Value = 100;
             this.toolStripProgressBarDataGridViewLoading.Visible = false;
             // 
             // splitContainerFolder
@@ -1203,11 +1211,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode4.Name = "NodeFolder";
+            treeNode4.Tag = "Filter";
+            treeNode4.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode4});
             this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -3380,12 +3388,12 @@ namespace PhotoTagsSynchronizer
             // 
             // timerShowErrorMessage
             // 
-            this.timerShowErrorMessage.Interval = 1000;
+            this.timerShowErrorMessage.Interval = 1500;
             this.timerShowErrorMessage.Tick += new System.EventHandler(this.timerShowErrorMessage_Tick);
             // 
             // timerActionStatusRemove
             // 
-            this.timerActionStatusRemove.Interval = 2000;
+            this.timerActionStatusRemove.Interval = 1500;
             this.timerActionStatusRemove.Tick += new System.EventHandler(this.timerActionStatusRemove_Tick);
             // 
             // timerStartThread
@@ -3399,6 +3407,17 @@ namespace PhotoTagsSynchronizer
             this.timerShowExiftoolSaveProgress.Enabled = true;
             this.timerShowExiftoolSaveProgress.Interval = 400;
             this.timerShowExiftoolSaveProgress.Tick += new System.EventHandler(this.timerShowExiftoolSaveProgress_Tick);
+            // 
+            // timerStatusUpdate
+            // 
+            this.timerStatusUpdate.Enabled = true;
+            this.timerStatusUpdate.Interval = 400;
+            this.timerStatusUpdate.Tick += new System.EventHandler(this.timerStatusUpdate_Tick);
+            // 
+            // timerUpdateDataGridViewLoadingProgressbarRemove
+            // 
+            this.timerUpdateDataGridViewLoadingProgressbarRemove.Interval = 1000;
+            this.timerUpdateDataGridViewLoadingProgressbarRemove.Tick += new System.EventHandler(this.timerUpdateDataGridViewLoadingProgressbarRemove_Tick);
             // 
             // MainForm
             // 
@@ -3763,6 +3782,8 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast3;
         private DragNDrop.TreeViewWithoutDoubleClick treeViewFilter;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarDataGridViewLoading;
+        private System.Windows.Forms.Timer timerStatusUpdate;
+        private System.Windows.Forms.Timer timerUpdateDataGridViewLoadingProgressbarRemove;
     }
 }
 

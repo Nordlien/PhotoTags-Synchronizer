@@ -30,8 +30,10 @@ namespace PhotoTagsSynchronizer
                 folderTreeViewFolder.Enabled = false;               
                 ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
                 folderTreeViewFolder.Enabled = true;
-                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(imageListView1.Items);                
-                
+                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(imageListView1.Items);
+                PopulatePreloadMetadataQueue(imageListView1.Items);
+
+
                 GlobalData.IsPopulatingFolderSelected = false;
             }
 
@@ -68,9 +70,16 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        #region PopulatePreloadMetadataQueue
+        private void PopulatePreloadMetadataQueue(ImageListView.ImageListViewItemCollection imageListViewItems)
+        {
+            foreach (ImageListViewItem imageListViewItem in imageListViewItems) AddQueuePreloadningMetadata(new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current));
+        }
+        #endregion
+        
         #endregion
 
-        
+
     }
 }
 

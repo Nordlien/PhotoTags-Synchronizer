@@ -749,7 +749,6 @@ namespace MetadataLibrary
             FileBroker fileBroker = new FileBroker(broker, fullFileName);
             if (listFileAttributeDateVersions.ContainsKey(fileBroker)) return listFileAttributeDateVersions[fileBroker];
 
-
             List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
             ListFileEntryAttributes2(ref fileEntryAttributes, broker, fullFileName);
             MetadataBrokerType broker2 = broker | MetadataBrokerType.ExifToolWriteError;

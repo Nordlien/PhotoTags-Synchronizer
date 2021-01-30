@@ -133,8 +133,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = GetDataGridViewForTag(tag);
             int threadLazyLoadingQueueSize = ThreadLazyLoadingQueueSize();
             DataGridViewHandler.SuspendLayout(dataGridView, threadLazyLoadingQueueSize);
-            toolStripProgressBarDataGridViewLoading.Maximum = threadLazyLoadingQueueSize;
-            toolStripProgressBarDataGridViewLoading.Visible = true;
+            LoadDataGridViewProgerss(threadLazyLoadingQueueSize);
         }
         #endregion 
 
@@ -149,8 +148,14 @@ namespace PhotoTagsSynchronizer
             }
             string tag = tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
             DataGridView dataGridView = GetDataGridViewForTag(tag);
-            if (DataGridViewHandler.ResumeLayout(dataGridView, ThreadLazyLoadingQueueSize())) PopulateDataGridViewForSelectedItemsExtrasInvoke();
-            toolStripProgressBarDataGridViewLoading.Visible = true;
+
+            int threadLazyLoadingQueueSize = ThreadLazyLoadingQueueSize();
+            if (DataGridViewHandler.ResumeLayout(dataGridView, threadLazyLoadingQueueSize))
+            {
+                PopulateDataGridViewForSelectedItemsExtrasInvoke();
+                LoadDataGridViewProgerss(threadLazyLoadingQueueSize);
+            }
+            
         }
         #endregion 
 
@@ -180,9 +185,9 @@ namespace PhotoTagsSynchronizer
             lock (GlobalData.populateSelectedLock)
             {
                 SuspendLayout();
-                int threadLazyLoadingQueueSize = ThreadLazyLoadingQueueSize() + queueCount;
-                if (threadLazyLoadingQueueSize > toolStripProgressBarDataGridViewLoading.Maximum) toolStripProgressBarDataGridViewLoading.Maximum = threadLazyLoadingQueueSize;
-                toolStripProgressBarDataGridViewLoading.Value = toolStripProgressBarDataGridViewLoading.Maximum - threadLazyLoadingQueueSize;
+
+                LoadDataGridViewProgerss(ThreadLazyLoadingQueueSize(), queueCount);
+                
                 switch (tag)
                 {
                     case "Tags":

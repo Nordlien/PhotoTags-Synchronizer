@@ -489,9 +489,7 @@ namespace PhotoTagsSynchronizer
             if (threadPopulateFilter != null)
             {
                 GlobalData.IsImageListViewForEachInProgressRequestStop = true;
-                Console.WriteLine("--Wait");
                 WaitThread_PopulateTreeViewFolderFilter_Stopped.WaitOne(60000);
-                Console.WriteLine("--Waited");
             }
 
             List<FileEntry> imageListViewFileEntryCopy = new List<FileEntry>();
@@ -521,13 +519,10 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            Console.WriteLine("--WaitThread_PopulateTreeViewFolderFilter_Stopped = new AutoResetEvent(false);");
             WaitThread_PopulateTreeViewFolderFilter_Stopped = new AutoResetEvent(false);
 
             GlobalData.IsImageListViewForEachInProgressRequestStop = false;
             treeViewFilter.Enabled = false;
-            //folderTreeView1.Enable = false;
-            //Application.DoEvents();
 
             FilterVerifyer.PopulateTreeViewBasicNodes(treeViewFilter, FilterVerifyer.Root);
 
@@ -590,7 +585,6 @@ namespace PhotoTagsSynchronizer
                     }
                 }
 
-
                 if (!GlobalData.IsImageListViewForEachInProgressRequestStop)
                 {
                     string node = FilterVerifyer.Root;
@@ -630,7 +624,6 @@ namespace PhotoTagsSynchronizer
             if (WaitThread_PopulateTreeViewFolderFilter_Stopped != null)
             {
                 WaitThread_PopulateTreeViewFolderFilter_Stopped.Set();
-                Console.WriteLine("--WaitThread_PopulateTreeViewFolderFilter_Stopped.Set();");
             }
 
             imageListViewFileEntryItems = null;
