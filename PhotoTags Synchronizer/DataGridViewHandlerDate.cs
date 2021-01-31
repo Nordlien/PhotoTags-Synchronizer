@@ -267,8 +267,6 @@ namespace PhotoTagsSynchronizer
                 PopulateTimeZone(dataGridView, columnIndex);
             }
 
-            
-
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
@@ -298,7 +296,7 @@ namespace PhotoTagsSynchronizer
             //Clear current DataGridView
             DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
             //Add Columns for all selected files, one column per select file
-            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheMetadataExiftool, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
+            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheMetadataExiftool, DatabaseAndCacheThumbnail, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true)); //ReadOnly until data is read
             //Add all default rows
             //AddRowsDefault(dataGridView);

@@ -64,7 +64,7 @@ namespace PhotoTagsSynchronizer
         //Exiftool tags
         public static bool IsPopulatingExiftoolTags { get => dataGridViewHandlerExiftoolTags.IsPopulating; set => dataGridViewHandlerExiftoolTags.IsPopulating = value; }
         public static bool IsPopulatingExiftoolTagsFile { get => dataGridViewHandlerExiftoolTags.IsPopulatingFile; set => dataGridViewHandlerExiftoolTags.IsPopulatingFile = value; }
-        public static bool IsPopulatingExiftoolTagsImage { get => dataGridViewHandlerExiftoolTags.IsPopulatingImage; set => dataGridViewHandlerExiftoolTags.IsPopulatingImage = value; }
+        //public static bool IsPopulatingExiftoolTagsImage { get => dataGridViewHandlerExiftoolTags.IsPopulatingImage; set => dataGridViewHandlerExiftoolTags.IsPopulatingImage = value; }
         public static bool IsAgregatedExiftoolTags { get => dataGridViewHandlerExiftoolTags.IsAgregated; set => dataGridViewHandlerExiftoolTags.IsAgregated = value; }
         
         //Exiftool warning
@@ -155,7 +155,7 @@ namespace PhotoTagsSynchronizer
                 //Exiftool tags
                 IsPopulatingExiftoolTags ||
                 IsPopulatingExiftoolTagsFile ||
-                IsPopulatingExiftoolTagsImage ||
+                //IsPopulatingExiftoolTagsImage ||
 
                 //Exiftool warning
                 IsPopulatingExiftoolWarning ||

@@ -70,7 +70,31 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Refresh Header Image And Regions - OnActiveDataGridView
+        private void LazyLoadMissing()
+        {
+            DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            if (dataGridView == null) return;
+
+            List<FileEntryAttribute> lazyLoadingMissedUpdatedDueToThread = new List<FileEntryAttribute>();
+            List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, false);
+
+            foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
+            {
+                lock (commonQueueReadMetadataFromExiftoolLock)
+                {
+                    if (commonQueueReadMetadataFromExiftool.Contains(new FileEntry (dataGridViewGenericColumn.FileEntryAttribute.FileEntry)))
+                    {
+                        if (dataGridViewGenericColumn.Metadata == null) 
+                            lazyLoadingMissedUpdatedDueToThread.Add(dataGridViewGenericColumn.FileEntryAttribute);
+                    }
+                }
+                
+            }
+            //AddQueueLazyLoadningMetadata(lazyLoadingMissedUpdatedDueToThread);
+        }
+
+        /*
+        #region DataGridView - Refresh Header Image And Regions - OnActiveDataGridView        
         private void RefreshHeaderImageAndRegionsOnActiveDataGridView(FileEntryAttribute fileEntryAttribute)
         {
             if (InvokeRequired)
@@ -84,6 +108,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.RefreshImageForMediaFullFilename(dataGridView, fileEntryAttribute.FileFullPath);
         }
         #endregion
+        */
 
         #region DataGridVIew - IsActiveDataGridViewAgregated
         private bool IsActiveDataGridViewAgregated(string tag)
@@ -120,6 +145,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        /*
         #region DataGridView - DataGridViewSuspendInvoke
         private void DataGridViewSuspendInvoke()
         {
@@ -158,8 +184,9 @@ namespace PhotoTagsSynchronizer
             
         }
         #endregion 
+        */
 
-        #region DataGridView - Populate File - For FileEntryAttribute - Invoke
+        #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
         private void PopulateDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, int queueCount = 0)
         {
             if (InvokeRequired)
@@ -184,7 +211,7 @@ namespace PhotoTagsSynchronizer
         {
             lock (GlobalData.populateSelectedLock)
             {
-                SuspendLayout();
+                DataGridViewHandler.SuspendLayout(dataGridView, queueCount);
 
                 LoadDataGridViewProgerss(ThreadLazyLoadingQueueSize(), queueCount);
                 
@@ -192,7 +219,6 @@ namespace PhotoTagsSynchronizer
                 {
                     case "Tags":
                         DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        //PopulateDetailViewTagsAndKeywords(dataGridView);
                         break;
                     case "People":
                         DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
@@ -215,37 +241,34 @@ namespace PhotoTagsSynchronizer
                     case "Rename":
                         break;
                 }
-                ResumeLayout();
+
+                if (DataGridViewHandler.ResumeLayout(dataGridView, queueCount))
+                {
+                    LazyLoadMissing();
+
+                    PopulateDataGridViewForSelectedItemsExtrasInvoke();
+                    LoadDataGridViewProgerss(queueCount);
+                }
             }
         }
         #endregion
 
-        #region DataGridView - Populate File - For Selected Files 
-        private void PopulateDataGridViewSelectedItemsWithMediaFileVersions(ImageListViewSelectedItemCollection imageListViewSelectItems)
+        #region DataGridView - LazyLoad - Populate File - For Selected Files 
+        private void LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
-            List<FileEntryAttribute> lazyLoadingAllVersionOfMediaFile = new List<FileEntryAttribute>();
+            List<FileEntryAttribute> lazyLoadingAllExiftoolVersionOfMediaFile = new List<FileEntryAttribute>();
 
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
                 List<FileEntryAttribute> fileEntryAttributeDateVersions = databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
-                lazyLoadingAllVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
-                //DataGridViewHandlerCommon.AddVisibleFiles(lazyLoadingAllVersionOfMediaFile, fileEntryAttributeDateVersions, showWhatColumns);
+                lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }            
-            AddQueueLazyLoadningMetadata(lazyLoadingAllVersionOfMediaFile);
-            AddQueueLazyLoadningThumbnail(lazyLoadingAllVersionOfMediaFile);
+            AddQueueLazyLoadningMetadata(lazyLoadingAllExiftoolVersionOfMediaFile);
+            AddQueueLazyLoadningThumbnail(lazyLoadingAllExiftoolVersionOfMediaFile);
         }
         #endregion 
 
-        #region DataGridView - Populate Selected Files - OnActiveDataGridView - Thread
-        private void PopulateDataGridViewForSelectedItemsThread(ImageListViewSelectedItemCollection imageListViewSelectItems)
-        {
-            Thread threadPopulateDataGridView = new Thread(() => {
-                PopulateDataGridViewForSelectedItemsInvoke(imageListView1.SelectedItems);
-            });
-
-            threadPopulateDataGridView.Start();
-        }
-        #endregion
+        
 
         #region DataGridView - PopulateDataGridViewForSelectedItemsExtrasInvoke
         private void PopulateDataGridViewForSelectedItemsExtrasInvoke()
@@ -260,12 +283,10 @@ namespace PhotoTagsSynchronizer
 
             lock (GlobalData.populateSelectedLock)
             {
-
                 DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
                 switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
                 {
                     case "Tags":
-
                         PopulateDetailViewTagsAndKeywords(dataGridView);
                         break;
                     case "Map":
@@ -287,6 +308,17 @@ namespace PhotoTagsSynchronizer
                         break;
                 }
             }
+        }
+        #endregion
+
+        #region DataGridView - Populate Selected Files - OnActiveDataGridView - Thread
+        private void PopulateDataGridViewForSelectedItemsThread(ImageListViewSelectedItemCollection imageListViewSelectItems)
+        {
+            Thread threadPopulateDataGridView = new Thread(() => {
+                PopulateDataGridViewForSelectedItemsInvoke(imageListView1.SelectedItems);
+            });
+
+            threadPopulateDataGridView.Start();
         }
         #endregion
 
@@ -313,7 +345,7 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
                 List<FileEntryAttribute> lazyLoading;
 
-                DataGridViewSuspendInvoke();
+                //DataGridViewSuspendInvoke();
 
                 switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
                 {
@@ -325,7 +357,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                         DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns);
-                        PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                        LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                         break;
                     case "Map":
                         splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
@@ -339,7 +371,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerMap.DatabaseAndCacheLocationAddress = databaseLocationAddress;
                         DataGridViewHandlerMap.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
                         DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeMap, showWhatColumns);
-                        PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                        LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                         break;
                     case "People":
                         DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
@@ -349,7 +381,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerPeople.SuggestRegionNameNearbyDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
                         DataGridViewHandlerPeople.SuggestRegionNameTopMostCount = Properties.Settings.Default.SuggestRegionNameTopMostCount;
                         DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, showWhatColumns);
-                        PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                        LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                         break;
                     case "Date":
                         DataGridViewHandlerDate.DatabaseExiftoolData = databaseExiftoolData;
@@ -361,7 +393,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
                         DataGridViewHandlerDate.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                         DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeDates, showWhatColumns);
-                        PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                        LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                         break;
                     case "ExifTool":
                         DataGridViewHandlerExiftool.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
@@ -393,7 +425,7 @@ namespace PhotoTagsSynchronizer
                         break;
                 }
 
-                DataGridViewResumeInvoke();
+                //DataGridViewResumeInvoke();
             }
         }
         #endregion

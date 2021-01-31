@@ -292,7 +292,7 @@ namespace PhotoTagsSynchronizer
             //Clear current DataGridView
             DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
             //Add Columns for all selected files, one column per select file
-            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheMetadataExiftool, imageListViewSelectItems,  false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, new DataGridViewGenericCellStatus());
+            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheMetadataExiftool, DatabaseAndCacheThumbnail, imageListViewSelectItems,  false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, new DataGridViewGenericCellStatus());
             //Add all default rows
             //AddRowsDefault(dataGridView);
             //Tell data default columns and rows are agregated

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using MetadataLibrary;
+using System;
 using System.Drawing;
 
-namespace MetadataLibrary
+namespace Thumbnails
 {
     public static class RegionThumbnailHandler
     {
@@ -33,7 +34,7 @@ namespace MetadataLibrary
             return regionThumbnail;
         }
 
-        public static bool SaveThumbnailsForRegioList(MetadataDatabaseCache metadataDatabase, Metadata metadata, Image image)
+        public static bool SaveThumbnailsForRegioList(ThumbnailDatabaseCache metadataDatabase, Metadata metadata, Image image)
         {
             if (metadata == null) return false; //When new directory selected, array are become empty and list of null will be created
 

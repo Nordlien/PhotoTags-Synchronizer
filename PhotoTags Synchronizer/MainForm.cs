@@ -258,8 +258,7 @@ namespace PhotoTagsSynchronizer
         private void tabControlToolbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             isTabControlToolboxChanging = false;
-            PopulateDataGridViewForSelectedItemsInvoke(imageListView1.SelectedItems);
-            GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString()).Focus();
+            PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
         }
 
         private void splitContainerMap_SplitterMoved(object sender, SplitterEventArgs e)

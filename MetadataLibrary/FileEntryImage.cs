@@ -5,14 +5,6 @@ using System.IO;
 
 namespace MetadataLibrary
 {
-    public enum FileEntryVersion
-    {
-        NotAvailable,
-        Current,
-        Historical,
-        Error
-    }
-
     public class FileEntryAttribute : FileEntry, IEquatable<FileEntryAttribute>
     {
         public FileEntryVersion FileEntryVersion { get; set; } = FileEntryVersion.NotAvailable;

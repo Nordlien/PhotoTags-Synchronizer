@@ -31,6 +31,7 @@ namespace PhotoTagsSynchronizer
                 //if (metadata == null) metadata = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
                 if (metadata == null || metadata.FileName == null)
                 {
+                    ExiftoolWriter.WaitLockedFileToBecomeUnlocked(e.FileName);
                     Utility.ShellImageFileInfo shellImageFileInfo = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
 
                     //Utility.ShellImageFileInfo shellImageFileInfo = new Utility.ShellImageFileInfo();
@@ -160,7 +161,6 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
             } while (retry);
-
 
             foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
             {

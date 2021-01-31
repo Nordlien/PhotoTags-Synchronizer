@@ -165,7 +165,7 @@ namespace MetadataLibrary
         {
             if (metadata == null) throw new Exception("Error in DatabaseCache. metaData is Null. Error in code");
 
-            CacheRemove(metadata.FileEntryBroker); 
+            
             dbTools.TransactionBeginBatch();
 
             MetadataCacheUpdate(metadata.FileEntryBroker, metadata);
@@ -311,7 +311,7 @@ namespace MetadataLibrary
         #region Copy
         public void Copy(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
-            ClearCache();
+            MetadataCacheRemove(oldDirectory, oldFilename);
             dbTools.TransactionBeginBatch();
 
             string sqlCommand =
@@ -430,7 +430,8 @@ namespace MetadataLibrary
         #region Move
         public void Move(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
-            ClearCache();
+            MetadataCacheRemove(oldDirectory,oldFilename);
+            
             dbTools.TransactionBeginBatch();
 
             string sqlCommand =
@@ -523,49 +524,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region UpdateRegionThumbnail
-        public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region)
-        {
-            CacheRemove(file);
-
-            string sqlCommand =
-                    "UPDATE MediaPersonalRegions " +
-                    "SET Thumbnail = @Thumbnail " +
-                    "WHERE Broker = @Broker " +
-                    "AND FileDirectory = @FileDirectory " +
-                    "AND FileName = @FileName " +
-                    "AND FileDateModified = @FileDateModified " +
-                    "AND Type = @Type " +
-                    "AND Name IS @Name " +
-                    "AND Round(AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND Round(AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND Round(AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND Round(AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND RegionStructureType = @RegionStructureType";
-
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", file.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", file.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
-                commandDatabase.Parameters.AddWithValue("@Type", region.Type);
-                commandDatabase.Parameters.AddWithValue("@Name", region.Name);
-                commandDatabase.Parameters.AddWithValue("@AreaX", region.AreaX);
-                commandDatabase.Parameters.AddWithValue("@AreaY", region.AreaY);
-                commandDatabase.Parameters.AddWithValue("@AreaWidth", region.AreaWidth);
-                commandDatabase.Parameters.AddWithValue("@AreaHeight", region.AreaHeight);
-                commandDatabase.Parameters.AddWithValue("@RegionStructureType", (int)region.RegionStructureType);
-
-                if (region.Thumbnail == null)
-                    commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
-                else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(region.Thumbnail));
-
-                commandDatabase.Prepare();
-                commandDatabase.ExecuteNonQuery();
-            }
-        }
-        #endregion
+        
 
         #region Delete Directoy - Mediadata
         private void DeleteDirectoryMediaMetadata(MetadataBrokerType broker, string fileDirectory)
@@ -619,8 +578,8 @@ namespace MetadataLibrary
         #region Delete Directory
         public void DeleteDirectory(MetadataBrokerType broker, string fileDirectory)
         {
-            ClearCache();
 
+            MetadataCacheRemove(fileDirectory);
             DeleteDirectoryMediaMetadata(broker, fileDirectory);
             DeleteDirectoryMediaPersonalRegions(broker, fileDirectory);
             DeleteDirectoryMediaPersonalKeywords(broker, fileDirectory);
@@ -690,12 +649,10 @@ namespace MetadataLibrary
         #region Delete File
         public void DeleteFileEntry(FileEntryBroker fileEntryBroker)
         {
-            CacheRemove(fileEntryBroker);
-
             DeleteFileMediaMetadata(fileEntryBroker);
             DeleteFileMediaPersonalRegions(fileEntryBroker);
             DeleteFileMediaPersonalKeywords(fileEntryBroker);
-
+            MetadataCacheRemove(fileEntryBroker);
         }
         #endregion
 
@@ -831,11 +788,8 @@ namespace MetadataLibrary
             {
                 FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FileFullPath, file.LastWriteDateTime, broker);
 
-                if (!MetadataCacheContainsKey(fileEntryBroker)) 
-                {
-                    Metadata metadata = ReadMetadataFromCacheOrDatabase(fileEntryBroker);
-                    if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FileFullPath);
-                }
+                Metadata metadata = ReadMetadataFromCacheOrDatabase(fileEntryBroker);
+                if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FileFullPath);
             }
 
             return mediaFilesNoInDatabase;
@@ -1457,65 +1411,117 @@ namespace MetadataLibrary
         #region Cache Metadata
         Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
 
-        #region Cache Metadata - Contains Key
-        private bool MetadataCacheContainsKey(FileEntryBroker fileEntryBroker)
-        {
-            if (!(fileEntryBroker is FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
-            return metadataCache.ContainsKey(fileEntryBroker);
-        }
-        #endregion 
-
-        #region Cache Metadata - Get
-        private Metadata MetadataCacheGet(FileEntryBroker fileEntryBroker)
-        {
-            if (!(fileEntryBroker is FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result 
-            return metadataCache[fileEntryBroker];
-        }
-        #endregion 
-
         #region Cache Metadata - Read 
         public Metadata ReadMetadataFromCacheOrDatabase(FileEntryBroker fileEntryBroker)
         {
-            if (!(fileEntryBroker is FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
-            if (MetadataCacheContainsKey(fileEntryBroker)) return MetadataCacheGet(fileEntryBroker);
+            if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+            if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null
 
             Metadata metadata = Read(fileEntryBroker);
+            
             MetadataCacheUpdate(fileEntryBroker, metadata);
             return metadata;
         }
         #endregion 
 
         #region Cache Metadata - Read - CacheOnly
-        public Metadata ReadMetadataFromCacheOnly(FileEntryBroker file)
+        public Metadata ReadMetadataFromCacheOnly(FileEntryBroker fileEntryBroker)
         {
-            if (MetadataCacheContainsKey(file))
-            {
-                return MetadataCacheGet(file);
-            }
+            if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result 
+            if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null             
             return null;
         }
         #endregion 
 
-        #region Cache Metadata - Remove
-        private void MetadataCacheRemove(FileEntryBroker fileEntryBroker)
-        {
-            if (fileEntryBroker == null) return;
-            if (!(fileEntryBroker is FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+        
 
-            if (MetadataCacheContainsKey(fileEntryBroker)) metadataCache.Remove(fileEntryBroker);
+        public bool MetadataHasBeenRead(FileEntryBroker fileEntryBroker)
+        {
+            if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+            return metadataCache.ContainsKey(fileEntryBroker);
         }
-        #endregion 
 
         #region Cache Metadata - Updated
         private void MetadataCacheUpdate(FileEntryBroker fileEntryBroker, Metadata metadata)
         {
-            if (!(fileEntryBroker is FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+            if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
 
-            if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
-            else metadataCache.Add(fileEntryBroker, metadata);            
+            if (metadata != null || (metadata == null && fileEntryBroker.Broker != MetadataBrokerType.ExifTool))
+            {
+                Console.WriteLine(fileEntryBroker.Broker.ToString() + " " + (metadata == null ? " NULL" : " NOT"));
+                if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
+                else metadataCache.Add(fileEntryBroker, metadata);
+            } 
         }
         #endregion 
 
+        #endregion
+        #region Cache Metadata - Remove
+        private void MetadataCacheRemoveMetadataCacheRemove(FileEntryBroker fileEntryBroker)
+        {
+            if (fileEntryBroker == null) return;
+            if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+            if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache.Remove(fileEntryBroker);
+        }
+        #endregion 
+
+        #region Cache - Remove
+        public void MetadataCacheRemove(FileEntryBroker fileEntryBroker)
+        {
+            MetadataCacheRemoveMetadataCacheRemove(fileEntryBroker);
+            MetadataRegionNamesCacheClear();
+            ListAllPersonalRegionNameCountCacheClear();
+            ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker, fileEntryBroker.FileFullPath));
+        }
+        #endregion
+
+        #region Cache - Remove
+        public void MetadataCacheRemove(string directory, string fileName)
+        {
+            bool found;
+            do
+            {
+                found = false;
+                FileEntryBroker fileEntryBrokerFound = null;
+                foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
+                {
+                    if (fileEntryBroker.Directory == directory && fileEntryBroker.FileName == fileName)
+                    {
+                        fileEntryBrokerFound = fileEntryBroker;
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) MetadataCacheRemove(fileEntryBrokerFound);
+                
+            } while (found);
+        }
+        #endregion 
+
+        #region Cache - Remove
+        public void MetadataCacheRemove(string directory)
+        {
+            bool found;
+            do
+            {
+                found = false;
+                FileEntryBroker fileEntryBrokerFound = null;
+                foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
+                {
+                    if (fileEntryBroker.Directory == directory)
+                    {
+                        fileEntryBrokerFound = fileEntryBroker;
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) MetadataCacheRemove(fileEntryBrokerFound);
+
+            } while (found);
+        }
+        #endregion 
+
+        /*
         #region Cache Metadata - Clear
         public void MetadataCacheClear()
         {
@@ -1523,18 +1529,6 @@ namespace MetadataLibrary
             metadataCache = new Dictionary<FileEntryBroker, Metadata>();
         }
         #endregion
-
-        #endregion
-
-        #region Cache - Remove
-        public void CacheRemove(FileEntryBroker fileEntryBroker)
-        {
-            MetadataCacheRemove(fileEntryBroker);
-            MetadataRegionNamesCacheClear();
-            ListAllPersonalRegionNameCountCacheClear();
-            ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker, fileEntryBroker.FileFullPath));
-        }
-        #endregion 
 
         #region Cache - Clear
         public void ClearCache()
@@ -1545,7 +1539,7 @@ namespace MetadataLibrary
             ListAllPersonalRegionNameCountCacheClear();
         }
         #endregion 
-
+        */
         
 
     }

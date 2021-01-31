@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using DataGridViewGeneric;
 using MetadataLibrary;
+using Thumbnails;
 
 namespace PhotoTagsSynchronizer
 {

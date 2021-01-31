@@ -683,6 +683,11 @@ namespace DataGridViewGeneric
         }
         #endregion 
 
+        public static void Focus(DataGridView dataGridView)
+        {
+            dataGridView.Focus();
+        }
+
         #endregion
 
         #region Populating handling
@@ -1089,7 +1094,6 @@ namespace DataGridViewGeneric
                                 isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
                             }
-
                         }
                         else
                         {
@@ -1107,16 +1111,22 @@ namespace DataGridViewGeneric
                             else
                             {
                                 isMetadataAlreadyAgregated = false; //Refresh with newst data
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datafrid with new data
+                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
                                 currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
                             }
                         }
                     }
-                    else
+                    else if (currentDataGridViewGenericColumn.Metadata != null) //Refres, metadata is still null
+                    {
+                        isMetadataAlreadyAgregated = false;
+                        currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;                        
+                        //currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
+                    }
+                    else //Refres, metadata is still null
                     {
                         isMetadataAlreadyAgregated = false;
                         currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                        currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
+                        currentDataGridViewGenericColumn.Metadata = metadata; //                    
                     }
 
                 }
@@ -2810,7 +2820,7 @@ namespace DataGridViewGeneric
                     dataGridView.InvalidateCell(columnIndex, -1);
                 }
             }
-            DataGridViewHandler.Refresh(dataGridView);
+            //DataGridViewHandler.Refresh(dataGridView);
         }
 
         #endregion
@@ -2819,7 +2829,10 @@ namespace DataGridViewGeneric
         public static void SetDataGridImageOnFileEntryAttribute(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image image)
         {
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
-            if (DataGridViewHandler.GetIsPopulatingImage(dataGridView)) return;  //In progress doing so
+            if (DataGridViewHandler.GetIsPopulatingImage(dataGridView))
+            {
+                //return;  //In progress doing so, I think we can remove
+            }
 
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, true);
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
@@ -2829,8 +2842,7 @@ namespace DataGridViewGeneric
                     column.Thumbnail = image;
                     dataGridView.InvalidateCell(columnIndex, -1);
                 }
-            }
-            
+            }            
             DataGridViewHandler.SetIsPopulatingImage(dataGridView, false);
         }
         #endregion 

@@ -50,7 +50,7 @@ namespace Thumbnails
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
-            CacheUpdate(fileEntry, image);
+            ThumbnailCacheUpdate(fileEntry, image);
         }
 
         public Image Read(FileEntry fileEntry)
@@ -75,7 +75,7 @@ namespace Thumbnails
                 }
             }
 
-            return image; //== null ? null : Manina.Windows.Forms.Utility.ThumbnailFromImage(image, UpsizeThumbnailSize, Color.White, true);
+            return image; 
         }
 
         
@@ -91,12 +91,12 @@ namespace Thumbnails
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
-            CacheRemove(fileEntry);
+            ThumnbailCacheRemove(fileEntry);
         }
 
         public void DeleteDirectory(string fileDirectory)
         {
-            ClearCache();
+            ThumbnailClearCache();
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -105,6 +105,50 @@ namespace Thumbnails
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+
+        #region UpdateRegionThumbnail
+        public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region)
+        {
+            ThumnbailCacheRemove(file);
+
+            string sqlCommand =
+                    "UPDATE MediaPersonalRegions " +
+                    "SET Thumbnail = @Thumbnail " +
+                    "WHERE Broker = @Broker " +
+                    "AND FileDirectory = @FileDirectory " +
+                    "AND FileName = @FileName " +
+                    "AND FileDateModified = @FileDateModified " +
+                    "AND Type = @Type " +
+                    "AND Name IS @Name " +
+                    "AND Round(AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND RegionStructureType = @RegionStructureType";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", file.Directory);
+                commandDatabase.Parameters.AddWithValue("@FileName", file.FileName);
+                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
+                commandDatabase.Parameters.AddWithValue("@Type", region.Type);
+                commandDatabase.Parameters.AddWithValue("@Name", region.Name);
+                commandDatabase.Parameters.AddWithValue("@AreaX", region.AreaX);
+                commandDatabase.Parameters.AddWithValue("@AreaY", region.AreaY);
+                commandDatabase.Parameters.AddWithValue("@AreaWidth", region.AreaWidth);
+                commandDatabase.Parameters.AddWithValue("@AreaHeight", region.AreaHeight);
+                commandDatabase.Parameters.AddWithValue("@RegionStructureType", (int)region.RegionStructureType);
+
+                if (region.Thumbnail == null)
+                    commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
+                else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(region.Thumbnail));
+
+                commandDatabase.Prepare();
+                commandDatabase.ExecuteNonQuery();
+            }
+        }
+        #endregion
 
         public List<FileEntry> ListFileEntryDateVersions(string fullFileName)
         {
@@ -158,9 +202,10 @@ namespace Thumbnails
             }
             return needCreateThumbnail;
         }
+
         public bool DoesThumbnailExist(FileEntry fileEntry)
         {
-            if (CacheContainsKey(fileEntry)) return true;
+            if (ThumbnailCacheContainsKey(fileEntry)) return true;
             return ReadThumbnailFromCacheOrDatabase(fileEntry) != null; //Read Thumbnail and put in cache, will need the thumbnail soon anywhy 
         }
 
@@ -168,55 +213,33 @@ namespace Thumbnails
         #region Cache
         Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();
 
-        private void CacheUpdate(FileEntry fileEntry, Image image)
+        private void ThumbnailCacheUpdate(FileEntry fileEntry, Image image)
         {
-            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            if (thumbnailCache.ContainsKey(fileEntry))
-            {
-                thumbnailCache[fileEntry] = image;
-            }
-            else
-            {
-                thumbnailCache.Add(fileEntry, image);
-            }
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (thumbnailCache.ContainsKey(fileEntry)) thumbnailCache[fileEntry] = image;
+            else thumbnailCache.Add(fileEntry, image);
         }
 
-        private bool CacheContainsKey(FileEntry fileEntry)
+        private bool ThumbnailCacheContainsKey(FileEntry fileEntry)
         {
-            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
             return thumbnailCache.ContainsKey(fileEntry);
         }
 
-        private Image CacheGet(FileEntry fileEntry)
+        private Image ThumbnailCacheGet(FileEntry fileEntry)
         {
-            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
             return thumbnailCache[fileEntry];
         }
 
-        public void CacheRemove(FileEntry fileEntry)
+        public void ThumnbailCacheRemove(FileEntry fileEntry)
         {
             if (fileEntry == null) return;
-            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-
-            if (CacheContainsKey(fileEntry))
-            {
-                thumbnailCache.Remove(fileEntry);
-            }
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (ThumbnailCacheContainsKey(fileEntry)) thumbnailCache.Remove(fileEntry);
         }
 
-        public void CacheRemove(FileEntry[] fileEntries)
-        {
-            if (fileEntries == null) return;
-            foreach (FileEntry fileEntry in fileEntries)
-            {
-                if (CacheContainsKey(fileEntry))
-                {
-                    thumbnailCache.Remove(fileEntry);
-                }
-            }
-        }
-
-        public void ClearCache()
+        public void ThumbnailClearCache()
         {
             thumbnailCache = null;
             thumbnailCache = new Dictionary<FileEntry, Image>();
@@ -224,46 +247,25 @@ namespace Thumbnails
 
         public bool DoesThumbnailExistInCache(FileEntry fileEntry)
         {
-            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            return CacheContainsKey(fileEntry);
-        }
-        public Image ReadThumbnailFromCacheOnly(FileEntry fileEntry)
-        {
-            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            if (CacheContainsKey(fileEntry))
-            {
-                return CacheGet(fileEntry);
-            }
-            return null;
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            return ThumbnailCacheContainsKey(fileEntry);
         }
 
         public Image ReadThumbnailFromCacheOnlyClone(FileEntry fileEntry)
         {
-            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            if (CacheContainsKey(fileEntry))
-            {
-                return CacheGet(fileEntry);
-                //return new Bitmap(CacheGet(file));
-            }
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (ThumbnailCacheContainsKey(fileEntry)) return ThumbnailCacheGet(fileEntry); //Testing without clone, looks as unsafe code gone            
             return null;
         }
 
         public Image ReadThumbnailFromCacheOrDatabase(FileEntry fileEntry)
         {
-            if (!(fileEntry is FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            if (CacheContainsKey(fileEntry)) return CacheGet(fileEntry);
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result            
+            if (ThumbnailCacheContainsKey(fileEntry)) return ThumbnailCacheGet(fileEntry);
             
-            Image image;
-            image = Read(fileEntry);
-            if (image != null)
-            {
-                CacheUpdate(fileEntry, image);
-                return image;
-            }
-            else
-            {
-                return null;
-            }
+            Image image = Read(fileEntry);
+            if (image != null) ThumbnailCacheUpdate(fileEntry, image);
+            return image;
         }
         #endregion
     }

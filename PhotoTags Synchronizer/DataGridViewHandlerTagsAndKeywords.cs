@@ -154,7 +154,8 @@ namespace PhotoTagsSynchronizer
             //Chech if need to stop
             if (GlobalData.IsApplicationClosing) return;
             if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
-            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;  //In progress doing so
+            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) 
+                return;  //In progress doing so
 
             //Check if file is in DataGridView
             if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) return;
@@ -166,6 +167,7 @@ namespace PhotoTagsSynchronizer
             Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
             Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
+            Debug.WriteLine(fileEntryAttribute.FileName + " " + (metadata == null ? " NULL " : " NOT") + " Exif");
             if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null) metadata = new Metadata(metadata); //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
             ReadWriteAccess readWriteAccessColumn = fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null ? ReadWriteAccess.AllowCellReadAndWrite : ReadWriteAccess.ForceCellToReadOnly;
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
@@ -239,7 +241,7 @@ namespace PhotoTagsSynchronizer
             //Clear current DataGridView
             DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
             //Add Columns for all selected files, one column per select file
-            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheMetadataExiftool, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
+            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, DatabaseAndCacheMetadataExiftool, DatabaseAndCacheThumbnail, imageListViewSelectItems, false, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, 
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true)); //ReadOnly until data is read         
             //Add all default rows
             //AddRowsDefault(dataGridView);

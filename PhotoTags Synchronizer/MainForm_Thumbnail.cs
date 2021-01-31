@@ -85,6 +85,7 @@ namespace PhotoTagsSynchronizer
                 if (ExiftoolWriter.IsFileInCloud(fullFilePath)) return null;
             }
 
+            ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
             if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
             {
                 var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
@@ -125,6 +126,7 @@ namespace PhotoTagsSynchronizer
                     if (image != null) return image;
                     if (doNotReadFullFile) return image; //Don't read from file
 
+                    ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
                     return Utility.ThumbnailFromImage(LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile), maxSize, Color.White, false);
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
@@ -133,6 +135,7 @@ namespace PhotoTagsSynchronizer
                     Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     if (doNotReadFullFile) return image; //Don't read from file
 
+                    ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
                     if (image == null) image = Utility.ThumbnailFromImage(ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath, maxSize, false), maxSize, Color.White, false);
                     if (image == null) image = Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White, false);
                     return image;

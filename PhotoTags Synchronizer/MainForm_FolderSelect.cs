@@ -20,6 +20,7 @@ namespace PhotoTagsSynchronizer
                 ImageListViewClearAll(imageListView1);
                 GlobalData.IsPopulatingFolderSelected = false;
             }
+
             if (GlobalData.IsPopulatingAnything()) return;
 
             using (new WaitCursor())

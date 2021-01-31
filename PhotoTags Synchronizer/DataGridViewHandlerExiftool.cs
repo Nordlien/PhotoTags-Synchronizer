@@ -85,7 +85,6 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
         }
 
-
         public static List<FileEntryAttribute> PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -98,7 +97,7 @@ namespace PhotoTagsSynchronizer
             //Clear current DataGridView
             DataGridViewHandler.Clear(dataGridView, dataGridViewSize);
             //Add Columns for all selected files, one column per select file
-            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, null, imageListViewSelectItems, true, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true)); 
+            DataGridViewHandlerCommon.AddColumnSelectedFiles(dataGridView, null, DatabaseAndCacheThumbnail, imageListViewSelectItems, true, ReadWriteAccess.ForceCellToReadOnly, showWhatColumns, new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true)); 
             //Add all default rows
             //AddRowsDefault(dataGridView);
             //Tell data default columns and rows are agregated

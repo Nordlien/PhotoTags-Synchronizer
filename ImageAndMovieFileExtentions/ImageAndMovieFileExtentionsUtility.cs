@@ -153,6 +153,7 @@ namespace ImageAndMovieFileExtentions
             Utility.ShellImageFileInfo shellImageFileInfo = null;  
             try
             {
+                
                 using (MagickImage image = new MagickImage(fullFilename))
                 {
                     shellImageFileInfo = new Utility.ShellImageFileInfo();

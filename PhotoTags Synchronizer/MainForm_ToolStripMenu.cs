@@ -150,7 +150,7 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             ImageListViewReloadThumbnailInvoke(imageListView1, null);
-            PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
             //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
         }
@@ -533,7 +533,7 @@ namespace PhotoTagsSynchronizer
         {
             Properties.Settings.Default.ShowHistortyColumns = toolStripButtonHistortyColumns.Checked;
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
         }
         #endregion
 
@@ -544,7 +544,7 @@ namespace PhotoTagsSynchronizer
             stopWatch.Start();
             Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            PopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
             stopWatch.Stop();
             Debug.WriteLine("_CheckedChanged:" + stopWatch.Elapsed.ToString());
         }
@@ -788,15 +788,39 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Reload Metadata - Selected items - Click
         private void toolStripMenuItemReloadThumbnailAndMetadata_Click(object sender, EventArgs e)
         {
-            filesCutCopyPasteDrag.DeleteFilesMetadataForReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
-            imageListView1.Focus();
+            if (GlobalData.IsPopulatingAnything()) return;
+            //if (GlobalData.IsAgredagedGridViewAny()) return;
+            GlobalData.IsPopulatingButtonAction = true;
+            GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+
+            folderTreeViewFolder.Enabled = false;
+
+            ImageListViewSuspendLayoutInvoke(imageListView1);
+            filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
+            filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
+
+            folderTreeViewFolder.Enabled = true;
+
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+            GlobalData.IsPopulatingButtonAction = false;
+            GlobalData.IsPopulatingImageListView = false;
+
+            FilesSelected();
+            ImageListViewResumeLayoutInvoke(imageListView1);
+
+            DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            if (dataGridView != null) DataGridViewHandler.Focus(dataGridView);
+
         }
         #endregion 
 
         #region ToolStrip - Reload Metadata - Folder - Click
         private void toolStripMenuItemTreeViewFolderReload_Click(object sender, EventArgs e)
         {
-            filesCutCopyPasteDrag.DeleteFilesMetadataForReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
+            ImageListViewSuspendLayoutInvoke(imageListView1);
+            filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
+            ImageListViewResumeLayoutInvoke(imageListView1);
 
             FilesSelected();
             DisplayAllQueueStatus();
@@ -808,7 +832,6 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory_Click(object sender, EventArgs e)
         {
             filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(folderTreeViewFolder, imageListView1);
-
             FilesSelected();
             DisplayAllQueueStatus();
         }

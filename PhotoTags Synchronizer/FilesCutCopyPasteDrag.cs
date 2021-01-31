@@ -55,13 +55,13 @@ namespace PhotoTagsSynchronizer
         public void DeleteMetadataFileEntry(FileEntry fileEntry)
         {
 
-            databaseAndCacheMetadataExiftool.CacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+            databaseAndCacheMetadataExiftool.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
             databaseAndCacheMetadataExiftool.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
 
-            databaseAndCacheMetadataMicrosoftPhotos.CacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
+            databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
             databaseAndCacheMetadataMicrosoftPhotos.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
 
-            databaseAndCacheMetadataWindowsLivePhotoGallery.CacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
+            databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
             databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
 
             databaseExiftoolData.DeleteFileMediaExiftoolTags(fileEntry);
@@ -77,7 +77,7 @@ namespace PhotoTagsSynchronizer
             List<FileEntryBroker> fileEntryBrokers = databaseAndCacheMetadataExiftool.ListFileEntryBrokerDateVersions(MetadataBrokerType.ExifTool, fullFilePath);
             foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
             {
-                databaseAndCacheMetadataExiftool.CacheRemove(fileEntryBroker);
+                databaseAndCacheMetadataExiftool.MetadataCacheRemove(fileEntryBroker);
                 databaseAndCacheMetadataExiftool.DeleteFileEntry(fileEntryBroker);
             }
 
@@ -85,7 +85,7 @@ namespace PhotoTagsSynchronizer
                 databaseAndCacheMetadataMicrosoftPhotos.ListFileEntryBrokerDateVersions(MetadataBrokerType.MicrosoftPhotos, fullFilePath);
             foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
             {
-                databaseAndCacheMetadataMicrosoftPhotos.CacheRemove(fileEntryBroker);
+                databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(fileEntryBroker);
                 databaseAndCacheMetadataMicrosoftPhotos.DeleteFileEntry(fileEntryBroker);
             }
 
@@ -93,7 +93,7 @@ namespace PhotoTagsSynchronizer
                 databaseAndCacheMetadataWindowsLivePhotoGallery.ListFileEntryBrokerDateVersions(MetadataBrokerType.WindowsLivePhotoGallery, fullFilePath);
             foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
             {
-                databaseAndCacheMetadataWindowsLivePhotoGallery.CacheRemove(fileEntryBroker);
+                databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(fileEntryBroker);
                 databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntry(fileEntryBroker);
             }
 
@@ -200,26 +200,9 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteFilesMetadataForReload
-        public void DeleteFilesMetadataForReload(FolderTreeView folderTreeViewFolder, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
+        public void ImageListViewReload(FolderTreeView folderTreeViewFolder, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
         {
-
-            if (GlobalData.IsPopulatingAnything()) return;
-            //if (GlobalData.IsAgredagedGridViewAny()) return;
-
-            GlobalData.IsPopulatingButtonAction = true;
-            GlobalData.IsPopulatingExiftoolTagsImage = true;
-
-            folderTreeViewFolder.Enabled = false;
-            imageListView.Enabled = false;
-            imageListView.SuspendLayout();
-
-
-            foreach (ImageListViewItem item in itemCollection)
-            {
-                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
-                    this.DeleteMetadataFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
-            }
-
+            
             foreach (ImageListViewItem item in itemCollection)
             {
                 if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
@@ -227,16 +210,17 @@ namespace PhotoTagsSynchronizer
                     item.Update();
                 }
             }
-           
-
-            folderTreeViewFolder.Enabled = true;
-
-            GlobalData.IsPopulatingButtonAction = false;
-            GlobalData.IsPopulatingExiftoolTagsImage = false;
-
-            imageListView.ResumeLayout();
-            imageListView.Enabled = true;
             
+        }
+
+        public void DeleteFilesMetadataBeforeReload(FolderTreeView folderTreeViewFolder, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
+        {
+
+            foreach (ImageListViewItem item in itemCollection)
+            {
+                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
+                    this.DeleteMetadataFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
+            }
         }
         #endregion
 
@@ -292,7 +276,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region 
+        #region FilesCutCopyPasteDrag - RenameFile
         public void RenameFile(string oldFullFilename, string newFullFilename, ref Dictionary<string, string> renameSuccess, ref Dictionary<string, string> renameFailed)
         {
             try
