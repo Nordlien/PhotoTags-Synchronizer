@@ -58,12 +58,8 @@ namespace PhotoTagsSynchronizer
                     }
                     else
                     {
-                        if (ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath)) thumbnailImage = (Image)Properties.Resources.load_image_error_onedrive;
-                        else
-                        {
-                            Logger.Warn("Was not able to get thumbnail from file: " + fileEntry.FileFullPath);
-                            thumbnailImage = (Image)Properties.Resources.load_image_error_general;
-                        }
+                        if (ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath)) thumbnailImage = (Image)Properties.Resources.load_image_error_in_cloud;
+                        else thumbnailImage = (Image)Properties.Resources.load_image_error_thumbnail;
                     }
                 }
             }
@@ -92,15 +88,13 @@ namespace PhotoTagsSynchronizer
             if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
             {
                 var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-                //ffMpeg.ConvertProgress += FfMpeg_ConvertProgress;
-                //ffMpeg.LogReceived += FfMpeg_LogReceived;
-                Stream memoryStream = new MemoryStream();
-                ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
+                using (Stream memoryStream = new MemoryStream())
+                {
+                    ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
 
-                if (memoryStream.Length > 0)
-                    return Image.FromStream(memoryStream);
-                else
-                    return null;
+                    if (memoryStream.Length > 0) return Image.FromStream(memoryStream);
+                    else return null;
+                }
             }
             else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
             {
@@ -108,8 +102,8 @@ namespace PhotoTagsSynchronizer
                 if (image == null) image = Utility.LoadImageWithoutLock(fullFilePath);
                 return image;
             }
-            else
-                return null;
+            
+            return null;
         }
         #endregion 
 
@@ -139,10 +133,9 @@ namespace PhotoTagsSynchronizer
                     Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     if (doNotReadFullFile) return image; //Don't read from file
 
-                    if (image == null) image = Utility.ThumbnailFromImage(ImageAndMovieFileExtentionsUtility.ThumbnailFromImage(fullFilePath, maxSize), maxSize, Color.White, false);
-                    if (image == null) image = Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White);
+                    if (image == null) image = Utility.ThumbnailFromImage(ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath, maxSize, false), maxSize, Color.White, false);
+                    if (image == null) image = Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White, false);
                     return image;
-                
                 }
             }
             catch { }

@@ -32,6 +32,7 @@ namespace PhotoTagsSynchronizer
                 if (metadata == null || metadata.FileName == null)
                 {
                     Utility.ShellImageFileInfo shellImageFileInfo = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
+
                     //Utility.ShellImageFileInfo shellImageFileInfo = new Utility.ShellImageFileInfo();
                     //shellImageFileInfo.ReadShellImageFileInfo(e.FileName);
                     e.FileMetadata = shellImageFileInfo;

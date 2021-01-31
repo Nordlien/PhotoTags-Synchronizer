@@ -333,6 +333,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap load_image_error_in_cloud {
+            get {
+                object obj = ResourceManager.GetObject("load_image_error_in_cloud", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap load_image_error_memory {
             get {
                 object obj = ResourceManager.GetObject("load_image_error_memory", resourceCulture);
@@ -346,6 +356,16 @@ namespace PhotoTagsSynchronizer.Properties {
         internal static System.Drawing.Bitmap load_image_error_onedrive {
             get {
                 object obj = ResourceManager.GetObject("load_image_error_onedrive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap load_image_error_thumbnail {
+            get {
+                object obj = ResourceManager.GetObject("load_image_error_thumbnail", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

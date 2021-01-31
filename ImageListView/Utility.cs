@@ -560,7 +560,7 @@ namespace Manina.Windows.Forms
         /// <param name="useEmbeddedThumbnails">Embedded thumbnail usage.</param>
         /// <param name="backColor">Background color of returned thumbnail.</param>
         /// <returns>The image from the given file or null if an error occurs.</returns>
-        public static Image ThumbnailFromFile(string filename, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, Color backColor)
+        public static Image ThumbnailFromFile(string filename, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, Color backColor, bool allowFailoverReadFullFille)
         {
             if (size.Width <= 0 || size.Height <= 0)
                 throw new ArgumentException();
@@ -574,7 +574,6 @@ namespace Manina.Windows.Forms
                 {
                     try
                     {
-
                         using (FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                         {
 
@@ -654,7 +653,7 @@ namespace Manina.Windows.Forms
                 // Revert to source image if an embedded thumbnail of required size was not found.
                 if (source == null)
                 {
-                    source = LoadImageWithoutLock(filename);
+                    if (allowFailoverReadFullFille) source = LoadImageWithoutLock(filename);
                 }
 
                 // If all failed, return null.

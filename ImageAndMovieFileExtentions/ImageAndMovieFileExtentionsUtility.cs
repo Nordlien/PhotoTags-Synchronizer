@@ -15,10 +15,10 @@ namespace ImageAndMovieFileExtentions
     {
         public static Image LoadImage(string fullFilename)
         {
-            Bitmap thumbnailReturn = null;
+            Bitmap imageReturn = null;
             using (var image = new MagickImage(fullFilename))
             {
-                thumbnailReturn = image.ToBitmap();
+                imageReturn = image.ToBitmap();
                 /*
                 using (var collection = new MagickImageCollection())
                 {
@@ -39,10 +39,10 @@ namespace ImageAndMovieFileExtentions
                 }
                 */
             }
-            return thumbnailReturn;
+            return imageReturn;
         }
 
-        public static Image ThumbnailFromImage(string fullFilename, Size maxSize)
+        public static Image ThumbnailFromFile(string fullFilename, Size maxSize, bool allowFailoverReadFullFille)
         {
             Image thumbnailReturn = null;
             using (MagickImage image = new MagickImage(fullFilename))
@@ -55,10 +55,14 @@ namespace ImageAndMovieFileExtentions
                     {
                         if (thumbnail != null) thumbnailReturn = thumbnail.ToBitmap();
                     }
-                } else
+                }
+                else
                 {
-                    image.Thumbnail(new MagickGeometry(maxSize.Width, maxSize.Height));
-                    thumbnailReturn = image.ToBitmap();
+                    if (allowFailoverReadFullFille)
+                    {
+                        image.Thumbnail(new MagickGeometry(maxSize.Width, maxSize.Height));
+                        thumbnailReturn = image.ToBitmap();
+                    }
                 }
             }
             return thumbnailReturn;
@@ -89,132 +93,189 @@ namespace ImageAndMovieFileExtentions
             return Encoding.UTF8.GetString(byteArray);
         }
 
-
         public static Utility.ShellImageFileInfo GetExif(string fullFilename)
+        {
+            if (IsImageFormat(fullFilename)) return GetExifImage(fullFilename);
+            if (IsVideoFormat(fullFilename)) return GetExifVideo(fullFilename);
+            return null;
+        }
+
+        public static Utility.ShellImageFileInfo GetExifVideo(string fullFilename)
+        {
+            Utility.ShellImageFileInfo shellImageFileInfo = null;
+            try
+            {
+                shellImageFileInfo = new Utility.ShellImageFileInfo();
+
+                FileInfo fileInfo = new FileInfo(fullFilename);
+                if (fileInfo != null)
+                {                    
+                    #region shellImageFileInfo.CreationTime
+                    shellImageFileInfo.CreationTime = fileInfo.CreationTime;
+                    #endregion
+
+                    #region shellImageFileInfo.DirectoryName
+                    shellImageFileInfo.DirectoryName = fileInfo.DirectoryName;
+                    #endregion
+
+                    #region shellImageFileInfo.DisplayName
+                    shellImageFileInfo.DisplayName = fileInfo.Name;
+                    #endregion
+
+                    #region shellImageFileInfo.Extension
+                    shellImageFileInfo.Extension = fileInfo.Extension.Trim().ToUpper();
+                    #endregion
+
+                    #region shellImageFileInfo.FileAttributes
+                    shellImageFileInfo.FileAttributes = fileInfo.Attributes;
+                    #endregion
+
+                    #region shellImageFileInfo.LastAccessTime
+                    shellImageFileInfo.LastAccessTime = fileInfo.LastAccessTime;
+                    #endregion
+
+                    #region shellImageFileInfo.LastWriteTime
+                    shellImageFileInfo.LastWriteTime = fileInfo.LastWriteTime;
+                    #endregion
+
+                    #region shellImageFileInfo.Size
+                    shellImageFileInfo.Size = fileInfo.Length;
+                    #endregion
+                }
+            }
+            catch { }
+
+            return shellImageFileInfo;
+        }
+
+        public static Utility.ShellImageFileInfo GetExifImage(string fullFilename)
         {
             Utility.ShellImageFileInfo shellImageFileInfo = null;  
             try
             {
-        
                 using (MagickImage image = new MagickImage(fullFilename))
                 {
                     shellImageFileInfo = new Utility.ShellImageFileInfo();
-                    IExifProfile profile = image.GetExifProfile();
-
-                    FileInfo info = new FileInfo(fullFilename);
                     
-                    #region shellImageFileInfo.ApertureValue / ExifTag.ApertureValue
-                    var valueRational = profile.GetValue(ExifTag.ApertureValue);
-                    if (valueRational != null) shellImageFileInfo.ApertureValue = valueRational.ToString();
-                    #endregion
-
-                    #region shellImageFileInfo.Artist / ExifTag.Artist
-                    var valueString = profile.GetValue(ExifTag.Artist);
-                    var valueByteArray = profile.GetValue(ExifTag.XPAuthor);
-                    if (valueString != null) shellImageFileInfo.Artist = valueString.Value;
-                    else if (valueByteArray != null) shellImageFileInfo.Artist = CovertByteArrayToString(valueByteArray.Value);
-                    #endregion
-
-                    #region shellImageFileInfo.Copyright / ExifTag.Copyright
-                    valueString = profile.GetValue(ExifTag.Copyright);
-                    if (valueString != null) shellImageFileInfo.Copyright = valueString.Value;
-                    #endregion
-
-                    #region shellImageFileInfo.CreationTime
-                    shellImageFileInfo.CreationTime = info.CreationTime;
-                    #endregion
-
-                    #region shellImageFileInfo.DateTaken / ExifTag.DateTimeDigitized
-                    var valueDateTime = profile.GetValue(ExifTag.DateTimeDigitized);
-                    if (valueDateTime != null && ConvertDateTimeFromString(valueDateTime.Value) != null) shellImageFileInfo.DateTaken = (DateTime)ConvertDateTimeFromString(valueDateTime.Value);
-                    #endregion
-
-                    #region shellImageFileInfo.Dimensions / ExifTag.PixelXDimension, ExifTag.PixelYDimension
-                    var valueNumberX = profile.GetValue(ExifTag.PixelXDimension);
-                    var valueNumberY = profile.GetValue(ExifTag.PixelYDimension);
-                    if (valueNumberX != null && valueNumberY != null) shellImageFileInfo.Dimensions = new Size ((int)valueNumberX.Value, (int)valueNumberX.Value);
-                    #endregion
-
-                    #region shellImageFileInfo.DirectoryName
-                    shellImageFileInfo.DirectoryName = info.DirectoryName;
-                    #endregion 
-
-                    #region shellImageFileInfo.DisplayName
-                    shellImageFileInfo.DisplayName = info.Name;
-                    #endregion 
-
-                    #region shellImageFileInfo.EquipmentModel / ExifTag.Model + ExifTag.Make
-                    valueString = profile.GetValue(ExifTag.Model);
-                    if (valueString != null) shellImageFileInfo.EquipmentModel = valueString.Value;
-
-                    valueString = profile.GetValue(ExifTag.Make);
-                    if (valueString != null) shellImageFileInfo.EquipmentModel += (shellImageFileInfo.EquipmentModel == null ? "" : " ") + valueString.Value;
-                    #endregion
-
-                    #region shellImageFileInfo.ExposureTime / ExifTag.ExposureTime
-                    valueRational = profile.GetValue(ExifTag.ExposureTime);
-                    if (valueRational != null) shellImageFileInfo.ExposureTime = valueRational.Value.ToString();
-                    #endregion
-
-                    #region shellImageFileInfo.Extension
-                    shellImageFileInfo.Extension = info.Extension.Trim().ToUpper();
-                    #endregion
-
-                    #region shellImageFileInfo.FileAttributes
-                    shellImageFileInfo.FileAttributes = info.Attributes;
-                    #endregion 
-
-                    #region shellImageFileInfo.FNumber / ExifTag.FNumber
-                    valueRational = profile.GetValue(ExifTag.FNumber);
-                    if (valueRational != null) shellImageFileInfo.FNumber = (float)valueRational.Value.ToDouble();
-                    #endregion 
-
-                    #region shellImageFileInfo.ImageDescription / ExifTag.ImageDescription
-                    valueString = profile.GetValue(ExifTag.ImageDescription);
-                    if (valueString != null) shellImageFileInfo.ImageDescription = valueString.Value;
-                    #endregion
-
-                    #region shellImageFileInfo.ISOSpeed / ExifTag.ISOSpeed
-                    var valueuInt = profile.GetValue(ExifTag.ISOSpeed);
-                    if (valueuInt != null) shellImageFileInfo.ISOSpeed = (ushort)valueuInt.Value;
-                    #endregion
-
-                    #region shellImageFileInfo.LastAccessTime
-                    shellImageFileInfo.LastAccessTime = info.LastAccessTime;
-                    #endregion
-
-                    #region shellImageFileInfo.LastWriteTime
-                    shellImageFileInfo.LastWriteTime = info.LastWriteTime;
-                    #endregion 
-
-                    #region shellImageFileInfo.Resolution / ExifTag.PixelScale (image.Density.X + image.Density.Y)
-                    var valueDouble = profile.GetValue(ExifTag.PixelScale);
-                    if (valueDouble != null)
+                    FileInfo fileInfo = new FileInfo(fullFilename);
+                    if (fileInfo != null)
                     {
-                        image.Density.ChangeUnits(DensityUnit.PixelsPerInch);
-                        shellImageFileInfo.Resolution = new SizeF((float)image.Density.X, (float)image.Density.Y);
+                        #region shellImageFileInfo.CreationTime
+                        shellImageFileInfo.CreationTime = fileInfo.CreationTime;
+                        #endregion
+
+                        #region shellImageFileInfo.DirectoryName
+                        shellImageFileInfo.DirectoryName = fileInfo.DirectoryName;
+                        #endregion
+
+                        #region shellImageFileInfo.DisplayName
+                        shellImageFileInfo.DisplayName = fileInfo.Name;
+                        #endregion
+
+                        #region shellImageFileInfo.Extension
+                        shellImageFileInfo.Extension = fileInfo.Extension.Trim().ToUpper();
+                        #endregion
+
+                        #region shellImageFileInfo.FileAttributes
+                        shellImageFileInfo.FileAttributes = fileInfo.Attributes;
+                        #endregion
+
+                        #region shellImageFileInfo.LastAccessTime
+                        shellImageFileInfo.LastAccessTime = fileInfo.LastAccessTime;
+                        #endregion
+
+                        #region shellImageFileInfo.LastWriteTime
+                        shellImageFileInfo.LastWriteTime = fileInfo.LastWriteTime;
+                        #endregion
+
+                        #region shellImageFileInfo.Size
+                        shellImageFileInfo.Size = fileInfo.Length;
+                        #endregion
                     }
-                    #endregion
 
-                    #region shellImageFileInfo.ShutterSpeed / ExifTag.ShutterSpeedValue
-                    var valueSignedRational = profile.GetValue(ExifTag.ShutterSpeedValue);
-                    if (valueSignedRational != null) shellImageFileInfo.ShutterSpeed = valueSignedRational.Value.ToString();
-                    #endregion
+                    IExifProfile profile = image.GetExifProfile();
+                    if (profile != null)
+                    {
+                        #region shellImageFileInfo.ApertureValue / ExifTag.ApertureValue
+                        var valueRational = profile.GetValue(ExifTag.ApertureValue);
+                        if (valueRational != null) shellImageFileInfo.ApertureValue = valueRational.ToString();
+                        #endregion
 
-                    #region shellImageFileInfo.Size
-                    shellImageFileInfo.Size = info.Length;
-                    #endregion
+                        #region shellImageFileInfo.Artist / ExifTag.Artist
+                        var valueString = profile.GetValue(ExifTag.Artist);
+                        var valueByteArray = profile.GetValue(ExifTag.XPAuthor);
+                        if (valueString != null) shellImageFileInfo.Artist = valueString.Value;
+                        else if (valueByteArray != null) shellImageFileInfo.Artist = CovertByteArrayToString(valueByteArray.Value);
+                        #endregion
 
-                    #region shellImageFileInfo.TypeName
-                    shellImageFileInfo.TypeName = shellImageFileInfo.GetFileType(fullFilename, shellImageFileInfo.Extension);
-                    #endregion 
+                        #region shellImageFileInfo.Copyright / ExifTag.Copyright
+                        valueString = profile.GetValue(ExifTag.Copyright);
+                        if (valueString != null) shellImageFileInfo.Copyright = valueString.Value;
+                        #endregion
 
-                    #region shellImageFileInfo.UserComment / ExifTag.UserComment or ExifTag.XPComment
-                    valueByteArray = profile.GetValue(ExifTag.UserComment);
-                    if (valueByteArray == null) valueByteArray = profile.GetValue(ExifTag.XPComment);
-                    if (valueByteArray != null) shellImageFileInfo.UserComment = CovertByteArrayToString(valueByteArray.Value);
-                    #endregion 
+                        #region shellImageFileInfo.DateTaken / ExifTag.DateTimeDigitized
+                        var valueDateTime = profile.GetValue(ExifTag.DateTimeDigitized);
+                        if (valueDateTime != null && ConvertDateTimeFromString(valueDateTime.Value) != null) shellImageFileInfo.DateTaken = (DateTime)ConvertDateTimeFromString(valueDateTime.Value);
+                        #endregion
 
+                        #region shellImageFileInfo.Dimensions / ExifTag.PixelXDimension, ExifTag.PixelYDimension
+                        var valueNumberX = profile.GetValue(ExifTag.PixelXDimension);
+                        var valueNumberY = profile.GetValue(ExifTag.PixelYDimension);
+                        if (valueNumberX != null && valueNumberY != null) shellImageFileInfo.Dimensions = new Size((int)valueNumberX.Value, (int)valueNumberX.Value);
+                        #endregion
+
+                        #region shellImageFileInfo.EquipmentModel / ExifTag.Model + ExifTag.Make
+                        valueString = profile.GetValue(ExifTag.Model);
+                        if (valueString != null) shellImageFileInfo.EquipmentModel = valueString.Value;
+
+                        valueString = profile.GetValue(ExifTag.Make);
+                        if (valueString != null) shellImageFileInfo.EquipmentModel += (shellImageFileInfo.EquipmentModel == null ? "" : " ") + valueString.Value;
+                        #endregion
+
+                        #region shellImageFileInfo.ExposureTime / ExifTag.ExposureTime
+                        valueRational = profile.GetValue(ExifTag.ExposureTime);
+                        if (valueRational != null) shellImageFileInfo.ExposureTime = valueRational.Value.ToString();
+                        #endregion
+
+                        #region shellImageFileInfo.FNumber / ExifTag.FNumber
+                        valueRational = profile.GetValue(ExifTag.FNumber);
+                        if (valueRational != null) shellImageFileInfo.FNumber = (float)valueRational.Value.ToDouble();
+                        #endregion
+
+                        #region shellImageFileInfo.ImageDescription / ExifTag.ImageDescription
+                        valueString = profile.GetValue(ExifTag.ImageDescription);
+                        if (valueString != null) shellImageFileInfo.ImageDescription = valueString.Value;
+                        #endregion
+
+                        #region shellImageFileInfo.ISOSpeed / ExifTag.ISOSpeed
+                        var valueuInt = profile.GetValue(ExifTag.ISOSpeed);
+                        if (valueuInt != null) shellImageFileInfo.ISOSpeed = (ushort)valueuInt.Value;
+                        #endregion
+
+                        #region shellImageFileInfo.Resolution / ExifTag.PixelScale (image.Density.X + image.Density.Y)
+                        var valueDouble = profile.GetValue(ExifTag.PixelScale);
+                        if (valueDouble != null)
+                        {
+                            image.Density.ChangeUnits(DensityUnit.PixelsPerInch);
+                            shellImageFileInfo.Resolution = new SizeF((float)image.Density.X, (float)image.Density.Y);
+                        }
+                        #endregion
+
+                        #region shellImageFileInfo.ShutterSpeed / ExifTag.ShutterSpeedValue
+                        var valueSignedRational = profile.GetValue(ExifTag.ShutterSpeedValue);
+                        if (valueSignedRational != null) shellImageFileInfo.ShutterSpeed = valueSignedRational.Value.ToString();
+                        #endregion
+
+                        #region shellImageFileInfo.TypeName
+                        shellImageFileInfo.TypeName = shellImageFileInfo.GetFileType(fullFilename, shellImageFileInfo.Extension);
+                        #endregion
+
+                        #region shellImageFileInfo.UserComment / ExifTag.UserComment or ExifTag.XPComment
+                        valueByteArray = profile.GetValue(ExifTag.UserComment);
+                        if (valueByteArray == null) valueByteArray = profile.GetValue(ExifTag.XPComment);
+                        if (valueByteArray != null) shellImageFileInfo.UserComment = CovertByteArrayToString(valueByteArray.Value);
+                        #endregion
+                    }
                 }
             }
             catch { }

@@ -352,6 +352,8 @@
     <None Include="Resources\Run-Command.png" />
     <None Include="Resources\Image-Edit.png" />
     <None Include="Resources\Image-Open.png" />
+    <None Include="Resources\load_image_error_thumbnail.png" />
+    <None Include="Resources\load_image_error_in_cloud.png" />
     <Content Include="x64\sqlite3.def">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

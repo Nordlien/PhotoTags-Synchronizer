@@ -705,6 +705,8 @@ namespace PhotoTagsSynchronizer
                             lock (mediaFilesNotInDatabaseLock) mediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
                             DisplayAllQueueStatus();
                         }
+
+
                     }
 
                     exiftoolReader.MetadataGroupPrioityWrite(); //Updated json config file if new tags found

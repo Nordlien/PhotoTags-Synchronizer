@@ -831,7 +831,7 @@ namespace MetadataLibrary
             {
                 FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FileFullPath, file.LastWriteDateTime, broker);
 
-                if (!MetadataCacheContainsKey(fileEntryBroker)) //Check if already in queue, due to screen refreash and reloads etc...
+                if (!MetadataCacheContainsKey(fileEntryBroker)) 
                 {
                     Metadata metadata = ReadMetadataFromCacheOrDatabase(fileEntryBroker);
                     if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FileFullPath);
