@@ -2855,28 +2855,36 @@ namespace DataGridViewGeneric
         {
             Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
             if (image != null)
-            {                
-                Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
+            {
+                try
+                {
+                    Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
 
-                if ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected)
-                    e.Graphics.FillRectangle(new SolidBrush(e.CellStyle.SelectionBackColor),
-                    new Rectangle(e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height));
-                else
-                    e.Graphics.FillRectangle(new SolidBrush(e.CellStyle.BackColor),
-                     new Rectangle(e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height));
+                    if ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected)
+                        e.Graphics.FillRectangle(new SolidBrush(e.CellStyle.SelectionBackColor),
+                        new Rectangle(e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height));
+                    else
+                        e.Graphics.FillRectangle(new SolidBrush(e.CellStyle.BackColor),
+                         new Rectangle(e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width, e.CellBounds.Height));
 
-                Manina.Windows.Forms.Utility.FillRoundedRectangle(e.Graphics, new SolidBrush(backgroundColor),
-                    new Rectangle(rectangleRoundedCellBounds.X, rectangleRoundedCellBounds.Y, rectangleRoundedCellBounds.Width, rectangleRoundedCellBounds.Height), roundedRadius);
-                Manina.Windows.Forms.Utility.DrawRoundedRectangle(e.Graphics, new Pen(Color.Black, 3),
-                    new Rectangle(rectangleRoundedCellBounds.X, rectangleRoundedCellBounds.Y, rectangleRoundedCellBounds.Width, rectangleRoundedCellBounds.Height), roundedRadius);
+                    Manina.Windows.Forms.Utility.FillRoundedRectangle(e.Graphics, new SolidBrush(backgroundColor),
+                        new Rectangle(rectangleRoundedCellBounds.X, rectangleRoundedCellBounds.Y, rectangleRoundedCellBounds.Width, rectangleRoundedCellBounds.Height), roundedRadius);
+                    Manina.Windows.Forms.Utility.DrawRoundedRectangle(e.Graphics, new Pen(Color.Black, 3),
+                        new Rectangle(rectangleRoundedCellBounds.X, rectangleRoundedCellBounds.Y, rectangleRoundedCellBounds.Width, rectangleRoundedCellBounds.Height), roundedRadius);
 
-                e.Graphics.DrawImage(image, CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize));
+                    e.Graphics.DrawImage(image, CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize));
 
-                e.Graphics.DrawLine(new Pen(Color.Silver),
-                    e.CellBounds.Left,
-                    e.CellBounds.Top + e.CellBounds.Height - 1,
-                    e.CellBounds.Left + e.CellBounds.Width - 1,
-                    e.CellBounds.Top + e.CellBounds.Height - 1);
+                    e.Graphics.DrawLine(new Pen(Color.Silver),
+                        e.CellBounds.Left,
+                        e.CellBounds.Top + e.CellBounds.Height - 1,
+                        e.CellBounds.Left + e.CellBounds.Width - 1,
+                        e.CellBounds.Top + e.CellBounds.Height - 1);
+                }
+                catch (Exception ex)
+                {
+                    //Thumbnail was occupied in other thread
+                    Logger.Warn("DrawImageAndSubText: " + ex.Message);
+                }
             }
 
             if (text != null)

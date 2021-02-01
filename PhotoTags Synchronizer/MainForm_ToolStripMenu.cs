@@ -818,11 +818,27 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Reload Metadata - Folder - Click
         private void toolStripMenuItemTreeViewFolderReload_Click(object sender, EventArgs e)
         {
+            if (GlobalData.IsPopulatingAnything()) return;
+            //if (GlobalData.IsAgredagedGridViewAny()) return;
+            GlobalData.IsPopulatingButtonAction = true;
+            GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+
+            folderTreeViewFolder.Enabled = false;
+
             ImageListViewSuspendLayoutInvoke(imageListView1);
+            filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
             filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
-            ImageListViewResumeLayoutInvoke(imageListView1);
+
+            folderTreeViewFolder.Enabled = true;
+
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+            GlobalData.IsPopulatingButtonAction = false;
+            GlobalData.IsPopulatingImageListView = false;
 
             FilesSelected();
+            ImageListViewResumeLayoutInvoke(imageListView1);
+
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
