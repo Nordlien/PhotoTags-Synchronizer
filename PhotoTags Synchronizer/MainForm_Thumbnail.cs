@@ -54,7 +54,7 @@ namespace PhotoTagsSynchronizer
 
                         AddQueueMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
                         AddQueueSaveThumbnailMedia(new FileEntryImage(fileEntry, cloneBitmap));
-                        thumbnailImage = cloneBitmap;
+                        thumbnailImage = Utility.ThumbnailFromImage(cloneBitmap, imageListView1.ThumbnailSize, Color.White, true, true);
                     }
                     else
                     {

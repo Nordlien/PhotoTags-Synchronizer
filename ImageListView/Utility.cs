@@ -518,12 +518,16 @@ namespace Manina.Windows.Forms
         /// <param name="size">Requested image size.</param>
         /// <param name="backColor">Background color of returned thumbnail.</param>
         /// <returns>The image from the given file or null if an error occurs.</returns>
-        public static Image ThumbnailFromImage(Image image, Size size, Color backColor, bool acceptScaleUp)
+        public static Image ThumbnailFromImage(Image image, Size size, Color backColor, bool acceptScaleUp, bool alwaysMakeClone = false)
         {
             if (size.Width <= 0 || size.Height <= 0) throw new ArgumentException();
 
             //JTN added
-            if (image.Width == size.Width || image.Height == size.Height) return image; //NO need for resize
+            if (!alwaysMakeClone) 
+            {
+                if ((image.Width == size.Width && image.Height <= size.Height) || (image.Width <= size.Width && image.Height == size.Height)) 
+                    return image; //NO need for resize
+            }
 
             Image thumb = null;
             try

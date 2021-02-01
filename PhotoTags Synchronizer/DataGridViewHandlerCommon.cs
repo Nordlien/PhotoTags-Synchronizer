@@ -23,9 +23,8 @@ namespace PhotoTagsSynchronizer
                 
                 Image thumbnail = null;
                 if (databaseAndCacheThumbnail != null) thumbnail = databaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute.FileEntry);
-                //imageListViewItem.ThumbnailImage == null ? null : new Bitmap((Image)imageListViewItem.ThumbnailImage);
                 
-                Metadata metadata = null;
+                Metadata metadata = null; //Force to updated DataGridView without content only columns, works faster this way
                 //if (databaseAndCacheMetadataExiftool != null) metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
                 
                 DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn, showWhatColumns, dataGridViewGenericCellStatusDefault);

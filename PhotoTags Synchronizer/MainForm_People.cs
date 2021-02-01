@@ -195,8 +195,6 @@ namespace PhotoTagsSynchronizer
                                     if (imageCoverArt != null) regionStructure.Thumbnail = RegionThumbnailHandler.CopyRegionFromImage(imageCoverArt, regionStructure);
                                     else regionStructure.Thumbnail = (Image)Properties.Resources.FaceLoading;
                                 }
-                                
-
                             }                            
                         }
 

@@ -208,10 +208,8 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            
-
             //-----------------------------------------------------------------
-            Image thumbnail = new Bitmap(DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute));
+            Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
             FileEntryBroker fileEntryBrokerReadVersion = fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool);
             Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBrokerReadVersion);
             if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Current && metadata != null) metadata = new Metadata(metadata); //It's the edit column, make a copy do edit in dataGridView updated the origianal metadata
@@ -220,7 +218,7 @@ namespace PhotoTagsSynchronizer
             //-----------------------------------------------------------------
 
 
-            if (columnIndex != -1)
+            if (columnIndex != -1) 
             {
 
                 AddRowHeader(dataGridView, columnIndex, new DataGridViewGenericRow(headerPeople), false);

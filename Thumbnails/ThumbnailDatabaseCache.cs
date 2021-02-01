@@ -31,9 +31,11 @@ namespace Thumbnails
         {
             dbTools.TransactionCommitBatch();
         }
+
+        #region Thumbnail
         public Size UpsizeThumbnailSize { get; set; } = new Size(192, 192);
 
-
+        #region Thumbnail - WriteThumbnail
         public void WriteThumbnail(FileEntry fileEntry, Image image) 
         {
             //Don't do DeleteThumbnail(fileDirectory, fileName, size); //It create a lot overhead
@@ -52,7 +54,9 @@ namespace Thumbnails
             }
             ThumbnailCacheUpdate(fileEntry, image);
         }
+        #endregion
 
+        #region Thumbnail - Read 
         public Image Read(FileEntry fileEntry)
         {
             Image image = null;
@@ -74,12 +78,11 @@ namespace Thumbnails
                     }
                 }
             }
-
             return image; 
         }
+        #endregion
 
-        
-
+        #region Thumbnail - DeleteThumbnail
         public void DeleteThumbnail(FileEntry fileEntry)
         {
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
@@ -93,7 +96,9 @@ namespace Thumbnails
             }
             ThumnbailCacheRemove(fileEntry);
         }
+        #endregion 
 
+        #region Thumbnail - DeleteDirectory
         public void DeleteDirectory(string fileDirectory)
         {
             ThumbnailClearCache();
@@ -105,11 +110,144 @@ namespace Thumbnails
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+        #endregion 
 
-        #region UpdateRegionThumbnail
+        #region Thumbnail - ListFileEntryDateVersions
+        public List<FileEntry> ListFileEntryDateVersions(string fullFileName)
+        {
+            return ListFileEntryDateVersions(Path.GetDirectoryName(fullFileName), Path.GetFileName(fullFileName));
+        }
+        #endregion
+
+        #region Thumbnail - ListFileEntryDateVersions
+        public List<FileEntry> ListFileEntryDateVersions(string fileDirectory, string fileName)
+        {
+            List<FileEntry> fileEntries = new List<FileEntry>();
+
+            string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaThumbnail " +
+                "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
+            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileName);
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        FileEntry fileEntry = new FileEntry
+                            (
+                            dbTools.ConvertFromDBValString(reader["FileDirectory"]),
+                            dbTools.ConvertFromDBValString(reader["FileName"]),
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
+                            );
+                        fileEntries.Add(fileEntry);
+                    }
+                }
+
+                fileEntries.Sort();
+            }
+            return fileEntries;
+        }
+        #endregion 
+
+        #region Thumbnail - DoesMetadataMissThumbnailInRegion
+        public bool DoesMetadataMissThumbnailInRegion(Metadata metadata)
+        {
+            bool needCreateThumbnail = false;
+            if (metadata != null)
+            {
+                foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
+                {
+                    if (regionStructure.Thumbnail == null)
+                    {
+                        needCreateThumbnail = true;
+                        break;
+                    }
+                }
+            }
+            return needCreateThumbnail;
+        }
+        #endregion
+
+        
+
+        #endregion 
+
+        #region Thumbnail - Cache
+        Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();
+
+        #region Thumbnail - DoesThumbnailExist
+        public bool DoesThumbnailExist(FileEntry fileEntry)
+        {
+            if (thumbnailCache.ContainsKey(fileEntry)) return true;
+            return ReadThumbnailFromCacheOrDatabase(fileEntry) != null; //Read Thumbnail and put in cache, will need the thumbnail soon anywhy 
+        }
+        #endregion
+
+        #region Thumbnail - Cache - ThumbnailCacheUpdate
+        private void ThumbnailCacheUpdate(FileEntry fileEntry, Image image)
+        {
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (thumbnailCache.ContainsKey(fileEntry)) thumbnailCache[fileEntry] = image;
+            else thumbnailCache.Add(fileEntry, image);
+        }
+        #endregion  
+
+        #region Thumbnail - Cache - ThumnbailCacheRemove
+        public void ThumnbailCacheRemove(FileEntry fileEntry)
+        {
+            if (fileEntry == null) return;
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (thumbnailCache.ContainsKey(fileEntry)) thumbnailCache.Remove(fileEntry);
+        }
+        #endregion 
+
+        #region Thumbnail - Cache - ThumbnailClearCache
+        public void ThumbnailClearCache()
+        {
+            thumbnailCache = null;
+            thumbnailCache = new Dictionary<FileEntry, Image>();
+        }
+        #endregion 
+
+        #region Thumbnail - Cache - DoesThumbnailExistInCache
+        public bool DoesThumbnailExistInCache(FileEntry fileEntry)
+        {
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            return thumbnailCache.ContainsKey(fileEntry);
+        }
+        #endregion 
+
+        #region Thumbnail - Cache - ReadThumbnailFromCacheOnlyClone
+        public Image ReadThumbnailFromCacheOnlyClone(FileEntry fileEntry)
+        {
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
+            if (thumbnailCache.ContainsKey(fileEntry)) return thumbnailCache[fileEntry]; //Testing without clone, looks as unsafe code gone            
+            return null;
+        }
+        #endregion 
+
+        #region Thumbnail - Cache - ReadThumbnailFromCacheOrDatabase
+        public Image ReadThumbnailFromCacheOrDatabase(FileEntry fileEntry)
+        {
+            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result            
+            if (thumbnailCache.ContainsKey(fileEntry)) return thumbnailCache[fileEntry];
+            
+            Image image = Read(fileEntry);
+            if (image != null) ThumbnailCacheUpdate(fileEntry, image);
+            return image;
+        }
+        #endregion
+
+        #endregion
+
+
+        #region Region - UpdateRegionThumbnail
         public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region)
         {
-            ThumnbailCacheRemove(file);
+            //ThumnbailCacheRemove(file);
 
             string sqlCommand =
                     "UPDATE MediaPersonalRegions " +
@@ -150,123 +288,5 @@ namespace Thumbnails
         }
         #endregion
 
-        public List<FileEntry> ListFileEntryDateVersions(string fullFileName)
-        {
-            return ListFileEntryDateVersions(Path.GetDirectoryName(fullFileName), Path.GetFileName(fullFileName));
-        }
-
-        public List<FileEntry> ListFileEntryDateVersions(string fileDirectory, string fileName)
-        {
-            List<FileEntry> fileEntries = new List<FileEntry>();
-
-            string sqlCommand = "SELECT DISTINCT FileDirectory, FileName, FileDateModified FROM MediaThumbnail " +
-                "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
-            using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileName);
-                commandDatabase.Prepare();
-
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        FileEntry fileEntry = new FileEntry
-                            (
-                            dbTools.ConvertFromDBValString(reader["FileDirectory"]),
-                            dbTools.ConvertFromDBValString(reader["FileName"]),
-                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
-                            );
-                        fileEntries.Add(fileEntry);
-                    }
-                }
-
-                fileEntries.Sort();
-            }
-            return fileEntries;
-        }
-
-        public bool DoesMetadataMissThumbnailInRegion(Metadata metadata)
-        {
-            bool needCreateThumbnail = false;
-            if (metadata != null)
-            {
-                foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
-                {
-                    if (regionStructure.Thumbnail == null)
-                    {
-                        needCreateThumbnail = true;
-                        break;
-                    }
-                }
-            }
-            return needCreateThumbnail;
-        }
-
-        public bool DoesThumbnailExist(FileEntry fileEntry)
-        {
-            if (ThumbnailCacheContainsKey(fileEntry)) return true;
-            return ReadThumbnailFromCacheOrDatabase(fileEntry) != null; //Read Thumbnail and put in cache, will need the thumbnail soon anywhy 
-        }
-
-
-        #region Cache
-        Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();
-
-        private void ThumbnailCacheUpdate(FileEntry fileEntry, Image image)
-        {
-            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            if (thumbnailCache.ContainsKey(fileEntry)) thumbnailCache[fileEntry] = image;
-            else thumbnailCache.Add(fileEntry, image);
-        }
-
-        private bool ThumbnailCacheContainsKey(FileEntry fileEntry)
-        {
-            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            return thumbnailCache.ContainsKey(fileEntry);
-        }
-
-        private Image ThumbnailCacheGet(FileEntry fileEntry)
-        {
-            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            return thumbnailCache[fileEntry];
-        }
-
-        public void ThumnbailCacheRemove(FileEntry fileEntry)
-        {
-            if (fileEntry == null) return;
-            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            if (ThumbnailCacheContainsKey(fileEntry)) thumbnailCache.Remove(fileEntry);
-        }
-
-        public void ThumbnailClearCache()
-        {
-            thumbnailCache = null;
-            thumbnailCache = new Dictionary<FileEntry, Image>();
-        }
-
-        public bool DoesThumbnailExistInCache(FileEntry fileEntry)
-        {
-            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            return ThumbnailCacheContainsKey(fileEntry);
-        }
-
-        public Image ReadThumbnailFromCacheOnlyClone(FileEntry fileEntry)
-        {
-            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
-            if (ThumbnailCacheContainsKey(fileEntry)) return ThumbnailCacheGet(fileEntry); //Testing without clone, looks as unsafe code gone            
-            return null;
-        }
-
-        public Image ReadThumbnailFromCacheOrDatabase(FileEntry fileEntry)
-        {
-            if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result            
-            if (ThumbnailCacheContainsKey(fileEntry)) return ThumbnailCacheGet(fileEntry);
-            
-            Image image = Read(fileEntry);
-            if (image != null) ThumbnailCacheUpdate(fileEntry, image);
-            return image;
-        }
-        #endregion
     }
 }
