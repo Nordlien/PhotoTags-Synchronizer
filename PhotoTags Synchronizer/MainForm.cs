@@ -17,6 +17,7 @@ using Thumbnails;
 using MicrosoftPhotos;
 using DataGridViewGeneric;
 using LocationNames;
+using System.Collections.Generic;
 
 namespace PhotoTagsSynchronizer
 {
@@ -437,10 +438,10 @@ namespace PhotoTagsSynchronizer
         {
             isFormLoading = false;
 
-            ImageListViewAggregateWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
+            List<FileEntry> imageListViewFileEntryItems = ImageListViewAggregateWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
 
-            PopulateTreeViewFolderFilterThread(imageListView1.Items);
+            PopulateTreeViewFolderFilterThread(imageListViewFileEntryItems);
         }
 
 

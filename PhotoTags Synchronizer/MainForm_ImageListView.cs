@@ -355,7 +355,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Aggregate - FromSearchFilter
-        private void ImageListViewAggregateFromSearchFilter(List<string> searchFilterResult)
+        private void ImageListViewAggregateFromSearchFilter(List<FileEntry> searchFilterResult)
         {
             ImageListViewClearAll(imageListView1);
 
@@ -366,16 +366,16 @@ namespace PhotoTagsSynchronizer
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
             int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root);
 
-            foreach (string fileFullPath in searchFilterResult)
+            foreach (FileEntry fileEntry in searchFilterResult)
             {
-                if (File.Exists(fileFullPath))
+                if (File.Exists(fileEntry.FileFullPath))
                 {
                     if (valuesCountAdded > 0) // no filter values added, no need read from database, this fjust for optimize speed
                     {
-                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileFullPath, File.GetLastWriteTime(fileFullPath), MetadataBrokerType.ExifTool));
-                        if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileFullPath);
+                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                        if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileEntry.FileFullPath);
                     }
-                    else imageListView1.Items.Add(fileFullPath);
+                    else imageListView1.Items.Add(fileEntry.FileFullPath);
                 }
             }
             ImageListViewResumeLayoutInvoke(imageListView1);
@@ -387,8 +387,9 @@ namespace PhotoTagsSynchronizer
 
         #region ImageListView - Aggregate - WithFilesFromFolder
         //Folder selected after Form load/init, click new folder and clear cache and re-read folder
-        private void ImageListViewAggregateWithFilesFromFolder(string selectedFolder, bool recursive)
+        private List<FileEntry> ImageListViewAggregateWithFilesFromFolder(string selectedFolder, bool recursive)
         {
+            List<FileEntry> filesFoundInDirectory = null;
             if (Directory.Exists(selectedFolder))
             {
                 ClearQueueExiftool();
@@ -396,30 +397,34 @@ namespace PhotoTagsSynchronizer
                 //-------- FolderSelected_AddFilesImageListView -------------
                 Properties.Settings.Default.LastFolder = selectedFolder;
                 Properties.Settings.Default.Save();
-                FileEntryImage[] filesFoundInDirectory;
 
                 FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
                 int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root);
 
                 filesFoundInDirectory = ImageAndMovieFileExtentionsUtility.ListAllMediaFiles(selectedFolder, recursive);
 
-                if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) imageListView1.CacheMode = CacheMode.OnDemand;
-                imageListView1.CacheMode = CacheMode.Continuous;
-                ImageListViewClearAll(imageListView1);
-                imageListView1.Enabled = false;
+                if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) 
+                    imageListView1.CacheMode = CacheMode.OnDemand;
+                else 
+                    imageListView1.CacheMode = CacheMode.Continuous;
 
+                imageListView1.Enabled = false;
+                ImageListViewClearAll(imageListView1); //Trigger ImageListView ItemSelected
+                
                 ImageListViewSuspendLayoutInvoke(imageListView1);
-                for (int fileNumber = 0; fileNumber < filesFoundInDirectory.Length; fileNumber++)
+
+                //for (int fileNumber = 0; fileNumber < filesFoundInDirectory.Length; fileNumber++)
+                foreach (FileEntry fileEntry in filesFoundInDirectory)
                 {
                     if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed
                     {
-                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(filesFoundInDirectory[fileNumber], MetadataBrokerType.ExifTool));
-                        if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);
+                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                        if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileEntry.FileFullPath);
                     }
-                    else imageListView1.Items.Add(filesFoundInDirectory[fileNumber].FileFullPath);
+                    else imageListView1.Items.Add(fileEntry.FileFullPath);
                 }
 
-                ImageListViewResumeLayoutInvoke(imageListView1);
+                ImageListViewResumeLayoutInvoke(imageListView1); //Trigger ImageListView ItemSelected
                 imageListView1.Enabled = true;
                 //-------- FolderSelected_AddFilesImageListView -------------
 
@@ -427,6 +432,7 @@ namespace PhotoTagsSynchronizer
 
                 StartThreads();
             }
+            return filesFoundInDirectory;
         }
         #endregion
 

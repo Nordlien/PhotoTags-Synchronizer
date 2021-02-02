@@ -481,29 +481,20 @@ namespace PhotoTagsSynchronizer
 
         #region PopulateTreeViewFolderFilter - Thread
         Thread threadPopulateFilter = null;
-        private void PopulateTreeViewFolderFilterThread(ImageListView.ImageListViewItemCollection imageListViewItems)
+        private void PopulateTreeViewFolderFilterThread(List<FileEntry> imageListViewFileEntryItems)
         {
+            if (imageListViewFileEntryItems == null) return;
             GlobalData.IsImageListViewForEachInProgressRequestStop = true;
 
-            
             if (threadPopulateFilter != null)
             {
-                GlobalData.IsImageListViewForEachInProgressRequestStop = true;
+                //GlobalData.IsImageListViewForEachInProgressRequestStop = true;
                 WaitThread_PopulateTreeViewFolderFilter_Stopped.WaitOne(60000);
             }
 
-            List<FileEntry> imageListViewFileEntryCopy = new List<FileEntry>();
-            try
-            {
-                foreach (ImageListViewItem imageListViewItem in imageListViewItems)
-                {
-                    imageListViewFileEntryCopy.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified)); //Avoid crash when items gets updated
-                }
-            } catch { }
-
             threadPopulateFilter = new Thread(() => 
             { 
-                PopulateTreeViewFolderFilterInvoke(imageListViewFileEntryCopy);
+                PopulateTreeViewFolderFilterInvoke(imageListViewFileEntryItems);
                 threadPopulateFilter = null;
             });
             threadPopulateFilter.Start();

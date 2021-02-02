@@ -605,12 +605,12 @@ namespace ImageAndMovieFileExtentions
             return allFiles;
         }
 
-        public static FileEntryImage[] ListAllMediaFiles(string directory, bool recursive)
+        public static List<FileEntry> ListAllMediaFiles(string directory, bool recursive)
         {
             return GetFilesByExtensions(directory, GetAllMediaExtentions(), recursive);
         }
 
-        public static FileEntryImage[] GetFilesByExtensions(string folder, List<string> extensions, bool recursive)
+        public static List<FileEntry> GetFilesByExtensions(string folder, List<string> extensions, bool recursive)
         {
             SearchOption searchOption;
             if (recursive) searchOption = SearchOption.AllDirectories;
@@ -619,14 +619,14 @@ namespace ImageAndMovieFileExtentions
             DirectoryInfo dirInfo = new DirectoryInfo(folder);
             FileInfo[] files = dirInfo.GetFiles("*", searchOption).Where(f => extensions.Contains(f.Extension.ToUpper())).ToArray();
 
-            List<FileEntryImage> fileList = new List<FileEntryImage>();
+            List<FileEntry> fileList = new List<FileEntry>();
             for (int i = 0; i < files.Length; i++)
             {
                 fileList.Add(new FileEntryImage(files[i].FullName, files[i].LastWriteTime));
             }
-            //fileList.Sort();
+            fileList.Sort();
 
-            return fileList.ToArray();
+            return fileList;
         }
 
         public static bool IsVideoFormat(string filename)

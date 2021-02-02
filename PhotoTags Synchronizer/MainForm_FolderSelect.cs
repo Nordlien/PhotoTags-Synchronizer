@@ -15,7 +15,7 @@ namespace PhotoTagsSynchronizer
         #region FolderSelected - Populate DataGridView, ImageListView 
         private void FolderSelected(bool recursive, bool runPopulateFilter = true)
         {
-            if (GlobalData.IsPopulatingFolderSelected) 
+            if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new
             {
                 ImageListViewClearAll(imageListView1);
                 GlobalData.IsPopulatingFolderSelected = false;
@@ -28,11 +28,12 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
                 GlobalData.SearchFolder = true;
 
-                folderTreeViewFolder.Enabled = false;               
-                ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
+                folderTreeViewFolder.Enabled = false;
+                List<FileEntry> imageListViewFileEntryItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
+                
                 folderTreeViewFolder.Enabled = true;
-                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(imageListView1.Items);
-                PopulatePreloadMetadataQueue(imageListView1.Items);
+                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(imageListViewFileEntryItems);
+                PopulatePreloadMetadataQueue(imageListViewFileEntryItems);
 
 
                 GlobalData.IsPopulatingFolderSelected = false;
@@ -46,7 +47,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FolderSearchFilter - Populate DataGridView, ImageListView 
-        private void FolderSearchFilter(List<string> searchFilterResult, bool runPopulateFilter = true)
+        private void FolderSearchFilter(List<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
             
@@ -58,7 +59,7 @@ namespace PhotoTagsSynchronizer
                 folderTreeViewFolder.Enabled = false;
                 ImageListViewAggregateFromSearchFilter(searchFilterResult);
                 folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
-                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(imageListView1.Items);
+                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(searchFilterResult);
 
                 GlobalData.IsPopulatingFolderSelected = false;
             }
@@ -72,9 +73,10 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulatePreloadMetadataQueue
-        private void PopulatePreloadMetadataQueue(ImageListView.ImageListViewItemCollection imageListViewItems)
+        private void PopulatePreloadMetadataQueue(List<FileEntry> imageListViewFileEntryItems)
         {
-            foreach (ImageListViewItem imageListViewItem in imageListViewItems) AddQueuePreloadningMetadata(new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current));
+            foreach (FileEntry imageListViewItemFileEntryItem in imageListViewFileEntryItems) 
+                AddQueuePreloadningMetadata(new FileEntryAttribute(imageListViewItemFileEntryItem, FileEntryVersion.Current));
         }
         #endregion
         

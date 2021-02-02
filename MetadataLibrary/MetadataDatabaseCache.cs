@@ -797,7 +797,7 @@ namespace MetadataLibrary
         #endregion
 
         #region List files - Search
-        public List<string> ListAllSearch(MetadataBrokerType broker, bool useAndBetweenGrups,
+        public List<FileEntry> ListAllSearch(MetadataBrokerType broker, bool useAndBetweenGrups,
             bool useMediaTakenFrom, DateTime mediaTakenFrom, bool useMediaTakenTo, DateTime mediaTakenTo, bool isMediaTakenNull,
             bool useAndBetweenTextTags,
             bool usePersonalAlbum, string personalAlbum,
@@ -815,9 +815,9 @@ namespace MetadataLibrary
             )
         {
 
-            List<string> listing = new List<string>();
+            List<FileEntry> listing = new List<FileEntry>();
 
-            string sqlCommandBasicSelect = "SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName FROM MediaMetadata ";
+            string sqlCommandBasicSelect = "SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName, MediaMetadata.FileDateModified FROM MediaMetadata ";
 
             #region Warning
             if (checkIfHasExifWarning) sqlCommandBasicSelect +=
@@ -991,9 +991,10 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        listing.Add(Path.Combine(
+                        listing.Add(new FileEntry(
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
-                            dbTools.ConvertFromDBValString(reader["FileName"])
+                            dbTools.ConvertFromDBValString(reader["FileName"]),
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
                             ));
                     }
                 }

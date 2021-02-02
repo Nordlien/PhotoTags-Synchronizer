@@ -872,7 +872,7 @@ namespace PhotoTagsSynchronizer
 
             imageListView1.Refresh();
             Application.DoEvents();
-            ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
+            _ = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }

@@ -208,8 +208,6 @@ namespace PhotoTagsSynchronizer
                 if (metadata != null) PopulateKeywords(dataGridView, metadata, columnIndex, MetadataBrokerType.ExifTool);
                 if (metadataMicrosoftPhotos != null) PopulateKeywords(dataGridView, metadataMicrosoftPhotos, columnIndex, MetadataBrokerType.MicrosoftPhotos);
                 if (metadataWindowsLivePhotoGallery != null) PopulateKeywords(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, MetadataBrokerType.WindowsLivePhotoGallery);
-                    
-                }
             }
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);

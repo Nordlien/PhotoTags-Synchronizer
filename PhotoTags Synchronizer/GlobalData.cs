@@ -1,4 +1,5 @@
 ﻿using DataGridViewGeneric;
+using MetadataLibrary;
 using System.Collections.Generic;
 
 namespace PhotoTagsSynchronizer
@@ -9,7 +10,7 @@ namespace PhotoTagsSynchronizer
         public static readonly object populateSelectedLock = new object(); //Avoid gridview to update while updateing
         public static readonly object metadataUpdateLock = new object();
 
-        public static List<string> SerachFilterResult { get; set; }
+        public static List<FileEntry> SerachFilterResult { get; set; }
         public static bool SearchFolder { get; set; } = true;
 
         public static DataGridViewHandler dataGridViewHandlerTags = null;

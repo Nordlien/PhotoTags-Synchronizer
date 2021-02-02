@@ -97,7 +97,7 @@ namespace PhotoTagsSynchronizer
             toolStripStatusQueue.Text = "";
 
             //string.Format("WLPG{0}:{1} MP{2}:{3} Thumbnails{4}:{5} Regions{6}:{7}|{8} Exif{9}: Check:{10} Exiftool:{11} Saving{12}:{13} Verify:{14} Rename:{15} Lazy({16}{17},{18}{19},{20}{21})",
-            bool showAlways = true;
+            bool showAlways = false;
 
             if (showAlways || CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 || (_ThreadWindowsLiveGallery != null && _ThreadWindowsLiveGallery.ThreadState != System.Threading.ThreadState.Stopped))
                 toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("WLPG-{0}:{1}", 
