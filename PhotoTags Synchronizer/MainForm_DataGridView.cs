@@ -261,8 +261,13 @@ namespace PhotoTagsSynchronizer
             foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
             {
                 List<FileEntryAttribute> fileEntryAttributeDateVersions = databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
+                //When list is 0, then Metadata was not readed from mediafile and needs put back in read queue
+                if (fileEntryAttributeDateVersions.Count == 0) AddQueueMetadataReadToCacheOrUpdateFromSoruce(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
+
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
-            }            
+            }
+
+            
             AddQueueLazyLoadningMetadata(lazyLoadingAllExiftoolVersionOfMediaFile);
             AddQueueLazyLoadningThumbnail(lazyLoadingAllExiftoolVersionOfMediaFile);
         }

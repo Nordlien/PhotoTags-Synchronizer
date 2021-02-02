@@ -1461,7 +1461,7 @@ namespace DataGridViewGeneric
                 }
                 else 
                 {
-                    //DEBUG: Why does thus occure
+                    //When dataGridView is still empty, or got cleaned: Why does thus occure
                 }
                 
             }

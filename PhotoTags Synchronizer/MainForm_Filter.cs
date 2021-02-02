@@ -573,7 +573,8 @@ namespace PhotoTagsSynchronizer
                         {
                             if (!string.IsNullOrEmpty(keywordTag.Keyword) && !keywords.Contains(keywordTag.Keyword)) keywords.Add(keywordTag.Keyword);
                         }
-                    }
+                    } 
+                    
                 }
 
                 if (!GlobalData.IsImageListViewForEachInProgressRequestStop)
