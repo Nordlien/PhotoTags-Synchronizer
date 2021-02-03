@@ -214,6 +214,17 @@ namespace PhotoTagsSynchronizer
 
         #region Preloadning
 
+        #region Preloadning - Metadata - AddQueue - Clear
+        public void ClearQueuePreloadningMetadata()
+        {
+            lock (commonQueuePreloadingMetadataLock)
+            {
+                commonQueuePreloadingMetadata.Clear();
+            }
+            StartThreads();
+        }
+        #endregion
+
         #region Preloadning - Metadata - AddQueue - Only Read
         public void AddQueuePreloadningMetadata(FileEntryAttribute fileEntryAttribute)
         {
@@ -241,7 +252,7 @@ namespace PhotoTagsSynchronizer
                         _ = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
                         _ = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
 
-                        lock (commonQueuePreloadingMetadataLock) commonQueuePreloadingMetadata.RemoveAt(0);
+                        lock (commonQueuePreloadingMetadataLock) if (commonQueuePreloadingMetadata.Count > 0) commonQueuePreloadingMetadata.RemoveAt(0);
                     }
                     Application.DoEvents();
                     StartThreads();

@@ -190,8 +190,8 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region ToolStrip
-        #region ToolStrip - Save - Click 
+        #region ToolStrip - Save
+        #region ToolStrip - Save All Metadata - Click 
         private void toolStripButtonSaveAllMetadata_Click(object sender, EventArgs e)
         {
             this.Activate();
@@ -199,7 +199,9 @@ namespace PhotoTagsSynchronizer
             SaveActiveTabData();
             this.Enabled = true;
         }
+        #endregion
 
+        #region ToolStrip - Save People - Click
         private void toolStripMenuItemPeopleSave_Click(object sender, EventArgs e)
         {
             this.Activate();
@@ -207,7 +209,9 @@ namespace PhotoTagsSynchronizer
             SaveActiveTabData();
             this.Enabled = true;
         }
+        #endregion
 
+        #region ToolStrip - Save Tags - Click
         private void toolStripMenuTagsBrokerSave_Click(object sender, EventArgs e)
         {
             this.Activate();
@@ -215,7 +219,9 @@ namespace PhotoTagsSynchronizer
             SaveActiveTabData();
             this.Enabled = true;
         }
+        #endregion
 
+        #region ToolStrip - Save Map - Click
         private void toolStripMenuItemMapSave_Click(object sender, EventArgs e)
         {
             this.Activate();
@@ -223,6 +229,8 @@ namespace PhotoTagsSynchronizer
             SaveActiveTabData();
             this.Enabled = true;
         }
+        #endregion
+
         #endregion
 
         #region ToolStrip - About - Click
@@ -265,7 +273,7 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Refreh Folder - Click
         private void toolStripMenuItemRefreshFolder_Click(object sender, EventArgs e)
         {
-            FolderSelected(false);
+            PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -772,7 +780,7 @@ namespace PhotoTagsSynchronizer
             TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
             filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
             GlobalData.DoNotRefreshImageListView = false;
-            FolderSelected(false);
+            PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -780,7 +788,7 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Refresh - Items in listview 
         private void toolStripMenuItemTreeViewFolderReadSubfolders_Click(object sender, EventArgs e)
         {
-            FolderSelected(true);
+            PopulateImageListViewBasedOnSleectedFolderAndOrFilter(true, true);
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -869,10 +877,11 @@ namespace PhotoTagsSynchronizer
             }
 
             ImageListViewClearThumbnailCache(imageListView1);
-
             imageListView1.Refresh();
+
             Application.DoEvents();
             _ = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
+
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
@@ -922,9 +931,9 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #endregion
 
         #region ImageListView
+        
         #region ImageListView - Delete Files - Directory - Click
         private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
         {
@@ -939,7 +948,7 @@ namespace PhotoTagsSynchronizer
                     "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
                     filesCutCopyPasteDrag.DeleteFilesInFolder(folderTreeViewFolder, folder);
-                    FolderSelected(false);
+                    PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
                 }
             }
             catch (Exception ex)
@@ -1033,9 +1042,11 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion 
+        
         #endregion 
 
         #region FoldeTree
+        
         #region FolderTree - Cut - Click
         private void toolStripMenuItemTreeViewFolderCut_Click(object sender, EventArgs e)
         {
@@ -1085,7 +1096,9 @@ namespace PhotoTagsSynchronizer
         {
             if (GlobalData.IsDragAndDropActive) return;
             if (GlobalData.DoNotRefreshImageListView) return;
-            FolderSelected(false);
+
+            
+            PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
         }
         #endregion 
 
@@ -1287,7 +1300,7 @@ namespace PhotoTagsSynchronizer
                             GlobalData.DoNotRefreshImageListView = false;
 
                             //----- Updated ImageListView with files ------
-                            FolderSelected(false);
+                            PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
                         }
                         else //Copied or NOT (cancel) a folder to new location in eg. Windows Explorer
                         {

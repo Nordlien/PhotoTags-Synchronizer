@@ -96,6 +96,13 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulateTreeViewBasicNodes
+        public static void ClearTreeViewNodes(TreeView treeView)
+        {
+            GlobalData.IsPopulatingFilter = true;
+            treeView.Nodes.Clear();
+            GlobalData.IsPopulatingFilter = false;
+        }
+
         public static void PopulateTreeViewBasicNodes(TreeView treeView, string rootNode)
         {
             GlobalData.IsPopulatingFilter = true;
@@ -357,7 +364,7 @@ namespace PhotoTagsSynchronizer
             filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, FilterVerifyer.Root);
 
             if (GlobalData.SearchFolder)
-                FolderSelected(GlobalData.lastReadFolderWasRecursive, false);
+                PopulateImageListViewBasedOnSleectedFolderAndOrFilter(GlobalData.lastReadFolderWasRecursive, false);
             else
                 FolderSearchFilter(GlobalData.SerachFilterResult, false);
         }
@@ -404,7 +411,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulateDatabaseFilter
-        private void PopulateDatabaseFilter()
+        public void PopulateDatabaseFilter()
         {
             
             List<string> albums = databaseAndCacheMetadataExiftool.ListAllPersonalAlbums(MetadataBrokerType.ExifTool);
@@ -540,8 +547,7 @@ namespace PhotoTagsSynchronizer
                     if (GlobalData.IsApplicationClosing) break;
                     if (GlobalData.IsImageListViewForEachInProgressRequestStop) break;
 
-                    Metadata metadata = null;
-                    databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
 
                     Application.DoEvents();
 

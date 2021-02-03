@@ -13,7 +13,7 @@ namespace PhotoTagsSynchronizer
         #region FolderSelected or FilterSearch clicked
 
         #region FolderSelected - Populate DataGridView, ImageListView 
-        private void FolderSelected(bool recursive, bool runPopulateFilter = true)
+        private void PopulateImageListViewBasedOnSleectedFolderAndOrFilter(bool recursive, bool runPopulateFilter)
         {
             if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new
             {
@@ -28,13 +28,18 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
                 GlobalData.SearchFolder = true;
 
+                if (runPopulateFilter)
+                {
+                    FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
+                    ClearQueuePreloadningMetadata();
+                }
+
                 folderTreeViewFolder.Enabled = false;
                 List<FileEntry> imageListViewFileEntryItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
                 
                 folderTreeViewFolder.Enabled = true;
                 if (runPopulateFilter) PopulateTreeViewFolderFilterThread(imageListViewFileEntryItems);
                 PopulatePreloadMetadataQueue(imageListViewFileEntryItems);
-
 
                 GlobalData.IsPopulatingFolderSelected = false;
             }

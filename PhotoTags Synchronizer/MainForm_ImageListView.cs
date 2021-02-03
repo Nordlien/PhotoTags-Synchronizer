@@ -398,7 +398,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.LastFolder = selectedFolder;
                 Properties.Settings.Default.Save();
 
-                FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
+                  FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
                 int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root);
 
                 filesFoundInDirectory = ImageAndMovieFileExtentionsUtility.ListAllMediaFiles(selectedFolder, recursive);
