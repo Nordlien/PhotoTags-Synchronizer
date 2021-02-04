@@ -334,6 +334,7 @@
     <None Include="Resources\FavoriteToggle.png" />
     <None Include="Resources\GridNormal.png" />
     <None Include="Resources\FileExplorer.png" />
+    <None Include="Resources\FileInCloud.png" />
     <Content Include="Resources\GridBig.png" />
     <Content Include="Resources\GridErrorColumn.png" />
     <None Include="Resources\GridErrorColumn1.png" />
