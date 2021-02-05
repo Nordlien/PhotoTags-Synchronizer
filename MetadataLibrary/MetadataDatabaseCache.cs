@@ -1449,7 +1449,6 @@ namespace MetadataLibrary
 
             if (metadata != null || (metadata == null && fileEntryBroker.Broker != MetadataBrokerType.ExifTool))
             {
-                Console.WriteLine(fileEntryBroker.Broker.ToString() + " " + (metadata == null ? " NULL" : " NOT"));
                 if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
                 else metadataCache.Add(fileEntryBroker, metadata);
             } 

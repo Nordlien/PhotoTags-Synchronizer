@@ -135,6 +135,8 @@ namespace Exiftool
                 "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                FileEntryAttribute newstFileEntryAttributeForEdit = null;
+
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 commandDatabase.Parameters.AddWithValue("@FileName", fileName);
                 commandDatabase.Prepare();
@@ -144,12 +146,22 @@ namespace Exiftool
                 {
                     while (reader.Read())
                     {
+                        bool isErrorVersion = false;
+                        DateTime currentMetadataDate = (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]);
+
                         FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             dbTools.ConvertFromDBValString(reader["FileName"]),
-                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]), FileEntryVersion.Historical);
+                            currentMetadataDate, FileEntryVersion.Historical);
                         exifToolDates.Add(fileEntryAttribute);
+
+                        if (!isErrorVersion && (newstFileEntryAttributeForEdit == null || currentMetadataDate > newstFileEntryAttributeForEdit.LastWriteDateTime))
+                        {
+                            newstFileEntryAttributeForEdit = new FileEntryAttribute((FileEntry)fileEntryAttribute, FileEntryVersion.Current);
+                        }
                     }
+
+                    if (newstFileEntryAttributeForEdit != null) exifToolDates.Add(newstFileEntryAttributeForEdit);
                 }
 
                 exifToolDates.Sort();

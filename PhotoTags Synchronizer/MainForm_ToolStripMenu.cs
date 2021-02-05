@@ -236,6 +236,7 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - About - Click
         private void toolStripButtonAbout_Click(object sender, EventArgs e)
         {
+
             FormAbout form = new FormAbout();
             form.ShowDialog();
             form.Dispose();

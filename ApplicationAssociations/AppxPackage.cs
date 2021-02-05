@@ -182,114 +182,6 @@ Deps                   :
         private List<AppxApp> _apps = new List<AppxApp>();
         private IAppxManifestProperties _properties;
 
-        #region ShowConsole for debug
-        public static void ShowConsole(int indent, AppxPackage package)
-        {
-            string sindent = new string(' ', indent);
-            Console.WriteLine(sindent + "------------------------------------------------------------------------------------");
-            Console.WriteLine(sindent + "FullName               : " + package.FullName);
-            Console.WriteLine(sindent + "FamilyName             : " + package.FamilyName);
-            Console.WriteLine(sindent + "IsFramework            : " + package.IsFramework);
-            Console.WriteLine(sindent + "ApplicationUserModelId : " + package.ApplicationUserModelId);
-            Console.WriteLine(sindent + "Path                   : " + package.Path);
-            Console.WriteLine(sindent + "Publisher              : " + package.Publisher);
-            Console.WriteLine(sindent + "PublisherId            : " + package.PublisherId);
-            Console.WriteLine(sindent + "Logo                   : " + package.Logo);
-            Console.WriteLine(sindent + "Best Logo Path         : " + package.FindHighestScaleQualifiedImagePath(package.Logo));
-            Console.WriteLine(sindent + "ProcessorArchitecture  : " + package.ProcessorArchitecture);
-            Console.WriteLine(sindent + "Version                : " + package.Version);
-            Console.WriteLine(sindent + "PublisherDisplayName   : " + package.PublisherDisplayName);
-            Console.WriteLine(sindent + "   Localized           : " + package.LoadResourceString(package.PublisherDisplayName));
-            Console.WriteLine(sindent + "DisplayName            : " + package.DisplayName);
-            Console.WriteLine(sindent + "   Localized           : " + package.LoadResourceString(package.DisplayName));
-            Console.WriteLine(sindent + "Description            : " + package.Description);
-            Console.WriteLine(sindent + "   Localized           : " + package.LoadResourceString(package.Description));
-
-            Console.WriteLine(sindent + "--:");
-            int i = 0;
-            foreach (var app in package.Apps)
-            {
-                Console.WriteLine(sindent + "    App [" + i + "] Description       : " + app.Description);
-                Console.WriteLine(sindent + "      Localized           : " + package.LoadResourceString(app.Description));
-                Console.WriteLine(sindent + "    App [" + i + "] DisplayName       : " + app.DisplayName);
-                Console.WriteLine(sindent + "      Localized           : " + package.LoadResourceString(app.DisplayName));
-                Console.WriteLine(sindent + "    App [" + i + "] ShortName         : " + app.ShortName);
-                Console.WriteLine(sindent + "      Localized           : " + package.LoadResourceString(app.ShortName));
-                Console.WriteLine(sindent + "    App [" + i + "] EntryPoint        : " + app.EntryPoint);
-                Console.WriteLine(sindent + "    App [" + i + "] Executable        : " + app.Executable);
-                Console.WriteLine(sindent + "    App [" + i + "] Id                : " + app.Id);
-                Console.WriteLine(sindent + "    App [" + i + "] Logo              : " + app.Logo);
-                Console.WriteLine(sindent + "    App [" + i + "] SmallLogo         : " + app.SmallLogo);
-                Console.WriteLine(sindent + "    App [" + i + "] StartPage         : " + app.StartPage);
-                Console.WriteLine(sindent + "    App [" + i + "] Square150x150Logo : " + app.Square150x150Logo);
-                Console.WriteLine(sindent + "    App [" + i + "] Square30x30Logo   : " + app.Square30x30Logo);
-                Console.WriteLine(sindent + "    App [" + i + "] BackgroundColor   : " + app.BackgroundColor);
-                Console.WriteLine(sindent + "    App [" + i + "] ForegroundText    : " + app.ForegroundText);
-                Console.WriteLine(sindent + "    App [" + i + "] WideLogo          : " + app.WideLogo);
-                Console.WriteLine(sindent + "    App [" + i + "] Wide310x310Logo   : " + app.Wide310x310Logo);
-                Console.WriteLine(sindent + "    App [" + i + "] Square310x310Logo : " + app.Square310x310Logo);
-                Console.WriteLine(sindent + "    App [" + i + "] Square70x70Logo   : " + app.Square70x70Logo);
-                Console.WriteLine(sindent + "    App [" + i + "] MinWidth          : " + app.MinWidth);
-                Console.WriteLine(sindent + "    App [" + i + "] Square71x71Logo   : " + app.GetStringValue("Square71x71Logzo"));
-                i++;
-            }
-
-            Console.WriteLine(sindent + "Deps                   :");
-            foreach (var dep in package.DependencyGraph)
-            {
-                ShowConsole(indent + 1, dep);
-            }
-            Console.WriteLine(sindent + "------------------------------------------------------------------------------------");
-        }
-        #endregion 
-
-
-        public static SortedList<string, ApplicationData> GetApps()
-        {
-            SortedList<string, ApplicationData> applicationDatas = new SortedList<string, ApplicationData>();
-
-            foreach (var p in Process.GetProcesses())
-            {
-                var package = AppxPackage.FromProcess(p);
-                if (package != null)
-                {
-
-                    //AppxPackage.ShowConsole(0, package);
-                    
-                    ApplicationData applicationData = new ApplicationData();
-                    applicationData.ProgId = package.FamilyName;
-                    applicationData.Command = "";
-                    applicationData.FriendlyAppName = package.LoadResourceString(package.DisplayName) == null ? package.DisplayName: package.LoadResourceString(package.DisplayName);
-                    applicationData.AppIconReference = package.FindHighestScaleQualifiedImagePath(package.Logo);
-
-                    //AssocQuery assocQuery = new AssocQuery(progId);
-                    //applicationData.ApplicationId = assocQuery.AppId;
-                    //applicationData.Command = assocQuery.Command;
-                    //applicationData.FriendlyAppName = assocQuery.FriendlyAppName;
-                    //applicationData.AppIconReference = assocQuery.AppIconReference;
-
-                    //AddApplicationData(extention, applicationData);
-                    var verbs = ProtocolAssociationsRegistry.GetVerbsByProgId(applicationData.ProgId);
-
-                    //if (verbs.Length > 0)
-                    {
-                        foreach (string verb in verbs)
-                        {
-                            string command = "";
-                            if (!string.IsNullOrEmpty(applicationData.Command))
-                            {
-                                command = AssocQuery.GetCommandProgId(applicationData.ProgId, verb);
-                            }
-                            applicationData.AddVerb(verb, command);
-                        }
-
-                        if (!applicationDatas.Keys.Contains(applicationData.FriendlyAppName)) applicationDatas.Add(applicationData.FriendlyAppName, applicationData);
-                    }
-                }
-            }
-            return applicationDatas;
-
-        }
         private AppxPackage()
         {
         }
@@ -309,64 +201,6 @@ Deps                   :
         public Version Version { get; private set; }
         public AppxPackageArchitecture ProcessorArchitecture { get; private set; }
 
-        public IReadOnlyList<AppxApp> Apps { get { return _apps; } }
-
-        public IEnumerable<AppxPackage> DependencyGraph { get { return QueryPackageInfo(FullName, PackageConstants.PACKAGE_FILTER_ALL_LOADED).Where(p => p.FullName != FullName); } }
-
-
-        public string FindHighestScaleQualifiedImagePath(string resourceName)
-        {
-            if (resourceName == null)
-                throw new ArgumentNullException("resourceName");
-
-            const string scaleToken = ".scale-";
-            var sizes = new List<int>();
-            string name = System.IO.Path.GetFileNameWithoutExtension(resourceName);
-            string ext = System.IO.Path.GetExtension(resourceName);
-            foreach (var file in Directory.EnumerateFiles(System.IO.Path.Combine(Path, System.IO.Path.GetDirectoryName(resourceName)), name + scaleToken + "*" + ext))
-            {
-                string fileName = System.IO.Path.GetFileNameWithoutExtension(file);
-                int pos = fileName.IndexOf(scaleToken) + scaleToken.Length;
-                string sizeText = fileName.Substring(pos);
-                int size;
-                if (int.TryParse(sizeText, out size))
-                {
-                    sizes.Add(size);
-                }
-            }
-            if (sizes.Count == 0)
-                return null;
-
-            sizes.Sort();
-            return System.IO.Path.Combine(Path, System.IO.Path.GetDirectoryName(resourceName), name + scaleToken + sizes.Last() + ext);
-        }
-
-        public override string ToString()
-        {
-            return FullName;
-        }
-
-        public static AppxPackage FromWindow(IntPtr handle)
-        {
-            int processId;
-            GetWindowThreadProcessId(handle, out processId);
-            if (processId == 0) return null;
-            return FromProcess(processId);
-        }
-
-        public static AppxPackage FromProcess(Process process)
-        {
-            if (process == null) process = Process.GetCurrentProcess();
-            try
-            {
-                return FromProcess(process.Handle);
-            }
-            catch
-            {
-                // probably access denied on .Handle
-                return null;
-            }
-        }
 
         public static AppxPackage FromProcess(int processId)
         {
@@ -408,17 +242,6 @@ Deps                   :
             return package;
         }
 
-        public static AppxPackage FromAppId(string appId)
-        {
-            var package = QueryPackageInfo(appId, PackageConstants.PACKAGE_FILTER_HEAD);
-
-            //len = 0;
-            //GetApplicationUserModelId(hProcess, ref len, null);
-            //sb = new StringBuilder(len);
-            //package.ApplicationUserModelId = appId;
-            return package.First();
-        }
-
         public string GetPropertyStringValue(string name)
         {
             if (name == null) throw new ArgumentNullException("name");
@@ -431,10 +254,6 @@ Deps                   :
             return GetBoolValue(_properties, name);
         }
 
-        public string LoadResourceString(string resource)
-        {
-            return LoadResourceString(FullName, resource);
-        }
 
         //Fullname: Microsoft.YourPhone_1.20111.125.0_x64__8wekyb3d8bbwe
         //FamilyName: Microsoft.YourPhone_8wekyb3d8bbwe
@@ -525,28 +344,6 @@ Deps                   :
                     ClosePackageInfo(infoRef);
                 }
             }
-        }
-
-        public static string LoadResourceString(string packageFullName, string resource)
-        {
-            if (packageFullName == null) throw new ArgumentNullException("packageFullName");
-            if (string.IsNullOrWhiteSpace(resource)) return null;
-
-            const string resourceScheme = "ms-resource:";
-            if (!resource.StartsWith(resourceScheme)) return null;
-
-            string part = resource.Substring(resourceScheme.Length);
-            string url;
-
-            if (part.StartsWith("/")) url = resourceScheme + "//" + part;            
-            else url = resourceScheme + "///resources/" + part;
-            
-            string source = string.Format("@{{{0}? {1}}}", packageFullName, url);
-            var sb = new StringBuilder(1024);
-            int i = SHLoadIndirectString(source, sb, sb.Capacity, IntPtr.Zero);
-            if (i != 0) return null;
-
-            return sb.ToString();
         }
 
         private static string GetStringValue(IAppxManifestProperties props, string name)

@@ -130,7 +130,7 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
 
             if (dataGridView.SelectedCells.Count < 1) return;
-
+            
             DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = dataGridView.SelectedCells;
             if (dataGridViewSelectedCellCollection.Count < 1) return;
 

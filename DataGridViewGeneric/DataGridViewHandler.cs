@@ -229,7 +229,7 @@ namespace DataGridViewGeneric
 
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.EnableResizing;
-            
+
             dataGridView.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
             dataGridView.AllowUserToResizeColumns = true;
             dataGridView.AllowUserToResizeRows = true;
@@ -273,7 +273,7 @@ namespace DataGridViewGeneric
 
             dataGridView.TopLeftHeaderCell.Value = dataGridViewGenricData.TopCellName;
             dataGridView.EnableHeadersVisualStyles = false;
-            
+
             dataGridView.ColumnHeadersHeight = GetTopColumnHeaderHeigth(cellSize);
             //dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridView.RowHeadersWidth = GetFirstRowHeaderWidth(cellSize);
@@ -301,7 +301,7 @@ namespace DataGridViewGeneric
             toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            
+
             contextMenuStripDataGridViewGeneric.SuspendLayout();
             // 
             // contextMenuStripDataGridViewGeneric
@@ -621,18 +621,15 @@ namespace DataGridViewGeneric
 
         #region Suspend and Resume layout - SuspendLayout
         private static int suspendCount = 0;
-        private static bool isSuspended = false; 
+        private static bool isSuspended = false;
         public static void SuspendLayout(DataGridView dataGridView, int queueSize)
         {
-            Console.WriteLine("SuspendLayout Queue:" + queueSize + " Inside count:" + suspendCount);
             suspendCount++;
-            //if (queueSize > 1) return;
             if (suspendCount > 1) return; //Already suspended
-            
+
 
             if (!isSuspended)
             {
-                Console.WriteLine("-----------------SuspendLayout started");
                 dataGridView.SuspendLayout();
 
                 dataGridViewAutoSizeRowsMode = dataGridView.AutoSizeRowsMode;
@@ -651,9 +648,9 @@ namespace DataGridViewGeneric
 
                 isSuspended = true;
             }
-            
 
-            
+
+
         }
         #endregion 
 
@@ -961,7 +958,7 @@ namespace DataGridViewGeneric
         public static int GetColumnIndex(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute)
         {
             for (int columnIndex = 0; columnIndex < dataGridView.ColumnCount; columnIndex++)
-            {                
+            {
                 if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute == fileEntryAttribute)
                 {
                     return columnIndex;
@@ -992,7 +989,7 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Column handling - AddColumnOrUpdate 
-        public static int AddColumnOrUpdateNew(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image thumbnail, Metadata metadata, 
+        public static int AddColumnOrUpdateNew(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, Image thumbnail, Metadata metadata,
             ReadWriteAccess readWriteAccessForColumn, ShowWhatColumns showWhatColumns, DataGridViewGenericCellStatus dataGridViewGenericCellStatusDefault)
         {
             int columnIndex = GetColumnIndex(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
@@ -1016,15 +1013,15 @@ namespace DataGridViewGeneric
                 dataGridViewColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                 dataGridViewColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
                 dataGridViewColumn.MinimumWidth = 40;
-                
+
                 dataGridViewColumn.Width = GetCellColumnsWidth(dataGridView);
-                
-                dataGridViewColumn.ToolTipText = fileEntryAttribute.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttribute.FileFullPath;                
+
+                dataGridViewColumn.ToolTipText = fileEntryAttribute.LastWriteDateTime.ToString() + "\r\n" + fileEntryAttribute.FileFullPath;
                 dataGridViewColumn.Tag = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
 
                 dataGridViewColumn.Name = fileEntryAttribute.FileFullPath;
                 dataGridViewColumn.HeaderText = fileEntryAttribute.FileFullPath;
-                
+
                 int columnIndexFilename = GetColumnIndex(dataGridView, fileEntryAttribute.FileFullPath);
                 if (columnIndexFilename == -1) //Filename doesn't exist
                 {
@@ -1039,13 +1036,13 @@ namespace DataGridViewGeneric
                         (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //Current version added, then find correct postion
                         (column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ||              //Edit version, move to next column -> edit always first
                         column.FileEntryAttribute.LastWriteDateTime < fileEntryAttribute.LastWriteDateTime)     //Is older, move next -> Newst always frist
-                        )) 
+                        ))
                     {
                         columnIndexFilename += 1;
                     }
 
                     //Move error and historical version back
-                    if (columnIndexFilename < dataGridView.Columns.Count - 1 && 
+                    if (columnIndexFilename < dataGridView.Columns.Count - 1 &&
                         dataGridView.Columns[columnIndexFilename].Tag is DataGridViewGenericColumn column2 &&
                         column2.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&           //Correct filename on column
                         (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //History or Error column added, then find correct postion
@@ -1062,16 +1059,19 @@ namespace DataGridViewGeneric
                     dataGridView.Columns.Insert(columnIndex, dataGridViewColumn);
                 }
 
-                SetCellStatusDefaultColumnWhenAdded(dataGridView, columnIndex, dataGridViewGenericCellStatusDefault); 
+                SetCellStatusDefaultColumnWhenAdded(dataGridView, columnIndex, dataGridViewGenericCellStatusDefault);
                 SetCellBackgroundColorForColumn(dataGridView, columnIndex);
             }
             else
             {
                 DataGridViewGenericColumn currentDataGridViewGenericColumn = GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
-                if (currentDataGridViewGenericColumn == null || currentDataGridViewGenericColumn.Metadata == null)
+                if (currentDataGridViewGenericColumn == null)
                 {
                     currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
+                }
+                else if (currentDataGridViewGenericColumn.Metadata == null)
+                { 
                 }
                 else
                 {
@@ -1080,15 +1080,15 @@ namespace DataGridViewGeneric
                         if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
                         {
                             //Check if old file, due to User click "reload metadata", then newest version has become older that current
-                            if (metadata.FileDateModified <= currentDataGridViewGenericColumn.Metadata.FileDateModified)                             {
-                            isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, do not overwrite
+                            if (metadata.FileDateModified <= currentDataGridViewGenericColumn.Metadata.FileDateModified) {
+                                isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, do not overwrite
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
                             }
                             else if (metadata.FileDateModified == currentDataGridViewGenericColumn.Metadata.FileDateModified)
                             {
                                 isMetadataAlreadyAgregated = true; //Do not refresh, same file is loaded, do not overwrite
                                 currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                            }                            
+                            }
                             else
                             {
                                 isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
@@ -1119,7 +1119,7 @@ namespace DataGridViewGeneric
                     else if (currentDataGridViewGenericColumn.Metadata != null) //Refres, metadata is still null
                     {
                         isMetadataAlreadyAgregated = false;
-                        currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;                        
+                        currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
                         //currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
                     }
                     else //Refres, metadata is still null
@@ -1136,20 +1136,20 @@ namespace DataGridViewGeneric
                 SetCellBackgroundColorForColumn(dataGridView, columnIndex);
 
                 //Hide and show columns
-                 if (isErrorColumn) //Check if error column first, can be historical, and error
+                if (isErrorColumn) //Check if error column first, can be historical, and error
                 {
-                    if (showErrorColumns) 
+                    if (showErrorColumns)
                         dataGridView.Columns[columnIndex].Visible = true;
-                    else 
+                    else
                         dataGridView.Columns[columnIndex].Visible = false;
-                }                
-                else if (isHistoryColumn) 
+                }
+                else if (isHistoryColumn)
                 {
-                    if (showHirstoryColumns) 
+                    if (showHirstoryColumns)
                         dataGridView.Columns[columnIndex].Visible = true;
-                    else 
+                    else
                         dataGridView.Columns[columnIndex].Visible = false;
-                }                
+                }
                 else dataGridView.Columns[columnIndex].Visible = true;
             }
 
@@ -1230,7 +1230,7 @@ namespace DataGridViewGeneric
         #region Rows handling - GetRowDataGridViewGenericRow
         public static DataGridViewGenericRow GetRowDataGridViewGenericRow(DataGridView dataGridView, int rowIndex)
         {
-            if (rowIndex < 0 || rowIndex > GetRowCount(dataGridView) - 1) return null;            
+            if (rowIndex < 0 || rowIndex > GetRowCount(dataGridView) - 1) return null;
             return dataGridView.Rows[rowIndex].HeaderCell.Tag as DataGridViewGenericRow;
         }
         #endregion
@@ -1263,7 +1263,7 @@ namespace DataGridViewGeneric
                 if (dataGridViewGenericRowCheck != null)
                 {
                     if (
-                       dataGridViewGenericRowCheck.IsHeader && 
+                       dataGridViewGenericRowCheck.IsHeader &&
                        dataGridViewGenericRow.IsHeader && //It correct header
                        dataGridViewGenericRow.HeaderName == dataGridViewGenericRowCheck.HeaderName
                        )
@@ -1272,7 +1272,7 @@ namespace DataGridViewGeneric
                         return rowIndex;
                     }
 
-                    if (!dataGridViewGenericRowCheck.IsHeader && 
+                    if (!dataGridViewGenericRowCheck.IsHeader &&
                         !dataGridViewGenericRow.IsHeader && //It correct row
                         dataGridViewGenericRowCheck.HeaderName == dataGridViewGenericRow.HeaderName &&
                         dataGridViewGenericRowCheck.RowName == dataGridViewGenericRow.RowName)
@@ -1283,12 +1283,12 @@ namespace DataGridViewGeneric
 
                     if (sort)
                     {
-                        
+
                         if (dataGridViewGenericRow.IsHeader && //A normal row is add (not header)
-                                                                //dataGridViewGenericRowCheck.IsHeader &&  //If header, then check if same header name
+                                                               //dataGridViewGenericRowCheck.IsHeader &&  //If header, then check if same header name
                             dataGridViewGenericRow.HeaderName.CompareTo(dataGridViewGenericRowCheck.HeaderName) >= 0)
                             lastHeaderRowFound = rowIndex; //Remember head row found
-                        
+
                         //Add sorted
                         if (!dataGridViewGenericRow.IsHeader && //A normal row is add (not header)
                             dataGridViewGenericRowCheck.IsHeader &&  //If header, then check if same header name
@@ -1298,19 +1298,19 @@ namespace DataGridViewGeneric
                         if (!dataGridViewGenericRow.IsHeader && //A normal row is add (not header)
                             !dataGridViewGenericRowCheck.IsHeader &&  //If header, then check if same header name
                             dataGridViewGenericRowCheck.HeaderName == dataGridViewGenericRow.HeaderName &&
-                            dataGridViewGenericRow.RowName.CompareTo(dataGridViewGenericRowCheck.RowName) >= 0) 
+                            dataGridViewGenericRow.RowName.CompareTo(dataGridViewGenericRowCheck.RowName) >= 0)
                             lastHeaderRowFound = rowIndex; //If lower or eaual, remeber last
                     }
                     else
                     {
                         //Add last
                         if (!dataGridViewGenericRow.IsHeader && //Remmeber last row found with same header name, regardless of header or just value row
-                            //dataGridViewGenericRowCheck.IsHeader && - No need to check
+                                                                //dataGridViewGenericRowCheck.IsHeader && - No need to check
                             dataGridViewGenericRowCheck.HeaderName == dataGridViewGenericRow.HeaderName
                             )
                             lastHeaderRowFound = rowIndex;
                     }
-                    
+
 
                 }
 
@@ -1325,7 +1325,7 @@ namespace DataGridViewGeneric
         {
             for (int rowIndex = 0; rowIndex < GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
-                if (dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow dataGridViewGenericRowCheck && 
+                if (dataGridView.Rows[rowIndex].HeaderCell.Tag is DataGridViewGenericRow dataGridViewGenericRowCheck &&
                     dataGridViewGenericRowCheck == dataGridViewGenericRow) return rowIndex;
             }
             return -1;
@@ -1362,7 +1362,7 @@ namespace DataGridViewGeneric
 
             foreach (DataGridViewGenericRowAndValue dataGridViewGenericRowAndValue in dataGridViewGenericRowAndValueList)
             {
-                int rowIndex = AddRow(dataGridView, columnIndex, dataGridViewGenericRowAndValue.DataGridViewGenericRow, 
+                int rowIndex = AddRow(dataGridView, columnIndex, dataGridViewGenericRowAndValue.DataGridViewGenericRow,
                     GetFavoriteList(dataGridView),
                     dataGridViewGenericRowAndValue.DataGridViewGenericCell.Value,
                     dataGridViewGenericRowAndValue.DataGridViewGenericCell.CellStatus, 0, true, sort);
@@ -1437,7 +1437,7 @@ namespace DataGridViewGeneric
         {
             bool rowFound;
             int rowIndex;
-            if (forceAddAfterStartSearchRow) 
+            if (forceAddAfterStartSearchRow)
             {
                 rowIndex = startSearchRow;
                 rowFound = false;
@@ -1447,10 +1447,10 @@ namespace DataGridViewGeneric
             if (!rowFound) //If not found, add a new row
             {
                 if (rowIndex == -1)
-                { 
+                {
                     if (sort) rowIndex = startSearchRow; //if sorting, add in begging of search
                     else rowIndex = GetRowCountWithoutEditRow(dataGridView); //If not sorting, add last line
-                } 
+                }
                 else rowIndex++; //add row after found line
 
                 if (rowIndex != -1)
@@ -1459,11 +1459,11 @@ namespace DataGridViewGeneric
                     SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, dataGridViewGenericRow);
                     SetCellStatusDefaultWhenRowAdded(dataGridView, rowIndex, dataGridViewGenericCellStatusDefault);
                 }
-                else 
+                else
                 {
                     //When dataGridView is still empty, or got cleaned: Why does thus occure
                 }
-                
+
             }
 
             bool isValueUpdated = false;
@@ -1479,7 +1479,7 @@ namespace DataGridViewGeneric
                     }
                 }
                 if (isValueUpdated && dataGridViewGenericRow.IsMultiLine) dataGridView.Columns[columnIndex].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            } 
+            }
             else dataGridViewGenericCellStatusDefault.CellReadOnly = true;
 
             SetRowFavoriteFlag(dataGridView, rowIndex, dataGridFavorites);
@@ -1493,7 +1493,7 @@ namespace DataGridViewGeneric
             }
 
             SetCellBackGroundColorForRow(dataGridView, rowIndex);
-       
+
 
             return rowIndex;
         }
@@ -1655,9 +1655,14 @@ namespace DataGridViewGeneric
         #region Row handling - Favorite handling - SetRowFavoriteFlag
         private static void SetRowFavoriteFlag(DataGridView dataGridView, int rowIndex, List<FavoriteRow> dataGridFavorites)
         {
-            DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-
-            dataGridViewGenericRow.IsFavourite = dataGridFavorites.Contains(new FavoriteRow(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName, dataGridViewGenericRow.IsHeader));
+            if (rowIndex >= 0)
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                dataGridViewGenericRow.IsFavourite = dataGridFavorites.Contains(new FavoriteRow(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName, dataGridViewGenericRow.IsHeader));
+            } else
+            {
+                //DEBUG
+            }
         }
         #endregion
 
@@ -2015,9 +2020,15 @@ namespace DataGridViewGeneric
         #region Cell Handling - SetCellBackGroundColorForRow - int rowIndex
         public static void SetCellBackGroundColorForRow(DataGridView dataGridView, int rowIndex)
         {
-            foreach (DataGridViewCell dataGridCell in dataGridView.Rows[rowIndex].Cells)
+            if (rowIndex >= 0)
             {
-                SetCellBackGroundColor(dataGridView, dataGridCell.ColumnIndex, rowIndex);
+                foreach (DataGridViewCell dataGridCell in dataGridView.Rows[rowIndex].Cells)
+                {
+                    SetCellBackGroundColor(dataGridView, dataGridCell.ColumnIndex, rowIndex);
+                }
+            }
+            else { 
+                //DEBUG
             }
         }
         #endregion

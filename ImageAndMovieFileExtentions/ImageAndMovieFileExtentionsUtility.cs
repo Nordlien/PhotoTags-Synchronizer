@@ -8,11 +8,14 @@ using System;
 using System.Text;
 using System.Globalization;
 using Manina.Windows.Forms;
+using LibVLCSharp.Shared;
 
 namespace ImageAndMovieFileExtentions
 {
     public static class ImageAndMovieFileExtentionsUtility 
     {
+       
+
         public static Image LoadImage(string fullFilename)
         {
             Bitmap imageReturn = null;

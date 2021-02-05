@@ -2,9 +2,7 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using MetadataLibrary;
-using Manina.Windows.Forms;
 using System.Threading;
-using Exiftool;
 
 namespace PhotoTagsSynchronizer
 {
