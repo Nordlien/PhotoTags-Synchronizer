@@ -1432,15 +1432,15 @@ namespace MetadataLibrary
             if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null             
             return null;
         }
-        #endregion 
+        #endregion
 
-        
-
+        #region Cache Metadata - MetadataHasBeenRead
         public bool MetadataHasBeenRead(FileEntryBroker fileEntryBroker)
         {
             if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
             return metadataCache.ContainsKey(fileEntryBroker);
         }
+        #endregion 
 
         #region Cache Metadata - Updated
         private void MetadataCacheUpdate(FileEntryBroker fileEntryBroker, Metadata metadata)
@@ -1456,6 +1456,7 @@ namespace MetadataLibrary
         #endregion 
 
         #endregion
+
         #region Cache Metadata - Remove
         private void MetadataCacheRemoveMetadataCacheRemove(FileEntryBroker fileEntryBroker)
         {
@@ -1520,27 +1521,6 @@ namespace MetadataLibrary
             } while (found);
         }
         #endregion 
-
-        /*
-        #region Cache Metadata - Clear
-        public void MetadataCacheClear()
-        {
-            metadataCache = null;
-            metadataCache = new Dictionary<FileEntryBroker, Metadata>();
-        }
-        #endregion
-
-        #region Cache - Clear
-        public void ClearCache()
-        {
-            MetadataCacheClear();
-            MetadataRegionNamesCacheClear();
-            ListFileEntryAttributesCacheClear();
-            ListAllPersonalRegionNameCountCacheClear();
-        }
-        #endregion 
-        */
-        
 
     }
 }

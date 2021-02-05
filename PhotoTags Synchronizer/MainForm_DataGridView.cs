@@ -61,7 +61,6 @@ namespace PhotoTagsSynchronizer
                 this.BeginInvoke(new Action<FileEntryAttribute, Image>(UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke), fileEntryAttribute, image);
                 return;
             }
-            //if (GlobalData.IsPopulatingAnything()) return;
 
             DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
             if (dataGridView == null) return;
@@ -90,25 +89,7 @@ namespace PhotoTagsSynchronizer
                 }
                 
             }
-            //AddQueueLazyLoadningMetadata(lazyLoadingMissedUpdatedDueToThread);
         }
-
-        /*
-        #region DataGridView - Refresh Header Image And Regions - OnActiveDataGridView        
-        private void RefreshHeaderImageAndRegionsOnActiveDataGridView(FileEntryAttribute fileEntryAttribute)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<FileEntryAttribute>(RefreshHeaderImageAndRegionsOnActiveDataGridView), fileEntryAttribute);
-                return;
-            }
-
-            if (GlobalData.IsPopulatingAnything()) return;
-            DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
-            DataGridViewHandler.RefreshImageForMediaFullFilename(dataGridView, fileEntryAttribute.FileFullPath);
-        }
-        #endregion
-        */
 
         #region DataGridVIew - IsActiveDataGridViewAgregated
         private bool IsActiveDataGridViewAgregated(string tag)
@@ -144,47 +125,6 @@ namespace PhotoTagsSynchronizer
             return isAgregated;
         }
         #endregion
-
-        /*
-        #region DataGridView - DataGridViewSuspendInvoke
-        private void DataGridViewSuspendInvoke()
-        {
-            if (!this.IsHandleCreated) return;
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action(DataGridViewSuspendInvoke));
-                return;
-            }
-            string tag = tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
-            DataGridView dataGridView = GetDataGridViewForTag(tag);
-            int threadLazyLoadingQueueSize = ThreadLazyLoadingQueueSize();
-            DataGridViewHandler.SuspendLayout(dataGridView, threadLazyLoadingQueueSize);
-            LoadDataGridViewProgerss(threadLazyLoadingQueueSize);
-        }
-        #endregion 
-
-        #region DataGridView - DataGridViewResumeInvoke
-        private void DataGridViewResumeInvoke()
-        {
-            if (!this.IsHandleCreated) return;
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action(DataGridViewResumeInvoke));
-                return;
-            }
-            string tag = tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
-            DataGridView dataGridView = GetDataGridViewForTag(tag);
-
-            int threadLazyLoadingQueueSize = ThreadLazyLoadingQueueSize();
-            if (DataGridViewHandler.ResumeLayout(dataGridView, threadLazyLoadingQueueSize))
-            {
-                PopulateDataGridViewForSelectedItemsExtrasInvoke();
-                LoadDataGridViewProgerss(threadLazyLoadingQueueSize);
-            }
-            
-        }
-        #endregion 
-        */
 
         #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
         private void PopulateDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, int queueCount = 0)
@@ -267,13 +207,10 @@ namespace PhotoTagsSynchronizer
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }
 
-            
             AddQueueLazyLoadningMetadata(lazyLoadingAllExiftoolVersionOfMediaFile);
             AddQueueLazyLoadningThumbnail(lazyLoadingAllExiftoolVersionOfMediaFile);
         }
         #endregion 
-
-        
 
         #region DataGridView - PopulateDataGridViewForSelectedItemsExtrasInvoke
         private void PopulateDataGridViewForSelectedItemsExtrasInvoke()

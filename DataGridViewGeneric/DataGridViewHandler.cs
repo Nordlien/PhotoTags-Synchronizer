@@ -678,12 +678,14 @@ namespace DataGridViewGeneric
             else if (suspendCount < 0) suspendCount = 0;
             return didResume;
         }
-        #endregion 
+        #endregion
 
+        #region Focus
         public static void Focus(DataGridView dataGridView)
         {
             dataGridView.Focus();
         }
+        #endregion 
 
         #endregion
 
@@ -1068,68 +1070,85 @@ namespace DataGridViewGeneric
 
                 if (currentDataGridViewGenericColumn == null)
                 {
+                    //Why do this happend
                     currentDataGridViewGenericColumn = new DataGridViewGenericColumn(fileEntryAttribute, thumbnail, metadata, readWriteAccessForColumn);
+                    
                 }
-                else if (currentDataGridViewGenericColumn.Metadata == null)
-                { 
-                }
-                else
+                //else if (currentDataGridViewGenericColumn.Metadata == null)
+                //{
+                //    currentDataGridViewGenericColumn.Metadata = metadata;
+                //}
+                //else
+                //{
+                //New data has arrived for Edit Column
+                if (metadata != null && currentDataGridViewGenericColumn.Metadata != null && !isHistoryColumn)
                 {
-                    if (metadata != null && currentDataGridViewGenericColumn.Metadata != null && !isHistoryColumn)
+                    if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
                     {
-                        if (IsDataGridViewDirty(dataGridView, columnIndex)) //That means, data was changed by user and trying to make changes to "past"
+                        //Check if old file, due to User click "reload metadata", then newest version has become older that current
+                        if (metadata.FileDateModified <= currentDataGridViewGenericColumn.Metadata.FileDateModified)
                         {
-                            //Check if old file, due to User click "reload metadata", then newest version has become older that current
-                            if (metadata.FileDateModified <= currentDataGridViewGenericColumn.Metadata.FileDateModified) {
-                                isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                            }
-                            else if (metadata.FileDateModified == currentDataGridViewGenericColumn.Metadata.FileDateModified)
-                            {
-                                isMetadataAlreadyAgregated = true; //Do not refresh, same file is loaded, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                            }
-                            else
-                            {
-                                isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
-                            }
+                            isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, do not overwrite
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                        }
+                        else if (metadata.FileDateModified == currentDataGridViewGenericColumn.Metadata.FileDateModified)
+                        {
+                            isMetadataAlreadyAgregated = true; //Do not refresh, same file is loaded, do not overwrite
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
                         }
                         else
                         {
-                            //Check if old file, due to User click "reload metadata", then newest version has become older that current
-                            if (metadata.FileDateModified < currentDataGridViewGenericColumn.Metadata.FileDateModified)
-                            {
-                                isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                            }
-                            else if (metadata.FileDateModified == currentDataGridViewGenericColumn.Metadata.FileDateModified)
-                            {
-                                isMetadataAlreadyAgregated = true; //Do not refresh, due to equal file, do not overwrite
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
-                            }
-                            else
-                            {
-                                isMetadataAlreadyAgregated = false; //Refresh with newst data
-                                currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
-                                currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
-                            }
+                            isMetadataAlreadyAgregated = true; //Do not refresh, due to DataGrid are changed by user, do not overwrite
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = true; //Warn, new files can't be shown
                         }
                     }
-                    else if (currentDataGridViewGenericColumn.Metadata != null) //Refres, metadata is still null
+                    else
                     {
-                        isMetadataAlreadyAgregated = false;
-                        currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                        //currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
+                        //Check if old file, due to User click "reload metadata", then newest version has become older that current
+                        if (metadata.FileDateModified < currentDataGridViewGenericColumn.Metadata.FileDateModified)
+                        {
+                            isMetadataAlreadyAgregated = true; //Do not refresh, due to old file, do not overwrite
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                        }
+                        else if (metadata.FileDateModified == currentDataGridViewGenericColumn.Metadata.FileDateModified)
+                        {
+                            isMetadataAlreadyAgregated = true; //Do not refresh, due to equal file, do not overwrite
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warning needed
+                        }
+                        else
+                        {
+                            isMetadataAlreadyAgregated = false; //Refresh with newst data
+                            currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false; //No warnings needed, just updated datagrid with new data
+                            currentDataGridViewGenericColumn.Metadata = metadata; //Keep newest version
+                        }
                     }
-                    else //Refres, metadata is still null
-                    {
-                        isMetadataAlreadyAgregated = false;
-                        currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
-                        currentDataGridViewGenericColumn.Metadata = metadata; //                    
-                    }
-
                 }
+                //metadata != null && currentDataGridViewGenericColumn.Metadata != null && !isHistoryColumn
+                else if (currentDataGridViewGenericColumn.Metadata != null && metadata != null)   
+                {
+                    isMetadataAlreadyAgregated = false;
+                    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+                    //currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
+                }
+                else if (currentDataGridViewGenericColumn.Metadata != null && metadata == null)
+                {
+                    isMetadataAlreadyAgregated = true;
+                    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+                    //currentDataGridViewGenericColumn.Metadata = metadata; //Keep this version
+                }
+                //When e.g. 
+                else //if (currentDataGridViewGenericColumn.Metadata == null )
+                {
+                    isMetadataAlreadyAgregated = false;
+                    currentDataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning = false;
+                    currentDataGridViewGenericColumn.Metadata = metadata;
+                    
+                }
+
+                if (currentDataGridViewGenericColumn.FileEntryAttribute != fileEntryAttribute) 
+                    currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute;
+                                                                                               
+                currentDataGridViewGenericColumn.Thumbnail = thumbnail;
                 currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
                 dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
 

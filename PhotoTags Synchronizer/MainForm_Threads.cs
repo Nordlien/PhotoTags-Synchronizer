@@ -362,6 +362,7 @@ namespace PhotoTagsSynchronizer
                                     throw new Exception("Not implemeneted");
 
                             }
+
                             if (readColumn)
                             {
                                 if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool)) == null)
