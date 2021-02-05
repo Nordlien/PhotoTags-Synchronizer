@@ -274,7 +274,7 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Refreh Folder - Click
         private void toolStripMenuItemRefreshFolder_Click(object sender, EventArgs e)
         {
-            PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
+            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -781,7 +781,7 @@ namespace PhotoTagsSynchronizer
             TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
             filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
             GlobalData.DoNotRefreshImageListView = false;
-            PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
+            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -789,7 +789,7 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Refresh - Items in listview 
         private void toolStripMenuItemTreeViewFolderReadSubfolders_Click(object sender, EventArgs e)
         {
-            PopulateImageListViewBasedOnSleectedFolderAndOrFilter(true, true);
+            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(true, true);
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -949,7 +949,7 @@ namespace PhotoTagsSynchronizer
                     "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
                     filesCutCopyPasteDrag.DeleteFilesInFolder(folderTreeViewFolder, folder);
-                    PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
+                    PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
                 }
             }
             catch (Exception ex)
@@ -1098,8 +1098,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsDragAndDropActive) return;
             if (GlobalData.DoNotRefreshImageListView) return;
 
-            
-            PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
+            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
         }
         #endregion 
 
@@ -1301,7 +1300,7 @@ namespace PhotoTagsSynchronizer
                             GlobalData.DoNotRefreshImageListView = false;
 
                             //----- Updated ImageListView with files ------
-                            PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
+                            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
                         }
                         else //Copied or NOT (cancel) a folder to new location in eg. Windows Explorer
                         {

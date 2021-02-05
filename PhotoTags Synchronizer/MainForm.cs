@@ -414,12 +414,11 @@ namespace PhotoTagsSynchronizer
             if (Directory.Exists(folder))
                 folderTreeViewFolder.DrillToFolder(folder);
             else
-                folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
-            
+                folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];            
             GlobalData.IsPopulatingFolderTree = false;
 
             SplashForm.UpdateStatus("Populate filters...");
-            PopulateDatabaseFilter();
+            //PopulateDatabaseFilter();
 
             SplashForm.CloseForm();
 
@@ -438,10 +437,12 @@ namespace PhotoTagsSynchronizer
         {
             isFormLoading = false;
 
-            List<FileEntry> imageListViewFileEntryItems = ImageListViewAggregateWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
+            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
+            //List<FileEntry> imageListViewFileEntryItems = ImageListViewAggregateWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
+
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
 
-            PopulateTreeViewFolderFilterThread(imageListViewFileEntryItems);
+            //PopulateTreeViewFolderFilterThread(imageListViewFileEntryItems);
         }
 
 

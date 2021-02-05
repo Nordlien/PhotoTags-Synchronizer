@@ -13,7 +13,7 @@ namespace PhotoTagsSynchronizer
         #region FolderSelected or FilterSearch clicked
 
         #region FolderSelected - Populate DataGridView, ImageListView 
-        private void PopulateImageListViewBasedOnSleectedFolderAndOrFilter(bool recursive, bool runPopulateFilter)
+        private void PopulateImageListViewBasedOnSelectedFolderAndOrFilter(bool recursive, bool runPopulateFilter)
         {
             if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new
             {

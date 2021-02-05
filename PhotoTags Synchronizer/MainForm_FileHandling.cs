@@ -199,7 +199,7 @@ namespace PhotoTagsSynchronizer
                 }
 
                 //----- Updated ImageListView with files ------
-                PopulateImageListViewBasedOnSleectedFolderAndOrFilter(false, true);
+                PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
 
             }
             catch (Exception ex)
