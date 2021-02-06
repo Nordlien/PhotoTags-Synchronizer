@@ -292,4 +292,25 @@
   <data name="FileInCloud" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FileInCloud.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Chromecast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Chromecast.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Media_Next" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Media_Next.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Media_Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Media_Pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Media_Play" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Media_Play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Media_Preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Media_Preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Media_Previous" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Media_Previous.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Media_Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Media_Stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

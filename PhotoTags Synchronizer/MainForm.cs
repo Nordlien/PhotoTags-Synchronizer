@@ -18,6 +18,8 @@ using MicrosoftPhotos;
 using DataGridViewGeneric;
 using LocationNames;
 using System.Collections.Generic;
+using LibVLCSharp.Shared;
+using System.Linq;
 
 namespace PhotoTagsSynchronizer
 {
@@ -68,6 +70,11 @@ namespace PhotoTagsSynchronizer
 
         private RendererItem defaultRendererItem;
 
+        //VLC
+        private LibVLC _libVLC;
+        private MediaPlayer _mediaPlayer;
+        private RendererDiscoverer _rendererDiscoverer;
+        private List<LibVLCSharp.Shared.RendererItem> _rendererItems = new List<LibVLCSharp.Shared.RendererItem>();
 
         //Avoid flickering
         private bool isFormLoading = true;                  //Avoid flicker and on change events going in loop
@@ -79,8 +86,26 @@ namespace PhotoTagsSynchronizer
         public MainForm()
         {
 
-            SplashForm.UpdateStatus("Initialize component..."); //6 
+            SplashForm.UpdateStatus("Initialize VLC player...");  
+
+            if (!DesignMode) Core.Initialize();
+
+            SplashForm.UpdateStatus("Initialize component..."); 
             InitializeComponent();
+
+            //VLC
+            _libVLC = new LibVLC();
+            _mediaPlayer = new MediaPlayer(_libVLC);
+            videoView1.MediaPlayer = _mediaPlayer;
+
+            RendererDescription renderer;
+            renderer = _libVLC.RendererList.FirstOrDefault(r => r.Name.Equals("microdns_renderer"));
+
+            _rendererDiscoverer = new RendererDiscoverer(_libVLC, renderer.Name);
+            _rendererDiscoverer.ItemAdded += _rendererDiscoverer_ItemAdded;
+            _rendererDiscoverer.ItemDeleted += _rendererDiscoverer_ItemDeleted;
+            _rendererDiscoverer.Start();
+
             //treeViewFilter = new TreeWithoutDoubleClick();
 
             imageListView1.ThumbnailSize = thumbnailSizes[Properties.Settings.Default.ThumbmailViewSizeIndex];
@@ -248,6 +273,10 @@ namespace PhotoTagsSynchronizer
             fileSystemWatcher.Renamed += new RenamedEventHandler(FileSystemWatcherOnRenamed);
             */
         }
+
+        
+
+
         #endregion
 
         #region Resize and restore windows size when reopen application        
@@ -447,11 +476,34 @@ namespace PhotoTagsSynchronizer
 
 
 
+
+
+
         #endregion
 
-      
 
-      
+        private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panelMediaPreview.Dock = DockStyle.Fill;
+            panelMediaPreview.Visible = !panelMediaPreview.Visible;
+
+        }
+
+        private void _rendererDiscoverer_ItemAdded(object sender, RendererDiscovererItemAddedEventArgs e)
+        {
+            Console.WriteLine($"New item discovered: {e.RendererItem.Name} of type {e.RendererItem.Type}");
+            if (e.RendererItem.CanRenderVideo) Console.WriteLine("Can render video");
+            if (e.RendererItem.CanRenderAudio) Console.WriteLine("Can render audio");
+            Console.WriteLine("Chromecast icon: " + (e.RendererItem.IconUri == null ? "" : e.RendererItem.IconUri));
+            // add newly found renderer item to local collection
+            if (e.RendererItem.CanRenderVideo && !_rendererItems.Contains(e.RendererItem)) _rendererItems.Add(e.RendererItem);
+        }
+
+        private void _rendererDiscoverer_ItemDeleted(object sender, RendererDiscovererItemDeletedEventArgs e)
+        {
+            if (_rendererItems.Contains(e.RendererItem)) _rendererItems.Remove(e.RendererItem);
+        }
+
     }
 }
 
