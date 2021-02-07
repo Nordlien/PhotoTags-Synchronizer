@@ -3497,7 +3497,7 @@ namespace PhotoTagsSynchronizer
             this.pictureBoxPreview.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxPreview.Name = "pictureBoxPreview";
             this.pictureBoxPreview.Size = new System.Drawing.Size(357, 544);
-            this.pictureBoxPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxPreview.TabIndex = 0;
             this.pictureBoxPreview.TabStop = false;
             // 
@@ -3706,7 +3706,6 @@ namespace PhotoTagsSynchronizer
             this.toolStrip.PerformLayout();
             this.panelMediaPreview.ResumeLayout(false);
             this.toolStripContainer2.ContentPanel.ResumeLayout(false);
-            this.toolStripContainer2.ContentPanel.PerformLayout();
             this.toolStripContainer2.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer2.TopToolStripPanel.PerformLayout();
             this.toolStripContainer2.ResumeLayout(false);

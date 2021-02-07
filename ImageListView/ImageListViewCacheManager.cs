@@ -982,11 +982,14 @@ namespace Manina.Windows.Forms
                     {
                         try
                         {
-                            if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && !stoppingBackgroundThreads)
+                            try
                             {
-                                mImageListView.Invoke(new RefreshDelegateInternal(
-                                mImageListView.OnRefreshInternal));                                
-                            }
+                                if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && !stoppingBackgroundThreads)
+                                {
+                                    mImageListView.Invoke(new RefreshDelegateInternal(
+                                    mImageListView.OnRefreshInternal));
+                                }
+                            } catch { }
                             sw.Reset();
                         }
                         catch (ObjectDisposedException ex)

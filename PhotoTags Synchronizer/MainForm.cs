@@ -521,6 +521,7 @@ namespace PhotoTagsSynchronizer
             {
                 canPlayAndPause = true;
                 videoView1.MediaPlayer.Play(new Media(_libVLC, fullFilename, FromType.FromPath));
+                
                 videoView1.Visible = true;
                 pictureBoxPreview.Visible = false;
                 
