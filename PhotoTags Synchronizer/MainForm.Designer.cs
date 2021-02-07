@@ -31,10 +31,10 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -44,6 +44,7 @@ namespace PhotoTagsSynchronizer
             this.splitContainerFolder = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageFilterFolder = new System.Windows.Forms.TabPage();
+            this.folderTreeViewFolder = new Furty.Windows.Forms.FolderTreeView();
             this.contextMenuStripTreeViewFolder = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemTreeViewFolderCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,7 +107,9 @@ namespace PhotoTagsSynchronizer
             this.label10 = new System.Windows.Forms.Label();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.tabPageFilterTags = new System.Windows.Forms.TabPage();
+            this.treeViewFilter = new DragNDrop.TreeViewWithoutDoubleClick();
             this.splitContainerImages = new System.Windows.Forms.SplitContainer();
+            this.imageListView1 = new Manina.Windows.Forms.ImageListView();
             this.contextMenuStripImageListView = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemImageListViewCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -302,6 +305,9 @@ namespace PhotoTagsSynchronizer
             this.timerStatusUpdate = new System.Windows.Forms.Timer(this.components);
             this.timerUpdateDataGridViewLoadingProgressbarRemove = new System.Windows.Forms.Timer(this.components);
             this.panelMediaPreview = new System.Windows.Forms.Panel();
+            this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
+            this.videoView1 = new LibVLCSharp.WinForms.VideoView();
+            this.pictureBoxPreview = new System.Windows.Forms.PictureBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonMediaPreviewPrevious = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewNext = new System.Windows.Forms.ToolStripButton();
@@ -310,13 +316,9 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewStop = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewChromecast = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButtonChromecastList = new System.Windows.Forms.ToolStripDropDownButton();
-            this.tv1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMediaChromecast = new System.Windows.Forms.ToolStripMenuItem();
             this.tv2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.folderTreeViewFolder = new Furty.Windows.Forms.FolderTreeView();
-            this.treeViewFilter = new DragNDrop.TreeViewWithoutDoubleClick();
-            this.imageListView1 = new Manina.Windows.Forms.ImageListView();
-            this.videoView1 = new LibVLCSharp.WinForms.VideoView();
+            this.toolStripDropDownButtonMediaList = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -377,9 +379,12 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRename)).BeginInit();
             this.toolStrip.SuspendLayout();
             this.panelMediaPreview.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.toolStripContainer2.ContentPanel.SuspendLayout();
+            this.toolStripContainer2.TopToolStripPanel.SuspendLayout();
+            this.toolStripContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -503,6 +508,25 @@ namespace PhotoTagsSynchronizer
             this.tabPageFilterFolder.TabIndex = 0;
             this.tabPageFilterFolder.Text = "Folder";
             this.tabPageFilterFolder.UseVisualStyleBackColor = true;
+            // 
+            // folderTreeViewFolder
+            // 
+            this.folderTreeViewFolder.AllowDrop = true;
+            this.folderTreeViewFolder.ContextMenuStrip = this.contextMenuStripTreeViewFolder;
+            this.folderTreeViewFolder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.folderTreeViewFolder.HideSelection = false;
+            this.folderTreeViewFolder.ItemHeight = 16;
+            this.folderTreeViewFolder.Location = new System.Drawing.Point(3, 3);
+            this.folderTreeViewFolder.Name = "folderTreeViewFolder";
+            this.folderTreeViewFolder.Size = new System.Drawing.Size(324, 856);
+            this.folderTreeViewFolder.TabIndex = 0;
+            this.folderTreeViewFolder.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.folderTreeViewFolder_ItemDrag);
+            this.folderTreeViewFolder.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.folderTreeView1_AfterSelect);
+            this.folderTreeViewFolder.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.folderTreeViewFolder_NodeMouseClick);
+            this.folderTreeViewFolder.DragDrop += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragDrop);
+            this.folderTreeViewFolder.DragEnter += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragEnter);
+            this.folderTreeViewFolder.DragOver += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragOver);
+            this.folderTreeViewFolder.DragLeave += new System.EventHandler(this.folderTreeViewFolder_DragLeave);
             // 
             // contextMenuStripTreeViewFolder
             // 
@@ -1204,6 +1228,22 @@ namespace PhotoTagsSynchronizer
             this.tabPageFilterTags.Text = "Filter";
             this.tabPageFilterTags.UseVisualStyleBackColor = true;
             // 
+            // treeViewFilter
+            // 
+            this.treeViewFilter.CheckBoxes = true;
+            this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
+            this.treeViewFilter.Name = "treeViewFilter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
+            this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
+            this.treeViewFilter.TabIndex = 0;
+            this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
+            this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
+            // 
             // splitContainerImages
             // 
             this.splitContainerImages.BackColor = System.Drawing.Color.Black;
@@ -1225,6 +1265,31 @@ namespace PhotoTagsSynchronizer
             this.splitContainerImages.SplitterWidth = 10;
             this.splitContainerImages.TabIndex = 0;
             this.splitContainerImages.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerImages_SplitterMoved);
+            // 
+            // imageListView1
+            // 
+            this.imageListView1.AllowDrag = true;
+            this.imageListView1.AllowDrop = true;
+            this.imageListView1.CacheLimit = "0";
+            this.imageListView1.CacheMode = Manina.Windows.Forms.CacheMode.Continuous;
+            this.imageListView1.ContextMenuStrip = this.contextMenuStripImageListView;
+            this.imageListView1.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.DefaultImage")));
+            this.imageListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageListView1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.ErrorImage")));
+            this.imageListView1.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.imageListView1.ImeMode = System.Windows.Forms.ImeMode.Katakana;
+            this.imageListView1.Location = new System.Drawing.Point(0, 0);
+            this.imageListView1.Name = "imageListView1";
+            this.imageListView1.RetryOnError = false;
+            this.imageListView1.Size = new System.Drawing.Size(484, 892);
+            this.imageListView1.TabIndex = 1;
+            this.imageListView1.Text = "";
+            this.imageListView1.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView1_ItemDoubleClick);
+            this.imageListView1.SelectionChanged += new System.EventHandler(this.imageListView1_SelectionChanged);
+            this.imageListView1.ThumbnailCaching += new Manina.Windows.Forms.ThumbnailCachingEventHandler(this.imageListView1_ThumbnailCaching);
+            this.imageListView1.RetrieveItemImage += new Manina.Windows.Forms.RetrieveItemImageEventHandler(this.imageListView1_RetrieveImage);
+            this.imageListView1.RetrieveItemThumbnail += new Manina.Windows.Forms.RetrieveItemThumbnailEventHandler(this.imageListView1_RetrieveItemThumbnail);
+            this.imageListView1.RetrieveItemMetadataDetails += new Manina.Windows.Forms.RetrieveItemMetadataDetailsEventHandler(this.imageListView1_RetrieveItemMetadataDetails);
             // 
             // contextMenuStripImageListView
             // 
@@ -2287,14 +2352,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewMap.ColumnHeadersHeight = 29;
             this.dataGridViewMap.ContextMenuStrip = this.contextMenuStripMap;
             this.dataGridViewMap.GridColor = System.Drawing.SystemColors.AppWorkspace;
@@ -2751,14 +2816,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.AllowUserToAddRows = false;
             this.dataGridViewExifToolWarning.ColumnHeadersHeight = 29;
             this.dataGridViewExifToolWarning.ContextMenuStrip = this.contextMenuStripExiftoolWarning;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewExifToolWarning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewExifToolWarning.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewExifToolWarning.Name = "dataGridViewExifToolWarning";
@@ -3389,17 +3454,56 @@ namespace PhotoTagsSynchronizer
             // 
             // panelMediaPreview
             // 
-            this.panelMediaPreview.Controls.Add(this.toolStrip1);
-            this.panelMediaPreview.Controls.Add(this.videoView1);
-            this.panelMediaPreview.Controls.Add(this.pictureBox2);
-            this.panelMediaPreview.Location = new System.Drawing.Point(1102, 0);
+            this.panelMediaPreview.Controls.Add(this.toolStripContainer2);
+            this.panelMediaPreview.Location = new System.Drawing.Point(1030, 0);
             this.panelMediaPreview.Name = "panelMediaPreview";
-            this.panelMediaPreview.Size = new System.Drawing.Size(285, 630);
+            this.panelMediaPreview.Size = new System.Drawing.Size(357, 571);
             this.panelMediaPreview.TabIndex = 7;
             this.panelMediaPreview.Visible = false;
             // 
+            // toolStripContainer2
+            // 
+            // 
+            // toolStripContainer2.ContentPanel
+            // 
+            this.toolStripContainer2.ContentPanel.Controls.Add(this.videoView1);
+            this.toolStripContainer2.ContentPanel.Controls.Add(this.pictureBoxPreview);
+            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(357, 544);
+            this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer2.Name = "toolStripContainer2";
+            this.toolStripContainer2.Size = new System.Drawing.Size(357, 571);
+            this.toolStripContainer2.TabIndex = 3;
+            this.toolStripContainer2.Text = "toolStripContainer2";
+            // 
+            // toolStripContainer2.TopToolStripPanel
+            // 
+            this.toolStripContainer2.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            // 
+            // videoView1
+            // 
+            this.videoView1.BackColor = System.Drawing.Color.Black;
+            this.videoView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.videoView1.Location = new System.Drawing.Point(0, 0);
+            this.videoView1.MediaPlayer = null;
+            this.videoView1.Name = "videoView1";
+            this.videoView1.Size = new System.Drawing.Size(357, 544);
+            this.videoView1.TabIndex = 2;
+            this.videoView1.Text = "videoView1";
+            // 
+            // pictureBoxPreview
+            // 
+            this.pictureBoxPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxPreview.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxPreview.Name = "pictureBoxPreview";
+            this.pictureBoxPreview.Size = new System.Drawing.Size(357, 544);
+            this.pictureBoxPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxPreview.TabIndex = 0;
+            this.pictureBoxPreview.TabStop = false;
+            // 
             // toolStrip1
             // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonMediaPreviewPrevious,
@@ -3408,11 +3512,12 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewPause,
             this.toolStripButtonMediaPreviewStop,
             this.toolStripButtonMediaPreviewChromecast,
-            this.toolStripDropDownButtonChromecastList});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripDropDownButtonChromecastList,
+            this.toolStripDropDownButtonMediaList});
+            this.toolStrip1.Location = new System.Drawing.Point(4, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(285, 27);
-            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Size = new System.Drawing.Size(255, 27);
+            this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolStripButtonMediaPreviewPrevious
@@ -3423,6 +3528,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewPrevious.Name = "toolStripButtonMediaPreviewPrevious";
             this.toolStripButtonMediaPreviewPrevious.Size = new System.Drawing.Size(29, 24);
             this.toolStripButtonMediaPreviewPrevious.Text = "Previous";
+            this.toolStripButtonMediaPreviewPrevious.Click += new System.EventHandler(this.toolStripButtonMediaPreviewPrevious_Click);
             // 
             // toolStripButtonMediaPreviewNext
             // 
@@ -3432,6 +3538,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewNext.Name = "toolStripButtonMediaPreviewNext";
             this.toolStripButtonMediaPreviewNext.Size = new System.Drawing.Size(29, 24);
             this.toolStripButtonMediaPreviewNext.Text = "Next";
+            this.toolStripButtonMediaPreviewNext.Click += new System.EventHandler(this.toolStripButtonMediaPreviewNext_Click);
             // 
             // toolStripButtonMediaPreviewPlay
             // 
@@ -3441,6 +3548,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewPlay.Name = "toolStripButtonMediaPreviewPlay";
             this.toolStripButtonMediaPreviewPlay.Size = new System.Drawing.Size(29, 24);
             this.toolStripButtonMediaPreviewPlay.Text = "Play";
+            this.toolStripButtonMediaPreviewPlay.Click += new System.EventHandler(this.toolStripButtonMediaPreviewPlay_Click);
             // 
             // toolStripButtonMediaPreviewPause
             // 
@@ -3450,6 +3558,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewPause.Name = "toolStripButtonMediaPreviewPause";
             this.toolStripButtonMediaPreviewPause.Size = new System.Drawing.Size(29, 24);
             this.toolStripButtonMediaPreviewPause.Text = "Pause";
+            this.toolStripButtonMediaPreviewPause.Click += new System.EventHandler(this.toolStripButtonMediaPreviewPause_Click);
             // 
             // toolStripButtonMediaPreviewStop
             // 
@@ -3459,6 +3568,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewStop.Name = "toolStripButtonMediaPreviewStop";
             this.toolStripButtonMediaPreviewStop.Size = new System.Drawing.Size(29, 24);
             this.toolStripButtonMediaPreviewStop.Text = "toolStripButton5";
+            this.toolStripButtonMediaPreviewStop.Click += new System.EventHandler(this.toolStripButtonMediaPreviewStop_Click);
             // 
             // toolStripButtonMediaPreviewChromecast
             // 
@@ -3473,7 +3583,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripDropDownButtonChromecastList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripDropDownButtonChromecastList.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tv1ToolStripMenuItem,
+            this.toolStripMenuItemMediaChromecast,
             this.tv2ToolStripMenuItem});
             this.toolStripDropDownButtonChromecastList.Image = global::PhotoTagsSynchronizer.Properties.Resources.Chromecast;
             this.toolStripDropDownButtonChromecastList.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -3481,95 +3591,27 @@ namespace PhotoTagsSynchronizer
             this.toolStripDropDownButtonChromecastList.Size = new System.Drawing.Size(34, 24);
             this.toolStripDropDownButtonChromecastList.Text = "toolStripDropDownButton1";
             // 
-            // tv1ToolStripMenuItem
+            // toolStripMenuItemMediaChromecast
             // 
-            this.tv1ToolStripMenuItem.Name = "tv1ToolStripMenuItem";
-            this.tv1ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.tv1ToolStripMenuItem.Text = "Tv1";
+            this.toolStripMenuItemMediaChromecast.Name = "toolStripMenuItemMediaChromecast";
+            this.toolStripMenuItemMediaChromecast.Size = new System.Drawing.Size(114, 26);
+            this.toolStripMenuItemMediaChromecast.Text = "Tv1";
+            this.toolStripMenuItemMediaChromecast.Click += new System.EventHandler(this.toolStripMenuItemMediaChromecast_Click);
             // 
             // tv2ToolStripMenuItem
             // 
             this.tv2ToolStripMenuItem.Name = "tv2ToolStripMenuItem";
-            this.tv2ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.tv2ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.tv2ToolStripMenuItem.Text = "Tv2";
             // 
-            // pictureBox2
+            // toolStripDropDownButtonMediaList
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(0, 31);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(285, 158);
-            this.pictureBox2.TabIndex = 0;
-            this.pictureBox2.TabStop = false;
-            // 
-            // folderTreeViewFolder
-            // 
-            this.folderTreeViewFolder.AllowDrop = true;
-            this.folderTreeViewFolder.ContextMenuStrip = this.contextMenuStripTreeViewFolder;
-            this.folderTreeViewFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.folderTreeViewFolder.HideSelection = false;
-            this.folderTreeViewFolder.ItemHeight = 16;
-            this.folderTreeViewFolder.Location = new System.Drawing.Point(3, 3);
-            this.folderTreeViewFolder.Name = "folderTreeViewFolder";
-            this.folderTreeViewFolder.Size = new System.Drawing.Size(324, 856);
-            this.folderTreeViewFolder.TabIndex = 0;
-            this.folderTreeViewFolder.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.folderTreeViewFolder_ItemDrag);
-            this.folderTreeViewFolder.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.folderTreeView1_AfterSelect);
-            this.folderTreeViewFolder.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.folderTreeViewFolder_NodeMouseClick);
-            this.folderTreeViewFolder.DragDrop += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragDrop);
-            this.folderTreeViewFolder.DragEnter += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragEnter);
-            this.folderTreeViewFolder.DragOver += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragOver);
-            this.folderTreeViewFolder.DragLeave += new System.EventHandler(this.folderTreeViewFolder_DragLeave);
-            // 
-            // treeViewFilter
-            // 
-            this.treeViewFilter.CheckBoxes = true;
-            this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
-            this.treeViewFilter.Name = "treeViewFilter";
-            treeNode2.Name = "NodeFolder";
-            treeNode2.Tag = "Filter";
-            treeNode2.Text = "Filter";
-            this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
-            this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
-            this.treeViewFilter.TabIndex = 0;
-            this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
-            this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
-            // 
-            // imageListView1
-            // 
-            this.imageListView1.AllowDrag = true;
-            this.imageListView1.AllowDrop = true;
-            this.imageListView1.CacheLimit = "0";
-            this.imageListView1.CacheMode = Manina.Windows.Forms.CacheMode.Continuous;
-            this.imageListView1.ContextMenuStrip = this.contextMenuStripImageListView;
-            this.imageListView1.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.DefaultImage")));
-            this.imageListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageListView1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.ErrorImage")));
-            this.imageListView1.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.imageListView1.ImeMode = System.Windows.Forms.ImeMode.Katakana;
-            this.imageListView1.Location = new System.Drawing.Point(0, 0);
-            this.imageListView1.Name = "imageListView1";
-            this.imageListView1.RetryOnError = false;
-            this.imageListView1.Size = new System.Drawing.Size(484, 892);
-            this.imageListView1.TabIndex = 1;
-            this.imageListView1.Text = "";
-            this.imageListView1.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView1_ItemDoubleClick);
-            this.imageListView1.SelectionChanged += new System.EventHandler(this.imageListView1_SelectionChanged);
-            this.imageListView1.ThumbnailCaching += new Manina.Windows.Forms.ThumbnailCachingEventHandler(this.imageListView1_ThumbnailCaching);
-            this.imageListView1.RetrieveItemImage += new Manina.Windows.Forms.RetrieveItemImageEventHandler(this.imageListView1_RetrieveImage);
-            this.imageListView1.RetrieveItemThumbnail += new Manina.Windows.Forms.RetrieveItemThumbnailEventHandler(this.imageListView1_RetrieveItemThumbnail);
-            this.imageListView1.RetrieveItemMetadataDetails += new Manina.Windows.Forms.RetrieveItemMetadataDetailsEventHandler(this.imageListView1_RetrieveItemMetadataDetails);
-            // 
-            // videoView1
-            // 
-            this.videoView1.BackColor = System.Drawing.Color.Black;
-            this.videoView1.Location = new System.Drawing.Point(0, 195);
-            this.videoView1.MediaPlayer = null;
-            this.videoView1.Name = "videoView1";
-            this.videoView1.Size = new System.Drawing.Size(285, 199);
-            this.videoView1.TabIndex = 2;
-            this.videoView1.Text = "videoView1";
+            this.toolStripDropDownButtonMediaList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButtonMediaList.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonMediaList.Image")));
+            this.toolStripDropDownButtonMediaList.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonMediaList.Name = "toolStripDropDownButtonMediaList";
+            this.toolStripDropDownButtonMediaList.Size = new System.Drawing.Size(34, 24);
+            this.toolStripDropDownButtonMediaList.Text = "toolStripDropDownButton1";
             // 
             // MainForm
             // 
@@ -3579,7 +3621,6 @@ namespace PhotoTagsSynchronizer
             this.Controls.Add(this.toolStripContainer1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "PhotoTags Synchronizer";
             this.Activated += new System.EventHandler(this.MainForm_Activated);
@@ -3664,11 +3705,16 @@ namespace PhotoTagsSynchronizer
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.panelMediaPreview.ResumeLayout(false);
-            this.panelMediaPreview.PerformLayout();
+            this.toolStripContainer2.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer2.ContentPanel.PerformLayout();
+            this.toolStripContainer2.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer2.TopToolStripPanel.PerformLayout();
+            this.toolStripContainer2.ResumeLayout(false);
+            this.toolStripContainer2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.videoView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.videoView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -3953,10 +3999,12 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewStop;
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewChromecast;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonChromecastList;
-        private System.Windows.Forms.ToolStripMenuItem tv1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMediaChromecast;
         private System.Windows.Forms.ToolStripMenuItem tv2ToolStripMenuItem;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBoxPreview;
         private LibVLCSharp.WinForms.VideoView videoView1;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer2;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonMediaList;
     }
 }
 

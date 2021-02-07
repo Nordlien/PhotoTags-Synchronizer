@@ -482,19 +482,70 @@ namespace PhotoTagsSynchronizer
         #endregion
 
 
+
+        private List<string> previewItems = new List<string>();
+        private int previewMediaindex = 0;
+        private bool canPlayAndPause = false;
+
         private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            toolStripDropDownButtonChromecastList.DropDownItems.Clear();
+            foreach (LibVLCSharp.Shared.RendererItem rendererItem in _rendererItems)
+            {
+                ToolStripMenuItem toolStripDropDownItem = new ToolStripMenuItem();
+                toolStripDropDownItem.Click += ToolStripDropDownItem_Click;
+                toolStripDropDownItem.Text = rendererItem.Name;
+                toolStripDropDownButtonChromecastList.DropDownItems.Add(toolStripDropDownItem);
+            }
+
+            previewItems.Clear();
+            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            {
+                previewItems.Add(imageListViewItem.FileFullPath);
+            }
+            if (previewItems.Count > 0)
+            {
+                previewMediaindex = 0;
+                ShowPreviewItem(previewItems[previewMediaindex]);
+            }
+
             panelMediaPreview.Dock = DockStyle.Fill;
             panelMediaPreview.Visible = !panelMediaPreview.Visible;
+        }
 
+        private void ShowPreviewItem(string fullFilename)
+        {
+            videoView1.MediaPlayer.Stop();
+
+            if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilename))
+            {
+                canPlayAndPause = true;
+                videoView1.MediaPlayer.Play(new Media(_libVLC, fullFilename, FromType.FromPath));
+                videoView1.Visible = true;
+                pictureBoxPreview.Visible = false;
+                
+            }
+            if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilename))
+            {
+                canPlayAndPause = false;
+                pictureBoxPreview.Image = ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.LoadImage(fullFilename);
+                pictureBoxPreview.Visible = true;
+                videoView1.Visible = false;
+
+            }
+        }
+
+        private void ToolStripDropDownItem_Click(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         private void _rendererDiscoverer_ItemAdded(object sender, RendererDiscovererItemAddedEventArgs e)
         {
-            Console.WriteLine($"New item discovered: {e.RendererItem.Name} of type {e.RendererItem.Type}");
-            if (e.RendererItem.CanRenderVideo) Console.WriteLine("Can render video");
-            if (e.RendererItem.CanRenderAudio) Console.WriteLine("Can render audio");
-            Console.WriteLine("Chromecast icon: " + (e.RendererItem.IconUri == null ? "" : e.RendererItem.IconUri));
+            //Console.WriteLine($"New item discovered: {e.RendererItem.Name} of type {e.RendererItem.Type}");
+            //if (e.RendererItem.CanRenderVideo) Console.WriteLine("Can render video");
+            //if (e.RendererItem.CanRenderAudio) Console.WriteLine("Can render audio");
+            //Console.WriteLine("Chromecast icon: " + (e.RendererItem.IconUri == null ? "" : e.RendererItem.IconUri));
             // add newly found renderer item to local collection
             if (e.RendererItem.CanRenderVideo && !_rendererItems.Contains(e.RendererItem)) _rendererItems.Add(e.RendererItem);
         }
@@ -504,6 +555,42 @@ namespace PhotoTagsSynchronizer
             if (_rendererItems.Contains(e.RendererItem)) _rendererItems.Remove(e.RendererItem);
         }
 
+        private void toolStripMenuItemMediaChromecast_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewPrevious_Click(object sender, EventArgs e)
+        {
+            if (previewItems.Count == 0) return;
+            previewMediaindex--;
+            if (previewMediaindex < 0) previewMediaindex = previewItems.Count - 1;
+            if (previewItems.Count > 0) ShowPreviewItem(previewItems[previewMediaindex]);            
+        }
+
+        private void toolStripButtonMediaPreviewNext_Click(object sender, EventArgs e)
+        {
+            if (previewItems.Count == 0) return;
+            previewMediaindex++;
+            if (previewMediaindex > previewItems.Count - 1) previewMediaindex = 0;
+            if (previewItems.Count > 0) ShowPreviewItem(previewItems[previewMediaindex]);
+        }
+
+        private void toolStripButtonMediaPreviewPlay_Click(object sender, EventArgs e)
+        {
+            if (canPlayAndPause) videoView1.MediaPlayer.Play();
+        }
+
+        private void toolStripButtonMediaPreviewPause_Click(object sender, EventArgs e)
+        {
+            if (canPlayAndPause) videoView1.MediaPlayer.Pause();
+        }
+
+        private void toolStripButtonMediaPreviewStop_Click(object sender, EventArgs e)
+        {
+            videoView1.MediaPlayer.Stop();
+            panelMediaPreview.Visible = false;
+        }
     }
 }
 
