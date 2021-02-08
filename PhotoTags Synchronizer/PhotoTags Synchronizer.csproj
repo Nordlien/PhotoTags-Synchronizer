@@ -498,6 +498,9 @@
     <PackageReference Include="CefSharp.WinForms">
       <Version>87.1.132</Version>
     </PackageReference>
+    <PackageReference Include="CyotekImageBox">
+      <Version>1.2.1</Version>
+    </PackageReference>
     <PackageReference Include="FCTB">
       <Version>2.16.24</Version>
     </PackageReference>

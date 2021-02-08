@@ -498,7 +498,15 @@ namespace PhotoTagsSynchronizer
                 toolStripDropDownButtonChromecastList.DropDownItems.Add(toolStripDropDownItem);
             }
 
+            imageBoxPreview.Visible = false;
+            imageBoxPreview.Dock = DockStyle.Fill;
+            videoView1.Visible = false;
+            videoView1.Dock = DockStyle.Fill;
+
             previewItems.Clear();
+            
+
+
             foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
             {
                 previewItems.Add(imageListViewItem.FileFullPath);
@@ -523,14 +531,15 @@ namespace PhotoTagsSynchronizer
                 videoView1.MediaPlayer.Play(new Media(_libVLC, fullFilename, FromType.FromPath));
                 
                 videoView1.Visible = true;
-                pictureBoxPreview.Visible = false;
+                imageBoxPreview.Visible = false;
                 
             }
             if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilename))
             {
                 canPlayAndPause = false;
-                pictureBoxPreview.Image = ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.LoadImage(fullFilename);
-                pictureBoxPreview.Visible = true;
+                imageBoxPreview.Image = ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.LoadImage(fullFilename);
+                imageBoxPreview.ZoomToFit();
+                imageBoxPreview.Visible = true;
                 videoView1.Visible = false;
 
             }
@@ -592,6 +601,7 @@ namespace PhotoTagsSynchronizer
             videoView1.MediaPlayer.Stop();
             panelMediaPreview.Visible = false;
         }
+
     }
 }
 
