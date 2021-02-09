@@ -72,7 +72,7 @@ namespace PhotoTagsSynchronizer
 
         //VLC
         private LibVLC _libVLC;
-        private MediaPlayer _mediaPlayer;
+        private MediaPlayer _mediaPlayer = null;
         private RendererDiscoverer _rendererDiscoverer;
         private List<LibVLCSharp.Shared.RendererItem> _rendererItems = new List<LibVLCSharp.Shared.RendererItem>();
 
@@ -493,8 +493,9 @@ namespace PhotoTagsSynchronizer
             foreach (LibVLCSharp.Shared.RendererItem rendererItem in _rendererItems)
             {
                 ToolStripMenuItem toolStripDropDownItem = new ToolStripMenuItem();
-                toolStripDropDownItem.Click += ToolStripDropDownItem_Click;
+                toolStripDropDownItem.Click += ToolStripDropDownItemPreviewChromecast_Click;
                 toolStripDropDownItem.Text = rendererItem.Name;
+                toolStripDropDownItem.Tag = rendererItem;
                 toolStripDropDownButtonChromecastList.DropDownItems.Add(toolStripDropDownItem);
             }
 
@@ -506,10 +507,15 @@ namespace PhotoTagsSynchronizer
             previewItems.Clear();
             
 
-
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            for (int selectedItemIndex = 0; selectedItemIndex < imageListView1.SelectedItems.Count; selectedItemIndex++)
             {
-                previewItems.Add(imageListViewItem.FileFullPath);
+                previewItems.Add(imageListView1.SelectedItems[selectedItemIndex].FileFullPath);
+
+                ToolStripMenuItem toolStripDropDownItem = new ToolStripMenuItem();
+                toolStripDropDownItem.Click += ToolStripDropDownItemPreviewMedia_Click;
+                toolStripDropDownItem.Text = imageListView1.SelectedItems[selectedItemIndex].FileFullPath;
+                toolStripDropDownItem.Tag = selectedItemIndex;
+                toolStripDropDownButtonMediaList.DropDownItems.Add(toolStripDropDownItem);
             }
             if (previewItems.Count > 0)
             {
@@ -519,6 +525,13 @@ namespace PhotoTagsSynchronizer
 
             panelMediaPreview.Dock = DockStyle.Fill;
             panelMediaPreview.Visible = !panelMediaPreview.Visible;
+        }
+
+        private void ToolStripDropDownItemPreviewMedia_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
+            previewMediaindex = (int)clickedToolStripMenuItem.Tag;
+            ShowPreviewItem(clickedToolStripMenuItem.Text);
         }
 
         private void ShowPreviewItem(string fullFilename)
@@ -545,10 +558,7 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void ToolStripDropDownItem_Click(object sender, EventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
+       
 
         private void _rendererDiscoverer_ItemAdded(object sender, RendererDiscovererItemAddedEventArgs e)
         {
@@ -565,9 +575,35 @@ namespace PhotoTagsSynchronizer
             if (_rendererItems.Contains(e.RendererItem)) _rendererItems.Remove(e.RendererItem);
         }
 
+        private void ToolStripDropDownItemPreviewChromecast_Click(object sender, EventArgs e)
+        {
+            if (_mediaPlayer == null) return;
+
+            var media = new LibVLCSharp.Shared.Media(_libVLC, previewItems[previewMediaindex], FromType.FromLocation);
+            // start the playback
+            _mediaPlayer.Play(media);
+        }
+
         private void toolStripMenuItemMediaChromecast_Click(object sender, EventArgs e)
         {
 
+            // abort casting if no renderer items were found
+            if (!_rendererItems.Any())
+            {
+                MessageBox.Show("No renderer items found. Abort casting...");
+                return;
+            }
+
+            //media.SetMeta(MetadataType.)
+
+            ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
+            LibVLCSharp.Shared.RendererItem rendererItem = (LibVLCSharp.Shared.RendererItem)clickedToolStripMenuItem.Tag;
+            
+            // create the mediaplayer
+            _mediaPlayer = new MediaPlayer(_libVLC);
+            // set the previously discovered renderer item (chromecast) on the mediaplayer if you set it to null, it will start to render normally (i.e. locally) again
+            _mediaPlayer.SetRenderer(rendererItem);
+            
         }
 
         private void toolStripButtonMediaPreviewPrevious_Click(object sender, EventArgs e)

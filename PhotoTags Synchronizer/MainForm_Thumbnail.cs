@@ -92,6 +92,17 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        public void Test()
+        {
+            var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+
+            //NReco.VideoConverter.FFMpegInput ffMpegInput;
+            //fFMpegInput.CustomInputArgs
+            //ffMpeg.ConvertMedia()
+        }
+
+
+
         #region Thumbnail - LoadMediaCoverArtPoster
         private Image LoadMediaCoverArtPoster(string fullFilePath, bool checkIfCloudFile)
         {
@@ -103,7 +114,10 @@ namespace PhotoTagsSynchronizer
             ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
             if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
             {
+
+                
                 var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+
                 using (Stream memoryStream = new MemoryStream())
                 {
                     ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
