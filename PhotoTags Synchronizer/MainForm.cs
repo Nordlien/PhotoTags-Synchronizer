@@ -20,10 +20,11 @@ using LocationNames;
 using System.Collections.Generic;
 using LibVLCSharp.Shared;
 using System.Linq;
+using System.Diagnostics;
 
 namespace PhotoTagsSynchronizer
 {
-
+    
     public partial class MainForm : Form
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -41,9 +42,11 @@ namespace PhotoTagsSynchronizer
         };
         private Size ThumbnailSaveSize {get; set;} = new Size(192, 192);
         private Size ThumbnailMaxUpsize { get; set; } = new Size(192, 192);
+        private RendererItem defaultImageListViewRenderer;
+
 
         private readonly ChromiumWebBrowser browser;
-        private FileSystemWatcher fileSystemWatcher = new FileSystemWatcher();
+        //private FileSystemWatcher fileSystemWatcher = new FileSystemWatcher();
 
         //Databases
         private SqliteDatabaseUtilities databaseUtilitiesSqliteMetadata;
@@ -68,13 +71,15 @@ namespace PhotoTagsSynchronizer
 
         private FilesCutCopyPasteDrag filesCutCopyPasteDrag;
 
-        private RendererItem defaultRendererItem;
+        
 
         //VLC
         private LibVLC _libVLC;
-        private MediaPlayer _mediaPlayer = null;
-        private RendererDiscoverer _rendererDiscoverer;
-        private List<LibVLCSharp.Shared.RendererItem> _rendererItems = new List<LibVLCSharp.Shared.RendererItem>();
+        private MediaPlayer vlcMediaPlayerVideoView = null;
+        private MediaPlayer vlcMediaPlayerChromecast = null;
+        private RendererDiscoverer vlcRendererDiscoverer;
+        
+        private List<LibVLCSharp.Shared.RendererItem> vlcRendererItems = new List<LibVLCSharp.Shared.RendererItem>();
 
         //Avoid flickering
         private bool isFormLoading = true;                  //Avoid flicker and on change events going in loop
@@ -95,16 +100,15 @@ namespace PhotoTagsSynchronizer
 
             //VLC
             _libVLC = new LibVLC();
-            _mediaPlayer = new MediaPlayer(_libVLC);
-            videoView1.MediaPlayer = _mediaPlayer;
+            vlcMediaPlayerVideoView = new MediaPlayer(_libVLC);
+            videoView1.MediaPlayer = vlcMediaPlayerVideoView;
 
-            RendererDescription renderer;
-            renderer = _libVLC.RendererList.FirstOrDefault(r => r.Name.Equals("microdns_renderer"));
-
-            _rendererDiscoverer = new RendererDiscoverer(_libVLC, renderer.Name);
-            _rendererDiscoverer.ItemAdded += _rendererDiscoverer_ItemAdded;
-            _rendererDiscoverer.ItemDeleted += _rendererDiscoverer_ItemDeleted;
-            _rendererDiscoverer.Start();
+            RendererDescription vlcRendererDescription;
+            vlcRendererDescription = _libVLC.RendererList.FirstOrDefault(r => r.Name.Equals("microdns_renderer"));          
+            vlcRendererDiscoverer = new RendererDiscoverer(_libVLC, vlcRendererDescription.Name);
+            vlcRendererDiscoverer.ItemAdded += _rendererDiscoverer_ItemAdded;
+            vlcRendererDiscoverer.ItemDeleted += _rendererDiscoverer_ItemDeleted;            
+            vlcRendererDiscoverer.Start();
 
             //treeViewFilter = new TreeWithoutDoubleClick();
 
@@ -143,7 +147,7 @@ namespace PhotoTagsSynchronizer
                     if (t.Name == "RendererDefault")
                     {
                         renderertoolStripComboBox.SelectedIndex = i;
-                        defaultRendererItem = (RendererItem)renderertoolStripComboBox.Items[i];
+                        defaultImageListViewRenderer = (RendererItem)renderertoolStripComboBox.Items[i];
                     }
                     i++;
                 }
@@ -490,7 +494,7 @@ namespace PhotoTagsSynchronizer
         private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripDropDownButtonChromecastList.DropDownItems.Clear();
-            foreach (LibVLCSharp.Shared.RendererItem rendererItem in _rendererItems)
+            foreach (LibVLCSharp.Shared.RendererItem rendererItem in vlcRendererItems)
             {
                 ToolStripMenuItem toolStripDropDownItem = new ToolStripMenuItem();
                 toolStripDropDownItem.Click += ToolStripDropDownItemPreviewChromecast_Click;
@@ -499,14 +503,43 @@ namespace PhotoTagsSynchronizer
                 toolStripDropDownButtonChromecastList.DropDownItems.Add(toolStripDropDownItem);
             }
 
+            
+            
+            videoView1.MediaPlayer.EnableKeyInput = true;
+            videoView1.MediaPlayer.EnableHardwareDecoding = true;
+            videoView1.MediaPlayer.EnableKeyInput = true;
+
+            vlcMediaPlayerVideoView.Backward += VlcMediaPlayerVideoView_Backward;
+            vlcMediaPlayerVideoView.Buffering += VlcMediaPlayerVideoView_Buffering;
+            vlcMediaPlayerVideoView.EncounteredError += VlcMediaPlayerVideoView_EncounteredError;
+            
+            vlcMediaPlayerVideoView.Muted += VlcMediaPlayerVideoView_Muted;
+            vlcMediaPlayerVideoView.Opening += VlcMediaPlayerVideoView_Opening;
+
+            vlcMediaPlayerVideoView.Paused += VlcMediaPlayerVideoView_Paused;
+            vlcMediaPlayerVideoView.PositionChanged += VlcMediaPlayerVideoView_PositionChanged;
+
+            vlcMediaPlayerVideoView.EndReached += VlcMediaPlayerVideoView_EndReached;
+            vlcMediaPlayerVideoView.Playing += VlcMediaPlayerVideoView_Playing;
+
+            vlcMediaPlayerVideoView.Stopped += VlcMediaPlayerVideoView_Stopped;
+
+            vlcMediaPlayerVideoView.TimeChanged += VlcMediaPlayerVideoView_TimeChanged;
+            vlcMediaPlayerVideoView.Unmuted += VlcMediaPlayerVideoView_Unmuted;
+            vlcMediaPlayerVideoView.VolumeChanged += VlcMediaPlayerVideoView_VolumeChanged;
+
+
+            panelMediaPreview.Dock = DockStyle.Fill;
+            panelMediaPreview.Visible = true;
+
             imageBoxPreview.Visible = false;
             imageBoxPreview.Dock = DockStyle.Fill;
+
             videoView1.Visible = false;
             videoView1.Dock = DockStyle.Fill;
 
             previewItems.Clear();
-            
-
+            toolStripDropDownButtonMediaList.DropDownItems.Clear();
             for (int selectedItemIndex = 0; selectedItemIndex < imageListView1.SelectedItems.Count; selectedItemIndex++)
             {
                 previewItems.Add(imageListView1.SelectedItems[selectedItemIndex].FileFullPath);
@@ -523,8 +556,211 @@ namespace PhotoTagsSynchronizer
                 ShowPreviewItem(previewItems[previewMediaindex]);
             }
 
-            panelMediaPreview.Dock = DockStyle.Fill;
-            panelMediaPreview.Visible = !panelMediaPreview.Visible;
+            
+        }
+
+
+        #region VlcMediaplayer 
+
+        #region VlcMediaplayer - Pause
+        private void VlcMediaPlayerVideoView_Paused(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(VlcMediaPlayerVideoView_Paused), sender, e);
+                return;
+            }
+
+            toolStripButtonMediaPreviewPlay.Enabled = true;
+            toolStripButtonMediaPreviewPause.Enabled = false;
+            toolStripButtonMediaPreviewFastBackward.Enabled = false;
+            toolStripButtonMediaPreviewFastForward.Enabled = false;
+            toolStripTraceBarItemMediaPreviewTimer.Enabled = true;
+        }
+        #endregion
+
+        #region VlcMediaplayer - Opening
+        private void VlcMediaPlayerVideoView_Opening(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(VlcMediaPlayerVideoView_Opening), sender, e);
+                return;
+            }
+
+            toolStripButtonMediaPreviewPlay.Enabled = false;
+            toolStripButtonMediaPreviewPause.Enabled = false;
+            toolStripButtonMediaPreviewFastBackward.Enabled = false;
+            toolStripButtonMediaPreviewFastForward.Enabled = false;
+            toolStripTraceBarItemMediaPreviewTimer.Enabled = false;
+        }
+        #endregion
+
+        #region VlcMediaplayer - EndReached
+        private void VlcMediaPlayerVideoView_EndReached(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(VlcMediaPlayerVideoView_EndReached), sender, e);
+                return;
+            }
+
+            toolStripButtonMediaPreviewPlay.Enabled = true;
+            toolStripButtonMediaPreviewPause.Enabled = false;
+            toolStripButtonMediaPreviewFastBackward.Enabled = false;
+            toolStripButtonMediaPreviewFastForward.Enabled = false;
+            toolStripTraceBarItemMediaPreviewTimer.Enabled = false;
+        }
+        #endregion
+
+        #region VlcMediaplayer - Error
+        private void VlcMediaPlayerVideoView_EncounteredError(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(VlcMediaPlayerVideoView_EncounteredError), sender, e);
+                return;
+            }
+
+            toolStripButtonMediaPreviewPlay.Enabled = false;
+            toolStripButtonMediaPreviewPause.Enabled = false;
+            toolStripButtonMediaPreviewFastBackward.Enabled = false;
+            toolStripButtonMediaPreviewFastForward.Enabled = false;
+            toolStripTraceBarItemMediaPreviewTimer.Enabled = false;
+        }
+        #endregion
+
+        #region VlcMediaplayer - Buffering
+        private void VlcMediaPlayerVideoView_Buffering(object sender, MediaPlayerBufferingEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, MediaPlayerBufferingEventArgs>(VlcMediaPlayerVideoView_Buffering), sender, e);
+                return;
+            }
+
+            //toolStripButtonMediaPreviewPlay.Enabled = false;
+            //toolStripButtonMediaPreviewPause.Enabled = false;
+            //toolStripButtonMediaPreviewFastBackward.Enabled = false;
+            //toolStripButtonMediaPreviewFastForward.Enabled = false;
+
+        }
+        #endregion
+
+        #region VlcMediaplayer - Stopped
+        private void VlcMediaPlayerVideoView_Stopped(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(VlcMediaPlayerVideoView_Stopped), sender, e);
+                return;
+            }
+
+            toolStripButtonMediaPreviewPlay.Enabled = true;
+            toolStripButtonMediaPreviewPause.Enabled = false;
+            toolStripButtonMediaPreviewFastBackward.Enabled = false;
+            toolStripButtonMediaPreviewFastForward.Enabled = false;
+            toolStripTraceBarItemMediaPreviewTimer.Enabled = false;
+        }
+        #endregion
+
+        #region VlcMediaplayer - Playing
+        private void VlcMediaPlayerVideoView_Playing(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(VlcMediaPlayerVideoView_Playing), sender, e);
+                return;
+            }
+
+            toolStripButtonMediaPreviewPlay.Enabled = false;
+            toolStripButtonMediaPreviewPause.Enabled = true;
+            toolStripButtonMediaPreviewFastBackward.Enabled = true;
+            toolStripButtonMediaPreviewFastForward.Enabled = true;
+            toolStripTraceBarItemMediaPreviewTimer.Enabled = true;
+        }
+        #endregion
+
+        #endregion
+
+        #region VlcMediaplayer - 
+        private void VlcMediaPlayerVideoView_Backward(object sender, EventArgs e)
+        {
+            
+        }
+        #endregion
+
+        
+
+        
+
+        private string ConvertMsToHuman(long ms)
+        {
+            TimeSpan t = TimeSpan.FromMilliseconds(ms);
+            return string.Format("{0:D2}:{1:D2}:{2:D2}:{3:D3}", t.Hours, t.Minutes, t.Seconds, t.Milliseconds);
+        }
+        
+        Stopwatch stopwachMediaTimeChanged = new Stopwatch();
+        private void VlcMediaPlayerVideoView_TimeChanged(object sender, MediaPlayerTimeChangedEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, MediaPlayerTimeChangedEventArgs>(VlcMediaPlayerVideoView_TimeChanged), sender, e);
+                return;
+            }
+
+
+            if (stopwachMediaTimeChanged.IsRunning && stopwachMediaTimeChanged.ElapsedMilliseconds < 300) return;
+            stopwachMediaTimeChanged.Restart();
+
+            if (vlcMediaPlayerVideoView.Length == -1)
+            {                
+                toolStripLabelMediaPreviewTimer.Text = "Timer: No video";
+            }
+            else
+            {
+                toolStripLabelMediaPreviewTimer.Text = ConvertMsToHuman (e.Time) + "/" + ConvertMsToHuman(vlcMediaPlayerVideoView.Length);
+            }
+            //e.Time
+
+        }
+
+        Stopwatch stopwachMediaPositionChanged = new Stopwatch();
+        private void VlcMediaPlayerVideoView_PositionChanged(object sender, MediaPlayerPositionChangedEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, MediaPlayerPositionChangedEventArgs>(VlcMediaPlayerVideoView_PositionChanged), sender, e);
+                return;
+            }
+            
+            if (stopwachMediaPositionChanged.IsRunning && stopwachMediaPositionChanged.ElapsedMilliseconds < 300) return;
+            stopwachMediaPositionChanged.Restart();
+
+            if (vlcMediaPlayerVideoView.Length == -1)
+            {
+                toolStripTraceBarItemMediaPreviewTimerUpdating = true;
+                toolStripTraceBarItemMediaPreviewTimer.TrackBar.Value = 0;
+                toolStripTraceBarItemMediaPreviewTimer.TrackBar.Maximum = 100;
+                toolStripTraceBarItemMediaPreviewTimerUpdating = false;
+            }
+            else
+            {
+                toolStripTraceBarItemMediaPreviewTimerUpdating = true;
+                toolStripTraceBarItemMediaPreviewTimer.TrackBar.Maximum = 100;
+                toolStripTraceBarItemMediaPreviewTimer.Value = (int)(e.Position * 100);
+                toolStripTraceBarItemMediaPreviewTimerUpdating = false;
+            }
+        }
+
+
+        private bool toolStripTraceBarItemMediaPreviewTimerUpdating = false;
+        private void toolStripTraceBarItem1_ValueChanged(object sender, EventArgs e)
+        {
+            if (toolStripTraceBarItemMediaPreviewTimerUpdating) return;
+            vlcMediaPlayerVideoView.Pause(); //pause 
+            vlcMediaPlayerVideoView.Position = (float)toolStripTraceBarItemMediaPreviewTimer.TrackBar.Value / 100;
+            vlcMediaPlayerVideoView.Play(); //resume
         }
 
         private void ToolStripDropDownItemPreviewMedia_Click(object sender, EventArgs e)
@@ -534,8 +770,35 @@ namespace PhotoTagsSynchronizer
             ShowPreviewItem(clickedToolStripMenuItem.Text);
         }
 
+        private void toolStripButtonMediaPreviewFastBackward_Click(object sender, EventArgs e)
+        {
+            vlcMediaPlayerVideoView.Time -= 10000;
+        }
+
+        private void toolStripButtonMediaPreviewFastForward_Click(object sender, EventArgs e)
+        {
+            vlcMediaPlayerVideoView.Time += 10000;
+        }
+
+
+        private void VlcMediaPlayerVideoView_VolumeChanged(object sender, MediaPlayerVolumeChangedEventArgs e)
+        {
+
+        }
+
+        private void VlcMediaPlayerVideoView_Muted(object sender, EventArgs e)
+        {
+
+        }
+
+        private void VlcMediaPlayerVideoView_Unmuted(object sender, EventArgs e)
+        {
+
+        }
+
         private void ShowPreviewItem(string fullFilename)
         {
+            
             videoView1.MediaPlayer.Stop();
 
             if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilename))
@@ -550,9 +813,17 @@ namespace PhotoTagsSynchronizer
             if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilename))
             {
                 canPlayAndPause = false;
+
+                toolStripButtonMediaPreviewPlay.Enabled = false;
+                toolStripButtonMediaPreviewPause.Enabled = false;
+                toolStripButtonMediaPreviewFastBackward.Enabled = false;
+                toolStripButtonMediaPreviewFastForward.Enabled = false;
+                toolStripTraceBarItemMediaPreviewTimer.Enabled = false;
+
                 imageBoxPreview.Image = ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.LoadImage(fullFilename);
-                imageBoxPreview.ZoomToFit();
                 imageBoxPreview.Visible = true;
+                imageBoxPreview.ZoomToFit();
+                
                 videoView1.Visible = false;
 
             }
@@ -567,43 +838,64 @@ namespace PhotoTagsSynchronizer
             //if (e.RendererItem.CanRenderAudio) Console.WriteLine("Can render audio");
             //Console.WriteLine("Chromecast icon: " + (e.RendererItem.IconUri == null ? "" : e.RendererItem.IconUri));
             // add newly found renderer item to local collection
-            if (e.RendererItem.CanRenderVideo && !_rendererItems.Contains(e.RendererItem)) _rendererItems.Add(e.RendererItem);
+            if (e.RendererItem.CanRenderVideo && !vlcRendererItems.Contains(e.RendererItem)) vlcRendererItems.Add(e.RendererItem);
         }
 
         private void _rendererDiscoverer_ItemDeleted(object sender, RendererDiscovererItemDeletedEventArgs e)
         {
-            if (_rendererItems.Contains(e.RendererItem)) _rendererItems.Remove(e.RendererItem);
+            if (vlcRendererItems.Contains(e.RendererItem)) vlcRendererItems.Remove(e.RendererItem);
         }
 
+        LibVLCSharp.Shared.RendererItem selectedVlcRendererItem = null;
         private void ToolStripDropDownItemPreviewChromecast_Click(object sender, EventArgs e)
         {
-            if (_mediaPlayer == null) return;
-
-            var media = new LibVLCSharp.Shared.Media(_libVLC, previewItems[previewMediaindex], FromType.FromLocation);
-            // start the playback
-            _mediaPlayer.Play(media);
-        }
-
-        private void toolStripMenuItemMediaChromecast_Click(object sender, EventArgs e)
-        {
-
             // abort casting if no renderer items were found
-            if (!_rendererItems.Any())
+            if (!vlcRendererItems.Any())
             {
                 MessageBox.Show("No renderer items found. Abort casting...");
                 return;
             }
 
-            //media.SetMeta(MetadataType.)
+            foreach (ToolStripMenuItem toolStripDropDownItem in toolStripDropDownButtonChromecastList.DropDownItems)
+            {
+                toolStripDropDownItem.Checked = false;
+            }
 
             ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
+            clickedToolStripMenuItem.Checked = true;
             LibVLCSharp.Shared.RendererItem rendererItem = (LibVLCSharp.Shared.RendererItem)clickedToolStripMenuItem.Tag;
-            
+            selectedVlcRendererItem = rendererItem;
+
             // create the mediaplayer
-            _mediaPlayer = new MediaPlayer(_libVLC);
+            vlcMediaPlayerChromecast = new MediaPlayer(_libVLC);
             // set the previously discovered renderer item (chromecast) on the mediaplayer if you set it to null, it will start to render normally (i.e. locally) again
-            _mediaPlayer.SetRenderer(rendererItem);
-            
+            vlcMediaPlayerChromecast.SetRenderer(rendererItem);
+
+        }
+
+
+        private void toolStripDropDownButtonChromecastList_Click(object sender, EventArgs e)
+        {
+            if (vlcMediaPlayerChromecast == null)
+            {
+                toolStripDropDownButtonChromecastList.ShowDropDown();
+            }
+            else
+            {
+                //Test(previewItems, @"c:\Users\nordl\OneDrive\Pictures JTNs OneDrive\TestTags\output.mp4");
+
+                if (vlcMediaPlayerChromecast == null) return;
+
+                var media = new LibVLCSharp.Shared.Media(_libVLC, previewItems[previewMediaindex], FromType.FromPath);
+
+                // create the mediaplayer
+                vlcMediaPlayerChromecast = new MediaPlayer(_libVLC);
+                // set the previously discovered renderer item (chromecast) on the mediaplayer if you set it to null, it will start to render normally (i.e. locally) again
+                vlcMediaPlayerChromecast.SetRenderer(selectedVlcRendererItem);
+
+                // start the playback
+                //vlcMediaPlayerChromecast.Play(media);
+            }
         }
 
         private void toolStripButtonMediaPreviewPrevious_Click(object sender, EventArgs e)
@@ -624,20 +916,35 @@ namespace PhotoTagsSynchronizer
 
         private void toolStripButtonMediaPreviewPlay_Click(object sender, EventArgs e)
         {
-            if (canPlayAndPause) videoView1.MediaPlayer.Play();
-        }
 
+            if (vlcMediaPlayerVideoView.Length != -1)
+            {
+                if (!vlcMediaPlayerVideoView.WillPlay)
+                {
+                    if (previewItems.Count > 0) ShowPreviewItem(previewItems[previewMediaindex]);
+                }
+                else
+                {
+                    if (canPlayAndPause) vlcMediaPlayerVideoView.Play();
+                }
+            }
+        }
         private void toolStripButtonMediaPreviewPause_Click(object sender, EventArgs e)
         {
             if (canPlayAndPause) videoView1.MediaPlayer.Pause();
         }
 
-        private void toolStripButtonMediaPreviewStop_Click(object sender, EventArgs e)
+        private void toolStripButtonMediaPreviewClose_Click(object sender, EventArgs e)
         {
             videoView1.MediaPlayer.Stop();
             panelMediaPreview.Visible = false;
         }
 
+        
     }
+
+    
 }
 
+
+    

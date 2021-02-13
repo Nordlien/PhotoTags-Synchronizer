@@ -339,7 +339,7 @@ namespace PhotoTagsSynchronizer
             toolStripSeparatorRenderer.Visible = false;
 
             Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
             imageListView1.SetRenderer(renderer);
             imageListView1.Focus();
         }
@@ -352,7 +352,7 @@ namespace PhotoTagsSynchronizer
             toolStripSeparatorRenderer.Visible = false;
 
             Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
             imageListView1.SetRenderer(renderer);
             imageListView1.Focus();
         }
@@ -365,7 +365,7 @@ namespace PhotoTagsSynchronizer
             toolStripSeparatorRenderer.Visible = false;
 
             Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultRendererItem.Type.FullName) as ImageListView.ImageListViewRenderer;
+            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
             imageListView1.SetRenderer(renderer);
             imageListView1.Focus();
         }

@@ -362,6 +362,9 @@
     <None Include="Resources\Media_Play.png" />
     <None Include="Resources\Media_Preview.png" />
     <None Include="Resources\Media_Pause.png" />
+    <None Include="Resources\Media_FastForward.png" />
+    <None Include="Resources\Media_FastBackward.png" />
+    <None Include="Resources\Media_Close.png" />
     <Content Include="x64\sqlite3.def">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
