@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageListViewOrder", "Image
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationAssociations", "ApplicationAssociations\ApplicationAssociations.csproj", "{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHttp", "NHttp\NHttp.csproj", "{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -401,6 +403,18 @@ Global
 		{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}.Release|x64.Build.0 = Release|Any CPU
 		{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}.Release|x86.Build.0 = Release|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Debug|x64.Build.0 = Debug|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Debug|x86.Build.0 = Debug|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Release|x64.ActiveCfg = Release|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Release|x64.Build.0 = Release|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Release|x86.ActiveCfg = Release|Any CPU
+		{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

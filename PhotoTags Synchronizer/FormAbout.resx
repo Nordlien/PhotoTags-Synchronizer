@@ -118,7 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>LibVLCSharp
+    <value>
+NHTTP
+Hompage: https://github.com/pvginkel/NHttp
+License: GNU Lesser General Public License v3.0  
+https://github.com/pvginkel/NHttp/blob/master/License.txt
+
+GoogleCast
+Homepage: https://github.com/kakone/GoogleCast
+License: GNU Lesser General Public License v3.0
+https://github.com/kakone/GoogleCast/blob/master/LICENSE
+
+LibVLCSharp
 Code of Conduct
 Please read and follow the VideoLAN CoC license.
 

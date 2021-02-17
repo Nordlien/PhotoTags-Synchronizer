@@ -507,6 +507,9 @@
     <PackageReference Include="FCTB">
       <Version>2.16.24</Version>
     </PackageReference>
+    <PackageReference Include="GoogleCast">
+      <Version>1.6.7</Version>
+    </PackageReference>
     <PackageReference Include="LibVLCSharp">
       <Version>3.4.9</Version>
     </PackageReference>

@@ -322,6 +322,10 @@ namespace PhotoTagsSynchronizer
             this.toolStripTraceBarItemMediaPreviewTimer = new DragNDrop.ToolStripTraceBarItem();
             this.toolStripLabelMediaPreviewTimer = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButtonMediaPreviewClose = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabelMediaPreviewStatus = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -3520,11 +3524,15 @@ namespace PhotoTagsSynchronizer
             this.toolStripDropDownButtonChromecastList,
             this.toolStripDropDownButtonMediaList,
             this.toolStripTraceBarItemMediaPreviewTimer,
+            this.toolStripSeparator8,
             this.toolStripLabelMediaPreviewTimer,
+            this.toolStripSeparator9,
+            this.toolStripLabelMediaPreviewStatus,
+            this.toolStripSeparator10,
             this.toolStripButtonMediaPreviewClose});
             this.toolStrip1.Location = new System.Drawing.Point(4, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(469, 59);
+            this.toolStrip1.Size = new System.Drawing.Size(575, 59);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -3646,6 +3654,27 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewClose.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewClose.Text = "toolStripButton5";
             this.toolStripButtonMediaPreviewClose.Click += new System.EventHandler(this.toolStripButtonMediaPreviewClose_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 59);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 59);
+            // 
+            // toolStripLabelMediaPreviewStatus
+            // 
+            this.toolStripLabelMediaPreviewStatus.Name = "toolStripLabelMediaPreviewStatus";
+            this.toolStripLabelMediaPreviewStatus.Size = new System.Drawing.Size(49, 56);
+            this.toolStripLabelMediaPreviewStatus.Text = "Status";
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 59);
             // 
             // MainForm
             // 
@@ -4040,6 +4069,10 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewFastBackward;
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewFastForward;
         private System.Windows.Forms.ToolStripLabel toolStripLabelMediaPreviewTimer;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripLabel toolStripLabelMediaPreviewStatus;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
     }
 }
 
