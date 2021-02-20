@@ -435,6 +435,10 @@
       <Project>{cd7c35bc-38bd-458d-8440-5b51bd35d4f7}</Project>
       <Name>FolderView</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GoogleCast\GoogleCast.csproj">
+      <Project>{812985da-dd71-4ddd-8904-cfe5da2c70a4}</Project>
+      <Name>GoogleCast</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GoogleLocationHistory\GoogleLocationHistory.csproj">
       <Project>{78eb5083-1701-4db5-9200-893e4a9ebe9a}</Project>
       <Name>GoogleLocationHistory</Name>
@@ -510,9 +514,6 @@
     </PackageReference>
     <PackageReference Include="FCTB">
       <Version>2.16.24</Version>
-    </PackageReference>
-    <PackageReference Include="GoogleCast">
-      <Version>1.6.7</Version>
     </PackageReference>
     <PackageReference Include="LibVLCSharp">
       <Version>3.4.9</Version>
