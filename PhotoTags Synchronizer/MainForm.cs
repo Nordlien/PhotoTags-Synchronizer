@@ -21,6 +21,11 @@ using System.Collections.Generic;
 using LibVLCSharp.Shared;
 using System.Linq;
 using System.Diagnostics;
+using NHttp;
+using ImageAndMovieFileExtentions;
+using System.Net.Sockets;
+using System.Net;
+using System.Net.NetworkInformation;
 
 namespace PhotoTagsSynchronizer
 {
@@ -493,6 +498,18 @@ namespace PhotoTagsSynchronizer
 
         private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (nHttpServer == null)
+            {
+                nHttpServer = new HttpServer();
+                nHttpServer.WriteBufferSize = 1024 * 1024 * 10;
+                nHttpServer.RequestReceived += NHttpServer_RequestReceived;
+                nHttpServer.StateChanged += NHttpServer_StateChanged;
+                nHttpServer.UnhandledException += NHttpServer_UnhandledException;
+                nHttpServer.EndPoint = new IPEndPoint(IPAddress.Parse(GetLocalIp()), GetOpenPort());
+                Console.WriteLine("nHTTP server started: " + nHttpServer.EndPoint.ToString());
+                nHttpServer.Start();
+            }
+
             toolStripDropDownButtonChromecastList.DropDownItems.Clear();
             foreach (LibVLCSharp.Shared.RendererItem rendererItem in vlcRendererItems)
             {
@@ -502,14 +519,13 @@ namespace PhotoTagsSynchronizer
                 toolStripDropDownItem.Tag = rendererItem;
                 toolStripDropDownButtonChromecastList.DropDownItems.Add(toolStripDropDownItem);
             }
-
-            
             
             videoView1.MediaPlayer.EnableKeyInput = true;
             videoView1.MediaPlayer.EnableHardwareDecoding = true;
             videoView1.MediaPlayer.EnableKeyInput = true;
 
             vlcMediaPlayerVideoView.Backward += VlcMediaPlayerVideoView_Backward;
+            vlcMediaPlayerVideoView.Forward += VlcMediaPlayerVideoView_Forward; ;
             vlcMediaPlayerVideoView.Buffering += VlcMediaPlayerVideoView_Buffering;
             vlcMediaPlayerVideoView.EncounteredError += VlcMediaPlayerVideoView_EncounteredError;
             
@@ -554,11 +570,112 @@ namespace PhotoTagsSynchronizer
             {
                 previewMediaindex = 0;
                 ShowPreviewItem(previewItems[previewMediaindex]);
-            }
-
-            
+            }          
         }
 
+        #region nHttpServer - 
+        HttpServer nHttpServer = null;
+        public string GetLocalIp()
+        {
+            string localIP = null;
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                socket.Connect("8.8.8.8", 65530);
+                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                localIP = endPoint.Address.ToString();
+            }
+            return localIP;
+        }
+
+        private int GetOpenPort()
+        {
+            int PortStartIndex = 51000 + (new Random()).Next(0, 1000);
+            int PortEndIndex = PortStartIndex + 1000;
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] tcpEndPoints = properties.GetActiveTcpListeners();
+
+            List<int> usedPorts = tcpEndPoints.Select(p => p.Port).ToList<int>();
+            int unusedPort = 0;
+
+            for (int port = PortStartIndex; port < PortEndIndex; port++)
+            {
+                if (!usedPorts.Contains(port))
+                {
+                    unusedPort = port;
+                    break;
+                }
+            }
+            return unusedPort;
+        }
+
+        #region nHttpServer - UnhandledException
+        private void NHttpServer_UnhandledException(object sender, HttpExceptionEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, HttpExceptionEventArgs>(NHttpServer_UnhandledException), sender, e);
+                return;
+            }
+            toolStripLabelMediaPreviewStatus.Text = "nHTTP server unhandled exception...";
+            Logger.Error(e.Request.ToString());
+        }
+        #endregion 
+
+        #region nHttpServer - StateChanged
+        private void NHttpServer_StateChanged(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(NHttpServer_StateChanged), sender, e);
+                return;
+            }
+            if (nHttpServer != null) toolStripLabelMediaPreviewStatus.Text = "nHTTP server new state: " + nHttpServer.State.ToString();
+            Console.WriteLine("nHTTP server new state: " + nHttpServer.State.ToString());
+        }
+        #endregion 
+
+        #region nHttpServer - RequestReceived
+        private void NHttpServer_RequestReceived(object sender, HttpRequestEventArgs e)
+        {
+            /*
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, HttpRequestEventArgs>(NHttpServer_RequestReceived), sender, e);
+                return;
+            }*/
+
+            //Process.Start(String.Format("http://{0}", server.EndPoint) + "/chromecast?index=2&loadmedia=" + System.Web.HttpUtility.UrlEncode(@"C:\data\path 2\path2\file name.jpg"));
+
+            byte[] mediaByteArray = null;
+            string mediaFullFilename = e.Request.Params["loadmedia"];
+            string indexString = e.Request.Params["index"];
+            if (int.TryParse(indexString, out int indexMediaFile))
+            {
+                if (indexMediaFile > -1  && indexMediaFile < previewItems.Count) mediaFullFilename = previewItems[indexMediaFile];
+            }
+
+            //if (e.Request.Path.ToLower() == "/favicon.ico") bilde = File.ReadAllBytes("favicon.png");
+            if (e.Request.Path.ToLower() == "/chromecast" && mediaFullFilename != null)
+            {                
+                if (ImageAndMovieFileExtentionsUtility.IsImageFormat(mediaFullFilename))
+                {
+                    mediaByteArray = ImageAndMovieFileExtentionsUtility.LoasImageAsJpeg(mediaFullFilename);
+                    e.Response.ContentType = "image/jpeg";
+                }
+                else if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(mediaFullFilename))
+                {
+                    mediaByteArray = File.ReadAllBytes(mediaFullFilename);
+                    e.Response.ContentType = "video/mp4";
+                }
+            }
+
+            if (mediaByteArray != null) e.Response.OutputStream.Write(mediaByteArray, 0, mediaByteArray.Length);
+            else e.Response.Status = "404 Not Found";
+
+        }
+        #endregion
+
+        #endregion 
 
         #region VlcMediaplayer 
 
@@ -588,6 +705,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
+            toolStripLabelMediaPreviewStatus.Text = "VLC player opening...";
             toolStripButtonMediaPreviewPlay.Enabled = false;
             toolStripButtonMediaPreviewPause.Enabled = false;
             toolStripButtonMediaPreviewFastBackward.Enabled = false;
@@ -605,6 +723,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
+            toolStripLabelMediaPreviewStatus.Text = "VLC player end reached...";
             toolStripButtonMediaPreviewPlay.Enabled = true;
             toolStripButtonMediaPreviewPause.Enabled = false;
             toolStripButtonMediaPreviewFastBackward.Enabled = false;
@@ -622,6 +741,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
+            toolStripLabelMediaPreviewStatus.Text = "VLC player error encountered...";
             toolStripButtonMediaPreviewPlay.Enabled = false;
             toolStripButtonMediaPreviewPause.Enabled = false;
             toolStripButtonMediaPreviewFastBackward.Enabled = false;
@@ -656,6 +776,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
+            toolStripLabelMediaPreviewStatus.Text = "VLC player stopped...";
             toolStripButtonMediaPreviewPlay.Enabled = true;
             toolStripButtonMediaPreviewPause.Enabled = false;
             toolStripButtonMediaPreviewFastBackward.Enabled = false;
@@ -673,6 +794,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
+            toolStripLabelMediaPreviewStatus.Text = "VLC player playing...";
             toolStripButtonMediaPreviewPlay.Enabled = false;
             toolStripButtonMediaPreviewPause.Enabled = true;
             toolStripButtonMediaPreviewFastBackward.Enabled = true;
@@ -681,25 +803,80 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #endregion
-
-        #region VlcMediaplayer - 
+        #region VlcMediaplayer - Backward
         private void VlcMediaPlayerVideoView_Backward(object sender, EventArgs e)
         {
-            
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(VlcMediaPlayerVideoView_Backward), sender, e);
+                return;
+            }
+
+            toolStripLabelMediaPreviewStatus.Text = "VLC player backward...";
         }
         #endregion
 
-        
+        #region VlcMediaplayer - Forward
+        private void VlcMediaPlayerVideoView_Forward(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(VlcMediaPlayerVideoView_Forward), sender, e);
+                return;
+            }
 
-        
+            toolStripLabelMediaPreviewStatus.Text = "VLC player forward...";
+        }
+        #endregion
 
+        #region VlcMediaplayer - VolumeChanged
+        private void VlcMediaPlayerVideoView_VolumeChanged(object sender, MediaPlayerVolumeChangedEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, MediaPlayerVolumeChangedEventArgs>(VlcMediaPlayerVideoView_VolumeChanged), sender, e);
+                return;
+            }
+
+            toolStripLabelMediaPreviewStatus.Text = "VLC player volume changed to " + ((int)e.Volume*100).ToString() + "%...";
+        }
+        #endregion
+
+        #region VlcMediaplayer - Muted
+        private void VlcMediaPlayerVideoView_Muted(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(VlcMediaPlayerVideoView_Muted), sender, e);
+                return;
+            }
+
+            toolStripLabelMediaPreviewStatus.Text = "VLC player muted...";
+        }
+        #endregion
+
+        #region VlcMediaplayer - Unmuted
+        private void VlcMediaPlayerVideoView_Unmuted(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, EventArgs>(VlcMediaPlayerVideoView_Unmuted), sender, e);
+                return;
+            }
+
+            toolStripLabelMediaPreviewStatus.Text = "VLC player unmuted...";
+        }
+        #endregion
+
+        #region VlcMediaplayer - ConvertMsToHuman
         private string ConvertMsToHuman(long ms)
         {
             TimeSpan t = TimeSpan.FromMilliseconds(ms);
             return string.Format("{0:D2}:{1:D2}:{2:D2}:{3:D3}", t.Hours, t.Minutes, t.Seconds, t.Milliseconds);
         }
-        
+        #endregion
+
+        #region VlcMediaplayer - TimeChanged
         Stopwatch stopwachMediaTimeChanged = new Stopwatch();
         private void VlcMediaPlayerVideoView_TimeChanged(object sender, MediaPlayerTimeChangedEventArgs e)
         {
@@ -708,7 +885,7 @@ namespace PhotoTagsSynchronizer
                 this.BeginInvoke(new Action<object, MediaPlayerTimeChangedEventArgs>(VlcMediaPlayerVideoView_TimeChanged), sender, e);
                 return;
             }
-
+            
 
             if (stopwachMediaTimeChanged.IsRunning && stopwachMediaTimeChanged.ElapsedMilliseconds < 300) return;
             stopwachMediaTimeChanged.Restart();
@@ -721,10 +898,10 @@ namespace PhotoTagsSynchronizer
             {
                 toolStripLabelMediaPreviewTimer.Text = ConvertMsToHuman (e.Time) + "/" + ConvertMsToHuman(vlcMediaPlayerVideoView.Length);
             }
-            //e.Time
-
         }
+        #endregion
 
+        #region VlcMediaplayer - PositionChanged
         Stopwatch stopwachMediaPositionChanged = new Stopwatch();
         private void VlcMediaPlayerVideoView_PositionChanged(object sender, MediaPlayerPositionChangedEventArgs e)
         {
@@ -752,85 +929,45 @@ namespace PhotoTagsSynchronizer
                 toolStripTraceBarItemMediaPreviewTimerUpdating = false;
             }
         }
+        #endregion
 
-
+        #region VlcMediaplayer - SeekPosition ValueChanged 
         private bool toolStripTraceBarItemMediaPreviewTimerUpdating = false;
-        private void toolStripTraceBarItem1_ValueChanged(object sender, EventArgs e)
+        private void toolStripTraceBarItemSeekPosition_ValueChanged(object sender, EventArgs e)
         {
             if (toolStripTraceBarItemMediaPreviewTimerUpdating) return;
             vlcMediaPlayerVideoView.Pause(); //pause 
             vlcMediaPlayerVideoView.Position = (float)toolStripTraceBarItemMediaPreviewTimer.TrackBar.Value / 100;
             vlcMediaPlayerVideoView.Play(); //resume
         }
+        #endregion 
 
-        private void ToolStripDropDownItemPreviewMedia_Click(object sender, EventArgs e)
-        {
-            ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
-            previewMediaindex = (int)clickedToolStripMenuItem.Tag;
-            ShowPreviewItem(clickedToolStripMenuItem.Text);
-        }
-
+        #region VlcMediaplayer - FastBackward_Click
         private void toolStripButtonMediaPreviewFastBackward_Click(object sender, EventArgs e)
         {
             vlcMediaPlayerVideoView.Time -= 10000;
         }
+        #endregion
 
+        #region VlcMediaplayer - FastForward_Click
         private void toolStripButtonMediaPreviewFastForward_Click(object sender, EventArgs e)
         {
             vlcMediaPlayerVideoView.Time += 10000;
         }
+        #endregion
 
+        #endregion
 
-        private void VlcMediaPlayerVideoView_VolumeChanged(object sender, MediaPlayerVolumeChangedEventArgs e)
+        #region Vlc Chromecast
+
+        #region Vlc Chromecast - Chromecast Device Discoverer - Deleted
+        private void _rendererDiscoverer_ItemDeleted(object sender, RendererDiscovererItemDeletedEventArgs e)
         {
-
+            if (vlcRendererItems.Contains(e.RendererItem)) vlcRendererItems.Remove(e.RendererItem);
         }
+        #endregion
 
-        private void VlcMediaPlayerVideoView_Muted(object sender, EventArgs e)
-        {
-
-        }
-
-        private void VlcMediaPlayerVideoView_Unmuted(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ShowPreviewItem(string fullFilename)
-        {
-            
-            videoView1.MediaPlayer.Stop();
-
-            if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilename))
-            {
-                canPlayAndPause = true;
-                videoView1.MediaPlayer.Play(new Media(_libVLC, fullFilename, FromType.FromPath));
-                
-                videoView1.Visible = true;
-                imageBoxPreview.Visible = false;
-                
-            }
-            if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilename))
-            {
-                canPlayAndPause = false;
-
-                toolStripButtonMediaPreviewPlay.Enabled = false;
-                toolStripButtonMediaPreviewPause.Enabled = false;
-                toolStripButtonMediaPreviewFastBackward.Enabled = false;
-                toolStripButtonMediaPreviewFastForward.Enabled = false;
-                toolStripTraceBarItemMediaPreviewTimer.Enabled = false;
-
-                imageBoxPreview.Image = ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.LoadImage(fullFilename);
-                imageBoxPreview.Visible = true;
-                imageBoxPreview.ZoomToFit();
-                
-                videoView1.Visible = false;
-
-            }
-        }
-
-       
-
+        #region Vlc Chromecast - Chromecast Device Discoverer - Added
         private void _rendererDiscoverer_ItemAdded(object sender, RendererDiscovererItemAddedEventArgs e)
         {
             //Console.WriteLine($"New item discovered: {e.RendererItem.Name} of type {e.RendererItem.Type}");
@@ -840,12 +977,9 @@ namespace PhotoTagsSynchronizer
             // add newly found renderer item to local collection
             if (e.RendererItem.CanRenderVideo && !vlcRendererItems.Contains(e.RendererItem)) vlcRendererItems.Add(e.RendererItem);
         }
+        #endregion 
 
-        private void _rendererDiscoverer_ItemDeleted(object sender, RendererDiscovererItemDeletedEventArgs e)
-        {
-            if (vlcRendererItems.Contains(e.RendererItem)) vlcRendererItems.Remove(e.RendererItem);
-        }
-
+        #region Vlc Chromecast - Chromecast_Click
         LibVLCSharp.Shared.RendererItem selectedVlcRendererItem = null;
         private void ToolStripDropDownItemPreviewChromecast_Click(object sender, EventArgs e)
         {
@@ -872,8 +1006,9 @@ namespace PhotoTagsSynchronizer
             vlcMediaPlayerChromecast.SetRenderer(rendererItem);
 
         }
+        #endregion 
 
-
+        #region Vlc Chromecast - Device Selected
         private void toolStripDropDownButtonChromecastList_Click(object sender, EventArgs e)
         {
             if (vlcMediaPlayerChromecast == null)
@@ -897,7 +1032,49 @@ namespace PhotoTagsSynchronizer
                 //vlcMediaPlayerChromecast.Play(media);
             }
         }
+        #endregion
 
+        #endregion 
+
+        
+        #region Preview
+
+        #region Preview - ShowPreviewItem
+        private void ShowPreviewItem(string fullFilename)
+        {
+
+            videoView1.MediaPlayer.Stop();
+
+            if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilename))
+            {
+                canPlayAndPause = true;
+                videoView1.MediaPlayer.Play(new Media(_libVLC, fullFilename, FromType.FromPath));
+
+                videoView1.Visible = true;
+                imageBoxPreview.Visible = false;
+
+            }
+            if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilename))
+            {
+                canPlayAndPause = false;
+
+                toolStripButtonMediaPreviewPlay.Enabled = false;
+                toolStripButtonMediaPreviewPause.Enabled = false;
+                toolStripButtonMediaPreviewFastBackward.Enabled = false;
+                toolStripButtonMediaPreviewFastForward.Enabled = false;
+                toolStripTraceBarItemMediaPreviewTimer.Enabled = false;
+
+                imageBoxPreview.Image = ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.LoadImage(fullFilename);
+                imageBoxPreview.Visible = true;
+                imageBoxPreview.ZoomToFit();
+
+                videoView1.Visible = false;
+
+            }
+        }
+        #endregion 
+
+        #region Preview - Previous
         private void toolStripButtonMediaPreviewPrevious_Click(object sender, EventArgs e)
         {
             if (previewItems.Count == 0) return;
@@ -905,7 +1082,9 @@ namespace PhotoTagsSynchronizer
             if (previewMediaindex < 0) previewMediaindex = previewItems.Count - 1;
             if (previewItems.Count > 0) ShowPreviewItem(previewItems[previewMediaindex]);            
         }
+        #endregion 
 
+        #region Preview - Next
         private void toolStripButtonMediaPreviewNext_Click(object sender, EventArgs e)
         {
             if (previewItems.Count == 0) return;
@@ -913,7 +1092,18 @@ namespace PhotoTagsSynchronizer
             if (previewMediaindex > previewItems.Count - 1) previewMediaindex = 0;
             if (previewItems.Count > 0) ShowPreviewItem(previewItems[previewMediaindex]);
         }
+        #endregion 
 
+        #region Preview - DropDown - Media Selected
+        private void ToolStripDropDownItemPreviewMedia_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
+            previewMediaindex = (int)clickedToolStripMenuItem.Tag;
+            ShowPreviewItem(clickedToolStripMenuItem.Text);
+        }
+        #endregion
+
+        #region Preview - Play
         private void toolStripButtonMediaPreviewPlay_Click(object sender, EventArgs e)
         {
 
@@ -929,21 +1119,29 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion
+
+        #region Preview - Pause
         private void toolStripButtonMediaPreviewPause_Click(object sender, EventArgs e)
         {
             if (canPlayAndPause) videoView1.MediaPlayer.Pause();
         }
+        #endregion
 
+        #region Preview - Close
         private void toolStripButtonMediaPreviewClose_Click(object sender, EventArgs e)
         {
             videoView1.MediaPlayer.Stop();
             panelMediaPreview.Visible = false;
         }
+        #endregion
 
-        
+        #endregion 
+
+
     }
 
-    
+
 }
 
 

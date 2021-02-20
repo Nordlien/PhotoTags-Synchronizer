@@ -3636,7 +3636,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripTraceBarItemMediaPreviewTimer.Size = new System.Drawing.Size(104, 56);
             this.toolStripTraceBarItemMediaPreviewTimer.Text = "Video timer";
             this.toolStripTraceBarItemMediaPreviewTimer.ToolTipText = "Video timer";
-            this.toolStripTraceBarItemMediaPreviewTimer.ValueChanged += new System.EventHandler(this.toolStripTraceBarItem1_ValueChanged);
+            this.toolStripTraceBarItemMediaPreviewTimer.ValueChanged += new System.EventHandler(this.toolStripTraceBarItemSeekPosition_ValueChanged);
             // 
             // toolStripLabelMediaPreviewTimer
             // 

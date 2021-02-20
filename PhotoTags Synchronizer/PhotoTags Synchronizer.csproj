@@ -467,6 +467,10 @@
       <Project>{4d997a64-c682-4e37-9444-3afa2d51b84f}</Project>
       <Name>MicrosoftPhotos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NHttp\NHttp.csproj">
+      <Project>{7ad9da80-afb9-43ea-bdf2-9b75c47dc2cc}</Project>
+      <Name>NHttp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj">
       <Project>{c14ac62e-7b1a-471b-8660-e9c28d89f316}</Project>
       <Name>SqliteDatabase</Name>

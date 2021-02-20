@@ -21,6 +21,8 @@ namespace DragNDrop
 		{
 			get
 			{
+				base.Height = 16;
+				base.Width = 200;
 				return Control as TrackBar;
 			}
 		}
