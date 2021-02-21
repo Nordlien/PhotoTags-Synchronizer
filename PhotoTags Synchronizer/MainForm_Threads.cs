@@ -32,6 +32,7 @@ namespace PhotoTagsSynchronizer
         private Thread _ThreadRenameMedafiles = null;
 
         
+        
         private List<FileEntryAttribute> commonQueuePreloadingMetadata = new List<FileEntryAttribute>();
         private static readonly Object commonQueuePreloadingMetadataLock = new Object();
 

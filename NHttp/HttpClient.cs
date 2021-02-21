@@ -525,9 +525,12 @@ namespace NHttp
             sb.Append("\r\n");
 
             // Write all headers provided by Response.
+            WriteHeader(sb, "Server", "Apache/0.8.4");
 
             if (!String.IsNullOrEmpty(response.CacheControl))
                 WriteHeader(sb, "Cache-Control", response.CacheControl);
+
+            
 
             if (!String.IsNullOrEmpty(response.ContentType))
             {

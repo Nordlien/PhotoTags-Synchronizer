@@ -84,8 +84,7 @@ namespace NHttp
         public HttpServer()
         {
             EndPoint = new IPEndPoint(IPAddress.Loopback, 0);
-            EndPoint = new IPEndPoint(IPAddress.Parse("192.168.86.154"), 50001);
-
+            
             ReadBufferSize = 4096;
             WriteBufferSize = 4096;
             ShutdownTimeout = TimeSpan.FromSeconds(30);

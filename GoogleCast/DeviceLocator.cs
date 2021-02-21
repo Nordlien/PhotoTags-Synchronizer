@@ -33,7 +33,7 @@ namespace GoogleCast
         /// <returns>a collection of receivers</returns>
         public async Task<IEnumerable<IReceiver>> FindReceiversAsync()
         {
-            return (await ZeroconfResolver.ResolveAsync(PROTOCOL)).Select(CreateReceiver);
+            return (await ZeroconfResolver.ResolveAsync(PROTOCOL, new TimeSpan(0, 0, 0, 0, 4000), 4, 4000)).Select(CreateReceiver);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace GoogleCast
         /// <returns>a provider for notifications</returns>
         public IObservable<IReceiver> FindReceiversContinuous()
         {
-            return ZeroconfResolver.ResolveContinuous(PROTOCOL).Select(CreateReceiver);
+            return ZeroconfResolver.ResolveContinuous(PROTOCOL, new TimeSpan(0, 0, 0, 0, 4000), 4, 4000).Select(CreateReceiver);
         }
     }
 }

@@ -110,12 +110,14 @@ namespace PhotoTagsSynchronizer
             vlcMediaPlayerVideoView = new MediaPlayer(_libVLC);
             videoView1.MediaPlayer = vlcMediaPlayerVideoView;
 
+            /*
             RendererDescription vlcRendererDescription;
             vlcRendererDescription = _libVLC.RendererList.FirstOrDefault(r => r.Name.Equals("microdns_renderer"));          
             vlcRendererDiscoverer = new RendererDiscoverer(_libVLC, vlcRendererDescription.Name);
             vlcRendererDiscoverer.ItemAdded += _rendererDiscoverer_ItemAdded;
             vlcRendererDiscoverer.ItemDeleted += _rendererDiscoverer_ItemDeleted;            
             vlcRendererDiscoverer.Start();
+            */
 
             //treeViewFilter = new TreeWithoutDoubleClick();
 
@@ -283,6 +285,24 @@ namespace PhotoTagsSynchronizer
             fileSystemWatcher.Deleted += new FileSystemEventHandler(FileSystemWatcherOnDeleted);
             fileSystemWatcher.Renamed += new RenamedEventHandler(FileSystemWatcherOnRenamed);
             */
+            _ThreadHttp = new Thread(() =>
+            {
+                using (nHttpServer = new HttpServer())
+                {
+                    nHttpServer.WriteBufferSize = 1024 * 1024 * 10;
+                    nHttpServer.RequestReceived += NHttpServer_RequestReceived;
+                    nHttpServer.StateChanged += NHttpServer_StateChanged;
+                    nHttpServer.UnhandledException += NHttpServer_UnhandledException;
+                    nHttpServer.EndPoint = new IPEndPoint(IPAddress.Parse(GetLocalIp()), 51000 /* GetOpenPort() */);
+                    Console.WriteLine("nHTTP server started: " + nHttpServer.EndPoint.ToString());
+                    nHttpServer.Start();
+                    WaitApplicationClosing = new AutoResetEvent(false);
+
+                    WaitApplicationClosing.WaitOne();
+                    Application.DoEvents();
+                }
+            });
+            _ThreadHttp.Start();
         }
 
         
@@ -368,6 +388,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
             GlobalData.IsApplicationClosing = true;
+            WaitApplicationClosing.Set();
 
             SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 7, false, false);
 
@@ -471,7 +492,10 @@ namespace PhotoTagsSynchronizer
             this.Activate();
 
             imageListView1.Focus();
+
         }
+
+        
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
@@ -497,25 +521,18 @@ namespace PhotoTagsSynchronizer
         private List<string> previewItems = new List<string>();
         private int previewMediaindex = 0;
         private bool canPlayAndPause = false;
-        #endregion 
+        #endregion
 
-        
+        #region
         private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-            if (nHttpServer == null)
-            {
-                nHttpServer = new HttpServer();
-                nHttpServer.WriteBufferSize = 1024 * 1024 * 10;
-                nHttpServer.RequestReceived += NHttpServer_RequestReceived;
-                nHttpServer.StateChanged += NHttpServer_StateChanged;
-                nHttpServer.UnhandledException += NHttpServer_UnhandledException;
-                nHttpServer.EndPoint = new IPEndPoint(IPAddress.Parse(GetLocalIp()), GetOpenPort());
-                Console.WriteLine("nHTTP server started: " + nHttpServer.EndPoint.ToString());
-                nHttpServer.Start();
-            }
 
+
+            GoogleCastInitSender();
             GoogleCastFindReceiversAsync();
+
+            
 
             /*toolStripDropDownButtonChromecastList.DropDownItems.Clear();
             foreach (LibVLCSharp.Shared.RendererItem rendererItem in vlcRendererItems)
@@ -526,7 +543,7 @@ namespace PhotoTagsSynchronizer
                 toolStripDropDownItem.Tag = rendererItem;
                 toolStripDropDownButtonChromecastList.DropDownItems.Add(toolStripDropDownItem);
             }*/
-            
+
 
             videoView1.MediaPlayer.EnableKeyInput = true;
             videoView1.MediaPlayer.EnableHardwareDecoding = true;
@@ -581,6 +598,7 @@ namespace PhotoTagsSynchronizer
                 ShowPreviewItem(previewItems[previewMediaindex]);
             }          
         }
+        #endregion 
 
         #region GoogleCast 
         //https://github.com/kakone/GoogleCast
@@ -591,6 +609,9 @@ namespace PhotoTagsSynchronizer
         private GoogleCast.IReceiver googleCast_SelectedReceiver = null;
         private GoogleCast.Sender googleCast_sender;
         private string mediaPlaying = "";
+
+        private string mimeFormatImage = "image/jpeg";
+        private string mimeFormatVideo = "video/mp4";
         
 
         #region GoogleCast - IsMediaChannelConnected
@@ -655,6 +676,8 @@ namespace PhotoTagsSynchronizer
         #region GoogleCast - Select Receiver
         private async void SelectedDevice(GoogleCast.IReceiver selectedNewReceiver)
         {
+            if (googleCast_SelectedReceiver == selectedNewReceiver) return;
+
             if (googleCast_IsReceiverConnected)
             {
                 if (!googleCast_IsMediaChannelStopped)
@@ -686,9 +709,14 @@ namespace PhotoTagsSynchronizer
                 }
             }
             //googleCast_IsMediaChannelConnected = false;
+
+            
             googleCast_IsReceiverConnected = false;
-            googleCast_SelectedReceiver = selectedNewReceiver;
-            ConnectReceiver();
+            if (selectedNewReceiver != null)
+            {
+                googleCast_SelectedReceiver = selectedNewReceiver;
+                ConnectReceiver();
+            }
         }
 
         #endregion
@@ -745,7 +773,6 @@ namespace PhotoTagsSynchronizer
         #region GoogleCast - ConnectMediaChannelAsync
         private async Task<bool> ConnectMediaChannelAsync()
         {
-            GoogleCastInitSender();
             if (googleCast_sender == null) return false;
 
             if (!IsMediaChannelConnected() || googleCast_IsMediaChannelStopped)
@@ -781,7 +808,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region GoogleCast - Play
-        private async void GoogleCast_Play(string contentSource)
+        private async void GoogleCast_Play(string contentSource, string fileExtention)
         {
             if (await ConnectMediaChannelAsync() && IsApplicationStarted())
             {
@@ -789,9 +816,17 @@ namespace PhotoTagsSynchronizer
                 {
                     GoogleCast.Models.Media.MediaStatus googleCast_CurrentMediaStatus = null;
 
+                    string contentType = "";
+                    if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fileExtention)) contentType = mimeFormatImage;
+                    if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fileExtention)) contentType = mimeFormatVideo;
+
                     try
                     {
-                        googleCast_CurrentMediaStatus = await googleCast_sender?.GetChannel<GoogleCast.Channels.IMediaChannel>().LoadAsync(new MediaInformation() { ContentId = contentSource });
+                        googleCast_CurrentMediaStatus = await googleCast_sender?.GetChannel<GoogleCast.Channels.IMediaChannel>().LoadAsync(
+                            new MediaInformation() { ContentType = contentType, ContentId = contentSource });
+
+                        if (googleCast_CurrentMediaStatus != null) mediaPlaying = contentSource;
+                        else MessageBox.Show("Chromecast failed to load media:\r\n" + contentSource);
                     }
                     catch (Exception ex)
                     {
@@ -799,13 +834,6 @@ namespace PhotoTagsSynchronizer
                         mediaPlaying = "";
                         MessageBox.Show("Communication with Chormecast failed... \r\n" + contentSource + "\r\nError message:" + ex.Message);
                     }
-
-                    if (googleCast_CurrentMediaStatus != null)
-                    {
-                        Console.WriteLine("- GoogleCast_Play: googleCast_CurrentMediaStatus" + (googleCast_CurrentMediaStatus.PlayerState == null ? "null" : googleCast_CurrentMediaStatus.PlayerState));
-                        mediaPlaying = contentSource;
-                    }
-                    else MessageBox.Show("Chromecast failed to load media:\r\n" + contentSource);
 
                 }
                 else
@@ -983,9 +1011,9 @@ namespace PhotoTagsSynchronizer
         private void ToolStripDropDownItemPreviewChromecast_Click(object sender, EventArgs e)
         {
 
-            
+           
             // abort casting if no renderer items were found
-            if (googleCast_receivers != null || googleCast_receivers.ToList<GoogleCast.IReceiver>().Count == 0)
+            if (googleCast_receivers == null || googleCast_receivers.ToList<GoogleCast.IReceiver>().Count == 0)
             {
                 MessageBox.Show("No renderer items found. Abort casting...");
                 return;
@@ -999,44 +1027,26 @@ namespace PhotoTagsSynchronizer
             ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
             clickedToolStripMenuItem.Checked = true;
 
-            googleCast_SelectedReceiver  = (GoogleCast.IReceiver)clickedToolStripMenuItem.Tag;
+            //googleCast_SelectedReceiver  = (GoogleCast.IReceiver)clickedToolStripMenuItem.Tag;
 
             if (previewItems.Count == 0) return;
 
+            googleCast_SelectedReceiver = (GoogleCast.IReceiver)clickedToolStripMenuItem.Tag;
+
+            SelectedDevice(googleCast_SelectedReceiver);
+
             string playItem =
-                String.Format("http://{0}", nHttpServer.EndPoint) + "/chromecast?index=";
-            // + previewMediaindex + "&loadmedia=" + System.Web.HttpUtility.UrlEncode(previewItems[previewMediaindex]);
-            GoogleCast_Play(playItem);
-            //GoogleCast_Play(@"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
+                String.Format("http://{0}", nHttpServer.EndPoint) + "/chromecast?index=" + previewMediaindex +"&loadmedia=" + 
+                System.Web.HttpUtility.UrlEncode(previewItems[previewMediaindex]);
 
 
-            /*
-            // abort casting if no renderer items were found
-            if (!vlcRendererItems.Any())
-            {
-                MessageBox.Show("No renderer items found. Abort casting...");
-                return;
-            }
-
-            foreach (ToolStripMenuItem toolStripDropDownItem in toolStripDropDownButtonChromecastList.DropDownItems)
-            {
-                toolStripDropDownItem.Checked = false;
-            }
-
-            ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
-            clickedToolStripMenuItem.Checked = true;
-            LibVLCSharp.Shared.RendererItem rendererItem = (LibVLCSharp.Shared.RendererItem)clickedToolStripMenuItem.Tag;
-            selectedVlcRendererItem = rendererItem;
-
-            // create the mediaplayer
-            vlcMediaPlayerChromecast = new MediaPlayer(_libVLC);
-            // set the previously discovered renderer item (chromecast) on the mediaplayer if you set it to null, it will start to render normally (i.e. locally) again
-            vlcMediaPlayerChromecast.SetRenderer(rendererItem);
-            */
+            GoogleCast_Play(playItem, previewItems[previewMediaindex]);
+            //GoogleCast_Play(@"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"); 
+            //GoogleCast_Play(@"https://www.altoros.no/wp-content/uploads/2014/05/bg_1200px_4_blur.jpg");
         }
         #endregion 
 
-        #region Vlc Chromecast - Device Selected
+        #region Vlc Chromecast - Device 
         private void toolStripDropDownButtonChromecastList_Click(object sender, EventArgs e)
         {
             if (vlcMediaPlayerChromecast == null)
@@ -1045,10 +1055,16 @@ namespace PhotoTagsSynchronizer
             }
             else
             {
+                //ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
+                //googleCast_SelectedReceiver = (GoogleCast.IReceiver)clickedToolStripMenuItem.Tag;
+
+                //GoogleCastInitSender();
+                //SelectedDevice(googleCast_SelectedReceiver);
+
                 string playItem =
-                String.Format("http://{0}", nHttpServer.EndPoint) + "/chromecast?index=";
+                String.Format("http://{0}", nHttpServer.EndPoint) + "/chromecast?index=" + previewMediaindex;
                 // + previewMediaindex + "&loadmedia=" + System.Web.HttpUtility.UrlEncode(previewItems[previewMediaindex]);
-                GoogleCast_Play(playItem);
+                GoogleCast_Play(playItem, previewItems[previewMediaindex]);
             }
 
             /*
@@ -1080,6 +1096,8 @@ namespace PhotoTagsSynchronizer
 
         #region nHttpServer - 
         HttpServer nHttpServer = null;
+        private Thread _ThreadHttp = null;
+        private AutoResetEvent WaitApplicationClosing = null;
 
         #region nHttpServer - GetLocalIp 
         public string GetLocalIp()
@@ -1169,15 +1187,22 @@ namespace PhotoTagsSynchronizer
             {                
                 if (ImageAndMovieFileExtentionsUtility.IsImageFormat(mediaFullFilename))
                 {
-                    mediaByteArray = ImageAndMovieFileExtentionsUtility.LoasImageAsJpeg(mediaFullFilename);
-                    e.Response.ContentType = "image/jpeg";
+
+                    mediaByteArray = ImageAndMovieFileExtentionsUtility.LoadAndConvertImage(mediaFullFilename, mimeFormatImage, 720, 480);
+                    //mediaByteArray = File.ReadAllBytes(mediaFullFilename);
+                    e.Response.CacheControl = "";
+                    e.Response.ContentType = mimeFormatImage;
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(mediaFullFilename))
                 {
                     mediaByteArray = File.ReadAllBytes(mediaFullFilename);
-                    e.Response.ContentType = "video/mp4";
+                    e.Response.ContentType = mimeFormatVideo;
                 }
             }
+
+            e.Response.ContentType = "";
+            e.Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
+            e.Response.CharSet = "";
 
             if (mediaByteArray != null) e.Response.OutputStream.Write(mediaByteArray, 0, mediaByteArray.Length);
             else e.Response.Status = "404 Not Found";
@@ -1469,7 +1494,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Vlc Chromecast
-        LibVLCSharp.Shared.RendererItem selectedVlcRendererItem = null;
+        //LibVLCSharp.Shared.RendererItem selectedVlcRendererItem = null;
 
         #region Vlc Chromecast - Chromecast Device Discoverer - Deleted
         private void _rendererDiscoverer_ItemDeleted(object sender, RendererDiscovererItemDeletedEventArgs e)
@@ -1598,8 +1623,10 @@ namespace PhotoTagsSynchronizer
         #region Preview - Close
         private void toolStripButtonMediaPreviewClose_Click(object sender, EventArgs e)
         {
+            SelectedDevice(null);
             videoView1.MediaPlayer.Stop();
             panelMediaPreview.Visible = false;
+
         }
         #endregion
 

@@ -16,7 +16,34 @@ namespace ImageAndMovieFileExtentions
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static byte[] LoasImageAsJpeg(string fullFilename)
+        private static MagickFormat ConvertFromMimeFormat (string contentFormat)
+        {
+            MagickFormat magickFormat = MagickFormat.Jpeg;
+            switch (contentFormat)
+            {
+                case "apng":
+                    magickFormat = MagickFormat.APng;
+                    break;
+                case "bmp":
+                    magickFormat = MagickFormat.Bmp;
+                    break;
+                case "gif":
+                    magickFormat = MagickFormat.Gif;
+                    break;
+                case "jpeg":
+                    magickFormat = MagickFormat.Jpeg;
+                    break;
+                case "png":
+                    magickFormat = MagickFormat.Png;
+                    break;
+                case "webp":
+                    magickFormat = MagickFormat.WebP;
+                    break;
+            }
+            return magickFormat;
+        }
+
+        public static byte[] LoadAndConvertImage(string fullFilename, string contentFormat, int width, int height)
         {
             byte[] jpegImage = null;
             try
@@ -25,8 +52,15 @@ namespace ImageAndMovieFileExtentions
                 using (var image = new MagickImage(fullFilename))
                 {
                     // Sets the output format to jpeg
-                    image.Format = MagickFormat.Jpeg;
+                    image.Format = ConvertFromMimeFormat(contentFormat);
+                    
+                    MagickGeometry size = new MagickGeometry(width, height); //new MagickGeometry(720, 480);
 
+                    // This will resize the image to a fixed size without maintaining the aspect ratio.
+                    // Normally an image will be resized to fit inside the specified size.
+                    size.IgnoreAspectRatio = false;
+
+                    image.Resize(size);
                     // Create byte array that contains a jpeg file
                     jpegImage = image.ToByteArray();
                 }
