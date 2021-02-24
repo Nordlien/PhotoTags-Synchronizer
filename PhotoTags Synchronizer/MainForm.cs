@@ -285,6 +285,7 @@ namespace PhotoTagsSynchronizer
             fileSystemWatcher.Deleted += new FileSystemEventHandler(FileSystemWatcherOnDeleted);
             fileSystemWatcher.Renamed += new RenamedEventHandler(FileSystemWatcherOnRenamed);
             */
+
             _ThreadHttp = new Thread(() =>
             {
                 using (nHttpServer = new HttpServer())
@@ -304,10 +305,6 @@ namespace PhotoTagsSynchronizer
             });
             _ThreadHttp.Start();
         }
-
-        
-
-
         #endregion
 
         #region Resize and restore windows size when reopen application        
@@ -502,17 +499,8 @@ namespace PhotoTagsSynchronizer
             isFormLoading = false;
 
             PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
-            //List<FileEntry> imageListViewFileEntryItems = ImageListViewAggregateWithFilesFromFolder(folderTreeViewFolder.GetSelectedNodePath(), false);
-
-            FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
-
-            //PopulateTreeViewFolderFilterThread(imageListViewFileEntryItems);
+            FilesSelected(); 
         }
-
-
-
-
-
 
         #endregion
 
@@ -526,24 +514,8 @@ namespace PhotoTagsSynchronizer
         #region
         private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-
-
             GoogleCastInitSender();
             GoogleCastFindReceiversAsync();
-
-            
-
-            /*toolStripDropDownButtonChromecastList.DropDownItems.Clear();
-            foreach (LibVLCSharp.Shared.RendererItem rendererItem in vlcRendererItems)
-            {
-                ToolStripMenuItem toolStripDropDownItem = new ToolStripMenuItem();
-                toolStripDropDownItem.Click += ToolStripDropDownItemPreviewChromecast_Click;
-                toolStripDropDownItem.Text = rendererItem.Name;
-                toolStripDropDownItem.Tag = rendererItem;
-                toolStripDropDownButtonChromecastList.DropDownItems.Add(toolStripDropDownItem);
-            }*/
-
 
             videoView1.MediaPlayer.EnableKeyInput = true;
             videoView1.MediaPlayer.EnableHardwareDecoding = true;
@@ -918,20 +890,15 @@ namespace PhotoTagsSynchronizer
                 Thread.Sleep(600);
             }
 
-
-            if (googleCast_IsMediaChannelStopped) //Implemented
+            if (googleCast_IsMediaChannelStopped) 
             {
-                Console.WriteLine("GoogleCast_Stop: googleCast_IsChannelStopped = true" + " googleCast_IsInitialized:" + googleCast_IsMediaChannelConnected);
-
-                if (googleCast_IsMediaChannelConnected || await ConnectReceiverAsync()) //Implemented
+                if (googleCast_IsMediaChannelConnected || await ConnectReceiverAsync()) 
                 {
-                    //GoogleCastDisconnect();
                     try
                     {
                         googleCast_sender.GetChannel<GoogleCast.Channels.IMediaChannel>().StatusChanged -= GoogleCast_mediaChannel_StatusChanged;
                         googleCast_sender.GetChannel<GoogleCast.Channels.IReceiverChannel>().StatusChanged -= GoogleCast_ReceiverChannel_StatusChanged;
 
-                        //if (googleCast_ReceiverChannel != null)
                         await googleCast_sender.GetChannel<GoogleCast.Channels.IReceiverChannel>().StopAsync();
 
                     }
@@ -941,9 +908,6 @@ namespace PhotoTagsSynchronizer
                         mediaPlaying = "";
                         googleCast_sender = null;
                         googleCast_IsReceiverConnected = false;
-                        //googleCast_sender = null;
-                        //googleCast_mediaChannel = null;
-                        //googleCast_ReceiverChannel = null;
                     }
                 }
             }
@@ -951,7 +915,6 @@ namespace PhotoTagsSynchronizer
             {
                 await googleCast_sender?.GetChannel<GoogleCast.Channels.IMediaChannel>().StopAsync();
                 mediaPlaying = "";
-                //googleCast_mediaChannel = null;
             }
         }
         #endregion
@@ -1006,12 +969,9 @@ namespace PhotoTagsSynchronizer
         #endregion
 
 
-        #region Vlc Chromecast - Chromecast_Click
-        
+        #region GoogleCast - Chromecast_Click
         private void ToolStripDropDownItemPreviewChromecast_Click(object sender, EventArgs e)
         {
-
-           
             // abort casting if no renderer items were found
             if (googleCast_receivers == null || googleCast_receivers.ToList<GoogleCast.IReceiver>().Count == 0)
             {
@@ -1019,20 +979,13 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            foreach (ToolStripMenuItem toolStripDropDownItem in toolStripDropDownButtonChromecastList.DropDownItems)
-            {
-                toolStripDropDownItem.Checked = false;
-            }
-
+            foreach (ToolStripMenuItem toolStripDropDownItem in toolStripDropDownButtonChromecastList.DropDownItems) toolStripDropDownItem.Checked = false;
+            
             ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
             clickedToolStripMenuItem.Checked = true;
 
-            //googleCast_SelectedReceiver  = (GoogleCast.IReceiver)clickedToolStripMenuItem.Tag;
-
             if (previewItems.Count == 0) return;
-
             googleCast_SelectedReceiver = (GoogleCast.IReceiver)clickedToolStripMenuItem.Tag;
-
             SelectedDevice(googleCast_SelectedReceiver);
 
             string playItem =
@@ -1041,12 +994,10 @@ namespace PhotoTagsSynchronizer
 
 
             GoogleCast_Play(playItem, previewItems[previewMediaindex]);
-            //GoogleCast_Play(@"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"); 
-            //GoogleCast_Play(@"https://www.altoros.no/wp-content/uploads/2014/05/bg_1200px_4_blur.jpg");
         }
         #endregion 
 
-        #region Vlc Chromecast - Device 
+        #region GoogleCast - Device 
         private void toolStripDropDownButtonChromecastList_Click(object sender, EventArgs e)
         {
             if (vlcMediaPlayerChromecast == null)
@@ -1055,46 +1006,17 @@ namespace PhotoTagsSynchronizer
             }
             else
             {
-                //ToolStripMenuItem clickedToolStripMenuItem = (ToolStripMenuItem)sender;
-                //googleCast_SelectedReceiver = (GoogleCast.IReceiver)clickedToolStripMenuItem.Tag;
-
-                //GoogleCastInitSender();
-                //SelectedDevice(googleCast_SelectedReceiver);
-
-                string playItem =
-                String.Format("http://{0}", nHttpServer.EndPoint) + "/chromecast?index=" + previewMediaindex;
+                string playItem = String.Format("http://{0}", nHttpServer.EndPoint) + "/chromecast?index=" + previewMediaindex;
                 // + previewMediaindex + "&loadmedia=" + System.Web.HttpUtility.UrlEncode(previewItems[previewMediaindex]);
                 GoogleCast_Play(playItem, previewItems[previewMediaindex]);
             }
-
-            /*
-            if (vlcMediaPlayerChromecast == null)
-            {
-                toolStripDropDownButtonChromecastList.ShowDropDown();
-            }
-            else
-            {
-                //Test(previewItems, @"c:\Users\nordl\OneDrive\Pictures JTNs OneDrive\TestTags\output.mp4");
-
-                if (vlcMediaPlayerChromecast == null) return;
-
-                var media = new LibVLCSharp.Shared.Media(_libVLC, previewItems[previewMediaindex], FromType.FromPath);
-
-                // create the mediaplayer
-                vlcMediaPlayerChromecast = new MediaPlayer(_libVLC);
-                // set the previously discovered renderer item (chromecast) on the mediaplayer if you set it to null, it will start to render normally (i.e. locally) again
-                vlcMediaPlayerChromecast.SetRenderer(selectedVlcRendererItem);
-
-                // start the playback
-                //vlcMediaPlayerChromecast.Play(media);
-            }*/
         }
         #endregion
 
 
         #endregion 
 
-        #region nHttpServer - 
+        #region nHttpServer
         HttpServer nHttpServer = null;
         private Thread _ThreadHttp = null;
         private AutoResetEvent WaitApplicationClosing = null;
@@ -1165,15 +1087,6 @@ namespace PhotoTagsSynchronizer
         #region nHttpServer - RequestReceived
         private void NHttpServer_RequestReceived(object sender, HttpRequestEventArgs e)
         {
-            /*
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<object, HttpRequestEventArgs>(NHttpServer_RequestReceived), sender, e);
-                return;
-            }*/
-
-            //Process.Start(String.Format("http://{0}", server.EndPoint) + "/chromecast?index=2&loadmedia=" + System.Web.HttpUtility.UrlEncode(@"C:\data\path 2\path2\file name.jpg"));
-
             byte[] mediaByteArray = null;
             string mediaFullFilename = e.Request.Params["loadmedia"];
             string indexString = e.Request.Params["index"];
@@ -1189,7 +1102,6 @@ namespace PhotoTagsSynchronizer
                 {
 
                     mediaByteArray = ImageAndMovieFileExtentionsUtility.LoadAndConvertImage(mediaFullFilename, mimeFormatImage, 720, 480);
-                    //mediaByteArray = File.ReadAllBytes(mediaFullFilename);
                     e.Response.CacheControl = "";
                     e.Response.ContentType = mimeFormatImage;
                 }
@@ -1200,7 +1112,7 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            e.Response.ContentType = "";
+            //e.Response.ContentType = "";
             e.Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
             e.Response.CharSet = "";
 
@@ -1495,7 +1407,6 @@ namespace PhotoTagsSynchronizer
 
         #region Vlc Chromecast
         //LibVLCSharp.Shared.RendererItem selectedVlcRendererItem = null;
-
         #region Vlc Chromecast - Chromecast Device Discoverer - Deleted
         private void _rendererDiscoverer_ItemDeleted(object sender, RendererDiscovererItemDeletedEventArgs e)
         {
@@ -1628,10 +1539,10 @@ namespace PhotoTagsSynchronizer
             panelMediaPreview.Visible = false;
 
         }
+
         #endregion
 
-        #endregion 
-
+        #endregion
 
     }
 
