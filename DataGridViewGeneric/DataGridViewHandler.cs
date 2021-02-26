@@ -15,7 +15,7 @@ namespace DataGridViewGeneric
         Large = 1,
         Medium = 2,
         Small = 3,
-        RenameSize = 128,
+        RenameConvertAndMergeSize = 128,
         ConfigSize = 256
     }
 
@@ -465,11 +465,11 @@ namespace DataGridViewGeneric
                     return 200;
                 case DataGridViewSize.Large:
                     return 300;
-                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
                     return 24; //Rename Grid
-                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
                     return 24; //Rename Grid
-                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
                     return 24; //Rename Grid*/
                 case DataGridViewSize.ConfigSize:
                     return 24;
@@ -490,11 +490,11 @@ namespace DataGridViewGeneric
                     return 200;
                 case DataGridViewSize.Medium:
                     return 200;
-                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
                     return 24; //Rename Grid
-                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
                     return 24; //Rename Grid
-                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
                     return 24; //Rename Grid*/
                 case DataGridViewSize.ConfigSize:
                     return 24;
@@ -516,11 +516,11 @@ namespace DataGridViewGeneric
                 case DataGridViewSize.Large:
                     return 230;
 
-                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
                     return 230; //Rename Grid
-                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
                     return 400; //Rename Grid
-                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
                     return 600; //Rename Grid*/
 
                 case DataGridViewSize.ConfigSize:
@@ -543,11 +543,11 @@ namespace DataGridViewGeneric
                 case DataGridViewSize.Large:
                     return 330;
 
-                case DataGridViewSize.Small | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Small | DataGridViewSize.RenameConvertAndMergeSize:
                     return 200; //Rename Grid
-                case DataGridViewSize.Medium | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Medium | DataGridViewSize.RenameConvertAndMergeSize:
                     return 400; //Rename Grid
-                case DataGridViewSize.Large | DataGridViewSize.RenameSize:
+                case DataGridViewSize.Large | DataGridViewSize.RenameConvertAndMergeSize:
                     return 600; //Rename Grid
 
                 case DataGridViewSize.ConfigSize:

@@ -21,6 +21,7 @@ namespace PhotoTagsSynchronizer
         public static DataGridViewHandler dataGridViewHandlerExiftoolWarning = null;       
         public static DataGridViewHandler dataGridViewHandlerProperties = null;
         public static DataGridViewHandler dataGridViewHandlerRename = null;
+        public static DataGridViewHandler dataGridViewHandlerConvertAndMerge = null;
 
         public static bool lastReadFolderWasRecursive { get; set; } = false;
 
@@ -85,6 +86,13 @@ namespace PhotoTagsSynchronizer
         public static bool IsPopulatingRenameFile { get => dataGridViewHandlerRename.IsPopulatingFile; set => dataGridViewHandlerRename.IsPopulatingFile = value; }
         public static bool IsPopulatingRenameImage { get => dataGridViewHandlerRename.IsPopulatingImage; set => dataGridViewHandlerRename.IsPopulatingImage = value; }
         public static bool IsAgregatedRename { get => dataGridViewHandlerRename.IsAgregated; set => dataGridViewHandlerRename.IsAgregated = value; }
+        
+
+        //Convert and Merge
+        public static bool IsPopulatingConvertAndMerge { get => dataGridViewHandlerConvertAndMerge.IsPopulating; set => dataGridViewHandlerConvertAndMerge.IsPopulating = value; }
+        public static bool IsPopulatingConvertAndMergeFile { get => dataGridViewHandlerConvertAndMerge.IsPopulatingFile; set => dataGridViewHandlerConvertAndMerge.IsPopulatingFile = value; }
+        public static bool IsPopulatingConvertAndMergeImage { get => dataGridViewHandlerConvertAndMerge.IsPopulatingImage; set => dataGridViewHandlerConvertAndMerge.IsPopulatingImage = value; }
+        public static bool IsAgregatedConvertAndMerge { get => dataGridViewHandlerConvertAndMerge.IsAgregated; set => dataGridViewHandlerConvertAndMerge.IsAgregated = value; }
 
         //Acton button
         public static bool IsPopulatingButtonAction { get; set; } = false;
@@ -106,6 +114,7 @@ namespace PhotoTagsSynchronizer
             IsAgregatedExiftoolWarning = false;
             IsAgregatedProperties = false;
             IsAgregatedRename = false;
+            IsAgregatedConvertAndMerge = false;
         }        
 
         //Data stored in DataGridView
@@ -118,7 +127,8 @@ namespace PhotoTagsSynchronizer
                 IsPopulatingExiftoolTags ||
                 IsPopulatingExiftoolWarning ||
                 IsAgregatedProperties ||
-                IsAgregatedRename);
+                IsAgregatedRename || 
+                IsAgregatedConvertAndMerge);
         }
 
         public static bool IsPopulatingAnything()
@@ -171,7 +181,12 @@ namespace PhotoTagsSynchronizer
                 //Rename
                 IsPopulatingRename ||
                 IsPopulatingRenameFile ||
-                IsPopulatingRenameImage
+                IsPopulatingRenameImage ||
+
+                //Convert and Merge
+                IsPopulatingConvertAndMerge ||
+                IsPopulatingConvertAndMergeFile ||
+                IsPopulatingConvertAndMergeImage
                 );
 
         }

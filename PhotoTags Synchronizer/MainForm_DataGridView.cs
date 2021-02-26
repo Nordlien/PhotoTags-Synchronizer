@@ -40,6 +40,8 @@ namespace PhotoTagsSynchronizer
                         return dataGridViewProperties;
                     case "Rename":
                         return dataGridViewRename;
+                    case "ConvertAndMerge":
+                        return dataGridViewConvertAndMerge; 
                     default:
                         return null;
                 }
@@ -121,6 +123,9 @@ namespace PhotoTagsSynchronizer
                 case "Rename":
                     isAgregated = GlobalData.IsAgregatedRename;
                     break;
+                case "ConvertAndMerge":
+                    isAgregated = GlobalData.IsAgregatedConvertAndMerge;
+                    break;
             }
             return isAgregated;
         }
@@ -180,6 +185,10 @@ namespace PhotoTagsSynchronizer
                         break;
                     case "Rename":
                         break;
+                    case "ConvertAndMerge":
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
 
                 if (DataGridViewHandler.ResumeLayout(dataGridView, queueCount))
@@ -248,6 +257,10 @@ namespace PhotoTagsSynchronizer
                         break;
                     case "Rename":
                         break;
+                    case "ConvertAndMerge":
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
             }
         }
@@ -363,8 +376,18 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
                         DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerRename.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
-                        DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);                        
+                        DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);                        
                         break;
+                    case "ConvertAndMerge":
+                        DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                        DataGridViewHandlerConvertAndMerge.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                        DataGridViewHandlerConvertAndMerge.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                        DataGridViewHandlerConvertAndMerge.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
+                        DataGridViewHandlerConvertAndMerge.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+
                 }
 
                 //DataGridViewResumeInvoke();

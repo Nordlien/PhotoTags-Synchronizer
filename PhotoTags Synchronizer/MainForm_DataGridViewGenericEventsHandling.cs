@@ -10,6 +10,7 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
+        //Convert and Merge
         //Date
         //Exiftool
         //ExiftoolWarning
@@ -18,12 +19,14 @@ namespace PhotoTagsSynchronizer
         //Properties
         //Rename
         //TagsAndKeywords
-        
+
         #region Cut
+        //Convert and Merge
         //Date
         //Exiftool
         //ExiftoolWarning
-        //Map
+
+        #region Map
         private void toolStripMenuItemMapCut_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
@@ -34,7 +37,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleCut_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -46,9 +51,12 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+        
+        #region TagsAndKeywords
         private void cutToolStripMenuTagsBrokerCut_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -68,9 +76,13 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region Copy
+        //Convert and Merge
         //Date
-        //Exiftool
+
+        #region Exiftool
         private void toolStripMenuItemExiftoolCopy_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
@@ -79,7 +91,9 @@ namespace PhotoTagsSynchronizer
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
         }
-        //ExiftoolWarning
+        #endregion
+
+        #region ExiftoolWarning
         private void toolStripMenuItemExiftoolWarningCopy_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifToolWarning;
@@ -88,7 +102,9 @@ namespace PhotoTagsSynchronizer
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
         }
-        //Map
+        #endregion
+
+        #region Map
         private void toolStripMenuItemMapCopy_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
@@ -97,7 +113,9 @@ namespace PhotoTagsSynchronizer
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleCopy_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -106,9 +124,12 @@ namespace PhotoTagsSynchronizer
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+
+        #region TagsAndKeywords
         private void copyToolStripMenuTagsBrokerCopy_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -118,11 +139,15 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region Paste
+        //Convert and Merge
         //Date
         //Exiftool
         //ExiftoolWarning
-        //Map
+        
+        #region Map
         private void toolStripMenuItemMapPaste_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
@@ -133,7 +158,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeoplePaste_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -144,9 +171,11 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+        #region TagsAndKeywords
         private void pasteToolStripMenuTagsBrokerPaste_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -163,13 +192,17 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
-        #endregion 
+        #endregion
+
+        #endregion
 
         #region Delete
+        //Convert and Merge
         //Date
         //Exiftool
         //ExiftoolWarning
-        //Map
+
+        #region Map
         private void toolStripMenuItemMapDelete_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
@@ -179,7 +212,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleDelete_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -190,9 +225,11 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+        #region TagsAndKeywords
         private void deleteToolStripMenuTagsBrokerDelete_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -210,11 +247,14 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region Undo
+        //Convert and Merge
         //Date
         //Exiftool
         //ExiftoolWarning
-        //Map
+        #region Map
         private void toolStripMenuItemMapUndo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
@@ -224,7 +264,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleUndo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -235,9 +277,11 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+        #region TagsAndKeywords
         private void undoToolStripMenuTags_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -252,11 +296,14 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region Redo
+        //Convert and Merge
         //Date
         //Exiftool
         //ExiftoolWarning
-        //Map
+        #region Map
         private void toolStripMenuItemMapRedo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
@@ -268,7 +315,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleRedo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -281,9 +330,11 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+        #region TagsAndKeywords
         private void redoToolStripMenuTags_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -298,10 +349,14 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
 
         #region Find
+        //Convert and Merge
         //Date
-        //Exiftool
+
+        #region Exiftool
         private void toolStripMenuItemExiftoolFind_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
@@ -312,7 +367,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
-        //ExiftoolWarning
+        #endregion
+
+        #region ExiftoolWarning
         private void toolStripMenuItemExiftoolWarningFind_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifToolWarning;
@@ -323,7 +380,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
-        //Map
+        #endregion
+
+        #region Map
         private void toolStripMenuItemMapFind_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
@@ -334,7 +393,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleFind_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -345,9 +406,12 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+
+        #region TagsAndKeywords
         private void findToolStripMenuTag_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -362,9 +426,12 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Find and Replace
+        #endregion
+
+        #region Find and Replace - *** Need debug why not implemented ***
+        //Convert and Merge
         //Date
-        //Exiftool
+        #region Exiftool
         private void toolStripMenuItemExiftoolReplace_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
@@ -375,8 +442,10 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
+        #endregion
+
         //ExiftoolWarning
-        //Map
+        #region Map
         private void toolStripMenuItemMapReplace_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
@@ -387,7 +456,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleReplace_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -399,9 +470,11 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+        #region TagsAndKeywords
         private void replaceToolStripMenuTag_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -416,40 +489,53 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
 
         #region Mark Favorite
+        //Convert and Merge
         //Date
-        //Exiftool
+
+        #region Exiftool
         private void toolStripMenuItemExiftoolMarkFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
-        //ExiftoolWarning
+        #endregion
+
+        #region ExiftoolWarning
         private void toolStripMenuItemExiftoolWarningMarkFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifToolWarning;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
-        //Map
+        #endregion
+
+        #region Map
         private void toolStripMenuItemMapMarkFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleMarkFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+
+        #region TagsAndKeywords
         private void markAsFavoriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -458,39 +544,50 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region Remove Favorite
+        //Convert and Merge
         //Date
-        //Exiftool
+        #region Exiftool
         private void toolStripMenuItemExiftoolRemoveFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
-        //ExiftoolWarning
+        #endregion
+
+        #region ExiftoolWarning
         private void toolStripMenuItemExiftoolWarningRemoveFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifToolWarning;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
-        //Map
+        #endregion
+
+        #region Map
         private void toolStripMenuItemMapRemoveFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleRemoveFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+        #region TagsAndKeywords
         private void removeAsFavoriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -499,39 +596,50 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region Toogle Favorite
+        //Convert and Merge
         //Date
-        //Exiftool
+        #region Exiftool
         private void toolStripMenuItemExiftoolToggleFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
-        //ExiftoolWarning
+        #endregion
+
+        #region ExiftoolWarning
         private void toolStripMenuItemExiftoolWarningToggleFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifToolWarning;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
-        //Map
+        #endregion
+
+        #region Map
         private void toolStripMenuItemMapToggleFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleToggleFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+        #region TagsAndKeywords
         private void toggleFavoriteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -540,39 +648,49 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region Show only Favorite 
         //Date
-        //Exiftool
+        #region Exiftool
         private void toolStripMenuItemExiftoolShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, showFavoriteRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
-        //ExiftoolWarning
+        #endregion
+
+        #region ExiftoolWarning
         private void toolStripMenuItemExiftoolWarningShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifToolWarning;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, showFavoriteRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
-        //Map
+        #endregion
+
+        #region Map
         private void toolStripMenuItemMapShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, showFavoriteRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, showFavoriteRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+        #region TagsAndKeywords
         private void showFavoriteRowsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
@@ -581,48 +699,56 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region Hide Equal Rows
         //Date
-        //Exiftool
+        #region Exiftool
         private void toolStripMenuItemExiftoolHideEqual_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifTool;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, hideEqualRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
-        //ExiftoolWarning
+        #endregion
+
+        #region ExiftoolWarning
         private void toolStripMenuItemExiftoolWarningHideEqual_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewExifToolWarning;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, hideEqualRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
-        //Map
+        #endregion
+
+        #region Map
         private void toolStripMenuItemMapHideEqual_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, hideEqualRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
-        //People
+        #endregion
+
+        #region People
         private void toolStripMenuItemPeopleHideEqualRows_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, hideEqualRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
+        #endregion
+
         //Properties
         //Rename
-        //TagsAndKeywords
+        #region TagsAndKeywords
         private void hideEqualRowsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, hideEqualRowsToolStripMenuItem);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, hideEqualRowsToolStripMenuItem.Checked, showFavoriteRowsToolStripMenuItem.Checked);
         }
-
-        
-
+        #endregion
 
         #endregion
 
@@ -661,6 +787,7 @@ namespace PhotoTagsSynchronizer
 
             TagActionToggle(dataGridView, DataGridViewHandlerTagsAndKeywords.headerKeywords, NewState.Set);
         }
+
         private void toolStripMenuItemPeopleSelectPeopleTag_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -746,53 +873,77 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView Keydown
-        //Date
+
+        #region Keydown - Convert And Merge
+        private void dataGridViewConvertAndMerge_KeyDown(object sender, KeyEventArgs e)
+        {
+            DataGridViewHandler.KeyDownEventHandler(sender, e);
+        }
+        #endregion
+
+        #region Keydown - Date
         private void dataGridViewDate_KeyDown(object sender, KeyEventArgs e)
         {
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
-        //Exiftool
+        #endregion
+
+        #region Keydown - Exiftool
         private void dataGridViewExifTool_KeyDown(object sender, KeyEventArgs e)
         {
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
-        //ExiftoolWarning
+        #endregion
+
+        #region Keydown - ExiftoolWarning
         private void dataGridViewExifToolWarningData_KeyDown(object sender, KeyEventArgs e)
         {
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
-        //Map
+        #endregion
+
+        #region Keydown - Map
         private void dataGridMap_KeyDown(object sender, KeyEventArgs e)
         {
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
-        
-        //People
+        #endregion
+
+        #region Keydown - People
         private void dataGridViewPeople_KeyDown(object sender, KeyEventArgs e)
         {
             triStateButtomClick = false;
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
-        //Properties
+        #endregion
+
+        #region Keydown - Properties
         private void dataGridViewRename_KeyDown(object sender, KeyEventArgs e)
         {
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
-        //Rename
+        #endregion
+
+        #region Keydown - Rename
         private void dataGridViewProperties_KeyDown(object sender, KeyEventArgs e)
         {
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
-        //TagsAndKeywords
+        #endregion 
+
+        #region Keydown - TagsAndKeywords
         private void dataGridViewTagsAndKeywords_KeyDown(object sender, KeyEventArgs e)
         {
             triStateButtomClick = false; 
         }
         #endregion
 
+        #endregion
+
 
         #region Cell BeginEdit
-        //Date
+
+        #region Cell BeginEdit - Date
         private void dataGridViewDate_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -800,7 +951,9 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
-        //Exiftool
+        #endregion
+
+        #region Cell BeginEdit - Exiftool
         private void dataGridViewExifTool_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -808,7 +961,9 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
-        //ExiftoolWarning
+        #endregion
+
+        #region Cell BeginEdit - ExiftoolWarning
         private void dataGridViewExifToolWarning_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -816,7 +971,9 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
-        //Map
+        #endregion
+
+        #region Cell BeginEdit - Map
         private void dataGridViewMap_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -824,8 +981,9 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
+        #endregion
 
-        //People
+        #region Cell BeginEdit - People
         private void dataGridViewPeople_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             if (triStateButtomClick)
@@ -839,7 +997,9 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
-        //Properties
+        #endregion
+
+        #region Cell BeginEdit - Properties
         private void dataGridViewProperties_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -847,7 +1007,9 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
-        //Rename
+        #endregion
+
+        #region Cell BeginEdit - Rename
         private void dataGridViewRename_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -855,8 +1017,9 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
+        #endregion
 
-        //TagsAndKeywords
+        #region Cell BeginEdit - TagsAndKeywords
         private void dataGridViewTagsAndKeywords_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             if (triStateButtomClick)
@@ -872,7 +1035,29 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
         #region Cell Painting
+
+        #region Cell Painting - Convert and Merge
+        private void dataGridViewConvertAndMerge_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            
+
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
+            //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+            //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+            DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+
+            //Draw red line for drag and drop
+            DataGridView dataGridView = (DataGridView)sender;
+            if (e.RowIndex == dragdropcurrentIndex && e.RowIndex > -1 && dragdropcurrentIndex < DataGridViewHandler.GetRowCount(dataGridView))
+            {
+                Pen p = new Pen(Color.Red, 2);
+                e.Graphics.DrawLine(p, e.CellBounds.Left, e.CellBounds.Top + e.CellBounds.Height - 1, e.CellBounds.Right, e.CellBounds.Top + e.CellBounds.Height - 1);
+            }
+        }
+        #endregion 
 
         #region Cell Painting - Date
         private void dataGridViewDate_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -999,6 +1184,9 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        
+
+        //ConvertAndMerge
         //Date
         //Exiftool
         //ExiftoolWarning

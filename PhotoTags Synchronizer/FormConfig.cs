@@ -669,6 +669,10 @@ namespace PhotoTagsSynchronizer
         private Rectangle dragBoxFromMouseDown;
         private int rowIndexFromMouseDown;
         private int rowIndexOfItemUnderMouseToDrop;
+        private int oldIndex = -2;
+        private int dragdropcurrentIndex = -1;
+
+        #region Metadata Read - Drag and Drop - General - Mouse Move
         private void dataGridViewMetadataReadPriority_MouseMove(object sender, MouseEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
@@ -683,7 +687,9 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion
 
+        #region Metadata Read - Drag and Drop - General - Mouse Down
         private void dataGridViewMetadataReadPriority_MouseDown(object sender, MouseEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
@@ -710,7 +716,31 @@ namespace PhotoTagsSynchronizer
                 // Reset the rectangle if the mouse is not over an item in the ListBox.
                 dragBoxFromMouseDown = Rectangle.Empty;
         }
+        #endregion
 
+        #region Metadata Read - Drag and Drop - Drag Over
+        private void dataGridViewMetadataReadPriority_DragOver(object sender, DragEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            Point clientPoint = dataGridView.PointToClient(new Point(e.X, e.Y));
+            // Get the row index of the item the mouse is below. 
+            int rowIndex = dataGridView.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
+            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+            if (dataGridViewGenericRow != null && dataGridViewGenericRow.IsHeader) e.Effect = DragDropEffects.Move;
+            else e.Effect = DragDropEffects.None;
+
+            if (e.Effect == DragDropEffects.Move) dragdropcurrentIndex = dataGridView.HitTest(dataGridView.PointToClient(new Point(e.X, e.Y)).X, dataGridView.PointToClient(new Point(e.X, e.Y)).Y).RowIndex;
+            else dragdropcurrentIndex = -1;
+
+            if (oldIndex != dragdropcurrentIndex)
+            {
+                dataGridView.Invalidate();
+                oldIndex = dragdropcurrentIndex;
+            }
+        }
+        #endregion
+
+        #region Metadata Read - Drag and Drop - Drag Drop 
         private void dataGridViewMetadataReadPriority_DragDrop(object sender, DragEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
@@ -745,21 +775,11 @@ namespace PhotoTagsSynchronizer
                 dataGridView.CurrentCell = DataGridViewHandler.GetCellDataGridViewCell(dataGridView, 0, toRowIndex);
             }
 
+            dragdropcurrentIndex = -1;
+            dataGridView.Invalidate();
         }
+        #endregion
 
-        private void dataGridViewMetadataReadPriority_DragOver(object sender, DragEventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewMetadataReadPriority;
-            Point clientPoint = dataGridView.PointToClient(new Point(e.X, e.Y));
-            // Get the row index of the item the mouse is below. 
-            int rowIndex = dataGridView.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
-            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-            if (dataGridViewGenericRow != null && dataGridViewGenericRow.IsHeader)
-            {
-                e.Effect = DragDropEffects.Move;
-            }
-            else e.Effect = DragDropEffects.None;
-        }
         #endregion
 
         #region Metadata Read - Cell Changed
@@ -892,6 +912,14 @@ namespace PhotoTagsSynchronizer
             //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+
+            //Draw red line for drag and drop
+            DataGridView dataGridView = (DataGridView)sender;
+            if (e.RowIndex == dragdropcurrentIndex && e.RowIndex > -1 && dragdropcurrentIndex < DataGridViewHandler.GetRowCount(dataGridView))
+            {
+                Pen p = new Pen(Color.Red, 2);
+                e.Graphics.DrawLine(p, e.CellBounds.Left, e.CellBounds.Top + e.CellBounds.Height - 1, e.CellBounds.Right, e.CellBounds.Top + e.CellBounds.Height - 1);
+            }
         }
         #endregion
 

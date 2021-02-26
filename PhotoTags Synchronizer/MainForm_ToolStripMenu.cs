@@ -496,7 +496,7 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.CellSizeProperties = (int)size;
                     break;
                 case "Rename":
-                    DataGridViewHandler.SetCellSize(dataGridViewRename, (size | DataGridViewSize.RenameSize), false);
+                    DataGridViewHandler.SetCellSize(dataGridViewRename, (size | DataGridViewSize.RenameConvertAndMergeSize), false);
                     Properties.Settings.Default.CellSizeRename = (int)size;
                     break;
                 default:
