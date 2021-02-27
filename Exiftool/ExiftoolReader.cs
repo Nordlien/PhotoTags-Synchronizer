@@ -548,10 +548,10 @@ namespace Exiftool
             if (files.Count == 0) return metaDataCollections;
 
             #region Find path to exiftool
-            String path = NativeMethods.GetFullPathOfExeFile("exiftool.exe");
+            String path = NativeMethods.GetFullPathOfFile("exiftool.exe");
             if (path == null)
             {
-                String path2 = NativeMethods.GetFullPathOfExeFile("exiftool(-k).exe");
+                String path2 = NativeMethods.GetFullPathOfFile("exiftool(-k).exe");
                 if (path2 != null)
                 {
                     throw new InvalidOperationException("Found exiftool(-k).exe. You need ro rename from exiftool(-k).exe to exiftool.exe. " + Path.Combine(path2, "exiftool(-k).exe"));

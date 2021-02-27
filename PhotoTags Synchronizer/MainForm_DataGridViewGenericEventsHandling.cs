@@ -1042,8 +1042,6 @@ namespace PhotoTagsSynchronizer
         #region Cell Painting - Convert and Merge
         private void dataGridViewConvertAndMerge_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            
-
             DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
             //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);

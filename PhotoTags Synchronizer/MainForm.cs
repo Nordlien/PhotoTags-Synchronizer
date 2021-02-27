@@ -143,7 +143,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExifToolWarning, "MetadataWarning", "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
             GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, "Properties", "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
             GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, "Rename", "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
-            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, "Convert and Merge", "Filenames", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
+            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, "Convert and Merge", "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
 
             SplashForm.UpdateStatus("Populate renderer dropdown...");
             // Populate renderer dropdown
@@ -1429,7 +1429,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion 
 
-        
         #region Preview
 
         #region Preview - ShowPreviewItem
@@ -1546,7 +1545,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
     }
 
 

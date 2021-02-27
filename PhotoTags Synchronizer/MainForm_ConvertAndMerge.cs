@@ -139,10 +139,6 @@ namespace PhotoTagsSynchronizer
             // If the drag operation was a move then remove and insert the row.
             if (e.Effect == DragDropEffects.Move)
             {
-                DataGridViewGenericRow dataGridViewGenericRowFrom = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, convertAndMergeRowIndexFromMouseDown);
-                DataGridViewGenericRow dataGridViewGenericRowTo = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, convertAndMergeRowIndexOfItemUnderMouseToDrop);
-
-
                 int toRowIndex = convertAndMergeRowIndexOfItemUnderMouseToDrop + (convertAndMergeRowIndexFromMouseDown < convertAndMergeRowIndexOfItemUnderMouseToDrop ? 0 : 1);
 
                 DataGridViewRow rowToMove = e.Data.GetData(typeof(DataGridViewRow)) as DataGridViewRow;

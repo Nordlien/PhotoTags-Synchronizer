@@ -691,7 +691,7 @@
             this.buttonBatchRunImageBrowser.Name = "buttonBatchRunImageBrowser";
             this.buttonBatchRunImageBrowser.Size = new System.Drawing.Size(122, 26);
             this.buttonBatchRunImageBrowser.TabIndex = 28;
-            this.buttonBatchRunImageBrowser.Text = "Browser...";
+            this.buttonBatchRunImageBrowser.Text = "Browse...";
             this.buttonBatchRunImageBrowser.UseVisualStyleBackColor = true;
             this.buttonBatchRunImageBrowser.Click += new System.EventHandler(this.buttonBatchRunImageBrowser_Click);
             // 
@@ -913,7 +913,7 @@
             this.buttonBatchRunVideoBrowser.Name = "buttonBatchRunVideoBrowser";
             this.buttonBatchRunVideoBrowser.Size = new System.Drawing.Size(122, 26);
             this.buttonBatchRunVideoBrowser.TabIndex = 28;
-            this.buttonBatchRunVideoBrowser.Text = "Browser...";
+            this.buttonBatchRunVideoBrowser.Text = "Browse...";
             this.buttonBatchRunVideoBrowser.UseVisualStyleBackColor = true;
             this.buttonBatchRunVideoBrowser.Click += new System.EventHandler(this.buttonBatchRunVideoBrowser_Click);
             // 

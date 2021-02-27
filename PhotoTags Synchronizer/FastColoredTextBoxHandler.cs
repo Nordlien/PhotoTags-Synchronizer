@@ -25,7 +25,34 @@ namespace PhotoTagsSynchronizer
         private Regex regexMetadataRegions = null;
 
         private AutocompleteMenu popupMenuMetadataProperties;
-        
+
+        public FastColoredTextBoxHandler(FastColoredTextBox fastColoredTextBox, ComboBox comboBox)
+        {
+            //create autocomplete popup menu
+            popupMenuMetadataProperties = new AutocompleteMenu(fastColoredTextBox);
+            popupMenuMetadataProperties.MinFragmentLength = 2;
+
+            List<AutocompleteItem> autoCompleteItems = new List<AutocompleteItem>();
+            
+            string regexPatternProperties = "";
+            foreach (string item in comboBox.Items)
+            {
+                regexPatternProperties += (regexPatternProperties == "" ? "" : "|") + item;
+                autoCompleteItems.Add(new AutocompleteItem(item.TrimStart('{').TrimEnd('}')));
+            }
+
+            string regexPatternMetadataTags = "";
+            string regexPatternMetadataRegions = "";
+            
+            regexProperties = new Regex("(" + regexPatternProperties + ")", RegexOptions.IgnoreCase);
+            regexMetadataTags = new Regex("(" + regexPatternMetadataTags + ")", RegexOptions.IgnoreCase);
+            regexMetadataRegions = new Regex("(" + regexPatternMetadataRegions + ")", RegexOptions.IgnoreCase);
+
+            popupMenuMetadataProperties.Items.SetAutocompleteItems(autoCompleteItems);
+            popupMenuMetadataProperties.Items.MaximumSize = new System.Drawing.Size(200, 300);
+            popupMenuMetadataProperties.Items.Width = 200;
+        }
+
         public FastColoredTextBoxHandler(FastColoredTextBox fastColoredTextBox, bool addKeywordItem, Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionary)
         {            
             //create autocomplete popup menu

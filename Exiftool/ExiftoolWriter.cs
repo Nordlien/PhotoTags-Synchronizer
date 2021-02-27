@@ -314,12 +314,12 @@ namespace Exiftool
         #endregion 
 
         #region GetTempArguFileFullPath
-        public static string GetTempArguFileFullPath()
+        public static string GetTempArguFileFullPath(string tempfilename)
         {
             //Create directory, filename and remove old arg file
             string exiftoolArgFileDirecory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
             if (!Directory.Exists(exiftoolArgFileDirecory)) Directory.CreateDirectory(exiftoolArgFileDirecory);
-            string exiftoolArgFileFullPath = Path.Combine(exiftoolArgFileDirecory, "exiftool_arg.txt");
+            string exiftoolArgFileFullPath = Path.Combine(exiftoolArgFileDirecory, tempfilename);
             if (File.Exists(exiftoolArgFileFullPath)) File.Delete(exiftoolArgFileFullPath);
             return exiftoolArgFileFullPath;
         }
@@ -336,7 +336,7 @@ namespace Exiftool
             if (filesNeedToBeUpadted.Count > 0) //Save if has anything to save
             {
                 //Create directory, filename and remove old arg file
-                string exiftoolArgFileFullpath = GetTempArguFileFullPath();
+                string exiftoolArgFileFullpath = GetTempArguFileFullPath("exiftool_arg.txt");
 
                 using (StreamWriter sw = new StreamWriter(exiftoolArgFileFullpath, false, Encoding.UTF8))
                 {
@@ -344,7 +344,7 @@ namespace Exiftool
                 }
 
                 #region Exiftool Write
-                String path = NativeMethods.GetFullPathOfExeFile("exiftool.exe");
+                String path = NativeMethods.GetFullPathOfFile("exiftool.exe");
                 string arguments = "-charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ \"" + NativeMethods.ShortFileName(exiftoolArgFileFullpath) + "\"";
                 bool hasExiftoolErrorMessage = false;
                 string exiftoolOutput = "";

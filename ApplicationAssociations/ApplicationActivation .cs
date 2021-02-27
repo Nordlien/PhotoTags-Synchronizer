@@ -332,6 +332,7 @@ namespace ApplicationAssociations
         }
         #endregion
 
+        #region ShowFolderInEplorer (string folder)
         public static void ShowFolderInEplorer (string folder)
         {
             ProcessStartInfo proc = new ProcessStartInfo();
@@ -339,6 +340,7 @@ namespace ApplicationAssociations
             proc.Arguments = folder;
             Process.Start(proc);
         }
+        #endregion 
 
         #region ShowOpenWithDialog(string path)
         public static void ShowOpenWithDialog(string path)

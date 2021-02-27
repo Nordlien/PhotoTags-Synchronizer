@@ -148,9 +148,11 @@
     </Compile>
     <Compile Include="FormConfig.cs">
       <SubType>Form</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="FormConfig.Designer.cs">
       <DependentUpon>FormConfig.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="FormMessageBox.cs">
       <SubType>Form</SubType>
@@ -172,87 +174,87 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm_DataGridViewGenericEventsHandling.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_DataGridView.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_ConvertAndMerge.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_Thumbnail.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_FileHandling.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_Filter.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_People.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_Rename.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_TagsAndKeywords.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_Dates.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_Properties.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_ImageListView.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_Threads.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_FileSystemWatcher.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_ToolStripMenu.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_Status.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_FilesSelected_Populate.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_FolderSelect.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_ExifToolWarning.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_ExifTool.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_Map.cs">
-	  <DependentUpon>MainForm.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
@@ -289,6 +291,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormConfig.resx">
       <DependentUpon>FormConfig.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMessageBox.resx">
       <DependentUpon>FormMessageBox.cs</DependentUpon>
@@ -335,6 +338,9 @@
     <None Include="Resources\About.png" />
     <None Include="Resources\Config.png" />
     <None Include="Resources\Association-Filetype.png" />
+    <Content Include="Resources\Audio.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\AutoCorrect.png" />
     <None Include="Resources\Chromecast.png" />
     <Content Include="Resources\Demo.ico" />
@@ -391,6 +397,9 @@
     <None Include="Resources\Media_FastForward.png" />
     <None Include="Resources\Media_FastBackward.png" />
     <None Include="Resources\Media_Close.png" />
+    <Content Include="Resources\Silent.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="x64\sqlite3.def">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -473,10 +482,6 @@
       <Project>{569c3820-eafd-425c-a493-981a65aa9f4c}</Project>
       <Name>ImageAndMovieFileExtentions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ImageListViewOrder\ImageListViewOrder.csproj">
-      <Project>{E461BCC8-E354-45A4-BF24-2D68072B456F}</Project>
-      <Name>ImageListViewOrder</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ImageListView\ImageListView.csproj">
       <Project>{0c295fb8-c6c6-4a40-9f19-05a43f353a04}</Project>
       <Name>ImageListView</Name>
@@ -500,6 +505,10 @@
     <ProjectReference Include="..\NHttp\NHttp.csproj">
       <Project>{7ad9da80-afb9-43ea-bdf2-9b75c47dc2cc}</Project>
       <Name>NHttp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PhotoTagsCommonComponets\PhotoTagsCommonComponets.csproj">
+      <Project>{e461bcc8-e354-45a4-bf24-2d68072b456f}</Project>
+      <Name>PhotoTagsCommonComponets</Name>
     </ProjectReference>
     <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj">
       <Project>{c14ac62e-7b1a-471b-8660-e9c28d89f316}</Project>

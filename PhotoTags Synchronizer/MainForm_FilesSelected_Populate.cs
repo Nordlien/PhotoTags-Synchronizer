@@ -1,15 +1,6 @@
-﻿using DataGridViewGeneric;
-using FileDateTime;
-using Manina.Windows.Forms;
-using MetadataLibrary;
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Threading;
+﻿
 using System.Windows.Forms;
-using WindowsProperty;
-using static Manina.Windows.Forms.ImageListView;
+
 
 namespace PhotoTagsSynchronizer
 {

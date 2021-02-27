@@ -206,6 +206,32 @@ namespace PhotoTagsSynchronizer
             this.textBoxHelpAutoCorrect = new System.Windows.Forms.TextBox();
             this.tabPageCameraOwner = new System.Windows.Forms.TabPage();
             this.dataGridViewExtended1 = new DataGridViewExtended.DataGridViewExtended();
+            this.tabPageConvertAndMerge = new System.Windows.Forms.TabPage();
+            this.panelConvertAndMerge = new System.Windows.Forms.Panel();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables = new System.Windows.Forms.ComboBox();
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables = new System.Windows.Forms.ComboBox();
+            this.label52 = new System.Windows.Forms.Label();
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.label50 = new System.Windows.Forms.Label();
+            this.groupBoxConvertAndMergeCommand = new System.Windows.Forms.GroupBox();
+            this.buttonConvertAndMergeBrowseBackgroundMusic = new System.Windows.Forms.Button();
+            this.buttonConvertAndMergeBrowseFFmpeg = new System.Windows.Forms.Button();
+            this.label49 = new System.Windows.Forms.Label();
+            this.numericUpDownConvertAndMergeImageDuration = new System.Windows.Forms.NumericUpDown();
+            this.label48 = new System.Windows.Forms.Label();
+            this.textBoxConvertAndMergeBackgroundMusic = new System.Windows.Forms.TextBox();
+            this.label47 = new System.Windows.Forms.Label();
+            this.textBoxConvertAndMergeFFmpeg = new System.Windows.Forms.TextBox();
+            this.label46 = new System.Windows.Forms.Label();
+            this.groupBoxConvertAndMergeArgumentFileVariables = new System.Windows.Forms.GroupBox();
+            this.label51 = new System.Windows.Forms.Label();
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables = new System.Windows.Forms.ComboBox();
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables = new System.Windows.Forms.ComboBox();
+            this.label45 = new System.Windows.Forms.Label();
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabPageShowAppLog = new System.Windows.Forms.TabPage();
             this.fastColoredTextBoxShowLog = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabPageShowPipe32Log = new System.Windows.Forms.TabPage();
@@ -254,6 +280,16 @@ namespace PhotoTagsSynchronizer
             this.groupBoxDateTimeDigitized.SuspendLayout();
             this.tabPageCameraOwner.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).BeginInit();
+            this.tabPageConvertAndMerge.SuspendLayout();
+            this.panelConvertAndMerge.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatVideoArgument)).BeginInit();
+            this.groupBoxConvertAndMergeCommand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownConvertAndMergeImageDuration)).BeginInit();
+            this.groupBoxConvertAndMergeArgumentFileVariables.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile)).BeginInit();
             this.tabPageShowAppLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowLog)).BeginInit();
             this.tabPageShowPipe32Log.SuspendLayout();
@@ -272,6 +308,7 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.Controls.Add(this.tabPageFileDateTimeFormats);
             this.tabControlConfig.Controls.Add(this.tabPageAutoCorrect);
             this.tabControlConfig.Controls.Add(this.tabPageCameraOwner);
+            this.tabControlConfig.Controls.Add(this.tabPageConvertAndMerge);
             this.tabControlConfig.Controls.Add(this.tabPageShowAppLog);
             this.tabControlConfig.Controls.Add(this.tabPageShowPipe32Log);
             this.tabControlConfig.Location = new System.Drawing.Point(2, 2);
@@ -2646,6 +2683,415 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExtended1.Size = new System.Drawing.Size(183, 126);
             this.dataGridViewExtended1.TabIndex = 0;
             // 
+            // tabPageConvertAndMerge
+            // 
+            this.tabPageConvertAndMerge.Controls.Add(this.panelConvertAndMerge);
+            this.tabPageConvertAndMerge.Location = new System.Drawing.Point(4, 25);
+            this.tabPageConvertAndMerge.Name = "tabPageConvertAndMerge";
+            this.tabPageConvertAndMerge.Size = new System.Drawing.Size(766, 748);
+            this.tabPageConvertAndMerge.TabIndex = 8;
+            this.tabPageConvertAndMerge.Text = "Convert and Merge";
+            this.tabPageConvertAndMerge.UseVisualStyleBackColor = true;
+            // 
+            // panelConvertAndMerge
+            // 
+            this.panelConvertAndMerge.Controls.Add(this.groupBox7);
+            this.panelConvertAndMerge.Controls.Add(this.groupBoxConvertAndMergeCommand);
+            this.panelConvertAndMerge.Controls.Add(this.groupBoxConvertAndMergeArgumentFileVariables);
+            this.panelConvertAndMerge.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelConvertAndMerge.Location = new System.Drawing.Point(0, 0);
+            this.panelConvertAndMerge.Name = "panelConvertAndMerge";
+            this.panelConvertAndMerge.Size = new System.Drawing.Size(766, 748);
+            this.panelConvertAndMerge.TabIndex = 0;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox7.Controls.Add(this.comboBoxConvertAndMergeConcatVideosArguFileVariables);
+            this.groupBox7.Controls.Add(this.comboBoxConvertAndMergeConcatVideoFilesVariables);
+            this.groupBox7.Controls.Add(this.label52);
+            this.groupBox7.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile);
+            this.groupBox7.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatVideoArgument);
+            this.groupBox7.Controls.Add(this.label50);
+            this.groupBox7.Location = new System.Drawing.Point(3, 125);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(754, 226);
+            this.groupBox7.TabIndex = 2;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Merge video files:";
+            // 
+            // comboBoxConvertAndMergeConcatVideosArguFileVariables
+            // 
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.FormattingEnabled = true;
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Location = new System.Drawing.Point(396, 116);
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Name = "comboBoxConvertAndMergeConcatVideosArguFileVariables";
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Size = new System.Drawing.Size(352, 24);
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.TabIndex = 29;
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxConvertAndMergeConcatVideosArguFileVariables_SelectionChangeCommitted);
+            // 
+            // comboBoxConvertAndMergeConcatVideoFilesVariables
+            // 
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables.FormattingEnabled = true;
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables.Location = new System.Drawing.Point(396, 20);
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables.Name = "comboBoxConvertAndMergeConcatVideoFilesVariables";
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables.Size = new System.Drawing.Size(352, 24);
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables.TabIndex = 28;
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxConvertAndMergeConcatVideoFilesVariables_SelectionChangeCommitted);
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(6, 119);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(203, 17);
+            this.label52.TabIndex = 3;
+            this.label52.Text = "For each video file in Argu File:";
+            // 
+            // fastColoredTextBoxConvertAndMergeConcatVideoArguFile
+            // 
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.AutoScrollMinSize = new System.Drawing.Size(0, 18);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.BackBrush = null;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.CharHeight = 18;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.CharWidth = 10;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.IsReplaceMode = false;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Location = new System.Drawing.Point(6, 143);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatVideoArguFile";
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Paddings = new System.Windows.Forms.Padding(0);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxConvertAndMergeConcatVideoArguFile.ServiceColors")));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.ShowCaretWhenInactive = true;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Size = new System.Drawing.Size(742, 59);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.TabIndex = 2;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Text = "$ cat mylist.txt";
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.WordWrap = true;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Zoom = 100;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile_TextChanged);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile_KeyDown);
+            // 
+            // fastColoredTextBoxConvertAndMergeConcatVideoArgument
+            // 
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.AutoScrollMinSize = new System.Drawing.Size(0, 54);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.BackBrush = null;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.CharHeight = 18;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.CharWidth = 10;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.IsReplaceMode = false;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Location = new System.Drawing.Point(6, 47);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Multiline = false;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Name = "fastColoredTextBoxConvertAndMergeConcatVideoArgument";
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Paddings = new System.Windows.Forms.Padding(0);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxConvertAndMergeConcatVideoArgument.ServiceColors")));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.ShowCaretWhenInactive = true;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.ShowScrollBars = false;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Size = new System.Drawing.Size(742, 59);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.TabIndex = 1;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Text = "ffmpeg -i opening.mkv -i episode.mkv -i ending.mkv -filter_complex \"[0:v] [0:a] [" +
+    "1:v] [1:a] [2:v] [2:a] concat=n=3:v=1:a=1 [v] [a]\" -map \"[v]\" -map \"[a]\" output." +
+    "mkv";
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.WordWrap = true;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Zoom = 100;
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxConvertAndMergeConcatVideoArgument_TextChanged);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fastColoredTextBoxConvertAndMergeConcatVideoArgument_KeyDown);
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(6, 23);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(123, 17);
+            this.label50.TabIndex = 0;
+            this.label50.Text = "Concat video files ";
+            // 
+            // groupBoxConvertAndMergeCommand
+            // 
+            this.groupBoxConvertAndMergeCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxConvertAndMergeCommand.Controls.Add(this.buttonConvertAndMergeBrowseBackgroundMusic);
+            this.groupBoxConvertAndMergeCommand.Controls.Add(this.buttonConvertAndMergeBrowseFFmpeg);
+            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label49);
+            this.groupBoxConvertAndMergeCommand.Controls.Add(this.numericUpDownConvertAndMergeImageDuration);
+            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label48);
+            this.groupBoxConvertAndMergeCommand.Controls.Add(this.textBoxConvertAndMergeBackgroundMusic);
+            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label47);
+            this.groupBoxConvertAndMergeCommand.Controls.Add(this.textBoxConvertAndMergeFFmpeg);
+            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label46);
+            this.groupBoxConvertAndMergeCommand.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxConvertAndMergeCommand.Name = "groupBoxConvertAndMergeCommand";
+            this.groupBoxConvertAndMergeCommand.Size = new System.Drawing.Size(754, 116);
+            this.groupBoxConvertAndMergeCommand.TabIndex = 1;
+            this.groupBoxConvertAndMergeCommand.TabStop = false;
+            this.groupBoxConvertAndMergeCommand.Text = "groupBoxConvertAndMergeCommand";
+            // 
+            // buttonConvertAndMergeBrowseBackgroundMusic
+            // 
+            this.buttonConvertAndMergeBrowseBackgroundMusic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonConvertAndMergeBrowseBackgroundMusic.Location = new System.Drawing.Point(647, 49);
+            this.buttonConvertAndMergeBrowseBackgroundMusic.Name = "buttonConvertAndMergeBrowseBackgroundMusic";
+            this.buttonConvertAndMergeBrowseBackgroundMusic.Size = new System.Drawing.Size(101, 25);
+            this.buttonConvertAndMergeBrowseBackgroundMusic.TabIndex = 8;
+            this.buttonConvertAndMergeBrowseBackgroundMusic.Text = "Browse...";
+            this.buttonConvertAndMergeBrowseBackgroundMusic.UseVisualStyleBackColor = true;
+            this.buttonConvertAndMergeBrowseBackgroundMusic.Click += new System.EventHandler(this.buttonConvertAndMergeBrowseBackgroundMusic_Click);
+            // 
+            // buttonConvertAndMergeBrowseFFmpeg
+            // 
+            this.buttonConvertAndMergeBrowseFFmpeg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonConvertAndMergeBrowseFFmpeg.Location = new System.Drawing.Point(647, 21);
+            this.buttonConvertAndMergeBrowseFFmpeg.Name = "buttonConvertAndMergeBrowseFFmpeg";
+            this.buttonConvertAndMergeBrowseFFmpeg.Size = new System.Drawing.Size(101, 25);
+            this.buttonConvertAndMergeBrowseFFmpeg.TabIndex = 7;
+            this.buttonConvertAndMergeBrowseFFmpeg.Text = "Browse...";
+            this.buttonConvertAndMergeBrowseFFmpeg.UseVisualStyleBackColor = true;
+            this.buttonConvertAndMergeBrowseFFmpeg.Click += new System.EventHandler(this.buttonConvertAndMergeBrowseFFmpeg_Click);
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(226, 79);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(61, 17);
+            this.label49.TabIndex = 6;
+            this.label49.Text = "seconds";
+            // 
+            // numericUpDownConvertAndMergeImageDuration
+            // 
+            this.numericUpDownConvertAndMergeImageDuration.Location = new System.Drawing.Point(143, 77);
+            this.numericUpDownConvertAndMergeImageDuration.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.numericUpDownConvertAndMergeImageDuration.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownConvertAndMergeImageDuration.Name = "numericUpDownConvertAndMergeImageDuration";
+            this.numericUpDownConvertAndMergeImageDuration.Size = new System.Drawing.Size(77, 22);
+            this.numericUpDownConvertAndMergeImageDuration.TabIndex = 5;
+            this.numericUpDownConvertAndMergeImageDuration.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(3, 79);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(106, 17);
+            this.label48.TabIndex = 4;
+            this.label48.Text = "Image duration:";
+            // 
+            // textBoxConvertAndMergeBackgroundMusic
+            // 
+            this.textBoxConvertAndMergeBackgroundMusic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxConvertAndMergeBackgroundMusic.Location = new System.Drawing.Point(143, 50);
+            this.textBoxConvertAndMergeBackgroundMusic.Name = "textBoxConvertAndMergeBackgroundMusic";
+            this.textBoxConvertAndMergeBackgroundMusic.Size = new System.Drawing.Size(498, 22);
+            this.textBoxConvertAndMergeBackgroundMusic.TabIndex = 3;
+            this.textBoxConvertAndMergeBackgroundMusic.Text = "silent.wav";
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(3, 53);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(128, 17);
+            this.label47.TabIndex = 2;
+            this.label47.Text = "Background music:";
+            // 
+            // textBoxConvertAndMergeFFmpeg
+            // 
+            this.textBoxConvertAndMergeFFmpeg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxConvertAndMergeFFmpeg.Location = new System.Drawing.Point(143, 24);
+            this.textBoxConvertAndMergeFFmpeg.Name = "textBoxConvertAndMergeFFmpeg";
+            this.textBoxConvertAndMergeFFmpeg.Size = new System.Drawing.Size(498, 22);
+            this.textBoxConvertAndMergeFFmpeg.TabIndex = 1;
+            this.textBoxConvertAndMergeFFmpeg.Text = "ffmpeg.exe";
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(3, 27);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(130, 17);
+            this.label46.TabIndex = 0;
+            this.label46.Text = "Path to ffmpeg.exe:";
+            // 
+            // groupBoxConvertAndMergeArgumentFileVariables
+            // 
+            this.groupBoxConvertAndMergeArgumentFileVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.label51);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.label45);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Location = new System.Drawing.Point(3, 357);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Name = "groupBoxConvertAndMergeArgumentFileVariables";
+            this.groupBoxConvertAndMergeArgumentFileVariables.Size = new System.Drawing.Size(754, 252);
+            this.groupBoxConvertAndMergeArgumentFileVariables.TabIndex = 0;
+            this.groupBoxConvertAndMergeArgumentFileVariables.TabStop = false;
+            this.groupBoxConvertAndMergeArgumentFileVariables.Text = "Convert and Merge Images to Video format:";
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(3, 140);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(203, 17);
+            this.label51.TabIndex = 28;
+            this.label51.Text = "For each image file in Argu file:";
+            // 
+            // comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables
+            // 
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.FormattingEnabled = true;
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Location = new System.Drawing.Point(396, 21);
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Name = "comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables";
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Size = new System.Drawing.Size(352, 24);
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.TabIndex = 27;
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxConvertAndMergeConcatImageAsVideoCommandVariables_SelectionChangeCommitted);
+            // 
+            // fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument
+            // 
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.AutoScrollMinSize = new System.Drawing.Size(0, 72);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.BackBrush = null;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.CharHeight = 18;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.CharWidth = 10;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.IsReplaceMode = false;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Location = new System.Drawing.Point(6, 51);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Multiline = false;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Name = "fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument";
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Paddings = new System.Windows.Forms.Padding(0);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.ServiceColors")));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.ShowCaretWhenInactive = true;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.ShowScrollBars = false;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Size = new System.Drawing.Size(742, 80);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.TabIndex = 0;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Text = resources.GetString("fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Text");
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.WordWrap = true;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Zoom = 100;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoCommand_TextChanged);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoCommand_KeyDown);
+            // 
+            // comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables
+            // 
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.FormattingEnabled = true;
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Location = new System.Drawing.Point(396, 137);
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Name = "comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables";
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Size = new System.Drawing.Size(352, 24);
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.TabIndex = 26;
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxConvertAndMergeConcatImageAsVideoCommandArgumentVariables_SelectionChangeCommitted);
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(3, 24);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(194, 17);
+            this.label45.TabIndex = 1;
+            this.label45.Text = "Merge image files agruments:";
+            // 
+            // fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile
+            // 
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.AutoScrollMinSize = new System.Drawing.Size(0, 36);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.BackBrush = null;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.CharHeight = 18;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.CharWidth = 10;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.IsReplaceMode = false;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Location = new System.Drawing.Point(6, 167);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile";
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Paddings = new System.Windows.Forms.Padding(0);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.ServiceColors")));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.ShowCaretWhenInactive = true;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Size = new System.Drawing.Size(742, 69);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.TabIndex = 0;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Text = "file \'{ImageFullFilename}\'\r\nduration {Duration}";
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.WordWrap = true;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Zoom = 100;
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoCommandArgument_TextChanged);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoCommandArgument_KeyDown);
+            // 
             // tabPageShowAppLog
             // 
             this.tabPageShowAppLog.Controls.Add(this.fastColoredTextBoxShowLog);
@@ -2851,6 +3297,19 @@ namespace PhotoTagsSynchronizer
             this.groupBoxDateTimeDigitized.PerformLayout();
             this.tabPageCameraOwner.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).EndInit();
+            this.tabPageConvertAndMerge.ResumeLayout(false);
+            this.panelConvertAndMerge.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatVideoArgument)).EndInit();
+            this.groupBoxConvertAndMergeCommand.ResumeLayout(false);
+            this.groupBoxConvertAndMergeCommand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownConvertAndMergeImageDuration)).EndInit();
+            this.groupBoxConvertAndMergeArgumentFileVariables.ResumeLayout(false);
+            this.groupBoxConvertAndMergeArgumentFileVariables.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile)).EndInit();
             this.tabPageShowAppLog.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowLog)).EndInit();
             this.tabPageShowPipe32Log.ResumeLayout(false);
@@ -3043,5 +3502,31 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.CheckBox checkBoxApplicationAvoidReadMediaFromCloud;
         private System.Windows.Forms.CheckBox checkBoxApplicationImageListViewCacheModeOnDemand;
+        private System.Windows.Forms.TabPage tabPageConvertAndMerge;
+        private System.Windows.Forms.Panel panelConvertAndMerge;
+        private System.Windows.Forms.GroupBox groupBoxConvertAndMergeArgumentFileVariables;
+        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables;
+        private System.Windows.Forms.Label label45;
+        private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile;
+        private System.Windows.Forms.GroupBox groupBoxConvertAndMergeCommand;
+        private System.Windows.Forms.TextBox textBoxConvertAndMergeBackgroundMusic;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.TextBox textBoxConvertAndMergeFFmpeg;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.NumericUpDown numericUpDownConvertAndMergeImageDuration;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label label52;
+        private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatVideoArguFile;
+        private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatVideoArgument;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.Button buttonConvertAndMergeBrowseBackgroundMusic;
+        private System.Windows.Forms.Button buttonConvertAndMergeBrowseFFmpeg;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables;
+        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeConcatVideosArguFileVariables;
+        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeConcatVideoFilesVariables;
     }
 }

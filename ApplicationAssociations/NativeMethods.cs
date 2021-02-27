@@ -28,7 +28,7 @@ namespace ApplicationAssociations
         }
 
 
-        public static string GetFullPathOfExeFile(string fileName)
+        public static string GetFullPathOfFile(string fileName)
         {
             if (File.Exists(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), fileName)))
                 return Path.GetFullPath(fileName);
@@ -37,16 +37,14 @@ namespace ApplicationAssociations
             foreach (var path in values.Split(Path.PathSeparator))
             {
                 var fullPath = Path.Combine(path, fileName);
-                if (File.Exists(fullPath))
-                    return fullPath;
+                if (File.Exists(fullPath)) return fullPath;
             }
 
             values = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
             foreach (var path in values.Split(Path.PathSeparator))
             {
                 var fullPath = Path.Combine(path, fileName);
-                if (File.Exists(fullPath))
-                    return fullPath;
+                if (File.Exists(fullPath)) return fullPath;
             }
             return null;
         }

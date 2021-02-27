@@ -57,13 +57,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeZone", "TimeZone\TimeZo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridViewExtended", "DataGridViewExtended\DataGridViewExtended.csproj", "{8B7BEE9F-169E-48A2-B548-7A3851D8D3C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageListViewOrder", "ImageListViewOrder\ImageListViewOrder.csproj", "{E461BCC8-E354-45A4-BF24-2D68072B456F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationAssociations", "ApplicationAssociations\ApplicationAssociations.csproj", "{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHttp", "NHttp\NHttp.csproj", "{7AD9DA80-AFB9-43EA-BDF2-9B75C47DC2CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleCast", "GoogleCast\GoogleCast.csproj", "{812985DA-DD71-4DDD-8904-CFE5DA2C70A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoTagsCommonComponets", "PhotoTagsCommonComponets\PhotoTagsCommonComponets.csproj", "{E461BCC8-E354-45A4-BF24-2D68072B456F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -381,18 +381,6 @@ Global
 		{8B7BEE9F-169E-48A2-B548-7A3851D8D3C1}.Release|x64.Build.0 = Release|Any CPU
 		{8B7BEE9F-169E-48A2-B548-7A3851D8D3C1}.Release|x86.ActiveCfg = Release|Any CPU
 		{8B7BEE9F-169E-48A2-B548-7A3851D8D3C1}.Release|x86.Build.0 = Release|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|x64.Build.0 = Debug|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|x86.Build.0 = Debug|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|x64.ActiveCfg = Release|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|x64.Build.0 = Release|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|x86.ActiveCfg = Release|Any CPU
-		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|x86.Build.0 = Release|Any CPU
 		{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -429,6 +417,18 @@ Global
 		{812985DA-DD71-4DDD-8904-CFE5DA2C70A4}.Release|x64.Build.0 = Release|Any CPU
 		{812985DA-DD71-4DDD-8904-CFE5DA2C70A4}.Release|x86.ActiveCfg = Release|Any CPU
 		{812985DA-DD71-4DDD-8904-CFE5DA2C70A4}.Release|x86.Build.0 = Release|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|x64.Build.0 = Debug|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Debug|x86.Build.0 = Debug|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|x64.ActiveCfg = Release|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|x64.Build.0 = Release|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|x86.ActiveCfg = Release|Any CPU
+		{E461BCC8-E354-45A4-BF24-2D68072B456F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -482,15 +482,22 @@ namespace PhotoTagsSynchronizer
                     string imageCommandWithArguments = metadata.ReplaceVariables(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
                     string videoCommandWithArguments = metadata.ReplaceVariables(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
 
-                    if (tabControlBatchRunImage.SelectedTab.Tag.ToString() == "Command")
-                        ApplicationActivation.ProcessRun(imageCommandWithArguments, checkBoxBatchRunImageWaitForCommandExit.Checked);
-                    else
-                        ApplicationActivation.ActivateForFile(textBoxOpenImageWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunImageWaitForAppExit.Checked);
-                    
-                    if (tabControlBatchRunVideo.SelectedTab.Tag.ToString() == "Command")
-                        ApplicationActivation.ProcessRun(videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);
-                    else
-                        ApplicationActivation.ActivateForFile(textBoxOpenVideoWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunVideoWaitForAppExit.Checked);
+                    if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(metadata.FileFullPath))
+                    {
+                        if (tabControlBatchRunImage.SelectedTab.Tag.ToString() == "Command")
+                            ApplicationActivation.ProcessRun(imageCommandWithArguments, checkBoxBatchRunImageWaitForCommandExit.Checked);
+                        else
+                            ApplicationActivation.ActivateForFile(textBoxOpenImageWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunImageWaitForAppExit.Checked);
+                    }
+
+                    if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(metadata.FileFullPath))
+                    {
+
+                        if (tabControlBatchRunVideo.SelectedTab.Tag.ToString() == "Command")
+                            ApplicationActivation.ProcessRun(videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);
+                        else
+                            ApplicationActivation.ActivateForFile(textBoxOpenVideoWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunVideoWaitForAppExit.Checked);
+                    }                
                 }
                 catch (Exception ex)
                 {
@@ -515,7 +522,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region Batch run - Image - Browser
+        #region Batch run - Image - Browse
         private void buttonBatchRunImageBrowser_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -533,7 +540,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Batch run - Video - Browser
+        #region Batch run - Video - Browse
 
         private void buttonBatchRunVideoBrowser_Click(object sender, EventArgs e)
         {
@@ -575,7 +582,7 @@ namespace PhotoTagsSynchronizer
             {
                 ComboBoxAddTextToList(comboBoxArgumentFileCommand);
 
-                string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath();
+                string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath("exiftool_arg_run.txt");
                 string commandWithArguments = comboBoxArgumentFileCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
 
                 switch (tabControlArgumentFile.SelectedTab.Tag.ToString())
@@ -1069,7 +1076,7 @@ namespace PhotoTagsSynchronizer
             {
                 ComboBoxAddTextToList(comboBoxArgumentFileBuilderCommand);
 
-                string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath();
+                string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath("exiftool_arg_run.txt");
                 string commandWithArguments = comboBoxArgumentFileBuilderCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
 
                 System.IO.File.WriteAllText(tempArguFileFullPath, fastColoredTextBoxBuildResult.Text);

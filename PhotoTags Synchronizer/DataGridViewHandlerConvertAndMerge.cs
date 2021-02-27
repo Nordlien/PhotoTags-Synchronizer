@@ -8,6 +8,10 @@ using System.IO;
 using FileDateTime;
 using System.Collections.Generic;
 using NLog;
+using ApplicationAssociations;
+using System.Threading;
+using System.Diagnostics;
+using System.Text;
 
 namespace PhotoTagsSynchronizer
 {
@@ -15,7 +19,6 @@ namespace PhotoTagsSynchronizer
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private static string headerConvertAndMergePath = "Full Path";
         private static string headerConvertAndMergeFilename = "Filename";
         private static string headerConvertAndMergeInfo = "Drag and drop to re-order";
 
@@ -26,39 +29,126 @@ namespace PhotoTagsSynchronizer
 
         public static string RenameVaribale { get; set; }
 
+        public static void Test(
+            List<string> files, string executeFile, string musicFile, int duration, 
+            string videoArgument, string videoArguFile, 
+            string imageArgument, string imageArguFile, 
+            string outputFile)
+        {
+
+            string arguFilename = Exiftool.ExiftoolWriter.GetTempArguFileFullPath("ffmpeg_arg.txt");
+            string musicFileFullPath = NativeMethods.GetFullPathOfFile(musicFile);
+            string outputFolder = Path.GetDirectoryName(outputFile);
+
+            string tempOutoutfile = Path.Combine(outputFolder, "temp.mp4");
+
+            videoArgument = videoArgument.Replace("{ArgumentFileFullPath}", arguFilename);
+            videoArgument = videoArgument.Replace("{TempFileFullPath}", tempOutoutfile);
+            //videoArguFile = videoArguFile.Replace("{VideoFileFullPath}", files);
+
+            imageArgument = imageArgument.Replace("{ArgumentFileFullPath}", arguFilename);
+            imageArgument = imageArgument.Replace("{TempFileFullPath}", tempOutoutfile);
+            imageArgument = imageArgument.Replace("{AudioFileFullPath}", musicFileFullPath);
+
+
+            using (StreamWriter sw = new StreamWriter(arguFilename, false, new UTF8Encoding(false)))
+            {
+                foreach (string file in files)
+                {
+                    string arguFileLines = imageArguFile;
+                    arguFileLines = arguFileLines.Replace("{ImageFileFullPath}", file);
+                    arguFileLines = arguFileLines.Replace("{Duration}", duration.ToString());
+                    sw.WriteLine(arguFileLines);
+                }
+            }
+
+            PhotoTagsCommonComponets.FormTerminalWindow formTerminalWindow = new PhotoTagsCommonComponets.FormTerminalWindow();
+            formTerminalWindow.Show();
+
+            String path = NativeMethods.GetFullPathOfFile(executeFile);
+            string arguments = imageArgument;
+                /* "-y -i \"c:\\Users\\nordl\\OneDrive\\Pictures JTNs OneDrive\\TestTags\\audio.wav\" -f concat -safe 0 -i \"" +
+                NativeMethods.ShortFileName(tempFilename) + "\" -framerate 1/2 -vf \"scale =1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1\" -c:v libx264 -crf 14 -r 25 -pix_fmt yuv420p -shortest \"c:\\Users\\nordl\\OneDrive\\Pictures JTNs OneDrive\\TestTags\\test.mp4\"";*/
+
+            int exitCode = -1;
+            string exiftoolOutput = "";
+
+            using (var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = path,
+                    Arguments = arguments,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                    RedirectStandardInput = true,
+                    StandardOutputEncoding = Encoding.UTF8
+                }
+            })
+            {
+                bool result = process.Start();
+                string line;
+
+                while (!process.StandardError.EndOfStream)
+                {
+                    
+                    line = process.StandardError.ReadLine();
+                    exiftoolOutput += line + "\r\n";
+                    formTerminalWindow.LogError(line + "\r\n");
+                    //if (!line.StartsWith("Warning")) hasExiftoolErrorMessage = true;
+                    Logger.Error("EXIFTOOL WRITE ERROR: " + line);
+                    Application.DoEvents();
+                }
+
+                while (!process.StandardOutput.EndOfStream)
+                {
+                    line = process.StandardOutput.ReadLine();
+                    exiftoolOutput += line + "\r\n";
+                    formTerminalWindow.LogInfo(line + "\r\n");
+                    //if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
+                    Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
+                    Application.DoEvents();
+                }
+
+                process.WaitForExit();
+                if ((exitCode = process.ExitCode) != 0)
+                {
+                    Logger.Info("process.WaitForExit() " + exitCode);
+                }
+
+                while (!process.HasExited) Thread.Sleep(100);
+
+                process.Close();
+                process.Dispose();
+            }
+
+            formTerminalWindow.LogWarningo("Exitcode: " + exitCode + "\r\n");
+            //if (hasExiftoolErrorMessage) //MessageBox.Show(exiftoolOutput);
+
+        }
 
         #region Write
-        public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, string> renameFailed)
+        public static void Write(DataGridView dataGridView,
+            string executeFile, string musicFile, int duration,
+            string videoArgument, string videoArguFile,
+            string imageArgument, string imageArguFile,
+            string outputFile)
         {
-            renameSuccess = new Dictionary<string, string>();
-            renameFailed = new Dictionary<string, string>();
-
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerConvertAndMergeFilename);
             if (columnIndex == -1) return;
 
+            List<string> files = new List<string>();
+
             for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
             {
-                DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
-
-                if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
-                {
-                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                    /*
-                    #region Get Old filename from grid
-                    string oldFilename = dataGridViewGenericRow.RowName;
-                    string oldDirectory = dataGridViewGenericRow.HeaderName;
-                    string oldFullFilename = Path.Combine(oldDirectory, oldFilename);
-                    #endregion
-
-                    #region Get New filename from grid
-                    string newRelativeFilename = Path.Combine(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
-                    string newFullFilename = Path.GetFullPath(newRelativeFilename);
-                    #endregion 
-
-                    FilesCutCopyPasteDrag.RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);
-                    */
-                }
+                //DataGridViewGenericCell cellGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, columnIndex, rowIndex);
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                if (dataGridViewGenericRow != null && dataGridViewGenericRow.IsHeader == false) files.Add(dataGridViewGenericRow.RowName);
             }
+
+            Test(files, executeFile, musicFile, duration, videoArgument, videoArguFile, imageArgument, imageArguFile, outputFile);
         }
         #endregion
 

@@ -813,5 +813,27 @@ Unknown 3</Value>
     <Setting Name="ImageViewLoadThumbnailOnDemandMode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="ConvertAndMergeExecute" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ffmpeg.exe</Value>
+    </Setting>
+    <Setting Name="ConvertAndMergeConcatImagesArguments" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-y -i "{AudioFileFullPath}" -f concat -safe 0 -i "{ArgumentFileFullPath}" -framerate 1/2 -vf "scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1" -c:v libx264 -crf 14 -r 25 -pix_fmt yuv420p -shortest "{TempFileFullPath}"</Value>
+    </Setting>
+    <Setting Name="ConvertAndMergeConcatImagesArguFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">file '{ImageFileFullPath}'
+duration {Duration}</Value>
+    </Setting>
+    <Setting Name="ConvertAndMergeConcatVideosArguments" Type="System.String" Scope="User">
+      <Value Profile="(Default)">-safe 0 -f concat -i "{ArgumentFileFullPath}" -preset fast -c:a aac -b:a 192k -ac 2 -c:v libx264 -b:v 1024k -profile:v high -level 4.1 -crf -1 -pix_fmt yuv420p "{TempFileFullPath}"</Value>
+    </Setting>
+    <Setting Name="ConvertAndMergeConcatVideosArguFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{VideoFileFullPath}</Value>
+    </Setting>
+    <Setting Name="ConvertAndMergeMusic" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\Resources\Silent.wav</Value>
+    </Setting>
+    <Setting Name="ConvertAndMergeImageDuration" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

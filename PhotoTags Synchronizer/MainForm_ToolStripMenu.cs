@@ -156,6 +156,47 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region Save - SaveConvertAndMerge
+        private void SaveConvertAndMerge()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            //saveFileDialog1.InitialDirectory = @"C:\";      
+            saveFileDialog1.Title = "Where to save converted and merged video file";
+            saveFileDialog1.CheckFileExists = false;
+            saveFileDialog1.CheckPathExists = true;
+            saveFileDialog1.DefaultExt = "mp4";
+            saveFileDialog1.Filter = "Video file (*.mp4)|*.mp4|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 1;
+            saveFileDialog1.RestoreDirectory = true;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string outputFile = saveFileDialog1.FileName;
+
+                DataGridView dataGridView = dataGridViewConvertAndMerge;
+                DataGridViewHandlerConvertAndMerge.Write(dataGridView,
+                    Properties.Settings.Default.ConvertAndMergeExecute,
+                    Properties.Settings.Default.ConvertAndMergeMusic,
+                    (int)Properties.Settings.Default.ConvertAndMergeImageDuration,
+
+                    Properties.Settings.Default.ConvertAndMergeConcatVideosArguments,
+                    Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile,
+
+                    Properties.Settings.Default.ConvertAndMergeConcatImagesArguments,
+                    Properties.Settings.Default.ConvertAndMergeConcatImagesArguFile,
+                    outputFile);
+
+
+                GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+                ImageListViewReloadThumbnailInvoke(imageListView1, null);
+                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+                //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+                FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
+            }
+
+            
+        }
+        #endregion
+
         #region Save - SaveActiveTabData
         private void SaveActiveTabData()
         {
@@ -182,6 +223,10 @@ namespace PhotoTagsSynchronizer
                     break;
                 case "Rename":
                     MessageBox.Show("Not implemented");
+                    break;
+                case "ConvertAndMerge":
+                    SaveConvertAndMerge();
+
                     break;
             }
             GlobalData.IsSaveButtonPushed = false;
