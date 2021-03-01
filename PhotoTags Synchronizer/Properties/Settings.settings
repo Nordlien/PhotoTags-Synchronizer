@@ -835,5 +835,8 @@ duration {Duration}</Value>
     <Setting Name="ConvertAndMergeImageDuration" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
+    <Setting Name="RunBatchInTerminalWindow" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

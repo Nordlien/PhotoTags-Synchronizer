@@ -1,9 +1,14 @@
-﻿using System;
+﻿using PhotoTagsCommonComponets;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using PhotoTagsCommonComponets;
+using System.Text;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace ApplicationAssociations
 {
@@ -299,6 +304,77 @@ namespace ApplicationAssociations
         {
             SplitCommandAndAgrument(commandWithArguments, out string command, out string arguments);
             ProcessRun(command, arguments, waitForExit);
+        }
+        #endregion
+
+        #region ProcessRun(FormTerminalWindow formTerminalWindow, string commandWithArguments, bool waitForExit)
+        private static PhotoTagsCommonComponets.FormTerminalWindow formTerminalWindow2 = null;
+        private static bool printTerminalWindowCommand = false;
+        private static string processTerminalWindowCommand = null; 
+        public static void ProcessRun(FormTerminalWindow formTerminalWindow, string commandWithArguments, bool waitForExit)
+        {
+            SplitCommandAndAgrument(commandWithArguments, out string command, out string arguments);
+            
+            formTerminalWindow2 = formTerminalWindow;
+            processTerminalWindowCommand = commandWithArguments;
+            printTerminalWindowCommand = true;
+
+            Process runProcess = new Process();
+            formTerminalWindow.SetProcssToFollow(runProcess);
+            
+
+            //build.StartInfo.WorkingDirectory = @"dir";
+            runProcess.StartInfo.Arguments = arguments;
+            runProcess.StartInfo.FileName = command;
+            
+
+            runProcess.StartInfo.UseShellExecute = false;
+            runProcess.StartInfo.RedirectStandardOutput = true;
+            runProcess.StartInfo.RedirectStandardError = true;
+            runProcess.StartInfo.CreateNoWindow = true;
+            runProcess.ErrorDataReceived += RunProcess_ErrorDataReceived;
+            runProcess.OutputDataReceived += RunProcess_OutputDataReceived;
+            runProcess.Exited += RunProcess_Exited;
+            
+            runProcess.EnableRaisingEvents = true;
+
+            runProcess.Start();
+            
+            
+            runProcess.BeginOutputReadLine();
+            runProcess.BeginErrorReadLine();
+            runProcess.WaitForExit();
+            while (!runProcess.HasExited) Thread.Sleep(100);
+            
+            formTerminalWindow2 = formTerminalWindow;
+        }
+
+ 
+
+        private static void RunProcess_Exited(object sender, EventArgs e)
+        {
+            if (formTerminalWindow2 != null && printTerminalWindowCommand) formTerminalWindow2.LogWarning(processTerminalWindowCommand + "\r\n");
+            printTerminalWindowCommand = false;
+
+            
+        }
+
+        private static void RunProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (formTerminalWindow2 != null  && printTerminalWindowCommand) formTerminalWindow2.LogWarning(processTerminalWindowCommand + "\r\n");
+            printTerminalWindowCommand = false;
+            if (e.Data != null && formTerminalWindow2 != null) formTerminalWindow2.LogInfo(e.Data + "\r\n");                
+            //Process runProcess = (Process)sender;
+            //if (formTerminalWindow2 != null && runProcess.HasExited) formTerminalWindow2.LogWarning((processTerminalWindowCommand == null ? "" : "Command ended: " + processTerminalWindowCommand + "\r\n") + "Exit code: " + +runProcess.ExitCode + "\r\n");
+        }
+
+        private static void RunProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (formTerminalWindow2 != null && printTerminalWindowCommand) formTerminalWindow2.LogWarning(processTerminalWindowCommand + "\r\n");
+            printTerminalWindowCommand = false;
+            if (e.Data != null && formTerminalWindow2 != null) formTerminalWindow2.LogError(e.Data + "\r\n");
+            //Process runProcess = (Process)sender;
+            //if (formTerminalWindow2 != null && runProcess.HasExited) formTerminalWindow2.LogWarning((processTerminalWindowCommand == null ? "" : "Command ended: " + processTerminalWindowCommand + "\r\n") + "Exit code: " + +runProcess.ExitCode + "\r\n");
         }
         #endregion
 

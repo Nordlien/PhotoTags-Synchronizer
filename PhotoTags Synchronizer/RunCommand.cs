@@ -73,6 +73,7 @@ namespace PhotoTagsSynchronizer
             ComboBoxPopulate(comboBoxBatchRunVideoVerb, Properties.Settings.Default.RunBatchVideoVerbList, Properties.Settings.Default.RunBatchVideoVerb);
             checkBoxBatchRunImageWaitForAppExit.Checked = Properties.Settings.Default.RunBatchImageWaitForApp;
             checkBoxBatchRunVideoWaitForAppExit.Checked = Properties.Settings.Default.RunBatchVideoWaitForApp;
+            checkBoxRunBatchRedirectToTerminalWindows.Checked = Properties.Settings.Default.RunBatchInTerminalWindow;
             #endregion
 
             #region Tab - Open with
@@ -148,6 +149,8 @@ namespace PhotoTagsSynchronizer
 
             Properties.Settings.Default.RunBatchImageWaitForCommand = checkBoxBatchRunImageWaitForCommandExit.Checked;
             Properties.Settings.Default.RunBatchVideoWaitForCommand = checkBoxBatchRunVideoWaitForCommandExit.Checked;
+
+            Properties.Settings.Default.RunBatchInTerminalWindow = checkBoxRunBatchRedirectToTerminalWindows.Checked;
             #endregion
 
             #region Tab - Run batch - App
@@ -473,6 +476,15 @@ namespace PhotoTagsSynchronizer
             ComboBoxAddTextToList(comboBoxBatchRunImageVerb);
             ComboBoxAddTextToList(comboBoxBatchRunVideoVerb);
 
+
+            PhotoTagsCommonComponets.FormTerminalWindow formTerminalWindow = null;
+            if (checkBoxRunBatchRedirectToTerminalWindows.Checked)
+            {
+                formTerminalWindow = new PhotoTagsCommonComponets.FormTerminalWindow();
+                formTerminalWindow.Show();
+            }
+            
+
             string errors = "";
             foreach (Metadata metadata in MetadatasGridView)
             {
@@ -485,26 +497,37 @@ namespace PhotoTagsSynchronizer
                     if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(metadata.FileFullPath))
                     {
                         if (tabControlBatchRunImage.SelectedTab.Tag.ToString() == "Command")
-                            ApplicationActivation.ProcessRun(imageCommandWithArguments, checkBoxBatchRunImageWaitForCommandExit.Checked);
-                        else
-                            ApplicationActivation.ActivateForFile(textBoxOpenImageWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunImageWaitForAppExit.Checked);
+                        {
+
+                            if (checkBoxRunBatchRedirectToTerminalWindows.Checked) 
+                                ApplicationActivation.ProcessRun(formTerminalWindow, imageCommandWithArguments, checkBoxBatchRunImageWaitForCommandExit.Checked);
+                            else
+                                ApplicationActivation.ProcessRun(imageCommandWithArguments, checkBoxBatchRunImageWaitForCommandExit.Checked);
+                        }
+                        else ApplicationActivation.ActivateForFile(textBoxOpenImageWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunImageWaitForAppExit.Checked);
                     }
 
                     if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(metadata.FileFullPath))
                     {
 
                         if (tabControlBatchRunVideo.SelectedTab.Tag.ToString() == "Command")
-                            ApplicationActivation.ProcessRun(videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);
-                        else
-                            ApplicationActivation.ActivateForFile(textBoxOpenVideoWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunVideoWaitForAppExit.Checked);
+                        {
+                            if (checkBoxRunBatchRedirectToTerminalWindows.Checked) 
+                                ApplicationActivation.ProcessRun(formTerminalWindow, videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);
+                            else 
+                                ApplicationActivation.ProcessRun(videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);
+                        }
+                        else ApplicationActivation.ActivateForFile(textBoxOpenVideoWithAppId.Text, metadata.FileFullPath, comboBoxBatchRunImageVerb.Text, checkBoxBatchRunVideoWaitForAppExit.Checked);
                     }                
                 }
                 catch (Exception ex)
                 {
                     errors += (errors == "" ? "" : "\r\n") + "File: " + metadata.FileFullPath + "\r\nError message: " + ex.Message;
                 }
+                if (formTerminalWindow != null && formTerminalWindow.GetWasProcessKilled()) break;
             }
             if (errors != "") MessageBox.Show(errors);
+
         }
         #endregion
 

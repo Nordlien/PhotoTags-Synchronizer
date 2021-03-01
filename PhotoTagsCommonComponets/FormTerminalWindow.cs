@@ -38,23 +38,45 @@ namespace PhotoTagsCommonComponets
 
         public void LogInfo(string text)
         {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string>(LogInfo), text);
+                return;
+            }
             Log(text, infoStyle); 
         }
 
         public void LogError(string text)
         {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string>(LogError), text);
+                return;
+            }
+
             Log(text, errorStyle);
         }
 
         public void LogWarning(string text)
         {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string>(LogWarning), text);
+                return;
+            }
             Log(text, warningStyle);
         }
 
 
-
+        int logCount = 0;
         public void Log(string text, Style style)
         {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<string, Style>(Log), text, style);
+                return;
+            }
+
             //some stuffs for best performance
             fastColoredTextBox1.BeginUpdate();
             fastColoredTextBox1.Selection.BeginUpdate();
@@ -73,7 +95,13 @@ namespace PhotoTagsCommonComponets
                 fastColoredTextBox1.GoEnd();//scroll to end of the text
             //
             fastColoredTextBox1.Selection.EndUpdate();
+
             fastColoredTextBox1.EndUpdate();
+            if (logCount++ > 20) {
+                logCount = 0;
+                fastColoredTextBox1.Refresh(); 
+                Application.DoEvents(); 
+            }
         }
 
         private void buttonScrollToEnd_Click(object sender, EventArgs e)

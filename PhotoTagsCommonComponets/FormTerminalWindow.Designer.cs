@@ -49,7 +49,7 @@ namespace PhotoTagsCommonComponets
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBox1.AutoScrollMinSize = new System.Drawing.Size(31, 18);
+            this.fastColoredTextBox1.AutoScrollMinSize = new System.Drawing.Size(0, 18);
             this.fastColoredTextBox1.BackBrush = null;
             this.fastColoredTextBox1.BackColor = System.Drawing.Color.Black;
             this.fastColoredTextBox1.CaretColor = System.Drawing.Color.White;
@@ -58,7 +58,6 @@ namespace PhotoTagsCommonComponets
             this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBox1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBox1.ForeColor = System.Drawing.Color.Yellow;
             this.fastColoredTextBox1.IsReplaceMode = false;
             this.fastColoredTextBox1.Location = new System.Drawing.Point(0, 0);
@@ -67,14 +66,15 @@ namespace PhotoTagsCommonComponets
             this.fastColoredTextBox1.ReadOnly = true;
             this.fastColoredTextBox1.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBox1.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBox1.ServiceColors")));
-            this.fastColoredTextBox1.Size = new System.Drawing.Size(1242, 659);
+            this.fastColoredTextBox1.Size = new System.Drawing.Size(1483, 761);
             this.fastColoredTextBox1.TabIndex = 0;
+            this.fastColoredTextBox1.WordWrap = true;
             this.fastColoredTextBox1.Zoom = 100;
             // 
             // buttonScrollToEnd
             // 
             this.buttonScrollToEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonScrollToEnd.Location = new System.Drawing.Point(1056, 594);
+            this.buttonScrollToEnd.Location = new System.Drawing.Point(1297, 696);
             this.buttonScrollToEnd.Name = "buttonScrollToEnd";
             this.buttonScrollToEnd.Size = new System.Drawing.Size(155, 35);
             this.buttonScrollToEnd.TabIndex = 1;
@@ -86,7 +86,7 @@ namespace PhotoTagsCommonComponets
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1242, 659);
+            this.ClientSize = new System.Drawing.Size(1483, 761);
             this.Controls.Add(this.buttonScrollToEnd);
             this.Controls.Add(this.fastColoredTextBox1);
             this.Name = "FormTerminalWindow";

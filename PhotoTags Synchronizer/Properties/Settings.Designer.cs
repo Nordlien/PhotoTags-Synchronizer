@@ -1431,5 +1431,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ConvertAndMergeImageDuration"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RunBatchInTerminalWindow {
+            get {
+                return ((bool)(this["RunBatchInTerminalWindow"]));
+            }
+            set {
+                this["RunBatchInTerminalWindow"] = value;
+            }
+        }
     }
 }

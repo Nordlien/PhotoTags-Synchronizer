@@ -60,6 +60,7 @@
             this.textBoxOpenWithSelectedFiles = new System.Windows.Forms.TextBox();
             this.buttonOpenWithOpenWith = new System.Windows.Forms.Button();
             this.tabPageBatchCommand = new System.Windows.Forms.TabPage();
+            this.checkBoxRunBatchRedirectToTerminalWindows = new System.Windows.Forms.CheckBox();
             this.splitContainerRunBatch = new System.Windows.Forms.SplitContainer();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.tabControlBatchRunImage = new System.Windows.Forms.TabControl();
@@ -597,6 +598,7 @@
             // 
             // tabPageBatchCommand
             // 
+            this.tabPageBatchCommand.Controls.Add(this.checkBoxRunBatchRedirectToTerminalWindows);
             this.tabPageBatchCommand.Controls.Add(this.splitContainerRunBatch);
             this.tabPageBatchCommand.Controls.Add(this.groupBox3);
             this.tabPageBatchCommand.Controls.Add(this.buttonBatchCommandBatchRun);
@@ -607,6 +609,16 @@
             this.tabPageBatchCommand.TabIndex = 0;
             this.tabPageBatchCommand.Text = "Run batch..";
             this.tabPageBatchCommand.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRunBatchRedirectToTerminalWindows
+            // 
+            this.checkBoxRunBatchRedirectToTerminalWindows.AutoSize = true;
+            this.checkBoxRunBatchRedirectToTerminalWindows.Location = new System.Drawing.Point(345, 546);
+            this.checkBoxRunBatchRedirectToTerminalWindows.Name = "checkBoxRunBatchRedirectToTerminalWindows";
+            this.checkBoxRunBatchRedirectToTerminalWindows.Size = new System.Drawing.Size(311, 21);
+            this.checkBoxRunBatchRedirectToTerminalWindows.TabIndex = 33;
+            this.checkBoxRunBatchRedirectToTerminalWindows.Text = "Redirect command output to terminal window";
+            this.checkBoxRunBatchRedirectToTerminalWindows.UseVisualStyleBackColor = true;
             // 
             // splitContainerRunBatch
             // 
@@ -1204,7 +1216,7 @@
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxArgumentFileArgumentFile.AutoScrollMinSize = new System.Drawing.Size(31, 18);
+            this.fastColoredTextBoxArgumentFileArgumentFile.AutoScrollMinSize = new System.Drawing.Size(2, 18);
             this.fastColoredTextBoxArgumentFileArgumentFile.BackBrush = null;
             this.fastColoredTextBoxArgumentFileArgumentFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxArgumentFileArgumentFile.CharHeight = 18;
@@ -1578,7 +1590,7 @@
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(192, 18);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharHeight = 18;
@@ -1664,7 +1676,7 @@
             this.fastColoredTextBoxMetadataWriteTags.AutoIndent = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentChars = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentExistingLines = false;
-            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(192, 18);
             this.fastColoredTextBoxMetadataWriteTags.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteTags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteTags.CharHeight = 18;
@@ -1746,7 +1758,7 @@
             this.fastColoredTextBoxBuildResult.AutoIndent = false;
             this.fastColoredTextBoxBuildResult.AutoIndentChars = false;
             this.fastColoredTextBoxBuildResult.AutoIndentExistingLines = false;
-            this.fastColoredTextBoxBuildResult.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fastColoredTextBoxBuildResult.AutoScrollMinSize = new System.Drawing.Size(192, 18);
             this.fastColoredTextBoxBuildResult.BackBrush = null;
             this.fastColoredTextBoxBuildResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxBuildResult.CharHeight = 18;
@@ -1985,6 +1997,7 @@
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.tabPageBatchCommand.ResumeLayout(false);
+            this.tabPageBatchCommand.PerformLayout();
             this.splitContainerRunBatch.Panel1.ResumeLayout(false);
             this.splitContainerRunBatch.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerRunBatch)).EndInit();
@@ -2178,5 +2191,6 @@
         private System.Windows.Forms.Button buttonMetadataWriteKeywordAddSave;
         private System.Windows.Forms.Button buttonMetadataWriteKeywordDeleteSave;
         private System.Windows.Forms.Button buttonMetadataWriteKeywordsSave;
+        private System.Windows.Forms.CheckBox checkBoxRunBatchRedirectToTerminalWindows;
     }
 }
