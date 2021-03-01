@@ -29,7 +29,179 @@ namespace PhotoTagsSynchronizer
 
         public static string RenameVaribale { get; set; }
 
-        public static void Test(
+        private static void ConvertImages(PhotoTagsCommonComponets.FormTerminalWindow formTerminalWindow, List<string> imagesFiles,
+            string executeFile, string imageArgument,
+            string arguFilename, string imageArguFile, int duration)
+        {
+            int exitCode = int.MinValue;
+
+            if (imagesFiles.Count > 0)
+            {
+                using (StreamWriter sw = new StreamWriter(arguFilename, false, new UTF8Encoding(false)))
+                {
+                    foreach (string file in imagesFiles)
+                    {                        
+                        string arguFileLines = imageArguFile;
+                        arguFileLines = arguFileLines.Replace("{ImageFileFullPath}", file);
+                        arguFileLines = arguFileLines.Replace("{Duration}", duration.ToString());
+                        sw.WriteLine(arguFileLines);
+                    }
+                    //(Due to a quirk, the last image has to be specified twice - the 2nd time without any duration directive)
+                    sw.WriteLine("file '"+ imagesFiles[imagesFiles.Count-1] + "'");
+                }
+
+                String path = NativeMethods.GetFullPathOfFile(executeFile);
+                
+                
+                string exiftoolOutput = "";
+
+                formTerminalWindow.LogWarning("Command: " + path + " " + imageArgument + "\r\n");
+
+                using (var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = path,
+                        Arguments = imageArgument,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        CreateNoWindow = true,
+                        RedirectStandardInput = true,
+                        StandardOutputEncoding = Encoding.UTF8
+                    }
+                })
+                {
+                    formTerminalWindow.SetProcssToFollow(process);
+                    bool result = process.Start();
+                    string line;
+
+                    while (!process.StandardError.EndOfStream)
+                    {
+
+                        line = process.StandardError.ReadLine();
+                        exiftoolOutput += line + "\r\n";
+                        formTerminalWindow.LogError(line + "\r\n");
+                        //if (!line.StartsWith("Warning")) hasExiftoolErrorMessage = true;
+                        Logger.Error("EXIFTOOL WRITE ERROR: " + line);
+                        Application.DoEvents();
+                    }
+
+                    while (!process.StandardOutput.EndOfStream)
+                    {
+                        line = process.StandardOutput.ReadLine();
+                        exiftoolOutput += line + "\r\n";
+                        formTerminalWindow.LogInfo(line + "\r\n");
+                        //if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
+                        Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
+                        Application.DoEvents();
+                    }
+
+
+                    process.WaitForExit();
+                    if ((exitCode = process.ExitCode) != 0)
+                    {
+                        Logger.Info("process.WaitForExit() " + exitCode);
+                    }
+
+                    while (!process.HasExited) Thread.Sleep(100);
+
+                    formTerminalWindow.SetProcssToFollow(null);
+                    process.Close();
+                    process.Dispose();
+                }
+                
+                formTerminalWindow.LogWarning("Exitcode: " + exitCode + "\r\n");
+            }
+     
+        }
+
+
+        private static void MergeVideos(PhotoTagsCommonComponets.FormTerminalWindow formTerminalWindow, List<string> videoFiles,
+            string executeFile, string videoArgument,
+            string arguFilename, string videoArguFile)
+        {
+            int exitCode = -1;
+
+            if (videoFiles.Count > 0)
+            {
+                using (StreamWriter sw = new StreamWriter(arguFilename, false, new UTF8Encoding(false)))
+                {
+                    foreach (string file in videoFiles)
+                    {
+                        
+                        string arguFileLines = videoArguFile;
+                        arguFileLines = arguFileLines.Replace("{VideoFileFullPath}", file);
+                        sw.WriteLine(arguFileLines);
+                    }
+                }
+
+                String path = NativeMethods.GetFullPathOfFile(executeFile);
+
+
+                string exiftoolOutput = "";
+
+                formTerminalWindow.LogWarning("Command: " + path + " " + videoArgument + "\r\n");
+
+                using (var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = path,
+                        Arguments = videoArgument,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        CreateNoWindow = true,
+                        RedirectStandardInput = true,
+                        StandardOutputEncoding = Encoding.UTF8
+                    }
+                })
+                {
+                    formTerminalWindow.SetProcssToFollow(process);
+
+                    bool result = process.Start();
+                    string line;
+
+                    while (!process.StandardError.EndOfStream)
+                    {
+
+                        line = process.StandardError.ReadLine();
+                        exiftoolOutput += line + "\r\n";
+                        formTerminalWindow.LogError(line + "\r\n");
+                        //if (!line.StartsWith("Warning")) hasExiftoolErrorMessage = true;
+                        Logger.Error("EXIFTOOL WRITE ERROR: " + line);
+                        Application.DoEvents();
+                    }
+
+                    while (!process.StandardOutput.EndOfStream)
+                    {
+                        line = process.StandardOutput.ReadLine();
+                        exiftoolOutput += line + "\r\n";
+                        formTerminalWindow.LogInfo(line + "\r\n");
+                        //if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
+                        Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
+                        Application.DoEvents();
+                    }
+
+                    process.WaitForExit();
+                    if ((exitCode = process.ExitCode) != 0)
+                    {
+                        Logger.Info("process.WaitForExit() " + exitCode);
+                    }
+
+                    while (!process.HasExited) Thread.Sleep(100);
+
+                    formTerminalWindow.SetProcssToFollow(null);
+                    process.Close();
+                    process.Dispose();
+                }
+                formTerminalWindow.LogWarning("Exitcode: " + exitCode + "\r\n");
+            }
+
+        }
+
+        public static void ConvertAndMerge(
             List<string> files, string executeFile, string musicFile, int duration, 
             string videoArgument, string videoArguFile, 
             string imageArgument, string imageArguFile, 
@@ -40,93 +212,81 @@ namespace PhotoTagsSynchronizer
             string musicFileFullPath = NativeMethods.GetFullPathOfFile(musicFile);
             string outputFolder = Path.GetDirectoryName(outputFile);
 
-            string tempOutoutfile = Path.Combine(outputFolder, "temp.mp4");
-
-            videoArgument = videoArgument.Replace("{ArgumentFileFullPath}", arguFilename);
-            videoArgument = videoArgument.Replace("{TempFileFullPath}", tempOutoutfile);
-            //videoArguFile = videoArguFile.Replace("{VideoFileFullPath}", files);
-
-            imageArgument = imageArgument.Replace("{ArgumentFileFullPath}", arguFilename);
-            imageArgument = imageArgument.Replace("{TempFileFullPath}", tempOutoutfile);
-            imageArgument = imageArgument.Replace("{AudioFileFullPath}", musicFileFullPath);
-
-
-            using (StreamWriter sw = new StreamWriter(arguFilename, false, new UTF8Encoding(false)))
-            {
-                foreach (string file in files)
-                {
-                    string arguFileLines = imageArguFile;
-                    arguFileLines = arguFileLines.Replace("{ImageFileFullPath}", file);
-                    arguFileLines = arguFileLines.Replace("{Duration}", duration.ToString());
-                    sw.WriteLine(arguFileLines);
-                }
-            }
-
             PhotoTagsCommonComponets.FormTerminalWindow formTerminalWindow = new PhotoTagsCommonComponets.FormTerminalWindow();
             formTerminalWindow.Show();
 
-            String path = NativeMethods.GetFullPathOfFile(executeFile);
-            string arguments = imageArgument;
-                /* "-y -i \"c:\\Users\\nordl\\OneDrive\\Pictures JTNs OneDrive\\TestTags\\audio.wav\" -f concat -safe 0 -i \"" +
-                NativeMethods.ShortFileName(tempFilename) + "\" -framerate 1/2 -vf \"scale =1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1\" -c:v libx264 -crf 14 -r 25 -pix_fmt yuv420p -shortest \"c:\\Users\\nordl\\OneDrive\\Pictures JTNs OneDrive\\TestTags\\test.mp4\"";*/
+            
+            List<string> tempFiles = new List<string>();
+            List<string> videoFiles = new List<string>();
 
-            int exitCode = -1;
-            string exiftoolOutput = "";
-
-            using (var process = new Process
+            int indexStartNext = 0;
+            while (indexStartNext < files.Count && !formTerminalWindow.GetWasProcessKilled())
             {
-                StartInfo = new ProcessStartInfo
+                if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(files[indexStartNext]))
                 {
-                    FileName = path,
-                    Arguments = arguments,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true,
-                    RedirectStandardInput = true,
-                    StandardOutputEncoding = Encoding.UTF8
+                    //If video file add to merge queue
+                    videoFiles.Add(files[indexStartNext]);
+                    indexStartNext++;
                 }
-            })
-            {
-                bool result = process.Start();
-                string line;
-
-                while (!process.StandardError.EndOfStream)
+                else
                 {
+                    //If image, convert to video and and to merge queue
+                    List<string> imagesFiles = new List<string>();
+                    for (int indexMediaFile = indexStartNext; indexMediaFile < files.Count; indexMediaFile++)
+                    {
+                        indexStartNext = indexMediaFile + 1;
+                        if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(files[indexMediaFile])) imagesFiles.Add(files[indexMediaFile]);
+                        if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(files[indexMediaFile])) break;
+                    }
+
+                    string tempOutoutfile = Path.Combine(outputFolder, "temp_" + Guid.NewGuid().ToString() + ".mp4");
+                    videoFiles.Add(tempOutoutfile);
+                    tempFiles.Add(tempOutoutfile);
+
+                    string imageArgumentReplace = imageArgument;
+                    imageArgumentReplace = imageArgumentReplace.Replace("{ArgumentFileFullPath}", arguFilename);
+                    imageArgumentReplace = imageArgumentReplace.Replace("{TempFileFullPath}", tempOutoutfile);
+                    imageArgumentReplace = imageArgumentReplace.Replace("{AudioFileFullPath}", musicFileFullPath);
+                    ConvertImages(formTerminalWindow, imagesFiles, executeFile, imageArgumentReplace, arguFilename, imageArguFile, duration);
                     
-                    line = process.StandardError.ReadLine();
-                    exiftoolOutput += line + "\r\n";
-                    formTerminalWindow.LogError(line + "\r\n");
-                    //if (!line.StartsWith("Warning")) hasExiftoolErrorMessage = true;
-                    Logger.Error("EXIFTOOL WRITE ERROR: " + line);
-                    Application.DoEvents();
                 }
-
-                while (!process.StandardOutput.EndOfStream)
-                {
-                    line = process.StandardOutput.ReadLine();
-                    exiftoolOutput += line + "\r\n";
-                    formTerminalWindow.LogInfo(line + "\r\n");
-                    //if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
-                    Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
-                    Application.DoEvents();
-                }
-
-                process.WaitForExit();
-                if ((exitCode = process.ExitCode) != 0)
-                {
-                    Logger.Info("process.WaitForExit() " + exitCode);
-                }
-
-                while (!process.HasExited) Thread.Sleep(100);
-
-                process.Close();
-                process.Dispose();
             }
 
-            formTerminalWindow.LogWarningo("Exitcode: " + exitCode + "\r\n");
-            //if (hasExiftoolErrorMessage) //MessageBox.Show(exiftoolOutput);
+            if (!formTerminalWindow.GetWasProcessKilled())
+            {
+                if (tempFiles.Count == 1)
+                {
+                    try
+                    {
+                        File.Move(tempFiles[0], outputFile);
+                        formTerminalWindow.LogInfo("Rename file from: " + tempFiles[0] + " to: " + outputFile + "\r\n");
+                    }
+                    catch (Exception ex)
+                    {
+                        formTerminalWindow.LogInfo(ex.Message + "\r\n");
+                    }
+                }
+                else 
+                { 
+                    string videoArgumentReplace = videoArgument;
+                    videoArgumentReplace = videoArgumentReplace.Replace("{ArgumentFileFullPath}", arguFilename);
+                    videoArgumentReplace = videoArgumentReplace.Replace("{TempFileFullPath}", outputFile);
+                    MergeVideos(formTerminalWindow, videoFiles, executeFile, videoArgumentReplace, arguFilename, videoArguFile);
 
+                    foreach (string tempfile in tempFiles)
+                    {
+                        try
+                        {
+                            File.Delete(tempfile);
+                            formTerminalWindow.LogInfo("Temp file deleted: " + tempfile + "\r\n");
+                        }
+                        catch (Exception ex)
+                        {
+                            formTerminalWindow.LogInfo(ex.Message + "\r\n");
+                        }
+                    }
+                }
+            }
         }
 
         #region Write
@@ -147,8 +307,19 @@ namespace PhotoTagsSynchronizer
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
                 if (dataGridViewGenericRow != null && dataGridViewGenericRow.IsHeader == false) files.Add(dataGridViewGenericRow.RowName);
             }
+            /*
+-y -f concat -safe 0 -i "{ArgumentFileFullPath}" -preset fast -c:a aac -b:a 192k -ac 2 -vf fps=fps=30 -c:v libx264 -b:v 1024k -profile:v high -level 4.1 -crf -1 -pix_fmt yuv420p "{TempFileFullPath}"
+-y -i "{AudioFileFullPath}" -f concat -safe 0 -i "{ArgumentFileFullPath}" -vf "scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1" -c:v libx264 -crf 14 -r 30 -pix_fmt yuv420p -shortest "{TempFileFullPath}"
 
-            Test(files, executeFile, musicFile, duration, videoArgument, videoArguFile, imageArgument, imageArguFile, outputFile);
+-f concat -safe 0 -i "{ArgumentFileFullPath}" -c:a aac -b:a 192k -ac 2 -tune stillimage -preset fast -crf 23 -filter:v fps=fps=30 -profile:v high -c:v libx264 -pix_fmt yuv420p -vf "scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1" "{TempFileFullPath}" 
+-y -i "{AudioFileFullPath}" -framerate 1/5 -f concat -safe 0 -i "{ArgumentFileFullPath}" -c:a aac -b:a 192k -ac 2 -tune stillimage -preset fast -crf 23 -filter:v fps=fps=30 -profile:v high -c:v libx264 -pix_fmt yuv420p -vf "scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1" -shortest "{TempFileFullPath}"
+
+-y -f concat -safe 0 -i "{ArgumentFileFullPath}" -c:a aac -ar 48000 -b:a 128k -ac 2 -tune film -preset fast -profile:v high -c:v libx264 -pix_fmt yuv420p -vf "scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1,mpdecimate" -vsync 0  "{TempFileFullPath}"
+-y -i "{AudioFileFullPath}" -f concat -safe 0 -i "{ArgumentFileFullPath}" -c:a aac -ar 48000 -b:a 128k -ac 2 -tune film -preset fast -profile:v high -c:v libx264 -pix_fmt yuv420p -vf "scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1,mpdecimate" -vsync 0 -shortest "{TempFileFullPath}"
+
+
+            */
+            ConvertAndMerge(files, executeFile, musicFile, duration, videoArgument, videoArguFile, imageArgument, imageArguFile, outputFile);
         }
         #endregion
 

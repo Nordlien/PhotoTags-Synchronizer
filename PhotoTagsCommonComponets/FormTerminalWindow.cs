@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,9 +19,22 @@ namespace PhotoTagsCommonComponets
             InitializeComponent();
         }
 
-        TextStyle infoStyle = new TextStyle(Brushes.Yellow, null, FontStyle.Regular);
-        TextStyle warningStyle = new TextStyle(Brushes.BurlyWood, null, FontStyle.Regular);
-        TextStyle errorStyle = new TextStyle(Brushes.Red, null, FontStyle.Regular);
+        private TextStyle infoStyle = new TextStyle(Brushes.Yellow, null, FontStyle.Regular);
+        private TextStyle warningStyle = new TextStyle(Brushes.BurlyWood, null, FontStyle.Regular);
+        private TextStyle errorStyle = new TextStyle(Brushes.Red, null, FontStyle.Regular);
+        private Process process = null;
+        private bool wasProcessKilled = false;
+
+        public bool GetWasProcessKilled()
+        {
+            return wasProcessKilled;
+        }
+
+        public void SetProcssToFollow(Process processFollowMe)
+        {
+            process = processFollowMe;
+            wasProcessKilled = false;
+        }
 
         public void LogInfo(string text)
         {
@@ -32,10 +46,11 @@ namespace PhotoTagsCommonComponets
             Log(text, errorStyle);
         }
 
-        public void LogWarningo(string text)
+        public void LogWarning(string text)
         {
             Log(text, warningStyle);
         }
+
 
 
         public void Log(string text, Style style)
@@ -64,6 +79,20 @@ namespace PhotoTagsCommonComponets
         private void buttonScrollToEnd_Click(object sender, EventArgs e)
         {
             fastColoredTextBox1.GoEnd();
+        }
+
+        private void FormTerminalWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (process != null && !process.HasExited)
+            {
+                if (MessageBox.Show("Proces is still running, kill the process?", "Process running", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    process.Kill();
+                    wasProcessKilled = true;
+                }
+                else
+                    e.Cancel = true;
+            }
         }
     }
 }

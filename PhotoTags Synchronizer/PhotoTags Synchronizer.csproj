@@ -397,7 +397,7 @@
     <None Include="Resources\Media_FastForward.png" />
     <None Include="Resources\Media_FastBackward.png" />
     <None Include="Resources\Media_Close.png" />
-    <Content Include="Resources\Silent.wav">
+    <Content Include="Resources\Silent.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="x64\sqlite3.def">
