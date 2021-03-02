@@ -471,20 +471,81 @@ namespace PhotoTagsSynchronizer
             if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
                 "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
+       
+                string error = "";
                 
                 foreach (ImageListViewItem item in imageListView1.SelectedItems)
                 {
-                    item.BeginEdit();
-                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
+                    bool coverted = false;
+
+                    if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(item.FileFullPath))
                     {
-                        img.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                        img.Save(item.FileFullPath);
+                        try
+                        {
+                            ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.RoateImage(item.FileFullPath, 270);
+                            coverted = true;
+                        } catch (Exception ex)
+                        {
+                            coverted = false;
+                            error += (error == "" ? "" : "\r\n") + ex.Message;
+                        }
                     }
-                    item.Update();
-                    item.EndEdit();
+
+                    if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(item.FileFullPath))
+                    {
+                        string outputFolder = Path.GetDirectoryName(item.FileFullPath);
+                        string tempOutputfile = Path.Combine(outputFolder, "temp_" + Guid.NewGuid().ToString() + Path.GetExtension(item.FileFullPath));
+
+                        try
+                        {
+                            var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                            
+                            ffMpeg.ConvertProgress += FfMpeg_ConvertProgress;
+                            ffMpeg.Invoke("-y -i \"" + item.FileFullPath + "\" -vf \"transpose = 2\" \"" + tempOutputfile + "\"");
+                            coverted = true;
+                        } catch (Exception ex)
+                        {
+                            coverted = false;
+                            error += (error == "" ? "": "\r\n") + ex.Message;
+                        }
+
+                        try
+                        {
+
+                            if (coverted && new System.IO.FileInfo(tempOutputfile).Length > 0)
+                            {
+                                File.Delete(item.FileFullPath);
+                                File.Move(tempOutputfile, item.FileFullPath);
+                            }
+                            else File.Delete(tempOutputfile);
+                        }
+                        catch (Exception ex)
+                        {
+                            error += (error == "" ? "" : "\r\n") + ex.Message;
+                        }
+                    }
+
+                    if (coverted)
+                    {
+                        FileEntry fileEntry = new FileEntry(item.FileFullPath, item.DateModified);
+                        filesCutCopyPasteDrag.DeleteMetadataFileEntry(fileEntry);
+                        //filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
+                        item.BeginEdit();
+                        item.Update();
+                        item.EndEdit();
+                    }
                 }
-                
+                if (error != "")
+                {
+                    FormMessageBox formMessageBox = new FormMessageBox(error);
+                    formMessageBox.ShowDialog();
+                }
             }
+        }
+
+        private void FfMpeg_ConvertProgress(object sender, NReco.VideoConverter.ConvertProgressEventArgs e)
+        {
+            Debug.WriteLine(e.TotalDuration.ToString() + " " + e.Processed.ToString());
         }
 
         private void rotateCWToolStripButton_Click(object sender, EventArgs e)
@@ -493,18 +554,76 @@ namespace PhotoTagsSynchronizer
                 "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
 
+                string error = "";
                 foreach (ImageListViewItem item in imageListView1.SelectedItems)
                 {
-                    item.BeginEdit();
-                    using (Image img = Manina.Windows.Forms.Utility.LoadImageWithoutLock(item.FileFullPath))
+                    bool coverted = false;
+
+                    if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(item.FileFullPath))
                     {
-                        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                        img.Save(item.FileFullPath);
+                        try {
+                            ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.RoateImage(item.FileFullPath, 90);
+                            coverted = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            coverted = false;
+                            error += (error == "" ? "" : "\r\n") + ex.Message;
+                        }
+
+                        
                     }
-                    item.Update();
-                    item.EndEdit();
+
+                    if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(item.FileFullPath))
+                    {
+                        
+                        string outputFolder = Path.GetDirectoryName(item.FileFullPath);
+                        string tempOutputfile = Path.Combine(outputFolder, "temp_" + Guid.NewGuid().ToString() + Path.GetExtension(item.FileFullPath));
+
+                        try
+                        {
+                            var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+                            
+                            ffMpeg.ConvertProgress += FfMpeg_ConvertProgress;
+                            ffMpeg.Invoke("-y -i \"" + item.FileFullPath + "\" -vf \"transpose = 1\" \"" + tempOutputfile + "\"");
+                            coverted = true;
+                        } catch (Exception ex)
+                        {
+                            coverted = false;
+                            error += (error == "" ? "" : "\r\n") + ex.Message;
+                        }
+
+                        try
+                        {
+
+                            if (coverted && new System.IO.FileInfo(tempOutputfile).Length > 0)
+                            {
+                                File.Delete(item.FileFullPath);
+                                File.Move(tempOutputfile, item.FileFullPath);
+                            } 
+                            else File.Delete(tempOutputfile);
+                        } catch (Exception ex)
+                        {
+                            error += (error == "" ? "" : "\r\n") + ex.Message;
+                        }
+                    }
+
+                    if (coverted)
+                    {
+                        FileEntry fileEntry = new FileEntry(item.FileFullPath, item.DateModified);
+                        filesCutCopyPasteDrag.DeleteMetadataFileEntry(fileEntry);
+                        //filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
+                        item.BeginEdit();
+                        item.Update();
+                        item.EndEdit();
+                    }
                 }
-                
+                if (error != "")
+                {
+                    FormMessageBox formMessageBox = new FormMessageBox(error);
+                    formMessageBox.ShowDialog();
+                }
+
             }
         }
         #endregion

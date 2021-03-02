@@ -78,27 +78,17 @@ namespace ImageAndMovieFileExtentions
             using (var image = new MagickImage(fullFilename))
             {
                 imageReturn = image.ToBitmap();
-                /*
-                using (var collection = new MagickImageCollection())
-                {
-                    var settings = new MagickReadSettings();
-                    settings.FrameIndex = 0; // First page
-                    settings.FrameCount = 1; // Number of pages
-
-                    // Read only the first page of the pdf file
-                    collection.Read("Snakeware.pdf", settings);
-
-                    // Clear the collection
-                    collection.Clear();
-
-                    settings.FrameCount = 2; // Number of pages
-
-                    // Read the first two pages of the pdf file
-                    collection.Read("Snakeware.pdf", settings);
-                }
-                */
             }
             return imageReturn;
+        }
+
+        public static void RoateImage(string fullFilename, double degress)
+        {
+            using (MagickImage image = new MagickImage(fullFilename))
+            {
+                    image.Rotate(degress);
+                    image.Write(fullFilename);
+            }
         }
 
         public static Image ThumbnailFromFile(string fullFilename, Size maxSize, bool allowFailoverReadFullFille)

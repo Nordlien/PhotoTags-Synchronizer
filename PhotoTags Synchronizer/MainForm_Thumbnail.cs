@@ -102,7 +102,6 @@ namespace PhotoTagsSynchronizer
             ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
             if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
             {
-
                 var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
 
                 using (Stream memoryStream = new MemoryStream())
