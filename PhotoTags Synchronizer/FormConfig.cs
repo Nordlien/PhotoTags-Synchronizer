@@ -34,8 +34,8 @@ namespace PhotoTagsSynchronizer
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArguFile = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConcatVideoArgument = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile = null;
+        private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument = null;
         
-
         private bool isPopulation = false;
 
         public Config()
@@ -211,6 +211,7 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.ConvertAndMergeConcatImagesArguments = fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Text;
             Properties.Settings.Default.ConvertAndMergeConcatImagesArguFile = fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Text;
 
+            Properties.Settings.Default.ConvertAndMergeConvertVideosArguments = fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Text;
 
             //Save config file
             Properties.Settings.Default.Save();
@@ -1139,30 +1140,27 @@ namespace PhotoTagsSynchronizer
         #region PopulateConvertAndMerge()
         public void PopulateConvertAndMerge()
         {
-            //-y -i {AudioFileFullPath} -f concat -safe 0 -i \"{ArgumentFileFullPath}" -framerate 1/2 -vf "scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1" -c:v libx264 -crf 14 -r 25 -pix_fmt yuv420p -shortest "{TempFileFullPath}"
             comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Items.Clear();
-            comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Items.Add("{AudioFileFullPath}");
-            comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Items.Add("{ArgumentFileFullPath}");
-            comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Items.Add("{TempFileFullPath}");
-
+            comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Items.AddRange(DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ExeArguments));
+            
             comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Items.Clear();
-            comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Items.Add("{ImageFileFullPath}");
-            comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Items.Add("{Duration}");
-
-            //-safe 0 -f concat -i "{ArgumentFileFullPath}" -preset fast -c:a aac -b:a 192k -ac 2 -c:v libx264 -b:v 1024k -profile:v high -level 4.1 -crf -1 -pix_fmt yuv420p "{TempFileFullPath}"
+            comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Items.AddRange(DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ImagesListing));
+            
             comboBoxConvertAndMergeConcatVideoFilesVariables.Items.Clear();
-            comboBoxConvertAndMergeConcatVideoFilesVariables.Items.Add("{ArgumentFileFullPath}");
-            comboBoxConvertAndMergeConcatVideoFilesVariables.Items.Add("{TempFileFullPath}");
-
+            comboBoxConvertAndMergeConcatVideoFilesVariables.Items.AddRange(DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ExeArguments));
+            
             comboBoxConvertAndMergeConcatVideosArguFileVariables.Items.Clear();
-            comboBoxConvertAndMergeConcatVideosArguFileVariables.Items.Add("{VideoFileFullPath}");
-
+            comboBoxConvertAndMergeConcatVideosArguFileVariables.Items.AddRange(DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.VideoListing));
+            
+            comboBoxConvertAndMergeConvertVideoFilesVariables.Items.Clear();
+            comboBoxConvertAndMergeConvertVideoFilesVariables.Items.AddRange(DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ExeArguments));
+            
             fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArgument = new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument, comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables);
             fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArguFile = new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile, comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables);
             fastColoredTextBoxHandlerConvertAndMergeConcatVideoArgument = new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatVideoArgument, comboBoxConvertAndMergeConcatVideoFilesVariables);
             fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile = new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatVideoArguFile, comboBoxConvertAndMergeConcatVideosArguFileVariables);
-
-
+            fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument = new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument, comboBoxConvertAndMergeConvertVideoFilesVariables);
+            
             textBoxConvertAndMergeFFmpeg.Text = Properties.Settings.Default.ConvertAndMergeExecute;
             textBoxConvertAndMergeBackgroundMusic.Text = Properties.Settings.Default.ConvertAndMergeMusic;
             numericUpDownConvertAndMergeImageDuration.Value = (int)Properties.Settings.Default.ConvertAndMergeImageDuration;
@@ -1173,46 +1171,8 @@ namespace PhotoTagsSynchronizer
             fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Text = Properties.Settings.Default.ConvertAndMergeConcatImagesArguments;
             fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Text = Properties.Settings.Default.ConvertAndMergeConcatImagesArguFile;
 
-            /*
-            -safe 0 -f concat -i "e:\temp.txt" -preset fast -c:a aac -b:a 192k -ac 2 -c:v libx264 -b:v 1024k -profile:v high -level 4.1 -crf -1 -pix_fmt yuv420p output.mp4
+            fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Text = Properties.Settings.Default.ConvertAndMergeConvertVideosArguments;
 
-            E:\ffmpeg\bin\ffmpeg.exe -safe 0 -f concat -i "e:\temp.txt" -c copy -bsf:v hevc_mp4toannexb -an e:\joined.mp4
-            
-            
-            -y -i {AudioFileFullPath} -f concat -safe 0 -i \"{ArgumentFileFullPath}" -framerate 1/2 
-            -vf "scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1" 
-            -c:v libx264 -crf 14 -r 25 -pix_fmt yuv420p -shortest "{TempFileFullPath}"
-
-            -s 1920x1080
-
-ffmpeg4 -i input.mp4                           
-                     -preset fast -c:a aac -b:a 192k -ac 2 -c:v libx264 -b:v 1024k -profile:v high -level 4.1 -crf -1 -pix_fmt yuv420p output.mp4
-
-ffmpeg4 -i input.mp4 -map 0:v:0 -c:v copy 
-                     -map 0:a:0 
-                     -map 0:a:0 -c:a:0 aac -ac:a:0 2 -b:a:0 192k -c:a:1 copy 
-                                                                                                output.mp4
-
-ffmpeg4 -i input.mp4 -map 0:v:0 -map 0:a:2
-                     -preset fast -c:a aac -b:a 192k -ac 2 -c:v libx264 -b:v 1024k -profile:v high -level 4.1 -crf -1 -pix_fmt yuv420p output.mp4
-
-
-            */
-
-            /*
-            for (int i = 0; i < ThumbnailSizes.Length; i++)
-                comboBoxApplicationThumbnailSizes.Items.Add(ThumbnailSizes[i].ToString());
-
-            comboBoxApplicationThumbnailSizes.Text = Properties.Settings.Default.ApplicationThumbnail.ToString();
-            textBoxApplicationPreferredLanguages.Text = Properties.Settings.Default.ApplicationPreferredLanguages;
-            numericUpDownApplicationMaxRowsInSearchResult.Value = Properties.Settings.Default.MaxRowsInSearchResult;
-            numericUpDownPeopleSuggestNameDaysInterval.Value = Properties.Settings.Default.SuggestRegionNameNearbyDays;
-            numericUpDownPeopleSuggestNameTopMost.Value = Properties.Settings.Default.SuggestRegionNameTopMostCount;
-            numericUpDownRegionMissmatchProcent.Value = (decimal)Properties.Settings.Default.RegionMissmatchProcent;
-
-            checkBoxApplicationAvoidReadMediaFromCloud.Checked = Properties.Settings.Default.AvoidOfflineMediaFiles;
-            checkBoxApplicationImageListViewCacheModeOnDemand.Checked = Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode;
-            */
         }
         #endregion 
 
@@ -1307,6 +1267,23 @@ ffmpeg4 -i input.mp4 -map 0:v:0 -map 0:a:2
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile != null) fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile.KeyDown(sender, e);
         }
+
+        private void fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument != null) fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument.KeyDown(sender, e);
+        }
+
+        private void fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument != null) fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument.SyntaxHighlightProperties(sender, e);
+        }
+
+        private void comboBoxConvertAndMergeConvertVideoFilesVariables_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument, comboBoxConvertAndMergeConvertVideoFilesVariables.Text);
+        }
+
+        
     }
 }
 

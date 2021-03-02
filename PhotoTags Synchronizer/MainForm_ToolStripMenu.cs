@@ -183,14 +183,16 @@ namespace PhotoTagsSynchronizer
 
                     Properties.Settings.Default.ConvertAndMergeConcatImagesArguments,
                     Properties.Settings.Default.ConvertAndMergeConcatImagesArguFile,
+
+                    Properties.Settings.Default.ConvertAndMergeConvertVideosArguments,
                     outputFile);
 
 
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-                ImageListViewReloadThumbnailInvoke(imageListView1, null);
-                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+                //ImageListViewReloadThumbnailInvoke(imageListView1, null);
+                //LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
                 //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-                FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
+                //FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
             }
 
             

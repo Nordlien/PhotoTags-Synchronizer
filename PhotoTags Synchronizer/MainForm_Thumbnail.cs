@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Text;
-using System.Threading;
 using System.Windows.Forms;
-using ApplicationAssociations;
-using DataGridViewGeneric;
 using Exiftool;
 using ImageAndMovieFileExtentions;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using NReco.VideoConverter;
-using TimeZone;
 
 namespace PhotoTagsSynchronizer
 {
@@ -110,7 +103,6 @@ namespace PhotoTagsSynchronizer
             if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
             {
 
-                
                 var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
 
                 using (Stream memoryStream = new MemoryStream())

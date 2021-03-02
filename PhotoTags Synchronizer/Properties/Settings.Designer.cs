@@ -1360,7 +1360,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"-y -i ""{AudioFileFullPath}"" -f concat -safe 0 -i ""{ArgumentFileFullPath}"" -framerate 1/2 -vf ""scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2,setsar=1"" -c:v libx264 -crf 14 -r 25 -pix_fmt yuv420p -shortest ""{TempFileFullPath}""")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"-y -i ""{AudioFileFullPath}"" -f concat -safe 0 -i ""{ArgumentFileFullPath}"" -c:v libx264 -movflags +faststart -b:a 384k -c:a aac -ac 2 -ar 48000 -pix_fmt yuv420p -profile:v baseline -vsync vfr -r 24 -maxrate 8M -bufsize 10M -vf ""scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2"" -shortest ""{TempFileFullPath}""")]
         public string ConvertAndMergeConcatImagesArguments {
             get {
                 return ((string)(this["ConvertAndMergeConcatImagesArguments"]));
@@ -1384,9 +1384,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-safe 0 -f concat -i \"{ArgumentFileFullPath}\" -preset fast -c:a aac -b:a 192k -ac" +
-            " 2 -c:v libx264 -b:v 1024k -profile:v high -level 4.1 -crf -1 -pix_fmt yuv420p \"" +
-            "{TempFileFullPath}\"")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-y -f concat -safe 0 -i \"{ArgumentFileFullPath}\" -c:v copy \"{TempFileFullPath}\"")]
         public string ConvertAndMergeConcatVideosArguments {
             get {
                 return ((string)(this["ConvertAndMergeConcatVideosArguments"]));
@@ -1441,6 +1439,18 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["RunBatchInTerminalWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"-y -i ""{VideoFileFullPath}"" -c:v copy -c:v libx264 -movflags +faststart -b:a 384k -c:a aac -ac 2 -ar 48000 -pix_fmt yuv420p -profile:v baseline -vsync vfr -r 24 -maxrate 8M -bufsize 10M -vf ""scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2"" ""{TempFileFullPath}""")]
+        public string ConvertAndMergeConvertVideosArguments {
+            get {
+                return ((string)(this["ConvertAndMergeConvertVideosArguments"]));
+            }
+            set {
+                this["ConvertAndMergeConvertVideosArguments"] = value;
             }
         }
     }
