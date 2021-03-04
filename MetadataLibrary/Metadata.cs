@@ -544,6 +544,43 @@ namespace MetadataLibrary
             //set => personalRegionList = value; 
         }
 
+
+        private Point RotatePoint(Size mediaSize, Point pointToRotate, double rotateDegrees)
+        {
+            int newWidth = (int)((mediaSize.Width / 2) * Math.Cos(rotateDegrees) - (mediaSize.Height / 2) * Math.Sin(rotateDegrees)) * 2;
+            int newHeight = (int)((mediaSize.Height / 2)* Math.Cos(rotateDegrees) + (mediaSize.Width / 2) * Math.Sin(rotateDegrees)) * 2;
+
+            int x1center = pointToRotate.X - (int)mediaSize.Width / 2;
+            int y1center = (int)MediaHeight / 2 - pointToRotate.Y;
+            int x1rotated = (int)(x1center * Math.Cos(rotateDegrees) + y1center * Math.Sin(rotateDegrees));
+            int y1rotated = (int)(y1center * Math.Cos(rotateDegrees) - x1center * Math.Sin(rotateDegrees));
+            return new Point(x1rotated + newWidth / 2, newHeight / 2 - y1rotated);
+        }
+
+        public Point RotatePoint90(int x, int y, int pageWidth, int pageHeight, double degrees)
+        {
+            switch (degrees)
+            {
+                case 0: return new Point(x, y);
+                case 270: return new Point(y, pageWidth - x);
+                case 180: return new Point(pageWidth - x, pageHeight - y);
+                case 90: return new Point(pageHeight - y, x);
+                default: throw new NotImplementedException();
+            }
+        }
+
+        public Size RotateSize(Size size, double degrees)
+        {
+            switch (degrees)
+            {
+                case 0: return size;
+                case 90: return new Size(size.Height, size.Width);
+                case 180: return size;
+                case 270: return new Size(size.Height, size.Width);
+                default: throw new NotImplementedException();
+            }
+        }
+
         public void PersonalRegionRotate(double rotateDegrees)
         {
             List<RegionStructure> regionStructuresCopy = new List<RegionStructure>();
@@ -551,7 +588,26 @@ namespace MetadataLibrary
             {
                 RegionStructure regionStructureCopy = new RegionStructure(regionStructure);
                 Rectangle rectangleInPixel = regionStructure.GetImageRegionPixelRectangle(MediaSize);
-                RegionStructure.CalculateImageRegionAbstarctRectangle(MediaSize, rectangleInPixel, regionStructureCopy.RegionStructureType);
+
+                ///RotatePoint X = 224 Y = 140 Width = 2813 Height = 2025
+                //Point pointTopLeft = RotatePoint(MediaSize, rectangleInPixel.Location, rotateDegrees);
+                Point newPoint1 = RotatePoint90(rectangleInPixel.X, rectangleInPixel.Y, (int)MediaWidth, (int)MediaHeight, rotateDegrees);
+                Point newPoint2 = RotatePoint90(
+                    rectangleInPixel.X + rectangleInPixel.Width, 
+                    rectangleInPixel.Y + rectangleInPixel.Height, (int)MediaWidth, (int)MediaHeight, rotateDegrees);
+                Rectangle rectangleTransformed = new Rectangle(
+                    Math.Min(newPoint1.X, newPoint2.X), 
+                    Math.Min(newPoint1.Y, newPoint2.Y),
+                    Math.Max(newPoint1.X, newPoint2.X) - Math.Min(newPoint1.X, newPoint2.X),
+                    Math.Max(newPoint1.Y, newPoint2.Y) - Math.Min(newPoint1.Y, newPoint2.Y));
+                MediaSize = RotateSize(MediaSize, rotateDegrees);
+                
+                RectangleF rectangleF = RegionStructure.CalculateImageRegionAbstarctRectangle(
+                    MediaSize, rectangleTransformed, regionStructureCopy.RegionStructureType);
+                regionStructureCopy.AreaX = rectangleF.X;
+                regionStructureCopy.AreaY = rectangleF.Y;
+                regionStructureCopy.AreaWidth = rectangleF.Width;
+                regionStructureCopy.AreaHeight = rectangleF.Height;
                 regionStructuresCopy.Add(regionStructureCopy);
             }
             personalRegionList = regionStructuresCopy;
@@ -681,7 +737,12 @@ namespace MetadataLibrary
         public DateTime? MediaDateTaken { get => mediaDateTaken; set => mediaDateTaken = value; }
         public Int32? MediaWidth { get => mediaWidth; set => mediaWidth = value; }
         public Int32? MediaHeight { get => mediaHeight; set => mediaHeight = value; }
-        public Size MediaSize { get => new Size(mediaWidth == null ? 0 : (int)mediaWidth, mediaWidth == null ? 0 : (int)mediaHeight); }
+        public Size MediaSize { get => new Size(mediaWidth == null ? 0 : (int)mediaWidth, mediaWidth == null ? 0 : (int)mediaHeight);
+            set {
+                MediaWidth = value.Width;
+                MediaHeight = value.Height;
+            }
+        }
         public int? MediaOrientation { get => mediaOrientation; set => mediaOrientation = value; }
         public int? MediaVideoLength { get => mediaVideoLength; set => mediaVideoLength = value; }
         #endregion 

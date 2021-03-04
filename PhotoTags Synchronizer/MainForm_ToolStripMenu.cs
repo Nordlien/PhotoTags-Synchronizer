@@ -547,11 +547,13 @@ namespace PhotoTagsSynchronizer
                     //filesCutCopyPasteDrag.DeleteMetadataFileEntry(fileEntry);
 
                     //ImageListViewResumeLayoutInvoke(imageListView1);
+                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
                     Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                    
                     if (metadata != null)
                     {
                         metadata.PersonalRegionRotate(rotateDegrees);
-                        AddQueueSaveMetadataUpdatedByUser(metadata, null);
+                        AddQueueSaveMetadataUpdatedByUser(metadata, metadataOriginal);
                         //databaseAndCacheMetadataExiftool.Write(metadata);
                     }
                     ImageListViewReloadThumbnailInvoke(imageListView1, fileEntry.FileFullPath);
@@ -1014,6 +1016,7 @@ namespace PhotoTagsSynchronizer
             filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(folderTreeViewFolder, imageListView1);
             FilesSelected();
             DisplayAllQueueStatus();
+            imageListView1.Focus();
         }
         #endregion
 
@@ -1058,7 +1061,7 @@ namespace PhotoTagsSynchronizer
 
             folderTreeViewFolder.Enabled = true;
             imageListView1.Enabled = true;
-            
+            imageListView1.Focus();
             DisplayAllQueueStatus();
 
         }
@@ -1090,7 +1093,7 @@ namespace PhotoTagsSynchronizer
 
         #region ImageListView
         
-        #region ImageListView - Delete Files - Directory - Click
+        #region TreeView - Delete Files - Directory - Click
         private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
         {
             string folder = folderTreeViewFolder.GetSelectedNodePath();
@@ -1140,7 +1143,7 @@ namespace PhotoTagsSynchronizer
             Clipboard.Clear();
             Clipboard.SetDataObject(data, true);
 
-            folderTreeViewFolder.Focus();
+            imageListView1.Focus();
         }
         #endregion 
 
@@ -1157,7 +1160,7 @@ namespace PhotoTagsSynchronizer
             Clipboard.Clear();
             Clipboard.SetDataObject(data, true);
 
-            folderTreeViewFolder.Focus();
+            imageListView1.Focus();
         }
         #endregion 
 
@@ -1181,7 +1184,7 @@ namespace PhotoTagsSynchronizer
 
                 if (!fileFound) imageListView1.Items.Add(fullFilename);
             }
-
+            imageListView1.Focus();
         }
         #endregion
 
@@ -1244,6 +1247,7 @@ namespace PhotoTagsSynchronizer
         {
             DragDropEffects dragDropEffects = DetectCopyOrMove();
             CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
+            folderTreeViewFolder.Focus();
         }
         #endregion
 
