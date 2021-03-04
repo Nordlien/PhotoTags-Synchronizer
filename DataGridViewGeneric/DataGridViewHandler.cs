@@ -1678,10 +1678,7 @@ namespace DataGridViewGeneric
             {
                 DataGridViewGenericRow dataGridViewGenericRow = GetRowDataGridViewGenericRow(dataGridView, rowIndex);
                 dataGridViewGenericRow.IsFavourite = dataGridFavorites.Contains(new FavoriteRow(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName, dataGridViewGenericRow.IsHeader));
-            } else
-            {
-                //DEBUG
-            }
+            } 
         }
         #endregion
 
@@ -1769,11 +1766,27 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Refresh - Refresh
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.Winapi)]
+        internal static extern IntPtr GetFocus();
+
+        private static Control GetFocusedControl()
+        {
+            Control focusedControl = null;
+            // To get hold of the focused control:
+            IntPtr focusedHandle = GetFocus();
+            if (focusedHandle != IntPtr.Zero)
+                // Note that if the focused Control is not a .Net control, then this will return null.
+                focusedControl = Control.FromHandle(focusedHandle);
+            return focusedControl;
+        }
+
         public static void Refresh(DataGridView dataGridView)
-        {            
+        {
+            Control controlInFocus = GetFocusedControl();
             dataGridView.Parent.Focus(); //Hack to refresh DataGridViewComboBoxCell, do to it will not refresh before changed cell / cell lost focus
             dataGridView.Focus();
             dataGridView.Refresh(); //This created Thread failure // Region????
+            if (controlInFocus != null) controlInFocus.Focus();
         }
         #endregion
 
@@ -2045,9 +2058,6 @@ namespace DataGridViewGeneric
                 {
                     SetCellBackGroundColor(dataGridView, dataGridCell.ColumnIndex, rowIndex);
                 }
-            }
-            else { 
-                //DEBUG
             }
         }
         #endregion

@@ -187,12 +187,16 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.ConvertAndMergeConvertVideosArguments,
                     outputFile);
 
-
                 GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-                //ImageListViewReloadThumbnailInvoke(imageListView1, null);
-                //LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
-                //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-                //FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
+
+                bool found = false;
+                try
+                {
+                    if (File.Exists(outputFile) && new FileInfo(outputFile).Length > 0) found = true;
+                } catch 
+                { 
+                }
+                if (found) ImageListViewAddItem(outputFile);
             }
 
             
@@ -466,165 +470,150 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ToolStrip - Rotate Selected Images - Click
-        private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
+        
+
+        #region Rotate
+        private void Rotate(List<FileEntry> fileEntries, int rotateDegrees)
         {
-            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            string error = "";
+            foreach (FileEntry fileEntry in fileEntries)
             {
-       
-                string error = "";
-                
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                bool coverted = false;
+
+                if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(fileEntry.FileFullPath))
                 {
-                    bool coverted = false;
-
-                    if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(item.FileFullPath))
+                    try
                     {
-                        try
-                        {
-                            ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.RoateImage(item.FileFullPath, 270);
-                            coverted = true;
-                        } catch (Exception ex)
-                        {
-                            coverted = false;
-                            error += (error == "" ? "" : "\r\n") + ex.Message;
-                        }
+                        ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.RoateImage(fileEntry.FileFullPath, rotateDegrees);
+                        coverted = true;
                     }
-
-                    if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(item.FileFullPath))
+                    catch (Exception ex)
                     {
-                        string outputFolder = Path.GetDirectoryName(item.FileFullPath);
-                        string tempOutputfile = Path.Combine(outputFolder, "temp_" + Guid.NewGuid().ToString() + Path.GetExtension(item.FileFullPath));
-
-                        try
-                        {
-                            var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-                            
-                            ffMpeg.ConvertProgress += FfMpeg_ConvertProgress;
-                            ffMpeg.Invoke("-y -i \"" + item.FileFullPath + "\" -vf \"transpose = 2\" \"" + tempOutputfile + "\"");
-                            coverted = true;
-                        } catch (Exception ex)
-                        {
-                            coverted = false;
-                            error += (error == "" ? "": "\r\n") + ex.Message;
-                        }
-
-                        try
-                        {
-
-                            if (coverted && new System.IO.FileInfo(tempOutputfile).Length > 0)
-                            {
-                                File.Delete(item.FileFullPath);
-                                File.Move(tempOutputfile, item.FileFullPath);
-                            }
-                            else File.Delete(tempOutputfile);
-                        }
-                        catch (Exception ex)
-                        {
-                            error += (error == "" ? "" : "\r\n") + ex.Message;
-                        }
-                    }
-
-                    if (coverted)
-                    {
-                        FileEntry fileEntry = new FileEntry(item.FileFullPath, item.DateModified);
-                        filesCutCopyPasteDrag.DeleteMetadataFileEntry(fileEntry);
-                        //filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
-                        item.BeginEdit();
-                        item.Update();
-                        item.EndEdit();
+                        coverted = false;
+                        error += (error == "" ? "" : "\r\n") + ex.Message;
                     }
                 }
-                if (error != "")
+
+                if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(fileEntry.FileFullPath))
                 {
-                    FormMessageBox formMessageBox = new FormMessageBox(error);
-                    formMessageBox.ShowDialog();
+
+                    string outputFolder = Path.GetDirectoryName(fileEntry.FileFullPath);
+                    string tempOutputfile = Path.Combine(outputFolder, "temp_" + Guid.NewGuid().ToString() + Path.GetExtension(fileEntry.FileFullPath));
+
+                    try
+                    {
+                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+
+                        ffMpeg.ConvertProgress += FfMpeg_ConvertProgress;
+                        switch (rotateDegrees)
+                        {
+                            case 90:
+                                ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=1\" \"" + tempOutputfile + "\"");
+                                break;
+                            case 180:
+                                ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=2,transpose=2\" \"" + tempOutputfile + "\"");
+                                break;
+                            case 270:
+                                ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=2\" \"" + tempOutputfile + "\"");
+                                break;
+                        }
+
+                        coverted = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        coverted = false;
+                        error += (error == "" ? "" : "\r\n") + ex.Message;
+                    }
+
+                    try
+                    {
+
+                        if (coverted && new System.IO.FileInfo(tempOutputfile).Length > 0)
+                        {
+                            File.Delete(fileEntry.FileFullPath);
+                            File.Move(tempOutputfile, fileEntry.FileFullPath);
+                        }
+                        else File.Delete(tempOutputfile);
+                    }
+                    catch (Exception ex)
+                    {
+                        error += (error == "" ? "" : "\r\n") + ex.Message;
+                    }
+                }
+
+                if (coverted)
+                {
+                    //filesCutCopyPasteDrag.DeleteMetadataFileEntry(fileEntry);
+
+                    //ImageListViewResumeLayoutInvoke(imageListView1);
+                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                    if (metadata != null)
+                    {
+                        metadata.PersonalRegionRotate(rotateDegrees);
+                        AddQueueSaveMetadataUpdatedByUser(metadata, null);
+                        //databaseAndCacheMetadataExiftool.Write(metadata);
+                    }
+                    ImageListViewReloadThumbnailInvoke(imageListView1, fileEntry.FileFullPath);
+                    /*item.BeginEdit();
+                    item.Update();
+                    item.EndEdit();*/
                 }
             }
+            if (error != "")
+            {
+                FormMessageBox formMessageBox = new FormMessageBox(error);
+                formMessageBox.ShowDialog();
+            }
         }
+        #endregion 
+
 
         private void FfMpeg_ConvertProgress(object sender, NReco.VideoConverter.ConvertProgressEventArgs e)
         {
             Debug.WriteLine(e.TotalDuration.ToString() + " " + e.Processed.ToString());
         }
 
-        private void rotateCWToolStripButton_Click(object sender, EventArgs e)
+        #region RotateInit
+        private void RotateInit(ImageListView imageListView, int rotateDegrees)
         {
             if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
                 "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
+                List<FileEntry> fileEntries = new List<FileEntry>();
 
-                string error = "";
                 foreach (ImageListViewItem item in imageListView1.SelectedItems)
                 {
-                    bool coverted = false;
-
-                    if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(item.FileFullPath))
-                    {
-                        try {
-                            ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.RoateImage(item.FileFullPath, 90);
-                            coverted = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            coverted = false;
-                            error += (error == "" ? "" : "\r\n") + ex.Message;
-                        }
-
-                        
-                    }
-
-                    if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(item.FileFullPath))
-                    {
-                        
-                        string outputFolder = Path.GetDirectoryName(item.FileFullPath);
-                        string tempOutputfile = Path.Combine(outputFolder, "temp_" + Guid.NewGuid().ToString() + Path.GetExtension(item.FileFullPath));
-
-                        try
-                        {
-                            var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-                            
-                            ffMpeg.ConvertProgress += FfMpeg_ConvertProgress;
-                            ffMpeg.Invoke("-y -i \"" + item.FileFullPath + "\" -vf \"transpose = 1\" \"" + tempOutputfile + "\"");
-                            coverted = true;
-                        } catch (Exception ex)
-                        {
-                            coverted = false;
-                            error += (error == "" ? "" : "\r\n") + ex.Message;
-                        }
-
-                        try
-                        {
-
-                            if (coverted && new System.IO.FileInfo(tempOutputfile).Length > 0)
-                            {
-                                File.Delete(item.FileFullPath);
-                                File.Move(tempOutputfile, item.FileFullPath);
-                            } 
-                            else File.Delete(tempOutputfile);
-                        } catch (Exception ex)
-                        {
-                            error += (error == "" ? "" : "\r\n") + ex.Message;
-                        }
-                    }
-
-                    if (coverted)
-                    {
-                        FileEntry fileEntry = new FileEntry(item.FileFullPath, item.DateModified);
-                        filesCutCopyPasteDrag.DeleteMetadataFileEntry(fileEntry);
-                        //filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
-                        item.BeginEdit();
-                        item.Update();
-                        item.EndEdit();
-                    }
+                    fileEntries.Add(new FileEntry(item.FileFullPath, item.DateModified));
                 }
-                if (error != "")
+                try
                 {
-                    FormMessageBox formMessageBox = new FormMessageBox(error);
-                    formMessageBox.ShowDialog();
+                    Thread thread = new Thread(() =>
+                    {
+                        Rotate(fileEntries, rotateDegrees);
+                    });
+                    thread.Start();
+                } catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
-
             }
+        }
+        #endregion 
+
+        private void rotateCWToolStripButton_Click(object sender, EventArgs e)
+        {
+            RotateInit(imageListView1, 90);
+        }
+
+        private void rotate180ToolStripButton_Click(object sender, EventArgs e)
+        {
+            RotateInit(imageListView1, 180);
+        }
+
+        private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
+        {
+            RotateInit(imageListView1, 270);
         }
         #endregion
 
@@ -1486,6 +1475,7 @@ namespace PhotoTagsSynchronizer
             {
                 Logger.Error("Failed create drag and drop tarnsfer data. Error: " + ex.Message);
                 MessageBox.Show("Failed create drag and drop tarnsfer data. Error: " + ex.Message);
+                folderTreeViewFolder.Focus();
             }
         }
         #endregion 

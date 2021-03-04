@@ -397,6 +397,9 @@
     <None Include="Resources\Media_FastForward.png" />
     <None Include="Resources\Media_FastBackward.png" />
     <None Include="Resources\Media_Close.png" />
+    <None Include="Resources\Rotate180.png" />
+    <None Include="Resources\Rotate90CCW.png" />
+    <None Include="Resources\Rotate90CW.png" />
     <Content Include="Resources\Silent.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

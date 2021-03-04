@@ -25,7 +25,7 @@ namespace PhotoTagsSynchronizer
                 GlobalData.IsPopulatingImageListView = false;
             }
             
-            imageListView1.Focus();
+            //imageListView1.Focus();
         }
         #endregion
     }

@@ -174,12 +174,12 @@ namespace PhotoTagsSynchronizer
         private bool IsAnyThreadRunning()
         {
             return (
-                (_ThreadThumbnailMedia == null || _ThreadThumbnailMedia.IsAlive) ||
-                (_ThreadExiftool == null || _ThreadExiftool.IsAlive) ||
-                (_ThreadWindowsLiveGallery == null || _ThreadWindowsLiveGallery.IsAlive) ||
-                (_ThreadMicrosoftPhotos == null || _ThreadMicrosoftPhotos.IsAlive) ||
-                (_ThreadThumbnailRegion == null || _ThreadThumbnailRegion.IsAlive) ||
-                (_ThreadSaveMetadata == null || _ThreadSaveMetadata.IsAlive)
+                (_ThreadThumbnailMedia != null && _ThreadThumbnailMedia.IsAlive) ||
+                (_ThreadExiftool != null && _ThreadExiftool.IsAlive) ||
+                (_ThreadWindowsLiveGallery != null && _ThreadWindowsLiveGallery.IsAlive) ||
+                (_ThreadMicrosoftPhotos != null && _ThreadMicrosoftPhotos.IsAlive) ||
+                (_ThreadThumbnailRegion != null && _ThreadThumbnailRegion.IsAlive) ||
+                (_ThreadSaveMetadata != null && _ThreadSaveMetadata.IsAlive)
                 );
         }
 
@@ -240,7 +240,9 @@ namespace PhotoTagsSynchronizer
         #region Preloadning - Metadata - Thread 
         public void ThreadPreloadningMetadata()
         {
-            if (_ThreadPreloadingMetadata == null || (!_ThreadPreloadingMetadata.IsAlive && ThreadLazyLoadingQueueSize() == 0))
+            if ((_ThreadPreloadingMetadata == null /*|| !_ThreadPreloadingMetadata.IsAlive*/) &&
+                CommonQueuePreloadingMetadataCountLock() > 0 &&
+                ThreadLazyLoadingQueueSize() == 0)
             {
                 _ThreadPreloadingMetadata = new Thread(() =>
                 {
@@ -257,6 +259,7 @@ namespace PhotoTagsSynchronizer
                     }
                     Application.DoEvents();
                     StartThreads();
+                    _ThreadPreloadingMetadata = null;
                 });
                 try
                 {
@@ -332,7 +335,7 @@ namespace PhotoTagsSynchronizer
         #region LazyLoadning - Metadata - Thread 
         public void ThreadLazyLoadningMetadata()
         {
-            if (_ThreadLazyLoadingMetadata == null || (!_ThreadLazyLoadingMetadata.IsAlive && CommonQueueLazyLoadingMetadataCountLock() > 0))
+            if ((_ThreadLazyLoadingMetadata == null /*|| !_ThreadLazyLoadingMetadata.IsAlive*/) && CommonQueueLazyLoadingMetadataCountLock() > 0)
             {
                 _ThreadLazyLoadingMetadata = new Thread(() =>
                 {
@@ -391,6 +394,7 @@ namespace PhotoTagsSynchronizer
                     
                     Application.DoEvents();
                     StartThreads();
+                    _ThreadLazyLoadingMetadata = null;
                 });
                 try
                 {
@@ -427,7 +431,8 @@ namespace PhotoTagsSynchronizer
         #region LazyLoadning - Thread LazyLoadning
         public void ThreadLazyLoadningThumbnail()
         {
-            if (_ThreadLazyLoadingThumbnail == null || (!_ThreadLazyLoadingThumbnail.IsAlive && CommonQueueLazyLoadingThumbnailCountLock() > 0))
+            if ((_ThreadLazyLoadingThumbnail == null /*|| !_ThreadLazyLoadingThumbnail.IsAlive*/) && 
+                CommonQueueLazyLoadingThumbnailCountLock() > 0)
             {
                 _ThreadLazyLoadingThumbnail = new Thread(() =>
                 {
@@ -458,6 +463,7 @@ namespace PhotoTagsSynchronizer
 
                     Application.DoEvents();
                     StartThreads();
+                    _ThreadLazyLoadingThumbnail = null;
                 });
                 try
                 {
@@ -494,7 +500,7 @@ namespace PhotoTagsSynchronizer
         #region Thread - SaveThumbnail
         public void ThreadSaveThumbnail()
         {
-            if (_ThreadThumbnailMedia == null || (!_ThreadThumbnailMedia.IsAlive && CommonQueueSaveThumbnailToDatabaseCountLock() > 0))
+            if ((_ThreadThumbnailMedia == null /*|| !_ThreadThumbnailMedia.IsAlive*/) && CommonQueueSaveThumbnailToDatabaseCountLock() > 0)
             {
                 _ThreadThumbnailMedia = new Thread(() =>
                 {
@@ -550,6 +556,7 @@ namespace PhotoTagsSynchronizer
                     
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
+                    _ThreadThumbnailMedia = null;
                 });
 
                 try
@@ -594,7 +601,7 @@ namespace PhotoTagsSynchronizer
         #region Thread - ThreadCollectMetadataExiftool
         public void ThreadCollectMetadataExiftool()
         {
-            if (_ThreadExiftool == null || (!_ThreadExiftool.IsAlive && CommonQueueReadMetadataFromExiftoolCountLock() > 0))
+            if ((_ThreadExiftool == null /*|| !_ThreadExiftool.IsAlive*/) && CommonQueueReadMetadataFromExiftoolCountLock() > 0)
             {
                 _ThreadExiftool = new Thread(() =>
                 {
@@ -725,6 +732,7 @@ namespace PhotoTagsSynchronizer
 
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
+                    _ThreadExiftool = null;
                 });
 
                 try
@@ -769,7 +777,7 @@ namespace PhotoTagsSynchronizer
         #region Thread - ThreadSaveMetadata
         public void ThreadSaveMetadata()
         {
-            if (_ThreadSaveMetadata == null || (!_ThreadSaveMetadata.IsAlive && CommonQueueSaveMetadataUpdatedByUserCountLock() > 0))
+            if ((_ThreadSaveMetadata == null /*|| !_ThreadSaveMetadata.IsAlive*/) && CommonQueueSaveMetadataUpdatedByUserCountLock() > 0)
             {
                 _ThreadSaveMetadata = new Thread(() =>
                 {
@@ -973,6 +981,7 @@ namespace PhotoTagsSynchronizer
 
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
+                    _ThreadSaveMetadata = null;
                 });
 
                 try
@@ -1016,7 +1025,8 @@ namespace PhotoTagsSynchronizer
         #region Thread - ThreadCollectMetadataWindowsLiveGallery
         public void ThreadCollectMetadataWindowsLiveGallery()
         {
-            if (_ThreadWindowsLiveGallery == null || (!_ThreadWindowsLiveGallery.IsAlive && CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0))
+            if ((_ThreadWindowsLiveGallery == null /*|| !_ThreadWindowsLiveGallery.IsAlive*/) && 
+                CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0)
             {
                 _ThreadWindowsLiveGallery = new Thread(() =>
                 {
@@ -1066,6 +1076,7 @@ namespace PhotoTagsSynchronizer
 
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
+                    _ThreadWindowsLiveGallery = null;
                 });
                 try
                 {
@@ -1106,7 +1117,7 @@ namespace PhotoTagsSynchronizer
         #region Thread - ThreadCollectMetadataMicrosoftPhotos 
         public void ThreadCollectMetadataMicrosoftPhotos()
         {
-            if (_ThreadMicrosoftPhotos == null || (!_ThreadMicrosoftPhotos.IsAlive && CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0))
+            if ((_ThreadMicrosoftPhotos == null /*|| !_ThreadMicrosoftPhotos.IsAlive*/) && CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0)
             {
                 _ThreadMicrosoftPhotos = new Thread(() =>
                 {
@@ -1156,6 +1167,7 @@ namespace PhotoTagsSynchronizer
 
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
+                    _ThreadMicrosoftPhotos = null;
                 });
 
                 try
@@ -1196,7 +1208,7 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         public void ThreadReadMediaPosterSaveRegions()
         {
-            if (_ThreadThumbnailRegion == null || (!_ThreadThumbnailRegion.IsAlive && CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0))
+            if ((_ThreadThumbnailRegion == null /*|| !_ThreadThumbnailRegion.IsAlive*/) && CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0)
             {
                 if (IsThreadRunningExcept_ThreadThumbnailRegion()) return; //Wait other thread to finnish first. Otherwise it will generate high load on disk use
 
@@ -1277,6 +1289,7 @@ namespace PhotoTagsSynchronizer
                     if (GlobalData.IsApplicationClosing) lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) commonQueueReadPosterAndSaveFaceThumbnails.Clear();
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
+                    _ThreadThumbnailRegion = null;
                 });
                 try { 
                     _ThreadThumbnailRegion.Start();
@@ -1316,7 +1329,7 @@ namespace PhotoTagsSynchronizer
         {
             
 
-            if (_ThreadRenameMedafiles == null || (!_ThreadRenameMedafiles.IsAlive && CommonQueueRenameCountLock() > 0))
+            if ((_ThreadRenameMedafiles == null /*|| !_ThreadRenameMedafiles.IsAlive*/) && CommonQueueRenameCountLock() > 0)
             {
                 _ThreadRenameMedafiles = new Thread(() =>
                 {
@@ -1473,6 +1486,7 @@ namespace PhotoTagsSynchronizer
 
                     StartThreads();
                     TriggerAutoResetEventQueueEmpty();
+                    _ThreadRenameMedafiles = null;
                 });
                 try
                 {

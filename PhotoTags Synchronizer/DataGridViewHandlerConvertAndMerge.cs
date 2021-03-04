@@ -521,6 +521,8 @@ namespace PhotoTagsSynchronizer
                     }
                 }
             }
+
+            formTerminalWindow.LogInfo("\r\n\r\n\r\n\r\n\r\nThe process is complete, you can close the window.\r\n\r\n\r\n\r\n\r\n");
         }
         #endregion
 

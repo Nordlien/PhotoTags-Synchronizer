@@ -86,8 +86,10 @@ namespace ImageAndMovieFileExtentions
         {
             using (MagickImage image = new MagickImage(fullFilename))
             {
-                    image.Rotate(degress);
-                    image.Write(fullFilename);
+                //IExifProfile exifProfile = image.GetExifProfile();
+                
+                image.Rotate(degress);
+                image.Write(fullFilename);
             }
         }
 

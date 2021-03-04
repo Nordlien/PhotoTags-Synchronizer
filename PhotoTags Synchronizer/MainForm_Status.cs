@@ -97,6 +97,7 @@ namespace PhotoTagsSynchronizer
             toolStripStatusQueue.Text = "";
 
             //string.Format("WLPG{0}:{1} MP{2}:{3} Thumbnails{4}:{5} Regions{6}:{7}|{8} Exif{9}: Check:{10} Exiftool:{11} Saving{12}:{13} Verify:{14} Rename:{15} Lazy({16}{17},{18}{19},{20}{21})",
+            
             bool showAlways = false;
 
             if (showAlways || CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 || (_ThreadWindowsLiveGallery != null && _ThreadWindowsLiveGallery.ThreadState != System.Threading.ThreadState.Stopped))
@@ -111,7 +112,7 @@ namespace PhotoTagsSynchronizer
                 toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Thumbnails-{0}:{1}", 
                 ThreadStateStatus(_ThreadThumbnailMedia), CommonQueueSaveThumbnailToDatabaseCountLock());
                 
-            if (showAlways || CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() + regionCount > 0 || (_ThreadThumbnailRegion == null && _ThreadThumbnailMedia.ThreadState != System.Threading.ThreadState.Stopped))
+            if (showAlways || CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() + regionCount > 0 || (_ThreadThumbnailRegion != null && _ThreadThumbnailRegion.ThreadState != System.Threading.ThreadState.Stopped))
                 toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Regions-{0}:{1}|{2}", 
                 ThreadStateStatus(_ThreadThumbnailRegion), CommonQueueReadPosterAndSaveFaceThumbnailsCountLock(), regionCount);
 
@@ -119,11 +120,11 @@ namespace PhotoTagsSynchronizer
                 toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Exif-{0}: Check:{1} Exiftool:{2} Verify:{3}",
                 ThreadStateStatus(_ThreadExiftool), CommonQueueReadMetadataFromExiftoolCountLock(), MediaFilesNotInDatabaseCountLock(), CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountLock());
             
-            if (showAlways || CountSaveQueue() > 0 || (_ThreadSaveMetadata == null && _ThreadSaveMetadata.ThreadState != System.Threading.ThreadState.Stopped))                                   
+            if (showAlways || CountSaveQueue() > 0 || (_ThreadSaveMetadata != null && _ThreadSaveMetadata.ThreadState != System.Threading.ThreadState.Stopped))                                   
                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Saving-{0}:{1} Verify:{2}", 
                ThreadStateStatus(_ThreadSaveMetadata), CountSaveQueue(), CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountLock());
 
-            if (showAlways || CommonQueueRenameCountLock() > 0 || (_ThreadRenameMedafiles == null && _ThreadRenameMedafiles.ThreadState != System.Threading.ThreadState.Stopped))
+            if (showAlways || CommonQueueRenameCountLock() > 0 || (_ThreadRenameMedafiles != null && _ThreadRenameMedafiles.ThreadState != System.Threading.ThreadState.Stopped))
                 toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Rename-{0}:{1}", 
                ThreadStateStatus(_ThreadRenameMedafiles), CommonQueueRenameCountLock());
 

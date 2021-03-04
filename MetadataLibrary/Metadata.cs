@@ -543,6 +543,19 @@ namespace MetadataLibrary
             get => personalRegionList;
             //set => personalRegionList = value; 
         }
+
+        public void PersonalRegionRotate(double rotateDegrees)
+        {
+            List<RegionStructure> regionStructuresCopy = new List<RegionStructure>();
+            foreach (RegionStructure regionStructure in personalRegionList)
+            {
+                RegionStructure regionStructureCopy = new RegionStructure(regionStructure);
+                Rectangle rectangleInPixel = regionStructure.GetImageRegionPixelRectangle(MediaSize);
+                RegionStructure.CalculateImageRegionAbstarctRectangle(MediaSize, rectangleInPixel, regionStructureCopy.RegionStructureType);
+                regionStructuresCopy.Add(regionStructureCopy);
+            }
+            personalRegionList = regionStructuresCopy;
+        }
         public void PersonalRegionListAddIfNotExists(RegionStructure regionStructure)
         {
             if (!personalRegionList.Contains(regionStructure))

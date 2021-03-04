@@ -181,6 +181,7 @@ namespace PhotoTagsSynchronizer
             imageListView1.Enabled = false; //When Enabled = true, slection was cancelled during Updating the grid
             FilesSelected();
             imageListView1.Enabled = true;
+            imageListView1.Focus();
         }
         #endregion
 
@@ -353,6 +354,13 @@ namespace PhotoTagsSynchronizer
             else openMediaFilesWithToolStripMenuItem.Visible = false;
         }
         #endregion
+
+        #region ImageListView - Add - Item
+        private void ImageListViewAddItem(string fullFilename)
+        {
+            imageListView1.Items.Add(fullFilename);
+        }
+        #endregion 
 
         #region ImageListView - Aggregate - FromSearchFilter
         private void ImageListViewAggregateFromSearchFilter(List<FileEntry> searchFilterResult)
