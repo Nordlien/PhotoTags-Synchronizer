@@ -618,12 +618,6 @@ namespace MetadataLibrary
             return new RectangleF((float)AreaX, (float)AreaY, (float)AreaWidth, (float)AreaHeight);
         }
 
-        /*
-        public SizeF GetRegionAbstractSize()
-        {
-            return new SizeF(AreaWidth, AreaHeight);
-        }*/
-
         private static Size CalculateImageRegionPixelSize (RegionStructureTypes regionStructureType, Size imagePixelSize, SizeF regionAreaAbstractSize)
         {
             Size sizeFace;

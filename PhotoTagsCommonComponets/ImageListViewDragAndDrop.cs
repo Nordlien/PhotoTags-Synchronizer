@@ -45,7 +45,7 @@ namespace DragNDrop
 		public int Value
 		{
 			get { return TrackBar.Value; }
-			set { TrackBar.Value = value; }
+			set { TrackBar.Value = (value > TrackBar.Maximum ? TrackBar.Maximum : (value < TrackBar.Minimum ? TrackBar.Minimum : value)); }
 		}
 		/// <summary>
 		/// Attach to events we want to re-wrap

@@ -470,7 +470,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ToolStrip - Rotate Selected Images - Click
-        
 
         #region Rotate
         private void Rotate(List<FileEntry> fileEntries, int rotateDegrees)
@@ -544,9 +543,6 @@ namespace PhotoTagsSynchronizer
 
                 if (coverted)
                 {
-                    //filesCutCopyPasteDrag.DeleteMetadataFileEntry(fileEntry);
-
-                    //ImageListViewResumeLayoutInvoke(imageListView1);
                     Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
                     Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                     
@@ -554,12 +550,8 @@ namespace PhotoTagsSynchronizer
                     {
                         metadata.PersonalRegionRotate(rotateDegrees);
                         AddQueueSaveMetadataUpdatedByUser(metadata, metadataOriginal);
-                        //databaseAndCacheMetadataExiftool.Write(metadata);
                     }
                     ImageListViewReloadThumbnailInvoke(imageListView1, fileEntry.FileFullPath);
-                    /*item.BeginEdit();
-                    item.Update();
-                    item.EndEdit();*/
                 }
             }
             if (error != "")
@@ -569,7 +561,6 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion 
-
 
         private void FfMpeg_ConvertProgress(object sender, NReco.VideoConverter.ConvertProgressEventArgs e)
         {

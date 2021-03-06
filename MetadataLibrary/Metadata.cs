@@ -544,19 +544,6 @@ namespace MetadataLibrary
             //set => personalRegionList = value; 
         }
 
-
-        private Point RotatePoint(Size mediaSize, Point pointToRotate, double rotateDegrees)
-        {
-            int newWidth = (int)((mediaSize.Width / 2) * Math.Cos(rotateDegrees) - (mediaSize.Height / 2) * Math.Sin(rotateDegrees)) * 2;
-            int newHeight = (int)((mediaSize.Height / 2)* Math.Cos(rotateDegrees) + (mediaSize.Width / 2) * Math.Sin(rotateDegrees)) * 2;
-
-            int x1center = pointToRotate.X - (int)mediaSize.Width / 2;
-            int y1center = (int)MediaHeight / 2 - pointToRotate.Y;
-            int x1rotated = (int)(x1center * Math.Cos(rotateDegrees) + y1center * Math.Sin(rotateDegrees));
-            int y1rotated = (int)(y1center * Math.Cos(rotateDegrees) - x1center * Math.Sin(rotateDegrees));
-            return new Point(x1rotated + newWidth / 2, newHeight / 2 - y1rotated);
-        }
-
         public Point RotatePoint90(int x, int y, int pageWidth, int pageHeight, double degrees)
         {
             switch (degrees)
