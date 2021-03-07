@@ -519,8 +519,44 @@ namespace ImageAndMovieFileExtentions
 
         //3GP, ASF, AVCHD, AVI,*.mkv, mov, .mpeg, .mpg, .mpe, mp4, WMV  
         //Video file formats by file extension 
-        private static List<string> videoFormats = new List<string>
+        public static List<string> videoFormats = new List<string>
         {
+            //VLC Supported video extetions
+            ".ASX", //	Advanced Stream Redirector
+            ".DTS", //	Digital Theater Systems Audio File
+            ".GXF", //	General eXchange Format
+            ".M2V", //	MPEG-2 Video
+            ".M3U", //	MP3 Uniform Resource Locator
+            ".M4V", //	MPEG-4 Video File
+            ".MPEG1", //	MPEG-1 Video
+            ".MPEG2", //	MPEG-2 Video
+            ".MTS", //	AVCHD Video File
+            ".MXF", //	Material eXchange Format
+            ".OGM", //	Ogg Multimedia Container File
+            ".DIVX", //	DivX Movie
+            ".DV", //	Digital Video
+            ".FLV", //	Flash Video
+            ".M1V", //	MPEG-1 Video
+            ".M2TS", //	MPEG-2 Transport Stream Videos
+            ".MKV", //	Matroska Video Stream
+            ".MOV", //	Apple QuickTime Movie
+            ".MPEG4", //	MPEG-4 Video
+            ".TS", //	DVD Video
+            ".VLC", //	VLC Media Player Data
+            ".VOB", //	DVD Video Object
+            ".DAT", //	VCD Video
+            ".BIN", //	Binary DVD Video
+            ".3G2", //	3G Mobile Phone Video
+            ".AVI", //	Audio Video Interleave
+            ".MPEG", //	MPEG Video
+            ".MPG", //	MPEG Video
+            ".OGG", //	Ogg Multimedia Container File
+            ".3GP", //	3G Mobile Phone Video
+            ".WMV", //	Windows Media Video
+            ".ASF", //	Advanced Systems Format Video
+            ".MOD", //	MOD Audio File
+            ".MP4" //	MPEG-4 Part 14 Multimedia Container
+            /*
             ".AAF", // – mostly intended to hold edit decisions and rendering information, but can also contain compressed media essence
             ".3GP", // – the most common video format for cell phones
             ".GIF", // – Animated GIF (simple animation; until recently often avoided because of patent problems)
@@ -561,8 +597,9 @@ namespace ImageAndMovieFileExtentions
             ".WMV", // – Windows Media Video (See ASF)
             ".WTV", // – Windows Vista's and up Windows Media Center recorded television format
             ".YUV", // – raw video format; resolution (horizontal x vertical) and sample structure 4:2:2 or 4:2:0 must be known explicitly
-            ".WebM" // – video file format for web video using HTML5
+            ".WebM" // – video file format for web video using HTML5*/
         };
+
 
         private static List<string> GetAllMediaExtentions()
         {

@@ -104,9 +104,14 @@ namespace PhotoTagsCommonComponets
             }
         }
 
-        private void buttonScrollToEnd_Click(object sender, EventArgs e)
+        public void GoEnd()
         {
             fastColoredTextBox1.GoEnd();
+        }
+
+        private void buttonScrollToEnd_Click(object sender, EventArgs e)
+        {
+            GoEnd();
         }
 
         private void FormTerminalWindow_FormClosing(object sender, FormClosingEventArgs e)

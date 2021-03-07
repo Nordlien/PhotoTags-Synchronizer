@@ -15,8 +15,6 @@ using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
-
-
     public partial class Config : Form
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -204,6 +202,39 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.ConvertAndMergeExecute = textBoxConvertAndMergeFFmpeg.Text;
             Properties.Settings.Default.ConvertAndMergeMusic = textBoxConvertAndMergeBackgroundMusic.Text;
             Properties.Settings.Default.ConvertAndMergeImageDuration = (int)numericUpDownConvertAndMergeImageDuration.Value;
+            Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension = comboBoxConvertAndMergeTempfileExtension.Text;
+            switch (comboBoxConvertAndMergeOutputSize.SelectedIndex)
+            {   
+                case 0: //2160p: 3840 x 2160
+                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 3840;
+                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 2160;
+                    break;
+                case 1: //1440p: 2560 x 1440
+                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 2560;
+                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 1440;
+                    break;
+                case 2: //1080p: 1920 x 1080
+                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 1920;
+                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 1080;
+                    break;
+                case 3: //720p: 1280 x 720
+                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 1280;
+                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 720;
+                    break;
+                case 4: //480p: 854 x 480
+                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 854;
+                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 480;
+                    break;
+                case 5: //360p: 640 x 360
+                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 640;
+                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 360;
+                    break;
+                case 6: //240p: 426 x 240
+                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 426;
+                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 240;
+                    break;
+            }
+
 
             Properties.Settings.Default.ConvertAndMergeConcatVideosArguments = fastColoredTextBoxConvertAndMergeConcatVideoArgument.Text;
             Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile =  fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Text;
@@ -1141,29 +1172,50 @@ namespace PhotoTagsSynchronizer
         public void PopulateConvertAndMerge()
         {
             comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Items.Clear();
-            comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Items.AddRange(DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ExeArguments));
+            comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Items.AddRange(
+                DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ExeConcatFilesArguments));
             
             comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Items.Clear();
-            comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Items.AddRange(DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ImagesListing));
+            comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Items.AddRange(
+                DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ImageArgumentFileListing));
             
             comboBoxConvertAndMergeConcatVideoFilesVariables.Items.Clear();
-            comboBoxConvertAndMergeConcatVideoFilesVariables.Items.AddRange(DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ExeArguments));
+            comboBoxConvertAndMergeConcatVideoFilesVariables.Items.AddRange(
+                DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ExeConcatFilesArguments));
             
             comboBoxConvertAndMergeConcatVideosArguFileVariables.Items.Clear();
-            comboBoxConvertAndMergeConcatVideosArguFileVariables.Items.AddRange(DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.VideoListing));
+            comboBoxConvertAndMergeConcatVideosArguFileVariables.Items.AddRange(
+                DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.VideoArgumentFileListing));
             
             comboBoxConvertAndMergeConvertVideoFilesVariables.Items.Clear();
-            comboBoxConvertAndMergeConvertVideoFilesVariables.Items.AddRange(DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ExeArguments));
+            comboBoxConvertAndMergeConvertVideoFilesVariables.Items.AddRange(
+                DataGridViewHandlerConvertAndMerge.ListVariables(DataGridViewHandlerConvertAndMerge.VariableListType.ExeConvertFileArguments));
             
-            fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArgument = new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument, comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables);
-            fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArguFile = new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile, comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables);
-            fastColoredTextBoxHandlerConvertAndMergeConcatVideoArgument = new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatVideoArgument, comboBoxConvertAndMergeConcatVideoFilesVariables);
-            fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile = new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatVideoArguFile, comboBoxConvertAndMergeConcatVideosArguFileVariables);
-            fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument = new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument, comboBoxConvertAndMergeConvertVideoFilesVariables);
+            fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArgument = 
+                new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument, comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables, 
+                DataGridViewHandlerConvertAndMerge.parameterAgruments, DataGridViewHandlerConvertAndMerge.parameterValues);
+            fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArguFile = 
+                new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile, comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables,
+                DataGridViewHandlerConvertAndMerge.parameterAgruments, DataGridViewHandlerConvertAndMerge.parameterValues);
+            fastColoredTextBoxHandlerConvertAndMergeConcatVideoArgument = 
+                new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatVideoArgument, comboBoxConvertAndMergeConcatVideoFilesVariables,
+                DataGridViewHandlerConvertAndMerge.parameterAgruments, DataGridViewHandlerConvertAndMerge.parameterValues);
+            fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile = 
+                new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConcatVideoArguFile, comboBoxConvertAndMergeConcatVideosArguFileVariables,
+                DataGridViewHandlerConvertAndMerge.parameterAgruments, DataGridViewHandlerConvertAndMerge.parameterValues);
+            fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument = 
+                new FastColoredTextBoxHandler(fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument, comboBoxConvertAndMergeConvertVideoFilesVariables,
+                DataGridViewHandlerConvertAndMerge.parameterAgruments, DataGridViewHandlerConvertAndMerge.parameterValues);
             
             textBoxConvertAndMergeFFmpeg.Text = Properties.Settings.Default.ConvertAndMergeExecute;
             textBoxConvertAndMergeBackgroundMusic.Text = Properties.Settings.Default.ConvertAndMergeMusic;
             numericUpDownConvertAndMergeImageDuration.Value = (int)Properties.Settings.Default.ConvertAndMergeImageDuration;
+
+            comboBoxConvertAndMergeTempfileExtension.Items.AddRange(ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.videoFormats.ToArray());
+            comboBoxConvertAndMergeTempfileExtension.Text = Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension;
+            comboBoxConvertAndMergeOutputSize.Text =
+                Properties.Settings.Default.ConvertAndMergeOutputHeight + "p: " +
+                Properties.Settings.Default.ConvertAndMergeOutputWidth + " x " + Properties.Settings.Default.ConvertAndMergeOutputHeight;
 
             fastColoredTextBoxConvertAndMergeConcatVideoArgument.Text = Properties.Settings.Default.ConvertAndMergeConcatVideosArguments;
             fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Text = Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile;

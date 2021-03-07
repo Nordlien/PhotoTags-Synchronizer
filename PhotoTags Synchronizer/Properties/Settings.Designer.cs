@@ -1360,7 +1360,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"-y -i ""{AudioFileFullPath}"" -f concat -safe 0 -i ""{ArgumentFileFullPath}"" -c:v libx264 -movflags +faststart -b:a 384k -c:a aac -ac 2 -ar 48000 -pix_fmt yuv420p -profile:v baseline -vsync vfr -r 24 -maxrate 8M -bufsize 10M -vf ""scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2"" -shortest ""{TempFileFullPath}""")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"-y -i ""{AudioFileFullPath}"" -f concat -safe 0 -i ""{ArgumentFileFullPath}"" -c:v libx264 -bsf:v h264_mp4toannexb -f mpegts -movflags +faststart -b:a 384k -c:a aac -ac 2 -ar 48000 -pix_fmt yuv420p -profile:v baseline -vsync vfr -r 24 -maxrate 8M -bufsize 10M -vf ""scale={ResolutionWidth}:{ResolutionHeight}:force_original_aspect_ratio=decrease,pad={ResolutionWidth}:{ResolutionHeight}:(ow-iw)/2:(oh-ih)/2"" -shortest ""{TempFileFullPath}""")]
         public string ConvertAndMergeConcatImagesArguments {
             get {
                 return ((string)(this["ConvertAndMergeConcatImagesArguments"]));
@@ -1384,7 +1384,8 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-y -f concat -safe 0 -i \"{ArgumentFileFullPath}\" -c:v copy \"{TempFileFullPath}\"")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-analyzeduration 2147483647 -probesize 2147483647 -y -f concat -safe 0 -i \"{Argum" +
+            "entFileFullPath}\" -c:v copy \"{TempFileFullPath}\"")]
         public string ConvertAndMergeConcatVideosArguments {
             get {
                 return ((string)(this["ConvertAndMergeConcatVideosArguments"]));
@@ -1444,13 +1445,49 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"-y -i ""{VideoFileFullPath}"" -c:v copy -c:v libx264 -movflags +faststart -b:a 384k -c:a aac -ac 2 -ar 48000 -pix_fmt yuv420p -profile:v baseline -vsync vfr -r 24 -maxrate 8M -bufsize 10M -vf ""scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2"" ""{TempFileFullPath}""")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"-y -i ""{VideoFileFullPath}"" -c:v copy -c:v libx264 -bsf:v h264_mp4toannexb -f mpegts -movflags +faststart -b:a 384k -c:a aac -ac 2 -ar 48000 -pix_fmt yuv420p -profile:v baseline -vsync vfr -r 24 -maxrate 8M -bufsize 10M -vf ""scale={ResolutionWidth}:{ResolutionHeight}:force_original_aspect_ratio=decrease,pad={ResolutionWidth}:{ResolutionHeight}:(ow-iw)/2:(oh-ih)/2"" ""{TempFileFullPath}""")]
         public string ConvertAndMergeConvertVideosArguments {
             get {
                 return ((string)(this["ConvertAndMergeConvertVideosArguments"]));
             }
             set {
                 this["ConvertAndMergeConvertVideosArguments"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1920")]
+        public int ConvertAndMergeOutputWidth {
+            get {
+                return ((int)(this["ConvertAndMergeOutputWidth"]));
+            }
+            set {
+                this["ConvertAndMergeOutputWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1080")]
+        public int ConvertAndMergeOutputHeight {
+            get {
+                return ((int)(this["ConvertAndMergeOutputHeight"]));
+            }
+            set {
+                this["ConvertAndMergeOutputHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".TS")]
+        public string ConvertAndMergeOutputTempfileExtension {
+            get {
+                return ((string)(this["ConvertAndMergeOutputTempfileExtension"]));
+            }
+            set {
+                this["ConvertAndMergeOutputTempfileExtension"] = value;
             }
         }
     }

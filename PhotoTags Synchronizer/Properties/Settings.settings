@@ -817,14 +817,14 @@ Unknown 3</Value>
       <Value Profile="(Default)">ffmpeg.exe</Value>
     </Setting>
     <Setting Name="ConvertAndMergeConcatImagesArguments" Type="System.String" Scope="User">
-      <Value Profile="(Default)">-y -i "{AudioFileFullPath}" -f concat -safe 0 -i "{ArgumentFileFullPath}" -c:v libx264 -movflags +faststart -b:a 384k -c:a aac -ac 2 -ar 48000 -pix_fmt yuv420p -profile:v baseline -vsync vfr -r 24 -maxrate 8M -bufsize 10M -vf "scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2" -shortest "{TempFileFullPath}"</Value>
+      <Value Profile="(Default)">-y -i "{AudioFileFullPath}" -f concat -safe 0 -i "{ArgumentFileFullPath}" -c:v libx264 -bsf:v h264_mp4toannexb -f mpegts -movflags +faststart -b:a 384k -c:a aac -ac 2 -ar 48000 -pix_fmt yuv420p -profile:v baseline -vsync vfr -r 24 -maxrate 8M -bufsize 10M -vf "scale={ResolutionWidth}:{ResolutionHeight}:force_original_aspect_ratio=decrease,pad={ResolutionWidth}:{ResolutionHeight}:(ow-iw)/2:(oh-ih)/2" -shortest "{TempFileFullPath}"</Value>
     </Setting>
     <Setting Name="ConvertAndMergeConcatImagesArguFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">file '{ImageFileFullPath}'
 duration {Duration}</Value>
     </Setting>
     <Setting Name="ConvertAndMergeConcatVideosArguments" Type="System.String" Scope="User">
-      <Value Profile="(Default)">-y -f concat -safe 0 -i "{ArgumentFileFullPath}" -c:v copy "{TempFileFullPath}"</Value>
+      <Value Profile="(Default)">-analyzeduration 2147483647 -probesize 2147483647 -y -f concat -safe 0 -i "{ArgumentFileFullPath}" -c:v copy "{TempFileFullPath}"</Value>
     </Setting>
     <Setting Name="ConvertAndMergeConcatVideosArguFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">{VideoFileFullPath}</Value>
@@ -839,7 +839,16 @@ duration {Duration}</Value>
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ConvertAndMergeConvertVideosArguments" Type="System.String" Scope="User">
-      <Value Profile="(Default)">-y -i "{VideoFileFullPath}" -c:v copy -c:v libx264 -movflags +faststart -b:a 384k -c:a aac -ac 2 -ar 48000 -pix_fmt yuv420p -profile:v baseline -vsync vfr -r 24 -maxrate 8M -bufsize 10M -vf "scale=1080:720:force_original_aspect_ratio=decrease,pad=1080:720:(ow-iw)/2:(oh-ih)/2" "{TempFileFullPath}"</Value>
+      <Value Profile="(Default)">-y -i "{VideoFileFullPath}" -c:v copy -c:v libx264 -bsf:v h264_mp4toannexb -f mpegts -movflags +faststart -b:a 384k -c:a aac -ac 2 -ar 48000 -pix_fmt yuv420p -profile:v baseline -vsync vfr -r 24 -maxrate 8M -bufsize 10M -vf "scale={ResolutionWidth}:{ResolutionHeight}:force_original_aspect_ratio=decrease,pad={ResolutionWidth}:{ResolutionHeight}:(ow-iw)/2:(oh-ih)/2" "{TempFileFullPath}"</Value>
+    </Setting>
+    <Setting Name="ConvertAndMergeOutputWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1920</Value>
+    </Setting>
+    <Setting Name="ConvertAndMergeOutputHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1080</Value>
+    </Setting>
+    <Setting Name="ConvertAndMergeOutputTempfileExtension" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.TS</Value>
     </Setting>
   </Settings>
 </SettingsFile>

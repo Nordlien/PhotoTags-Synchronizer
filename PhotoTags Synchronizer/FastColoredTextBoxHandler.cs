@@ -26,7 +26,7 @@ namespace PhotoTagsSynchronizer
 
         private AutocompleteMenu popupMenuMetadataProperties;
 
-        public FastColoredTextBoxHandler(FastColoredTextBox fastColoredTextBox, ComboBox comboBox)
+        public FastColoredTextBoxHandler(FastColoredTextBox fastColoredTextBox, ComboBox comboBox, string[] arg2, string[] arg3)
         {
             //create autocomplete popup menu
             popupMenuMetadataProperties = new AutocompleteMenu(fastColoredTextBox);
@@ -41,8 +41,22 @@ namespace PhotoTagsSynchronizer
                 autoCompleteItems.Add(new AutocompleteItem(item.TrimStart('{').TrimEnd('}')));
             }
 
+            //Tags
             string regexPatternMetadataTags = "";
+            var arg2sorted = new List<string>(arg2).OrderByDescending(x => x.Length);
+
+            foreach (string value in arg2sorted)
+            {
+                if (value.Length > 2) regexPatternMetadataTags += (regexPatternMetadataTags == "" ? "" : "|") + value;
+            }
+
+            //Regions
             string regexPatternMetadataRegions = "";
+            var arg3sorted = new List<string>(arg3).OrderByDescending(x => x.Length);
+            foreach (string value in arg3sorted)
+            {
+                if (value.Length > 2) regexPatternMetadataRegions += (regexPatternMetadataRegions == "" ? "" : "|") + value;
+            }
             
             regexProperties = new Regex("(" + regexPatternProperties + ")", RegexOptions.IgnoreCase);
             regexMetadataTags = new Regex("(" + regexPatternMetadataTags + ")", RegexOptions.IgnoreCase);

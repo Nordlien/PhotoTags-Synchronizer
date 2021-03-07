@@ -160,9 +160,6 @@
     <Compile Include="FormMessageBox.Designer.cs">
       <DependentUpon>FormMessageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_Preview.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="GlobalData.cs" />
     <Compile Include="LocationHistoryImportForm.cs">
       <SubType>Form</SubType>
@@ -171,6 +168,10 @@
       <DependentUpon>LocationHistoryImportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Preview.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">

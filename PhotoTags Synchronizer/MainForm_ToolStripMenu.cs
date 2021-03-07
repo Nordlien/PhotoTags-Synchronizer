@@ -177,6 +177,9 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.ConvertAndMergeExecute,
                     Properties.Settings.Default.ConvertAndMergeMusic,
                     (int)Properties.Settings.Default.ConvertAndMergeImageDuration,
+                    (int)Properties.Settings.Default.ConvertAndMergeOutputWidth,
+                    (int)Properties.Settings.Default.ConvertAndMergeOutputHeight,
+                    Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension,
 
                     Properties.Settings.Default.ConvertAndMergeConcatVideosArguments,
                     Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile,

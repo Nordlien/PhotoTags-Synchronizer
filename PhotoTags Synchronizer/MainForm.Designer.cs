@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -1257,11 +1257,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode7.Name = "NodeFolder";
+            treeNode7.Tag = "Filter";
+            treeNode7.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode7});
             this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -3606,7 +3606,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripSeparator10});
             this.toolStrip1.Location = new System.Drawing.Point(4, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(797, 59);
+            this.toolStrip1.Size = new System.Drawing.Size(758, 59);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -3701,13 +3701,13 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemMediaChromecast
             // 
             this.toolStripMenuItemMediaChromecast.Name = "toolStripMenuItemMediaChromecast";
-            this.toolStripMenuItemMediaChromecast.Size = new System.Drawing.Size(224, 26);
+            this.toolStripMenuItemMediaChromecast.Size = new System.Drawing.Size(114, 26);
             this.toolStripMenuItemMediaChromecast.Text = "Tv1";
             // 
             // tv2ToolStripMenuItem
             // 
             this.tv2ToolStripMenuItem.Name = "tv2ToolStripMenuItem";
-            this.tv2ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.tv2ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.tv2ToolStripMenuItem.Text = "Tv2";
             // 
             // toolStripDropDownButtonMediaList
