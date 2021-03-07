@@ -31,10 +31,10 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1257,11 +1257,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode2.Name = "NodeFolder";
-            treeNode2.Tag = "Filter";
-            treeNode2.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -2376,14 +2376,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewMap.ColumnHeadersHeight = 29;
             this.dataGridViewMap.ContextMenuStrip = this.contextMenuStripMap;
             this.dataGridViewMap.GridColor = System.Drawing.SystemColors.AppWorkspace;
@@ -2840,14 +2840,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.AllowUserToAddRows = false;
             this.dataGridViewExifToolWarning.ColumnHeadersHeight = 29;
             this.dataGridViewExifToolWarning.ContextMenuStrip = this.contextMenuStripExiftoolWarning;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewExifToolWarning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewExifToolWarning.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewExifToolWarning.Name = "dataGridViewExifToolWarning";
@@ -3546,7 +3546,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripContainer2.ContentPanel.Controls.Add(this.imageBoxPreview);
             this.toolStripContainer2.ContentPanel.Controls.Add(this.videoView1);
-            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(865, 171);
+            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(865, 141);
             this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer2.Name = "toolStripContainer2";
@@ -3566,7 +3566,7 @@ namespace PhotoTagsSynchronizer
             this.imageBoxPreview.GridDisplayMode = Cyotek.Windows.Forms.ImageBoxGridDisplayMode.None;
             this.imageBoxPreview.Location = new System.Drawing.Point(0, 0);
             this.imageBoxPreview.Name = "imageBoxPreview";
-            this.imageBoxPreview.Size = new System.Drawing.Size(865, 171);
+            this.imageBoxPreview.Size = new System.Drawing.Size(865, 141);
             this.imageBoxPreview.TabIndex = 3;
             this.imageBoxPreview.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             // 
@@ -3578,7 +3578,7 @@ namespace PhotoTagsSynchronizer
             this.videoView1.Location = new System.Drawing.Point(0, 0);
             this.videoView1.MediaPlayer = null;
             this.videoView1.Name = "videoView1";
-            this.videoView1.Size = new System.Drawing.Size(865, 171);
+            this.videoView1.Size = new System.Drawing.Size(865, 141);
             this.videoView1.TabIndex = 2;
             this.videoView1.Text = "videoView1";
             // 
@@ -3606,7 +3606,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripSeparator10});
             this.toolStrip1.Location = new System.Drawing.Point(4, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(797, 29);
+            this.toolStrip1.Size = new System.Drawing.Size(797, 59);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -3616,7 +3616,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewPrevious.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Previous;
             this.toolStripButtonMediaPreviewPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMediaPreviewPrevious.Name = "toolStripButtonMediaPreviewPrevious";
-            this.toolStripButtonMediaPreviewPrevious.Size = new System.Drawing.Size(29, 26);
+            this.toolStripButtonMediaPreviewPrevious.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewPrevious.Text = "Previous media";
             this.toolStripButtonMediaPreviewPrevious.Click += new System.EventHandler(this.toolStripButtonMediaPreviewPrevious_Click);
             // 
@@ -3626,7 +3626,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewNext.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Next;
             this.toolStripButtonMediaPreviewNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMediaPreviewNext.Name = "toolStripButtonMediaPreviewNext";
-            this.toolStripButtonMediaPreviewNext.Size = new System.Drawing.Size(29, 26);
+            this.toolStripButtonMediaPreviewNext.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewNext.Text = "Next media";
             this.toolStripButtonMediaPreviewNext.Click += new System.EventHandler(this.toolStripButtonMediaPreviewNext_Click);
             // 
@@ -3637,7 +3637,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewPlay.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Play;
             this.toolStripButtonMediaPreviewPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMediaPreviewPlay.Name = "toolStripButtonMediaPreviewPlay";
-            this.toolStripButtonMediaPreviewPlay.Size = new System.Drawing.Size(29, 26);
+            this.toolStripButtonMediaPreviewPlay.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewPlay.Text = "Play";
             this.toolStripButtonMediaPreviewPlay.Click += new System.EventHandler(this.toolStripButtonMediaPreviewPlay_Click);
             // 
@@ -3648,7 +3648,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewPause.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Pause;
             this.toolStripButtonMediaPreviewPause.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMediaPreviewPause.Name = "toolStripButtonMediaPreviewPause";
-            this.toolStripButtonMediaPreviewPause.Size = new System.Drawing.Size(29, 26);
+            this.toolStripButtonMediaPreviewPause.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewPause.Text = "Pause";
             this.toolStripButtonMediaPreviewPause.Click += new System.EventHandler(this.toolStripButtonMediaPreviewPause_Click);
             // 
@@ -3659,7 +3659,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewFastBackward.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_FastBackward;
             this.toolStripButtonMediaPreviewFastBackward.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMediaPreviewFastBackward.Name = "toolStripButtonMediaPreviewFastBackward";
-            this.toolStripButtonMediaPreviewFastBackward.Size = new System.Drawing.Size(29, 26);
+            this.toolStripButtonMediaPreviewFastBackward.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewFastBackward.Text = "Fast Backward";
             this.toolStripButtonMediaPreviewFastBackward.Click += new System.EventHandler(this.toolStripButtonMediaPreviewFastBackward_Click);
             // 
@@ -3670,7 +3670,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewFastForward.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_FastForward;
             this.toolStripButtonMediaPreviewFastForward.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMediaPreviewFastForward.Name = "toolStripButtonMediaPreviewFastForward";
-            this.toolStripButtonMediaPreviewFastForward.Size = new System.Drawing.Size(29, 26);
+            this.toolStripButtonMediaPreviewFastForward.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewFastForward.Text = "Fast Forward";
             this.toolStripButtonMediaPreviewFastForward.Click += new System.EventHandler(this.toolStripButtonMediaPreviewFastForward_Click);
             // 
@@ -3681,7 +3681,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewStop.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Stop;
             this.toolStripButtonMediaPreviewStop.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMediaPreviewStop.Name = "toolStripButtonMediaPreviewStop";
-            this.toolStripButtonMediaPreviewStop.Size = new System.Drawing.Size(29, 26);
+            this.toolStripButtonMediaPreviewStop.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewStop.Text = "Stop chromecast application";
             this.toolStripButtonMediaPreviewStop.Click += new System.EventHandler(this.toolStripButtonMediaPreviewStop_Click);
             // 
@@ -3695,19 +3695,19 @@ namespace PhotoTagsSynchronizer
             this.toolStripDropDownButtonChromecastList.Image = global::PhotoTagsSynchronizer.Properties.Resources.Chromecast;
             this.toolStripDropDownButtonChromecastList.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonChromecastList.Name = "toolStripDropDownButtonChromecastList";
-            this.toolStripDropDownButtonChromecastList.Size = new System.Drawing.Size(34, 26);
+            this.toolStripDropDownButtonChromecastList.Size = new System.Drawing.Size(34, 56);
             this.toolStripDropDownButtonChromecastList.Text = "Select Chromecast device";
             // 
             // toolStripMenuItemMediaChromecast
             // 
             this.toolStripMenuItemMediaChromecast.Name = "toolStripMenuItemMediaChromecast";
-            this.toolStripMenuItemMediaChromecast.Size = new System.Drawing.Size(114, 26);
+            this.toolStripMenuItemMediaChromecast.Size = new System.Drawing.Size(224, 26);
             this.toolStripMenuItemMediaChromecast.Text = "Tv1";
             // 
             // tv2ToolStripMenuItem
             // 
             this.tv2ToolStripMenuItem.Name = "tv2ToolStripMenuItem";
-            this.tv2ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
+            this.tv2ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.tv2ToolStripMenuItem.Text = "Tv2";
             // 
             // toolStripDropDownButtonMediaList
@@ -3716,7 +3716,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripDropDownButtonMediaList.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Preview;
             this.toolStripDropDownButtonMediaList.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonMediaList.Name = "toolStripDropDownButtonMediaList";
-            this.toolStripDropDownButtonMediaList.Size = new System.Drawing.Size(34, 26);
+            this.toolStripDropDownButtonMediaList.Size = new System.Drawing.Size(34, 56);
             this.toolStripDropDownButtonMediaList.Text = "Select media for preview";
             // 
             // toolStripMenuItemPreviewSlideShowMenu
@@ -3732,7 +3732,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPreviewSlideShowMenu.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemPreviewSlideShowMenu.Image")));
             this.toolStripMenuItemPreviewSlideShowMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripMenuItemPreviewSlideShowMenu.Name = "toolStripMenuItemPreviewSlideShowMenu";
-            this.toolStripMenuItemPreviewSlideShowMenu.Size = new System.Drawing.Size(92, 26);
+            this.toolStripMenuItemPreviewSlideShowMenu.Size = new System.Drawing.Size(92, 56);
             this.toolStripMenuItemPreviewSlideShowMenu.Text = "SlideShow";
             // 
             // toolStripMenuItemPreviewSlideShow2sec
@@ -3784,14 +3784,14 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewClose.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Close;
             this.toolStripButtonMediaPreviewClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonMediaPreviewClose.Name = "toolStripButtonMediaPreviewClose";
-            this.toolStripButtonMediaPreviewClose.Size = new System.Drawing.Size(29, 26);
+            this.toolStripButtonMediaPreviewClose.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewClose.Text = "Close preview media";
             this.toolStripButtonMediaPreviewClose.Click += new System.EventHandler(this.toolStripButtonMediaPreviewClose_Click);
             // 
             // toolStripTraceBarItemMediaPreviewTimer
             // 
             this.toolStripTraceBarItemMediaPreviewTimer.Name = "toolStripTraceBarItemMediaPreviewTimer";
-            this.toolStripTraceBarItemMediaPreviewTimer.Size = new System.Drawing.Size(205, 26);
+            this.toolStripTraceBarItemMediaPreviewTimer.Size = new System.Drawing.Size(205, 56);
             this.toolStripTraceBarItemMediaPreviewTimer.Text = "Video timer";
             this.toolStripTraceBarItemMediaPreviewTimer.ToolTipText = "Video timer";
             this.toolStripTraceBarItemMediaPreviewTimer.ValueChanged += new System.EventHandler(this.toolStripTraceBarItemSeekPosition_ValueChanged);
@@ -3799,35 +3799,35 @@ namespace PhotoTagsSynchronizer
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 29);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 59);
             // 
             // toolStripLabelMediaPreviewTimer
             // 
             this.toolStripLabelMediaPreviewTimer.Name = "toolStripLabelMediaPreviewTimer";
-            this.toolStripLabelMediaPreviewTimer.Size = new System.Drawing.Size(81, 26);
+            this.toolStripLabelMediaPreviewTimer.Size = new System.Drawing.Size(81, 56);
             this.toolStripLabelMediaPreviewTimer.Text = "Timer: 0.00";
             this.toolStripLabelMediaPreviewTimer.ToolTipText = "Timer";
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 29);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 59);
             // 
             // toolStripLabelMediaPreviewStatus
             // 
             this.toolStripLabelMediaPreviewStatus.Name = "toolStripLabelMediaPreviewStatus";
-            this.toolStripLabelMediaPreviewStatus.Size = new System.Drawing.Size(49, 26);
+            this.toolStripLabelMediaPreviewStatus.Size = new System.Drawing.Size(49, 56);
             this.toolStripLabelMediaPreviewStatus.Text = "Status";
             this.toolStripLabelMediaPreviewStatus.ToolTipText = "Status";
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 29);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 59);
             // 
             // timerFindGoogleCast
             // 
-            this.timerFindGoogleCast.Interval = 10000;
+            this.timerFindGoogleCast.Interval = 20000;
             this.timerFindGoogleCast.Tick += new System.EventHandler(this.timerFindGoogleCast_Tick);
             // 
             // timerPreviewNextTimer
