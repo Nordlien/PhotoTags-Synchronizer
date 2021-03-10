@@ -19,31 +19,33 @@ namespace ImageAndMovieFileExtentions
         private static MagickFormat ConvertFromMimeFormat (string contentFormat)
         {
             MagickFormat magickFormat = MagickFormat.Jpeg;
-            switch (contentFormat)
+            switch ((contentFormat.StartsWith(".") ? "" : ".") + contentFormat.ToLower())
             {
-                case "apng":
+                case ".apng":
                     magickFormat = MagickFormat.APng;
                     break;
-                case "bmp":
+                case ".bmp":
                     magickFormat = MagickFormat.Bmp;
                     break;
-                case "gif":
+                case ".gif":
                     magickFormat = MagickFormat.Gif;
                     break;
-                case "jpeg":
+                case ".jpeg":
                     magickFormat = MagickFormat.Jpeg;
                     break;
-                case "png":
+                case ".png":
                     magickFormat = MagickFormat.Png;
                     break;
-                case "webp":
+                case ".webp":
                     magickFormat = MagickFormat.WebP;
                     break;
+                default:
+                    throw new NotImplementedException();
             }
             return magickFormat;
         }
 
-        public static byte[] LoadAndConvertImage(string fullFilename, string contentFormat, int width, int height)
+        public static byte[] LoadAndConvertImage(string fullFilename, string contentFormat, int width, int height, double rotateDegress)
         {
             byte[] jpegImage = null;
             try
@@ -53,15 +55,15 @@ namespace ImageAndMovieFileExtentions
                 {
                     // Sets the output format to jpeg
                     image.Format = ConvertFromMimeFormat(contentFormat);
-                    
-                    MagickGeometry size = new MagickGeometry(width, height); //new MagickGeometry(720, 480);
 
-                    // This will resize the image to a fixed size without maintaining the aspect ratio.
-                    // Normally an image will be resized to fit inside the specified size.
-                    size.IgnoreAspectRatio = false;
+                    if (width > 1 && height > 1)
+                    {
+                        MagickGeometry size = new MagickGeometry(width, height); //new MagickGeometry(720, 480);
+                        size.IgnoreAspectRatio = false;
+                        image.Resize(size);                        
+                    }
+                    if (rotateDegress != 0) image.Rotate(rotateDegress);
 
-                    image.Resize(size);
-                    // Create byte array that contains a jpeg file
                     jpegImage = image.ToByteArray();
                 }
             }
@@ -77,6 +79,17 @@ namespace ImageAndMovieFileExtentions
             Bitmap imageReturn = null;
             using (var image = new MagickImage(fullFilename))
             {
+                imageReturn = image.ToBitmap();
+            }
+            return imageReturn;
+        }
+
+        public static Image LoadImageAndRotate(string fullFilename, double degress)
+        {
+            Bitmap imageReturn = null;
+            using (var image = new MagickImage(fullFilename))
+            {
+                image.Rotate(degress);
                 imageReturn = image.ToBitmap();
             }
             return imageReturn;
@@ -332,6 +345,8 @@ namespace ImageAndMovieFileExtentions
 
             return shellImageFileInfo;
         }
+
+        
 
 
         #region Video and Image Formats

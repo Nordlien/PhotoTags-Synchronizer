@@ -1490,5 +1490,137 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ConvertAndMergeOutputTempfileExtension"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1920")]
+        public int ChromecastImageOutputResolutionWidth {
+            get {
+                return ((int)(this["ChromecastImageOutputResolutionWidth"]));
+            }
+            set {
+                this["ChromecastImageOutputResolutionWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1080")]
+        public int ChromecastImageOutputResolutionHeight {
+            get {
+                return ((int)(this["ChromecastImageOutputResolutionHeight"]));
+            }
+            set {
+                this["ChromecastImageOutputResolutionHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".OGG")]
+        public string ChromecastImageOutputFormat {
+            get {
+                return ((string)(this["ChromecastImageOutputFormat"]));
+            }
+            set {
+                this["ChromecastImageOutputFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1920")]
+        public int ChromecastVideoOutputResolutionWidth {
+            get {
+                return ((int)(this["ChromecastVideoOutputResolutionWidth"]));
+            }
+            set {
+                this["ChromecastVideoOutputResolutionWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1080")]
+        public int ChromecastVideoOutputResolutionHeight {
+            get {
+                return ((int)(this["ChromecastVideoOutputResolutionHeight"]));
+            }
+            set {
+                this["ChromecastVideoOutputResolutionHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("VP8")]
+        public string ChromecastVideoCodec {
+            get {
+                return ((string)(this["ChromecastVideoCodec"]));
+            }
+            set {
+                this["ChromecastVideoCodec"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4000000")]
+        public int ChromecastVideoBitrate {
+            get {
+                return ((int)(this["ChromecastVideoBitrate"]));
+            }
+            set {
+                this["ChromecastVideoBitrate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mp4a")]
+        public string ChromecastAudioCodec {
+            get {
+                return ((string)(this["ChromecastAudioCodec"]));
+            }
+            set {
+                this["ChromecastAudioCodec"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192000")]
+        public int ChromecastAudioBitrate {
+            get {
+                return ((int)(this["ChromecastAudioBitrate"]));
+            }
+            set {
+                this["ChromecastAudioBitrate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("OGG")]
+        public string ChromecastContainer {
+            get {
+                return ((string)(this["ChromecastContainer"]));
+            }
+            set {
+                this["ChromecastContainer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("128000")]
+        public int ChromecastAudioSampleRate {
+            get {
+                return ((int)(this["ChromecastAudioSampleRate"]));
+            }
+            set {
+                this["ChromecastAudioSampleRate"] = value;
+            }
+        }
     }
 }

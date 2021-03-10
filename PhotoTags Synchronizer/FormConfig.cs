@@ -43,6 +43,87 @@ namespace PhotoTagsSynchronizer
         }
 
         #region All tabs - Init - Save - Close
+        private void SelectBestMatchCombobox(ComboBox comboBox, string text)
+        {
+            int foundItemIndex = -1;
+            for (int i = 0; i < comboBox.Items.Count; i++)
+            {
+                if (comboBox.GetItemText(comboBox.Items[i]).Contains(text))
+                {
+                    foundItemIndex = i;
+                    break;
+                }
+            }
+
+            if (foundItemIndex == -1)
+            {
+                comboBox.Items.Insert(0, text);
+                comboBox.SelectedIndex = 0;
+            }
+            else
+                comboBox.SelectedIndex = foundItemIndex;
+        }
+
+        private void SelectBestMatchComboboxReselution(ComboBox comboBox, int width, int height)
+        {
+            if (width  < 1 && height < 1) 
+                SelectBestMatchCombobox(comboBox, "Original");
+            else
+                SelectBestMatchCombobox(comboBox, width + " x " + height);
+        }
+
+        private String GetComboboxValue(ComboBox comboBox)
+        {
+            return comboBox.Text.Split(' ')[0];
+        }
+
+        private int GetComboboxIntValue(ComboBox comboBox)
+        {
+            if (int.TryParse(comboBox.Text.Split(' ')[0], out int result))
+                return result;
+            else
+                return -1;
+        }
+
+        private void SetResFromCombox(string value, ref int width, ref int height)
+        {
+            switch (value)
+            {
+                case "Original":
+                    width = -1;
+                    height = -1;
+                    break;
+                case "2160p:":
+                    width = 3840;
+                    height = 2160;
+                    break;
+                case "1440p:":
+                    width = 2560;
+                    height = 1440;
+                    break;
+                case "1080p:":
+                    width = 1920;
+                    height = 1080;
+                    break;
+                case "720p:":
+                    width = 1280;
+                    height = 720;
+                    break;
+                case "480p:": // 854 x 480
+                    width = 854;
+                    height = 480;
+                    break;
+                case "360p:": // 640 x 360
+                    width = 640;
+                    height = 360;
+                    break;
+                case "240p:": // 426 x 240
+                    width = 426;
+                    height = 240;
+                    break;
+            }
+        }
+
         public void Init()
         {
             isPopulation = true;
@@ -72,6 +153,22 @@ namespace PhotoTagsSynchronizer
             
             PopulateMetadataWritePoperties();
             isPopulation = false;
+
+            //Chromecast
+            
+            SelectBestMatchCombobox(comboBoxChromecastAudioBitrate, Properties.Settings.Default.ChromecastAudioBitrate < 1 ? "Original" : (Properties.Settings.Default.ChromecastAudioBitrate / 1000).ToString()); //E.g. 196 kbps
+            SelectBestMatchCombobox(comboBoxChromecastAudioSampleRate, Properties.Settings.Default.ChromecastAudioSampleRate < 1 ? "Original" : Properties.Settings.Default.ChromecastAudioSampleRate.ToString()); //E.g. 192000 Hz
+            SelectBestMatchCombobox(comboBoxChromecastAudioCodec, Properties.Settings.Default.ChromecastAudioCodec); //E.g. mp4a
+            SelectBestMatchCombobox(comboBoxChromecastImageFormat, Properties.Settings.Default.ChromecastImageOutputFormat); //E.g. .JPEG
+
+
+            SelectBestMatchComboboxReselution(comboBoxChromecastImageResolution, Properties.Settings.Default.ChromecastImageOutputResolutionWidth, Properties.Settings.Default.ChromecastImageOutputResolutionHeight);
+
+            SelectBestMatchCombobox(comboBoxChromecastVideoBitrate, Properties.Settings.Default.ChromecastVideoBitrate < 1 ? "Original" : (Properties.Settings.Default.ChromecastVideoBitrate / 1000).ToString()); //E.g. 7500 kbps
+            SelectBestMatchCombobox(comboBoxChromecastVideoCodec, Properties.Settings.Default.ChromecastVideoCodec); //E.g. h264
+            SelectBestMatchCombobox(comboBoxChromecastVideoContainer, Properties.Settings.Default.ChromecastContainer); //E.g. OGG
+
+            SelectBestMatchComboboxReselution(comboBoxChromecastVideoResolution, Properties.Settings.Default.ChromecastVideoOutputResolutionWidth, Properties.Settings.Default.ChromecastVideoOutputResolutionHeight);
 
             //Show log
             string logFilename = GetLogFileName("logfile");
@@ -203,38 +300,12 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.ConvertAndMergeMusic = textBoxConvertAndMergeBackgroundMusic.Text;
             Properties.Settings.Default.ConvertAndMergeImageDuration = (int)numericUpDownConvertAndMergeImageDuration.Value;
             Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension = comboBoxConvertAndMergeTempfileExtension.Text;
-            switch (comboBoxConvertAndMergeOutputSize.SelectedIndex)
-            {   
-                case 0: //2160p: 3840 x 2160
-                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 3840;
-                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 2160;
-                    break;
-                case 1: //1440p: 2560 x 1440
-                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 2560;
-                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 1440;
-                    break;
-                case 2: //1080p: 1920 x 1080
-                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 1920;
-                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 1080;
-                    break;
-                case 3: //720p: 1280 x 720
-                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 1280;
-                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 720;
-                    break;
-                case 4: //480p: 854 x 480
-                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 854;
-                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 480;
-                    break;
-                case 5: //360p: 640 x 360
-                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 640;
-                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 360;
-                    break;
-                case 6: //240p: 426 x 240
-                    Properties.Settings.Default.ConvertAndMergeOutputWidth = 426;
-                    Properties.Settings.Default.ConvertAndMergeOutputHeight = 240;
-                    break;
-            }
 
+            int width = Properties.Settings.Default.ConvertAndMergeOutputWidth;
+            int height = Properties.Settings.Default.ConvertAndMergeOutputHeight;
+            SetResFromCombox(GetComboboxValue(comboBoxConvertAndMergeOutputSize), ref width, ref height);
+            Properties.Settings.Default.ConvertAndMergeOutputWidth = width;
+            Properties.Settings.Default.ConvertAndMergeOutputHeight = height;
 
             Properties.Settings.Default.ConvertAndMergeConcatVideosArguments = fastColoredTextBoxConvertAndMergeConcatVideoArgument.Text;
             Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile =  fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Text;
@@ -243,6 +314,30 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.ConvertAndMergeConcatImagesArguFile = fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Text;
 
             Properties.Settings.Default.ConvertAndMergeConvertVideosArguments = fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Text;
+
+
+            //Chromecast
+
+            Properties.Settings.Default.ChromecastAudioBitrate = GetComboboxIntValue(comboBoxChromecastAudioBitrate)*1000; //E.g.196 kbps or -1
+            Properties.Settings.Default.ChromecastAudioSampleRate = GetComboboxIntValue(comboBoxChromecastAudioSampleRate); //E.g. 192000 Hz
+            Properties.Settings.Default.ChromecastAudioCodec = GetComboboxValue(comboBoxChromecastAudioCodec); //E.g. 
+            Properties.Settings.Default.ChromecastImageOutputFormat = GetComboboxValue(comboBoxChromecastImageFormat); //E.g. .JPEG
+
+            width = Properties.Settings.Default.ChromecastImageOutputResolutionWidth;
+            height = Properties.Settings.Default.ChromecastImageOutputResolutionHeight;
+            SetResFromCombox(GetComboboxValue(comboBoxChromecastImageResolution), ref width, ref height);
+            Properties.Settings.Default.ChromecastImageOutputResolutionWidth = width;
+            Properties.Settings.Default.ChromecastImageOutputResolutionHeight = height;
+
+            Properties.Settings.Default.ChromecastVideoBitrate = GetComboboxIntValue(comboBoxChromecastVideoBitrate)*1000; //E.g. 7500 kbps
+            Properties.Settings.Default.ChromecastVideoCodec = GetComboboxValue(comboBoxChromecastVideoCodec); //E.g. h264
+            Properties.Settings.Default.ChromecastContainer = GetComboboxValue(comboBoxChromecastVideoContainer); //E.g. OGG
+
+            width = Properties.Settings.Default.ChromecastVideoOutputResolutionWidth;
+            height = Properties.Settings.Default.ChromecastVideoOutputResolutionHeight; 
+            SetResFromCombox(GetComboboxValue(comboBoxChromecastVideoResolution), ref width, ref height);
+            Properties.Settings.Default.ChromecastVideoOutputResolutionWidth = width; //E.g. 1920
+            Properties.Settings.Default.ChromecastVideoOutputResolutionHeight = height; //E.g. 1080
 
             //Save config file
             Properties.Settings.Default.Save();
@@ -1213,10 +1308,8 @@ namespace PhotoTagsSynchronizer
 
             comboBoxConvertAndMergeTempfileExtension.Items.AddRange(ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.videoFormats.ToArray());
             comboBoxConvertAndMergeTempfileExtension.Text = Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension;
-            comboBoxConvertAndMergeOutputSize.Text =
-                Properties.Settings.Default.ConvertAndMergeOutputHeight + "p: " +
-                Properties.Settings.Default.ConvertAndMergeOutputWidth + " x " + Properties.Settings.Default.ConvertAndMergeOutputHeight;
-
+          
+            SelectBestMatchComboboxReselution(comboBoxConvertAndMergeOutputSize, Properties.Settings.Default.ConvertAndMergeOutputWidth, Properties.Settings.Default.ConvertAndMergeOutputHeight);
             fastColoredTextBoxConvertAndMergeConcatVideoArgument.Text = Properties.Settings.Default.ConvertAndMergeConcatVideosArguments;
             fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Text = Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile;
 

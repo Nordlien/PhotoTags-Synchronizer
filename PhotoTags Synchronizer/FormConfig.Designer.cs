@@ -241,6 +241,28 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables = new System.Windows.Forms.ComboBox();
             this.label45 = new System.Windows.Forms.Label();
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.tabPageChromecast = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.comboBoxChromecastAudioSampleRate = new System.Windows.Forms.ComboBox();
+            this.label65 = new System.Windows.Forms.Label();
+            this.label64 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastAudioBitrate = new System.Windows.Forms.ComboBox();
+            this.label62 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastVideoBitrate = new System.Windows.Forms.ComboBox();
+            this.label61 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastVideoContainer = new System.Windows.Forms.ComboBox();
+            this.label60 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastAudioCodec = new System.Windows.Forms.ComboBox();
+            this.label59 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastVideoCodec = new System.Windows.Forms.ComboBox();
+            this.label58 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastVideoResolution = new System.Windows.Forms.ComboBox();
+            this.groupBoxChromecastImage = new System.Windows.Forms.GroupBox();
+            this.comboBoxChromecastImageFormat = new System.Windows.Forms.ComboBox();
+            this.label63 = new System.Windows.Forms.Label();
+            this.label57 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastImageResolution = new System.Windows.Forms.ComboBox();
             this.tabPageShowAppLog = new System.Windows.Forms.TabPage();
             this.fastColoredTextBoxShowLog = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabPageShowPipe32Log = new System.Windows.Forms.TabPage();
@@ -301,6 +323,10 @@ namespace PhotoTagsSynchronizer
             this.groupBoxConvertAndMergeArgumentFileVariables.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile)).BeginInit();
+            this.tabPageChromecast.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBoxChromecastImage.SuspendLayout();
             this.tabPageShowAppLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowLog)).BeginInit();
             this.tabPageShowPipe32Log.SuspendLayout();
@@ -320,6 +346,7 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.Controls.Add(this.tabPageAutoCorrect);
             this.tabControlConfig.Controls.Add(this.tabPageCameraOwner);
             this.tabControlConfig.Controls.Add(this.tabPageConvertAndMerge);
+            this.tabControlConfig.Controls.Add(this.tabPageChromecast);
             this.tabControlConfig.Controls.Add(this.tabPageShowAppLog);
             this.tabControlConfig.Controls.Add(this.tabPageShowPipe32Log);
             this.tabControlConfig.Location = new System.Drawing.Point(2, 2);
@@ -3239,6 +3266,329 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoCommandArgument_TextChanged);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoCommandArgument_KeyDown);
             // 
+            // tabPageChromecast
+            // 
+            this.tabPageChromecast.Controls.Add(this.panel1);
+            this.tabPageChromecast.Location = new System.Drawing.Point(4, 25);
+            this.tabPageChromecast.Name = "tabPageChromecast";
+            this.tabPageChromecast.Size = new System.Drawing.Size(766, 748);
+            this.tabPageChromecast.TabIndex = 9;
+            this.tabPageChromecast.Text = "Chromecast";
+            this.tabPageChromecast.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.groupBox7);
+            this.panel1.Controls.Add(this.groupBoxChromecastImage);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(766, 748);
+            this.panel1.TabIndex = 0;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox7.Controls.Add(this.comboBoxChromecastAudioSampleRate);
+            this.groupBox7.Controls.Add(this.label65);
+            this.groupBox7.Controls.Add(this.label64);
+            this.groupBox7.Controls.Add(this.comboBoxChromecastAudioBitrate);
+            this.groupBox7.Controls.Add(this.label62);
+            this.groupBox7.Controls.Add(this.comboBoxChromecastVideoBitrate);
+            this.groupBox7.Controls.Add(this.label61);
+            this.groupBox7.Controls.Add(this.comboBoxChromecastVideoContainer);
+            this.groupBox7.Controls.Add(this.label60);
+            this.groupBox7.Controls.Add(this.comboBoxChromecastAudioCodec);
+            this.groupBox7.Controls.Add(this.label59);
+            this.groupBox7.Controls.Add(this.comboBoxChromecastVideoCodec);
+            this.groupBox7.Controls.Add(this.label58);
+            this.groupBox7.Controls.Add(this.comboBoxChromecastVideoResolution);
+            this.groupBox7.Location = new System.Drawing.Point(3, 145);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(757, 293);
+            this.groupBox7.TabIndex = 1;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Video";
+            // 
+            // comboBoxChromecastAudioSampleRate
+            // 
+            this.comboBoxChromecastAudioSampleRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChromecastAudioSampleRate.FormattingEnabled = true;
+            this.comboBoxChromecastAudioSampleRate.Items.AddRange(new object[] {
+            "Original",
+            "192000 Hz",
+            "176400 Hz",
+            "96000 Hz",
+            "88200 Hz",
+            "48000 Hz",
+            "44100 Hz",
+            "32000 Hz",
+            "22050 Hz",
+            "24000 Hz",
+            "16000 Hz",
+            "11025 Hz",
+            "8000 Hz",
+            "4000 Hz"});
+            this.comboBoxChromecastAudioSampleRate.Location = new System.Drawing.Point(146, 198);
+            this.comboBoxChromecastAudioSampleRate.Name = "comboBoxChromecastAudioSampleRate";
+            this.comboBoxChromecastAudioSampleRate.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxChromecastAudioSampleRate.TabIndex = 24;
+            // 
+            // label65
+            // 
+            this.label65.AutoSize = true;
+            this.label65.Location = new System.Drawing.Point(6, 205);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(93, 17);
+            this.label65.TabIndex = 23;
+            this.label65.Text = "Sample Rate:";
+            // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.Location = new System.Drawing.Point(6, 87);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(102, 17);
+            this.label64.TabIndex = 22;
+            this.label64.Text = "Video Bit Rate:";
+            // 
+            // comboBoxChromecastAudioBitrate
+            // 
+            this.comboBoxChromecastAudioBitrate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChromecastAudioBitrate.FormattingEnabled = true;
+            this.comboBoxChromecastAudioBitrate.Items.AddRange(new object[] {
+            "Original",
+            "196 kbps",
+            "128 kbps",
+            "96 kbps",
+            "56 kbps",
+            "24 kbps"});
+            this.comboBoxChromecastAudioBitrate.Location = new System.Drawing.Point(146, 168);
+            this.comboBoxChromecastAudioBitrate.Name = "comboBoxChromecastAudioBitrate";
+            this.comboBoxChromecastAudioBitrate.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxChromecastAudioBitrate.TabIndex = 21;
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Location = new System.Drawing.Point(6, 171);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(102, 17);
+            this.label62.TabIndex = 20;
+            this.label62.Text = "Audio Bit Rate:";
+            // 
+            // comboBoxChromecastVideoBitrate
+            // 
+            this.comboBoxChromecastVideoBitrate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChromecastVideoBitrate.FormattingEnabled = true;
+            this.comboBoxChromecastVideoBitrate.Items.AddRange(new object[] {
+            "Original",
+            "12000 kbps",
+            "7500 kbps",
+            "4000 kbps",
+            "1500 kbps"});
+            this.comboBoxChromecastVideoBitrate.Location = new System.Drawing.Point(146, 84);
+            this.comboBoxChromecastVideoBitrate.Name = "comboBoxChromecastVideoBitrate";
+            this.comboBoxChromecastVideoBitrate.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxChromecastVideoBitrate.TabIndex = 19;
+            // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Location = new System.Drawing.Point(6, 234);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(73, 17);
+            this.label61.TabIndex = 18;
+            this.label61.Text = "Container:";
+            // 
+            // comboBoxChromecastVideoContainer
+            // 
+            this.comboBoxChromecastVideoContainer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChromecastVideoContainer.FormattingEnabled = true;
+            this.comboBoxChromecastVideoContainer.Items.AddRange(new object[] {
+            "Original",
+            "VLC - Use VLC Chromecast system",
+            "mpeg1 - MPEG-1 multiplexing ",
+            "ts - MPEG Transport Stream, primarily used for streaming MPEG. Also used in DVDs",
+            "ps - MPEG Program Stream, primarily used for saving MPEG data to disk.",
+            "mp4 - MPEG-4 mux format, used only for MPEG-4 video and MPEG audio.",
+            "avi - AVI",
+            "asf - ASF",
+            "ogg - Xiph.org\'s ogg container format. Can contain audio, video, and metadata."});
+            this.comboBoxChromecastVideoContainer.Location = new System.Drawing.Point(146, 234);
+            this.comboBoxChromecastVideoContainer.Name = "comboBoxChromecastVideoContainer";
+            this.comboBoxChromecastVideoContainer.Size = new System.Drawing.Size(332, 24);
+            this.comboBoxChromecastVideoContainer.TabIndex = 17;
+            // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Location = new System.Drawing.Point(6, 141);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(90, 17);
+            this.label60.TabIndex = 16;
+            this.label60.Text = "Audio codec:";
+            // 
+            // comboBoxChromecastAudioCodec
+            // 
+            this.comboBoxChromecastAudioCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChromecastAudioCodec.FormattingEnabled = true;
+            this.comboBoxChromecastAudioCodec.Items.AddRange(new object[] {
+            "Original",
+            "mpga - MPEG audio (recommended for portability) **Chromecast supported**",
+            "mp3 - MPEG Layer 3 audio **Chromecast supported**",
+            "mp4a - MP4 audio, (mp4a is aac) **Chromecast supported**",
+            "a52 - Dolby Digital (A52 or AC3)",
+            "vorb - Vorbis **Chromecast supported**",
+            "opus - Opus **Chromecast supported**",
+            "spx - Speex",
+            "flac - FLAC **Chromecast supported**"});
+            this.comboBoxChromecastAudioCodec.Location = new System.Drawing.Point(146, 138);
+            this.comboBoxChromecastAudioCodec.Name = "comboBoxChromecastAudioCodec";
+            this.comboBoxChromecastAudioCodec.Size = new System.Drawing.Size(332, 24);
+            this.comboBoxChromecastAudioCodec.TabIndex = 15;
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(6, 57);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(90, 17);
+            this.label59.TabIndex = 14;
+            this.label59.Text = "Video codec:";
+            // 
+            // comboBoxChromecastVideoCodec
+            // 
+            this.comboBoxChromecastVideoCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChromecastVideoCodec.FormattingEnabled = true;
+            this.comboBoxChromecastVideoCodec.Items.AddRange(new object[] {
+            "Original",
+            "mp1v - MPEG-1 Video ",
+            "mp2v - MPEG-2 Video - used in DVDs",
+            "mp4v - MPEG-4 Video",
+            "SVQ1 - Sorenson Video v1",
+            "SVQ3 - Sorenson Video v3",
+            "DVDv - VOB Video - used in DVDs",
+            "WMV1 - Windows Media Video v1",
+            "WMV2 - Windows Media Video v2",
+            "DVSD - Digital Video",
+            "MJPG - MJPEG",
+            "H263 - H263",
+            "h264 - H264 **Chromecast supported**",
+            "theo - Theora, Based on VP3 codec **Chromecast supported**",
+            "IV20 - Indeo Video",
+            "IV40 - Indeo Video version 4 or later",
+            "RV10 - Real Media Video",
+            "cvid - Cinepak",
+            "VP31 - On2 VP3",
+            "FLV1 - Flash Video",
+            "CYUV - Creative YUV",
+            "HFYU - Huffman YUV",
+            "MSVC - Microsoft Video v1",
+            "MRLE - Microsoft RLE Video",
+            "AASC - Autodesk Animator Studio Codec RLE Video",
+            "FLIC - FLIC video",
+            "QPEG - QPEG Video",
+            "VP8 - VP8 Video **Chromecast supported**"});
+            this.comboBoxChromecastVideoCodec.Location = new System.Drawing.Point(146, 54);
+            this.comboBoxChromecastVideoCodec.Name = "comboBoxChromecastVideoCodec";
+            this.comboBoxChromecastVideoCodec.Size = new System.Drawing.Size(332, 24);
+            this.comboBoxChromecastVideoCodec.TabIndex = 13;
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Location = new System.Drawing.Point(6, 27);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(121, 17);
+            this.label58.TabIndex = 12;
+            this.label58.Text = "Output resolution:";
+            // 
+            // comboBoxChromecastVideoResolution
+            // 
+            this.comboBoxChromecastVideoResolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChromecastVideoResolution.FormattingEnabled = true;
+            this.comboBoxChromecastVideoResolution.Items.AddRange(new object[] {
+            "Original",
+            "2160p: 3840 x 2160",
+            "1440p: 2560 x 1440",
+            "1080p: 1920 x 1080",
+            "720p: 1280 x 720",
+            "480p: 854 x 480",
+            "360p: 640 x 360",
+            "240p: 426 x 240"});
+            this.comboBoxChromecastVideoResolution.Location = new System.Drawing.Point(146, 24);
+            this.comboBoxChromecastVideoResolution.Name = "comboBoxChromecastVideoResolution";
+            this.comboBoxChromecastVideoResolution.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxChromecastVideoResolution.TabIndex = 11;
+            // 
+            // groupBoxChromecastImage
+            // 
+            this.groupBoxChromecastImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxChromecastImage.Controls.Add(this.comboBoxChromecastImageFormat);
+            this.groupBoxChromecastImage.Controls.Add(this.label63);
+            this.groupBoxChromecastImage.Controls.Add(this.label57);
+            this.groupBoxChromecastImage.Controls.Add(this.comboBoxChromecastImageResolution);
+            this.groupBoxChromecastImage.Location = new System.Drawing.Point(3, 3);
+            this.groupBoxChromecastImage.Name = "groupBoxChromecastImage";
+            this.groupBoxChromecastImage.Size = new System.Drawing.Size(757, 136);
+            this.groupBoxChromecastImage.TabIndex = 0;
+            this.groupBoxChromecastImage.TabStop = false;
+            this.groupBoxChromecastImage.Text = "Image";
+            // 
+            // comboBoxChromecastImageFormat
+            // 
+            this.comboBoxChromecastImageFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChromecastImageFormat.FormattingEnabled = true;
+            this.comboBoxChromecastImageFormat.Items.AddRange(new object[] {
+            ".BMP",
+            ".GIF",
+            ".JPEG",
+            ".PNG",
+            ".WEBP"});
+            this.comboBoxChromecastImageFormat.Location = new System.Drawing.Point(146, 54);
+            this.comboBoxChromecastImageFormat.Name = "comboBoxChromecastImageFormat";
+            this.comboBoxChromecastImageFormat.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxChromecastImageFormat.TabIndex = 14;
+            // 
+            // label63
+            // 
+            this.label63.AutoSize = true;
+            this.label63.Location = new System.Drawing.Point(6, 57);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(56, 17);
+            this.label63.TabIndex = 13;
+            this.label63.Text = "Format:";
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(6, 27);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(121, 17);
+            this.label57.TabIndex = 12;
+            this.label57.Text = "Output resolution:";
+            // 
+            // comboBoxChromecastImageResolution
+            // 
+            this.comboBoxChromecastImageResolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChromecastImageResolution.FormattingEnabled = true;
+            this.comboBoxChromecastImageResolution.Items.AddRange(new object[] {
+            "Original",
+            "2160p: 3840 x 2160",
+            "1440p: 2560 x 1440",
+            "1080p: 1920 x 1080",
+            "720p: 1280 x 720",
+            "480p: 854 x 480",
+            "360p: 640 x 360",
+            "240p: 426 x 240"});
+            this.comboBoxChromecastImageResolution.Location = new System.Drawing.Point(146, 24);
+            this.comboBoxChromecastImageResolution.Name = "comboBoxChromecastImageResolution";
+            this.comboBoxChromecastImageResolution.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxChromecastImageResolution.TabIndex = 11;
+            // 
             // tabPageShowAppLog
             // 
             this.tabPageShowAppLog.Controls.Add(this.fastColoredTextBoxShowLog);
@@ -3460,6 +3810,12 @@ namespace PhotoTagsSynchronizer
             this.groupBoxConvertAndMergeArgumentFileVariables.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile)).EndInit();
+            this.tabPageChromecast.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBoxChromecastImage.ResumeLayout(false);
+            this.groupBoxChromecastImage.PerformLayout();
             this.tabPageShowAppLog.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowLog)).EndInit();
             this.tabPageShowPipe32Log.ResumeLayout(false);
@@ -3687,5 +4043,27 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ComboBox comboBoxConvertAndMergeTempfileExtension;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.TabPage tabPageChromecast;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.ComboBox comboBoxChromecastVideoCodec;
+        private System.Windows.Forms.Label label58;
+        private System.Windows.Forms.ComboBox comboBoxChromecastVideoResolution;
+        private System.Windows.Forms.GroupBox groupBoxChromecastImage;
+        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.ComboBox comboBoxChromecastImageResolution;
+        private System.Windows.Forms.Label label60;
+        private System.Windows.Forms.ComboBox comboBoxChromecastAudioCodec;
+        private System.Windows.Forms.Label label59;
+        private System.Windows.Forms.Label label61;
+        private System.Windows.Forms.ComboBox comboBoxChromecastVideoContainer;
+        private System.Windows.Forms.Label label62;
+        private System.Windows.Forms.ComboBox comboBoxChromecastVideoBitrate;
+        private System.Windows.Forms.ComboBox comboBoxChromecastImageFormat;
+        private System.Windows.Forms.Label label63;
+        private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.ComboBox comboBoxChromecastAudioBitrate;
+        private System.Windows.Forms.ComboBox comboBoxChromecastAudioSampleRate;
+        private System.Windows.Forms.Label label65;
     }
 }

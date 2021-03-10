@@ -850,5 +850,38 @@ duration {Duration}</Value>
     <Setting Name="ConvertAndMergeOutputTempfileExtension" Type="System.String" Scope="User">
       <Value Profile="(Default)">.TS</Value>
     </Setting>
+    <Setting Name="ChromecastImageOutputResolutionWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1920</Value>
+    </Setting>
+    <Setting Name="ChromecastImageOutputResolutionHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1080</Value>
+    </Setting>
+    <Setting Name="ChromecastImageOutputFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.OGG</Value>
+    </Setting>
+    <Setting Name="ChromecastVideoOutputResolutionWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1920</Value>
+    </Setting>
+    <Setting Name="ChromecastVideoOutputResolutionHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1080</Value>
+    </Setting>
+    <Setting Name="ChromecastVideoCodec" Type="System.String" Scope="User">
+      <Value Profile="(Default)">VP8</Value>
+    </Setting>
+    <Setting Name="ChromecastVideoBitrate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4000000</Value>
+    </Setting>
+    <Setting Name="ChromecastAudioCodec" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mp4a</Value>
+    </Setting>
+    <Setting Name="ChromecastAudioBitrate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">192000</Value>
+    </Setting>
+    <Setting Name="ChromecastContainer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">OGG</Value>
+    </Setting>
+    <Setting Name="ChromecastAudioSampleRate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">128000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

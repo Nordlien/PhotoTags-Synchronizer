@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -332,6 +332,9 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPreviewSlideShow10sec = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPreviewSlideShowStop = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButtonMediaPreviewClose = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonMediaPreviewRotateCCW = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonMediaPreviewRotate180 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonMediaPreviewRotateCW = new System.Windows.Forms.ToolStripButton();
             this.toolStripTraceBarItemMediaPreviewTimer = new DragNDrop.ToolStripTraceBarItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabelMediaPreviewTimer = new System.Windows.Forms.ToolStripLabel();
@@ -1257,11 +1260,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode7.Name = "NodeFolder";
-            treeNode7.Tag = "Filter";
-            treeNode7.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode7});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -3133,15 +3136,13 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewConvertAndMerge.AllowDrop = true;
             this.dataGridViewConvertAndMerge.AllowUserToAddRows = false;
             this.dataGridViewConvertAndMerge.AllowUserToDeleteRows = false;
-            this.dataGridViewConvertAndMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewConvertAndMerge.ColumnHeadersHeight = 29;
-            this.dataGridViewConvertAndMerge.Location = new System.Drawing.Point(-2, 234);
+            this.dataGridViewConvertAndMerge.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewConvertAndMerge.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewConvertAndMerge.Name = "dataGridViewConvertAndMerge";
             this.dataGridViewConvertAndMerge.RowHeadersWidth = 51;
             this.dataGridViewConvertAndMerge.RowTemplate.Height = 24;
-            this.dataGridViewConvertAndMerge.Size = new System.Drawing.Size(534, 627);
+            this.dataGridViewConvertAndMerge.Size = new System.Drawing.Size(531, 857);
             this.dataGridViewConvertAndMerge.TabIndex = 1;
             this.dataGridViewConvertAndMerge.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewConvertAndMerge_CellPainting);
             this.dataGridViewConvertAndMerge.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridViewConvertAndMerge_DragDrop);
@@ -3597,6 +3598,9 @@ namespace PhotoTagsSynchronizer
             this.toolStripDropDownButtonChromecastList,
             this.toolStripDropDownButtonMediaList,
             this.toolStripMenuItemPreviewSlideShowMenu,
+            this.toolStripButtonMediaPreviewRotateCCW,
+            this.toolStripButtonMediaPreviewRotate180,
+            this.toolStripButtonMediaPreviewRotateCW,
             this.toolStripButtonMediaPreviewClose,
             this.toolStripTraceBarItemMediaPreviewTimer,
             this.toolStripSeparator8,
@@ -3606,7 +3610,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripSeparator10});
             this.toolStrip1.Location = new System.Drawing.Point(4, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(758, 59);
+            this.toolStrip1.Size = new System.Drawing.Size(861, 59);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -3787,6 +3791,36 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewClose.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewClose.Text = "Close preview media";
             this.toolStripButtonMediaPreviewClose.Click += new System.EventHandler(this.toolStripButtonMediaPreviewClose_Click);
+            // 
+            // toolStripButtonMediaPreviewRotateCCW
+            // 
+            this.toolStripButtonMediaPreviewRotateCCW.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonMediaPreviewRotateCCW.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
+            this.toolStripButtonMediaPreviewRotateCCW.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonMediaPreviewRotateCCW.Name = "toolStripButtonMediaPreviewRotateCCW";
+            this.toolStripButtonMediaPreviewRotateCCW.Size = new System.Drawing.Size(29, 56);
+            this.toolStripButtonMediaPreviewRotateCCW.Text = "Rotate CCW";
+            this.toolStripButtonMediaPreviewRotateCCW.Click += new System.EventHandler(this.toolStripButtonMediaPreviewRotateCCW_Click);
+            // 
+            // toolStripButtonMediaPreviewRotate180
+            // 
+            this.toolStripButtonMediaPreviewRotate180.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonMediaPreviewRotate180.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
+            this.toolStripButtonMediaPreviewRotate180.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonMediaPreviewRotate180.Name = "toolStripButtonMediaPreviewRotate180";
+            this.toolStripButtonMediaPreviewRotate180.Size = new System.Drawing.Size(29, 56);
+            this.toolStripButtonMediaPreviewRotate180.Text = "Rotate 180";
+            this.toolStripButtonMediaPreviewRotate180.Click += new System.EventHandler(this.toolStripButtonMediaPreviewRotate180_Click);
+            // 
+            // toolStripButtonMediaPreviewRotateCW
+            // 
+            this.toolStripButtonMediaPreviewRotateCW.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonMediaPreviewRotateCW.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
+            this.toolStripButtonMediaPreviewRotateCW.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonMediaPreviewRotateCW.Name = "toolStripButtonMediaPreviewRotateCW";
+            this.toolStripButtonMediaPreviewRotateCW.Size = new System.Drawing.Size(29, 56);
+            this.toolStripButtonMediaPreviewRotateCW.Text = "Rotate CW";
+            this.toolStripButtonMediaPreviewRotateCW.Click += new System.EventHandler(this.toolStripButtonMediaPreviewRotateCW_Click);
             // 
             // toolStripTraceBarItemMediaPreviewTimer
             // 
@@ -4249,6 +4283,9 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPreviewSlideShow10sec;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPreviewSlideShowStop;
         private System.Windows.Forms.Timer timerPreviewNextTimer;
+        private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewRotateCCW;
+        private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewRotate180;
+        private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewRotateCW;
     }
 }
 

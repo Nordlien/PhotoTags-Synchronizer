@@ -72,13 +72,7 @@ namespace PhotoTagsSynchronizer
 
 
 
-        //VLC
-        private LibVLC _libVLC;
-        private MediaPlayer vlcMediaPlayerVideoView = null;
-        //private MediaPlayer vlcMediaPlayerChromecast = null;
-        //private RendererDiscoverer vlcRendererDiscoverer;
-
-        private List<LibVLCSharp.Shared.RendererItem> vlcRendererItems = new List<LibVLCSharp.Shared.RendererItem>();
+        
 
         //Avoid flickering
         private bool isFormLoading = true;                  //Avoid flicker and on change events going in loop
@@ -497,9 +491,10 @@ namespace PhotoTagsSynchronizer
             FilesSelected();
         }
 
+
         #endregion
 
-
+        
     }
 
 
