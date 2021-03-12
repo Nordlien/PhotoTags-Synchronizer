@@ -883,5 +883,8 @@ duration {Duration}</Value>
     <Setting Name="ChromecastAudioSampleRate" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">128000</Value>
     </Setting>
+    <Setting Name="ChromecastTransporter" Type="System.String" Scope="User">
+      <Value Profile="(Default)">VLC-Render</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

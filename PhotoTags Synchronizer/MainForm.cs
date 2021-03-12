@@ -95,8 +95,7 @@ namespace PhotoTagsSynchronizer
 
             //VLC
             _libVLC = new LibVLC();
-            vlcMediaPlayerVideoView = new MediaPlayer(_libVLC);
-            videoView1.MediaPlayer = vlcMediaPlayerVideoView;
+            videoView1.MediaPlayer = new MediaPlayer(_libVLC);
 
             /*
             RendererDescription vlcRendererDescription;

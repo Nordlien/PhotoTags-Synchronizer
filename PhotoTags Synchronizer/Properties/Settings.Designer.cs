@@ -1622,5 +1622,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ChromecastAudioSampleRate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("VLC-Render")]
+        public string ChromecastTransporter {
+            get {
+                return ((string)(this["ChromecastTransporter"]));
+            }
+            set {
+                this["ChromecastTransporter"] = value;
+            }
+        }
     }
 }

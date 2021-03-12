@@ -164,11 +164,14 @@ namespace PhotoTagsSynchronizer
 
             SelectBestMatchComboboxReselution(comboBoxChromecastImageResolution, Properties.Settings.Default.ChromecastImageOutputResolutionWidth, Properties.Settings.Default.ChromecastImageOutputResolutionHeight);
 
+            SelectBestMatchCombobox(comboBoxChromecastVideoTransporter, Properties.Settings.Default.ChromecastTransporter); 
+
             SelectBestMatchCombobox(comboBoxChromecastVideoBitrate, Properties.Settings.Default.ChromecastVideoBitrate < 1 ? "Original" : (Properties.Settings.Default.ChromecastVideoBitrate / 1000).ToString()); //E.g. 7500 kbps
             SelectBestMatchCombobox(comboBoxChromecastVideoCodec, Properties.Settings.Default.ChromecastVideoCodec); //E.g. h264
             SelectBestMatchCombobox(comboBoxChromecastVideoContainer, Properties.Settings.Default.ChromecastContainer); //E.g. OGG
 
             SelectBestMatchComboboxReselution(comboBoxChromecastVideoResolution, Properties.Settings.Default.ChromecastVideoOutputResolutionWidth, Properties.Settings.Default.ChromecastVideoOutputResolutionHeight);
+
 
             //Show log
             string logFilename = GetLogFileName("logfile");
@@ -329,6 +332,7 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.ChromecastImageOutputResolutionWidth = width;
             Properties.Settings.Default.ChromecastImageOutputResolutionHeight = height;
 
+            Properties.Settings.Default.ChromecastTransporter = GetComboboxValue(comboBoxChromecastVideoTransporter);
             Properties.Settings.Default.ChromecastVideoBitrate = GetComboboxIntValue(comboBoxChromecastVideoBitrate)*1000; //E.g. 7500 kbps
             Properties.Settings.Default.ChromecastVideoCodec = GetComboboxValue(comboBoxChromecastVideoCodec); //E.g. h264
             Properties.Settings.Default.ChromecastContainer = GetComboboxValue(comboBoxChromecastVideoContainer); //E.g. OGG
@@ -1263,7 +1267,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
 
-        #region PopulateConvertAndMerge()
+        #region Convert and Merge - PopulateConvertAndMerge()
         public void PopulateConvertAndMerge()
         {
             comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Items.Clear();
@@ -1319,8 +1323,9 @@ namespace PhotoTagsSynchronizer
             fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Text = Properties.Settings.Default.ConvertAndMergeConvertVideosArguments;
 
         }
-        #endregion 
+        #endregion
 
+        #region 
         private void buttonConvertAndMergeBrowseFFmpeg_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -1336,7 +1341,9 @@ namespace PhotoTagsSynchronizer
                 textBoxConvertAndMergeFFmpeg.Text = openFileDialog.FileName;
             }
         }
+        #endregion
 
+        #region 
         private void buttonConvertAndMergeBrowseBackgroundMusic_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -1352,83 +1359,113 @@ namespace PhotoTagsSynchronizer
                 textBoxConvertAndMergeBackgroundMusic.Text = openFileDialog.FileName;
             }
         }
+        #endregion
 
+        #region
         private void comboBoxConvertAndMergeConcatImageAsVideoCommandVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument, comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Text);
         }
+        #endregion
 
+        #region 
         private void comboBoxConvertAndMergeConcatImageAsVideoCommandArgumentVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile, comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Text);
         }
+        #endregion
 
+        #region 
         private void fastColoredTextBoxConvertAndMergeConcatImagesAsVideoCommand_KeyDown(object sender, KeyEventArgs e)
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArgument != null) fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArgument.KeyDown(sender, e);
         }
+        #endregion
 
+        #region 
         private void fastColoredTextBoxConvertAndMergeConcatImagesAsVideoCommandArgument_KeyDown(object sender, KeyEventArgs e)
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArguFile != null) fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArguFile.KeyDown(sender, e);
         }
+        #endregion
 
+        #region 
         private void fastColoredTextBoxConvertAndMergeConcatImagesAsVideoCommand_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArgument != null) fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArgument.SyntaxHighlightProperties(sender, e);
         }
+        #endregion
 
+        #region 
         private void fastColoredTextBoxConvertAndMergeConcatImagesAsVideoCommandArgument_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArguFile != null) fastColoredTextBoxHandlerConvertAndMergeConcatImagesAsVideoArguFile.SyntaxHighlightProperties(sender, e);
         }
+        #endregion
 
+        #region 
         private void comboBoxConvertAndMergeConcatVideoFilesVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxConvertAndMergeConcatVideoArgument, comboBoxConvertAndMergeConcatVideoFilesVariables.Text);
         }
+        #endregion
 
+        #region 
         private void comboBoxConvertAndMergeConcatVideosArguFileVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxConvertAndMergeConcatVideoArguFile, comboBoxConvertAndMergeConcatVideosArguFileVariables.Text);
         }
+        #endregion
 
+        #region
         private void fastColoredTextBoxConvertAndMergeConcatVideoArgument_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConcatVideoArgument != null) fastColoredTextBoxHandlerConvertAndMergeConcatVideoArgument.SyntaxHighlightProperties(sender, e);
         }
+        #endregion
 
+        #region 
         private void fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile != null) fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile.SyntaxHighlightProperties(sender, e);
         }
+        #endregion
 
+        #region
         private void fastColoredTextBoxConvertAndMergeConcatVideoArgument_KeyDown(object sender, KeyEventArgs e)
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConcatVideoArgument != null) fastColoredTextBoxHandlerConvertAndMergeConcatVideoArgument.KeyDown(sender, e);
         }
+        #endregion
 
+        #region
         private void fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile_KeyDown(object sender, KeyEventArgs e)
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile != null) fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile.KeyDown(sender, e);
         }
+        #endregion
 
+        #region
         private void fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument_KeyDown(object sender, KeyEventArgs e)
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument != null) fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument.KeyDown(sender, e);
         }
+        #endregion
 
+        #region
         private void fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument != null) fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument.SyntaxHighlightProperties(sender, e);
         }
+        #endregion
 
+        #region
         private void comboBoxConvertAndMergeConvertVideoFilesVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument, comboBoxConvertAndMergeConvertVideoFilesVariables.Text);
         }
+        #endregion
 
-        
     }
 }
 

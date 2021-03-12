@@ -244,6 +244,8 @@ namespace PhotoTagsSynchronizer
             this.tabPageChromecast = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label66 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastVideoTransporter = new System.Windows.Forms.ComboBox();
             this.comboBoxChromecastAudioSampleRate = new System.Windows.Forms.ComboBox();
             this.label65 = new System.Windows.Forms.Label();
             this.label64 = new System.Windows.Forms.Label();
@@ -1194,7 +1196,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(6, 168);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -1228,7 +1229,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(6, 57);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
@@ -1634,6 +1634,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(5, 51);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -1714,6 +1715,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConfigFilenameDateFormats.CharWidth = 10;
             this.fastColoredTextBoxConfigFilenameDateFormats.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConfigFilenameDateFormats.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConfigFilenameDateFormats.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConfigFilenameDateFormats.IsReplaceMode = false;
             this.fastColoredTextBoxConfigFilenameDateFormats.Location = new System.Drawing.Point(2, 46);
             this.fastColoredTextBoxConfigFilenameDateFormats.Name = "fastColoredTextBoxConfigFilenameDateFormats";
@@ -2799,6 +2801,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Multiline = false;
@@ -2886,7 +2889,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Location = new System.Drawing.Point(6, 143);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatVideoArguFile";
@@ -2924,7 +2926,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Location = new System.Drawing.Point(6, 46);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Multiline = false;
@@ -3190,7 +3191,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Multiline = false;
@@ -3250,7 +3250,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Location = new System.Drawing.Point(6, 167);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile";
@@ -3290,6 +3289,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox7.Controls.Add(this.label66);
+            this.groupBox7.Controls.Add(this.comboBoxChromecastVideoTransporter);
             this.groupBox7.Controls.Add(this.comboBoxChromecastAudioSampleRate);
             this.groupBox7.Controls.Add(this.label65);
             this.groupBox7.Controls.Add(this.label64);
@@ -3306,10 +3307,32 @@ namespace PhotoTagsSynchronizer
             this.groupBox7.Controls.Add(this.comboBoxChromecastVideoResolution);
             this.groupBox7.Location = new System.Drawing.Point(3, 145);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(757, 293);
+            this.groupBox7.Size = new System.Drawing.Size(757, 360);
             this.groupBox7.TabIndex = 1;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Video";
+            // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Location = new System.Drawing.Point(6, 29);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(122, 17);
+            this.label66.TabIndex = 26;
+            this.label66.Text = "Video transporter:";
+            // 
+            // comboBoxChromecastVideoTransporter
+            // 
+            this.comboBoxChromecastVideoTransporter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChromecastVideoTransporter.FormattingEnabled = true;
+            this.comboBoxChromecastVideoTransporter.Items.AddRange(new object[] {
+            "HTTP - Simple HTTP server, send video as is",
+            "VLC-Render - Use VLC own Chromecast stack",
+            "VLC-Stream - Use VLC stream and own config"});
+            this.comboBoxChromecastVideoTransporter.Location = new System.Drawing.Point(146, 26);
+            this.comboBoxChromecastVideoTransporter.Name = "comboBoxChromecastVideoTransporter";
+            this.comboBoxChromecastVideoTransporter.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxChromecastVideoTransporter.TabIndex = 25;
             // 
             // comboBoxChromecastAudioSampleRate
             // 
@@ -3330,7 +3353,7 @@ namespace PhotoTagsSynchronizer
             "11025 Hz",
             "8000 Hz",
             "4000 Hz"});
-            this.comboBoxChromecastAudioSampleRate.Location = new System.Drawing.Point(146, 198);
+            this.comboBoxChromecastAudioSampleRate.Location = new System.Drawing.Point(146, 244);
             this.comboBoxChromecastAudioSampleRate.Name = "comboBoxChromecastAudioSampleRate";
             this.comboBoxChromecastAudioSampleRate.Size = new System.Drawing.Size(157, 24);
             this.comboBoxChromecastAudioSampleRate.TabIndex = 24;
@@ -3338,7 +3361,7 @@ namespace PhotoTagsSynchronizer
             // label65
             // 
             this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(6, 205);
+            this.label65.Location = new System.Drawing.Point(6, 251);
             this.label65.Name = "label65";
             this.label65.Size = new System.Drawing.Size(93, 17);
             this.label65.TabIndex = 23;
@@ -3347,7 +3370,7 @@ namespace PhotoTagsSynchronizer
             // label64
             // 
             this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(6, 87);
+            this.label64.Location = new System.Drawing.Point(6, 133);
             this.label64.Name = "label64";
             this.label64.Size = new System.Drawing.Size(102, 17);
             this.label64.TabIndex = 22;
@@ -3358,13 +3381,12 @@ namespace PhotoTagsSynchronizer
             this.comboBoxChromecastAudioBitrate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxChromecastAudioBitrate.FormattingEnabled = true;
             this.comboBoxChromecastAudioBitrate.Items.AddRange(new object[] {
-            "Original",
             "196 kbps",
             "128 kbps",
             "96 kbps",
             "56 kbps",
             "24 kbps"});
-            this.comboBoxChromecastAudioBitrate.Location = new System.Drawing.Point(146, 168);
+            this.comboBoxChromecastAudioBitrate.Location = new System.Drawing.Point(146, 214);
             this.comboBoxChromecastAudioBitrate.Name = "comboBoxChromecastAudioBitrate";
             this.comboBoxChromecastAudioBitrate.Size = new System.Drawing.Size(157, 24);
             this.comboBoxChromecastAudioBitrate.TabIndex = 21;
@@ -3372,7 +3394,7 @@ namespace PhotoTagsSynchronizer
             // label62
             // 
             this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(6, 171);
+            this.label62.Location = new System.Drawing.Point(6, 217);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(102, 17);
             this.label62.TabIndex = 20;
@@ -3384,11 +3406,17 @@ namespace PhotoTagsSynchronizer
             this.comboBoxChromecastVideoBitrate.FormattingEnabled = true;
             this.comboBoxChromecastVideoBitrate.Items.AddRange(new object[] {
             "Original",
+            "30000 kbps - Plex 12 Mbps (eg. 1080p)",
+            "15000 kbps - Plex 6 Mbps (eg. 720p)",
             "12000 kbps",
+            "9000 kbps - YouTube 1080p",
             "7500 kbps",
+            "5500 kbps - YouTube 720p",
             "4000 kbps",
-            "1500 kbps"});
-            this.comboBoxChromecastVideoBitrate.Location = new System.Drawing.Point(146, 84);
+            "2000 kbps - YouTube 480p",
+            "1500 kbps",
+            "1000 kbps - YouTube 360p, NetFlix - low quality"});
+            this.comboBoxChromecastVideoBitrate.Location = new System.Drawing.Point(146, 130);
             this.comboBoxChromecastVideoBitrate.Name = "comboBoxChromecastVideoBitrate";
             this.comboBoxChromecastVideoBitrate.Size = new System.Drawing.Size(157, 24);
             this.comboBoxChromecastVideoBitrate.TabIndex = 19;
@@ -3396,27 +3424,28 @@ namespace PhotoTagsSynchronizer
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(6, 234);
+            this.label61.Location = new System.Drawing.Point(6, 296);
             this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(73, 17);
+            this.label61.Size = new System.Drawing.Size(121, 17);
             this.label61.TabIndex = 18;
-            this.label61.Text = "Container:";
+            this.label61.Text = "Container(Muxer):";
             // 
             // comboBoxChromecastVideoContainer
             // 
             this.comboBoxChromecastVideoContainer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxChromecastVideoContainer.FormattingEnabled = true;
             this.comboBoxChromecastVideoContainer.Items.AddRange(new object[] {
-            "Original",
-            "VLC - Use VLC Chromecast system",
             "mpeg1 - MPEG-1 multiplexing ",
             "ts - MPEG Transport Stream, primarily used for streaming MPEG. Also used in DVDs",
             "ps - MPEG Program Stream, primarily used for saving MPEG data to disk.",
             "mp4 - MPEG-4 mux format, used only for MPEG-4 video and MPEG audio.",
             "avi - AVI",
             "asf - ASF",
-            "ogg - Xiph.org\'s ogg container format. Can contain audio, video, and metadata."});
-            this.comboBoxChromecastVideoContainer.Location = new System.Drawing.Point(146, 234);
+            "ogg - Xiph.org\'s ogg container format. Can contain audio, video, and metadata.",
+            "matroska - VLC can decode this container.(For codec H264) Matroska Muxer ** Chrom" +
+                "ecast supported **",
+            "webm - (For codec VP8, VP9, VORBIT, OPUS) - Muxer ** Chromecast supported **"});
+            this.comboBoxChromecastVideoContainer.Location = new System.Drawing.Point(146, 296);
             this.comboBoxChromecastVideoContainer.Name = "comboBoxChromecastVideoContainer";
             this.comboBoxChromecastVideoContainer.Size = new System.Drawing.Size(332, 24);
             this.comboBoxChromecastVideoContainer.TabIndex = 17;
@@ -3424,7 +3453,7 @@ namespace PhotoTagsSynchronizer
             // label60
             // 
             this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(6, 141);
+            this.label60.Location = new System.Drawing.Point(6, 187);
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(90, 17);
             this.label60.TabIndex = 16;
@@ -3435,8 +3464,8 @@ namespace PhotoTagsSynchronizer
             this.comboBoxChromecastAudioCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxChromecastAudioCodec.FormattingEnabled = true;
             this.comboBoxChromecastAudioCodec.Items.AddRange(new object[] {
-            "Original",
-            "mpga - MPEG audio (recommended for portability) **Chromecast supported**",
+            "mpga - MPEG audio (MP1, MP2, MP3) (recommended for portability) **Chromecast supp" +
+                "orted**",
             "mp3 - MPEG Layer 3 audio **Chromecast supported**",
             "mp4a - MP4 audio, (mp4a is aac) **Chromecast supported**",
             "a52 - Dolby Digital (A52 or AC3)",
@@ -3444,7 +3473,7 @@ namespace PhotoTagsSynchronizer
             "opus - Opus **Chromecast supported**",
             "spx - Speex",
             "flac - FLAC **Chromecast supported**"});
-            this.comboBoxChromecastAudioCodec.Location = new System.Drawing.Point(146, 138);
+            this.comboBoxChromecastAudioCodec.Location = new System.Drawing.Point(146, 184);
             this.comboBoxChromecastAudioCodec.Name = "comboBoxChromecastAudioCodec";
             this.comboBoxChromecastAudioCodec.Size = new System.Drawing.Size(332, 24);
             this.comboBoxChromecastAudioCodec.TabIndex = 15;
@@ -3452,7 +3481,7 @@ namespace PhotoTagsSynchronizer
             // label59
             // 
             this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(6, 57);
+            this.label59.Location = new System.Drawing.Point(6, 103);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(90, 17);
             this.label59.TabIndex = 14;
@@ -3467,31 +3496,21 @@ namespace PhotoTagsSynchronizer
             "mp1v - MPEG-1 Video ",
             "mp2v - MPEG-2 Video - used in DVDs",
             "mp4v - MPEG-4 Video",
-            "SVQ1 - Sorenson Video v1",
-            "SVQ3 - Sorenson Video v3",
-            "DVDv - VOB Video - used in DVDs",
             "WMV1 - Windows Media Video v1",
             "WMV2 - Windows Media Video v2",
-            "DVSD - Digital Video",
-            "MJPG - MJPEG",
+            "WMV3 - Windows Media Video 9 (v3)",
             "H263 - H263",
-            "h264 - H264 **Chromecast supported**",
-            "theo - Theora, Based on VP3 codec **Chromecast supported**",
-            "IV20 - Indeo Video",
-            "IV40 - Indeo Video version 4 or later",
-            "RV10 - Real Media Video",
-            "cvid - Cinepak",
-            "VP31 - On2 VP3",
-            "FLV1 - Flash Video",
+            "H264 - H264 **Chromecast supported**",
+            "hevc - H.265 or H.265/HEVC",
+            "theo -  Theora is an open video codec - Use inside Mux: ogg and matroska containe" +
+                "rs",
             "CYUV - Creative YUV",
             "HFYU - Huffman YUV",
-            "MSVC - Microsoft Video v1",
-            "MRLE - Microsoft RLE Video",
-            "AASC - Autodesk Animator Studio Codec RLE Video",
-            "FLIC - FLIC video",
-            "QPEG - QPEG Video",
-            "VP8 - VP8 Video **Chromecast supported**"});
-            this.comboBoxChromecastVideoCodec.Location = new System.Drawing.Point(146, 54);
+            "VP31 - Theora is based on On2 VP3",
+            "VP62 - VP6 Video - Use inside Mux: flv containers",
+            "VP80 - VP8 Video - Use inside Mux: WebM, MP4 and Ogg containers",
+            "VP90 - VP9 Video - Use inside Mux:  WebM and MP4"});
+            this.comboBoxChromecastVideoCodec.Location = new System.Drawing.Point(146, 100);
             this.comboBoxChromecastVideoCodec.Name = "comboBoxChromecastVideoCodec";
             this.comboBoxChromecastVideoCodec.Size = new System.Drawing.Size(332, 24);
             this.comboBoxChromecastVideoCodec.TabIndex = 13;
@@ -3499,7 +3518,7 @@ namespace PhotoTagsSynchronizer
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(6, 27);
+            this.label58.Location = new System.Drawing.Point(6, 73);
             this.label58.Name = "label58";
             this.label58.Size = new System.Drawing.Size(121, 17);
             this.label58.TabIndex = 12;
@@ -3518,7 +3537,7 @@ namespace PhotoTagsSynchronizer
             "480p: 854 x 480",
             "360p: 640 x 360",
             "240p: 426 x 240"});
-            this.comboBoxChromecastVideoResolution.Location = new System.Drawing.Point(146, 24);
+            this.comboBoxChromecastVideoResolution.Location = new System.Drawing.Point(146, 70);
             this.comboBoxChromecastVideoResolution.Name = "comboBoxChromecastVideoResolution";
             this.comboBoxChromecastVideoResolution.Size = new System.Drawing.Size(157, 24);
             this.comboBoxChromecastVideoResolution.TabIndex = 11;
@@ -3618,7 +3637,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowLog.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowLog.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxShowLog.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowLog.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowLog.IsReplaceMode = false;
             this.fastColoredTextBoxShowLog.Location = new System.Drawing.Point(3, 3);
@@ -3666,6 +3684,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowPipe32Log.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowPipe32Log.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowPipe32Log.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowPipe32Log.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowPipe32Log.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowPipe32Log.IsReplaceMode = false;
             this.fastColoredTextBoxShowPipe32Log.Location = new System.Drawing.Point(0, 0);
@@ -4065,5 +4084,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ComboBox comboBoxChromecastAudioBitrate;
         private System.Windows.Forms.ComboBox comboBoxChromecastAudioSampleRate;
         private System.Windows.Forms.Label label65;
+        private System.Windows.Forms.Label label66;
+        private System.Windows.Forms.ComboBox comboBoxChromecastVideoTransporter;
     }
 }
