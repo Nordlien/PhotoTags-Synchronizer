@@ -859,29 +859,17 @@ duration {Duration}</Value>
     <Setting Name="ChromecastImageOutputFormat" Type="System.String" Scope="User">
       <Value Profile="(Default)">.OGG</Value>
     </Setting>
-    <Setting Name="ChromecastVideoOutputResolutionWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1920</Value>
-    </Setting>
-    <Setting Name="ChromecastVideoOutputResolutionHeight" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1080</Value>
-    </Setting>
     <Setting Name="ChromecastVideoCodec" Type="System.String" Scope="User">
-      <Value Profile="(Default)">VP8</Value>
-    </Setting>
-    <Setting Name="ChromecastVideoBitrate" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">4000000</Value>
+      <Value Profile="(Default)">vcodec=theo,venc=theora{quality=4},scale=1</Value>
     </Setting>
     <Setting Name="ChromecastAudioCodec" Type="System.String" Scope="User">
-      <Value Profile="(Default)">mp4a</Value>
+      <Value Profile="(Default)">acodec=vorb,channels=2,aenc=vorbis{quality=4}</Value>
     </Setting>
-    <Setting Name="ChromecastAudioBitrate" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">192000</Value>
+    <Setting Name="ChromecastAgruments" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sout=#transcode{{vcodec}{acodec}}:std{access=http,mux=ogg,url={url}}</Value>
     </Setting>
-    <Setting Name="ChromecastContainer" Type="System.String" Scope="User">
-      <Value Profile="(Default)">OGG</Value>
-    </Setting>
-    <Setting Name="ChromecastAudioSampleRate" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">128000</Value>
+    <Setting Name="ChromecastUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">:{port}/output.ogg</Value>
     </Setting>
     <Setting Name="ChromecastTransporter" Type="System.String" Scope="User">
       <Value Profile="(Default)">VLC-Render</Value>

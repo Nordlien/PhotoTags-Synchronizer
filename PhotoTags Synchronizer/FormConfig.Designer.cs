@@ -243,23 +243,18 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabPageChromecast = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.comboBoxChromecastUrl = new System.Windows.Forms.ComboBox();
+            this.label58 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastVideoCodec = new System.Windows.Forms.ComboBox();
+            this.label59 = new System.Windows.Forms.Label();
+            this.label61 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastAudioCodec = new System.Windows.Forms.ComboBox();
+            this.comboBoxChromecastAgruments = new System.Windows.Forms.ComboBox();
+            this.label60 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.label66 = new System.Windows.Forms.Label();
             this.comboBoxChromecastVideoTransporter = new System.Windows.Forms.ComboBox();
-            this.comboBoxChromecastAudioSampleRate = new System.Windows.Forms.ComboBox();
-            this.label65 = new System.Windows.Forms.Label();
-            this.label64 = new System.Windows.Forms.Label();
-            this.comboBoxChromecastAudioBitrate = new System.Windows.Forms.ComboBox();
-            this.label62 = new System.Windows.Forms.Label();
-            this.comboBoxChromecastVideoBitrate = new System.Windows.Forms.ComboBox();
-            this.label61 = new System.Windows.Forms.Label();
-            this.comboBoxChromecastVideoContainer = new System.Windows.Forms.ComboBox();
-            this.label60 = new System.Windows.Forms.Label();
-            this.comboBoxChromecastAudioCodec = new System.Windows.Forms.ComboBox();
-            this.label59 = new System.Windows.Forms.Label();
-            this.comboBoxChromecastVideoCodec = new System.Windows.Forms.ComboBox();
-            this.label58 = new System.Windows.Forms.Label();
-            this.comboBoxChromecastVideoResolution = new System.Windows.Forms.ComboBox();
             this.groupBoxChromecastImage = new System.Windows.Forms.GroupBox();
             this.comboBoxChromecastImageFormat = new System.Windows.Forms.ComboBox();
             this.label63 = new System.Windows.Forms.Label();
@@ -327,6 +322,7 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile)).BeginInit();
             this.tabPageChromecast.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBoxChromecastImage.SuspendLayout();
             this.tabPageShowAppLog.SuspendLayout();
@@ -3277,6 +3273,7 @@ namespace PhotoTagsSynchronizer
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.groupBox8);
             this.panel1.Controls.Add(this.groupBox7);
             this.panel1.Controls.Add(this.groupBoxChromecastImage);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -3285,29 +3282,200 @@ namespace PhotoTagsSynchronizer
             this.panel1.Size = new System.Drawing.Size(766, 748);
             this.panel1.TabIndex = 0;
             // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.comboBoxChromecastUrl);
+            this.groupBox8.Controls.Add(this.label58);
+            this.groupBox8.Controls.Add(this.comboBoxChromecastVideoCodec);
+            this.groupBox8.Controls.Add(this.label59);
+            this.groupBox8.Controls.Add(this.label61);
+            this.groupBox8.Controls.Add(this.comboBoxChromecastAudioCodec);
+            this.groupBox8.Controls.Add(this.comboBoxChromecastAgruments);
+            this.groupBox8.Controls.Add(this.label60);
+            this.groupBox8.Location = new System.Drawing.Point(0, 228);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(760, 207);
+            this.groupBox8.TabIndex = 2;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "VLC Stream config:";
+            // 
+            // comboBoxChromecastUrl
+            // 
+            this.comboBoxChromecastUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxChromecastUrl.FormattingEnabled = true;
+            this.comboBoxChromecastUrl.Items.AddRange(new object[] {
+            ":{port}/output.MP2T",
+            "{ipaddress}:{port}/output.MP2T",
+            ":{port}/output.MP4",
+            "{ipaddress}:{port}/output.MP4",
+            ":{port}/output.OGG",
+            "{ipaddress}:{port}/output.OGG",
+            ":{port}/output.WebM",
+            "{ipaddress}:{port}/output.WebM",
+            ""});
+            this.comboBoxChromecastUrl.Location = new System.Drawing.Point(149, 93);
+            this.comboBoxChromecastUrl.Name = "comboBoxChromecastUrl";
+            this.comboBoxChromecastUrl.Size = new System.Drawing.Size(605, 24);
+            this.comboBoxChromecastUrl.TabIndex = 20;
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Location = new System.Drawing.Point(9, 96);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(103, 17);
+            this.label58.TabIndex = 19;
+            this.label58.Text = "Url (Port:Path):";
+            // 
+            // comboBoxChromecastVideoCodec
+            // 
+            this.comboBoxChromecastVideoCodec.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxChromecastVideoCodec.FormattingEnabled = true;
+            this.comboBoxChromecastVideoCodec.Items.AddRange(new object[] {
+            "For MP4 Container:",
+            "vcodec=mp4v,fps=24,venc=x264{preset=ultrafast,crf=21},maxwidth=1280,maxheight=720" +
+                "",
+            "vcodec=h264,fps=24,venc=x264{cfr=16},scale=1",
+            "vcodec=h264,fps=24,venc=x264{cfr=40},scale=1",
+            "vcodec=h264,fps=24,venc=x264{preset=ultrafast,crf=21},maxwidth=1920,maxheight=108" +
+                "0",
+            "vcodec=h264,fps=24,venc=x264{preset=ultrafast,crf=21},maxwidth=1280,maxheight=720" +
+                "",
+            "",
+            "For OGG Container:",
+            "vcodec=theo,venc=theora{quality=9},scale=1",
+            "vcodec=theo,venc=theora{quality=4},scale=1",
+            "",
+            "For WEBM Container:",
+            "vcodec=VP80,vb=2000,scale=1",
+            "vcodec=VP80,vb=1000,scale=1",
+            "",
+            "OTHER:",
+            "vcodec=mp1v",
+            "vcodec=mp2v",
+            "vcodec=mp4v",
+            "vcodec=WMV1",
+            "vcodec=WMV2",
+            "vcodec=WMV3",
+            "vcodec=H263",
+            "vcodec=HEVC",
+            "vcodec=CYUV",
+            "vcodec=HFYU",
+            "vcodec=vp31",
+            "vcodec=vp62",
+            "vcodec=vp90"});
+            this.comboBoxChromecastVideoCodec.Location = new System.Drawing.Point(149, 33);
+            this.comboBoxChromecastVideoCodec.Name = "comboBoxChromecastVideoCodec";
+            this.comboBoxChromecastVideoCodec.Size = new System.Drawing.Size(605, 24);
+            this.comboBoxChromecastVideoCodec.TabIndex = 13;
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(9, 36);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(90, 17);
+            this.label59.TabIndex = 14;
+            this.label59.Text = "Video codec:";
+            // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Location = new System.Drawing.Point(6, 126);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(121, 17);
+            this.label61.TabIndex = 18;
+            this.label61.Text = "Container(Muxer):";
+            // 
+            // comboBoxChromecastAudioCodec
+            // 
+            this.comboBoxChromecastAudioCodec.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxChromecastAudioCodec.FormattingEnabled = true;
+            this.comboBoxChromecastAudioCodec.Items.AddRange(new object[] {
+            "MP4:",
+            "acodec=mp4a,channels=2,ab=160,samplerate=44100",
+            "acodec=mp4a,channels=2,ab=128,samplerate=44100",
+            "acodec=mp4a,channels=2,ab=96,samplerate=44100",
+            "acodec=mp3,channels=2,ab=128",
+            "OGG/WEBM:",
+            "acodec=vorb,channels=2,aenc=vorbis{quality=9}",
+            "acodec=vorb,channels=2,aenc=vorbis{quality=4}",
+            "acodec=vorb,channels=2,aenc=vorbis{quality=1}",
+            "acodec=vorb,channels=2,ab=160,samplerate=44100",
+            "acodec=vorb,channels=2,ab=128,samplerate=44100",
+            "acodec=vorb,channels=2,ab=96,samplerate=44100",
+            "OTHER:",
+            "acodec=a52,channels=2",
+            "acodec=opus,channels=2",
+            "acodec=spx,channels=2",
+            "acodec=flac,channels=2"});
+            this.comboBoxChromecastAudioCodec.Location = new System.Drawing.Point(149, 63);
+            this.comboBoxChromecastAudioCodec.Name = "comboBoxChromecastAudioCodec";
+            this.comboBoxChromecastAudioCodec.Size = new System.Drawing.Size(605, 24);
+            this.comboBoxChromecastAudioCodec.TabIndex = 15;
+            // 
+            // comboBoxChromecastAgruments
+            // 
+            this.comboBoxChromecastAgruments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxChromecastAgruments.FormattingEnabled = true;
+            this.comboBoxChromecastAgruments.Items.AddRange(new object[] {
+            "ogg - Xiph.org\'s ogg container format. ",
+            "matroska - For codec H264",
+            "webm - For codec VP8, VP9, VORBIT, OPUS ",
+            "",
+            "sout=#transcode{{vcodec},{acodec}}:standard{access=http{mime=video/ogg},mux=ogg,d" +
+                "st={url}}",
+            "sout=#transcode{{vcodec},{acodec}}:standard{access=http{mime=video/matroska},mux=" +
+                "ogg,dst={url}}",
+            "sout=#transcode{{vcodec},{acodec}}:standard{access=http{mime=video/webm},mux=webm" +
+                ",dst={url}}",
+            "sout=#transcode{{vcodec},{acodec}}:standard{access=http{mime=video/webm},mux=ffmp" +
+                "eg{mux=webm},dst=\'{url}\'}",
+            "",
+            "sout=#transcode{{vcodec},{acodec}}:std{access=http,mux=ogg,url={url}}",
+            "sout=#transcode{{vcodec},{acodec},mux=ogg}:http{dst={url}}",
+            "sout=#transcode{{vcodec},{acodec},mux=webm}:http{dst={url}}",
+            "sout=#transcode{{vcodec},{acodec}}:std{access=http,mux=ogg,url={url}}",
+            "sout=#transcode{{vcodec},{acodec}}:std{access=http,mux=ffmpeg{mux=webm},url={url}" +
+                "}",
+            "sout=#transcode{{vcodec},{acodec}}:chromecast-proxy:std{mux=avformat{mux=webm,opt" +
+                "ions={live=1},reset-ts},access=chromecast-http}",
+            "sout=#transcode{{vcodec},{acodec}}:chromecast-proxy:std{mux=avformat{mux=matroska" +
+                ",options={live=1},reset-ts},access=chromecast-http}",
+            "sout=#transcode{{vcodec},{acodec},mux=avi}:http{dst={url}}",
+            "sout=#transcode{{vcodec},{acodec},mux=asf}:http{dst={url}}",
+            "sout=#transcode{{vcodec},{acodec},mux=ogg}:http{dst={url}}",
+            "sout=#transcode{{vcodec},{acodec},mux=ts}:http{dst={url}}",
+            "sout=#transcode{{vcodec},{acodec},mux=ps}:http{dst={url}}",
+            "sout=#transcode{{vcodec},{acodec},mux=mp4}:http{dst={url}}",
+            "sout=#transcode{{vcodec},{acodec},mux=mpeg1}:http{dst={url}}"});
+            this.comboBoxChromecastAgruments.Location = new System.Drawing.Point(149, 123);
+            this.comboBoxChromecastAgruments.Name = "comboBoxChromecastAgruments";
+            this.comboBoxChromecastAgruments.Size = new System.Drawing.Size(605, 24);
+            this.comboBoxChromecastAgruments.TabIndex = 17;
+            // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Location = new System.Drawing.Point(9, 66);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(90, 17);
+            this.label60.TabIndex = 16;
+            this.label60.Text = "Audio codec:";
+            // 
             // groupBox7
             // 
             this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox7.Controls.Add(this.label66);
             this.groupBox7.Controls.Add(this.comboBoxChromecastVideoTransporter);
-            this.groupBox7.Controls.Add(this.comboBoxChromecastAudioSampleRate);
-            this.groupBox7.Controls.Add(this.label65);
-            this.groupBox7.Controls.Add(this.label64);
-            this.groupBox7.Controls.Add(this.comboBoxChromecastAudioBitrate);
-            this.groupBox7.Controls.Add(this.label62);
-            this.groupBox7.Controls.Add(this.comboBoxChromecastVideoBitrate);
-            this.groupBox7.Controls.Add(this.label61);
-            this.groupBox7.Controls.Add(this.comboBoxChromecastVideoContainer);
-            this.groupBox7.Controls.Add(this.label60);
-            this.groupBox7.Controls.Add(this.comboBoxChromecastAudioCodec);
-            this.groupBox7.Controls.Add(this.label59);
-            this.groupBox7.Controls.Add(this.comboBoxChromecastVideoCodec);
-            this.groupBox7.Controls.Add(this.label58);
-            this.groupBox7.Controls.Add(this.comboBoxChromecastVideoResolution);
             this.groupBox7.Location = new System.Drawing.Point(3, 145);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(757, 360);
+            this.groupBox7.Size = new System.Drawing.Size(757, 77);
             this.groupBox7.TabIndex = 1;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Video";
@@ -3331,216 +3499,8 @@ namespace PhotoTagsSynchronizer
             "VLC-Stream - Use VLC stream and own config"});
             this.comboBoxChromecastVideoTransporter.Location = new System.Drawing.Point(146, 26);
             this.comboBoxChromecastVideoTransporter.Name = "comboBoxChromecastVideoTransporter";
-            this.comboBoxChromecastVideoTransporter.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxChromecastVideoTransporter.Size = new System.Drawing.Size(332, 24);
             this.comboBoxChromecastVideoTransporter.TabIndex = 25;
-            // 
-            // comboBoxChromecastAudioSampleRate
-            // 
-            this.comboBoxChromecastAudioSampleRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxChromecastAudioSampleRate.FormattingEnabled = true;
-            this.comboBoxChromecastAudioSampleRate.Items.AddRange(new object[] {
-            "Original",
-            "192000 Hz",
-            "176400 Hz",
-            "96000 Hz",
-            "88200 Hz",
-            "48000 Hz",
-            "44100 Hz",
-            "32000 Hz",
-            "22050 Hz",
-            "24000 Hz",
-            "16000 Hz",
-            "11025 Hz",
-            "8000 Hz",
-            "4000 Hz"});
-            this.comboBoxChromecastAudioSampleRate.Location = new System.Drawing.Point(146, 244);
-            this.comboBoxChromecastAudioSampleRate.Name = "comboBoxChromecastAudioSampleRate";
-            this.comboBoxChromecastAudioSampleRate.Size = new System.Drawing.Size(157, 24);
-            this.comboBoxChromecastAudioSampleRate.TabIndex = 24;
-            // 
-            // label65
-            // 
-            this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(6, 251);
-            this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(93, 17);
-            this.label65.TabIndex = 23;
-            this.label65.Text = "Sample Rate:";
-            // 
-            // label64
-            // 
-            this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(6, 133);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(102, 17);
-            this.label64.TabIndex = 22;
-            this.label64.Text = "Video Bit Rate:";
-            // 
-            // comboBoxChromecastAudioBitrate
-            // 
-            this.comboBoxChromecastAudioBitrate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxChromecastAudioBitrate.FormattingEnabled = true;
-            this.comboBoxChromecastAudioBitrate.Items.AddRange(new object[] {
-            "196 kbps",
-            "128 kbps",
-            "96 kbps",
-            "56 kbps",
-            "24 kbps"});
-            this.comboBoxChromecastAudioBitrate.Location = new System.Drawing.Point(146, 214);
-            this.comboBoxChromecastAudioBitrate.Name = "comboBoxChromecastAudioBitrate";
-            this.comboBoxChromecastAudioBitrate.Size = new System.Drawing.Size(157, 24);
-            this.comboBoxChromecastAudioBitrate.TabIndex = 21;
-            // 
-            // label62
-            // 
-            this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(6, 217);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(102, 17);
-            this.label62.TabIndex = 20;
-            this.label62.Text = "Audio Bit Rate:";
-            // 
-            // comboBoxChromecastVideoBitrate
-            // 
-            this.comboBoxChromecastVideoBitrate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxChromecastVideoBitrate.FormattingEnabled = true;
-            this.comboBoxChromecastVideoBitrate.Items.AddRange(new object[] {
-            "Original",
-            "30000 kbps - Plex 12 Mbps (eg. 1080p)",
-            "15000 kbps - Plex 6 Mbps (eg. 720p)",
-            "12000 kbps",
-            "9000 kbps - YouTube 1080p",
-            "7500 kbps",
-            "5500 kbps - YouTube 720p",
-            "4000 kbps",
-            "2000 kbps - YouTube 480p",
-            "1500 kbps",
-            "1000 kbps - YouTube 360p, NetFlix - low quality"});
-            this.comboBoxChromecastVideoBitrate.Location = new System.Drawing.Point(146, 130);
-            this.comboBoxChromecastVideoBitrate.Name = "comboBoxChromecastVideoBitrate";
-            this.comboBoxChromecastVideoBitrate.Size = new System.Drawing.Size(157, 24);
-            this.comboBoxChromecastVideoBitrate.TabIndex = 19;
-            // 
-            // label61
-            // 
-            this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(6, 296);
-            this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(121, 17);
-            this.label61.TabIndex = 18;
-            this.label61.Text = "Container(Muxer):";
-            // 
-            // comboBoxChromecastVideoContainer
-            // 
-            this.comboBoxChromecastVideoContainer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxChromecastVideoContainer.FormattingEnabled = true;
-            this.comboBoxChromecastVideoContainer.Items.AddRange(new object[] {
-            "mpeg1 - MPEG-1 multiplexing ",
-            "ts - MPEG Transport Stream, primarily used for streaming MPEG. Also used in DVDs",
-            "ps - MPEG Program Stream, primarily used for saving MPEG data to disk.",
-            "mp4 - MPEG-4 mux format, used only for MPEG-4 video and MPEG audio.",
-            "avi - AVI",
-            "asf - ASF",
-            "ogg - Xiph.org\'s ogg container format. Can contain audio, video, and metadata.",
-            "matroska - VLC can decode this container.(For codec H264) Matroska Muxer ** Chrom" +
-                "ecast supported **",
-            "webm - (For codec VP8, VP9, VORBIT, OPUS) - Muxer ** Chromecast supported **"});
-            this.comboBoxChromecastVideoContainer.Location = new System.Drawing.Point(146, 296);
-            this.comboBoxChromecastVideoContainer.Name = "comboBoxChromecastVideoContainer";
-            this.comboBoxChromecastVideoContainer.Size = new System.Drawing.Size(332, 24);
-            this.comboBoxChromecastVideoContainer.TabIndex = 17;
-            // 
-            // label60
-            // 
-            this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(6, 187);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(90, 17);
-            this.label60.TabIndex = 16;
-            this.label60.Text = "Audio codec:";
-            // 
-            // comboBoxChromecastAudioCodec
-            // 
-            this.comboBoxChromecastAudioCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxChromecastAudioCodec.FormattingEnabled = true;
-            this.comboBoxChromecastAudioCodec.Items.AddRange(new object[] {
-            "mpga - MPEG audio (MP1, MP2, MP3) (recommended for portability) **Chromecast supp" +
-                "orted**",
-            "mp3 - MPEG Layer 3 audio **Chromecast supported**",
-            "mp4a - MP4 audio, (mp4a is aac) **Chromecast supported**",
-            "a52 - Dolby Digital (A52 or AC3)",
-            "vorb - Vorbis **Chromecast supported**",
-            "opus - Opus **Chromecast supported**",
-            "spx - Speex",
-            "flac - FLAC **Chromecast supported**"});
-            this.comboBoxChromecastAudioCodec.Location = new System.Drawing.Point(146, 184);
-            this.comboBoxChromecastAudioCodec.Name = "comboBoxChromecastAudioCodec";
-            this.comboBoxChromecastAudioCodec.Size = new System.Drawing.Size(332, 24);
-            this.comboBoxChromecastAudioCodec.TabIndex = 15;
-            // 
-            // label59
-            // 
-            this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(6, 103);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(90, 17);
-            this.label59.TabIndex = 14;
-            this.label59.Text = "Video codec:";
-            // 
-            // comboBoxChromecastVideoCodec
-            // 
-            this.comboBoxChromecastVideoCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxChromecastVideoCodec.FormattingEnabled = true;
-            this.comboBoxChromecastVideoCodec.Items.AddRange(new object[] {
-            "Original",
-            "mp1v - MPEG-1 Video ",
-            "mp2v - MPEG-2 Video - used in DVDs",
-            "mp4v - MPEG-4 Video",
-            "WMV1 - Windows Media Video v1",
-            "WMV2 - Windows Media Video v2",
-            "WMV3 - Windows Media Video 9 (v3)",
-            "H263 - H263",
-            "H264 - H264 **Chromecast supported**",
-            "hevc - H.265 or H.265/HEVC",
-            "theo -  Theora is an open video codec - Use inside Mux: ogg and matroska containe" +
-                "rs",
-            "CYUV - Creative YUV",
-            "HFYU - Huffman YUV",
-            "VP31 - Theora is based on On2 VP3",
-            "VP62 - VP6 Video - Use inside Mux: flv containers",
-            "VP80 - VP8 Video - Use inside Mux: WebM, MP4 and Ogg containers",
-            "VP90 - VP9 Video - Use inside Mux:  WebM and MP4"});
-            this.comboBoxChromecastVideoCodec.Location = new System.Drawing.Point(146, 100);
-            this.comboBoxChromecastVideoCodec.Name = "comboBoxChromecastVideoCodec";
-            this.comboBoxChromecastVideoCodec.Size = new System.Drawing.Size(332, 24);
-            this.comboBoxChromecastVideoCodec.TabIndex = 13;
-            // 
-            // label58
-            // 
-            this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(6, 73);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(121, 17);
-            this.label58.TabIndex = 12;
-            this.label58.Text = "Output resolution:";
-            // 
-            // comboBoxChromecastVideoResolution
-            // 
-            this.comboBoxChromecastVideoResolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxChromecastVideoResolution.FormattingEnabled = true;
-            this.comboBoxChromecastVideoResolution.Items.AddRange(new object[] {
-            "Original",
-            "2160p: 3840 x 2160",
-            "1440p: 2560 x 1440",
-            "1080p: 1920 x 1080",
-            "720p: 1280 x 720",
-            "480p: 854 x 480",
-            "360p: 640 x 360",
-            "240p: 426 x 240"});
-            this.comboBoxChromecastVideoResolution.Location = new System.Drawing.Point(146, 70);
-            this.comboBoxChromecastVideoResolution.Name = "comboBoxChromecastVideoResolution";
-            this.comboBoxChromecastVideoResolution.Size = new System.Drawing.Size(157, 24);
-            this.comboBoxChromecastVideoResolution.TabIndex = 11;
             // 
             // groupBoxChromecastImage
             // 
@@ -3831,6 +3791,8 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile)).EndInit();
             this.tabPageChromecast.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBoxChromecastImage.ResumeLayout(false);
@@ -4066,8 +4028,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.ComboBox comboBoxChromecastVideoCodec;
-        private System.Windows.Forms.Label label58;
-        private System.Windows.Forms.ComboBox comboBoxChromecastVideoResolution;
         private System.Windows.Forms.GroupBox groupBoxChromecastImage;
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.ComboBox comboBoxChromecastImageResolution;
@@ -4075,16 +4035,13 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ComboBox comboBoxChromecastAudioCodec;
         private System.Windows.Forms.Label label59;
         private System.Windows.Forms.Label label61;
-        private System.Windows.Forms.ComboBox comboBoxChromecastVideoContainer;
-        private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.ComboBox comboBoxChromecastVideoBitrate;
+        private System.Windows.Forms.ComboBox comboBoxChromecastAgruments;
         private System.Windows.Forms.ComboBox comboBoxChromecastImageFormat;
         private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.Label label64;
-        private System.Windows.Forms.ComboBox comboBoxChromecastAudioBitrate;
-        private System.Windows.Forms.ComboBox comboBoxChromecastAudioSampleRate;
-        private System.Windows.Forms.Label label65;
         private System.Windows.Forms.Label label66;
         private System.Windows.Forms.ComboBox comboBoxChromecastVideoTransporter;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.ComboBox comboBoxChromecastUrl;
+        private System.Windows.Forms.Label label58;
     }
 }

@@ -34,6 +34,7 @@ namespace PhotoTagsSynchronizer
         private float chromcastVolume = 1;
         private double rotateDegress = 0;
         Stopwatch stopwachVlcMediaPositionChanged = new Stopwatch();
+        private IPEndPoint vlcChromecastIPEndPoint = null;
         #endregion
 
         #region IsChromecastSelected - Turn On / Off
@@ -64,6 +65,7 @@ namespace PhotoTagsSynchronizer
             //GooglecastInitSender(); 
             GooglecastFindReceiversAsync();
 
+            vlcChromecastIPEndPoint = new IPEndPoint(nHttpServer.EndPoint.Address, GetOpenPort());
             VlcChromecastRenderDiscover();
             VlcMediaPlayerInit();
 
@@ -109,7 +111,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Vlc Chromecast - Set Vlc Chromecast Render
-        private void VlcSetChromecastRender(string selectedChromecast)
+        private void VlcSetChromecastRender(GoogleCast.IReceiver selectedChromecast)
         {
             if (!vlcRendererItems.Any())
             {
@@ -117,13 +119,18 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
+            string friendlyName = googleCast_SelectedReceiver?.FriendlyName;
+
             bool renderFound = false;
             foreach (LibVLCSharp.Shared.RendererItem rendererItem in vlcRendererItems)
             {
-                if (rendererItem.Name == selectedChromecast)
+                if (rendererItem.Name == friendlyName)
                 {
-                    renderFound = true;
-                    videoView1.MediaPlayer.SetRenderer(rendererItem);
+                    if (rendererItem.IconUri.Contains(googleCast_SelectedReceiver?.IPEndPoint.Address.ToString()))
+                    {
+                        renderFound = true;
+                        videoView1.MediaPlayer.SetRenderer(rendererItem);
+                    }
                 }
             }
             if (!renderFound) MessageBox.Show("Can connect LibVlc Chromecast render, render not found");
@@ -279,7 +286,6 @@ namespace PhotoTagsSynchronizer
         //https://github.com/kakone/GoogleCast
         private GoogleCast.DeviceLocator googleCast_DeviceLocator = null;
         private IEnumerable<GoogleCast.IReceiver> googleCast_receivers = null;
-        private bool googleCast_IsReceiverConnected = false;
         private GoogleCast.IReceiver googleCast_ConnectedReceiver = null;
         private GoogleCast.IReceiver googleCast_SelectedReceiver = null;
         private GoogleCast.Sender googleCast_sender;
@@ -322,9 +328,9 @@ namespace PhotoTagsSynchronizer
         private async Task<bool> GoogleCast_ConnectReceiverAsync(GoogleCast.IReceiver selectedReceiver)
         {
             if (googleCast_sender == null || selectedReceiver == null) return false;
-          
-            //if (!googleCast_IsReceiverConnected) 
-            if (GoogleCast_IsMediaChannelStopped)
+
+            bool googleCast_IsReceiverConnected = !GoogleCast_IsMediaChannelStopped || GoogleCast_IsApplicationStarted();
+            if (!googleCast_IsReceiverConnected)
             {
                 try
                 {
@@ -386,14 +392,29 @@ namespace PhotoTagsSynchronizer
                 errorOccured = false;
 
                 
-                if (await GoogleCast_Connect(googleCast_SelectedReceiver) &&
+                if (await GoogleCast_Connect(googleCast_SelectedReceiver)  &&
                     await GoogleCast_ConnectMediaChannelAsync(googleCast_ConnectedReceiver) && 
-                    GoogleCast_IsApplicationStarted())
+                    GoogleCast_IsApplicationStarted()
+                   )
                 {
                     if (googleCast_CurrentMediaUrlPlaying != playItemUrl)
                     {
 
                         string contentType = System.Web.MimeMapping.GetMimeMapping(fullFilename);
+
+                        switch (Path.GetExtension(fullFilename).ToLower())
+                        {
+                            case ".flv": contentType = "video/x-flv"; break; //Flash	
+                            case ".mp4": contentType = "video/mp4"; break; //MPEG-4
+                            case ".m3u8": contentType = "application/x-mpegURL"; break; //iPhone Index	
+                            case ".ts": contentType = "video/MP2T"; break; //iPhone Segment	
+                            case ".3gp": contentType = "video/3gpp"; break; //3GP Mobile	
+                            case ".mov": contentType = "video/quicktime"; break; //QuickTime	
+                            case ".avi": contentType = "video/x-msvideo"; break; //A/V Interleave	
+                            case ".wmv": contentType = "video/x-ms-wmv"; break; //Windows Media	
+                            case ".ogg": contentType = "video/ogg"; break; //
+                        }
+                        //video/mp4
                         try
                         {
                             googleCast_CurrentMediaUrlPlaying = playItemUrl;
@@ -435,7 +456,18 @@ namespace PhotoTagsSynchronizer
 
                 if (errorOccured)
                 {
-                    if (MessageBox.Show(googleCast_LastKnownErrorMessage, "Chromecast communcation error", MessageBoxButtons.RetryCancel) == DialogResult.Retry) retry = true;                    
+                    if (MessageBox.Show(googleCast_LastKnownErrorMessage, "Chromecast communcation error", MessageBoxButtons.RetryCancel) == DialogResult.Retry)
+                    {
+                        try
+                        {
+                            await GoogleCast_Disconnect(true);
+                            googleCast_sender.Disconnect();
+                            googleCast_sender = null;
+                            await GoogleCast_Connect(googleCast_SelectedReceiver);
+                        } catch { }
+
+                        retry = true;
+                    }
                 }
             } while (retry);
         }
@@ -490,17 +522,16 @@ namespace PhotoTagsSynchronizer
         private async Task<bool> GoogleCast_Disconnect(bool alsoStopChromecast)
         {
             if (isGooglecastDisconnectedStarted) return true;
-
-            isGooglecastDisconnectedStarted = true;
-
-            bool result = await GoogleCast_DisconnectAndReconnect(null, true, alsoStopChromecast);
+            //if (googleCast_ConnectedReceiver == null) return true;
             
+            isGooglecastDisconnectedStarted = true;
+            bool result = await GoogleCast_DisconnectAndReconnect(null, true, alsoStopChromecast);            
             isGooglecastDisconnectedStarted = false;
             return result;
         }
         #endregion
 
-        #region GoogleCast - Disconnected - Prepare for reconnect
+        #region GoogleCast - (Re)connect
         private async Task<bool> GoogleCast_Connect(GoogleCast.IReceiver connectToThisReceiver)
         {
             GooglecastInitSender();
@@ -509,37 +540,26 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GoogleCast - Select Receiver
-        private async Task<bool> GoogleCast_DisconnectAndReconnect(GoogleCast.IReceiver connectToThisReceiver, bool forceDisconnectReconnect, bool alsoStopChromecast)
+        private async Task<bool> GoogleCast_DisconnectAndReconnect(GoogleCast.IReceiver connectToThisReceiver, bool forceDisconnectBeforeConnect, bool alsoStopChromecast)
         {
-            bool didReconnectAndConnected = true;
+            bool didReconnectAndConnectedCompleteWithoutError = true;
 
-            //Debug
-            if (!((!GoogleCast_IsMediaChannelStopped) == GoogleCast_IsMediaChannelConnected() == googleCast_IsReceiverConnected))
-            {
-                MessageBox.Show(
-                    "GoogleCast_IsMediaChannelStopped:" + (GoogleCast_IsMediaChannelStopped).ToString() + "\r\n" +
-                    "GoogleCast_IsMediaChannelConnected: " + GoogleCast_IsMediaChannelConnected().ToString() + "\r\n" +
-                    "googleCast_IsReceiverConnected" + googleCast_IsReceiverConnected.ToString());
-            }
 
-            //if (googleCast_ConnectedReceiver == connectToThisReceiver && !forceDisconnectReconnect) return didReconnectAndConnected;
-            //if (googleCast_ConnectedReceiver == connectToThisReceiver && !forceDisconnectReconnect) return didReconnectAndConnected;
+            bool forceDisconnect = (googleCast_ConnectedReceiver != connectToThisReceiver || forceDisconnectBeforeConnect);
 
-            bool forceDisconnect = (googleCast_ConnectedReceiver != connectToThisReceiver || forceDisconnectReconnect);
-
+            googleCast_LastKnownErrorMessage = "";
             if (forceDisconnect)
             {
+                
                 #region Stop MediaChannel (Chromcast APP within Chromcast, E.g. WebMediaViewer, Netflix, etc.)
                 if (!GoogleCast_IsMediaChannelStopped)
                 {
-                    
                     try
                     {
                         await googleCast_sender?.GetChannel<GoogleCast.Channels.IMediaChannel>().StopAsync();
                     } catch (Exception ex)
                     {
-                        googleCast_IsReceiverConnected = false; //I guess, when can't disconnect, I guess already disconnetced
-                        didReconnectAndConnected = false;
+                        didReconnectAndConnectedCompleteWithoutError = false;
                         googleCast_LastKnownErrorMessage = ex.Message;
                     }
                     googleCast_CurrentMediaUrlPlaying = "";
@@ -548,34 +568,37 @@ namespace PhotoTagsSynchronizer
                 #endregion
 
                 #region Stop Chromecast (Andoid app from running)
-                if (GoogleCast_IsMediaChannelStopped) //Implemented
+                if (alsoStopChromecast)
                 {
-                    if (alsoStopChromecast && (GoogleCast_IsMediaChannelConnected() || await GoogleCast_ConnectReceiverAsync(connectToThisReceiver))) //Implemented
+                    if (GoogleCast_IsMediaChannelStopped) //Implemented
                     {
-                        try
+                        if (GoogleCast_IsMediaChannelConnected() || await GoogleCast_ConnectReceiverAsync(connectToThisReceiver)) //Implemented
                         {
-                            googleCast_sender.GetChannel<GoogleCast.Channels.IMediaChannel>().StatusChanged -= GoogleCast_mediaChannel_StatusChanged;
-                            googleCast_sender.GetChannel<GoogleCast.Channels.IReceiverChannel>().StatusChanged -= GoogleCast_ReceiverChannel_StatusChanged;
-                            await googleCast_sender.GetChannel<GoogleCast.Channels.IReceiverChannel>().StopAsync();
-                        }
-                        catch (Exception ex)
-                        {
-                            didReconnectAndConnected = false;
-                            googleCast_LastKnownErrorMessage = ex.Message;
-                        }
-                        finally
-                        {
-                            Thread.Sleep(400);
-                            googleCast_CurrentMediaUrlPlaying = "";
-                            googleCast_sender = null;
-                            googleCast_IsReceiverConnected = false;
-                            googleCast_ConnectedReceiver = null;
+                            try
+                            {
+                                googleCast_sender.GetChannel<GoogleCast.Channels.IMediaChannel>().StatusChanged -= GoogleCast_mediaChannel_StatusChanged;
+                                googleCast_sender.GetChannel<GoogleCast.Channels.IReceiverChannel>().StatusChanged -= GoogleCast_ReceiverChannel_StatusChanged;
+                                await googleCast_sender.GetChannel<GoogleCast.Channels.IReceiverChannel>().StopAsync();
+                            }
+                            catch (Exception ex)
+                            {
+                                didReconnectAndConnectedCompleteWithoutError = false;
+                                googleCast_LastKnownErrorMessage = ex.Message;
+                            }
+                            finally
+                            {
+                                Thread.Sleep(400);
+                                googleCast_CurrentMediaUrlPlaying = "";
+                                googleCast_sender = null;
+                                googleCast_ConnectedReceiver = null;
+                            }
                         }
                     }
-                } else
-                {
-
-                    MessageBox.Show("Failed stop - Debug");
+                    else
+                    {
+                        googleCast_LastKnownErrorMessage = (googleCast_LastKnownErrorMessage == "" ? "" : "\r\n") + "Was not able to stop chromecast, due to app still running...";
+                        didReconnectAndConnectedCompleteWithoutError = false;
+                    }
                 }
                 #endregion 
             }
@@ -584,11 +607,11 @@ namespace PhotoTagsSynchronizer
             {
                 if (!(await GoogleCast_ConnectReceiverAsync(connectToThisReceiver)))
                 {
-                    didReconnectAndConnected = false;
-                    //googleCast_LastKnownErrorMessage = "Fail to reconnect to Local Receiver for getting Chromecast status updates.";
+                    didReconnectAndConnectedCompleteWithoutError = false;
+                    googleCast_LastKnownErrorMessage = (googleCast_LastKnownErrorMessage == "" ? "" : "\r\n") + "Was not able to stop chromecast connect to Chromecast Receiver...";
                 }
             }
-            return didReconnectAndConnected;
+            return didReconnectAndConnectedCompleteWithoutError;
         }
 
         #endregion
@@ -611,9 +634,6 @@ namespace PhotoTagsSynchronizer
                 "RepeatMode:      " + (status.RepeatMode == null ? "null" : status.RepeatMode) + "\r\n" +
                 "SupportedMedia:  " + status.SupportedMediaCommands.ToString() + "\r\n" +
                 MediaStatusToText(status.ExtendedStatus, ext + 1);
-
-            //"Ext.PlayerState: " + (status.ExtendedStatus?.PlayerState == null ? "null" : status.ExtendedStatus?.PlayerState) + "\r\n" +
-            //"Ext.IdleReason:  " + (status.ExtendedStatus?.IdleReason == null ? "null" : status.ExtendedStatus?.IdleReason) + "\r\n";
         }
         #endregion
 
@@ -725,10 +745,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #endregion 
-
         #region GoogleCast - Actions
-
         private void ShowMediaChromecast(string playItemUrl)
         {
             //if (isGooglecastDisconnectedStarted) return; 
@@ -738,6 +755,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion 
 
         #region nHttpServer
         HttpServer nHttpServer = null;
@@ -914,18 +932,6 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            /*
-            switch (vlcChromecast)
-            {
-                case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
-                    buttonStateVlc = buttonStateVlcChromcastState;
-                    break;
-                case MediaPlaybackEventsSource.Chromecast:
-                    buttonStateChromecast = buttonStateVlcChromcastState;
-                    break;
-            }
-            */
-
             switch (buttonStateVlcChromcastState)
             {
                 #region Init
@@ -952,9 +958,7 @@ namespace PhotoTagsSynchronizer
                 #endregion
 
                 #region Opening / Loading
-                case ButtonStateVlcChromcastState.Opening: //Vlc and Chromecast
-                    PreviewSlideshowWait();
-
+                case ButtonStateVlcChromcastState.Opening: //Vlc and Chromecast                    
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
@@ -1048,7 +1052,6 @@ namespace PhotoTagsSynchronizer
                         {
                             isPlayingVideoEndReached = true; //Picture
                             toolStripButtonMediaPreviewPlay.Enabled = false;
-                            PreviewSlideshowNextTimer(true);
                         }
 
                         toolStripButtonMediaPreviewPause.Enabled = false;
@@ -1089,19 +1092,23 @@ namespace PhotoTagsSynchronizer
 
                 #region EndReached
                 case ButtonStateVlcChromcastState.EndReached: //Vlc and Chromecast
-                    PreviewSlideshowNextTimer(false);
+                    
 
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
                             toolStripLabelMediaPreviewStatus.Text = "VLC player video end reached...";
+                            if (!isGooglecasting) PreviewSlideshowNextTimer(false);
+//Remove double when casting
                             break;
                         case MediaPlaybackEventsSource.Googlecast:
                             toolStripLabelMediaPreviewStatus.Text = "Chromecast video end reached...";
-                            isGooglecasting = true;
+                            //isGooglecasting = true;
+                            PreviewSlideshowNextTimer(false);
                             break;
                         case MediaPlaybackEventsSource.ScreenImageViewer:
                             toolStripLabelMediaPreviewStatus.Text = "Image loaded...";
+                            PreviewSlideshowNextTimer(true);
                             break;
                     }
 
@@ -1642,9 +1649,11 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+
+        
         #region Preview - MediaButton Action - Show 
         private async void Preview_LoadAndShowItem(string fullFilename)
-        {
+        {            
             toolStripButtonMediaPreviewNext.Enabled = false;
             toolStripButtonMediaPreviewPrevious.Enabled = false;
 
@@ -1662,8 +1671,15 @@ namespace PhotoTagsSynchronizer
                 try
                 {
                     LibVLCSharp.Shared.Media media = new LibVLCSharp.Shared.Media(_libVLC, fullFilename, FromType.FromPath);
-                    switch (Properties.Settings.Default.ChromecastTransporter)
+
+                    string chromecastTransporter = "SCREEN";  
+                    if (IsChromecastSelected) chromecastTransporter = Properties.Settings.Default.ChromecastTransporter;
+                    
+                    switch (chromecastTransporter)
                     {
+                        case "SCREEN":
+                            if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
+                            break;
                         //Properties.Settings.Default.ChromecastContainer
                         //HTTP - Simple HTTP server, send video as is
                         //VLC-Render - Use VLC own Chromecast stack
@@ -1674,63 +1690,46 @@ namespace PhotoTagsSynchronizer
                             if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
                             break;
 
-                        case "VLC-Render":
-                            string friendlyName = googleCast_ConnectedReceiver.FriendlyName;
-
-                            if (!await GoogleCast_Disconnect(false))
-                            {
-                                MessageBox.Show("Disconnect GoogleCast before connect LibVlcChromcast Render failed. ");
-                            }
-                            //SelectedDevice(null);
-
-                            //if (WillStartChromecast()) 
-                            VlcSetChromecastRender(friendlyName);
+                        case "VLC-Render": 
+                            if (!await GoogleCast_Disconnect(false)) MessageBox.Show("Disconnect GoogleCast before connect LibVlcChromcast Render failed. ");
+                            
+                            VlcSetChromecastRender(googleCast_SelectedReceiver);
                             if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
                             break;
 
                         case "VLC-Stream":
-                            string option = "sout=#transcode{" + "" +
-                                "vcodec=" + Properties.Settings.Default.ChromecastVideoCodec +
-                                ",fps=24" +
-                                ",venc=" + (Properties.Settings.Default.ChromecastVideoCodec == "H264" ? "=x264{preset=ultrafast,crf=21}" : "vpx{quality-mode=1}") +
-                                //(Properties.Settings.Default.ChromecastVideoBitrate < 1000 ? "" : ",vb=" + (Properties.Settings.Default.ChromecastVideoBitrate / 1000)) +
-                                (Properties.Settings.Default.ChromecastImageOutputResolutionWidth < 1 ? "" : ",maxwidth==" + Properties.Settings.Default.ChromecastVideoOutputResolutionWidth) +
-                                (Properties.Settings.Default.ChromecastImageOutputResolutionHeight < 1 ? "" : ",maxheight=" + Properties.Settings.Default.ChromecastVideoOutputResolutionHeight) +
-                                ",acodec=" + Properties.Settings.Default.ChromecastAudioCodec +
-                                (Properties.Settings.Default.ChromecastAudioCodec == "vorb" ? ",aenc=vorbis{quality=4}" : "") +
-                                (Properties.Settings.Default.ChromecastAudioCodec == "mp3" ?  (",ab=" + (Properties.Settings.Default.ChromecastAudioBitrate / 1000).ToString()) : "") +
-                                //(Properties.Settings.Default.ChromecastAudioSampleRate < 1 ? "" : ",samplerate=" + Properties.Settings.Default.ChromecastAudioSampleRate) +
-                                ",channels=2" +
-                                ",mux=" + Properties.Settings.Default.ChromecastContainer + "}:http{dst=:8080/webcam.ogg}";
+
+
+
+                            string chromecastAgruments = Properties.Settings.Default.ChromecastAgruments;
+                            string chromecastUrl = Properties.Settings.Default.ChromecastUrl;
+                            string chromecastAudioCodec = Properties.Settings.Default.ChromecastAudioCodec;
+                            string chromecastVideoCodec = Properties.Settings.Default.ChromecastVideoCodec;
+
+                            chromecastUrl = chromecastUrl.Replace("{port}", vlcChromecastIPEndPoint.Port.ToString());
+                            chromecastUrl = chromecastUrl.Replace("{ipaddress}", vlcChromecastIPEndPoint.Address.ToString());
+                            
+                            chromecastAgruments = chromecastAgruments.Replace("{vcodec}", chromecastVideoCodec);
+                            chromecastAgruments = chromecastAgruments.Replace("{acodec}", chromecastAudioCodec);
+                            chromecastAgruments = chromecastAgruments.Replace("{url}", chromecastUrl);
 
                             /*
-                                .mpg - mpeg1 - MPEG-1 multiplexing 
-                                .??? - ts - MPEG Transport Stream, primarily used for streaming MPEG. Also used in DVDs
-                                .??? - ps - MPEG Program Stream, primarily used for saving MPEG data to disk.
-                                .mp4 - mp4 - MPEG-4 mux format, used only for MPEG-4 video and MPEG audio.
-                                .avi - avi
-                                .asf - asf
-                                .ogg - ogg - Xiph.org's ogg container format. Can contain audio, video, and metadata.
-                                .mkv - matroska - (For codec H264) Matroska Muxer ** Chromecast supported **
-                                .??? - webm - (For codec VP8, VP9, VORBIT, OPUS) - Muxer ** Chromecast supported **
-                            */
-
-                            //static const char DEFAULT_MUXER[] = "avformat{mux=matroska,options={live=1},reset-ts}";
-                            //static const char DEFAULT_MUXER_WEBM[] = "avformat{mux=webm,options={live=1},reset-ts}";
-
-                            //:chromecast-proxy:std{mux="avformat{mux=webm/matroska,options={live=1},reset-ts},access=chromecast-http}";
-
-                            //VP8, VP9, HEVC
-                            //"venc=vpx{quality-mode=1}"
-
-                            //H264
-                            //"venc=x264{preset=ultrafast,crf=21},";  //veryfasy / ultrafast crf=hd-->23 720p-->21
-                            //option = "vcodec= ,maxwidth=1920,maxheight=1080";
-
-                            Console.WriteLine(option);
-                            //option = "sout=#transcode{vcodec=mp4v,vb=800,acodec=mpga,ab=128,channels=2,mux=ogg}:http{dst=:8080/webcam.ogg}";
+                            #chromecast -chromecast-ip=192.168.0.103  --demux-filter=demux_chromecast
+                            #chromecast ip=192.168.0.169              --demux-filter=demux_chromecast
+                            transcode{acodec=mp3}:chromecast-proxy:std{mux=avformat{mux=matroska,options={live=1}},access=chromecast-http}
                             
-                            media.AddOption(option);
+                            transcode{acodec=mp3,
+                                vcodec=h264,venc=x264{preset=veryfast,crf=23},maxwidth=1280,maxheight=720}
+                                :chromecast-proxy:std{mux=avformat{mux=matroska,options={live=1}},access=chromecast-http}
+                            
+                            transcode{
+                                vcodec=h264,venc=x264{preset=veryfast,crf=21},maxwidth=1920,maxheight=1080}
+                                :chromecast-proxy:std{mux=avformat{mux=matroska,options={live=1}},access=chromecast-http}
+                            */
+                            
+                            Console.WriteLine(chromecastAgruments);                            
+                            media.AddOption(chromecastAgruments);
+    
 
                             if (rotateDegress != 0)
                             {
@@ -1742,11 +1741,13 @@ namespace PhotoTagsSynchronizer
                                 media.AddOption(":sout=#display{vfilter=transform{transform-type=" + ((int)rotateDegress).ToString() + "}}");
                                 media.AddOption(":sout -keep");
                             }
-
+                            videoView1.MediaPlayer.EnableHardwareDecoding = false;
+                            
                             //if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(new Media(_libVLC, fullFilename, FromType.FromPath));
                             if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
-                            ShowMediaChromecast("http://192.168.86.163:8080/webcam.ogg");
-
+                            Console.WriteLine("http://" + (chromecastUrl.StartsWith(":") ? vlcChromecastIPEndPoint.Address.ToString() : "") + chromecastUrl);
+                            ShowMediaChromecast("http://" + (chromecastUrl.StartsWith(":") ? vlcChromecastIPEndPoint.Address.ToString() : "") + chromecastUrl);
+                             
                             break;
                         #region Help
                         /*
@@ -1844,8 +1845,7 @@ namespace PhotoTagsSynchronizer
                 try
                 {
                     imageBoxPreview.Image = 
-                        ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.LoadImageAndRotate(fullFilename, rotateDegress);
-                    PreviewSlideshowNextTimer(true);
+                        ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.LoadImageAndRotate(fullFilename, rotateDegress);    
                     MediaPlayerEventsHandler(ButtonStateVlcChromcastState.EndReached, MediaPlaybackEventsSource.ScreenImageViewer);
                 }
                 catch (Exception ex)
@@ -1956,6 +1956,7 @@ namespace PhotoTagsSynchronizer
 
         private void PreviewSlideshowWait()
         {
+            isNextMediaTiggered = true;
             timerPreviewNextTimer.Interval = 2000;
             timerPreviewNextTimer.Stop();
         }
@@ -1966,16 +1967,22 @@ namespace PhotoTagsSynchronizer
             {
                 if (useTimer)
                 {
+                    isNextMediaTiggered = false;
                     timerPreviewNextTimer.Interval = slideShowIntervalMs;
                     timerPreviewNextTimer.Start();
                 }
-                else PreviewNext();
+                else 
+                    PreviewNext();
             }
             else timerPreviewNextTimer.Stop();
         }
 
+        bool isNextMediaTiggered = false;
         private void timerPreviewNextTimer_Tick(object sender, EventArgs e)
         {
+            if (isNextMediaTiggered) return; //Avoid loop
+            isNextMediaTiggered = true;
+            PreviewSlideshowWait();
             if (isSlideShowRunning) PreviewNext();
         }
         #endregion

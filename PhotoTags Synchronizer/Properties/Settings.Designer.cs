@@ -1529,31 +1529,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1920")]
-        public int ChromecastVideoOutputResolutionWidth {
-            get {
-                return ((int)(this["ChromecastVideoOutputResolutionWidth"]));
-            }
-            set {
-                this["ChromecastVideoOutputResolutionWidth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1080")]
-        public int ChromecastVideoOutputResolutionHeight {
-            get {
-                return ((int)(this["ChromecastVideoOutputResolutionHeight"]));
-            }
-            set {
-                this["ChromecastVideoOutputResolutionHeight"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("VP8")]
+        [global::System.Configuration.DefaultSettingValueAttribute("vcodec=theo,venc=theora{quality=4},scale=1")]
         public string ChromecastVideoCodec {
             get {
                 return ((string)(this["ChromecastVideoCodec"]));
@@ -1565,19 +1541,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("4000000")]
-        public int ChromecastVideoBitrate {
-            get {
-                return ((int)(this["ChromecastVideoBitrate"]));
-            }
-            set {
-                this["ChromecastVideoBitrate"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("mp4a")]
+        [global::System.Configuration.DefaultSettingValueAttribute("acodec=vorb,channels=2,aenc=vorbis{quality=4}")]
         public string ChromecastAudioCodec {
             get {
                 return ((string)(this["ChromecastAudioCodec"]));
@@ -1589,37 +1553,25 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192000")]
-        public int ChromecastAudioBitrate {
+        [global::System.Configuration.DefaultSettingValueAttribute("sout=#transcode{{vcodec}{acodec}}:std{access=http,mux=ogg,url={url}}")]
+        public string ChromecastAgruments {
             get {
-                return ((int)(this["ChromecastAudioBitrate"]));
+                return ((string)(this["ChromecastAgruments"]));
             }
             set {
-                this["ChromecastAudioBitrate"] = value;
+                this["ChromecastAgruments"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("OGG")]
-        public string ChromecastContainer {
+        [global::System.Configuration.DefaultSettingValueAttribute(":{port}/output.ogg")]
+        public string ChromecastUrl {
             get {
-                return ((string)(this["ChromecastContainer"]));
+                return ((string)(this["ChromecastUrl"]));
             }
             set {
-                this["ChromecastContainer"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("128000")]
-        public int ChromecastAudioSampleRate {
-            get {
-                return ((int)(this["ChromecastAudioSampleRate"]));
-            }
-            set {
-                this["ChromecastAudioSampleRate"] = value;
+                this["ChromecastUrl"] = value;
             }
         }
         
