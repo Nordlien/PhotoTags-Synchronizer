@@ -8,6 +8,7 @@ using Manina.Windows.Forms;
 using System;
 using MetadataPriorityLibrary;
 using Thumbnails;
+using System.Drawing;
 
 namespace PhotoTagsSynchronizer
 {
@@ -45,8 +46,10 @@ namespace PhotoTagsSynchronizer
 
             if (exifToolWarningDataList.Count > 0)
             {
+                Image thumbnail = DatabaseAndCacheThumbnail.ReadThumbnailFromCacheOnlyClone(fileEntryAttribute);
+
                 int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(
-                    dataGridView, fileEntryAttribute, null, null,
+                    dataGridView, fileEntryAttribute, thumbnail, null,
                     ReadWriteAccess.ForceCellToReadOnly, showWhatColumns,
                     new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true));
 

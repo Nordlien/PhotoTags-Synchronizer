@@ -331,10 +331,10 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPreviewSlideShow8sec = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPreviewSlideShow10sec = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPreviewSlideShowStop = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButtonMediaPreviewClose = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewRotateCCW = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewRotate180 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewRotateCW = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonMediaPreviewClose = new System.Windows.Forms.ToolStripButton();
             this.toolStripTraceBarItemMediaPreviewTimer = new DragNDrop.ToolStripTraceBarItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabelMediaPreviewTimer = new System.Windows.Forms.ToolStripLabel();
@@ -664,10 +664,10 @@ namespace PhotoTagsSynchronizer
             // tabPageFilterSearch
             // 
             this.tabPageFilterSearch.Controls.Add(this.panel4);
-            this.tabPageFilterSearch.Location = new System.Drawing.Point(4, 25);
+            this.tabPageFilterSearch.Location = new System.Drawing.Point(4, 26);
             this.tabPageFilterSearch.Name = "tabPageFilterSearch";
             this.tabPageFilterSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFilterSearch.Size = new System.Drawing.Size(330, 863);
+            this.tabPageFilterSearch.Size = new System.Drawing.Size(330, 862);
             this.tabPageFilterSearch.TabIndex = 2;
             this.tabPageFilterSearch.Text = "Search";
             this.tabPageFilterSearch.UseVisualStyleBackColor = true;
@@ -680,7 +680,7 @@ namespace PhotoTagsSynchronizer
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(324, 857);
+            this.panel4.Size = new System.Drawing.Size(324, 856);
             this.panel4.TabIndex = 18;
             // 
             // checkBoxSerachFitsAllValues
@@ -689,7 +689,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSerachFitsAllValues.AutoSize = true;
             this.checkBoxSerachFitsAllValues.Checked = true;
             this.checkBoxSerachFitsAllValues.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSerachFitsAllValues.Location = new System.Drawing.Point(3, 822);
+            this.checkBoxSerachFitsAllValues.Location = new System.Drawing.Point(3, 821);
             this.checkBoxSerachFitsAllValues.Name = "checkBoxSerachFitsAllValues";
             this.checkBoxSerachFitsAllValues.Size = new System.Drawing.Size(54, 21);
             this.checkBoxSerachFitsAllValues.TabIndex = 26;
@@ -711,7 +711,7 @@ namespace PhotoTagsSynchronizer
             this.panelSearchFilter.Controls.Add(this.groupBoxSearchTags);
             this.panelSearchFilter.Location = new System.Drawing.Point(0, 0);
             this.panelSearchFilter.Name = "panelSearchFilter";
-            this.panelSearchFilter.Size = new System.Drawing.Size(319, 807);
+            this.panelSearchFilter.Size = new System.Drawing.Size(319, 806);
             this.panelSearchFilter.TabIndex = 2;
             // 
             // groupBoxSearchKeywords
@@ -881,7 +881,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchPeople.Location = new System.Drawing.Point(3, 674);
             this.groupBoxSearchPeople.MinimumSize = new System.Drawing.Size(313, 120);
             this.groupBoxSearchPeople.Name = "groupBoxSearchPeople";
-            this.groupBoxSearchPeople.Size = new System.Drawing.Size(313, 130);
+            this.groupBoxSearchPeople.Size = new System.Drawing.Size(313, 129);
             this.groupBoxSearchPeople.TabIndex = 26;
             this.groupBoxSearchPeople.TabStop = false;
             this.groupBoxSearchPeople.Text = "People:";
@@ -894,7 +894,7 @@ namespace PhotoTagsSynchronizer
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 20);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(307, 107);
+            this.panel5.Size = new System.Drawing.Size(307, 106);
             this.panel5.TabIndex = 16;
             // 
             // checkedListBoxSearchPeople
@@ -1235,7 +1235,7 @@ namespace PhotoTagsSynchronizer
             // buttonSearch
             // 
             this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSearch.Location = new System.Drawing.Point(118, 813);
+            this.buttonSearch.Location = new System.Drawing.Point(118, 812);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(202, 37);
             this.buttonSearch.TabIndex = 42;
@@ -3610,7 +3610,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripSeparator10});
             this.toolStrip1.Location = new System.Drawing.Point(4, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(861, 59);
+            this.toolStrip1.Size = new System.Drawing.Size(845, 59);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -3782,16 +3782,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPreviewSlideShowStop.Text = "SlideShow stop";
             this.toolStripMenuItemPreviewSlideShowStop.Click += new System.EventHandler(this.toolStripMenuItemPreviewSlideShowStop_Click);
             // 
-            // toolStripButtonMediaPreviewClose
-            // 
-            this.toolStripButtonMediaPreviewClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonMediaPreviewClose.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Close;
-            this.toolStripButtonMediaPreviewClose.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonMediaPreviewClose.Name = "toolStripButtonMediaPreviewClose";
-            this.toolStripButtonMediaPreviewClose.Size = new System.Drawing.Size(29, 56);
-            this.toolStripButtonMediaPreviewClose.Text = "Close preview media";
-            this.toolStripButtonMediaPreviewClose.Click += new System.EventHandler(this.toolStripButtonMediaPreviewClose_Click);
-            // 
             // toolStripButtonMediaPreviewRotateCCW
             // 
             this.toolStripButtonMediaPreviewRotateCCW.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -3821,6 +3811,16 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewRotateCW.Size = new System.Drawing.Size(29, 56);
             this.toolStripButtonMediaPreviewRotateCW.Text = "Rotate CW";
             this.toolStripButtonMediaPreviewRotateCW.Click += new System.EventHandler(this.toolStripButtonMediaPreviewRotateCW_Click);
+            // 
+            // toolStripButtonMediaPreviewClose
+            // 
+            this.toolStripButtonMediaPreviewClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonMediaPreviewClose.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Close;
+            this.toolStripButtonMediaPreviewClose.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonMediaPreviewClose.Name = "toolStripButtonMediaPreviewClose";
+            this.toolStripButtonMediaPreviewClose.Size = new System.Drawing.Size(29, 56);
+            this.toolStripButtonMediaPreviewClose.Text = "Close preview media";
+            this.toolStripButtonMediaPreviewClose.Click += new System.EventHandler(this.toolStripButtonMediaPreviewClose_Click);
             // 
             // toolStripTraceBarItemMediaPreviewTimer
             // 

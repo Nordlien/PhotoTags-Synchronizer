@@ -463,8 +463,8 @@ namespace PhotoTagsSynchronizer
                 folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
             GlobalData.IsPopulatingFolderTree = false;
 
-            SplashForm.UpdateStatus("Populate filters...");
-            //PopulateDatabaseFilter();
+            SplashForm.UpdateStatus("Populate search filters...");
+            PopulateDatabaseFilter();
 
             SplashForm.CloseForm();
 
