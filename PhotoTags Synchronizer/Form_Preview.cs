@@ -964,7 +964,8 @@ namespace PhotoTagsSynchronizer
                 #endregion
 
                 #region Opening / Loading
-                case ButtonStateVlcChromcastState.Opening: //Vlc and Chromecast                    
+                case ButtonStateVlcChromcastState.Opening: //Vlc and Chromecast    
+                    isPlayingVideoEndReached = false;
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
@@ -1005,11 +1006,12 @@ namespace PhotoTagsSynchronizer
                             break;
                     }
 
+                    
                     if (!isGooglecasting || (isGooglecasting && vlcChromecast == MediaPlaybackEventsSource.Googlecast))
                     {
 
-                        if (previewMediaIsCurrentMediaVideo) isPlayingVideoEndReached = true;
-                        else isPlayingVideoEndReached = false;
+                        //if (!previewMediaIsCurrentMediaVideo) isPlayingVideoEndReached = true; else 
+                        //isPlayingVideoEndReached = false;
 
                         toolStripButtonMediaPreviewPlay.Enabled = false;
 
@@ -1051,12 +1053,12 @@ namespace PhotoTagsSynchronizer
                     {
                         if (!isGooglecasting || previewMediaIsCurrentMediaVideo)
                         {
-                            isPlayingVideoEndReached = false; //Video paused
+                            //isPlayingVideoEndReached = false; //Video paused
                             toolStripButtonMediaPreviewPlay.Enabled = true;
                         }
                         else
                         {
-                            isPlayingVideoEndReached = true; //Picture
+                            //isPlayingVideoEndReached = true; //Picture
                             toolStripButtonMediaPreviewPlay.Enabled = false;
                         }
 
@@ -1098,29 +1100,32 @@ namespace PhotoTagsSynchronizer
 
                 #region EndReached
                 case ButtonStateVlcChromcastState.EndReached: //Vlc and Chromecast
-                    
 
+                    bool useTimer = false;
                     switch (vlcChromecast)
                     {
                         case MediaPlaybackEventsSource.ScreenVlcMediaPlayer:
                             toolStripLabelMediaPreviewStatus.Text = "VLC player video end reached...";
-                            if (!isGooglecasting) PreviewSlideshowNextTimer(false);
-//Remove double when casting
+                            useTimer = false;
                             break;
                         case MediaPlaybackEventsSource.Googlecast:
                             toolStripLabelMediaPreviewStatus.Text = "Chromecast video end reached...";
-                            //isGooglecasting = true;
-                            PreviewSlideshowNextTimer(false);
+                            useTimer = false;
                             break;
                         case MediaPlaybackEventsSource.ScreenImageViewer:
                             toolStripLabelMediaPreviewStatus.Text = "Image loaded...";
-                            PreviewSlideshowNextTimer(true);
+                            useTimer = true;
                             break;
                     }
 
+
+                    //if (!isGooglecasting)                    
+                    
+
                     if (!isGooglecasting || (isGooglecasting && vlcChromecast == MediaPlaybackEventsSource.Googlecast))
                     {
-                  
+                        if (!isPlayingVideoEndReached) //Avoid double End Reached
+                            PreviewSlideshowNextTimer(useTimer);
                         isPlayingVideoEndReached = true;
                         toolStripButtonMediaPreviewPlay.Enabled = (vlcChromecast != MediaPlaybackEventsSource.ScreenImageViewer);
                         toolStripButtonMediaPreviewPause.Enabled = false;
@@ -1130,7 +1135,9 @@ namespace PhotoTagsSynchronizer
                         toolStripTraceBarItemMediaPreviewTimer.Enabled = false;
                     }
 
-                    
+                    //Remove double when casting
+
+
                     break;
                 #endregion
 

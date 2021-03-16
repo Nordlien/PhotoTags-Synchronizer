@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -8,7 +7,6 @@ using DataGridViewGeneric;
 using FileDateTime;
 using Manina.Windows.Forms;
 using MetadataLibrary;
-using TimeZone;
 using WindowsProperty;
 using static Manina.Windows.Forms.ImageListView;
 
@@ -71,6 +69,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region LazyLoadMissing()
         private void LazyLoadMissing()
         {
             DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
@@ -92,6 +91,7 @@ namespace PhotoTagsSynchronizer
                 
             }
         }
+        #endregion 
 
         #region DataGridVIew - IsActiveDataGridViewAgregated
         private bool IsActiveDataGridViewAgregated(string tag)

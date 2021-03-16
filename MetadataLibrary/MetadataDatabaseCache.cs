@@ -1235,12 +1235,16 @@ namespace MetadataLibrary
 
         #region ListAllPersonalRegionNameCountCache
         private Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>> metadataRegionNameCountCache = null;
+        private static readonly Object metadataRegionNameCountCacheLock = new Object();
 
         #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCacheClear
         public void ListAllPersonalRegionNameCountCacheClear()
         {
-            metadataRegionNameCountCache = null;
-            metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
+            lock (metadataRegionNameCountCacheLock)
+            {
+                metadataRegionNameCountCache = null;
+                metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
+            }
         }
         #endregion
 
@@ -1274,10 +1278,13 @@ namespace MetadataLibrary
         #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCache
         private Dictionary<StringNullable, int> ListAllPersonalRegionNameCountCache(MetadataBrokerType metadataBrokerType)
         {
-            if (metadataRegionNameCountCache == null) metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
-            if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType)) metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
-            metadataRegionNameCountCache[metadataBrokerType] = ListAllPersonalRegionNameCount(metadataBrokerType);
-            return metadataRegionNameCountCache[metadataBrokerType];
+            lock (metadataRegionNameCountCacheLock)
+            {
+                if (metadataRegionNameCountCache == null) metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
+                if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType)) metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
+                metadataRegionNameCountCache[metadataBrokerType] = ListAllPersonalRegionNameCount(metadataBrokerType);
+                return metadataRegionNameCountCache[metadataBrokerType];
+            }
         }
         #endregion
 
