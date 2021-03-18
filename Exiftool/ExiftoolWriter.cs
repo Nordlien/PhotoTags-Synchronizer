@@ -419,12 +419,31 @@ namespace Exiftool
             metadataUpdatedByUserCopy = new Metadata(metadataWrittenByExiftoolWaitVerify[verifyPosition]); //Copy data to verify
             metadataWrittenByExiftoolWaitVerify.RemoveAt(verifyPosition);
 
+            bool foundOldVersionToVerify = false; //Happens when multiple save are done and save faild, and veridify was not done for each media file
+            do
+            {
+                foundOldVersionToVerify = false;
+                int indexFound = Metadata.FindFullFilenameInList(metadataWrittenByExiftoolWaitVerify, metadataRead.FileFullPath);
+                if (indexFound > -1 && indexFound < metadataWrittenByExiftoolWaitVerify.Count)
+                {
+                    metadataWrittenByExiftoolWaitVerify.RemoveAt(indexFound);
+                    foundOldVersionToVerify = true;
+                }
+            } while (foundOldVersionToVerify);
+
             metadataUpdatedByUserCopy.FileDateModified = metadataRead.FileDateModified;   //After save, this was updated
             metadataUpdatedByUserCopy.FileLastAccessed = metadataRead.FileLastAccessed;   //This has changed, do not care
             metadataUpdatedByUserCopy.FileSize = metadataRead.FileSize;                   //This has changed, do not care
             metadataUpdatedByUserCopy.Errors = metadataRead.Errors;                       //This has changed, do not care, Hopefully this is gone
             metadataUpdatedByUserCopy.Broker = metadataRead.Broker;                       //This has changed, do not care
 
+            if (metadataUpdatedByUserCopy.MediaHeight == metadataRead.MediaWidth &&
+                metadataUpdatedByUserCopy.MediaWidth == metadataRead.MediaHeight) //Media has been Rotated
+            {
+                metadataUpdatedByUserCopy.MediaHeight = metadataRead.MediaHeight;
+                metadataUpdatedByUserCopy.MediaWidth = metadataRead.MediaWidth;
+            }
+            
             if (metadataRead != metadataUpdatedByUserCopy)
             {
                 message += "Filename: '" + metadataUpdatedByUserCopy.FileFullPath + "'\r\n" +

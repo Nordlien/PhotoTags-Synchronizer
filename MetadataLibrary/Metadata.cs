@@ -290,7 +290,8 @@ namespace MetadataLibrary
                 for (int i = 0; i < metadataListToCheck.Count; i++)
                 {
                     Metadata metadata = metadataListToCheck[i];
-                    if (metadata != null && metadata.FileFullPath == fileEntry.FileFullPath && metadata.FileDateModified == fileEntry.LastWriteDateTime) return i;
+                    if (metadata != null && metadata.FileFullPath == fileEntry.FileFullPath && metadata.FileDateModified == fileEntry.LastWriteDateTime) 
+                        return i;
                 }
             }
             catch { }

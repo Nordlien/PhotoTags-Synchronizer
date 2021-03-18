@@ -54,14 +54,14 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Preview Media -- Click  ---
-        private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MediaPreviewInit()
         {
             isGooglecasting = false;
             isGooglecastDisconnectedStarted = false;
-            
+
             SetRotateDegress(0);
             SlideShowInit();
-            
+
             //GooglecastInitSender(); 
             GooglecastFindReceiversAsync();
 

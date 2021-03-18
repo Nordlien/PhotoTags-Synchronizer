@@ -38,9 +38,10 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusQueue = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusAction = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBarSaveProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripProgressBarDataGridViewLoading = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusAction = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusQueue = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerFolder = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageFilterFolder = new System.Windows.Forms.TabPage();
@@ -129,6 +130,9 @@ namespace PhotoTagsSynchronizer
             this.openWithDialogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotateCW90ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotate180ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ratateCCW270ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControlToolbox = new System.Windows.Forms.TabControl();
             this.tabPageTags = new System.Windows.Forms.TabPage();
@@ -287,6 +291,7 @@ namespace PhotoTagsSynchronizer
             this.rotateCCWToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.rotate180ToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.rotateCWToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonPreview = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonGridBig = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonGridNormal = new System.Windows.Forms.ToolStripButton();
@@ -343,6 +348,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.timerFindGoogleCast = new System.Windows.Forms.Timer(this.components);
             this.timerPreviewNextTimer = new System.Windows.Forms.Timer(this.components);
+            this.timerSaveProgessRemoveProgress = new System.Windows.Forms.Timer(this.components);
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -444,9 +450,10 @@ namespace PhotoTagsSynchronizer
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusFilesAndSelected,
+            this.toolStripProgressBarSaveProgress,
+            this.toolStripProgressBarDataGridViewLoading,
             this.toolStripStatusQueue,
-            this.toolStripStatusAction,
-            this.toolStripProgressBarDataGridViewLoading});
+            this.toolStripStatusAction});
             this.statusStrip.Location = new System.Drawing.Point(0, 0);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1387, 30);
@@ -462,15 +469,22 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusFilesAndSelected.Size = new System.Drawing.Size(133, 24);
             this.toolStripStatusFilesAndSelected.Text = "Files: 0 Selected: 0";
             // 
-            // toolStripStatusQueue
+            // toolStripProgressBarSaveProgress
             // 
-            this.toolStripStatusQueue.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.toolStripStatusQueue.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.toolStripStatusQueue.Name = "toolStripStatusQueue";
-            this.toolStripStatusQueue.Size = new System.Drawing.Size(56, 24);
-            this.toolStripStatusQueue.Text = "Queue";
+            this.toolStripProgressBarSaveProgress.Name = "toolStripProgressBarSaveProgress";
+            this.toolStripProgressBarSaveProgress.Size = new System.Drawing.Size(100, 22);
+            this.toolStripProgressBarSaveProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.toolStripProgressBarSaveProgress.ToolTipText = "Save progress";
+            this.toolStripProgressBarSaveProgress.Visible = false;
+            // 
+            // toolStripProgressBarDataGridViewLoading
+            // 
+            this.toolStripProgressBarDataGridViewLoading.Name = "toolStripProgressBarDataGridViewLoading";
+            this.toolStripProgressBarDataGridViewLoading.Size = new System.Drawing.Size(100, 22);
+            this.toolStripProgressBarDataGridViewLoading.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.toolStripProgressBarDataGridViewLoading.ToolTipText = "Load metadata status";
+            this.toolStripProgressBarDataGridViewLoading.Value = 100;
+            this.toolStripProgressBarDataGridViewLoading.Visible = false;
             // 
             // toolStripStatusAction
             // 
@@ -482,13 +496,15 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusAction.Size = new System.Drawing.Size(124, 24);
             this.toolStripStatusAction.Text = "Waiting actions...";
             // 
-            // toolStripProgressBarDataGridViewLoading
+            // toolStripStatusQueue
             // 
-            this.toolStripProgressBarDataGridViewLoading.Name = "toolStripProgressBarDataGridViewLoading";
-            this.toolStripProgressBarDataGridViewLoading.Size = new System.Drawing.Size(100, 22);
-            this.toolStripProgressBarDataGridViewLoading.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.toolStripProgressBarDataGridViewLoading.Value = 100;
-            this.toolStripProgressBarDataGridViewLoading.Visible = false;
+            this.toolStripStatusQueue.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusQueue.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.toolStripStatusQueue.Name = "toolStripStatusQueue";
+            this.toolStripStatusQueue.Size = new System.Drawing.Size(56, 24);
+            this.toolStripStatusQueue.Text = "Queue";
             // 
             // splitContainerFolder
             // 
@@ -664,10 +680,10 @@ namespace PhotoTagsSynchronizer
             // tabPageFilterSearch
             // 
             this.tabPageFilterSearch.Controls.Add(this.panel4);
-            this.tabPageFilterSearch.Location = new System.Drawing.Point(4, 26);
+            this.tabPageFilterSearch.Location = new System.Drawing.Point(4, 25);
             this.tabPageFilterSearch.Name = "tabPageFilterSearch";
             this.tabPageFilterSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFilterSearch.Size = new System.Drawing.Size(330, 862);
+            this.tabPageFilterSearch.Size = new System.Drawing.Size(330, 863);
             this.tabPageFilterSearch.TabIndex = 2;
             this.tabPageFilterSearch.Text = "Search";
             this.tabPageFilterSearch.UseVisualStyleBackColor = true;
@@ -680,7 +696,7 @@ namespace PhotoTagsSynchronizer
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(324, 856);
+            this.panel4.Size = new System.Drawing.Size(324, 857);
             this.panel4.TabIndex = 18;
             // 
             // checkBoxSerachFitsAllValues
@@ -689,7 +705,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSerachFitsAllValues.AutoSize = true;
             this.checkBoxSerachFitsAllValues.Checked = true;
             this.checkBoxSerachFitsAllValues.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSerachFitsAllValues.Location = new System.Drawing.Point(3, 821);
+            this.checkBoxSerachFitsAllValues.Location = new System.Drawing.Point(3, 822);
             this.checkBoxSerachFitsAllValues.Name = "checkBoxSerachFitsAllValues";
             this.checkBoxSerachFitsAllValues.Size = new System.Drawing.Size(54, 21);
             this.checkBoxSerachFitsAllValues.TabIndex = 26;
@@ -711,7 +727,7 @@ namespace PhotoTagsSynchronizer
             this.panelSearchFilter.Controls.Add(this.groupBoxSearchTags);
             this.panelSearchFilter.Location = new System.Drawing.Point(0, 0);
             this.panelSearchFilter.Name = "panelSearchFilter";
-            this.panelSearchFilter.Size = new System.Drawing.Size(319, 806);
+            this.panelSearchFilter.Size = new System.Drawing.Size(319, 807);
             this.panelSearchFilter.TabIndex = 2;
             // 
             // groupBoxSearchKeywords
@@ -881,7 +897,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchPeople.Location = new System.Drawing.Point(3, 674);
             this.groupBoxSearchPeople.MinimumSize = new System.Drawing.Size(313, 120);
             this.groupBoxSearchPeople.Name = "groupBoxSearchPeople";
-            this.groupBoxSearchPeople.Size = new System.Drawing.Size(313, 129);
+            this.groupBoxSearchPeople.Size = new System.Drawing.Size(313, 130);
             this.groupBoxSearchPeople.TabIndex = 26;
             this.groupBoxSearchPeople.TabStop = false;
             this.groupBoxSearchPeople.Text = "People:";
@@ -894,7 +910,7 @@ namespace PhotoTagsSynchronizer
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 20);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(307, 106);
+            this.panel5.Size = new System.Drawing.Size(307, 107);
             this.panel5.TabIndex = 16;
             // 
             // checkedListBoxSearchPeople
@@ -1235,7 +1251,7 @@ namespace PhotoTagsSynchronizer
             // buttonSearch
             // 
             this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSearch.Location = new System.Drawing.Point(118, 812);
+            this.buttonSearch.Location = new System.Drawing.Point(118, 813);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(202, 37);
             this.buttonSearch.TabIndex = 42;
@@ -1337,9 +1353,12 @@ namespace PhotoTagsSynchronizer
             this.runSelectedToolStripMenuItem1,
             this.openWithDialogToolStripMenuItem,
             this.openFileLocationToolStripMenuItem,
-            this.mediaPreviewToolStripMenuItem});
+            this.mediaPreviewToolStripMenuItem,
+            this.rotateCW90ToolStripMenuItem,
+            this.rotate180ToolStripMenuItem,
+            this.ratateCCW270ToolStripMenuItem});
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
-            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 446);
+            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 524);
             // 
             // toolStripMenuItemImageListViewCut
             // 
@@ -1500,6 +1519,36 @@ namespace PhotoTagsSynchronizer
             this.mediaPreviewToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
             this.mediaPreviewToolStripMenuItem.Text = "Media preview";
             this.mediaPreviewToolStripMenuItem.Click += new System.EventHandler(this.mediaPreviewToolStripMenuItem_Click);
+            // 
+            // rotateCW90ToolStripMenuItem
+            // 
+            this.rotateCW90ToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
+            this.rotateCW90ToolStripMenuItem.Name = "rotateCW90ToolStripMenuItem";
+            this.rotateCW90ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D9)));
+            this.rotateCW90ToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.rotateCW90ToolStripMenuItem.Text = "Rotate CW - 90°";
+            this.rotateCW90ToolStripMenuItem.ToolTipText = "Rotate CW - 90°";
+            this.rotateCW90ToolStripMenuItem.Click += new System.EventHandler(this.rotateCW90ToolStripMenuItem_Click);
+            // 
+            // rotate180ToolStripMenuItem
+            // 
+            this.rotate180ToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
+            this.rotate180ToolStripMenuItem.Name = "rotate180ToolStripMenuItem";
+            this.rotate180ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D1)));
+            this.rotate180ToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.rotate180ToolStripMenuItem.Text = "Rotate 180°";
+            this.rotate180ToolStripMenuItem.ToolTipText = "Rotate 180°";
+            this.rotate180ToolStripMenuItem.Click += new System.EventHandler(this.rotate180ToolStripMenuItem_Click);
+            // 
+            // ratateCCW270ToolStripMenuItem
+            // 
+            this.ratateCCW270ToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
+            this.ratateCCW270ToolStripMenuItem.Name = "ratateCCW270ToolStripMenuItem";
+            this.ratateCCW270ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D2)));
+            this.ratateCCW270ToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.ratateCCW270ToolStripMenuItem.Text = "Ratate CCW - 270°";
+            this.ratateCCW270ToolStripMenuItem.ToolTipText = "Ratate CCW - 270°";
+            this.ratateCCW270ToolStripMenuItem.Click += new System.EventHandler(this.ratateCCW270ToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -3183,6 +3232,7 @@ namespace PhotoTagsSynchronizer
             this.rotateCCWToolStripButton,
             this.rotate180ToolStripButton,
             this.rotateCWToolStripButton,
+            this.toolStripButtonPreview,
             this.toolStripSeparator2,
             this.toolStripButtonGridBig,
             this.toolStripButtonGridNormal,
@@ -3198,7 +3248,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonAbout});
             this.toolStrip.Location = new System.Drawing.Point(4, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(866, 28);
+            this.toolStrip.Size = new System.Drawing.Size(895, 28);
             this.toolStrip.TabIndex = 0;
             // 
             // thumbnailsToolStripButton
@@ -3365,6 +3415,17 @@ namespace PhotoTagsSynchronizer
             this.rotateCWToolStripButton.Size = new System.Drawing.Size(29, 25);
             this.rotateCWToolStripButton.Text = "Rotate Clockwise";
             this.rotateCWToolStripButton.Click += new System.EventHandler(this.rotateCWToolStripButton_Click);
+            // 
+            // toolStripButtonPreview
+            // 
+            this.toolStripButtonPreview.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonPreview.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Preview;
+            this.toolStripButtonPreview.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPreview.Name = "toolStripButtonPreview";
+            this.toolStripButtonPreview.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonPreview.Text = "Preview media";
+            this.toolStripButtonPreview.ToolTipText = "Preview media";
+            this.toolStripButtonPreview.Click += new System.EventHandler(this.toolStripButtonPreview_Click);
             // 
             // toolStripSeparator2
             // 
@@ -3869,6 +3930,12 @@ namespace PhotoTagsSynchronizer
             this.timerPreviewNextTimer.Interval = 2000;
             this.timerPreviewNextTimer.Tick += new System.EventHandler(this.timerPreviewNextTimer_Tick);
             // 
+            // timerSaveProgessRemoveProgress
+            // 
+            this.timerSaveProgessRemoveProgress.Enabled = true;
+            this.timerSaveProgessRemoveProgress.Interval = 500;
+            this.timerSaveProgessRemoveProgress.Tick += new System.EventHandler(this.timerSaveProgessRemoveProgress_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4286,6 +4353,12 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewRotateCCW;
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewRotate180;
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewRotateCW;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarSaveProgress;
+        private System.Windows.Forms.Timer timerSaveProgessRemoveProgress;
+        private System.Windows.Forms.ToolStripButton toolStripButtonPreview;
+        private System.Windows.Forms.ToolStripMenuItem rotateCW90ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rotate180ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ratateCCW270ToolStripMenuItem;
     }
 }
 

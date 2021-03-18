@@ -194,8 +194,6 @@ namespace PhotoTagsSynchronizer
                 CommonQueueSaveMetadataUpdatedByUserCountLock() > 0;
         }
 
-        
-
         private void TriggerAutoResetEventQueueEmpty()
         {
             if (CommonQueueSaveThumbnailToDatabaseCountLock() == 0 &&
@@ -211,7 +209,6 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
-
 
         #region Preloadning
 
@@ -933,30 +930,16 @@ namespace PhotoTagsSynchronizer
                                             "Message return from Exiftool: " + exiftoolErrorMessage);
                                 }
 
-                                Metadata currentMetadata = new Metadata(queueSubsetMetadataToSave[Metadata.FindFileEntryInList(queueSubsetMetadataToSave, fileSuposeToBeUpdated)]);
-
-                                if (!failToSaveXtraAtom && !failToSaveUsingExiftool)
+                                int indexInVerifyQueue = Metadata.FindFileEntryInList(queueSubsetMetadataToSave, fileSuposeToBeUpdated);
+                                
+                                if (!failToSaveXtraAtom && !failToSaveUsingExiftool && indexInVerifyQueue > -1 && indexInVerifyQueue < queueSubsetMetadataToSave.Count)
                                 {
+                                    Metadata currentMetadata = new Metadata(queueSubsetMetadataToSave[indexInVerifyQueue]);
                                     currentMetadata.FileDateModified = currentLastWrittenDateTime;
                                     AddQueueVerifyMetadata(currentMetadata);
-
-                                    //DEBUG JTN 
-                                    //bool wasUpdated = ImageListViewReloadThumbnail(imageListView1, fileSuposeToBeUpdated.FileFullPath);
-                                    //ImageListView will refresh Thumbnail and Force Metadata to be read again. Then don't need put in queue again
-
-                                    //if (!wasUpdated) 
                                     AddQueueMetadataReadToCacheOrUpdateFromSoruce(currentMetadata.FileEntryBroker);
-
                                     ImageListViewReloadThumbnailInvoke(imageListView1, fileSuposeToBeUpdated.FileFullPath);
                                 }
-                                // Errors will be found when verify read
-                                //{                                    
-                                //    currentMetadata.FileDateModified = metadataError.FileDateModified = DateTime.Now; //fileSuposeToBeUpdated.LastWriteDateTime; //Can create duplicates
-                                //    currentMetadata.Broker |= MetadataBrokerTypes.ExifToolWriteError;
-                                //    databaseAndCacheMetadataExiftool.TransactionBeginBatch();
-                                //    databaseAndCacheMetadataExiftool.Write(currentMetadata);
-                                //    databaseAndCacheMetadataExiftool.TransactionCommitBatch();
-                                //}
                             }
                         }
                         #endregion

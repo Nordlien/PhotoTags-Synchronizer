@@ -11,9 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
-using static Manina.Windows.Forms.ImageListView;
 
 namespace PhotoTagsSynchronizer
 {
@@ -149,7 +147,7 @@ namespace PhotoTagsSynchronizer
             }
 
             GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-            ImageListViewReloadThumbnailInvoke(imageListView1, null);
+            ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
             LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
             //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
@@ -472,146 +470,55 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ToolStrip - Rotate Selected Images - Click
-
-        #region Rotate
-        private void Rotate(List<FileEntry> fileEntries, int rotateDegrees)
-        {
-            string error = "";
-            foreach (FileEntry fileEntry in fileEntries)
-            {
-                bool coverted = false;
-
-                if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(fileEntry.FileFullPath))
-                {
-                    try
-                    {
-                        ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.RoateImage(fileEntry.FileFullPath, rotateDegrees);
-                        coverted = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        coverted = false;
-                        error += (error == "" ? "" : "\r\n") + ex.Message;
-                    }
-                }
-
-                if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(fileEntry.FileFullPath))
-                {
-
-                    string outputFolder = Path.GetDirectoryName(fileEntry.FileFullPath);
-                    string tempOutputfile = Path.Combine(outputFolder, "temp_" + Guid.NewGuid().ToString() + Path.GetExtension(fileEntry.FileFullPath));
-
-                    try
-                    {
-                        var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-
-                        ffMpeg.ConvertProgress += FfMpeg_ConvertProgress;
-                        switch (rotateDegrees)
-                        {
-                            case 90:
-                                ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=1\" \"" + tempOutputfile + "\"");
-                                break;
-                            case 180:
-                                ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=2,transpose=2\" \"" + tempOutputfile + "\"");
-                                break;
-                            case 270:
-                                ffMpeg.Invoke("-y -i \"" + fileEntry.FileFullPath + "\" -vf \"transpose=2\" \"" + tempOutputfile + "\"");
-                                break;
-                        }
-
-                        coverted = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        coverted = false;
-                        error += (error == "" ? "" : "\r\n") + ex.Message;
-                    }
-
-                    try
-                    {
-
-                        if (coverted && new System.IO.FileInfo(tempOutputfile).Length > 0)
-                        {
-                            File.Delete(fileEntry.FileFullPath);
-                            File.Move(tempOutputfile, fileEntry.FileFullPath);
-                        }
-                        else File.Delete(tempOutputfile);
-                    }
-                    catch (Exception ex)
-                    {
-                        error += (error == "" ? "" : "\r\n") + ex.Message;
-                    }
-                }
-
-                if (coverted)
-                {
-                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
-                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
-                    
-                    if (metadata != null)
-                    {
-                        metadata.PersonalRegionRotate(rotateDegrees);
-                        AddQueueSaveMetadataUpdatedByUser(metadata, metadataOriginal);
-                    }
-                    ImageListViewReloadThumbnailInvoke(imageListView1, fileEntry.FileFullPath);
-                }
-            }
-            if (error != "")
-            {
-                FormMessageBox formMessageBox = new FormMessageBox(error);
-                formMessageBox.ShowDialog();
-            }
-        }
-        #endregion 
-
-        private void FfMpeg_ConvertProgress(object sender, NReco.VideoConverter.ConvertProgressEventArgs e)
-        {
-            Debug.WriteLine(e.TotalDuration.ToString() + " " + e.Processed.ToString());
-        }
-
-        #region RotateInit
-        private void RotateInit(ImageListView imageListView, int rotateDegrees)
-        {
-            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                "PhotoTagsSynchronizerApplication", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-            {
-                List<FileEntry> fileEntries = new List<FileEntry>();
-
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
-                {
-                    fileEntries.Add(new FileEntry(item.FileFullPath, item.DateModified));
-                }
-                try
-                {
-                    Thread thread = new Thread(() =>
-                    {
-                        Rotate(fileEntries, rotateDegrees);
-                    });
-                    thread.Start();
-                } catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
-        #endregion 
-
+        #region ToolStrip - Rotate Selected Images - 90 degrees - Click
         private void rotateCWToolStripButton_Click(object sender, EventArgs e)
         {
             RotateInit(imageListView1, 90);
         }
+
+        private void rotateCW90ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RotateInit(imageListView1, 90);
+        }
+        #endregion
+
+        #region ToolStrip - Rotate Selected Images - 180 degrees - Click
 
         private void rotate180ToolStripButton_Click(object sender, EventArgs e)
         {
             RotateInit(imageListView1, 180);
         }
 
+        private void rotate180ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RotateInit(imageListView1, 180);
+        }
+        #endregion
+
+        #region ToolStrip - Rotate Selected Images - 270 degrees - Click
         private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
         {
             RotateInit(imageListView1, 270);
         }
+
+        private void ratateCCW270ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RotateInit(imageListView1, 270);
+        }
+
         #endregion
+
+        #region ToolStrip - Media Preview
+        private void toolStripButtonPreview_Click(object sender, EventArgs e)
+        {
+            MediaPreviewInit();
+        }
+
+        private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MediaPreviewInit();
+        }
+        #endregion 
 
         #region ToolStrip - SetGridViewSize Small Medium Big - Click
         private void SetGridViewSize(DataGridViewSize size)

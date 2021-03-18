@@ -209,6 +209,10 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+	<Compile Include="MainForm_Rotate.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm_TagsAndKeywords.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
