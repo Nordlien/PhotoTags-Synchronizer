@@ -40,8 +40,8 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBarSaveProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripProgressBarDataGridViewLoading = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusAction = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusQueue = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusAction = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerFolder = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageFilterFolder = new System.Windows.Forms.TabPage();
@@ -486,16 +486,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripProgressBarDataGridViewLoading.Value = 100;
             this.toolStripProgressBarDataGridViewLoading.Visible = false;
             // 
-            // toolStripStatusAction
-            // 
-            this.toolStripStatusAction.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.toolStripStatusAction.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.toolStripStatusAction.Name = "toolStripStatusAction";
-            this.toolStripStatusAction.Size = new System.Drawing.Size(124, 24);
-            this.toolStripStatusAction.Text = "Waiting actions...";
-            // 
             // toolStripStatusQueue
             // 
             this.toolStripStatusQueue.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
@@ -505,6 +495,16 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusQueue.Name = "toolStripStatusQueue";
             this.toolStripStatusQueue.Size = new System.Drawing.Size(56, 24);
             this.toolStripStatusQueue.Text = "Queue";
+            // 
+            // toolStripStatusAction
+            // 
+            this.toolStripStatusAction.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusAction.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.toolStripStatusAction.Name = "toolStripStatusAction";
+            this.toolStripStatusAction.Size = new System.Drawing.Size(124, 24);
+            this.toolStripStatusAction.Text = "Waiting actions...";
             // 
             // splitContainerFolder
             // 

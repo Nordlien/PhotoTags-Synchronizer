@@ -104,8 +104,6 @@ namespace Exiftool
             return isReadOnly;
         }
 
-        
-
         public static void WaitLockedFileToBecomeUnlocked(string fileFullPath)
         {
             int maxRetry = 30;
@@ -419,7 +417,7 @@ namespace Exiftool
             metadataUpdatedByUserCopy = new Metadata(metadataWrittenByExiftoolWaitVerify[verifyPosition]); //Copy data to verify
             metadataWrittenByExiftoolWaitVerify.RemoveAt(verifyPosition);
 
-            bool foundOldVersionToVerify = false; //Happens when multiple save are done and save faild, and veridify was not done for each media file
+            bool foundOldVersionToVerify; //Happens when multiple save are done and save faild, and veridify was not done for each media file
             do
             {
                 foundOldVersionToVerify = false;

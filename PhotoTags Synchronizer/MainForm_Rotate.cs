@@ -36,6 +36,7 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
+                    ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath);
                     ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.RoateImage(fileEntry.FileFullPath, rotateDegrees);
                     coverted = true;
                 }
@@ -53,6 +54,7 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
+                    ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath);
                     timerSaveProgessRemoveProgress.Start();
 
                     var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
