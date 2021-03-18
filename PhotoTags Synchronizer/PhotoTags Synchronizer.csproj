@@ -209,7 +209,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-	<Compile Include="MainForm_Rotate.cs">
+    <Compile Include="MainForm_Rotate.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
@@ -544,16 +544,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="cef.redist.x64">
-      <Version>87.1.13</Version>
+      <Version>88.2.9</Version>
     </PackageReference>
     <PackageReference Include="cef.redist.x86">
-      <Version>87.1.13</Version>
+      <Version>88.2.9</Version>
     </PackageReference>
     <PackageReference Include="CefSharp.Common">
-      <Version>87.1.132</Version>
+      <Version>88.2.90</Version>
     </PackageReference>
     <PackageReference Include="CefSharp.WinForms">
-      <Version>87.1.132</Version>
+      <Version>88.2.90</Version>
     </PackageReference>
     <PackageReference Include="CyotekImageBox">
       <Version>1.2.1</Version>
@@ -571,7 +571,7 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.7</Version>
+      <Version>4.7.8</Version>
     </PackageReference>
     <PackageReference Include="NReco.VideoConverter">
       <Version>1.1.4</Version>

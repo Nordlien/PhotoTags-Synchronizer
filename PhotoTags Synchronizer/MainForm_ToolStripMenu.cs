@@ -147,10 +147,9 @@ namespace PhotoTagsSynchronizer
             }
 
             GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-            ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
+            //ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
             LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
-            //GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-            FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
+            FilesSelected(); 
         }
         #endregion
 
