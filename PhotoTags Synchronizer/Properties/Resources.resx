@@ -331,4 +331,10 @@
   <data name="Rotate90CW" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Rotate90CW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Select_Next" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Select_Next.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Select_Previous" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Select_Previous.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

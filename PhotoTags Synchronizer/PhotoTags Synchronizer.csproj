@@ -408,6 +408,8 @@
     <None Include="Resources\Rotate180.png" />
     <None Include="Resources\Rotate90CCW.png" />
     <None Include="Resources\Rotate90CW.png" />
+    <None Include="Resources\Select_Previous.png" />
+    <None Include="Resources\Select_Next.png" />
     <Content Include="Resources\Silent.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
