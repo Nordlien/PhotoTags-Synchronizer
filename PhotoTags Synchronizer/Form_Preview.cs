@@ -54,7 +54,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Preview Media -- Click  ---
-        private void MediaPreviewInit()
+        private void MediaPreviewInit(string imageListViewLastHoverFullfilename)
         {
             isGooglecasting = false;
             isGooglecastDisconnectedStarted = false;
@@ -69,7 +69,7 @@ namespace PhotoTagsSynchronizer
             VlcChromecastRenderDiscover();
             VlcMediaPlayerInit();
 
-            PreviewInitControls();
+            PreviewInitControls(imageListViewLastHoverFullfilename);
             PreviewSlideshowWait();
         }
         #endregion
@@ -170,7 +170,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Preview - Init - Controls
-        private void PreviewInitControls()
+        private void PreviewInitControls(string imageListViewLastHoverFullfilename)
         {
             toolStripDropDownButtonChromecastList.DropDownItems.Clear();
             toolStripDropDownButtonChromecastList.Enabled = false;
@@ -192,12 +192,13 @@ namespace PhotoTagsSynchronizer
             videoView1.Visible = false;
             videoView1.Dock = DockStyle.Fill;
 
+            previewMediaShowItemIndex = 0;
             previewMediaItemFilenames.Clear();
             toolStripDropDownButtonMediaList.DropDownItems.Clear();
             for (int selectedItemIndex = 0; selectedItemIndex < imageListView1.SelectedItems.Count; selectedItemIndex++)
             {
                 previewMediaItemFilenames.Add(imageListView1.SelectedItems[selectedItemIndex].FileFullPath);
-
+                if (imageListView1.SelectedItems[selectedItemIndex].FileFullPath == imageListViewLastHoverFullfilename) previewMediaShowItemIndex = selectedItemIndex;
                 ToolStripMenuItem toolStripDropDownItem = new ToolStripMenuItem();
                 toolStripDropDownItem.Click += ToolStripDropDownItemPreviewMedia_Click;
                 toolStripDropDownItem.Text = imageListView1.SelectedItems[selectedItemIndex].FileFullPath;
@@ -207,7 +208,7 @@ namespace PhotoTagsSynchronizer
 
             if (previewMediaItemFilenames.Count > 0)
             {
-                previewMediaShowItemIndex = 0;
+                
                 Preview_LoadAndShowItem(previewMediaItemFilenames[previewMediaShowItemIndex]);
             }
         }

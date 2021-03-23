@@ -508,14 +508,21 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ToolStrip - Media Preview
+        private static string imageListViewHoverItem = "";
+        private void imageListView1_ItemHover(object sender, ItemHoverEventArgs e)
+        {
+            if (e.Item != null) imageListViewHoverItem = e.Item.FileFullPath;
+        }
+
+
         private void toolStripButtonPreview_Click(object sender, EventArgs e)
         {
-            MediaPreviewInit();
+            MediaPreviewInit(imageListViewHoverItem);
         }
 
         private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MediaPreviewInit();
+            MediaPreviewInit("");
         }
         #endregion 
 
