@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Collections;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace Manina.Windows.Forms
 {
@@ -167,6 +168,12 @@ namespace Manina.Windows.Forms
             {
                 Add(new ImageListViewItem(filename));
             }
+
+            public void Add(FileInfo fileInfo)
+            {
+                Add(new ImageListViewItem(fileInfo));
+            }
+
             /// <summary>
             /// Adds a virtual item to the <see cref="T:System.Collections.Generic.ICollection`1"/>.
             /// </summary>

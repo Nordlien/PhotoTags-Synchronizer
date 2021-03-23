@@ -494,7 +494,6 @@ namespace PhotoTagsSynchronizer
         }
 
 
-
         private void MainForm_Shown(object sender, EventArgs e)
         {
             isFormLoading = false;
@@ -502,14 +501,6 @@ namespace PhotoTagsSynchronizer
             PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
             FilesSelected();
         }
-
-
-
-
-
-
-
-
 
 
         #endregion

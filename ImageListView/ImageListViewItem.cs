@@ -69,6 +69,7 @@ namespace Manina.Windows.Forms
 
         internal ImageListView.ImageListViewItemCollection owner;
         internal bool isDirty;
+        internal bool isFileInfoDirty; //Added by JTN
         private bool editing;
         #endregion
 
@@ -242,25 +243,25 @@ namespace Manina.Windows.Forms
         /// Gets the last access date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the last access date of the image file represented by this item.")]
-        public DateTime DateAccessed { get { UpdateFileInfo(); return mDateAccessed; } }
+        public DateTime DateAccessed { get { UpdateFileInfo(true); return mDateAccessed; } }
         
         /// <summary>
         /// Gets the creation date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the creation date of the image file represented by this item.")]
-        public DateTime DateCreated { get { UpdateFileInfo(); return mDateCreated; } }
+        public DateTime DateCreated { get { UpdateFileInfo(true); return mDateCreated; } }
         
         /// <summary>
         /// Gets the modification date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the modification date of the image file represented by this item.")]
         
-        public DateTime DateModified { get { UpdateFileInfo(); return mDateModified; } }
+        public DateTime DateModified { get { UpdateFileInfo(true); return mDateModified; } }
         /// <summary>
         /// Gets the shell type of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the shell type of the image file represented by this item.")]
-        public string FileType { get { UpdateFileInfo(); return mFileType; } }
+        public string FileType { get { UpdateFileInfo(false); return mFileType; } }
         
         /// <summary>
         /// Gets or sets the name of the image fie represented by this item.
@@ -280,6 +281,7 @@ namespace Manina.Windows.Forms
                     if (!isVirtualItem)
                     {
                         isDirty = true;
+                        isFileInfoDirty = true;
                         if (mImageListView != null)
                         {
                             mImageListView.cacheManager.Remove(Guid);
@@ -290,96 +292,113 @@ namespace Manina.Windows.Forms
                 }
             }
         }
-        
+
+        /*
+            mFileType = fileInfo.TypeName;
+            mDimensions = fileInfo.Dimensions;
+            mResolution = fileInfo.Resolution;            
+            mImageDescription = fileInfo.ImageDescription;
+            mEquipmentModel = fileInfo.EquipmentModel;
+            mDateTaken = infileInfofo.DateTaken;
+            mArtist = fileInfo.Artist;
+            mCopyright = fileInfo.Copyright;
+            mExposureTime = fileInfo.ExposureTime;
+            mFNumber = fileInfo.FNumber;
+            mISOSpeed = fileInfo.ISOSpeed;
+            mShutterSpeed = fileInfo.ShutterSpeed;
+            mAperture = fileInfo.ApertureValue;
+            mUserComment = fileInfo.UserComment;
+            */
+
         /// <summary>
         /// Gets the path of the image fie represented by this item.
         /// </summary>        
         [Category("Data"), Browsable(false), Description("Gets the path of the image fie represented by this item.")]
-        public string FileDirectory { get { UpdateFileInfo(); return mFileDirectory; } }
+        public string FileDirectory { get { UpdateFileInfo(true); return mFileDirectory; } }
         
         /// <summary>
         /// Gets file size in bytes.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets file size in bytes.")]
-        public long FileSize { get { UpdateFileInfo(); return mFileSize; } }
+        public long FileSize { get { UpdateFileInfo(true); return mFileSize; } }
         
         /// <summary>
         /// Gets image dimensions.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets image dimensions.")]
-        public Size Dimensions { get { UpdateFileInfo(); return mDimensions; } }
+        public Size Dimensions { get { UpdateFileInfo(false); return mDimensions; } }
         
         /// <summary>
         /// Gets image resolution in pixels per inch.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets image resolution in pixels per inch.")]
-        public SizeF Resolution { get { UpdateFileInfo(); return mResolution; } }
+        public SizeF Resolution { get { UpdateFileInfo(false); return mResolution; } }
         
         /// <summary>
         /// Gets image deascription.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets image deascription.")]
-        public string ImageDescription { get { UpdateFileInfo(); return mImageDescription; } }
+        public string ImageDescription { get { UpdateFileInfo(false); return mImageDescription; } }
         
         /// <summary>
         /// Gets the camera model.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the camera model.")]
-        public string EquipmentModel { get { UpdateFileInfo(); return mEquipmentModel; } }
+        public string EquipmentModel { get { UpdateFileInfo(false); return mEquipmentModel; } }
         
         /// <summary>
         /// Gets the date and time the image was taken.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the date and time the image was taken.")]
-        public DateTime DateTaken { get { UpdateFileInfo(); return mDateTaken; } }
+        public DateTime DateTaken { get { UpdateFileInfo(false); return mDateTaken; } }
         
         /// <summary>
         /// Gets the name of the artist.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the artist.")]
-        public string Artist { get { UpdateFileInfo(); return mArtist; } }
+        public string Artist { get { UpdateFileInfo(false); return mArtist; } }
         
         /// <summary>
         /// Gets image copyright information.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets image copyright information.")]
-        public string Copyright { get { UpdateFileInfo(); return mCopyright; } }
+        public string Copyright { get { UpdateFileInfo(false); return mCopyright; } }
         
         /// <summary>
         /// Gets the exposure time in seconds.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the exposure time in seconds.")]
-        public string ExposureTime { get { UpdateFileInfo(); return mExposureTime; } }
+        public string ExposureTime { get { UpdateFileInfo(false); return mExposureTime; } }
         
         /// <summary>
         /// Gets the F number.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the F number.")]
-        public float FNumber { get { UpdateFileInfo(); return mFNumber; } }
+        public float FNumber { get { UpdateFileInfo(false); return mFNumber; } }
         
         /// <summary>
         /// Gets the ISO speed.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the ISO speed.")]
-        public ushort ISOSpeed { get { UpdateFileInfo(); return mISOSpeed; } }
+        public ushort ISOSpeed { get { UpdateFileInfo(false); return mISOSpeed; } }
         
         /// <summary>
         /// Gets the shutter speed.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the shutter speed.")]
-        public string ShutterSpeed { get { UpdateFileInfo(); return mShutterSpeed; } }
+        public string ShutterSpeed { get { UpdateFileInfo(false); return mShutterSpeed; } }
         
         /// <summary>
         /// Gets the lens aperture value.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the lens aperture value.")]
-        public string Aperture { get { UpdateFileInfo(); return mAperture; } }
+        public string Aperture { get { UpdateFileInfo(false); return mAperture; } }
         
         /// <summary>
         /// Gets user comments.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets user comments.")]
-        public string UserComment { get { UpdateFileInfo(); return mUserComment; } }
+        public string UserComment { get { UpdateFileInfo(false); return mUserComment; } }
         #endregion
 
         #region Constructors
@@ -400,6 +419,7 @@ namespace Manina.Windows.Forms
             Selected = false;
 
             isDirty = true;
+            isFileInfoDirty = true;
             editing = false;
 
             mVirtualItemKey = null;
@@ -415,7 +435,29 @@ namespace Manina.Windows.Forms
             mFileName = filename;
             mText = Path.GetFileName(filename);
         }
-        
+
+        /// <summary>
+        /// Initializes a new instance of the ImageListViewItem class.
+        /// </summary>
+        /// <param name="filename">The image filename representing the item.</param>
+        //JTN: Add by JTN, no read data already known
+        public ImageListViewItem(FileInfo fileInfo)
+            : this()
+        {
+            mFileName = fileInfo.FullName;
+            mText = Path.GetFileName(mFileName);
+
+            mDateAccessed = fileInfo.LastAccessTime;
+            mDateCreated = fileInfo.CreationTime;
+            mDateModified = fileInfo.LastWriteTime;
+            mFileSize = fileInfo.Length;
+            mFileDirectory = fileInfo.DirectoryName;
+
+            isFileInfoDirty = false;
+            // Exif tags
+            
+        }
+
         /// <summary>
         /// Initializes a new instance of a virtual ImageListViewItem class.
         /// </summary>
@@ -468,7 +510,7 @@ namespace Manina.Windows.Forms
             if (mImageListView == null)
                 throw new InvalidOperationException("Owner control is null.");
 
-            UpdateFileInfo();
+            UpdateFileInfo(false);
             mImageListView.cacheManager.BeginItemEdit(mGuid, mFileName);
             mImageListView.itemCacheManager.BeginItemEdit(mGuid);
 
@@ -508,6 +550,7 @@ namespace Manina.Windows.Forms
         public void Update()
         {
             isDirty = true;
+            isFileInfoDirty = true;
             if (mImageListView != null)
             {
                 mImageListView.cacheManager.Remove(mGuid, true);
@@ -604,9 +647,10 @@ namespace Manina.Windows.Forms
         /// <summary>
         /// Updates file info for the image file represented by this item.
         /// </summary>
-        private void UpdateFileInfo()
+        private void UpdateFileInfo(bool needCheckOnlyFileInfo)
         {
-            if (!isDirty) return;
+            if (needCheckOnlyFileInfo && !isFileInfoDirty) return;
+            if (!needCheckOnlyFileInfo && !isDirty) return;
 
             if (isVirtualItem)
             {
@@ -632,6 +676,7 @@ namespace Manina.Windows.Forms
                     UpdateDetailsInternal(info);
                 }
             }
+            isFileInfoDirty = false;
             isDirty = false;
         }
         /// <summary>
@@ -639,7 +684,7 @@ namespace Manina.Windows.Forms
         /// </summary>
         internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
         {
-            if (!isDirty) return;
+            if (!isDirty && !isFileInfoDirty) return;
             if (info != null)
             {
                 mDateAccessed = info.LastAccessTime;
@@ -663,6 +708,7 @@ namespace Manina.Windows.Forms
                 mAperture = info.ApertureValue;
                 mUserComment = info.UserComment;
 
+                isFileInfoDirty = false;
                 isDirty = false;
             }            
         }
@@ -671,7 +717,7 @@ namespace Manina.Windows.Forms
         /// </summary>
         internal void UpdateDetailsInternal(VirtualItemDetailsEventArgs info)
         {
-            if (!isDirty) return;
+            if (!isDirty && !isFileInfoDirty) return;
 
             mDateAccessed = info.DateAccessed;
             mDateCreated = info.DateCreated;
@@ -695,6 +741,7 @@ namespace Manina.Windows.Forms
             mAperture = info.Aperture;
             mUserComment = info.UserComment;
 
+            isFileInfoDirty = false;
             isDirty = false;
         }
         #endregion
