@@ -10,6 +10,9 @@ namespace PhotoTagsSynchronizer
         #region FilesSelected - Populate DataGridVIew, OpenWith...
         private void FilesSelected()
         {
+            if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
+            if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
+
             if (imageListView1.SelectedItems.Count == 0)
             {
                 toolStripMenuItemImageListViewCut.Enabled = false;
@@ -68,8 +71,7 @@ namespace PhotoTagsSynchronizer
                 rotateCW90ToolStripMenuItem.Enabled = true;
             }
 
-            if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
-            if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
+            
             
             using (new WaitCursor())
             {

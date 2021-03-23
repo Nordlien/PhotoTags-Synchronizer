@@ -17,10 +17,10 @@ using Thumbnails;
 using MicrosoftPhotos;
 using DataGridViewGeneric;
 using LocationNames;
-using System.Collections.Generic;
 using LibVLCSharp.Shared;
 using NHttp;
 using System.Net;
+using System.Diagnostics;
 
 namespace PhotoTagsSynchronizer
 {
@@ -97,15 +97,6 @@ namespace PhotoTagsSynchronizer
             _libVLC = new LibVLC();
             videoView1.MediaPlayer = new MediaPlayer(_libVLC);
 
-            /*
-            RendererDescription vlcRendererDescription;
-            vlcRendererDescription = _libVLC.RendererList.FirstOrDefault(r => r.Name.Equals("microdns_renderer"));          
-            vlcRendererDiscoverer = new RendererDiscoverer(_libVLC, vlcRendererDescription.Name);
-            vlcRendererDiscoverer.ItemAdded += _rendererDiscoverer_ItemAdded;
-            vlcRendererDiscoverer.ItemDeleted += _rendererDiscoverer_ItemDeleted;            
-            vlcRendererDiscoverer.Start();
-            */
-
             //treeViewFilter = new TreeWithoutDoubleClick();
 
             imageListView1.ThumbnailSize = thumbnailSizes[Properties.Settings.Default.ThumbmailViewSizeIndex];
@@ -175,6 +166,26 @@ namespace PhotoTagsSynchronizer
             exiftoolReader = new ExiftoolReader(databaseAndCacheMetadataExiftool, databaseExiftoolData, databaseExiftoolWarning);
             exiftoolReader.MetadataGroupPrioityRead();
             exiftoolReader.afterNewMediaFoundEvent += ExiftoolReader_afterNewMediaFoundEvent;
+
+            //Test
+
+            try
+            {
+                Thread threadCache = new Thread(() =>
+                {
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    databaseAndCacheMetadataExiftool.CacheAll();
+                    Logger.Info("Read to metadata to memory cache: " + stopwatch.Elapsed.ToString());
+
+                    stopwatch.Restart();
+                    databaseAndCacheThumbnail.ReadDirectory(null);
+                    Logger.Info("Read to thumbnail to memory cache: " + stopwatch.Elapsed.ToString());
+
+                });
+                threadCache.Start();
+            }
+            catch { }
 
             filesCutCopyPasteDrag = new FilesCutCopyPasteDrag(databaseAndCacheMetadataExiftool, databaseAndCacheMetadataWindowsLivePhotoGallery,
                 databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnail, databaseExiftoolData, databaseExiftoolWarning);
@@ -283,7 +294,7 @@ namespace PhotoTagsSynchronizer
                     nHttpServer.StateChanged += NHttpServer_StateChanged;
                     nHttpServer.UnhandledException += NHttpServer_UnhandledException;
                     nHttpServer.EndPoint = new IPEndPoint(IPAddress.Parse(GetLocalIp()), GetOpenPort());
-                    Console.WriteLine("nHTTP server started: " + nHttpServer.EndPoint.ToString());
+                    Logger.Info("nHTTP server started: " + DateTime.Now.ToString() + " ip: " + nHttpServer.EndPoint.ToString());
                     nHttpServer.Start();
                     WaitApplicationClosing = new AutoResetEvent(false);
 
@@ -466,6 +477,8 @@ namespace PhotoTagsSynchronizer
             SplashForm.UpdateStatus("Populate search filters...");
             PopulateDatabaseFilter();
 
+            PopulateSelectGroupToolStripMenuItems();
+
             SplashForm.CloseForm();
 
             Properties.Settings.Default.Reload();
@@ -489,6 +502,10 @@ namespace PhotoTagsSynchronizer
             PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
             FilesSelected();
         }
+
+
+
+
 
 
 

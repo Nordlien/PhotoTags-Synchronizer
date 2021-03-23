@@ -189,6 +189,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MainForm_SelectGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm_Thumbnail.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>

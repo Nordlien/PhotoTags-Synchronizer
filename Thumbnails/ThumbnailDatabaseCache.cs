@@ -82,6 +82,38 @@ namespace Thumbnails
         }
         #endregion
 
+        #region Thumbnail - Read 
+        public Image ReadDirectory(string directory)
+        {
+            Image image = null;
+
+            string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, Image FROM MediaThumbnail";
+            if (!string.IsNullOrWhiteSpace(directory)) sqlCommand += " WHERE FileDirectory = @FileDirectory";
+            
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                if (!string.IsNullOrWhiteSpace(directory)) commandDatabase.Parameters.AddWithValue("@FileDirectory", directory);
+                
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        FileEntry fileEntry = new FileEntry(
+                            dbTools.ConvertFromDBValString(reader["FileDirectory"]),
+                            dbTools.ConvertFromDBValString(reader["FileName"]),
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
+                            );
+                        image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Image"]));
+                        ThumbnailCacheUpdate(fileEntry, image);
+                    }
+                }
+            }
+            return image;
+        }
+        #endregion
+
         #region Thumbnail - DeleteThumbnail
         public void DeleteThumbnail(FileEntry fileEntry)
         {
@@ -177,6 +209,8 @@ namespace Thumbnails
 
         #region Thumbnail - Cache
         Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();
+
+        
 
         #region Thumbnail - DoesThumbnailExist
         public bool DoesThumbnailExist(FileEntry fileEntry)

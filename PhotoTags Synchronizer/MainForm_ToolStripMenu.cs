@@ -606,13 +606,9 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Show/Hide Error Columns - Click
         private void toolStripButtonErrorColumns_CheckedChanged(object sender, EventArgs e)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
             Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
             LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
-            stopWatch.Stop();
-            Debug.WriteLine("_CheckedChanged:" + stopWatch.Elapsed.ToString());
         }
         #endregion
 
@@ -1445,6 +1441,203 @@ namespace PhotoTagsSynchronizer
             }
         }
         #endregion
+        #endregion
+
+        #region Select Group
+
+        #region Select Group - Populate ToolStripMenuItem
+        private void PopulateSelectGroupToolStripMenuItems()
+        {
+            if (Properties.Settings.Default.SelectGroupNumberOfDays == 1) toolStripMenuItemSelectSameDay.Checked = true;
+            else toolStripMenuItemSelectSameDay.Checked = false;
+            if (Properties.Settings.Default.SelectGroupNumberOfDays == 3) toolStripMenuItemSelectSame3Day.Checked = true;
+            else toolStripMenuItemSelectSame3Day.Checked = false;
+            if (Properties.Settings.Default.SelectGroupNumberOfDays == 7) toolStripMenuItemSelectSameWeek.Checked = true;
+            else toolStripMenuItemSelectSameWeek.Checked = false;
+            if (Properties.Settings.Default.SelectGroupNumberOfDays == 14) toolStripMenuItemSelectSame2week.Checked = true;
+            else toolStripMenuItemSelectSame2week.Checked = false;
+            if (Properties.Settings.Default.SelectGroupNumberOfDays == 30) toolStripMenuItemSelectSameMonth.Checked = true;
+            else toolStripMenuItemSelectSameMonth.Checked = false;
+
+            if (Properties.Settings.Default.SelectGroupMaxCount == 10) toolStripMenuItemSelectMax10items.Checked = true;
+            else toolStripMenuItemSelectMax10items.Checked = false;
+            if (Properties.Settings.Default.SelectGroupMaxCount == 30) toolStripMenuItemSelectMax30items.Checked = true;
+            else toolStripMenuItemSelectMax30items.Checked = false;
+            if (Properties.Settings.Default.SelectGroupMaxCount == 50) toolStripMenuItemSelectMax50items.Checked = true;
+            else toolStripMenuItemSelectMax50items.Checked = false;
+            if (Properties.Settings.Default.SelectGroupMaxCount == 100) toolStripMenuItemSelectMax100items.Checked = true;
+            else toolStripMenuItemSelectMax100items.Checked = false;
+
+            toolStripMenuItemSelectFallbackOnFileCreated.Checked = Properties.Settings.Default.SelectGroupFileCreatedFallback;
+            toolStripMenuItemSelectSameLocationName.Checked = Properties.Settings.Default.SelectGroupSameLocationName;
+            toolStripMenuItemSelectSameCity.Checked = Properties.Settings.Default.SelectGroupSameCity;
+            toolStripMenuItemSelectSameDistrict.Checked = Properties.Settings.Default.SelectGroupSameDistrict;
+            toolStripMenuItemSelectSameCountry.Checked = Properties.Settings.Default.SelectGroupSameCountry;
+
+            GroupSelectionClear();
+        }
+        #endregion 
+
+        #region Select Group - Previous
+        private void toolStripButtonSelectPrevious_Click(object sender, EventArgs e)
+        {
+            int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, -1);
+
+            SelectedGroupBySelections(imageListView1, baseItemIndex, -1,
+                Properties.Settings.Default.SelectGroupMaxCount,
+                Properties.Settings.Default.SelectGroupNumberOfDays,
+                Properties.Settings.Default.SelectGroupFileCreatedFallback,
+                Properties.Settings.Default.SelectGroupSameLocationName,
+                Properties.Settings.Default.SelectGroupSameCity,
+                Properties.Settings.Default.SelectGroupSameDistrict,
+                Properties.Settings.Default.SelectGroupSameCountry);
+
+            
+        }
+        #endregion 
+
+        #region Select Group - Next
+        private void toolStripButtonSelectNext_Click(object sender, EventArgs e)
+        {
+            int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, 1);
+
+            SelectedGroupBySelections(imageListView1, baseItemIndex, 1,
+                Properties.Settings.Default.SelectGroupMaxCount,
+                Properties.Settings.Default.SelectGroupNumberOfDays,
+                Properties.Settings.Default.SelectGroupFileCreatedFallback,
+                Properties.Settings.Default.SelectGroupSameLocationName,
+                Properties.Settings.Default.SelectGroupSameCity,
+                Properties.Settings.Default.SelectGroupSameDistrict,
+                Properties.Settings.Default.SelectGroupSameCountry);
+        }
+        #endregion
+
+        #region Select Group - Same month
+
+        private void toolStripMenuItemSelectFallbackOnFileCreated_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
+            Properties.Settings.Default.SelectGroupFileCreatedFallback = !toolStripMenuItem.Checked;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - Same day
+        private void toolStripMenuItemSelectSameDay_Click(object sender, EventArgs e)
+        {
+            if (toolStripMenuItemSelectSameDay.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
+            else Properties.Settings.Default.SelectGroupNumberOfDays = 1;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - Same 3 days
+        private void toolStripMenuItemSelectSame3Day_Click(object sender, EventArgs e)
+        {
+            if (toolStripMenuItemSelectSame3Day.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
+            else Properties.Settings.Default.SelectGroupNumberOfDays = 3;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - Same week
+        private void toolStripMenuItemSelectSameWeek_Click(object sender, EventArgs e)
+        {
+            if (toolStripMenuItemSelectSameWeek.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
+            else Properties.Settings.Default.SelectGroupNumberOfDays = 7;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - Same 2 weeks
+        private void toolStripMenuItemSelectSame2week_Click(object sender, EventArgs e)
+        {
+            if (toolStripMenuItemSelectSame2week.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
+            else Properties.Settings.Default.SelectGroupNumberOfDays = 14;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion
+
+        #region Select Group - Same month
+        private void toolStripMenuItemSelectSameMonth_Click(object sender, EventArgs e)
+        {
+            if (toolStripMenuItemSelectSameMonth.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
+            else Properties.Settings.Default.SelectGroupNumberOfDays = 30;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - Max 10 items
+        private void toolStripMenuItemSelectMax10items_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.SelectGroupMaxCount = 10;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - Max 30 items
+        private void toolStripMenuItemSelectMax30items_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.SelectGroupMaxCount = 30;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - 50 items
+        private void toolStripMenuItemSelectMax50items_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.SelectGroupMaxCount = 50;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - 100 items
+        private void toolStripMenuItemSelectMax100items_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.SelectGroupMaxCount = 100;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - Same Location Name
+        private void toolStripMenuItemSelectSameLocationName_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
+            Properties.Settings.Default.SelectGroupSameLocationName = !toolStripMenuItem.Checked;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - Same City
+        private void toolStripMenuItemSelectSameCity_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
+            Properties.Settings.Default.SelectGroupSameCity = !toolStripMenuItem.Checked;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion
+
+        #region Select Group - District
+        private void toolStripMenuItemSelectSameDistrict_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
+            Properties.Settings.Default.SelectGroupSameDistrict = !toolStripMenuItem.Checked;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        #region Select Group - Same Country
+        private void toolStripMenuItemSelectSameCountry_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
+            Properties.Settings.Default.SelectGroupSameCountry = !toolStripMenuItem.Checked;
+            PopulateSelectGroupToolStripMenuItems();
+        }
+        #endregion 
+
+        
+
+
         #endregion 
     }
 }

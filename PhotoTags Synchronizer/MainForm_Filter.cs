@@ -358,6 +358,7 @@ namespace PhotoTagsSynchronizer
             if (treeView.Nodes == null) return;
             if (treeView.Nodes[FilterVerifyer.Root] == null) return;
 
+
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
             filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, FilterVerifyer.Root);
 
@@ -396,6 +397,7 @@ namespace PhotoTagsSynchronizer
                 if ((int)treeNode.Tag == FilterVerifyer.TagRegionOrAnd ||
                     (int)treeNode.Tag == FilterVerifyer.TagRoot) treeNode.Text = FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, treeNode.Name, treeNode.Checked);
             }
+
             PopulateImageListViewFromFolderOrUsingFilters(treeViewFilter);
         }
         #endregion

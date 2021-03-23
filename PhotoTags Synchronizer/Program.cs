@@ -21,6 +21,12 @@ namespace PhotoTagsSynchronizer
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
         static void Main()
         {
+            // Add the event handler for handling UI thread exceptions to the event.
+            Application.ThreadException += new ThreadExceptionEventHandler(Form1_UIThreadException);
+            // Set the unhandled exception mode to force all Windows Forms errors to go through our handler.
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            // Add the event handler for handling non-UI thread exceptions to the event.
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -70,20 +76,12 @@ namespace PhotoTagsSynchronizer
             Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
 
             SplashForm.UpdateStatus("Initialize broswer...."); //5 
+            
+
+
+            
+
             MainForm mainForm = new MainForm(); //this takes ages
-
-
-            // Add the event handler for handling UI thread exceptions to the event.
-            Application.ThreadException += new ThreadExceptionEventHandler(Form1_UIThreadException);
-
-            // Set the unhandled exception mode to force all Windows Forms errors to go through
-            // our handler.
-            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-
-            // Add the event handler for handling non-UI thread exceptions to the event.
-            AppDomain.CurrentDomain.UnhandledException +=
-                new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-
             Application.Run(mainForm);
             
         }
@@ -109,7 +107,11 @@ namespace PhotoTagsSynchronizer
             }
 
             // Exits the program when the user clicks Abort.
-            if (result == DialogResult.Abort) Application.Exit();
+            try
+            {
+                if (result == DialogResult.Abort) Application.Exit();
+            }
+            catch { }
         }
 
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
@@ -122,15 +124,8 @@ namespace PhotoTagsSynchronizer
                 string errorMsg = "An application error occurred. Please contact the adminstrator with the following information:\n\n";
 
                 // Since we can't prevent the app from terminating, log this to the event log.
-                if (!EventLog.SourceExists("ThreadException"))
-                {
-                    EventLog.CreateEventSource("ThreadException", "Application");
-                }
+                Logger.Error(errorMsg + ex.Message + "\n\nStack Trace:\n" + ex.StackTrace);
 
-                // Create an EventLog instance and assign its source.
-                EventLog myLog = new EventLog();
-                myLog.Source = "ThreadException";
-                myLog.WriteEntry(errorMsg + ex.Message + "\n\nStack Trace:\n" + ex.StackTrace);
             }
             catch (Exception exc)
             {

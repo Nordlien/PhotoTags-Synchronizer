@@ -31,10 +31,10 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -47,6 +47,16 @@ namespace PhotoTagsSynchronizer
             this.tabPageFilterFolder = new System.Windows.Forms.TabPage();
             this.folderTreeViewFolder = new Furty.Windows.Forms.FolderTreeView();
             this.contextMenuStripTreeViewFolder = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemTreeViewFolderCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTreeViewFolderCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTreeViewFolderPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTreeViewFolderDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTreeViewFolderRefreshFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTreeViewFolderReadSubfolders = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTreeViewFolderReload = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTreeViewFolderClearCache = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFolderLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageFilterSearch = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
             this.checkBoxSerachFitsAllValues = new System.Windows.Forms.CheckBox();
@@ -59,6 +69,11 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchWithoutKeyword = new System.Windows.Forms.CheckBox();
             this.groupBoxSearchRating = new System.Windows.Forms.GroupBox();
             this.checkBoxSearchRatingEmpty = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchRating5 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchRating4 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchRating3 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchRating2 = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchRating1 = new System.Windows.Forms.CheckBox();
             this.checkBoxSearchRating0 = new System.Windows.Forms.CheckBox();
             this.groupBoxSearchPeople = new System.Windows.Forms.GroupBox();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -95,9 +110,29 @@ namespace PhotoTagsSynchronizer
             this.tabPageFilterTags = new System.Windows.Forms.TabPage();
             this.treeViewFilter = new DragNDrop.TreeViewWithoutDoubleClick();
             this.splitContainerImages = new System.Windows.Forms.SplitContainer();
+            this.imageListView1 = new Manina.Windows.Forms.ImageListView();
             this.contextMenuStripImageListView = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemImageListViewCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemImageListViewCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyFileNamesToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemImageListViewPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemImageListViewDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemImageListViewRefreshFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemImageListViewSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemImageListViewAutoCorrect = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileWithAssociatedApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openMediaFilesWithToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editFileWithAssociatedApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runSelectedToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openWithDialogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mediaPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotateCW90ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotate180ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ratateCCW270ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControlToolbox = new System.Windows.Forms.TabControl();
             this.tabPageTags = new System.Windows.Forms.TabPage();
@@ -107,10 +142,32 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMediaAiConfidence = new System.Windows.Forms.ComboBox();
             this.dataGridViewTagsAndKeywords = new System.Windows.Forms.DataGridView();
             this.contextMenuStripTagsAndKeywords = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cutToolStripMenuTagsBrokerCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuTagsBrokerCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuTagsBrokerPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuTagsBrokerDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoToolStripMenuTags = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoToolStripMenuTags = new System.Windows.Forms.ToolStripMenuItem();
+            this.findToolStripMenuTag = new System.Windows.Forms.ToolStripMenuItem();
+            this.replaceToolStripMenuTag = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuTagsBrokerSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFavoriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideEqualRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTagsBrokerCopyText = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectTagsAndKeywordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeTagsAndKeywordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBoxRating = new System.Windows.Forms.GroupBox();
+            this.radioButtonRating5 = new System.Windows.Forms.RadioButton();
+            this.radioButtonRating4 = new System.Windows.Forms.RadioButton();
+            this.radioButtonRating3 = new System.Windows.Forms.RadioButton();
+            this.radioButtonRating2 = new System.Windows.Forms.RadioButton();
+            this.radioButtonRating1 = new System.Windows.Forms.RadioButton();
             this.comboBoxAlbum = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxComments = new System.Windows.Forms.ComboBox();
@@ -129,18 +186,50 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleRenameFromAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemPeopleSelected = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleRenameSelected = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeoplePaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleRedo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleFind = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPeopleHideEqualRows = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleTogglePeopleTag = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleSelectPeopleTag = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPeopleRemovePeopleTag = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageMap = new System.Windows.Forms.TabPage();
             this.splitContainerMap = new System.Windows.Forms.SplitContainer();
             this.comboBoxGoogleLocationInterval = new System.Windows.Forms.ComboBox();
             this.comboBoxGoogleTimeZoneShift = new System.Windows.Forms.ComboBox();
             this.dataGridViewMap = new System.Windows.Forms.DataGridView();
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemMapCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapRedo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapFind = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapHideEqual = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapCopyNotOverwrite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapCopyAndOverwrite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemShowCoordinateOnMap = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemMapReloadLocationUsingNominatim = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3 = new System.Windows.Forms.Panel();
             this.textBoxBrowserURL = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.comboBoxMapZoomLevel = new System.Windows.Forms.ComboBox();
             this.panelBrowser = new System.Windows.Forms.Panel();
             this.tabPageDate = new System.Windows.Forms.TabPage();
@@ -150,12 +239,22 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifTool = new System.Windows.Forms.DataGridView();
             this.contextMenuStripExifTool = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemExiftoolAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolFind = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemExiftoolSHowFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemExiftoolHideEqual = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageExifToolWarning = new System.Windows.Forms.TabPage();
             this.dataGridViewExifToolWarning = new System.Windows.Forms.DataGridView();
             this.contextMenuStripExiftoolWarning = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningFind = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExiftoolWarningToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemExiftoolWarningShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemExiftoolWarningHideEqual = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageFileProperties = new System.Windows.Forms.TabPage();
@@ -173,16 +272,58 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewConvertAndMerge = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.thumbnailsToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.galleryToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.paneToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.detailsToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparatorRenderer = new System.Windows.Forms.ToolStripSeparator();
             this.rendererToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.renderertoolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.columnsToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonThumbnailSize1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonThumbnailSize2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonThumbnailSize3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonThumbnailSize4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonThumbnailSize5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.rotateCCWToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.rotate180ToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.rotateCWToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonPreview = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonSelectPrevious = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButtonSelectGroupBy = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItemSelectSameDay = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectSame3Day = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectSameWeek = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectSame2week = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectSameMonth = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemSelectMax10items = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectMax30items = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectMax50items = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectMax100items = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemSelectSameLocationName = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectSameCity = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectSameDistrict = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectSameCountry = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButtonSelectNext = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonGridBig = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonGridNormal = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonGridSmall = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonHistortyColumns = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonErrorColumns = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonImportGoogleLocation = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonSaveAllMetadata = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonConfig = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonAbout = new System.Windows.Forms.ToolStripButton();
             this.imageListFilter = new System.Windows.Forms.ImageList(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.timerShowErrorMessage = new System.Windows.Forms.Timer(this.components);
@@ -196,15 +337,6 @@ namespace PhotoTagsSynchronizer
             this.imageBoxPreview = new Cyotek.Windows.Forms.ImageBox();
             this.videoView1 = new LibVLCSharp.WinForms.VideoView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripTraceBarItemMediaPreviewTimer = new DragNDrop.ToolStripTraceBarItem();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabelMediaPreviewTimer = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabelMediaPreviewStatus = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.timerFindGoogleCast = new System.Windows.Forms.Timer(this.components);
-            this.timerPreviewNextTimer = new System.Windows.Forms.Timer(this.components);
-            this.timerSaveProgessRemoveProgress = new System.Windows.Forms.Timer(this.components);
             this.toolStripButtonMediaPreviewPrevious = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewPlay = new System.Windows.Forms.ToolStripButton();
@@ -227,133 +359,16 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewRotate180 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewRotateCW = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewClose = new System.Windows.Forms.ToolStripButton();
-            this.toolStripMenuItemTreeViewFolderCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTreeViewFolderCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTreeViewFolderPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTreeViewFolderDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTreeViewFolderRefreshFolder = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTreeViewFolderReadSubfolders = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTreeViewFolderReload = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTreeViewFolderClearCache = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFolderLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkBoxSearchRating5 = new System.Windows.Forms.CheckBox();
-            this.checkBoxSearchRating4 = new System.Windows.Forms.CheckBox();
-            this.checkBoxSearchRating3 = new System.Windows.Forms.CheckBox();
-            this.checkBoxSearchRating2 = new System.Windows.Forms.CheckBox();
-            this.checkBoxSearchRating1 = new System.Windows.Forms.CheckBox();
-            this.imageListView1 = new Manina.Windows.Forms.ImageListView();
-            this.cutToolStripMenuTagsBrokerCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuTagsBrokerCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuTagsBrokerPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteToolStripMenuTagsBrokerDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.undoToolStripMenuTags = new System.Windows.Forms.ToolStripMenuItem();
-            this.redoToolStripMenuTags = new System.Windows.Forms.ToolStripMenuItem();
-            this.findToolStripMenuTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.replaceToolStripMenuTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuTagsBrokerSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTagsBrokerCopyText = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleTagsAndKeywordsSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectTagsAndKeywordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeTagsAndKeywordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.radioButtonRating5 = new System.Windows.Forms.RadioButton();
-            this.radioButtonRating4 = new System.Windows.Forms.RadioButton();
-            this.radioButtonRating3 = new System.Windows.Forms.RadioButton();
-            this.radioButtonRating2 = new System.Windows.Forms.RadioButton();
-            this.radioButtonRating1 = new System.Windows.Forms.RadioButton();
-            this.toolStripMenuItemPeopleCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeoplePaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleUndo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRedo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleReplace = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleTogglePeopleTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleSelectPeopleTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemPeopleRemovePeopleTag = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapUndo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapRedo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapReplace = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapCopyNotOverwrite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapCopyAndOverwrite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemShowCoordinateOnMap = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMapReloadLocationUsingNominatim = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.toolStripMenuItemExiftoolCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExiftoolWarningToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
-            this.thumbnailsToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.galleryToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.paneToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.detailsToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.columnsToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonThumbnailSize1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonThumbnailSize2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonThumbnailSize3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonThumbnailSize4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonThumbnailSize5 = new System.Windows.Forms.ToolStripButton();
-            this.rotateCCWToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.rotate180ToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.rotateCWToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonPreview = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonGridBig = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonGridNormal = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonGridSmall = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonHistortyColumns = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonErrorColumns = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonImportGoogleLocation = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonSaveAllMetadata = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonConfig = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonAbout = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonSelectPrevious = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButtonSelectGroupBy = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripMenuItemSelectSameDay = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemSelectSameCountry = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButtonSelectNext = new System.Windows.Forms.ToolStripButton();
-            this.toolStripMenuItemImageListViewCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemImageListViewCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyFileNamesToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemImageListViewPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemImageListViewDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemImageListViewRefreshFolder = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemImageListViewSelectAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemImageListViewAutoCorrect = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFileWithAssociatedApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editFileWithAssociatedApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runSelectedToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.openWithDialogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFileLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mediaPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rotateCW90ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rotate180ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ratateCCW270ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTraceBarItemMediaPreviewTimer = new DragNDrop.ToolStripTraceBarItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabelMediaPreviewTimer = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabelMediaPreviewStatus = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.timerFindGoogleCast = new System.Windows.Forms.Timer(this.components);
+            this.timerPreviewNextTimer = new System.Windows.Forms.Timer(this.components);
+            this.timerSaveProgessRemoveProgress = new System.Windows.Forms.Timer(this.components);
+            this.toolStripMenuItemSelectFallbackOnFileCreated = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -399,6 +414,7 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMap)).BeginInit();
             this.contextMenuStripMap.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPageDate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDate)).BeginInit();
             this.tabPageExifTool.SuspendLayout();
@@ -421,7 +437,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -592,6 +607,96 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripTreeViewFolder.Name = "contextMenuStripImageListView";
             this.contextMenuStripTreeViewFolder.Size = new System.Drawing.Size(390, 264);
             // 
+            // toolStripMenuItemTreeViewFolderCut
+            // 
+            this.toolStripMenuItemTreeViewFolderCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
+            this.toolStripMenuItemTreeViewFolderCut.Name = "toolStripMenuItemTreeViewFolderCut";
+            this.toolStripMenuItemTreeViewFolderCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.toolStripMenuItemTreeViewFolderCut.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderCut.Text = "Cut";
+            this.toolStripMenuItemTreeViewFolderCut.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderCut_Click);
+            // 
+            // toolStripMenuItemTreeViewFolderCopy
+            // 
+            this.toolStripMenuItemTreeViewFolderCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemTreeViewFolderCopy.Name = "toolStripMenuItemTreeViewFolderCopy";
+            this.toolStripMenuItemTreeViewFolderCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemTreeViewFolderCopy.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderCopy.Text = "Copy";
+            this.toolStripMenuItemTreeViewFolderCopy.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderCopy_Click);
+            // 
+            // toolStripMenuItemTreeViewFolderPaste
+            // 
+            this.toolStripMenuItemTreeViewFolderPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
+            this.toolStripMenuItemTreeViewFolderPaste.Name = "toolStripMenuItemTreeViewFolderPaste";
+            this.toolStripMenuItemTreeViewFolderPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.toolStripMenuItemTreeViewFolderPaste.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderPaste.Text = "Paste";
+            this.toolStripMenuItemTreeViewFolderPaste.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderPaste_Click);
+            // 
+            // toolStripMenuItemTreeViewFolderDelete
+            // 
+            this.toolStripMenuItemTreeViewFolderDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
+            this.toolStripMenuItemTreeViewFolderDelete.Name = "toolStripMenuItemTreeViewFolderDelete";
+            this.toolStripMenuItemTreeViewFolderDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.toolStripMenuItemTreeViewFolderDelete.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderDelete.Text = "Delete";
+            this.toolStripMenuItemTreeViewFolderDelete.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderDelete_Click);
+            // 
+            // toolStripMenuItemTreeViewFolderRefreshFolder
+            // 
+            this.toolStripMenuItemTreeViewFolderRefreshFolder.Image = global::PhotoTagsSynchronizer.Properties.Resources.RefreshFolder;
+            this.toolStripMenuItemTreeViewFolderRefreshFolder.Name = "toolStripMenuItemTreeViewFolderRefreshFolder";
+            this.toolStripMenuItemTreeViewFolderRefreshFolder.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.toolStripMenuItemTreeViewFolderRefreshFolder.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderRefreshFolder.Text = "Refresh folder";
+            this.toolStripMenuItemTreeViewFolderRefreshFolder.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderRefreshFolder_Click);
+            // 
+            // toolStripMenuItemTreeViewFolderReadSubfolders
+            // 
+            this.toolStripMenuItemTreeViewFolderReadSubfolders.Image = global::PhotoTagsSynchronizer.Properties.Resources.SubfoldersFolder;
+            this.toolStripMenuItemTreeViewFolderReadSubfolders.Name = "toolStripMenuItemTreeViewFolderReadSubfolders";
+            this.toolStripMenuItemTreeViewFolderReadSubfolders.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.toolStripMenuItemTreeViewFolderReadSubfolders.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderReadSubfolders.Text = "Read subfolders";
+            this.toolStripMenuItemTreeViewFolderReadSubfolders.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderReadSubfolders_Click);
+            // 
+            // toolStripMenuItemTreeViewFolderReload
+            // 
+            this.toolStripMenuItemTreeViewFolderReload.Image = global::PhotoTagsSynchronizer.Properties.Resources.Reload;
+            this.toolStripMenuItemTreeViewFolderReload.Name = "toolStripMenuItemTreeViewFolderReload";
+            this.toolStripMenuItemTreeViewFolderReload.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
+            this.toolStripMenuItemTreeViewFolderReload.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderReload.Text = "Reload thumbnail and metadata";
+            this.toolStripMenuItemTreeViewFolderReload.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderReload_Click);
+            // 
+            // toolStripMenuItemTreeViewFolderClearCache
+            // 
+            this.toolStripMenuItemTreeViewFolderClearCache.Image = global::PhotoTagsSynchronizer.Properties.Resources.DeleteHistory;
+            this.toolStripMenuItemTreeViewFolderClearCache.Name = "toolStripMenuItemTreeViewFolderClearCache";
+            this.toolStripMenuItemTreeViewFolderClearCache.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
+            this.toolStripMenuItemTreeViewFolderClearCache.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderClearCache.Text = "Clear thumbnail and metadata history";
+            this.toolStripMenuItemTreeViewFolderClearCache.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderClearCache_Click);
+            // 
+            // toolStripMenuItemTreeViewFolderAutoCorrectMetadata
+            // 
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Image = global::PhotoTagsSynchronizer.Properties.Resources.AutoCorrect;
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Name = "toolStripMenuItemTreeViewFolderAutoCorrectMetadata";
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.T)));
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Text = "AutoCorrect metadata";
+            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click);
+            // 
+            // openFolderLocationToolStripMenuItem
+            // 
+            this.openFolderLocationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
+            this.openFolderLocationToolStripMenuItem.Name = "openFolderLocationToolStripMenuItem";
+            this.openFolderLocationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
+            this.openFolderLocationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.openFolderLocationToolStripMenuItem.Text = "Open Folder Location";
+            this.openFolderLocationToolStripMenuItem.Click += new System.EventHandler(this.openFolderLocationToolStripMenuItem_Click);
+            // 
             // tabPageFilterSearch
             // 
             this.tabPageFilterSearch.Controls.Add(this.panel4);
@@ -742,6 +847,56 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchRatingEmpty.TabIndex = 37;
             this.checkBoxSearchRatingEmpty.Text = "?";
             this.checkBoxSearchRatingEmpty.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchRating5
+            // 
+            this.checkBoxSearchRating5.AutoSize = true;
+            this.checkBoxSearchRating5.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.checkBoxSearchRating5.Location = new System.Drawing.Point(200, 20);
+            this.checkBoxSearchRating5.Name = "checkBoxSearchRating5";
+            this.checkBoxSearchRating5.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating5.TabIndex = 4;
+            this.checkBoxSearchRating5.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchRating4
+            // 
+            this.checkBoxSearchRating4.AutoSize = true;
+            this.checkBoxSearchRating4.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.checkBoxSearchRating4.Location = new System.Drawing.Point(152, 20);
+            this.checkBoxSearchRating4.Name = "checkBoxSearchRating4";
+            this.checkBoxSearchRating4.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating4.TabIndex = 3;
+            this.checkBoxSearchRating4.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchRating3
+            // 
+            this.checkBoxSearchRating3.AutoSize = true;
+            this.checkBoxSearchRating3.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.checkBoxSearchRating3.Location = new System.Drawing.Point(104, 20);
+            this.checkBoxSearchRating3.Name = "checkBoxSearchRating3";
+            this.checkBoxSearchRating3.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating3.TabIndex = 2;
+            this.checkBoxSearchRating3.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchRating2
+            // 
+            this.checkBoxSearchRating2.AutoSize = true;
+            this.checkBoxSearchRating2.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.checkBoxSearchRating2.Location = new System.Drawing.Point(56, 20);
+            this.checkBoxSearchRating2.Name = "checkBoxSearchRating2";
+            this.checkBoxSearchRating2.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating2.TabIndex = 1;
+            this.checkBoxSearchRating2.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSearchRating1
+            // 
+            this.checkBoxSearchRating1.AutoSize = true;
+            this.checkBoxSearchRating1.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.checkBoxSearchRating1.Location = new System.Drawing.Point(8, 20);
+            this.checkBoxSearchRating1.Name = "checkBoxSearchRating1";
+            this.checkBoxSearchRating1.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating1.TabIndex = 0;
+            this.checkBoxSearchRating1.UseVisualStyleBackColor = true;
             // 
             // checkBoxSearchRating0
             // 
@@ -1141,11 +1296,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode2.Name = "NodeFolder";
-            treeNode2.Tag = "Filter";
-            treeNode2.Text = "Filter";
+            treeNode4.Name = "NodeFolder";
+            treeNode4.Tag = "Filter";
+            treeNode4.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            treeNode4});
             this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -1172,6 +1327,31 @@ namespace PhotoTagsSynchronizer
             this.splitContainerImages.SplitterWidth = 10;
             this.splitContainerImages.TabIndex = 0;
             this.splitContainerImages.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerImages_SplitterMoved);
+            // 
+            // imageListView1
+            // 
+            this.imageListView1.AllowDrag = true;
+            this.imageListView1.AllowDrop = true;
+            this.imageListView1.CacheLimit = "0";
+            this.imageListView1.CacheMode = Manina.Windows.Forms.CacheMode.Continuous;
+            this.imageListView1.ContextMenuStrip = this.contextMenuStripImageListView;
+            this.imageListView1.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.DefaultImage")));
+            this.imageListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageListView1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.ErrorImage")));
+            this.imageListView1.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.imageListView1.ImeMode = System.Windows.Forms.ImeMode.Katakana;
+            this.imageListView1.Location = new System.Drawing.Point(0, 0);
+            this.imageListView1.Name = "imageListView1";
+            this.imageListView1.RetryOnError = false;
+            this.imageListView1.Size = new System.Drawing.Size(484, 892);
+            this.imageListView1.TabIndex = 1;
+            this.imageListView1.Text = "";
+            this.imageListView1.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView1_ItemDoubleClick);
+            this.imageListView1.SelectionChanged += new System.EventHandler(this.imageListView1_SelectionChanged);
+            this.imageListView1.ThumbnailCaching += new Manina.Windows.Forms.ThumbnailCachingEventHandler(this.imageListView1_ThumbnailCaching);
+            this.imageListView1.RetrieveItemImage += new Manina.Windows.Forms.RetrieveItemImageEventHandler(this.imageListView1_RetrieveImage);
+            this.imageListView1.RetrieveItemThumbnail += new Manina.Windows.Forms.RetrieveItemThumbnailEventHandler(this.imageListView1_RetrieveItemThumbnail);
+            this.imageListView1.RetrieveItemMetadataDetails += new Manina.Windows.Forms.RetrieveItemMetadataDetailsEventHandler(this.imageListView1_RetrieveItemMetadataDetails);
             // 
             // contextMenuStripImageListView
             // 
@@ -1200,6 +1380,107 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
             this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 524);
             // 
+            // toolStripMenuItemImageListViewCut
+            // 
+            this.toolStripMenuItemImageListViewCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
+            this.toolStripMenuItemImageListViewCut.Name = "toolStripMenuItemImageListViewCut";
+            this.toolStripMenuItemImageListViewCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.toolStripMenuItemImageListViewCut.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewCut.Text = "Cut";
+            this.toolStripMenuItemImageListViewCut.Click += new System.EventHandler(this.toolStripMenuItemImageListViewCut_Click);
+            // 
+            // toolStripMenuItemImageListViewCopy
+            // 
+            this.toolStripMenuItemImageListViewCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemImageListViewCopy.Name = "toolStripMenuItemImageListViewCopy";
+            this.toolStripMenuItemImageListViewCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemImageListViewCopy.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewCopy.Text = "Copy";
+            this.toolStripMenuItemImageListViewCopy.Click += new System.EventHandler(this.toolStripMenuItemImageListViewCopy_Click);
+            // 
+            // copyFileNamesToClipboardToolStripMenuItem
+            // 
+            this.copyFileNamesToClipboardToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.copyFileNamesToClipboardToolStripMenuItem.Name = "copyFileNamesToClipboardToolStripMenuItem";
+            this.copyFileNamesToClipboardToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.copyFileNamesToClipboardToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.copyFileNamesToClipboardToolStripMenuItem.Text = "Copy file names to Clipboard";
+            this.copyFileNamesToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyFileNamesToClipboardToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemImageListViewPaste
+            // 
+            this.toolStripMenuItemImageListViewPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
+            this.toolStripMenuItemImageListViewPaste.Name = "toolStripMenuItemImageListViewPaste";
+            this.toolStripMenuItemImageListViewPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.toolStripMenuItemImageListViewPaste.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewPaste.Text = "Paste";
+            this.toolStripMenuItemImageListViewPaste.Click += new System.EventHandler(this.toolStripMenuItemImageListViewPaste_Click);
+            // 
+            // toolStripMenuItemImageListViewDelete
+            // 
+            this.toolStripMenuItemImageListViewDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
+            this.toolStripMenuItemImageListViewDelete.Name = "toolStripMenuItemImageListViewDelete";
+            this.toolStripMenuItemImageListViewDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.toolStripMenuItemImageListViewDelete.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewDelete.Text = "Delete";
+            this.toolStripMenuItemImageListViewDelete.Click += new System.EventHandler(this.toolStripMenuItemDelete_Click);
+            // 
+            // toolStripMenuItemImageListViewRefreshFolder
+            // 
+            this.toolStripMenuItemImageListViewRefreshFolder.Image = global::PhotoTagsSynchronizer.Properties.Resources.RefreshFolder;
+            this.toolStripMenuItemImageListViewRefreshFolder.Name = "toolStripMenuItemImageListViewRefreshFolder";
+            this.toolStripMenuItemImageListViewRefreshFolder.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.toolStripMenuItemImageListViewRefreshFolder.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewRefreshFolder.Text = "Refresh folder";
+            this.toolStripMenuItemImageListViewRefreshFolder.Click += new System.EventHandler(this.toolStripMenuItemRefreshFolder_Click);
+            // 
+            // toolStripMenuItemImageListViewReloadThumbnailAndMetadata
+            // 
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Image = global::PhotoTagsSynchronizer.Properties.Resources.Reload;
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Name = "toolStripMenuItemImageListViewReloadThumbnailAndMetadata";
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Text = "Reload thumbnail and metadata";
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Click += new System.EventHandler(this.toolStripMenuItemReloadThumbnailAndMetadata_Click);
+            // 
+            // toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory
+            // 
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Image = global::PhotoTagsSynchronizer.Properties.Resources.DeleteHistory;
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Name = "toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadata" +
+    "History";
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Text = "Clear thumbnail and metadata history";
+            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Click += new System.EventHandler(this.toolStripMenuItemReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory_Click);
+            // 
+            // toolStripMenuItemImageListViewSelectAll
+            // 
+            this.toolStripMenuItemImageListViewSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectAll;
+            this.toolStripMenuItemImageListViewSelectAll.Name = "toolStripMenuItemImageListViewSelectAll";
+            this.toolStripMenuItemImageListViewSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.toolStripMenuItemImageListViewSelectAll.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewSelectAll.Text = "Select All";
+            this.toolStripMenuItemImageListViewSelectAll.Click += new System.EventHandler(this.toolStripMenuItemSelectAll_Click);
+            // 
+            // toolStripMenuItemImageListViewAutoCorrect
+            // 
+            this.toolStripMenuItemImageListViewAutoCorrect.Image = global::PhotoTagsSynchronizer.Properties.Resources.AutoCorrect;
+            this.toolStripMenuItemImageListViewAutoCorrect.Name = "toolStripMenuItemImageListViewAutoCorrect";
+            this.toolStripMenuItemImageListViewAutoCorrect.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.T)));
+            this.toolStripMenuItemImageListViewAutoCorrect.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewAutoCorrect.Text = "AutoCorrect metadata";
+            this.toolStripMenuItemImageListViewAutoCorrect.Click += new System.EventHandler(this.toolStripMenuItemImageListViewAutoCorrect_Click);
+            // 
+            // openFileWithAssociatedApplicationToolStripMenuItem
+            // 
+            this.openFileWithAssociatedApplicationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Image_Open;
+            this.openFileWithAssociatedApplicationToolStripMenuItem.Name = "openFileWithAssociatedApplicationToolStripMenuItem";
+            this.openFileWithAssociatedApplicationToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.openFileWithAssociatedApplicationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.openFileWithAssociatedApplicationToolStripMenuItem.Text = "Open";
+            this.openFileWithAssociatedApplicationToolStripMenuItem.Click += new System.EventHandler(this.openFileWithAssociatedApplicationToolStripMenuItem_Click);
+            // 
             // openMediaFilesWithToolStripMenuItem
             // 
             this.openMediaFilesWithToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1213,6 +1494,81 @@ namespace PhotoTagsSynchronizer
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.Size = new System.Drawing.Size(118, 26);
             this.testToolStripMenuItem.Text = "Test";
+            // 
+            // editFileWithAssociatedApplicationToolStripMenuItem
+            // 
+            this.editFileWithAssociatedApplicationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Image_Edit;
+            this.editFileWithAssociatedApplicationToolStripMenuItem.Name = "editFileWithAssociatedApplicationToolStripMenuItem";
+            this.editFileWithAssociatedApplicationToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.editFileWithAssociatedApplicationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.editFileWithAssociatedApplicationToolStripMenuItem.Text = "Edit";
+            this.editFileWithAssociatedApplicationToolStripMenuItem.Click += new System.EventHandler(this.editFileWithAssociatedApplicationToolStripMenuItem_Click);
+            // 
+            // runSelectedToolStripMenuItem1
+            // 
+            this.runSelectedToolStripMenuItem1.Image = global::PhotoTagsSynchronizer.Properties.Resources.Run_Command;
+            this.runSelectedToolStripMenuItem1.Name = "runSelectedToolStripMenuItem1";
+            this.runSelectedToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
+            this.runSelectedToolStripMenuItem1.Size = new System.Drawing.Size(389, 26);
+            this.runSelectedToolStripMenuItem1.Text = "Run batch app or command...";
+            this.runSelectedToolStripMenuItem1.Click += new System.EventHandler(this.runSelectedLocationToolStripMenuItem_Click);
+            // 
+            // openWithDialogToolStripMenuItem
+            // 
+            this.openWithDialogToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Association_Filetype;
+            this.openWithDialogToolStripMenuItem.Name = "openWithDialogToolStripMenuItem";
+            this.openWithDialogToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openWithDialogToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.openWithDialogToolStripMenuItem.Text = "Open and associate with dialog...";
+            this.openWithDialogToolStripMenuItem.Click += new System.EventHandler(this.openWithDialogToolStripMenuItem_Click);
+            // 
+            // openFileLocationToolStripMenuItem
+            // 
+            this.openFileLocationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
+            this.openFileLocationToolStripMenuItem.Name = "openFileLocationToolStripMenuItem";
+            this.openFileLocationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
+            this.openFileLocationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.openFileLocationToolStripMenuItem.Text = "Open file Location";
+            this.openFileLocationToolStripMenuItem.Click += new System.EventHandler(this.openFileLocationToolStripMenuItem_Click);
+            // 
+            // mediaPreviewToolStripMenuItem
+            // 
+            this.mediaPreviewToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Preview;
+            this.mediaPreviewToolStripMenuItem.Name = "mediaPreviewToolStripMenuItem";
+            this.mediaPreviewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.mediaPreviewToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.mediaPreviewToolStripMenuItem.Text = "Media preview";
+            this.mediaPreviewToolStripMenuItem.Click += new System.EventHandler(this.mediaPreviewToolStripMenuItem_Click);
+            // 
+            // rotateCW90ToolStripMenuItem
+            // 
+            this.rotateCW90ToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
+            this.rotateCW90ToolStripMenuItem.Name = "rotateCW90ToolStripMenuItem";
+            this.rotateCW90ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D9)));
+            this.rotateCW90ToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.rotateCW90ToolStripMenuItem.Text = "Rotate CW - 90°";
+            this.rotateCW90ToolStripMenuItem.ToolTipText = "Rotate CW - 90°";
+            this.rotateCW90ToolStripMenuItem.Click += new System.EventHandler(this.rotateCW90ToolStripMenuItem_Click);
+            // 
+            // rotate180ToolStripMenuItem
+            // 
+            this.rotate180ToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
+            this.rotate180ToolStripMenuItem.Name = "rotate180ToolStripMenuItem";
+            this.rotate180ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D1)));
+            this.rotate180ToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.rotate180ToolStripMenuItem.Text = "Rotate 180°";
+            this.rotate180ToolStripMenuItem.ToolTipText = "Rotate 180°";
+            this.rotate180ToolStripMenuItem.Click += new System.EventHandler(this.rotate180ToolStripMenuItem_Click);
+            // 
+            // ratateCCW270ToolStripMenuItem
+            // 
+            this.ratateCCW270ToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
+            this.ratateCCW270ToolStripMenuItem.Name = "ratateCCW270ToolStripMenuItem";
+            this.ratateCCW270ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D2)));
+            this.ratateCCW270ToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.ratateCCW270ToolStripMenuItem.Text = "Ratate CCW - 270°";
+            this.ratateCCW270ToolStripMenuItem.ToolTipText = "Ratate CCW - 270°";
+            this.ratateCCW270ToolStripMenuItem.Click += new System.EventHandler(this.ratateCCW270ToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -1370,6 +1726,116 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripTagsAndKeywords.Name = "contextMenuStripMap";
             this.contextMenuStripTagsAndKeywords.Size = new System.Drawing.Size(521, 498);
             // 
+            // cutToolStripMenuTagsBrokerCut
+            // 
+            this.cutToolStripMenuTagsBrokerCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
+            this.cutToolStripMenuTagsBrokerCut.Name = "cutToolStripMenuTagsBrokerCut";
+            this.cutToolStripMenuTagsBrokerCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutToolStripMenuTagsBrokerCut.Size = new System.Drawing.Size(520, 26);
+            this.cutToolStripMenuTagsBrokerCut.Text = "Cut";
+            this.cutToolStripMenuTagsBrokerCut.Click += new System.EventHandler(this.cutToolStripMenuTagsBrokerCut_Click);
+            // 
+            // copyToolStripMenuTagsBrokerCopy
+            // 
+            this.copyToolStripMenuTagsBrokerCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.copyToolStripMenuTagsBrokerCopy.Name = "copyToolStripMenuTagsBrokerCopy";
+            this.copyToolStripMenuTagsBrokerCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuTagsBrokerCopy.Size = new System.Drawing.Size(520, 26);
+            this.copyToolStripMenuTagsBrokerCopy.Text = "Copy";
+            this.copyToolStripMenuTagsBrokerCopy.Click += new System.EventHandler(this.copyToolStripMenuTagsBrokerCopy_Click);
+            // 
+            // pasteToolStripMenuTagsBrokerPaste
+            // 
+            this.pasteToolStripMenuTagsBrokerPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
+            this.pasteToolStripMenuTagsBrokerPaste.Name = "pasteToolStripMenuTagsBrokerPaste";
+            this.pasteToolStripMenuTagsBrokerPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteToolStripMenuTagsBrokerPaste.Size = new System.Drawing.Size(520, 26);
+            this.pasteToolStripMenuTagsBrokerPaste.Text = "Paste";
+            this.pasteToolStripMenuTagsBrokerPaste.Click += new System.EventHandler(this.pasteToolStripMenuTagsBrokerPaste_Click);
+            // 
+            // deleteToolStripMenuTagsBrokerDelete
+            // 
+            this.deleteToolStripMenuTagsBrokerDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
+            this.deleteToolStripMenuTagsBrokerDelete.Name = "deleteToolStripMenuTagsBrokerDelete";
+            this.deleteToolStripMenuTagsBrokerDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.deleteToolStripMenuTagsBrokerDelete.Size = new System.Drawing.Size(520, 26);
+            this.deleteToolStripMenuTagsBrokerDelete.Text = "Delete";
+            this.deleteToolStripMenuTagsBrokerDelete.Click += new System.EventHandler(this.deleteToolStripMenuTagsBrokerDelete_Click);
+            // 
+            // undoToolStripMenuTags
+            // 
+            this.undoToolStripMenuTags.Image = global::PhotoTagsSynchronizer.Properties.Resources.Undo;
+            this.undoToolStripMenuTags.Name = "undoToolStripMenuTags";
+            this.undoToolStripMenuTags.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.undoToolStripMenuTags.Size = new System.Drawing.Size(520, 26);
+            this.undoToolStripMenuTags.Text = "Undo";
+            this.undoToolStripMenuTags.Click += new System.EventHandler(this.undoToolStripMenuTags_Click);
+            // 
+            // redoToolStripMenuTags
+            // 
+            this.redoToolStripMenuTags.Image = global::PhotoTagsSynchronizer.Properties.Resources.Redo;
+            this.redoToolStripMenuTags.Name = "redoToolStripMenuTags";
+            this.redoToolStripMenuTags.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.redoToolStripMenuTags.Size = new System.Drawing.Size(520, 26);
+            this.redoToolStripMenuTags.Text = "Redo";
+            this.redoToolStripMenuTags.Click += new System.EventHandler(this.redoToolStripMenuTags_Click);
+            // 
+            // findToolStripMenuTag
+            // 
+            this.findToolStripMenuTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
+            this.findToolStripMenuTag.Name = "findToolStripMenuTag";
+            this.findToolStripMenuTag.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.findToolStripMenuTag.Size = new System.Drawing.Size(520, 26);
+            this.findToolStripMenuTag.Text = "Find";
+            this.findToolStripMenuTag.Click += new System.EventHandler(this.findToolStripMenuTag_Click);
+            // 
+            // replaceToolStripMenuTag
+            // 
+            this.replaceToolStripMenuTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
+            this.replaceToolStripMenuTag.Name = "replaceToolStripMenuTag";
+            this.replaceToolStripMenuTag.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.replaceToolStripMenuTag.Size = new System.Drawing.Size(520, 26);
+            this.replaceToolStripMenuTag.Text = "Replace";
+            this.replaceToolStripMenuTag.Click += new System.EventHandler(this.replaceToolStripMenuTag_Click);
+            // 
+            // toolStripMenuTagsBrokerSave
+            // 
+            this.toolStripMenuTagsBrokerSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
+            this.toolStripMenuTagsBrokerSave.Name = "toolStripMenuTagsBrokerSave";
+            this.toolStripMenuTagsBrokerSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuTagsBrokerSave.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuTagsBrokerSave.Text = "Save";
+            this.toolStripMenuTagsBrokerSave.Click += new System.EventHandler(this.toolStripMenuTagsBrokerSave_Click);
+            // 
+            // markAsFavoriteToolStripMenuItem
+            // 
+            this.markAsFavoriteToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
+            this.markAsFavoriteToolStripMenuItem.Name = "markAsFavoriteToolStripMenuItem";
+            this.markAsFavoriteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.markAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
+            this.markAsFavoriteToolStripMenuItem.Text = "Mark as favorite";
+            this.markAsFavoriteToolStripMenuItem.Click += new System.EventHandler(this.markAsFavoriteToolStripMenuItem_Click);
+            // 
+            // removeAsFavoriteToolStripMenuItem
+            // 
+            this.removeAsFavoriteToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
+            this.removeAsFavoriteToolStripMenuItem.Name = "removeAsFavoriteToolStripMenuItem";
+            this.removeAsFavoriteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.removeAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
+            this.removeAsFavoriteToolStripMenuItem.Text = "Remove as favorite";
+            this.removeAsFavoriteToolStripMenuItem.Click += new System.EventHandler(this.removeAsFavoriteToolStripMenuItem_Click);
+            // 
+            // toggleFavoriteToolStripMenuItem
+            // 
+            this.toggleFavoriteToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
+            this.toggleFavoriteToolStripMenuItem.Name = "toggleFavoriteToolStripMenuItem";
+            this.toggleFavoriteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.D)));
+            this.toggleFavoriteToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
+            this.toggleFavoriteToolStripMenuItem.Text = "Toggle favorite";
+            this.toggleFavoriteToolStripMenuItem.Click += new System.EventHandler(this.toggleFavoriteToolStripMenuItem_Click);
+            // 
             // showFavoriteRowsToolStripMenuItem
             // 
             this.showFavoriteRowsToolStripMenuItem.Name = "showFavoriteRowsToolStripMenuItem";
@@ -1387,6 +1853,54 @@ namespace PhotoTagsSynchronizer
             this.hideEqualRowsToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
             this.hideEqualRowsToolStripMenuItem.Text = "Hide equal rows";
             this.hideEqualRowsToolStripMenuItem.Click += new System.EventHandler(this.hideEqualRowsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemTagsBrokerCopyText
+            // 
+            this.toolStripMenuItemTagsBrokerCopyText.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemTagsBrokerCopyText.Image")));
+            this.toolStripMenuItemTagsBrokerCopyText.Name = "toolStripMenuItemTagsBrokerCopyText";
+            this.toolStripMenuItemTagsBrokerCopyText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemTagsBrokerCopyText.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemTagsBrokerCopyText.Text = "Copy selected values to media file without overwrite";
+            this.toolStripMenuItemTagsBrokerCopyText.Click += new System.EventHandler(this.toolStripMenuItemTagsCopyText_Click);
+            // 
+            // toolStripMenuItemTagsAndKeywordsBrokerOverwriteText
+            // 
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Image")));
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Name = "toolStripMenuItemTagsAndKeywordsBrokerOverwriteText";
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Text = "Copy selected values to media file and overwrite";
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Click += new System.EventHandler(this.toolStripMenuItemTagsOverwriteText_Click);
+            // 
+            // toggleTagsAndKeywordsSelectionToolStripMenuItem
+            // 
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordToggle;
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Name = "toggleTagsAndKeywordsSelectionToolStripMenuItem";
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Text = "Toggle selected keyword tag";
+            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Click += new System.EventHandler(this.toggleTagSelectionToolStripMenuItem_Click);
+            // 
+            // selectTagsAndKeywordsToolStripMenuItem
+            // 
+            this.selectTagsAndKeywordsToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordSelect;
+            this.selectTagsAndKeywordsToolStripMenuItem.Name = "selectTagsAndKeywordsToolStripMenuItem";
+            this.selectTagsAndKeywordsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Space)));
+            this.selectTagsAndKeywordsToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
+            this.selectTagsAndKeywordsToolStripMenuItem.Text = "Set selected keyword tags";
+            this.selectTagsAndKeywordsToolStripMenuItem.Click += new System.EventHandler(this.selectTagToolStripMenuItem_Click);
+            // 
+            // removeTagsAndKeywordsToolStripMenuItem
+            // 
+            this.removeTagsAndKeywordsToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordDelete;
+            this.removeTagsAndKeywordsToolStripMenuItem.Name = "removeTagsAndKeywordsToolStripMenuItem";
+            this.removeTagsAndKeywordsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
+            this.removeTagsAndKeywordsToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
+            this.removeTagsAndKeywordsToolStripMenuItem.Text = "Remove selected keyword tags";
+            this.removeTagsAndKeywordsToolStripMenuItem.Click += new System.EventHandler(this.removeTagToolStripMenuItem_Click);
             // 
             // label5
             // 
@@ -1410,6 +1924,66 @@ namespace PhotoTagsSynchronizer
             this.groupBoxRating.TabIndex = 8;
             this.groupBoxRating.TabStop = false;
             this.groupBoxRating.Text = "Rating";
+            // 
+            // radioButtonRating5
+            // 
+            this.radioButtonRating5.AutoSize = true;
+            this.radioButtonRating5.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.radioButtonRating5.Location = new System.Drawing.Point(233, 10);
+            this.radioButtonRating5.Name = "radioButtonRating5";
+            this.radioButtonRating5.Size = new System.Drawing.Size(41, 24);
+            this.radioButtonRating5.TabIndex = 4;
+            this.radioButtonRating5.TabStop = true;
+            this.radioButtonRating5.UseVisualStyleBackColor = true;
+            this.radioButtonRating5.CheckedChanged += new System.EventHandler(this.radioButtonRating5_CheckedChanged);
+            // 
+            // radioButtonRating4
+            // 
+            this.radioButtonRating4.AutoSize = true;
+            this.radioButtonRating4.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.radioButtonRating4.Location = new System.Drawing.Point(175, 10);
+            this.radioButtonRating4.Name = "radioButtonRating4";
+            this.radioButtonRating4.Size = new System.Drawing.Size(41, 24);
+            this.radioButtonRating4.TabIndex = 3;
+            this.radioButtonRating4.TabStop = true;
+            this.radioButtonRating4.UseVisualStyleBackColor = true;
+            this.radioButtonRating4.CheckedChanged += new System.EventHandler(this.radioButtonRating4_CheckedChanged);
+            // 
+            // radioButtonRating3
+            // 
+            this.radioButtonRating3.AutoSize = true;
+            this.radioButtonRating3.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.radioButtonRating3.Location = new System.Drawing.Point(121, 10);
+            this.radioButtonRating3.Name = "radioButtonRating3";
+            this.radioButtonRating3.Size = new System.Drawing.Size(41, 24);
+            this.radioButtonRating3.TabIndex = 2;
+            this.radioButtonRating3.TabStop = true;
+            this.radioButtonRating3.UseVisualStyleBackColor = true;
+            this.radioButtonRating3.CheckedChanged += new System.EventHandler(this.radioButtonRating3_CheckedChanged);
+            // 
+            // radioButtonRating2
+            // 
+            this.radioButtonRating2.AutoSize = true;
+            this.radioButtonRating2.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.radioButtonRating2.Location = new System.Drawing.Point(62, 10);
+            this.radioButtonRating2.Name = "radioButtonRating2";
+            this.radioButtonRating2.Size = new System.Drawing.Size(41, 24);
+            this.radioButtonRating2.TabIndex = 1;
+            this.radioButtonRating2.TabStop = true;
+            this.radioButtonRating2.UseVisualStyleBackColor = true;
+            this.radioButtonRating2.CheckedChanged += new System.EventHandler(this.radioButtonRating2_CheckedChanged);
+            // 
+            // radioButtonRating1
+            // 
+            this.radioButtonRating1.AutoSize = true;
+            this.radioButtonRating1.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.radioButtonRating1.Location = new System.Drawing.Point(6, 10);
+            this.radioButtonRating1.Name = "radioButtonRating1";
+            this.radioButtonRating1.Size = new System.Drawing.Size(41, 24);
+            this.radioButtonRating1.TabIndex = 0;
+            this.radioButtonRating1.TabStop = true;
+            this.radioButtonRating1.UseVisualStyleBackColor = true;
+            this.radioButtonRating1.CheckedChanged += new System.EventHandler(this.radioButtonRating1_CheckedChanged);
             // 
             // comboBoxAlbum
             // 
@@ -1617,6 +2191,116 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleRenameSelected.Text = "Me";
             this.toolStripMenuItemPeopleRenameSelected.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
             // 
+            // toolStripMenuItemPeopleCut
+            // 
+            this.toolStripMenuItemPeopleCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
+            this.toolStripMenuItemPeopleCut.Name = "toolStripMenuItemPeopleCut";
+            this.toolStripMenuItemPeopleCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.toolStripMenuItemPeopleCut.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleCut.Text = "Cut";
+            this.toolStripMenuItemPeopleCut.Click += new System.EventHandler(this.toolStripMenuItemPeopleCut_Click);
+            // 
+            // toolStripMenuItemPeopleCopy
+            // 
+            this.toolStripMenuItemPeopleCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemPeopleCopy.Name = "toolStripMenuItemPeopleCopy";
+            this.toolStripMenuItemPeopleCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemPeopleCopy.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleCopy.Text = "Copy";
+            this.toolStripMenuItemPeopleCopy.Click += new System.EventHandler(this.toolStripMenuItemPeopleCopy_Click);
+            // 
+            // toolStripMenuItemPeoplePaste
+            // 
+            this.toolStripMenuItemPeoplePaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
+            this.toolStripMenuItemPeoplePaste.Name = "toolStripMenuItemPeoplePaste";
+            this.toolStripMenuItemPeoplePaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.toolStripMenuItemPeoplePaste.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeoplePaste.Text = "Paste";
+            this.toolStripMenuItemPeoplePaste.Click += new System.EventHandler(this.toolStripMenuItemPeoplePaste_Click);
+            // 
+            // toolStripMenuItemPeopleDelete
+            // 
+            this.toolStripMenuItemPeopleDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
+            this.toolStripMenuItemPeopleDelete.Name = "toolStripMenuItemPeopleDelete";
+            this.toolStripMenuItemPeopleDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.toolStripMenuItemPeopleDelete.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleDelete.Text = "Delete";
+            this.toolStripMenuItemPeopleDelete.Click += new System.EventHandler(this.toolStripMenuItemPeopleDelete_Click);
+            // 
+            // toolStripMenuItemPeopleUndo
+            // 
+            this.toolStripMenuItemPeopleUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Undo;
+            this.toolStripMenuItemPeopleUndo.Name = "toolStripMenuItemPeopleUndo";
+            this.toolStripMenuItemPeopleUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.toolStripMenuItemPeopleUndo.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleUndo.Text = "Undo";
+            this.toolStripMenuItemPeopleUndo.Click += new System.EventHandler(this.toolStripMenuItemPeopleUndo_Click);
+            // 
+            // toolStripMenuItemPeopleRedo
+            // 
+            this.toolStripMenuItemPeopleRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Redo;
+            this.toolStripMenuItemPeopleRedo.Name = "toolStripMenuItemPeopleRedo";
+            this.toolStripMenuItemPeopleRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.toolStripMenuItemPeopleRedo.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleRedo.Text = "Redo";
+            this.toolStripMenuItemPeopleRedo.Click += new System.EventHandler(this.toolStripMenuItemPeopleRedo_Click);
+            // 
+            // toolStripMenuItemPeopleFind
+            // 
+            this.toolStripMenuItemPeopleFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
+            this.toolStripMenuItemPeopleFind.Name = "toolStripMenuItemPeopleFind";
+            this.toolStripMenuItemPeopleFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.toolStripMenuItemPeopleFind.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleFind.Text = "Find";
+            this.toolStripMenuItemPeopleFind.Click += new System.EventHandler(this.toolStripMenuItemPeopleFind_Click);
+            // 
+            // toolStripMenuItemPeopleReplace
+            // 
+            this.toolStripMenuItemPeopleReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
+            this.toolStripMenuItemPeopleReplace.Name = "toolStripMenuItemPeopleReplace";
+            this.toolStripMenuItemPeopleReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.toolStripMenuItemPeopleReplace.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleReplace.Text = "Replace";
+            this.toolStripMenuItemPeopleReplace.Click += new System.EventHandler(this.toolStripMenuItemPeopleReplace_Click);
+            // 
+            // toolStripMenuItemPeopleSave
+            // 
+            this.toolStripMenuItemPeopleSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
+            this.toolStripMenuItemPeopleSave.Name = "toolStripMenuItemPeopleSave";
+            this.toolStripMenuItemPeopleSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemPeopleSave.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleSave.Text = "Save";
+            this.toolStripMenuItemPeopleSave.Click += new System.EventHandler(this.toolStripMenuItemPeopleSave_Click);
+            // 
+            // toolStripMenuItemPeopleMarkFavorite
+            // 
+            this.toolStripMenuItemPeopleMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
+            this.toolStripMenuItemPeopleMarkFavorite.Name = "toolStripMenuItemPeopleMarkFavorite";
+            this.toolStripMenuItemPeopleMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemPeopleMarkFavorite.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleMarkFavorite.Text = "Mark as favorite";
+            this.toolStripMenuItemPeopleMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemPeopleMarkFavorite_Click);
+            // 
+            // toolStripMenuItemPeopleRemoveFavorite
+            // 
+            this.toolStripMenuItemPeopleRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
+            this.toolStripMenuItemPeopleRemoveFavorite.Name = "toolStripMenuItemPeopleRemoveFavorite";
+            this.toolStripMenuItemPeopleRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemPeopleRemoveFavorite.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleRemoveFavorite.Text = "Remove as favorite";
+            this.toolStripMenuItemPeopleRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemPeopleRemoveFavorite_Click);
+            // 
+            // toolStripMenuItemPeopleToggleFavorite
+            // 
+            this.toolStripMenuItemPeopleToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
+            this.toolStripMenuItemPeopleToggleFavorite.Name = "toolStripMenuItemPeopleToggleFavorite";
+            this.toolStripMenuItemPeopleToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemPeopleToggleFavorite.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleToggleFavorite.Text = "Toggle favorite";
+            this.toolStripMenuItemPeopleToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemPeopleToggleFavorite_Click);
+            // 
             // toolStripMenuItemPeopleShowFavorite
             // 
             this.toolStripMenuItemPeopleShowFavorite.Name = "toolStripMenuItemPeopleShowFavorite";
@@ -1634,6 +2318,34 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleHideEqualRows.Size = new System.Drawing.Size(367, 26);
             this.toolStripMenuItemPeopleHideEqualRows.Text = "Hide equal rows";
             this.toolStripMenuItemPeopleHideEqualRows.Click += new System.EventHandler(this.toolStripMenuItemPeopleHideEqualRows_Click);
+            // 
+            // toolStripMenuItemPeopleTogglePeopleTag
+            // 
+            this.toolStripMenuItemPeopleTogglePeopleTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordToggle;
+            this.toolStripMenuItemPeopleTogglePeopleTag.Name = "toolStripMenuItemPeopleTogglePeopleTag";
+            this.toolStripMenuItemPeopleTogglePeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
+            this.toolStripMenuItemPeopleTogglePeopleTag.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleTogglePeopleTag.Text = "Toggle selected people tag";
+            this.toolStripMenuItemPeopleTogglePeopleTag.Click += new System.EventHandler(this.toolStripMenuItemPeopleTogglePeopleTag_Click);
+            // 
+            // toolStripMenuItemPeopleSelectPeopleTag
+            // 
+            this.toolStripMenuItemPeopleSelectPeopleTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordSelect;
+            this.toolStripMenuItemPeopleSelectPeopleTag.Name = "toolStripMenuItemPeopleSelectPeopleTag";
+            this.toolStripMenuItemPeopleSelectPeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Space)));
+            this.toolStripMenuItemPeopleSelectPeopleTag.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleSelectPeopleTag.Text = "Set selected people tags";
+            this.toolStripMenuItemPeopleSelectPeopleTag.Click += new System.EventHandler(this.toolStripMenuItemPeopleSelectPeopleTag_Click);
+            // 
+            // toolStripMenuItemPeopleRemovePeopleTag
+            // 
+            this.toolStripMenuItemPeopleRemovePeopleTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordDelete;
+            this.toolStripMenuItemPeopleRemovePeopleTag.Name = "toolStripMenuItemPeopleRemovePeopleTag";
+            this.toolStripMenuItemPeopleRemovePeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
+            this.toolStripMenuItemPeopleRemovePeopleTag.Size = new System.Drawing.Size(367, 26);
+            this.toolStripMenuItemPeopleRemovePeopleTag.Text = "Remove selected people tags";
+            this.toolStripMenuItemPeopleRemovePeopleTag.Click += new System.EventHandler(this.toolStripMenuItemPeopleRemovePeopleTag_Click);
             // 
             // tabPageMap
             // 
@@ -1736,14 +2448,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewMap.ColumnHeadersHeight = 29;
             this.dataGridViewMap.ContextMenuStrip = this.contextMenuStripMap;
             this.dataGridViewMap.GridColor = System.Drawing.SystemColors.AppWorkspace;
@@ -1788,6 +2500,116 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripMap.Name = "contextMenuStripMap";
             this.contextMenuStripMap.Size = new System.Drawing.Size(521, 472);
             // 
+            // toolStripMenuItemMapCut
+            // 
+            this.toolStripMenuItemMapCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
+            this.toolStripMenuItemMapCut.Name = "toolStripMenuItemMapCut";
+            this.toolStripMenuItemMapCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.toolStripMenuItemMapCut.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapCut.Text = "Cut";
+            this.toolStripMenuItemMapCut.Click += new System.EventHandler(this.toolStripMenuItemMapCut_Click);
+            // 
+            // toolStripMenuItemMapCopy
+            // 
+            this.toolStripMenuItemMapCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemMapCopy.Name = "toolStripMenuItemMapCopy";
+            this.toolStripMenuItemMapCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemMapCopy.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapCopy.Text = "Copy";
+            this.toolStripMenuItemMapCopy.Click += new System.EventHandler(this.toolStripMenuItemMapCopy_Click);
+            // 
+            // toolStripMenuItemMapPaste
+            // 
+            this.toolStripMenuItemMapPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
+            this.toolStripMenuItemMapPaste.Name = "toolStripMenuItemMapPaste";
+            this.toolStripMenuItemMapPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.toolStripMenuItemMapPaste.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapPaste.Text = "Paste";
+            this.toolStripMenuItemMapPaste.Click += new System.EventHandler(this.toolStripMenuItemMapPaste_Click);
+            // 
+            // toolStripMenuItemMapDelete
+            // 
+            this.toolStripMenuItemMapDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
+            this.toolStripMenuItemMapDelete.Name = "toolStripMenuItemMapDelete";
+            this.toolStripMenuItemMapDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.toolStripMenuItemMapDelete.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapDelete.Text = "Delete";
+            this.toolStripMenuItemMapDelete.Click += new System.EventHandler(this.toolStripMenuItemMapDelete_Click);
+            // 
+            // toolStripMenuItemMapUndo
+            // 
+            this.toolStripMenuItemMapUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Undo;
+            this.toolStripMenuItemMapUndo.Name = "toolStripMenuItemMapUndo";
+            this.toolStripMenuItemMapUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.toolStripMenuItemMapUndo.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapUndo.Text = "Undo";
+            this.toolStripMenuItemMapUndo.Click += new System.EventHandler(this.toolStripMenuItemMapUndo_Click);
+            // 
+            // toolStripMenuItemMapRedo
+            // 
+            this.toolStripMenuItemMapRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Redo;
+            this.toolStripMenuItemMapRedo.Name = "toolStripMenuItemMapRedo";
+            this.toolStripMenuItemMapRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.toolStripMenuItemMapRedo.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapRedo.Text = "Redo";
+            this.toolStripMenuItemMapRedo.Click += new System.EventHandler(this.toolStripMenuItemMapRedo_Click);
+            // 
+            // toolStripMenuItemMapFind
+            // 
+            this.toolStripMenuItemMapFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
+            this.toolStripMenuItemMapFind.Name = "toolStripMenuItemMapFind";
+            this.toolStripMenuItemMapFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
+            this.toolStripMenuItemMapFind.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapFind.Text = "Find";
+            this.toolStripMenuItemMapFind.Click += new System.EventHandler(this.toolStripMenuItemMapFind_Click);
+            // 
+            // toolStripMenuItemMapReplace
+            // 
+            this.toolStripMenuItemMapReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
+            this.toolStripMenuItemMapReplace.Name = "toolStripMenuItemMapReplace";
+            this.toolStripMenuItemMapReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.toolStripMenuItemMapReplace.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapReplace.Text = "Replace";
+            this.toolStripMenuItemMapReplace.Click += new System.EventHandler(this.toolStripMenuItemMapReplace_Click);
+            // 
+            // toolStripMenuItemMapSave
+            // 
+            this.toolStripMenuItemMapSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
+            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
+            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapSave.Text = "Save";
+            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
+            // 
+            // toolStripMenuItemMapMarkFavorite
+            // 
+            this.toolStripMenuItemMapMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
+            this.toolStripMenuItemMapMarkFavorite.Name = "toolStripMenuItemMapMarkFavorite";
+            this.toolStripMenuItemMapMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemMapMarkFavorite.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapMarkFavorite.Text = "Mark as favorite";
+            this.toolStripMenuItemMapMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemMapMarkFavorite_Click);
+            // 
+            // toolStripMenuItemMapRemoveFavorite
+            // 
+            this.toolStripMenuItemMapRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
+            this.toolStripMenuItemMapRemoveFavorite.Name = "toolStripMenuItemMapRemoveFavorite";
+            this.toolStripMenuItemMapRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemMapRemoveFavorite.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapRemoveFavorite.Text = "Remove as favorite";
+            this.toolStripMenuItemMapRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemMapRemoveFavorite_Click);
+            // 
+            // toolStripMenuItemMapToggleFavorite
+            // 
+            this.toolStripMenuItemMapToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
+            this.toolStripMenuItemMapToggleFavorite.Name = "toolStripMenuItemMapToggleFavorite";
+            this.toolStripMenuItemMapToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemMapToggleFavorite.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapToggleFavorite.Text = "Toggle favorite";
+            this.toolStripMenuItemMapToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemMapToggleFavorite_Click);
+            // 
             // toolStripMenuItemMapShowFavorite
             // 
             this.toolStripMenuItemMapShowFavorite.Name = "toolStripMenuItemMapShowFavorite";
@@ -1805,6 +2627,44 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapHideEqual.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemMapHideEqual.Text = "Hide equal rows";
             this.toolStripMenuItemMapHideEqual.Click += new System.EventHandler(this.toolStripMenuItemMapHideEqual_Click);
+            // 
+            // toolStripMenuItemMapCopyNotOverwrite
+            // 
+            this.toolStripMenuItemMapCopyNotOverwrite.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemMapCopyNotOverwrite.Image")));
+            this.toolStripMenuItemMapCopyNotOverwrite.Name = "toolStripMenuItemMapCopyNotOverwrite";
+            this.toolStripMenuItemMapCopyNotOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemMapCopyNotOverwrite.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapCopyNotOverwrite.Text = "Copy selected values to media file without overwrite";
+            this.toolStripMenuItemMapCopyNotOverwrite.Click += new System.EventHandler(this.toolStripMenuItemMapCopyNotOverwrite_Click);
+            // 
+            // toolStripMenuItemMapCopyAndOverwrite
+            // 
+            this.toolStripMenuItemMapCopyAndOverwrite.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemMapCopyAndOverwrite.Image")));
+            this.toolStripMenuItemMapCopyAndOverwrite.Name = "toolStripMenuItemMapCopyAndOverwrite";
+            this.toolStripMenuItemMapCopyAndOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemMapCopyAndOverwrite.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapCopyAndOverwrite.Text = "Copy selected values to media file and overwrite";
+            this.toolStripMenuItemMapCopyAndOverwrite.Click += new System.EventHandler(this.toolStripMenuItemMapCopyAndOverwrite_Click);
+            // 
+            // toolStripMenuItemShowCoordinateOnMap
+            // 
+            this.toolStripMenuItemShowCoordinateOnMap.Image = global::PhotoTagsSynchronizer.Properties.Resources.ShowLocation;
+            this.toolStripMenuItemShowCoordinateOnMap.Name = "toolStripMenuItemShowCoordinateOnMap";
+            this.toolStripMenuItemShowCoordinateOnMap.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.toolStripMenuItemShowCoordinateOnMap.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemShowCoordinateOnMap.Text = "Show Coordinate on Map";
+            this.toolStripMenuItemShowCoordinateOnMap.Click += new System.EventHandler(this.toolStripMenuItemShowCoordinateOnMap_Click);
+            // 
+            // toolStripMenuItemMapReloadLocationUsingNominatim
+            // 
+            this.toolStripMenuItemMapReloadLocationUsingNominatim.Image = global::PhotoTagsSynchronizer.Properties.Resources.LocationReload;
+            this.toolStripMenuItemMapReloadLocationUsingNominatim.Name = "toolStripMenuItemMapReloadLocationUsingNominatim";
+            this.toolStripMenuItemMapReloadLocationUsingNominatim.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.toolStripMenuItemMapReloadLocationUsingNominatim.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemMapReloadLocationUsingNominatim.Text = "Reload Location using Nominatim";
+            this.toolStripMenuItemMapReloadLocationUsingNominatim.Click += new System.EventHandler(this.toolStripMenuItemMapReloadLocationUsingNominatim_Click);
             // 
             // panel3
             // 
@@ -1826,6 +2686,16 @@ namespace PhotoTagsSynchronizer
             this.textBoxBrowserURL.Size = new System.Drawing.Size(384, 24);
             this.textBoxBrowserURL.TabIndex = 9;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(1, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(34, 26);
+            this.pictureBox1.TabIndex = 16;
+            this.pictureBox1.TabStop = false;
             // 
             // comboBoxMapZoomLevel
             // 
@@ -1959,6 +2829,53 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemExiftoolAssignCompositeTag.Size = new System.Drawing.Size(302, 26);
             this.toolStripMenuItemExiftoolAssignCompositeTag.Text = "Assign Composite Tag";
             // 
+            // toolStripMenuItemExiftoolCopy
+            // 
+            this.toolStripMenuItemExiftoolCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemExiftoolCopy.Name = "toolStripMenuItemExiftoolCopy";
+            this.toolStripMenuItemExiftoolCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemExiftoolCopy.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolCopy.Text = "Copy";
+            this.toolStripMenuItemExiftoolCopy.Click += new System.EventHandler(this.toolStripMenuItemExiftoolCopy_Click);
+            // 
+            // toolStripMenuItemExiftoolFind
+            // 
+            this.toolStripMenuItemExiftoolFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
+            this.toolStripMenuItemExiftoolFind.Name = "toolStripMenuItemExiftoolFind";
+            this.toolStripMenuItemExiftoolFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.toolStripMenuItemExiftoolFind.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolFind.Text = "Find";
+            this.toolStripMenuItemExiftoolFind.Click += new System.EventHandler(this.toolStripMenuItemExiftoolFind_Click);
+            // 
+            // toolStripMenuItemExiftoolMarkFavorite
+            // 
+            this.toolStripMenuItemExiftoolMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
+            this.toolStripMenuItemExiftoolMarkFavorite.Name = "toolStripMenuItemExiftoolMarkFavorite";
+            this.toolStripMenuItemExiftoolMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemExiftoolMarkFavorite.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolMarkFavorite.Text = "Mark as favorite";
+            this.toolStripMenuItemExiftoolMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolMarkFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolRemoveFavorite
+            // 
+            this.toolStripMenuItemExiftoolRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
+            this.toolStripMenuItemExiftoolRemoveFavorite.Name = "toolStripMenuItemExiftoolRemoveFavorite";
+            this.toolStripMenuItemExiftoolRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemExiftoolRemoveFavorite.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolRemoveFavorite.Text = "Remove as favorite";
+            this.toolStripMenuItemExiftoolRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolRemoveFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolToggleFavorite
+            // 
+            this.toolStripMenuItemExiftoolToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
+            this.toolStripMenuItemExiftoolToggleFavorite.Name = "toolStripMenuItemExiftoolToggleFavorite";
+            this.toolStripMenuItemExiftoolToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemExiftoolToggleFavorite.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolToggleFavorite.Text = "Toggle favorite";
+            this.toolStripMenuItemExiftoolToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolToggleFavorite_Click);
+            // 
             // toolStripMenuItemExiftoolSHowFavorite
             // 
             this.toolStripMenuItemExiftoolSHowFavorite.Name = "toolStripMenuItemExiftoolSHowFavorite";
@@ -1995,14 +2912,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.AllowUserToAddRows = false;
             this.dataGridViewExifToolWarning.ColumnHeadersHeight = 29;
             this.dataGridViewExifToolWarning.ContextMenuStrip = this.contextMenuStripExiftoolWarning;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewExifToolWarning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewExifToolWarning.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewExifToolWarning.Name = "dataGridViewExifToolWarning";
@@ -2035,6 +2952,53 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Name = "toolStripMenuItemtoolExiftoolWarningAssignCompositeTag";
             this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Size = new System.Drawing.Size(302, 26);
             this.toolStripMenuItemtoolExiftoolWarningAssignCompositeTag.Text = "Assign Composite Tag";
+            // 
+            // toolStripMenuItemExiftoolWarningCopy
+            // 
+            this.toolStripMenuItemExiftoolWarningCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemExiftoolWarningCopy.Name = "toolStripMenuItemExiftoolWarningCopy";
+            this.toolStripMenuItemExiftoolWarningCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemExiftoolWarningCopy.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningCopy.Text = "Copy";
+            this.toolStripMenuItemExiftoolWarningCopy.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningCopy_Click);
+            // 
+            // toolStripMenuItemExiftoolWarningFind
+            // 
+            this.toolStripMenuItemExiftoolWarningFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
+            this.toolStripMenuItemExiftoolWarningFind.Name = "toolStripMenuItemExiftoolWarningFind";
+            this.toolStripMenuItemExiftoolWarningFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.toolStripMenuItemExiftoolWarningFind.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningFind.Text = "Find";
+            this.toolStripMenuItemExiftoolWarningFind.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningFind_Click);
+            // 
+            // toolStripMenuItemExiftoolWarningMarkFavorite
+            // 
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.Name = "toolStripMenuItemExiftoolWarningMarkFavorite";
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.Text = "Mark as favorite";
+            this.toolStripMenuItemExiftoolWarningMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningMarkFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolWarningRemoveFavorite
+            // 
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Name = "toolStripMenuItemExiftoolWarningRemoveFavorite";
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Text = "Remove as favorite";
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningRemoveFavorite_Click);
+            // 
+            // toolStripMenuItemExiftoolWarningToggleFavorite
+            // 
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.Name = "toolStripMenuItemExiftoolWarningToggleFavorite";
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.D)));
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.Size = new System.Drawing.Size(302, 26);
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.Text = "Toggle favorite";
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningToggleFavorite_Click);
             // 
             // toolStripMenuItemExiftoolWarningShowFavorite
             // 
@@ -2290,6 +3254,10 @@ namespace PhotoTagsSynchronizer
             this.rotateCWToolStripButton,
             this.toolStripButtonPreview,
             this.toolStripSeparator2,
+            this.toolStripButtonSelectPrevious,
+            this.toolStripDropDownButtonSelectGroupBy,
+            this.toolStripButtonSelectNext,
+            this.toolStripSeparator11,
             this.toolStripButtonGridBig,
             this.toolStripButtonGridNormal,
             this.toolStripButtonGridSmall,
@@ -2301,14 +3269,51 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonSaveAllMetadata,
             this.toolStripSeparator4,
             this.toolStripButtonConfig,
-            this.toolStripButtonAbout,
-            this.toolStripButtonSelectPrevious,
-            this.toolStripDropDownButtonSelectGroupBy,
-            this.toolStripButtonSelectNext});
+            this.toolStripButtonAbout});
             this.toolStrip.Location = new System.Drawing.Point(4, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(1122, 28);
+            this.toolStrip.Size = new System.Drawing.Size(1128, 28);
             this.toolStrip.TabIndex = 0;
+            // 
+            // thumbnailsToolStripButton
+            // 
+            this.thumbnailsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.thumbnailsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("thumbnailsToolStripButton.Image")));
+            this.thumbnailsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.thumbnailsToolStripButton.Name = "thumbnailsToolStripButton";
+            this.thumbnailsToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.thumbnailsToolStripButton.Text = "Thumbnails";
+            this.thumbnailsToolStripButton.Click += new System.EventHandler(this.thumbnailsToolStripButton_Click);
+            // 
+            // galleryToolStripButton
+            // 
+            this.galleryToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.galleryToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("galleryToolStripButton.Image")));
+            this.galleryToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.galleryToolStripButton.Name = "galleryToolStripButton";
+            this.galleryToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.galleryToolStripButton.Text = "Gallery";
+            this.galleryToolStripButton.Click += new System.EventHandler(this.galleryToolStripButton_Click);
+            // 
+            // paneToolStripButton
+            // 
+            this.paneToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.paneToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("paneToolStripButton.Image")));
+            this.paneToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.paneToolStripButton.Name = "paneToolStripButton";
+            this.paneToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.paneToolStripButton.Text = "Pane";
+            this.paneToolStripButton.Click += new System.EventHandler(this.paneToolStripButton_Click);
+            // 
+            // detailsToolStripButton
+            // 
+            this.detailsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.detailsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("detailsToolStripButton.Image")));
+            this.detailsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.detailsToolStripButton.Name = "detailsToolStripButton";
+            this.detailsToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.detailsToolStripButton.Text = "Details";
+            this.detailsToolStripButton.Click += new System.EventHandler(this.detailsToolStripButton_Click);
             // 
             // toolStripSeparatorRenderer
             // 
@@ -2335,35 +3340,384 @@ namespace PhotoTagsSynchronizer
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 28);
             // 
+            // columnsToolStripButton
+            // 
+            this.columnsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.columnsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("columnsToolStripButton.Image")));
+            this.columnsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.columnsToolStripButton.Name = "columnsToolStripButton";
+            this.columnsToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.columnsToolStripButton.Text = "Choose Columns for the Image View...";
+            this.columnsToolStripButton.Click += new System.EventHandler(this.columnsToolStripButton_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
+            // 
+            // toolStripButtonThumbnailSize1
+            // 
+            this.toolStripButtonThumbnailSize1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonThumbnailSize1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize1.Image")));
+            this.toolStripButtonThumbnailSize1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonThumbnailSize1.Name = "toolStripButtonThumbnailSize1";
+            this.toolStripButtonThumbnailSize1.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonThumbnailSize1.Text = "Thumbnail size 200x200";
+            this.toolStripButtonThumbnailSize1.Click += new System.EventHandler(this.toolStripButtonThumbnailSize1_Click);
+            // 
+            // toolStripButtonThumbnailSize2
+            // 
+            this.toolStripButtonThumbnailSize2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonThumbnailSize2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize2.Image")));
+            this.toolStripButtonThumbnailSize2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonThumbnailSize2.Name = "toolStripButtonThumbnailSize2";
+            this.toolStripButtonThumbnailSize2.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonThumbnailSize2.Text = "Thumbnail size 150x150";
+            this.toolStripButtonThumbnailSize2.Click += new System.EventHandler(this.toolStripButtonThumbnailSize2_Click);
+            // 
+            // toolStripButtonThumbnailSize3
+            // 
+            this.toolStripButtonThumbnailSize3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonThumbnailSize3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize3.Image")));
+            this.toolStripButtonThumbnailSize3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonThumbnailSize3.Name = "toolStripButtonThumbnailSize3";
+            this.toolStripButtonThumbnailSize3.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonThumbnailSize3.Text = "Thumbnail size 120x120";
+            this.toolStripButtonThumbnailSize3.Click += new System.EventHandler(this.toolStripButtonThumbnailSize3_Click);
+            // 
+            // toolStripButtonThumbnailSize4
+            // 
+            this.toolStripButtonThumbnailSize4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonThumbnailSize4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize4.Image")));
+            this.toolStripButtonThumbnailSize4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonThumbnailSize4.Name = "toolStripButtonThumbnailSize4";
+            this.toolStripButtonThumbnailSize4.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonThumbnailSize4.Text = "Thumbnail size 96x96";
+            this.toolStripButtonThumbnailSize4.Click += new System.EventHandler(this.toolStripButtonThumbnailSize4_Click);
+            // 
+            // toolStripButtonThumbnailSize5
+            // 
+            this.toolStripButtonThumbnailSize5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonThumbnailSize5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize5.Image")));
+            this.toolStripButtonThumbnailSize5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonThumbnailSize5.Name = "toolStripButtonThumbnailSize5";
+            this.toolStripButtonThumbnailSize5.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonThumbnailSize5.Text = "Thumbnail size 48x48";
+            this.toolStripButtonThumbnailSize5.Click += new System.EventHandler(this.toolStripButtonThumbnailSize5_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 28);
             // 
+            // rotateCCWToolStripButton
+            // 
+            this.rotateCCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.rotateCCWToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
+            this.rotateCCWToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rotateCCWToolStripButton.Name = "rotateCCWToolStripButton";
+            this.rotateCCWToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.rotateCCWToolStripButton.Text = "Rotate Counter-clockwise";
+            this.rotateCCWToolStripButton.Click += new System.EventHandler(this.rotateCCWToolStripButton_Click);
+            // 
+            // rotate180ToolStripButton
+            // 
+            this.rotate180ToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.rotate180ToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
+            this.rotate180ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rotate180ToolStripButton.Name = "rotate180ToolStripButton";
+            this.rotate180ToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.rotate180ToolStripButton.Text = "Rotate 180°";
+            this.rotate180ToolStripButton.Click += new System.EventHandler(this.rotate180ToolStripButton_Click);
+            // 
+            // rotateCWToolStripButton
+            // 
+            this.rotateCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.rotateCWToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
+            this.rotateCWToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rotateCWToolStripButton.Name = "rotateCWToolStripButton";
+            this.rotateCWToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.rotateCWToolStripButton.Text = "Rotate Clockwise";
+            this.rotateCWToolStripButton.Click += new System.EventHandler(this.rotateCWToolStripButton_Click);
+            // 
+            // toolStripButtonPreview
+            // 
+            this.toolStripButtonPreview.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonPreview.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Preview;
+            this.toolStripButtonPreview.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPreview.Name = "toolStripButtonPreview";
+            this.toolStripButtonPreview.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonPreview.Text = "Preview media";
+            this.toolStripButtonPreview.ToolTipText = "Preview media";
+            this.toolStripButtonPreview.Click += new System.EventHandler(this.toolStripButtonPreview_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 28);
+            // 
+            // toolStripButtonSelectPrevious
+            // 
+            this.toolStripButtonSelectPrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonSelectPrevious.Image = global::PhotoTagsSynchronizer.Properties.Resources.Select_Previous;
+            this.toolStripButtonSelectPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSelectPrevious.Name = "toolStripButtonSelectPrevious";
+            this.toolStripButtonSelectPrevious.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonSelectPrevious.Text = "Select Previous Group";
+            this.toolStripButtonSelectPrevious.Click += new System.EventHandler(this.toolStripButtonSelectPrevious_Click);
+            // 
+            // toolStripDropDownButtonSelectGroupBy
+            // 
+            this.toolStripDropDownButtonSelectGroupBy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButtonSelectGroupBy.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemSelectSameDay,
+            this.toolStripMenuItemSelectSame3Day,
+            this.toolStripMenuItemSelectSameWeek,
+            this.toolStripMenuItemSelectSame2week,
+            this.toolStripMenuItemSelectSameMonth,
+            this.toolStripMenuItemSelectFallbackOnFileCreated,
+            this.toolStripSeparator13,
+            this.toolStripMenuItemSelectMax10items,
+            this.toolStripMenuItemSelectMax30items,
+            this.toolStripMenuItemSelectMax50items,
+            this.toolStripMenuItemSelectMax100items,
+            this.toolStripSeparator12,
+            this.toolStripMenuItemSelectSameLocationName,
+            this.toolStripMenuItemSelectSameCity,
+            this.toolStripMenuItemSelectSameDistrict,
+            this.toolStripMenuItemSelectSameCountry});
+            this.toolStripDropDownButtonSelectGroupBy.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonSelectGroupBy.Image")));
+            this.toolStripDropDownButtonSelectGroupBy.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonSelectGroupBy.Name = "toolStripDropDownButtonSelectGroupBy";
+            this.toolStripDropDownButtonSelectGroupBy.Size = new System.Drawing.Size(130, 25);
+            this.toolStripDropDownButtonSelectGroupBy.Text = "Select group by:";
+            // 
+            // toolStripMenuItemSelectSameDay
+            // 
+            this.toolStripMenuItemSelectSameDay.Name = "toolStripMenuItemSelectSameDay";
+            this.toolStripMenuItemSelectSameDay.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectSameDay.Text = "Select on same Day";
+            this.toolStripMenuItemSelectSameDay.Click += new System.EventHandler(this.toolStripMenuItemSelectSameDay_Click);
+            // 
+            // toolStripMenuItemSelectSame3Day
+            // 
+            this.toolStripMenuItemSelectSame3Day.Name = "toolStripMenuItemSelectSame3Day";
+            this.toolStripMenuItemSelectSame3Day.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectSame3Day.Text = "Select within 3 Day range";
+            this.toolStripMenuItemSelectSame3Day.Click += new System.EventHandler(this.toolStripMenuItemSelectSame3Day_Click);
+            // 
+            // toolStripMenuItemSelectSameWeek
+            // 
+            this.toolStripMenuItemSelectSameWeek.Name = "toolStripMenuItemSelectSameWeek";
+            this.toolStripMenuItemSelectSameWeek.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectSameWeek.Text = "Select within Week range (7 days)";
+            this.toolStripMenuItemSelectSameWeek.Click += new System.EventHandler(this.toolStripMenuItemSelectSameWeek_Click);
+            // 
+            // toolStripMenuItemSelectSame2week
+            // 
+            this.toolStripMenuItemSelectSame2week.Name = "toolStripMenuItemSelectSame2week";
+            this.toolStripMenuItemSelectSame2week.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectSame2week.Text = "Select within 2 weeks range (14 days)";
+            this.toolStripMenuItemSelectSame2week.Click += new System.EventHandler(this.toolStripMenuItemSelectSame2week_Click);
+            // 
+            // toolStripMenuItemSelectSameMonth
+            // 
+            this.toolStripMenuItemSelectSameMonth.Name = "toolStripMenuItemSelectSameMonth";
+            this.toolStripMenuItemSelectSameMonth.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectSameMonth.Text = "Select within Month range (30 days)";
+            this.toolStripMenuItemSelectSameMonth.Click += new System.EventHandler(this.toolStripMenuItemSelectSameMonth_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(391, 6);
+            // 
+            // toolStripMenuItemSelectMax10items
+            // 
+            this.toolStripMenuItemSelectMax10items.Name = "toolStripMenuItemSelectMax10items";
+            this.toolStripMenuItemSelectMax10items.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectMax10items.Text = "Select max 10 media files";
+            this.toolStripMenuItemSelectMax10items.Click += new System.EventHandler(this.toolStripMenuItemSelectMax10items_Click);
+            // 
+            // toolStripMenuItemSelectMax30items
+            // 
+            this.toolStripMenuItemSelectMax30items.Name = "toolStripMenuItemSelectMax30items";
+            this.toolStripMenuItemSelectMax30items.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectMax30items.Text = "Select max 30 media files";
+            this.toolStripMenuItemSelectMax30items.Click += new System.EventHandler(this.toolStripMenuItemSelectMax30items_Click);
+            // 
+            // toolStripMenuItemSelectMax50items
+            // 
+            this.toolStripMenuItemSelectMax50items.Name = "toolStripMenuItemSelectMax50items";
+            this.toolStripMenuItemSelectMax50items.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectMax50items.Text = "Select max 50 media files";
+            this.toolStripMenuItemSelectMax50items.Click += new System.EventHandler(this.toolStripMenuItemSelectMax50items_Click);
+            // 
+            // toolStripMenuItemSelectMax100items
+            // 
+            this.toolStripMenuItemSelectMax100items.Name = "toolStripMenuItemSelectMax100items";
+            this.toolStripMenuItemSelectMax100items.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectMax100items.Text = "Select max 100 media files";
+            this.toolStripMenuItemSelectMax100items.Click += new System.EventHandler(this.toolStripMenuItemSelectMax100items_Click);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(391, 6);
+            // 
+            // toolStripMenuItemSelectSameLocationName
+            // 
+            this.toolStripMenuItemSelectSameLocationName.Name = "toolStripMenuItemSelectSameLocationName";
+            this.toolStripMenuItemSelectSameLocationName.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectSameLocationName.Text = "Select same Location Name";
+            this.toolStripMenuItemSelectSameLocationName.Click += new System.EventHandler(this.toolStripMenuItemSelectSameLocationName_Click);
+            // 
+            // toolStripMenuItemSelectSameCity
+            // 
+            this.toolStripMenuItemSelectSameCity.Name = "toolStripMenuItemSelectSameCity";
+            this.toolStripMenuItemSelectSameCity.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectSameCity.Text = "Select same City";
+            this.toolStripMenuItemSelectSameCity.Click += new System.EventHandler(this.toolStripMenuItemSelectSameCity_Click);
+            // 
+            // toolStripMenuItemSelectSameDistrict
+            // 
+            this.toolStripMenuItemSelectSameDistrict.Name = "toolStripMenuItemSelectSameDistrict";
+            this.toolStripMenuItemSelectSameDistrict.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectSameDistrict.Text = "Select same District";
+            this.toolStripMenuItemSelectSameDistrict.Click += new System.EventHandler(this.toolStripMenuItemSelectSameDistrict_Click);
+            // 
+            // toolStripMenuItemSelectSameCountry
+            // 
+            this.toolStripMenuItemSelectSameCountry.Name = "toolStripMenuItemSelectSameCountry";
+            this.toolStripMenuItemSelectSameCountry.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectSameCountry.Text = "Select same Country";
+            this.toolStripMenuItemSelectSameCountry.Click += new System.EventHandler(this.toolStripMenuItemSelectSameCountry_Click);
+            // 
+            // toolStripButtonSelectNext
+            // 
+            this.toolStripButtonSelectNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonSelectNext.Image = global::PhotoTagsSynchronizer.Properties.Resources.Select_Next;
+            this.toolStripButtonSelectNext.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSelectNext.Name = "toolStripButtonSelectNext";
+            this.toolStripButtonSelectNext.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonSelectNext.Text = "Select Next Group";
+            this.toolStripButtonSelectNext.Click += new System.EventHandler(this.toolStripButtonSelectNext_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 28);
+            // 
+            // toolStripButtonGridBig
+            // 
+            this.toolStripButtonGridBig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonGridBig.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridBig;
+            this.toolStripButtonGridBig.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonGridBig.Name = "toolStripButtonGridBig";
+            this.toolStripButtonGridBig.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonGridBig.Text = "Big Grid";
+            this.toolStripButtonGridBig.Click += new System.EventHandler(this.toolStripButtonGridBig_Click);
+            // 
+            // toolStripButtonGridNormal
+            // 
+            this.toolStripButtonGridNormal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonGridNormal.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridNormal;
+            this.toolStripButtonGridNormal.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonGridNormal.Name = "toolStripButtonGridNormal";
+            this.toolStripButtonGridNormal.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonGridNormal.Text = "Normal Grid";
+            this.toolStripButtonGridNormal.Click += new System.EventHandler(this.toolStripButtonGridNormal_Click);
+            // 
+            // toolStripButtonGridSmall
+            // 
+            this.toolStripButtonGridSmall.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonGridSmall.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridSmall;
+            this.toolStripButtonGridSmall.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonGridSmall.Name = "toolStripButtonGridSmall";
+            this.toolStripButtonGridSmall.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonGridSmall.Text = "Small Grid";
+            this.toolStripButtonGridSmall.Click += new System.EventHandler(this.toolStripButtonGridSmall_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 28);
             // 
+            // toolStripButtonHistortyColumns
+            // 
+            this.toolStripButtonHistortyColumns.Checked = true;
+            this.toolStripButtonHistortyColumns.CheckOnClick = true;
+            this.toolStripButtonHistortyColumns.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripButtonHistortyColumns.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonHistortyColumns.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridHistoryColumn;
+            this.toolStripButtonHistortyColumns.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonHistortyColumns.Name = "toolStripButtonHistortyColumns";
+            this.toolStripButtonHistortyColumns.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonHistortyColumns.Text = "Show or Hide Historty Columns";
+            this.toolStripButtonHistortyColumns.CheckedChanged += new System.EventHandler(this.toolStripButtonHistortyColumns_CheckedChanged);
+            // 
+            // toolStripButtonErrorColumns
+            // 
+            this.toolStripButtonErrorColumns.Checked = true;
+            this.toolStripButtonErrorColumns.CheckOnClick = true;
+            this.toolStripButtonErrorColumns.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripButtonErrorColumns.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonErrorColumns.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridErrorColumn;
+            this.toolStripButtonErrorColumns.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonErrorColumns.Name = "toolStripButtonErrorColumns";
+            this.toolStripButtonErrorColumns.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonErrorColumns.Text = "Show or Hide Error Columns";
+            this.toolStripButtonErrorColumns.CheckedChanged += new System.EventHandler(this.toolStripButtonErrorColumns_CheckedChanged);
+            // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 28);
             // 
+            // toolStripButtonImportGoogleLocation
+            // 
+            this.toolStripButtonImportGoogleLocation.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonImportGoogleLocation.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonImportGoogleLocation.Image")));
+            this.toolStripButtonImportGoogleLocation.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonImportGoogleLocation.Name = "toolStripButtonImportGoogleLocation";
+            this.toolStripButtonImportGoogleLocation.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonImportGoogleLocation.Text = "Import Google Locations";
+            this.toolStripButtonImportGoogleLocation.Click += new System.EventHandler(this.toolStripButtonImportGoogleLocation_Click);
+            // 
+            // toolStripButtonSaveAllMetadata
+            // 
+            this.toolStripButtonSaveAllMetadata.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonSaveAllMetadata.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
+            this.toolStripButtonSaveAllMetadata.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSaveAllMetadata.Name = "toolStripButtonSaveAllMetadata";
+            this.toolStripButtonSaveAllMetadata.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonSaveAllMetadata.Text = "Save changes";
+            this.toolStripButtonSaveAllMetadata.Click += new System.EventHandler(this.toolStripButtonSaveAllMetadata_Click);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 28);
+            // 
+            // toolStripButtonConfig
+            // 
+            this.toolStripButtonConfig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonConfig.Image = global::PhotoTagsSynchronizer.Properties.Resources.Config;
+            this.toolStripButtonConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonConfig.Name = "toolStripButtonConfig";
+            this.toolStripButtonConfig.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonConfig.Text = "Config";
+            this.toolStripButtonConfig.Click += new System.EventHandler(this.toolStripButtonConfig_Click);
+            // 
+            // toolStripButtonAbout
+            // 
+            this.toolStripButtonAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonAbout.Image = global::PhotoTagsSynchronizer.Properties.Resources.About;
+            this.toolStripButtonAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAbout.Name = "toolStripButtonAbout";
+            this.toolStripButtonAbout.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonAbout.Text = "About";
+            this.toolStripButtonAbout.Click += new System.EventHandler(this.toolStripButtonAbout_Click);
             // 
             // imageListFilter
             // 
@@ -2496,59 +3850,6 @@ namespace PhotoTagsSynchronizer
             this.toolStrip1.Size = new System.Drawing.Size(845, 59);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripTraceBarItemMediaPreviewTimer
-            // 
-            this.toolStripTraceBarItemMediaPreviewTimer.Name = "toolStripTraceBarItemMediaPreviewTimer";
-            this.toolStripTraceBarItemMediaPreviewTimer.Size = new System.Drawing.Size(205, 56);
-            this.toolStripTraceBarItemMediaPreviewTimer.Text = "Video timer";
-            this.toolStripTraceBarItemMediaPreviewTimer.ToolTipText = "Video timer";
-            this.toolStripTraceBarItemMediaPreviewTimer.ValueChanged += new System.EventHandler(this.toolStripTraceBarItemSeekPosition_ValueChanged);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 59);
-            // 
-            // toolStripLabelMediaPreviewTimer
-            // 
-            this.toolStripLabelMediaPreviewTimer.Name = "toolStripLabelMediaPreviewTimer";
-            this.toolStripLabelMediaPreviewTimer.Size = new System.Drawing.Size(81, 56);
-            this.toolStripLabelMediaPreviewTimer.Text = "Timer: 0.00";
-            this.toolStripLabelMediaPreviewTimer.ToolTipText = "Timer";
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 59);
-            // 
-            // toolStripLabelMediaPreviewStatus
-            // 
-            this.toolStripLabelMediaPreviewStatus.Name = "toolStripLabelMediaPreviewStatus";
-            this.toolStripLabelMediaPreviewStatus.Size = new System.Drawing.Size(49, 56);
-            this.toolStripLabelMediaPreviewStatus.Text = "Status";
-            this.toolStripLabelMediaPreviewStatus.ToolTipText = "Status";
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 59);
-            // 
-            // timerFindGoogleCast
-            // 
-            this.timerFindGoogleCast.Interval = 20000;
-            this.timerFindGoogleCast.Tick += new System.EventHandler(this.timerFindGoogleCast_Tick);
-            // 
-            // timerPreviewNextTimer
-            // 
-            this.timerPreviewNextTimer.Interval = 2000;
-            this.timerPreviewNextTimer.Tick += new System.EventHandler(this.timerPreviewNextTimer_Tick);
-            // 
-            // timerSaveProgessRemoveProgress
-            // 
-            this.timerSaveProgessRemoveProgress.Enabled = true;
-            this.timerSaveProgessRemoveProgress.Interval = 500;
-            this.timerSaveProgessRemoveProgress.Tick += new System.EventHandler(this.timerSaveProgessRemoveProgress_Tick);
             // 
             // toolStripButtonMediaPreviewPrevious
             // 
@@ -2759,1233 +4060,65 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewClose.Text = "Close preview media";
             this.toolStripButtonMediaPreviewClose.Click += new System.EventHandler(this.toolStripButtonMediaPreviewClose_Click);
             // 
-            // toolStripMenuItemTreeViewFolderCut
+            // toolStripTraceBarItemMediaPreviewTimer
             // 
-            this.toolStripMenuItemTreeViewFolderCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
-            this.toolStripMenuItemTreeViewFolderCut.Name = "toolStripMenuItemTreeViewFolderCut";
-            this.toolStripMenuItemTreeViewFolderCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.toolStripMenuItemTreeViewFolderCut.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemTreeViewFolderCut.Text = "Cut";
-            this.toolStripMenuItemTreeViewFolderCut.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderCut_Click);
+            this.toolStripTraceBarItemMediaPreviewTimer.Name = "toolStripTraceBarItemMediaPreviewTimer";
+            this.toolStripTraceBarItemMediaPreviewTimer.Size = new System.Drawing.Size(205, 56);
+            this.toolStripTraceBarItemMediaPreviewTimer.Text = "Video timer";
+            this.toolStripTraceBarItemMediaPreviewTimer.ToolTipText = "Video timer";
+            this.toolStripTraceBarItemMediaPreviewTimer.ValueChanged += new System.EventHandler(this.toolStripTraceBarItemSeekPosition_ValueChanged);
             // 
-            // toolStripMenuItemTreeViewFolderCopy
+            // toolStripSeparator8
             // 
-            this.toolStripMenuItemTreeViewFolderCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.toolStripMenuItemTreeViewFolderCopy.Name = "toolStripMenuItemTreeViewFolderCopy";
-            this.toolStripMenuItemTreeViewFolderCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemTreeViewFolderCopy.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemTreeViewFolderCopy.Text = "Copy";
-            this.toolStripMenuItemTreeViewFolderCopy.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderCopy_Click);
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 59);
             // 
-            // toolStripMenuItemTreeViewFolderPaste
+            // toolStripLabelMediaPreviewTimer
             // 
-            this.toolStripMenuItemTreeViewFolderPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
-            this.toolStripMenuItemTreeViewFolderPaste.Name = "toolStripMenuItemTreeViewFolderPaste";
-            this.toolStripMenuItemTreeViewFolderPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.toolStripMenuItemTreeViewFolderPaste.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemTreeViewFolderPaste.Text = "Paste";
-            this.toolStripMenuItemTreeViewFolderPaste.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderPaste_Click);
+            this.toolStripLabelMediaPreviewTimer.Name = "toolStripLabelMediaPreviewTimer";
+            this.toolStripLabelMediaPreviewTimer.Size = new System.Drawing.Size(81, 56);
+            this.toolStripLabelMediaPreviewTimer.Text = "Timer: 0.00";
+            this.toolStripLabelMediaPreviewTimer.ToolTipText = "Timer";
             // 
-            // toolStripMenuItemTreeViewFolderDelete
+            // toolStripSeparator9
             // 
-            this.toolStripMenuItemTreeViewFolderDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
-            this.toolStripMenuItemTreeViewFolderDelete.Name = "toolStripMenuItemTreeViewFolderDelete";
-            this.toolStripMenuItemTreeViewFolderDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.toolStripMenuItemTreeViewFolderDelete.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemTreeViewFolderDelete.Text = "Delete";
-            this.toolStripMenuItemTreeViewFolderDelete.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderDelete_Click);
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 59);
             // 
-            // toolStripMenuItemTreeViewFolderRefreshFolder
+            // toolStripLabelMediaPreviewStatus
             // 
-            this.toolStripMenuItemTreeViewFolderRefreshFolder.Image = global::PhotoTagsSynchronizer.Properties.Resources.RefreshFolder;
-            this.toolStripMenuItemTreeViewFolderRefreshFolder.Name = "toolStripMenuItemTreeViewFolderRefreshFolder";
-            this.toolStripMenuItemTreeViewFolderRefreshFolder.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.toolStripMenuItemTreeViewFolderRefreshFolder.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemTreeViewFolderRefreshFolder.Text = "Refresh folder";
-            this.toolStripMenuItemTreeViewFolderRefreshFolder.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderRefreshFolder_Click);
+            this.toolStripLabelMediaPreviewStatus.Name = "toolStripLabelMediaPreviewStatus";
+            this.toolStripLabelMediaPreviewStatus.Size = new System.Drawing.Size(49, 56);
+            this.toolStripLabelMediaPreviewStatus.Text = "Status";
+            this.toolStripLabelMediaPreviewStatus.ToolTipText = "Status";
             // 
-            // toolStripMenuItemTreeViewFolderReadSubfolders
+            // toolStripSeparator10
             // 
-            this.toolStripMenuItemTreeViewFolderReadSubfolders.Image = global::PhotoTagsSynchronizer.Properties.Resources.SubfoldersFolder;
-            this.toolStripMenuItemTreeViewFolderReadSubfolders.Name = "toolStripMenuItemTreeViewFolderReadSubfolders";
-            this.toolStripMenuItemTreeViewFolderReadSubfolders.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.toolStripMenuItemTreeViewFolderReadSubfolders.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemTreeViewFolderReadSubfolders.Text = "Read subfolders";
-            this.toolStripMenuItemTreeViewFolderReadSubfolders.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderReadSubfolders_Click);
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 59);
             // 
-            // toolStripMenuItemTreeViewFolderReload
+            // timerFindGoogleCast
             // 
-            this.toolStripMenuItemTreeViewFolderReload.Image = global::PhotoTagsSynchronizer.Properties.Resources.Reload;
-            this.toolStripMenuItemTreeViewFolderReload.Name = "toolStripMenuItemTreeViewFolderReload";
-            this.toolStripMenuItemTreeViewFolderReload.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
-            this.toolStripMenuItemTreeViewFolderReload.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemTreeViewFolderReload.Text = "Reload thumbnail and metadata";
-            this.toolStripMenuItemTreeViewFolderReload.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderReload_Click);
+            this.timerFindGoogleCast.Interval = 20000;
+            this.timerFindGoogleCast.Tick += new System.EventHandler(this.timerFindGoogleCast_Tick);
             // 
-            // toolStripMenuItemTreeViewFolderClearCache
+            // timerPreviewNextTimer
             // 
-            this.toolStripMenuItemTreeViewFolderClearCache.Image = global::PhotoTagsSynchronizer.Properties.Resources.DeleteHistory;
-            this.toolStripMenuItemTreeViewFolderClearCache.Name = "toolStripMenuItemTreeViewFolderClearCache";
-            this.toolStripMenuItemTreeViewFolderClearCache.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
-            this.toolStripMenuItemTreeViewFolderClearCache.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemTreeViewFolderClearCache.Text = "Clear thumbnail and metadata history";
-            this.toolStripMenuItemTreeViewFolderClearCache.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderClearCache_Click);
+            this.timerPreviewNextTimer.Interval = 2000;
+            this.timerPreviewNextTimer.Tick += new System.EventHandler(this.timerPreviewNextTimer_Tick);
             // 
-            // toolStripMenuItemTreeViewFolderAutoCorrectMetadata
+            // timerSaveProgessRemoveProgress
             // 
-            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Image = global::PhotoTagsSynchronizer.Properties.Resources.AutoCorrect;
-            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Name = "toolStripMenuItemTreeViewFolderAutoCorrectMetadata";
-            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.T)));
-            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Text = "AutoCorrect metadata";
-            this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click);
+            this.timerSaveProgessRemoveProgress.Enabled = true;
+            this.timerSaveProgessRemoveProgress.Interval = 500;
+            this.timerSaveProgessRemoveProgress.Tick += new System.EventHandler(this.timerSaveProgessRemoveProgress_Tick);
             // 
-            // openFolderLocationToolStripMenuItem
+            // toolStripMenuItemSelectFallbackOnFileCreated
             // 
-            this.openFolderLocationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
-            this.openFolderLocationToolStripMenuItem.Name = "openFolderLocationToolStripMenuItem";
-            this.openFolderLocationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
-            this.openFolderLocationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.openFolderLocationToolStripMenuItem.Text = "Open Folder Location";
-            this.openFolderLocationToolStripMenuItem.Click += new System.EventHandler(this.openFolderLocationToolStripMenuItem_Click);
-            // 
-            // checkBoxSearchRating5
-            // 
-            this.checkBoxSearchRating5.AutoSize = true;
-            this.checkBoxSearchRating5.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.checkBoxSearchRating5.Location = new System.Drawing.Point(200, 20);
-            this.checkBoxSearchRating5.Name = "checkBoxSearchRating5";
-            this.checkBoxSearchRating5.Size = new System.Drawing.Size(42, 24);
-            this.checkBoxSearchRating5.TabIndex = 4;
-            this.checkBoxSearchRating5.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchRating4
-            // 
-            this.checkBoxSearchRating4.AutoSize = true;
-            this.checkBoxSearchRating4.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.checkBoxSearchRating4.Location = new System.Drawing.Point(152, 20);
-            this.checkBoxSearchRating4.Name = "checkBoxSearchRating4";
-            this.checkBoxSearchRating4.Size = new System.Drawing.Size(42, 24);
-            this.checkBoxSearchRating4.TabIndex = 3;
-            this.checkBoxSearchRating4.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchRating3
-            // 
-            this.checkBoxSearchRating3.AutoSize = true;
-            this.checkBoxSearchRating3.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.checkBoxSearchRating3.Location = new System.Drawing.Point(104, 20);
-            this.checkBoxSearchRating3.Name = "checkBoxSearchRating3";
-            this.checkBoxSearchRating3.Size = new System.Drawing.Size(42, 24);
-            this.checkBoxSearchRating3.TabIndex = 2;
-            this.checkBoxSearchRating3.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchRating2
-            // 
-            this.checkBoxSearchRating2.AutoSize = true;
-            this.checkBoxSearchRating2.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.checkBoxSearchRating2.Location = new System.Drawing.Point(56, 20);
-            this.checkBoxSearchRating2.Name = "checkBoxSearchRating2";
-            this.checkBoxSearchRating2.Size = new System.Drawing.Size(42, 24);
-            this.checkBoxSearchRating2.TabIndex = 1;
-            this.checkBoxSearchRating2.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxSearchRating1
-            // 
-            this.checkBoxSearchRating1.AutoSize = true;
-            this.checkBoxSearchRating1.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.checkBoxSearchRating1.Location = new System.Drawing.Point(8, 20);
-            this.checkBoxSearchRating1.Name = "checkBoxSearchRating1";
-            this.checkBoxSearchRating1.Size = new System.Drawing.Size(42, 24);
-            this.checkBoxSearchRating1.TabIndex = 0;
-            this.checkBoxSearchRating1.UseVisualStyleBackColor = true;
-            // 
-            // imageListView1
-            // 
-            this.imageListView1.AllowDrag = true;
-            this.imageListView1.AllowDrop = true;
-            this.imageListView1.CacheLimit = "0";
-            this.imageListView1.CacheMode = Manina.Windows.Forms.CacheMode.Continuous;
-            this.imageListView1.ContextMenuStrip = this.contextMenuStripImageListView;
-            this.imageListView1.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.DefaultImage")));
-            this.imageListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageListView1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.ErrorImage")));
-            this.imageListView1.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.imageListView1.ImeMode = System.Windows.Forms.ImeMode.Katakana;
-            this.imageListView1.Location = new System.Drawing.Point(0, 0);
-            this.imageListView1.Name = "imageListView1";
-            this.imageListView1.RetryOnError = false;
-            this.imageListView1.Size = new System.Drawing.Size(484, 892);
-            this.imageListView1.TabIndex = 1;
-            this.imageListView1.Text = "";
-            this.imageListView1.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView1_ItemDoubleClick);
-            this.imageListView1.SelectionChanged += new System.EventHandler(this.imageListView1_SelectionChanged);
-            this.imageListView1.ThumbnailCaching += new Manina.Windows.Forms.ThumbnailCachingEventHandler(this.imageListView1_ThumbnailCaching);
-            this.imageListView1.RetrieveItemImage += new Manina.Windows.Forms.RetrieveItemImageEventHandler(this.imageListView1_RetrieveImage);
-            this.imageListView1.RetrieveItemThumbnail += new Manina.Windows.Forms.RetrieveItemThumbnailEventHandler(this.imageListView1_RetrieveItemThumbnail);
-            this.imageListView1.RetrieveItemMetadataDetails += new Manina.Windows.Forms.RetrieveItemMetadataDetailsEventHandler(this.imageListView1_RetrieveItemMetadataDetails);
-            // 
-            // cutToolStripMenuTagsBrokerCut
-            // 
-            this.cutToolStripMenuTagsBrokerCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
-            this.cutToolStripMenuTagsBrokerCut.Name = "cutToolStripMenuTagsBrokerCut";
-            this.cutToolStripMenuTagsBrokerCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuTagsBrokerCut.Size = new System.Drawing.Size(520, 26);
-            this.cutToolStripMenuTagsBrokerCut.Text = "Cut";
-            this.cutToolStripMenuTagsBrokerCut.Click += new System.EventHandler(this.cutToolStripMenuTagsBrokerCut_Click);
-            // 
-            // copyToolStripMenuTagsBrokerCopy
-            // 
-            this.copyToolStripMenuTagsBrokerCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.copyToolStripMenuTagsBrokerCopy.Name = "copyToolStripMenuTagsBrokerCopy";
-            this.copyToolStripMenuTagsBrokerCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuTagsBrokerCopy.Size = new System.Drawing.Size(520, 26);
-            this.copyToolStripMenuTagsBrokerCopy.Text = "Copy";
-            this.copyToolStripMenuTagsBrokerCopy.Click += new System.EventHandler(this.copyToolStripMenuTagsBrokerCopy_Click);
-            // 
-            // pasteToolStripMenuTagsBrokerPaste
-            // 
-            this.pasteToolStripMenuTagsBrokerPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
-            this.pasteToolStripMenuTagsBrokerPaste.Name = "pasteToolStripMenuTagsBrokerPaste";
-            this.pasteToolStripMenuTagsBrokerPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuTagsBrokerPaste.Size = new System.Drawing.Size(520, 26);
-            this.pasteToolStripMenuTagsBrokerPaste.Text = "Paste";
-            this.pasteToolStripMenuTagsBrokerPaste.Click += new System.EventHandler(this.pasteToolStripMenuTagsBrokerPaste_Click);
-            // 
-            // deleteToolStripMenuTagsBrokerDelete
-            // 
-            this.deleteToolStripMenuTagsBrokerDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
-            this.deleteToolStripMenuTagsBrokerDelete.Name = "deleteToolStripMenuTagsBrokerDelete";
-            this.deleteToolStripMenuTagsBrokerDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteToolStripMenuTagsBrokerDelete.Size = new System.Drawing.Size(520, 26);
-            this.deleteToolStripMenuTagsBrokerDelete.Text = "Delete";
-            this.deleteToolStripMenuTagsBrokerDelete.Click += new System.EventHandler(this.deleteToolStripMenuTagsBrokerDelete_Click);
-            // 
-            // undoToolStripMenuTags
-            // 
-            this.undoToolStripMenuTags.Image = global::PhotoTagsSynchronizer.Properties.Resources.Undo;
-            this.undoToolStripMenuTags.Name = "undoToolStripMenuTags";
-            this.undoToolStripMenuTags.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuTags.Size = new System.Drawing.Size(520, 26);
-            this.undoToolStripMenuTags.Text = "Undo";
-            this.undoToolStripMenuTags.Click += new System.EventHandler(this.undoToolStripMenuTags_Click);
-            // 
-            // redoToolStripMenuTags
-            // 
-            this.redoToolStripMenuTags.Image = global::PhotoTagsSynchronizer.Properties.Resources.Redo;
-            this.redoToolStripMenuTags.Name = "redoToolStripMenuTags";
-            this.redoToolStripMenuTags.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuTags.Size = new System.Drawing.Size(520, 26);
-            this.redoToolStripMenuTags.Text = "Redo";
-            this.redoToolStripMenuTags.Click += new System.EventHandler(this.redoToolStripMenuTags_Click);
-            // 
-            // findToolStripMenuTag
-            // 
-            this.findToolStripMenuTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
-            this.findToolStripMenuTag.Name = "findToolStripMenuTag";
-            this.findToolStripMenuTag.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.findToolStripMenuTag.Size = new System.Drawing.Size(520, 26);
-            this.findToolStripMenuTag.Text = "Find";
-            this.findToolStripMenuTag.Click += new System.EventHandler(this.findToolStripMenuTag_Click);
-            // 
-            // replaceToolStripMenuTag
-            // 
-            this.replaceToolStripMenuTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
-            this.replaceToolStripMenuTag.Name = "replaceToolStripMenuTag";
-            this.replaceToolStripMenuTag.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.replaceToolStripMenuTag.Size = new System.Drawing.Size(520, 26);
-            this.replaceToolStripMenuTag.Text = "Replace";
-            this.replaceToolStripMenuTag.Click += new System.EventHandler(this.replaceToolStripMenuTag_Click);
-            // 
-            // toolStripMenuTagsBrokerSave
-            // 
-            this.toolStripMenuTagsBrokerSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
-            this.toolStripMenuTagsBrokerSave.Name = "toolStripMenuTagsBrokerSave";
-            this.toolStripMenuTagsBrokerSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.toolStripMenuTagsBrokerSave.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuTagsBrokerSave.Text = "Save";
-            this.toolStripMenuTagsBrokerSave.Click += new System.EventHandler(this.toolStripMenuTagsBrokerSave_Click);
-            // 
-            // markAsFavoriteToolStripMenuItem
-            // 
-            this.markAsFavoriteToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
-            this.markAsFavoriteToolStripMenuItem.Name = "markAsFavoriteToolStripMenuItem";
-            this.markAsFavoriteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.markAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.markAsFavoriteToolStripMenuItem.Text = "Mark as favorite";
-            this.markAsFavoriteToolStripMenuItem.Click += new System.EventHandler(this.markAsFavoriteToolStripMenuItem_Click);
-            // 
-            // removeAsFavoriteToolStripMenuItem
-            // 
-            this.removeAsFavoriteToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
-            this.removeAsFavoriteToolStripMenuItem.Name = "removeAsFavoriteToolStripMenuItem";
-            this.removeAsFavoriteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.removeAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.removeAsFavoriteToolStripMenuItem.Text = "Remove as favorite";
-            this.removeAsFavoriteToolStripMenuItem.Click += new System.EventHandler(this.removeAsFavoriteToolStripMenuItem_Click);
-            // 
-            // toggleFavoriteToolStripMenuItem
-            // 
-            this.toggleFavoriteToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
-            this.toggleFavoriteToolStripMenuItem.Name = "toggleFavoriteToolStripMenuItem";
-            this.toggleFavoriteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D)));
-            this.toggleFavoriteToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.toggleFavoriteToolStripMenuItem.Text = "Toggle favorite";
-            this.toggleFavoriteToolStripMenuItem.Click += new System.EventHandler(this.toggleFavoriteToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItemTagsBrokerCopyText
-            // 
-            this.toolStripMenuItemTagsBrokerCopyText.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemTagsBrokerCopyText.Image")));
-            this.toolStripMenuItemTagsBrokerCopyText.Name = "toolStripMenuItemTagsBrokerCopyText";
-            this.toolStripMenuItemTagsBrokerCopyText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemTagsBrokerCopyText.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemTagsBrokerCopyText.Text = "Copy selected values to media file without overwrite";
-            this.toolStripMenuItemTagsBrokerCopyText.Click += new System.EventHandler(this.toolStripMenuItemTagsCopyText_Click);
-            // 
-            // toolStripMenuItemTagsAndKeywordsBrokerOverwriteText
-            // 
-            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Image")));
-            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Name = "toolStripMenuItemTagsAndKeywordsBrokerOverwriteText";
-            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Text = "Copy selected values to media file and overwrite";
-            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Click += new System.EventHandler(this.toolStripMenuItemTagsOverwriteText_Click);
-            // 
-            // toggleTagsAndKeywordsSelectionToolStripMenuItem
-            // 
-            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordToggle;
-            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Name = "toggleTagsAndKeywordsSelectionToolStripMenuItem";
-            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
-            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Text = "Toggle selected keyword tag";
-            this.toggleTagsAndKeywordsSelectionToolStripMenuItem.Click += new System.EventHandler(this.toggleTagSelectionToolStripMenuItem_Click);
-            // 
-            // selectTagsAndKeywordsToolStripMenuItem
-            // 
-            this.selectTagsAndKeywordsToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordSelect;
-            this.selectTagsAndKeywordsToolStripMenuItem.Name = "selectTagsAndKeywordsToolStripMenuItem";
-            this.selectTagsAndKeywordsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Space)));
-            this.selectTagsAndKeywordsToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.selectTagsAndKeywordsToolStripMenuItem.Text = "Set selected keyword tags";
-            this.selectTagsAndKeywordsToolStripMenuItem.Click += new System.EventHandler(this.selectTagToolStripMenuItem_Click);
-            // 
-            // removeTagsAndKeywordsToolStripMenuItem
-            // 
-            this.removeTagsAndKeywordsToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordDelete;
-            this.removeTagsAndKeywordsToolStripMenuItem.Name = "removeTagsAndKeywordsToolStripMenuItem";
-            this.removeTagsAndKeywordsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.removeTagsAndKeywordsToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.removeTagsAndKeywordsToolStripMenuItem.Text = "Remove selected keyword tags";
-            this.removeTagsAndKeywordsToolStripMenuItem.Click += new System.EventHandler(this.removeTagToolStripMenuItem_Click);
-            // 
-            // radioButtonRating5
-            // 
-            this.radioButtonRating5.AutoSize = true;
-            this.radioButtonRating5.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.radioButtonRating5.Location = new System.Drawing.Point(233, 10);
-            this.radioButtonRating5.Name = "radioButtonRating5";
-            this.radioButtonRating5.Size = new System.Drawing.Size(41, 24);
-            this.radioButtonRating5.TabIndex = 4;
-            this.radioButtonRating5.TabStop = true;
-            this.radioButtonRating5.UseVisualStyleBackColor = true;
-            this.radioButtonRating5.CheckedChanged += new System.EventHandler(this.radioButtonRating5_CheckedChanged);
-            // 
-            // radioButtonRating4
-            // 
-            this.radioButtonRating4.AutoSize = true;
-            this.radioButtonRating4.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.radioButtonRating4.Location = new System.Drawing.Point(175, 10);
-            this.radioButtonRating4.Name = "radioButtonRating4";
-            this.radioButtonRating4.Size = new System.Drawing.Size(41, 24);
-            this.radioButtonRating4.TabIndex = 3;
-            this.radioButtonRating4.TabStop = true;
-            this.radioButtonRating4.UseVisualStyleBackColor = true;
-            this.radioButtonRating4.CheckedChanged += new System.EventHandler(this.radioButtonRating4_CheckedChanged);
-            // 
-            // radioButtonRating3
-            // 
-            this.radioButtonRating3.AutoSize = true;
-            this.radioButtonRating3.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.radioButtonRating3.Location = new System.Drawing.Point(121, 10);
-            this.radioButtonRating3.Name = "radioButtonRating3";
-            this.radioButtonRating3.Size = new System.Drawing.Size(41, 24);
-            this.radioButtonRating3.TabIndex = 2;
-            this.radioButtonRating3.TabStop = true;
-            this.radioButtonRating3.UseVisualStyleBackColor = true;
-            this.radioButtonRating3.CheckedChanged += new System.EventHandler(this.radioButtonRating3_CheckedChanged);
-            // 
-            // radioButtonRating2
-            // 
-            this.radioButtonRating2.AutoSize = true;
-            this.radioButtonRating2.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.radioButtonRating2.Location = new System.Drawing.Point(62, 10);
-            this.radioButtonRating2.Name = "radioButtonRating2";
-            this.radioButtonRating2.Size = new System.Drawing.Size(41, 24);
-            this.radioButtonRating2.TabIndex = 1;
-            this.radioButtonRating2.TabStop = true;
-            this.radioButtonRating2.UseVisualStyleBackColor = true;
-            this.radioButtonRating2.CheckedChanged += new System.EventHandler(this.radioButtonRating2_CheckedChanged);
-            // 
-            // radioButtonRating1
-            // 
-            this.radioButtonRating1.AutoSize = true;
-            this.radioButtonRating1.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.radioButtonRating1.Location = new System.Drawing.Point(6, 10);
-            this.radioButtonRating1.Name = "radioButtonRating1";
-            this.radioButtonRating1.Size = new System.Drawing.Size(41, 24);
-            this.radioButtonRating1.TabIndex = 0;
-            this.radioButtonRating1.TabStop = true;
-            this.radioButtonRating1.UseVisualStyleBackColor = true;
-            this.radioButtonRating1.CheckedChanged += new System.EventHandler(this.radioButtonRating1_CheckedChanged);
-            // 
-            // toolStripMenuItemPeopleCut
-            // 
-            this.toolStripMenuItemPeopleCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
-            this.toolStripMenuItemPeopleCut.Name = "toolStripMenuItemPeopleCut";
-            this.toolStripMenuItemPeopleCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.toolStripMenuItemPeopleCut.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleCut.Text = "Cut";
-            this.toolStripMenuItemPeopleCut.Click += new System.EventHandler(this.toolStripMenuItemPeopleCut_Click);
-            // 
-            // toolStripMenuItemPeopleCopy
-            // 
-            this.toolStripMenuItemPeopleCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.toolStripMenuItemPeopleCopy.Name = "toolStripMenuItemPeopleCopy";
-            this.toolStripMenuItemPeopleCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemPeopleCopy.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleCopy.Text = "Copy";
-            this.toolStripMenuItemPeopleCopy.Click += new System.EventHandler(this.toolStripMenuItemPeopleCopy_Click);
-            // 
-            // toolStripMenuItemPeoplePaste
-            // 
-            this.toolStripMenuItemPeoplePaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
-            this.toolStripMenuItemPeoplePaste.Name = "toolStripMenuItemPeoplePaste";
-            this.toolStripMenuItemPeoplePaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.toolStripMenuItemPeoplePaste.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeoplePaste.Text = "Paste";
-            this.toolStripMenuItemPeoplePaste.Click += new System.EventHandler(this.toolStripMenuItemPeoplePaste_Click);
-            // 
-            // toolStripMenuItemPeopleDelete
-            // 
-            this.toolStripMenuItemPeopleDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
-            this.toolStripMenuItemPeopleDelete.Name = "toolStripMenuItemPeopleDelete";
-            this.toolStripMenuItemPeopleDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.toolStripMenuItemPeopleDelete.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleDelete.Text = "Delete";
-            this.toolStripMenuItemPeopleDelete.Click += new System.EventHandler(this.toolStripMenuItemPeopleDelete_Click);
-            // 
-            // toolStripMenuItemPeopleUndo
-            // 
-            this.toolStripMenuItemPeopleUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Undo;
-            this.toolStripMenuItemPeopleUndo.Name = "toolStripMenuItemPeopleUndo";
-            this.toolStripMenuItemPeopleUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.toolStripMenuItemPeopleUndo.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleUndo.Text = "Undo";
-            this.toolStripMenuItemPeopleUndo.Click += new System.EventHandler(this.toolStripMenuItemPeopleUndo_Click);
-            // 
-            // toolStripMenuItemPeopleRedo
-            // 
-            this.toolStripMenuItemPeopleRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Redo;
-            this.toolStripMenuItemPeopleRedo.Name = "toolStripMenuItemPeopleRedo";
-            this.toolStripMenuItemPeopleRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.toolStripMenuItemPeopleRedo.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleRedo.Text = "Redo";
-            this.toolStripMenuItemPeopleRedo.Click += new System.EventHandler(this.toolStripMenuItemPeopleRedo_Click);
-            // 
-            // toolStripMenuItemPeopleFind
-            // 
-            this.toolStripMenuItemPeopleFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
-            this.toolStripMenuItemPeopleFind.Name = "toolStripMenuItemPeopleFind";
-            this.toolStripMenuItemPeopleFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.toolStripMenuItemPeopleFind.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleFind.Text = "Find";
-            this.toolStripMenuItemPeopleFind.Click += new System.EventHandler(this.toolStripMenuItemPeopleFind_Click);
-            // 
-            // toolStripMenuItemPeopleReplace
-            // 
-            this.toolStripMenuItemPeopleReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
-            this.toolStripMenuItemPeopleReplace.Name = "toolStripMenuItemPeopleReplace";
-            this.toolStripMenuItemPeopleReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.toolStripMenuItemPeopleReplace.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleReplace.Text = "Replace";
-            this.toolStripMenuItemPeopleReplace.Click += new System.EventHandler(this.toolStripMenuItemPeopleReplace_Click);
-            // 
-            // toolStripMenuItemPeopleSave
-            // 
-            this.toolStripMenuItemPeopleSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
-            this.toolStripMenuItemPeopleSave.Name = "toolStripMenuItemPeopleSave";
-            this.toolStripMenuItemPeopleSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.toolStripMenuItemPeopleSave.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleSave.Text = "Save";
-            this.toolStripMenuItemPeopleSave.Click += new System.EventHandler(this.toolStripMenuItemPeopleSave_Click);
-            // 
-            // toolStripMenuItemPeopleMarkFavorite
-            // 
-            this.toolStripMenuItemPeopleMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
-            this.toolStripMenuItemPeopleMarkFavorite.Name = "toolStripMenuItemPeopleMarkFavorite";
-            this.toolStripMenuItemPeopleMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemPeopleMarkFavorite.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleMarkFavorite.Text = "Mark as favorite";
-            this.toolStripMenuItemPeopleMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemPeopleMarkFavorite_Click);
-            // 
-            // toolStripMenuItemPeopleRemoveFavorite
-            // 
-            this.toolStripMenuItemPeopleRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
-            this.toolStripMenuItemPeopleRemoveFavorite.Name = "toolStripMenuItemPeopleRemoveFavorite";
-            this.toolStripMenuItemPeopleRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemPeopleRemoveFavorite.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleRemoveFavorite.Text = "Remove as favorite";
-            this.toolStripMenuItemPeopleRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemPeopleRemoveFavorite_Click);
-            // 
-            // toolStripMenuItemPeopleToggleFavorite
-            // 
-            this.toolStripMenuItemPeopleToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
-            this.toolStripMenuItemPeopleToggleFavorite.Name = "toolStripMenuItemPeopleToggleFavorite";
-            this.toolStripMenuItemPeopleToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemPeopleToggleFavorite.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleToggleFavorite.Text = "Toggle favorite";
-            this.toolStripMenuItemPeopleToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemPeopleToggleFavorite_Click);
-            // 
-            // toolStripMenuItemPeopleTogglePeopleTag
-            // 
-            this.toolStripMenuItemPeopleTogglePeopleTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordToggle;
-            this.toolStripMenuItemPeopleTogglePeopleTag.Name = "toolStripMenuItemPeopleTogglePeopleTag";
-            this.toolStripMenuItemPeopleTogglePeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
-            this.toolStripMenuItemPeopleTogglePeopleTag.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleTogglePeopleTag.Text = "Toggle selected people tag";
-            this.toolStripMenuItemPeopleTogglePeopleTag.Click += new System.EventHandler(this.toolStripMenuItemPeopleTogglePeopleTag_Click);
-            // 
-            // toolStripMenuItemPeopleSelectPeopleTag
-            // 
-            this.toolStripMenuItemPeopleSelectPeopleTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordSelect;
-            this.toolStripMenuItemPeopleSelectPeopleTag.Name = "toolStripMenuItemPeopleSelectPeopleTag";
-            this.toolStripMenuItemPeopleSelectPeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Space)));
-            this.toolStripMenuItemPeopleSelectPeopleTag.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleSelectPeopleTag.Text = "Set selected people tags";
-            this.toolStripMenuItemPeopleSelectPeopleTag.Click += new System.EventHandler(this.toolStripMenuItemPeopleSelectPeopleTag_Click);
-            // 
-            // toolStripMenuItemPeopleRemovePeopleTag
-            // 
-            this.toolStripMenuItemPeopleRemovePeopleTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordDelete;
-            this.toolStripMenuItemPeopleRemovePeopleTag.Name = "toolStripMenuItemPeopleRemovePeopleTag";
-            this.toolStripMenuItemPeopleRemovePeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.toolStripMenuItemPeopleRemovePeopleTag.Size = new System.Drawing.Size(367, 26);
-            this.toolStripMenuItemPeopleRemovePeopleTag.Text = "Remove selected people tags";
-            this.toolStripMenuItemPeopleRemovePeopleTag.Click += new System.EventHandler(this.toolStripMenuItemPeopleRemovePeopleTag_Click);
-            // 
-            // toolStripMenuItemMapCut
-            // 
-            this.toolStripMenuItemMapCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
-            this.toolStripMenuItemMapCut.Name = "toolStripMenuItemMapCut";
-            this.toolStripMenuItemMapCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.toolStripMenuItemMapCut.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapCut.Text = "Cut";
-            this.toolStripMenuItemMapCut.Click += new System.EventHandler(this.toolStripMenuItemMapCut_Click);
-            // 
-            // toolStripMenuItemMapCopy
-            // 
-            this.toolStripMenuItemMapCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.toolStripMenuItemMapCopy.Name = "toolStripMenuItemMapCopy";
-            this.toolStripMenuItemMapCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemMapCopy.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapCopy.Text = "Copy";
-            this.toolStripMenuItemMapCopy.Click += new System.EventHandler(this.toolStripMenuItemMapCopy_Click);
-            // 
-            // toolStripMenuItemMapPaste
-            // 
-            this.toolStripMenuItemMapPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
-            this.toolStripMenuItemMapPaste.Name = "toolStripMenuItemMapPaste";
-            this.toolStripMenuItemMapPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.toolStripMenuItemMapPaste.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapPaste.Text = "Paste";
-            this.toolStripMenuItemMapPaste.Click += new System.EventHandler(this.toolStripMenuItemMapPaste_Click);
-            // 
-            // toolStripMenuItemMapDelete
-            // 
-            this.toolStripMenuItemMapDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
-            this.toolStripMenuItemMapDelete.Name = "toolStripMenuItemMapDelete";
-            this.toolStripMenuItemMapDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.toolStripMenuItemMapDelete.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapDelete.Text = "Delete";
-            this.toolStripMenuItemMapDelete.Click += new System.EventHandler(this.toolStripMenuItemMapDelete_Click);
-            // 
-            // toolStripMenuItemMapUndo
-            // 
-            this.toolStripMenuItemMapUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Undo;
-            this.toolStripMenuItemMapUndo.Name = "toolStripMenuItemMapUndo";
-            this.toolStripMenuItemMapUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.toolStripMenuItemMapUndo.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapUndo.Text = "Undo";
-            this.toolStripMenuItemMapUndo.Click += new System.EventHandler(this.toolStripMenuItemMapUndo_Click);
-            // 
-            // toolStripMenuItemMapRedo
-            // 
-            this.toolStripMenuItemMapRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Redo;
-            this.toolStripMenuItemMapRedo.Name = "toolStripMenuItemMapRedo";
-            this.toolStripMenuItemMapRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.toolStripMenuItemMapRedo.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapRedo.Text = "Redo";
-            this.toolStripMenuItemMapRedo.Click += new System.EventHandler(this.toolStripMenuItemMapRedo_Click);
-            // 
-            // toolStripMenuItemMapFind
-            // 
-            this.toolStripMenuItemMapFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
-            this.toolStripMenuItemMapFind.Name = "toolStripMenuItemMapFind";
-            this.toolStripMenuItemMapFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
-            this.toolStripMenuItemMapFind.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapFind.Text = "Find";
-            this.toolStripMenuItemMapFind.Click += new System.EventHandler(this.toolStripMenuItemMapFind_Click);
-            // 
-            // toolStripMenuItemMapReplace
-            // 
-            this.toolStripMenuItemMapReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
-            this.toolStripMenuItemMapReplace.Name = "toolStripMenuItemMapReplace";
-            this.toolStripMenuItemMapReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.toolStripMenuItemMapReplace.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapReplace.Text = "Replace";
-            this.toolStripMenuItemMapReplace.Click += new System.EventHandler(this.toolStripMenuItemMapReplace_Click);
-            // 
-            // toolStripMenuItemMapSave
-            // 
-            this.toolStripMenuItemMapSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
-            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
-            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapSave.Text = "Save";
-            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
-            // 
-            // toolStripMenuItemMapMarkFavorite
-            // 
-            this.toolStripMenuItemMapMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
-            this.toolStripMenuItemMapMarkFavorite.Name = "toolStripMenuItemMapMarkFavorite";
-            this.toolStripMenuItemMapMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemMapMarkFavorite.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapMarkFavorite.Text = "Mark as favorite";
-            this.toolStripMenuItemMapMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemMapMarkFavorite_Click);
-            // 
-            // toolStripMenuItemMapRemoveFavorite
-            // 
-            this.toolStripMenuItemMapRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
-            this.toolStripMenuItemMapRemoveFavorite.Name = "toolStripMenuItemMapRemoveFavorite";
-            this.toolStripMenuItemMapRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemMapRemoveFavorite.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapRemoveFavorite.Text = "Remove as favorite";
-            this.toolStripMenuItemMapRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemMapRemoveFavorite_Click);
-            // 
-            // toolStripMenuItemMapToggleFavorite
-            // 
-            this.toolStripMenuItemMapToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
-            this.toolStripMenuItemMapToggleFavorite.Name = "toolStripMenuItemMapToggleFavorite";
-            this.toolStripMenuItemMapToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemMapToggleFavorite.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapToggleFavorite.Text = "Toggle favorite";
-            this.toolStripMenuItemMapToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemMapToggleFavorite_Click);
-            // 
-            // toolStripMenuItemMapCopyNotOverwrite
-            // 
-            this.toolStripMenuItemMapCopyNotOverwrite.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemMapCopyNotOverwrite.Image")));
-            this.toolStripMenuItemMapCopyNotOverwrite.Name = "toolStripMenuItemMapCopyNotOverwrite";
-            this.toolStripMenuItemMapCopyNotOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemMapCopyNotOverwrite.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapCopyNotOverwrite.Text = "Copy selected values to media file without overwrite";
-            this.toolStripMenuItemMapCopyNotOverwrite.Click += new System.EventHandler(this.toolStripMenuItemMapCopyNotOverwrite_Click);
-            // 
-            // toolStripMenuItemMapCopyAndOverwrite
-            // 
-            this.toolStripMenuItemMapCopyAndOverwrite.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemMapCopyAndOverwrite.Image")));
-            this.toolStripMenuItemMapCopyAndOverwrite.Name = "toolStripMenuItemMapCopyAndOverwrite";
-            this.toolStripMenuItemMapCopyAndOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemMapCopyAndOverwrite.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapCopyAndOverwrite.Text = "Copy selected values to media file and overwrite";
-            this.toolStripMenuItemMapCopyAndOverwrite.Click += new System.EventHandler(this.toolStripMenuItemMapCopyAndOverwrite_Click);
-            // 
-            // toolStripMenuItemShowCoordinateOnMap
-            // 
-            this.toolStripMenuItemShowCoordinateOnMap.Image = global::PhotoTagsSynchronizer.Properties.Resources.ShowLocation;
-            this.toolStripMenuItemShowCoordinateOnMap.Name = "toolStripMenuItemShowCoordinateOnMap";
-            this.toolStripMenuItemShowCoordinateOnMap.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.toolStripMenuItemShowCoordinateOnMap.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemShowCoordinateOnMap.Text = "Show Coordinate on Map";
-            this.toolStripMenuItemShowCoordinateOnMap.Click += new System.EventHandler(this.toolStripMenuItemShowCoordinateOnMap_Click);
-            // 
-            // toolStripMenuItemMapReloadLocationUsingNominatim
-            // 
-            this.toolStripMenuItemMapReloadLocationUsingNominatim.Image = global::PhotoTagsSynchronizer.Properties.Resources.LocationReload;
-            this.toolStripMenuItemMapReloadLocationUsingNominatim.Name = "toolStripMenuItemMapReloadLocationUsingNominatim";
-            this.toolStripMenuItemMapReloadLocationUsingNominatim.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.toolStripMenuItemMapReloadLocationUsingNominatim.Size = new System.Drawing.Size(520, 26);
-            this.toolStripMenuItemMapReloadLocationUsingNominatim.Text = "Reload Location using Nominatim";
-            this.toolStripMenuItemMapReloadLocationUsingNominatim.Click += new System.EventHandler(this.toolStripMenuItemMapReloadLocationUsingNominatim_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(1, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(34, 26);
-            this.pictureBox1.TabIndex = 16;
-            this.pictureBox1.TabStop = false;
-            // 
-            // toolStripMenuItemExiftoolCopy
-            // 
-            this.toolStripMenuItemExiftoolCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.toolStripMenuItemExiftoolCopy.Name = "toolStripMenuItemExiftoolCopy";
-            this.toolStripMenuItemExiftoolCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemExiftoolCopy.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolCopy.Text = "Copy";
-            this.toolStripMenuItemExiftoolCopy.Click += new System.EventHandler(this.toolStripMenuItemExiftoolCopy_Click);
-            // 
-            // toolStripMenuItemExiftoolFind
-            // 
-            this.toolStripMenuItemExiftoolFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
-            this.toolStripMenuItemExiftoolFind.Name = "toolStripMenuItemExiftoolFind";
-            this.toolStripMenuItemExiftoolFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.toolStripMenuItemExiftoolFind.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolFind.Text = "Find";
-            this.toolStripMenuItemExiftoolFind.Click += new System.EventHandler(this.toolStripMenuItemExiftoolFind_Click);
-            // 
-            // toolStripMenuItemExiftoolMarkFavorite
-            // 
-            this.toolStripMenuItemExiftoolMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
-            this.toolStripMenuItemExiftoolMarkFavorite.Name = "toolStripMenuItemExiftoolMarkFavorite";
-            this.toolStripMenuItemExiftoolMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolMarkFavorite.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolMarkFavorite.Text = "Mark as favorite";
-            this.toolStripMenuItemExiftoolMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolMarkFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolRemoveFavorite
-            // 
-            this.toolStripMenuItemExiftoolRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
-            this.toolStripMenuItemExiftoolRemoveFavorite.Name = "toolStripMenuItemExiftoolRemoveFavorite";
-            this.toolStripMenuItemExiftoolRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolRemoveFavorite.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolRemoveFavorite.Text = "Remove as favorite";
-            this.toolStripMenuItemExiftoolRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolRemoveFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolToggleFavorite
-            // 
-            this.toolStripMenuItemExiftoolToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
-            this.toolStripMenuItemExiftoolToggleFavorite.Name = "toolStripMenuItemExiftoolToggleFavorite";
-            this.toolStripMenuItemExiftoolToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolToggleFavorite.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolToggleFavorite.Text = "Toggle favorite";
-            this.toolStripMenuItemExiftoolToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolToggleFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningCopy
-            // 
-            this.toolStripMenuItemExiftoolWarningCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.toolStripMenuItemExiftoolWarningCopy.Name = "toolStripMenuItemExiftoolWarningCopy";
-            this.toolStripMenuItemExiftoolWarningCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemExiftoolWarningCopy.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningCopy.Text = "Copy";
-            this.toolStripMenuItemExiftoolWarningCopy.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningCopy_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningFind
-            // 
-            this.toolStripMenuItemExiftoolWarningFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
-            this.toolStripMenuItemExiftoolWarningFind.Name = "toolStripMenuItemExiftoolWarningFind";
-            this.toolStripMenuItemExiftoolWarningFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.toolStripMenuItemExiftoolWarningFind.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningFind.Text = "Find";
-            this.toolStripMenuItemExiftoolWarningFind.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningFind_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningMarkFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Name = "toolStripMenuItemExiftoolWarningMarkFavorite";
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Text = "Mark as favorite";
-            this.toolStripMenuItemExiftoolWarningMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningMarkFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningRemoveFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Name = "toolStripMenuItemExiftoolWarningRemoveFavorite";
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Text = "Remove as favorite";
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningRemoveFavorite_Click);
-            // 
-            // toolStripMenuItemExiftoolWarningToggleFavorite
-            // 
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Name = "toolStripMenuItemExiftoolWarningToggleFavorite";
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Size = new System.Drawing.Size(302, 26);
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Text = "Toggle favorite";
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.Click += new System.EventHandler(this.toolStripMenuItemExiftoolWarningToggleFavorite_Click);
-            // 
-            // thumbnailsToolStripButton
-            // 
-            this.thumbnailsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.thumbnailsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("thumbnailsToolStripButton.Image")));
-            this.thumbnailsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.thumbnailsToolStripButton.Name = "thumbnailsToolStripButton";
-            this.thumbnailsToolStripButton.Size = new System.Drawing.Size(29, 25);
-            this.thumbnailsToolStripButton.Text = "Thumbnails";
-            this.thumbnailsToolStripButton.Click += new System.EventHandler(this.thumbnailsToolStripButton_Click);
-            // 
-            // galleryToolStripButton
-            // 
-            this.galleryToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.galleryToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("galleryToolStripButton.Image")));
-            this.galleryToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.galleryToolStripButton.Name = "galleryToolStripButton";
-            this.galleryToolStripButton.Size = new System.Drawing.Size(29, 25);
-            this.galleryToolStripButton.Text = "Gallery";
-            this.galleryToolStripButton.Click += new System.EventHandler(this.galleryToolStripButton_Click);
-            // 
-            // paneToolStripButton
-            // 
-            this.paneToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.paneToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("paneToolStripButton.Image")));
-            this.paneToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.paneToolStripButton.Name = "paneToolStripButton";
-            this.paneToolStripButton.Size = new System.Drawing.Size(29, 25);
-            this.paneToolStripButton.Text = "Pane";
-            this.paneToolStripButton.Click += new System.EventHandler(this.paneToolStripButton_Click);
-            // 
-            // detailsToolStripButton
-            // 
-            this.detailsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.detailsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("detailsToolStripButton.Image")));
-            this.detailsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.detailsToolStripButton.Name = "detailsToolStripButton";
-            this.detailsToolStripButton.Size = new System.Drawing.Size(29, 25);
-            this.detailsToolStripButton.Text = "Details";
-            this.detailsToolStripButton.Click += new System.EventHandler(this.detailsToolStripButton_Click);
-            // 
-            // columnsToolStripButton
-            // 
-            this.columnsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.columnsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("columnsToolStripButton.Image")));
-            this.columnsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.columnsToolStripButton.Name = "columnsToolStripButton";
-            this.columnsToolStripButton.Size = new System.Drawing.Size(29, 25);
-            this.columnsToolStripButton.Text = "Choose Columns for the Image View...";
-            this.columnsToolStripButton.Click += new System.EventHandler(this.columnsToolStripButton_Click);
-            // 
-            // toolStripButtonThumbnailSize1
-            // 
-            this.toolStripButtonThumbnailSize1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonThumbnailSize1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize1.Image")));
-            this.toolStripButtonThumbnailSize1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonThumbnailSize1.Name = "toolStripButtonThumbnailSize1";
-            this.toolStripButtonThumbnailSize1.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonThumbnailSize1.Text = "Thumbnail size 200x200";
-            this.toolStripButtonThumbnailSize1.Click += new System.EventHandler(this.toolStripButtonThumbnailSize1_Click);
-            // 
-            // toolStripButtonThumbnailSize2
-            // 
-            this.toolStripButtonThumbnailSize2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonThumbnailSize2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize2.Image")));
-            this.toolStripButtonThumbnailSize2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonThumbnailSize2.Name = "toolStripButtonThumbnailSize2";
-            this.toolStripButtonThumbnailSize2.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonThumbnailSize2.Text = "Thumbnail size 150x150";
-            this.toolStripButtonThumbnailSize2.Click += new System.EventHandler(this.toolStripButtonThumbnailSize2_Click);
-            // 
-            // toolStripButtonThumbnailSize3
-            // 
-            this.toolStripButtonThumbnailSize3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonThumbnailSize3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize3.Image")));
-            this.toolStripButtonThumbnailSize3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonThumbnailSize3.Name = "toolStripButtonThumbnailSize3";
-            this.toolStripButtonThumbnailSize3.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonThumbnailSize3.Text = "Thumbnail size 120x120";
-            this.toolStripButtonThumbnailSize3.Click += new System.EventHandler(this.toolStripButtonThumbnailSize3_Click);
-            // 
-            // toolStripButtonThumbnailSize4
-            // 
-            this.toolStripButtonThumbnailSize4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonThumbnailSize4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize4.Image")));
-            this.toolStripButtonThumbnailSize4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonThumbnailSize4.Name = "toolStripButtonThumbnailSize4";
-            this.toolStripButtonThumbnailSize4.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonThumbnailSize4.Text = "Thumbnail size 96x96";
-            this.toolStripButtonThumbnailSize4.Click += new System.EventHandler(this.toolStripButtonThumbnailSize4_Click);
-            // 
-            // toolStripButtonThumbnailSize5
-            // 
-            this.toolStripButtonThumbnailSize5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonThumbnailSize5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize5.Image")));
-            this.toolStripButtonThumbnailSize5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonThumbnailSize5.Name = "toolStripButtonThumbnailSize5";
-            this.toolStripButtonThumbnailSize5.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonThumbnailSize5.Text = "Thumbnail size 48x48";
-            this.toolStripButtonThumbnailSize5.Click += new System.EventHandler(this.toolStripButtonThumbnailSize5_Click);
-            // 
-            // rotateCCWToolStripButton
-            // 
-            this.rotateCCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.rotateCCWToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
-            this.rotateCCWToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rotateCCWToolStripButton.Name = "rotateCCWToolStripButton";
-            this.rotateCCWToolStripButton.Size = new System.Drawing.Size(29, 25);
-            this.rotateCCWToolStripButton.Text = "Rotate Counter-clockwise";
-            this.rotateCCWToolStripButton.Click += new System.EventHandler(this.rotateCCWToolStripButton_Click);
-            // 
-            // rotate180ToolStripButton
-            // 
-            this.rotate180ToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.rotate180ToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
-            this.rotate180ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rotate180ToolStripButton.Name = "rotate180ToolStripButton";
-            this.rotate180ToolStripButton.Size = new System.Drawing.Size(29, 25);
-            this.rotate180ToolStripButton.Text = "Rotate 180°";
-            this.rotate180ToolStripButton.Click += new System.EventHandler(this.rotate180ToolStripButton_Click);
-            // 
-            // rotateCWToolStripButton
-            // 
-            this.rotateCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.rotateCWToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
-            this.rotateCWToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rotateCWToolStripButton.Name = "rotateCWToolStripButton";
-            this.rotateCWToolStripButton.Size = new System.Drawing.Size(29, 25);
-            this.rotateCWToolStripButton.Text = "Rotate Clockwise";
-            this.rotateCWToolStripButton.Click += new System.EventHandler(this.rotateCWToolStripButton_Click);
-            // 
-            // toolStripButtonPreview
-            // 
-            this.toolStripButtonPreview.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonPreview.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Preview;
-            this.toolStripButtonPreview.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonPreview.Name = "toolStripButtonPreview";
-            this.toolStripButtonPreview.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonPreview.Text = "Preview media";
-            this.toolStripButtonPreview.ToolTipText = "Preview media";
-            this.toolStripButtonPreview.Click += new System.EventHandler(this.toolStripButtonPreview_Click);
-            // 
-            // toolStripButtonGridBig
-            // 
-            this.toolStripButtonGridBig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonGridBig.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridBig;
-            this.toolStripButtonGridBig.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonGridBig.Name = "toolStripButtonGridBig";
-            this.toolStripButtonGridBig.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonGridBig.Text = "Big Grid";
-            this.toolStripButtonGridBig.Click += new System.EventHandler(this.toolStripButtonGridBig_Click);
-            // 
-            // toolStripButtonGridNormal
-            // 
-            this.toolStripButtonGridNormal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonGridNormal.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridNormal;
-            this.toolStripButtonGridNormal.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonGridNormal.Name = "toolStripButtonGridNormal";
-            this.toolStripButtonGridNormal.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonGridNormal.Text = "Normal Grid";
-            this.toolStripButtonGridNormal.Click += new System.EventHandler(this.toolStripButtonGridNormal_Click);
-            // 
-            // toolStripButtonGridSmall
-            // 
-            this.toolStripButtonGridSmall.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonGridSmall.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridSmall;
-            this.toolStripButtonGridSmall.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonGridSmall.Name = "toolStripButtonGridSmall";
-            this.toolStripButtonGridSmall.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonGridSmall.Text = "Small Grid";
-            this.toolStripButtonGridSmall.Click += new System.EventHandler(this.toolStripButtonGridSmall_Click);
-            // 
-            // toolStripButtonHistortyColumns
-            // 
-            this.toolStripButtonHistortyColumns.Checked = true;
-            this.toolStripButtonHistortyColumns.CheckOnClick = true;
-            this.toolStripButtonHistortyColumns.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripButtonHistortyColumns.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonHistortyColumns.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridHistoryColumn;
-            this.toolStripButtonHistortyColumns.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonHistortyColumns.Name = "toolStripButtonHistortyColumns";
-            this.toolStripButtonHistortyColumns.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonHistortyColumns.Text = "Show or Hide Historty Columns";
-            this.toolStripButtonHistortyColumns.CheckedChanged += new System.EventHandler(this.toolStripButtonHistortyColumns_CheckedChanged);
-            // 
-            // toolStripButtonErrorColumns
-            // 
-            this.toolStripButtonErrorColumns.Checked = true;
-            this.toolStripButtonErrorColumns.CheckOnClick = true;
-            this.toolStripButtonErrorColumns.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripButtonErrorColumns.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonErrorColumns.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridErrorColumn;
-            this.toolStripButtonErrorColumns.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonErrorColumns.Name = "toolStripButtonErrorColumns";
-            this.toolStripButtonErrorColumns.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonErrorColumns.Text = "Show or Hide Error Columns";
-            this.toolStripButtonErrorColumns.CheckedChanged += new System.EventHandler(this.toolStripButtonErrorColumns_CheckedChanged);
-            // 
-            // toolStripButtonImportGoogleLocation
-            // 
-            this.toolStripButtonImportGoogleLocation.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonImportGoogleLocation.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonImportGoogleLocation.Image")));
-            this.toolStripButtonImportGoogleLocation.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonImportGoogleLocation.Name = "toolStripButtonImportGoogleLocation";
-            this.toolStripButtonImportGoogleLocation.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonImportGoogleLocation.Text = "Import Google Locations";
-            this.toolStripButtonImportGoogleLocation.Click += new System.EventHandler(this.toolStripButtonImportGoogleLocation_Click);
-            // 
-            // toolStripButtonSaveAllMetadata
-            // 
-            this.toolStripButtonSaveAllMetadata.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonSaveAllMetadata.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
-            this.toolStripButtonSaveAllMetadata.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonSaveAllMetadata.Name = "toolStripButtonSaveAllMetadata";
-            this.toolStripButtonSaveAllMetadata.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonSaveAllMetadata.Text = "Save changes";
-            this.toolStripButtonSaveAllMetadata.Click += new System.EventHandler(this.toolStripButtonSaveAllMetadata_Click);
-            // 
-            // toolStripButtonConfig
-            // 
-            this.toolStripButtonConfig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonConfig.Image = global::PhotoTagsSynchronizer.Properties.Resources.Config;
-            this.toolStripButtonConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonConfig.Name = "toolStripButtonConfig";
-            this.toolStripButtonConfig.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonConfig.Text = "Config";
-            this.toolStripButtonConfig.Click += new System.EventHandler(this.toolStripButtonConfig_Click);
-            // 
-            // toolStripButtonAbout
-            // 
-            this.toolStripButtonAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonAbout.Image = global::PhotoTagsSynchronizer.Properties.Resources.About;
-            this.toolStripButtonAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonAbout.Name = "toolStripButtonAbout";
-            this.toolStripButtonAbout.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonAbout.Text = "About";
-            this.toolStripButtonAbout.Click += new System.EventHandler(this.toolStripButtonAbout_Click);
-            // 
-            // toolStripButtonSelectPrevious
-            // 
-            this.toolStripButtonSelectPrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonSelectPrevious.Image = global::PhotoTagsSynchronizer.Properties.Resources.Select_Previous;
-            this.toolStripButtonSelectPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonSelectPrevious.Name = "toolStripButtonSelectPrevious";
-            this.toolStripButtonSelectPrevious.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonSelectPrevious.Text = "Select Previous Group";
-            // 
-            // toolStripDropDownButtonSelectGroupBy
-            // 
-            this.toolStripDropDownButtonSelectGroupBy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButtonSelectGroupBy.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemSelectSameDay,
-            this.toolStripMenuItemSelectSameCountry});
-            this.toolStripDropDownButtonSelectGroupBy.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonSelectGroupBy.Image")));
-            this.toolStripDropDownButtonSelectGroupBy.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButtonSelectGroupBy.Name = "toolStripDropDownButtonSelectGroupBy";
-            this.toolStripDropDownButtonSelectGroupBy.Size = new System.Drawing.Size(130, 25);
-            this.toolStripDropDownButtonSelectGroupBy.Text = "Select group by:";
-            // 
-            // toolStripMenuItemSelectSameDay
-            // 
-            this.toolStripMenuItemSelectSameDay.Name = "toolStripMenuItemSelectSameDay";
-            this.toolStripMenuItemSelectSameDay.Size = new System.Drawing.Size(224, 26);
-            this.toolStripMenuItemSelectSameDay.Text = "Select same Day";
-            // 
-            // toolStripMenuItemSelectSameCountry
-            // 
-            this.toolStripMenuItemSelectSameCountry.Name = "toolStripMenuItemSelectSameCountry";
-            this.toolStripMenuItemSelectSameCountry.Size = new System.Drawing.Size(224, 26);
-            this.toolStripMenuItemSelectSameCountry.Text = "Select by Country";
-            // 
-            // toolStripButtonSelectNext
-            // 
-            this.toolStripButtonSelectNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonSelectNext.Image = global::PhotoTagsSynchronizer.Properties.Resources.Select_Next;
-            this.toolStripButtonSelectNext.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonSelectNext.Name = "toolStripButtonSelectNext";
-            this.toolStripButtonSelectNext.Size = new System.Drawing.Size(29, 25);
-            this.toolStripButtonSelectNext.Text = "Select Next Group";
-            // 
-            // toolStripMenuItemImageListViewCut
-            // 
-            this.toolStripMenuItemImageListViewCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
-            this.toolStripMenuItemImageListViewCut.Name = "toolStripMenuItemImageListViewCut";
-            this.toolStripMenuItemImageListViewCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.toolStripMenuItemImageListViewCut.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemImageListViewCut.Text = "Cut";
-            this.toolStripMenuItemImageListViewCut.Click += new System.EventHandler(this.toolStripMenuItemImageListViewCut_Click);
-            // 
-            // toolStripMenuItemImageListViewCopy
-            // 
-            this.toolStripMenuItemImageListViewCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.toolStripMenuItemImageListViewCopy.Name = "toolStripMenuItemImageListViewCopy";
-            this.toolStripMenuItemImageListViewCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemImageListViewCopy.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemImageListViewCopy.Text = "Copy";
-            this.toolStripMenuItemImageListViewCopy.Click += new System.EventHandler(this.toolStripMenuItemImageListViewCopy_Click);
-            // 
-            // copyFileNamesToClipboardToolStripMenuItem
-            // 
-            this.copyFileNamesToClipboardToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.copyFileNamesToClipboardToolStripMenuItem.Name = "copyFileNamesToClipboardToolStripMenuItem";
-            this.copyFileNamesToClipboardToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
-            this.copyFileNamesToClipboardToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.copyFileNamesToClipboardToolStripMenuItem.Text = "Copy file names to Clipboard";
-            this.copyFileNamesToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyFileNamesToClipboardToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItemImageListViewPaste
-            // 
-            this.toolStripMenuItemImageListViewPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
-            this.toolStripMenuItemImageListViewPaste.Name = "toolStripMenuItemImageListViewPaste";
-            this.toolStripMenuItemImageListViewPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.toolStripMenuItemImageListViewPaste.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemImageListViewPaste.Text = "Paste";
-            this.toolStripMenuItemImageListViewPaste.Click += new System.EventHandler(this.toolStripMenuItemImageListViewPaste_Click);
-            // 
-            // toolStripMenuItemImageListViewDelete
-            // 
-            this.toolStripMenuItemImageListViewDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
-            this.toolStripMenuItemImageListViewDelete.Name = "toolStripMenuItemImageListViewDelete";
-            this.toolStripMenuItemImageListViewDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.toolStripMenuItemImageListViewDelete.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemImageListViewDelete.Text = "Delete";
-            this.toolStripMenuItemImageListViewDelete.Click += new System.EventHandler(this.toolStripMenuItemDelete_Click);
-            // 
-            // toolStripMenuItemImageListViewRefreshFolder
-            // 
-            this.toolStripMenuItemImageListViewRefreshFolder.Image = global::PhotoTagsSynchronizer.Properties.Resources.RefreshFolder;
-            this.toolStripMenuItemImageListViewRefreshFolder.Name = "toolStripMenuItemImageListViewRefreshFolder";
-            this.toolStripMenuItemImageListViewRefreshFolder.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.toolStripMenuItemImageListViewRefreshFolder.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemImageListViewRefreshFolder.Text = "Refresh folder";
-            this.toolStripMenuItemImageListViewRefreshFolder.Click += new System.EventHandler(this.toolStripMenuItemRefreshFolder_Click);
-            // 
-            // toolStripMenuItemImageListViewReloadThumbnailAndMetadata
-            // 
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Image = global::PhotoTagsSynchronizer.Properties.Resources.Reload;
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Name = "toolStripMenuItemImageListViewReloadThumbnailAndMetadata";
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F5)));
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Text = "Reload thumbnail and metadata";
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadata.Click += new System.EventHandler(this.toolStripMenuItemReloadThumbnailAndMetadata_Click);
-            // 
-            // toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory
-            // 
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Image = global::PhotoTagsSynchronizer.Properties.Resources.DeleteHistory;
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Name = "toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadata" +
-    "History";
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Text = "Clear thumbnail and metadata history";
-            this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory.Click += new System.EventHandler(this.toolStripMenuItemReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory_Click);
-            // 
-            // toolStripMenuItemImageListViewSelectAll
-            // 
-            this.toolStripMenuItemImageListViewSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.SelectAll;
-            this.toolStripMenuItemImageListViewSelectAll.Name = "toolStripMenuItemImageListViewSelectAll";
-            this.toolStripMenuItemImageListViewSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.toolStripMenuItemImageListViewSelectAll.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemImageListViewSelectAll.Text = "Select All";
-            this.toolStripMenuItemImageListViewSelectAll.Click += new System.EventHandler(this.toolStripMenuItemSelectAll_Click);
-            // 
-            // toolStripMenuItemImageListViewAutoCorrect
-            // 
-            this.toolStripMenuItemImageListViewAutoCorrect.Image = global::PhotoTagsSynchronizer.Properties.Resources.AutoCorrect;
-            this.toolStripMenuItemImageListViewAutoCorrect.Name = "toolStripMenuItemImageListViewAutoCorrect";
-            this.toolStripMenuItemImageListViewAutoCorrect.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.T)));
-            this.toolStripMenuItemImageListViewAutoCorrect.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemImageListViewAutoCorrect.Text = "AutoCorrect metadata";
-            this.toolStripMenuItemImageListViewAutoCorrect.Click += new System.EventHandler(this.toolStripMenuItemImageListViewAutoCorrect_Click);
-            // 
-            // openFileWithAssociatedApplicationToolStripMenuItem
-            // 
-            this.openFileWithAssociatedApplicationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Image_Open;
-            this.openFileWithAssociatedApplicationToolStripMenuItem.Name = "openFileWithAssociatedApplicationToolStripMenuItem";
-            this.openFileWithAssociatedApplicationToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.openFileWithAssociatedApplicationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.openFileWithAssociatedApplicationToolStripMenuItem.Text = "Open";
-            this.openFileWithAssociatedApplicationToolStripMenuItem.Click += new System.EventHandler(this.openFileWithAssociatedApplicationToolStripMenuItem_Click);
-            // 
-            // editFileWithAssociatedApplicationToolStripMenuItem
-            // 
-            this.editFileWithAssociatedApplicationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Image_Edit;
-            this.editFileWithAssociatedApplicationToolStripMenuItem.Name = "editFileWithAssociatedApplicationToolStripMenuItem";
-            this.editFileWithAssociatedApplicationToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.editFileWithAssociatedApplicationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.editFileWithAssociatedApplicationToolStripMenuItem.Text = "Edit";
-            this.editFileWithAssociatedApplicationToolStripMenuItem.Click += new System.EventHandler(this.editFileWithAssociatedApplicationToolStripMenuItem_Click);
-            // 
-            // runSelectedToolStripMenuItem1
-            // 
-            this.runSelectedToolStripMenuItem1.Image = global::PhotoTagsSynchronizer.Properties.Resources.Run_Command;
-            this.runSelectedToolStripMenuItem1.Name = "runSelectedToolStripMenuItem1";
-            this.runSelectedToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
-            this.runSelectedToolStripMenuItem1.Size = new System.Drawing.Size(389, 26);
-            this.runSelectedToolStripMenuItem1.Text = "Run batch app or command...";
-            this.runSelectedToolStripMenuItem1.Click += new System.EventHandler(this.runSelectedLocationToolStripMenuItem_Click);
-            // 
-            // openWithDialogToolStripMenuItem
-            // 
-            this.openWithDialogToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Association_Filetype;
-            this.openWithDialogToolStripMenuItem.Name = "openWithDialogToolStripMenuItem";
-            this.openWithDialogToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openWithDialogToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.openWithDialogToolStripMenuItem.Text = "Open and associate with dialog...";
-            this.openWithDialogToolStripMenuItem.Click += new System.EventHandler(this.openWithDialogToolStripMenuItem_Click);
-            // 
-            // openFileLocationToolStripMenuItem
-            // 
-            this.openFileLocationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FileExplorer;
-            this.openFileLocationToolStripMenuItem.Name = "openFileLocationToolStripMenuItem";
-            this.openFileLocationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
-            this.openFileLocationToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.openFileLocationToolStripMenuItem.Text = "Open file Location";
-            this.openFileLocationToolStripMenuItem.Click += new System.EventHandler(this.openFileLocationToolStripMenuItem_Click);
-            // 
-            // mediaPreviewToolStripMenuItem
-            // 
-            this.mediaPreviewToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Preview;
-            this.mediaPreviewToolStripMenuItem.Name = "mediaPreviewToolStripMenuItem";
-            this.mediaPreviewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.mediaPreviewToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.mediaPreviewToolStripMenuItem.Text = "Media preview";
-            this.mediaPreviewToolStripMenuItem.Click += new System.EventHandler(this.mediaPreviewToolStripMenuItem_Click);
-            // 
-            // rotateCW90ToolStripMenuItem
-            // 
-            this.rotateCW90ToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
-            this.rotateCW90ToolStripMenuItem.Name = "rotateCW90ToolStripMenuItem";
-            this.rotateCW90ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D9)));
-            this.rotateCW90ToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.rotateCW90ToolStripMenuItem.Text = "Rotate CW - 90°";
-            this.rotateCW90ToolStripMenuItem.ToolTipText = "Rotate CW - 90°";
-            this.rotateCW90ToolStripMenuItem.Click += new System.EventHandler(this.rotateCW90ToolStripMenuItem_Click);
-            // 
-            // rotate180ToolStripMenuItem
-            // 
-            this.rotate180ToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
-            this.rotate180ToolStripMenuItem.Name = "rotate180ToolStripMenuItem";
-            this.rotate180ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D1)));
-            this.rotate180ToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.rotate180ToolStripMenuItem.Text = "Rotate 180°";
-            this.rotate180ToolStripMenuItem.ToolTipText = "Rotate 180°";
-            this.rotate180ToolStripMenuItem.Click += new System.EventHandler(this.rotate180ToolStripMenuItem_Click);
-            // 
-            // ratateCCW270ToolStripMenuItem
-            // 
-            this.ratateCCW270ToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
-            this.ratateCCW270ToolStripMenuItem.Name = "ratateCCW270ToolStripMenuItem";
-            this.ratateCCW270ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D2)));
-            this.ratateCCW270ToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.ratateCCW270ToolStripMenuItem.Text = "Ratate CCW - 270°";
-            this.ratateCCW270ToolStripMenuItem.ToolTipText = "Ratate CCW - 270°";
-            this.ratateCCW270ToolStripMenuItem.Click += new System.EventHandler(this.ratateCCW270ToolStripMenuItem_Click);
+            this.toolStripMenuItemSelectFallbackOnFileCreated.Name = "toolStripMenuItemSelectFallbackOnFileCreated";
+            this.toolStripMenuItemSelectFallbackOnFileCreated.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectFallbackOnFileCreated.Text = "Use File Create date when Date Taken missing";
+            this.toolStripMenuItemSelectFallbackOnFileCreated.Click += new System.EventHandler(this.toolStripMenuItemSelectFallbackOnFileCreated_Click);
             // 
             // MainForm
             // 
@@ -4061,6 +4194,7 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripMap.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPageDate.ResumeLayout(false);
             this.tabPageDate.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDate)).EndInit();
@@ -4089,7 +4223,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -4415,6 +4548,21 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectSameDay;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectSameCountry;
         private System.Windows.Forms.ToolStripButton toolStripButtonSelectNext;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectSameLocationName;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectSameCity;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectSame3Day;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectSameWeek;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectSame2week;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectSameMonth;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectMax10items;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectMax30items;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectMax50items;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectMax100items;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectSameDistrict;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSelectFallbackOnFileCreated;
     }
 }
 

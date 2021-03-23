@@ -1,0 +1,182 @@
+﻿using System.Windows.Forms;
+using Manina.Windows.Forms;
+using MetadataLibrary;
+using System.Collections.Generic;
+using static Manina.Windows.Forms.ImageListView;
+using System;
+using System.Diagnostics;
+
+namespace PhotoTagsSynchronizer
+{
+    public partial class MainForm : Form
+    {
+
+        private int lastGroupBaseIndex = int.MaxValue;
+
+        private void GroupSelectionClear()
+        {
+            lastGroupBaseIndex = int.MaxValue;
+        }
+
+        private void SelectedGroupBySelections(ImageListView imageListView, int baseItemIndex, int direction,
+            int maxSelectCount, int maxDayRange, bool fallbackOnFileCreated, 
+            bool checkLocationName, bool checkCity, bool checkDistrict, bool checkCountry)
+        {
+            
+            ImageListViewItemCollection imageListViewItems = imageListView.Items;
+            if (baseItemIndex < imageListViewItems.Count)
+            {
+                bool checkDayRange = maxDayRange > 0;
+
+                bool isMetadataNull;
+                string locationName = null;
+                string city = null;
+                string district = null;
+                string country = null;
+                DateTime? dateTaken = null;
+
+                ImageListViewItem imageListViewItem = imageListViewItems[baseItemIndex];
+                Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerType.ExifTool));
+                if (metadata != null)
+                {
+                    locationName = metadata.LocationName;
+                    city = metadata.LocationCity;
+                    district = metadata.LocationState;
+                    country = metadata.LocationCountry;
+                    dateTaken = metadata.MediaDateTaken;
+                    isMetadataNull = false;
+
+                    if (dateTaken == null && fallbackOnFileCreated) dateTaken = imageListViewItem.DateCreated;
+                } 
+                else isMetadataNull = true;
+
+
+                GlobalData.IsPopulatingButtonAction = true;
+                GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                folderTreeViewFolder.Enabled = false;
+                imageListView.Enabled = false;
+                toolStripButtonSelectPrevious.Enabled = false;
+                toolStripDropDownButtonSelectGroupBy.Enabled = false;
+                toolStripButtonSelectNext.Enabled = false;
+
+                ImageListViewSuspendLayoutInvoke(imageListView);
+
+                imageListView.ClearSelection();
+
+                int selectedCount = 0;
+                int itemIndex = baseItemIndex;
+                while (itemIndex > -1 && itemIndex < imageListViewItems.Count && selectedCount < maxSelectCount)
+                {
+                    imageListViewItem = imageListViewItems[itemIndex];
+
+                    //Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerType.ExifTool));
+                    metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerType.ExifTool));
+
+                    if (isMetadataNull && metadata == null)
+                    {
+                        imageListViewItem.Selected = true;
+                        selectedCount++;
+                    }
+                    else if (isMetadataNull && metadata != null)
+                    {
+                        imageListViewItem.Selected = false;
+
+                    }
+                    else if (metadata != null)
+                    {
+                        bool isItemsEqual = true;
+                        if (checkLocationName && locationName != metadata.LocationName) isItemsEqual = false;
+                        if (checkCity && city == metadata.LocationCity) isItemsEqual = false;
+                        if (checkDistrict && district == metadata.LocationState) isItemsEqual = false;
+                        if (checkCountry && country == metadata.LocationCountry) isItemsEqual = false;
+
+                        DateTime? metadataMediaDateTaken = metadata.MediaDateTaken;
+                        if (metadataMediaDateTaken == null && fallbackOnFileCreated) metadataMediaDateTaken = imageListViewItem.DateCreated;
+                        
+                        if (checkDayRange && dateTaken != null && metadataMediaDateTaken == null) isItemsEqual = false;
+                        else if (checkDayRange && dateTaken == null && metadataMediaDateTaken != null) isItemsEqual = false;
+                        else if (//dateTaken != null && metadataMediaDateTaken != null &&
+                            checkDayRange && Math.Abs(((DateTime)metadataMediaDateTaken - (DateTime)dateTaken).TotalDays) > maxDayRange) isItemsEqual = false;
+
+                        if (isItemsEqual)
+                        {
+                            selectedCount++;
+                            imageListViewItem.Selected = true;
+                        }
+                    }
+
+                    itemIndex += direction;
+                }
+            }
+
+            toolStripButtonSelectPrevious.Enabled = true;
+            toolStripDropDownButtonSelectGroupBy.Enabled = true;
+            toolStripButtonSelectNext.Enabled = true;
+            imageListView.Enabled = true;
+            folderTreeViewFolder.Enabled = true;
+
+            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+            GlobalData.IsPopulatingButtonAction = false;
+            GlobalData.IsPopulatingImageListView = false;
+
+            FilesSelected();
+            ImageListViewResumeLayoutInvoke(imageListView);
+
+            lastGroupBaseIndex = baseItemIndex;
+        }
+
+        private int SelectedGroupFindBaseItemIndex(ImageListView imageListView, int direction)
+        {
+            //if (imageListView.SelectedItems.Count == 1)
+            
+            ImageListViewItemCollection imageListViewItems = imageListView.Items;
+            
+            int selectedCount = imageListView.SelectedItems.Count;
+            int baseItemIndex;
+
+            if (direction == 0)
+            {
+                baseItemIndex = lastGroupBaseIndex;
+            }
+            else
+            {
+                if (selectedCount == 0)
+                {
+                    if (direction == 1) baseItemIndex = 0;
+                    else baseItemIndex = imageListViewItems.Count - 1;
+                }
+                else
+                {
+                    bool isSelecedFound = false;
+                    bool isBaseItemFound = false;
+
+                    if (direction == 1) baseItemIndex = 0;
+                    else baseItemIndex = imageListViewItems.Count - 1;
+
+                    while (!isBaseItemFound && baseItemIndex > -1 && baseItemIndex < imageListViewItems.Count)
+                    {
+                        ImageListViewItem imageListViewItem = imageListViewItems[baseItemIndex];
+
+
+
+                        if (!isSelecedFound && imageListViewItem.Selected)
+                        {
+                            isSelecedFound = true;
+                            if (selectedCount == 1 && lastGroupBaseIndex != baseItemIndex) isBaseItemFound = true;
+                        }
+
+                        if (isSelecedFound && !imageListViewItem.Selected) isBaseItemFound = true;
+                        if (!isBaseItemFound) baseItemIndex += direction;
+                    }
+                }
+            }
+
+            if (baseItemIndex > imageListViewItems.Count - 1) baseItemIndex = 0;
+            if (baseItemIndex < 0) baseItemIndex = imageListViewItems.Count - 1;
+
+            lastGroupBaseIndex = baseItemIndex;
+            return baseItemIndex;
+        }
+    }
+}

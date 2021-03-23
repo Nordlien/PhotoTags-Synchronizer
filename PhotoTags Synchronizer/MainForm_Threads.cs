@@ -15,7 +15,6 @@ using Thumbnails;
 
 namespace PhotoTagsSynchronizer
 {
-
     public partial class MainForm : Form
     {
         private Thread _ThreadPreloadingMetadata = null;
@@ -271,9 +270,11 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #endregion 
+        #endregion
 
         #region LazyLoadning - Metadata
+
+        #region LazyLoadding - ThreadLazyLoadingQueueSize()
         public int ThreadLazyLoadingQueueSize()
         {
             return
@@ -287,7 +288,7 @@ namespace PhotoTagsSynchronizer
             //  CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() +
             //  CommonQueueSaveMetadataUpdatedByUserCountLock();
         }
-
+        #endregion 
 
         #region LazyLoadning - Metadata - AddQueue - Read from Cache, then Database, then Source and Save
         public void AddQueueMetadataReadToCacheOrUpdateFromSoruce(FileEntry fileEntry)
@@ -1485,9 +1486,6 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #endregion
-
-
-
 
         #region Error Message handling
         private string listOfErrors = "";

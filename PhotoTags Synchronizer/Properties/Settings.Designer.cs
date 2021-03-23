@@ -1586,5 +1586,89 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ChromecastTransporter"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SelectGroupSameLocationName {
+            get {
+                return ((bool)(this["SelectGroupSameLocationName"]));
+            }
+            set {
+                this["SelectGroupSameLocationName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SelectGroupSameCity {
+            get {
+                return ((bool)(this["SelectGroupSameCity"]));
+            }
+            set {
+                this["SelectGroupSameCity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SelectGroupSameDistrict {
+            get {
+                return ((bool)(this["SelectGroupSameDistrict"]));
+            }
+            set {
+                this["SelectGroupSameDistrict"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SelectGroupSameCountry {
+            get {
+                return ((bool)(this["SelectGroupSameCountry"]));
+            }
+            set {
+                this["SelectGroupSameCountry"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int SelectGroupNumberOfDays {
+            get {
+                return ((int)(this["SelectGroupNumberOfDays"]));
+            }
+            set {
+                this["SelectGroupNumberOfDays"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int SelectGroupMaxCount {
+            get {
+                return ((int)(this["SelectGroupMaxCount"]));
+            }
+            set {
+                this["SelectGroupMaxCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SelectGroupFileCreatedFallback {
+            get {
+                return ((bool)(this["SelectGroupFileCreatedFallback"]));
+            }
+            set {
+                this["SelectGroupFileCreatedFallback"] = value;
+            }
+        }
     }
 }

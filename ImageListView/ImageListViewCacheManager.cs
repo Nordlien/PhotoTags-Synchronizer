@@ -978,7 +978,7 @@ namespace Manina.Windows.Forms
 
                     // Do we need a refresh?
                     sw.Stop();
-                    if (sw.ElapsedMilliseconds > 20)
+                    if (sw.ElapsedMilliseconds > 10)
                     {
                         try
                         {
