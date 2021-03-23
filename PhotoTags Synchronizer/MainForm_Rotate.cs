@@ -218,11 +218,13 @@ namespace PhotoTagsSynchronizer
         #region Rotate - mmpeg Progress - Process bar
         private Stopwatch stopwatchRemoveSaveProgressbar = new Stopwatch();
         private TimeSpan durationMpegVideoConvertion = new TimeSpan();
+
         private void timerSaveProgessRemoveProgress_Tick(object sender, EventArgs e)
         {
             if (stopwatchRemoveSaveProgressbar.Elapsed.TotalMilliseconds > 1000)
                 toolStripProgressBarSaveProgress.Visible = false;
         }
+
         private void MmpegProgress(string data)
         {
             if (InvokeRequired)

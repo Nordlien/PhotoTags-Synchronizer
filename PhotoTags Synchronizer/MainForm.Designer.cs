@@ -31,7 +31,7 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -300,6 +300,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemSelectSameWeek = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSelectSame2week = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSelectSameMonth = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSelectFallbackOnFileCreated = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemSelectMax10items = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSelectMax30items = new System.Windows.Forms.ToolStripMenuItem();
@@ -368,7 +369,6 @@ namespace PhotoTagsSynchronizer
             this.timerFindGoogleCast = new System.Windows.Forms.Timer(this.components);
             this.timerPreviewNextTimer = new System.Windows.Forms.Timer(this.components);
             this.timerSaveProgessRemoveProgress = new System.Windows.Forms.Timer(this.components);
-            this.toolStripMenuItemSelectFallbackOnFileCreated = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -1296,11 +1296,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode4.Name = "NodeFolder";
-            treeNode4.Tag = "Filter";
-            treeNode4.Text = "Filter";
+            treeNode1.Name = "NodeFolder";
+            treeNode1.Tag = "Filter";
+            treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4});
+            treeNode1});
             this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -1346,6 +1346,7 @@ namespace PhotoTagsSynchronizer
             this.imageListView1.Size = new System.Drawing.Size(484, 892);
             this.imageListView1.TabIndex = 1;
             this.imageListView1.Text = "";
+            this.imageListView1.ItemHover += new Manina.Windows.Forms.ItemHoverEventHandler(this.imageListView1_ItemHover);
             this.imageListView1.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView1_ItemDoubleClick);
             this.imageListView1.SelectionChanged += new System.EventHandler(this.imageListView1_SelectionChanged);
             this.imageListView1.ThumbnailCaching += new Manina.Windows.Forms.ThumbnailCachingEventHandler(this.imageListView1_ThumbnailCaching);
@@ -3272,7 +3273,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonAbout});
             this.toolStrip.Location = new System.Drawing.Point(4, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(1128, 28);
+            this.toolStrip.Size = new System.Drawing.Size(1089, 28);
             this.toolStrip.TabIndex = 0;
             // 
             // thumbnailsToolStripButton
@@ -3526,6 +3527,13 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemSelectSameMonth.Size = new System.Drawing.Size(394, 26);
             this.toolStripMenuItemSelectSameMonth.Text = "Select within Month range (30 days)";
             this.toolStripMenuItemSelectSameMonth.Click += new System.EventHandler(this.toolStripMenuItemSelectSameMonth_Click);
+            // 
+            // toolStripMenuItemSelectFallbackOnFileCreated
+            // 
+            this.toolStripMenuItemSelectFallbackOnFileCreated.Name = "toolStripMenuItemSelectFallbackOnFileCreated";
+            this.toolStripMenuItemSelectFallbackOnFileCreated.Size = new System.Drawing.Size(394, 26);
+            this.toolStripMenuItemSelectFallbackOnFileCreated.Text = "Use File Create date when Date Taken missing";
+            this.toolStripMenuItemSelectFallbackOnFileCreated.Click += new System.EventHandler(this.toolStripMenuItemSelectFallbackOnFileCreated_Click);
             // 
             // toolStripSeparator13
             // 
@@ -4112,13 +4120,6 @@ namespace PhotoTagsSynchronizer
             this.timerSaveProgessRemoveProgress.Enabled = true;
             this.timerSaveProgessRemoveProgress.Interval = 500;
             this.timerSaveProgessRemoveProgress.Tick += new System.EventHandler(this.timerSaveProgessRemoveProgress_Tick);
-            // 
-            // toolStripMenuItemSelectFallbackOnFileCreated
-            // 
-            this.toolStripMenuItemSelectFallbackOnFileCreated.Name = "toolStripMenuItemSelectFallbackOnFileCreated";
-            this.toolStripMenuItemSelectFallbackOnFileCreated.Size = new System.Drawing.Size(394, 26);
-            this.toolStripMenuItemSelectFallbackOnFileCreated.Text = "Use File Create date when Date Taken missing";
-            this.toolStripMenuItemSelectFallbackOnFileCreated.Click += new System.EventHandler(this.toolStripMenuItemSelectFallbackOnFileCreated_Click);
             // 
             // MainForm
             // 

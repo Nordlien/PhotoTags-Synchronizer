@@ -34,7 +34,7 @@ namespace PhotoTagsSynchronizer
             if (isAnyDataUnsaved) return isAnyDataUnsaved;
             if (GlobalData.IsAgregatedProperties) isAnyDataUnsaved = DataGridViewHandler.IsDataGridViewDirty(dataGridViewProperties);
             if (isAnyDataUnsaved) return isAnyDataUnsaved;
-            
+
             GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
 
             //Find what columns are updated / changed by user
@@ -67,11 +67,11 @@ namespace PhotoTagsSynchronizer
 
                 Metadata metadataFromDataGridView = new Metadata(dataGridViewGenericColumn.Metadata);
 
-                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);                
-                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);               
-                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);                
+                if (GlobalData.IsAgregatedTags) DataGridViewHandlerTagsAndKeywords.GetUserInputChanges(ref dataGridViewTagsAndKeywords, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
+                if (GlobalData.IsAgregatedMap) DataGridViewHandlerMap.GetUserInputChanges(ref dataGridViewMap, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
+                if (GlobalData.IsAgregatedPeople) DataGridViewHandlerPeople.GetUserInputChanges(ref dataGridViewPeople, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
                 if (GlobalData.IsAgregatedDate) DataGridViewHandlerDate.GetUserInputChanges(ref dataGridViewDate, metadataFromDataGridView, dataGridViewGenericColumn.FileEntryAttribute);
-                
+
                 metadataListFromDataGridView.Add(new Metadata(metadataFromDataGridView));
                 metadataListOriginalExiftool.Add(new Metadata(dataGridViewGenericColumn.Metadata));
 
@@ -149,7 +149,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
             //ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
             LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
-            FilesSelected(); 
+            FilesSelected();
         }
         #endregion
 
@@ -193,13 +193,13 @@ namespace PhotoTagsSynchronizer
                 try
                 {
                     if (File.Exists(outputFile) && new FileInfo(outputFile).Length > 0) found = true;
-                } catch 
-                { 
+                } catch
+                {
                 }
                 if (found) ImageListViewAddItem(outputFile);
             }
 
-            
+
         }
         #endregion
 
@@ -643,7 +643,7 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
         {
             AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
- 
+
             foreach (ImageListViewItem item in imageListView1.SelectedItems)
             {
                 Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
@@ -661,7 +661,7 @@ namespace PhotoTagsSynchronizer
                     AddQueueRename(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                 }
             }
-            
+
             StartThreads();
         }
         #endregion
@@ -674,7 +674,7 @@ namespace PhotoTagsSynchronizer
             {
                 ApplicationActivation.ShowOpenWithDialog(imageListViewItem.FileFullPath);
             }
-        
+
         }
         #endregion
 
@@ -691,7 +691,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
-           
+
             if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
         #endregion
@@ -727,7 +727,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex) { errorMessage += (errorMessage == "" ? "" : "\r\n") + ex.Message; }
             }
-            
+
             if (errorMessage != "") MessageBox.Show(errorMessage, "Failed to start application process...", MessageBoxButtons.OK);
         }
         #endregion
@@ -754,7 +754,7 @@ namespace PhotoTagsSynchronizer
                 {
                     text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FileFullPath;
                 }
-                
+
                 Clipboard.SetText(text);
             }
         }
@@ -800,7 +800,7 @@ namespace PhotoTagsSynchronizer
                     metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
                     metadataListEmpty.Add(new Metadata(metadataOriginal));
                 }
-                
+
 
                 ExiftoolWriter.CreateExiftoolArguFileText(
                     metadataListFromDataGridViewAutoCorrect, metadataListEmpty, allowedFileNameDateTimeFormats,
@@ -981,14 +981,14 @@ namespace PhotoTagsSynchronizer
                         MessageBox.Show("Can execute file. Error: " + ex.Message, "Can execute file", MessageBoxButtons.OK);
                     }
                 }
-                
+
             }
         }
-        #endregion 
+        #endregion
 
 
         #region ImageListView
-        
+
         #region TreeView - Delete Files - Directory - Click
         private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
         {
@@ -1009,7 +1009,7 @@ namespace PhotoTagsSynchronizer
             catch (Exception ex)
             {
                 Logger.Error("Error when delete folder." + ex.Message);
-                
+
                 AddError(
                     folder,
                     AddErrorFileSystemRegion, AddErrorFileSystemDeleteFolder, folder, folder,
@@ -1031,7 +1031,7 @@ namespace PhotoTagsSynchronizer
             var droplist = new StringCollection();
 
             foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
-            
+
             DataObject data = new DataObject();
             data.SetFileDropList(droplist);
             data.SetData("Preferred DropEffect", DragDropEffects.Move);
@@ -1048,7 +1048,7 @@ namespace PhotoTagsSynchronizer
         {
             StringCollection droplist = new StringCollection();
             foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
-            
+
             DataObject data = new DataObject();
             data.SetFileDropList(droplist);
             data.SetData("Preferred DropEffect", DragDropEffects.Copy);
@@ -1096,12 +1096,12 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show(ex.Message, "Failed to start application process...", MessageBoxButtons.OK);
             }
         }
-        #endregion 
-        
-        #endregion 
+        #endregion
+
+        #endregion
 
         #region FoldeTree
-        
+
         #region FolderTree - Cut - Click
         private void toolStripMenuItemTreeViewFolderCut_Click(object sender, EventArgs e)
         {
@@ -1176,7 +1176,7 @@ namespace PhotoTagsSynchronizer
                 }
 
                 obj.GetData(DataFormats.FileDrop);
-                MemoryStream stream = (MemoryStream) obj.GetData("Preferred DropEffect", true);
+                MemoryStream stream = (MemoryStream)obj.GetData("Preferred DropEffect", true);
                 if (stream != null)
                 {
                     int flag = stream.ReadByte();
@@ -1185,7 +1185,7 @@ namespace PhotoTagsSynchronizer
                     if (flag == 2) return DragDropEffects.Move;
                     if (flag == 5) return DragDropEffects.Copy;
                 }
-                
+
             } catch (Exception ex)
             {
                 Logger.Error("Clipboard failed: " + ex.Message);
@@ -1274,7 +1274,7 @@ namespace PhotoTagsSynchronizer
             Point targetPoint = folderTreeViewFolder.PointToClient(new Point(e.X, e.Y)); // Retrieve the client coordinates of the drop location.                          
             TreeNode targetNode = folderTreeViewFolder.GetNodeAt(targetPoint); // Retrieve the node at the drop location.
             string targetDirectory = Furty.Windows.Forms.ShellOperations.GetFileDirectory(targetNode);
-            
+
             #region Move media files dropped to new folder from external source
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop); //Check if files been dropped
             if (files != null)
@@ -1287,7 +1287,7 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.IsDragAndDropActive = false;
             folderTreeViewFolder.Focus();
-            
+
         }
         #endregion
 
@@ -1312,7 +1312,7 @@ namespace PhotoTagsSynchronizer
             currentNodeWhenStartDragging = e.Node;
 
             if (e.Button == MouseButtons.Right)
-            {               
+            {
                 folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
             }
         }
@@ -1360,17 +1360,17 @@ namespace PhotoTagsSynchronizer
                         else //Copied or NOT (cancel) a folder to new location in eg. Windows Explorer
                         {
                             GlobalData.DoNotRefreshImageListView = true;
-                            folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging; 
+                            folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
                             GlobalData.DoNotRefreshImageListView = false;
-                        } 
-                    } 
+                        }
+                    }
                 }
                 else
                 {
                     MessageBox.Show("No node folder was selected");
                     folderTreeViewFolder.Focus();
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 Logger.Error("Failed create drag and drop tarnsfer data. Error: " + ex.Message);
@@ -1481,9 +1481,10 @@ namespace PhotoTagsSynchronizer
         #region Select Group - Previous
         private void toolStripButtonSelectPrevious_Click(object sender, EventArgs e)
         {
-            int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, -1);
+            lastGroupDirection = -1;
+            int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, lastGroupDirection);
 
-            SelectedGroupBySelections(imageListView1, baseItemIndex, -1,
+            SelectedGroupBySelections(imageListView1, baseItemIndex, lastGroupDirection,
                 Properties.Settings.Default.SelectGroupMaxCount,
                 Properties.Settings.Default.SelectGroupNumberOfDays,
                 Properties.Settings.Default.SelectGroupFileCreatedFallback,
@@ -1492,16 +1493,34 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.SelectGroupSameDistrict,
                 Properties.Settings.Default.SelectGroupSameCountry);
 
-            
+
         }
         #endregion 
 
         #region Select Group - Next
         private void toolStripButtonSelectNext_Click(object sender, EventArgs e)
         {
-            int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, 1);
+            lastGroupDirection = 1;
+            int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, lastGroupDirection);
 
-            SelectedGroupBySelections(imageListView1, baseItemIndex, 1,
+            SelectedGroupBySelections(imageListView1, baseItemIndex, lastGroupDirection,
+                Properties.Settings.Default.SelectGroupMaxCount,
+                Properties.Settings.Default.SelectGroupNumberOfDays,
+                Properties.Settings.Default.SelectGroupFileCreatedFallback,
+                Properties.Settings.Default.SelectGroupSameLocationName,
+                Properties.Settings.Default.SelectGroupSameCity,
+                Properties.Settings.Default.SelectGroupSameDistrict,
+                Properties.Settings.Default.SelectGroupSameCountry);
+
+        }
+        #endregion
+
+        #region 
+        public void GroupSelectLast()
+        {
+            int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, 0);
+
+            SelectedGroupBySelections(imageListView1, baseItemIndex, lastGroupDirection,
                 Properties.Settings.Default.SelectGroupMaxCount,
                 Properties.Settings.Default.SelectGroupNumberOfDays,
                 Properties.Settings.Default.SelectGroupFileCreatedFallback,
@@ -1510,15 +1529,15 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.SelectGroupSameDistrict,
                 Properties.Settings.Default.SelectGroupSameCountry);
         }
-        #endregion
+        #endregion 
 
-        #region Select Group - Same month
-
+        #region Select Group - Fallback on File Created
         private void toolStripMenuItemSelectFallbackOnFileCreated_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
             Properties.Settings.Default.SelectGroupFileCreatedFallback = !toolStripMenuItem.Checked;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1528,6 +1547,7 @@ namespace PhotoTagsSynchronizer
             if (toolStripMenuItemSelectSameDay.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
             else Properties.Settings.Default.SelectGroupNumberOfDays = 1;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1537,6 +1557,7 @@ namespace PhotoTagsSynchronizer
             if (toolStripMenuItemSelectSame3Day.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
             else Properties.Settings.Default.SelectGroupNumberOfDays = 3;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1546,6 +1567,7 @@ namespace PhotoTagsSynchronizer
             if (toolStripMenuItemSelectSameWeek.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
             else Properties.Settings.Default.SelectGroupNumberOfDays = 7;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1555,6 +1577,7 @@ namespace PhotoTagsSynchronizer
             if (toolStripMenuItemSelectSame2week.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
             else Properties.Settings.Default.SelectGroupNumberOfDays = 14;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion
 
@@ -1564,6 +1587,7 @@ namespace PhotoTagsSynchronizer
             if (toolStripMenuItemSelectSameMonth.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
             else Properties.Settings.Default.SelectGroupNumberOfDays = 30;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1572,6 +1596,7 @@ namespace PhotoTagsSynchronizer
         {
             Properties.Settings.Default.SelectGroupMaxCount = 10;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1580,6 +1605,7 @@ namespace PhotoTagsSynchronizer
         {
             Properties.Settings.Default.SelectGroupMaxCount = 30;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1588,6 +1614,7 @@ namespace PhotoTagsSynchronizer
         {
             Properties.Settings.Default.SelectGroupMaxCount = 50;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1596,6 +1623,7 @@ namespace PhotoTagsSynchronizer
         {
             Properties.Settings.Default.SelectGroupMaxCount = 100;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1605,6 +1633,7 @@ namespace PhotoTagsSynchronizer
             ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
             Properties.Settings.Default.SelectGroupSameLocationName = !toolStripMenuItem.Checked;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1614,6 +1643,7 @@ namespace PhotoTagsSynchronizer
             ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
             Properties.Settings.Default.SelectGroupSameCity = !toolStripMenuItem.Checked;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion
 
@@ -1623,6 +1653,7 @@ namespace PhotoTagsSynchronizer
             ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
             Properties.Settings.Default.SelectGroupSameDistrict = !toolStripMenuItem.Checked;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 
@@ -1632,6 +1663,7 @@ namespace PhotoTagsSynchronizer
             ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
             Properties.Settings.Default.SelectGroupSameCountry = !toolStripMenuItem.Checked;
             PopulateSelectGroupToolStripMenuItems();
+            GroupSelectLast();
         }
         #endregion 
 

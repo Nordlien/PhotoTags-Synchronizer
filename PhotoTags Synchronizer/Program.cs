@@ -77,18 +77,22 @@ namespace PhotoTagsSynchronizer
 
             SplashForm.UpdateStatus("Initialize broswer...."); //5 
             
-
-
-            
-
-            MainForm mainForm = new MainForm(); //this takes ages
+            mainForm = new MainForm(); //this takes ages
             Application.Run(mainForm);
             
         }
 
+        private static MainForm mainForm = null;
+
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
         private static void Form1_UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
+            if (mainForm != null && mainForm.InvokeRequired)
+            {
+                mainForm.BeginInvoke(new Action<object, ThreadExceptionEventArgs>(Form1_UIThreadException), sender, t);
+                return;
+            }
+
             DialogResult result = DialogResult.Cancel;
             try
             {
@@ -118,6 +122,13 @@ namespace PhotoTagsSynchronizer
         // NOTE: This exception cannot be kept from terminating the application - it can only log the event, and inform the user about it.
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+
+            if (mainForm != null && mainForm.InvokeRequired)
+            {
+                mainForm.BeginInvoke(new Action<object, UnhandledExceptionEventArgs>(CurrentDomain_UnhandledException), sender, e);
+                return;
+            }
+
             try
             {
                 Exception ex = (Exception)e.ExceptionObject;

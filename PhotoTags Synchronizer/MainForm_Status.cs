@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
-using SqliteDatabase;
-using DataGridViewGeneric;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using System.Collections.Generic;

@@ -510,9 +510,13 @@ namespace PhotoTagsSynchronizer
 
 
 
+
         #endregion
 
-        
+        private void imageListView1_ItemHover(object sender, ItemHoverEventArgs e)
+        {
+            //e.Item
+        }
     }
 
 

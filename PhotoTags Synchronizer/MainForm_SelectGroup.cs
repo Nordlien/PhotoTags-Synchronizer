@@ -1,10 +1,8 @@
 ﻿using System.Windows.Forms;
 using Manina.Windows.Forms;
 using MetadataLibrary;
-using System.Collections.Generic;
 using static Manina.Windows.Forms.ImageListView;
 using System;
-using System.Diagnostics;
 
 namespace PhotoTagsSynchronizer
 {
@@ -12,9 +10,11 @@ namespace PhotoTagsSynchronizer
     {
 
         private int lastGroupBaseIndex = int.MaxValue;
+        private int lastGroupDirection = 0;
 
         private void GroupSelectionClear()
         {
+            lastGroupDirection = 0;
             lastGroupBaseIndex = int.MaxValue;
         }
 
@@ -22,10 +22,14 @@ namespace PhotoTagsSynchronizer
             int maxSelectCount, int maxDayRange, bool fallbackOnFileCreated, 
             bool checkLocationName, bool checkCity, bool checkDistrict, bool checkCountry)
         {
-            
             ImageListViewItemCollection imageListViewItems = imageListView.Items;
-            if (baseItemIndex < imageListViewItems.Count)
+            if (baseItemIndex < imageListViewItems.Count && direction != 0)
             {
+                toolStripProgressBarSaveProgress.Value = 0;
+                toolStripProgressBarSaveProgress.Minimum = 0;
+                toolStripProgressBarSaveProgress.Maximum = imageListView.Items.Count;
+                toolStripProgressBarSaveProgress.Visible = true;
+
                 bool checkDayRange = maxDayRange > 0;
 
                 bool isMetadataNull;
@@ -66,6 +70,7 @@ namespace PhotoTagsSynchronizer
 
                 int selectedCount = 0;
                 int itemIndex = baseItemIndex;
+
                 while (itemIndex > -1 && itemIndex < imageListViewItems.Count && selectedCount < maxSelectCount)
                 {
                     imageListViewItem = imageListViewItems[itemIndex];
@@ -96,7 +101,7 @@ namespace PhotoTagsSynchronizer
                         
                         if (checkDayRange && dateTaken != null && metadataMediaDateTaken == null) isItemsEqual = false;
                         else if (checkDayRange && dateTaken == null && metadataMediaDateTaken != null) isItemsEqual = false;
-                        else if (//dateTaken != null && metadataMediaDateTaken != null &&
+                        else if (dateTaken != null && metadataMediaDateTaken != null &&
                             checkDayRange && Math.Abs(((DateTime)metadataMediaDateTaken - (DateTime)dateTaken).TotalDays) > maxDayRange) isItemsEqual = false;
 
                         if (isItemsEqual)
@@ -105,9 +110,18 @@ namespace PhotoTagsSynchronizer
                             imageListViewItem.Selected = true;
                         }
                     }
+                    
+                    stopwatchRemoveSaveProgressbar.Restart();
+                    if (direction == 1) toolStripProgressBarSaveProgress.Value = itemIndex;
+                    else toolStripProgressBarSaveProgress.Value = imageListViewItems.Count - itemIndex;
+                    toolStripProgressBarSaveProgress.Visible = true;
 
-                    itemIndex += direction;
+                    itemIndex += direction;                    
                 }
+
+                imageListView.EnsureVisible(itemIndex - direction);
+                imageListView.EnsureVisible(baseItemIndex);
+
             }
 
             toolStripButtonSelectPrevious.Enabled = true;
@@ -122,14 +136,18 @@ namespace PhotoTagsSynchronizer
 
             FilesSelected();
             ImageListViewResumeLayoutInvoke(imageListView);
-
+            imageListView.Focus();
             lastGroupBaseIndex = baseItemIndex;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="imageListView"></param>
+        /// <param name="direction">-1 = backwards, 0 both directions (when direction not slected), 1 forward</param>
+        /// <returns></returns>
         private int SelectedGroupFindBaseItemIndex(ImageListView imageListView, int direction)
         {
-            //if (imageListView.SelectedItems.Count == 1)
-            
             ImageListViewItemCollection imageListViewItems = imageListView.Items;
             
             int selectedCount = imageListView.SelectedItems.Count;
@@ -137,7 +155,7 @@ namespace PhotoTagsSynchronizer
 
             if (direction == 0)
             {
-                baseItemIndex = lastGroupBaseIndex;
+                baseItemIndex = lastGroupBaseIndex; //-1 is unknown
             }
             else
             {
