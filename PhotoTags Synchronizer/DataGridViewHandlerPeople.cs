@@ -133,17 +133,17 @@ namespace PhotoTagsSynchronizer
             {
                 rowIndexUsed = rowIndexRowFound;
                 RegionStructure regionStructureInCell = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndexUsed);
-                if (regionStructureInCell == null || metadata.Broker == MetadataBrokerType.ExifTool)
+                if (regionStructureInCell == null || regionStructureInCell?.Thumbnail == null || metadata.Broker == MetadataBrokerType.ExifTool)
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexUsed, regionStructureToAdd); //Prioritize ExifTool
             } 
             else if (rowBlankFound) //Found row and but no cell with correct region
             {
                 rowIndexUsed = firstBlankFound;
                 RegionStructure regionStructureInCell = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndexUsed);
-                if (regionStructureInCell == null || metadata.Broker == MetadataBrokerType.ExifTool)
+                if (regionStructureInCell == null || regionStructureInCell?.Thumbnail == null || metadata.Broker == MetadataBrokerType.ExifTool)
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexUsed, regionStructureToAdd); //Prioritize ExifTool
             }
-            else //No postion found, add on soreted location
+            else //No postion found, add on sorted location
             {
                 //lastHeaderRowFound
                 rowIndexUsed = DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericRow,

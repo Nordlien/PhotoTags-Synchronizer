@@ -600,10 +600,19 @@ namespace MetadataLibrary
             }
             personalRegionList = regionStructuresCopy;
         }
+
         public void PersonalRegionListAddIfNotExists(RegionStructure regionStructure)
         {
-            if (!personalRegionList.Contains(regionStructure))
-                personalRegionList.Add(regionStructure);
+            if (!personalRegionList.Contains(regionStructure)) personalRegionList.Add(regionStructure);
+        }
+
+        public bool PersonalRegionIsThumbnailMissing()
+        {
+            foreach (RegionStructure regionStructureCheckMissingThumbnail in PersonalRegionList)
+            {
+                if (regionStructureCheckMissingThumbnail.Thumbnail == null) return true;
+            }
+            return false;
         }
 
         public void PersonalRegionListAddIfNotAreaAndNameExists(RegionStructure regionStructure)

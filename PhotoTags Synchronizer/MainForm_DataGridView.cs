@@ -152,6 +152,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Populate File - For FileEntryAttribute and Tag
+        //TODO: Fist face will not be refreach, due to DataGridView is not been finnished created before the data trigger update
         private void PopulateDataGrivViewForFileEntryAttributeAndTag(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tag, int queueCount)
         {
             lock (GlobalData.populateSelectedLock)
@@ -196,7 +197,7 @@ namespace PhotoTagsSynchronizer
                     LazyLoadMissing();
 
                     PopulateDataGridViewForSelectedItemsExtrasInvoke();
-                    LoadDataGridViewProgerss(queueCount);
+                    LoadDataGridViewProgerss(queueCount);                    
                 }
             }
         }
