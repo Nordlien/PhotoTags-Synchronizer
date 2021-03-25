@@ -264,7 +264,7 @@ namespace TimeZone
         }
         #endregion 
 
-        public static TimeSpan? CalulateTimeDiffrent(DateTime? dateTime1, DateTime? dateTime2)
+        public static TimeSpan? CalulateTimeDiffrentWithoutTimeZone(DateTime? dateTime1, DateTime? dateTime2)
         {
             if (dateTime1 != null && dateTime2 != null)
             {
@@ -274,12 +274,12 @@ namespace TimeZone
             return null;
         }
 
-        public static TimeSpan? CalulateTimeDiffrent(string dataTimeString1, string dateTimeString2)
+        public static TimeSpan? CalulateTimeDiffrentWithoutTimeZone(string dataTimeString1, string dateTimeString2)
         {
             DateTime? dateTime1 = TimeZoneLibrary.ParseDateTimeAsUTC(dataTimeString1);
             DateTime? dateTime2 = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeString2);
 
-            return CalulateTimeDiffrent(dateTime1, dateTime2);
+            return CalulateTimeDiffrentWithoutTimeZone(dateTime1, dateTime2);
         }
 
         #region Check DateTime Equal -accept one secound mismatch

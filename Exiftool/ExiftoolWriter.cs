@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Diagnostics;
 using MetadataLibrary;
 using ImageAndMovieFileExtentions;
-using System.Drawing;
 using NLog;
 using System.Threading;
 using WindowsProperty;
@@ -440,6 +438,12 @@ namespace Exiftool
             {
                 metadataUpdatedByUserCopy.MediaHeight = metadataRead.MediaHeight;
                 metadataUpdatedByUserCopy.MediaWidth = metadataRead.MediaWidth;
+            }
+
+            if (metadataRead.TryParseDateTakenToUtc(out DateTime? dateTimeOffset) && 
+                Math.Abs((((DateTime)dateTimeOffset).ToUniversalTime() - ((DateTime)metadataRead.FileDateCreated).ToUniversalTime()).TotalSeconds) < 2)
+            {
+                metadataUpdatedByUserCopy.FileDateCreated = metadataRead.FileDateCreated; //File create date has been set to Media Taken
             }
             
             if (metadataRead != metadataUpdatedByUserCopy)

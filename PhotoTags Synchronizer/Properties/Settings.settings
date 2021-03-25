@@ -892,7 +892,10 @@ duration {Duration}</Value>
     <Setting Name="SelectGroupMaxCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
-    <Setting Name="SelectGroupFileCreatedFallbacl" Type="System.Boolean" Scope="User">
+    <Setting Name="SelectGroupFileCreatedFallback" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="WriteMetadataCreatedDateFileAttribute" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

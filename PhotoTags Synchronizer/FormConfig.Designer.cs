@@ -83,6 +83,9 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMetadataReadShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageMetadataWrite = new System.Windows.Forms.TabPage();
             this.panelMetadataWrite = new System.Windows.Forms.Panel();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.label62 = new System.Windows.Forms.Label();
+            this.checkBoxWriteFileAttributeCreatedDate = new System.Windows.Forms.CheckBox();
             this.groupBoxMetadataWriteKeywordItems = new System.Windows.Forms.GroupBox();
             this.comboBoxMetadataWriteKeywordAdd = new System.Windows.Forms.ComboBox();
             this.fastColoredTextBoxMetadataWriteKeywordAdd = new FastColoredTextBoxNS.FastColoredTextBox();
@@ -285,6 +288,7 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripMetadataRead.SuspendLayout();
             this.tabPageMetadataWrite.SuspendLayout();
             this.panelMetadataWrite.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.groupBoxMetadataWriteKeywordItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordDelete)).BeginInit();
@@ -1134,6 +1138,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelMetadataWrite.AutoScroll = true;
             this.panelMetadataWrite.AutoScrollMinSize = new System.Drawing.Size(759, 698);
+            this.panelMetadataWrite.Controls.Add(this.groupBox9);
             this.panelMetadataWrite.Controls.Add(this.groupBoxMetadataWriteKeywordItems);
             this.panelMetadataWrite.Controls.Add(this.groupBoxMetadataWriteProperties);
             this.panelMetadataWrite.Controls.Add(this.groupBoxMetadataWriteTags);
@@ -1142,6 +1147,39 @@ namespace PhotoTagsSynchronizer
             this.panelMetadataWrite.Name = "panelMetadataWrite";
             this.panelMetadataWrite.Size = new System.Drawing.Size(759, 698);
             this.panelMetadataWrite.TabIndex = 4;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox9.Controls.Add(this.label62);
+            this.groupBox9.Controls.Add(this.checkBoxWriteFileAttributeCreatedDate);
+            this.groupBox9.Location = new System.Drawing.Point(1, 306);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(731, 64);
+            this.groupBox9.TabIndex = 17;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Media file Create Date and Time";
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Location = new System.Drawing.Point(9, 38);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(90, 17);
+            this.label62.TabIndex = 1;
+            this.label62.Text = "File attribute:";
+            // 
+            // checkBoxWriteFileAttributeCreatedDate
+            // 
+            this.checkBoxWriteFileAttributeCreatedDate.AutoSize = true;
+            this.checkBoxWriteFileAttributeCreatedDate.Location = new System.Drawing.Point(139, 37);
+            this.checkBoxWriteFileAttributeCreatedDate.Name = "checkBoxWriteFileAttributeCreatedDate";
+            this.checkBoxWriteFileAttributeCreatedDate.Size = new System.Drawing.Size(587, 21);
+            this.checkBoxWriteFileAttributeCreatedDate.TabIndex = 0;
+            this.checkBoxWriteFileAttributeCreatedDate.Text = "Update File Created Date/Time when Media taken exists and time zone can be estima" +
+    "ted";
+            this.checkBoxWriteFileAttributeCreatedDate.UseVisualStyleBackColor = true;
             // 
             // groupBoxMetadataWriteKeywordItems
             // 
@@ -1153,7 +1191,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.comboBoxMetadataWriteKeywordDelete);
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.label27);
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.label26);
-            this.groupBoxMetadataWriteKeywordItems.Location = new System.Drawing.Point(3, 298);
+            this.groupBoxMetadataWriteKeywordItems.Location = new System.Drawing.Point(1, 376);
             this.groupBoxMetadataWriteKeywordItems.Name = "groupBoxMetadataWriteKeywordItems";
             this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(731, 257);
             this.groupBoxMetadataWriteKeywordItems.TabIndex = 16;
@@ -1185,7 +1223,7 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharHeight = 18;
@@ -1218,7 +1256,7 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharHeight = 18;
@@ -1598,7 +1636,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxMetadataWriteTags.Controls.Add(this.fastColoredTextBoxMetadataWriteTags);
             this.groupBoxMetadataWriteTags.Controls.Add(this.comboBoxMetadataWriteStandardTags);
             this.groupBoxMetadataWriteTags.Controls.Add(this.label6);
-            this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(4, 561);
+            this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(1, 639);
             this.groupBoxMetadataWriteTags.MinimumSize = new System.Drawing.Size(703, 145);
             this.groupBoxMetadataWriteTags.Name = "groupBoxMetadataWriteTags";
             this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(730, 355);
@@ -3736,6 +3774,8 @@ namespace PhotoTagsSynchronizer
             this.tabPageMetadataWrite.ResumeLayout(false);
             this.tabPageMetadataWrite.PerformLayout();
             this.panelMetadataWrite.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.groupBoxMetadataWriteKeywordItems.ResumeLayout(false);
             this.groupBoxMetadataWriteKeywordItems.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordAdd)).EndInit();
@@ -4043,5 +4083,8 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.ComboBox comboBoxChromecastUrl;
         private System.Windows.Forms.Label label58;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Label label62;
+        private System.Windows.Forms.CheckBox checkBoxWriteFileAttributeCreatedDate;
     }
 }

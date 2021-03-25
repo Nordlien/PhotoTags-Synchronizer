@@ -3,7 +3,6 @@ using FileDateTime;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Dynamic;
 using System.Globalization;
 using System.IO;
 using TimeZone;
@@ -729,6 +728,41 @@ namespace MetadataLibrary
         public String CameraMake { get; set; }
         public String CameraModel { get; set; }
         #endregion
+
+        #region TimeZone
+        public bool TryParseDateTakenToUtc(out DateTime? dateTime)
+        {
+            dateTime = null;
+
+            if (MediaDateTaken == null) return false;
+            if (LocationDateTime == null) return false;
+            
+
+            TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)LocationLatitude, (double)LocationLongitude);
+
+            DateTime locationDateTomeUtc = ((DateTime)LocationDateTime).ToUniversalTime();
+
+            DateTime mediaTakenUtc;
+
+            if (LocationLatitude != null && LocationLongitude != null)
+            {
+                DateTimeOffset locationOffset = new DateTimeOffset(locationDateTomeUtc.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(locationDateTomeUtc));
+                mediaTakenUtc = new DateTime(((DateTime)MediaDateTaken).Add(-locationOffset.Offset).Ticks, DateTimeKind.Utc);
+            } else
+            {
+                TimeSpan diff = (new DateTime( ((DateTime)MediaDateTaken).Ticks, DateTimeKind.Utc)) - locationDateTomeUtc;
+                mediaTakenUtc = new DateTime(((DateTime)MediaDateTaken).Add(-diff).Ticks, DateTimeKind.Utc);
+            }
+            
+            TimeSpan? timeDiffrence = TimeZoneLibrary.CalulateTimeDiffrentWithoutTimeZone(mediaTakenUtc, (DateTime)LocationDateTime);
+            if (timeDiffrence == null || Math.Abs(((TimeSpan)timeDiffrence).TotalSeconds) > 30*60) return false; //Accept GPS to use time to find time
+            
+            dateTime = mediaTakenUtc;
+
+            return true;
+        }
+
+        #endregion 
 
         #region Properties Media
         public DateTime? MediaDateTaken { get => mediaDateTaken; set => mediaDateTaken = value; }

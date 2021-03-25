@@ -1670,5 +1670,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["SelectGroupFileCreatedFallback"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WriteMetadataCreatedDateFileAttribute {
+            get {
+                return ((bool)(this["WriteMetadataCreatedDateFileAttribute"]));
+            }
+            set {
+                this["WriteMetadataCreatedDateFileAttribute"] = value;
+            }
+        }
     }
 }

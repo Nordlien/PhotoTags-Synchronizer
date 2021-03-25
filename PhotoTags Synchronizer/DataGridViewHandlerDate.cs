@@ -1,12 +1,10 @@
 ﻿using DataGridViewGeneric;
 using Exiftool;
 using FileDateTime;
-using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using Thumbnails;
@@ -70,13 +68,15 @@ namespace PhotoTagsSynchronizer
 
         public static void PopulateTimeZone(DataGridView dataGridView, int columnIndex)
         {
-            #region Get Media Date&Timeand GPS Location Date&time 
+            #region Get Media Date&Time and GPS Location Date&time 
             //Get Date and Time for DataGridView
             string dateTimeStringMediaTaken = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagMediaDateTaken).ToString().Trim();
             string dateTimeStringLocation = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagGPSLocationDateTime).ToString().Trim();
             DateTime? metadataMediaDateTaken = TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken); 
             DateTime? metadataLocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
             #endregion
+
+
 
             #region Get GPS Coorindates - 1. DataGridViewMap user input, 2. Metadata record 3. null 
             //Get Media GPS Coordinates from DataGridViewMap is exist or use Metadata coordinates
@@ -175,7 +175,7 @@ namespace PhotoTagsSynchronizer
 
             // -------------------------------------------------------
 
-            TimeSpan? timeSpan = TimeZoneLibrary.CalulateTimeDiffrent(dateTimeStringMediaTaken, dateTimeStringLocation);
+            TimeSpan? timeSpan = TimeZoneLibrary.CalulateTimeDiffrentWithoutTimeZone(dateTimeStringMediaTaken, dateTimeStringLocation);
 
             string prefredTimeZoneName = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagLocationOffsetTimeZone);
             DateTime? dateTimeLocation = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringMediaTaken);
@@ -278,7 +278,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (DataGridViewHandler.GetIsAgregated(dataGridView))      
             {
-                //Normaly return if already if *Agregated*, but if, but we use data from Maps Tab, therfor update DataGridViewDate with new data from DataGridVIewMap
+                //Normaly return if already if *Agregated*, but if, but we use data from Maps Tab, therfor update DataGridViewDate with new data from DataGridViewMap
                 if (DataGridViewHandler.GetIsAgregated(DataGridViewMap))
                 {
                     for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)

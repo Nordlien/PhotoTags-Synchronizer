@@ -823,6 +823,8 @@ namespace PhotoTagsSynchronizer
                     string writeXtraAtomArtistVariable = Properties.Settings.Default.XtraAtomArtistVariable;
                     bool writeXtraAtomArtistVideo = Properties.Settings.Default.XtraAtomArtistVideo;
 
+                    bool writeCreatedDateAndTimeAttribute = Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute;
+
                     List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
                     #endregion
 
@@ -884,6 +886,32 @@ namespace PhotoTagsSynchronizer
                                 writeXtraAtomSubtitleVariable, writeXtraAtomSubtitleVideo,
                                 writeXtraAtomArtistVariable, writeXtraAtomArtistVideo,
                                 out writeXtraAtomErrorMessageForFile);
+                        }
+                        #endregion
+
+                        #region File Create date and Time attribute
+                        if (!GlobalData.IsApplicationClosing)
+                        {
+                            foreach (Metadata metadata in queueSubsetMetadataToSave)
+                            {
+                                if (metadata.TryParseDateTakenToUtc(out DateTime? dateTakenWithOffset))
+                                {
+                                    if (metadata?.FileDateCreated != null &&
+                                        metadata?.MediaDateTaken != null &&
+                                        metadata?.MediaDateTaken < DateTime.Now &&
+                                        Math.Abs(((DateTime)dateTakenWithOffset - (DateTime)metadata?.FileDateCreated).TotalSeconds) > 10) //No need to change
+                                    {
+                                        try
+                                        {
+                                            File.SetCreationTime(metadata.FileFullPath, (DateTime)dateTakenWithOffset);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Logger.Error("File.SetCreationTime failed...\r\n\r\n" + ex.Message);
+                                        }
+                                    }
+                                }
+                            }
                         }
                         #endregion
 
