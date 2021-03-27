@@ -117,12 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="textBox1.Text" xml:space="preserve">
-    <value>When reading metadata tags from media files, the media file can contain multiple tags with same purpose. Sometimes they may have diffrent value. The priority are used to select what tag to use. High number the higher priority.</value>
-  </data>
   <metadata name="contextMenuStripMetadataRead.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>When reading metadata tags from media files, the media file can contain multiple tags with same purpose. Sometimes they may have diffrent value. The priority are used to select what tag to use. High number the higher priority.</value>
+  </data>
   <data name="fastColoredTextBoxMetadataWriteKeywordAdd.ServiceColors" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdGYXN0Q29sb3JlZFRleHRCb3gsIFZlcnNpb249Mi4xNi4yNC4w
@@ -201,6 +201,9 @@
   <data name="textBoxHelpAutoCorrect.Text" xml:space="preserve">
     <value>AutoCorrect will read all Metadata that this application using "Metadata Read" priority, and try to save all metadata again and "duplication" same metadata in all types of tags confirgurated for congigurated in "Metadata Write". Then also try tix fix addional issued that you may confurate here.
 </value>
+  </data>
+  <data name="textBox3.Text" xml:space="preserve">
+    <value>Camera Make and Model are used for set Media Artist and find Location for owner in location history. Tip. you can import Google Location history, set owner of the "Location History". Then correct (phone) camera will use correct history.</value>
   </data>
   <data name="fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.ServiceColors" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>

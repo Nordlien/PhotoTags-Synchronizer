@@ -729,7 +729,7 @@ namespace MetadataLibrary
         public String CameraModel { get; set; }
         #endregion
 
-        #region TimeZone
+        #region MediaTaken UTC - TryParseDateTakenToUtc
         public bool TryParseDateTakenToUtc(out DateTime? dateTime)
         {
             dateTime = null;

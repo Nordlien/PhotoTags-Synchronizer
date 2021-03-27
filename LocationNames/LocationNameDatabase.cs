@@ -6,6 +6,7 @@ using System.Data.SQLite;
 #endif
 using SqliteDatabase;
 using MetadataLibrary;
+using System.Collections.Generic;
 
 namespace LocationNames
 {
@@ -126,6 +127,38 @@ namespace LocationNames
                 }
             }
             return metadata;
+        }
+
+        public List<Metadata> ReadLocationNames()
+        {
+            List<Metadata> locations = new List<Metadata>();
+
+            string sqlCommand = "SELECT Latitude, Longitude, Name, City, Province, Country FROM LocationName";
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Metadata metadata = new Metadata(MetadataBrokerType.NominatimAPI);
+                        metadata.LocationLatitude = dbTools.ConvertFromDBValFloat(reader["Latitude"]);
+                        metadata.LocationLongitude = dbTools.ConvertFromDBValFloat(reader["Longitude"]);
+                        metadata.LocationName = dbTools.ConvertFromDBValString(reader["Name"]);
+                        metadata.LocationCity = dbTools.ConvertFromDBValString(reader["City"]);
+                        metadata.LocationState = dbTools.ConvertFromDBValString(reader["Province"]);
+                        metadata.LocationCountry = dbTools.ConvertFromDBValString(reader["Country"]);
+
+                        metadata.LocationName = string.IsNullOrEmpty(metadata.LocationName) ? null : metadata.LocationName;
+                        metadata.LocationState = string.IsNullOrEmpty(metadata.LocationState) ? null : metadata.LocationState;
+                        metadata.LocationCity = string.IsNullOrEmpty(metadata.LocationCity) ? null : metadata.LocationCity;
+                        metadata.LocationCountry = string.IsNullOrEmpty(metadata.LocationCountry) ? null : metadata.LocationCountry;
+                        locations.Add(metadata);
+                    }
+                }
+            }
+            return locations;
         }
 
     }

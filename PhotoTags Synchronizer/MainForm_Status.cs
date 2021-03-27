@@ -118,9 +118,7 @@ namespace PhotoTagsSynchronizer
                 CommonQueueReadMetadataFromExiftoolCountLock(), MediaFilesNotInDatabaseCountLock(), CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountLock());
             
             if (CountSaveQueue() > 0)                                   
-               toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Saving: {0} Verify:{1}", 
-               CountSaveQueue(), 
-               CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountLock());
+               toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Saving: {0}", CountSaveQueue());
 
             if (CommonQueueRenameCountLock() > 0)
                 toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Rename: {0}", CommonQueueRenameCountLock());

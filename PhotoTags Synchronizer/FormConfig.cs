@@ -1,5 +1,7 @@
-﻿using DataGridViewGeneric;
+﻿using CameraOwners;
+using DataGridViewGeneric;
 using FastColoredTextBoxNS;
+using LocationNames;
 using MetadataLibrary;
 using MetadataPriorityLibrary;
 using NLog;
@@ -20,6 +22,9 @@ namespace PhotoTagsSynchronizer
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public MetadataReadPrioity MetadataReadPrioity { get; set; } //= new MetadataReadPrioity();
+        public CameraOwnersDatabaseCache DatabaseAndCahceCameraOwner { get; set; }
+        public LocationNameLookUpCache DatabaseLocationNames { get; set; }
+
         public Size[] ThumbnailSizes { get; set; }
 
         private Dictionary<MetadataPriorityKey, MetadataPriorityValues> metadataPrioityDictionaryCopy = new Dictionary<MetadataPriorityKey, MetadataPriorityValues>();
@@ -42,7 +47,9 @@ namespace PhotoTagsSynchronizer
             
         }
 
-        #region All tabs - Init - Save - Close
+        #region Combobox Helper
+
+        #region Combobox - Select Best Match Combobox
         private void SelectBestMatchCombobox(ComboBox comboBox, string text)
         {
             int foundItemIndex = -1;
@@ -63,20 +70,26 @@ namespace PhotoTagsSynchronizer
             else
                 comboBox.SelectedIndex = foundItemIndex;
         }
+        #endregion
 
+        #region Combobox - Select Best Match Combobox Reselution
         private void SelectBestMatchComboboxReselution(ComboBox comboBox, int width, int height)
         {
-            if (width  < 1 && height < 1) 
+            if (width < 1 && height < 1)
                 SelectBestMatchCombobox(comboBox, "Original");
             else
                 SelectBestMatchCombobox(comboBox, width + " x " + height);
         }
+        #endregion
 
+        #region Combobox - Get Combobox String Value
         private String GetComboboxValue(ComboBox comboBox)
         {
             return comboBox.Text.Split(' ')[0];
         }
+        #endregion
 
+        #region Combobox - Get Combobox Int Value
         private int GetComboboxIntValue(ComboBox comboBox)
         {
             if (int.TryParse(comboBox.Text.Split(' ')[0], out int result))
@@ -84,7 +97,9 @@ namespace PhotoTagsSynchronizer
             else
                 return -1;
         }
+        #endregion
 
+        #region Combobox - Set Res From Combox
         private void SetResFromCombox(string value, ref int width, ref int height)
         {
             switch (value)
@@ -123,7 +138,13 @@ namespace PhotoTagsSynchronizer
                     break;
             }
         }
+        #endregion 
 
+        #endregion
+
+        #region All tabs - Init - Save - Close
+
+        #region Init
         public void Init()
         {
             isPopulation = true;
@@ -137,6 +158,12 @@ namespace PhotoTagsSynchronizer
             PopulateMetadataReadToolStripMenu();
             CopyMetadataReadPrioity(MetadataReadPrioity.MetadataPrioityDictionary, metadataPrioityDictionaryCopy);
             PopulateMetadataRead(dataGridViewMetadataReadPriority);
+
+            //Camera Owner 
+            PopulateMetadataCameraOwner(dataGridViewCameraOwner);
+
+            //Location Names
+            PopulateMetadataLocationNames(dataGridViewLocationNames);
 
             //AutoCorrect
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
@@ -170,25 +197,40 @@ namespace PhotoTagsSynchronizer
             string logFilename = GetLogFileName("logfile");
             if (string.IsNullOrWhiteSpace(logFilename)) logFilename = "PhotoTagsSynchronizer_Log.txt";
 
-            if (File.Exists(logFilename))
+            try
             {
-                fastColoredTextBoxShowLog.OpenBindingFile(logFilename, Encoding.UTF8);
-                fastColoredTextBoxShowLog.IsChanged = false;
-                fastColoredTextBoxShowLog.ClearUndo();
-                GC.Collect();
-                GC.GetTotalMemory(true);
+
+                if (File.Exists(logFilename))
+                {
+                    fastColoredTextBoxShowLog.OpenBindingFile(logFilename, Encoding.UTF8);
+                    fastColoredTextBoxShowLog.IsChanged = false;
+                    fastColoredTextBoxShowLog.ClearUndo();
+                    GC.Collect();
+                    GC.GetTotalMemory(true);
+                }
+            }catch (Exception ex)
+            {
+                MessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message);
             }
 
-            logFilename = "Pipe\\WindowsLivePhotoGalleryServer_Log.txt";
-            if (File.Exists(logFilename))
+            try
             {
-                fastColoredTextBoxShowPipe32Log.OpenBindingFile(logFilename, Encoding.UTF8);
-                fastColoredTextBoxShowPipe32Log.IsChanged = false;
-                fastColoredTextBoxShowPipe32Log.ClearUndo();
-                GC.Collect();
-                GC.GetTotalMemory(true);
+                logFilename = "Pipe\\WindowsLivePhotoGalleryServer_Log.txt";
+                if (File.Exists(logFilename))
+                {
+                    fastColoredTextBoxShowPipe32Log.OpenBindingFile(logFilename, Encoding.UTF8);
+                    fastColoredTextBoxShowPipe32Log.IsChanged = false;
+                    fastColoredTextBoxShowPipe32Log.ClearUndo();
+                    GC.Collect();
+                    GC.GetTotalMemory(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message);
             }
         }
+        #endregion 
 
         #region Log - GetLogFileName(string targetName)
         private string GetLogFileName(string targetName)
@@ -239,13 +281,16 @@ namespace PhotoTagsSynchronizer
 
             return fileName;
         }
-        #endregion 
+        #endregion
 
+        #region Config - Load
         private void Config_Load(object sender, EventArgs e)
         {
             dataGridViewMetadataReadPriority.Focus();
         }
+        #endregion
 
+        #region Config - Save 
         private void buttonConfigSave_Click(object sender, EventArgs e)
         {
             //Application
@@ -333,14 +378,19 @@ namespace PhotoTagsSynchronizer
 
             //Metadata Read
             MetadataReadPrioity.MetadataPrioityDictionary = metadataPrioityDictionaryCopy;
+
             MetadataReadPrioity.WriteAlways();
             this.Close();
         }
+        #endregion
 
+        #region Config - Cancel
         private void buttonConfigCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+        #endregion 
+
         #endregion
 
         #region PopulateApplication()
@@ -706,6 +756,108 @@ namespace PhotoTagsSynchronizer
             if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(textBoxRenameTo, comboBoxRenameVariables.Text);
         }
         #endregion
+
+        #region Camera owner 
+
+        #region Camera owner - PopulateMetadataCameraOwner
+        private void PopulateMetadataCameraOwner(DataGridView dataGridView)
+        {
+            isCellValueUpdating = true;
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, "CameraMakeModelOwner", "Camera Make/Model", DataGridViewSize.ConfigSize);
+            DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
+            //contextMenuStripMetadataRead contextMenuStripMetadataRead
+
+            DateTime dateTimeEditable = DateTime.Now;
+
+            int columnIndex1 = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+                new FileEntryAttribute("Owner", dateTimeEditable, FileEntryVersion.Current), //Heading
+                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+
+            List<CameraOwner> cameraOwners = DatabaseAndCahceCameraOwner.ReadCameraMakeModelAndOwners();
+
+            foreach (CameraOwner cameraOwner in cameraOwners)
+            {
+                DataGridViewHandler.AddRow(dataGridView, columnIndex1, 
+                    new DataGridViewGenericRow(cameraOwner.Make),
+                    cameraOwner.Owner, false, false);
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndex1, 
+                    new DataGridViewGenericRow(cameraOwner.Make, cameraOwner.Model),
+                    cameraOwner.Owner, false, false);
+            }
+            isCellValueUpdating = false;
+        }
+        #endregion
+
+        #endregion
+
+        #region 
+
+        #region Location names - PopulateMetadataLocationNames
+        private void PopulateMetadataLocationNames(DataGridView dataGridView)
+        {
+            isCellValueUpdating = true;
+            DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, "LocationNames", "Location names", DataGridViewSize.ConfigSize);
+            DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
+            //contextMenuStripMetadataRead contextMenuStripMetadataRead
+
+            DateTime dateTimeEditable = DateTime.Now;
+
+            int columnIndexName = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+                new FileEntryAttribute("Name", dateTimeEditable, FileEntryVersion.Current), //Heading
+                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+
+            int columnIndexCity = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+                new FileEntryAttribute("City", dateTimeEditable, FileEntryVersion.Current), //Heading
+                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+
+            int columnIndexRegion = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+                new FileEntryAttribute("Region", dateTimeEditable, FileEntryVersion.Current), //Heading
+                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+
+            int columnIndexCountry = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+                new FileEntryAttribute("Country", dateTimeEditable, FileEntryVersion.Current), //Heading
+                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+
+            List<Metadata> locationNames = DatabaseLocationNames.ReadLocationNames();
+
+            foreach (Metadata metadata in locationNames)
+            {
+                string group = metadata.LocationCity;
+                string rowId = metadata.LocationCoordinate.ToString();
+
+                DataGridViewHandler.AddRow(dataGridView, 0,
+                    new DataGridViewGenericRow(group), 
+                    null, false, false);
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndexName,
+                    new DataGridViewGenericRow(group, rowId),
+                    metadata.LocationName, false, false);
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndexCity,
+                    new DataGridViewGenericRow(group, rowId),
+                    metadata.LocationCity, false, false);
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndexRegion,
+                    new DataGridViewGenericRow(group, rowId),
+                    metadata.LocationState, false, false);
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndexCountry,
+                    new DataGridViewGenericRow(group, rowId),
+                    metadata.LocationCountry, false, false);
+            }
+            isCellValueUpdating = false;
+        }
+        #endregion
+
+
+        #endregion 
+
 
         #region Metadata Read - Populate
         private void PopulateMetadataReadToolStripMenu()
@@ -1453,7 +1605,59 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #endregion 
+        #endregion
+
+        private void dataGridViewLocationNames_KeyDown(object sender, KeyEventArgs e)
+        {
+            DataGridViewHandler.KeyDownEventHandler(sender, e);
+        }
+
+        private void dataGridViewCameraOwner_KeyDown(object sender, KeyEventArgs e)
+        {
+            DataGridViewHandler.KeyDownEventHandler(sender, e);
+        }
+
+        private void dataGridViewCameraOwner_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+
+            ClipboardUtility.PushToUndoStack(dataGridView);
+        }
+
+        private void dataGridViewLocationNames_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+
+            ClipboardUtility.PushToUndoStack(dataGridView);
+        }
+
+        private void dataGridViewLocationNames_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
+            //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+            //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+            DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+        }
+
+        private void dataGridViewCameraOwner_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
+            //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+            //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+            DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+        }
+
+        private void dataGridViewCameraOwner_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridViewLocationNames_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
 

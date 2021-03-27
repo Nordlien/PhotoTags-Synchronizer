@@ -241,7 +241,6 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region User control handling
-
         private void comboBoxGoogleTimeZoneShift_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;

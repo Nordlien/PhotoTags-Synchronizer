@@ -25,7 +25,7 @@ namespace CameraOwners
             return cameraMakeModelAndOwnersCache != null;
         }
 
-        private List<CameraOwner> ReadCameraMakeModelAndOwners()
+        public List<CameraOwner> ReadCameraMakeModelAndOwners()
         {
             if (cameraMakeModelAndOwnersCache == null)
             {

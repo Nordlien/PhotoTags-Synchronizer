@@ -208,7 +208,14 @@ namespace PhotoTagsSynchronizer
             this.imageListViewOrderDateTaken = new PhotoTagsSynchronizer.ImageListViewOrder();
             this.textBoxHelpAutoCorrect = new System.Windows.Forms.TextBox();
             this.tabPageCameraOwner = new System.Windows.Forms.TabPage();
-            this.dataGridViewExtended1 = new DataGridViewExtended.DataGridViewExtended();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.dataGridViewCameraOwner = new System.Windows.Forms.DataGridView();
+            this.tabPageLocationNames = new System.Windows.Forms.TabPage();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panelBrowser = new System.Windows.Forms.Panel();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.dataGridViewLocationNames = new System.Windows.Forms.DataGridView();
             this.tabPageConvertAndMerge = new System.Windows.Forms.TabPage();
             this.panelConvertAndMerge = new System.Windows.Forms.Panel();
             this.groupBoxConvertAndMergeConvertVideo = new System.Windows.Forms.GroupBox();
@@ -311,7 +318,11 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationGuessInterval)).BeginInit();
             this.groupBoxDateTimeDigitized.SuspendLayout();
             this.tabPageCameraOwner.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCameraOwner)).BeginInit();
+            this.tabPageLocationNames.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLocationNames)).BeginInit();
             this.tabPageConvertAndMerge.SuspendLayout();
             this.panelConvertAndMerge.SuspendLayout();
             this.groupBoxConvertAndMergeConvertVideo.SuspendLayout();
@@ -347,6 +358,7 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.Controls.Add(this.tabPageFileDateTimeFormats);
             this.tabControlConfig.Controls.Add(this.tabPageAutoCorrect);
             this.tabControlConfig.Controls.Add(this.tabPageCameraOwner);
+            this.tabControlConfig.Controls.Add(this.tabPageLocationNames);
             this.tabControlConfig.Controls.Add(this.tabPageConvertAndMerge);
             this.tabControlConfig.Controls.Add(this.tabPageChromecast);
             this.tabControlConfig.Controls.Add(this.tabPageShowAppLog);
@@ -1223,13 +1235,14 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(192, 18);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharHeight = 18;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(6, 168);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -1256,13 +1269,14 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(192, 18);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharHeight = 18;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(6, 57);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
@@ -1401,7 +1415,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.textBoxWriteXtraAtomComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxWriteXtraAtomComment.Location = new System.Drawing.Point(372, 189);
+            this.textBoxWriteXtraAtomComment.Location = new System.Drawing.Point(372, 191);
             this.textBoxWriteXtraAtomComment.Name = "textBoxWriteXtraAtomComment";
             this.textBoxWriteXtraAtomComment.Size = new System.Drawing.Size(352, 22);
             this.textBoxWriteXtraAtomComment.TabIndex = 23;
@@ -1411,7 +1425,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.textBoxWriteXtraAtomSubject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxWriteXtraAtomSubject.Location = new System.Drawing.Point(372, 162);
+            this.textBoxWriteXtraAtomSubject.Location = new System.Drawing.Point(372, 163);
             this.textBoxWriteXtraAtomSubject.Name = "textBoxWriteXtraAtomSubject";
             this.textBoxWriteXtraAtomSubject.Size = new System.Drawing.Size(352, 22);
             this.textBoxWriteXtraAtomSubject.TabIndex = 22;
@@ -1668,7 +1682,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(5, 51);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -1749,7 +1762,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConfigFilenameDateFormats.CharWidth = 10;
             this.fastColoredTextBoxConfigFilenameDateFormats.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConfigFilenameDateFormats.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConfigFilenameDateFormats.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConfigFilenameDateFormats.IsReplaceMode = false;
             this.fastColoredTextBoxConfigFilenameDateFormats.Location = new System.Drawing.Point(2, 46);
             this.fastColoredTextBoxConfigFilenameDateFormats.Name = "fastColoredTextBoxConfigFilenameDateFormats";
@@ -2738,7 +2750,7 @@ namespace PhotoTagsSynchronizer
             // 
             // tabPageCameraOwner
             // 
-            this.tabPageCameraOwner.Controls.Add(this.dataGridViewExtended1);
+            this.tabPageCameraOwner.Controls.Add(this.panel2);
             this.tabPageCameraOwner.Location = new System.Drawing.Point(4, 25);
             this.tabPageCameraOwner.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageCameraOwner.Name = "tabPageCameraOwner";
@@ -2747,15 +2759,115 @@ namespace PhotoTagsSynchronizer
             this.tabPageCameraOwner.Text = "Camera Owner";
             this.tabPageCameraOwner.UseVisualStyleBackColor = true;
             // 
-            // dataGridViewExtended1
+            // panel2
             // 
-            this.dataGridViewExtended1.ColumnHeadersHeight = 29;
-            this.dataGridViewExtended1.Location = new System.Drawing.Point(7, 13);
-            this.dataGridViewExtended1.Margin = new System.Windows.Forms.Padding(2);
-            this.dataGridViewExtended1.Name = "dataGridViewExtended1";
-            this.dataGridViewExtended1.RowHeadersWidth = 51;
-            this.dataGridViewExtended1.Size = new System.Drawing.Size(183, 126);
-            this.dataGridViewExtended1.TabIndex = 0;
+            this.panel2.Controls.Add(this.textBox3);
+            this.panel2.Controls.Add(this.dataGridViewCameraOwner);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(766, 748);
+            this.panel2.TabIndex = 2;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox3.Location = new System.Drawing.Point(0, 2);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(764, 62);
+            this.textBox3.TabIndex = 4;
+            this.textBox3.Text = resources.GetString("textBox3.Text");
+            // 
+            // dataGridViewCameraOwner
+            // 
+            this.dataGridViewCameraOwner.AllowDrop = true;
+            this.dataGridViewCameraOwner.AllowUserToAddRows = false;
+            this.dataGridViewCameraOwner.AllowUserToDeleteRows = false;
+            this.dataGridViewCameraOwner.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewCameraOwner.ColumnHeadersHeight = 29;
+            this.dataGridViewCameraOwner.ContextMenuStrip = this.contextMenuStripMetadataRead;
+            this.dataGridViewCameraOwner.Location = new System.Drawing.Point(0, 68);
+            this.dataGridViewCameraOwner.Margin = new System.Windows.Forms.Padding(2);
+            this.dataGridViewCameraOwner.Name = "dataGridViewCameraOwner";
+            this.dataGridViewCameraOwner.RowHeadersWidth = 51;
+            this.dataGridViewCameraOwner.RowTemplate.Height = 24;
+            this.dataGridViewCameraOwner.Size = new System.Drawing.Size(766, 680);
+            this.dataGridViewCameraOwner.TabIndex = 1;
+            this.dataGridViewCameraOwner.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewCameraOwner_CellBeginEdit);
+            this.dataGridViewCameraOwner.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewCameraOwner_CellPainting);
+            this.dataGridViewCameraOwner.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCameraOwner_CellValueChanged);
+            this.dataGridViewCameraOwner.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewCameraOwner_KeyDown);
+            // 
+            // tabPageLocationNames
+            // 
+            this.tabPageLocationNames.Controls.Add(this.panel3);
+            this.tabPageLocationNames.Location = new System.Drawing.Point(4, 25);
+            this.tabPageLocationNames.Name = "tabPageLocationNames";
+            this.tabPageLocationNames.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLocationNames.Size = new System.Drawing.Size(766, 748);
+            this.tabPageLocationNames.TabIndex = 10;
+            this.tabPageLocationNames.Text = "Location names";
+            this.tabPageLocationNames.UseVisualStyleBackColor = true;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.panelBrowser);
+            this.panel3.Controls.Add(this.textBox4);
+            this.panel3.Controls.Add(this.dataGridViewLocationNames);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(760, 742);
+            this.panel3.TabIndex = 0;
+            // 
+            // panelBrowser
+            // 
+            this.panelBrowser.Location = new System.Drawing.Point(42, 434);
+            this.panelBrowser.Name = "panelBrowser";
+            this.panelBrowser.Size = new System.Drawing.Size(278, 174);
+            this.panelBrowser.TabIndex = 7;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox4.Location = new System.Drawing.Point(-3, -2);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox4.Multiline = true;
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ReadOnly = true;
+            this.textBox4.Size = new System.Drawing.Size(764, 62);
+            this.textBox4.TabIndex = 6;
+            this.textBox4.Text = "Location names is to set names automaticly on location based un GPS coordinates. " +
+    "E.g. Home, Zoo Park, Cabin, Parents Home, etc.";
+            // 
+            // dataGridViewLocationNames
+            // 
+            this.dataGridViewLocationNames.AllowDrop = true;
+            this.dataGridViewLocationNames.AllowUserToAddRows = false;
+            this.dataGridViewLocationNames.AllowUserToDeleteRows = false;
+            this.dataGridViewLocationNames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewLocationNames.ColumnHeadersHeight = 29;
+            this.dataGridViewLocationNames.ContextMenuStrip = this.contextMenuStripMetadataRead;
+            this.dataGridViewLocationNames.Location = new System.Drawing.Point(-3, 64);
+            this.dataGridViewLocationNames.Margin = new System.Windows.Forms.Padding(2);
+            this.dataGridViewLocationNames.Name = "dataGridViewLocationNames";
+            this.dataGridViewLocationNames.RowHeadersWidth = 51;
+            this.dataGridViewLocationNames.RowTemplate.Height = 24;
+            this.dataGridViewLocationNames.Size = new System.Drawing.Size(766, 335);
+            this.dataGridViewLocationNames.TabIndex = 5;
+            this.dataGridViewLocationNames.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewLocationNames_CellBeginEdit);
+            this.dataGridViewLocationNames.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewLocationNames_CellPainting);
+            this.dataGridViewLocationNames.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewLocationNames_CellValueChanged);
+            this.dataGridViewLocationNames.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewLocationNames_KeyDown);
             // 
             // tabPageConvertAndMerge
             // 
@@ -2835,7 +2947,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Multiline = false;
@@ -2923,6 +3034,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Location = new System.Drawing.Point(6, 143);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatVideoArguFile";
@@ -2960,6 +3072,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Location = new System.Drawing.Point(6, 46);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Multiline = false;
@@ -3225,6 +3338,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Multiline = false;
@@ -3284,6 +3398,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Location = new System.Drawing.Point(6, 167);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile";
@@ -3635,6 +3750,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowLog.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowLog.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowLog.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowLog.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowLog.IsReplaceMode = false;
             this.fastColoredTextBoxShowLog.Location = new System.Drawing.Point(3, 3);
@@ -3682,7 +3798,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowPipe32Log.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowPipe32Log.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowPipe32Log.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxShowPipe32Log.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowPipe32Log.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowPipe32Log.IsReplaceMode = false;
             this.fastColoredTextBoxShowPipe32Log.Location = new System.Drawing.Point(0, 0);
@@ -3812,7 +3927,13 @@ namespace PhotoTagsSynchronizer
             this.groupBoxDateTimeDigitized.ResumeLayout(false);
             this.groupBoxDateTimeDigitized.PerformLayout();
             this.tabPageCameraOwner.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewExtended1)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCameraOwner)).EndInit();
+            this.tabPageLocationNames.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLocationNames)).EndInit();
             this.tabPageConvertAndMerge.ResumeLayout(false);
             this.panelConvertAndMerge.ResumeLayout(false);
             this.groupBoxConvertAndMergeConvertVideo.ResumeLayout(false);
@@ -3899,7 +4020,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Label labelLocationTimeZoneGuess;
         private System.Windows.Forms.CheckBox checkBoxGPSUpdateDateTime;
         private System.Windows.Forms.CheckBox checkBoxGPSUpdateLocation;
-        private DataGridViewExtended.DataGridViewExtended dataGridViewExtended1;
         private System.Windows.Forms.GroupBox groupBoxAuthor;
         private System.Windows.Forms.RadioButton radioButtonAuthorChangeWhenEmpty;
         private System.Windows.Forms.RadioButton radioButtonAuthorDoNotChange;
@@ -4086,5 +4206,13 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Label label62;
         private System.Windows.Forms.CheckBox checkBoxWriteFileAttributeCreatedDate;
+        private System.Windows.Forms.DataGridView dataGridViewCameraOwner;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TabPage tabPageLocationNames;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.DataGridView dataGridViewLocationNames;
+        private System.Windows.Forms.Panel panelBrowser;
     }
 }

@@ -70,10 +70,6 @@ namespace PhotoTagsSynchronizer
 
         private FilesCutCopyPasteDrag filesCutCopyPasteDrag;
 
-
-
-        
-
         //Avoid flickering
         private bool isFormLoading = true;                  //Avoid flicker and on change events going in loop
         private bool isSettingDefaultComboxValues = false;  //Avoid multiple reload when value are set, avoid on value change event
@@ -226,6 +222,7 @@ namespace PhotoTagsSynchronizer
             browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
             browser.BrowserSettings.Plugins = CefState.Enabled;
             this.panelBrowser.Controls.Add(this.browser);
+
 
             //toolStripContainer.ContentPanel.Controls.Add(browser);
             //browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;

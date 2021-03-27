@@ -1,6 +1,7 @@
 ﻿using ApplicationAssociations;
 using DataGridViewGeneric;
 using Exiftool;
+using LocationNames;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
@@ -589,9 +590,13 @@ namespace PhotoTagsSynchronizer
         {
             using (Config config = new Config())
             {
+                LocationNameLookUpCache databaseLocationNames = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
+
                 exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
                 config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
                 config.ThumbnailSizes = thumbnailSizes;
+                config.DatabaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
+                config.DatabaseLocationNames = databaseLocationNames;
                 config.Init();
                 config.ShowDialog();
                 ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;

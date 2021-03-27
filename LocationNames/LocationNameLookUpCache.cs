@@ -4,6 +4,7 @@ using Nominatim.API.Models;
 using MetadataLibrary;
 using SqliteDatabase;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace LocationNames
 {
@@ -18,7 +19,11 @@ namespace LocationNames
             PreferredLanguagesString = preferredLanguagesString;
         }
 
-
+        public List<Metadata> ReadLocationNames()
+        {
+            LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
+            return locationNameCache.ReadLocationNames();
+        }
 
         public Metadata AddressLookup(float latitude, float longitude)
         {
