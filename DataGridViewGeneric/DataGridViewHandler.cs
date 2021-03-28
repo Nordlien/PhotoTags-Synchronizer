@@ -1928,6 +1928,27 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region Cell Handling - SetCellValue - int columnIndex, int rowIndex, object value
+        public static void SetCellValue(DataGridView dataGridView, DataGridViewCell dataGridViewCell, object value)
+        {
+            try
+            {
+                DataGridViewComboBoxCell cell = dataGridViewCell as DataGridViewComboBoxCell;                
+                if (cell != null && !cell.Items.Contains(value))
+                {
+                    cell.Items.Insert(0, value);
+                    if (dataGridView.IsCurrentCellDirty) dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);                    
+                    //cell.Value = cell.Items[0];
+                }
+                dataGridViewCell.Value = value;
+            }
+            catch
+            {
+            }
+        }
+        #endregion
+
+
         #region Cell Handling - SetCellToolTipText
         public static void SetCellToolTipText(DataGridView dataGridView, int columnIndex, int rowIndex, string toolTipText)
         {

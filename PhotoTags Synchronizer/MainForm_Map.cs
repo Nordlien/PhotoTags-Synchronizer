@@ -12,9 +12,7 @@ using System.IO;
 using System.Text;
 
 namespace PhotoTagsSynchronizer
-{
-    
-
+{ 
     public partial class MainForm : Form
     {        
         #region LocationCoordinate ParseCoordinateFromURL(string text)

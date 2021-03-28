@@ -179,12 +179,11 @@ namespace PhotoTagsSynchronizer
             AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCountry, ReadWriteAccess.AllowCellReadAndWrite), metadataLocation?.LocationCountry, isReadOnly); 
            
         }
-        #endregion 
+        #endregion
 
-      
 
+        #region PopulateFile
         public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
-
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
@@ -231,9 +230,6 @@ namespace PhotoTagsSynchronizer
                     DataGridViewGenericColumn gridViewGenericColumnCheck = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
                     PopulateCameraOwner(dataGridView, columnIndex, readWriteAccessColumn, metadata.CameraMake, metadata.CameraModel);
-
-                    //DataGridViewHandler.SetCellReadOnlyStatus(dataGridView, columnIndex, rowIndex, false);
-
                 }
                 else
                 {
@@ -279,7 +275,9 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion
 
+        #region PopulateSelectedFiles
         public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)
         {
             //-----------------------------------------------------------------
@@ -303,5 +301,6 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetIsPopulating(dataGridView, false);
             //-----------------------------------------------------------------
         }
+        #endregion 
     }
 }

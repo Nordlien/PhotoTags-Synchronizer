@@ -22,7 +22,7 @@ namespace PhotoTagsSynchronizer
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public MetadataReadPrioity MetadataReadPrioity { get; set; } //= new MetadataReadPrioity();
-        public CameraOwnersDatabaseCache DatabaseAndCahceCameraOwner { get; set; }
+        public CameraOwnersDatabaseCache DatabaseAndCacheCameraOwner { get; set; }
         public LocationNameLookUpCache DatabaseLocationNames { get; set; }
 
         public Size[] ThumbnailSizes { get; set; }
@@ -758,6 +758,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Camera owner 
+        
 
         #region Camera owner - PopulateMetadataCameraOwner
         private void PopulateMetadataCameraOwner(DataGridView dataGridView)
@@ -769,30 +770,114 @@ namespace PhotoTagsSynchronizer
 
             DateTime dateTimeEditable = DateTime.Now;
 
-            int columnIndex1 = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+            int columnIndexOwner = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Owner", dateTimeEditable, FileEntryVersion.Current), //Heading
                     null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
                     new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
-            List<CameraOwner> cameraOwners = DatabaseAndCahceCameraOwner.ReadCameraMakeModelAndOwners();
+            List<CameraOwner> cameraOwners = DatabaseAndCacheCameraOwner.ReadCameraMakeModelAndOwners();
+            DatabaseAndCacheCameraOwner.ReadCameraMakeModelAndOwnersThatNotExist(cameraOwners); //Add this to Thread
 
             foreach (CameraOwner cameraOwner in cameraOwners)
             {
-                DataGridViewHandler.AddRow(dataGridView, columnIndex1, 
+                DataGridViewHandler.AddRow(dataGridView, columnIndexOwner, 
                     new DataGridViewGenericRow(cameraOwner.Make),
                     cameraOwner.Owner, false, false);
 
-                DataGridViewHandler.AddRow(dataGridView, columnIndex1, 
+                int rowIndex = DataGridViewHandler.AddRow(dataGridView, columnIndexOwner, 
                     new DataGridViewGenericRow(cameraOwner.Make, cameraOwner.Model),
                     cameraOwner.Owner, false, false);
+
+                
+                DataGridViewComboBoxCell dataGridViewComboBoxCellCameraOwners = null;
+                dataGridViewComboBoxCellCameraOwners = new DataGridViewComboBoxCell();
+                dataGridViewComboBoxCellCameraOwners.FlatStyle = FlatStyle.Flat;
+                dataGridViewComboBoxCellCameraOwners.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                dataGridViewComboBoxCellCameraOwners.Items.AddRange(DatabaseAndCacheCameraOwner.ReadCameraOwners().ToArray());
+            
+                DataGridViewHandler.SetCellControlType(dataGridView, columnIndexOwner, rowIndex, dataGridViewComboBoxCellCameraOwners);
+
+                if (!string.IsNullOrWhiteSpace(cameraOwner.Owner) && dataGridViewComboBoxCellCameraOwners.Items.Contains(cameraOwner.Owner))
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexOwner, rowIndex, cameraOwner.Owner);
+                else
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexOwner, rowIndex, null);
+                
             }
             isCellValueUpdating = false;
         }
         #endregion
 
+        private void dataGridViewCameraOwner_KeyDown(object sender, KeyEventArgs e)
+        {
+            DataGridViewHandler.KeyDownEventHandler(sender, e);
+        }
+
+        private void dataGridViewCameraOwner_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+
+            ClipboardUtility.PushToUndoStack(dataGridView);
+        }
+
+        private void dataGridViewCameraOwner_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
+            //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+            //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+            DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+        }
+
+        private void dataGridViewCameraOwner_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridViewCameraOwner_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            DataGridViewComboBoxEditingControl combocontrol = e.Control as DataGridViewComboBoxEditingControl;
+            if (combocontrol != null)
+            {
+                //set dropdown style editable combobox
+                if (combocontrol.DropDownStyle != ComboBoxStyle.DropDown)
+                {
+                    combocontrol.DropDownStyle = ComboBoxStyle.DropDown;
+                    // int r = dgvform.currentrow.index;
+                }
+            }
+        }
+
+        private void dataGridViewCameraOwner_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+
+        }
+
+        private void dataGridViewCameraOwner_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            try
+            {
+                DataGridViewComboBoxCell cell = dataGridView.CurrentCell as DataGridViewComboBoxCell;
+                if (cell != null && !cell.Items.Contains(e.FormattedValue))
+                {
+                    cell.Items.Insert(0, e.FormattedValue);
+                    if (dataGridView.IsCurrentCellDirty)
+                    {
+                        dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                    }
+                    cell.Value = cell.Items[0];
+                }
+            }
+            catch
+            {
+            }
+        }
+
         #endregion
 
-        #region 
+        #region Location names
+
 
         #region Location names - PopulateMetadataLocationNames
         private void PopulateMetadataLocationNames(DataGridView dataGridView)
@@ -1612,18 +1697,7 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
 
-        private void dataGridViewCameraOwner_KeyDown(object sender, KeyEventArgs e)
-        {
-            DataGridViewHandler.KeyDownEventHandler(sender, e);
-        }
-
-        private void dataGridViewCameraOwner_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
-
-            ClipboardUtility.PushToUndoStack(dataGridView);
-        }
+       
 
         private void dataGridViewLocationNames_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
@@ -1635,29 +1709,20 @@ namespace PhotoTagsSynchronizer
 
         private void dataGridViewLocationNames_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
             //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
         }
 
-        private void dataGridViewCameraOwner_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e, false);
-            //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-            //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-            DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-        }
-
-        private void dataGridViewCameraOwner_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        
 
         private void dataGridViewLocationNames_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
 
         }
+
+        
     }
 }
 

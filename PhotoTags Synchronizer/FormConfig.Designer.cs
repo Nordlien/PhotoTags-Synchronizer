@@ -2791,7 +2791,6 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewCameraOwner.ColumnHeadersHeight = 29;
-            this.dataGridViewCameraOwner.ContextMenuStrip = this.contextMenuStripMetadataRead;
             this.dataGridViewCameraOwner.Location = new System.Drawing.Point(0, 68);
             this.dataGridViewCameraOwner.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridViewCameraOwner.Name = "dataGridViewCameraOwner";
@@ -2801,7 +2800,10 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewCameraOwner.TabIndex = 1;
             this.dataGridViewCameraOwner.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewCameraOwner_CellBeginEdit);
             this.dataGridViewCameraOwner.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewCameraOwner_CellPainting);
+            this.dataGridViewCameraOwner.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridViewCameraOwner_CellValidating);
             this.dataGridViewCameraOwner.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCameraOwner_CellValueChanged);
+            this.dataGridViewCameraOwner.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridViewCameraOwner_DataError);
+            this.dataGridViewCameraOwner.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridViewCameraOwner_EditingControlShowing);
             this.dataGridViewCameraOwner.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewCameraOwner_KeyDown);
             // 
             // tabPageLocationNames
@@ -2856,7 +2858,6 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewLocationNames.ColumnHeadersHeight = 29;
-            this.dataGridViewLocationNames.ContextMenuStrip = this.contextMenuStripMetadataRead;
             this.dataGridViewLocationNames.Location = new System.Drawing.Point(-3, 64);
             this.dataGridViewLocationNames.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridViewLocationNames.Name = "dataGridViewLocationNames";

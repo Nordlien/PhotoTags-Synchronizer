@@ -52,6 +52,32 @@ namespace CameraOwners
             return cameraMakeModelAndOwnersCache;
         }
 
+        
+
+        public List<CameraOwner> ReadCameraMakeModelAndOwnersThatNotExist(List<CameraOwner> cameraOwners)
+        {
+            string sqlCommand = "SELECT DISTINCT CameraMake, CameraModel, NULL as UserAccount FROM MediaMetadata";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+
+                    while (reader.Read())
+                    {
+                        CameraOwner cameraOwner = new CameraOwner(
+                            dbTools.ConvertFromDBValString(reader["CameraMake"]),
+                            dbTools.ConvertFromDBValString(reader["CameraModel"]),
+                            dbTools.ConvertFromDBValString(reader["UserAccount"]));                        
+                        if (!string.IsNullOrWhiteSpace(cameraOwner.Make) &&
+                            !string.IsNullOrWhiteSpace(cameraOwner.Model) &&
+                            !CameraOwner.CameraMakeModelExistInList(cameraOwners, cameraOwner)) cameraOwners.Add(cameraOwner);
+                    }
+                }
+            }
+            return cameraOwners;
+        }
 
 
         public void SaveCameraMakeModelAndOwner(CommonDatabaseTransaction commonDatabaseTransaction, CameraOwner cameraOwner)

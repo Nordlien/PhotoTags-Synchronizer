@@ -54,5 +54,15 @@ namespace CameraOwners
         {
             return !(left == right);
         }
+
+        public static bool CameraMakeModelExistInList(List<CameraOwner> cameraOwners, CameraOwner cameraOwner)
+        {
+            foreach (CameraOwner cameraOwnerToCheck in cameraOwners)
+            {
+                if (cameraOwner.Make == cameraOwnerToCheck.Make &&
+                    cameraOwner.Model == cameraOwnerToCheck.Model) return true;
+            }
+            return false;
+        }
     }
 }

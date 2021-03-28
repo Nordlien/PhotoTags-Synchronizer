@@ -595,7 +595,7 @@ namespace PhotoTagsSynchronizer
                 exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
                 config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
                 config.ThumbnailSizes = thumbnailSizes;
-                config.DatabaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
+                config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
                 config.DatabaseLocationNames = databaseLocationNames;
                 config.Init();
                 config.ShowDialog();
