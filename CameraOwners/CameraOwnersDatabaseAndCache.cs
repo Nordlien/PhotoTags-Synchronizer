@@ -5,13 +5,14 @@ using System.Collections.Generic;
 namespace CameraOwners
 {
 
-    public class CameraOwnersDatabaseCache    {
+    public class CameraOwnersDatabaseCache    
+    {
+        public static readonly string MissingLocationsOwners = "(Need to import GPS location)\t";
         private readonly SqliteDatabaseUtilities dbTools;
         public CameraOwnersDatabaseCache(SqliteDatabaseUtilities databaseTools)
         {
             dbTools = databaseTools;
         }
-
 
         List<CameraOwner> cameraMakeModelAndOwnersCache = null;
 
@@ -25,6 +26,7 @@ namespace CameraOwners
             return cameraMakeModelAndOwnersCache != null;
         }
 
+        #region ReadCameraMakeModelAndOwners
         public List<CameraOwner> ReadCameraMakeModelAndOwners()
         {
             if (cameraMakeModelAndOwnersCache == null)
@@ -51,9 +53,9 @@ namespace CameraOwners
             }
             return cameraMakeModelAndOwnersCache;
         }
+        #endregion
 
-        
-
+        #region ReadCameraMakeModelAndOwnersThatNotExist from MediaMetadata
         public List<CameraOwner> ReadCameraMakeModelAndOwnersThatNotExist(List<CameraOwner> cameraOwners)
         {
             string sqlCommand = "SELECT DISTINCT CameraMake, CameraModel, NULL as UserAccount FROM MediaMetadata";
@@ -78,14 +80,15 @@ namespace CameraOwners
             }
             return cameraOwners;
         }
+        #endregion
 
-
+        #region SaveCameraMakeModelAndOwner
         public void SaveCameraMakeModelAndOwner(CommonDatabaseTransaction commonDatabaseTransaction, CameraOwner cameraOwner)
         {
             if (cameraOwner == null) return;
             if (string.IsNullOrWhiteSpace(cameraOwner.Make)) cameraOwner.Make = CameraOwner.UnknownMake;
             if (string.IsNullOrWhiteSpace(cameraOwner.Model)) cameraOwner.Model = CameraOwner.UnknownModel;
-            if (string.IsNullOrWhiteSpace(cameraOwner.Owner)) cameraOwner.Owner = CameraOwner.UnknownOwner;
+            //if (string.IsNullOrWhiteSpace(cameraOwner.Owner)) cameraOwner.Owner = CameraOwner.UnknownOwner;
 
             string sqlCommand =
                 "DELETE FROM CameraOwner WHERE " +
@@ -109,13 +112,20 @@ namespace CameraOwners
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
-        }
 
+            MakeCameraOwnersDirty();
+        }
+        #endregion 
+
+        #region Camera Owner Cache - MakeCameraOwnersDirty()
         List<string> cameraOwnerCache = null;
         public void MakeCameraOwnersDirty()
         {
             cameraOwnerCache = null;
         }
+        #endregion 
+
+        #region ReadCameraOwners
         public List<string> ReadCameraOwners()
         {
             if (cameraOwnerCache == null)
@@ -134,13 +144,15 @@ namespace CameraOwners
                             cameraOwnerCache.Add(dbTools.ConvertFromDBValString(reader["UserAccount"]));
                         }
                     }
-                    if (cameraOwnerCache.Count == 0) cameraOwnerCache.Add("(Need to import location)");
+                    if (cameraOwnerCache.Count == 0) cameraOwnerCache.Add(MissingLocationsOwners);
                 }
             }
             return cameraOwnerCache;
 
         }
+        #endregion 
 
+        #region GetOwenerForCameraMakeModel
         public string GetOwenerForCameraMakeModel (string make, string model)
         {
             if (string.IsNullOrWhiteSpace(make)) make = CameraOwner.UnknownMake;
@@ -156,8 +168,7 @@ namespace CameraOwners
             }
             return null;
         }
-
-        
+        #endregion
 
     }
 }

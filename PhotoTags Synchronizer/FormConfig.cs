@@ -7,6 +7,7 @@ using MetadataPriorityLibrary;
 using NLog;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
+using SqliteDatabase;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,6 +25,7 @@ namespace PhotoTagsSynchronizer
         public MetadataReadPrioity MetadataReadPrioity { get; set; } //= new MetadataReadPrioity();
         public CameraOwnersDatabaseCache DatabaseAndCacheCameraOwner { get; set; }
         public LocationNameLookUpCache DatabaseLocationNames { get; set; }
+        public SqliteDatabaseUtilities DatabaseUtilitiesSqliteMetadata { get; set; }
 
         public Size[] ThumbnailSizes { get; set; }
 
@@ -161,7 +163,7 @@ namespace PhotoTagsSynchronizer
 
             //Camera Owner 
             PopulateMetadataCameraOwner(dataGridViewCameraOwner);
-
+            
             //Location Names
             PopulateMetadataLocationNames(dataGridViewLocationNames);
 
@@ -333,6 +335,8 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.XtraAtomSubjectVariable = textBoxWriteXtraAtomSubject.Text;
             Properties.Settings.Default.XtraAtomSubtitleVariable = textBoxWriteXtraAtomSubtitle.Text;
 
+            //Camera Owner 
+            SaveMetadataCameraOwner(dataGridViewCameraOwner);
 
             //Filename date formates
             Properties.Settings.Default.RenameDateFormats = fastColoredTextBoxConfigFilenameDateFormats.Text;
@@ -758,8 +762,8 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Camera owner 
-        
 
+        private int columnIndexOwner = 0;
         #region Camera owner - PopulateMetadataCameraOwner
         private void PopulateMetadataCameraOwner(DataGridView dataGridView)
         {
@@ -770,10 +774,10 @@ namespace PhotoTagsSynchronizer
 
             DateTime dateTimeEditable = DateTime.Now;
 
-            int columnIndexOwner = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+            columnIndexOwner = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Owner", dateTimeEditable, FileEntryVersion.Current), //Heading
-                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
             List<CameraOwner> cameraOwners = DatabaseAndCacheCameraOwner.ReadCameraMakeModelAndOwners();
             DatabaseAndCacheCameraOwner.ReadCameraMakeModelAndOwnersThatNotExist(cameraOwners); //Add this to Thread
@@ -789,12 +793,13 @@ namespace PhotoTagsSynchronizer
                     cameraOwner.Owner, false, false);
 
                 
-                DataGridViewComboBoxCell dataGridViewComboBoxCellCameraOwners = null;
-                dataGridViewComboBoxCellCameraOwners = new DataGridViewComboBoxCell();
+                DataGridViewComboBoxCell dataGridViewComboBoxCellCameraOwners = new DataGridViewComboBoxCell();
                 dataGridViewComboBoxCellCameraOwners.FlatStyle = FlatStyle.Flat;
                 dataGridViewComboBoxCellCameraOwners.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                 dataGridViewComboBoxCellCameraOwners.Items.AddRange(DatabaseAndCacheCameraOwner.ReadCameraOwners().ToArray());
-            
+
+                if (cameraOwner.Owner != null && !dataGridViewComboBoxCellCameraOwners.Items.Contains(cameraOwner.Owner)) dataGridViewComboBoxCellCameraOwners.Items.Insert(0, cameraOwner.Owner);
+
                 DataGridViewHandler.SetCellControlType(dataGridView, columnIndexOwner, rowIndex, dataGridViewComboBoxCellCameraOwners);
 
                 if (!string.IsNullOrWhiteSpace(cameraOwner.Owner) && dataGridViewComboBoxCellCameraOwners.Items.Contains(cameraOwner.Owner))
@@ -807,11 +812,37 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region Camera owner - SaveMetadataCameraOwner
+        private void SaveMetadataCameraOwner(DataGridView dataGridView)
+        {
+            int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
+
+            CommonDatabaseTransaction commonDatabaseTransaction = DatabaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
+            for (int row = 0; row < rowCount; row++) 
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, row);
+                if (!dataGridViewGenericRow.IsHeader)
+                {
+                    string camerMakeModelOwner = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexOwner, row);
+                    if (camerMakeModelOwner == CameraOwnersDatabaseCache.MissingLocationsOwners) camerMakeModelOwner = null;
+                    CameraOwner cameraOwner = new CameraOwner(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName, camerMakeModelOwner);
+                    DatabaseAndCacheCameraOwner.SaveCameraMakeModelAndOwner(commonDatabaseTransaction, cameraOwner);
+                }
+            }
+            DatabaseAndCacheCameraOwner.CameraMakeModelAndOwnerMakeDirty();
+            DatabaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
+
+        }
+        #endregion 
+
+        #region Camera owner - KeyDown
         private void dataGridViewCameraOwner_KeyDown(object sender, KeyEventArgs e)
         {
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
+        #endregion 
 
+        #region Camera owner - CellBeginEdit
         private void dataGridViewCameraOwner_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -819,7 +850,9 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
+        #endregion
 
+        #region Camera owner - CellPainting
         private void dataGridViewCameraOwner_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
@@ -827,12 +860,9 @@ namespace PhotoTagsSynchronizer
             //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
             DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
         }
+        #endregion
 
-        private void dataGridViewCameraOwner_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
+        #region Camera owner - EditingControlShowing
         private void dataGridViewCameraOwner_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -840,19 +870,12 @@ namespace PhotoTagsSynchronizer
             if (combocontrol != null)
             {
                 //set dropdown style editable combobox
-                if (combocontrol.DropDownStyle != ComboBoxStyle.DropDown)
-                {
-                    combocontrol.DropDownStyle = ComboBoxStyle.DropDown;
-                    // int r = dgvform.currentrow.index;
-                }
+                if (combocontrol.DropDownStyle != ComboBoxStyle.DropDown) combocontrol.DropDownStyle = ComboBoxStyle.DropDown;                
             }
         }
+        #endregion
 
-        private void dataGridViewCameraOwner_DataError(object sender, DataGridViewDataErrorEventArgs e)
-        {
-
-        }
-
+        #region Camera owner - CellValidating
         private void dataGridViewCameraOwner_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -868,11 +891,13 @@ namespace PhotoTagsSynchronizer
                     }
                     cell.Value = cell.Items[0];
                 }
+                if (cell.Value.ToString() == CameraOwnersDatabaseCache.MissingLocationsOwners) cell.Value = null;
             }
             catch
             {
             }
         }
+        #endregion
 
         #endregion
 

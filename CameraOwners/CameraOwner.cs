@@ -10,7 +10,7 @@ namespace CameraOwners
         private string owner;
         public static readonly string UnknownMake = "(Unknown)";
         public static readonly string UnknownModel = "(Unknown)";
-        public static readonly string UnknownOwner = "(Unknown)";
+        
 
         public CameraOwner(string make, string model, string owner)
         {
@@ -21,7 +21,7 @@ namespace CameraOwners
 
         public string Make { get => make; set => make = string.IsNullOrWhiteSpace(value) ? UnknownMake : value; }
         public string Model { get => model; set => model = string.IsNullOrWhiteSpace(value) ? UnknownModel : value; }
-        public string Owner { get => owner; set => owner = string.IsNullOrWhiteSpace(value) ? UnknownOwner : value; }
+        public string Owner { get => owner; set => owner = value; }
 
         public override string ToString()
         {

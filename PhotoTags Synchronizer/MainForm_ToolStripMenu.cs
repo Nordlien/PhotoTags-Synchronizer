@@ -597,6 +597,7 @@ namespace PhotoTagsSynchronizer
                 config.ThumbnailSizes = thumbnailSizes;
                 config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
                 config.DatabaseLocationNames = databaseLocationNames;
+                config.DatabaseUtilitiesSqliteMetadata = databaseUtilitiesSqliteMetadata;
                 config.Init();
                 config.ShowDialog();
                 ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
