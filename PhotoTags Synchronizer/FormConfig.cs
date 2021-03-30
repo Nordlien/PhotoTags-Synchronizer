@@ -149,6 +149,8 @@ namespace PhotoTagsSynchronizer
         #region Init
         public void Init()
         {
+            DialogResult = DialogResult.Cancel;
+
             isPopulation = true;
             //PopulateApplication()
             PopulateApplication();
@@ -384,6 +386,8 @@ namespace PhotoTagsSynchronizer
             MetadataReadPrioity.MetadataPrioityDictionary = metadataPrioityDictionaryCopy;
 
             MetadataReadPrioity.WriteAlways();
+
+            DialogResult = DialogResult.OK;
             this.Close();
         }
         #endregion
@@ -391,6 +395,7 @@ namespace PhotoTagsSynchronizer
         #region Config - Cancel
         private void buttonConfigCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             this.Close();
         }
         #endregion 

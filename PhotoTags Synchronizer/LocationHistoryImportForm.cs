@@ -160,5 +160,13 @@ namespace PhotoTagsSynchronizer
             _fileLength = fileLength;
             UpdateLoadingStatus(false);
         }
+
+        private void comboBoxUserAccount_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (comboBoxUserAccount.SelectedIndex > -1 && 
+                comboBoxUserAccount.SelectedIndex < comboBoxUserAccount.Items.Count &&
+                comboBoxUserAccount.SelectedItem == CameraOwnersDatabaseCache.MissingLocationsOwners) comboBoxUserAccount.Text = null;
+            if (comboBoxUserAccount.Text == CameraOwnersDatabaseCache.MissingLocationsOwners) comboBoxUserAccount.Text = null;
+        }
     }
 }

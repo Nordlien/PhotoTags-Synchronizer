@@ -70,7 +70,7 @@
       <Version>2.2.8</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="Nominatim.API">
       <Version>1.6.0</Version>

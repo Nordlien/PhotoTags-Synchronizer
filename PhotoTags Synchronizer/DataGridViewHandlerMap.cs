@@ -71,7 +71,9 @@ namespace PhotoTagsSynchronizer
 
         public static string GetCameraOwner(DataGridView dataGridView, int columnIndex)
         {
-            return (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerGoogleLocations, tagCameraOwner);
+            string cameraOwner = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerGoogleLocations, tagCameraOwner);
+            if (cameraOwner == CameraOwnersDatabaseCache.MissingLocationsOwners) cameraOwner = null;
+            return cameraOwner;
         }
 
         public static void SetCameraOwner(DataGridView dataGridView, int columnIndex, string value)

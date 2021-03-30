@@ -64,6 +64,7 @@
             this.comboBoxUserAccount.Name = "comboBoxUserAccount";
             this.comboBoxUserAccount.Size = new System.Drawing.Size(244, 24);
             this.comboBoxUserAccount.TabIndex = 2;
+            this.comboBoxUserAccount.SelectionChangeCommitted += new System.EventHandler(this.comboBoxUserAccount_SelectionChangeCommitted);
             // 
             // label2
             // 

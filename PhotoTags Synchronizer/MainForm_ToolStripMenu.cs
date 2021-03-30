@@ -599,10 +599,19 @@ namespace PhotoTagsSynchronizer
                 config.DatabaseLocationNames = databaseLocationNames;
                 config.DatabaseUtilitiesSqliteMetadata = databaseUtilitiesSqliteMetadata;
                 config.Init();
-                config.ShowDialog();
-                ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
-                databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
-                RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
+                if (config.ShowDialog() != DialogResult.Cancel)
+                {
+                    ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
+                    databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
+                    RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
+
+                    folderTreeViewFolder.Enabled = false;
+                    imageListView1.Enabled = false;
+                    FilesSelected();
+                    folderTreeViewFolder.Enabled = true;
+                    imageListView1.Enabled = true;
+                    imageListView1.Focus();
+                }
             }
         }
         #endregion

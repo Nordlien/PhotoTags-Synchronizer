@@ -561,7 +561,7 @@ namespace SqliteDatabase
                 sqlCommand = "CREATE TABLE CameraOwner (" +
                     "CameraMake     TEXT, " +
                     "CameraModel    TEXT, " +
-                    "UserAccount    TEXT NOT NULL, " +
+                    "UserAccount    TEXT, " +
                     "UNIQUE (CameraMake, CameraModel) )";
                 using (var commandDatabase = new CommonSqliteCommand(sqlCommand, this.connectionDatabase))
                 {
