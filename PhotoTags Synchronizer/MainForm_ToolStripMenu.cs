@@ -638,6 +638,9 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
         {
             AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+
             string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
             string[] files = Directory.GetFiles(selectedFolder, "*.*");
             foreach (string file in files)
@@ -650,7 +653,7 @@ namespace PhotoTagsSynchronizer
                     databaseAndCacheMetadataWindowsLivePhotoGallery,
                     databaseAndCahceCameraOwner,
                     databaseLocationAddress,
-                    databaseGoogleLocationHistory);
+                    databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude);
                 if (metadataToSave != null)
                 {
                     AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
@@ -665,6 +668,8 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
         {
             AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
 
             foreach (ImageListViewItem item in imageListView1.SelectedItems)
             {
@@ -676,7 +681,8 @@ namespace PhotoTagsSynchronizer
                     databaseAndCacheMetadataWindowsLivePhotoGallery,
                     databaseAndCahceCameraOwner,
                     databaseLocationAddress,
-                    databaseGoogleLocationHistory);
+                    databaseGoogleLocationHistory,
+                    locationAccuracyLatitude, locationAccuracyLongitude);
                 if (metadataToSave != null)
                 {
                     AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
@@ -803,6 +809,8 @@ namespace PhotoTagsSynchronizer
 
                 #region AutoCorrect
                 AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
+                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
 
                 List<Metadata> metadataListEmpty = new List<Metadata>();
                 List<Metadata> metadataListFromDataGridViewAutoCorrect = new List<Metadata>();
@@ -817,7 +825,8 @@ namespace PhotoTagsSynchronizer
                         databaseAndCacheMetadataWindowsLivePhotoGallery,
                         databaseAndCahceCameraOwner,
                         databaseLocationAddress,
-                        databaseGoogleLocationHistory);
+                        databaseGoogleLocationHistory, 
+                        locationAccuracyLatitude, locationAccuracyLongitude);
 
                     metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
                     metadataListEmpty.Add(new Metadata(metadataOriginal));

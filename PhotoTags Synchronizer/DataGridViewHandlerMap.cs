@@ -165,20 +165,27 @@ namespace PhotoTagsSynchronizer
         #region PopulateGrivViewMapNomnatatim
         public static void DeleteMapNomnatatim(LocationCoordinate locationCoordinate)
         {
-            if (locationCoordinate != null) DatabaseAndCacheLocationAddress.DeleteLocation(locationCoordinate.Latitude, locationCoordinate.Longitude);
+            if (locationCoordinate != null) DatabaseAndCacheLocationAddress.DeleteLocation(locationCoordinate);
         }
 
         public static void PopulateGrivViewMapNomnatatim(DataGridView dataGridView, int columnIndex, LocationCoordinate locationCoordinate)
         {
-            Metadata metadataLocation = null;
-            
-            if (locationCoordinate != null) metadataLocation = DatabaseAndCacheLocationAddress.AddressLookup(locationCoordinate.Latitude, locationCoordinate.Longitude);
-            bool isReadOnly = (metadataLocation == null);
+            LocationCoordinateAndDescription locationCoordinateAndDescription = null;
+
+            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+
+            if (locationCoordinate != null) locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookup(locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+            bool isReadOnly = (locationCoordinateAndDescription == null);
             //isReadOnly = false;
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagLocationName, ReadWriteAccess.AllowCellReadAndWrite), metadataLocation?.LocationName, isReadOnly); 
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCity, ReadWriteAccess.AllowCellReadAndWrite), metadataLocation?.LocationCity, isReadOnly); 
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagProvince, ReadWriteAccess.AllowCellReadAndWrite), metadataLocation?.LocationState, isReadOnly); 
-            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCountry, ReadWriteAccess.AllowCellReadAndWrite), metadataLocation?.LocationCountry, isReadOnly); 
+            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagLocationName, ReadWriteAccess.AllowCellReadAndWrite), 
+                locationCoordinateAndDescription?.Description.Name, isReadOnly); 
+            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCity, ReadWriteAccess.AllowCellReadAndWrite), 
+                locationCoordinateAndDescription?.Description.City, isReadOnly); 
+            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagProvince, ReadWriteAccess.AllowCellReadAndWrite), 
+                locationCoordinateAndDescription?.Description.Region, isReadOnly); 
+            AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim, tagCountry, ReadWriteAccess.AllowCellReadAndWrite), 
+                locationCoordinateAndDescription?.Description.Country, isReadOnly); 
            
         }
         #endregion

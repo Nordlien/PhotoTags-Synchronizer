@@ -367,6 +367,8 @@ namespace PhotoTagsSynchronizer
             ///////////////////////////////////////////////////////////////////////////
             /// Nomnatatim
             ///////////////////////////////////////////////////////////////////////////
+            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
             if (gridViewGenericRow.HeaderName.Equals(DataGridViewHandlerMap.headerNominatim))
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, DataGridViewHandlerMap.headerMedia, DataGridViewHandlerMap.tagCoordinates);
@@ -377,13 +379,19 @@ namespace PhotoTagsSynchronizer
                     LocationNameLookUpCache locationAddress = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
 
                     CommonDatabaseTransaction commonDatabaseTransaction = databaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
-                    locationAddress.AddressUpdate(
-                        (float)gridViewGenericColumn.Metadata.LocationLatitude,
-                        (float)gridViewGenericColumn.Metadata.LocationLongitude,
-                        (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagLocationName), //Name
-                        (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCity), //City
-                        (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagProvince), //State
-                        (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCountry)); //Country
+                    locationAddress.AddressLookupNearestAndUpdate(
+                        new LocationCoordinateAndDescription(
+                            new LocationCoordinate( 
+                                (float)gridViewGenericColumn.Metadata.LocationLatitude,
+                                (float)gridViewGenericColumn.Metadata.LocationLongitude),
+                            new LocationDescription(
+                                (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagLocationName), //Name
+                                (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCity), //City
+                                (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagProvince), //State
+                                (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCountry)) //Country
+                            ),
+                            locationAccuracyLatitude, locationAccuracyLongitude
+                        );
                     databaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
 
                     for (int columnIndex = 0; columnIndex < dataGridViewMap.ColumnCount; columnIndex++)

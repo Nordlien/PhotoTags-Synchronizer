@@ -1,4 +1,5 @@
 ﻿using DataGridViewGeneric;
+using LocationNames;
 using MetadataLibrary;
 using MetadataPriorityLibrary;
 using System;
@@ -19,7 +20,6 @@ namespace DataGridViewGeneric
         public bool IsEqual { get; set; }
         public PropertyKey PropertyKey { get; set; }
         public Metadata Metadata { get; set; }
-
         public LocationCoordinate LocationCoordinate { get; set; }
         public MetadataPriorityKey MetadataPriorityKey { get; set; }
 

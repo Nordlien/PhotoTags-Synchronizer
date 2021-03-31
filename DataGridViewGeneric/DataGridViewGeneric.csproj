@@ -74,6 +74,10 @@
       <Project>{0c295fb8-c6c6-4a40-9f19-05a43f353a04}</Project>
       <Name>ImageListView</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LocationNames\LocationNames.csproj">
+      <Project>{43150053-C6AC-4262-B38C-EE9A1A8897D1}</Project>
+      <Name>LocationNames</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MetadataLibrary\MetadataLibrary.csproj">
       <Project>{257d2461-60b4-4072-9a19-723a5e3239a7}</Project>
       <Name>MetadataLibrary</Name>

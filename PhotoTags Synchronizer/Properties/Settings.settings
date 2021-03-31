@@ -898,5 +898,11 @@ duration {Duration}</Value>
     <Setting Name="WriteMetadataCreatedDateFileAttribute" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="LocationAccuracyLatitude" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.001</Value>
+    </Setting>
+    <Setting Name="LocationAccuracyLongitude" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.001</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

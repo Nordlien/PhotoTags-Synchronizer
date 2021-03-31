@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MetadataLibrary
+namespace LocationNames
 {
 
     public class LocationCoordinate

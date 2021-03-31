@@ -155,7 +155,9 @@ namespace PhotoTagsSynchronizer
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery,
             CameraOwnersDatabaseCache cameraOwnersDatabaseCache,
             LocationNameLookUpCache locationNameLookUpCache,
-            GoogleLocationHistoryDatabaseCache databaseGoogleLocationHistory
+            GoogleLocationHistoryDatabaseCache databaseGoogleLocationHistory,
+            float locationAccuracyLatitude,
+            float locationAccuracyLongitude
             )
         {
             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
@@ -304,17 +306,17 @@ namespace PhotoTagsSynchronizer
                     string.IsNullOrWhiteSpace(metadataCopy?.LocationCity) ||
                     string.IsNullOrWhiteSpace(metadataCopy?.LocationCountry))
                 {
-                    Metadata locationData = locationNameLookUpCache.AddressLookup((float)metadataCopy?.LocationLatitude, (float)metadataCopy?.LocationLongitude);
+                    LocationCoordinateAndDescription locationData = locationNameLookUpCache.AddressLookup(metadataCopy?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
                     if (locationData != null)
                     {
                         if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadataCopy?.LocationName))
-                            if (UpdateLocationName) metadataCopy.LocationName = locationData.LocationName;
+                            if (UpdateLocationName) metadataCopy.LocationName = locationData.Description.Name;
                         if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadataCopy?.LocationState))
-                            if (UpdateLocationState) metadataCopy.LocationState = locationData.LocationState;
+                            if (UpdateLocationState) metadataCopy.LocationState = locationData.Description.Region;
                         if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadataCopy?.LocationCity))
-                            if (UpdateLocationCity) metadataCopy.LocationCity = locationData.LocationCity;
+                            if (UpdateLocationCity) metadataCopy.LocationCity = locationData.Description.City;
                         if (!UpdateLocationOnlyWhenEmpty || string.IsNullOrWhiteSpace(metadataCopy?.LocationCountry))
-                            if (UpdateLocationCountry) metadataCopy.LocationCountry = locationData.LocationCountry;
+                            if (UpdateLocationCountry) metadataCopy.LocationCountry = locationData.Description.Country;
                     }
                 }
             }

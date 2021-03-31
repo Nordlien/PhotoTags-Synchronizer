@@ -304,6 +304,8 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.SuggestRegionNameNearbyDays = (int)numericUpDownPeopleSuggestNameDaysInterval.Value;
             Properties.Settings.Default.SuggestRegionNameTopMostCount = (int)numericUpDownPeopleSuggestNameTopMost.Value;
             Properties.Settings.Default.RegionMissmatchProcent = (float)numericUpDownRegionMissmatchProcent.Value;
+            Properties.Settings.Default.LocationAccuracyLatitude = (float)numericUpDownLocationAccuracyLatitude.Value;
+            Properties.Settings.Default.LocationAccuracyLongitude = (float)numericUpDownLocationAccuracyLongitude.Value;
             Properties.Settings.Default.AvoidOfflineMediaFiles = checkBoxApplicationAvoidReadMediaFromCloud.Checked;
             Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode = checkBoxApplicationImageListViewCacheModeOnDemand.Checked;
 
@@ -417,6 +419,9 @@ namespace PhotoTagsSynchronizer
             numericUpDownPeopleSuggestNameDaysInterval.Value = Properties.Settings.Default.SuggestRegionNameNearbyDays;
             numericUpDownPeopleSuggestNameTopMost.Value = Properties.Settings.Default.SuggestRegionNameTopMostCount;
             numericUpDownRegionMissmatchProcent.Value = (decimal)Properties.Settings.Default.RegionMissmatchProcent;
+
+            numericUpDownLocationAccuracyLatitude.Value = (decimal)Properties.Settings.Default.LocationAccuracyLatitude;
+            numericUpDownLocationAccuracyLongitude.Value = (decimal)Properties.Settings.Default.LocationAccuracyLongitude;
 
             checkBoxApplicationAvoidReadMediaFromCloud.Checked = Properties.Settings.Default.AvoidOfflineMediaFiles;
             checkBoxApplicationImageListViewCacheModeOnDemand.Checked = Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode;
@@ -951,7 +956,7 @@ namespace PhotoTagsSynchronizer
 
             foreach (KeyValuePair<LocationCoordinate, LocationDescription> locationKeyValuePair in locationNames)
             {
-                string group = locationKeyValuePair.Value.City;
+                string group = locationKeyValuePair.Value.City == null ? "" : locationKeyValuePair.Value.City;
                 string rowId = locationKeyValuePair.Key.ToString();
 
                 DataGridViewHandler.AddRow(dataGridView, 0,
@@ -998,7 +1003,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexCountry, row));
 
                     if (locationNames.ContainsKey(locationCoordinate) && locationNames[locationCoordinate] != locationDescription)
-                    DatabaseLocationNames.AddressUpdate(locationCoordinate, locationDescription);
+                    DatabaseLocationNames.AddressUpdate(new LocationCoordinateAndDescription(locationCoordinate, locationDescription));
                 }
             }
             DatabaseAndCacheCameraOwner.CameraMakeModelAndOwnerMakeDirty();

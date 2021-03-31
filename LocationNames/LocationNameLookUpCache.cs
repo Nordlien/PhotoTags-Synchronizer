@@ -1,9 +1,7 @@
 ﻿using Nominatim.API.Address;
 using Nominatim.API.Geocoders;
 using Nominatim.API.Models;
-using MetadataLibrary;
 using SqliteDatabase;
-using System.Diagnostics;
 using System.Collections.Generic;
 
 namespace LocationNames
@@ -25,18 +23,18 @@ namespace LocationNames
             return locationNameCache.ReadLocationNames();
         }
 
-        public Metadata AddressLookup(float latitude, float longitude)
+        public LocationCoordinateAndDescription AddressLookup(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
 
-            Metadata metadata = locationNameCache.ReadLocationName(latitude, longitude);
-            if (metadata != null) return metadata;
+            LocationCoordinateAndDescription locationCoordinateAndDescription = locationNameCache.ReadLocationName(locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+            if (locationCoordinateAndDescription != null) return locationCoordinateAndDescription;
       
             var y = new ReverseGeocoder();
             var r2 = y.ReverseGeocode(new ReverseGeocodeRequest
             {
-                Longitude = longitude, 
-                Latitude = latitude,  
+                Longitude = locationCoordinate.Longitude, 
+                Latitude = locationCoordinate.Latitude,  
 
                 BreakdownAddressElements = true,
                 ShowExtraTags = true,
@@ -48,24 +46,24 @@ namespace LocationNames
 
             if (r2.IsCompleted && !r2.IsFaulted && r2.Result != null)
             {
-                metadata = new Metadata(MetadataBrokerType.NominatimAPI);
+                locationCoordinateAndDescription = new LocationCoordinateAndDescription();
 
-                metadata.LocationCity = (r2.Result.Address.City + " " + r2.Result.Address.Town + " " + r2.Result.Address.Village).Trim().Replace("  ", " ");
-                metadata.LocationCountry = r2.Result.Address.Country;
-                metadata.LocationLatitude = latitude;
-                metadata.LocationLongitude = longitude;
-                metadata.LocationName = (r2.Result.Address.Road + " " + r2.Result.Address.HouseNumber).Trim();
-                metadata.LocationState = (r2.Result.Address.State + " " + r2.Result.Address.County + " " + r2.Result.Address.Suburb + " " + r2.Result.Address.District + " " + r2.Result.Address.Hamlet).Trim().Replace("  ", " ");
+                locationCoordinateAndDescription.Coordinate.Latitude = locationCoordinate.Latitude;
+                locationCoordinateAndDescription.Coordinate.Longitude = locationCoordinate.Longitude;
+                locationCoordinateAndDescription.Description.City = (r2.Result.Address.City + " " + r2.Result.Address.Town + " " + r2.Result.Address.Village).Trim().Replace("  ", " ");
+                locationCoordinateAndDescription.Description.Country = r2.Result.Address.Country;
+                locationCoordinateAndDescription.Description.Name = (r2.Result.Address.Road + " " + r2.Result.Address.HouseNumber).Trim();
+                locationCoordinateAndDescription.Description.Region = (r2.Result.Address.State + " " + r2.Result.Address.County + " " + r2.Result.Address.Suburb + " " + r2.Result.Address.District + " " + r2.Result.Address.Hamlet).Trim().Replace("  ", " ");
 
-                metadata.LocationName = string.IsNullOrEmpty(metadata.LocationName) ? null : metadata.LocationName;
-                metadata.LocationState = string.IsNullOrEmpty(metadata.LocationState) ? null : metadata.LocationState;
-                metadata.LocationCity = string.IsNullOrEmpty(metadata.LocationCity) ? null : metadata.LocationCity;
-                metadata.LocationCountry = string.IsNullOrEmpty(metadata.LocationCountry) ? null : metadata.LocationCountry;
+                locationCoordinateAndDescription.Description.Name = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Name) ? null : locationCoordinateAndDescription.Description.Name;
+                locationCoordinateAndDescription.Description.Region = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Region) ? null : locationCoordinateAndDescription.Description.Region;
+                locationCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.City) ? null : locationCoordinateAndDescription.Description.City;
+                locationCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Country) ? null : locationCoordinateAndDescription.Description.Country;
 
                 locationNameCache.TransactionBeginBatch();
-                locationNameCache.WriteLocationName(metadata);
+                locationNameCache.WriteLocationName(locationCoordinateAndDescription);
                 locationNameCache.TransactionCommitBatch();
-                return metadata;
+                return locationCoordinateAndDescription;
 
             }
             else
@@ -76,34 +74,30 @@ namespace LocationNames
             
         }
 
-        public void DeleteLocation(float mediaLatitude, float mediaLongitude)
+        public void DeleteLocation(LocationCoordinate locationCoordinate)
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
             locationNameCache.TransactionBeginBatch();
-            locationNameCache.DeleteLocationName(mediaLatitude, mediaLongitude);
+            locationNameCache.DeleteLocationName(locationCoordinate);
             locationNameCache.TransactionCommitBatch();
         }
 
-        public void AddressUpdate(LocationCoordinate locationCoordinate, LocationDescription locationDescription)
+        public void AddressUpdate(LocationCoordinateAndDescription locationCoordinateAndDescription)
         {
-            Metadata metadata = AddressLookup(locationCoordinate.Latitude, locationCoordinate.Longitude);
-            if (metadata != null)
-            {
-                metadata.LocationCity = locationDescription.City;
-                metadata.LocationCountry = locationDescription.Country;
-                metadata.LocationName = locationDescription.Name;
-                metadata.LocationState = locationDescription.Region;
-
-                LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
-                locationNameCache.TransactionBeginBatch();
-                locationNameCache.UpdateLocationName(metadata);
-                locationNameCache.TransactionCommitBatch();
-            }
+            LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
+            locationNameCache.TransactionBeginBatch();
+            locationNameCache.UpdateLocationName(locationCoordinateAndDescription);
+            locationNameCache.TransactionCommitBatch();
         }
 
-        public void AddressUpdate(float mediaLatitude, float mediaLongitude, string locationName, string locationCity, string locationRegion, string locationCountry)
+        public void AddressLookupNearestAndUpdate(LocationCoordinateAndDescription locationCoordinateAndDescription, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
-            AddressUpdate(new LocationCoordinate(mediaLatitude, mediaLongitude), new LocationDescription(locationName, locationCity, locationRegion, locationCountry));
+            LocationCoordinateAndDescription locationCoordinateAndDescriptionLookupNearest = AddressLookup(locationCoordinateAndDescription.Coordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+            if (locationCoordinateAndDescriptionLookupNearest != null)
+            {
+                locationCoordinateAndDescription.Coordinate = locationCoordinateAndDescriptionLookupNearest.Coordinate;
+            }
+            AddressUpdate(locationCoordinateAndDescription);
         }
 
     }

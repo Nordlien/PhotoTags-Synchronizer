@@ -2,8 +2,16 @@
 
 namespace LocationNames
 {
+
     public class LocationDescription
     {
+        public LocationDescription()
+        {
+            Name = null;
+            City = null;
+            Region = null;
+            Country = null;
+        }
         public LocationDescription(string name, string city, string region, string country)
         {
             Name = name;

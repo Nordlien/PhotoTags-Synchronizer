@@ -54,13 +54,11 @@
     <Compile Include="FileEntryImage.cs" />
     <Compile Include="FileEntry.cs" />
     <Compile Include="FileEntryVersion.cs" />
-    <Compile Include="LocationDescription.cs" />
     <Compile Include="MetadataRegionNameKey.cs" />
     <Compile Include="StringNullable.cs" />
     <Compile Include="IFileEntry.cs" />
     <Compile Include="ImetadataReader.cs" />
     <Compile Include="KeywordTag.cs" />
-    <Compile Include="LocationCoordinate.cs" />
     <Compile Include="Metadata.cs" />
     <Compile Include="MetadataBrokerType.cs" />
     <Compile Include="MetadataDatabaseCache.cs" />
@@ -76,6 +74,10 @@
     <ProjectReference Include="..\FileDateTime\FileDateTime.csproj">
       <Project>{83CA452E-ABE2-43BA-A7C3-F47954279F85}</Project>
       <Name>FileDateTime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LocationNames\LocationNames.csproj">
+      <Project>{43150053-c6ac-4262-b38c-ee9a1a8897d1}</Project>
+      <Name>LocationNames</Name>
     </ProjectReference>
     <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj">
       <Project>{c14ac62e-7b1a-471b-8660-e9c28d89f316}</Project>

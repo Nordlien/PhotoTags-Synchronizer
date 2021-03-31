@@ -35,10 +35,17 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig = new System.Windows.Forms.TabControl();
             this.tabPageApplication = new System.Windows.Forms.TabPage();
             this.panelApplication = new System.Windows.Forms.Panel();
+            this.groupBoxLocationAccuracy = new System.Windows.Forms.GroupBox();
+            this.label67 = new System.Windows.Forms.Label();
+            this.label65 = new System.Windows.Forms.Label();
+            this.label64 = new System.Windows.Forms.Label();
+            this.numericUpDownLocationAccuracyLongitude = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownLocationAccuracyLatitude = new System.Windows.Forms.NumericUpDown();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.checkBoxApplicationImageListViewCacheModeOnDemand = new System.Windows.Forms.CheckBox();
             this.checkBoxApplicationAvoidReadMediaFromCloud = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label68 = new System.Windows.Forms.Label();
             this.label44 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.numericUpDownRegionMissmatchProcent = new System.Windows.Forms.NumericUpDown();
@@ -212,10 +219,14 @@ namespace PhotoTagsSynchronizer
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.dataGridViewCameraOwner = new System.Windows.Forms.DataGridView();
             this.tabPageLocationNames = new System.Windows.Forms.TabPage();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panelBrowser = new System.Windows.Forms.Panel();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridViewLocationNames = new System.Windows.Forms.DataGridView();
+            this.textBoxBrowserURL = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.comboBoxMapZoomLevel = new System.Windows.Forms.ComboBox();
+            this.panelBrowser = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.textBox4 = new System.Windows.Forms.TextBox();
             this.tabPageConvertAndMerge = new System.Windows.Forms.TabPage();
             this.panelConvertAndMerge = new System.Windows.Forms.Panel();
             this.groupBoxConvertAndMergeConvertVideo = new System.Windows.Forms.GroupBox();
@@ -277,13 +288,12 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.textBoxBrowserURL = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.comboBoxMapZoomLevel = new System.Windows.Forms.ComboBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
+            this.groupBoxLocationAccuracy.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLongitude)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLatitude)).BeginInit();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRegionMissmatchProcent)).BeginInit();
@@ -325,8 +335,13 @@ namespace PhotoTagsSynchronizer
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCameraOwner)).BeginInit();
             this.tabPageLocationNames.SuspendLayout();
-            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLocationNames)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel3.SuspendLayout();
             this.tabPageConvertAndMerge.SuspendLayout();
             this.panelConvertAndMerge.SuspendLayout();
             this.groupBoxConvertAndMergeConvertVideo.SuspendLayout();
@@ -349,11 +364,6 @@ namespace PhotoTagsSynchronizer
             this.tabPageShowPipe32Log.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowPipe32Log)).BeginInit();
             this.panelAvoidResizeIssues.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControlConfig
@@ -393,6 +403,7 @@ namespace PhotoTagsSynchronizer
             // panelApplication
             // 
             this.panelApplication.BackColor = System.Drawing.Color.Transparent;
+            this.panelApplication.Controls.Add(this.groupBoxLocationAccuracy);
             this.panelApplication.Controls.Add(this.groupBox6);
             this.panelApplication.Controls.Add(this.groupBox5);
             this.panelApplication.Controls.Add(this.groupBox4);
@@ -404,6 +415,104 @@ namespace PhotoTagsSynchronizer
             this.panelApplication.Name = "panelApplication";
             this.panelApplication.Size = new System.Drawing.Size(766, 748);
             this.panelApplication.TabIndex = 0;
+            // 
+            // groupBoxLocationAccuracy
+            // 
+            this.groupBoxLocationAccuracy.Controls.Add(this.label67);
+            this.groupBoxLocationAccuracy.Controls.Add(this.label65);
+            this.groupBoxLocationAccuracy.Controls.Add(this.label64);
+            this.groupBoxLocationAccuracy.Controls.Add(this.numericUpDownLocationAccuracyLongitude);
+            this.groupBoxLocationAccuracy.Controls.Add(this.numericUpDownLocationAccuracyLatitude);
+            this.groupBoxLocationAccuracy.Location = new System.Drawing.Point(3, 641);
+            this.groupBoxLocationAccuracy.Name = "groupBoxLocationAccuracy";
+            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(760, 104);
+            this.groupBoxLocationAccuracy.TabIndex = 12;
+            this.groupBoxLocationAccuracy.TabStop = false;
+            this.groupBoxLocationAccuracy.Text = "GPS Location Accuracy";
+            // 
+            // label67
+            // 
+            this.label67.AutoSize = true;
+            this.label67.Location = new System.Drawing.Point(6, 26);
+            this.label67.Name = "label67";
+            this.label67.Size = new System.Drawing.Size(623, 17);
+            this.label67.TabIndex = 4;
+            this.label67.Text = "When lookup location from Database, threat numbers as eaual using this parameters" +
+    " as accuracy";
+            // 
+            // label65
+            // 
+            this.label65.AutoSize = true;
+            this.label65.Location = new System.Drawing.Point(6, 76);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(71, 17);
+            this.label65.TabIndex = 3;
+            this.label65.Text = "Longitude";
+            // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.Location = new System.Drawing.Point(6, 48);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(63, 17);
+            this.label64.TabIndex = 2;
+            this.label64.Text = "Latitude:";
+            // 
+            // numericUpDownLocationAccuracyLongitude
+            // 
+            this.numericUpDownLocationAccuracyLongitude.DecimalPlaces = 4;
+            this.numericUpDownLocationAccuracyLongitude.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            262144});
+            this.numericUpDownLocationAccuracyLongitude.Location = new System.Drawing.Point(183, 74);
+            this.numericUpDownLocationAccuracyLongitude.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            196608});
+            this.numericUpDownLocationAccuracyLongitude.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            262144});
+            this.numericUpDownLocationAccuracyLongitude.Name = "numericUpDownLocationAccuracyLongitude";
+            this.numericUpDownLocationAccuracyLongitude.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownLocationAccuracyLongitude.TabIndex = 1;
+            this.numericUpDownLocationAccuracyLongitude.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+            // 
+            // numericUpDownLocationAccuracyLatitude
+            // 
+            this.numericUpDownLocationAccuracyLatitude.DecimalPlaces = 4;
+            this.numericUpDownLocationAccuracyLatitude.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            262144});
+            this.numericUpDownLocationAccuracyLatitude.Location = new System.Drawing.Point(183, 46);
+            this.numericUpDownLocationAccuracyLatitude.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            196608});
+            this.numericUpDownLocationAccuracyLatitude.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            262144});
+            this.numericUpDownLocationAccuracyLatitude.Name = "numericUpDownLocationAccuracyLatitude";
+            this.numericUpDownLocationAccuracyLatitude.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownLocationAccuracyLatitude.TabIndex = 0;
+            this.numericUpDownLocationAccuracyLatitude.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             // 
             // groupBox6
             // 
@@ -439,6 +548,7 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.label68);
             this.groupBox5.Controls.Add(this.label44);
             this.groupBox5.Controls.Add(this.label43);
             this.groupBox5.Controls.Add(this.numericUpDownRegionMissmatchProcent);
@@ -448,6 +558,15 @@ namespace PhotoTagsSynchronizer
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Region";
+            // 
+            // label68
+            // 
+            this.label68.AutoSize = true;
+            this.label68.Location = new System.Drawing.Point(309, 52);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(186, 17);
+            this.label68.TabIndex = 3;
+            this.label68.Text = "when diffrence are less than";
             // 
             // label44
             // 
@@ -464,9 +583,9 @@ namespace PhotoTagsSynchronizer
             this.label43.AutoSize = true;
             this.label43.Location = new System.Drawing.Point(6, 52);
             this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(153, 17);
+            this.label43.Size = new System.Drawing.Size(156, 17);
             this.label43.TabIndex = 1;
-            this.label43.Text = "Accept region as equal";
+            this.label43.Text = "Threat region as equal:";
             // 
             // numericUpDownRegionMissmatchProcent
             // 
@@ -478,10 +597,10 @@ namespace PhotoTagsSynchronizer
             131072});
             this.numericUpDownRegionMissmatchProcent.Location = new System.Drawing.Point(183, 50);
             this.numericUpDownRegionMissmatchProcent.Maximum = new decimal(new int[] {
-            1,
+            9,
             0,
             0,
-            0});
+            65536});
             this.numericUpDownRegionMissmatchProcent.Minimum = new decimal(new int[] {
             5,
             0,
@@ -2825,38 +2944,28 @@ namespace PhotoTagsSynchronizer
             this.tabPageLocationNames.Text = "Location names";
             this.tabPageLocationNames.UseVisualStyleBackColor = true;
             // 
-            // panel3
+            // splitContainer1
             // 
-            this.panel3.Controls.Add(this.textBox4);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(3, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(760, 742);
-            this.panel3.TabIndex = 0;
-            // 
-            // panelBrowser
-            // 
-            this.panelBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelBrowser.Location = new System.Drawing.Point(0, 3);
-            this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(763, 222);
-            this.panelBrowser.TabIndex = 7;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 68);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // textBox4
+            // splitContainer1.Panel1
             // 
-            this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox4.Location = new System.Drawing.Point(-3, -2);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(764, 62);
-            this.textBox4.TabIndex = 6;
-            this.textBox4.Text = "Location names is to set names automaticly on location based un GPS coordinates. " +
-    "E.g. Home, Zoo Park, Cabin, Parents Home, etc.";
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridViewLocationNames);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.textBoxBrowserURL);
+            this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.comboBoxMapZoomLevel);
+            this.splitContainer1.Panel2.Controls.Add(this.panelBrowser);
+            this.splitContainer1.Size = new System.Drawing.Size(764, 674);
+            this.splitContainer1.SplitterDistance = 411;
+            this.splitContainer1.TabIndex = 8;
             // 
             // dataGridViewLocationNames
             // 
@@ -2876,6 +2985,88 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewLocationNames.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewLocationNames_CellPainting);
             this.dataGridViewLocationNames.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewLocationNames_CellValueChanged);
             this.dataGridViewLocationNames.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewLocationNames_KeyDown);
+            // 
+            // textBoxBrowserURL
+            // 
+            this.textBoxBrowserURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxBrowserURL.Location = new System.Drawing.Point(145, 232);
+            this.textBoxBrowserURL.Name = "textBoxBrowserURL";
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(619, 22);
+            this.textBoxBrowserURL.TabIndex = 17;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(2, 231);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(34, 26);
+            this.pictureBox1.TabIndex = 19;
+            this.pictureBox1.TabStop = false;
+            // 
+            // comboBoxMapZoomLevel
+            // 
+            this.comboBoxMapZoomLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.comboBoxMapZoomLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMapZoomLevel.FormattingEnabled = true;
+            this.comboBoxMapZoomLevel.Items.AddRange(new object[] {
+            "Zoom 1",
+            "Zoom 2",
+            "Zoom 3",
+            "Zoom 4",
+            "Zoom 5",
+            "Zoom 6",
+            "Zoom 7",
+            "Zoom 8",
+            "Zoom 9",
+            "Zoom 10",
+            "Zoom 11",
+            "Zoom 12",
+            "Zoom 13",
+            "Zoom 14",
+            "Zoom 15",
+            "Zoom 16",
+            "Zoom 17",
+            "Zoom 18"});
+            this.comboBoxMapZoomLevel.Location = new System.Drawing.Point(42, 232);
+            this.comboBoxMapZoomLevel.Name = "comboBoxMapZoomLevel";
+            this.comboBoxMapZoomLevel.Size = new System.Drawing.Size(97, 24);
+            this.comboBoxMapZoomLevel.TabIndex = 18;
+            // 
+            // panelBrowser
+            // 
+            this.panelBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelBrowser.Location = new System.Drawing.Point(0, 3);
+            this.panelBrowser.Name = "panelBrowser";
+            this.panelBrowser.Size = new System.Drawing.Size(763, 222);
+            this.panelBrowser.TabIndex = 7;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.textBox4);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(760, 742);
+            this.panel3.TabIndex = 0;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox4.Location = new System.Drawing.Point(-3, -2);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox4.Multiline = true;
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ReadOnly = true;
+            this.textBox4.Size = new System.Drawing.Size(764, 62);
+            this.textBox4.TabIndex = 6;
+            this.textBox4.Text = "Location names is to set names automaticly on location based un GPS coordinates. " +
+    "E.g. Home, Zoo Park, Cabin, Parents Home, etc.";
             // 
             // tabPageConvertAndMerge
             // 
@@ -3857,78 +4048,6 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(778, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(0, 68);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.dataGridViewLocationNames);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxBrowserURL);
-            this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
-            this.splitContainer1.Panel2.Controls.Add(this.comboBoxMapZoomLevel);
-            this.splitContainer1.Panel2.Controls.Add(this.panelBrowser);
-            this.splitContainer1.Size = new System.Drawing.Size(764, 674);
-            this.splitContainer1.SplitterDistance = 411;
-            this.splitContainer1.TabIndex = 8;
-            // 
-            // textBoxBrowserURL
-            // 
-            this.textBoxBrowserURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxBrowserURL.Location = new System.Drawing.Point(145, 232);
-            this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(619, 22);
-            this.textBoxBrowserURL.TabIndex = 17;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(2, 231);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(34, 26);
-            this.pictureBox1.TabIndex = 19;
-            this.pictureBox1.TabStop = false;
-            // 
-            // comboBoxMapZoomLevel
-            // 
-            this.comboBoxMapZoomLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.comboBoxMapZoomLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxMapZoomLevel.FormattingEnabled = true;
-            this.comboBoxMapZoomLevel.Items.AddRange(new object[] {
-            "Zoom 1",
-            "Zoom 2",
-            "Zoom 3",
-            "Zoom 4",
-            "Zoom 5",
-            "Zoom 6",
-            "Zoom 7",
-            "Zoom 8",
-            "Zoom 9",
-            "Zoom 10",
-            "Zoom 11",
-            "Zoom 12",
-            "Zoom 13",
-            "Zoom 14",
-            "Zoom 15",
-            "Zoom 16",
-            "Zoom 17",
-            "Zoom 18"});
-            this.comboBoxMapZoomLevel.Location = new System.Drawing.Point(42, 232);
-            this.comboBoxMapZoomLevel.Name = "comboBoxMapZoomLevel";
-            this.comboBoxMapZoomLevel.Size = new System.Drawing.Size(97, 24);
-            this.comboBoxMapZoomLevel.TabIndex = 18;
-            // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3943,6 +4062,10 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.ResumeLayout(false);
             this.tabPageApplication.ResumeLayout(false);
             this.panelApplication.ResumeLayout(false);
+            this.groupBoxLocationAccuracy.ResumeLayout(false);
+            this.groupBoxLocationAccuracy.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLongitude)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLatitude)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -4008,9 +4131,15 @@ namespace PhotoTagsSynchronizer
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCameraOwner)).EndInit();
             this.tabPageLocationNames.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLocationNames)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLocationNames)).EndInit();
             this.tabPageConvertAndMerge.ResumeLayout(false);
             this.panelConvertAndMerge.ResumeLayout(false);
             this.groupBoxConvertAndMergeConvertVideo.ResumeLayout(false);
@@ -4040,12 +4169,6 @@ namespace PhotoTagsSynchronizer
             this.tabPageShowPipe32Log.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowPipe32Log)).EndInit();
             this.panelAvoidResizeIssues.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -4301,5 +4424,12 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.TextBox textBoxBrowserURL;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ComboBox comboBoxMapZoomLevel;
+        private System.Windows.Forms.GroupBox groupBoxLocationAccuracy;
+        private System.Windows.Forms.Label label67;
+        private System.Windows.Forms.Label label65;
+        private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.NumericUpDown numericUpDownLocationAccuracyLongitude;
+        private System.Windows.Forms.NumericUpDown numericUpDownLocationAccuracyLatitude;
+        private System.Windows.Forms.Label label68;
     }
 }

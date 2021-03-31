@@ -1682,5 +1682,29 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["WriteMetadataCreatedDateFileAttribute"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.001")]
+        public float LocationAccuracyLatitude {
+            get {
+                return ((float)(this["LocationAccuracyLatitude"]));
+            }
+            set {
+                this["LocationAccuracyLatitude"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.001")]
+        public float LocationAccuracyLongitude {
+            get {
+                return ((float)(this["LocationAccuracyLongitude"]));
+            }
+            set {
+                this["LocationAccuracyLongitude"] = value;
+            }
+        }
     }
 }

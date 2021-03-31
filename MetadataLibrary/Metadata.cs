@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using TimeZone;
+using LocationNames;
 
 namespace MetadataLibrary
 {

@@ -39,6 +39,9 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LocationCoordinate.cs" />
+    <Compile Include="LocationCoordinateAndDescription.cs" />
+    <Compile Include="LocationDescription.cs" />
     <Compile Include="LocationNameDatabase.cs" />
     <Compile Include="LocationNameLookUpCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -47,10 +50,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MetadataLibrary\MetadataLibrary.csproj">
-      <Project>{257D2461-60B4-4072-9A19-723A5E3239A7}</Project>
-      <Name>MetadataLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj">
       <Project>{C14AC62E-7B1A-471B-8660-E9C28D89F316}</Project>
       <Name>SqliteDatabase</Name>
