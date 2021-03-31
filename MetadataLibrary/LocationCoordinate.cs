@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace MetadataLibrary
 {
+
     public class LocationCoordinate
     {
         public LocationCoordinate()

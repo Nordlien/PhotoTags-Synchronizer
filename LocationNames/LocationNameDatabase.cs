@@ -91,7 +91,7 @@ namespace LocationNames
             }
         }
 
-
+        #region ReadLocationName
         public Metadata ReadLocationName(double latitude, double longitude)
         {
             Metadata metadata = null;
@@ -128,10 +128,12 @@ namespace LocationNames
             }
             return metadata;
         }
+        #endregion 
 
-        public List<Metadata> ReadLocationNames()
+        #region ReadLocationNames
+        public Dictionary<LocationCoordinate, LocationDescription> ReadLocationNames()
         {
-            List<Metadata> locations = new List<Metadata>();
+            Dictionary<LocationCoordinate, LocationDescription> locations = new Dictionary<LocationCoordinate, LocationDescription>();
 
             string sqlCommand = "SELECT Latitude, Longitude, Name, City, Province, Country FROM LocationName";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
@@ -142,24 +144,23 @@ namespace LocationNames
                 {
                     while (reader.Read())
                     {
-                        Metadata metadata = new Metadata(MetadataBrokerType.NominatimAPI);
-                        metadata.LocationLatitude = dbTools.ConvertFromDBValFloat(reader["Latitude"]);
-                        metadata.LocationLongitude = dbTools.ConvertFromDBValFloat(reader["Longitude"]);
-                        metadata.LocationName = dbTools.ConvertFromDBValString(reader["Name"]);
-                        metadata.LocationCity = dbTools.ConvertFromDBValString(reader["City"]);
-                        metadata.LocationState = dbTools.ConvertFromDBValString(reader["Province"]);
-                        metadata.LocationCountry = dbTools.ConvertFromDBValString(reader["Country"]);
+                        LocationCoordinate locationCoordinate = new LocationCoordinate(
+                            (float)dbTools.ConvertFromDBValFloat(reader["Latitude"]), 
+                            (float)dbTools.ConvertFromDBValFloat(reader["Longitude"]));
 
-                        metadata.LocationName = string.IsNullOrEmpty(metadata.LocationName) ? null : metadata.LocationName;
-                        metadata.LocationState = string.IsNullOrEmpty(metadata.LocationState) ? null : metadata.LocationState;
-                        metadata.LocationCity = string.IsNullOrEmpty(metadata.LocationCity) ? null : metadata.LocationCity;
-                        metadata.LocationCountry = string.IsNullOrEmpty(metadata.LocationCountry) ? null : metadata.LocationCountry;
-                        locations.Add(metadata);
+                        LocationDescription locationDescription = new LocationDescription(
+                            dbTools.ConvertFromDBValString(reader["Name"]),
+                            dbTools.ConvertFromDBValString(reader["City"]),
+                            dbTools.ConvertFromDBValString(reader["Province"]),
+                            dbTools.ConvertFromDBValString(reader["Country"]));
+
+                        locations.Add(locationCoordinate, locationDescription);
                     }
                 }
             }
             return locations;
         }
+        #endregion 
 
     }
 

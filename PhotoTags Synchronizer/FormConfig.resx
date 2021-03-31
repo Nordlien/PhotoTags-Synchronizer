@@ -117,6 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAzJJREFUSEutlntIU1Ecx33U0nxleW2kSAsxAwkkor9rFCllWlnDEq01wkdlmcOw
+        kuzh0MAKoocUaeom2hjJLGfOTLEZWzp1uunViem0TPM1m27eX+faCfrHOeF+4Md5/M7ve+/5/c7lHqf/
+        Cc0nidD7JH9HPilGLYnGVtSnWzFq+aH5vQReunpCRAYuMllEoVFTqBrX947NT1sXKYpun38e1x1E8yG5
+        BlmISM/FIY4TfEfHDRN1K3NrRzssNoCRSYD+MYAf0wDzVoAFNGeeB+q2YlQbJupS0utx6Mpsy9YSnGyt
+        7F6NqWPGAqAeBPiGhJfjVrWpg17PyW53LF1BWRr+3gc6jcVKLYkPmrHSMthQ2vYV6L7ScVjCPgEZLeKn
+        DSYDnZbmIYBZLGSPR3WmnoAMlRhL2Ied1kgaRsxmtRGgfQq9IRaxh27YPM1OayKxhH2I5Hrrgo0CZTdA
+        LyqoI5gtFEWk1FuxhH18BTWk3jRrXs0Dmntm53wFCsd24J0gFz+s7jP8S5Ej5LwxjvqgOCxhH484GT/8
+        6gfN0AS1VOSVGJikYE9mQx8dhyXs4x5bSbidqJQJi9p19DHVotOENgPoO1s6UXTRaaP79BFOfdE948mT
+        DnnwpEIssTKsGAnX52SFMv2l1vBl4O9O6HTRNaGN7jcNUpBSqJvxOyX97XZUAutjK+pxuGO4Hi7hIpOF
+        JVe15Uj0w5WqKZuicxFeNUwtZhb3TIdffN+3LrpMsTaq1MI6Ugbux8vBiyd9hsMdwyWimHCJKOK7RBaJ
+        kZHOEUVWl8hicmmM5tGYWHOoOIkVVQpuMRLwT5ABkVgl3nCmmoUlmIEVXXbF/Vg5ePAqYbdQCZzUWrnf
+        +Vp37GYGVIMsrzgp+J+VQ/zjVth1vbmRfemTJ3Yzg3f823O+idUQkv4R8uRGiCxoawsUqjZiNzNsEigE
+        RFIdHMjXgFz7EwSve42cG61s7GaGzRca4rdcboL0in7QmeYg553pO/opBWE3MwQKW05zstQgUY/DhNkG
+        JepfU6F5Pcw+ZOvNtuiduZ3Q2D8L1+QjSnRZcMUu5gi+27UfXR6e4CHzbBfpnXEX4eT0B7U19E69a5Da
+        AAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="textBox1.Text" xml:space="preserve">
     <value>When reading metadata tags from media files, the media file can contain multiple tags with same purpose. Sometimes they may have diffrent value. The priority are used to select what tag to use. High number the higher priority.</value>
   </data>

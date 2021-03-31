@@ -20,6 +20,7 @@ namespace DataGridViewGeneric
         public PropertyKey PropertyKey { get; set; }
         public Metadata Metadata { get; set; }
 
+        public LocationCoordinate LocationCoordinate { get; set; }
         public MetadataPriorityKey MetadataPriorityKey { get; set; }
 
         public FavoriteRow GetFavouriteRow()
@@ -28,28 +29,30 @@ namespace DataGridViewGeneric
         }
 
         public DataGridViewGenericRow(string headerName) 
-            : this(headerName, "", ReadWriteAccess.ForceCellToReadOnly, true, false, null, null, null) { }
+            : this(headerName, "", ReadWriteAccess.ForceCellToReadOnly, true, false, null, null, null, null) { }
         public DataGridViewGenericRow(string headerName, string rowName) 
-            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, null) { }
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, null, null) { }
 
         public DataGridViewGenericRow(string headerName, string rowName, ReadWriteAccess readWriteAccess) 
-            : this(headerName, rowName, readWriteAccess, false, false, null, null, null) { }
+            : this(headerName, rowName, readWriteAccess, false, false, null, null, null, null) { }
         
         public DataGridViewGenericRow(string headerName, string rowName, bool isMultiLine, MetadataPriorityKey metadataPriorityKey) 
-            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, isMultiLine, null, null, metadataPriorityKey) { }
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, isMultiLine, null, null, metadataPriorityKey, null) { }
 
         public DataGridViewGenericRow(string headerName, string rowName, ReadWriteAccess readWriteAccess, bool isMultiLine, PropertyKey propertyKey)
-            : this(headerName, rowName, readWriteAccess, false, isMultiLine, propertyKey, null, null) { }
+            : this(headerName, rowName, readWriteAccess, false, isMultiLine, propertyKey, null, null, null) { }
 
         public DataGridViewGenericRow(string headerName, string rowName, Metadata metadata)
-            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, metadata, null) { }
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, metadata, null, null) { }
 
-        
+        public DataGridViewGenericRow(string headerName, string rowName, LocationCoordinate locationCoordinate)
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, null, locationCoordinate) { }
+
         public DataGridViewGenericRow(string headerName, string rowName, MetadataPriorityKey metadataPriorityKey)
-            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, metadataPriorityKey) { }
+            : this(headerName, rowName, ReadWriteAccess.AllowCellReadAndWrite, false, false, null, null, metadataPriorityKey, null) { }
         
 
-        private DataGridViewGenericRow(string headerName, string rowName, ReadWriteAccess readWriteAcess, bool isHeader, bool isMultiLine, PropertyKey propertyKey, Metadata metadata, MetadataPriorityKey metadataPriorityKey)
+        private DataGridViewGenericRow(string headerName, string rowName, ReadWriteAccess readWriteAcess, bool isHeader, bool isMultiLine, PropertyKey propertyKey, Metadata metadata, MetadataPriorityKey metadataPriorityKey, LocationCoordinate locationCoordinate)
         {
             this.HeaderName = headerName ?? throw new ArgumentNullException(nameof(rowName));
             this.RowName = rowName == null ? "" : rowName;  
@@ -61,6 +64,7 @@ namespace DataGridViewGeneric
             this.PropertyKey = propertyKey;
             this.Metadata = metadata;
             this.MetadataPriorityKey = metadataPriorityKey;
+            this.LocationCoordinate = locationCoordinate;
         }
 
         public override bool Equals(object obj)

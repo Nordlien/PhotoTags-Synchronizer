@@ -340,6 +340,9 @@ namespace PhotoTagsSynchronizer
             //Camera Owner 
             SaveMetadataCameraOwner(dataGridViewCameraOwner);
 
+            //Location Names
+            SaveMetadataLocation(dataGridViewLocationNames);
+
             //Filename date formates
             Properties.Settings.Default.RenameDateFormats = fastColoredTextBoxConfigFilenameDateFormats.Text;
 
@@ -910,66 +913,99 @@ namespace PhotoTagsSynchronizer
 
 
         #region Location names - PopulateMetadataLocationNames
+
+        private Dictionary<LocationCoordinate, LocationDescription> locationNames = new Dictionary<LocationCoordinate, LocationDescription>();
+        private int columnIndexName = 0;
+        private int columnIndexCity = 1;
+        private int columnIndexRegion = 2;
+        private int columnIndexCountry = 3;
         private void PopulateMetadataLocationNames(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
             DataGridViewHandler dataGridViewHandler = new DataGridViewHandler(dataGridView, "LocationNames", "Location names", DataGridViewSize.ConfigSize);
             DataGridViewHandler.Clear(dataGridView, DataGridViewSize.ConfigSize);
-            //contextMenuStripMetadataRead contextMenuStripMetadataRead
 
             DateTime dateTimeEditable = DateTime.Now;
 
-            int columnIndexName = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+            columnIndexName = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Name", dateTimeEditable, FileEntryVersion.Current), //Heading
-                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
-            int columnIndexCity = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+            columnIndexCity = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("City", dateTimeEditable, FileEntryVersion.Current), //Heading
-                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
-            int columnIndexRegion = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+            columnIndexRegion = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Region", dateTimeEditable, FileEntryVersion.Current), //Heading
-                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
-            int columnIndexCountry = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
+            columnIndexCountry = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView,
                 new FileEntryAttribute("Country", dateTimeEditable, FileEntryVersion.Current), //Heading
-                    null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
-                    new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
+                null, null, ReadWriteAccess.AllowCellReadAndWrite, ShowWhatColumns.HistoryColumns,
+                new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
-            List<Metadata> locationNames = DatabaseLocationNames.ReadLocationNames();
+            locationNames = DatabaseLocationNames.ReadLocationNames();
 
-            foreach (Metadata metadata in locationNames)
+            foreach (KeyValuePair<LocationCoordinate, LocationDescription> locationKeyValuePair in locationNames)
             {
-                string group = metadata.LocationCity;
-                string rowId = metadata.LocationCoordinate.ToString();
+                string group = locationKeyValuePair.Value.City;
+                string rowId = locationKeyValuePair.Key.ToString();
 
                 DataGridViewHandler.AddRow(dataGridView, 0,
                     new DataGridViewGenericRow(group), 
                     null, false, false);
 
                 DataGridViewHandler.AddRow(dataGridView, columnIndexName,
-                    new DataGridViewGenericRow(group, rowId),
-                    metadata.LocationName, false, false);
+                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
+                    locationKeyValuePair.Value.Name, false, false);
 
                 DataGridViewHandler.AddRow(dataGridView, columnIndexCity,
-                    new DataGridViewGenericRow(group, rowId),
-                    metadata.LocationCity, false, false);
+                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
+                    locationKeyValuePair.Value.City, false, false);
 
                 DataGridViewHandler.AddRow(dataGridView, columnIndexRegion,
-                    new DataGridViewGenericRow(group, rowId),
-                    metadata.LocationState, false, false);
+                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
+                    locationKeyValuePair.Value.Region, false, false);
 
                 DataGridViewHandler.AddRow(dataGridView, columnIndexCountry,
-                    new DataGridViewGenericRow(group, rowId),
-                    metadata.LocationCountry, false, false);
+                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
+                    locationKeyValuePair.Value.Country, false, false);
             }
             isCellValueUpdating = false;
         }
         #endregion
 
+        #region Location names - SaveMetadataCameraOwner
+        private void SaveMetadataLocation(DataGridView dataGridView)
+        {
+            int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
+
+            CommonDatabaseTransaction commonDatabaseTransaction = DatabaseUtilitiesSqliteMetadata.TransactionBegin(CommonDatabaseTransaction.TransactionReadCommitted);
+            
+            for (int row = 0; row < rowCount; row++)
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, row);
+                if (!dataGridViewGenericRow.IsHeader)
+                {
+                    LocationCoordinate locationCoordinate = dataGridViewGenericRow.LocationCoordinate;
+                    LocationDescription locationDescription = new LocationDescription(
+                        DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexName, row),
+                        DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexCity, row),
+                        DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexRegion, row),
+                        DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexCountry, row));
+
+                    if (locationNames.ContainsKey(locationCoordinate) && locationNames[locationCoordinate] != locationDescription)
+                    DatabaseLocationNames.AddressUpdate(locationCoordinate, locationDescription);
+                }
+            }
+            DatabaseAndCacheCameraOwner.CameraMakeModelAndOwnerMakeDirty();
+            DatabaseUtilitiesSqliteMetadata.TransactionCommit(commonDatabaseTransaction);
+
+        }
+        #endregion 
 
         #endregion 
 

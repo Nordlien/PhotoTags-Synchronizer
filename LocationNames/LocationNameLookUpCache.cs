@@ -19,7 +19,7 @@ namespace LocationNames
             PreferredLanguagesString = preferredLanguagesString;
         }
 
-        public List<Metadata> ReadLocationNames()
+        public Dictionary<LocationCoordinate, LocationDescription> ReadLocationNames()
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
             return locationNameCache.ReadLocationNames();
@@ -84,22 +84,26 @@ namespace LocationNames
             locationNameCache.TransactionCommitBatch();
         }
 
-        public void AddressUpdate(float mediaLatitude, float mediaLongitude, string locationName, string locationCity, string locationState, string locationCountry)
+        public void AddressUpdate(LocationCoordinate locationCoordinate, LocationDescription locationDescription)
         {
-            Metadata metadata = AddressLookup(mediaLatitude, mediaLongitude);
+            Metadata metadata = AddressLookup(locationCoordinate.Latitude, locationCoordinate.Longitude);
             if (metadata != null)
             {
-                metadata.LocationCity = locationCity;
-                metadata.LocationCountry = locationCountry;
-                metadata.LocationName = locationName;
-                metadata.LocationState = locationState;
+                metadata.LocationCity = locationDescription.City;
+                metadata.LocationCountry = locationDescription.Country;
+                metadata.LocationName = locationDescription.Name;
+                metadata.LocationState = locationDescription.Region;
 
                 LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
                 locationNameCache.TransactionBeginBatch();
                 locationNameCache.UpdateLocationName(metadata);
                 locationNameCache.TransactionCommitBatch();
             }
+        }
 
+        public void AddressUpdate(float mediaLatitude, float mediaLongitude, string locationName, string locationCity, string locationRegion, string locationCountry)
+        {
+            AddressUpdate(new LocationCoordinate(mediaLatitude, mediaLongitude), new LocationDescription(locationName, locationCity, locationRegion, locationCountry));
         }
 
     }
