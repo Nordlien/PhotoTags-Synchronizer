@@ -16,6 +16,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
@@ -63,6 +64,8 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Controls.Add(this.browser);
 
             browser.AddressChanged += Browser_AddressChanged;
+
+            isConfigClosing = false;
         }
 
 
@@ -1018,6 +1021,8 @@ namespace PhotoTagsSynchronizer
         #region Location names - Search For New Locations In Media Files
         private void searchForNewLocationsInMediaFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
+
             DataGridView dataGridView = dataGridViewLocationNames;
             Dictionary<LocationCoordinate, LocationDescription> locationFound = DatabaseLocationNames.FindNewLocation();
             Dictionary<LocationCoordinate, LocationDescription> locationNotFound = new Dictionary<LocationCoordinate, LocationDescription>();
@@ -1178,31 +1183,45 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Location names - ReloadLocationUsingNominatim_Click 
+        Thread threadReloadLocationUsingNominatim = null;
+        bool isConfigClosing = false;
         private void toolStripMenuItemMapReloadLocationUsingNominatim_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewLocationNames;
 
-            List<int> rowsSelected = DataGridViewHandler.GetRowSelected(dataGridView);
-            if (rowsSelected.Count == 0) return;
+            //Add to thread, if window close, stop
 
-            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-            foreach (int rowIndex in rowsSelected)
-            {
-                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
-                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow?.LocationCoordinate != null)
+            threadReloadLocationUsingNominatim = new Thread(() => {
+                
+                List<int> rowsSelected = DataGridViewHandler.GetRowSelected(dataGridView);
+                if (rowsSelected.Count == 0) return;
+
+                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                foreach (int rowIndex in rowsSelected)
                 {
-                    DatabaseAndCacheLocationAddress.DeleteLocation(dataGridViewGenericRow?.LocationCoordinate); //Delete from database cache
-                    
-                    LocationCoordinateAndDescription locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookup(
-                        dataGridViewGenericRow?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+                    if (isConfigClosing) break;
+                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                    if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow?.LocationCoordinate != null)
+                    {
+                        DatabaseAndCacheLocationAddress.DeleteLocation(dataGridViewGenericRow?.LocationCoordinate); //Delete from database cache
 
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexName, rowIndex, locationCoordinateAndDescription?.Description.Name);
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexCity, rowIndex, locationCoordinateAndDescription?.Description.City);
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexRegion, rowIndex, locationCoordinateAndDescription?.Description.Region);                    
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexCountry, rowIndex, locationCoordinateAndDescription?.Description.Country);
+                        LocationCoordinateAndDescription locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookup(
+                            dataGridViewGenericRow?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexName, rowIndex, locationCoordinateAndDescription?.Description.Name);
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexCity, rowIndex, locationCoordinateAndDescription?.Description.City);
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexRegion, rowIndex, locationCoordinateAndDescription?.Description.Region);
+                        DataGridViewHandler.SetCellValue(dataGridView, columnIndexCountry, rowIndex, locationCoordinateAndDescription?.Description.Country);
+                    }
+                    
                 }
-            }
+
+            });
+
+            threadReloadLocationUsingNominatim.Start();
+
+            
 
         }
         #endregion
@@ -2102,11 +2121,24 @@ namespace PhotoTagsSynchronizer
 
 
 
-        #endregion
 
         #endregion
 
-        
+        #endregion
+
+        #region ForClosing - Stop background processes
+        private void Config_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            isConfigClosing = true;
+            if (threadReloadLocationUsingNominatim != null && threadReloadLocationUsingNominatim.IsAlive) 
+            {
+                while (
+                    threadReloadLocationUsingNominatim.ThreadState != ThreadState.Stopped &&
+                    threadReloadLocationUsingNominatim.ThreadState != ThreadState.Aborted) Thread.Sleep(50);
+                //threadReloadLocationUsingNominatim.Abort();
+            }
+        }
+        #endregion 
     }
 }
 
