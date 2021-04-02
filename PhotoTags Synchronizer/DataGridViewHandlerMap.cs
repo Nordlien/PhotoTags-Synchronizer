@@ -42,6 +42,7 @@ namespace PhotoTagsSynchronizer
         public const string tagProvince = "Province";
         public const string tagCountry = "Country";
 
+        #region GetUserInputChanges
         public static void GetUserInputChanges(ref DataGridView dataGridView, Metadata metadata, FileEntryAttribute fileEntry)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntry);
@@ -54,8 +55,9 @@ namespace PhotoTagsSynchronizer
             metadata.LocationState = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagProvince);
             metadata.LocationCountry = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCountry);            
         }
+        #endregion 
 
-        #region Help functions
+        #region Add Row
         private static int AddRow(DataGridView dataGridView, int columnIndex, DataGridViewGenericRow dataGridViewGenericDataRow)
         {
             return DataGridViewHandler.AddRow(dataGridView, columnIndex, dataGridViewGenericDataRow, false);
@@ -67,19 +69,23 @@ namespace PhotoTagsSynchronizer
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, cellReadOnly), false);            
             return rowIndex;
         }
-        #endregion 
+        #endregion
 
+        #region GetCameraOwner
         public static string GetCameraOwner(DataGridView dataGridView, int columnIndex)
         {
             string cameraOwner = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerGoogleLocations, tagCameraOwner);
             if (cameraOwner == CameraOwnersDatabaseCache.MissingLocationsOwners) cameraOwner = null;
             return cameraOwner;
         }
+        #endregion
 
+        #region SetCameraOwner
         public static void SetCameraOwner(DataGridView dataGridView, int columnIndex, string value)
         {
             DataGridViewHandler.SetCellValue(dataGridView, columnIndex, headerGoogleLocations, tagCameraOwner, value);
         }
+        #endregion 
 
         #region PopulateGrivViewMapCameraOwner
         private static DataGridViewComboBoxCell dataGridViewComboBoxCellCameraOwners = null;
@@ -189,7 +195,6 @@ namespace PhotoTagsSynchronizer
            
         }
         #endregion
-
 
         #region PopulateFile
         public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)

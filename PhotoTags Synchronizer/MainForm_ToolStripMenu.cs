@@ -7,7 +7,6 @@ using MetadataLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -597,6 +596,7 @@ namespace PhotoTagsSynchronizer
                 config.ThumbnailSizes = thumbnailSizes;
                 config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
                 config.DatabaseLocationNames = databaseLocationNames;
+                config.DatabaseAndCacheLocationAddress = databaseLocationAddress; 
                 config.DatabaseUtilitiesSqliteMetadata = databaseUtilitiesSqliteMetadata;
                 config.Init();
                 if (config.ShowDialog() != DialogResult.Cancel)

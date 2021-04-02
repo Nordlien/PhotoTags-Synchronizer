@@ -205,6 +205,9 @@
   <data name="textBox3.Text" xml:space="preserve">
     <value>Camera Make and Model are used for set Media Artist and find Location for owner in location history. Tip. you can import Google Location history, set owner of the "Location History". Then correct (phone) camera will use correct history.</value>
   </data>
+  <metadata name="contextMenuStripLocationNames.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>299, 18</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -356,6 +359,6 @@
 </value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>25</value>
+    <value>86</value>
   </metadata>
 </root>

@@ -27,6 +27,7 @@ namespace LocationNames
             dbTools.TransactionCommitBatch();
         }
 
+        #region WriteLocationName
         public void WriteLocationName(LocationCoordinateAndDescription locationCoordinateAndDescription)
         {
             string sqlCommand =
@@ -49,7 +50,9 @@ namespace LocationNames
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+        #endregion 
 
+        #region DeleteLocationName
         public void DeleteLocationName(LocationCoordinate locationCoordinate)
         {
             string sqlCommand = "DELETE FROM LocationName WHERE Latitude = @Latitude AND Longitude = @Longitude";
@@ -61,7 +64,9 @@ namespace LocationNames
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+        #endregion 
 
+        #region UpdateLocationName
         public void UpdateLocationName(LocationCoordinateAndDescription locationCoordinateAndDescription)
         {
             string sqlCommand =
@@ -89,6 +94,7 @@ namespace LocationNames
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
+        #endregion 
 
         #region ReadLocationName
         public LocationCoordinateAndDescription ReadLocationName(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude)

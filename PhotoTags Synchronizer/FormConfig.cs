@@ -1,4 +1,6 @@
 ﻿using CameraOwners;
+using CefSharp;
+using CefSharp.WinForms;
 using DataGridViewGeneric;
 using FastColoredTextBoxNS;
 using LocationNames;
@@ -25,7 +27,10 @@ namespace PhotoTagsSynchronizer
         public MetadataReadPrioity MetadataReadPrioity { get; set; } //= new MetadataReadPrioity();
         public CameraOwnersDatabaseCache DatabaseAndCacheCameraOwner { get; set; }
         public LocationNameLookUpCache DatabaseLocationNames { get; set; }
+        public LocationNameLookUpCache DatabaseAndCacheLocationAddress { get; set; }
         public SqliteDatabaseUtilities DatabaseUtilitiesSqliteMetadata { get; set; }
+
+        private readonly ChromiumWebBrowser browser;
 
         public Size[] ThumbnailSizes { get; set; }
 
@@ -46,8 +51,20 @@ namespace PhotoTagsSynchronizer
         public Config()
         {
             InitializeComponent();
-            
+            browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
+            {
+                Dock = DockStyle.Fill,
+            };
+            browser.BrowserSettings.Javascript = CefState.Enabled;
+            browser.BrowserSettings.WebSecurity = CefState.Enabled;
+            browser.BrowserSettings.WebGl = CefState.Enabled;
+            browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
+            browser.BrowserSettings.Plugins = CefState.Enabled;
+            this.panelBrowser.Controls.Add(this.browser);
+
+            browser.AddressChanged += Browser_AddressChanged;
         }
+
 
         #region Combobox Helper
 
@@ -147,6 +164,7 @@ namespace PhotoTagsSynchronizer
         #region All tabs - Init - Save - Close
 
         #region Init
+        
         public void Init()
         {
             DialogResult = DialogResult.Cancel;
@@ -168,6 +186,11 @@ namespace PhotoTagsSynchronizer
             
             //Location Names
             PopulateMetadataLocationNames(dataGridViewLocationNames);
+            isSettingDefaultComboxValuesZoomLevel = true;
+            comboBoxMapZoomLevel.SelectedIndex = Properties.Settings.Default.SettingLocationZoomLevel;
+            isSettingDefaultComboxValuesZoomLevel = false;
+
+
 
             //AutoCorrect
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
@@ -915,7 +938,8 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Location names
-
+        bool isSettingDefaultComboxValuesZoomLevel = false;
+        LocationCoordinate locationCoordinateRememberForZooming = null;
 
         #region Location names - PopulateMetadataLocationNames
 
@@ -983,7 +1007,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Location names - SaveMetadataCameraOwner
+        #region Location names - SaveMetadataLocation
         private void SaveMetadataLocation(DataGridView dataGridView)
         {
             int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
@@ -1012,8 +1036,285 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        #region Location names - DataGridView - KeyDown
+        private void dataGridViewLocationNames_KeyDown(object sender, KeyEventArgs e)
+        {
+            DataGridViewHandler.KeyDownEventHandler(sender, e);
+        }
         #endregion 
 
+        #region Location names - DataGridView - CellBeginEdit
+        private void dataGridViewLocationNames_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+
+            ClipboardUtility.PushToUndoStack(dataGridView);
+        }
+        #endregion 
+
+        #region Location names - CellPainting
+        private void dataGridViewLocationNames_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
+            //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
+            //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
+            DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
+        }
+        #endregion
+
+        #region Location names - Browser - AddressChanged
+        private void Browser_AddressChanged(object sender, AddressChangedEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, AddressChangedEventArgs>(Browser_AddressChanged), sender, e);
+                return;
+            }
+
+            textBoxBrowserURL.Text = e.Address;
+        }
+        #endregion 
+        
+        #region  Location names - BrowserURL_KeyPress
+        private void textBoxBrowserURL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true; //Handle the Keypress event (suppress the Beep)
+                browser.Load(textBoxBrowserURL.Text);
+            }
+        }
+        #endregion
+
+        #region Location names - GetZoomLevel 
+        private int GetZoomLevel()
+        {
+            return comboBoxMapZoomLevel.SelectedIndex + 1;
+        }
+        #endregion
+
+        #region Location names - DataGridView - Cell Double Click
+        private void dataGridViewLocationNames_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+
+            if (!dataGridView.Enabled) return;
+            if (e.ColumnIndex < 0 || e.RowIndex < 0) return;
+            if (dataGridView.SelectedCells.Count > 1) return;
+
+            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
+            locationCoordinateRememberForZooming = dataGridViewGenericRow?.LocationCoordinate;
+            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel()); //Use last valid coordinates clicked
+        }
+        #endregion 
+
+        #region Location names - Zoom Level - SelectedIndexChanged
+        private void comboBoxMapZoomLevel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (GlobalData.IsApplicationClosing) return;
+            if (isSettingDefaultComboxValuesZoomLevel) return;
+            if (GlobalData.IsPopulatingMap) return;
+            Properties.Settings.Default.SettingLocationZoomLevel = (byte)comboBoxMapZoomLevel.SelectedIndex;
+            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel()); //Use last valid coordinates clicked
+        }
+        #endregion 
+
+        #region Location names - ShowCoordinateOnMap_Click
+        private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            List<int> rowsSelected = DataGridViewHandler.GetRowSelected(dataGridView);
+            List<LocationCoordinate> locationCoordinates = new List<LocationCoordinate>();
+            foreach (int rowIndex in rowsSelected)
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow?.LocationCoordinate != null)
+                {
+                    locationCoordinates.Add(dataGridViewGenericRow.LocationCoordinate);
+                }
+            }
+            ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel());
+        }
+        #endregion
+
+        #region Location names - ReloadLocationUsingNominatim_Click 
+        private void toolStripMenuItemMapReloadLocationUsingNominatim_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+
+            List<int> rowsSelected = DataGridViewHandler.GetRowSelected(dataGridView);
+            if (rowsSelected.Count == 0) return;
+
+            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+            foreach (int rowIndex in rowsSelected)
+            {
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+                if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow?.LocationCoordinate != null)
+                {
+                    DatabaseAndCacheLocationAddress.DeleteLocation(dataGridViewGenericRow?.LocationCoordinate); //Delete from database cache
+                    
+                    LocationCoordinateAndDescription locationCoordinateAndDescription = DatabaseAndCacheLocationAddress.AddressLookup(
+                        dataGridViewGenericRow?.LocationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
+
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexName, rowIndex, locationCoordinateAndDescription?.Description.Name);
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexCity, rowIndex, locationCoordinateAndDescription?.Description.City);
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexRegion, rowIndex, locationCoordinateAndDescription?.Description.Region);                    
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndexCountry, rowIndex, locationCoordinateAndDescription?.Description.Country);
+                }
+            }
+
+        }
+        #endregion
+
+        #region Location names - Cut_Click
+        private void toolStripMenuItemMapCut_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion 
+
+        #region Location names - Copy_Click
+        private void toolStripMenuItemMapCopy_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+        #endregion
+
+        #region Location names - Paste_Click
+        private void toolStripMenuItemMapPaste_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region Location names - Delete_Click
+        private void toolStripMenuItemMapDelete_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion 
+
+        #region Location names - Undo_Click
+        private void toolStripMenuItemMapUndo_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            ClipboardUtility.UndoDataGridView(dataGridView);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region Location names - Redo_Click
+        private void toolStripMenuItemMapRedo_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+            ClipboardUtility.RedoDataGridView(dataGridView);
+            //ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region Location names - Find_Click
+        private void toolStripMenuItemMapFind_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+            //ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region Location names - Replace_Click
+        private void toolStripMenuItemMapReplace_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            if (!dataGridView.Enabled) return;
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
+            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+            //ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+            GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
+        }
+        #endregion
+
+        #region Location names - MarkFavorite_Click
+        private void toolStripMenuItemMapMarkFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
+            DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
+        }
+        #endregion
+
+        #region Location names - RemoveFavorite_Click
+        private void toolStripMenuItemMapRemoveFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
+            DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
+        }
+        #endregion 
+
+        #region Location names - ToggleFavorite_Click
+        private void toolStripMenuItemMapToggleFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
+            DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
+        }
+        #endregion
+
+        #region Location names - ShowFavorite_Click
+        private void toolStripMenuItemMapShowFavorite_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemMapShowFavorite);
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapShowFavorite.Checked, toolStripMenuItemMapShowFavorite.Checked);
+        }
+        #endregion
+
+        #region Location names - HideEqual_Click
+        private void toolStripMenuItemMapHideEqual_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemMapHideEqual);
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapHideEqual.Checked, toolStripMenuItemMapHideEqual.Checked);
+        }
+        #endregion
+
+        #endregion 
 
         #region Metadata Read - Populate
         private void PopulateMetadataReadToolStripMenu()
@@ -1759,172 +2060,13 @@ namespace PhotoTagsSynchronizer
         {
             if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument, comboBoxConvertAndMergeConvertVideoFilesVariables.Text);
         }
-        #endregion
+
 
         #endregion
 
-        private void dataGridViewLocationNames_KeyDown(object sender, KeyEventArgs e)
-        {
-            DataGridViewHandler.KeyDownEventHandler(sender, e);
-        }
-
-       
-
-        private void dataGridViewLocationNames_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            DataGridView dataGridView = ((DataGridView)sender);
-            if (!dataGridView.Enabled) return;
-
-            ClipboardUtility.PushToUndoStack(dataGridView);
-        }
-
-        private void dataGridViewLocationNames_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            DataGridViewHandler.CellPaintingHandleDefault(sender, e, true);
-            //DataGridViewHandler.CellPaintingColumnHeader(sender, e, queueErrorQueue);
-            //DataGridViewHandler.CellPaintingTriState(sender, e, dataGridView, header);
-            DataGridViewHandler.CellPaintingFavoriteAndToolTipsIcon(sender, e);
-        }
-
-        
-
-        private void dataGridViewLocationNames_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        #endregion
 
         
     }
 }
-
-/*
--Keywords-={KeywordItem}
--Subject-={KeywordItem}
--TagsList-={KeywordItem}
--CatalogSets-={KeywordItem}
-
--Keywords+={KeywordItem}
--Subject+={KeywordItem}
--TagsList+={KeywordItem}
--CatalogSets+={KeywordItem}
-
-
--charset
-filename=UTF8
--overwrite_original
--m
--F
-{IfLocationDateTimeChanged}-XMP-exif:GPSDateTime={LocationDateTimeUTC}
-{IfLocationDateTimeChanged}-XMP:GPSDateTime={LocationDateTimeUTC}
-{IfLocationDateTimeChanged}-GPS:GPSDateStamp={LocationDateTimeDateStamp}
-{IfLocationDateTimeChanged}-GPS:GPSTimeStamp={LocationDateTimeTimeStamp}
-{IfLocationDateTimeChanged}-GPSDateStamp={LocationDateTimeDateStamp}
-{IfLocationDateTimeChanged}-GPSTimeStamp={LocationDateTimeTimeStamp}
-{IfMediaDateTakenChanged}-Composite:SubSecCreateDate={MediaDateTaken}
-{IfMediaDateTakenChanged}-EXIF:CreateDate={MediaDateTaken}
-{IfMediaDateTakenChanged}-XMP-xmp:CreateDate={MediaDateTaken}
-{IfMediaDateTakenChanged}-XMP:CreateDate={MediaDateTaken}
-{IfMediaDateTakenChanged}-XMP:DateTimeOriginal={MediaDateTaken}
-{IfMediaDateTakenChanged}-IPTC:DigitalCreationDate={MediaDateTakenDateStamp}
-{IfMediaDateTakenChanged}-IPTC:DigitalCreationTime={MediaDateTakenTimeStamp}
-{IfMediaDateTakenChanged}-Composite:SubSecDateTimeOriginal={MediaDateTaken}
-{IfMediaDateTakenChanged}-ExifIFD:DateTimeOriginal={MediaDateTaken}
-{IfMediaDateTakenChanged}-EXIF:DateTimeOriginal={MediaDateTaken}
-{IfMediaDateTakenChanged}-XMP-photoshop:DateCreated={MediaDateTaken}
-{IfMediaDateTakenChanged}-IPTC:DateCreated={MediaDateTakenDateStamp}
-{IfMediaDateTakenChanged}-IPTC:TimeCreated={MediaDateTakenTimeStamp}
-{IfMediaDateTakenChanged}-CreateDate={MediaDateTaken}
-{IfPersonalAlbumChanged}-XMP-xmpDM:Album={PersonalAlbum}
-{IfPersonalAlbumChanged}-XMP:Album={PersonalAlbum}
-{IfPersonalAlbumChanged}-IPTC:Headline={PersonalAlbum}
-{IfPersonalAlbumChanged}-XMP-photoshop:Headline={PersonalAlbum}
-{IfPersonalAlbumChanged}-ItemList:Album={PersonalAlbum}
-{IfPersonalAuthorChanged}-EXIF:Artist={PersonalAuthor}
-{IfPersonalAuthorChanged}-IPTC:By-line={PersonalAuthor}
-{IfPersonalAuthorChanged}-EXIF:XPAuthor={PersonalAuthor}
-{IfPersonalAuthorChanged}-ItemList:Author={PersonalAuthor}
-{IfPersonalAuthorChanged}-Creator={PersonalAuthor}
-{IfPersonalCommentsChanged}-File:Comment={PersonalComments}
-{IfPersonalCommentsChanged}-ExifIFD:UserComment={PersonalComments}
-{IfPersonalCommentsChanged}-EXIF:UserComment={PersonalComments}
-{IfPersonalCommentsChanged}-EXIF:XPComment={PersonalComments}
-{IfPersonalCommentsChanged}-XMP-album:Notes={PersonalComments}
-{IfPersonalCommentsChanged}-XMP-acdsee:Notes={PersonalComments}
-{IfPersonalCommentsChanged}-XMP:UserComment={PersonalComments}
-{IfPersonalCommentsChanged}-XMP:Notes={PersonalComments}
-{IfPersonalCommentsChanged}-ItemList:Comment={PersonalComments}
-{IfPersonalDescriptionChanged}-EXIF:ImageDescription={PersonalDescription}
-{IfPersonalDescriptionChanged}-XMP:ImageDescription={PersonalDescription}
-{IfPersonalDescriptionChanged}-XMP-dc:Description={PersonalDescription}
-{IfPersonalDescriptionChanged}-XMP:Description={PersonalDescription}
-{IfPersonalDescriptionChanged}-IPTC:Caption-Abstract={PersonalDescription}
-{IfPersonalDescriptionChanged}-ItemList:Description={PersonalDescription}
-{IfPersonalDescriptionChanged}-Description={PersonalDescription}
-{IfPersonalRatingChanged}-XMP-microsoft:RatingPercent={PersonalRatingPercent}
-{IfPersonalRatingChanged}-XMP:RatingPercent={PersonalRatingPercent}
-{IfPersonalRatingChanged}-EXIF:RatingPercent={PersonalRatingPercent}
-{IfPersonalRatingChanged}-XMP-xmp:Rating={PersonalRating}
-{IfPersonalRatingChanged}-XMP:Rating={PersonalRating}
-{IfPersonalRatingChanged}-XMP-acdsee:Rating={PersonalRating}
-{IfPersonalRatingChanged}-EXIF:Rating={PersonalRating}
-{IfPersonalRatingChanged}-Rating={PersonalRating}
-{IfPersonalTitleChanged}-ItemList:Title={PersonalTitle}
-{IfPersonalTitleChanged}-EXIF:XPTitle={PersonalTitle}
-{IfPersonalTitleChanged}-XMP-dc:Title={PersonalTitle}
-{IfPersonalTitleChanged}-XMP:Title={PersonalTitle}
-{IfPersonalTitleChanged}-ItemList:Title={PersonalTitle}
-{IfLocationLatitudeChanged}-EXIF:GPSLatitude={LocationLatitude}
-{IfLocationLatitudeChanged}-XMP-exif:GPSLatitude={LocationLatitude}
-{IfLocationLatitudeChanged}-XMP:GPSLatitude={LocationLatitude}
-{IfLocationLatitudeChanged}-GPS:GPSLatitude={LocationLatitude}
-{IfLocationLatitudeChanged}-GPSLatitude={LocationLatitude}
-{IfLocationLongitudeChanged}-EXIF:GPSLongitude={LocationLongitude}
-{IfLocationLongitudeChanged}-XMP-exif:GPSLongitude={LocationLongitude}
-{IfLocationLongitudeChanged}-XMP:GPSLongitude={LocationLongitude}
-{IfLocationLongitudeChanged}-GPS:GPSLongitude={LocationLongitude}
-{IfLocationLongitudeChanged}-GPSLongitude={LocationLongitude}
-{IfLocationNameChanged}-XMP:Location={LocationName}
-{IfLocationNameChanged}-XMP-iptcCore:Location={LocationName}
-{IfLocationNameChanged}-XMP-iptcExt:LocationShownSublocation={LocationName}
-{IfLocationNameChanged}-XMP:LocationCreatedSublocation={LocationName}
-{IfLocationNameChanged}-IPTC:Sub-location={LocationName}
-{IfLocationNameChanged}-Sub-location={LocationName}
-{IfLocationNameChanged}-Location={LocationName}
-{IfLocationStateChanged}-XMP-iptcExt:LocationShownProvinceState={LocationState}
-{IfLocationStateChanged}-XMP-photoshop:State={LocationState}
-{IfLocationStateChanged}-IPTC:Province-State={LocationState}
-{IfLocationStateChanged}-XMP:State={LocationState}
-{IfLocationStateChanged}-State={LocationState}
-{IfLocationCityChanged}-XMP-photoshop:City={LocationCity}
-{IfLocationCityChanged}-XMP-iptcExt:LocationShownCity={LocationCity}
-{IfLocationCityChanged}-IPTC:City={LocationCity}
-{IfLocationCityChanged}-XMP:City={LocationCity}
-{IfLocationCityChanged}-City={LocationCity}
-{IfLocationCountryChanged}-IPTC:Country-PrimaryLocationName={LocationCountry}
-{IfLocationCountryChanged}-XMP-photoshop:Country={LocationCountry}
-{IfLocationCountryChanged}-XMP-iptcExt:LocationShownCountryName={LocationCountry}
-{IfLocationCountryChanged}-XMP:Country={LocationCountry}
-{IfLocationCountryChanged}-Country={LocationCountry}
-{IfPersonalRegionChanged}-ImageRegion=
-{IfPersonalRegionChanged}-RegionInfoMP={PersonalRegionInfoMP}
-{IfPersonalRegionChanged}-RegionInfo={PersonalRegionInfo}
-{IfPersonalKeywordsChanged}-Subject=
-{IfPersonalKeywordsChanged}-Keyword=
-{IfPersonalKeywordsChanged}-Keywords=
-{IfPersonalKeywordsChanged}-XPKeywords=
-{IfPersonalKeywordsChanged}-Category=
-{IfPersonalKeywordsChanged}-Categories=
-{IfPersonalKeywordsChanged}-CatalogSets=
-{IfPersonalKeywordsChanged}-HierarchicalKeywords=
-{IfPersonalKeywordsChanged}-HierarchicalSubject=
-{IfPersonalKeywordsChanged}-LastKeywordXMP=
-{IfPersonalKeywordsChanged}-LastKeywordIPTC=
-{IfPersonalKeywordsChanged}-TagsList=
-{IfPersonalKeywordsChanged}{PersonalKeywordItemsDelete}
-{IfPersonalKeywordsChanged}{PersonalKeywordItemsAdd}
-{IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}
-{IfPersonalKeywordsChanged}-XPKeywords={PersonalKeywordsList}
-{FileFullPath}
--execute
-*/
 

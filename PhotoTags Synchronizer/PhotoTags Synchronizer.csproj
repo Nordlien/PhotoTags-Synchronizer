@@ -282,6 +282,7 @@
       <DependentUpon>RunCommand.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="ShowMediaOnMap.cs" />
     <Compile Include="SplashForm.cs">
       <SubType>Form</SubType>
     </Compile>

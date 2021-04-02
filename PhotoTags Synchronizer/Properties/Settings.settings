@@ -904,5 +904,8 @@ duration {Duration}</Value>
     <Setting Name="LocationAccuracyLongitude" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.001</Value>
     </Setting>
+    <Setting Name="SettingLocationZoomLevel" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">13</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
