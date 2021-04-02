@@ -161,7 +161,56 @@ namespace LocationNames
                             dbTools.ConvertFromDBValString(reader["Province"]),
                             dbTools.ConvertFromDBValString(reader["Country"]));
 
-                        locations.Add(locationCoordinate, locationDescription);
+                        if (!locations.ContainsKey(locationCoordinate)) locations.Add(locationCoordinate, locationDescription);
+                    }
+                }
+            }
+            return locations;
+        }
+        #endregion 
+
+        #region ReadLocationNames
+        public Dictionary<LocationCoordinate, LocationDescription> FindNewLocation()
+        {
+            Dictionary<LocationCoordinate, LocationDescription> locations = new Dictionary<LocationCoordinate, LocationDescription>();
+
+            string sqlCommand = "SELECT DISTINCT " +
+                "Round(LocationLatitude, 5) AS LocationLatitude, " +
+                "Round(LocationLongitude, 5) AS LocationLongitude, " +
+                "LocationName, LocationCity, LocationState, LocationCountry FROM MediaMetadata";
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        float? locationLatitude = dbTools.ConvertFromDBValFloat(reader["LocationLatitude"]);
+                        float? LocationLongitude = dbTools.ConvertFromDBValFloat(reader["LocationLongitude"]);
+
+                        if (locationLatitude != null && LocationLongitude != null)
+                        {
+                            LocationCoordinate locationCoordinate = new LocationCoordinate((float)locationLatitude, (float)LocationLongitude);
+
+                            LocationDescription locationDescription = new LocationDescription(
+                                dbTools.ConvertFromDBValString(reader["LocationName"]),
+                                dbTools.ConvertFromDBValString(reader["LocationCity"]),
+                                dbTools.ConvertFromDBValString(reader["LocationState"]),
+                                dbTools.ConvertFromDBValString(reader["LocationCountry"]));
+
+                            if (!locations.ContainsKey(locationCoordinate)) locations.Add(locationCoordinate, locationDescription);
+                            else
+                            {
+                                if (locations[locationCoordinate] != locationDescription)
+                                {
+                                    locations[locationCoordinate].Name = null;
+                                    locations[locationCoordinate].City = null;
+                                    locations[locationCoordinate].Region = null;
+                                    locations[locationCoordinate].Country = null;
+                                }
+                            }
+                        }
                     }
                 }
             }

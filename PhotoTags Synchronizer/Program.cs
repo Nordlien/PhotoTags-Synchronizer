@@ -158,7 +158,11 @@ namespace PhotoTagsSynchronizer
         {
             string errorMsg = "An application error occurred. Please contact the adminstrator with the following information:\n\n";
             errorMsg = errorMsg + e.Message + "\n\nStack Trace:\n" + e.StackTrace;
-            Logger.Error(errorMsg);
+            try
+            {
+                //Logger.Error(errorMsg);
+            }
+            catch { }
             return MessageBox.Show(errorMsg, title, MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop);
         }
     }

@@ -249,6 +249,8 @@ namespace SqliteDatabase
                 return (float?)Math.Round((float)obj, NumberOfDecimals);
             if (obj is decimal)
                 return (float?)Math.Round((decimal)obj, NumberOfDecimals);
+            if (obj is double)
+                return (float?)Math.Round((double)obj, NumberOfDecimals);
             throw new Exception("Error in number format");
             //return null;
 #else

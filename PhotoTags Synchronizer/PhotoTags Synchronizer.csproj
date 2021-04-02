@@ -414,6 +414,7 @@
     <None Include="Resources\Rotate90CW.png" />
     <None Include="Resources\Select_Previous.png" />
     <None Include="Resources\Select_Next.png" />
+    <None Include="Resources\LocationSearch.png" />
     <Content Include="Resources\Silent.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

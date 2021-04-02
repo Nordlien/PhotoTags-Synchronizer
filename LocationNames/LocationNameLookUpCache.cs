@@ -23,6 +23,12 @@ namespace LocationNames
             return locationNameCache.ReadLocationNames();
         }
 
+        public Dictionary<LocationCoordinate, LocationDescription> FindNewLocation()
+        {
+            LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
+            return locationNameCache.FindNewLocation();
+        }
+
         public LocationCoordinateAndDescription AddressLookup(LocationCoordinate locationCoordinate, float locationAccuracyLatitude, float locationAccuracyLongitude)
         {
             LocationNameDatabase locationNameCache = new LocationNameDatabase(dbTools);
@@ -44,7 +50,7 @@ namespace LocationNames
             }); 
             r2.Wait();
 
-            if (r2.IsCompleted && !r2.IsFaulted && r2.Result != null)
+            if (r2.IsCompleted && !r2.IsFaulted && r2.Result != null && r2.Result.Address != null)
             {
                 locationCoordinateAndDescription = new LocationCoordinateAndDescription();
 

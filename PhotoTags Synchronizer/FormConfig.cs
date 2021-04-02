@@ -940,14 +940,48 @@ namespace PhotoTagsSynchronizer
         #region Location names
         bool isSettingDefaultComboxValuesZoomLevel = false;
         LocationCoordinate locationCoordinateRememberForZooming = null;
-
-        #region Location names - PopulateMetadataLocationNames
-
         private Dictionary<LocationCoordinate, LocationDescription> locationNames = new Dictionary<LocationCoordinate, LocationDescription>();
         private int columnIndexName = 0;
         private int columnIndexCity = 1;
         private int columnIndexRegion = 2;
         private int columnIndexCountry = 3;
+
+        #region Location names - PopulateMetadataLocationNames
+        private void PopulateMetadataLocationNames(DataGridView dataGridView, Dictionary<LocationCoordinate, LocationDescription> locationNames)
+        {
+            foreach (KeyValuePair<LocationCoordinate, LocationDescription> locationKeyValuePair in locationNames)
+            {
+                string group = 
+                    (locationKeyValuePair.Value.Country == null ? "(Country)" : locationKeyValuePair.Value.Country) + " \\ "+
+                    (locationKeyValuePair.Value.City == null ? "(City)" : locationKeyValuePair.Value.City);
+                string rowId = locationKeyValuePair.Key.ToString();
+
+                DataGridViewHandler.AddRow(dataGridView, 0,
+                    new DataGridViewGenericRow(group),
+                    null, false, true);
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndexName,
+                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
+                    locationKeyValuePair.Value.Name, false, true);
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndexCity,
+                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
+                    locationKeyValuePair.Value.City, false, true);
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndexRegion,
+                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
+                    locationKeyValuePair.Value.Region, false, true);
+
+                DataGridViewHandler.AddRow(dataGridView, columnIndexCountry,
+                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
+                    locationKeyValuePair.Value.Country, false, true);
+            }
+
+            isCellValueUpdating = false;
+        }
+        #endregion 
+
+        #region Location names - PopulateMetadataLocationNames
         private void PopulateMetadataLocationNames(DataGridView dataGridView)
         {
             isCellValueUpdating = true;
@@ -977,35 +1011,40 @@ namespace PhotoTagsSynchronizer
                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Off, true));
 
             locationNames = DatabaseLocationNames.ReadLocationNames();
-
-            foreach (KeyValuePair<LocationCoordinate, LocationDescription> locationKeyValuePair in locationNames)
-            {
-                string group = locationKeyValuePair.Value.City == null ? "" : locationKeyValuePair.Value.City;
-                string rowId = locationKeyValuePair.Key.ToString();
-
-                DataGridViewHandler.AddRow(dataGridView, 0,
-                    new DataGridViewGenericRow(group), 
-                    null, false, false);
-
-                DataGridViewHandler.AddRow(dataGridView, columnIndexName,
-                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
-                    locationKeyValuePair.Value.Name, false, false);
-
-                DataGridViewHandler.AddRow(dataGridView, columnIndexCity,
-                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
-                    locationKeyValuePair.Value.City, false, false);
-
-                DataGridViewHandler.AddRow(dataGridView, columnIndexRegion,
-                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
-                    locationKeyValuePair.Value.Region, false, false);
-
-                DataGridViewHandler.AddRow(dataGridView, columnIndexCountry,
-                    new DataGridViewGenericRow(group, rowId, locationKeyValuePair.Key),
-                    locationKeyValuePair.Value.Country, false, false);
-            }
-            isCellValueUpdating = false;
+            PopulateMetadataLocationNames(dataGridView, locationNames);
         }
         #endregion
+
+        #region Location names - Search For New Locations In Media Files
+        private void searchForNewLocationsInMediaFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+            Dictionary<LocationCoordinate, LocationDescription> locationFound = DatabaseLocationNames.FindNewLocation();
+            Dictionary<LocationCoordinate, LocationDescription> locationNotFound = new Dictionary<LocationCoordinate, LocationDescription>();
+
+            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+            foreach (LocationCoordinate locationCoordinate in locationFound.Keys)
+            {
+                bool foundLocation = false;
+                foreach (LocationCoordinate locationCoordinateSearch in locationNames.Keys)
+                {
+                    
+                    if (locationCoordinateSearch.Latitude < (locationCoordinate.Latitude + locationAccuracyLatitude) &&
+                        locationCoordinateSearch.Latitude > (locationCoordinate.Latitude - locationAccuracyLatitude) &&
+                        locationCoordinateSearch.Longitude < (locationCoordinate.Longitude + locationAccuracyLongitude) &&
+                        locationCoordinateSearch.Longitude > (locationCoordinate.Longitude - locationAccuracyLongitude))
+                    {
+                        foundLocation = true;
+                        break;
+                    }
+                    
+                }
+                if (!foundLocation) locationNotFound.Add(locationCoordinate, locationFound[locationCoordinate]);
+            }
+            PopulateMetadataLocationNames(dataGridView, locationNotFound);
+        }
+        #endregion 
 
         #region Location names - SaveMetadataLocation
         private void SaveMetadataLocation(DataGridView dataGridView)
@@ -1301,7 +1340,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewLocationNames;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemMapShowFavorite);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapShowFavorite.Checked, toolStripMenuItemMapShowFavorite.Checked);
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapHideEqual.Checked, toolStripMenuItemMapShowFavorite.Checked);
         }
         #endregion
 
@@ -1310,7 +1349,7 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewLocationNames;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemMapHideEqual);
-            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapHideEqual.Checked, toolStripMenuItemMapHideEqual.Checked);
+            DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapHideEqual.Checked, toolStripMenuItemMapShowFavorite.Checked);
         }
         #endregion
 
@@ -2060,6 +2099,7 @@ namespace PhotoTagsSynchronizer
         {
             if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument, comboBoxConvertAndMergeConvertVideoFilesVariables.Text);
         }
+
 
 
         #endregion
