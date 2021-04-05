@@ -1718,5 +1718,55 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["SettingLocationZoomLevel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("(function()\r\n{\r\n    function isVisible(e) {\r\n    return !!( e.offsetWidth || e.of" +
+            "fsetHeight || e.getClientRects().length );\r\n}\r\n\r\n    var resultArray = new Array" +
+            "();\r\n    \r\n    var resultIndex = 0;\r\n    resultArray[resultIndex++] = [\"title\", " +
+            "String(document.title)];\r\n    \r\n    //Albums - document.querySelectorAll(\"a[href" +
+            "^=\'./album/\']\");\r\n    var resultQuery = document.querySelectorAll(\"a[href^=\'./al" +
+            "bum/\']\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (" +
+            "isVisible(resultQuery[i]) && !(resultQuery[i].innerText === \"\")) resultArray[res" +
+            "ultIndex++] = [\"albums\", String(resultQuery[i].innerText), String(resultQuery[i]" +
+            ".href)];\r\n    }\r\n    \r\n    //Albums - ;\r\n    var resultQuery = document.querySel" +
+            "ectorAll(\"a[href^=\'./search/\']\");\r\n    for (var i = 0; i < resultQuery.length; i" +
+            "++)\r\n    {\r\n        if (isVisible(resultQuery[i]) && !(resultQuery[i].innerText " +
+            "=== \"\")) \r\n            resultArray[resultIndex++] = [\"albums tags\", String(resul" +
+            "tQuery[i].innerText), String(resultQuery[i].href)];\r\n    }\r\n    \r\n    \r\n    //Me" +
+            "diafile\r\n    var resultQuery = document.querySelectorAll(\"div[aria-label^=\'Filna" +
+            "vn\']\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (is" +
+            "Visible(resultQuery[i])) resultArray[resultIndex++] = [\"mediafile\", String(resul" +
+            "tQuery[i].innerHTML)];\r\n    }\r\n    \r\n    \r\n    //Album\r\n    var resultQuery = do" +
+            "cument.querySelectorAll(\"div[class=\'AJM7gb\']\");\r\n    for (var i = 0; i < resultQ" +
+            "uery.length; i++)\r\n    {\r\n        if (isVisible(resultQuery[i])) resultArray[res" +
+            "ultIndex++] = [\"album\", String(resultQuery[i].textContent)];\r\n    }\r\n    \r\n    /" +
+            "/Location name\r\n    var resultQuery = document.querySelectorAll(\"div[class=\'qYQJ" +
+            "Ee\']\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        if (is" +
+            "Visible(resultQuery[i])) resultArray[resultIndex++] = [\"locationName\", String(re" +
+            "sultQuery[i].textContent)];\r\n    }\r\n    \r\n    //Location name <div class=\"R9U8ab" +
+            "\">Vestby</div>\r\n    var resultQuery = document.querySelectorAll(\"div[class=\'R9U8" +
+            "ab\']\");\r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n        //if (" +
+            "isVisible(resultQuery[i])) resultArray[resultIndex++] = [\"locationName\", String(" +
+            "resultQuery[i].textContent)];\r\n    }\r\n    \r\n    //Description\r\n    var resultQue" +
+            "ry = document.querySelectorAll(\"div[class=\'nxaUwb\']\");\r\n    for (var i = 0; i < " +
+            "resultQuery.length; i++)\r\n    {\r\n        if (isVisible(resultQuery[i]) && !(resu" +
+            "ltQuery[i].textContent === \"\") ) resultArray[resultIndex++] = [\"description\", St" +
+            "ring(resultQuery[i].textContent)];\r\n    }\r\n    \r\n    //Tags\r\n    var resultQuery" +
+            " = document.querySelectorAll(\"div[class=\'CWzyGb\']\");\r\n    for (var i = 0; i < re" +
+            "sultQuery.length; i++)\r\n    {\r\n        if (isVisible(resultQuery[i])) \r\n        " +
+            "resultArray[resultIndex++] = [\"tag\", String(resultQuery[i].ariaLabel)];\r\n    }\r\n" +
+            "    \r\n    \r\n    //People\r\n    var resultQuery = document.querySelectorAll(\"span[" +
+            "class=\'Y8X4Pc\']\"); \r\n    for (var i = 0; i < resultQuery.length; i++)\r\n    {\r\n  " +
+            "      if (isVisible(resultQuery[i])) resultArray[resultIndex++] = [\"people\", Str" +
+            "ing(resultQuery[i].innerHTML)];\r\n    }\r\n\r\n    \r\n    return resultArray;\r\n})();")]
+        public string WebScraperScript {
+            get {
+                return ((string)(this["WebScraperScript"]));
+            }
+            set {
+                this["WebScraperScript"] = value;
+            }
+        }
     }
 }

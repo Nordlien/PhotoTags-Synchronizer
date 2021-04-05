@@ -112,6 +112,7 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoCorrect.cs" />
@@ -159,6 +160,12 @@
     </Compile>
     <Compile Include="FormMessageBox.Designer.cs">
       <DependentUpon>FormMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormWebScraper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWebScraper.Designer.cs">
+      <DependentUpon>FormWebScraper.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalData.cs" />
     <Compile Include="LocationHistoryImportForm.cs">
@@ -307,6 +314,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMessageBox.resx">
       <DependentUpon>FormMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWebScraper.resx">
+      <DependentUpon>FormWebScraper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LocationHistoryImportForm.resx">
       <DependentUpon>LocationHistoryImportForm.cs</DependentUpon>

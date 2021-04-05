@@ -55,7 +55,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region #region DisplayAllQueueStatus
+        #region DisplayAllQueueStatus
         
         #region DisplayAllQueueStatus - Tick
         private void timerStatusUpdate_Tick(object sender, EventArgs e)
