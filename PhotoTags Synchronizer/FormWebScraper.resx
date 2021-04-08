@@ -135,19 +135,6 @@
         CgAAAAAAAAAAjQABAAH4/////P///woAAAAAAAAAAKQAAQAB9/////z///8KAAAAAAAAAACWAAEACw==
 </value>
   </data>
-  <data name="fastColoredTextBoxJavaScript.Text" xml:space="preserve">
-    <value>(function()
-{
-    var linksArray = new Array();
-    for (var i = 0; i &lt; document.links.length; i++)
-    {
-        linksArray[i] = [String(document.links[i].innerHTML),
-                String(document.links[i].innerText),
-                String(document.links[i].href)];
-    }
-    return linksArray;
-})();</value>
-  </data>
   <data name="fastColoredTextBoxJavaScriptResult.ServiceColors" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdGYXN0Q29sb3JlZFRleHRCb3gsIFZlcnNpb249Mi4xNi4yNC4w

@@ -42,9 +42,22 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript = new FastColoredTextBoxNS.FastColoredTextBox();
             this.fastColoredTextBoxJavaScriptResult = new FastColoredTextBoxNS.FastColoredTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.buttonWebScrapingStart = new System.Windows.Forms.Button();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeaderMediaFilesFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.textBoxActiveTag = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxActiveAlbum = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.listViewLinks = new System.Windows.Forms.ListView();
+            this.columnHeaderCategoryName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCategoryLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.checkBoxClickNext = new System.Windows.Forms.CheckBox();
+            this.checkBoxRecord = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonBrowserShowDevTool = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.WebScrapingCategories = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -195,7 +208,7 @@ namespace PhotoTagsSynchronizer
         '\'',
         '\''};
             this.fastColoredTextBoxJavaScript.AutoIndentCharsPatterns = "\r\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\r\n";
-            this.fastColoredTextBoxJavaScript.AutoScrollMinSize = new System.Drawing.Size(0, 198);
+            this.fastColoredTextBoxJavaScript.AutoScrollMinSize = new System.Drawing.Size(0, 126);
             this.fastColoredTextBoxJavaScript.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.fastColoredTextBoxJavaScript.BackBrush = null;
             this.fastColoredTextBoxJavaScript.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -215,9 +228,9 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript.RightBracket2 = '}';
             this.fastColoredTextBoxJavaScript.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxJavaScript.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxJavaScript.ServiceColors")));
-            this.fastColoredTextBoxJavaScript.Size = new System.Drawing.Size(890, 103);
+            this.fastColoredTextBoxJavaScript.Size = new System.Drawing.Size(889, 97);
             this.fastColoredTextBoxJavaScript.TabIndex = 27;
-            this.fastColoredTextBoxJavaScript.Text = resources.GetString("fastColoredTextBoxJavaScript.Text");
+            this.fastColoredTextBoxJavaScript.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7";
             this.fastColoredTextBoxJavaScript.WordWrap = true;
             this.fastColoredTextBoxJavaScript.Zoom = 100;
             // 
@@ -236,7 +249,7 @@ namespace PhotoTagsSynchronizer
         '\'',
         '\''};
             this.fastColoredTextBoxJavaScriptResult.AutoIndentCharsPatterns = "";
-            this.fastColoredTextBoxJavaScriptResult.AutoScrollMinSize = new System.Drawing.Size(0, 18);
+            this.fastColoredTextBoxJavaScriptResult.AutoScrollMinSize = new System.Drawing.Size(0, 126);
             this.fastColoredTextBoxJavaScriptResult.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.fastColoredTextBoxJavaScriptResult.BackBrush = null;
             this.fastColoredTextBoxJavaScriptResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -257,28 +270,159 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScriptResult.RightBracket2 = ')';
             this.fastColoredTextBoxJavaScriptResult.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxJavaScriptResult.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxJavaScriptResult.ServiceColors")));
-            this.fastColoredTextBoxJavaScriptResult.Size = new System.Drawing.Size(889, 95);
+            this.fastColoredTextBoxJavaScriptResult.Size = new System.Drawing.Size(889, 88);
             this.fastColoredTextBoxJavaScriptResult.TabIndex = 28;
+            this.fastColoredTextBoxJavaScriptResult.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7";
             this.fastColoredTextBoxJavaScriptResult.WordWrap = true;
             this.fastColoredTextBoxJavaScriptResult.Zoom = 100;
             // 
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.WebScrapingCategories);
+            this.panel3.Controls.Add(this.buttonWebScrapingStart);
+            this.panel3.Controls.Add(this.listView1);
+            this.panel3.Controls.Add(this.textBoxActiveTag);
+            this.panel3.Controls.Add(this.label3);
+            this.panel3.Controls.Add(this.textBoxActiveAlbum);
+            this.panel3.Controls.Add(this.label2);
+            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.listViewLinks);
+            this.panel3.Controls.Add(this.checkBoxClickNext);
+            this.panel3.Controls.Add(this.checkBoxRecord);
             this.panel3.Controls.Add(this.button1);
             this.panel3.Controls.Add(this.buttonBrowserShowDevTool);
-            this.panel3.Controls.Add(this.listBox1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(215, 731);
             this.panel3.TabIndex = 0;
             // 
+            // buttonWebScrapingStart
+            // 
+            this.buttonWebScrapingStart.Location = new System.Drawing.Point(2, 308);
+            this.buttonWebScrapingStart.Name = "buttonWebScrapingStart";
+            this.buttonWebScrapingStart.Size = new System.Drawing.Size(203, 25);
+            this.buttonWebScrapingStart.TabIndex = 12;
+            this.buttonWebScrapingStart.Text = "Start Scraping";
+            this.buttonWebScrapingStart.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingStart.Click += new System.EventHandler(this.buttonWebScrapingStart_Click);
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderMediaFilesFilename});
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(-1, 530);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(207, 200);
+            this.listView1.TabIndex = 11;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeaderMediaFilesFilename
+            // 
+            this.columnHeaderMediaFilesFilename.Text = "Filename";
+            this.columnHeaderMediaFilesFilename.Width = 81;
+            // 
+            // textBoxActiveTag
+            // 
+            this.textBoxActiveTag.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxActiveTag.Location = new System.Drawing.Point(2, 412);
+            this.textBoxActiveTag.Name = "textBoxActiveTag";
+            this.textBoxActiveTag.Size = new System.Drawing.Size(204, 22);
+            this.textBoxActiveTag.TabIndex = 10;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 392);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 17);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Active tag:";
+            // 
+            // textBoxActiveAlbum
+            // 
+            this.textBoxActiveAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxActiveAlbum.Location = new System.Drawing.Point(3, 356);
+            this.textBoxActiveAlbum.Name = "textBoxActiveAlbum";
+            this.textBoxActiveAlbum.Size = new System.Drawing.Size(204, 22);
+            this.textBoxActiveAlbum.TabIndex = 8;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 336);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(92, 17);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Active album:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(2, 81);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(80, 17);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Categories:";
+            // 
+            // listViewLinks
+            // 
+            this.listViewLinks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewLinks.CheckBoxes = true;
+            this.listViewLinks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderCategoryName,
+            this.columnHeaderCategoryLink});
+            this.listViewLinks.HideSelection = false;
+            this.listViewLinks.Location = new System.Drawing.Point(2, 101);
+            this.listViewLinks.Name = "listViewLinks";
+            this.listViewLinks.Size = new System.Drawing.Size(204, 167);
+            this.listViewLinks.TabIndex = 5;
+            this.listViewLinks.UseCompatibleStateImageBehavior = false;
+            this.listViewLinks.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeaderCategoryName
+            // 
+            this.columnHeaderCategoryName.Text = "Name";
+            this.columnHeaderCategoryName.Width = 101;
+            // 
+            // columnHeaderCategoryLink
+            // 
+            this.columnHeaderCategoryLink.Text = "Link";
+            this.columnHeaderCategoryLink.Width = 90;
+            // 
+            // checkBoxClickNext
+            // 
+            this.checkBoxClickNext.AutoSize = true;
+            this.checkBoxClickNext.Location = new System.Drawing.Point(-2, 477);
+            this.checkBoxClickNext.Name = "checkBoxClickNext";
+            this.checkBoxClickNext.Size = new System.Drawing.Size(170, 21);
+            this.checkBoxClickNext.TabIndex = 4;
+            this.checkBoxClickNext.Text = "Auto Click Right-Arrow";
+            this.checkBoxClickNext.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRecord
+            // 
+            this.checkBoxRecord.AutoSize = true;
+            this.checkBoxRecord.Checked = true;
+            this.checkBoxRecord.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxRecord.Location = new System.Drawing.Point(-1, 416);
+            this.checkBoxRecord.Name = "checkBoxRecord";
+            this.checkBoxRecord.Size = new System.Drawing.Size(76, 21);
+            this.checkBoxRecord.TabIndex = 3;
+            this.checkBoxRecord.Text = "Record";
+            this.checkBoxRecord.UseVisualStyleBackColor = true;
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(3, 37);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(174, 23);
+            this.button1.Size = new System.Drawing.Size(203, 25);
             this.button1.TabIndex = 2;
             this.button1.Text = "Run JavaScript";
             this.button1.UseVisualStyleBackColor = true;
@@ -288,20 +432,21 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonBrowserShowDevTool.Location = new System.Drawing.Point(3, 8);
             this.buttonBrowserShowDevTool.Name = "buttonBrowserShowDevTool";
-            this.buttonBrowserShowDevTool.Size = new System.Drawing.Size(174, 23);
+            this.buttonBrowserShowDevTool.Size = new System.Drawing.Size(203, 25);
             this.buttonBrowserShowDevTool.TabIndex = 1;
             this.buttonBrowserShowDevTool.Text = "Show DevTools";
             this.buttonBrowserShowDevTool.UseVisualStyleBackColor = true;
             this.buttonBrowserShowDevTool.Click += new System.EventHandler(this.buttonBrowserShowDevTool_Click);
             // 
-            // listBox1
+            // WebScrapingCategories
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(2, 154);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(208, 388);
-            this.listBox1.TabIndex = 0;
+            this.WebScrapingCategories.Location = new System.Drawing.Point(2, 277);
+            this.WebScrapingCategories.Name = "WebScrapingCategories";
+            this.WebScrapingCategories.Size = new System.Drawing.Size(203, 25);
+            this.WebScrapingCategories.TabIndex = 13;
+            this.WebScrapingCategories.Text = "Fetch categries";
+            this.WebScrapingCategories.UseVisualStyleBackColor = true;
+            this.WebScrapingCategories.Click += new System.EventHandler(this.WebScrapingCategories_Click);
             // 
             // FormWebScraper
             // 
@@ -329,6 +474,7 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScript)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScriptResult)).EndInit();
             this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -343,11 +489,24 @@ namespace PhotoTagsSynchronizer
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxJavaScript;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button buttonBrowserShowDevTool;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxJavaScriptResult;
+        private System.Windows.Forms.CheckBox checkBoxClickNext;
+        private System.Windows.Forms.CheckBox checkBoxRecord;
+        private System.Windows.Forms.ListView listViewLinks;
+        private System.Windows.Forms.ColumnHeader columnHeaderCategoryName;
+        private System.Windows.Forms.ColumnHeader columnHeaderCategoryLink;
+        private System.Windows.Forms.Button buttonWebScrapingStart;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnHeaderMediaFilesFilename;
+        private System.Windows.Forms.TextBox textBoxActiveTag;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxActiveAlbum;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button WebScrapingCategories;
     }
 }
