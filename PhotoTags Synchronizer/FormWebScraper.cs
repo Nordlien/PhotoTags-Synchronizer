@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,13 +22,55 @@ namespace PhotoTagsSynchronizer
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly ChromiumWebBrowser browser;
-        private string webScraperScript = "";
+        private AutoResetEvent autoResetEventWaitPageLoading = null;
         private AutoResetEvent autoResetEventWaitPageLoaded = null;
+        private bool isProcessRunning = false;
+        private bool IsProcessRunning {
+            get  { return isProcessRunning; }
+            set
+            {
+                isProcessRunning = value;
+                SetButtonState(!value);
+            }
+        }
+
+        private bool isAnyPageLoaded = true;
+        private bool IsAnyPageLoaded
+        {
+            get { return isAnyPageLoaded; }
+            set
+            {
+                if (isAnyPageLoaded != value) //Only updated on changes
+                {
+                    isAnyPageLoaded = value;
+                    SetButtonState(value);
+                }
+            }
+        }
+
+        private void SetButtonState(bool enabled)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<bool>(SetButtonState), enabled);
+                return;
+            }
+
+            buttonBrowserShowDevTool.Enabled = enabled;
+            buttonRunJavaScript.Enabled = enabled;
+            buttonSaveJavaScript.Enabled = enabled;
+            buttonWebScrapingCategories.Enabled = enabled;
+            buttonWebScrapingStart.Enabled = enabled;
+        }
 
         #region Init
         public FormWebScraper()
         {
             InitializeComponent();
+            IsAnyPageLoaded = false;
+
+            lvwColumnSorter = new ListViewColumnSorter();
+            listViewLinks.ListViewItemSorter = lvwColumnSorter;
 
             browser = new ChromiumWebBrowser("https://photos.google.com/")
             {
@@ -44,8 +87,7 @@ namespace PhotoTagsSynchronizer
             browser.FrameLoadEnd += Browser_FrameLoadEnd;
             browser.LoadingStateChanged += Browser_LoadingStateChanged;
 
-            webScraperScript = Properties.Settings.Default.WebScraperScript;
-            fastColoredTextBoxJavaScript.Text = webScraperScript;
+            fastColoredTextBoxJavaScript.Text = Properties.Settings.Default.WebScraperScript;
         }
         #endregion 
 
@@ -53,69 +95,9 @@ namespace PhotoTagsSynchronizer
         private void Browser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
         {
             Debug.WriteLine("Browser_LoadingStateChanged" + e.IsLoading);
-            //Wait for the Page to finish loading
-            if (e.IsLoading == false )
-            {
-                /*
-                bool failed;
-                int retry = 3;
-                do
-                {
-                    failed = false;
-                    Application.DoEvents();
-                    if (checkBoxClickNext.Checked) Thread.Sleep(500);
-
-                    //Invoke(new Action(async delegate ()
-                    //{
-                    //waiting code
-                    //int nretry = 100;
-                    //while (nretry > 0){
-                    //...
-                    //Thread.Sleep(100);
-                    //    }
-                    //}
-
-                    browser.EvaluateScriptAsync(webScraperScript).ContinueWith(x =>
-                    {
-                        var response = x.Result;
-
-                        if (response.Success && response.Result != null)
-                        {
-                            List<object> list = (List<object>)response.Result;
-                            if (checkBoxRecord.Checked) AddScrapingResult(list);
-
-                            if (list.Count < 2) failed = true;       
-                        }
-                        else
-                        {
-                            failed = true;
-                            //Debug
-                        }
-                    });
-                    
-                } while (failed && retry-- > 0);
-
-
-                if (checkBoxClickNext.Checked)
-                {
-                    //Application.DoEvents();
-                    
-
-                    //KeyEvent for Right-arrow
-                    KeyEvent k2 = new KeyEvent();
-                    k2.WindowsKeyCode = 0x27;
-                    k2.FocusOnEditableField = true;
-                    k2.IsSystemKey = false;
-                    k2.Type = KeyEventType.KeyDown;
-
-                    browser.GetBrowser().GetHost().SendKeyEvent(k2);
-
-                }
-                */
-
-                if (autoResetEventWaitPageLoaded != null) autoResetEventWaitPageLoaded.Set();
-            }
-
+            if (e.IsLoading == false) IsAnyPageLoaded = true;
+            if (e.IsLoading == true && autoResetEventWaitPageLoading != null) autoResetEventWaitPageLoading.Set();
+            if (e.IsLoading == false && autoResetEventWaitPageLoaded != null) autoResetEventWaitPageLoaded.Set();
         }
         #endregion
 
@@ -126,30 +108,8 @@ namespace PhotoTagsSynchronizer
 
             if (!e.Frame.IsMain && e.Frame.IsValid && !e.Frame.IsDisposed)
             {
-                IFrame frame = e.Frame;
-                /*
-                browser.EvaluateScriptAsync(webScraperScript).ContinueWith(x =>
-                {
-                    var response = x.Result;
-
-                    if (response.Success && response.Result != null)
-                    {
-                        List<object> list = (List<object>)response.Result;
-                        if (checkBoxRecord.Checked) AddScrapingResult(list);
-                    }
-                });
-                */
-
-
             }
 
-            /*
-            if (e.Frame.IsMain)
-            {
-            } else
-            {
-                chromiumWebBrowser.GetSourceAsync().ContinueWith(taskHtml =>
-            }*/
         }
         #endregion
 
@@ -164,6 +124,20 @@ namespace PhotoTagsSynchronizer
 
             Debug.WriteLine("Browser_AddressChanged: " + e.Address);
             textBoxBrowserURL.Text = e.Address;            
+        }
+        #endregion
+
+        #region Browser - SendKey
+        private void SendKeyBrowser(Keys key)
+        {
+            //KeyEvent for Right-arrow
+            KeyEvent keyEvent = new KeyEvent();
+            keyEvent.WindowsKeyCode = (int)key;
+            keyEvent.FocusOnEditableField = true;
+            keyEvent.IsSystemKey = false;
+            keyEvent.Type = KeyEventType.KeyDown;
+
+            browser.GetBrowser().GetHost().SendKeyEvent(keyEvent);
         }
         #endregion
 
@@ -185,32 +159,125 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Scraping - Add Result
-        Dictionary<string, string> linksAlbum = new Dictionary<string, string>();
-        Dictionary<string, string> linksTags = new Dictionary<string, string>();
-
-        public class ScrapingResult
+        #region class ScrapingResult
+        public class ScrapingResult : IEquatable<ScrapingResult>
         {
             public string Url { get; set; } = null;
             public string Title { get; set; } = null;
             public string Description { get; set; } = null;
-
-            public bool PictureInfoScreenHidden = true;
-            public List<string> PhotoLinks { get; set; } = new List<string>();
-            public string Album { get; set; }  = null;
+            public bool PictureInfoScreenHidden { get; set; } = true;
+            public List<string> LinkPhoto { get; set; } = new List<string>();
+            public string Album { get; set; } = null;
             public List<string> AlbumOthers { get; set; } = new List<string>();
             public string MediaFile { get; set; } = null;
             public string LocationName { get; set; } = null;
             public string Tag { get; set; } = null;
             public List<string> Tags { get; set; } = new List<string>();
             public List<string> Peoples { get; set; } = new List<string>();
+            public Dictionary<string, string> LinksAlbum = new Dictionary<string, string>();
+            public Dictionary<string, string> LinksTags = new Dictionary<string, string>();
+            public Dictionary<string, string> LinksPeople = new Dictionary<string, string>();
+            public Dictionary<string, string> LinksLocation = new Dictionary<string, string>();
 
-            //public Dictionary<string, string> LinksAlbum = new Dictionary<string, string>();
-            //public Dictionary<string, string> LinksTags = new Dictionary<string, string>();
+            public override bool Equals(object obj)
+            {
+                return Equals(obj as ScrapingResult);
+            }
+
+            public bool Equals(ScrapingResult other)
+            {
+                if (Url != other.Url) 
+                    return false;
+                if (Title != other.Title) return false;
+                if (Description != other.Description) return false;
+                if (PictureInfoScreenHidden != other.PictureInfoScreenHidden) return false;
+
+                if (LinkPhoto.Count != other.LinkPhoto.Count) return false;
+                for (int index = 0; index < LinkPhoto.Count; index++) if (LinkPhoto[index] != other.LinkPhoto[index]) 
+                        return false;
+
+                if (Album != other.Album) return false;
+                
+                if (AlbumOthers.Count != other.AlbumOthers.Count) return false;
+                for (int index = 0; index < AlbumOthers.Count; index++) if (AlbumOthers[index] != other.AlbumOthers[index]) 
+                        return false;
+
+
+                if (MediaFile != other.MediaFile) 
+                    return false;
+                if (LocationName != other.LocationName) return false;
+                if (Tag != other.Tag) return false;
+                
+                if (Tags.Count != other.Tags.Count) 
+                    return false;
+                for (int index = 0; index < Tags.Count; index++) if (Tags[index] != other.Tags[index]) 
+                        return false;
+
+                if (Peoples.Count != other.Peoples.Count) 
+                    return false;
+                for (int index = 0; index < Peoples.Count; index++) if (Peoples[index] != other.Peoples[index]) 
+                        return false;
+
+                if (LinksAlbum.Count != other.LinksAlbum.Count) return false;
+                foreach (string key in LinksAlbum.Keys) if (other.LinksAlbum.ContainsKey(key) && LinksAlbum[key] != other.LinksAlbum[key]) return false;
+
+                if (LinksTags.Count != other.LinksTags.Count) return false;
+                foreach (string key in LinksTags.Keys) if (other.LinksTags.ContainsKey(key) && LinksTags[key] != other.LinksTags[key]) return false;
+
+                if (LinksPeople.Count != other.LinksPeople.Count) return false;
+                foreach (string key in LinksPeople.Keys) if (other.LinksPeople.ContainsKey(key) && LinksPeople[key] != other.LinksPeople[key]) return false;
+
+                if (LinksLocation.Count != other.LinksLocation.Count) return false;
+                foreach (string key in LinksLocation.Keys) if (other.LinksLocation.ContainsKey(key) && LinksLocation[key] != other.LinksLocation[key]) return false;
+
+                return true;
+                
+            }
+
+            public override int GetHashCode()
+            {
+                throw new NotFiniteNumberException();
+                int hashCode = 1517053096;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Url);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Description);
+                hashCode = hashCode * -1521134295 + PictureInfoScreenHidden.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<List<string>>.Default.GetHashCode(LinkPhoto);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Album);
+                hashCode = hashCode * -1521134295 + EqualityComparer<List<string>>.Default.GetHashCode(AlbumOthers);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(MediaFile);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LocationName);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Tag);
+                hashCode = hashCode * -1521134295 + EqualityComparer<List<string>>.Default.GetHashCode(Tags);
+                hashCode = hashCode * -1521134295 + EqualityComparer<List<string>>.Default.GetHashCode(Peoples);
+                hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksAlbum);
+                hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksTags);
+                hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksLocation);
+                hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksPeople);
+                return hashCode;
+            }
+
+            public static bool operator ==(ScrapingResult left, ScrapingResult right)
+            {
+                return EqualityComparer<ScrapingResult>.Default.Equals(left, right);
+            }
+
+            public static bool operator !=(ScrapingResult left, ScrapingResult right)
+            {
+                return !(left == right);
+            }
 
         }
+        #endregion 
 
-        private ScrapingResult AddScrapingResult(List<object> list)
+        #region Scraping - Add Result
+        Dictionary<string, string> _linksAlbum = new Dictionary<string, string>();
+        Dictionary<string, string> _linksTags = new Dictionary<string, string>();
+        Dictionary<string, string> _linksPeople = new Dictionary<string, string>();
+        Dictionary<string, string> _linksLocation = new Dictionary<string, string>();
+
+        #region Scraping - GetScrapingResult
+        private ScrapingResult GetScrapingResult(List<object> list)
         {
 
             ScrapingResult scrapingResult = new ScrapingResult();
@@ -235,31 +302,29 @@ namespace PhotoTagsSynchronizer
                             else scrapingResult.PictureInfoScreenHidden = false;                            
                             break;
                         case "photo link":
-                            if (!scrapingResult.PhotoLinks.Contains(param)) scrapingResult.PhotoLinks.Add(param);
+                            if (!scrapingResult.LinkPhoto.Contains(param)) scrapingResult.LinkPhoto.Add(param);
                             break;
                         case "album":
                             scrapingResult.Album = tagList[1].ToString();
-//textBoxActiveAlbum.Text = value;
                             break;
                         case "album other":
                             if (!scrapingResult.AlbumOthers.Contains(value)) scrapingResult.AlbumOthers.Add(value);
                             break;
+
                         case "album link":
-                            if (!linksAlbum.ContainsKey(param))
-                            {
-linksAlbum.Add(param, value);
-                                ListViewItem itemAlbum = listViewLinks.Items.Add(value);
-                                itemAlbum.SubItems.Add(param);
-                            }
+                            if (!scrapingResult.LinksAlbum.ContainsKey(param)) scrapingResult.LinksAlbum.Add(param, value);
                             break;
                         case "tag link":
-                            if (!linksTags.ContainsKey(param))
-                            {
-linksTags.Add(param, value);
-                                ListViewItem itemTag = listViewLinks.Items.Add(value);
-                                itemTag.SubItems.Add(param);
-                            }                    
+                            if (!scrapingResult.LinksTags.ContainsKey(param)) scrapingResult.LinksTags.Add(param, value);                   
                             break;
+                        case "location link":
+                            if (!scrapingResult.LinksLocation.ContainsKey(param)) scrapingResult.LinksLocation.Add(param, value);
+                            break;
+                        case "people link":
+                            if (!scrapingResult.LinksPeople.ContainsKey(param)) scrapingResult.LinksPeople.Add(param, value);
+                            break;
+
+
                         case "mediafile":
                             scrapingResult.MediaFile = value;
                             break;
@@ -268,7 +333,6 @@ linksTags.Add(param, value);
                             break;
                         case "tag":
                             if (!scrapingResult.Tags.Contains(value)) scrapingResult.Tags.Add(value);
-//textBoxActiveTag.Text = value;
                             break;
                         case "people":
                             if (!scrapingResult.Peoples.Contains(value)) scrapingResult.Peoples.Add(value);
@@ -276,66 +340,16 @@ linksTags.Add(param, value);
                         /*default:
                             throw new NotImplementedException();*/
                     }
-                    //foreach (object item in (List<object>)tag) testString += item.ToString() + "; ";
                 }
-            }
-
-            if (scrapingResult.Album == null && linksAlbum.ContainsKey(textBoxBrowserURL.Text))
-            {
-                scrapingResult.Album = linksAlbum[textBoxBrowserURL.Text];
-                textBoxActiveAlbum.Text = scrapingResult.Album;
-
-                scrapingResult.Tag = null;
-                textBoxActiveTag.Text = "";
-            }
-
-            if (scrapingResult.Tag == null && linksTags.ContainsKey(textBoxBrowserURL.Text))
-            {
-                scrapingResult.Tag = linksTags[textBoxBrowserURL.Text];
-                textBoxActiveTag.Text = scrapingResult.Tag;
-
-                scrapingResult.Album = null;
-                textBoxActiveAlbum.Text = scrapingResult.Album;
             }
 
             return scrapingResult;
         }
+        #endregion 
+
         #endregion
 
-        #region GUI - show result javaScript
-        private void ShowResult(List<object> list)
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<List<object> >(ShowResult), list);
-                return;
-            }
-            
-            fastColoredTextBoxJavaScriptResult.SuspendLayout();
-            
-            string testString = "";
-            foreach (object tag in list)
-            {
-                if (tag is System.Dynamic.ExpandoObject)
-                {
-                    foreach (KeyValuePair<string, object> keyValuePair in (System.Dynamic.ExpandoObject)tag)
-                    {
-                        testString += "Key: " + keyValuePair.Key.ToString() + "\r\nValue: " + (keyValuePair.Value == null ? "(null)" : keyValuePair.Value.ToString()) + "\r\n";
-                    }
-                }
-                else if (tag is List<object>)
-                {
-                    foreach(object item in (List<object>)tag) testString += item.ToString() + "; ";                    
-                    testString += "\r\n";
-                }
-                else if (tag is string) testString += tag.ToString() + "\r\n";
-                
-            }
-            fastColoredTextBoxJavaScriptResult.Text = testString;
-            fastColoredTextBoxJavaScriptResult.ResumeLayout();
-        }
-        #endregion
-
+        
         #region RunScript async
         private void RunScript(string script)
         {
@@ -390,159 +404,545 @@ linksTags.Add(param, value);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.InnerException.Message);
+                    Logger.Error(e.InnerException.Message);
                 }
             }
             return result;
         }
-        #endregion 
+        #endregion
 
+        #region GUI - show result javaScript
+        private void ShowResult(List<object> list)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<List<object>>(ShowResult), list);
+                return;
+            }
+
+            fastColoredTextBoxJavaScriptResult.SuspendLayout();
+
+            string testString = "";
+            foreach (object tag in list)
+            {
+                if (tag is System.Dynamic.ExpandoObject)
+                {
+                    foreach (KeyValuePair<string, object> keyValuePair in (System.Dynamic.ExpandoObject)tag)
+                    {
+                        testString += "Key: " + keyValuePair.Key.ToString() + "\r\nValue: " + (keyValuePair.Value == null ? "(null)" : keyValuePair.Value.ToString()) + "\r\n";
+                    }
+                }
+                else if (tag is List<object>)
+                {
+                    foreach (object item in (List<object>)tag) testString += item.ToString() + "; ";
+                    testString += "\r\n";
+                }
+                else if (tag is string) testString += tag.ToString() + "\r\n";
+
+            }
+            fastColoredTextBoxJavaScriptResult.Text = testString;
+            fastColoredTextBoxJavaScriptResult.ResumeLayout();
+        }
+        #endregion
+
+        #region GUI - Run JavaScript
         private async void buttonRunJavaScript_Click(object sender, EventArgs e)
         {
+            IsProcessRunning = true;
             fastColoredTextBoxJavaScriptResult.SuspendLayout();
             fastColoredTextBoxJavaScriptResult.Text = "Running script...";
             fastColoredTextBoxJavaScriptResult.ResumeLayout();
 
-            object result = await EvaluateScript(fastColoredTextBoxJavaScript.Text, null, TimeSpan.FromMilliseconds(3000));
+            try
+            {
+                object result = await EvaluateScript(fastColoredTextBoxJavaScript.Text, null, TimeSpan.FromMilliseconds(3000));
 
-            if (result is List<object>) ShowResult((List<object>)result);
-            else fastColoredTextBoxJavaScriptResult.Text = result.ToString();
-            
+                if (result is List<object>) ShowResult((List<object>)result);
+                else fastColoredTextBoxJavaScriptResult.Text = result.ToString();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             fastColoredTextBoxJavaScriptResult.ResumeLayout();
-            //RunScript(fastColoredTextBoxJavaScript.Text); 
+            IsProcessRunning = false;
         }
+        #endregion
 
+        #region GUI - Save JavaScript
+        private void buttonSaveJavaScript_Click(object sender, EventArgs e)
+        {
+            IsProcessRunning = true;
+            Properties.Settings.Default.WebScraperScript = fastColoredTextBoxJavaScript.Text;
+            Properties.Settings.Default.Save();
+            IsProcessRunning = false;
+        }
+        #endregion
 
-        private async Task<object> ScrapingMediaFiles(string url)
+        #region Scraping - With Retry
+        private async Task<ScrapingResult> Scraping(string script, int retryWhenVerifyFails, bool verifyDiffrentResult, bool verifyPhotoLinksCount, bool verifyMediaFileFound)
+        {
+            bool newFound = true;
+            ScrapingResult scrapingResult = null;
+            ScrapingResult lastScrapingResult = null;
+
+            do
+            {
+                Debug.WriteLine("Scraping, retry left: " + retryWhenVerifyFails);
+                Thread.Sleep(100); //Give script some time to run
+
+                try
+                {
+                    object result = await EvaluateScript(script, null, TimeSpan.FromMilliseconds(3000));
+                    if (result is List<object>)
+                    {
+                        scrapingResult = GetScrapingResult((List<object>)result);
+                    }
+                    else
+                    {
+                        Logger.Error("EvaluateScript: " + (result == null ? "null" : result.ToString()));
+                    }
+
+                    if (verifyDiffrentResult)
+                    {
+                        if (lastScrapingResult != scrapingResult)
+                            newFound = true;
+                        else
+                            newFound = false;
+                    }
+
+                    if (verifyPhotoLinksCount && scrapingResult.LinkPhoto.Count <= 0) newFound = false;
+                    if (verifyMediaFileFound && scrapingResult.MediaFile == null) newFound = false;
+
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("Task<ScrapingResult> Scraping: " + ex.Message);
+                    newFound = false;
+                    retryWhenVerifyFails = 0;
+                }
+
+                lastScrapingResult = scrapingResult;
+            } while (!newFound && retryWhenVerifyFails-- > 0);
+
+            return scrapingResult;
+        }
+        #endregion
+
+        Dictionary<string, Metadata> _metaDataDictionary = new Dictionary<string, Metadata>();
+
+        #region Scraping - Media Files in URL
+        private async Task<object> ScrapingMediaFiles(string script, string url, string tag, string album, string people, string location, int retryWhenVerifyFails, Dictionary<string, Metadata> metaDataDictionary)
         {
             Debug.WriteLine(url);
             browser.Load(url);
             autoResetEventWaitPageLoaded.WaitOne(10000);
             Application.DoEvents();
-            Thread.Sleep(1000);
-            ScrapingResult scrapingResult = await Scraping();
 
+            ScrapingResult scrapingResult = new ScrapingResult();
 
+            Thread.Sleep(2000);
+            scrapingResult = await Scraping(script, retryWhenVerifyFails, true, true, false);
 
-            if (scrapingResult.PhotoLinks.Count>0)
+            if (scrapingResult != null && scrapingResult.LinkPhoto.Count>0)
             {
-                browser.Load(scrapingResult.PhotoLinks[0]);
+                browser.Load(scrapingResult.LinkPhoto[0]);
                 Application.DoEvents();
                 autoResetEventWaitPageLoaded.WaitOne(10000);
-                Thread.Sleep(300);
-                scrapingResult = await Scraping();
-                if (scrapingResult.PictureInfoScreenHidden)
-                {
-                    SendKeyBrowser(Keys.I);
-                    Thread.Sleep(100);
-                }
+                Thread.Sleep(1000);
+
+                bool isPageLoading;
                 do
                 {
-                    scrapingResult = await Scraping();
-                    if (scrapingResult.PictureInfoScreenHidden)
-                {
-                    SendKeyBrowser(Keys.I);
-                    Thread.Sleep(100);
-                }
+                    isPageLoading = false;
+                    scrapingResult = await Scraping(script, retryWhenVerifyFails, true, false, true);
 
-                
+                    if (scrapingResult?.MediaFile != null)
+                    {
+                        if (!metaDataDictionary.ContainsKey(scrapingResult.MediaFile))
+                            metaDataDictionary.Add(scrapingResult.MediaFile, new Metadata(MetadataBrokerType.WebScraping));
+
+                        Metadata metadata = metaDataDictionary[scrapingResult.MediaFile];
+
+                        metadata.FileName = scrapingResult.MediaFile;
+                        metadata.FileDirectory = scrapingResult.Url;
+                        if (scrapingResult.Description != null) metadata.PersonalTitle = scrapingResult.Description;
+                        
+                        //Album
+                        if (album != null) metadata.PersonalAlbum = album;
+                        if (metadata.PersonalAlbum == null && scrapingResult.AlbumOthers.Count > 0) metadata.PersonalAlbum = scrapingResult.AlbumOthers[0];
+
+                        //Add Album to keyword tag
+                        if (album != null) metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(album, 0.95f));
+                        foreach (string albumName in scrapingResult.AlbumOthers) metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(albumName, 0.95f));
+
+                        //Title
+                        if (scrapingResult.Description != null) 
+                            metadata.PersonalTitle = scrapingResult.Description;
+                        
+                        //Location
+                        if (scrapingResult.LocationName != null) metadata.LocationName = scrapingResult.LocationName;
+                        if (location != null) metadata.LocationName = location;
+
+                        //Keyword
+                        if (scrapingResult.Tag != null) metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(scrapingResult.Tag, 0.95f));
+                        if (tag != null) metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(tag, 0.95f));
+                        
+                        //Region Face / People
+                        if (people != null) metadata.PersonalRegionListAddIfNameNotExists(new RegionStructure(people, "Face", 0, 0, 1, 1, RegionStructureTypes.WindowsLivePhotoGallery));
+                        foreach (string peopleName in scrapingResult.Peoples)
+                            metadata.PersonalRegionListAddIfNameNotExists(new RegionStructure(peopleName, "Face", 0, 0, 1, 1, RegionStructureTypes.WindowsLivePhotoGallery));
+                    }
+
+                    if (scrapingResult != null && scrapingResult.PictureInfoScreenHidden)
+                    {                        
+                        SendKeyBrowser(Keys.I);
+                        Thread.Sleep(1000);
+
+                        
+                        //scrapingResult = await Scraping(script, retryWhenVerifyFails, true, false, true);
+                    }
+
                     SendKeyBrowser(Keys.Right);
-                } while (autoResetEventWaitPageLoaded.WaitOne(10000));
+                    if (autoResetEventWaitPageLoading.WaitOne(3000)) isPageLoading = true;
+                } while (isPageLoading && autoResetEventWaitPageLoaded.WaitOne(15000));
             }
 
             return null;
         }
+        #endregion 
 
-        private async void buttonWebScrapingStart_Click(object sender, EventArgs e)
+        #region Scraping - Catergories
+        private async Task<ScrapingResult> ScrapingCategory(string script, string url, 
+            Dictionary<string, string> linksAlbum, 
+            Dictionary<string, string> linkTags,
+            Dictionary<string, string> linkLocation,
+            Dictionary<string, string> linkPeople)
         {
-            //List<string> listOfSelectedCategoryUrls = new List<string>();
+            Debug.WriteLine(url);
+            browser.Load(url);
+            autoResetEventWaitPageLoaded.WaitOne(10000);
 
-            //ListViewItem itemTag = listViewLinks.Items.Add(value);
-            //itemTag.SubItems.Add(param);
-            foreach (ListViewItem listViewItem in listViewLinks.Items)
-            {
-                if (listViewItem.Checked)
+            int scrollPageDownCount = 5;
+            bool newFound;
+            ScrapingResult scrapingResult;
+            ScrapingResult lastScrapingResult = null;
+
+            do {
+                scrapingResult = await Scraping(script, 10, true, false, false);
+
+                if (scrapingResult != null)
                 {
-                    string url = listViewItem.SubItems[1].Text;
-                    //if (!listOfSelectedCategoryUrls.Contains(url)) listOfSelectedCategoryUrls.Add(url);
-                    await ScrapingMediaFiles(url);
+                    foreach (KeyValuePair<string, string> keyValuePair in scrapingResult.LinksAlbum)
+                    {
+                        if (!linksAlbum.ContainsKey(keyValuePair.Key)) linksAlbum.Add(keyValuePair.Key, keyValuePair.Value);
+                        else linksAlbum[keyValuePair.Key] = keyValuePair.Value;
+                    }
+
+                    foreach (KeyValuePair<string, string> keyValuePair in scrapingResult.LinksTags)
+                    {
+                        if (!linkTags.ContainsKey(keyValuePair.Key)) linkTags.Add(keyValuePair.Key, keyValuePair.Value);
+                        else linkTags[keyValuePair.Key] = keyValuePair.Value;
+                    }
+
+                    foreach (KeyValuePair<string, string> keyValuePair in scrapingResult.LinksLocation)
+                    {
+                        if (!linkLocation.ContainsKey(keyValuePair.Key)) linkLocation.Add(keyValuePair.Key, keyValuePair.Value);
+                        else linkLocation[keyValuePair.Key] = keyValuePair.Value;
+                    }
+
+                    foreach (KeyValuePair<string, string> keyValuePair in scrapingResult.LinksPeople)
+                    {
+                        if (!linkPeople.ContainsKey(keyValuePair.Key)) linkPeople.Add(keyValuePair.Key, keyValuePair.Value);
+                        else linkPeople[keyValuePair.Key] = keyValuePair.Value;
+                    }
                 }
-            }
 
-        }
+                SendKeyBrowser(Keys.PageDown);
 
-        private async Task<ScrapingResult> Scraping()
-        {
-            ScrapingResult scrapingResult = null;
-            Debug.WriteLine("Scraping");
-            object result = await EvaluateScript(fastColoredTextBoxJavaScript.Text, null, TimeSpan.FromMilliseconds(3000));
-            if (result is List<object>)
-            {
-                scrapingResult = AddScrapingResult((List<object>)result);
-                ShowResult((List<object>)result);
-            }
+                if (lastScrapingResult != scrapingResult)
+                {
+                    newFound = true;
+                    scrollPageDownCount = 5;
+                }                    
+                else
+                {
+                    newFound = false;
+                    scrollPageDownCount--;
+                }
+                lastScrapingResult = scrapingResult;
+            } while (newFound || (!newFound && scrollPageDownCount > 0));
+            
             return scrapingResult;
         }
-        
-        private void SendKeyBrowser(Keys key)
-        {
-            //KeyEvent for Right-arrow
-            KeyEvent keyEvent = new KeyEvent();
-            keyEvent.WindowsKeyCode = (int)key;
-            keyEvent.FocusOnEditableField = true;
-            keyEvent.IsSystemKey = false;
-            keyEvent.Type = KeyEventType.KeyDown;
+        #endregion
 
-            browser.GetBrowser().GetHost().SendKeyEvent(keyEvent);
-        }
-        
+        #region GUI - Start Scraping - Categories
         private async void WebScrapingCategories_Click(object sender, EventArgs e)        
         {
-            autoResetEventWaitPageLoaded = new AutoResetEvent(false);
+            IsProcessRunning = true;
+            try
+            {                
+                autoResetEventWaitPageLoaded = new AutoResetEvent(false);
+                autoResetEventWaitPageLoading = new AutoResetEvent(false);
 
-            Debug.WriteLine("https://photos.google.com/things");
-            browser.Load("https://photos.google.com/things");
-            autoResetEventWaitPageLoaded.WaitOne(10000);
+                _linksAlbum.Clear();
+                _linksTags.Clear();
+                listViewLinks.Items.Clear();
 
-            int scrollPagnDownCount = 15;
-            object test;
-            for (int i = 0; i < scrollPagnDownCount; i++)
+                string script = Properties.Settings.Default.WebScraperScript;
+
+                _ = await ScrapingCategory(script, "https://photos.google.com/things", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
+                _ = await ScrapingCategory(script, "https://photos.google.com/places", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
+                _ = await ScrapingCategory(script, "https://photos.google.com/albums", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
+                _ = await ScrapingCategory(script, "https://photos.google.com/people", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
+
+
+                foreach (KeyValuePair<string, string> keyValuePair in _linksAlbum)
+                {
+                    if (!string.IsNullOrWhiteSpace(keyValuePair.Value))
+                    {
+                        ListViewItem listViewItem = listViewLinks.Items.Add(keyValuePair.Value);
+                        listViewItem.SubItems.Add("Album");
+                        listViewItem.SubItems.Add(keyValuePair.Key);
+                    }
+                }
+
+                foreach (KeyValuePair<string, string> keyValuePair in _linksTags)
+                {
+                    if (!string.IsNullOrWhiteSpace(keyValuePair.Value))
+                    {
+                        ListViewItem listViewItem = listViewLinks.Items.Add(keyValuePair.Value);
+                        listViewItem.SubItems.Add("Tag");
+                        listViewItem.SubItems.Add(keyValuePair.Key);
+                    }
+                }
+
+                foreach (KeyValuePair<string, string> keyValuePair in _linksPeople)
+                {
+                    if (!string.IsNullOrWhiteSpace(keyValuePair.Value))
+                    {
+                        ListViewItem listViewItem = listViewLinks.Items.Add(keyValuePair.Value);
+                        listViewItem.SubItems.Add("People");
+                        listViewItem.SubItems.Add(keyValuePair.Key);
+                    }
+                }
+
+                foreach (KeyValuePair<string, string> keyValuePair in _linksLocation)
+                {
+                    if (!string.IsNullOrWhiteSpace(keyValuePair.Value))
+                    {
+                        ListViewItem listViewItem = listViewLinks.Items.Add(keyValuePair.Value);
+                        listViewItem.SubItems.Add("Location");
+                        listViewItem.SubItems.Add(keyValuePair.Key);
+                    }
+                }
+            } catch (Exception ex)
             {
-                test = await Scraping();
-                SendKeyBrowser(Keys.PageDown);
-                Thread.Sleep(100);
+                MessageBox.Show(ex.Message);
+            }
+            IsProcessRunning = false;
+        }
+        #endregion 
+
+        #region GUI - Start Scraping - Selected Media Files
+        private async void buttonWebScrapingStart_Click(object sender, EventArgs e)
+        {
+            IsProcessRunning = true;
+            
+            try
+            {
+                //string script = Properties.Settings.Default.WebScraperScript;
+                string script = fastColoredTextBoxJavaScript.Text;
+
+                foreach (ListViewItem listViewItem in listViewLinks.Items)
+                {
+                    if (listViewItem.Checked)
+                    {
+                        string name = listViewItem.SubItems[0].Text;
+                        string type = listViewItem.SubItems[1].Text;
+                        string url = listViewItem.SubItems[2].Text;
+                        switch (type)
+                        {
+                            case "Tag":
+                                await ScrapingMediaFiles(script, url, name, null, null, null, 15, _metaDataDictionary);
+                                break;
+                            case "Album":
+                                await ScrapingMediaFiles(script, url, null, name, null, null, 15, _metaDataDictionary);
+                                break;
+                            case "People":
+                                await ScrapingMediaFiles(script, url, null, null, name, null, 15, _metaDataDictionary);
+                                break;
+                            case "Location":
+                                await ScrapingMediaFiles(script, url, null, null, null, name, 15, _metaDataDictionary);
+                                break;
+                        }
+                    }
+                }
+
+                fastColoredTextBoxJavaScriptResult.Text = "Scraping result:\r\n";
+                int mediaFiles = 0;
+                int titles = 0;
+                int albumNames = 0;
+                int locationNames = 0;
+                int keywordTags = 0;
+                int regions = 0;
+                
+                foreach (Metadata metadata in _metaDataDictionary.Values)
+                {
+                    mediaFiles++;
+                    if (metadata.PersonalTitle != null) titles++;
+                    if (metadata.PersonalAlbum != null) albumNames++;
+                    if (metadata.LocationName != null) locationNames++;
+                    foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags) keywordTags++;
+                    foreach (RegionStructure regionStructure in metadata.PersonalRegionList) regions++;
+                }
+                fastColoredTextBoxJavaScriptResult.Text += "Media files found: " + mediaFiles.ToString() + "\r\n";
+                fastColoredTextBoxJavaScriptResult.Text += "Titles found: " + titles.ToString() + "\r\n";
+                fastColoredTextBoxJavaScriptResult.Text += "Album Names found: " + albumNames.ToString() + "\r\n";
+                fastColoredTextBoxJavaScriptResult.Text += "Location Names found: " + locationNames.ToString() + "\r\n";
+                fastColoredTextBoxJavaScriptResult.Text += "Keyword Tags found: " + keywordTags.ToString() + "\r\n";
+                fastColoredTextBoxJavaScriptResult.Text += "Regions found: " + regions.ToString() + "\r\n";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
 
-            Debug.WriteLine("https://photos.google.com/places");
-            browser.Load("https://photos.google.com/places");
-            autoResetEventWaitPageLoaded.WaitOne(10000);
-            for (int i = 0; i < scrollPagnDownCount; i++)
+            IsProcessRunning = false;
+        }
+        #endregion
+
+        #region GUI - FormClosing
+        private void FormWebScraper_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (IsProcessRunning)
             {
-                test = await Scraping();
-                SendKeyBrowser(Keys.PageDown);
-                Thread.Sleep(100);
+                MessageBox.Show("Need wait process that are running has stopped, before closing window");
+                e.Cancel = true;
+            }
+        }
+        #endregion
+
+        #region GUI - List View Sort
+        private ListViewColumnSorter lvwColumnSorter;
+        private void listViewLinks_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // Determine if clicked column is already the column that is being sorted.
+            if (e.Column == lvwColumnSorter.SortColumn)
+            {
+                // Reverse the current sort direction for this column.
+                if (lvwColumnSorter.Order == SortOrder.Ascending)
+                {
+                    lvwColumnSorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    lvwColumnSorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                // Set the column number that is to be sorted; default to ascending.
+                lvwColumnSorter.SortColumn = e.Column;
+                lvwColumnSorter.Order = SortOrder.Ascending;
             }
 
-            Debug.WriteLine("https://photos.google.com/albums");
-            browser.Load("https://photos.google.com/albums");
-            autoResetEventWaitPageLoaded.WaitOne(10000);
-            for (int i = 0; i < scrollPagnDownCount; i++)
-            {
-                test = await Scraping();
-                SendKeyBrowser(Keys.PageDown);
-                Thread.Sleep(100);
-            }
-
-            Debug.WriteLine("https://photos.google.com/people");
-            browser.Load("https://photos.google.com/people");
-            autoResetEventWaitPageLoaded.WaitOne(10000);
-            for (int i = 0; i < scrollPagnDownCount; i++)
-            {
-                test = await Scraping();
-                SendKeyBrowser(Keys.PageDown);
-                Thread.Sleep(100);
-            }
-
+            // Perform the sort with these new sort options.
+            ((ListView)sender).Sort();
         }
     }
+    #endregion 
+
+    #region ListView Sorting
+    /// <summary>
+    /// This class is an implementation of the 'IComparer' interface.
+    /// </summary>
+    public class ListViewColumnSorter : IComparer
+    {
+        /// <summary>
+        /// Specifies the column to be sorted
+        /// </summary>
+        private int ColumnToSort;
+        /// <summary>
+        /// Specifies the order in which to sort (i.e. 'Ascending').
+        /// </summary>
+        private SortOrder OrderOfSort;
+        /// <summary>
+        /// Case insensitive comparer object
+        /// </summary>
+        private CaseInsensitiveComparer ObjectCompare;
+
+        /// <summary>
+        /// Class constructor.  Initializes various elements
+        /// </summary>
+        public ListViewColumnSorter()
+        {
+            // Initialize the column to '0'
+            ColumnToSort = 0;
+
+            // Initialize the sort order to 'none'
+            OrderOfSort = SortOrder.None;
+
+            // Initialize the CaseInsensitiveComparer object
+            ObjectCompare = new CaseInsensitiveComparer();
+        }
+
+        /// <summary>
+        /// This method is inherited from the IComparer interface.  It compares the two objects passed using a case insensitive comparison.
+        /// </summary>
+        /// <param name="x">First object to be compared</param>
+        /// <param name="y">Second object to be compared</param>
+        /// <returns>The result of the comparison. "0" if equal, negative if 'x' is less than 'y' and positive if 'x' is greater than 'y'</returns>
+        public int Compare(object x, object y)
+        {
+            int compareResult;
+            ListViewItem listviewX, listviewY;
+
+            // Cast the objects to be compared to ListViewItem objects
+            listviewX = (ListViewItem)x;
+            listviewY = (ListViewItem)y;
+
+            decimal num = 0;
+            if (decimal.TryParse(listviewX.SubItems[ColumnToSort].Text, out num))
+            {
+                compareResult = decimal.Compare(num, Convert.ToDecimal(listviewY.SubItems[ColumnToSort].Text));
+            }
+            else
+            {
+                // Compare the two items
+                compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text);
+            }
+
+            // Calculate correct return value based on object comparison
+            if (OrderOfSort == SortOrder.Ascending)
+            {
+                // Ascending sort is selected, return normal result of compare operation
+                return compareResult;
+            }
+            else if (OrderOfSort == SortOrder.Descending)
+            {
+                // Descending sort is selected, return negative result of compare operation
+                return (-compareResult);
+            }
+            else
+            {
+                // Return '0' to indicate they are equal
+                return 0;
+            }
+        }
+
+        public int SortColumn
+        {
+            set { ColumnToSort = value; }
+            get { return ColumnToSort; }
+        }
+
+        public SortOrder Order
+        {
+            set { OrderOfSort = value; }
+            get { return OrderOfSort; }
+        }
+
+    }
+    #endregion
 }

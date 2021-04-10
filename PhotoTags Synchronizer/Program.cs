@@ -21,12 +21,14 @@ namespace PhotoTagsSynchronizer
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
         static void Main()
         {
+            /*
             // Add the event handler for handling UI thread exceptions to the event.
             Application.ThreadException += new ThreadExceptionEventHandler(Form1_UIThreadException);
             // Set the unhandled exception mode to force all Windows Forms errors to go through our handler.
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             // Add the event handler for handling non-UI thread exceptions to the event.
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            */
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

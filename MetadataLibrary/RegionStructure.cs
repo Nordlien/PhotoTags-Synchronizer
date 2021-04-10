@@ -492,6 +492,17 @@ namespace MetadataLibrary
             catch { } //DEBUG: This is still not thread safe, need fix
         }
 
+        public RegionStructure(string name, string type, float areaX, float areaY, float areaWidth, float areaHeight, RegionStructureTypes regionStructureType)
+        {
+            Name = name;
+            Type = type;
+            AreaX = areaX;
+            AreaY = areaY;
+            AreaWidth = areaWidth;
+            AreaHeight = areaHeight;
+            RegionStructureType = regionStructureType;
+        }
+
         private Rectangle GetAbstractRectangle()
         {
             Size abstractSize = new Size(100000, 100000);
