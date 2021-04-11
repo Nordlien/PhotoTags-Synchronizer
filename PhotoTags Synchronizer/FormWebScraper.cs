@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,25 +10,47 @@ using CefSharp.WinForms;
 using FastColoredTextBoxNS;
 using MetadataLibrary;
 
-
 namespace PhotoTagsSynchronizer
 {
     public partial class FormWebScraper : Form
     {
+        public MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly ChromiumWebBrowser browser;
         private AutoResetEvent autoResetEventWaitPageLoading = null;
         private AutoResetEvent autoResetEventWaitPageLoaded = null;
         private bool isProcessRunning = false;
+        private int javaScriptExecuteTimeout = 5000;
+        private int webScrapingRetry = 20;
+        private int webScrapingDelayOurScriptToRun = 200;
+        private int wapScrapingDelayInPageScriptToRun = 1000;
+        private int waitEventPageStartLoadingTimeout = 3000;
+        private int waitEventPageLoadedTimeout = 20000;
+        private int webScrapingPageDownCount = 5;
+        private string webScrapingName = "WebScraper";
+
+
+        #region IsProcessRunning
         private bool IsProcessRunning {
             get  { return isProcessRunning; }
             set
             {
                 isProcessRunning = value;
                 SetButtonState(!value);
+                if (isProcessRunning)
+                {
+                    buttonWebScrapingStop.Enabled = true;
+                    stopRequested = false;
+                } else
+                {                    
+                    buttonWebScrapingStop.Enabled = false;
+                    stopRequested = false;
+                }
             }
         }
+        #endregion 
 
+        #region IsAnyPageLoaded
         private bool isAnyPageLoaded = true;
         private bool IsAnyPageLoaded
         {
@@ -47,7 +64,11 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion
 
+        private bool stopRequested = false;
+
+        #region SetButtonState
         private void SetButtonState(bool enabled)
         {
             if (InvokeRequired)
@@ -61,13 +82,21 @@ namespace PhotoTagsSynchronizer
             buttonSaveJavaScript.Enabled = enabled;
             buttonWebScrapingCategories.Enabled = enabled;
             buttonWebScrapingStart.Enabled = enabled;
+            buttonWebScrapingSave.Enabled = enabled;
+
+            buttonWebScrapingLoadPackage.Enabled = enabled && (comboBoxWebScapingLoadPackage.Items.Count > 0);
+            comboBoxWebScapingLoadPackage.Enabled = enabled && (comboBoxWebScapingLoadPackage.Items.Count > 0);            
         }
+        #endregion 
 
         #region Init
         public FormWebScraper()
         {
             InitializeComponent();
             IsAnyPageLoaded = false;
+
+            autoResetEventWaitPageLoaded = new AutoResetEvent(false);
+            autoResetEventWaitPageLoading = new AutoResetEvent(false);
 
             lvwColumnSorter = new ListViewColumnSorter();
             listViewLinks.ListViewItemSorter = lvwColumnSorter;
@@ -141,6 +170,16 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region Browser - Wait Page Loaded Event
+        private bool WaitPageLoadedEvent(bool sleep = true)
+        {
+            bool result = autoResetEventWaitPageLoaded.WaitOne(waitEventPageLoadedTimeout);
+            Application.DoEvents();
+            if (sleep) Thread.Sleep(wapScrapingDelayInPageScriptToRun);
+            return result;
+        }
+        #endregion 
+
         #region GUI - textBoxBrowserURL_KeyPress
         private void textBoxBrowserURL_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -186,8 +225,7 @@ namespace PhotoTagsSynchronizer
 
             public bool Equals(ScrapingResult other)
             {
-                if (Url != other.Url) 
-                    return false;
+                if (Url != other.Url) return false;
                 if (Title != other.Title) return false;
                 if (Description != other.Description) return false;
                 if (PictureInfoScreenHidden != other.PictureInfoScreenHidden) return false;
@@ -219,16 +257,17 @@ namespace PhotoTagsSynchronizer
                         return false;
 
                 if (LinksAlbum.Count != other.LinksAlbum.Count) return false;
-                foreach (string key in LinksAlbum.Keys) if (other.LinksAlbum.ContainsKey(key) && LinksAlbum[key] != other.LinksAlbum[key]) return false;
+                foreach (string key in LinksAlbum.Keys) if (!other.LinksAlbum.ContainsKey(key) || LinksAlbum[key] != other.LinksAlbum[key]) 
+                        return false;
 
                 if (LinksTags.Count != other.LinksTags.Count) return false;
-                foreach (string key in LinksTags.Keys) if (other.LinksTags.ContainsKey(key) && LinksTags[key] != other.LinksTags[key]) return false;
+                foreach (string key in LinksTags.Keys) if (!other.LinksTags.ContainsKey(key) || LinksTags[key] != other.LinksTags[key]) return false;
 
                 if (LinksPeople.Count != other.LinksPeople.Count) return false;
-                foreach (string key in LinksPeople.Keys) if (other.LinksPeople.ContainsKey(key) && LinksPeople[key] != other.LinksPeople[key]) return false;
+                foreach (string key in LinksPeople.Keys) if (!other.LinksPeople.ContainsKey(key) || LinksPeople[key] != other.LinksPeople[key]) return false;
 
                 if (LinksLocation.Count != other.LinksLocation.Count) return false;
-                foreach (string key in LinksLocation.Keys) if (other.LinksLocation.ContainsKey(key) && LinksLocation[key] != other.LinksLocation[key]) return false;
+                foreach (string key in LinksLocation.Keys) if (!other.LinksLocation.ContainsKey(key) || LinksLocation[key] != other.LinksLocation[key]) return false;
 
                 return true;
                 
@@ -275,6 +314,8 @@ namespace PhotoTagsSynchronizer
         Dictionary<string, string> _linksTags = new Dictionary<string, string>();
         Dictionary<string, string> _linksPeople = new Dictionary<string, string>();
         Dictionary<string, string> _linksLocation = new Dictionary<string, string>();
+        Dictionary<string, Metadata> _metaDataDictionary = new Dictionary<string, Metadata>();
+        List<string> _urlLoadingFailed = new List<string>();
 
         #region Scraping - GetScrapingResult
         private ScrapingResult GetScrapingResult(List<object> list)
@@ -349,42 +390,6 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        
-        #region RunScript async
-        private void RunScript(string script)
-        {
-            object EvaluateJavaScriptResult;
-            var frame = browser.GetMainFrame();
-            var task = frame.EvaluateScriptAsync(script, null);
-
-            task.ContinueWith(taskJavaScriptResonse =>
-            {
-                fastColoredTextBoxJavaScriptResult.SuspendLayout();
-                fastColoredTextBoxJavaScriptResult.Text = "Running script...";
-                fastColoredTextBoxJavaScriptResult.ResumeLayout();
-
-                if (!taskJavaScriptResonse.IsFaulted)
-                {                    
-                    var response = taskJavaScriptResonse.Result;
-
-                    EvaluateJavaScriptResult = response.Success ? (response.Result ?? "null") : response.Message;
-                    fastColoredTextBoxJavaScriptResult.SuspendLayout();
-                    if (EvaluateJavaScriptResult is List<object>)
-                        ShowResult((List<object>)EvaluateJavaScriptResult);
-                    else
-                        fastColoredTextBoxJavaScriptResult.Text = EvaluateJavaScriptResult.ToString();
-
-                    fastColoredTextBoxJavaScriptResult.ResumeLayout();
-                }
-                else
-                {
-                    fastColoredTextBoxJavaScriptResult.Text = "Script failed";
-                    fastColoredTextBoxJavaScriptResult.ResumeLayout();
-                }
-            }, TaskScheduler.FromCurrentSynchronizationContext());
-        }
-        #endregion RunScript async
-
         #region RunScript sync
         public async Task<object> EvaluateScript(string script, object defaultValue, TimeSpan timeout)
         {
@@ -455,7 +460,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                object result = await EvaluateScript(fastColoredTextBoxJavaScript.Text, null, TimeSpan.FromMilliseconds(3000));
+                object result = await EvaluateScript(fastColoredTextBoxJavaScript.Text, null, TimeSpan.FromMilliseconds(javaScriptExecuteTimeout));
 
                 if (result is List<object>) ShowResult((List<object>)result);
                 else fastColoredTextBoxJavaScriptResult.Text = result.ToString();
@@ -488,11 +493,11 @@ namespace PhotoTagsSynchronizer
             do
             {
                 Debug.WriteLine("Scraping, retry left: " + retryWhenVerifyFails);
-                Thread.Sleep(100); //Give script some time to run
+                Thread.Sleep(webScrapingDelayOurScriptToRun); //Give script some time to run
 
                 try
                 {
-                    object result = await EvaluateScript(script, null, TimeSpan.FromMilliseconds(3000));
+                    object result = await EvaluateScript(script, null, TimeSpan.FromMilliseconds(javaScriptExecuteTimeout));
                     if (result is List<object>)
                     {
                         scrapingResult = GetScrapingResult((List<object>)result);
@@ -528,33 +533,44 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        Dictionary<string, Metadata> _metaDataDictionary = new Dictionary<string, Metadata>();
+        
 
         #region Scraping - Media Files in URL
-        private async Task<object> ScrapingMediaFiles(string script, string url, string tag, string album, string people, string location, int retryWhenVerifyFails, Dictionary<string, Metadata> metaDataDictionary)
+        private async Task<object> ScrapingMediaFiles(string script, string url, string tag, string album, string people, string location, 
+            int retryWhenVerifyFails, Dictionary<string, Metadata> metaDataDictionary, List<string> urlLoadingFailed)
         {
             Debug.WriteLine(url);
             browser.Load(url);
-            autoResetEventWaitPageLoaded.WaitOne(10000);
-            Application.DoEvents();
 
-            ScrapingResult scrapingResult = new ScrapingResult();
+            WaitPageLoadedEvent();
+            
 
-            Thread.Sleep(2000);
-            scrapingResult = await Scraping(script, retryWhenVerifyFails, true, true, false);
+            ScrapingResult scrapingResult = await Scraping(script, retryWhenVerifyFails, true, true, false);
 
             if (scrapingResult != null && scrapingResult.LinkPhoto.Count>0)
             {
                 browser.Load(scrapingResult.LinkPhoto[0]);
-                Application.DoEvents();
-                autoResetEventWaitPageLoaded.WaitOne(10000);
-                Thread.Sleep(1000);
+                WaitPageLoadedEvent();
 
                 bool isPageLoading;
                 do
                 {
                     isPageLoading = false;
                     scrapingResult = await Scraping(script, retryWhenVerifyFails, true, false, true);
+
+                    if (scrapingResult != null && scrapingResult.PictureInfoScreenHidden)
+                    {
+                        SendKeyBrowser(Keys.I);
+                        Thread.Sleep(wapScrapingDelayInPageScriptToRun);
+                        scrapingResult = await Scraping(script, retryWhenVerifyFails, true, false, true);
+                    }
+
+                    if (scrapingResult?.MediaFile == null && scrapingResult?.Url != null)
+                    {
+                        browser.Load(scrapingResult?.Url);
+                        WaitPageLoadedEvent();
+                        scrapingResult = await Scraping(script, retryWhenVerifyFails, true, false, true);
+                    }
 
                     if (scrapingResult?.MediaFile != null)
                     {
@@ -565,6 +581,10 @@ namespace PhotoTagsSynchronizer
 
                         metadata.FileName = scrapingResult.MediaFile;
                         metadata.FileDirectory = scrapingResult.Url;
+                        metadata.FileDateCreated = DateTime.Now;
+                        metadata.FileDateModified = DateTime.Now;
+                        metadata.FileLastAccessed = DateTime.Now;
+
                         if (scrapingResult.Description != null) metadata.PersonalTitle = scrapingResult.Description;
                         
                         //Album
@@ -591,20 +611,16 @@ namespace PhotoTagsSynchronizer
                         if (people != null) metadata.PersonalRegionListAddIfNameNotExists(new RegionStructure(people, "Face", 0, 0, 1, 1, RegionStructureTypes.WindowsLivePhotoGallery));
                         foreach (string peopleName in scrapingResult.Peoples)
                             metadata.PersonalRegionListAddIfNameNotExists(new RegionStructure(peopleName, "Face", 0, 0, 1, 1, RegionStructureTypes.WindowsLivePhotoGallery));
+                    } else
+                    {
+                        urlLoadingFailed.Add((scrapingResult?.Url == null ? "" : scrapingResult?.Url));
+                        Logger.Warn("Failed to load Url: " + (scrapingResult?.Url == null ? "" : scrapingResult?.Url));
                     }
 
-                    if (scrapingResult != null && scrapingResult.PictureInfoScreenHidden)
-                    {                        
-                        SendKeyBrowser(Keys.I);
-                        Thread.Sleep(1000);
-
-                        
-                        //scrapingResult = await Scraping(script, retryWhenVerifyFails, true, false, true);
-                    }
 
                     SendKeyBrowser(Keys.Right);
-                    if (autoResetEventWaitPageLoading.WaitOne(3000)) isPageLoading = true;
-                } while (isPageLoading && autoResetEventWaitPageLoaded.WaitOne(15000));
+                    if (autoResetEventWaitPageLoading.WaitOne(waitEventPageStartLoadingTimeout)) isPageLoading = true;
+                } while (!stopRequested && isPageLoading && WaitPageLoadedEvent(false));
             }
 
             return null;
@@ -620,15 +636,15 @@ namespace PhotoTagsSynchronizer
         {
             Debug.WriteLine(url);
             browser.Load(url);
-            autoResetEventWaitPageLoaded.WaitOne(10000);
+            WaitPageLoadedEvent();
 
-            int scrollPageDownCount = 5;
+            int scrollPageDownCount = webScrapingPageDownCount;
             bool newFound;
             ScrapingResult scrapingResult;
             ScrapingResult lastScrapingResult = null;
 
             do {
-                scrapingResult = await Scraping(script, 10, true, false, false);
+                scrapingResult = await Scraping(script, webScrapingRetry, true, false, false);
 
                 if (scrapingResult != null)
                 {
@@ -662,15 +678,25 @@ namespace PhotoTagsSynchronizer
                 if (lastScrapingResult != scrapingResult)
                 {
                     newFound = true;
-                    scrollPageDownCount = 5;
+                    scrollPageDownCount = webScrapingPageDownCount;
+                    Debug.WriteLine("-----Unequal found");
                 }                    
                 else
                 {
                     newFound = false;
                     scrollPageDownCount--;
+                    Debug.WriteLine("-----EQUAL FOUND");
                 }
                 lastScrapingResult = scrapingResult;
-            } while (newFound || (!newFound && scrollPageDownCount > 0));
+                
+                Debug.WriteLine(
+                    (!stopRequested) + " || (" + 
+                    (!newFound) + "&&" + 
+                    (scrollPageDownCount > 0) + ") =" + 
+                    (!newFound && scrollPageDownCount > 0) + " == " 
+                    + (!stopRequested && (newFound || (!newFound && scrollPageDownCount > 0))) + " " + scrollPageDownCount);
+
+            } while (!stopRequested && (newFound || (!newFound && scrollPageDownCount > 0)));
             
             return scrapingResult;
         }
@@ -682,19 +708,16 @@ namespace PhotoTagsSynchronizer
             IsProcessRunning = true;
             try
             {                
-                autoResetEventWaitPageLoaded = new AutoResetEvent(false);
-                autoResetEventWaitPageLoading = new AutoResetEvent(false);
-
                 _linksAlbum.Clear();
                 _linksTags.Clear();
                 listViewLinks.Items.Clear();
 
                 string script = Properties.Settings.Default.WebScraperScript;
 
-                _ = await ScrapingCategory(script, "https://photos.google.com/things", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
-                _ = await ScrapingCategory(script, "https://photos.google.com/places", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
-                _ = await ScrapingCategory(script, "https://photos.google.com/albums", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
-                _ = await ScrapingCategory(script, "https://photos.google.com/people", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
+                if (!stopRequested) _ = await ScrapingCategory(script, "https://photos.google.com/things", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
+                if (!stopRequested) _ = await ScrapingCategory(script, "https://photos.google.com/places", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
+                if (!stopRequested) _ = await ScrapingCategory(script, "https://photos.google.com/albums", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
+                if (!stopRequested) _ = await ScrapingCategory(script, "https://photos.google.com/people", _linksAlbum, _linksTags, _linksLocation, _linksPeople);
 
 
                 foreach (KeyValuePair<string, string> keyValuePair in _linksAlbum)
@@ -754,6 +777,7 @@ namespace PhotoTagsSynchronizer
                 //string script = Properties.Settings.Default.WebScraperScript;
                 string script = fastColoredTextBoxJavaScript.Text;
 
+                _urlLoadingFailed.Clear();
                 foreach (ListViewItem listViewItem in listViewLinks.Items)
                 {
                     if (listViewItem.Checked)
@@ -764,16 +788,16 @@ namespace PhotoTagsSynchronizer
                         switch (type)
                         {
                             case "Tag":
-                                await ScrapingMediaFiles(script, url, name, null, null, null, 15, _metaDataDictionary);
+                                await ScrapingMediaFiles(script, url, name, null, null, null, webScrapingRetry, _metaDataDictionary, _urlLoadingFailed);
                                 break;
                             case "Album":
-                                await ScrapingMediaFiles(script, url, null, name, null, null, 15, _metaDataDictionary);
+                                await ScrapingMediaFiles(script, url, null, name, null, null, webScrapingRetry, _metaDataDictionary, _urlLoadingFailed);
                                 break;
                             case "People":
-                                await ScrapingMediaFiles(script, url, null, null, name, null, 15, _metaDataDictionary);
+                                await ScrapingMediaFiles(script, url, null, null, name, null, webScrapingRetry, _metaDataDictionary, _urlLoadingFailed);
                                 break;
                             case "Location":
-                                await ScrapingMediaFiles(script, url, null, null, null, name, 15, _metaDataDictionary);
+                                await ScrapingMediaFiles(script, url, null, null, null, name, webScrapingRetry, _metaDataDictionary, _urlLoadingFailed);
                                 break;
                         }
                     }
@@ -802,6 +826,8 @@ namespace PhotoTagsSynchronizer
                 fastColoredTextBoxJavaScriptResult.Text += "Location Names found: " + locationNames.ToString() + "\r\n";
                 fastColoredTextBoxJavaScriptResult.Text += "Keyword Tags found: " + keywordTags.ToString() + "\r\n";
                 fastColoredTextBoxJavaScriptResult.Text += "Regions found: " + regions.ToString() + "\r\n";
+                if (_urlLoadingFailed.Count > 0) fastColoredTextBoxJavaScriptResult.Text += "Urls failed to load: " + _urlLoadingFailed.Count + "\r\n";
+                foreach (string failedUrl in _urlLoadingFailed) fastColoredTextBoxJavaScriptResult.Text += "Regions found: " + failedUrl + "\r\n";
             }
             catch (Exception ex)
             {
@@ -850,8 +876,107 @@ namespace PhotoTagsSynchronizer
             // Perform the sort with these new sort options.
             ((ListView)sender).Sort();
         }
+        #endregion
+
+        #region GUI - Select all, none, toggle in ListView
+        private void buttonWebScrapingSelectAll_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem listViewItem in listViewLinks.Items) listViewItem.Checked = true;            
+        }
+        
+        private void buttonWebScrapingToggle_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem listViewItem in listViewLinks.Items) listViewItem.Checked = !listViewItem.Checked;
+        }
+
+        private void buttonWebScrapingSelectNone_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem listViewItem in listViewLinks.Items) listViewItem.Checked = false;
+        }
+        #endregion
+
+        #region GUI - WebScraping - Stop - Click
+        private void buttonWebScrapingStop_Click(object sender, EventArgs e)
+        {
+            stopRequested = true;
+            buttonWebScrapingStop.Enabled = false;
+        }
+        #endregion 
+
+        #region GUI - WebScraping - Save - Click
+        private void buttonWebScrapingSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_metaDataDictionary.Count > 0)
+                {
+                    DateTime dateTimeSaveDate = DateTime.Now;
+                    foreach (Metadata metadata in _metaDataDictionary.Values)
+                    {
+                        metadata.FileDateModified = dateTimeSaveDate;
+                        metadata.FileDirectory = webScrapingName;
+                        metadata.FileSize = -1;
+                        DatabaseAndCacheMetadataExiftool.Write(metadata);
+                    }
+                    _webScrapingPackages.Insert(0, dateTimeSaveDate);
+                    UpdatedWebScrapingPackageList(_webScrapingPackages);
+                }
+                buttonWebScrapingSave.Enabled = false;
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+        
+        private void UpdatedWebScrapingPackageList(List<DateTime> webScrapingPackages)
+        {
+            comboBoxWebScapingLoadPackage.Items.Clear();
+            foreach (DateTime dateTime in webScrapingPackages) comboBoxWebScapingLoadPackage.Items.Add(dateTime.ToString());
+            
+            if (webScrapingPackages.Count == 0)
+            {
+                buttonWebScrapingLoadPackage.Enabled = false;
+                comboBoxWebScapingLoadPackage.Enabled = false;
+            }
+            else
+            {
+                buttonWebScrapingLoadPackage.Enabled = true;
+                comboBoxWebScapingLoadPackage.Enabled = true;
+                comboBoxWebScapingLoadPackage.SelectedIndex = 0;
+            }
+            
+        }
+
+        List<DateTime> _webScrapingPackages = new List<DateTime>();
+        private void FormWebScraper_Load(object sender, EventArgs e)
+        {
+            _webScrapingPackages = DatabaseAndCacheMetadataExiftool.ListWebScraperPackages(MetadataBrokerType.WebScraping, webScrapingName);
+            UpdatedWebScrapingPackageList(_webScrapingPackages);
+        }
+
+        
+
+        #region GUI - Load WebScraping Package
+        private void buttonWebScrapingLoadPackage_Click(object sender, EventArgs e)
+        {
+            if (_webScrapingPackages.Count == comboBoxWebScapingLoadPackage.Items.Count) 
+            {
+                List<FileEntryBroker> fileEntryBrokers = DatabaseAndCacheMetadataExiftool.ListMediafilesInWebScraperPackages(MetadataBrokerType.WebScraping, webScrapingName, _webScrapingPackages[comboBoxWebScapingLoadPackage.SelectedIndex]);
+
+                foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
+                {
+                    Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBroker);
+                    if (_metaDataDictionary.ContainsKey(metadata.FileName)) _metaDataDictionary[metadata.FileName] = metadata;
+                    else _metaDataDictionary.Add(metadata.FileName, Metadata.MergeMetadatas(_metaDataDictionary[metadata.FileName], metadata);
+                }
+            }
+        }
+        #endregion 
     }
-    #endregion 
+
 
     #region ListView Sorting
     /// <summary>

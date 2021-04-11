@@ -506,6 +506,7 @@ namespace PhotoTagsSynchronizer
         private void toolStripButtonWebScraper_Click(object sender, EventArgs e)
         {
             FormWebScraper formWebScraper = new FormWebScraper();
+            formWebScraper.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
             formWebScraper.ShowDialog();
         }
     }

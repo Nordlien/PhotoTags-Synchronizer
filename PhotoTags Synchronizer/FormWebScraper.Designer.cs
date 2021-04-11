@@ -42,6 +42,13 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript = new FastColoredTextBoxNS.FastColoredTextBox();
             this.fastColoredTextBoxJavaScriptResult = new FastColoredTextBoxNS.FastColoredTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.comboBoxWebScapingLoadPackage = new System.Windows.Forms.ComboBox();
+            this.buttonWebScrapingLoadPackage = new System.Windows.Forms.Button();
+            this.buttonWebScrapingStop = new System.Windows.Forms.Button();
+            this.buttonWebScrapingSave = new System.Windows.Forms.Button();
+            this.buttonWebScrapingSelectNone = new System.Windows.Forms.Button();
+            this.buttonWebScrapingToggle = new System.Windows.Forms.Button();
+            this.buttonWebScrapingSelectAll = new System.Windows.Forms.Button();
             this.buttonSaveJavaScript = new System.Windows.Forms.Button();
             this.buttonWebScrapingCategories = new System.Windows.Forms.Button();
             this.buttonWebScrapingStart = new System.Windows.Forms.Button();
@@ -211,7 +218,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript.CharWidth = 10;
             this.fastColoredTextBoxJavaScript.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScript.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxJavaScript.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxJavaScript.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScript.Language = FastColoredTextBoxNS.Language.JS;
             this.fastColoredTextBoxJavaScript.LeftBracket = '(';
@@ -252,6 +258,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScriptResult.CommentPrefix = null;
             this.fastColoredTextBoxJavaScriptResult.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScriptResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxJavaScriptResult.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxJavaScriptResult.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScriptResult.Language = FastColoredTextBoxNS.Language.XML;
             this.fastColoredTextBoxJavaScriptResult.LeftBracket = '<';
@@ -271,6 +278,13 @@ namespace PhotoTagsSynchronizer
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.comboBoxWebScapingLoadPackage);
+            this.panel3.Controls.Add(this.buttonWebScrapingLoadPackage);
+            this.panel3.Controls.Add(this.buttonWebScrapingStop);
+            this.panel3.Controls.Add(this.buttonWebScrapingSave);
+            this.panel3.Controls.Add(this.buttonWebScrapingSelectNone);
+            this.panel3.Controls.Add(this.buttonWebScrapingToggle);
+            this.panel3.Controls.Add(this.buttonWebScrapingSelectAll);
             this.panel3.Controls.Add(this.buttonSaveJavaScript);
             this.panel3.Controls.Add(this.buttonWebScrapingCategories);
             this.panel3.Controls.Add(this.buttonWebScrapingStart);
@@ -284,6 +298,80 @@ namespace PhotoTagsSynchronizer
             this.panel3.Size = new System.Drawing.Size(215, 731);
             this.panel3.TabIndex = 0;
             // 
+            // comboBoxWebScapingLoadPackage
+            // 
+            this.comboBoxWebScapingLoadPackage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxWebScapingLoadPackage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxWebScapingLoadPackage.FormattingEnabled = true;
+            this.comboBoxWebScapingLoadPackage.Location = new System.Drawing.Point(3, 283);
+            this.comboBoxWebScapingLoadPackage.Name = "comboBoxWebScapingLoadPackage";
+            this.comboBoxWebScapingLoadPackage.Size = new System.Drawing.Size(203, 24);
+            this.comboBoxWebScapingLoadPackage.TabIndex = 22;
+            // 
+            // buttonWebScrapingLoadPackage
+            // 
+            this.buttonWebScrapingLoadPackage.Location = new System.Drawing.Point(3, 252);
+            this.buttonWebScrapingLoadPackage.Name = "buttonWebScrapingLoadPackage";
+            this.buttonWebScrapingLoadPackage.Size = new System.Drawing.Size(203, 25);
+            this.buttonWebScrapingLoadPackage.TabIndex = 21;
+            this.buttonWebScrapingLoadPackage.Text = "Load/Add Sracping Package";
+            this.buttonWebScrapingLoadPackage.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingLoadPackage.Click += new System.EventHandler(this.buttonWebScrapingLoadPackage_Click);
+            // 
+            // buttonWebScrapingStop
+            // 
+            this.buttonWebScrapingStop.Location = new System.Drawing.Point(3, 179);
+            this.buttonWebScrapingStop.Name = "buttonWebScrapingStop";
+            this.buttonWebScrapingStop.Size = new System.Drawing.Size(203, 25);
+            this.buttonWebScrapingStop.TabIndex = 19;
+            this.buttonWebScrapingStop.Text = "Stop Scraping";
+            this.buttonWebScrapingStop.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingStop.Click += new System.EventHandler(this.buttonWebScrapingStop_Click);
+            // 
+            // buttonWebScrapingSave
+            // 
+            this.buttonWebScrapingSave.Location = new System.Drawing.Point(3, 210);
+            this.buttonWebScrapingSave.Name = "buttonWebScrapingSave";
+            this.buttonWebScrapingSave.Size = new System.Drawing.Size(203, 25);
+            this.buttonWebScrapingSave.TabIndex = 18;
+            this.buttonWebScrapingSave.Text = "Save Sracping result";
+            this.buttonWebScrapingSave.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingSave.Click += new System.EventHandler(this.buttonWebScrapingSave_Click);
+            // 
+            // buttonWebScrapingSelectNone
+            // 
+            this.buttonWebScrapingSelectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWebScrapingSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone;
+            this.buttonWebScrapingSelectNone.Location = new System.Drawing.Point(181, 340);
+            this.buttonWebScrapingSelectNone.Name = "buttonWebScrapingSelectNone";
+            this.buttonWebScrapingSelectNone.Size = new System.Drawing.Size(25, 25);
+            this.buttonWebScrapingSelectNone.TabIndex = 17;
+            this.buttonWebScrapingSelectNone.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingSelectNone.Click += new System.EventHandler(this.buttonWebScrapingSelectNone_Click);
+            // 
+            // buttonWebScrapingToggle
+            // 
+            this.buttonWebScrapingToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWebScrapingToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle;
+            this.buttonWebScrapingToggle.Location = new System.Drawing.Point(150, 340);
+            this.buttonWebScrapingToggle.Name = "buttonWebScrapingToggle";
+            this.buttonWebScrapingToggle.Size = new System.Drawing.Size(25, 25);
+            this.buttonWebScrapingToggle.TabIndex = 16;
+            this.buttonWebScrapingToggle.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingToggle.Click += new System.EventHandler(this.buttonWebScrapingToggle_Click);
+            // 
+            // buttonWebScrapingSelectAll
+            // 
+            this.buttonWebScrapingSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWebScrapingSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll;
+            this.buttonWebScrapingSelectAll.Location = new System.Drawing.Point(119, 340);
+            this.buttonWebScrapingSelectAll.Name = "buttonWebScrapingSelectAll";
+            this.buttonWebScrapingSelectAll.Size = new System.Drawing.Size(25, 25);
+            this.buttonWebScrapingSelectAll.TabIndex = 15;
+            this.buttonWebScrapingSelectAll.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingSelectAll.Click += new System.EventHandler(this.buttonWebScrapingSelectAll_Click);
+            // 
             // buttonSaveJavaScript
             // 
             this.buttonSaveJavaScript.Location = new System.Drawing.Point(3, 68);
@@ -296,17 +384,17 @@ namespace PhotoTagsSynchronizer
             // 
             // buttonWebScrapingCategories
             // 
-            this.buttonWebScrapingCategories.Location = new System.Drawing.Point(6, 130);
+            this.buttonWebScrapingCategories.Location = new System.Drawing.Point(3, 117);
             this.buttonWebScrapingCategories.Name = "buttonWebScrapingCategories";
             this.buttonWebScrapingCategories.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingCategories.TabIndex = 13;
-            this.buttonWebScrapingCategories.Text = "Fetch categries";
+            this.buttonWebScrapingCategories.Text = "Fetch categories";
             this.buttonWebScrapingCategories.UseVisualStyleBackColor = true;
             this.buttonWebScrapingCategories.Click += new System.EventHandler(this.WebScrapingCategories_Click);
             // 
             // buttonWebScrapingStart
             // 
-            this.buttonWebScrapingStart.Location = new System.Drawing.Point(6, 161);
+            this.buttonWebScrapingStart.Location = new System.Drawing.Point(3, 148);
             this.buttonWebScrapingStart.Name = "buttonWebScrapingStart";
             this.buttonWebScrapingStart.Size = new System.Drawing.Size(203, 25);
             this.buttonWebScrapingStart.TabIndex = 12;
@@ -317,7 +405,7 @@ namespace PhotoTagsSynchronizer
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 198);
+            this.label1.Location = new System.Drawing.Point(3, 348);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 17);
             this.label1.TabIndex = 6;
@@ -334,9 +422,9 @@ namespace PhotoTagsSynchronizer
             this.columnHeaderCategoryType,
             this.columnHeaderCategoryLink});
             this.listViewLinks.HideSelection = false;
-            this.listViewLinks.Location = new System.Drawing.Point(6, 218);
+            this.listViewLinks.Location = new System.Drawing.Point(6, 368);
             this.listViewLinks.Name = "listViewLinks";
-            this.listViewLinks.Size = new System.Drawing.Size(204, 505);
+            this.listViewLinks.Size = new System.Drawing.Size(204, 355);
             this.listViewLinks.TabIndex = 5;
             this.listViewLinks.UseCompatibleStateImageBehavior = false;
             this.listViewLinks.View = System.Windows.Forms.View.Details;
@@ -384,6 +472,7 @@ namespace PhotoTagsSynchronizer
             this.Name = "FormWebScraper";
             this.Text = "FormWebScraper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormWebScraper_FormClosing);
+            this.Load += new System.EventHandler(this.FormWebScraper_Load);
             this.panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -431,5 +520,12 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Button buttonWebScrapingCategories;
         private System.Windows.Forms.Button buttonSaveJavaScript;
         private System.Windows.Forms.ColumnHeader columnHeaderCategoryType;
+        private System.Windows.Forms.Button buttonWebScrapingSelectAll;
+        private System.Windows.Forms.Button buttonWebScrapingSelectNone;
+        private System.Windows.Forms.Button buttonWebScrapingToggle;
+        private System.Windows.Forms.Button buttonWebScrapingSave;
+        private System.Windows.Forms.Button buttonWebScrapingStop;
+        private System.Windows.Forms.Button buttonWebScrapingLoadPackage;
+        private System.Windows.Forms.ComboBox comboBoxWebScapingLoadPackage;
     }
 }

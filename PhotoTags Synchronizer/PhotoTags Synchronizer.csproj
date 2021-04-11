@@ -365,6 +365,9 @@
     </Content>
     <Content Include="Resources\AutoCorrect.png" />
     <None Include="Resources\Chromecast.png" />
+    <None Include="Resources\CheckAll.png" />
+    <None Include="Resources\CheckNone.png" />
+    <None Include="Resources\CheckToggle.png" />
     <Content Include="Resources\Demo.ico" />
     <Content Include="Resources\AppIcon.ico" />
     <None Include="Resources\FaceLoading.png" />
@@ -428,6 +431,7 @@
     <Content Include="Resources\Silent.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\WebScraping.png" />
     <Content Include="x64\sqlite3.def">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

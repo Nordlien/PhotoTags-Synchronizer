@@ -40,6 +40,55 @@ namespace MetadataLibrary
         private String locationCity;
         private String locationState;
 
+        public static Metadata MergeMetadatas (Metadata metadataWinner, Metadata metadataLoser)
+        {
+            Metadata metadata = new Metadata(metadataWinner);
+
+            //Broker
+            //metadata.Broker = metadata.Broker;
+
+            //File
+            if (metadata.FileName == null) metadata.FileName = metadataLoser.FileName;
+            if (metadata.fileDirectory == null) metadata.fileDirectory = metadataLoser.fileDirectory;
+            if (metadata.FileSize == null) metadata.FileSize = metadataLoser.FileSize;
+            if (metadata.FileDateCreated == null) metadata.FileDateCreated = metadataLoser.FileDateCreated;
+            if (metadata.FileDateModified == null) metadata.FileDateModified = metadataLoser.FileDateModified;
+            if (metadata.FileLastAccessed == null) metadata.FileLastAccessed = metadataLoser.FileLastAccessed;
+            if (metadata.FileMimeType == null) metadata.FileMimeType = metadataLoser.FileMimeType;
+
+            //Personal
+            if (metadata.PersonalTitle == null) metadata.PersonalTitle = metadataLoser.PersonalTitle;
+            if (metadata.PersonalDescription == null) metadata.PersonalDescription = metadataLoser.PersonalDescription;
+            if (metadata.PersonalComments == null) metadata.PersonalComments = metadataLoser.PersonalComments;
+            if (metadata.personalRating == null) metadata.personalRating = metadataLoser.personalRating;
+            if (metadata.personalRatingPercent == null) metadata.personalRatingPercent = metadataLoser.personalRatingPercent;
+            if (metadata.PersonalAuthor == null) metadata.PersonalAuthor = metadataLoser.PersonalAuthor;
+            if (metadata.PersonalAlbum == null) metadata.PersonalAlbum = metadataLoser.PersonalAlbum;
+            foreach (RegionStructure region in metadataLoser.personalRegionList) metadata.PersonalRegionListAddIfNameNotExists(new RegionStructure(region));
+            foreach (KeywordTag tag in metadataLoser.personalTagList) metadata.PersonalKeywordTagsAddIfNotExists(new KeywordTag(tag));
+            
+            //Camera
+            if (metadata.CameraMake == null) metadata.CameraMake = metadataLoser.CameraMake;
+            if (metadata.CameraModel == null) metadata.CameraModel = metadataLoser.CameraModel;
+
+            //Media
+            if (metadata.MediaDateTaken == null) metadata.MediaDateTaken = metadataLoser.mediaDateTaken;
+            if (metadata.MediaWidth == null) metadata.MediaWidth = metadataLoser.mediaWidth;
+            if (metadata.MediaHeight == null) metadata.MediaHeight = metadataLoser.mediaHeight;
+            if (metadata.MediaOrientation == null) metadata.MediaOrientation = metadataLoser.mediaOrientation;
+            if (metadata.MediaVideoLength == null) metadata.MediaVideoLength = metadataLoser.mediaVideoLength;
+
+            //Location
+            if (metadata.LocationAltitude == null) metadata.LocationAltitude = metadataLoser.locationAltitude;
+            if (metadata.LocationLatitude == null) metadata.LocationLatitude = metadataLoser.locationLatitude;
+            if (metadata.LocationLongitude == null) metadata.LocationLongitude = metadataLoser.locationLongitude;
+            if (metadata.LocationDateTime == null) metadata.LocationDateTime = metadataLoser.locationDateTime;
+            if (metadata.LocationCountry == null) metadata.LocationCountry = metadataLoser.locationName;
+            if (metadata.LocationCountry == null) metadata.LocationCountry = metadataLoser.locationCountry;
+            if (metadata.LocationCity == null) metadata.LocationCity = metadataLoser.locationCity;
+            if (metadata.LocationState == null) metadata.LocationState = metadataLoser.locationState;
+        }
+
         #region Constructors
         public Metadata(MetadataBrokerType broker)
         {

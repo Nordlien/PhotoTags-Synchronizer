@@ -166,7 +166,7 @@ namespace MetadataLibrary
         {
             if (metadata == null) throw new Exception("Error in DatabaseCache. metaData is Null. Error in code");
 
-            
+
             dbTools.TransactionBeginBatch();
 
             MetadataCacheUpdate(metadata.FileEntryBroker, metadata);
@@ -431,8 +431,8 @@ namespace MetadataLibrary
         #region Move
         public void Move(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
-            MetadataCacheRemove(oldDirectory,oldFilename);
-            
+            MetadataCacheRemove(oldDirectory, oldFilename);
+
             dbTools.TransactionBeginBatch();
 
             string sqlCommand =
@@ -525,7 +525,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        
+
 
         #region Delete Directoy - Mediadata
         private void DeleteDirectoryMediaMetadata(MetadataBrokerType broker, string fileDirectory)
@@ -656,6 +656,72 @@ namespace MetadataLibrary
             MetadataCacheRemove(fileEntryBroker);
         }
         #endregion
+
+
+        #region WebScraping - ListWebScraperPackages
+        public List<DateTime> ListWebScraperPackages(MetadataBrokerType broker, string directory)
+        {
+            List<DateTime> webScrapingPackages = new List<DateTime>();
+
+            string sqlCommand = @"SELECT DISTINCT FileDateModified FROM MediaMetadata 
+                    WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory ORDER BY FileDateModified";
+                
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", directory);
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        webScrapingPackages.Add((DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]));
+                    }
+                }
+            }
+
+            return webScrapingPackages;
+        }
+        #endregion 
+
+        #region WebScraping - ListMediafilesInWebScraperPackages
+        public List<FileEntryBroker> ListMediafilesInWebScraperPackages(MetadataBrokerType broker, string directory, DateTime fileDateModified)
+        {
+            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+
+            string sqlCommand = @"SELECT Broker, FileDirectory, FileName, FileDateModified FROM MediaMetadata 
+                WHERE (Broker & @Broker) = @Broker
+                AND FileDirectory = @FileDirectory 
+                AND FileDateModified = @FileDateModified";
+            
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", directory);
+                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
+                commandDatabase.Prepare();
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        FileEntryBroker fileEntryBroker = new FileEntryBroker
+                            (
+                            dbTools.ConvertFromDBValString(reader["FileDirectory"]),
+                            dbTools.ConvertFromDBValString(reader["FileName"]),
+                            (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]),
+                            (MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"])
+                            );
+                        fileEntryBrokers.Add(fileEntryBroker);
+                    }
+                }
+            }
+
+            return fileEntryBrokers;
+        }
+        #endregion 
+
 
         #region List File Date Versions
 
@@ -1474,7 +1540,7 @@ namespace MetadataLibrary
 
                         MetadataCacheUpdate(metadata.FileEntryBroker, metadata);
                         */
-                    }
+    }
                     
                 }
             }
