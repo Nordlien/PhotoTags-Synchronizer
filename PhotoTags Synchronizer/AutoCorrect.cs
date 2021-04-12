@@ -55,6 +55,8 @@ namespace PhotoTagsSynchronizer
         public bool UseKeywordsFromMicrosoftPhotos { get; set; } = true;
         [JsonProperty("KeywordTagConfidenceLevel")]
         public double KeywordTagConfidenceLevel { get; set; } = 0.9;
+        [JsonProperty("UseKeywordsFromWebScraping")]
+        public bool UseKeywordsFromWebScraping { get; set; } = true;
 
         [JsonProperty("BackupDateTakenBeforeUpdate")]
         public bool BackupDateTakenBeforeUpdate { get; set; } = true;
@@ -84,6 +86,8 @@ namespace PhotoTagsSynchronizer
         public bool UseFaceRegionFromWindowsLivePhotoGallery { get; set; } = true;
         [JsonProperty("UseFaceRegionFromMicrosoftPhotos")]
         public bool UseFaceRegionFromMicrosoftPhotos { get; set; } = true;
+        [JsonProperty("UseFaceRegionFromWebScraping")]
+        public bool UseFaceRegionFromWebScraping { get; set; } = true;
         #endregion
 
         #region Title
@@ -150,7 +154,7 @@ namespace PhotoTagsSynchronizer
 
         #region FixAndSave
         public Metadata FixAndSave(FileEntry fileEntry,
-            MetadataDatabaseCache metadataDatabaseCacheExiftool,
+            MetadataDatabaseCache metadataAndCacheMetadataExiftool,
             MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos,
             MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery,
             CameraOwnersDatabaseCache cameraOwnersDatabaseCache,
@@ -161,7 +165,7 @@ namespace PhotoTagsSynchronizer
             )
         {
             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
-            Metadata metadata = metadataDatabaseCacheExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
+            Metadata metadata = metadataAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBrokerExiftool);
             if (metadata == null) 
                 return null; //DEBUG Why NULL - I manage to reproduce, select lot of files, select AutoCorrect many, many times.
             Metadata metadataCopy = new Metadata(metadata); //Make a copy
@@ -322,13 +326,20 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
+            //MicrosoftPhotos
             FileEntryBroker fileEntryBrokerMicrosoftPhotos = new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos);
             Metadata metadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMicrosoftPhotos);
             Metadata metadataMicrosoftPhotosCopy = metadataMicrosoftPhotos == null ? null : new Metadata(metadataMicrosoftPhotos);
 
-            FileEntryBroker fileEntryBrokerMWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery);
-            Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(fileEntryBrokerMWindowsLivePhotoGallery);
+            //WindowsLivePhotoGallery
+            FileEntryBroker fileEntryBrokerWindowsLivePhotoGallery = new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery);
+            Metadata metadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(fileEntryBrokerWindowsLivePhotoGallery);
             Metadata metadataWindowsLivePhotoGalleryCopy = metadataWindowsLivePhotoGallery == null ? null : new Metadata(metadataWindowsLivePhotoGallery);
+
+            //WebScraping
+            FileEntryBroker fileEntryBrokerWebScraping = new FileEntryBroker(fileEntry, MetadataBrokerType.WebScraping);
+            Metadata metadataWebScraping = metadataAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(fileEntryBrokerWebScraping);
+            Metadata metadataWebScrapingCopy = metadataWebScraping == null ? null : new Metadata(metadataWebScraping);
 
             #region Face region
 
@@ -339,20 +350,28 @@ namespace PhotoTagsSynchronizer
             if (UseFaceRegionFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGalleryCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
             if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotosCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
 
+            if (metadataWebScrapingCopy != null)
+            {
+                if (metadataCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataCopy.PersonalRegionList);
+                if (metadataWindowsLivePhotoGalleryCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
+                if (metadataMicrosoftPhotosCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
+            }
+
             if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotosCopy != null)
             {
-                foreach (RegionStructure regionStructure in metadataMicrosoftPhotosCopy.PersonalRegionList)
-                {
-                    metadataCopy.PersonalRegionListAddIfNameNotExists(regionStructure);
-                }
+                foreach (RegionStructure regionStructure in metadataMicrosoftPhotosCopy.PersonalRegionList) metadataCopy.PersonalRegionListAddIfNameNotExists(regionStructure);
+                
             }
 
             if (UseFaceRegionFromWindowsLivePhotoGallery && metadataWindowsLivePhotoGalleryCopy != null)
             {
-                foreach (RegionStructure regionStructure in metadataWindowsLivePhotoGalleryCopy.PersonalRegionList)
-                {
-                    metadataCopy.PersonalRegionListAddIfNameNotExists(regionStructure);
-                }
+                foreach (RegionStructure regionStructure in metadataWindowsLivePhotoGalleryCopy.PersonalRegionList) metadataCopy.PersonalRegionListAddIfNameNotExists(regionStructure);
+            }
+
+            if (UseFaceRegionFromWebScraping && metadataWebScrapingCopy != null)
+            {
+                foreach (RegionStructure regionStructure in metadataWebScrapingCopy.PersonalRegionList) metadataCopy.PersonalRegionListAddIfNameNotExists(regionStructure);
+                
             }
             #endregion
 
@@ -373,7 +392,14 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-            
+            if (UseKeywordsFromWebScraping && metadataWebScrapingCopy != null)
+            {
+                foreach (KeywordTag keywordTag in metadataWebScrapingCopy.PersonalKeywordTags)
+                {
+                    if (keywordTag.Confidence >= KeywordTagConfidenceLevel) metadataCopy.PersonalKeywordTagsAddIfNotExists(keywordTag);
+                }
+            }
+
             if (BackupDateTakenAfterUpdate && metadataCopy?.MediaDateTaken != null)
                 metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringSortable(metadataCopy?.MediaDateTaken)));
             if (BackupGPGDateTimeUTCAfterUpdate && metadataCopy?.LocationDateTime != null)
@@ -395,7 +421,6 @@ namespace PhotoTagsSynchronizer
             #region Title
             if (UpdateTitle)
             {
-
                 // Find first No empty string
                 string newTitle = null;
                 foreach (MetadataBrokerType metadataBrokerType in TitlePriority)
@@ -411,19 +436,20 @@ namespace PhotoTagsSynchronizer
                         case MetadataBrokerType.WindowsLivePhotoGallery:
                             newTitle = (!string.IsNullOrEmpty(metadataWindowsLivePhotoGallery?.PersonalTitle) ? metadataWindowsLivePhotoGallery?.PersonalTitle : newTitle);
                             break;
+                        case MetadataBrokerType.WebScraping:
+                            newTitle = (!string.IsNullOrEmpty(metadataWebScraping?.PersonalTitle) ? metadataWebScraping?.PersonalTitle : newTitle);
+                            break;
                     }
                     if (UpdateTitleWithFirstInPrioity) break;
                     if (!string.IsNullOrWhiteSpace(newTitle)) break;
                 }
                 metadataCopy.PersonalTitle = newTitle;
-
             }
             #endregion 
 
             #region Album
             if (UpdateAlbum)
             {
-
                 // Find first No empty string
                 string newAlbum = null;
                 foreach (MetadataBrokerType metadataBrokerType in AlbumPriority)
@@ -439,12 +465,14 @@ namespace PhotoTagsSynchronizer
                         case MetadataBrokerType.FileSystem:
                             newAlbum = new DirectoryInfo(metadataCopy.FileDirectory).Name;
                             break;
+                        case MetadataBrokerType.WebScraping:
+                            newAlbum = (!string.IsNullOrEmpty(metadataWebScraping?.PersonalAlbum) ? metadataWebScraping?.PersonalAlbum : newAlbum);
+                            break;
                     }
                     if (UpdateAlbumWithFirstInPrioity) break;
                     if (!string.IsNullOrWhiteSpace(newAlbum)) break;
                 }
                 metadataCopy.PersonalAlbum = newAlbum;
-
             }
             #endregion
 

@@ -657,10 +657,23 @@ namespace MetadataLibrary
         }
         #endregion
 
+        #region WebScraping
+        public const string WebScapingFolderName = "WebScraper";
+        private List<DateTime> webScrapingPackageDates = null;
+
+        #region WebScraping - Write
+        public void WebScrapingWrite(Metadata metadata)
+        {
+            webScrapingPackageDates = null;
+            Write(metadata);
+        }
+        #endregion 
 
         #region WebScraping - ListWebScraperPackages
         public List<DateTime> ListWebScraperPackages(MetadataBrokerType broker, string directory)
         {
+            if (webScrapingPackageDates != null) return webScrapingPackageDates;
+
             List<DateTime> webScrapingPackages = new List<DateTime>();
 
             string sqlCommand = @"SELECT DISTINCT FileDateModified FROM MediaMetadata 
@@ -681,6 +694,7 @@ namespace MetadataLibrary
                 }
             }
 
+            webScrapingPackageDates = webScrapingPackages;
             return webScrapingPackages;
         }
         #endregion 
@@ -720,8 +734,30 @@ namespace MetadataLibrary
 
             return fileEntryBrokers;
         }
+        #endregion
+
+        #region WebScraping - GetWebScraperLastPackageDate
+        private DateTime? GetWebScraperLastPackageDate()
+        {
+            DateTime? dateTimeResult = null;
+            List<DateTime> webScrapingPackageDates = ListWebScraperPackages(MetadataBrokerType.WebScraping, WebScapingFolderName);
+            if (webScrapingPackageDates.Count > 0) dateTimeResult = webScrapingPackageDates[0];
+            foreach (DateTime dateTimeCheck in webScrapingPackageDates) if (dateTimeCheck > dateTimeResult) dateTimeResult = dateTimeCheck;
+            return (dateTimeResult == null ? DateTime.MinValue : dateTimeResult);
+        }
+        #endregion
+
+        #region WebScraping - ReadWebScraperMetadataFromCacheOrDatabase
+        public Metadata ReadWebScraperMetadataFromCacheOrDatabase(FileEntryBroker fileEntryBroker)
+        {
+            DateTime? dateTime = GetWebScraperLastPackageDate();
+            if (dateTime == null) return null;
+            FileEntryBroker fileEntryBrokerWebScraperSearch = new FileEntryBroker(WebScapingFolderName, fileEntryBroker.FileName, (DateTime)dateTime, fileEntryBroker.Broker);
+            return ReadMetadataFromCacheOrDatabase(fileEntryBrokerWebScraperSearch);
+        }
         #endregion 
 
+        #endregion
 
         #region List File Date Versions
 
@@ -1644,10 +1680,12 @@ namespace MetadataLibrary
             MetadataCacheUpdate(fileEntryBroker, metadata);
             return metadata;
         }
-        #endregion 
+
+        
+        #endregion
 
         #region Cache Metadata - Read - CacheOnly
-        public Metadata ReadMetadataFromCacheOnly(FileEntryBroker fileEntryBroker)
+            public Metadata ReadMetadataFromCacheOnly(FileEntryBroker fileEntryBroker)
         {
             lock (metadataCacheLock)
             {

@@ -27,7 +27,7 @@ namespace PhotoTagsSynchronizer
         private int waitEventPageStartLoadingTimeout = 3000;
         private int waitEventPageLoadedTimeout = 20000;
         private int webScrapingPageDownCount = 5;
-        private string webScrapingName = "WebScraper";
+        private string webScrapingName = MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName;
 
 
         #region IsProcessRunning
@@ -505,8 +505,10 @@ namespace PhotoTagsSynchronizer
                     else
                     {
                         Logger.Error("EvaluateScript: " + (result == null ? "null" : result.ToString()));
+                        newFound = false;
                     }
 
+                    
                     if (verifyDiffrentResult)
                     {
                         if (lastScrapingResult != scrapingResult)
@@ -515,9 +517,11 @@ namespace PhotoTagsSynchronizer
                             newFound = false;
                     }
 
-                    if (verifyPhotoLinksCount && scrapingResult.LinkPhoto.Count <= 0) newFound = false;
-                    if (verifyMediaFileFound && scrapingResult.MediaFile == null) newFound = false;
-
+                    if (scrapingResult != null)
+                    {
+                        if (verifyPhotoLinksCount && scrapingResult.LinkPhoto.Count <= 0) newFound = false;
+                        if (verifyMediaFileFound && scrapingResult.MediaFile == null) newFound = false;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -804,28 +808,8 @@ namespace PhotoTagsSynchronizer
                 }
 
                 fastColoredTextBoxJavaScriptResult.Text = "Scraping result:\r\n";
-                int mediaFiles = 0;
-                int titles = 0;
-                int albumNames = 0;
-                int locationNames = 0;
-                int keywordTags = 0;
-                int regions = 0;
-                
-                foreach (Metadata metadata in _metaDataDictionary.Values)
-                {
-                    mediaFiles++;
-                    if (metadata.PersonalTitle != null) titles++;
-                    if (metadata.PersonalAlbum != null) albumNames++;
-                    if (metadata.LocationName != null) locationNames++;
-                    foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags) keywordTags++;
-                    foreach (RegionStructure regionStructure in metadata.PersonalRegionList) regions++;
-                }
-                fastColoredTextBoxJavaScriptResult.Text += "Media files found: " + mediaFiles.ToString() + "\r\n";
-                fastColoredTextBoxJavaScriptResult.Text += "Titles found: " + titles.ToString() + "\r\n";
-                fastColoredTextBoxJavaScriptResult.Text += "Album Names found: " + albumNames.ToString() + "\r\n";
-                fastColoredTextBoxJavaScriptResult.Text += "Location Names found: " + locationNames.ToString() + "\r\n";
-                fastColoredTextBoxJavaScriptResult.Text += "Keyword Tags found: " + keywordTags.ToString() + "\r\n";
-                fastColoredTextBoxJavaScriptResult.Text += "Regions found: " + regions.ToString() + "\r\n";
+                CountMetadata(_metaDataDictionary);
+
                 if (_urlLoadingFailed.Count > 0) fastColoredTextBoxJavaScriptResult.Text += "Urls failed to load: " + _urlLoadingFailed.Count + "\r\n";
                 foreach (string failedUrl in _urlLoadingFailed) fastColoredTextBoxJavaScriptResult.Text += "Regions found: " + failedUrl + "\r\n";
             }
@@ -906,18 +890,22 @@ namespace PhotoTagsSynchronizer
         #region GUI - WebScraping - Save - Click
         private void buttonWebScrapingSave_Click(object sender, EventArgs e)
         {
+            
             try
             {
+                buttonWebScrapingSave.Enabled = false;
                 if (_metaDataDictionary.Count > 0)
                 {
                     DateTime dateTimeSaveDate = DateTime.Now;
+                    DatabaseAndCacheMetadataExiftool.TransactionBeginBatch();
                     foreach (Metadata metadata in _metaDataDictionary.Values)
                     {
                         metadata.FileDateModified = dateTimeSaveDate;
                         metadata.FileDirectory = webScrapingName;
                         metadata.FileSize = -1;
-                        DatabaseAndCacheMetadataExiftool.Write(metadata);
+                        DatabaseAndCacheMetadataExiftool.WebScrapingWrite(metadata);
                     }
+                    DatabaseAndCacheMetadataExiftool.TransactionCommitBatch();
                     _webScrapingPackages.Insert(0, dateTimeSaveDate);
                     UpdatedWebScrapingPackageList(_webScrapingPackages);
                 }
@@ -934,7 +922,8 @@ namespace PhotoTagsSynchronizer
         private void UpdatedWebScrapingPackageList(List<DateTime> webScrapingPackages)
         {
             comboBoxWebScapingLoadPackage.Items.Clear();
-            foreach (DateTime dateTime in webScrapingPackages) comboBoxWebScapingLoadPackage.Items.Add(dateTime.ToString());
+            webScrapingPackages.Sort();
+            foreach (DateTime dateTime in webScrapingPackages) comboBoxWebScapingLoadPackage.Items.Insert(0, dateTime.ToString());
             
             if (webScrapingPackages.Count == 0)
             {
@@ -957,22 +946,56 @@ namespace PhotoTagsSynchronizer
             UpdatedWebScrapingPackageList(_webScrapingPackages);
         }
 
-        
+        private void CountMetadata(Dictionary<string, Metadata> metadataList)
+        {
+            int mediaFiles = 0;
+            int titles = 0;
+            int albumNames = 0;
+            int locationNames = 0;
+            int keywordTags = 0;
+            int regions = 0;
+
+            foreach (Metadata metadata in _metaDataDictionary.Values)
+            {
+                mediaFiles++;
+                if (metadata.PersonalTitle != null) titles++;
+                if (metadata.PersonalAlbum != null) albumNames++;
+                if (metadata.LocationName != null) locationNames++;
+                foreach (KeywordTag keywordTag in metadata.PersonalKeywordTags) keywordTags++;
+                foreach (RegionStructure regionStructure in metadata.PersonalRegionList) regions++;
+            }
+            fastColoredTextBoxJavaScriptResult.Text += "Media files found: " + mediaFiles.ToString() + "\r\n";
+            fastColoredTextBoxJavaScriptResult.Text += "Titles found: " + titles.ToString() + "\r\n";
+            fastColoredTextBoxJavaScriptResult.Text += "Album Names found: " + albumNames.ToString() + "\r\n";
+            fastColoredTextBoxJavaScriptResult.Text += "Location Names found: " + locationNames.ToString() + "\r\n";
+            fastColoredTextBoxJavaScriptResult.Text += "Keyword Tags found: " + keywordTags.ToString() + "\r\n";
+            fastColoredTextBoxJavaScriptResult.Text += "Regions found: " + regions.ToString() + "\r\n";
+        }
 
         #region GUI - Load WebScraping Package
         private void buttonWebScrapingLoadPackage_Click(object sender, EventArgs e)
         {
+            buttonWebScrapingLoadPackage.Enabled = false;
+            buttonWebScrapingSave.Enabled = false;
             if (_webScrapingPackages.Count == comboBoxWebScapingLoadPackage.Items.Count) 
             {
                 List<FileEntryBroker> fileEntryBrokers = DatabaseAndCacheMetadataExiftool.ListMediafilesInWebScraperPackages(MetadataBrokerType.WebScraping, webScrapingName, _webScrapingPackages[comboBoxWebScapingLoadPackage.SelectedIndex]);
 
+                fastColoredTextBoxJavaScriptResult.Text = "Before merge:\r\n";
+                CountMetadata(_metaDataDictionary);
+
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
                 {
                     Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBroker);
-                    if (_metaDataDictionary.ContainsKey(metadata.FileName)) _metaDataDictionary[metadata.FileName] = metadata;
-                    else _metaDataDictionary.Add(metadata.FileName, Metadata.MergeMetadatas(_metaDataDictionary[metadata.FileName], metadata);
+                    if (_metaDataDictionary.ContainsKey(metadata.FileName)) _metaDataDictionary[metadata.FileName] = Metadata.MergeMetadatas(_metaDataDictionary[metadata.FileName], metadata);
+                    else _metaDataDictionary.Add(metadata.FileName, metadata);
                 }
+
+                fastColoredTextBoxJavaScriptResult.Text += "After merge:\r\n";
+                CountMetadata(_metaDataDictionary);
             }
+            buttonWebScrapingLoadPackage.Enabled = true;
+            buttonWebScrapingSave.Enabled = true;
         }
         #endregion 
     }

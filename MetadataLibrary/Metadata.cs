@@ -87,6 +87,8 @@ namespace MetadataLibrary
             if (metadata.LocationCountry == null) metadata.LocationCountry = metadataLoser.locationCountry;
             if (metadata.LocationCity == null) metadata.LocationCity = metadataLoser.locationCity;
             if (metadata.LocationState == null) metadata.LocationState = metadataLoser.locationState;
+
+            return metadata;
         }
 
         #region Constructors
@@ -730,7 +732,52 @@ namespace MetadataLibrary
                     foundRegion = true;
                 }
             } while (foundRegion);
-            
+        }
+
+        public void PersonalRegionSetRegionlessRegions(List<RegionStructure> updateNameOnThisRegionStructures)
+        {
+            bool foundRegion;
+            do
+            {
+                foundRegion = false;
+                int indexChecking = -1;
+                int indexFoundLocal = -1;
+
+                for (int indexSearch = 0; indexSearch < updateNameOnThisRegionStructures.Count; indexSearch++)
+                {
+                    if (updateNameOnThisRegionStructures[indexSearch].AreaX == 0 &&
+                        updateNameOnThisRegionStructures[indexSearch].AreaY == 0 &&
+                        updateNameOnThisRegionStructures[indexSearch].AreaWidth == 1 &&
+                        updateNameOnThisRegionStructures[indexSearch].AreaHeight == 1 
+                        )
+                    {
+                        
+                        indexFoundLocal = updateNameOnThisRegionStructures[indexSearch].IndexOfNameInList(PersonalRegionList);
+
+                        if (indexFoundLocal != -1 && 
+                            PersonalRegionList[indexFoundLocal].AreaX != 0 &&
+                            PersonalRegionList[indexFoundLocal].AreaY != 0 &&
+                            PersonalRegionList[indexFoundLocal].AreaWidth != 1 &&
+                            PersonalRegionList[indexFoundLocal].AreaHeight != 1)
+                        {
+                            indexChecking = indexSearch;
+                            break;
+                        }
+                    }
+                }
+
+                if (indexChecking != -1 && indexFoundLocal != -1)
+                {
+                    updateNameOnThisRegionStructures[indexChecking].AreaX = PersonalRegionList[indexFoundLocal].AreaX;
+                    updateNameOnThisRegionStructures[indexChecking].AreaY = PersonalRegionList[indexFoundLocal].AreaY;
+                    updateNameOnThisRegionStructures[indexChecking].AreaHeight = PersonalRegionList[indexFoundLocal].AreaHeight;
+                    updateNameOnThisRegionStructures[indexChecking].AreaWidth = PersonalRegionList[indexFoundLocal].AreaWidth;
+                    updateNameOnThisRegionStructures[indexChecking].Type = PersonalRegionList[indexFoundLocal].Type;
+                    updateNameOnThisRegionStructures[indexChecking].RegionStructureType = PersonalRegionList[indexFoundLocal].RegionStructureType;
+                    updateNameOnThisRegionStructures[indexChecking].Thumbnail = PersonalRegionList[indexFoundLocal].Thumbnail;
+                    foundRegion = true;
+                }
+            } while (foundRegion);
         }
 
         public void PersonalRegionListAddIfNameNotExists(RegionStructure regionStructure)

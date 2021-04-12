@@ -163,6 +163,9 @@
   <data name="tag_source_microsoft_photos" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tag_source_microsoft_photos.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="tag_source_webscraping" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tag_source_webscraping.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="tag_source_windows_live_photo_gallery" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tag_source_windows_live_photo_gallery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

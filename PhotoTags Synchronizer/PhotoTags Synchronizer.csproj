@@ -432,6 +432,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\WebScraping.png" />
+    <None Include="Resources\tag_source_webscraping%3b.png" />
+    <None Include="Resources\tag_source_webscraping.png" />
     <Content Include="x64\sqlite3.def">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

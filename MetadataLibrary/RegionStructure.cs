@@ -577,6 +577,15 @@ namespace MetadataLibrary
             return -1;
         }
 
+        public int IndexOfNameInList(List<RegionStructure> regionStructures)
+        {
+            for (int index = 0; index < regionStructures.Count; index++)
+            {
+                if (name == regionStructures[index].Name) return index;
+            }
+            return -1;
+        }
+
         public bool DoesThisNameExistInList(List<RegionStructure> regionStructures)
         {
             foreach (RegionStructure regionStructure in regionStructures)

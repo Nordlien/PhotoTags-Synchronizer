@@ -240,17 +240,29 @@ namespace PhotoTagsSynchronizer
                     Metadata metadataWindowsLivePhotoGalleryCopy = metadataWindowsLivePhotoGallery == null ? null : new Metadata(metadataWindowsLivePhotoGallery);
                     Metadata metadataMicrosoftPhotos = DatabaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.MicrosoftPhotos));
                     Metadata metadataMicrosoftPhotosCopy = metadataMicrosoftPhotos == null ? null : new Metadata(metadataMicrosoftPhotos);
+                    Metadata metadataWebScraping = DatabaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WebScraping));
+                    Metadata metadataWebScrapingCopy = metadataWebScraping == null ? null : new Metadata(metadataWebScraping);
 
                     //Remove doubles and add names where missing, only work with copy, don't change metadata in buffer.
                     if (metadataWindowsLivePhotoGalleryCopy != null) metadataWindowsLivePhotoGalleryCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
                     if (metadataMicrosoftPhotosCopy != null) metadataMicrosoftPhotosCopy.PersonalRegionRemoveNamelessDoubleRegions(metadataCopy.PersonalRegionList);
+                    
                     if (metadataWindowsLivePhotoGalleryCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
                     if (metadataMicrosoftPhotosCopy != null) metadataCopy.PersonalRegionSetNamelessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
+                    
+                    if (metadataWebScrapingCopy != null)
+                    {
+                        if (metadataCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataCopy.PersonalRegionList);
+                        if (metadataWindowsLivePhotoGalleryCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
+                        if (metadataMicrosoftPhotosCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
+                    }
+
 
                     //Populate 
                     PopulatePeople(dataGridView, metadataCopy, columnIndex, MetadataBrokerType.ExifTool);
                     if (metadataWindowsLivePhotoGallery != null) PopulatePeople(dataGridView, metadataWindowsLivePhotoGalleryCopy, columnIndex, MetadataBrokerType.WindowsLivePhotoGallery);
                     if (metadataMicrosoftPhotos != null) PopulatePeople(dataGridView, metadataMicrosoftPhotosCopy, columnIndex, MetadataBrokerType.MicrosoftPhotos);
+                    if (metadataWebScraping != null) PopulatePeople(dataGridView, metadataWebScrapingCopy, columnIndex, MetadataBrokerType.WebScraping);
 
                     //Remember names added
                     foreach (RegionStructure regionStructure in metadata.PersonalRegionList)

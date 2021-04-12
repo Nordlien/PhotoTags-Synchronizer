@@ -713,6 +713,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap tag_source_webscraping {
+            get {
+                object obj = ResourceManager.GetObject("tag_source_webscraping", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap TextCopy {
             get {
                 object obj = ResourceManager.GetObject("TextCopy", resourceCulture);

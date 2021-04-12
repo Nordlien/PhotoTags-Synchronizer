@@ -19,7 +19,8 @@ namespace PhotoTagsSynchronizer
         public const string headerFolder = "Folder";
         public const string headerWindowsLivePhotoGallery = "Windows Live Photo Gallery";
         public const string headerKeywords = "Keywords";
-        public static readonly string[] sourceHeaders = {headerMedia, headerMicrosoftPhotos, headerFolder, headerWindowsLivePhotoGallery};
+        public const string headerWebScraping = "WebScraper";
+        public static readonly string[] sourceHeaders = {headerMedia, headerMicrosoftPhotos, headerFolder, headerWindowsLivePhotoGallery, headerWebScraping};
         public const string tagAlbum = "Album";
         public const string tagTitle = "Title";
         public const string tagDescription = "Description";
@@ -203,11 +204,20 @@ namespace PhotoTagsSynchronizer
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagTitle), metadata?.PersonalTitle, true);
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWindowsLivePhotoGallery, tagRating), metadata?.PersonalRating, true);
 
+                // WebScarping
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping), false);
+                Metadata metadataWebScraping = null;
+                if (metadata != null) metadataWebScraping = DatabaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WebScraping));
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping, tagAlbum), metadataWebScraping?.PersonalAlbum, true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping, tagTitle), metadataWebScraping?.PersonalTitle, true);
+
+
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerKeywords), false);
 
                 if (metadata != null) PopulateKeywords(dataGridView, metadata, columnIndex, MetadataBrokerType.ExifTool);
                 if (metadataMicrosoftPhotos != null) PopulateKeywords(dataGridView, metadataMicrosoftPhotos, columnIndex, MetadataBrokerType.MicrosoftPhotos);
                 if (metadataWindowsLivePhotoGallery != null) PopulateKeywords(dataGridView, metadataWindowsLivePhotoGallery, columnIndex, MetadataBrokerType.WindowsLivePhotoGallery);
+                if (metadataWebScraping != null) PopulateKeywords(dataGridView, metadataWebScraping, columnIndex, MetadataBrokerType.WebScraping);
             }
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);

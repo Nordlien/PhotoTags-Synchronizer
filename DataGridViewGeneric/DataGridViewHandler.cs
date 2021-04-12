@@ -3034,6 +3034,14 @@ namespace DataGridViewGeneric
                            e.CellBounds.Top + 1); // e.CellBounds.Width, e.CellBounds.Height);
             }
 
+            if ((metadataBrokerTypes & MetadataBrokerType.WebScraping) != 0)
+            {
+                Image image = (Image)Properties.Resources.tag_source_webscraping;
+                e.Graphics.DrawImage(image,
+                           e.CellBounds.Left + e.CellBounds.Width - image.Width - 1 - 33 - 21 - 21 - 21,
+                           e.CellBounds.Top + 1); // e.CellBounds.Width, e.CellBounds.Height);
+            }
+
         }
         #endregion
 

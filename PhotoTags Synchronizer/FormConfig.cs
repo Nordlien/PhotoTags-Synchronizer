@@ -193,8 +193,6 @@ namespace PhotoTagsSynchronizer
             comboBoxMapZoomLevel.SelectedIndex = Properties.Settings.Default.SettingLocationZoomLevel;
             isSettingDefaultComboxValuesZoomLevel = false;
 
-
-
             //AutoCorrect
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             if (autoCorrect == null) autoCorrect = new AutoCorrect();
@@ -561,6 +559,7 @@ namespace PhotoTagsSynchronizer
                 autoCorrect.TitlePriority.Add(MetadataBrokerType.ExifTool);
                 autoCorrect.TitlePriority.Add(MetadataBrokerType.MicrosoftPhotos);
                 autoCorrect.TitlePriority.Add(MetadataBrokerType.WindowsLivePhotoGallery);
+                autoCorrect.TitlePriority.Add(MetadataBrokerType.WebScraping);
             }
 
             PopulateAutoCorrectListOrder(imageListViewOrderTitle, autoCorrect.TitlePriority);
@@ -581,6 +580,7 @@ namespace PhotoTagsSynchronizer
             {
                 autoCorrect.AlbumPriority.Add(MetadataBrokerType.ExifTool);
                 autoCorrect.AlbumPriority.Add(MetadataBrokerType.MicrosoftPhotos);
+                autoCorrect.AlbumPriority.Add(MetadataBrokerType.WebScraping);
                 autoCorrect.AlbumPriority.Add(MetadataBrokerType.FileSystem);
             }
             PopulateAutoCorrectListOrder(imageListViewOrderAlbum, autoCorrect.AlbumPriority);
@@ -600,6 +600,7 @@ namespace PhotoTagsSynchronizer
             checkBoxKeywordsAddMicrosoftPhotos.Checked = autoCorrect.UseKeywordsFromMicrosoftPhotos;
             checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked = autoCorrect.UseKeywordsFromWindowsLivePhotoGallery;
             comboBoxKeywordsAiConfidence.SelectedIndex = 9 - (int)(autoCorrect.KeywordTagConfidenceLevel * 10);
+            checkBoxKeywordsAddWebScraping.Checked = autoCorrect.UseKeywordsFromWebScraping;
 
             checkBoxKeywordBackupDateTakenAfter.Checked = autoCorrect.BackupDateTakenAfterUpdate;
             checkBoxKeywordBackupDateTakenBefore.Checked = autoCorrect.BackupDateTakenBeforeUpdate;
@@ -615,6 +616,7 @@ namespace PhotoTagsSynchronizer
             #region Region Faces
             checkBoxFaceRegionAddMicrosoftPhotos.Checked = autoCorrect.UseFaceRegionFromMicrosoftPhotos;
             checkBoxFaceRegionAddWindowsMediaPhotoGallery.Checked = autoCorrect.UseFaceRegionFromWindowsLivePhotoGallery;
+            checkBoxFaceRegionAddWebScraping.Checked = autoCorrect.UseFaceRegionFromWebScraping;
             #endregion
 
             #region Author
@@ -723,6 +725,7 @@ namespace PhotoTagsSynchronizer
             #region Keywords
             autoCorrect.UseKeywordsFromMicrosoftPhotos = checkBoxKeywordsAddMicrosoftPhotos.Checked;
             autoCorrect.UseKeywordsFromWindowsLivePhotoGallery = checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked;
+            autoCorrect.UseKeywordsFromWebScraping = checkBoxKeywordsAddWebScraping.Checked;
 
             autoCorrect.BackupDateTakenAfterUpdate = checkBoxKeywordBackupDateTakenAfter.Checked;
             autoCorrect.BackupDateTakenBeforeUpdate = checkBoxKeywordBackupDateTakenBefore.Checked;
@@ -738,6 +741,7 @@ namespace PhotoTagsSynchronizer
             #region Region Faces
             autoCorrect.UseFaceRegionFromMicrosoftPhotos = checkBoxFaceRegionAddMicrosoftPhotos.Checked;
             autoCorrect.UseFaceRegionFromWindowsLivePhotoGallery = checkBoxFaceRegionAddWindowsMediaPhotoGallery.Checked;
+            autoCorrect.UseFaceRegionFromWebScraping = checkBoxFaceRegionAddWebScraping.Checked;
             #endregion
 
             #region Author
