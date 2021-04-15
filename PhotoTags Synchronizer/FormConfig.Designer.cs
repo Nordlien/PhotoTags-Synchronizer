@@ -88,6 +88,25 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMetadataReadRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMetadataReadToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMetadataReadShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPageMetadataWebScraper = new System.Windows.Forms.TabPage();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownWebScrapingPageDownCount = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownWaitEventPageLoadedTimeout = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownWaitEventPageStartLoadingTimeout = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownWebScrapingDelayInPageScriptToRun = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownWebScrapingDelayOurScriptToRun = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownWebScrapingRetry = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownJavaScriptExecuteTimeout = new System.Windows.Forms.NumericUpDown();
+            this.label75 = new System.Windows.Forms.Label();
+            this.label74 = new System.Windows.Forms.Label();
+            this.label73 = new System.Windows.Forms.Label();
+            this.label72 = new System.Windows.Forms.Label();
+            this.label71 = new System.Windows.Forms.Label();
+            this.label69 = new System.Windows.Forms.Label();
+            this.label70 = new System.Windows.Forms.Label();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.textBoxWebScrapingStartPages = new System.Windows.Forms.TextBox();
             this.tabPageMetadataWrite = new System.Windows.Forms.TabPage();
             this.panelMetadataWrite = new System.Windows.Forms.Panel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -147,10 +166,12 @@ namespace PhotoTagsSynchronizer
             this.label9 = new System.Windows.Forms.Label();
             this.comboBoxRenameVariables = new System.Windows.Forms.ComboBox();
             this.groupBoxFaceRegion = new System.Windows.Forms.GroupBox();
+            this.checkBoxFaceRegionAddWebScraping = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.checkBoxFaceRegionAddMicrosoftPhotos = new System.Windows.Forms.CheckBox();
             this.checkBoxFaceRegionAddWindowsMediaPhotoGallery = new System.Windows.Forms.CheckBox();
             this.groupBoxKaywordTags = new System.Windows.Forms.GroupBox();
+            this.checkBoxKeywordsAddWebScraping = new System.Windows.Forms.CheckBox();
             this.checkBoxKeywordBackupLocationCountry = new System.Windows.Forms.CheckBox();
             this.checkBoxKeywordBackupLocationState = new System.Windows.Forms.CheckBox();
             this.checkBoxKeywordBackupLocationCity = new System.Windows.Forms.CheckBox();
@@ -305,8 +326,6 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
-            this.checkBoxKeywordsAddWebScraping = new System.Windows.Forms.CheckBox();
-            this.checkBoxFaceRegionAddWebScraping = new System.Windows.Forms.CheckBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
@@ -326,6 +345,17 @@ namespace PhotoTagsSynchronizer
             this.tabPageMetadataRead.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).BeginInit();
             this.contextMenuStripMetadataRead.SuspendLayout();
+            this.tabPageMetadataWebScraper.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingPageDownCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageLoadedTimeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageStartLoadingTimeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingDelayInPageScriptToRun)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingDelayOurScriptToRun)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingRetry)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownJavaScriptExecuteTimeout)).BeginInit();
+            this.groupBox10.SuspendLayout();
             this.tabPageMetadataWrite.SuspendLayout();
             this.panelMetadataWrite.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -393,6 +423,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlConfig.Controls.Add(this.tabPageApplication);
             this.tabControlConfig.Controls.Add(this.tabPageMetadataRead);
+            this.tabControlConfig.Controls.Add(this.tabPageMetadataWebScraper);
             this.tabControlConfig.Controls.Add(this.tabPageMetadataWrite);
             this.tabControlConfig.Controls.Add(this.tabPageFileDateTimeFormats);
             this.tabControlConfig.Controls.Add(this.tabPageAutoCorrect);
@@ -1277,6 +1308,310 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMetadataReadShowFavorite.Text = "Show favorite rows";
             this.toolStripMenuItemMetadataReadShowFavorite.Click += new System.EventHandler(this.toolStripMenuItemMetadataReadShowFavorite_Click);
             // 
+            // tabPageMetadataWebScraper
+            // 
+            this.tabPageMetadataWebScraper.Controls.Add(this.panel4);
+            this.tabPageMetadataWebScraper.Location = new System.Drawing.Point(4, 25);
+            this.tabPageMetadataWebScraper.Name = "tabPageMetadataWebScraper";
+            this.tabPageMetadataWebScraper.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMetadataWebScraper.Size = new System.Drawing.Size(766, 748);
+            this.tabPageMetadataWebScraper.TabIndex = 11;
+            this.tabPageMetadataWebScraper.Text = "WebScraper";
+            this.tabPageMetadataWebScraper.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.Controls.Add(this.groupBox11);
+            this.panel4.Controls.Add(this.groupBox10);
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(766, 748);
+            this.panel4.TabIndex = 0;
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.numericUpDownWebScrapingPageDownCount);
+            this.groupBox11.Controls.Add(this.numericUpDownWaitEventPageLoadedTimeout);
+            this.groupBox11.Controls.Add(this.numericUpDownWaitEventPageStartLoadingTimeout);
+            this.groupBox11.Controls.Add(this.numericUpDownWebScrapingDelayInPageScriptToRun);
+            this.groupBox11.Controls.Add(this.numericUpDownWebScrapingDelayOurScriptToRun);
+            this.groupBox11.Controls.Add(this.numericUpDownWebScrapingRetry);
+            this.groupBox11.Controls.Add(this.numericUpDownJavaScriptExecuteTimeout);
+            this.groupBox11.Controls.Add(this.label75);
+            this.groupBox11.Controls.Add(this.label74);
+            this.groupBox11.Controls.Add(this.label73);
+            this.groupBox11.Controls.Add(this.label72);
+            this.groupBox11.Controls.Add(this.label71);
+            this.groupBox11.Controls.Add(this.label69);
+            this.groupBox11.Controls.Add(this.label70);
+            this.groupBox11.Location = new System.Drawing.Point(3, 3);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(763, 249);
+            this.groupBox11.TabIndex = 1;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "groupBox11";
+            // 
+            // numericUpDownWebScrapingPageDownCount
+            // 
+            this.numericUpDownWebScrapingPageDownCount.Location = new System.Drawing.Point(333, 196);
+            this.numericUpDownWebScrapingPageDownCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownWebScrapingPageDownCount.Name = "numericUpDownWebScrapingPageDownCount";
+            this.numericUpDownWebScrapingPageDownCount.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownWebScrapingPageDownCount.TabIndex = 13;
+            this.numericUpDownWebScrapingPageDownCount.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownWaitEventPageLoadedTimeout
+            // 
+            this.numericUpDownWaitEventPageLoadedTimeout.Increment = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDownWaitEventPageLoadedTimeout.Location = new System.Drawing.Point(333, 169);
+            this.numericUpDownWaitEventPageLoadedTimeout.Maximum = new decimal(new int[] {
+            60000,
+            0,
+            0,
+            0});
+            this.numericUpDownWaitEventPageLoadedTimeout.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownWaitEventPageLoadedTimeout.Name = "numericUpDownWaitEventPageLoadedTimeout";
+            this.numericUpDownWaitEventPageLoadedTimeout.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownWaitEventPageLoadedTimeout.TabIndex = 12;
+            this.numericUpDownWaitEventPageLoadedTimeout.Value = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownWaitEventPageStartLoadingTimeout
+            // 
+            this.numericUpDownWaitEventPageStartLoadingTimeout.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDownWaitEventPageStartLoadingTimeout.Location = new System.Drawing.Point(333, 140);
+            this.numericUpDownWaitEventPageStartLoadingTimeout.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.numericUpDownWaitEventPageStartLoadingTimeout.Minimum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            this.numericUpDownWaitEventPageStartLoadingTimeout.Name = "numericUpDownWaitEventPageStartLoadingTimeout";
+            this.numericUpDownWaitEventPageStartLoadingTimeout.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownWaitEventPageStartLoadingTimeout.TabIndex = 11;
+            this.numericUpDownWaitEventPageStartLoadingTimeout.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownWebScrapingDelayInPageScriptToRun
+            // 
+            this.numericUpDownWebScrapingDelayInPageScriptToRun.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDownWebScrapingDelayInPageScriptToRun.Location = new System.Drawing.Point(333, 112);
+            this.numericUpDownWebScrapingDelayInPageScriptToRun.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.numericUpDownWebScrapingDelayInPageScriptToRun.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDownWebScrapingDelayInPageScriptToRun.Name = "numericUpDownWebScrapingDelayInPageScriptToRun";
+            this.numericUpDownWebScrapingDelayInPageScriptToRun.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownWebScrapingDelayInPageScriptToRun.TabIndex = 10;
+            this.numericUpDownWebScrapingDelayInPageScriptToRun.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownWebScrapingDelayOurScriptToRun
+            // 
+            this.numericUpDownWebScrapingDelayOurScriptToRun.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDownWebScrapingDelayOurScriptToRun.Location = new System.Drawing.Point(333, 84);
+            this.numericUpDownWebScrapingDelayOurScriptToRun.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.numericUpDownWebScrapingDelayOurScriptToRun.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDownWebScrapingDelayOurScriptToRun.Name = "numericUpDownWebScrapingDelayOurScriptToRun";
+            this.numericUpDownWebScrapingDelayOurScriptToRun.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownWebScrapingDelayOurScriptToRun.TabIndex = 9;
+            this.numericUpDownWebScrapingDelayOurScriptToRun.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownWebScrapingRetry
+            // 
+            this.numericUpDownWebScrapingRetry.Location = new System.Drawing.Point(333, 56);
+            this.numericUpDownWebScrapingRetry.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.numericUpDownWebScrapingRetry.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownWebScrapingRetry.Name = "numericUpDownWebScrapingRetry";
+            this.numericUpDownWebScrapingRetry.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownWebScrapingRetry.TabIndex = 8;
+            this.numericUpDownWebScrapingRetry.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownJavaScriptExecuteTimeout
+            // 
+            this.numericUpDownJavaScriptExecuteTimeout.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDownJavaScriptExecuteTimeout.Location = new System.Drawing.Point(333, 27);
+            this.numericUpDownJavaScriptExecuteTimeout.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.numericUpDownJavaScriptExecuteTimeout.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDownJavaScriptExecuteTimeout.Name = "numericUpDownJavaScriptExecuteTimeout";
+            this.numericUpDownJavaScriptExecuteTimeout.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownJavaScriptExecuteTimeout.TabIndex = 7;
+            this.numericUpDownJavaScriptExecuteTimeout.Value = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            // 
+            // label75
+            // 
+            this.label75.AutoSize = true;
+            this.label75.Location = new System.Drawing.Point(6, 196);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(198, 17);
+            this.label75.TabIndex = 6;
+            this.label75.Text = "webScrapingPageDownCount ";
+            // 
+            // label74
+            // 
+            this.label74.AutoSize = true;
+            this.label74.Location = new System.Drawing.Point(6, 169);
+            this.label74.Name = "label74";
+            this.label74.Size = new System.Drawing.Size(204, 17);
+            this.label74.TabIndex = 5;
+            this.label74.Text = "waitEventPageLoadedTimeout ";
+            // 
+            // label73
+            // 
+            this.label73.AutoSize = true;
+            this.label73.Location = new System.Drawing.Point(6, 142);
+            this.label73.Name = "label73";
+            this.label73.Size = new System.Drawing.Size(237, 17);
+            this.label73.TabIndex = 4;
+            this.label73.Text = "waitEventPageStartLoadingTimeout ";
+            // 
+            // label72
+            // 
+            this.label72.AutoSize = true;
+            this.label72.Location = new System.Drawing.Point(6, 116);
+            this.label72.Name = "label72";
+            this.label72.Size = new System.Drawing.Size(252, 17);
+            this.label72.TabIndex = 3;
+            this.label72.Text = "wapScrapingDelayInPageScriptToRun ";
+            // 
+            // label71
+            // 
+            this.label71.AutoSize = true;
+            this.label71.Location = new System.Drawing.Point(6, 86);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(232, 17);
+            this.label71.TabIndex = 2;
+            this.label71.Text = "webScrapingDelayOurScriptToRun ";
+            // 
+            // label69
+            // 
+            this.label69.AutoSize = true;
+            this.label69.Location = new System.Drawing.Point(6, 29);
+            this.label69.Name = "label69";
+            this.label69.Size = new System.Drawing.Size(171, 17);
+            this.label69.TabIndex = 1;
+            this.label69.Text = "javaScriptExecuteTimeout";
+            // 
+            // label70
+            // 
+            this.label70.AutoSize = true;
+            this.label70.Location = new System.Drawing.Point(6, 58);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(127, 17);
+            this.label70.TabIndex = 0;
+            this.label70.Text = "webScrapingRetry ";
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox10.Controls.Add(this.textBoxWebScrapingStartPages);
+            this.groupBox10.Location = new System.Drawing.Point(3, 255);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(763, 487);
+            this.groupBox10.TabIndex = 0;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Start pages for scraping";
+            // 
+            // textBoxWebScrapingStartPages
+            // 
+            this.textBoxWebScrapingStartPages.Location = new System.Drawing.Point(6, 21);
+            this.textBoxWebScrapingStartPages.Multiline = true;
+            this.textBoxWebScrapingStartPages.Name = "textBoxWebScrapingStartPages";
+            this.textBoxWebScrapingStartPages.Size = new System.Drawing.Size(745, 460);
+            this.textBoxWebScrapingStartPages.TabIndex = 0;
+            // 
             // tabPageMetadataWrite
             // 
             this.tabPageMetadataWrite.AutoScroll = true;
@@ -1390,6 +1725,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(6, 168);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -1423,6 +1759,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(6, 57);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
@@ -1828,6 +2165,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(5, 51);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -1908,6 +2246,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConfigFilenameDateFormats.CharWidth = 10;
             this.fastColoredTextBoxConfigFilenameDateFormats.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConfigFilenameDateFormats.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConfigFilenameDateFormats.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConfigFilenameDateFormats.IsReplaceMode = false;
             this.fastColoredTextBoxConfigFilenameDateFormats.Location = new System.Drawing.Point(2, 46);
             this.fastColoredTextBoxConfigFilenameDateFormats.Name = "fastColoredTextBoxConfigFilenameDateFormats";
@@ -2089,6 +2428,19 @@ namespace PhotoTagsSynchronizer
             this.groupBoxFaceRegion.TabStop = false;
             this.groupBoxFaceRegion.Text = "Face region fields";
             // 
+            // checkBoxFaceRegionAddWebScraping
+            // 
+            this.checkBoxFaceRegionAddWebScraping.AutoSize = true;
+            this.checkBoxFaceRegionAddWebScraping.Checked = true;
+            this.checkBoxFaceRegionAddWebScraping.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxFaceRegionAddWebScraping.Location = new System.Drawing.Point(10, 77);
+            this.checkBoxFaceRegionAddWebScraping.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxFaceRegionAddWebScraping.Name = "checkBoxFaceRegionAddWebScraping";
+            this.checkBoxFaceRegionAddWebScraping.Size = new System.Drawing.Size(309, 21);
+            this.checkBoxFaceRegionAddWebScraping.TabIndex = 3;
+            this.checkBoxFaceRegionAddWebScraping.Text = "Add none existing names from WebScraping";
+            this.checkBoxFaceRegionAddWebScraping.UseVisualStyleBackColor = true;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -2152,6 +2504,19 @@ namespace PhotoTagsSynchronizer
             this.groupBoxKaywordTags.TabIndex = 3;
             this.groupBoxKaywordTags.TabStop = false;
             this.groupBoxKaywordTags.Text = "Keyword tags";
+            // 
+            // checkBoxKeywordsAddWebScraping
+            // 
+            this.checkBoxKeywordsAddWebScraping.AutoSize = true;
+            this.checkBoxKeywordsAddWebScraping.Checked = true;
+            this.checkBoxKeywordsAddWebScraping.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxKeywordsAddWebScraping.Location = new System.Drawing.Point(10, 106);
+            this.checkBoxKeywordsAddWebScraping.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBoxKeywordsAddWebScraping.Name = "checkBoxKeywordsAddWebScraping";
+            this.checkBoxKeywordsAddWebScraping.Size = new System.Drawing.Size(326, 21);
+            this.checkBoxKeywordsAddWebScraping.TabIndex = 25;
+            this.checkBoxKeywordsAddWebScraping.Text = "Add none existing keywords from WebScraping";
+            this.checkBoxKeywordsAddWebScraping.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordBackupLocationCountry
             // 
@@ -3338,6 +3703,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Multiline = false;
@@ -3425,6 +3791,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Location = new System.Drawing.Point(6, 143);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatVideoArguFile";
@@ -3462,6 +3829,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Location = new System.Drawing.Point(6, 46);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Multiline = false;
@@ -3727,6 +4095,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Multiline = false;
@@ -3786,6 +4155,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Location = new System.Drawing.Point(6, 167);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile";
@@ -4137,6 +4507,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowLog.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowLog.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowLog.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowLog.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowLog.IsReplaceMode = false;
             this.fastColoredTextBoxShowLog.Location = new System.Drawing.Point(3, 3);
@@ -4184,6 +4555,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowPipe32Log.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowPipe32Log.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowPipe32Log.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowPipe32Log.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowPipe32Log.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowPipe32Log.IsReplaceMode = false;
             this.fastColoredTextBoxShowPipe32Log.Location = new System.Drawing.Point(0, 0);
@@ -4238,32 +4610,6 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(778, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
             // 
-            // checkBoxKeywordsAddWebScraping
-            // 
-            this.checkBoxKeywordsAddWebScraping.AutoSize = true;
-            this.checkBoxKeywordsAddWebScraping.Checked = true;
-            this.checkBoxKeywordsAddWebScraping.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxKeywordsAddWebScraping.Location = new System.Drawing.Point(10, 106);
-            this.checkBoxKeywordsAddWebScraping.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBoxKeywordsAddWebScraping.Name = "checkBoxKeywordsAddWebScraping";
-            this.checkBoxKeywordsAddWebScraping.Size = new System.Drawing.Size(326, 21);
-            this.checkBoxKeywordsAddWebScraping.TabIndex = 25;
-            this.checkBoxKeywordsAddWebScraping.Text = "Add none existing keywords from WebScraping";
-            this.checkBoxKeywordsAddWebScraping.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxFaceRegionAddWebScraping
-            // 
-            this.checkBoxFaceRegionAddWebScraping.AutoSize = true;
-            this.checkBoxFaceRegionAddWebScraping.Checked = true;
-            this.checkBoxFaceRegionAddWebScraping.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxFaceRegionAddWebScraping.Location = new System.Drawing.Point(10, 77);
-            this.checkBoxFaceRegionAddWebScraping.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBoxFaceRegionAddWebScraping.Name = "checkBoxFaceRegionAddWebScraping";
-            this.checkBoxFaceRegionAddWebScraping.Size = new System.Drawing.Size(309, 21);
-            this.checkBoxFaceRegionAddWebScraping.TabIndex = 3;
-            this.checkBoxFaceRegionAddWebScraping.Text = "Add none existing names from WebScraping";
-            this.checkBoxFaceRegionAddWebScraping.UseVisualStyleBackColor = true;
-            // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4303,6 +4649,19 @@ namespace PhotoTagsSynchronizer
             this.tabPageMetadataRead.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).EndInit();
             this.contextMenuStripMetadataRead.ResumeLayout(false);
+            this.tabPageMetadataWebScraper.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingPageDownCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageLoadedTimeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageStartLoadingTimeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingDelayInPageScriptToRun)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingDelayOurScriptToRun)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingRetry)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownJavaScriptExecuteTimeout)).EndInit();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
             this.tabPageMetadataWrite.ResumeLayout(false);
             this.tabPageMetadataWrite.PerformLayout();
             this.panelMetadataWrite.ResumeLayout(false);
@@ -4668,5 +5027,24 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem searchForNewLocationsInMediaFilesToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxFaceRegionAddWebScraping;
         private System.Windows.Forms.CheckBox checkBoxKeywordsAddWebScraping;
+        private System.Windows.Forms.TabPage tabPageMetadataWebScraper;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Label label69;
+        private System.Windows.Forms.TextBox textBoxWebScrapingStartPages;
+        private System.Windows.Forms.NumericUpDown numericUpDownWebScrapingPageDownCount;
+        private System.Windows.Forms.NumericUpDown numericUpDownWaitEventPageLoadedTimeout;
+        private System.Windows.Forms.NumericUpDown numericUpDownWaitEventPageStartLoadingTimeout;
+        private System.Windows.Forms.NumericUpDown numericUpDownWebScrapingDelayInPageScriptToRun;
+        private System.Windows.Forms.NumericUpDown numericUpDownWebScrapingDelayOurScriptToRun;
+        private System.Windows.Forms.NumericUpDown numericUpDownWebScrapingRetry;
+        private System.Windows.Forms.NumericUpDown numericUpDownJavaScriptExecuteTimeout;
+        private System.Windows.Forms.Label label75;
+        private System.Windows.Forms.Label label74;
+        private System.Windows.Forms.Label label73;
+        private System.Windows.Forms.Label label72;
+        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.Label label70;
     }
 }

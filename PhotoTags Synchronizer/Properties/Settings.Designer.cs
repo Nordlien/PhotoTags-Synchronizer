@@ -1787,5 +1787,102 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["WebScraperScript"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int WebScrapingRetry {
+            get {
+                return ((int)(this["WebScrapingRetry"]));
+            }
+            set {
+                this["WebScrapingRetry"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public int WebScrapingDelayOurScriptToRun {
+            get {
+                return ((int)(this["WebScrapingDelayOurScriptToRun"]));
+            }
+            set {
+                this["WebScrapingDelayOurScriptToRun"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int WebScrapingDelayInPageScriptToRun {
+            get {
+                return ((int)(this["WebScrapingDelayInPageScriptToRun"]));
+            }
+            set {
+                this["WebScrapingDelayInPageScriptToRun"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int WebScrapingPageDownCount {
+            get {
+                return ((int)(this["WebScrapingPageDownCount"]));
+            }
+            set {
+                this["WebScrapingPageDownCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3000")]
+        public int WaitEventPageStartLoadingTimeout {
+            get {
+                return ((int)(this["WaitEventPageStartLoadingTimeout"]));
+            }
+            set {
+                this["WaitEventPageStartLoadingTimeout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20000")]
+        public int WaitEventPageLoadedTimeout {
+            get {
+                return ((int)(this["WaitEventPageLoadedTimeout"]));
+            }
+            set {
+                this["WaitEventPageLoadedTimeout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        public int JavaScriptExecuteTimeout {
+            get {
+                return ((int)(this["JavaScriptExecuteTimeout"]));
+            }
+            set {
+                this["JavaScriptExecuteTimeout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://photos.google.com/things\r\nhttps://photos.google.com/places\r\nhttps://photo" +
+            "s.google.com/albums\r\nhttps://photos.google.com/people")]
+        public string WebScraperStartPages {
+            get {
+                return ((string)(this["WebScraperStartPages"]));
+            }
+            set {
+                this["WebScraperStartPages"] = value;
+            }
+        }
     }
 }

@@ -352,9 +352,15 @@ namespace PhotoTagsSynchronizer
 
             if (metadataWebScrapingCopy != null)
             {
-                if (metadataCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataCopy.PersonalRegionList);
-                if (metadataWindowsLivePhotoGalleryCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
-                if (metadataMicrosoftPhotosCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
+                metadataWebScrapingCopy.MediaHeight = metadataCopy.MediaHeight;
+                metadataWebScrapingCopy.MediaWidth = metadataCopy.MediaWidth;
+                metadataWebScrapingCopy.MediaOrientation = metadataCopy.MediaOrientation;
+                metadataWebScrapingCopy.MediaSize = metadataCopy.MediaSize;
+                metadataWebScrapingCopy.MediaVideoLength = metadataCopy.MediaVideoLength;
+
+                if (metadataCopy != null) metadataCopy.PersonalRegionSetRegionlessRegions(metadataWebScrapingCopy.PersonalRegionList);
+                if (metadataWindowsLivePhotoGalleryCopy != null) metadataWindowsLivePhotoGalleryCopy.PersonalRegionSetRegionlessRegions(metadataWebScrapingCopy.PersonalRegionList);
+                if (metadataMicrosoftPhotosCopy != null) metadataMicrosoftPhotosCopy.PersonalRegionSetRegionlessRegions(metadataWebScrapingCopy.PersonalRegionList);
             }
 
             if (UseFaceRegionFromMicrosoftPhotos && metadataMicrosoftPhotosCopy != null)

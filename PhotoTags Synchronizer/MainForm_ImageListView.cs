@@ -447,7 +447,7 @@ namespace PhotoTagsSynchronizer
             }
 
             List<FileEntry> fileEntryFound = new List<FileEntry>();
-            foreach (FileInfo fileInfo in filesFoundInDirectory) fileEntryFound.Add(new FileEntry(fileInfo.Name, fileInfo.DirectoryName, fileInfo.LastWriteTime));
+            foreach (FileInfo fileInfo in filesFoundInDirectory) fileEntryFound.Add(new FileEntry(fileInfo.DirectoryName, fileInfo.Name, fileInfo.LastWriteTime));
             return fileEntryFound;
         }
         #endregion

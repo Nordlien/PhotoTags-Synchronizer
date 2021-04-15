@@ -184,6 +184,17 @@ namespace PhotoTagsSynchronizer
             CopyMetadataReadPrioity(MetadataReadPrioity.MetadataPrioityDictionary, metadataPrioityDictionaryCopy);
             PopulateMetadataRead(dataGridViewMetadataReadPriority);
 
+            //WebScraping
+            numericUpDownWaitEventPageLoadedTimeout.Value = Properties.Settings.Default.WaitEventPageLoadedTimeout;
+            numericUpDownWaitEventPageStartLoadingTimeout.Value = Properties.Settings.Default.WaitEventPageStartLoadingTimeout;
+            //textBox.Text = Properties.Settings.Default.WebScraperScript;
+            textBoxWebScrapingStartPages.Text = Properties.Settings.Default.WebScraperStartPages;
+            numericUpDownWebScrapingDelayInPageScriptToRun.Value = Properties.Settings.Default.WebScrapingDelayInPageScriptToRun;
+            numericUpDownWebScrapingDelayOurScriptToRun.Value = Properties.Settings.Default.WebScrapingDelayOurScriptToRun;
+            numericUpDownWebScrapingPageDownCount.Value = Properties.Settings.Default.WebScrapingPageDownCount;
+            numericUpDownWebScrapingRetry.Value = Properties.Settings.Default.WebScrapingRetry;
+            numericUpDownJavaScriptExecuteTimeout.Value = Properties.Settings.Default.JavaScriptExecuteTimeout;
+
             //Camera Owner 
             PopulateMetadataCameraOwner(dataGridViewCameraOwner);
             
@@ -337,6 +348,17 @@ namespace PhotoTagsSynchronizer
             GetAutoCorrectPoperties();
             Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
 
+            //WebScraping
+            Properties.Settings.Default.WaitEventPageLoadedTimeout = (int)numericUpDownWaitEventPageLoadedTimeout.Value;
+            Properties.Settings.Default.WaitEventPageStartLoadingTimeout = (int)numericUpDownWaitEventPageStartLoadingTimeout.Value;
+            //Properties.Settings.Default.WebScraperScript = textBox.Text;
+            Properties.Settings.Default.WebScraperStartPages = textBoxWebScrapingStartPages.Text;
+            Properties.Settings.Default.WebScrapingDelayInPageScriptToRun = (int)numericUpDownWebScrapingDelayInPageScriptToRun.Value;
+            Properties.Settings.Default.WebScrapingDelayOurScriptToRun = (int)numericUpDownWebScrapingDelayOurScriptToRun.Value;
+            Properties.Settings.Default.WebScrapingPageDownCount = (int)numericUpDownWebScrapingPageDownCount.Value;
+            Properties.Settings.Default.WebScrapingRetry = (int)numericUpDownWebScrapingRetry.Value;
+            Properties.Settings.Default.JavaScriptExecuteTimeout = (int)numericUpDownJavaScriptExecuteTimeout.Value;
+
             //Metadata Write
             Properties.Settings.Default.WriteMetadataTags = fastColoredTextBoxMetadataWriteTags.Text;
             Properties.Settings.Default.WriteMetadataKeywordAdd = fastColoredTextBoxMetadataWriteKeywordAdd.Text;
@@ -483,6 +505,12 @@ namespace PhotoTagsSynchronizer
                     case MetadataBrokerType.FileSystem:
                         listViewItem = new ListViewItem();
                         listViewItem.Text = "Subfolder name";
+                        listViewItem.Tag = MetadataBrokerType.FileSystem;
+                        imageListViewOrder.Items.Add(listViewItem);
+                        break;
+                    case MetadataBrokerType.WebScraping:
+                        listViewItem = new ListViewItem();
+                        listViewItem.Text = "WebScraping";
                         listViewItem.Tag = MetadataBrokerType.FileSystem;
                         imageListViewOrder.Items.Add(listViewItem);
                         break;

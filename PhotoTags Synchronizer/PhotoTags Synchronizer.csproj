@@ -368,6 +368,7 @@
     <None Include="Resources\CheckAll.png" />
     <None Include="Resources\CheckNone.png" />
     <None Include="Resources\CheckToggle.png" />
+    <None Include="Resources\CheckEmpty.png" />
     <Content Include="Resources\Demo.ico" />
     <Content Include="Resources\AppIcon.ico" />
     <None Include="Resources\FaceLoading.png" />

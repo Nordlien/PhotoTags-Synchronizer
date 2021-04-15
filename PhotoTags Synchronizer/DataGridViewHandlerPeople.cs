@@ -252,17 +252,23 @@ namespace PhotoTagsSynchronizer
                     
                     if (metadataWebScrapingCopy != null)
                     {
-                        if (metadataCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataCopy.PersonalRegionList);
-                        if (metadataWindowsLivePhotoGalleryCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataWindowsLivePhotoGalleryCopy.PersonalRegionList);
-                        if (metadataMicrosoftPhotosCopy != null) metadataWebScrapingCopy.PersonalRegionSetRegionlessRegions(metadataMicrosoftPhotosCopy.PersonalRegionList);
+                        metadataWebScrapingCopy.MediaHeight = metadataCopy.MediaHeight;
+                        metadataWebScrapingCopy.MediaWidth = metadataCopy.MediaWidth;
+                        metadataWebScrapingCopy.MediaOrientation = metadataCopy.MediaOrientation;
+                        metadataWebScrapingCopy.MediaSize = metadataCopy.MediaSize;
+                        metadataWebScrapingCopy.MediaVideoLength = metadataCopy.MediaVideoLength;
+                        
+                        if (metadataCopy != null) metadataCopy.PersonalRegionSetRegionlessRegions(metadataWebScrapingCopy.PersonalRegionList);
+                        if (metadataWindowsLivePhotoGalleryCopy != null) metadataWindowsLivePhotoGalleryCopy.PersonalRegionSetRegionlessRegions(metadataWebScrapingCopy.PersonalRegionList);
+                        if (metadataMicrosoftPhotosCopy != null) metadataMicrosoftPhotosCopy.PersonalRegionSetRegionlessRegions(metadataWebScrapingCopy.PersonalRegionList);
                     }
 
 
                     //Populate 
                     PopulatePeople(dataGridView, metadataCopy, columnIndex, MetadataBrokerType.ExifTool);
-                    if (metadataWindowsLivePhotoGallery != null) PopulatePeople(dataGridView, metadataWindowsLivePhotoGalleryCopy, columnIndex, MetadataBrokerType.WindowsLivePhotoGallery);
-                    if (metadataMicrosoftPhotos != null) PopulatePeople(dataGridView, metadataMicrosoftPhotosCopy, columnIndex, MetadataBrokerType.MicrosoftPhotos);
-                    if (metadataWebScraping != null) PopulatePeople(dataGridView, metadataWebScrapingCopy, columnIndex, MetadataBrokerType.WebScraping);
+                    if (metadataWindowsLivePhotoGalleryCopy != null) PopulatePeople(dataGridView, metadataWindowsLivePhotoGalleryCopy, columnIndex, MetadataBrokerType.WindowsLivePhotoGallery);
+                    if (metadataMicrosoftPhotosCopy != null) PopulatePeople(dataGridView, metadataMicrosoftPhotosCopy, columnIndex, MetadataBrokerType.MicrosoftPhotos);
+                    if (metadataWebScrapingCopy != null) PopulatePeople(dataGridView, metadataWebScrapingCopy, columnIndex, MetadataBrokerType.WebScraping);
 
                     //Remember names added
                     foreach (RegionStructure regionStructure in metadata.PersonalRegionList)

@@ -1024,5 +1024,32 @@ duration {Duration}</Value>
     return resultArray;
 })();</Value>
     </Setting>
+    <Setting Name="WebScrapingRetry" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="WebScrapingDelayOurScriptToRun" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="WebScrapingDelayInPageScriptToRun" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="WebScrapingPageDownCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="WaitEventPageStartLoadingTimeout" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3000</Value>
+    </Setting>
+    <Setting Name="WaitEventPageLoadedTimeout" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20000</Value>
+    </Setting>
+    <Setting Name="JavaScriptExecuteTimeout" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5000</Value>
+    </Setting>
+    <Setting Name="WebScraperStartPages" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://photos.google.com/things
+https://photos.google.com/places
+https://photos.google.com/albums
+https://photos.google.com/people</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
