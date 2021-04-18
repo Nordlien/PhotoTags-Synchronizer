@@ -41,9 +41,9 @@ namespace MetadataLibrary
             dbTools.TransactionBeginBatch();
         }
 
-        public void TransactionCommitBatch()
+        public void TransactionCommitBatch(bool force = false)
         {
-            dbTools.TransactionCommitBatch();
+            dbTools.TransactionCommitBatch(force);
         }
 
         #region Read
@@ -499,7 +499,7 @@ namespace MetadataLibrary
                 }
             }
 
-            dbTools.TransactionCommitBatch();
+            dbTools.TransactionCommitBatch(false);
         }
         #endregion
 
@@ -604,7 +604,7 @@ namespace MetadataLibrary
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
-            dbTools.TransactionCommitBatch();
+            dbTools.TransactionCommitBatch(false);
 
             sqlCommand =
                 "INSERT INTO MediaThumbnail (FileDirectory, FileName, FileDateModified, Image) " +
@@ -618,7 +618,7 @@ namespace MetadataLibrary
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
-            dbTools.TransactionCommitBatch();
+            dbTools.TransactionCommitBatch(false);
         }
         #endregion
 
@@ -700,7 +700,7 @@ namespace MetadataLibrary
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
-            dbTools.TransactionCommitBatch();
+            dbTools.TransactionCommitBatch(false);
 
             sqlCommand =
                 "UPDATE MediaThumbnail SET " +
@@ -715,69 +715,91 @@ namespace MetadataLibrary
                 commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
-            dbTools.TransactionCommitBatch();
+            dbTools.TransactionCommitBatch(false);
         }
         #endregion
 
 
-
         #region Delete Directoy - Mediadata
-        private void DeleteDirectoryMediaMetadata(MetadataBrokerType broker, string fileDirectory)
+        private int DeleteDirectoryMediaMetadata(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
+            int rowsAffected = 0;
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
                             "Broker = @Broker AND " +
                             "FileDirectory = @FileDirectory";
 
+            if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
+
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
+                if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
                 commandDatabase.Prepare();
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            return rowsAffected;
         }
         #endregion
 
         #region Delete Directory - Media PersonalRegions
-        private void DeleteDirectoryMediaPersonalRegions(MetadataBrokerType broker, string fileDirectory)
+        private int DeleteDirectoryMediaPersonalRegions(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
+            int rowsAffected = 0;
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
                             "Broker = @Broker AND " +
                             "FileDirectory = @FileDirectory";
+            if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
+
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
+                if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
                 commandDatabase.Prepare();
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            return rowsAffected;
         }
         #endregion
 
         #region Delete Directory - Media PersonalKeywords 
-        private void DeleteDirectoryMediaPersonalKeywords(MetadataBrokerType broker, string fileDirectory)
+        private int DeleteDirectoryMediaPersonalKeywords(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
+            int rowsAffected = 0; 
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
                             "Broker = @Broker AND " +
                             "FileDirectory = @FileDirectory";
+            if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
+
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 commandDatabase.Parameters.AddWithValue("@Broker", broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
+                if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
                 commandDatabase.Prepare();
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            return rowsAffected;
         }
         #endregion
 
         #region Delete Directory
-        public void DeleteDirectory(MetadataBrokerType broker, string fileDirectory)
+        public int DeleteDirectory(MetadataBrokerType broker, string fileDirectory, DateTime? dateTime = null)
         {
-
-            MetadataCacheRemove(fileDirectory);
-            DeleteDirectoryMediaMetadata(broker, fileDirectory);
-            DeleteDirectoryMediaPersonalRegions(broker, fileDirectory);
-            DeleteDirectoryMediaPersonalKeywords(broker, fileDirectory);
+            int rowsAffected = 0;
+            int rowsAffectedTotal = 0;
+            webScrapingPackageDates = null;
+            TransactionCommitBatch(true);
+            if (dateTime == null) MetadataCacheRemove(fileDirectory);
+            else MetadataCacheRemove(broker, fileDirectory, (DateTime)dateTime);
+            rowsAffected += DeleteDirectoryMediaMetadata(broker, fileDirectory, dateTime);
+            if (rowsAffected >= 0) rowsAffectedTotal += rowsAffected;
+            rowsAffected += DeleteDirectoryMediaPersonalRegions(broker, fileDirectory, dateTime);
+            if (rowsAffected >= 0) rowsAffectedTotal += rowsAffected;
+            rowsAffected += DeleteDirectoryMediaPersonalKeywords(broker, fileDirectory, dateTime);
+            if (rowsAffected >= 0) rowsAffectedTotal += rowsAffected;
+            return rowsAffectedTotal;
         }
         #endregion
 
@@ -864,7 +886,7 @@ namespace MetadataLibrary
         #endregion 
 
         #region WebScraping - ListWebScraperPackages
-        public List<DateTime> ListWebScraperPackages(MetadataBrokerType broker, string directory)
+        public List<DateTime> ListWebScraperDataSet(MetadataBrokerType broker, string directory)
         {
             if (webScrapingPackageDates != null) return webScrapingPackageDates;
 
@@ -934,7 +956,7 @@ namespace MetadataLibrary
         private DateTime? GetWebScraperLastPackageDate()
         {
             DateTime? dateTimeResult = null;
-            List<DateTime> webScrapingPackageDates = ListWebScraperPackages(MetadataBrokerType.WebScraping, WebScapingFolderName);
+            List<DateTime> webScrapingPackageDates = ListWebScraperDataSet(MetadataBrokerType.WebScraping, WebScapingFolderName);
             if (webScrapingPackageDates.Count > 0) dateTimeResult = webScrapingPackageDates[0];
             foreach (DateTime dateTimeCheck in webScrapingPackageDates) if (dateTimeCheck > dateTimeResult) dateTimeResult = dateTimeCheck;
             return (dateTimeResult == null ? DateTime.MinValue : dateTimeResult);
@@ -1845,5 +1867,20 @@ namespace MetadataLibrary
         }
         #endregion 
 
+        #region Cache - Remove
+        public void MetadataCacheRemove(MetadataBrokerType broker, string directory, DateTime dateTime)
+        {
+            List<FileEntryBroker> foundKeys = new List<FileEntryBroker>();
+            foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
+            {
+                    
+                if (fileEntryBroker.Broker == broker && fileEntryBroker.Directory == directory && fileEntryBroker.LastWriteDateTime == dateTime)
+                {
+                    foundKeys.Add(fileEntryBroker);
+                }
+            }
+            foreach (FileEntryBroker fileEntryBrokerRemove in foundKeys) MetadataCacheRemove(fileEntryBrokerRemove);
+        }
+        #endregion 
     }
 }

@@ -1025,10 +1025,10 @@ duration {Duration}</Value>
 })();</Value>
     </Setting>
     <Setting Name="WebScrapingRetry" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">15</Value>
     </Setting>
     <Setting Name="WebScrapingDelayOurScriptToRun" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">200</Value>
+      <Value Profile="(Default)">250</Value>
     </Setting>
     <Setting Name="WebScrapingDelayInPageScriptToRun" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>

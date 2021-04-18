@@ -27,7 +27,7 @@ namespace GoogleLocationHistory
 
         public void TransactionCommitBatch()
         {
-            dbTools.TransactionCommitBatch();
+            dbTools.TransactionCommitBatch(false);
         }
 
 

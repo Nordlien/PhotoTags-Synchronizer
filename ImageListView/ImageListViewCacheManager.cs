@@ -992,11 +992,11 @@ namespace Manina.Windows.Forms
                             } catch { }
                             sw.Reset();
                         }
-                        catch (ObjectDisposedException ex)
+                        catch (ObjectDisposedException)
                         {
                             if (!Stopping) throw;
                         }
-                        catch (InvalidOperationException ex)
+                        catch (InvalidOperationException)
                         {
                             if (!Stopping) throw;
                         }

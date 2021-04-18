@@ -96,7 +96,7 @@ namespace Exiftool
                 }
             }
 
-            dbTools.TransactionCommitBatch();
+            dbTools.TransactionCommitBatch(false);
         }
 
         public void DeleteDirectory(string fileDirectory)

@@ -42,6 +42,25 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript = new FastColoredTextBoxNS.FastColoredTextBox();
             this.fastColoredTextBoxJavaScriptResult = new FastColoredTextBoxNS.FastColoredTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonWebScrapingClearDataSet = new System.Windows.Forms.Button();
+            this.buttonWebScrapingDataSetDelete = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.buttonWebScrapingDataSetSelectNone = new System.Windows.Forms.Button();
+            this.buttonWebScrapingDataSetSelectToggle = new System.Windows.Forms.Button();
+            this.buttonWebScrapingDataSetSelectAll = new System.Windows.Forms.Button();
+            this.listViewDataSetDates = new System.Windows.Forms.ListView();
+            this.columnHeaderSavedDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderDataSetName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderDataSetCountMediaFiles = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderDataSetCountTitles = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderDataSetCountAlbumNames = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderDataSetCountLocationNames = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderDataSetCountKeywords = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderDataSetCountRegions = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.buttonWebScrapingLoadPackage = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonWebScrapingStop = new System.Windows.Forms.Button();
             this.buttonWebScrapingStart = new System.Windows.Forms.Button();
@@ -51,27 +70,24 @@ namespace PhotoTagsSynchronizer
             this.columnHeaderCategoryType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCategoryLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCategoryDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCountMediaFiles = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCountTitles = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCountAlbumNames = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCountLocationNames = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCountKeywords = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCountRegions = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.buttonWebScrapingCategories = new System.Windows.Forms.Button();
             this.buttonWebScrapingSelectNotRead = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonWebScrapingSelectNone = new System.Windows.Forms.Button();
             this.buttonWebScrapingSelectAll = new System.Windows.Forms.Button();
             this.buttonWebScrapingToggle = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.buttonWebScrapingCategoryGroupSelectNone = new System.Windows.Forms.Button();
-            this.buttonWebScrapingCategoryGroupSelectToggle = new System.Windows.Forms.Button();
-            this.buttonWebScrapingCategoryGroupSelectAll = new System.Windows.Forms.Button();
-            this.listViewCategoryGroups = new System.Windows.Forms.ListView();
-            this.columnHeaderSavedDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.buttonWebScrapingCategories = new System.Windows.Forms.Button();
-            this.buttonWebScrapingLoadPackage = new System.Windows.Forms.Button();
             this.groupBoxDevTools = new System.Windows.Forms.GroupBox();
             this.buttonRunJavaScript = new System.Windows.Forms.Button();
             this.buttonBrowserShowDevTool = new System.Windows.Forms.Button();
             this.buttonSaveJavaScript = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -90,8 +106,12 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScript)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScriptResult)).BeginInit();
             this.panel3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBoxDevTools.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -235,6 +255,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript.CharWidth = 10;
             this.fastColoredTextBoxJavaScript.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScript.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxJavaScript.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxJavaScript.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScript.Language = FastColoredTextBoxNS.Language.JS;
             this.fastColoredTextBoxJavaScript.LeftBracket = '(';
@@ -275,6 +296,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScriptResult.CommentPrefix = null;
             this.fastColoredTextBoxJavaScriptResult.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScriptResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxJavaScriptResult.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxJavaScriptResult.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScriptResult.Language = FastColoredTextBoxNS.Language.XML;
             this.fastColoredTextBoxJavaScriptResult.LeftBracket = '<';
@@ -294,14 +316,203 @@ namespace PhotoTagsSynchronizer
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.groupBox2);
-            this.panel3.Controls.Add(this.groupBox1);
+            this.panel3.Controls.Add(this.splitContainer4);
             this.panel3.Controls.Add(this.groupBoxDevTools);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(427, 708);
             this.panel3.TabIndex = 0;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer4.Location = new System.Drawing.Point(2, 97);
+            this.splitContainer4.MinimumSize = new System.Drawing.Size(424, 610);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.groupBox1);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.groupBox2);
+            this.splitContainer4.Size = new System.Drawing.Size(424, 610);
+            this.splitContainer4.SplitterDistance = 263;
+            this.splitContainer4.TabIndex = 31;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.buttonWebScrapingClearDataSet);
+            this.groupBox1.Controls.Add(this.buttonWebScrapingDataSetDelete);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.buttonWebScrapingDataSetSelectNone);
+            this.groupBox1.Controls.Add(this.buttonWebScrapingDataSetSelectToggle);
+            this.groupBox1.Controls.Add(this.buttonWebScrapingDataSetSelectAll);
+            this.groupBox1.Controls.Add(this.listViewDataSetDates);
+            this.groupBox1.Controls.Add(this.buttonWebScrapingLoadPackage);
+            this.groupBox1.Location = new System.Drawing.Point(3, 8);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(417, 252);
+            this.groupBox1.TabIndex = 25;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "WebScraping - DataSet";
+            // 
+            // buttonWebScrapingClearDataSet
+            // 
+            this.buttonWebScrapingClearDataSet.Location = new System.Drawing.Point(4, 52);
+            this.buttonWebScrapingClearDataSet.Name = "buttonWebScrapingClearDataSet";
+            this.buttonWebScrapingClearDataSet.Size = new System.Drawing.Size(203, 25);
+            this.buttonWebScrapingClearDataSet.TabIndex = 30;
+            this.buttonWebScrapingClearDataSet.Text = "Clear DataSet";
+            this.buttonWebScrapingClearDataSet.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingClearDataSet.Click += new System.EventHandler(this.buttonWebScrapingClearDataSet_Click);
+            // 
+            // buttonWebScrapingDataSetDelete
+            // 
+            this.buttonWebScrapingDataSetDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWebScrapingDataSetDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.buttonWebScrapingDataSetDelete.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
+            this.buttonWebScrapingDataSetDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonWebScrapingDataSetDelete.Location = new System.Drawing.Point(293, 84);
+            this.buttonWebScrapingDataSetDelete.Name = "buttonWebScrapingDataSetDelete";
+            this.buttonWebScrapingDataSetDelete.Size = new System.Drawing.Size(25, 25);
+            this.buttonWebScrapingDataSetDelete.TabIndex = 29;
+            this.buttonWebScrapingDataSetDelete.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingDataSetDelete.Click += new System.EventHandler(this.buttonWebScrapingDataSetDelete_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(213, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(209, 17);
+            this.label3.TabIndex = 28;
+            this.label3.Text = "Load/merge dataset to continue";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 92);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(259, 17);
+            this.label2.TabIndex = 27;
+            this.label2.Text = "Last dataset will be use for AutoCorrect.";
+            // 
+            // buttonWebScrapingDataSetSelectNone
+            // 
+            this.buttonWebScrapingDataSetSelectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWebScrapingDataSetSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone;
+            this.buttonWebScrapingDataSetSelectNone.Location = new System.Drawing.Point(386, 84);
+            this.buttonWebScrapingDataSetSelectNone.Name = "buttonWebScrapingDataSetSelectNone";
+            this.buttonWebScrapingDataSetSelectNone.Size = new System.Drawing.Size(25, 25);
+            this.buttonWebScrapingDataSetSelectNone.TabIndex = 26;
+            this.buttonWebScrapingDataSetSelectNone.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingDataSetSelectNone.Click += new System.EventHandler(this.buttonWebScrapingCategoryGroupSelectNone_Click);
+            // 
+            // buttonWebScrapingDataSetSelectToggle
+            // 
+            this.buttonWebScrapingDataSetSelectToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWebScrapingDataSetSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle;
+            this.buttonWebScrapingDataSetSelectToggle.Location = new System.Drawing.Point(355, 84);
+            this.buttonWebScrapingDataSetSelectToggle.Name = "buttonWebScrapingDataSetSelectToggle";
+            this.buttonWebScrapingDataSetSelectToggle.Size = new System.Drawing.Size(25, 25);
+            this.buttonWebScrapingDataSetSelectToggle.TabIndex = 25;
+            this.buttonWebScrapingDataSetSelectToggle.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingDataSetSelectToggle.Click += new System.EventHandler(this.buttonWebScrapingCategoryGroupSelectToggle_Click);
+            // 
+            // buttonWebScrapingDataSetSelectAll
+            // 
+            this.buttonWebScrapingDataSetSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonWebScrapingDataSetSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll;
+            this.buttonWebScrapingDataSetSelectAll.Location = new System.Drawing.Point(324, 84);
+            this.buttonWebScrapingDataSetSelectAll.Name = "buttonWebScrapingDataSetSelectAll";
+            this.buttonWebScrapingDataSetSelectAll.Size = new System.Drawing.Size(25, 25);
+            this.buttonWebScrapingDataSetSelectAll.TabIndex = 24;
+            this.buttonWebScrapingDataSetSelectAll.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingDataSetSelectAll.Click += new System.EventHandler(this.buttonWebScrapingCategoryGroupSelectAll_Click);
+            // 
+            // listViewDataSetDates
+            // 
+            this.listViewDataSetDates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewDataSetDates.CheckBoxes = true;
+            this.listViewDataSetDates.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderSavedDate,
+            this.columnHeaderDataSetName,
+            this.columnHeaderDataSetCountMediaFiles,
+            this.columnHeaderDataSetCountTitles,
+            this.columnHeaderDataSetCountAlbumNames,
+            this.columnHeaderDataSetCountLocationNames,
+            this.columnHeaderDataSetCountKeywords,
+            this.columnHeaderDataSetCountRegions});
+            this.listViewDataSetDates.HideSelection = false;
+            this.listViewDataSetDates.Location = new System.Drawing.Point(6, 115);
+            this.listViewDataSetDates.Name = "listViewDataSetDates";
+            this.listViewDataSetDates.Size = new System.Drawing.Size(407, 131);
+            this.listViewDataSetDates.TabIndex = 23;
+            this.listViewDataSetDates.UseCompatibleStateImageBehavior = false;
+            this.listViewDataSetDates.View = System.Windows.Forms.View.Details;
+            this.listViewDataSetDates.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewDataSet_ColumnClick);
+            // 
+            // columnHeaderSavedDate
+            // 
+            this.columnHeaderSavedDate.Text = "Saved date";
+            this.columnHeaderSavedDate.Width = 140;
+            // 
+            // columnHeaderDataSetName
+            // 
+            this.columnHeaderDataSetName.Text = "Name";
+            this.columnHeaderDataSetName.Width = 129;
+            // 
+            // columnHeaderDataSetCountMediaFiles
+            // 
+            this.columnHeaderDataSetCountMediaFiles.Text = "#Files";
+            this.columnHeaderDataSetCountMediaFiles.Width = 50;
+            // 
+            // columnHeaderDataSetCountTitles
+            // 
+            this.columnHeaderDataSetCountTitles.Text = "#Titles";
+            this.columnHeaderDataSetCountTitles.Width = 50;
+            // 
+            // columnHeaderDataSetCountAlbumNames
+            // 
+            this.columnHeaderDataSetCountAlbumNames.Text = "#Albums";
+            this.columnHeaderDataSetCountAlbumNames.Width = 50;
+            // 
+            // columnHeaderDataSetCountLocationNames
+            // 
+            this.columnHeaderDataSetCountLocationNames.Text = "#Locations";
+            this.columnHeaderDataSetCountLocationNames.Width = 50;
+            // 
+            // columnHeaderDataSetCountKeywords
+            // 
+            this.columnHeaderDataSetCountKeywords.Text = "#Keywords";
+            this.columnHeaderDataSetCountKeywords.Width = 50;
+            // 
+            // columnHeaderDataSetCountRegions
+            // 
+            this.columnHeaderDataSetCountRegions.Text = "#Regions";
+            this.columnHeaderDataSetCountRegions.Width = 50;
+            // 
+            // buttonWebScrapingLoadPackage
+            // 
+            this.buttonWebScrapingLoadPackage.Location = new System.Drawing.Point(4, 21);
+            this.buttonWebScrapingLoadPackage.Name = "buttonWebScrapingLoadPackage";
+            this.buttonWebScrapingLoadPackage.Size = new System.Drawing.Size(203, 25);
+            this.buttonWebScrapingLoadPackage.TabIndex = 21;
+            this.buttonWebScrapingLoadPackage.Text = "Load/Merge DataSet";
+            this.buttonWebScrapingLoadPackage.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingLoadPackage.Click += new System.EventHandler(this.buttonWebScrapingLoadPackage_Click);
             // 
             // groupBox2
             // 
@@ -318,9 +529,9 @@ namespace PhotoTagsSynchronizer
             this.groupBox2.Controls.Add(this.buttonWebScrapingSelectNone);
             this.groupBox2.Controls.Add(this.buttonWebScrapingSelectAll);
             this.groupBox2.Controls.Add(this.buttonWebScrapingToggle);
-            this.groupBox2.Location = new System.Drawing.Point(2, 284);
+            this.groupBox2.Location = new System.Drawing.Point(4, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(420, 416);
+            this.groupBox2.Size = new System.Drawing.Size(416, 333);
             this.groupBox2.TabIndex = 26;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "WebScraping";
@@ -365,11 +576,17 @@ namespace PhotoTagsSynchronizer
             this.columnHeaderCategoryName,
             this.columnHeaderCategoryType,
             this.columnHeaderCategoryLink,
-            this.columnHeaderCategoryDate});
+            this.columnHeaderCategoryDate,
+            this.columnHeaderCountMediaFiles,
+            this.columnHeaderCountTitles,
+            this.columnHeaderCountAlbumNames,
+            this.columnHeaderCountLocationNames,
+            this.columnHeaderCountKeywords,
+            this.columnHeaderCountRegions});
             this.listViewLinks.HideSelection = false;
             this.listViewLinks.Location = new System.Drawing.Point(6, 119);
             this.listViewLinks.Name = "listViewLinks";
-            this.listViewLinks.Size = new System.Drawing.Size(408, 291);
+            this.listViewLinks.Size = new System.Drawing.Size(404, 208);
             this.listViewLinks.TabIndex = 5;
             this.listViewLinks.UseCompatibleStateImageBehavior = false;
             this.listViewLinks.View = System.Windows.Forms.View.Details;
@@ -378,7 +595,7 @@ namespace PhotoTagsSynchronizer
             // columnHeaderCategoryName
             // 
             this.columnHeaderCategoryName.Text = "Name";
-            this.columnHeaderCategoryName.Width = 101;
+            this.columnHeaderCategoryName.Width = 140;
             // 
             // columnHeaderCategoryType
             // 
@@ -388,7 +605,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.columnHeaderCategoryLink.DisplayIndex = 3;
             this.columnHeaderCategoryLink.Text = "Link";
-            this.columnHeaderCategoryLink.Width = 90;
+            this.columnHeaderCategoryLink.Width = 68;
             // 
             // columnHeaderCategoryDate
             // 
@@ -396,11 +613,45 @@ namespace PhotoTagsSynchronizer
             this.columnHeaderCategoryDate.Text = "Updated";
             this.columnHeaderCategoryDate.Width = 105;
             // 
+            // columnHeaderCountMediaFiles
+            // 
+            this.columnHeaderCountMediaFiles.Text = "#Files";
+            // 
+            // columnHeaderCountTitles
+            // 
+            this.columnHeaderCountTitles.Text = "#Titles";
+            // 
+            // columnHeaderCountAlbumNames
+            // 
+            this.columnHeaderCountAlbumNames.Text = "#AlbumNames";
+            // 
+            // columnHeaderCountLocationNames
+            // 
+            this.columnHeaderCountLocationNames.Text = "#LocationNames";
+            // 
+            // columnHeaderCountKeywords
+            // 
+            this.columnHeaderCountKeywords.Text = "#Keywords";
+            // 
+            // columnHeaderCountRegions
+            // 
+            this.columnHeaderCountRegions.Text = "#Regions";
+            // 
+            // buttonWebScrapingCategories
+            // 
+            this.buttonWebScrapingCategories.Location = new System.Drawing.Point(211, 21);
+            this.buttonWebScrapingCategories.Name = "buttonWebScrapingCategories";
+            this.buttonWebScrapingCategories.Size = new System.Drawing.Size(203, 25);
+            this.buttonWebScrapingCategories.TabIndex = 13;
+            this.buttonWebScrapingCategories.Text = "Fetch categories";
+            this.buttonWebScrapingCategories.UseVisualStyleBackColor = true;
+            this.buttonWebScrapingCategories.Click += new System.EventHandler(this.WebScrapingCategoryLinks_Click);
+            // 
             // buttonWebScrapingSelectNotRead
             // 
             this.buttonWebScrapingSelectNotRead.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonWebScrapingSelectNotRead.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckEmpty;
-            this.buttonWebScrapingSelectNotRead.Location = new System.Drawing.Point(296, 88);
+            this.buttonWebScrapingSelectNotRead.Location = new System.Drawing.Point(292, 88);
             this.buttonWebScrapingSelectNotRead.Name = "buttonWebScrapingSelectNotRead";
             this.buttonWebScrapingSelectNotRead.Size = new System.Drawing.Size(25, 25);
             this.buttonWebScrapingSelectNotRead.TabIndex = 23;
@@ -422,7 +673,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonWebScrapingSelectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonWebScrapingSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone;
-            this.buttonWebScrapingSelectNone.Location = new System.Drawing.Point(389, 88);
+            this.buttonWebScrapingSelectNone.Location = new System.Drawing.Point(385, 88);
             this.buttonWebScrapingSelectNone.Name = "buttonWebScrapingSelectNone";
             this.buttonWebScrapingSelectNone.Size = new System.Drawing.Size(25, 25);
             this.buttonWebScrapingSelectNone.TabIndex = 17;
@@ -433,7 +684,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonWebScrapingSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonWebScrapingSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll;
-            this.buttonWebScrapingSelectAll.Location = new System.Drawing.Point(327, 88);
+            this.buttonWebScrapingSelectAll.Location = new System.Drawing.Point(323, 88);
             this.buttonWebScrapingSelectAll.Name = "buttonWebScrapingSelectAll";
             this.buttonWebScrapingSelectAll.Size = new System.Drawing.Size(25, 25);
             this.buttonWebScrapingSelectAll.TabIndex = 15;
@@ -444,102 +695,12 @@ namespace PhotoTagsSynchronizer
             // 
             this.buttonWebScrapingToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonWebScrapingToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle;
-            this.buttonWebScrapingToggle.Location = new System.Drawing.Point(358, 88);
+            this.buttonWebScrapingToggle.Location = new System.Drawing.Point(354, 88);
             this.buttonWebScrapingToggle.Name = "buttonWebScrapingToggle";
             this.buttonWebScrapingToggle.Size = new System.Drawing.Size(25, 25);
             this.buttonWebScrapingToggle.TabIndex = 16;
             this.buttonWebScrapingToggle.UseVisualStyleBackColor = true;
             this.buttonWebScrapingToggle.Click += new System.EventHandler(this.buttonWebScrapingToggle_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.buttonWebScrapingCategoryGroupSelectNone);
-            this.groupBox1.Controls.Add(this.buttonWebScrapingCategoryGroupSelectToggle);
-            this.groupBox1.Controls.Add(this.buttonWebScrapingCategoryGroupSelectAll);
-            this.groupBox1.Controls.Add(this.listViewCategoryGroups);
-            this.groupBox1.Controls.Add(this.buttonWebScrapingLoadPackage);
-            this.groupBox1.Location = new System.Drawing.Point(2, 97);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(420, 181);
-            this.groupBox1.TabIndex = 25;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "WebScraping - Categories";
-            // 
-            // buttonWebScrapingCategoryGroupSelectNone
-            // 
-            this.buttonWebScrapingCategoryGroupSelectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingCategoryGroupSelectNone.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckNone;
-            this.buttonWebScrapingCategoryGroupSelectNone.Location = new System.Drawing.Point(389, 50);
-            this.buttonWebScrapingCategoryGroupSelectNone.Name = "buttonWebScrapingCategoryGroupSelectNone";
-            this.buttonWebScrapingCategoryGroupSelectNone.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingCategoryGroupSelectNone.TabIndex = 26;
-            this.buttonWebScrapingCategoryGroupSelectNone.UseVisualStyleBackColor = true;
-            this.buttonWebScrapingCategoryGroupSelectNone.Click += new System.EventHandler(this.buttonWebScrapingCategoryGroupSelectNone_Click);
-            // 
-            // buttonWebScrapingCategoryGroupSelectToggle
-            // 
-            this.buttonWebScrapingCategoryGroupSelectToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingCategoryGroupSelectToggle.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckToggle;
-            this.buttonWebScrapingCategoryGroupSelectToggle.Location = new System.Drawing.Point(358, 50);
-            this.buttonWebScrapingCategoryGroupSelectToggle.Name = "buttonWebScrapingCategoryGroupSelectToggle";
-            this.buttonWebScrapingCategoryGroupSelectToggle.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingCategoryGroupSelectToggle.TabIndex = 25;
-            this.buttonWebScrapingCategoryGroupSelectToggle.UseVisualStyleBackColor = true;
-            this.buttonWebScrapingCategoryGroupSelectToggle.Click += new System.EventHandler(this.buttonWebScrapingCategoryGroupSelectToggle_Click);
-            // 
-            // buttonWebScrapingCategoryGroupSelectAll
-            // 
-            this.buttonWebScrapingCategoryGroupSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingCategoryGroupSelectAll.Image = global::PhotoTagsSynchronizer.Properties.Resources.CheckAll;
-            this.buttonWebScrapingCategoryGroupSelectAll.Location = new System.Drawing.Point(327, 50);
-            this.buttonWebScrapingCategoryGroupSelectAll.Name = "buttonWebScrapingCategoryGroupSelectAll";
-            this.buttonWebScrapingCategoryGroupSelectAll.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingCategoryGroupSelectAll.TabIndex = 24;
-            this.buttonWebScrapingCategoryGroupSelectAll.UseVisualStyleBackColor = true;
-            this.buttonWebScrapingCategoryGroupSelectAll.Click += new System.EventHandler(this.buttonWebScrapingCategoryGroupSelectAll_Click);
-            // 
-            // listViewCategoryGroups
-            // 
-            this.listViewCategoryGroups.CheckBoxes = true;
-            this.listViewCategoryGroups.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderSavedDate});
-            this.listViewCategoryGroups.HideSelection = false;
-            this.listViewCategoryGroups.Location = new System.Drawing.Point(4, 81);
-            this.listViewCategoryGroups.Name = "listViewCategoryGroups";
-            this.listViewCategoryGroups.Size = new System.Drawing.Size(410, 94);
-            this.listViewCategoryGroups.TabIndex = 23;
-            this.listViewCategoryGroups.UseCompatibleStateImageBehavior = false;
-            this.listViewCategoryGroups.View = System.Windows.Forms.View.Details;
-            this.listViewCategoryGroups.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewCategoryGroups_ColumnClick);
-            // 
-            // columnHeaderSavedDate
-            // 
-            this.columnHeaderSavedDate.Text = "Saved date";
-            this.columnHeaderSavedDate.Width = 364;
-            // 
-            // buttonWebScrapingCategories
-            // 
-            this.buttonWebScrapingCategories.Location = new System.Drawing.Point(211, 21);
-            this.buttonWebScrapingCategories.Name = "buttonWebScrapingCategories";
-            this.buttonWebScrapingCategories.Size = new System.Drawing.Size(203, 25);
-            this.buttonWebScrapingCategories.TabIndex = 13;
-            this.buttonWebScrapingCategories.Text = "Fetch categories";
-            this.buttonWebScrapingCategories.UseVisualStyleBackColor = true;
-            this.buttonWebScrapingCategories.Click += new System.EventHandler(this.WebScrapingCategories_Click);
-            // 
-            // buttonWebScrapingLoadPackage
-            // 
-            this.buttonWebScrapingLoadPackage.Location = new System.Drawing.Point(4, 21);
-            this.buttonWebScrapingLoadPackage.Name = "buttonWebScrapingLoadPackage";
-            this.buttonWebScrapingLoadPackage.Size = new System.Drawing.Size(203, 25);
-            this.buttonWebScrapingLoadPackage.TabIndex = 21;
-            this.buttonWebScrapingLoadPackage.Text = "Load/Merge Metadata";
-            this.buttonWebScrapingLoadPackage.UseVisualStyleBackColor = true;
-            this.buttonWebScrapingLoadPackage.Click += new System.EventHandler(this.buttonWebScrapingLoadPackage_Click);
             // 
             // groupBoxDevTools
             // 
@@ -602,27 +763,10 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusLabelStatus.Size = new System.Drawing.Size(49, 20);
             this.toolStripStatusLabelStatus.Text = "Status";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(313, 17);
-            this.label2.TabIndex = 27;
-            this.label2.Text = "Metadata saved, last saved dataset will be used:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(213, 25);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(191, 17);
-            this.label3.TabIndex = 28;
-            this.label3.Text = "Load last dataset to continue";
-            // 
             // FormWebScraper
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(1418, 739);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel1);
@@ -630,6 +774,7 @@ namespace PhotoTagsSynchronizer
             this.Text = "FormWebScraper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormWebScraper_FormClosing);
             this.Load += new System.EventHandler(this.FormWebScraper_Load);
+            this.Shown += new System.EventHandler(this.FormWebScraper_Shown);
             this.panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -649,10 +794,14 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScript)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxJavaScriptResult)).EndInit();
             this.panel3.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBoxDevTools.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -695,14 +844,30 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button buttonWebScrapingCategoryGroupSelectNone;
-        private System.Windows.Forms.Button buttonWebScrapingCategoryGroupSelectToggle;
-        private System.Windows.Forms.Button buttonWebScrapingCategoryGroupSelectAll;
-        private System.Windows.Forms.ListView listViewCategoryGroups;
+        private System.Windows.Forms.Button buttonWebScrapingDataSetSelectNone;
+        private System.Windows.Forms.Button buttonWebScrapingDataSetSelectToggle;
+        private System.Windows.Forms.Button buttonWebScrapingDataSetSelectAll;
+        private System.Windows.Forms.ListView listViewDataSetDates;
         private System.Windows.Forms.ColumnHeader columnHeaderSavedDate;
         private System.Windows.Forms.GroupBox groupBoxDevTools;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button buttonWebScrapingDataSetDelete;
+        private System.Windows.Forms.Button buttonWebScrapingClearDataSet;
+        private System.Windows.Forms.ColumnHeader columnHeaderCountMediaFiles;
+        private System.Windows.Forms.ColumnHeader columnHeaderCountTitles;
+        private System.Windows.Forms.ColumnHeader columnHeaderCountAlbumNames;
+        private System.Windows.Forms.ColumnHeader columnHeaderCountLocationNames;
+        private System.Windows.Forms.ColumnHeader columnHeaderCountKeywords;
+        private System.Windows.Forms.ColumnHeader columnHeaderCountRegions;
+        private System.Windows.Forms.ColumnHeader columnHeaderDataSetName;
+        private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountMediaFiles;
+        private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountTitles;
+        private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountAlbumNames;
+        private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountLocationNames;
+        private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountKeywords;
+        private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountRegions;
+        private System.Windows.Forms.SplitContainer splitContainer4;
     }
 }

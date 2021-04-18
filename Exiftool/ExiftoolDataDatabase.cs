@@ -32,7 +32,7 @@ namespace Exiftool
 
         public void TransactionCommitBatch()
         {
-            dbTools.TransactionCommitBatch();
+            dbTools.TransactionCommitBatch(false);
         }
 
         #region Table: MediaExiftoolTags

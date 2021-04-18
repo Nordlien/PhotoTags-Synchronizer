@@ -71,13 +71,13 @@ namespace SqliteDatabase
 
         private void TimerStatus_Elapsed(object sender, ElapsedEventArgs e)
         {
-            TransactionCommitBatch();
-        }
-
-        public void TransactionCommitBatch()
-        {
             TransactionCommitBatch(false);
         }
+
+        /*public void TransactionCommitBatch(bool forced)
+        {
+            TransactionCommitBatch(forced);
+        }*/
         public void TransactionCommitBatch(bool forced)
         {
             lock (transactionLock)

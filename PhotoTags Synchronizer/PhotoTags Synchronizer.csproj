@@ -133,11 +133,11 @@
     <Compile Include="DataGridViewHandlerProperties.cs" />
     <Compile Include="DataGridViewHandlerDate.cs" />
     <Compile Include="DataGridViewHandlerTagsAndKeywords.cs" />
-    <Compile Include="FormComapreText.cs">
+    <Compile Include="FormCompareText.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormComapreText.designer.cs">
-      <DependentUpon>FormComapreText.cs</DependentUpon>
+    <Compile Include="FormCompareText.designer.cs">
+      <DependentUpon>FormCompareText.cs</DependentUpon>
     </Compile>
     <Compile Include="FastColoredTextBoxHandler.cs" />
     <Compile Include="FilesCutCopyPasteDrag.cs" />
@@ -301,8 +301,8 @@
       <DependentUpon>ChooseColumns.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormComapreText.resx">
-      <DependentUpon>FormComapreText.cs</DependentUpon>
+    <EmbeddedResource Include="FormCompareText.resx">
+      <DependentUpon>FormCompareText.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
