@@ -69,7 +69,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region class - MetadataDataSetCount
-        private class MetadataDataSetCount : IComparable
+        private class MetadataDataSetCount
         {
             public MetadataDataSetCount()
             {
@@ -1427,8 +1427,9 @@ namespace PhotoTagsSynchronizer
 
             return metaDataDictionary;
         }
-        #endregion 
+        #endregion
 
+        #region Metadata - Dictionary - Merge
         private void MetadataDictionaryMerge(Dictionary<string, Metadata> metadataDictionaryDestination, Dictionary<string, Metadata> metadataDictionarySource)
         {
             //Merge
@@ -1440,6 +1441,7 @@ namespace PhotoTagsSynchronizer
                     metadataDictionaryDestination.Add(metadataKeyValuePair.Key, metadataKeyValuePair.Value);
             }
         }
+        #endregion 
 
         #region GUI - Load Selected DataSet dates from Database
         private int readCount = 0;
