@@ -7,7 +7,20 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-![Test2](screenshot/001.jpg)
+
+| T est SSSS SSSS SSSSSS SSs sss sssssssssss sssss ss ssssss sssssssssss sss ssssss ssss sssss sss ssss ssss sss sss ss sss sssssss ss
+|--
+| dssdd
+|--
+|![Test2](screenshot/001.jpg)
+
+<div class='block'>
+  <span class='badge badge-info'>78</span>
+  <span class='badge badge-success'>3</span>
+  <span class='badge badge-warning'>14</span>
+  <span class='badge badge-error'>1845</span>
+</div>
+
 ```markdown
 Syntax highlighted code block
 
