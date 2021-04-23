@@ -8,7 +8,7 @@ Why did I create the product.
 
 ## Installation
 
-Download the zip file and unzip and run exe file. [pip](https://github.com/) to install foobar.
+Download the zip file and unzip and run exe file. [pip](https://github.com/Nordlien/PhotoTags-Synchronizer/releases/latest) to install foobar.
 
 ## Usage
 
