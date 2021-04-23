@@ -2078,9 +2078,9 @@ namespace PhotoTagsSynchronizer
             // tabPagePeople
             // 
             this.tabPagePeople.Controls.Add(this.dataGridViewPeople);
-            this.tabPagePeople.Location = new System.Drawing.Point(4, 25);
+            this.tabPagePeople.Location = new System.Drawing.Point(4, 26);
             this.tabPagePeople.Name = "tabPagePeople";
-            this.tabPagePeople.Size = new System.Drawing.Size(537, 863);
+            this.tabPagePeople.Size = new System.Drawing.Size(537, 862);
             this.tabPagePeople.TabIndex = 2;
             this.tabPagePeople.Tag = "People";
             this.tabPagePeople.Text = "People";
@@ -2098,7 +2098,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewPeople.Name = "dataGridViewPeople";
             this.dataGridViewPeople.RowHeadersWidth = 51;
             this.dataGridViewPeople.RowTemplate.Height = 24;
-            this.dataGridViewPeople.Size = new System.Drawing.Size(534, 867);
+            this.dataGridViewPeople.Size = new System.Drawing.Size(534, 866);
             this.dataGridViewPeople.TabIndex = 0;
             this.dataGridViewPeople.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPeople_CellBeginEdit);
             this.dataGridViewPeople.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPeople_CellEndEdit);
