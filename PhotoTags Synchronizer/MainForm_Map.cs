@@ -154,7 +154,7 @@ namespace PhotoTagsSynchronizer
         {
             if (ClipboardUtility.IsClipboardActive && ClipboardUtility.NuberOfItemsToEdit>1) return;
             DataGridView dataGridView = dataGridViewMap;
-            if (DataGridViewHandler.GetSelectedCellCount(dataGridView) == 1) //Only updated the Browser Map when one cell are updated
+            if (DataGridViewHandler.GetCellSelectedCount(dataGridView) == 1) //Only updated the Browser Map when one cell are updated
             {
                 LocationCoordinate locationCoordinate = LocationCoordinate.Parse(combinedCorordinateString);
 

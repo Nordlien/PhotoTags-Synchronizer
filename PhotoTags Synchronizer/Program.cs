@@ -84,7 +84,7 @@ namespace PhotoTagsSynchronizer
             
         }
 
-        private static MainForm mainForm = null;
+        public static MainForm mainForm = null;
 
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
         private static void Form1_UIThreadException(object sender, ThreadExceptionEventArgs t)

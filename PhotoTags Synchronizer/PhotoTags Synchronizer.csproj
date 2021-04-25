@@ -161,6 +161,12 @@
     <Compile Include="FormMessageBox.Designer.cs">
       <DependentUpon>FormMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormRegionSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRegionSelect.Designer.cs">
+      <DependentUpon>FormRegionSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormWebScraper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -282,6 +288,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RegionSelectedEventArgs.cs" />
     <Compile Include="RunCommand.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -314,6 +321,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMessageBox.resx">
       <DependentUpon>FormMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRegionSelect.resx">
+      <DependentUpon>FormRegionSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormWebScraper.resx">
       <DependentUpon>FormWebScraper.cs</DependentUpon>
@@ -429,6 +439,7 @@
     <None Include="Resources\Select_Previous.png" />
     <None Include="Resources\Select_Next.png" />
     <None Include="Resources\LocationSearch.png" />
+    <None Include="Resources\RegionSelector.png" />
     <Content Include="Resources\Silent.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

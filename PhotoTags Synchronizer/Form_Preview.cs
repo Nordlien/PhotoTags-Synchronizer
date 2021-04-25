@@ -54,7 +54,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Preview Media -- Click  ---
-        private void MediaPreviewInit(string imageListViewLastHoverFullfilename)
+        private void MediaPreviewInit(List<string> listOfMediaFiles, string imageListViewLastHoverFullfilename)
         {
             isGooglecasting = false;
             isGooglecastDisconnectedStarted = false;
@@ -69,7 +69,7 @@ namespace PhotoTagsSynchronizer
             VlcChromecastRenderDiscover();
             VlcMediaPlayerInit();
 
-            PreviewInitControls(imageListViewLastHoverFullfilename);
+            PreviewInitControls(listOfMediaFiles, imageListViewLastHoverFullfilename);
             PreviewSlideshowWait();
         }
         #endregion
@@ -170,7 +170,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Preview - Init - Controls
-        private void PreviewInitControls(string imageListViewLastHoverFullfilename)
+        private void PreviewInitControls(List<string> listOfMediaFiles, string imageListViewLastHoverFullfilename)
         {
             toolStripDropDownButtonChromecastList.DropDownItems.Clear();
             toolStripDropDownButtonChromecastList.Enabled = false;
@@ -195,14 +195,15 @@ namespace PhotoTagsSynchronizer
             previewMediaShowItemIndex = 0;
             previewMediaItemFilenames.Clear();
             toolStripDropDownButtonMediaList.DropDownItems.Clear();
-            for (int selectedItemIndex = 0; selectedItemIndex < imageListView1.SelectedItems.Count; selectedItemIndex++)
+
+            foreach (string fileFullPath in listOfMediaFiles)
             {
-                previewMediaItemFilenames.Add(imageListView1.SelectedItems[selectedItemIndex].FileFullPath);
-                if (imageListView1.SelectedItems[selectedItemIndex].FileFullPath == imageListViewLastHoverFullfilename) previewMediaShowItemIndex = selectedItemIndex;
+                previewMediaItemFilenames.Add(fileFullPath);
+                if (fileFullPath == imageListViewLastHoverFullfilename) previewMediaShowItemIndex = previewMediaItemFilenames.Count - 1;
                 ToolStripMenuItem toolStripDropDownItem = new ToolStripMenuItem();
                 toolStripDropDownItem.Click += ToolStripDropDownItemPreviewMedia_Click;
-                toolStripDropDownItem.Text = imageListView1.SelectedItems[selectedItemIndex].FileFullPath;
-                toolStripDropDownItem.Tag = selectedItemIndex;
+                toolStripDropDownItem.Text = fileFullPath;
+                toolStripDropDownItem.Tag = previewMediaItemFilenames.Count - 1;
                 toolStripDropDownButtonMediaList.DropDownItems.Add(toolStripDropDownItem);
             }
 

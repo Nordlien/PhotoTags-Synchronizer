@@ -53,6 +53,16 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        private string GetActiveTabTag()
+        {
+            return tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
+        }
+
+        private DataGridView GetActiveTabDataGridView()
+        {
+            return GetDataGridViewForTag(GetActiveTabTag());
+        }
+
         #region DataGridView - Update Image - OnFileEntry - OnSelectedGrivView
         private void UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(FileEntryAttribute fileEntryAttribute, Image image)
         {
@@ -62,7 +72,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            DataGridView dataGridView = GetActiveTabDataGridView();
             if (dataGridView == null) return;
 
             lock (GlobalData.populateSelectedLock) DataGridViewHandler.SetDataGridImageOnFileEntryAttribute(dataGridView, fileEntryAttribute, image);
@@ -72,7 +82,7 @@ namespace PhotoTagsSynchronizer
         #region LazyLoadMissing()
         private void LazyLoadMissing()
         {
-            DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            DataGridView dataGridView = GetActiveTabDataGridView();
             if (dataGridView == null) return;
 
             List<FileEntryAttribute> lazyLoadingMissedUpdatedDueToThread = new List<FileEntryAttribute>();
@@ -141,7 +151,7 @@ namespace PhotoTagsSynchronizer
             }
             if (GlobalData.IsApplicationClosing) return;
 
-            string tag = tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
+            string tag = GetActiveTabTag();
             if (IsActiveDataGridViewAgregated(tag))
             {
                 DataGridView dataGridView = GetDataGridViewForTag(tag);
@@ -152,7 +162,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Populate File - For FileEntryAttribute and Tag
-        //TODO: Fist face will not be refreach, due to DataGridView is not been finnished created before the data trigger update
+        //TODO: First face will not be refreach, due to DataGridView is not been finnished created before the data trigger update
         private void PopulateDataGrivViewForFileEntryAttributeAndTag(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tag, int queueCount)
         {
             lock (GlobalData.populateSelectedLock)
@@ -235,8 +245,8 @@ namespace PhotoTagsSynchronizer
 
             lock (GlobalData.populateSelectedLock)
             {
-                DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
-                switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
+                DataGridView dataGridView = GetActiveTabDataGridView();
+                switch (GetActiveTabTag())
                 {
                     case "Tags":
                         PopulateDetailViewTagsAndKeywords(dataGridView);
@@ -298,12 +308,12 @@ namespace PhotoTagsSynchronizer
             {
                 StartThreads();
 
-                DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+                DataGridView dataGridView = GetActiveTabDataGridView();
                 List<FileEntryAttribute> lazyLoading;
 
                 //DataGridViewSuspendInvoke();
 
-                switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
+                switch (GetActiveTabTag())
                 {
                     case "Tags":
                         ClearDetailViewTagsAndKeywords();

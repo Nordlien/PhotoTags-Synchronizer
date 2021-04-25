@@ -192,7 +192,7 @@ namespace DataGridViewGeneric
                         }
                     }
                 }
-                else if (e.ColumnIndex == -1 && e.RowIndex == -1) //Column selected
+                else if (e.ColumnIndex == -1 && e.RowIndex == -1) //All Columns and Rows selected
                 {
                     dataGridView.SelectAll();
                 }
@@ -201,6 +201,16 @@ namespace DataGridViewGeneric
                     if (!dataGridView[e.ColumnIndex, e.RowIndex].Selected)
                     {
                         dataGridView.CurrentCell = dataGridView[e.ColumnIndex, e.RowIndex];
+                    }
+                    else 
+                    {
+                        //Hack to set CurrentCell, due to When set CurrentCell all Selected cells get removed
+                        dataGridView.SuspendLayout();
+                        List<DataGridViewCell> dataGridCells = new List<DataGridViewCell>();
+                        foreach (DataGridViewCell dataGridViewCelll in dataGridView.SelectedCells) dataGridCells.Add(dataGridViewCelll);
+                        dataGridView.CurrentCell = dataGridView[e.ColumnIndex, e.RowIndex];
+                        foreach (DataGridViewCell dataGridViewCell in dataGridCells) dataGridViewCell.Selected = true; //dataGridView[dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex].Selected = true;
+                        dataGridView.ResumeLayout();
                     }
                 }
             }
@@ -1848,9 +1858,23 @@ namespace DataGridViewGeneric
         #endregion
 
         #region Cell Handling - GetSelectedCellCount
-        public static int GetSelectedCellCount(DataGridView dataGridView)
+        public static int GetCellSelectedCount(DataGridView dataGridView)
         {
             return dataGridView.SelectedCells.Count;
+        }
+        #endregion 
+
+        #region Cell Handling - GetCellSelected
+        public static DataGridViewSelectedCellCollection GetCellSelected(DataGridView dataGridView)
+        {
+            return dataGridView.SelectedCells;
+        }
+        #endregion 
+
+        #region Cell Handling - GetCellCurrent
+        public static DataGridViewCell GetCellCurrent(DataGridView dataGridView)
+        {
+            return dataGridView.CurrentCell;
         }
         #endregion 
 
@@ -3104,24 +3128,9 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Cell Paint handling - UpdateSelectedCellsWithNewMouseRegion 
-        public static bool UpdateSelectedCellsWithNewMouseRegion(DataGridView dataGridView, int columnIndex, int x1, int y1, int x2, int y2)
+        public static bool UpdateSelectedCellsWithNewRegion(DataGridView dataGridView, int columnIndex, RectangleF region)
         {
             bool updated = false;
-            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn == null) return updated;
-            if (dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite) return updated;
-
-            Image image = dataGridViewGenericColumn.Thumbnail;
-
-            Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(
-                new Rectangle (0, 0, dataGridView.Columns[columnIndex].Width, dataGridView.ColumnHeadersHeight));
-            Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
-            Rectangle rectangleCenterThumbnail = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
-
-            Rectangle rectangleMouse = GetRectangleFromMouseCoorinate(x1, y1, x2, y2);
-            Rectangle rectangleMouseThumb = new Rectangle(rectangleMouse.X - rectangleCenterThumbnail.X, rectangleMouse.Y - rectangleCenterThumbnail.Y, rectangleMouse.Width, rectangleMouse.Height);
-            RectangleF region = RegionStructure.CalculateImageRegionAbstarctRectangle(thumbnailSize, rectangleMouseThumb, RegionStructureTypes.WindowsLivePhotoGallery);
 
             ClipboardUtility.PushToUndoStack(dataGridView);
 
@@ -3139,7 +3148,7 @@ namespace DataGridViewGeneric
                             {
 
                                 SetCellDataGridViewGenericCell(dataGridView, cells.ColumnIndex, cells.RowIndex,
-                                    new DataGridViewGenericCell(new RegionStructure(), 
+                                    new DataGridViewGenericCell(new RegionStructure(),
                                     new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.On, false)));
 
                                 regionStructure = GetCellRegionStructure(dataGridView, cells.ColumnIndex, cells.RowIndex);
@@ -3161,7 +3170,29 @@ namespace DataGridViewGeneric
                     }
                 }
             }
-            
+            return updated;
+        }
+
+        #region Cell Paint handling - UpdateSelectedCellsWithNewMouseRegion 
+        public static bool UpdateSelectedCellsWithNewMouseRegion(DataGridView dataGridView, int columnIndex, int x1, int y1, int x2, int y2)
+        {
+            bool updated = false;
+            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+            if (dataGridViewGenericColumn == null) return updated;
+            if (dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite) return updated;
+
+            Image image = dataGridViewGenericColumn.Thumbnail;
+
+            Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(
+                new Rectangle (0, 0, dataGridView.Columns[columnIndex].Width, dataGridView.ColumnHeadersHeight));
+            Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
+            Rectangle rectangleCenterThumbnail = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
+
+            Rectangle rectangleMouse = GetRectangleFromMouseCoorinate(x1, y1, x2, y2);
+            Rectangle rectangleMouseThumb = new Rectangle(rectangleMouse.X - rectangleCenterThumbnail.X, rectangleMouse.Y - rectangleCenterThumbnail.Y, rectangleMouse.Width, rectangleMouse.Height);
+            RectangleF region = RegionStructure.CalculateImageRegionAbstarctRectangle(thumbnailSize, rectangleMouseThumb, RegionStructureTypes.WindowsLivePhotoGallery);
+
+            updated = UpdateSelectedCellsWithNewRegion(dataGridView, columnIndex, region);
 
             return updated;
         }

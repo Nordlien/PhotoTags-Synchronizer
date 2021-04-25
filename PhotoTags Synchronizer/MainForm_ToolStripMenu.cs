@@ -59,7 +59,7 @@ namespace PhotoTagsSynchronizer
             metadataListOriginalExiftool = new List<Metadata>();
             metadataListFromDataGridView = new List<Metadata>();
 
-            DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            DataGridView dataGridView = GetActiveTabDataGridView();
             List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, true);
             foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
             {
@@ -211,7 +211,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsSaveButtonPushed = true;
             this.Enabled = false;
 
-            switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
+            switch (GetActiveTabTag())
             {
                 case "ExifTool":
                 case "Warning":
@@ -507,29 +507,104 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        #region ToolStrip - Media Preview
+        #region ToolStrip - WebScraper_Click
+        private void toolStripButtonWebScraper_Click(object sender, EventArgs e)
+        {
+            FormWebScraper formWebScraper = new FormWebScraper();
+            formWebScraper.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+            formWebScraper.ShowDialog();
+        }
+        #endregion 
+
+        #region Media Preview
         private static string imageListViewHoverItem = "";
         private void imageListView1_ItemHover(object sender, ItemHoverEventArgs e)
         {
             if (e.Item != null) imageListViewHoverItem = e.Item.FileFullPath;
         }
 
+        private void MediaPreviewFoldeOrFilterResult(string selectedMediaFilePullPath)
+        {
+            List<string> listOfMediaFiles = new List<string>();
+            for (int itemIndex = 0; itemIndex < imageListView1.SelectedItems.Count; itemIndex++) listOfMediaFiles.Add(imageListView1.SelectedItems[itemIndex].FileFullPath);
+            MediaPreviewInit(listOfMediaFiles, selectedMediaFilePullPath);
+        }
 
         private void toolStripButtonPreview_Click(object sender, EventArgs e)
         {
-            MediaPreviewInit(imageListViewHoverItem);
+            if (imageListView1.SelectedItems.Count > 1) MediaPreviewFoldeOrFilterResult("");
+            else 
+            {
+                List<string> listOfMediaFiles = new List<string>();
+                for (int itemIndex = 0; itemIndex < imageListView1.Items.Count; itemIndex++) listOfMediaFiles.Add(imageListView1.Items[itemIndex].FileFullPath);
+                string selectedMediaFilePullPath = "";
+                if (imageListView1.SelectedItems.Count == 1) selectedMediaFilePullPath = imageListView1.SelectedItems[0].FileFullPath;
+                MediaPreviewInit(listOfMediaFiles, selectedMediaFilePullPath);
+            }
         }
 
         private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MediaPreviewInit("");
+            MediaPreviewFoldeOrFilterResult(imageListViewHoverItem);
+        }
+
+        private void MediaPreviewSelectedInDataGridView(DataGridView dataGridView)
+        {
+            List<string> listOfMediaFiles = new List<string>();
+
+            List<int> selectedColumns = DataGridViewHandler.GetColumnSelected(dataGridView);
+
+            if (selectedColumns.Count <= 1)
+            {
+                int columnCount = DataGridViewHandler.GetColumnCount(dataGridView);
+                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+                {
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn?.Metadata?.FileFullPath != null) listOfMediaFiles.Add(dataGridViewGenericColumn?.Metadata?.FileFullPath);
+                }
+            }
+            else
+            {
+                foreach (int columnIndex in selectedColumns)
+                {
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn?.Metadata?.FileFullPath != null) listOfMediaFiles.Add(dataGridViewGenericColumn?.Metadata?.FileFullPath);
+                }
+            }
+
+            string selectedMediaFilePullPath = "";
+            DataGridViewCell dataGridViewCell = DataGridViewHandler.GetCellCurrent(dataGridView);
+            DataGridViewGenericColumn dataGridViewGenericColumnCurrent = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
+            if (dataGridViewGenericColumnCurrent?.Metadata?.FileFullPath != null) selectedMediaFilePullPath = dataGridViewGenericColumnCurrent?.Metadata?.FileFullPath;
+
+            MediaPreviewInit(listOfMediaFiles, selectedMediaFilePullPath);
+        }
+
+        private void toolStripMenuItemTagsAndKeywordMediaPreview_Click(object sender, EventArgs e)
+        {
+            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+        }
+
+        private void toolStripMenuItemExiftoolWarningMediaPreview_Click(object sender, EventArgs e)
+        {
+            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+        }
+
+        private void toolStripMenuItemMediaPreview_Click(object sender, EventArgs e)
+        {
+            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+        }
+
+        private void toolStripMenuItemPeopleMediaPreview_Click(object sender, EventArgs e)
+        {
+            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
         }
         #endregion 
 
         #region ToolStrip - SetGridViewSize Small Medium Big - Click
         private void SetGridViewSize(DataGridViewSize size)
         {
-            switch (tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString())
+            switch (GetActiveTabTag())
             {
                 case "Tags":
                     DataGridViewHandler.SetCellSize(dataGridViewTagsAndKeywords, size, false);
@@ -902,7 +977,7 @@ namespace PhotoTagsSynchronizer
             FilesSelected();
             ImageListViewResumeLayoutInvoke(imageListView1);
 
-            DataGridView dataGridView = GetDataGridViewForTag(tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString());
+            DataGridView dataGridView = GetActiveTabDataGridView();
             if (dataGridView != null) DataGridViewHandler.Focus(dataGridView);
 
         }
@@ -1546,7 +1621,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region 
+        #region Select Group - Select Last
         public void GroupSelectLast()
         {
             int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, 0);
@@ -1697,9 +1772,6 @@ namespace PhotoTagsSynchronizer
             GroupSelectLast();
         }
         #endregion 
-
-        
-
 
         #endregion 
     }
