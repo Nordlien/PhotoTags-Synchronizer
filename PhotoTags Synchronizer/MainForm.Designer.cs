@@ -129,10 +129,10 @@ namespace PhotoTagsSynchronizer
             this.runSelectedToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openWithDialogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mediaPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateCW90ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotate180ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ratateCCW270ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mediaPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControlToolbox = new System.Windows.Forms.TabControl();
             this.tabPageTags = new System.Windows.Forms.TabPage();
@@ -1539,15 +1539,6 @@ namespace PhotoTagsSynchronizer
             this.openFileLocationToolStripMenuItem.Text = "Open file Location";
             this.openFileLocationToolStripMenuItem.Click += new System.EventHandler(this.openFileLocationToolStripMenuItem_Click);
             // 
-            // mediaPreviewToolStripMenuItem
-            // 
-            this.mediaPreviewToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Preview;
-            this.mediaPreviewToolStripMenuItem.Name = "mediaPreviewToolStripMenuItem";
-            this.mediaPreviewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.mediaPreviewToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.mediaPreviewToolStripMenuItem.Text = "Media preview";
-            this.mediaPreviewToolStripMenuItem.Click += new System.EventHandler(this.mediaPreviewToolStripMenuItem_Click);
-            // 
             // rotateCW90ToolStripMenuItem
             // 
             this.rotateCW90ToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
@@ -1577,6 +1568,15 @@ namespace PhotoTagsSynchronizer
             this.ratateCCW270ToolStripMenuItem.Text = "Ratate CCW - 270°";
             this.ratateCCW270ToolStripMenuItem.ToolTipText = "Ratate CCW - 270°";
             this.ratateCCW270ToolStripMenuItem.Click += new System.EventHandler(this.ratateCCW270ToolStripMenuItem_Click);
+            // 
+            // mediaPreviewToolStripMenuItem
+            // 
+            this.mediaPreviewToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Preview;
+            this.mediaPreviewToolStripMenuItem.Name = "mediaPreviewToolStripMenuItem";
+            this.mediaPreviewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.mediaPreviewToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.mediaPreviewToolStripMenuItem.Text = "Media preview";
+            this.mediaPreviewToolStripMenuItem.Click += new System.EventHandler(this.mediaPreviewToolStripMenuItem_Click);
             // 
             // panel1
             // 

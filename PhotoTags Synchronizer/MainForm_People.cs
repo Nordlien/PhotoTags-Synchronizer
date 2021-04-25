@@ -493,6 +493,7 @@ namespace PhotoTagsSynchronizer
             if (formRegionSelect==null || formRegionSelect.IsDisposed) formRegionSelect = new FormRegionSelect(); 
             formRegionSelect.OnRegionSelected -= FormRegionSelect_OnRegionSelected;
             formRegionSelect.OnRegionSelected += FormRegionSelect_OnRegionSelected;
+            formRegionSelect.Owner = this;
             if (formRegionSelect.WindowState == FormWindowState.Minimized) formRegionSelect.WindowState = FormWindowState.Normal;
             formRegionSelect.BringToFront();
             formRegionSelect.Show();
