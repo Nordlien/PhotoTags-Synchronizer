@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -91,9 +92,64 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        private List<FileEntryImage> posterCache = new List<FileEntryImage>();
+        private static readonly Object posterCacheLock = new Object();
+
+        private Image PosterCacheRead(string fullFileName)
+        {
+            Image image = null;
+            try
+            {
+                int indexFound = -1;
+                FileEntry fileEntry = new FileEntry(fullFileName, File.GetLastWriteTime(fullFileName));
+
+                lock (posterCacheLock)
+                {
+                    for (int index = 0; index < posterCache.Count; index++)
+                    {
+                        if (posterCache[index] == fileEntry)
+                        {
+                            indexFound = index;
+                            break;
+                        }
+                    }
+
+                    if (indexFound > -1)
+                    {
+                        posterCache.Add(posterCache[indexFound]); //Add last
+                        posterCache.RemoveAt(indexFound);
+                        image = posterCache[posterCache.Count - 1].Image;
+                    }
+                }
+            }
+            catch 
+            { 
+            }
+            return image;
+        }
+
+        private void PosterCacheAdd(string fullFilePath, Image image)
+        {
+            try
+            {                
+                lock (posterCacheLock)
+                {
+                    FileEntryImage fileEntryImage = new FileEntryImage(fullFilePath, File.GetLastWriteTime(fullFilePath), image);
+                    posterCache.Add(fileEntryImage); //Add last
+                    if (posterCache.Count > 10) posterCache.RemoveAt(0); //Only remember last x images
+                }
+            }
+            catch
+            {
+            }
+        }
+
         #region Thumbnail - LoadMediaCoverArtPoster
         private Image LoadMediaCoverArtPoster(string fullFilePath, bool checkIfCloudFile)
         {
+            Image image = PosterCacheRead(fullFilePath);
+            if (image != null) return image; //Found in cache
+
             if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
             {
                 if (ExiftoolWriter.IsFileInCloud(fullFilePath)) return null;
@@ -108,18 +164,18 @@ namespace PhotoTagsSynchronizer
                 {
                     ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
 
-                    if (memoryStream.Length > 0) return Image.FromStream(memoryStream);
-                    else return null;
+                    if (memoryStream.Length > 0) image = Image.FromStream(memoryStream);
+                    else image = null;
                 }
             }
             else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
             {
-                Image image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath);
+                image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath);
                 if (image == null) image = Utility.LoadImageWithoutLock(fullFilePath);
-                return image;
             }
-            
-            return null;
+
+            if (image != null) PosterCacheAdd(fullFilePath, image);
+            return image;
         }
         #endregion 
 

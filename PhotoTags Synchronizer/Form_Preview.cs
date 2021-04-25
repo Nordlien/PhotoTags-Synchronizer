@@ -1651,7 +1651,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Preview - MediaButton Action - Show 
-        private async void Preview_LoadAndShowItem(string fullFilename)
+        private void Preview_LoadAndShowItem(string fullFilename)
         {            
             toolStripButtonMediaPreviewNext.Enabled = false;
             toolStripButtonMediaPreviewPrevious.Enabled = false;
