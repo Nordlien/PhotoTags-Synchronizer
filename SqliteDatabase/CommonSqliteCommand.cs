@@ -80,7 +80,7 @@ namespace SqliteDatabase
 
         public void Prepare()
         {
-            databaseCommand.Prepare();
+            //databaseCommand.Prepare();
         }
     }
 }

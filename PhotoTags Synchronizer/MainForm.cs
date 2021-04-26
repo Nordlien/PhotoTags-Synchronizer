@@ -163,19 +163,17 @@ namespace PhotoTagsSynchronizer
             exiftoolReader.MetadataGroupPrioityRead();
             exiftoolReader.afterNewMediaFoundEvent += ExiftoolReader_afterNewMediaFoundEvent;
 
-            //Test
-
             try
             {
                 Thread threadCache = new Thread(() =>
                 {
                     Stopwatch stopwatch = new Stopwatch();
                     stopwatch.Start();
-                    databaseAndCacheMetadataExiftool.CacheAll();
+                    //databaseAndCacheMetadataExiftool.CacheAll();
                     Logger.Info("Read to metadata to memory cache: " + stopwatch.Elapsed.ToString());
 
                     stopwatch.Restart();
-                    databaseAndCacheThumbnail.ReadDirectory(null);
+                    //databaseAndCacheThumbnail.ReadDirectory(null);
                     Logger.Info("Read to thumbnail to memory cache: " + stopwatch.Elapsed.ToString());
 
                 });

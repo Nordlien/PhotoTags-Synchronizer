@@ -40,13 +40,13 @@ namespace LocationNames
                 locationCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.City) ? null : locationCoordinateAndDescription.Description.City;
                 locationCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Country) ? null : locationCoordinateAndDescription.Description.Country;
 
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Latitude", locationCoordinateAndDescription.Coordinate.Latitude);
                 commandDatabase.Parameters.AddWithValue("@Longitude", locationCoordinateAndDescription.Coordinate.Longitude);
                 commandDatabase.Parameters.AddWithValue("@Name", locationCoordinateAndDescription.Description.Name);
                 commandDatabase.Parameters.AddWithValue("@City", locationCoordinateAndDescription.Description.City);
                 commandDatabase.Parameters.AddWithValue("@Province", locationCoordinateAndDescription.Description.Region);
                 commandDatabase.Parameters.AddWithValue("@Country", locationCoordinateAndDescription.Description.Country);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
@@ -58,9 +58,9 @@ namespace LocationNames
             string sqlCommand = "DELETE FROM LocationName WHERE Latitude = @Latitude AND Longitude = @Longitude";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Latitude", locationCoordinate.Latitude);
                 commandDatabase.Parameters.AddWithValue("@Longitude", locationCoordinate.Longitude);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
@@ -84,13 +84,13 @@ namespace LocationNames
                 locationCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.City) ? null : locationCoordinateAndDescription.Description.City;
                 locationCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Country) ? null : locationCoordinateAndDescription.Description.Country;
 
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Latitude", locationCoordinateAndDescription.Coordinate.Latitude);
                 commandDatabase.Parameters.AddWithValue("@Longitude", locationCoordinateAndDescription.Coordinate.Longitude);
                 commandDatabase.Parameters.AddWithValue("@Name", locationCoordinateAndDescription.Description.Name);
                 commandDatabase.Parameters.AddWithValue("@City", locationCoordinateAndDescription.Description.City);
                 commandDatabase.Parameters.AddWithValue("@Province", locationCoordinateAndDescription.Description.Region);
                 commandDatabase.Parameters.AddWithValue("@Country", locationCoordinateAndDescription.Description.Country);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
@@ -108,12 +108,12 @@ namespace LocationNames
                 "ORDER BY Distance DESC";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Latitude", locationCoordinate.Latitude);
                 commandDatabase.Parameters.AddWithValue("@Longitude", locationCoordinate.Longitude);
                 commandDatabase.Parameters.AddWithValue("@LocationAccuracyLatitude", locationAccuracyLatitude);
                 commandDatabase.Parameters.AddWithValue("@LocationAccuracyLongitude", locationAccuracyLongitude);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -145,7 +145,7 @@ namespace LocationNames
             string sqlCommand = "SELECT Latitude, Longitude, Name, City, Province, Country FROM LocationName";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                commandDatabase.Prepare();
+                //commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
@@ -180,7 +180,7 @@ namespace LocationNames
                 "LocationName, LocationCity, LocationState, LocationCountry FROM MediaMetadata";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                commandDatabase.Prepare();
+                //commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {

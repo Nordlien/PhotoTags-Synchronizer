@@ -45,11 +45,11 @@ namespace Thumbnails
                 "Values (@FileDirectory, @FileName, @FileDateModified, @Image)";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
                 commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
                 commandDatabase.Parameters.AddWithValue("@Image", dbTools.ImageToByteArray(image));
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
             ThumbnailCacheUpdate(fileEntry, image);
@@ -65,11 +65,11 @@ namespace Thumbnails
                 "SELECT Image FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
                 commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -94,7 +94,7 @@ namespace Thumbnails
             {
                 if (!string.IsNullOrWhiteSpace(directory)) commandDatabase.Parameters.AddWithValue("@FileDirectory", directory);
                 
-                commandDatabase.Prepare();
+                //commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
@@ -120,10 +120,10 @@ namespace Thumbnails
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
                 commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
             ThumnbailCacheRemove(fileEntry);
@@ -137,8 +137,8 @@ namespace Thumbnails
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
@@ -160,9 +160,9 @@ namespace Thumbnails
                 "WHERE FileDirectory = @FileDirectory AND FileName = @FileName";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 commandDatabase.Parameters.AddWithValue("@FileName", fileName);
-                commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
@@ -299,6 +299,7 @@ namespace Thumbnails
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", file.Directory);
                 commandDatabase.Parameters.AddWithValue("@FileName", file.FileName);
@@ -315,7 +316,6 @@ namespace Thumbnails
                     commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
                 else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(region.Thumbnail));
 
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
         }

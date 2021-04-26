@@ -36,7 +36,7 @@ namespace CameraOwners
                 
                 using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
                 {
-                    commandDatabase.Prepare();
+                    //commandDatabase.Prepare();
                     using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                     {
 
@@ -62,7 +62,7 @@ namespace CameraOwners
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                commandDatabase.Prepare();
+                //commandDatabase.Prepare();
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
 
@@ -95,9 +95,9 @@ namespace CameraOwners
                 "CameraMake = @CameraMake AND CameraModel = @CameraModel";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, commonDatabaseTransaction.DatabaseTransaction))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@CameraMake", cameraOwner.Make);
                 commandDatabase.Parameters.AddWithValue("@CameraModel", cameraOwner.Model);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
 
@@ -106,10 +106,10 @@ namespace CameraOwners
                     "Values (@CameraMake, @CameraModel, @UserAccount)";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase, commonDatabaseTransaction.DatabaseTransaction))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@CameraMake", cameraOwner.Make);
                 commandDatabase.Parameters.AddWithValue("@CameraModel", cameraOwner.Model);
                 commandDatabase.Parameters.AddWithValue("@UserAccount", cameraOwner.Owner);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
 
@@ -133,7 +133,7 @@ namespace CameraOwners
                 string sqlCommand = "SELECT DISTINCT UserAccount FROM LocationSource";
                 using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
                 {
-                    commandDatabase.Prepare();
+                    //commandDatabase.Prepare();
                     commandDatabase.ExecuteNonQuery();      // Execute the query
 
                     using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())

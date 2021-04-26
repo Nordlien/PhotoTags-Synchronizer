@@ -45,11 +45,11 @@ namespace Exiftool
                 "MediaExiftoolTags WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -75,13 +75,13 @@ namespace Exiftool
             "Values (@FileDirectory, @FileName, @FileDateModified, @Region, @Command, @Parameter)";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", exifToolData.FileDirectory);
                 commandDatabase.Parameters.AddWithValue("@FileName", exifToolData.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(exifToolData.FileDateModified));
                 commandDatabase.Parameters.AddWithValue("@Region", exifToolData.Region);
                 commandDatabase.Parameters.AddWithValue("@Command", exifToolData.Command);
                 commandDatabase.Parameters.AddWithValue("@Parameter", exifToolData.Parameter);
-                commandDatabase.Prepare();
                 
                 if (commandDatabase.ExecuteNonQuery() == -1)
                 {
@@ -100,8 +100,8 @@ namespace Exiftool
             string sqlCommand = "DELETE FROM MediaExiftoolTags WHERE FileDirectory = @FileDirectory";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
@@ -114,10 +114,10 @@ namespace Exiftool
                 "AND FileDateModified = @FileDateModified ";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
                 commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
@@ -137,11 +137,10 @@ namespace Exiftool
             {
                 FileEntryAttribute newstFileEntryAttributeForEdit = null;
 
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 commandDatabase.Parameters.AddWithValue("@FileName", fileName);
-                commandDatabase.Prepare();
-
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())

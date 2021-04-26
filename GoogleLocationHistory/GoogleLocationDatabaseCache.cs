@@ -41,12 +41,12 @@ namespace GoogleLocationHistory
                     "Values (@UserAccount, @FileDirectory, @FileName, @FileDateModified, @FileDateImported)";
                 using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
                 {
+                    //commandDatabase.Prepare();
                     commandDatabase.Parameters.AddWithValue("@UserAccount", userAccount);
                     commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileNamePath));
                     commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileNamePath));
                     commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(File.GetLastWriteTimeUtc(fileNamePath)));
                     commandDatabase.Parameters.AddWithValue("@FileDateImported", dbTools.ConvertFromDateTimeToDBVal(DateTime.UtcNow));
-                    commandDatabase.Prepare(); 
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
             }
@@ -59,13 +59,13 @@ namespace GoogleLocationHistory
                 "Values (@UserAccount, @TimeStamp, @Latitude, @Longitude, @Altitude, @Accuracy) ";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@UserAccount", userAccount);
                 commandDatabase.Parameters.AddWithValue("@TimeStamp", dbTools.ConvertFromDateTimeToDBVal(googleJsonLocations.Timestamp));
                 commandDatabase.Parameters.AddWithValue("@Latitude", googleJsonLocations.Latitude);
                 commandDatabase.Parameters.AddWithValue("@Longitude", googleJsonLocations.Longitude);
                 commandDatabase.Parameters.AddWithValue("@Altitude", googleJsonLocations.Altitude);
                 commandDatabase.Parameters.AddWithValue("@Accuracy", googleJsonLocations.Accuracy);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
@@ -89,10 +89,10 @@ namespace GoogleLocationHistory
                 ")";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@TimeStamp", dbTools.ConvertFromDateTimeToDBVal(datetime));
                 commandDatabase.Parameters.AddWithValue("@UserAccount", userAccount);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     Metadata metadata = new Metadata(MetadataBrokerType.GoogleLocationHistory);

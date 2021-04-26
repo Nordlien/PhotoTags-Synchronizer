@@ -63,12 +63,11 @@ namespace MetadataLibrary
                 "FROM MediaMetadata WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
-
-                commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
@@ -116,12 +115,12 @@ namespace MetadataLibrary
                    "FROM MediaPersonalKeywords WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -144,12 +143,11 @@ namespace MetadataLibrary
                     "WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
-
-                commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
@@ -207,12 +205,12 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 if (metadataBrokerType != MetadataBrokerType.Empty) commandDatabase.Parameters.AddWithValue("@Broker", metadataBrokerType);
                 if (folder != null) commandDatabase.Parameters.AddWithValue("@FileDirectory", folder);
                 if (filename != null) commandDatabase.Parameters.AddWithValue("@FileName", filename);
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -267,12 +265,12 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 if (metadataBrokerType != MetadataBrokerType.Empty) commandDatabase.Parameters.AddWithValue("@Broker", metadataBrokerType);
                 if (folder != null) commandDatabase.Parameters.AddWithValue("@FileDirectory", folder);
                 if (filename != null) commandDatabase.Parameters.AddWithValue("@FileName", filename);
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -311,12 +309,12 @@ namespace MetadataLibrary
                     "FROM MediaPersonalRegions " + sqlWhere;
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 if (metadataBrokerType != MetadataBrokerType.Empty) commandDatabase.Parameters.AddWithValue("@Broker", metadataBrokerType);
                 if (folder != null) commandDatabase.Parameters.AddWithValue("@FileDirectory", folder);
                 if (filename != null) commandDatabase.Parameters.AddWithValue("@FileName", filename);
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -386,6 +384,7 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadata.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", metadata.FileDirectory);
                 commandDatabase.Parameters.AddWithValue("@FileName", metadata.FileName);
@@ -422,8 +421,7 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@LocationCity", metadata.LocationCity);
                 commandDatabase.Parameters.AddWithValue("@LocationState", metadata.LocationState);
                 commandDatabase.Parameters.AddWithValue("@RowChangedDated", dbTools.ConvertFromDateTimeToDBVal(DateTime.Now));
-
-                commandDatabase.Prepare();
+;
                 //commandDatabase.ExecuteNonQuery();
                 if (commandDatabase.ExecuteNonQuery() == -1)
                 {
@@ -442,6 +440,7 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 foreach (KeywordTag tag in metadata.PersonalKeywordTags)
                 {
                     commandDatabase.Parameters.AddWithValue("@Broker", metadata.Broker);
@@ -450,8 +449,7 @@ namespace MetadataLibrary
                     commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(metadata.FileDateModified));
                     commandDatabase.Parameters.AddWithValue("@Keyword", tag.Keyword);
                     commandDatabase.Parameters.AddWithValue("@Confidence", tag.Confidence);
-                    commandDatabase.Prepare();
-
+                    
                     if (commandDatabase.ExecuteNonQuery() == -1)
                     {
                         Logger.Error("Delete MediaPersonalKeywords data due to previous application crash for file: " + metadata.FileFullPath);
@@ -472,6 +470,7 @@ namespace MetadataLibrary
                     ")";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 foreach (RegionStructure region in metadata.PersonalRegionList)
                 {
                     commandDatabase.Parameters.AddWithValue("@Broker", (int)metadata.Broker);
@@ -487,8 +486,7 @@ namespace MetadataLibrary
                     commandDatabase.Parameters.AddWithValue("@RegionStructureType", region.RegionStructureType);
                     if (region.Thumbnail == null) commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
                     else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(region.Thumbnail));
-                    commandDatabase.Prepare();
-
+                    
                     if (commandDatabase.ExecuteNonQuery() == -1)
                     {
                         Logger.Error("Delete MediaPersonalRegions data due to previous application crash for file: " + metadata.FileFullPath);
@@ -530,11 +528,11 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
 
@@ -547,11 +545,11 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
 
@@ -566,11 +564,11 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
 
@@ -581,11 +579,11 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
 
@@ -597,11 +595,11 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
             dbTools.TransactionCommitBatch(false);
@@ -611,11 +609,11 @@ namespace MetadataLibrary
                 "SELECT @NewFileDirectory, @NewFileName, FileDateModified, Image FROM MediaThumbnail WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
             dbTools.TransactionCommitBatch(false);
@@ -636,11 +634,11 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
 
@@ -651,11 +649,11 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
 
@@ -665,11 +663,11 @@ namespace MetadataLibrary
                 "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
 
@@ -679,11 +677,11 @@ namespace MetadataLibrary
                 "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
 
@@ -693,11 +691,11 @@ namespace MetadataLibrary
                 "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
             dbTools.TransactionCommitBatch(false);
@@ -708,11 +706,11 @@ namespace MetadataLibrary
                 "WHERE FileDirectory = @OldFileDirectory AND FileName = @OldFileName";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@OldFileName", oldFilename);
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();
             }
             dbTools.TransactionCommitBatch(false);
@@ -732,10 +730,10 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
-                commandDatabase.Prepare();
                 rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
             return rowsAffected;
@@ -753,10 +751,10 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
-                commandDatabase.Prepare();
                 rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
             return rowsAffected;
@@ -774,10 +772,10 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
                 if (fileDateModified != null) commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
-                commandDatabase.Prepare();
                 rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
             return rowsAffected;
@@ -813,11 +811,11 @@ namespace MetadataLibrary
                             "AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
                 commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
@@ -833,11 +831,11 @@ namespace MetadataLibrary
                 "AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
                 commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
@@ -853,11 +851,11 @@ namespace MetadataLibrary
                             "AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
                 commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
-                commandDatabase.Prepare();
                 commandDatabase.ExecuteNonQuery();      // Execute the query
             }
         }
@@ -897,10 +895,10 @@ namespace MetadataLibrary
                 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", directory);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -927,11 +925,11 @@ namespace MetadataLibrary
             
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", directory);
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileDateModified));
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -992,11 +990,11 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
                 commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fullFileName));
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fullFileName));
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -1058,11 +1056,11 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
                 commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fullFileName));
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fullFileName));
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     FileEntryAttribute newstFileEntryAttributeForEdit = null;
@@ -1271,6 +1269,7 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)broker);
 
                 #region DateTaken
@@ -1304,7 +1303,7 @@ namespace MetadataLibrary
                 #endregion
 
                 #region Read list of file fullpaths
-                commandDatabase.Prepare();
+                //commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
@@ -1333,9 +1332,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAlbum"]));
@@ -1358,9 +1357,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -1383,9 +1382,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalDescription"]));
@@ -1405,9 +1404,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalTitle"]));
@@ -1427,9 +1426,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalComments"]));
@@ -1450,9 +1449,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["PersonalAuthor"]));
@@ -1472,9 +1471,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["LocationName"]));
@@ -1494,9 +1493,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["LocationCity"]));
@@ -1516,9 +1515,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["LocationState"]));
@@ -1539,9 +1538,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read()) listing.Add(dbTools.ConvertFromDBValString(reader["LocationCountry"]));
@@ -1578,9 +1577,9 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Prepare();
-
+                
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
                     while (reader.Read())
@@ -1696,11 +1695,10 @@ namespace MetadataLibrary
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
+                //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
                 commandDatabase.Parameters.AddWithValue("@FileDateModifiedFrom", dbTools.ConvertFromDateTimeToDBVal(dateTimeFrom));
                 commandDatabase.Parameters.AddWithValue("@FileDateModifiedTo", dbTools.ConvertFromDateTimeToDBVal(dateTimeTo));
-
-                commandDatabase.Prepare();
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
