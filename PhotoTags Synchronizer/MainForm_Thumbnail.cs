@@ -92,7 +92,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        private List<FileEntryImage> posterCache = new List<FileEntryImage>();
+        private static List<FileEntryImage> posterCache = new List<FileEntryImage>();
         private static readonly Object posterCacheLock = new Object();
 
         private Image PosterCacheRead(string fullFileName)

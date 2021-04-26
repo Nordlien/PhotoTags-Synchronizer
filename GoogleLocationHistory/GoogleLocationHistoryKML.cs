@@ -20,7 +20,7 @@ namespace GoogleLocationHistory
         public event MyEvent LocationFoundParam;
 
         private SqliteDatabaseUtilities dbTools;
-        GoogleLocationHistoryDatabaseCache googleLocationDatabaseCache;
+        private static GoogleLocationHistoryDatabaseCache googleLocationDatabaseCache;
         private string username;
 
         public GoogleLocationHistoryKML(SqliteDatabaseUtilities databaseTools)

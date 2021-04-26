@@ -174,7 +174,7 @@ namespace MetadataLibrary
 
         public void CacheAll() //Hack to read data to cache and the database worked much faster after this
         {
-            ReadLot(MetadataBrokerType.Empty, null, null, null, false);
+            ReadLot(MetadataBrokerType.Empty, null, null, null, true);
         }
 
         #region ReadLot
@@ -875,7 +875,7 @@ namespace MetadataLibrary
 
         #region WebScraping
         public const string WebScapingFolderName = "WebScraper";
-        private List<DateTime> webScrapingPackageDates = null;
+        private static List<DateTime> webScrapingPackageDates = null;
 
         #region WebScraping - Write
         public void WebScrapingWrite(Metadata metadata)
@@ -1017,7 +1017,7 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        Dictionary<FileBroker, List<FileEntryAttribute>> listFileAttributeDateVersions = new Dictionary<FileBroker, List<FileEntryAttribute>>();
+        private static Dictionary<FileBroker, List<FileEntryAttribute>> listFileAttributeDateVersions = new Dictionary<FileBroker, List<FileEntryAttribute>>();
 
         #region List File Date Versions - Attribute
         public List<FileEntryAttribute> ListFileEntryAttributesCache(MetadataBrokerType broker, string fullFileName)
@@ -1553,7 +1553,7 @@ namespace MetadataLibrary
 
 
         #region ListAllPersonalRegionNameCountCache
-        private Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>> metadataRegionNameCountCache = null;
+        private static Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>> metadataRegionNameCountCache = null;
         private static readonly Object metadataRegionNameCountCacheLock = new Object();
 
         #region ListAllPersonalRegionNameCountCache - ListAllPersonalRegionNameCountCacheClear
@@ -1599,8 +1599,10 @@ namespace MetadataLibrary
         {
             lock (metadataRegionNameCountCacheLock)
             {
-                if (metadataRegionNameCountCache == null) metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
-                if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType)) metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
+                if (metadataRegionNameCountCache == null) 
+                    metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
+                if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType)) 
+                    metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
                 metadataRegionNameCountCache[metadataBrokerType] = ListAllPersonalRegionNameCount(metadataBrokerType);
                 return metadataRegionNameCountCache[metadataBrokerType];
             }
@@ -1656,7 +1658,7 @@ namespace MetadataLibrary
         #endregion
 
         #region MetadataRegionNamesCache
-        Dictionary<MetadataRegionNameKey, List<string>> metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, List<string>>();
+        private static Dictionary<MetadataRegionNameKey, List<string>> metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, List<string>>();
 
         #region MetadataRegionNamesCache - MetadataRegionNamesCacheClear
         public void MetadataRegionNamesCacheClear()
@@ -1737,7 +1739,7 @@ namespace MetadataLibrary
 
 
         #region Cache Metadata
-        Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
+        private static Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
         private static readonly Object metadataCacheLock = new Object();
 
         #region Cache Metadata - Read 

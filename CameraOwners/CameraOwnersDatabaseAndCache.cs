@@ -14,7 +14,7 @@ namespace CameraOwners
             dbTools = databaseTools;
         }
 
-        List<CameraOwner> cameraMakeModelAndOwnersCache = null;
+        private static List<CameraOwner> cameraMakeModelAndOwnersCache = null;
 
         public void CameraMakeModelAndOwnerMakeDirty()
         {
@@ -118,7 +118,7 @@ namespace CameraOwners
         #endregion 
 
         #region Camera Owner Cache - MakeCameraOwnersDirty()
-        List<string> cameraOwnerCache = null;
+        private static List<string> cameraOwnerCache = null;
         public void MakeCameraOwnersDirty()
         {
             cameraOwnerCache = null;

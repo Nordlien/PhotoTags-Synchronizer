@@ -208,9 +208,8 @@ namespace Thumbnails
         #endregion 
 
         #region Thumbnail - Cache
-        Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();
+        private static Dictionary<FileEntry, Image> thumbnailCache = new Dictionary<FileEntry, Image>();
 
-        
 
         #region Thumbnail - DoesThumbnailExist
         public bool DoesThumbnailExist(FileEntry fileEntry)

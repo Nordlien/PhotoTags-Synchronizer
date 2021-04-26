@@ -57,7 +57,7 @@ namespace Furty.Windows.Forms
 
 		public void InitFolderTreeView()
 		{
-			InitImageList();
+            InitImageList();
             ShellOperations.PopulateTree(this, base.ImageList);
             if (this.Nodes.Count > 0)
 			{
@@ -67,8 +67,8 @@ namespace Furty.Windows.Forms
 
 		private void InitImageList()
 		{
-			// setup the image list to hold the folder icons
-			folderTreeViewImageList = new System.Windows.Forms.ImageList();
+            // setup the image list to hold the folder icons
+            folderTreeViewImageList = new System.Windows.Forms.ImageList();
 			folderTreeViewImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
 			folderTreeViewImageList.ImageSize = new System.Drawing.Size(16, 16);
 			folderTreeViewImageList.TransparentColor = System.Drawing.Color.Transparent;

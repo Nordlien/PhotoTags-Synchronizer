@@ -455,9 +455,15 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region MainForm_Load / Shown
-        private void MainForm_Load(object sender, EventArgs e)
+
+        private void FolderTreeInitInvoke()
         {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action(FolderTreeInitInvoke));
+                return;
+            }
+
             SplashForm.UpdateStatus("Initialize folder tree...");
             GlobalData.IsPopulatingFolderTree = true;
 
@@ -475,6 +481,25 @@ namespace PhotoTagsSynchronizer
             PopulateDatabaseFilter();
 
             PopulateSelectGroupToolStripMenuItems();
+        }
+
+        #region MainForm_Load / Shown
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            
+
+            try
+            {
+                Thread threadCache = new Thread(() =>
+                {
+                    FolderTreeInitInvoke();
+                });
+                threadCache.Start();
+            }
+            catch { }
+
+            
+            
 
             SplashForm.CloseForm();
 
