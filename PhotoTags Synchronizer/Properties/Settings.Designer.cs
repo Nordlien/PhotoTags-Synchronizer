@@ -1884,5 +1884,89 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["WebScraperStartPages"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int CacheNumberOfPosters {
+            get {
+                return ((int)(this["CacheNumberOfPosters"]));
+            }
+            set {
+                this["CacheNumberOfPosters"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CacheAllMetadatas {
+            get {
+                return ((bool)(this["CacheAllMetadatas"]));
+            }
+            set {
+                this["CacheAllMetadatas"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CacheAllThumbnails {
+            get {
+                return ((bool)(this["CacheAllThumbnails"]));
+            }
+            set {
+                this["CacheAllThumbnails"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CacheAllWebScraperDataSets {
+            get {
+                return ((bool)(this["CacheAllWebScraperDataSets"]));
+            }
+            set {
+                this["CacheAllWebScraperDataSets"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CacheFolderMetadatas {
+            get {
+                return ((bool)(this["CacheFolderMetadatas"]));
+            }
+            set {
+                this["CacheFolderMetadatas"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CacheFolderThumbnails {
+            get {
+                return ((bool)(this["CacheFolderThumbnails"]));
+            }
+            set {
+                this["CacheFolderThumbnails"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CacheFolderWebScraperDataSets {
+            get {
+                return ((bool)(this["CacheFolderWebScraperDataSets"]));
+            }
+            set {
+                this["CacheFolderWebScraperDataSets"] = value;
+            }
+        }
     }
 }

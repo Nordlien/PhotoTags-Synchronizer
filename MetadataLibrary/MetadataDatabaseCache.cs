@@ -30,6 +30,7 @@ namespace MetadataLibrary
     public class MetadataDatabaseCache
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        public static bool StopCaching { get; set; } = false;
 
         private SqliteDatabaseUtilities dbTools;
         public MetadataDatabaseCache(SqliteDatabaseUtilities databaseTools)
@@ -49,8 +50,87 @@ namespace MetadataLibrary
         #region Read
         private Metadata Read(FileEntryBroker file)
         {
-            Metadata metadata = new Metadata(file.Broker);
+            List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
+            fileEntryBrokersToPutInCache.Add(file);
+            ReadToCache(fileEntryBrokersToPutInCache);
+            return ReadMetadataFromCacheOnly(file);
+            
+        }
+        #endregion
 
+        #region ReadToCache
+        public void ReadToCache(FileInfo[] filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
+        {
+            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+            foreach (FileInfo fileInfo in filesFoundInDirectory)
+            {
+                if (StopCaching) return;
+                fileEntryBrokers.Add(new FileEntryBroker(fileInfo.FullName, fileInfo.LastWriteTime, metadataBrokerType));
+            }
+            ReadToCache(fileEntryBrokers);  
+        }
+        #endregion
+
+        #region ReadToCacheWebScraperDataSet
+        public void ReadToCacheWebScraperDataSet(FileInfo[] filesFoundInDirectory)
+        {
+            DateTime? dataSetDateTime = GetWebScraperLastPackageDate();
+            if (dataSetDateTime != null)
+            {
+                List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+                foreach (FileInfo fileInfo in filesFoundInDirectory)
+                {
+                    if (StopCaching) return;
+                    fileEntryBrokers.Add(new FileEntryBroker(MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, fileInfo.Name, (DateTime)dataSetDateTime, MetadataBrokerType.WebScraping));
+                }
+                ReadToCache(fileEntryBrokers);
+            }
+        }
+        #endregion
+
+        #region ReadToCacheWebScraperDataSet
+        public void ReadToCacheWebScraperDataSet(List<FileEntry> filesFoundInDirectory)
+        {
+            DateTime? dataSetDateTime = GetWebScraperLastPackageDate();
+            if (dataSetDateTime != null)
+            {
+                List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+                foreach (FileEntry fileInfo in filesFoundInDirectory)
+                {
+                    if (StopCaching) return;
+                    fileEntryBrokers.Add(new FileEntryBroker(MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, fileInfo.FileName, (DateTime)dataSetDateTime, MetadataBrokerType.WebScraping));
+                }
+                ReadToCache(fileEntryBrokers);
+            }
+        }
+        #endregion
+
+
+        #region ReadToCache
+        public void ReadToCache(List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
+        {
+            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+            foreach (FileEntry fileEntry in filesFoundInDirectory)
+            {
+                if (StopCaching) return;
+                fileEntryBrokers.Add(new FileEntryBroker(fileEntry, metadataBrokerType));
+            }
+            ReadToCache(fileEntryBrokers);
+        }
+        #endregion
+
+        #region ReadToCache
+        public void ReadToCache(List<FileEntryBroker> fileEntriesBroker)
+        {
+            List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
+            foreach (FileEntryBroker fileEntryBrokerToCheckInCache in fileEntriesBroker)
+            {
+                if (StopCaching) return;
+                Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBrokerToCheckInCache);
+                if (metadata == null) fileEntryBrokersToPutInCache.Add(fileEntryBrokerToCheckInCache);
+            }
+
+            #region MediaMetadata
             string sqlCommand =
                 "SELECT " +
                     "Broker, FileDirectory, FileName, FileSize, " +
@@ -63,52 +143,58 @@ namespace MetadataLibrary
                 "FROM MediaMetadata WHERE (Broker & @Broker) = @Broker AND FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
-
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    if (reader.Read())
+                    if (StopCaching) return;
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
+                    commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileEntryBroker.FileFullPath));
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileEntryBroker.FileFullPath));
+                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
+
+                    using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                     {
-                        metadata.Broker = (MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"]);
-                        metadata.FileDirectory = dbTools.ConvertFromDBValString(reader["FileDirectory"]);
-                        metadata.FileName = dbTools.ConvertFromDBValString(reader["FileName"]);
-                        metadata.FileSize = dbTools.ConvertFromDBValLong(reader["FileSize"]);
-                        metadata.FileDateCreated = dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateCreated"]);
-                        metadata.FileDateModified = dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]);
-                        metadata.FileLastAccessed = dbTools.ConvertFromDBValDateTimeLocal(reader["FileLastAccessed"]);
-                        metadata.FileMimeType = dbTools.ConvertFromDBValString(reader["FileMimeType"]);
-                        metadata.PersonalAlbum = dbTools.ConvertFromDBValString(reader["PersonalAlbum"]);
-                        metadata.PersonalTitle = dbTools.ConvertFromDBValString(reader["PersonalTitle"]);
-                        metadata.PersonalDescription = dbTools.ConvertFromDBValString(reader["PersonalDescription"]);
-                        metadata.PersonalComments = dbTools.ConvertFromDBValString(reader["PersonalComments"]);
-                        metadata.PersonalRatingPercent = dbTools.ConvertFromDBValByte(reader["PersonalRatingPercent"]);
-                        metadata.PersonalAuthor = dbTools.ConvertFromDBValString(reader["PersonalAuthor"]);
-                        metadata.CameraMake = dbTools.ConvertFromDBValString(reader["CameraMake"]);
-                        metadata.CameraModel = dbTools.ConvertFromDBValString(reader["CameraModel"]);
-                        metadata.MediaDateTaken = dbTools.ConvertFromDBValDateTimeLocal(reader["MediaDateTaken"]);
-                        metadata.MediaWidth = dbTools.ConvertFromDBValInt(reader["MediaWidth"]);
-                        metadata.MediaHeight = dbTools.ConvertFromDBValInt(reader["MediaHeight"]);
-                        metadata.MediaOrientation = dbTools.ConvertFromDBValInt(reader["MediaOrientation"]);
-                        metadata.LocationAltitude = dbTools.ConvertFromDBValFloat(reader["LocationAltitude"]);
-                        metadata.LocationLatitude = dbTools.ConvertFromDBValFloat(reader["LocationLatitude"]);
-                        metadata.LocationLongitude = dbTools.ConvertFromDBValFloat(reader["LocationLongitude"]);
-                        metadata.LocationDateTime = dbTools.ConvertFromDBValDateTimeUtc(reader["LocationDateTime"]);
-                        metadata.LocationName = dbTools.ConvertFromDBValString(reader["LocationName"]);
-                        metadata.LocationCountry = dbTools.ConvertFromDBValString(reader["LocationCountry"]);
-                        metadata.LocationCity = dbTools.ConvertFromDBValString(reader["LocationCity"]);
-                        metadata.LocationState = dbTools.ConvertFromDBValString(reader["LocationState"]);
-                    }
-                    else
-                    {
-                        return null; //No data found, return null
+                        if (reader.Read())
+                        {
+                            Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
+                            if (metadata == null) metadata = new Metadata(fileEntryBroker.Broker);
+                            metadata.Broker = (MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"]);
+                            metadata.FileDirectory = dbTools.ConvertFromDBValString(reader["FileDirectory"]);
+                            metadata.FileName = dbTools.ConvertFromDBValString(reader["FileName"]);
+                            metadata.FileSize = dbTools.ConvertFromDBValLong(reader["FileSize"]);
+                            metadata.FileDateCreated = dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateCreated"]);
+                            metadata.FileDateModified = dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]);
+                            metadata.FileLastAccessed = dbTools.ConvertFromDBValDateTimeLocal(reader["FileLastAccessed"]);
+                            metadata.FileMimeType = dbTools.ConvertFromDBValString(reader["FileMimeType"]);
+                            metadata.PersonalAlbum = dbTools.ConvertFromDBValString(reader["PersonalAlbum"]);
+                            metadata.PersonalTitle = dbTools.ConvertFromDBValString(reader["PersonalTitle"]);
+                            metadata.PersonalDescription = dbTools.ConvertFromDBValString(reader["PersonalDescription"]);
+                            metadata.PersonalComments = dbTools.ConvertFromDBValString(reader["PersonalComments"]);
+                            metadata.PersonalRatingPercent = dbTools.ConvertFromDBValByte(reader["PersonalRatingPercent"]);
+                            metadata.PersonalAuthor = dbTools.ConvertFromDBValString(reader["PersonalAuthor"]);
+                            metadata.CameraMake = dbTools.ConvertFromDBValString(reader["CameraMake"]);
+                            metadata.CameraModel = dbTools.ConvertFromDBValString(reader["CameraModel"]);
+                            metadata.MediaDateTaken = dbTools.ConvertFromDBValDateTimeLocal(reader["MediaDateTaken"]);
+                            metadata.MediaWidth = dbTools.ConvertFromDBValInt(reader["MediaWidth"]);
+                            metadata.MediaHeight = dbTools.ConvertFromDBValInt(reader["MediaHeight"]);
+                            metadata.MediaOrientation = dbTools.ConvertFromDBValInt(reader["MediaOrientation"]);
+                            metadata.LocationAltitude = dbTools.ConvertFromDBValFloat(reader["LocationAltitude"]);
+                            metadata.LocationLatitude = dbTools.ConvertFromDBValFloat(reader["LocationLatitude"]);
+                            metadata.LocationLongitude = dbTools.ConvertFromDBValFloat(reader["LocationLongitude"]);
+                            metadata.LocationDateTime = dbTools.ConvertFromDBValDateTimeUtc(reader["LocationDateTime"]);
+                            metadata.LocationName = dbTools.ConvertFromDBValString(reader["LocationName"]);
+                            metadata.LocationCountry = dbTools.ConvertFromDBValString(reader["LocationCountry"]);
+                            metadata.LocationCity = dbTools.ConvertFromDBValString(reader["LocationCity"]);
+                            metadata.LocationState = dbTools.ConvertFromDBValString(reader["LocationState"]);
+
+                            MetadataCacheUpdate(metadata.FileEntryBroker, metadata);
+                        }
                     }
                 }
             }
+            #endregion
 
+            #region MediaPersonalKeywords
             sqlCommand =
                    "SELECT " +
                        "Broker, FileDirectory, FileName, FileDateModified, Keyword, Confidence " +
@@ -116,25 +202,35 @@ namespace MetadataLibrary
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
-                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
-                
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    while (reader.Read())
+                    if (StopCaching) return;
+                    Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
+                    if (metadata != null)
                     {
-                        metadata.PersonalKeywordTagsAddIfNotExists(
-                            new KeywordTag(
-                            dbTools.ConvertFromDBValString(reader["Keyword"]),
-                            (float)dbTools.ConvertFromDBValFloat(reader["Confidence"]))
-                            );
-                    }
+                        commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
+                        commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileEntryBroker.FileFullPath));
+                        commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileEntryBroker.FileFullPath));
+                        commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
 
+                        using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                metadata.PersonalKeywordTagsAddIfNotExists(
+                                    new KeywordTag(
+                                    dbTools.ConvertFromDBValString(reader["Keyword"]),
+                                    (float)dbTools.ConvertFromDBValFloat(reader["Confidence"]))
+                                    );
+
+                            }
+                        }
+                    }
                 }
             }
+            #endregion
 
+            #region MediaPersonalRegions
             sqlCommand =
                     "SELECT " +
                     "Broker, FileDirectory, FileName, FileDateModified, Type, " +
@@ -144,35 +240,52 @@ namespace MetadataLibrary
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(file.FileFullPath));
-                commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(file.FileFullPath));
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
 
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    while (reader.Read())
+                    if (StopCaching) return;
+                    Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
+                    if (metadata != null)
                     {
-                        RegionStructure region = new RegionStructure();
-                        region.Type = dbTools.ConvertFromDBValString(reader["Type"]);
-                        region.Name = dbTools.ConvertFromDBValString(reader["Name"]);
-                        region.AreaX = (float)dbTools.ConvertFromDBValFloat(reader["AreaX"]);
-                        region.AreaY = (float)dbTools.ConvertFromDBValFloat(reader["AreaY"]);
-                        region.AreaWidth = (float)dbTools.ConvertFromDBValFloat(reader["AreaWidth"]);
-                        region.AreaHeight = (float)dbTools.ConvertFromDBValFloat(reader["AreaHeight"]);
-                        region.RegionStructureType = (RegionStructureTypes)(int)dbTools.ConvertFromDBValInt(reader["RegionStructureType"]);
-                        region.Thumbnail = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
-                        metadata.PersonalRegionListAddIfNotExists(region);
+                        commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
+                        commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileEntryBroker.FileFullPath));
+                        commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileEntryBroker.FileFullPath));
+                        commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
+
+                        using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                RegionStructure region = new RegionStructure();
+                                region.Type = dbTools.ConvertFromDBValString(reader["Type"]);
+                                region.Name = dbTools.ConvertFromDBValString(reader["Name"]);
+                                region.AreaX = (float)dbTools.ConvertFromDBValFloat(reader["AreaX"]);
+                                region.AreaY = (float)dbTools.ConvertFromDBValFloat(reader["AreaY"]);
+                                region.AreaWidth = (float)dbTools.ConvertFromDBValFloat(reader["AreaWidth"]);
+                                region.AreaHeight = (float)dbTools.ConvertFromDBValFloat(reader["AreaHeight"]);
+                                region.RegionStructureType = (RegionStructureTypes)(int)dbTools.ConvertFromDBValInt(reader["RegionStructureType"]);
+                                region.Thumbnail = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
+                                metadata.PersonalRegionListAddIfNotExists(region);
+                            }
+                        }
                     }
                 }
             }
-            return metadata;
+            #endregion 
         }
-        #endregion
+        #endregion 
 
-        public void CacheAll() //Hack to read data to cache and the database worked much faster after this
+        public void ReadToCacheAllMetadatas() //Hack to read data to cache and the database worked much faster after this
         {
+            if (StopCaching) return;
             ReadLot(MetadataBrokerType.Empty, null, null, null, true);
+        }
+
+        public void ReadToCacheWebScarpingDataSets()
+        {
+            if (StopCaching) return;
+            DateTime? dataSetDateTime = GetWebScraperLastPackageDate();
+            if (dataSetDateTime != null) ReadLot(MetadataBrokerType.WebScraping, MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, null, dataSetDateTime, true);
         }
 
         #region ReadLot
@@ -180,8 +293,98 @@ namespace MetadataLibrary
         public delegate void ReadRecordEvent(object sender, ReadRecordEventArgs e);
         public event ReadRecordEvent OnReadRecord;
 
+        #region ReadToCacheParamters
+        private class ReadToCacheParamters : IComparable<ReadToCacheParamters>, IEquatable<ReadToCacheParamters>
+        {
+            public ReadToCacheParamters()
+            {
+            }
+
+            public ReadToCacheParamters(MetadataBrokerType metadataBrokerType, string folder, string filename, DateTime? fileDateModified)
+            {
+                MetadataBrokerType = metadataBrokerType;
+                Folder = folder;
+                Filename = filename;
+                FileDateModified = fileDateModified;
+            }
+
+            public MetadataBrokerType MetadataBrokerType { get; set; }
+            public string Folder { get; set; }
+            public string Filename { get; set; }
+            public DateTime? FileDateModified { get; set; }
+
+            public int CompareTo(ReadToCacheParamters other)
+            {
+                int compare = MetadataBrokerType.CompareTo(other.MetadataBrokerType);  
+
+                if (Folder == null)
+                {
+                    if (other.Folder != null) compare = -1;                 //this.Fullname ==  null and other.Fullname NOT null
+                }
+                else if (other.Folder == null) compare = 1;                 //this.Fullname NOT null and other.Fullname ==  null                
+                else compare = Folder.CompareTo(other.Folder);  //both != NULL, then do normale string compare
+
+                if (Filename == null)
+                {
+                    if (other.Filename != null) compare = -1;                 //this.Fullname ==  null and other.Fullname NOT null
+                }
+                else if (other.Filename == null) compare = 1;                 //this.Fullname NOT null and other.Fullname ==  null                
+                else compare = Filename.CompareTo(other.Filename);  //both != NULL, then do normale string compare
+
+                if (FileDateModified == null)
+                {
+                    if (other.FileDateModified != null) compare = -1;                 //this.Fullname ==  null and other.Fullname NOT null
+                }
+                else if (other.FileDateModified == null) compare = 1;                 //this.Fullname NOT null and other.Fullname ==  null                
+                else compare = ((DateTime)FileDateModified).CompareTo((DateTime)other.FileDateModified);  //both != NULL, then do normale string compare
+
+                return compare;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return this.Equals(obj as ReadToCacheParamters);
+            }
+
+            public bool Equals(ReadToCacheParamters other)
+            {
+                return other is ReadToCacheParamters paramters &&
+                       MetadataBrokerType == paramters.MetadataBrokerType &&
+                       Folder == paramters.Folder &&
+                       Filename == paramters.Filename &&
+                       FileDateModified == paramters.FileDateModified;
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = 262226170;
+                hashCode = hashCode * -1521134295 + MetadataBrokerType.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Folder);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Filename);
+                hashCode = hashCode * -1521134295 + FileDateModified.GetHashCode();
+                return hashCode;
+            }
+
+            public static bool operator ==(ReadToCacheParamters left, ReadToCacheParamters right)
+            {
+                return EqualityComparer<ReadToCacheParamters>.Default.Equals(left, right);
+            }
+
+            public static bool operator !=(ReadToCacheParamters left, ReadToCacheParamters right)
+            {
+                return !(left == right);
+            }
+        }
+        #endregion  
+        private static List<ReadToCacheParamters> readToCacheParamtersCached = new List<ReadToCacheParamters>();
+
         public void ReadLot(MetadataBrokerType metadataBrokerType, string folder, string filename, DateTime? fileDateModified, bool readDataIntoCache = true) //Hack to read data to cache and the database worked much faster after this
         {
+            if (StopCaching) return;
+            ReadToCacheParamters readToCacheParamters = new ReadToCacheParamters(metadataBrokerType, folder, filename, fileDateModified);
+            if (readToCacheParamtersCached.Contains(readToCacheParamters)) return;
+            if (readDataIntoCache) readToCacheParamtersCached.Add(readToCacheParamters);
+
             string sqlWhere = "";
             if (metadataBrokerType != MetadataBrokerType.Empty) sqlWhere += (sqlWhere == "" ? "" : " AND ") + "(Broker & @Broker) = @Broker";
             if (folder != null) sqlWhere += (sqlWhere == "" ? "" : " AND ") + "FileDirectory = @FileDirectory";
@@ -189,6 +392,7 @@ namespace MetadataLibrary
             if (fileDateModified != null) sqlWhere += (sqlWhere == "" ? "" : " AND ") + "FileDateModified = @FileDateModified";
             sqlWhere = (sqlWhere == "" ? "" : " WHERE ") + sqlWhere;
 
+            #region MediaMetadata
             string sqlCommand =
                 "SELECT " +
                     "Broker, FileDirectory, FileName, FileSize, " +
@@ -215,9 +419,9 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
+                        if (StopCaching) return;
                         readRecordEventArgs.MetadataCount++;
                         if (OnReadRecord != null) OnReadRecord(this, readRecordEventArgs);
-                        //OnReadRecord?.Invoke(this, readRecordEventArgs);
                         
                         if (readDataIntoCache)
                         {
@@ -257,7 +461,9 @@ namespace MetadataLibrary
                     }
                 }
             }
+            #endregion
 
+            #region MediaPersonalKeywords
             sqlCommand =
                    "SELECT " +
                        "Broker, FileDirectory, FileName, FileDateModified, Keyword, Confidence " +
@@ -275,6 +481,7 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
+                        if (StopCaching) return;
                         readRecordEventArgs.KeywordCount++;
                         if (OnReadRecord != null) OnReadRecord(this, readRecordEventArgs);
 
@@ -301,7 +508,9 @@ namespace MetadataLibrary
                     }
                 }
             }
+            #endregion
 
+            #region MediaPersonalRegions
             sqlCommand =
                     "SELECT " +
                     "Broker, FileDirectory, FileName, FileDateModified, Type, " +
@@ -319,6 +528,7 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
+                        if (StopCaching) return;
                         readRecordEventArgs.RegionCount++;
                         if (OnReadRecord != null) OnReadRecord(this, readRecordEventArgs);
 
@@ -350,6 +560,7 @@ namespace MetadataLibrary
                     }
                 }
             }
+            #endregion 
         }
         #endregion
 
@@ -717,7 +928,6 @@ namespace MetadataLibrary
         }
         #endregion
 
-
         #region Delete Directoy - Mediadata
         private int DeleteDirectoryMediaMetadata(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
@@ -951,7 +1161,7 @@ namespace MetadataLibrary
         #endregion
 
         #region WebScraping - GetWebScraperLastPackageDate
-        private DateTime? GetWebScraperLastPackageDate()
+        public DateTime? GetWebScraperLastPackageDate()
         {
             DateTime? dateTimeResult = null;
             List<DateTime> webScrapingPackageDates = ListWebScraperDataSet(MetadataBrokerType.WebScraping, WebScapingFolderName);
@@ -1779,7 +1989,6 @@ namespace MetadataLibrary
             }
         }
         #endregion 
-
 
         #region Cache Metadata - Updated       
         private void MetadataCacheUpdate(FileEntryBroker fileEntryBroker, Metadata metadata)

@@ -244,14 +244,30 @@ namespace PhotoTagsSynchronizer
                 {
                     while (CommonQueuePreloadingMetadataCountLock() > 0 && !GlobalData.IsApplicationClosing && ThreadLazyLoadingQueueSize() == 0)
                     {
-                        FileEntryAttribute fileEntryAttribute;
-                        lock (commonQueuePreloadingMetadataLock) fileEntryAttribute = new FileEntryAttribute(commonQueuePreloadingMetadata[0]);
+                        //FileEntryAttribute fileEntryAttribute;
+                        //lock (commonQueuePreloadingMetadataLock) fileEntryAttribute = new FileEntryAttribute(commonQueuePreloadingMetadata[0]);
+                        //_ = databaseAndCacheMetadataExiftool.ReadToCache(commonQueuePreloadingMetadataLock)
+                        //_ = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
+                        //_ = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
+                        //_ = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
 
-                        _ = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
-                        _ = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
-                        _ = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
+                        //lock (commonQueuePreloadingMetadataLock) if (commonQueuePreloadingMetadata.Count > 0) commonQueuePreloadingMetadata.RemoveAt(0);
 
-                        lock (commonQueuePreloadingMetadataLock) if (commonQueuePreloadingMetadata.Count > 0) commonQueuePreloadingMetadata.RemoveAt(0);
+                        List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+                        int countInQueue = CommonQueuePreloadingMetadataCountLock();
+                        lock (commonQueuePreloadingMetadataLock)
+                        {
+                            if (countInQueue > 0)
+                            {
+                                for (int indexQueue = 0; indexQueue < countInQueue; indexQueue++)
+                                {
+                                    fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.ExifTool));
+                                    fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.MicrosoftPhotos));
+                                    fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.WindowsLivePhotoGallery));
+                                }
+                                commonQueuePreloadingMetadata.RemoveRange(0, countInQueue);
+                            }
+                        }
                     }
                     Application.DoEvents();
                     StartThreads();

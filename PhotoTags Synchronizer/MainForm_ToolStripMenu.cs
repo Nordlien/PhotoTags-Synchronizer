@@ -680,12 +680,24 @@ namespace PhotoTagsSynchronizer
                     databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
                     RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
 
+                    //Cache config
+                    cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
+                    cacheAllMetadatas = Properties.Settings.Default.CacheAllMetadatas;
+                    cacheAllThumbnails = Properties.Settings.Default.CacheAllThumbnails;
+                    cacheAllWebScraperDataSets = Properties.Settings.Default.CacheAllWebScraperDataSets;
+                    cacheFolderMetadatas = Properties.Settings.Default.CacheFolderMetadatas;
+                    cacheFolderThumbnails = Properties.Settings.Default.CacheFolderThumbnails;
+                    cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
+
+                    //
                     folderTreeViewFolder.Enabled = false;
                     imageListView1.Enabled = false;
                     FilesSelected();
                     folderTreeViewFolder.Enabled = true;
                     imageListView1.Enabled = true;
                     imageListView1.Focus();
+
+                    
                 }
             }
         }

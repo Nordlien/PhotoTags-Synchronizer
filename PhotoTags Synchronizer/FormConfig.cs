@@ -173,7 +173,6 @@ namespace PhotoTagsSynchronizer
             DialogResult = DialogResult.Cancel;
 
             isPopulation = true;
-            //PopulateApplication()
             PopulateApplication();
 
             //Metadata Filename Date formats
@@ -344,6 +343,14 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.AvoidOfflineMediaFiles = checkBoxApplicationAvoidReadMediaFromCloud.Checked;
             Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode = checkBoxApplicationImageListViewCacheModeOnDemand.Checked;
 
+            Properties.Settings.Default.CacheNumberOfPosters = (int)numericUpDownCacheNumberOfPosters.Value;            
+            Properties.Settings.Default.CacheAllMetadatas = checkBoxCacheAllMetadatas.Checked;
+            Properties.Settings.Default.CacheAllThumbnails = checkBoxCacheAllThumbnails.Checked;
+            Properties.Settings.Default.CacheAllWebScraperDataSets = checkBoxCacheAllWebScraperDataSets.Checked;
+            Properties.Settings.Default.CacheFolderMetadatas = checkBoxCacheFolderMetadatas.Checked;
+            Properties.Settings.Default.CacheFolderThumbnails = checkBoxCacheFolderThumbnails.Checked;
+            Properties.Settings.Default.CacheFolderWebScraperDataSets = checkBoxCacheFolderWebScraperDataSets.Checked;
+
             //AutoCorrect
             GetAutoCorrectPoperties();
             Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
@@ -471,6 +478,14 @@ namespace PhotoTagsSynchronizer
 
             checkBoxApplicationAvoidReadMediaFromCloud.Checked = Properties.Settings.Default.AvoidOfflineMediaFiles;
             checkBoxApplicationImageListViewCacheModeOnDemand.Checked = Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode;
+
+            numericUpDownCacheNumberOfPosters.Value = (int)Properties.Settings.Default.CacheNumberOfPosters;
+            checkBoxCacheAllMetadatas.Checked = Properties.Settings.Default.CacheAllMetadatas;
+            checkBoxCacheAllThumbnails.Checked = Properties.Settings.Default.CacheAllThumbnails;
+            checkBoxCacheAllWebScraperDataSets.Checked = Properties.Settings.Default.CacheAllWebScraperDataSets;
+            checkBoxCacheFolderMetadatas.Checked = Properties.Settings.Default.CacheFolderMetadatas;
+            checkBoxCacheFolderThumbnails.Checked = Properties.Settings.Default.CacheFolderThumbnails;
+            checkBoxCacheFolderWebScraperDataSets.Checked = Properties.Settings.Default.CacheFolderWebScraperDataSets;
         }
         #endregion 
 

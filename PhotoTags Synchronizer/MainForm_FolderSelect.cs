@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using MetadataLibrary;
 using ImageAndMovieFileExtentions;
 using Manina.Windows.Forms;
+using System.Threading;
+using Thumbnails;
 
 namespace PhotoTagsSynchronizer
 {
@@ -52,16 +54,36 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FolderSearchFilter - Populate DataGridView, ImageListView 
-        private void FolderSearchFilter(List<FileEntry> searchFilterResult, bool runPopulateFilter = true)
+        private void PopulateImageisteViedBasedOnSearchResult(List<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
-            
+            MetadataDatabaseCache.StopCaching = true;
+            ThumbnailDatabaseCache.StopCaching = true;
+
             using (new WaitCursor())
             {
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
                 GlobalData.SearchFolder = false;
 
                 folderTreeViewFolder.Enabled = false;
+
+                try
+                {
+                    Thread threadCache = new Thread(() =>
+                    {
+                        MetadataDatabaseCache.StopCaching = false;
+                        ThumbnailDatabaseCache.StopCaching = false;
+                        databaseAndCacheMetadataExiftool.ReadToCache(searchFilterResult, MetadataBrokerType.ExifTool);
+                        databaseAndCacheThumbnail.ReadToCache(searchFilterResult);
+                        if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(searchFilterResult); //Read missing, new media files added
+                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(searchFilterResult, MetadataBrokerType.ExifTool); //Read missing, new media files added
+                        if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(searchFilterResult); //Read missing, new media files added
+                    });
+                    threadCache.Start();
+                }
+                catch { }
+
+
                 ImageListViewAggregateFromSearchFilter(searchFilterResult);
                 folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
                 if (runPopulateFilter) PopulateTreeViewFolderFilterThread(searchFilterResult);

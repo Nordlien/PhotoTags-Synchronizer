@@ -24,7 +24,13 @@ namespace SqliteDatabase
 
         public bool Read()
         {
-            return this.sqliteDataReader.Read();
+            try
+            {
+                return this.sqliteDataReader.Read();
+            } catch 
+            {
+                return false;
+            }
         }
 
         public object this[string key]

@@ -1406,7 +1406,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
         #region Load DataSet from Database
         private Dictionary<string, Metadata> LoadDataSetFromDatabase(DateTime dataSetDateTime)
         {

@@ -365,7 +365,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.SearchFolder)
                 PopulateImageListViewBasedOnSelectedFolderAndOrFilter(GlobalData.lastReadFolderWasRecursive, false);
             else
-                FolderSearchFilter(GlobalData.SerachFilterResult, false);
+                PopulateImageisteViedBasedOnSearchResult(GlobalData.SerachFilterResult, false);
         }
         #endregion
 
@@ -722,7 +722,7 @@ namespace PhotoTagsSynchronizer
                 useKeywordList, needAllKeywords, keywords, withoutKeywords,
                 checkIfHasExifWarning, maxRowsInResult);
             GlobalData.SearchFolder = false;
-            FolderSearchFilter(GlobalData.SerachFilterResult, true);
+            PopulateImageisteViedBasedOnSearchResult(GlobalData.SerachFilterResult, true);
         }
         #endregion 
     }

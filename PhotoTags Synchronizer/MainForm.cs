@@ -70,6 +70,16 @@ namespace PhotoTagsSynchronizer
 
         private FilesCutCopyPasteDrag filesCutCopyPasteDrag;
 
+        //Cache level
+        private int  cacheNumberOfPosters = 10;
+        private bool cacheAllMetadatas = false;
+        private bool cacheAllThumbnails = false;
+        private bool cacheAllWebScraperDataSets = false;
+
+        private bool cacheFolderMetadatas = true;
+        private bool cacheFolderThumbnails = true;
+        private bool cacheFolderWebScraperDataSets = false;
+
         //Avoid flickering
         private bool isFormLoading = true;                  //Avoid flicker and on change events going in loop
         private bool isSettingDefaultComboxValues = false;  //Avoid multiple reload when value are set, avoid on value change event
@@ -89,6 +99,16 @@ namespace PhotoTagsSynchronizer
             SplashForm.UpdateStatus("Initialize component...");
             InitializeComponent();
 
+            //Cache config
+            cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
+            cacheAllMetadatas = Properties.Settings.Default.CacheAllMetadatas;
+            cacheAllThumbnails = Properties.Settings.Default.CacheAllThumbnails;
+            cacheAllWebScraperDataSets = Properties.Settings.Default.CacheAllWebScraperDataSets;
+
+            cacheFolderMetadatas = Properties.Settings.Default.CacheFolderMetadatas;
+            cacheFolderThumbnails = Properties.Settings.Default.CacheFolderThumbnails;
+            cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
+            
             //VLC
             _libVLC = new LibVLC();
             videoView1.MediaPlayer = new MediaPlayer(_libVLC);
@@ -106,6 +126,7 @@ namespace PhotoTagsSynchronizer
             toolStripButtonThumbnailSize4.ToolTipText = toolStripButtonThumbnailSize4.Text;
             toolStripButtonThumbnailSize5.Text = "Thumbnail size " + thumbnailSizes[0].Width + "x" + thumbnailSizes[0].Height;
             toolStripButtonThumbnailSize5.ToolTipText = toolStripButtonThumbnailSize5.Text;
+
 
 
             SplashForm.UpdateStatus("Initialize load layout...");
@@ -167,15 +188,12 @@ namespace PhotoTagsSynchronizer
             {
                 Thread threadCache = new Thread(() =>
                 {
-                    Stopwatch stopwatch = new Stopwatch();
-                    stopwatch.Start();
-                    //databaseAndCacheMetadataExiftool.CacheAll();
-                    Logger.Info("Read to metadata to memory cache: " + stopwatch.Elapsed.ToString());
-
-                    stopwatch.Restart();
-                    //databaseAndCacheThumbnail.ReadDirectory(null);
-                    Logger.Info("Read to thumbnail to memory cache: " + stopwatch.Elapsed.ToString());
-
+                    //private bool cacheAllMetadatas = false;
+                    //private bool cacheAllThumbnails = false;
+                    //private bool cacheAllWebScraperDataSets = false;
+                    if (cacheAllThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(null);                    
+                    if (cacheAllMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas();
+                    if (cacheAllWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScarpingDataSets();
                 });
                 threadCache.Start();
             }
@@ -379,6 +397,9 @@ namespace PhotoTagsSynchronizer
                 }
             }
             GlobalData.IsApplicationClosing = true;
+            MetadataDatabaseCache.StopCaching = true;
+            ThumbnailDatabaseCache.StopCaching = true;
+
             WaitApplicationClosing.Set();
 
             SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 7, false, false);
@@ -484,7 +505,6 @@ namespace PhotoTagsSynchronizer
         #region MainForm_Load / Shown
         private void MainForm_Load(object sender, EventArgs e)
         {
-            
 
             try
             {
@@ -495,9 +515,6 @@ namespace PhotoTagsSynchronizer
                 threadCache.Start();
             }
             catch { }
-
-            
-            
 
             SplashForm.CloseForm();
 

@@ -35,6 +35,15 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig = new System.Windows.Forms.TabControl();
             this.tabPageApplication = new System.Windows.Forms.TabPage();
             this.panelApplication = new System.Windows.Forms.Panel();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.checkBoxCacheFolderWebScraperDataSets = new System.Windows.Forms.CheckBox();
+            this.checkBoxCacheFolderThumbnails = new System.Windows.Forms.CheckBox();
+            this.checkBoxCacheFolderMetadatas = new System.Windows.Forms.CheckBox();
+            this.checkBoxCacheAllWebScraperDataSets = new System.Windows.Forms.CheckBox();
+            this.checkBoxCacheAllThumbnails = new System.Windows.Forms.CheckBox();
+            this.checkBoxCacheAllMetadatas = new System.Windows.Forms.CheckBox();
+            this.label83 = new System.Windows.Forms.Label();
+            this.numericUpDownCacheNumberOfPosters = new System.Windows.Forms.NumericUpDown();
             this.groupBoxLocationAccuracy = new System.Windows.Forms.GroupBox();
             this.label67 = new System.Windows.Forms.Label();
             this.label65 = new System.Windows.Forms.Label();
@@ -91,6 +100,13 @@ namespace PhotoTagsSynchronizer
             this.tabPageMetadataWebScraper = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.label82 = new System.Windows.Forms.Label();
+            this.label81 = new System.Windows.Forms.Label();
+            this.label80 = new System.Windows.Forms.Label();
+            this.label79 = new System.Windows.Forms.Label();
+            this.label78 = new System.Windows.Forms.Label();
+            this.label77 = new System.Windows.Forms.Label();
+            this.label76 = new System.Windows.Forms.Label();
             this.numericUpDownWebScrapingPageDownCount = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownWaitEventPageLoadedTimeout = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownWaitEventPageStartLoadingTimeout = new System.Windows.Forms.NumericUpDown();
@@ -326,16 +342,11 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
-            this.label76 = new System.Windows.Forms.Label();
-            this.label77 = new System.Windows.Forms.Label();
-            this.label78 = new System.Windows.Forms.Label();
-            this.label79 = new System.Windows.Forms.Label();
-            this.label80 = new System.Windows.Forms.Label();
-            this.label81 = new System.Windows.Forms.Label();
-            this.label82 = new System.Windows.Forms.Label();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCacheNumberOfPosters)).BeginInit();
             this.groupBoxLocationAccuracy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLongitude)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLatitude)).BeginInit();
@@ -460,7 +471,12 @@ namespace PhotoTagsSynchronizer
             // 
             // panelApplication
             // 
+            this.panelApplication.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelApplication.AutoScroll = true;
             this.panelApplication.BackColor = System.Drawing.Color.Transparent;
+            this.panelApplication.Controls.Add(this.groupBox12);
             this.panelApplication.Controls.Add(this.groupBoxLocationAccuracy);
             this.panelApplication.Controls.Add(this.groupBox6);
             this.panelApplication.Controls.Add(this.groupBox5);
@@ -468,11 +484,113 @@ namespace PhotoTagsSynchronizer
             this.panelApplication.Controls.Add(this.groupBox3);
             this.panelApplication.Controls.Add(this.groupBox2);
             this.panelApplication.Controls.Add(this.groupBox1);
-            this.panelApplication.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelApplication.Location = new System.Drawing.Point(0, 0);
             this.panelApplication.Name = "panelApplication";
             this.panelApplication.Size = new System.Drawing.Size(766, 748);
             this.panelApplication.TabIndex = 0;
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.checkBoxCacheFolderWebScraperDataSets);
+            this.groupBox12.Controls.Add(this.checkBoxCacheFolderThumbnails);
+            this.groupBox12.Controls.Add(this.checkBoxCacheFolderMetadatas);
+            this.groupBox12.Controls.Add(this.checkBoxCacheAllWebScraperDataSets);
+            this.groupBox12.Controls.Add(this.checkBoxCacheAllThumbnails);
+            this.groupBox12.Controls.Add(this.checkBoxCacheAllMetadatas);
+            this.groupBox12.Controls.Add(this.label83);
+            this.groupBox12.Controls.Add(this.numericUpDownCacheNumberOfPosters);
+            this.groupBox12.Location = new System.Drawing.Point(3, 751);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(738, 227);
+            this.groupBox12.TabIndex = 13;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Cache logic";
+            // 
+            // checkBoxCacheFolderWebScraperDataSets
+            // 
+            this.checkBoxCacheFolderWebScraperDataSets.AutoSize = true;
+            this.checkBoxCacheFolderWebScraperDataSets.Location = new System.Drawing.Point(183, 184);
+            this.checkBoxCacheFolderWebScraperDataSets.Name = "checkBoxCacheFolderWebScraperDataSets";
+            this.checkBoxCacheFolderWebScraperDataSets.Size = new System.Drawing.Size(389, 21);
+            this.checkBoxCacheFolderWebScraperDataSets.TabIndex = 7;
+            this.checkBoxCacheFolderWebScraperDataSets.Text = "Cache Folder WebScraper DataSets after folder selected";
+            this.checkBoxCacheFolderWebScraperDataSets.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCacheFolderThumbnails
+            // 
+            this.checkBoxCacheFolderThumbnails.AutoSize = true;
+            this.checkBoxCacheFolderThumbnails.Location = new System.Drawing.Point(183, 160);
+            this.checkBoxCacheFolderThumbnails.Name = "checkBoxCacheFolderThumbnails";
+            this.checkBoxCacheFolderThumbnails.Size = new System.Drawing.Size(321, 21);
+            this.checkBoxCacheFolderThumbnails.TabIndex = 6;
+            this.checkBoxCacheFolderThumbnails.Text = "Cache Folder Thumbnails after folder selected";
+            this.checkBoxCacheFolderThumbnails.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCacheFolderMetadatas
+            // 
+            this.checkBoxCacheFolderMetadatas.AutoSize = true;
+            this.checkBoxCacheFolderMetadatas.Location = new System.Drawing.Point(183, 133);
+            this.checkBoxCacheFolderMetadatas.Name = "checkBoxCacheFolderMetadatas";
+            this.checkBoxCacheFolderMetadatas.Size = new System.Drawing.Size(314, 21);
+            this.checkBoxCacheFolderMetadatas.TabIndex = 5;
+            this.checkBoxCacheFolderMetadatas.Text = "Cache Folder Metadatas after folder selected";
+            this.checkBoxCacheFolderMetadatas.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCacheAllWebScraperDataSets
+            // 
+            this.checkBoxCacheAllWebScraperDataSets.AutoSize = true;
+            this.checkBoxCacheAllWebScraperDataSets.Location = new System.Drawing.Point(183, 106);
+            this.checkBoxCacheAllWebScraperDataSets.Name = "checkBoxCacheAllWebScraperDataSets";
+            this.checkBoxCacheAllWebScraperDataSets.Size = new System.Drawing.Size(375, 21);
+            this.checkBoxCacheAllWebScraperDataSets.TabIndex = 4;
+            this.checkBoxCacheAllWebScraperDataSets.Text = "Cache All WebScraper DataSets on Application startup";
+            this.checkBoxCacheAllWebScraperDataSets.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCacheAllThumbnails
+            // 
+            this.checkBoxCacheAllThumbnails.AutoSize = true;
+            this.checkBoxCacheAllThumbnails.Location = new System.Drawing.Point(183, 79);
+            this.checkBoxCacheAllThumbnails.Name = "checkBoxCacheAllThumbnails";
+            this.checkBoxCacheAllThumbnails.Size = new System.Drawing.Size(307, 21);
+            this.checkBoxCacheAllThumbnails.TabIndex = 3;
+            this.checkBoxCacheAllThumbnails.Text = "Cache All Thumbnails on Application startup";
+            this.checkBoxCacheAllThumbnails.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCacheAllMetadatas
+            // 
+            this.checkBoxCacheAllMetadatas.AutoSize = true;
+            this.checkBoxCacheAllMetadatas.Location = new System.Drawing.Point(183, 52);
+            this.checkBoxCacheAllMetadatas.Name = "checkBoxCacheAllMetadatas";
+            this.checkBoxCacheAllMetadatas.Size = new System.Drawing.Size(300, 21);
+            this.checkBoxCacheAllMetadatas.TabIndex = 2;
+            this.checkBoxCacheAllMetadatas.Text = "Cache All Metadatas on Application startup";
+            this.checkBoxCacheAllMetadatas.UseVisualStyleBackColor = true;
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Location = new System.Drawing.Point(6, 26);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(126, 17);
+            this.label83.TabIndex = 1;
+            this.label83.Text = "Number of Posters";
+            // 
+            // numericUpDownCacheNumberOfPosters
+            // 
+            this.numericUpDownCacheNumberOfPosters.Location = new System.Drawing.Point(183, 24);
+            this.numericUpDownCacheNumberOfPosters.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownCacheNumberOfPosters.Name = "numericUpDownCacheNumberOfPosters";
+            this.numericUpDownCacheNumberOfPosters.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownCacheNumberOfPosters.TabIndex = 0;
+            this.numericUpDownCacheNumberOfPosters.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // groupBoxLocationAccuracy
             // 
@@ -483,7 +601,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxLocationAccuracy.Controls.Add(this.numericUpDownLocationAccuracyLatitude);
             this.groupBoxLocationAccuracy.Location = new System.Drawing.Point(3, 641);
             this.groupBoxLocationAccuracy.Name = "groupBoxLocationAccuracy";
-            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(760, 104);
+            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(737, 104);
             this.groupBoxLocationAccuracy.TabIndex = 12;
             this.groupBoxLocationAccuracy.TabStop = false;
             this.groupBoxLocationAccuracy.Text = "GPS Location Accuracy";
@@ -578,7 +696,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud);
             this.groupBox6.Location = new System.Drawing.Point(3, 543);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(760, 92);
+            this.groupBox6.Size = new System.Drawing.Size(738, 92);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Read media and listview";
@@ -612,7 +730,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox5.Controls.Add(this.numericUpDownRegionMissmatchProcent);
             this.groupBox5.Location = new System.Drawing.Point(3, 452);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(760, 85);
+            this.groupBox5.Size = new System.Drawing.Size(738, 85);
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Region";
@@ -685,7 +803,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
             this.groupBox4.Location = new System.Drawing.Point(3, 361);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(760, 85);
+            this.groupBox4.Size = new System.Drawing.Size(737, 85);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Region Name suggestions (People Face names)";
@@ -773,7 +891,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox3.Controls.Add(this.label38);
             this.groupBox3.Location = new System.Drawing.Point(3, 290);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(760, 65);
+            this.groupBox3.Size = new System.Drawing.Size(737, 65);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Search result";
@@ -821,7 +939,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
             this.groupBox2.Location = new System.Drawing.Point(3, 128);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(760, 156);
+            this.groupBox2.Size = new System.Drawing.Size(737, 156);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nominatim look-up";
@@ -868,7 +986,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(183, 68);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(572, 22);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(549, 22);
             this.textBoxApplicationPreferredLanguages.TabIndex = 3;
             // 
             // comboBoxApplicationLanguages
@@ -1079,7 +1197,7 @@ namespace PhotoTagsSynchronizer
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(183, 38);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(572, 24);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(549, 24);
             this.comboBoxApplicationLanguages.TabIndex = 4;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
             // 
@@ -1093,7 +1211,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(760, 119);
+            this.groupBox1.Size = new System.Drawing.Size(737, 119);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thumbnail size";
@@ -1367,6 +1485,69 @@ namespace PhotoTagsSynchronizer
             this.groupBox11.TabIndex = 1;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "groupBox11";
+            // 
+            // label82
+            // 
+            this.label82.AutoSize = true;
+            this.label82.Location = new System.Drawing.Point(428, 29);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(298, 17);
+            this.label82.TabIndex = 20;
+            this.label82.Text = "ms. WebScraping script will timeout after x ms.";
+            // 
+            // label81
+            // 
+            this.label81.AutoSize = true;
+            this.label81.Location = new System.Drawing.Point(428, 85);
+            this.label81.Name = "label81";
+            this.label81.Size = new System.Drawing.Size(330, 17);
+            this.label81.TabIndex = 19;
+            this.label81.Text = "When you data not received, wait and retry x times.";
+            // 
+            // label80
+            // 
+            this.label80.AutoSize = true;
+            this.label80.Location = new System.Drawing.Point(428, 57);
+            this.label80.Name = "label80";
+            this.label80.Size = new System.Drawing.Size(328, 17);
+            this.label80.TabIndex = 18;
+            this.label80.Text = "ms. Give \"ScrapingScript\" x ms to run, before retry.";
+            // 
+            // label79
+            // 
+            this.label79.AutoSize = true;
+            this.label79.Location = new System.Drawing.Point(428, 114);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(367, 17);
+            this.label79.TabIndex = 17;
+            this.label79.Text = "ms. Provide x ms to OnSite scripte to run before scraping";
+            // 
+            // label78
+            // 
+            this.label78.AutoSize = true;
+            this.label78.Location = new System.Drawing.Point(428, 142);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(278, 17);
+            this.label78.TabIndex = 16;
+            this.label78.Text = "ms. Wait max x ms for page to start loading";
+            // 
+            // label77
+            // 
+            this.label77.AutoSize = true;
+            this.label77.Location = new System.Drawing.Point(428, 171);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(227, 17);
+            this.label77.TabIndex = 15;
+            this.label77.Text = "ms. Wait max x ms for page to load";
+            // 
+            // label76
+            // 
+            this.label76.AutoSize = true;
+            this.label76.Location = new System.Drawing.Point(428, 198);
+            this.label76.Name = "label76";
+            this.label76.Size = new System.Drawing.Size(359, 17);
+            this.label76.TabIndex = 14;
+            this.label76.Text = "If no new information found, then accept as end of page";
             // 
             // numericUpDownWebScrapingPageDownCount
             // 
@@ -1739,6 +1920,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(6, 168);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -1772,6 +1954,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(6, 57);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
@@ -2177,6 +2360,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(5, 51);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -2257,6 +2441,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConfigFilenameDateFormats.CharWidth = 10;
             this.fastColoredTextBoxConfigFilenameDateFormats.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConfigFilenameDateFormats.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConfigFilenameDateFormats.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConfigFilenameDateFormats.IsReplaceMode = false;
             this.fastColoredTextBoxConfigFilenameDateFormats.Location = new System.Drawing.Point(2, 46);
             this.fastColoredTextBoxConfigFilenameDateFormats.Name = "fastColoredTextBoxConfigFilenameDateFormats";
@@ -3713,6 +3898,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Multiline = false;
@@ -3800,6 +3986,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Location = new System.Drawing.Point(6, 143);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatVideoArguFile";
@@ -3837,6 +4024,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Location = new System.Drawing.Point(6, 46);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Multiline = false;
@@ -4102,6 +4290,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Multiline = false;
@@ -4161,6 +4350,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Location = new System.Drawing.Point(6, 167);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile";
@@ -4512,6 +4702,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowLog.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowLog.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowLog.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowLog.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowLog.IsReplaceMode = false;
             this.fastColoredTextBoxShowLog.Location = new System.Drawing.Point(3, 3);
@@ -4559,6 +4750,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowPipe32Log.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowPipe32Log.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowPipe32Log.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowPipe32Log.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowPipe32Log.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowPipe32Log.IsReplaceMode = false;
             this.fastColoredTextBoxShowPipe32Log.Location = new System.Drawing.Point(0, 0);
@@ -4613,69 +4805,6 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(778, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
             // 
-            // label76
-            // 
-            this.label76.AutoSize = true;
-            this.label76.Location = new System.Drawing.Point(428, 198);
-            this.label76.Name = "label76";
-            this.label76.Size = new System.Drawing.Size(359, 17);
-            this.label76.TabIndex = 14;
-            this.label76.Text = "If no new information found, then accept as end of page";
-            // 
-            // label77
-            // 
-            this.label77.AutoSize = true;
-            this.label77.Location = new System.Drawing.Point(428, 171);
-            this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(227, 17);
-            this.label77.TabIndex = 15;
-            this.label77.Text = "ms. Wait max x ms for page to load";
-            // 
-            // label78
-            // 
-            this.label78.AutoSize = true;
-            this.label78.Location = new System.Drawing.Point(428, 142);
-            this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(278, 17);
-            this.label78.TabIndex = 16;
-            this.label78.Text = "ms. Wait max x ms for page to start loading";
-            // 
-            // label79
-            // 
-            this.label79.AutoSize = true;
-            this.label79.Location = new System.Drawing.Point(428, 114);
-            this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(367, 17);
-            this.label79.TabIndex = 17;
-            this.label79.Text = "ms. Provide x ms to OnSite scripte to run before scraping";
-            // 
-            // label80
-            // 
-            this.label80.AutoSize = true;
-            this.label80.Location = new System.Drawing.Point(428, 57);
-            this.label80.Name = "label80";
-            this.label80.Size = new System.Drawing.Size(328, 17);
-            this.label80.TabIndex = 18;
-            this.label80.Text = "ms. Give \"ScrapingScript\" x ms to run, before retry.";
-            // 
-            // label81
-            // 
-            this.label81.AutoSize = true;
-            this.label81.Location = new System.Drawing.Point(428, 85);
-            this.label81.Name = "label81";
-            this.label81.Size = new System.Drawing.Size(330, 17);
-            this.label81.TabIndex = 19;
-            this.label81.Text = "When you data not received, wait and retry x times.";
-            // 
-            // label82
-            // 
-            this.label82.AutoSize = true;
-            this.label82.Location = new System.Drawing.Point(428, 29);
-            this.label82.Name = "label82";
-            this.label82.Size = new System.Drawing.Size(298, 17);
-            this.label82.TabIndex = 20;
-            this.label82.Text = "ms. WebScraping script will timeout after x ms.";
-            // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4691,6 +4820,9 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.ResumeLayout(false);
             this.tabPageApplication.ResumeLayout(false);
             this.panelApplication.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCacheNumberOfPosters)).EndInit();
             this.groupBoxLocationAccuracy.ResumeLayout(false);
             this.groupBoxLocationAccuracy.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLongitude)).EndInit();
@@ -5119,5 +5251,14 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Label label78;
         private System.Windows.Forms.Label label77;
         private System.Windows.Forms.Label label76;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.CheckBox checkBoxCacheFolderWebScraperDataSets;
+        private System.Windows.Forms.CheckBox checkBoxCacheFolderThumbnails;
+        private System.Windows.Forms.CheckBox checkBoxCacheFolderMetadatas;
+        private System.Windows.Forms.CheckBox checkBoxCacheAllWebScraperDataSets;
+        private System.Windows.Forms.CheckBox checkBoxCacheAllThumbnails;
+        private System.Windows.Forms.CheckBox checkBoxCacheAllMetadatas;
+        private System.Windows.Forms.Label label83;
+        private System.Windows.Forms.NumericUpDown numericUpDownCacheNumberOfPosters;
     }
 }

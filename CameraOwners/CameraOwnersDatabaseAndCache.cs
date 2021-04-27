@@ -8,6 +8,7 @@ namespace CameraOwners
     public class CameraOwnersDatabaseCache    
     {
         public static readonly string MissingLocationsOwners = "(Need to import GPS location)\t";
+        
         private readonly SqliteDatabaseUtilities dbTools;
         public CameraOwnersDatabaseCache(SqliteDatabaseUtilities databaseTools)
         {

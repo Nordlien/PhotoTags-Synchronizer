@@ -11,6 +11,7 @@ using ApplicationAssociations;
 using Exiftool;
 using System.Collections.Generic;
 using static Manina.Windows.Forms.ImageListView;
+using Thumbnails;
 
 namespace PhotoTagsSynchronizer
 {
@@ -400,6 +401,9 @@ namespace PhotoTagsSynchronizer
         //Folder selected after Form load/init, click new folder and clear cache and re-read folder
         private List<FileEntry> ImageListViewAggregateWithFilesFromFolder(string selectedFolder, bool recursive)
         {
+            MetadataDatabaseCache.StopCaching = true;
+            ThumbnailDatabaseCache.StopCaching = true;
+
             FileInfo[] filesFoundInDirectory = null;
             if (Directory.Exists(selectedFolder))
             {
@@ -414,6 +418,26 @@ namespace PhotoTagsSynchronizer
 
                 filesFoundInDirectory = ImageAndMovieFileExtentionsUtility.ListAllMediaFiles(selectedFolder, recursive);
 
+                try
+                {
+                    if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets)
+                    {
+                        Thread threadCache = new Thread(() =>
+                        {
+                            MetadataDatabaseCache.StopCaching = false;
+                            ThumbnailDatabaseCache.StopCaching = false;
+                            if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(selectedFolder); //Read only once per folder
+                            if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(filesFoundInDirectory); //Read missing, new media files added
+                            if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadLot(MetadataBrokerType.Empty, selectedFolder, null, null, true); //Read only once per folder
+                            if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(filesFoundInDirectory, MetadataBrokerType.ExifTool); //Read missing, new media files added
+                            if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(filesFoundInDirectory); //Read missing, new media files added
+                        });
+                        threadCache.Start();
+                    }
+                }
+                catch { }
+
+
                 if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) 
                     imageListView1.CacheMode = CacheMode.OnDemand;
                 else 
@@ -424,7 +448,6 @@ namespace PhotoTagsSynchronizer
                 
                 ImageListViewSuspendLayoutInvoke(imageListView1);
 
-                //for (int fileNumber = 0; fileNumber < filesFoundInDirectory.Length; fileNumber++)
                 foreach (FileInfo fileInfo in filesFoundInDirectory)
                 {
                     if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed

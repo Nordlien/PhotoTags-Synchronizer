@@ -15,7 +15,7 @@ namespace Thumbnails
 {
     public class ThumbnailDatabaseCache
     {
-
+        public static bool StopCaching { get; set; } = false;
         private SqliteDatabaseUtilities dbTools;
         public ThumbnailDatabaseCache(SqliteDatabaseUtilities databaseTools)
         {
@@ -59,33 +59,66 @@ namespace Thumbnails
         #region Thumbnail - Read 
         public Image Read(FileEntry fileEntry)
         {
-            Image image = null;
+            List<FileEntry> fileEntriesPutInCache = new List<FileEntry>();
+            fileEntriesPutInCache.Add(fileEntry);
+            ReadToCache(fileEntriesPutInCache);
+            return ReadThumbnailFromCacheOnlyClone(fileEntry);
+
+        }
+        #endregion
+
+        public void ReadToCache(FileInfo[] filesFoundInDirectory)
+        {
+            List<FileEntry> fileEntries = new List<FileEntry>();
+            foreach (FileInfo fileInfo in filesFoundInDirectory)
+            {
+                if (StopCaching) return;
+                fileEntries.Add(new FileEntry(fileInfo.FullName, fileInfo.LastWriteTime));
+            }
+            ReadToCache(fileEntries);
+        }
+
+        
+        public void ReadToCache(List<FileEntry> fileEntries)
+        {        
+            List<FileEntry> fileEntriesPutInCache = new List<FileEntry>();
+            foreach (FileEntry fileEntryToCheckInCache in fileEntries)
+            {
+                Image image = ReadThumbnailFromCacheOnlyClone(fileEntryToCheckInCache);
+                if (image == null) fileEntriesPutInCache.Add(fileEntryToCheckInCache);
+            }
 
             string sqlCommand =
                 "SELECT Image FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                foreach (FileEntry fileEntry in fileEntriesPutInCache)
                 {
-                    while (reader.Read())
+                    if (StopCaching) return;
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
+                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
+                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
+
+                    using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                     {
-                        image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Image"]));
+                        while (reader.Read())
+                        {
+                            Image image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Image"]));
+                            ThumbnailCacheUpdate(fileEntry, image);
+                        }
                     }
                 }
             }
-            return image; 
+
         }
-        #endregion
 
         #region Thumbnail - Read 
-        public Image ReadDirectory(string directory)
+        private static List<string> readFolderToCacheCached = new List<string>();
+        public void ReadToCacheFolder(string directory)
         {
-            Image image = null;
+            if (readFolderToCacheCached.Contains(directory)) return;
+            readFolderToCacheCached.Add(directory);
 
             string sqlCommand = "SELECT FileDirectory, FileName, FileDateModified, Image FROM MediaThumbnail";
             if (!string.IsNullOrWhiteSpace(directory)) sqlCommand += " WHERE FileDirectory = @FileDirectory";
@@ -100,17 +133,17 @@ namespace Thumbnails
                 {
                     while (reader.Read())
                     {
+                        if (StopCaching) return;
                         FileEntry fileEntry = new FileEntry(
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             dbTools.ConvertFromDBValString(reader["FileName"]),
                             (DateTime)dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"])
                             );
-                        image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Image"]));
+                        Image image = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Image"]));
                         ThumbnailCacheUpdate(fileEntry, image);
                     }
                 }
             }
-            return image;
         }
         #endregion
 
