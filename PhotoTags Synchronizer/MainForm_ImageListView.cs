@@ -238,8 +238,9 @@ namespace PhotoTagsSynchronizer
                 ImageListViewItem item = FindItemInImageListView(imageListView1.Items, fullFileName);
                 if (item != null) ImageListViewReloadThumbnailInvoke(item);
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error(ex.Message);
                 //DID ImageListe update failed, because of thread???
             }
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
@@ -418,25 +419,8 @@ namespace PhotoTagsSynchronizer
 
                 filesFoundInDirectory = ImageAndMovieFileExtentionsUtility.ListAllMediaFiles(selectedFolder, recursive);
 
-                try
-                {
-                    if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets)
-                    {
-                        Thread threadCache = new Thread(() =>
-                        {
-                            MetadataDatabaseCache.StopCaching = false;
-                            ThumbnailDatabaseCache.StopCaching = false;
-                            if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(selectedFolder); //Read only once per folder
-                            if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(filesFoundInDirectory); //Read missing, new media files added
-                            if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadLot(MetadataBrokerType.Empty, selectedFolder, null, null, true); //Read only once per folder
-                            if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(filesFoundInDirectory, MetadataBrokerType.ExifTool); //Read missing, new media files added
-                            if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(filesFoundInDirectory); //Read missing, new media files added
-                        });
-                        threadCache.Start();
-                    }
-                }
-                catch { }
-
+                if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFolder(selectedFolder, filesFoundInDirectory, recursive);
+                
 
                 if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) 
                     imageListView1.CacheMode = CacheMode.OnDemand;

@@ -67,22 +67,7 @@ namespace PhotoTagsSynchronizer
 
                 folderTreeViewFolder.Enabled = false;
 
-                try
-                {
-                    Thread threadCache = new Thread(() =>
-                    {
-                        MetadataDatabaseCache.StopCaching = false;
-                        ThumbnailDatabaseCache.StopCaching = false;
-                        databaseAndCacheMetadataExiftool.ReadToCache(searchFilterResult, MetadataBrokerType.ExifTool);
-                        databaseAndCacheThumbnail.ReadToCache(searchFilterResult);
-                        if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(searchFilterResult); //Read missing, new media files added
-                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(searchFilterResult, MetadataBrokerType.ExifTool); //Read missing, new media files added
-                        if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(searchFilterResult); //Read missing, new media files added
-                    });
-                    threadCache.Start();
-                }
-                catch { }
-
+                if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheSelected(searchFilterResult);
 
                 ImageListViewAggregateFromSearchFilter(searchFilterResult);
                 folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView

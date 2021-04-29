@@ -4225,7 +4225,7 @@
       "Tag": "Subject"
     },
     "MetadataPriorityValues": {
-      "Composite": "Description",
+      "Composite": "Keywords Struct",
       "Priority": 100
     }
   },
@@ -5636,6 +5636,516 @@
     },
     "MetadataPriorityValues": {
       "Composite": "Keywords Struct",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Track1",
+      "Tag": "CompressorName"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:UserData",
+      "Tag": "GPSCoordinates"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-xmpDM",
+      "Tag": "Duration"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:UserData",
+      "Tag": "LocationInformation"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "Composite",
+      "Tag": "GPSAltitudeRef"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:ExifIFD",
+      "Tag": "SubjectArea"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "FileFormat"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "SonyModelID"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "CreativeStyle"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "ColorTemperature"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "ColorCompensationFilter"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "SceneMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "ZoneMatching"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "DynamicRangeOptimizer"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "ImageStabilization"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "LensType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "MakerNotes:Sony",
+      "Tag": "ColorMode"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PrintIM",
+      "Tag": "PrintIMVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "CompressedBitsPerPixel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "LightSource"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "FileSource"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "SceneType"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "CustomRendered"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "DigitalZoomRatio"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "FocalLengthIn35mmFormat"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "GainControl"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "Contrast"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "Saturation"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "Sharpness"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "ComponentsConfiguration"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-exif",
+      "Tag": "SubjectArea"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-video",
+      "Tag": "DateTimeOriginal"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Date Time Digitized",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-video",
+      "Tag": "DateUTC"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-video",
+      "Tag": "ModificationDate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-tiff",
+      "Tag": "DateTime"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "PDFVersion"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "Linearized"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "PageCount"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "Language"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "Author"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "Creator"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Arthur struct",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "CreateDate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Date Time Digitized",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "ModifyDate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "Producer"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-pdf",
+      "Tag": "Producer"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "Title"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Title",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-xmp",
+      "Tag": "Format"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "PDF",
+      "Tag": "HasXFA"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix4",
+      "Tag": "DateTimeOriginal"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Date Time Digitized",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix4",
+      "Tag": "DateUTC"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix4",
+      "Tag": "ModificationDate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
       "Priority": 100
     }
   }

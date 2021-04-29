@@ -17,6 +17,8 @@ namespace PhotoTagsSynchronizer
 {
     public partial class MainForm : Form
     {
+        private Thread threadCacheSelectedFastRead = null;
+        private Thread threadCacheFolderFastRead = null;
         private Thread _ThreadPreloadingMetadata = null;
         private Thread _ThreadLazyLoadingMetadata = null;
         private Thread _ThreadLazyLoadingThumbnail = null;
@@ -30,8 +32,6 @@ namespace PhotoTagsSynchronizer
         private Thread _ThreadSaveMetadata = null;
         private Thread _ThreadRenameMedafiles = null;
 
-        
-        
         private List<FileEntryAttribute> commonQueuePreloadingMetadata = new List<FileEntryAttribute>();
         private static readonly Object commonQueuePreloadingMetadataLock = new Object();
 
@@ -240,58 +240,129 @@ namespace PhotoTagsSynchronizer
                 CommonQueuePreloadingMetadataCountLock() > 0 &&
                 ThreadLazyLoadingQueueSize() == 0)
             {
-                _ThreadPreloadingMetadata = new Thread(() =>
-                {
-                    while (CommonQueuePreloadingMetadataCountLock() > 0 && !GlobalData.IsApplicationClosing && ThreadLazyLoadingQueueSize() == 0)
-                    {
-                        //FileEntryAttribute fileEntryAttribute;
-                        //lock (commonQueuePreloadingMetadataLock) fileEntryAttribute = new FileEntryAttribute(commonQueuePreloadingMetadata[0]);
-                        //_ = databaseAndCacheMetadataExiftool.ReadToCache(commonQueuePreloadingMetadataLock)
-                        //_ = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
-                        //_ = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
-                        //_ = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
-
-                        //lock (commonQueuePreloadingMetadataLock) if (commonQueuePreloadingMetadata.Count > 0) commonQueuePreloadingMetadata.RemoveAt(0);
-
-                        List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
-                        int countInQueue = CommonQueuePreloadingMetadataCountLock();
-                        lock (commonQueuePreloadingMetadataLock)
-                        {
-                            if (countInQueue > 0)
-                            {
-                                for (int indexQueue = 0; indexQueue < countInQueue; indexQueue++)
-                                {
-                                    fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.ExifTool));
-                                    fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.MicrosoftPhotos));
-                                    fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.WindowsLivePhotoGallery));
-                                }
-                                commonQueuePreloadingMetadata.RemoveRange(0, countInQueue);
-                            }
-                        }
-                    }
-                    Application.DoEvents();
-                    StartThreads();
-                    _ThreadPreloadingMetadata = null;
-                });
                 try
                 {
+                    _ThreadPreloadingMetadata = new Thread(() =>
+                    {
+                        while (CommonQueuePreloadingMetadataCountLock() > 0 && !GlobalData.IsApplicationClosing && ThreadLazyLoadingQueueSize() == 0)
+                        {
+                            //FileEntryAttribute fileEntryAttribute;
+                            //lock (commonQueuePreloadingMetadataLock) fileEntryAttribute = new FileEntryAttribute(commonQueuePreloadingMetadata[0]);
+                            //_ = databaseAndCacheMetadataExiftool.ReadToCache(commonQueuePreloadingMetadataLock)
+                            //_ = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
+                            //_ = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
+                            //_ = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
+
+                            //lock (commonQueuePreloadingMetadataLock) if (commonQueuePreloadingMetadata.Count > 0) commonQueuePreloadingMetadata.RemoveAt(0);
+
+                            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+                            int countInQueue = CommonQueuePreloadingMetadataCountLock();
+                            lock (commonQueuePreloadingMetadataLock)
+                            {
+                                if (countInQueue > 0)
+                                {
+                                    for (int indexQueue = 0; indexQueue < countInQueue; indexQueue++)
+                                    {
+                                        fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.ExifTool));
+                                        fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.MicrosoftPhotos));
+                                        fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.WindowsLivePhotoGallery));
+                                    }
+                                    commonQueuePreloadingMetadata.RemoveRange(0, countInQueue);
+                                }
+                            }
+                        }
+                        Application.DoEvents();
+                        StartThreads();
+                        _ThreadPreloadingMetadata = null;
+                    });
+                
                     if (_ThreadPreloadingMetadata != null) _ThreadPreloadingMetadata.Start();
                 }
                 catch (Exception ex)
                 {
                     Logger.Error("ThreadPreloadningMetadata.Start failed. " + ex.Message);
+                    _ThreadPreloadingMetadata = null;
                 }
             }
 
         }
         #endregion
 
+        
+        public void CacheSelected(List<FileEntry> searchFilterResult)
+        {
+            try
+            {
+                if (MetadataDatabaseCache.StopCaching == true) return;
+                if (ThumbnailDatabaseCache.StopCaching == true) return;
+
+                if (threadCacheSelectedFastRead == null)
+                {
+                    threadCacheSelectedFastRead = new Thread(() =>
+                    {
+                        databaseAndCacheMetadataExiftool.ReadToCache(searchFilterResult, MetadataBrokerType.ExifTool);
+                        databaseAndCacheThumbnail.ReadToCache(searchFilterResult);
+                        if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(searchFilterResult); //Read missing, new media files added
+                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(searchFilterResult, MetadataBrokerType.ExifTool); //Read missing, new media files added
+                        if (cacheFolderWebScraperDataSets)
+                            databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(searchFilterResult); //Read missing, new media files added
+                        MetadataDatabaseCache.StopCaching = false;
+                        ThumbnailDatabaseCache.StopCaching = false;
+                        threadCacheSelectedFastRead = null;
+                    });
+                    threadCacheSelectedFastRead.Start();
+                }
+            }
+            catch
+            {
+                //Retry after crash, eg. thread creation failed
+                MetadataDatabaseCache.StopCaching = false;
+                ThumbnailDatabaseCache.StopCaching = false;
+                threadCacheSelectedFastRead = null;
+            }
+        }
+
+        public void CacheFolder(string selectedFolder, FileInfo[] filesFoundInDirectory, bool recursive)
+        {
+            try
+            {
+                if (MetadataDatabaseCache.StopCaching == true) return;
+                if (ThumbnailDatabaseCache.StopCaching == true) return;
+
+                if (threadCacheFolderFastRead == null)
+                {
+                    threadCacheFolderFastRead = new Thread(() =>
+                    {
+                        if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(selectedFolder); //Read only once per folder
+                        if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(filesFoundInDirectory); //Read missing, new media files added
+                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheWhereParameters(MetadataBrokerType.Empty, selectedFolder, null, null, true); //Read only once per folder
+                        if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(filesFoundInDirectory, MetadataBrokerType.ExifTool); //Read missing, new media files added
+                        if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(filesFoundInDirectory); //Read missing, new media files added
+                        MetadataDatabaseCache.StopCaching = false;
+                        ThumbnailDatabaseCache.StopCaching = false;
+                        threadCacheFolderFastRead = null;
+                    });
+                    threadCacheFolderFastRead.Start();
+                }
+            
+            }
+            catch 
+            {
+                //Retry after crash, eg. thread creation failed
+                MetadataDatabaseCache.StopCaching = false;
+                ThumbnailDatabaseCache.StopCaching = false;
+                threadCacheFolderFastRead = null;
+            }
+        }
+
+
+
         #endregion
 
         #region LazyLoadning - Metadata
 
         #region LazyLoadding - ThreadLazyLoadingQueueSize()
-        public int ThreadLazyLoadingQueueSize()
+            public int ThreadLazyLoadingQueueSize()
         {
             return
                 //CommonQueueSaveThumbnailToDatabaseCountLock() +
@@ -353,83 +424,85 @@ namespace PhotoTagsSynchronizer
         {
             if ((_ThreadLazyLoadingMetadata == null /*|| !_ThreadLazyLoadingMetadata.IsAlive*/) && CommonQueueLazyLoadingMetadataCountLock() > 0)
             {
-                _ThreadLazyLoadingMetadata = new Thread(() =>
-                {
-                    //DataGridViewSuspendInvoke();
-                    
-                    while (CommonQueueLazyLoadingMetadataCountLock() > 0 && !GlobalData.IsApplicationClosing)
-                    {
-                        int queueCount = CommonQueueLazyLoadingMetadataCountLock();
-
-                        int updatedDataGridCount = queueCount;
-                        for (int queueIndex = 0; queueIndex < queueCount; queueIndex++)
-                        {
-                            FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(commonQueueLazyLoadingMetadata[queueIndex]);
-
-                            bool readColumn = false;
-                            switch (fileEntryAttribute.FileEntryVersion)
-                            {
-                                case FileEntryVersion.Current:
-                                    readColumn = true;
-                                    break;
-                                case FileEntryVersion.Error:
-                                    if ((showWhatColumns & ShowWhatColumns.ErrorColumns) > 0) readColumn = true;
-                                    break;
-                                case FileEntryVersion.Historical:
-                                    if ((showWhatColumns & ShowWhatColumns.HistoryColumns) > 0) readColumn = true;
-                                    break;
-                                default:
-                                    throw new Exception("Not implemeneted");
-
-                            }
-
-                            if (readColumn)
-                            {
-
-                                if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool)) == null)
-                                {
-                                    Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
-                                    //If metadata found, check if Thumnbail for regions are created, if the application stopped during this process, thumbnail missing
-                                    if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueCreateRegionFromPoster(metadata);
-                                }
-
-                                if (databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos)) == null)
-                                {
-                                    Metadata metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
-                                    if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueCreateRegionFromPoster(metadata);
-                                }
-
-                                if (databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery)) == null)
-                                {
-                                    Metadata metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
-                                    if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueCreateRegionFromPoster(metadata);
-                                }
-                            }
-
-                            updatedDataGridCount--;
-                            PopulateDataGridViewForFileEntryAttributeInvoke(fileEntryAttribute, updatedDataGridCount);
-                        }
-
-                        lock (commonQueueLazyLoadingMetadataLock)
-                        {
-                            for (int queueIndex = 0; queueIndex < queueCount; queueIndex++) 
-                                commonQueueLazyLoadingMetadata.RemoveAt(0);                            
-                        }
-                    }
-
-                    //DataGridViewResumeInvoke();
-                    
-                    Application.DoEvents();
-                    StartThreads();
-                    _ThreadLazyLoadingMetadata = null;
-                });
                 try
                 {
+                    _ThreadLazyLoadingMetadata = new Thread(() =>
+                    {
+                        //DataGridViewSuspendInvoke();
+                    
+                        while (CommonQueueLazyLoadingMetadataCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                        {
+                            int queueCount = CommonQueueLazyLoadingMetadataCountLock();
+
+                            int updatedDataGridCount = queueCount;
+                            for (int queueIndex = 0; queueIndex < queueCount; queueIndex++)
+                            {
+                                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(commonQueueLazyLoadingMetadata[queueIndex]);
+
+                                bool readColumn = false;
+                                switch (fileEntryAttribute.FileEntryVersion)
+                                {
+                                    case FileEntryVersion.Current:
+                                        readColumn = true;
+                                        break;
+                                    case FileEntryVersion.Error:
+                                        if ((showWhatColumns & ShowWhatColumns.ErrorColumns) > 0) readColumn = true;
+                                        break;
+                                    case FileEntryVersion.Historical:
+                                        if ((showWhatColumns & ShowWhatColumns.HistoryColumns) > 0) readColumn = true;
+                                        break;
+                                    default:
+                                        throw new Exception("Not implemeneted");
+
+                                }
+
+                                if (readColumn)
+                                {
+
+                                    if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool)) == null)
+                                    {
+                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
+                                        //If metadata found, check if Thumnbail for regions are created, if the application stopped during this process, thumbnail missing
+                                        if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueCreateRegionFromPoster(metadata);
+                                    }
+
+                                    if (databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos)) == null)
+                                    {
+                                        Metadata metadata = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
+                                        if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueCreateRegionFromPoster(metadata);
+                                    }
+
+                                    if (databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery)) == null)
+                                    {
+                                        Metadata metadata = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
+                                        if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueCreateRegionFromPoster(metadata);
+                                    }
+                                }
+
+                                updatedDataGridCount--;
+                                PopulateDataGridViewForFileEntryAttributeInvoke(fileEntryAttribute, updatedDataGridCount);
+                            }
+
+                            lock (commonQueueLazyLoadingMetadataLock)
+                            {
+                                for (int queueIndex = 0; queueIndex < queueCount; queueIndex++) 
+                                    commonQueueLazyLoadingMetadata.RemoveAt(0);                            
+                            }
+                        }
+
+                        //DataGridViewResumeInvoke();
+                    
+                        Application.DoEvents();
+                        StartThreads();
+                        _ThreadLazyLoadingMetadata = null;
+                    });
+
                     if (_ThreadLazyLoadingMetadata != null) _ThreadLazyLoadingMetadata.Start();
                 }
                 catch (Exception ex)
                 {
                     Logger.Error("ThreadLazyLoadningMetadata.Start failed. " + ex.Message);
+                    _ThreadLazyLoadingMetadata = null;
                 }
             }
 
@@ -529,70 +602,71 @@ namespace PhotoTagsSynchronizer
         {
             if ((_ThreadThumbnailMedia == null /*|| !_ThreadThumbnailMedia.IsAlive*/) && CommonQueueSaveThumbnailToDatabaseCountLock() > 0)
             {
-                _ThreadThumbnailMedia = new Thread(() =>
-                {
-                    //DataGridViewSuspendInvoke();
-
-                    while (CommonQueueSaveThumbnailToDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue or App will close
-                    {
-                        if (CommonQueueReadMetadataFromExiftoolCountLock() > 0) break; //Wait all metadata readfirst
-                        if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
-
-                        try
-                        {
-                            FileEntryImage fileEntryImage;
-                            lock (commonQueueSaveThumbnailToDatabaseLock)
-                            {
-                                fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
-                            }
-
-                            if (fileEntryImage.Image == null)
-                            {
-                                fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
-                                if (fileEntryImage.Image != null) ImageListViewReloadThumbnailInvoke(imageListView1, fileEntryImage.FileFullPath);
-                            }
-
-                            if (fileEntryImage.Image != null && !databaseAndCacheThumbnail.DoesThumbnailExist(fileEntryImage))
-                            {
-                                databaseAndCacheThumbnail.TransactionBeginBatch();
-                                databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
-                                databaseAndCacheThumbnail.TransactionCommitBatch();
-
-                                UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Current), fileEntryImage.Image);
-                            }
-                            else
-                            {
-                                //DEBUG, Manage to reproduce when select lot files and run log AutoCorrect Updates, Refresh
-                            }
-
-                            lock (commonQueueSaveThumbnailToDatabaseLock)
-                            {
-                                if (commonQueueSaveThumbnailToDatabase.Count > 0) commonQueueSaveThumbnailToDatabase.RemoveAt(0);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error("ThreadSaveThumbnail: " + ex.Message);
-                        }
-                        DisplayAllQueueStatus();
-                    }
-
-                    if (GlobalData.IsApplicationClosing) lock (commonQueueSaveThumbnailToDatabaseLock) commonQueueSaveThumbnailToDatabase.Clear();
-
-                    //DataGridViewResumeInvoke();
-                    
-                    StartThreads();
-                    TriggerAutoResetEventQueueEmpty();
-                    _ThreadThumbnailMedia = null;
-                });
-
                 try
                 {
+                    _ThreadThumbnailMedia = new Thread(() =>
+                    {
+                        //DataGridViewSuspendInvoke();
+
+                        while (CommonQueueSaveThumbnailToDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue or App will close
+                        {
+                            if (CommonQueueReadMetadataFromExiftoolCountLock() > 0) break; //Wait all metadata readfirst
+                            if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
+
+                            try
+                            {
+                                FileEntryImage fileEntryImage;
+                                lock (commonQueueSaveThumbnailToDatabaseLock)
+                                {
+                                    fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
+                                }
+
+                                if (fileEntryImage.Image == null)
+                                {
+                                    fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
+                                    if (fileEntryImage.Image != null) ImageListViewReloadThumbnailInvoke(imageListView1, fileEntryImage.FileFullPath);
+                                }
+
+                                if (fileEntryImage.Image != null && !databaseAndCacheThumbnail.DoesThumbnailExist(fileEntryImage))
+                                {
+                                    databaseAndCacheThumbnail.TransactionBeginBatch();
+                                    databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
+                                    databaseAndCacheThumbnail.TransactionCommitBatch();
+
+                                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Current), fileEntryImage.Image);
+                                }
+                                else
+                                {
+                                    //DEBUG, Manage to reproduce when select lot files and run log AutoCorrect Updates, Refresh
+                                }
+
+                                lock (commonQueueSaveThumbnailToDatabaseLock)
+                                {
+                                    if (commonQueueSaveThumbnailToDatabase.Count > 0) commonQueueSaveThumbnailToDatabase.RemoveAt(0);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error("ThreadSaveThumbnail: " + ex.Message);
+                            }
+                            DisplayAllQueueStatus();
+                        }
+
+                        if (GlobalData.IsApplicationClosing) lock (commonQueueSaveThumbnailToDatabaseLock) commonQueueSaveThumbnailToDatabase.Clear();
+
+                        //DataGridViewResumeInvoke();
+                    
+                        StartThreads();
+                        TriggerAutoResetEventQueueEmpty();
+                        _ThreadThumbnailMedia = null;
+                    });
+
                     if (_ThreadThumbnailMedia != null) _ThreadThumbnailMedia.Start();
                 }
                 catch (Exception ex)
                 {
                     Logger.Error("_ThreadThumbnailMedia failed to start. " + ex.Message);
+                    _ThreadThumbnailMedia = null;
                 }
             }
 
@@ -630,145 +704,147 @@ namespace PhotoTagsSynchronizer
         {
             if ((_ThreadExiftool == null /*|| !_ThreadExiftool.IsAlive*/) && CommonQueueReadMetadataFromExiftoolCountLock() > 0)
             {
-                _ThreadExiftool = new Thread(() =>
-                {
-                    //DataGridViewSuspendInvoke();
-
-                    while (CommonQueueReadMetadataFromExiftoolCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
-                    {
-                        if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
-
-                        int rangeToRemove; //Remember how many in queue now
-                        List<string> mediaFilesNotInDatabaseCheckInCloud = new List<string>(); 
-
-                        #region From the Read Queue - Find files not alread in database
-                        lock (commonQueueReadMetadataFromExiftoolLock)
-                        {
-                            rangeToRemove = commonQueueReadMetadataFromExiftool.Count;
-                            mediaFilesNotInDatabaseCheckInCloud.AddRange(databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerType.ExifTool, commonQueueReadMetadataFromExiftool.GetRange(0, rangeToRemove)));
-                            commonQueueReadMetadataFromExiftool.RemoveRange(0, rangeToRemove);
-                        }
-                        #endregion
-
-                        #region Check if need avoid files in cloud, if yes, don't read files in cloud
-                        if (Properties.Settings.Default.AvoidOfflineMediaFiles)
-                        {
-                            foreach (string fullFileName in mediaFilesNotInDatabaseCheckInCloud)
-                            {
-                                //Don't add files from cloud in queue
-                                if (!ExiftoolWriter.IsFileInCloud(fullFileName)) mediaFilesNotInDatabase.Add(fullFileName);
-                            }
-                        }
-                        else
-                        {
-                            mediaFilesNotInDatabase.AddRange(mediaFilesNotInDatabaseCheckInCloud);
-                        }
-                        #endregion 
-
-                        while (MediaFilesNotInDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing)
-                        {
-                            #region Create a subset of files to Read using Exiftool command line with parameters, and remove subset from queue
-                            int range = 0;
-                            //On computers running Microsoft Windows XP or later, the maximum length of the string that you can 
-                            //use at the command prompt is 8191 characters. On computers running Microsoft Windows 2000 or 
-                            //Windows NT 4.0, the maximum length of the string that you can use at the command prompt is 2047 
-                            //characters.
-
-                            int argumnetLength = 80; //Init command length;
-                            List<String> useExiftoolOnThisSubsetOfFiles;
-                            lock (mediaFilesNotInDatabaseLock)
-                            {
-                                while (argumnetLength < 2047 && range < mediaFilesNotInDatabase.Count)
-                                {
-                                    argumnetLength += mediaFilesNotInDatabase[range].Length + 3; //+3 = space and 2x"
-                                    range++;
-                                }
-
-                                if (argumnetLength > 2047) range--;
-                                useExiftoolOnThisSubsetOfFiles = mediaFilesNotInDatabase.GetRange(0, range);
-                            }
-                            #endregion
-
-                            #region Read using Exiftool
-                            List<Metadata> metadataReadbackExiftoolAfterSaved = new List<Metadata>();
-                            try
-                            {
-                                metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles);
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.Error("Running Exiftool failed" + ex.Message);
-                            }
-                            #endregion
-
-                            #region Check if all files are read by Exiftool
-                            string filesNotRead = "";
-                            foreach (string fullFilePath in useExiftoolOnThisSubsetOfFiles)
-                            {
-                                if (!Metadata.IsFullFilenameInList(metadataReadbackExiftoolAfterSaved, fullFilePath))
-                                {
-                                    AddError(Path.GetDirectoryName(fullFilePath), Path.GetFileName(fullFilePath), DateTime.Now,
-                                        AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
-                                        AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
-                                        "The file was not read by exiftool", false);
-                                    filesNotRead += (filesNotRead == "" ? "" : ";") + filesNotRead;
-                                }
-                            }
-                            if (!string.IsNullOrEmpty(filesNotRead)) Logger.Error("Exiftool fail with read all files. Files not read: " + filesNotRead);
-                            #endregion
-
-                            #region Verify readback after saved. (Saved data is in "to be verified" queue)
-                            
-                            foreach (Metadata metadataRead in metadataReadbackExiftoolAfterSaved)
-                            {
-                                lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock)
-                                {
-                                    if (ExiftoolWriter.HasWriteMetadataErrors(metadataRead, commonQueueMetadataWrittenByExiftoolReadyToVerify,
-                                        out Metadata metadataUpdatedByUserCopy, out string writeErrorDesciption))
-                                    {
-                                        AddError(metadataUpdatedByUserCopy.FileEntryBroker.Directory, metadataUpdatedByUserCopy.FileEntryBroker.FileName, metadataUpdatedByUserCopy.FileEntryBroker.LastWriteDateTime,
-                                            AddErrorExiftooRegion, AddErrorExiftooCommandVerify, AddErrorExiftooParameterVerify, AddErrorExiftooParameterVerify, writeErrorDesciption);
-
-                                        Metadata metadataError = new Metadata(metadataUpdatedByUserCopy);
-                                        metadataError.FileDateModified = DateTime.Now;
-                                        metadataError.Broker |= MetadataBrokerType.ExifToolWriteError;
-                                        databaseAndCacheMetadataExiftool.TransactionBeginBatch();
-                                        databaseAndCacheMetadataExiftool.Write(metadataError);
-                                        databaseAndCacheMetadataExiftool.TransactionCommitBatch();
-                                    }
-                                }
-                                AddQueueCreateRegionFromPoster(metadataRead);
-
-                                FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Current);
-                                PopulateDataGridViewForFileEntryAttributeInvoke(fileEntryAttribute);
-                                //RefreshHeaderImageAndRegionsOnActiveDataGridView(fileEntryAttribute);
-                            }
-                            #endregion
-
-                            lock (mediaFilesNotInDatabaseLock) mediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
-                            DisplayAllQueueStatus();
-                        }
-                    }
-
-                    exiftoolReader.MetadataGroupPrioityWrite(); //Updated json config file if new tags found
-
-                    if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Clear();
-
-                    //DataGridViewResumeInvoke();
-                    PopulateDataGridViewForSelectedItemsExtrasInvoke();
-
-                    StartThreads();
-                    TriggerAutoResetEventQueueEmpty();
-                    _ThreadExiftool = null;
-                });
-
                 try
                 {
+                    _ThreadExiftool = new Thread(() =>
+                    {
+                        //DataGridViewSuspendInvoke();
+
+                        while (CommonQueueReadMetadataFromExiftoolCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
+                        {
+                            if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
+
+                            int rangeToRemove; //Remember how many in queue now
+                            List<string> mediaFilesNotInDatabaseCheckInCloud = new List<string>(); 
+
+                            #region From the Read Queue - Find files not alread in database
+                            lock (commonQueueReadMetadataFromExiftoolLock)
+                            {
+                                rangeToRemove = commonQueueReadMetadataFromExiftool.Count;
+                                mediaFilesNotInDatabaseCheckInCloud.AddRange(databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerType.ExifTool, commonQueueReadMetadataFromExiftool.GetRange(0, rangeToRemove)));
+                                commonQueueReadMetadataFromExiftool.RemoveRange(0, rangeToRemove);
+                            }
+                            #endregion
+
+                            #region Check if need avoid files in cloud, if yes, don't read files in cloud
+                            if (Properties.Settings.Default.AvoidOfflineMediaFiles)
+                            {
+                                foreach (string fullFileName in mediaFilesNotInDatabaseCheckInCloud)
+                                {
+                                    //Don't add files from cloud in queue
+                                    if (!ExiftoolWriter.IsFileInCloud(fullFileName)) mediaFilesNotInDatabase.Add(fullFileName);
+                                }
+                            }
+                            else
+                            {
+                                mediaFilesNotInDatabase.AddRange(mediaFilesNotInDatabaseCheckInCloud);
+                            }
+                            #endregion 
+
+                            while (MediaFilesNotInDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                            {
+                                #region Create a subset of files to Read using Exiftool command line with parameters, and remove subset from queue
+                                int range = 0;
+                                //On computers running Microsoft Windows XP or later, the maximum length of the string that you can 
+                                //use at the command prompt is 8191 characters. On computers running Microsoft Windows 2000 or 
+                                //Windows NT 4.0, the maximum length of the string that you can use at the command prompt is 2047 
+                                //characters.
+
+                                int argumnetLength = 80; //Init command length;
+                                List<String> useExiftoolOnThisSubsetOfFiles;
+                                lock (mediaFilesNotInDatabaseLock)
+                                {
+                                    while (argumnetLength < 2047 && range < mediaFilesNotInDatabase.Count)
+                                    {
+                                        argumnetLength += mediaFilesNotInDatabase[range].Length + 3; //+3 = space and 2x"
+                                        range++;
+                                    }
+
+                                    if (argumnetLength > 2047) range--;
+                                    useExiftoolOnThisSubsetOfFiles = mediaFilesNotInDatabase.GetRange(0, range);
+                                }
+                                #endregion
+
+                                #region Read using Exiftool
+                                List<Metadata> metadataReadbackExiftoolAfterSaved = new List<Metadata>();
+                                try
+                                {
+                                    metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.Error("Running Exiftool failed" + ex.Message);
+                                }
+                                #endregion
+
+                                #region Check if all files are read by Exiftool
+                                string filesNotRead = "";
+                                foreach (string fullFilePath in useExiftoolOnThisSubsetOfFiles)
+                                {
+                                    if (!Metadata.IsFullFilenameInList(metadataReadbackExiftoolAfterSaved, fullFilePath))
+                                    {
+                                        AddError(Path.GetDirectoryName(fullFilePath), Path.GetFileName(fullFilePath), DateTime.Now,
+                                            AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
+                                            AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
+                                            "The file was not read by exiftool", false);
+                                        filesNotRead += (filesNotRead == "" ? "" : ";") + filesNotRead;
+                                    }
+                                }
+                                if (!string.IsNullOrEmpty(filesNotRead)) Logger.Error("Exiftool fail with read all files. Files not read: " + filesNotRead);
+                                #endregion
+
+                                #region Verify readback after saved. (Saved data is in "to be verified" queue)
+                            
+                                foreach (Metadata metadataRead in metadataReadbackExiftoolAfterSaved)
+                                {
+                                    lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock)
+                                    {
+                                        if (ExiftoolWriter.HasWriteMetadataErrors(metadataRead, commonQueueMetadataWrittenByExiftoolReadyToVerify,
+                                            out Metadata metadataUpdatedByUserCopy, out string writeErrorDesciption))
+                                        {
+                                            AddError(metadataUpdatedByUserCopy.FileEntryBroker.Directory, metadataUpdatedByUserCopy.FileEntryBroker.FileName, metadataUpdatedByUserCopy.FileEntryBroker.LastWriteDateTime,
+                                                AddErrorExiftooRegion, AddErrorExiftooCommandVerify, AddErrorExiftooParameterVerify, AddErrorExiftooParameterVerify, writeErrorDesciption);
+
+                                            Metadata metadataError = new Metadata(metadataUpdatedByUserCopy);
+                                            metadataError.FileDateModified = DateTime.Now;
+                                            metadataError.Broker |= MetadataBrokerType.ExifToolWriteError;
+                                            databaseAndCacheMetadataExiftool.TransactionBeginBatch();
+                                            databaseAndCacheMetadataExiftool.Write(metadataError);
+                                            databaseAndCacheMetadataExiftool.TransactionCommitBatch();
+                                        }
+                                    }
+                                    AddQueueCreateRegionFromPoster(metadataRead);
+
+                                    FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Current);
+                                    PopulateDataGridViewForFileEntryAttributeInvoke(fileEntryAttribute);
+                                    //RefreshHeaderImageAndRegionsOnActiveDataGridView(fileEntryAttribute);
+                                }
+                                #endregion
+
+                                lock (mediaFilesNotInDatabaseLock) mediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
+                                DisplayAllQueueStatus();
+                            }
+                        }
+
+                        exiftoolReader.MetadataGroupPrioityWrite(); //Updated json config file if new tags found
+
+                        if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Clear();
+
+                        //DataGridViewResumeInvoke();
+                        PopulateDataGridViewForSelectedItemsExtrasInvoke();
+
+                        StartThreads();
+                        TriggerAutoResetEventQueueEmpty();
+                        _ThreadExiftool = null;
+                    });
+
+                
                     if (_ThreadExiftool != null) _ThreadExiftool.Start();
                 }
                 catch (Exception ex)
                 {
                     Logger.Error("_ThreadExiftool.Start failed. " + ex.Message);
+                    _ThreadExiftool = null;
                 }
             }
         }
@@ -806,232 +882,234 @@ namespace PhotoTagsSynchronizer
         {
             if ((_ThreadSaveMetadata == null /*|| !_ThreadSaveMetadata.IsAlive*/) && CommonQueueSaveMetadataUpdatedByUserCountLock() > 0)
             {
-                _ThreadSaveMetadata = new Thread(() =>
+                try
                 {
-                    #region Init Write Variables and Parameters
-                    string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
-                    string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
-                    string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
-
-                    string writeXtraAtomAlbumVariable = Properties.Settings.Default.XtraAtomAlbumVariable;
-                    bool writeXtraAtomAlbumVideo = Properties.Settings.Default.XtraAtomAlbumVideo;
-
-                    string writeXtraAtomCategoriesVariable = Properties.Settings.Default.XtraAtomCategoriesVariable;
-                    bool writeXtraAtomCategoriesVideo = Properties.Settings.Default.XtraAtomCategoriesVideo;
-
-                    string writeXtraAtomCommentVariable = Properties.Settings.Default.XtraAtomCommentVariable;
-                    bool writeXtraAtomCommentPicture = Properties.Settings.Default.XtraAtomCommentPicture;
-                    bool writeXtraAtomCommentVideo = Properties.Settings.Default.XtraAtomCommentVideo;
-
-                    string writeXtraAtomKeywordsVariable = Properties.Settings.Default.XtraAtomKeywordsVariable;
-                    bool writeXtraAtomKeywordsVideo = Properties.Settings.Default.XtraAtomKeywordsVideo;
-
-                    bool writeXtraAtomRatingPicture = Properties.Settings.Default.XtraAtomRatingPicture;
-                    bool writeXtraAtomRatingVideo = Properties.Settings.Default.XtraAtomRatingVideo;
-
-                    string writeXtraAtomSubjectVariable = Properties.Settings.Default.XtraAtomSubjectVariable;
-                    bool writeXtraAtomSubjectPicture = Properties.Settings.Default.XtraAtomSubjectPicture;
-                    bool wtraAtomSubjectVideo = Properties.Settings.Default.XtraAtomSubjectVideo;
-
-                    string writeXtraAtomSubtitleVariable = Properties.Settings.Default.XtraAtomSubtitleVariable;
-                    bool writeXtraAtomSubtitleVideo = Properties.Settings.Default.XtraAtomSubtitleVideo;
-
-                    string writeXtraAtomArtistVariable = Properties.Settings.Default.XtraAtomArtistVariable;
-                    bool writeXtraAtomArtistVideo = Properties.Settings.Default.XtraAtomArtistVideo;
-
-                    bool writeCreatedDateAndTimeAttribute = Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute;
-
-                    List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
-                    #endregion
-
-                    while (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                    _ThreadSaveMetadata = new Thread(() =>
                     {
-                        ShowExiftoolSaveProgressClear();
+                        #region Init Write Variables and Parameters
+                        string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
+                        string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
+                        string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
 
-                        int writeCount = CommonQueueSaveMetadataUpdatedByUserCountLock();
-                        List<Metadata> queueSubsetMetadataToSave = new List<Metadata>();    //This new values for saving (changes done by user)
-                        List<Metadata> queueSubsetMetadataOrginalBeforeUserEdit = new List<Metadata>(); //Before updated by user, need this to check if any updates
+                        string writeXtraAtomAlbumVariable = Properties.Settings.Default.XtraAtomAlbumVariable;
+                        bool writeXtraAtomAlbumVideo = Properties.Settings.Default.XtraAtomAlbumVideo;
 
-                        #region Create a subset queue for writing
-                        for (int i = 0; i < writeCount; i++)
+                        string writeXtraAtomCategoriesVariable = Properties.Settings.Default.XtraAtomCategoriesVariable;
+                        bool writeXtraAtomCategoriesVideo = Properties.Settings.Default.XtraAtomCategoriesVideo;
+
+                        string writeXtraAtomCommentVariable = Properties.Settings.Default.XtraAtomCommentVariable;
+                        bool writeXtraAtomCommentPicture = Properties.Settings.Default.XtraAtomCommentPicture;
+                        bool writeXtraAtomCommentVideo = Properties.Settings.Default.XtraAtomCommentVideo;
+
+                        string writeXtraAtomKeywordsVariable = Properties.Settings.Default.XtraAtomKeywordsVariable;
+                        bool writeXtraAtomKeywordsVideo = Properties.Settings.Default.XtraAtomKeywordsVideo;
+
+                        bool writeXtraAtomRatingPicture = Properties.Settings.Default.XtraAtomRatingPicture;
+                        bool writeXtraAtomRatingVideo = Properties.Settings.Default.XtraAtomRatingVideo;
+
+                        string writeXtraAtomSubjectVariable = Properties.Settings.Default.XtraAtomSubjectVariable;
+                        bool writeXtraAtomSubjectPicture = Properties.Settings.Default.XtraAtomSubjectPicture;
+                        bool wtraAtomSubjectVideo = Properties.Settings.Default.XtraAtomSubjectVideo;
+
+                        string writeXtraAtomSubtitleVariable = Properties.Settings.Default.XtraAtomSubtitleVariable;
+                        bool writeXtraAtomSubtitleVideo = Properties.Settings.Default.XtraAtomSubtitleVideo;
+
+                        string writeXtraAtomArtistVariable = Properties.Settings.Default.XtraAtomArtistVariable;
+                        bool writeXtraAtomArtistVideo = Properties.Settings.Default.XtraAtomArtistVideo;
+
+                        bool writeCreatedDateAndTimeAttribute = Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute;
+
+                        List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
+                        #endregion
+
+                        while (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0 && !GlobalData.IsApplicationClosing)
                         {
-                            //Remeber 
-                            Metadata metadataWrite;
-                            Metadata metadataOrginal;
+                            ShowExiftoolSaveProgressClear();
 
-                            lock (commonQueueSaveMetadataUpdatedByUserLock) metadataWrite = commonQueueSaveMetadataUpdatedByUser[0];
-                            lock (commonOrigialMetadataBeforeUserUpdateLock) metadataOrginal = commonOrigialMetadataBeforeUserUpdate[0];
+                            int writeCount = CommonQueueSaveMetadataUpdatedByUserCountLock();
+                            List<Metadata> queueSubsetMetadataToSave = new List<Metadata>();    //This new values for saving (changes done by user)
+                            List<Metadata> queueSubsetMetadataOrginalBeforeUserEdit = new List<Metadata>(); //Before updated by user, need this to check if any updates
 
-                            //Remove
-                            lock (commonQueueSaveMetadataUpdatedByUserLock) commonQueueSaveMetadataUpdatedByUser.RemoveAt(0);
-                            lock (commonOrigialMetadataBeforeUserUpdateLock) commonOrigialMetadataBeforeUserUpdate.RemoveAt(0);
-
-                            lock (commonQueueReadMetadataFromExiftoolLock)
+                            #region Create a subset queue for writing
+                            for (int i = 0; i < writeCount; i++)
                             {
-                                if (!GlobalData.IsApplicationClosing)
-                                {
-                                    //Also include Metadata ToBeSaved that are Equal with OrgianalBeforeUserEdit 
-                                    if (metadataOrginal != metadataWrite) AddWatcherShowExiftoolSaveProcessQueue(metadataWrite.FileEntryBroker.FileFullPath);
+                                //Remeber 
+                                Metadata metadataWrite;
+                                Metadata metadataOrginal;
 
-                                    queueSubsetMetadataToSave.Add(metadataWrite);
-                                    queueSubsetMetadataOrginalBeforeUserEdit.Add(metadataOrginal);
+                                lock (commonQueueSaveMetadataUpdatedByUserLock) metadataWrite = commonQueueSaveMetadataUpdatedByUser[0];
+                                lock (commonOrigialMetadataBeforeUserUpdateLock) metadataOrginal = commonOrigialMetadataBeforeUserUpdate[0];
+
+                                //Remove
+                                lock (commonQueueSaveMetadataUpdatedByUserLock) commonQueueSaveMetadataUpdatedByUser.RemoveAt(0);
+                                lock (commonOrigialMetadataBeforeUserUpdateLock) commonOrigialMetadataBeforeUserUpdate.RemoveAt(0);
+
+                                lock (commonQueueReadMetadataFromExiftoolLock)
+                                {
+                                    if (!GlobalData.IsApplicationClosing)
+                                    {
+                                        //Also include Metadata ToBeSaved that are Equal with OrgianalBeforeUserEdit 
+                                        if (metadataOrginal != metadataWrite) AddWatcherShowExiftoolSaveProcessQueue(metadataWrite.FileEntryBroker.FileFullPath);
+
+                                        queueSubsetMetadataToSave.Add(metadataWrite);
+                                        queueSubsetMetadataOrginalBeforeUserEdit.Add(metadataOrginal);
+                                    }
                                 }
                             }
-                        }
-                        #endregion
+                            #endregion
 
-                        //Wait file to be unloacked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
-                        if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(queueSubsetMetadataToSave);
+                            //Wait file to be unloacked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
+                            if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(queueSubsetMetadataToSave);
 
-                        #region Write Xtra Atom properites
-                        Dictionary<string, string> writeXtraAtomErrorMessageForFile = new Dictionary<string, string>();
-                        List<FileEntry> filesUpdatedByWritePropertiesAndLastWriteTime = new List<FileEntry>();
+                            #region Write Xtra Atom properites
+                            Dictionary<string, string> writeXtraAtomErrorMessageForFile = new Dictionary<string, string>();
+                            List<FileEntry> filesUpdatedByWritePropertiesAndLastWriteTime = new List<FileEntry>();
 
-                        if (!GlobalData.IsApplicationClosing)
-                        {
-                            UpdateStatusAction("Write Xtra Atom to " + queueSubsetMetadataToSave.Count + " media files...");
-
-                            filesUpdatedByWritePropertiesAndLastWriteTime = ExiftoolWriter.WriteXtraAtom(
-                                queueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
-                                writeXtraAtomAlbumVariable, writeXtraAtomAlbumVideo,
-                                writeXtraAtomCategoriesVariable, writeXtraAtomCategoriesVideo,
-                                writeXtraAtomCommentVariable, writeXtraAtomCommentPicture, writeXtraAtomCommentVideo,
-                                writeXtraAtomKeywordsVariable, writeXtraAtomKeywordsVideo,
-                                writeXtraAtomRatingPicture, writeXtraAtomRatingVideo,
-                                writeXtraAtomSubjectVariable, writeXtraAtomSubjectPicture, wtraAtomSubjectVideo,
-                                writeXtraAtomSubtitleVariable, writeXtraAtomSubtitleVideo,
-                                writeXtraAtomArtistVariable, writeXtraAtomArtistVideo,
-                                out writeXtraAtomErrorMessageForFile);
-                        }
-                        #endregion
-
-                        #region File Create date and Time attribute
-                        if (!GlobalData.IsApplicationClosing)
-                        {
-                            foreach (Metadata metadata in queueSubsetMetadataToSave)
+                            if (!GlobalData.IsApplicationClosing)
                             {
-                                if (metadata.TryParseDateTakenToUtc(out DateTime? dateTakenWithOffset))
+                                UpdateStatusAction("Write Xtra Atom to " + queueSubsetMetadataToSave.Count + " media files...");
+
+                                filesUpdatedByWritePropertiesAndLastWriteTime = ExiftoolWriter.WriteXtraAtom(
+                                    queueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
+                                    writeXtraAtomAlbumVariable, writeXtraAtomAlbumVideo,
+                                    writeXtraAtomCategoriesVariable, writeXtraAtomCategoriesVideo,
+                                    writeXtraAtomCommentVariable, writeXtraAtomCommentPicture, writeXtraAtomCommentVideo,
+                                    writeXtraAtomKeywordsVariable, writeXtraAtomKeywordsVideo,
+                                    writeXtraAtomRatingPicture, writeXtraAtomRatingVideo,
+                                    writeXtraAtomSubjectVariable, writeXtraAtomSubjectPicture, wtraAtomSubjectVideo,
+                                    writeXtraAtomSubtitleVariable, writeXtraAtomSubtitleVideo,
+                                    writeXtraAtomArtistVariable, writeXtraAtomArtistVideo,
+                                    out writeXtraAtomErrorMessageForFile);
+                            }
+                            #endregion
+
+                            #region File Create date and Time attribute
+                            if (!GlobalData.IsApplicationClosing)
+                            {
+                                foreach (Metadata metadata in queueSubsetMetadataToSave)
                                 {
-                                    if (metadata?.FileDateCreated != null &&
-                                        metadata?.MediaDateTaken != null &&
-                                        metadata?.MediaDateTaken < DateTime.Now &&
-                                        Math.Abs(((DateTime)dateTakenWithOffset - (DateTime)metadata?.FileDateCreated).TotalSeconds) > 10) //No need to change
+                                    if (metadata.TryParseDateTakenToUtc(out DateTime? dateTakenWithOffset))
                                     {
-                                        try
+                                        if (metadata?.FileDateCreated != null &&
+                                            metadata?.MediaDateTaken != null &&
+                                            metadata?.MediaDateTaken < DateTime.Now &&
+                                            Math.Abs(((DateTime)dateTakenWithOffset - (DateTime)metadata?.FileDateCreated).TotalSeconds) > 10) //No need to change
                                         {
-                                            File.SetCreationTime(metadata.FileFullPath, (DateTime)dateTakenWithOffset);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Logger.Error("File.SetCreationTime failed...\r\n\r\n" + ex.Message);
+                                            try
+                                            {
+                                                File.SetCreationTime(metadata.FileFullPath, (DateTime)dateTakenWithOffset);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Logger.Error("File.SetCreationTime failed...\r\n\r\n" + ex.Message);
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        #endregion
+                            #endregion
 
-                        #region Save Metadatas using Exiftool   
-                        List<FileEntry> mediaFilesWithChangesWillBeUpdated = new List<FileEntry>();
-                        string exiftoolErrorMessage = "";
+                            #region Save Metadatas using Exiftool   
+                            List<FileEntry> mediaFilesWithChangesWillBeUpdated = new List<FileEntry>();
+                            string exiftoolErrorMessage = "";
 
-                        if (!GlobalData.IsApplicationClosing)
-                        {
-                            try
+                            if (!GlobalData.IsApplicationClosing)
                             {
-                                UpdateStatusAction("Batch update a subset of " + queueSubsetMetadataToSave.Count + " media files...");
-                                mediaFilesWithChangesWillBeUpdated = ExiftoolWriter.WriteMetadata(
-                                    queueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
-                                    writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable);
-                            }
-                            catch (Exception ex)
-                            {
-                                exiftoolErrorMessage = ex.Message;
-                                Logger.Error("EXIFTOOL.EXE error...\r\n\r\n" + ex.Message);
-                            }
-                        }
-                        #endregion
-
-                        if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(queueSubsetMetadataToSave);
-
-                        #region Check if all files was updated, if updated, add to verify queue
-                        if (!GlobalData.IsApplicationClosing)
-                        {
-                            foreach (FileEntry fileSuposeToBeUpdated in mediaFilesWithChangesWillBeUpdated)
-                            {
-
-                                bool failToSaveXtraAtom = false;
-                                //Check if writing Xtra Atom properties failed
-                                if (writeXtraAtomErrorMessageForFile.ContainsKey(fileSuposeToBeUpdated.FileFullPath))
+                                try
                                 {
-                                    failToSaveXtraAtom = true;
-                                    AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
-                                        AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
-                                        "Failed write Xtra Atom property to file: " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
-                                        "Error message:" + writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath]);
+                                    UpdateStatusAction("Batch update a subset of " + queueSubsetMetadataToSave.Count + " media files...");
+                                    mediaFilesWithChangesWillBeUpdated = ExiftoolWriter.WriteMetadata(
+                                        queueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
+                                        writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable);
                                 }
-
-                                bool failToSaveUsingExiftool = false;
-                                DateTime currentLastWrittenDateTime = File.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath);
-                                DateTime lastestKnownLastWrittenDateTime = (DateTime)fileSuposeToBeUpdated.LastWriteDateTime;
-
-                                //Find last known writtenDate for file
-                                int index = FileEntry.FindIndex(filesUpdatedByWritePropertiesAndLastWriteTime, fileSuposeToBeUpdated);
-                                if (index > -1) lastestKnownLastWrittenDateTime = filesUpdatedByWritePropertiesAndLastWriteTime[index].LastWriteDateTime;
-                                //Check if file is updated, if file LastWrittenDateTime has changed, file is updated
-                                if (lastestKnownLastWrittenDateTime == currentLastWrittenDateTime)
+                                catch (Exception ex)
                                 {
-                                    failToSaveUsingExiftool = true;
-                                    AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
+                                    exiftoolErrorMessage = ex.Message;
+                                    Logger.Error("EXIFTOOL.EXE error...\r\n\r\n" + ex.Message);
+                                }
+                            }
+                            #endregion
+
+                            if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(queueSubsetMetadataToSave);
+
+                            #region Check if all files was updated, if updated, add to verify queue
+                            if (!GlobalData.IsApplicationClosing)
+                            {
+                                foreach (FileEntry fileSuposeToBeUpdated in mediaFilesWithChangesWillBeUpdated)
+                                {
+
+                                    bool failToSaveXtraAtom = false;
+                                    //Check if writing Xtra Atom properties failed
+                                    if (writeXtraAtomErrorMessageForFile.ContainsKey(fileSuposeToBeUpdated.FileFullPath))
+                                    {
+                                        failToSaveXtraAtom = true;
+                                        AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
                                             AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
-                                            "EXIFTOOL.EXE failed write to file:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
-                                            "Message return from Exiftool: " + exiftoolErrorMessage);
-                                }
+                                            "Failed write Xtra Atom property to file: " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
+                                            "Error message:" + writeXtraAtomErrorMessageForFile[fileSuposeToBeUpdated.FileFullPath]);
+                                    }
 
-                                int indexInVerifyQueue = Metadata.FindFileEntryInList(queueSubsetMetadataToSave, fileSuposeToBeUpdated);
+                                    bool failToSaveUsingExiftool = false;
+                                    DateTime currentLastWrittenDateTime = File.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath);
+                                    DateTime lastestKnownLastWrittenDateTime = (DateTime)fileSuposeToBeUpdated.LastWriteDateTime;
+
+                                    //Find last known writtenDate for file
+                                    int index = FileEntry.FindIndex(filesUpdatedByWritePropertiesAndLastWriteTime, fileSuposeToBeUpdated);
+                                    if (index > -1) lastestKnownLastWrittenDateTime = filesUpdatedByWritePropertiesAndLastWriteTime[index].LastWriteDateTime;
+                                    //Check if file is updated, if file LastWrittenDateTime has changed, file is updated
+                                    if (lastestKnownLastWrittenDateTime == currentLastWrittenDateTime)
+                                    {
+                                        failToSaveUsingExiftool = true;
+                                        AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
+                                                AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
+                                                "EXIFTOOL.EXE failed write to file:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
+                                                "Message return from Exiftool: " + exiftoolErrorMessage);
+                                    }
+
+                                    int indexInVerifyQueue = Metadata.FindFileEntryInList(queueSubsetMetadataToSave, fileSuposeToBeUpdated);
                                 
-                                if (!failToSaveXtraAtom && !failToSaveUsingExiftool && indexInVerifyQueue > -1 && indexInVerifyQueue < queueSubsetMetadataToSave.Count)
-                                {
-                                    Metadata currentMetadata = new Metadata(queueSubsetMetadataToSave[indexInVerifyQueue]);
-                                    currentMetadata.FileDateModified = currentLastWrittenDateTime;
-                                    AddQueueVerifyMetadata(currentMetadata);
-                                    AddQueueMetadataReadToCacheOrUpdateFromSoruce(currentMetadata.FileEntryBroker);
-                                    ImageListViewReloadThumbnailInvoke(imageListView1, fileSuposeToBeUpdated.FileFullPath);
+                                    if (!failToSaveXtraAtom && !failToSaveUsingExiftool && indexInVerifyQueue > -1 && indexInVerifyQueue < queueSubsetMetadataToSave.Count)
+                                    {
+                                        Metadata currentMetadata = new Metadata(queueSubsetMetadataToSave[indexInVerifyQueue]);
+                                        currentMetadata.FileDateModified = currentLastWrittenDateTime;
+                                        AddQueueVerifyMetadata(currentMetadata);
+                                        AddQueueMetadataReadToCacheOrUpdateFromSoruce(currentMetadata.FileEntryBroker);
+                                        ImageListViewReloadThumbnailInvoke(imageListView1, fileSuposeToBeUpdated.FileFullPath);
+                                    }
                                 }
                             }
+                            #endregion
+
+                            //Clean up
+                            queueSubsetMetadataToSave.Clear();
+                            queueSubsetMetadataOrginalBeforeUserEdit.Clear();
+                            mediaFilesWithChangesWillBeUpdated.Clear();
+
+                            //Status updated for user
+                            ShowExiftoolSaveProgressClear();
+                            DisplayAllQueueStatus();
+
+                            //Thread.Sleep(100); //Wait in case of loop
                         }
-                        #endregion
 
-                        //Clean up
-                        queueSubsetMetadataToSave.Clear();
-                        queueSubsetMetadataOrginalBeforeUserEdit.Clear();
-                        mediaFilesWithChangesWillBeUpdated.Clear();
+                        if (GlobalData.IsApplicationClosing)
+                        {
+                            lock (commonQueueSaveMetadataUpdatedByUserLock) commonQueueSaveMetadataUpdatedByUser.Clear();
+                            lock (commonOrigialMetadataBeforeUserUpdateLock) commonOrigialMetadataBeforeUserUpdate.Clear();
+                        }
 
-                        //Status updated for user
-                        ShowExiftoolSaveProgressClear();
-                        DisplayAllQueueStatus();
+                        StartThreads();
+                        TriggerAutoResetEventQueueEmpty();
+                        _ThreadSaveMetadata = null;
+                    });
 
-                        //Thread.Sleep(100); //Wait in case of loop
-                    }
-
-                    if (GlobalData.IsApplicationClosing)
-                    {
-                        lock (commonQueueSaveMetadataUpdatedByUserLock) commonQueueSaveMetadataUpdatedByUser.Clear();
-                        lock (commonOrigialMetadataBeforeUserUpdateLock) commonOrigialMetadataBeforeUserUpdate.Clear();
-                    }
-
-                    StartThreads();
-                    TriggerAutoResetEventQueueEmpty();
-                    _ThreadSaveMetadata = null;
-                });
-
-                try
-                {
+                
                     if (_ThreadSaveMetadata != null) _ThreadSaveMetadata.Start();
                 }
                 catch (Exception ex)
                 {
                     Logger.Error("_ThreadSaveMetadata.Start failed. " + ex.Message);
+                    _ThreadSaveMetadata = null;
                 }
 
             }
@@ -1069,63 +1147,65 @@ namespace PhotoTagsSynchronizer
             if ((_ThreadWindowsLiveGallery == null /*|| !_ThreadWindowsLiveGallery.IsAlive*/) && 
                 CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0)
             {
-                _ThreadWindowsLiveGallery = new Thread(() =>
+                try
                 {
-                    //DataGridViewSuspendInvoke();
-
-                    while (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                    _ThreadWindowsLiveGallery = new Thread(() =>
                     {
-                        #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
-                        MetadataDatabaseCache database = databaseAndCacheMetadataWindowsLivePhotoGallery;
-                        ImetadataReader databaseSourceReader = databaseWindowsLivePhotGallery;
-                        MetadataBrokerType broker = MetadataBrokerType.WindowsLivePhotoGallery;
+                        //DataGridViewSuspendInvoke();
 
-                        while (databaseSourceReader != null && !GlobalData.IsApplicationClosing && CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0) //In case some more added to the queue
+                        while (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 && !GlobalData.IsApplicationClosing)
                         {
-                            Metadata metadata;
-                            FileEntry fileEntry;
-                            lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) fileEntry = new FileEntry(commonQueueReadMetadataFromWindowsLivePhotoGallery[0]);
+                            #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
+                            MetadataDatabaseCache database = databaseAndCacheMetadataWindowsLivePhotoGallery;
+                            ImetadataReader databaseSourceReader = databaseWindowsLivePhotGallery;
+                            MetadataBrokerType broker = MetadataBrokerType.WindowsLivePhotoGallery;
 
-                            if (File.Exists(fileEntry.FileFullPath))
+                            while (databaseSourceReader != null && !GlobalData.IsApplicationClosing && CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0) //In case some more added to the queue
                             {
-                                metadata = databaseSourceReader.Read(broker, fileEntry.FileFullPath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
-                                if (metadata != null) // && broker != MetadataBrokerTypes.WindowsLivePhotoGallery)
+                                Metadata metadata;
+                                FileEntry fileEntry;
+                                lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) fileEntry = new FileEntry(commonQueueReadMetadataFromWindowsLivePhotoGallery[0]);
+
+                                if (File.Exists(fileEntry.FileFullPath))
                                 {
-                                    //Windows Live Photo Gallery writes direclty to database from sepearte thread when found
-                                    database.TransactionBeginBatch();
-                                    database.Write(metadata);
-                                    database.TransactionCommitBatch();
-                                    AddQueueCreateRegionFromPoster(metadata);
+                                    metadata = databaseSourceReader.Read(broker, fileEntry.FileFullPath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
+                                    if (metadata != null) // && broker != MetadataBrokerTypes.WindowsLivePhotoGallery)
+                                    {
+                                        //Windows Live Photo Gallery writes direclty to database from sepearte thread when found
+                                        database.TransactionBeginBatch();
+                                        database.Write(metadata);
+                                        database.TransactionCommitBatch();
+                                        AddQueueCreateRegionFromPoster(metadata);
 
-                                    PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadata.FileFullPath, (DateTime)metadata.FileDateModified, FileEntryVersion.Current));
+                                        PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadata.FileFullPath, (DateTime)metadata.FileDateModified, FileEntryVersion.Current));
+                                    }
                                 }
-                            }
-                            else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
+                                else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
 
-                            lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) if (commonQueueReadMetadataFromWindowsLivePhotoGallery.Count > 0) commonQueueReadMetadataFromWindowsLivePhotoGallery.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
+                                lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) if (commonQueueReadMetadataFromWindowsLivePhotoGallery.Count > 0) commonQueueReadMetadataFromWindowsLivePhotoGallery.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
+
+                                DisplayAllQueueStatus();
+                            }
+                            #endregion 
 
                             DisplayAllQueueStatus();
                         }
-                        #endregion 
 
-                        DisplayAllQueueStatus();
-                    }
+                        if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromWindowsLivePhotoGallery.Clear();
 
-                    if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromWindowsLivePhotoGallery.Clear();
+                        //DataGridViewResumeInvoke();
 
-                    //DataGridViewResumeInvoke();
-
-                    StartThreads();
-                    TriggerAutoResetEventQueueEmpty();
-                    _ThreadWindowsLiveGallery = null;
-                });
-                try
-                {
+                        StartThreads();
+                        TriggerAutoResetEventQueueEmpty();
+                        _ThreadWindowsLiveGallery = null;
+                    });
+                
                     if (_ThreadWindowsLiveGallery != null) _ThreadWindowsLiveGallery.Start();
                 }
                 catch (Exception ex)
                 {
                     Logger.Error("_ThreadWindowsLiveGallery.Start failed. " + ex.Message);
+                    _ThreadWindowsLiveGallery = null;
                 }
             }
         }
@@ -1160,64 +1240,65 @@ namespace PhotoTagsSynchronizer
         {
             if ((_ThreadMicrosoftPhotos == null /*|| !_ThreadMicrosoftPhotos.IsAlive*/) && CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0)
             {
-                _ThreadMicrosoftPhotos = new Thread(() =>
+                try
                 {
-                    //DataGridViewSuspendInvoke();
-
-                    while (CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                    _ThreadMicrosoftPhotos = new Thread(() =>
                     {
-                        #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
-                        MetadataDatabaseCache database = databaseAndCacheMetadataMicrosoftPhotos;
-                        ImetadataReader databaseSourceReader = databaseMicrosoftPhotos;
-                        MetadataBrokerType broker = MetadataBrokerType.MicrosoftPhotos;
+                        //DataGridViewSuspendInvoke();
 
-                        while (databaseSourceReader != null && !GlobalData.IsApplicationClosing && CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0) //In case some more added to the queue
+                        while (CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0 && !GlobalData.IsApplicationClosing)
                         {
-                            Metadata metadata;
-                            FileEntry fileEntry;
-                            lock (commonQueueReadMetadataFromMicrosoftPhotosLock) fileEntry = new FileEntry(commonQueueReadMetadataFromMicrosoftPhotos[0]);
+                            #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
+                            MetadataDatabaseCache database = databaseAndCacheMetadataMicrosoftPhotos;
+                            ImetadataReader databaseSourceReader = databaseMicrosoftPhotos;
+                            MetadataBrokerType broker = MetadataBrokerType.MicrosoftPhotos;
 
-                            if (File.Exists(fileEntry.FileFullPath))
+                            while (databaseSourceReader != null && !GlobalData.IsApplicationClosing && CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0) //In case some more added to the queue
                             {
-                                metadata = databaseSourceReader.Read(broker, fileEntry.FileFullPath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
-                                if (metadata != null) // && broker != MetadataBrokerTypes.WindowsLivePhotoGallery)
+                                Metadata metadata;
+                                FileEntry fileEntry;
+                                lock (commonQueueReadMetadataFromMicrosoftPhotosLock) fileEntry = new FileEntry(commonQueueReadMetadataFromMicrosoftPhotos[0]);
+
+                                if (File.Exists(fileEntry.FileFullPath))
                                 {
-                                    //Windows Live Photo Gallery writes direclty to database from sepearte thread when found
-                                    database.TransactionBeginBatch();
-                                    database.Write(metadata);
-                                    database.TransactionCommitBatch();
-                                    AddQueueCreateRegionFromPoster(metadata);
+                                    metadata = databaseSourceReader.Read(broker, fileEntry.FileFullPath); //Read from broker as Microsoft Photos, Windows Live Photo Gallery (Using NamedPipes)
+                                    if (metadata != null) // && broker != MetadataBrokerTypes.WindowsLivePhotoGallery)
+                                    {
+                                        //Windows Live Photo Gallery writes direclty to database from sepearte thread when found
+                                        database.TransactionBeginBatch();
+                                        database.Write(metadata);
+                                        database.TransactionCommitBatch();
+                                        AddQueueCreateRegionFromPoster(metadata);
 
-                                    PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadata.FileFullPath, (DateTime)metadata.FileDateModified, FileEntryVersion.Current));
+                                        PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadata.FileFullPath, (DateTime)metadata.FileDateModified, FileEntryVersion.Current));
+                                    }
                                 }
-                            }
-                            else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
+                                else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
 
-                            lock (commonQueueReadMetadataFromMicrosoftPhotosLock) if (commonQueueReadMetadataFromMicrosoftPhotos.Count > 0) commonQueueReadMetadataFromMicrosoftPhotos.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
+                                lock (commonQueueReadMetadataFromMicrosoftPhotosLock) if (commonQueueReadMetadataFromMicrosoftPhotos.Count > 0) commonQueueReadMetadataFromMicrosoftPhotos.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
+
+                                DisplayAllQueueStatus();
+                            }
+                            #endregion
 
                             DisplayAllQueueStatus();
                         }
-                        #endregion
 
-                        DisplayAllQueueStatus();
-                    }
+                        if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromMicrosoftPhotosLock) commonQueueReadMetadataFromMicrosoftPhotos.Clear();
 
-                    if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromMicrosoftPhotosLock) commonQueueReadMetadataFromMicrosoftPhotos.Clear();
+                        //DataGridViewResumeInvoke();
 
-                    //DataGridViewResumeInvoke();
+                        StartThreads();
+                        TriggerAutoResetEventQueueEmpty();
+                        _ThreadMicrosoftPhotos = null;
+                    });
 
-                    StartThreads();
-                    TriggerAutoResetEventQueueEmpty();
-                    _ThreadMicrosoftPhotos = null;
-                });
-
-                try
-                {
                     if (_ThreadMicrosoftPhotos != null) _ThreadMicrosoftPhotos.Start();
                 }
                 catch (Exception ex)
                 {
                     Logger.Error("_ThreadMicrosoftPhotos.Start failed. " + ex.Message);
+                    _ThreadMicrosoftPhotos = null;
                 }
             }
         }
@@ -1253,91 +1334,94 @@ namespace PhotoTagsSynchronizer
             {
                 if (IsThreadRunningExcept_ThreadThumbnailRegion()) return; //Wait other thread to finnish first. Otherwise it will generate high load on disk use
 
-                _ThreadThumbnailRegion = new Thread(() =>
-                {      
+                try
+                {
+                    _ThreadThumbnailRegion = new Thread(() =>
+                    {      
                     
-                    while (CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0 && !GlobalData.IsApplicationClosing && !IsThreadRunningExcept_ThreadThumbnailRegion()) //In case some more added to the queue
-                    {
-                        int queueCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock(); //Mark count that we will work with. 
+                        while (CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0 && !GlobalData.IsApplicationClosing && !IsThreadRunningExcept_ThreadThumbnailRegion()) //In case some more added to the queue
+                        {
+                            int queueCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock(); //Mark count that we will work with. 
 
-                        try
-                        {                            
-                            FileEntry fileEntryRegion;
-                            lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
-                            {
-                                fileEntryRegion = new FileEntry(commonQueueReadPosterAndSaveFaceThumbnails[0].FileEntryBroker);                                                                
-                            }
-
-                            bool foundFile = false;
-                            do //Remove all with same filename in the queue
-                            {
-                                foundFile = false;
-                                //Check Exiftool, Microsoft Phontos, Windows Live Photo Gallery in queue also
-
+                            try
+                            {                            
+                                FileEntry fileEntryRegion;
                                 lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
                                 {
-                                    Image image = null; //No image loaded
-                                    for (int thumbnailIndex = 0; thumbnailIndex < queueCount; thumbnailIndex++)
+                                    fileEntryRegion = new FileEntry(commonQueueReadPosterAndSaveFaceThumbnails[0].FileEntryBroker);                                                                
+                                }
+
+                                bool foundFile = false;
+                                do //Remove all with same filename in the queue
+                                {
+                                    foundFile = false;
+                                    //Check Exiftool, Microsoft Phontos, Windows Live Photo Gallery in queue also
+
+                                    lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
                                     {
-
-                                        //Find current file entry in queue, Exiftool, Microsoft Photos, Windows Live Gallery, etc...
-                                        if (commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].FileFullPath == fileEntryRegion.FileFullPath &&
-                                            commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].FileDateModified == fileEntryRegion.LastWriteDateTime)
+                                        Image image = null; //No image loaded
+                                        for (int thumbnailIndex = 0; thumbnailIndex < queueCount; thumbnailIndex++)
                                         {
-                                            //When found entry, check if has Face Regions to save
-                                            if (commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].PersonalRegionList.Count > 0)
+
+                                            //Find current file entry in queue, Exiftool, Microsoft Photos, Windows Live Gallery, etc...
+                                            if (commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].FileFullPath == fileEntryRegion.FileFullPath &&
+                                                commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].FileDateModified == fileEntryRegion.LastWriteDateTime)
                                             {
-                                                ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
-                                                
-                                                //Check if the current Metadata are same as newst file...
-                                                if (File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
+                                                //When found entry, check if has Face Regions to save
+                                                if (commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex].PersonalRegionList.Count > 0)
                                                 {
-
-                                                    if (image == null) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, true); //Only load once when found
-
-                                                    if (image != null) //If still Failed load cover art, often occur after filed is moved or deleted
+                                                    ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
+                                                
+                                                    //Check if the current Metadata are same as newst file...
+                                                    if (File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
                                                     {
-                                                        databaseAndCacheThumbnail.TransactionBeginBatch(); //Only load image when regions found
-                                                        //Metadata found and updated, updated DataGricView                                             
-                                                        RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheThumbnail, commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex], image);
-                                                        foundFile = true;
-                                                        databaseAndCacheThumbnail.TransactionCommitBatch(); 
-                                                        PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntryRegion, FileEntryVersion.Current)); //Updated Gridview
-                                                    }
-                                                    else Logger.Error("ThreadReadMediaPosterSaveRegions failed to create 'face' region thumbails from file. Due to mediafile do not exist anymore. File:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
-                                                }
-                                                else Logger.Info("Don't load posters when request are with Diffrent LastWrittenDateTime:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
-                                            }
 
-                                            queueCount--;
-                                            commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(thumbnailIndex);
-                                            if (foundFile) break; //No need to search more.
+                                                        if (image == null) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, true); //Only load once when found
+
+                                                        if (image != null) //If still Failed load cover art, often occur after filed is moved or deleted
+                                                        {
+                                                            databaseAndCacheThumbnail.TransactionBeginBatch(); //Only load image when regions found
+                                                            //Metadata found and updated, updated DataGricView                                             
+                                                            RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheThumbnail, commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex], image);
+                                                            foundFile = true;
+                                                            databaseAndCacheThumbnail.TransactionCommitBatch(); 
+                                                            PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntryRegion, FileEntryVersion.Current)); //Updated Gridview
+                                                        }
+                                                        else Logger.Error("ThreadReadMediaPosterSaveRegions failed to create 'face' region thumbails from file. Due to mediafile do not exist anymore. File:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
+                                                    }
+                                                    else Logger.Info("Don't load posters when request are with Diffrent LastWrittenDateTime:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
+                                                }
+
+                                                queueCount--;
+                                                commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(thumbnailIndex);
+                                                if (foundFile) break; //No need to search more.
+                                            }
                                         }
                                     }
-                                }
                                 
-                            } while (foundFile);
+                                } while (foundFile);
 
+                            }
+                            catch (Exception e)
+                            {
+                                Logger.Error("ThreadReadMediaPosterSaveRegions crashed" + e.Message);
+                            }
+
+                            DisplayAllQueueStatus();
                         }
-                        catch (Exception e)
-                        {
-                            Logger.Error("ThreadReadMediaPosterSaveRegions crashed" + e.Message);
-                        }
 
-                        DisplayAllQueueStatus();
-                    }
-
-                    if (GlobalData.IsApplicationClosing) lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) commonQueueReadPosterAndSaveFaceThumbnails.Clear();
-                    StartThreads();
-                    TriggerAutoResetEventQueueEmpty();
-                    _ThreadThumbnailRegion = null;
-                });
-                try { 
+                        if (GlobalData.IsApplicationClosing) lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) commonQueueReadPosterAndSaveFaceThumbnails.Clear();
+                        StartThreads();
+                        TriggerAutoResetEventQueueEmpty();
+                        _ThreadThumbnailRegion = null;
+                    });
+                
                     if (_ThreadThumbnailRegion != null) _ThreadThumbnailRegion.Start();
                 }
                 catch (Exception ex)
                 {
                     Logger.Error("_ThreadThumbnailRegion.Start failed. " + ex.Message);
+                    _ThreadThumbnailRegion = null;
                 }
             }
 

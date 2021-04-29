@@ -106,7 +106,7 @@ namespace MetadataLibrary
         #endregion
 
 
-        #region ReadToCache
+        #region ReadToCache - List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType
         public void ReadToCache(List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
         {
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
@@ -119,7 +119,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region ReadToCache
+        #region ReadToCache - List<FileEntryBroker> fileEntriesBroker
         public void ReadToCache(List<FileEntryBroker> fileEntriesBroker)
         {
             List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
@@ -273,34 +273,38 @@ namespace MetadataLibrary
             }
             #endregion 
         }
-        #endregion 
+        #endregion
 
+        #region ReadToCache All Metadatas
         public void ReadToCacheAllMetadatas() //Hack to read data to cache and the database worked much faster after this
         {
             if (StopCaching) return;
-            ReadLot(MetadataBrokerType.Empty, null, null, null, true);
+            ReadToCacheWhereParameters(MetadataBrokerType.Empty, null, null, null, true);
         }
+        #endregion
 
+        #region ReadToCache- All WebScarping DataSets
         public void ReadToCacheWebScarpingDataSets()
         {
             if (StopCaching) return;
             DateTime? dataSetDateTime = GetWebScraperLastPackageDate();
-            if (dataSetDateTime != null) ReadLot(MetadataBrokerType.WebScraping, MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, null, dataSetDateTime, true);
+            if (dataSetDateTime != null) ReadToCacheWhereParameters(MetadataBrokerType.WebScraping, MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, null, dataSetDateTime, true);
         }
+        #endregion 
 
         #region ReadLot
 
         public delegate void ReadRecordEvent(object sender, ReadRecordEventArgs e);
         public event ReadRecordEvent OnReadRecord;
 
-        #region ReadToCacheParamters
-        private class ReadToCacheParamters : IComparable<ReadToCacheParamters>, IEquatable<ReadToCacheParamters>
+        #region ReadToCache - Parameters
+        private class ReadToCacheParameters : IComparable<ReadToCacheParameters>, IEquatable<ReadToCacheParameters>
         {
-            public ReadToCacheParamters()
+            public ReadToCacheParameters()
             {
             }
 
-            public ReadToCacheParamters(MetadataBrokerType metadataBrokerType, string folder, string filename, DateTime? fileDateModified)
+            public ReadToCacheParameters(MetadataBrokerType metadataBrokerType, string folder, string filename, DateTime? fileDateModified)
             {
                 MetadataBrokerType = metadataBrokerType;
                 Folder = folder;
@@ -313,7 +317,7 @@ namespace MetadataLibrary
             public string Filename { get; set; }
             public DateTime? FileDateModified { get; set; }
 
-            public int CompareTo(ReadToCacheParamters other)
+            public int CompareTo(ReadToCacheParameters other)
             {
                 int compare = MetadataBrokerType.CompareTo(other.MetadataBrokerType);  
 
@@ -343,12 +347,12 @@ namespace MetadataLibrary
 
             public override bool Equals(object obj)
             {
-                return this.Equals(obj as ReadToCacheParamters);
+                return this.Equals(obj as ReadToCacheParameters);
             }
 
-            public bool Equals(ReadToCacheParamters other)
+            public bool Equals(ReadToCacheParameters other)
             {
-                return other is ReadToCacheParamters paramters &&
+                return other is ReadToCacheParameters paramters &&
                        MetadataBrokerType == paramters.MetadataBrokerType &&
                        Folder == paramters.Folder &&
                        Filename == paramters.Filename &&
@@ -365,23 +369,24 @@ namespace MetadataLibrary
                 return hashCode;
             }
 
-            public static bool operator ==(ReadToCacheParamters left, ReadToCacheParamters right)
+            public static bool operator ==(ReadToCacheParameters left, ReadToCacheParameters right)
             {
-                return EqualityComparer<ReadToCacheParamters>.Default.Equals(left, right);
+                return EqualityComparer<ReadToCacheParameters>.Default.Equals(left, right);
             }
 
-            public static bool operator !=(ReadToCacheParamters left, ReadToCacheParamters right)
+            public static bool operator !=(ReadToCacheParameters left, ReadToCacheParameters right)
             {
                 return !(left == right);
             }
         }
         #endregion  
-        private static List<ReadToCacheParamters> readToCacheParamtersCached = new List<ReadToCacheParamters>();
+        private static List<ReadToCacheParameters> readToCacheParamtersCached = new List<ReadToCacheParameters>();
 
-        public void ReadLot(MetadataBrokerType metadataBrokerType, string folder, string filename, DateTime? fileDateModified, bool readDataIntoCache = true) //Hack to read data to cache and the database worked much faster after this
+        #region ReadToCache - Parameters
+        public void ReadToCacheWhereParameters(MetadataBrokerType metadataBrokerType, string folder, string filename, DateTime? fileDateModified, bool readDataIntoCache = true) //Hack to read data to cache and the database worked much faster after this
         {
             if (StopCaching) return;
-            ReadToCacheParamters readToCacheParamters = new ReadToCacheParamters(metadataBrokerType, folder, filename, fileDateModified);
+            ReadToCacheParameters readToCacheParamters = new ReadToCacheParameters(metadataBrokerType, folder, filename, fileDateModified);
             if (readToCacheParamtersCached.Contains(readToCacheParamters)) return;
             if (readDataIntoCache) readToCacheParamtersCached.Add(readToCacheParamters);
 
@@ -562,6 +567,8 @@ namespace MetadataLibrary
             }
             #endregion 
         }
+        #endregion 
+
         #endregion
 
         #region Write

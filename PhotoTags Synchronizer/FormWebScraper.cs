@@ -1411,7 +1411,7 @@ namespace PhotoTagsSynchronizer
         {
             Dictionary<string, Metadata> metaDataDictionary = new Dictionary<string, Metadata>();
 
-            DatabaseAndCacheMetadataExiftool.ReadLot(MetadataBrokerType.WebScraping, webScrapingName, null, dataSetDateTime, true);
+            DatabaseAndCacheMetadataExiftool.ReadToCacheWhereParameters(MetadataBrokerType.WebScraping, webScrapingName, null, dataSetDateTime, true);
             List<FileEntryBroker> fileEntryBrokers = DatabaseAndCacheMetadataExiftool.ListMediafilesInWebScraperPackages(MetadataBrokerType.WebScraping, webScrapingName, dataSetDateTime);
 
             foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
