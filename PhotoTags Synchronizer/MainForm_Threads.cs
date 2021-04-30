@@ -1736,9 +1736,10 @@ namespace PhotoTagsSynchronizer
                 hasWriteAndVerifyMetadataErrors = false;
 
                 //MessageBox.Show(errors, "Warning or Errors has occured!", MessageBoxButtons.OK);
-                if (formMessageBox == null) formMessageBox = new FormMessageBox(errors);
+                if (formMessageBox == null || formMessageBox.IsDisposed) formMessageBox = new FormMessageBox(errors);
                 else formMessageBox.AppendMessage(errors);
-                formMessageBox.ShowDialog();
+                formMessageBox.Owner = this;
+                formMessageBox.Show();
                 formMessageBox = null;
             }
             try

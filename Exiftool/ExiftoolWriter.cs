@@ -299,7 +299,7 @@ namespace Exiftool
                 string personalKeywordDelete = metadataOriginal.ReplaceVariables(writeMetadataKeywordDeleteVariable, allowedFileNameDateTimeFormats);
                 string personalKeywordAdd = metadataToWrite.ReplaceVariables(writeMetadataKeywordAddVariable, allowedFileNameDateTimeFormats);
 
-                string personalKeywordDeleteItems = metadataToWrite.VariablePersonalKeywords(personalKeywordDelete, allowedFileNameDateTimeFormats);
+                string personalKeywordDeleteItems = metadataOriginal.VariablePersonalKeywords(personalKeywordDelete, allowedFileNameDateTimeFormats);
                 string personalKeywordAddItems = metadataToWrite.VariablePersonalKeywords(personalKeywordAdd, allowedFileNameDateTimeFormats);
 
                 tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordDeleteItems, personalKeywordAddItems);
