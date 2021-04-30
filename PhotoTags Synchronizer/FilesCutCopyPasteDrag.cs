@@ -42,7 +42,7 @@ namespace PhotoTagsSynchronizer
         #region FilesCutCopyPasteDrag - DeleteDirectory
         public void DeleteDirectory(string folder)
         {
-            databaseAndCacheMetadataExiftool.DeleteDirectory(MetadataBrokerType.ExifTool, folder);
+            databaseAndCacheMetadataExiftool.DeleteDirectory(MetadataBrokerType.ExifTool, folder); //Also delete When (Broker & @Broker) = @Broker
             databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectory(MetadataBrokerType.MicrosoftPhotos, folder);
             databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectory(MetadataBrokerType.WindowsLivePhotoGallery, folder);
             databaseExiftoolData.DeleteDirectory(folder);
@@ -56,7 +56,7 @@ namespace PhotoTagsSynchronizer
         {
 
             databaseAndCacheMetadataExiftool.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
-            databaseAndCacheMetadataExiftool.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+            databaseAndCacheMetadataExiftool.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));  //Also delete When (Broker & @Broker) = @Broker
 
             databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
             databaseAndCacheMetadataMicrosoftPhotos.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));

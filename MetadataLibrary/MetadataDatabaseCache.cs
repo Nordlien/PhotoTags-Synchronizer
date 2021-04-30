@@ -934,6 +934,13 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete Directoy - Mediadata
+        /// <summary>
+        /// Delete all records that fits parameters
+        /// </summary>
+        /// <param name="broker">When (Broker & @Broker) = @Broker</param>
+        /// <param name="fileDirectory">Media in this Folder</param>
+        /// <param name="fileDateModified">When media file is modified, if null delete all</param>
+        /// <returns></returns>
         private int DeleteDirectoryMediaMetadata(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
             int rowsAffected = 0;
@@ -956,11 +963,18 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete Directory - Media PersonalRegions
+        /// <summary>
+        /// Delete all records that fits parameters
+        /// </summary>
+        /// <param name="broker">When (Broker & @Broker) = @Broker</param>
+        /// <param name="fileDirectory">Media in this Folder</param>
+        /// <param name="fileDateModified">When media file is modified, if null delete all</param>
+        /// <returns></returns>
         private int DeleteDirectoryMediaPersonalRegions(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
             int rowsAffected = 0;
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
-                            "Broker = @Broker AND " +
+                            "(Broker & @Broker) = @Broker AND " +
                             "FileDirectory = @FileDirectory";
             if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
 
@@ -977,11 +991,18 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete Directory - Media PersonalKeywords 
+        /// <summary>
+        /// Delete all records that fits parameters
+        /// </summary>
+        /// <param name="broker">When (Broker & @Broker) = @Broker</param>
+        /// <param name="fileDirectory">Media in this Folder</param>
+        /// <param name="fileDateModified">When media file is modified, if null delete all</param>
+        /// <returns></returns>
         private int DeleteDirectoryMediaPersonalKeywords(MetadataBrokerType broker, string fileDirectory, DateTime? fileDateModified = null)
         {
             int rowsAffected = 0; 
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
-                            "Broker = @Broker AND " +
+                            "(Broker & @Broker) = @Broker AND " +
                             "FileDirectory = @FileDirectory";
             if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";
 
@@ -998,6 +1019,13 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete Directory
+        /// <summary>
+        /// Delete all records and sub-records that fits parameters
+        /// </summary>
+        /// <param name="broker">When (Broker & @Broker) = @Broker</param>
+        /// <param name="fileDirectory">Media in this Folder</param>
+        /// <param name="fileDateModified">When media file is modified, if null delete all</param>
+        /// <returns></returns>
         public int DeleteDirectory(MetadataBrokerType broker, string fileDirectory, DateTime? dateTime = null)
         {
             int rowsAffected = 0;
@@ -1017,10 +1045,14 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete File - Metadata
+        /// <summary>
+        /// Delete all records that fits parameters
+        /// </summary>
+        /// <param name="fileEntryBroker">Folder, Filename and When (Broker & @Broker) = @Broker</param>
         private void DeleteFileMediaMetadata(FileEntryBroker fileEntryBroker)
         {
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
-                            "Broker = @Broker " +
+                            "(Broker & @Broker) = @Broker " +
                             "AND FileDirectory = @FileDirectory " +
                             "AND FileName = @FileName " +
                             "AND FileDateModified = @FileDateModified";
@@ -1037,10 +1069,14 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete File - Personal Regions
+        /// <summary>
+        /// Delete all records that fits parameters
+        /// </summary>
+        /// <param name="fileEntryBroker">Folder, Filename and When (Broker & @Broker) = @Broker</param>
         private void DeleteFileMediaPersonalRegions(FileEntryBroker fileEntryBroker)
         {
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
-                "Broker = @Broker " +
+                "(Broker & @Broker) = @Broker " +
                 "AND FileDirectory = @FileDirectory " +
                 "AND FileName = @FileName " +
                 "AND FileDateModified = @FileDateModified";
@@ -1057,10 +1093,14 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete File - Personal Keywords
+        /// <summary>
+        /// Delete all records that fits parameters
+        /// </summary>
+        /// <param name="fileEntryBroker">Folder, Filename and When (Broker & @Broker) = @Broker</param>
         private void DeleteFileMediaPersonalKeywords(FileEntryBroker fileEntryBroker)
         {
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
-                            "Broker = @Broker " +
+                            "(Broker & @Broker) = @Broker " +
                             "AND FileDirectory = @FileDirectory " +
                             "AND FileName = @FileName " +
                             "AND FileDateModified = @FileDateModified";
@@ -1233,6 +1273,12 @@ namespace MetadataLibrary
         private static Dictionary<FileBroker, List<FileEntryAttribute>> listFileAttributeDateVersions = new Dictionary<FileBroker, List<FileEntryAttribute>>();
 
         #region List File Date Versions - Attribute
+        /// <summary>
+        /// List all versions for a media file, Broker, Folder, Filename, Modified
+        /// </summary>
+        /// <param name="broker">Also read (Broker & @Broker) = @Broker) to get ErrorVersions also</param>
+        /// <param name="fullFileName">Filename</param>
+        /// <returns></returns>
         public List<FileEntryAttribute> ListFileEntryAttributesCache(MetadataBrokerType broker, string fullFileName)
         {
             FileBroker fileBroker = new FileBroker(broker, fullFileName);
@@ -1248,16 +1294,12 @@ namespace MetadataLibrary
             return fileEntryAttributes;
         }
 
-        private void ListFileEntryAttributesCacheRemove(FileBroker fileBroker)
-        {
-            if (listFileAttributeDateVersions.ContainsKey(fileBroker)) listFileAttributeDateVersions.Remove(fileBroker);
-        }
-
-        private void ListFileEntryAttributesCacheClear()
-        {
-            listFileAttributeDateVersions = new Dictionary<FileBroker, List<FileEntryAttribute>>();
-        }
-
+        /// <summary>
+        /// List all versions for a media file, Broker, Folder, Filename, Modified
+        /// </summary>
+        /// <param name="FileEntryAttributes">List to updated, wgen when Read ExifTool first, then ExiftooError after</param>
+        /// <param name="broker">Use excact Broker type (Don't add | (Broker & @Broker) = @Broker)</param>
+        /// <param name="fullFileName">Filename</param>
         private void ListFileEntryAttributes2(ref List<FileEntryAttribute> FileEntryAttributes, MetadataBrokerType broker, string fullFileName)
         {
             
@@ -1265,7 +1307,7 @@ namespace MetadataLibrary
                 "SELECT " +
                     "Broker, FileDirectory, FileName, FileDateModified " +
                     "FROM MediaMetadata WHERE " +
-                    "Broker = @Broker AND " +
+                    "Broker = @Broker AND " + //(Broker & @Broker) = @Broker
                     "FileDirectory = @FileDirectory AND " +
                     "FileName = @FileName";
 
@@ -1329,6 +1371,51 @@ namespace MetadataLibrary
         #endregion
 
         #region List files - Search
+        /// <summary>
+        /// Uses for search for media data using a huge list of parameres THAT IS selected to use
+        /// </summary>
+        /// <param name="broker">Don't find Error version only excat verson (NB, Don't have (Broker & @Broker) = @Broker) )</param>
+        /// <param name="useAndBetweenGrups">When true, use AND else OR between search groups</param>
+        /// <param name="useMediaTakenFrom">When true, add parameter mediaTakenFrom</param>
+        /// <param name="mediaTakenFrom">When media takes is equal or newer than this date</param>
+        /// <param name="useMediaTakenTo">When true, add parameter mediaTakenTo</param>
+        /// <param name="mediaTakenTo">When media takes is equal or older than this date</param>
+        /// <param name="isMediaTakenNull">When media takes is null</param>
+        /// <param name="useAndBetweenTextTags">When true, use AND else OR between Keywords tags</param>
+        /// <param name="usePersonalAlbum">When true, add parameter personalAlbum</param>
+        /// <param name="personalAlbum">Equal parameter equal to Album text</param>
+        /// <param name="usePersonalTitle">When true, add parameter usePersonalComments</param>
+        /// <param name="personalTitle">Equal parameter equal to Title text</param>
+        /// <param name="usePersonalComments">When true, add parameter personalComments</param>
+        /// <param name="personalComments">Equal parameter equal to Comments text</param>
+        /// <param name="usePersonalDescription">When true, add parameter personalDescription</param>
+        /// <param name="personalDescription">Equal parameter equal to Description text</param>
+        /// <param name="isRatingNull">When not rating given</param>
+        /// <param name="hasRating0">When rating is 0 stars</param>
+        /// <param name="hasRating1">When rating is 1 star</param>
+        /// <param name="hasRating2">When rating is 2 stars</param>
+        /// <param name="hasRating3">When rating is 3 stars</param>
+        /// <param name="hasRating4">When rating is 4 stars</param>
+        /// <param name="hasRating5">When rating is 5 stars</param>
+        /// <param name="useLocationName">When true, add parameterlocationName </param>
+        /// <param name="locationName">Equal parameter equal to Location text</param>
+        /// <param name="useLocationCity">When true, add parameter useLocationCity</param>
+        /// <param name="locationCity">Equal parameter equal to City text</param>
+        /// <param name="useLocationState">When true, add parameter locationState</param>
+        /// <param name="locationState">Equal parameter equal to State text</param>
+        /// <param name="useLocationCountry">When true, add parameter locationCountry</param>
+        /// <param name="locationCountry">Equal parameter equal to Country text</param>
+        /// <param name="useRegionNameList">When true, add parameter regionNameList</param>
+        /// <param name="needAlRegionNames">When true, use AND else OR between Region names</param>
+        /// <param name="regionNameList">List of region names to check</param>
+        /// <param name="withoutRegions">When regions names doesn't exist</param>
+        /// <param name="useKeywordList">When true, add parameter needAllKeywords</param>
+        /// <param name="needAllKeywords">When true, use AND else OR between keywords</param>
+        /// <param name="keywords">List of keyword tags to check</param>
+        /// <param name="withoutKeywords">When keywords tags doesn't exists</param>
+        /// <param name="checkIfHasExifWarning">When true, check if has warning</param>
+        /// <param name="maxRowsInResult">Maximum rows in result set</param>
+        /// <returns></returns>
         public List<FileEntry> ListAllSearch(MetadataBrokerType broker, bool useAndBetweenGrups,
             bool useMediaTakenFrom, DateTime mediaTakenFrom, bool useMediaTakenTo, DateTime mediaTakenTo, bool isMediaTakenNull,
             bool useAndBetweenTextTags,
@@ -1654,6 +1741,11 @@ namespace MetadataLibrary
         #endregion
 
         #region ListAllPersonalAuthors()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="metadataBrokerType"></param>
+        /// <returns></returns>
         public List<string> ListAllPersonalAuthors(MetadataBrokerType metadataBrokerType)
         {
 
@@ -1995,7 +2087,12 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        #region Cache Metadata - Updated       
+        #region Cache Metadata - Updated    
+        /// <summary>
+        /// Updated the Metadata cache
+        /// </summary>
+        /// <param name="fileEntryBroker">When broler is MetadataBrokerType.ExifTool then don't remember null values, meands value not read</param>
+        /// <param name="metadata">Matadata to remeber, also remember null values</param>
         private void MetadataCacheUpdate(FileEntryBroker fileEntryBroker, Metadata metadata)
         {
             if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
@@ -2026,12 +2123,23 @@ namespace MetadataLibrary
         #endregion 
 
         #region Cache - Remove
+        private void ListFileEntryAttributesCacheRemove(FileBroker fileBroker)
+        {
+            if (listFileAttributeDateVersions.ContainsKey(fileBroker)) listFileAttributeDateVersions.Remove(fileBroker);
+        }
+
+        /// <summary>
+        /// Remove metadata from Cache
+        /// </summary>
+        /// <param name="fileEntryBroker">Filename, Folder and Broker (also | MetadataBrokerType.ExifToolWriteError)</param>
         public void MetadataCacheRemove(FileEntryBroker fileEntryBroker)
         {
             MetadataCacheRemoveMetadataCacheRemove(fileEntryBroker);
+            MetadataCacheRemoveMetadataCacheRemove(new FileEntryBroker(fileEntryBroker, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError));            
             MetadataRegionNamesCacheClear();
             ListAllPersonalRegionNameCountCacheClear();
             ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker, fileEntryBroker.FileFullPath));
+            ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker | MetadataBrokerType.ExifToolWriteError, fileEntryBroker.FileFullPath));
         }
         #endregion
 

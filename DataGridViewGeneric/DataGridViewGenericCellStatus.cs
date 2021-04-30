@@ -11,7 +11,7 @@ namespace DataGridViewGeneric
         }
         public DataGridViewGenericCellStatus()
         {
-            MetadataBrokerTypes = MetadataBrokerType.Empty;
+            MetadataBrokerType = MetadataBrokerType.Empty;
             SwitchState = SwitchStates.Disabled;
             CellReadOnly = false;
         }
@@ -20,17 +20,17 @@ namespace DataGridViewGeneric
         {
         }
 
-        public DataGridViewGenericCellStatus(DataGridViewGenericCellStatus dataGridViewGenericCellStatus) : this(dataGridViewGenericCellStatus.MetadataBrokerTypes, dataGridViewGenericCellStatus.SwitchState, dataGridViewGenericCellStatus.CellReadOnly)
+        public DataGridViewGenericCellStatus(DataGridViewGenericCellStatus dataGridViewGenericCellStatus) : this(dataGridViewGenericCellStatus.MetadataBrokerType, dataGridViewGenericCellStatus.SwitchState, dataGridViewGenericCellStatus.CellReadOnly)
         { }
 
         public DataGridViewGenericCellStatus(MetadataBrokerType metadataBrokerTypes, SwitchStates switchStates, bool cellReadOnly)
         {
-            MetadataBrokerTypes = metadataBrokerTypes;
+            MetadataBrokerType = metadataBrokerTypes;
             SwitchState = switchStates;
             CellReadOnly = cellReadOnly;
         }
 
-        public MetadataBrokerType MetadataBrokerTypes { get; set; }
+        public MetadataBrokerType MetadataBrokerType { get; set; }
         public SwitchStates SwitchState { get; set; }
         public bool CellReadOnly { get; set; }
         

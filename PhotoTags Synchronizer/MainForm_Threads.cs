@@ -467,6 +467,7 @@ namespace PhotoTagsSynchronizer
                                 if (readColumn)
                                 {
                                     MetadataBrokerType metadataBrokerType = MetadataBrokerType.ExifTool;
+                                    //If error Broker type attribute, set correct Broker type
                                     if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error) metadataBrokerType |= MetadataBrokerType.ExifToolWriteError;
                                     if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, metadataBrokerType)) == null)
                                     {
@@ -643,6 +644,7 @@ namespace PhotoTagsSynchronizer
                                     databaseAndCacheThumbnail.TransactionCommitBatch();
 
                                     UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Current), fileEntryImage.Image);
+                                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Error), fileEntryImage.Image);
                                 }
                                 else
                                 {
@@ -821,6 +823,7 @@ namespace PhotoTagsSynchronizer
                                             databaseAndCacheMetadataExiftool.Write(metadataError);
                                             databaseAndCacheMetadataExiftool.TransactionCommitBatch();
 
+                                            AddQueueSaveThumbnailMedia(new FileEntryImage(metadataError.FileEntryBroker, null));
                                             PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error));
                                         }
                                     }

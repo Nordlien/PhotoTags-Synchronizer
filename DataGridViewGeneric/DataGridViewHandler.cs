@@ -1439,10 +1439,10 @@ namespace DataGridViewGeneric
         public static void SetCellDefaultAfterUpdated(DataGridView dataGridView, MetadataBrokerType metadataBrokerType, int columnIndex, int rowIndex)
         {
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(DataGridViewHandler.GetCellStatus(dataGridView, columnIndex, rowIndex)); //Remember current status, in case of updates
-            dataGridViewGenericCellStatus.MetadataBrokerTypes |= metadataBrokerType;
+            dataGridViewGenericCellStatus.MetadataBrokerType |= metadataBrokerType;
             if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Disabled) dataGridViewGenericCellStatus.SwitchState = SwitchStates.Undefine;
             if (dataGridViewGenericCellStatus.SwitchState == SwitchStates.Undefine)
-                dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerTypes & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
+                dataGridViewGenericCellStatus.SwitchState = (dataGridViewGenericCellStatus.MetadataBrokerType & MetadataBrokerType.ExifTool) == MetadataBrokerType.ExifTool ? SwitchStates.On : SwitchStates.Off;
             dataGridViewGenericCellStatus.CellReadOnly = false;
             SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndex, rowIndex);
         }
@@ -2198,7 +2198,7 @@ namespace DataGridViewGeneric
         public static MetadataBrokerType GetCellStatusMetadataBrokerType(DataGridView dataGridView, int columnIndex, int rowIndex)
         {
             DataGridViewGenericCellStatus dataGridViewGenericCellStatus = GetCellStatus(dataGridView, columnIndex, rowIndex);
-            return dataGridViewGenericCellStatus == null ? MetadataBrokerType.Empty : dataGridViewGenericCellStatus.MetadataBrokerTypes;
+            return dataGridViewGenericCellStatus == null ? MetadataBrokerType.Empty : dataGridViewGenericCellStatus.MetadataBrokerType;
         }
         #endregion
 

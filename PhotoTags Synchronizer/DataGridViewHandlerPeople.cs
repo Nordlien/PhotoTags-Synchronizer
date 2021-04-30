@@ -265,10 +265,10 @@ namespace PhotoTagsSynchronizer
 
 
                     //Populate 
-                    PopulatePeople(dataGridView, metadataCopy, columnIndex, MetadataBrokerType.ExifTool);
-                    if (metadataWindowsLivePhotoGalleryCopy != null) PopulatePeople(dataGridView, metadataWindowsLivePhotoGalleryCopy, columnIndex, MetadataBrokerType.WindowsLivePhotoGallery);
-                    if (metadataMicrosoftPhotosCopy != null) PopulatePeople(dataGridView, metadataMicrosoftPhotosCopy, columnIndex, MetadataBrokerType.MicrosoftPhotos);
-                    if (metadataWebScrapingCopy != null) PopulatePeople(dataGridView, metadataWebScrapingCopy, columnIndex, MetadataBrokerType.WebScraping);
+                    PopulatePeople(dataGridView, metadataCopy, columnIndex, metadataCopy.Broker);
+                    if (metadataWindowsLivePhotoGalleryCopy != null) PopulatePeople(dataGridView, metadataWindowsLivePhotoGalleryCopy, columnIndex, metadataWindowsLivePhotoGalleryCopy.Broker);
+                    if (metadataMicrosoftPhotosCopy != null) PopulatePeople(dataGridView, metadataMicrosoftPhotosCopy, columnIndex, metadataMicrosoftPhotosCopy.Broker);
+                    if (metadataWebScrapingCopy != null) PopulatePeople(dataGridView, metadataWebScrapingCopy, columnIndex, metadataWebScrapingCopy.Broker);
 
                     //Remember names added
                     foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
@@ -289,6 +289,7 @@ namespace PhotoTagsSynchronizer
 
                 bool isHeaderPeopleSuggestionAdded = false;
                 regioNameSuggestions = DatabaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerType.ExifTool, (DateTime)dateTimeFrom, (DateTime)dateTimeTo);
+
                 if (regioNameSuggestions != null && regioNameSuggestions.Count > 0)
                 {
                     foreach (string regionName in regioNameSuggestions)
