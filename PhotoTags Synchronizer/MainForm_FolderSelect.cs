@@ -57,9 +57,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateImageisteViedBasedOnSearchResult(List<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
-            MetadataDatabaseCache.StopCaching = true;
-            ThumbnailDatabaseCache.StopCaching = true;
-
+            
             using (new WaitCursor())
             {
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice

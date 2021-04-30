@@ -402,9 +402,6 @@ namespace PhotoTagsSynchronizer
         //Folder selected after Form load/init, click new folder and clear cache and re-read folder
         private List<FileEntry> ImageListViewAggregateWithFilesFromFolder(string selectedFolder, bool recursive)
         {
-            MetadataDatabaseCache.StopCaching = true;
-            ThumbnailDatabaseCache.StopCaching = true;
-
             FileInfo[] filesFoundInDirectory = null;
             if (Directory.Exists(selectedFolder))
             {

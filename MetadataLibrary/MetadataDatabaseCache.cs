@@ -64,7 +64,6 @@ namespace MetadataLibrary
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
             foreach (FileInfo fileInfo in filesFoundInDirectory)
             {
-                if (StopCaching) return;
                 fileEntryBrokers.Add(new FileEntryBroker(fileInfo.FullName, fileInfo.LastWriteTime, metadataBrokerType));
             }
             ReadToCache(fileEntryBrokers);  
@@ -80,7 +79,7 @@ namespace MetadataLibrary
                 List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
                 foreach (FileInfo fileInfo in filesFoundInDirectory)
                 {
-                    if (StopCaching) return;
+                    if (StopCaching) { StopCaching = false; return; }
                     fileEntryBrokers.Add(new FileEntryBroker(MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, fileInfo.Name, (DateTime)dataSetDateTime, MetadataBrokerType.WebScraping));
                 }
                 ReadToCache(fileEntryBrokers);
@@ -97,7 +96,6 @@ namespace MetadataLibrary
                 List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
                 foreach (FileEntry fileInfo in filesFoundInDirectory)
                 {
-                    if (StopCaching) return;
                     fileEntryBrokers.Add(new FileEntryBroker(MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, fileInfo.FileName, (DateTime)dataSetDateTime, MetadataBrokerType.WebScraping));
                 }
                 ReadToCache(fileEntryBrokers);
@@ -112,7 +110,7 @@ namespace MetadataLibrary
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
             foreach (FileEntry fileEntry in filesFoundInDirectory)
             {
-                if (StopCaching) return;
+                if (StopCaching) { StopCaching = false; return; }
                 fileEntryBrokers.Add(new FileEntryBroker(fileEntry, metadataBrokerType));
             }
             ReadToCache(fileEntryBrokers);
@@ -125,7 +123,7 @@ namespace MetadataLibrary
             List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
             foreach (FileEntryBroker fileEntryBrokerToCheckInCache in fileEntriesBroker)
             {
-                if (StopCaching) return;
+                if (StopCaching) { StopCaching = false; return; }
                 Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBrokerToCheckInCache);
                 if (metadata == null) fileEntryBrokersToPutInCache.Add(fileEntryBrokerToCheckInCache);
             }
@@ -145,7 +143,7 @@ namespace MetadataLibrary
             {
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    if (StopCaching) return;
+                    if (StopCaching) { StopCaching = false; return; }
                     //commandDatabase.Prepare();
                     commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
                     commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileEntryBroker.FileFullPath));
@@ -204,7 +202,7 @@ namespace MetadataLibrary
                 //commandDatabase.Prepare();
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    if (StopCaching) return;
+                    if (StopCaching) { StopCaching = false; return; }
                     Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
                     if (metadata != null)
                     {
@@ -243,7 +241,7 @@ namespace MetadataLibrary
 
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    if (StopCaching) return;
+                    if (StopCaching) { StopCaching = false; return; }
                     Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
                     if (metadata != null)
                     {
@@ -278,7 +276,7 @@ namespace MetadataLibrary
         #region ReadToCache All Metadatas
         public void ReadToCacheAllMetadatas() //Hack to read data to cache and the database worked much faster after this
         {
-            if (StopCaching) return;
+            if (StopCaching) { StopCaching = false; return; }
             ReadToCacheWhereParameters(MetadataBrokerType.Empty, null, null, null, true);
         }
         #endregion
@@ -286,7 +284,7 @@ namespace MetadataLibrary
         #region ReadToCache- All WebScarping DataSets
         public void ReadToCacheWebScarpingDataSets()
         {
-            if (StopCaching) return;
+            if (StopCaching) { StopCaching = false; return; }
             DateTime? dataSetDateTime = GetWebScraperLastPackageDate();
             if (dataSetDateTime != null) ReadToCacheWhereParameters(MetadataBrokerType.WebScraping, MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, null, dataSetDateTime, true);
         }
@@ -385,7 +383,7 @@ namespace MetadataLibrary
         #region ReadToCache - Parameters
         public void ReadToCacheWhereParameters(MetadataBrokerType metadataBrokerType, string folder, string filename, DateTime? fileDateModified, bool readDataIntoCache = true) //Hack to read data to cache and the database worked much faster after this
         {
-            if (StopCaching) return;
+            if (StopCaching) { StopCaching = false; return; }
             ReadToCacheParameters readToCacheParamters = new ReadToCacheParameters(metadataBrokerType, folder, filename, fileDateModified);
             if (readToCacheParamtersCached.Contains(readToCacheParamters)) return;
             if (readDataIntoCache) readToCacheParamtersCached.Add(readToCacheParamters);
@@ -424,13 +422,13 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching) return;
+                        if (StopCaching) { StopCaching = false; return; }
                         readRecordEventArgs.MetadataCount++;
                         if (OnReadRecord != null) OnReadRecord(this, readRecordEventArgs);
                         
                         if (readDataIntoCache)
                         {
-                            Metadata metadata = new Metadata(MetadataBrokerType.ExifTool);
+                            Metadata metadata = new Metadata(metadataBrokerType);
 
                             metadata.Broker = (MetadataBrokerType)dbTools.ConvertFromDBValLong(reader["Broker"]);
                             metadata.FileDirectory = dbTools.ConvertFromDBValString(reader["FileDirectory"]);
@@ -486,7 +484,7 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching) return;
+                        if (StopCaching) { StopCaching = false; return; }
                         readRecordEventArgs.KeywordCount++;
                         if (OnReadRecord != null) OnReadRecord(this, readRecordEventArgs);
 
@@ -533,7 +531,7 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching) return;
+                        if (StopCaching) { StopCaching = false; return; }
                         readRecordEventArgs.RegionCount++;
                         if (OnReadRecord != null) OnReadRecord(this, readRecordEventArgs);
 
@@ -940,7 +938,7 @@ namespace MetadataLibrary
         {
             int rowsAffected = 0;
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
-                            "Broker = @Broker AND " +
+                            "(Broker & @Broker) = @Broker AND " +
                             "FileDirectory = @FileDirectory";
 
             if (fileDateModified != null) sqlCommand += " AND FileDateModified = @FileDateModified";

@@ -1047,7 +1047,7 @@ namespace DataGridViewGeneric
                         column.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&            //Correct filename on column
                         (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //Current version added, then find correct postion
                         (column.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ||              //Edit version, move to next column -> edit always first
-                        column.FileEntryAttribute.LastWriteDateTime < fileEntryAttribute.LastWriteDateTime)     //Is older, move next -> Newst always frist
+                        column.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)     //Is older, move next -> Newst always frist
                         ))
                     {
                         columnIndexFilename += 1;
@@ -1059,7 +1059,7 @@ namespace DataGridViewGeneric
                         column2.FileEntryAttribute.FileFullPath == fileEntryAttribute.FileFullPath &&           //Correct filename on column
                         (fileEntryAttribute.FileEntryVersion != FileEntryVersion.Current &&                     //History or Error column added, then find correct postion
                         (column2.FileEntryAttribute.FileEntryVersion == FileEntryVersion.Current ||             //Edit version, move to next column -> edit always first
-                        column2.FileEntryAttribute.LastWriteDateTime < fileEntryAttribute.LastWriteDateTime)    //Is older, move next -> Newst always frist
+                        column2.FileEntryAttribute.LastWriteDateTime > fileEntryAttribute.LastWriteDateTime)    //Is older, move next -> Newst always frist
                         )
                         )
                     {

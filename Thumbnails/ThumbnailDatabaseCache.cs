@@ -72,7 +72,7 @@ namespace Thumbnails
             List<FileEntry> fileEntries = new List<FileEntry>();
             foreach (FileInfo fileInfo in filesFoundInDirectory)
             {
-                if (StopCaching) return;
+                if (StopCaching) { StopCaching = false; return; }
                 fileEntries.Add(new FileEntry(fileInfo.FullName, fileInfo.LastWriteTime));
             }
             ReadToCache(fileEntries);
@@ -94,7 +94,7 @@ namespace Thumbnails
             {
                 foreach (FileEntry fileEntry in fileEntriesPutInCache)
                 {
-                    if (StopCaching) return;
+                    if (StopCaching) { StopCaching = false; return; }
                     //commandDatabase.Prepare();
                     commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
                     commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
@@ -133,7 +133,7 @@ namespace Thumbnails
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching) return;
+                        if (StopCaching) { StopCaching = false; return; }
                         FileEntry fileEntry = new FileEntry(
                             dbTools.ConvertFromDBValString(reader["FileDirectory"]),
                             dbTools.ConvertFromDBValString(reader["FileName"]),
@@ -275,6 +275,7 @@ namespace Thumbnails
         {
             thumbnailCache = null;
             thumbnailCache = new Dictionary<FileEntry, Image>();
+            readFolderToCacheCached.Clear();
         }
         #endregion 
 

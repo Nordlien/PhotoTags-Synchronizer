@@ -293,8 +293,12 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                if (MetadataDatabaseCache.StopCaching == true) return;
-                if (ThumbnailDatabaseCache.StopCaching == true) return;
+                if (MetadataDatabaseCache.StopCaching == true || ThumbnailDatabaseCache.StopCaching == true)
+                {
+                    MetadataDatabaseCache.StopCaching = false;
+                    ThumbnailDatabaseCache.StopCaching = false;
+                    return;
+                }
 
                 if (threadCacheSelectedFastRead == null)
                 {
@@ -326,8 +330,12 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                if (MetadataDatabaseCache.StopCaching == true) return;
-                if (ThumbnailDatabaseCache.StopCaching == true) return;
+                if (MetadataDatabaseCache.StopCaching == true || ThumbnailDatabaseCache.StopCaching == true)
+                {
+                    MetadataDatabaseCache.StopCaching = false; 
+                    ThumbnailDatabaseCache.StopCaching = false; 
+                    return; 
+                }
 
                 if (threadCacheFolderFastRead == null)
                 {
@@ -458,10 +466,11 @@ namespace PhotoTagsSynchronizer
 
                                 if (readColumn)
                                 {
-
-                                    if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool)) == null)
+                                    MetadataBrokerType metadataBrokerType = MetadataBrokerType.ExifTool;
+                                    if (fileEntryAttribute.FileEntryVersion == FileEntryVersion.Error) metadataBrokerType |= MetadataBrokerType.ExifToolWriteError;
+                                    if (databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(fileEntryAttribute, metadataBrokerType)) == null)
                                     {
-                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
+                                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, metadataBrokerType));
                                         //If metadata found, check if Thumnbail for regions are created, if the application stopped during this process, thumbnail missing
                                         if (metadata != null && metadata.PersonalRegionIsThumbnailMissing()) AddQueueCreateRegionFromPoster(metadata);
                                     }
@@ -811,12 +820,14 @@ namespace PhotoTagsSynchronizer
                                             databaseAndCacheMetadataExiftool.TransactionBeginBatch();
                                             databaseAndCacheMetadataExiftool.Write(metadataError);
                                             databaseAndCacheMetadataExiftool.TransactionCommitBatch();
+
+                                            PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error));
                                         }
                                     }
                                     AddQueueCreateRegionFromPoster(metadataRead);
 
-                                    FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Current);
-                                    PopulateDataGridViewForFileEntryAttributeInvoke(fileEntryAttribute);
+                                    PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Current));
+                                    PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Historical));
                                     //RefreshHeaderImageAndRegionsOnActiveDataGridView(fileEntryAttribute);
                                 }
                                 #endregion

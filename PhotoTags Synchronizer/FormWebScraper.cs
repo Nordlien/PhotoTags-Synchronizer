@@ -1417,11 +1417,14 @@ namespace PhotoTagsSynchronizer
             foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
             {
                 Metadata metadata = DatabaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(fileEntryBroker);
-                
-                if (metaDataDictionary.ContainsKey(metadata.FileName))
-                    metaDataDictionary[metadata.FileName] = Metadata.MergeMetadatas(metaDataDictionary[metadata.FileName], metadata);
-                else
-                    metaDataDictionary.Add(metadata.FileName, metadata);
+
+                if (metadata != null)
+                {
+                    if (metaDataDictionary.ContainsKey(metadata.FileName))
+                        metaDataDictionary[metadata.FileName] = Metadata.MergeMetadatas(metaDataDictionary[metadata.FileName], metadata);
+                    else
+                        metaDataDictionary.Add(metadata.FileName, metadata);
+                }
             }
 
             return metaDataDictionary;
