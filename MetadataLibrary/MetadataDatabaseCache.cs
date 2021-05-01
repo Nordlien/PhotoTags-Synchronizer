@@ -6,10 +6,8 @@ using NLog;
 using System.Data.SQLite;
 #endif
 using SqliteDatabase;
-
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -47,7 +45,12 @@ namespace MetadataLibrary
             dbTools.TransactionCommitBatch(force);
         }
 
-        #region Read
+        #region Read Metadata
+        /// <summary>
+        /// Find metadata in database or cache and return the found metadata
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns>Metadata found, null if not found</returns>
         private Metadata Read(FileEntryBroker file)
         {
             List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
@@ -569,7 +572,7 @@ namespace MetadataLibrary
 
         #endregion
 
-        #region Write
+        #region Write - Metadata
         public void Write(Metadata metadata)
         {
             if (metadata == null) throw new Exception("Error in DatabaseCache. metaData is Null. Error in code");
@@ -717,7 +720,56 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Copy
+        #region Updated - Region - UpdateRegionThumbnail
+        /// <summary>
+        /// Updated Region data for Give media file
+        /// </summary>
+        /// <param name="fileEntryBroker">Mediafile data will be updated</param>
+        /// <param name="regionStructure">New RegionStructure that will be saved</param>
+        public void UpdateRegionThumbnail(FileEntryBroker fileEntryBroker, RegionStructure regionStructure)
+        {
+            MetadataRegionCacheUpdate(fileEntryBroker, regionStructure);
+
+            string sqlCommand =
+                    "UPDATE MediaPersonalRegions " +
+                    "SET Thumbnail = @Thumbnail " +
+                    "WHERE Broker = @Broker " +
+                    "AND FileDirectory = @FileDirectory " +
+                    "AND FileName = @FileName " +
+                    "AND FileDateModified = @FileDateModified " +
+                    "AND Type = @Type " +
+                    "AND Name IS @Name " +
+                    "AND Round(AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND Round(AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
+                    "AND RegionStructureType = @RegionStructureType";
+
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                //commandDatabase.Prepare();
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
+                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
+                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
+                commandDatabase.Parameters.AddWithValue("@Type", regionStructure.Type);
+                commandDatabase.Parameters.AddWithValue("@Name", regionStructure.Name);
+                commandDatabase.Parameters.AddWithValue("@AreaX", regionStructure.AreaX);
+                commandDatabase.Parameters.AddWithValue("@AreaY", regionStructure.AreaY);
+                commandDatabase.Parameters.AddWithValue("@AreaWidth", regionStructure.AreaWidth);
+                commandDatabase.Parameters.AddWithValue("@AreaHeight", regionStructure.AreaHeight);
+                commandDatabase.Parameters.AddWithValue("@RegionStructureType", (int)regionStructure.RegionStructureType);
+
+                if (regionStructure.Thumbnail == null)
+                    commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
+                else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(regionStructure.Thumbnail));
+
+                commandDatabase.ExecuteNonQuery();
+            }
+        }
+        #endregion
+
+        #region Copy Metadata
         public void Copy(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
             MetadataCacheRemove(oldDirectory, oldFilename);
@@ -836,7 +888,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region Move
+        #region Move Metadata
         public void Move(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
             MetadataCacheRemove(oldDirectory, oldFilename);
@@ -2042,7 +2094,6 @@ namespace MetadataLibrary
 
         #endregion
 
-
         #region Cache Metadata
         private static Dictionary<FileEntryBroker, Metadata> metadataCache = new Dictionary<FileEntryBroker, Metadata>();
         private static readonly Object metadataCacheLock = new Object();
@@ -2060,8 +2111,6 @@ namespace MetadataLibrary
             MetadataCacheUpdate(fileEntryBroker, metadata);
             return metadata;
         }
-
-        
         #endregion
 
         #region Cache Metadata - Read - CacheOnly
@@ -2107,6 +2156,39 @@ namespace MetadataLibrary
             } 
         }
         #endregion
+
+        #region Cache Metadata - Updated Region
+        /// <summary>
+        /// Find correct Metadata in cache, find and updated the Region in cache
+        /// </summary>
+        /// <param name="fileEntryBroker">Index of metadata to search for in cache</param>
+        /// <param name="regionStructure">New region data</param>
+        private void MetadataRegionCacheUpdate(FileEntryBroker fileEntryBroker, RegionStructure regionStructure)
+        {
+            Metadata metadataInCache = ReadMetadataFromCacheOnly(fileEntryBroker);
+            if (metadataInCache != null)
+            {
+                lock (metadataCacheLock)
+                {
+                    int indexRegionFound = -1;
+                    for (int indexRegion = 0; indexRegion < metadataInCache.PersonalRegionList.Count; indexRegion++)
+                    {
+                        if (regionStructure == metadataInCache.PersonalRegionList[indexRegion])
+                        {
+                            indexRegionFound = indexRegion;
+                            break;
+                        }
+                    }
+                    if (indexRegionFound >= 0)
+                    {
+
+                        metadataInCache.PersonalRegionList.RemoveAt(indexRegionFound);
+                        metadataInCache.PersonalRegionList.Add(new RegionStructure(regionStructure));
+                    }
+                }
+            }
+        }
+        #endregion 
 
         #endregion
 

@@ -311,49 +311,5 @@ namespace Thumbnails
         #endregion
 
 
-        #region Region - UpdateRegionThumbnail
-        public void UpdateRegionThumbnail(FileEntryBroker file, RegionStructure region)
-        {
-            //ThumnbailCacheRemove(file);
-
-            string sqlCommand =
-                    "UPDATE MediaPersonalRegions " +
-                    "SET Thumbnail = @Thumbnail " +
-                    "WHERE Broker = @Broker " +
-                    "AND FileDirectory = @FileDirectory " +
-                    "AND FileName = @FileName " +
-                    "AND FileDateModified = @FileDateModified " +
-                    "AND Type = @Type " +
-                    "AND Name IS @Name " +
-                    "AND Round(AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaX, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND Round(AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaY, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND Round(AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaWidth, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND Round(AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") = Round(@AreaHeight, " + SqliteDatabase.SqliteDatabaseUtilities.NumberOfDecimals + ") " +
-                    "AND RegionStructureType = @RegionStructureType";
-
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)file.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", file.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", file.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(file.LastWriteDateTime));
-                commandDatabase.Parameters.AddWithValue("@Type", region.Type);
-                commandDatabase.Parameters.AddWithValue("@Name", region.Name);
-                commandDatabase.Parameters.AddWithValue("@AreaX", region.AreaX);
-                commandDatabase.Parameters.AddWithValue("@AreaY", region.AreaY);
-                commandDatabase.Parameters.AddWithValue("@AreaWidth", region.AreaWidth);
-                commandDatabase.Parameters.AddWithValue("@AreaHeight", region.AreaHeight);
-                commandDatabase.Parameters.AddWithValue("@RegionStructureType", (int)region.RegionStructureType);
-
-                if (region.Thumbnail == null)
-                    commandDatabase.Parameters.AddWithValue("@Thumbnail", DBNull.Value);
-                else commandDatabase.Parameters.AddWithValue("@Thumbnail", dbTools.ImageToByteArray(region.Thumbnail));
-
-                commandDatabase.ExecuteNonQuery();
-            }
-        }
-        #endregion
-
     }
 }
