@@ -117,39 +117,42 @@ namespace PhotoTagsSynchronizer
         #region Save - SaveProperties
         private void SaveProperties()
         {
-            DataGridView dataGridView = dataGridViewProperties;
-            int columnCount = DataGridViewHandler.GetColumnCount(dataGridView);
-            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+            using (new WaitCursor())
             {
-                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-                if (dataGridViewGenericColumn != null)
+                DataGridView dataGridView = dataGridViewProperties;
+                int columnCount = DataGridViewHandler.GetColumnCount(dataGridView);
+                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                 {
-                    try
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                    if (dataGridViewGenericColumn != null)
                     {
-                        DataGridViewHandlerProperties.Write(dataGridView, columnIndex);
-                    }
-                    catch (Exception ex)
-                    {
-                        string writeErrorDesciption =
-                            "Error writing properties to file.\r\n\r\n" +
-                            "File: " + dataGridViewGenericColumn.FileEntryAttribute.FileFullPath + "\r\n\r\n" +
-                            "Error message: " + ex.Message + "\r\n";
+                        try
+                        {
+                            DataGridViewHandlerProperties.Write(dataGridView, columnIndex);
+                        }
+                        catch (Exception ex)
+                        {
+                            string writeErrorDesciption =
+                                "Error writing properties to file.\r\n\r\n" +
+                                "File: " + dataGridViewGenericColumn.FileEntryAttribute.FileFullPath + "\r\n\r\n" +
+                                "Error message: " + ex.Message + "\r\n";
 
-                        AddError(
-                            dataGridViewGenericColumn.FileEntryAttribute.Directory,
-                            dataGridViewGenericColumn.FileEntryAttribute.FileName,
-                            dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime,
-                            AddErrorPropertiesRegion, AddErrorPropertiesCommandWrite, AddErrorPropertiesParameterWrite, AddErrorPropertiesParameterWrite,
-                            writeErrorDesciption);
-                        Logger.Error(ex.Message);
+                            AddError(
+                                dataGridViewGenericColumn.FileEntryAttribute.Directory,
+                                dataGridViewGenericColumn.FileEntryAttribute.FileName,
+                                dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime,
+                                AddErrorPropertiesRegion, AddErrorPropertiesCommandWrite, AddErrorPropertiesParameterWrite, AddErrorPropertiesParameterWrite,
+                                writeErrorDesciption);
+                            Logger.Error(ex.Message);
+                        }
                     }
                 }
-            }
 
-            GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-            //ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
-            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
-            FilesSelected();
+                GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+                //ImageListViewReloadThumbnailInvoke(imageListView1, null); //Why null
+                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+                FilesSelected();
+            }
         }
         #endregion
 
@@ -167,36 +170,40 @@ namespace PhotoTagsSynchronizer
             saveFileDialog1.RestoreDirectory = true;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                string outputFile = saveFileDialog1.FileName;
-
-                DataGridView dataGridView = dataGridViewConvertAndMerge;
-                DataGridViewHandlerConvertAndMerge.Write(dataGridView,
-                    Properties.Settings.Default.ConvertAndMergeExecute,
-                    Properties.Settings.Default.ConvertAndMergeMusic,
-                    (int)Properties.Settings.Default.ConvertAndMergeImageDuration,
-                    (int)Properties.Settings.Default.ConvertAndMergeOutputWidth,
-                    (int)Properties.Settings.Default.ConvertAndMergeOutputHeight,
-                    Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension,
-
-                    Properties.Settings.Default.ConvertAndMergeConcatVideosArguments,
-                    Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile,
-
-                    Properties.Settings.Default.ConvertAndMergeConcatImagesArguments,
-                    Properties.Settings.Default.ConvertAndMergeConcatImagesArguFile,
-
-                    Properties.Settings.Default.ConvertAndMergeConvertVideosArguments,
-                    outputFile);
-
-                GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
-
-                bool found = false;
-                try
+                using (new WaitCursor())
                 {
-                    if (File.Exists(outputFile) && new FileInfo(outputFile).Length > 0) found = true;
-                } catch
-                {
+                    string outputFile = saveFileDialog1.FileName;
+
+                    DataGridView dataGridView = dataGridViewConvertAndMerge;
+                    DataGridViewHandlerConvertAndMerge.Write(dataGridView,
+                        Properties.Settings.Default.ConvertAndMergeExecute,
+                        Properties.Settings.Default.ConvertAndMergeMusic,
+                        (int)Properties.Settings.Default.ConvertAndMergeImageDuration,
+                        (int)Properties.Settings.Default.ConvertAndMergeOutputWidth,
+                        (int)Properties.Settings.Default.ConvertAndMergeOutputHeight,
+                        Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension,
+
+                        Properties.Settings.Default.ConvertAndMergeConcatVideosArguments,
+                        Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile,
+
+                        Properties.Settings.Default.ConvertAndMergeConcatImagesArguments,
+                        Properties.Settings.Default.ConvertAndMergeConcatImagesArguFile,
+
+                        Properties.Settings.Default.ConvertAndMergeConvertVideosArguments,
+                        outputFile);
+
+                    GlobalData.SetDataNotAgreegatedOnGridViewForAnyTabs();
+
+                    bool found = false;
+                    try
+                    {
+                        if (File.Exists(outputFile) && new FileInfo(outputFile).Length > 0) found = true;
+                    }
+                    catch
+                    {
+                    }
+                    if (found) ImageListViewAddItem(outputFile);
                 }
-                if (found) ImageListViewAddItem(outputFile);
             }
 
 
@@ -210,30 +217,32 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsSaveButtonPushed) return;
             GlobalData.IsSaveButtonPushed = true;
             this.Enabled = false;
-
-            switch (GetActiveTabTag())
+            using (new WaitCursor())
             {
-                case "ExifTool":
-                case "Warning":
-                    //Nothing
-                    break;
-                case "Tags":
-                case "Map":
-                case "People":
-                case "Date":
-                    SaveDataGridViewMetadata();
-                    GlobalData.IsAgregatedProperties = false;
-                    break;
-                case "Properties":
-                    SaveProperties();
-                    break;
-                case "Rename":
-                    MessageBox.Show("Not implemented");
-                    break;
-                case "ConvertAndMerge":
-                    SaveConvertAndMerge();
+                switch (GetActiveTabTag())
+                {
+                    case "ExifTool":
+                    case "Warning":
+                        //Nothing
+                        break;
+                    case "Tags":
+                    case "Map":
+                    case "People":
+                    case "Date":
+                        SaveDataGridViewMetadata();
+                        GlobalData.IsAgregatedProperties = false;
+                        break;
+                    case "Properties":
+                        SaveProperties();
+                        break;
+                    case "Rename":
+                        MessageBox.Show("Not implemented");
+                        break;
+                    case "ConvertAndMerge":
+                        SaveConvertAndMerge();
 
-                    break;
+                        break;
+                }
             }
             GlobalData.IsSaveButtonPushed = false;
         }
@@ -307,10 +316,12 @@ namespace PhotoTagsSynchronizer
             if (showLocationForm)
             {
                 LocationHistoryImportForm form = new LocationHistoryImportForm();
-                form.databaseTools = databaseUtilitiesSqliteMetadata;
-                form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
-                form.Init();
-
+                using (new WaitCursor())
+                {
+                    form.databaseTools = databaseUtilitiesSqliteMetadata;
+                    form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
+                    form.Init();
+                }
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
@@ -327,6 +338,7 @@ namespace PhotoTagsSynchronizer
         {
             PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
             folderTreeViewFolder.Focus();
+
         }
         #endregion
 
@@ -334,7 +346,10 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemSelectAll_Click(object sender, EventArgs e)
         {
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-            imageListView1.SelectAll();
+            using (new WaitCursor())
+            {
+                imageListView1.SelectAll();
+            }
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
             FilesSelected();
         }
@@ -664,16 +679,19 @@ namespace PhotoTagsSynchronizer
         {
             using (Config config = new Config())
             {
-                LocationNameLookUpCache databaseLocationNames = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
+                using (new WaitCursor())
+                {
+                    LocationNameLookUpCache databaseLocationNames = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
 
-                exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
-                config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
-                config.ThumbnailSizes = thumbnailSizes;
-                config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
-                config.DatabaseLocationNames = databaseLocationNames;
-                config.DatabaseAndCacheLocationAddress = databaseLocationAddress; 
-                config.DatabaseUtilitiesSqliteMetadata = databaseUtilitiesSqliteMetadata;
-                config.Init();
+                    exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
+                    config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
+                    config.ThumbnailSizes = thumbnailSizes;
+                    config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
+                    config.DatabaseLocationNames = databaseLocationNames;
+                    config.DatabaseAndCacheLocationAddress = databaseLocationAddress;
+                    config.DatabaseUtilitiesSqliteMetadata = databaseUtilitiesSqliteMetadata;
+                    config.Init();
+                }
                 if (config.ShowDialog() != DialogResult.Cancel)
                 {
                     ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
@@ -975,19 +993,22 @@ namespace PhotoTagsSynchronizer
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 
             folderTreeViewFolder.Enabled = false;
-
-            ImageListViewSuspendLayoutInvoke(imageListView1);
-            filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
-            filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
-
+            using (new WaitCursor())
+            {
+                ImageListViewSuspendLayoutInvoke(imageListView1);
+                filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
+                filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
+            }
             folderTreeViewFolder.Enabled = true;
 
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
             GlobalData.IsPopulatingButtonAction = false;
             GlobalData.IsPopulatingImageListView = false;
-
-            FilesSelected();
-            ImageListViewResumeLayoutInvoke(imageListView1);
+            using (new WaitCursor())
+            {
+                FilesSelected();
+                ImageListViewResumeLayoutInvoke(imageListView1);
+            }
 
             DataGridView dataGridView = GetActiveTabDataGridView();
             if (dataGridView != null) DataGridViewHandler.Focus(dataGridView);
@@ -1005,19 +1026,23 @@ namespace PhotoTagsSynchronizer
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 
             folderTreeViewFolder.Enabled = false;
-
-            ImageListViewSuspendLayoutInvoke(imageListView1);
-            filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
-            filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
-
+            using (new WaitCursor())
+            {
+                ImageListViewSuspendLayoutInvoke(imageListView1);
+                filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
+                filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
+            }
             folderTreeViewFolder.Enabled = true;
 
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
             GlobalData.IsPopulatingButtonAction = false;
             GlobalData.IsPopulatingImageListView = false;
 
-            FilesSelected();
-            ImageListViewResumeLayoutInvoke(imageListView1);
+            using (new WaitCursor())
+            {
+                FilesSelected();
+                ImageListViewResumeLayoutInvoke(imageListView1);
+            }
 
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
@@ -1027,9 +1052,12 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Delete Metadata Hirstory - Selected Items - Click
         private void toolStripMenuItemReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory_Click(object sender, EventArgs e)
         {
-            filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(folderTreeViewFolder, imageListView1);
-            FilesSelected();
-            DisplayAllQueueStatus();
+            using (new WaitCursor())
+            {
+                filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(folderTreeViewFolder, imageListView1);
+                FilesSelected();
+                DisplayAllQueueStatus();
+            }
             imageListView1.Focus();
         }
         #endregion
@@ -1046,15 +1074,19 @@ namespace PhotoTagsSynchronizer
                 "You are going to delete all metadata in folder",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                filesCutCopyPasteDrag.DeleteDirectory(folder);
+                using (new WaitCursor())
+                {
+                    filesCutCopyPasteDrag.DeleteDirectory(folder);
+                }
             }
+            using (new WaitCursor())
+            {
+                ImageListViewClearThumbnailCache(imageListView1);
+                imageListView1.Refresh();
 
-            ImageListViewClearThumbnailCache(imageListView1);
-            imageListView1.Refresh();
-
-            Application.DoEvents();
-            _ = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
-
+                Application.DoEvents();
+                _ = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
+            }
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
@@ -1069,8 +1101,11 @@ namespace PhotoTagsSynchronizer
 
             if (MessageBox.Show("Are you sure you will delete the files", "Files will be deleted!", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                filesCutCopyPasteDrag.DeleteSelectedFiles(imageListView1);
-                FilesSelected();
+                using (new WaitCursor())
+                {
+                    filesCutCopyPasteDrag.DeleteSelectedFiles(imageListView1);
+                    FilesSelected();
+                }
             }
 
             folderTreeViewFolder.Enabled = true;
@@ -1120,8 +1155,11 @@ namespace PhotoTagsSynchronizer
                     "There are " + (fileAndFolderEntriesCount.Length == 51 ? " over 50+" : fileAndFolderEntriesCount.Length.ToString()) + " files found.\r\n\r\n" +
                     "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
-                    filesCutCopyPasteDrag.DeleteFilesInFolder(folderTreeViewFolder, folder);
-                    PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
+                    using (new WaitCursor())
+                    {
+                        filesCutCopyPasteDrag.DeleteFilesInFolder(folderTreeViewFolder, folder);
+                        PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
+                    }
                 }
             }
             catch (Exception ex)
@@ -1147,16 +1185,17 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemImageListViewCut_Click(object sender, EventArgs e)
         {
             var droplist = new StringCollection();
+            using (new WaitCursor())
+            {
+                foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
 
-            foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
+                DataObject data = new DataObject();
+                data.SetFileDropList(droplist);
+                data.SetData("Preferred DropEffect", DragDropEffects.Move);
 
-            DataObject data = new DataObject();
-            data.SetFileDropList(droplist);
-            data.SetData("Preferred DropEffect", DragDropEffects.Move);
-
-            Clipboard.Clear();
-            Clipboard.SetDataObject(data, true);
-
+                Clipboard.Clear();
+                Clipboard.SetDataObject(data, true);
+            }
             imageListView1.Focus();
         }
         #endregion 
@@ -1165,15 +1204,17 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemImageListViewCopy_Click(object sender, EventArgs e)
         {
             StringCollection droplist = new StringCollection();
-            foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
+            using (new WaitCursor())
+            {
+                foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
 
-            DataObject data = new DataObject();
-            data.SetFileDropList(droplist);
-            data.SetData("Preferred DropEffect", DragDropEffects.Copy);
+                DataObject data = new DataObject();
+                data.SetFileDropList(droplist);
+                data.SetData("Preferred DropEffect", DragDropEffects.Copy);
 
-            Clipboard.Clear();
-            Clipboard.SetDataObject(data, true);
-
+                Clipboard.Clear();
+                Clipboard.SetDataObject(data, true);
+            }
             imageListView1.Focus();
         }
         #endregion 
@@ -1182,21 +1223,24 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemImageListViewPaste_Click(object sender, EventArgs e)
         {
             StringCollection files = Clipboard.GetFileDropList();
-            foreach (string fullFilename in files)
+            using (new WaitCursor())
             {
-                bool fileFound = false;
-
-
-                foreach (ImageListViewItem item in imageListView1.Items)
+                foreach (string fullFilename in files)
                 {
-                    if (item.FileFullPath == fullFilename)
-                    {
-                        fileFound = true;
-                        break;
-                    }
-                }
+                    bool fileFound = false;
 
-                if (!fileFound) imageListView1.Items.Add(fullFilename);
+
+                    foreach (ImageListViewItem item in imageListView1.Items)
+                    {
+                        if (item.FileFullPath == fullFilename)
+                        {
+                            fileFound = true;
+                            break;
+                        }
+                    }
+
+                    if (!fileFound) imageListView1.Items.Add(fullFilename);
+                }
             }
             imageListView1.Focus();
         }
@@ -1225,15 +1269,17 @@ namespace PhotoTagsSynchronizer
         {
             string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
             var droplist = new StringCollection();
-            droplist.Add(folder);
+            using (new WaitCursor())
+            {
+                droplist.Add(folder);
 
-            DataObject data = new DataObject();
-            data.SetFileDropList(droplist);
-            data.SetData("Preferred DropEffect", DragDropEffects.Move);
+                DataObject data = new DataObject();
+                data.SetFileDropList(droplist);
+                data.SetData("Preferred DropEffect", DragDropEffects.Move);
 
-            Clipboard.Clear();
-            Clipboard.SetDataObject(data, true);
-
+                Clipboard.Clear();
+                Clipboard.SetDataObject(data, true);
+            }
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -1243,15 +1289,17 @@ namespace PhotoTagsSynchronizer
         {
             string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
             StringCollection droplist = new StringCollection();
-            droplist.Add(folder);
+            using (new WaitCursor())
+            {
+                droplist.Add(folder);
 
-            DataObject data = new DataObject();
-            data.SetFileDropList(droplist);
-            data.SetData("Preferred DropEffect", DragDropEffects.Copy);
+                DataObject data = new DataObject();
+                data.SetFileDropList(droplist);
+                data.SetData("Preferred DropEffect", DragDropEffects.Copy);
 
-            Clipboard.Clear();
-            Clipboard.SetDataObject(data, true);
-
+                Clipboard.Clear();
+                Clipboard.SetDataObject(data, true);
+            }
             folderTreeViewFolder.Focus();
         }
         #endregion 
@@ -1260,8 +1308,11 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemTreeViewFolderPaste_Click(object sender, EventArgs e)
         {
             DragDropEffects dragDropEffects = DetectCopyOrMove();
-            CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
-            folderTreeViewFolder.Focus();
+            using (new WaitCursor())
+            {
+                CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
+                folderTreeViewFolder.Focus();
+            }
         }
         #endregion
 
@@ -1270,7 +1321,6 @@ namespace PhotoTagsSynchronizer
         {
             if (GlobalData.IsDragAndDropActive) return;
             if (GlobalData.DoNotRefreshImageListView) return;
-
             PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
         }
         #endregion 

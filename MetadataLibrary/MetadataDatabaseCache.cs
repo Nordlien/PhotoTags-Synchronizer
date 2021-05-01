@@ -2181,9 +2181,8 @@ namespace MetadataLibrary
                     }
                     if (indexRegionFound >= 0)
                     {
-
                         metadataInCache.PersonalRegionList.RemoveAt(indexRegionFound);
-                        metadataInCache.PersonalRegionList.Add(new RegionStructure(regionStructure));
+                        metadataInCache.PersonalRegionList.Insert(indexRegionFound, new RegionStructure(regionStructure));
                     }
                 }
             }

@@ -16,35 +16,38 @@ namespace PhotoTagsSynchronizer
         #region Copy files
         private void CopyFiles(FolderTreeView folderTreeView, StringCollection files, string targetNodeDirectory)
         {
-            foreach (string oldPath in files) //Move all files to target directory 
+            using (new WaitCursor())
             {
-                string sourceFullFilename = oldPath;
-                string filename = Path.GetFileName(sourceFullFilename);
-                string targetFullFilename = Path.Combine(targetNodeDirectory, filename);
+                foreach (string oldPath in files) //Move all files to target directory 
+                {
+                    string sourceFullFilename = oldPath;
+                    string filename = Path.GetFileName(sourceFullFilename);
+                    string targetFullFilename = Path.Combine(targetNodeDirectory, filename);
 
-                try
-                {
-                    filesCutCopyPasteDrag.CopyFile(sourceFullFilename, targetFullFilename);
-                }
-                catch (Exception ex)
-                {
-                    DateTime dateTimeLastWriteTime = DateTime.Now;
                     try
                     {
-                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                        filesCutCopyPasteDrag.CopyFile(sourceFullFilename, targetFullFilename);
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        DateTime dateTimeLastWriteTime = DateTime.Now;
+                        try
+                        {
+                            dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                        }
+                        catch { }
 
-                    AddError(
-                        Path.GetDirectoryName(sourceFullFilename),
-                        Path.GetFileName(sourceFullFilename),
-                        dateTimeLastWriteTime, sourceFullFilename, targetFullFilename,
-                        AddErrorFileSystemRegion, AddErrorFileSystemCopy,
-                        "Failed copying file.\r\n\r\n" +
-                        "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
-                        "To file: " + targetFullFilename + "\r\n\r\n" +
-                        "Error message: " + ex.Message + "\r\n");
-                    Logger.Error("Error when copy file." + ex.Message);
+                        AddError(
+                            Path.GetDirectoryName(sourceFullFilename),
+                            Path.GetFileName(sourceFullFilename),
+                            dateTimeLastWriteTime, sourceFullFilename, targetFullFilename,
+                            AddErrorFileSystemRegion, AddErrorFileSystemCopy,
+                            "Failed copying file.\r\n\r\n" +
+                            "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
+                            "To file: " + targetFullFilename + "\r\n\r\n" +
+                            "Error message: " + ex.Message + "\r\n");
+                        Logger.Error("Error when copy file." + ex.Message);
+                    }
                 }
             }
 
@@ -120,42 +123,45 @@ namespace PhotoTagsSynchronizer
             }
 
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-            imageListView.SuspendLayout();
-
-            foreach (string oldPath in files) //Move all files to target directory 
+            using (new WaitCursor())
             {
-                string sourceFullFilename = oldPath;
-                string filename = Path.GetFileName(sourceFullFilename);
-                string targetFullFilename = Path.Combine(targetNodeDirectory, filename);
-                try
-                {
-                    filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+                imageListView.SuspendLayout();
 
-                    ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, sourceFullFilename);
-                    if (foundItem != null) imageListView.Items.Remove(foundItem);
-                }
-                catch (Exception ex)
+                foreach (string oldPath in files) //Move all files to target directory 
                 {
-
-                    DateTime dateTimeLastWriteTime = DateTime.Now;
+                    string sourceFullFilename = oldPath;
+                    string filename = Path.GetFileName(sourceFullFilename);
+                    string targetFullFilename = Path.Combine(targetNodeDirectory, filename);
                     try
                     {
-                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                        filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+
+                        ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, sourceFullFilename);
+                        if (foundItem != null) imageListView.Items.Remove(foundItem);
                     }
-                    catch { }
-                    AddError(
-                        Path.GetDirectoryName(sourceFullFilename),
-                        Path.GetFileName(sourceFullFilename),
-                        dateTimeLastWriteTime,
-                        AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
-                        "Failed moving file.\r\n\r\n" +
-                        "From:" + sourceFullFilename + "\r\n\r\n" +
-                        "To: " + targetFullFilename + "\r\n\r\n" +
-                        "Error message: " + ex.Message + "\r\n");
-                    Logger.Error("Error when move file." + ex.Message);
+                    catch (Exception ex)
+                    {
+
+                        DateTime dateTimeLastWriteTime = DateTime.Now;
+                        try
+                        {
+                            dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                        }
+                        catch { }
+                        AddError(
+                            Path.GetDirectoryName(sourceFullFilename),
+                            Path.GetFileName(sourceFullFilename),
+                            dateTimeLastWriteTime,
+                            AddErrorFileSystemRegion, AddErrorFileSystemMove, sourceFullFilename, targetFullFilename,
+                            "Failed moving file.\r\n\r\n" +
+                            "From:" + sourceFullFilename + "\r\n\r\n" +
+                            "To: " + targetFullFilename + "\r\n\r\n" +
+                            "Error message: " + ex.Message + "\r\n");
+                        Logger.Error("Error when move file." + ex.Message);
+                    }
                 }
+                imageListView.ResumeLayout();
             }
-            imageListView.ResumeLayout();
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
 
             GlobalData.DoNotRefreshImageListView = true;
@@ -175,29 +181,30 @@ namespace PhotoTagsSynchronizer
             try
             {
                 string[] allSourceFullFilenames = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
-
-                //----- Move all folder and files -----
-                Logger.Trace("Move folder from:" + sourceDirectory + " to: " + targetDirectory);
-                System.IO.Directory.Move(sourceDirectory, targetDirectory);
-
-                //------ Clear ImageListView -----
-                ImageListViewClearAll(imageListView1);
-
-                //------ Update node tree -----
-                GlobalData.DoNotRefreshImageListView = true;
-                if (sourceNode != null) sourceNode.Remove();
-                filesCutCopyPasteDrag.RefeshFolderTree(folderTreeView, targetNode);
-                GlobalData.DoNotRefreshImageListView = false;
-
-                //------ Update database -----
-                foreach (string oldFullFilename in allSourceFullFilenames)
+                using (new WaitCursor())
                 {
-                    string oldFilename = Path.GetFileName(oldFullFilename);
-                    string newFullFilename = Path.Combine(targetDirectory, oldFilename);
-                    Logger.Trace("Rename from:" + oldFullFilename + " to: " + newFullFilename);
-                    databaseAndCacheMetadataExiftool.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
-                }
+                    //----- Move all folder and files -----
+                    Logger.Trace("Move folder from:" + sourceDirectory + " to: " + targetDirectory);
+                    System.IO.Directory.Move(sourceDirectory, targetDirectory);
 
+                    //------ Clear ImageListView -----
+                    ImageListViewClearAll(imageListView1);
+
+                    //------ Update node tree -----
+                    GlobalData.DoNotRefreshImageListView = true;
+                    if (sourceNode != null) sourceNode.Remove();
+                    filesCutCopyPasteDrag.RefeshFolderTree(folderTreeView, targetNode);
+                    GlobalData.DoNotRefreshImageListView = false;
+
+                    //------ Update database -----
+                    foreach (string oldFullFilename in allSourceFullFilenames)
+                    {
+                        string oldFilename = Path.GetFileName(oldFullFilename);
+                        string newFullFilename = Path.Combine(targetDirectory, oldFilename);
+                        Logger.Trace("Rename from:" + oldFullFilename + " to: " + newFullFilename);
+                        databaseAndCacheMetadataExiftool.Move(Path.GetDirectoryName(oldFullFilename), Path.GetFileName(oldFullFilename), Path.GetDirectoryName(newFullFilename), Path.GetFileName(newFullFilename));
+                    }
+                }
                 //----- Updated ImageListView with files ------
                 PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
 
@@ -242,38 +249,40 @@ namespace PhotoTagsSynchronizer
                         "Error message: " + ex.Message + "\r\n");
                 }
             }
-
-            //Copy all the files & Replaces any files with the same name
-            foreach (string sourceFullFilename in allSourceFullFilenames)
+            using (new WaitCursor())
             {
-                string sourceFilename = Path.GetFileName(sourceFullFilename);
-                string targetFullFilename = Path.Combine(tagretDirectory, sourceFilename);
-                try
+                //Copy all the files & Replaces any files with the same name
+                foreach (string sourceFullFilename in allSourceFullFilenames)
                 {
-                    Logger.Trace("Copy from:" + sourceFullFilename + " to: " + targetFullFilename);
-                    File.Copy(sourceFullFilename, sourceFullFilename.Replace(sourceDirectory, tagretDirectory), false);
-
-                    databaseAndCacheMetadataExiftool.Copy(
-                        Path.GetDirectoryName(sourceFullFilename), Path.GetFileName(sourceFullFilename),
-                        Path.GetDirectoryName(targetFullFilename), Path.GetFileName(targetFullFilename));
-                }
-                catch (SystemException ex)
-                {
-                    DateTime dateTimeLastWriteTime = DateTime.Now;
+                    string sourceFilename = Path.GetFileName(sourceFullFilename);
+                    string targetFullFilename = Path.Combine(tagretDirectory, sourceFilename);
                     try
                     {
-                        dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                        Logger.Trace("Copy from:" + sourceFullFilename + " to: " + targetFullFilename);
+                        File.Copy(sourceFullFilename, sourceFullFilename.Replace(sourceDirectory, tagretDirectory), false);
+
+                        databaseAndCacheMetadataExiftool.Copy(
+                            Path.GetDirectoryName(sourceFullFilename), Path.GetFileName(sourceFullFilename),
+                            Path.GetDirectoryName(targetFullFilename), Path.GetFileName(targetFullFilename));
                     }
-                    catch { }
-                    AddError(
-                        Path.GetDirectoryName(sourceFullFilename),
-                        Path.GetFileName(sourceFullFilename),
-                        dateTimeLastWriteTime,
-                        AddErrorFileSystemRegion, AddErrorFileSystemCopy, sourceFullFilename, targetFullFilename,
-                        "Failed copying file.\r\n\r\n" +
-                        "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
-                        "To file: " + targetFullFilename + "\r\n\r\n" +
-                        "Error message: " + ex.Message + "\r\n");
+                    catch (SystemException ex)
+                    {
+                        DateTime dateTimeLastWriteTime = DateTime.Now;
+                        try
+                        {
+                            dateTimeLastWriteTime = File.GetLastWriteTime(sourceFullFilename);
+                        }
+                        catch { }
+                        AddError(
+                            Path.GetDirectoryName(sourceFullFilename),
+                            Path.GetFileName(sourceFullFilename),
+                            dateTimeLastWriteTime,
+                            AddErrorFileSystemRegion, AddErrorFileSystemCopy, sourceFullFilename, targetFullFilename,
+                            "Failed copying file.\r\n\r\n" +
+                            "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
+                            "To file: " + targetFullFilename + "\r\n\r\n" +
+                            "Error message: " + ex.Message + "\r\n");
+                    }
                 }
             }
 

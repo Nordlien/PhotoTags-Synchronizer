@@ -49,50 +49,6 @@ namespace PhotoTagsSynchronizer
             Cursor = Cursors.Default;
         }
 
-        /*
-        private void btCompare_Click(object sender, EventArgs e)
-        {
-            if (!File.Exists(tbFirstFile.Text) && !File.Exists(tbSecondFile.Text))
-            {
-                MessageBox.Show(this, "Please select a valid file", "Invalid file");
-                return;
-            }
-
-            fctb1.Clear();
-            fctb2.Clear();
-
-            Cursor = Cursors.WaitCursor;
-
-            if (Path.GetExtension(tbFirstFile.Text).ToLower() == ".cs")
-                fctb1.Language = fctb2.Language = Language.CSharp;
-            else
-                fctb1.Language = fctb2.Language = Language.Custom;
-
-            var source1 = Lines.Load(tbFirstFile.Text);
-            var source2 = Lines.Load(tbSecondFile.Text);
-
-            source1.Merge(source2);
-
-            BeginUpdate();
-
-            Process(source1);
-
-            EndUpdate();
-
-            Cursor = Cursors.Default;
-        }
-
-        private void btSecond_Click(object sender, EventArgs e)
-        {
-            if (ofdFile.ShowDialog() == DialogResult.OK) tbSecondFile.Text = ofdFile.FileName;
-        }
-
-        private void btFirst_Click(object sender, EventArgs e)
-        {
-            if (ofdFile.ShowDialog() == DialogResult.OK) tbFirstFile.Text = ofdFile.FileName;
-        }
-        */
-
         void tb_VisibleRangeChanged(object sender, EventArgs e)
         {
             if (updating > 0)

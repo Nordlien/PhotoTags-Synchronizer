@@ -1368,13 +1368,15 @@ namespace PhotoTagsSynchronizer
                                     fileEntryRegion = new FileEntry(commonQueueReadPosterAndSaveFaceThumbnails[0].FileEntryBroker);                                                                
                                 }
 
-                                bool foundFile = false;
+                                bool fileFoundNeedCheckForMore = false;
+                                bool fileFoundInList = false;
+
                                 do //Remove all with same filename in the queue
                                 {
-                                    foundFile = false;
+                                    fileFoundNeedCheckForMore = false;
+                                    
                                     //Check Exiftool, Microsoft Phontos, Windows Live Photo Gallery in queue also
 
-                                    
                                     Image image = null; //No image loaded
                                     for (int thumbnailIndex = 0; thumbnailIndex < queueCount; thumbnailIndex++)
                                     {
@@ -1383,11 +1385,13 @@ namespace PhotoTagsSynchronizer
                                         {
                                             metadataActiveCopy = new Metadata(commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex]);
                                         }
+
                                         //Find current file entry in queue, Exiftool, Microsoft Photos, Windows Live Gallery, etc...
                                         if (metadataActiveCopy.FileFullPath == fileEntryRegion.FileFullPath &&
                                             metadataActiveCopy.FileDateModified == fileEntryRegion.LastWriteDateTime)
                                         {
-
+                                            fileFoundNeedCheckForMore = true;
+                                            fileFoundInList = true;
                                             //When found entry, check if has Face Regions to save
                                             if (metadataActiveCopy.PersonalRegionList.Count > 0)
                                             {
@@ -1397,7 +1401,6 @@ namespace PhotoTagsSynchronizer
                                                 //If not file exist anymore, date will become {01.01.1601 01:00:00}
                                                 if (File.Exists(fileEntryRegion.FileFullPath) && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
                                                 {
-
                                                     if (image == null) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, true); //Only load once when found
 
                                                     if (image != null) //If still Failed load cover art, often occur after filed is moved or deleted
@@ -1405,27 +1408,44 @@ namespace PhotoTagsSynchronizer
                                                         databaseAndCacheThumbnail.TransactionBeginBatch(); //Only load image when regions found
                                                         //Metadata found and updated, updated DataGricView                                             
                                                         RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, metadataActiveCopy, image);
-                                                        
-                                                        foundFile = true;
+
+                                                        fileFoundInList = true;
                                                         databaseAndCacheThumbnail.TransactionCommitBatch();
 
                                                         PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntryRegion, FileEntryVersion.Current)); //Updated Gridview
-
                                                     }
-                                                    else Logger.Error("ThreadReadMediaPosterSaveRegions failed to create 'face' region thumbails from file. File:" + metadataActiveCopy.FileName);
+                                                    else
+                                                    {
+                                                        fileFoundInList = false;
+
+                                                        string writeErrorDesciption = "Failed loading file. Was not able to update thumbnail for region for the file:" + fileEntryRegion.FileFullPath;
+                                                        Logger.Error(writeErrorDesciption);
+
+                                                        AddError(
+                                                            fileEntryRegion.Directory,
+                                                            fileEntryRegion.FileName,
+                                                            fileEntryRegion.LastWriteDateTime,
+                                                            AddErrorFileSystemRegion, AddErrorFileSystemRead,
+                                                            AddErrorFileSystemRead, AddErrorFileSystemRead,
+                                                            writeErrorDesciption);
+                                                    }
                                                 }
                                                 //else Logger.Info("Don't load posters when request are with Diffrent LastWrittenDateTime:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
-                                            }
+                                            } 
 
                                             queueCount--;
                                             commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(thumbnailIndex);
-                                            if (foundFile) break; //No need to search more.
+                                            if (fileFoundNeedCheckForMore) break; //No need to search more.
                                         }
                                     }
-                                    
-                                
-                                } while (foundFile);
 
+                                } while (fileFoundNeedCheckForMore);
+
+                                if (!fileFoundInList)
+                                {
+                                    string writeErrorDesciption = "ThreadReadMediaPosterSaveRegions, file not found list for updated:" + fileEntryRegion.FileFullPath;
+                                    Logger.Error(writeErrorDesciption);                                    
+                                }
                             }
                             catch (Exception e)
                             {
@@ -1660,6 +1680,7 @@ namespace PhotoTagsSynchronizer
         const string AddErrorFileSystemRegion = "FileSystem";
         const string AddErrorFileSystemCopy = "Copy";
         const string AddErrorFileSystemMove = "Move";
+        const string AddErrorFileSystemRead = "Read";
         const string AddErrorFileSystemCopyFolder = "Copy Folder";
         const string AddErrorFileSystemMoveFolder = "Move Folder";
         const string AddErrorFileSystemCreateFolder = "Create Folder";
@@ -1676,6 +1697,8 @@ namespace PhotoTagsSynchronizer
         const string AddErrorExiftooCommandRead = "Read";
         const string AddErrorExiftooParameterRead = "Read";
         const string AddErrorParameterNone = "Error";
+
+        
 
         public void AddError(
             string fileDirectory, string fileName, DateTime fileDateModified,
@@ -1751,7 +1774,6 @@ namespace PhotoTagsSynchronizer
                 else formMessageBox.AppendMessage(errors);
                 formMessageBox.Owner = this;
                 formMessageBox.Show();
-                formMessageBox = null;
             }
             try
             {
