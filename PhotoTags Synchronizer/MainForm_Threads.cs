@@ -1445,39 +1445,41 @@ namespace PhotoTagsSynchronizer
                     
                         while (CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0 && !GlobalData.IsApplicationClosing && !IsThreadRunningExcept_ThreadThumbnailRegion()) //In case some more added to the queue
                         {
-                            int queueCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock(); //Mark count that we will work with. 
+
+                            
 
                             try
                             {                            
                                 FileEntry fileEntryRegion;
-                                lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
-                                {
-                                    fileEntryRegion = new FileEntry(commonQueueReadPosterAndSaveFaceThumbnails[0].FileEntryBroker);                                                                
-                                }
+                                lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) 
+                                    { fileEntryRegion = new FileEntry(commonQueueReadPosterAndSaveFaceThumbnails[0].FileEntryBroker); }
 
-                                bool fileFoundNeedCheckForMore = false;
+                                bool fileFoundNeedCheckForMore;
+                                int fileIndexFound;
                                 bool fileFoundInList = false;
 
                                 do //Remove all with same filename in the queue
                                 {
                                     fileFoundNeedCheckForMore = false;
-                                    
+                                    fileIndexFound = -1;
+
                                     //Check Exiftool, Microsoft Phontos, Windows Live Photo Gallery in queue also
 
                                     Image image = null; //No image loaded
+
+                                    int queueCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock(); //Mark count that we will work with. 
                                     for (int thumbnailIndex = 0; thumbnailIndex < queueCount; thumbnailIndex++)
                                     {
                                         Metadata metadataActiveCopy = null;
-                                        lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
-                                        {
-                                            metadataActiveCopy = new Metadata(commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex]);
-                                        }
+                                        lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) 
+                                            { metadataActiveCopy = new Metadata(commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex]); }
 
                                         //Find current file entry in queue, Exiftool, Microsoft Photos, Windows Live Gallery, etc...
                                         if (metadataActiveCopy.FileFullPath == fileEntryRegion.FileFullPath &&
                                             metadataActiveCopy.FileDateModified == fileEntryRegion.LastWriteDateTime)
                                         {
                                             fileFoundNeedCheckForMore = true;
+                                            fileIndexFound = thumbnailIndex;
                                             fileFoundInList = true;
                                             //When found entry, check if has Face Regions to save
                                             if (metadataActiveCopy.PersonalRegionList.Count > 0)
@@ -1519,16 +1521,16 @@ namespace PhotoTagsSynchronizer
                                                 }
                                                 //else Logger.Info("Don't load posters when request are with Diffrent LastWrittenDateTime:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
                                             } 
-
-                                            queueCount--;
-                                            lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
-                                            {
-                                                commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(thumbnailIndex);
-                                            }
-
+                                    
                                             if (fileFoundNeedCheckForMore) break; //No need to search more.
                                         }
                                     }
+
+                                    lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
+                                    {
+                                        if (fileIndexFound > -1) commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(fileIndexFound);
+                                    }
+
 
                                 } while (fileFoundNeedCheckForMore);
 
@@ -1765,8 +1767,8 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Error Message handling
-        private string listOfErrors = "";
-        private bool hasWriteAndVerifyMetadataErrors = false;
+        private static string listOfErrors = "";
+        private static bool hasWriteAndVerifyMetadataErrors = false;
 
         const string AddErrorFileSystemRegion = "FileSystem";
         const string AddErrorFileSystemCopy = "Copy";
@@ -1850,7 +1852,7 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        FormMessageBox formMessageBox = null;
+        private static FormMessageBox formMessageBox = null;
         private void timerShowErrorMessage_Tick(object sender, EventArgs e)
         {
             timerShowErrorMessage.Stop();

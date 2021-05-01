@@ -200,24 +200,25 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteFilesMetadataForReload
-        public void ImageListViewReload(FolderTreeView folderTreeViewFolder, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
-        {
-            
+        public void ImageListViewReload(MainForm mainForm, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
+        {            
             foreach (ImageListViewItem item in itemCollection)
             {
                 if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
                 {
                     item.Update();
+                    mainForm.LoadDataGridViewProgerssAdd();
                 }
             }
             
         }
 
-        public void DeleteFilesMetadataBeforeReload(FolderTreeView folderTreeViewFolder, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
+        public void DeleteFilesMetadataBeforeReload(MainForm mainForm, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
         {
             foreach (ImageListViewItem item in itemCollection)
             {
                 if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) this.DeleteMetadataFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
+                mainForm.LoadDataGridViewProgerssAdd();
             }
         }
         #endregion

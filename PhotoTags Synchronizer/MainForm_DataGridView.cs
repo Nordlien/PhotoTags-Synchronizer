@@ -169,7 +169,7 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridViewHandler.SuspendLayout(dataGridView, queueCount);
 
-                LoadDataGridViewProgerss(ThreadLazyLoadingQueueSize(), queueCount);
+                LoadDataGridViewProgerssCountDown(ThreadLazyLoadingQueueSize() + queueCount);
                 
                 switch (tag)
                 {
@@ -207,7 +207,8 @@ namespace PhotoTagsSynchronizer
                     LazyLoadMissing();
 
                     PopulateDataGridViewForSelectedItemsExtrasInvoke();
-                    LoadDataGridViewProgerss(queueCount);                    
+                    LoadDataGridViewProgerssCountDown(ThreadLazyLoadingQueueSize() + queueCount);
+                    if (ThreadLazyLoadingQueueSize() + queueCount == 0) LoadDataGridViewProgerssEnded();
                 }
             }
         }

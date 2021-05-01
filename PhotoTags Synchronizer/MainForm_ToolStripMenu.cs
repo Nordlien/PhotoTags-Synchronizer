@@ -999,9 +999,13 @@ namespace PhotoTagsSynchronizer
             using (new WaitCursor())
             {
                 ImageListViewSuspendLayoutInvoke(imageListView1);
-                filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
-                filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, true);
+
+                LoadDataGridViewProgerss(imageListView1.SelectedItems.Count * 2, 0);
+                filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(this, imageListView1, imageListView1.Items, true);
+                filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1, imageListView1.Items, true);
             }
+            LoadDataGridViewProgerssEnded();
+
             folderTreeViewFolder.Enabled = true;
 
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
@@ -1032,9 +1036,13 @@ namespace PhotoTagsSynchronizer
             using (new WaitCursor())
             {
                 ImageListViewSuspendLayoutInvoke(imageListView1);
-                filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
-                filesCutCopyPasteDrag.ImageListViewReload(folderTreeViewFolder, imageListView1, imageListView1.Items, false);
+
+                LoadDataGridViewProgerss(imageListView1.SelectedItems.Count * 2, 0);
+                filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(this, imageListView1, imageListView1.Items, false);
+                filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1, imageListView1.Items, false);
             }
+            LoadDataGridViewProgerssEnded();
+
             folderTreeViewFolder.Enabled = true;
 
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;

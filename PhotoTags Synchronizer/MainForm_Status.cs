@@ -64,12 +64,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        private string ThreadStateStatus(System.Threading.Thread thread)
-        {
-            if (thread == null) return "";
-            return thread.ThreadState.ToString();
-        }
-
         #region DisplayAllQueueStatus - Updated display        
         private void DisplayAllQueueStatus()
         {
@@ -215,11 +209,34 @@ namespace PhotoTagsSynchronizer
 
         #region Updated Progressbar
         private Stopwatch stopwatchhDelayShowProgressbar = new Stopwatch();
+        private int queueCountIndex = 0;
+        private int queueCountSize = 0;
+        public void LoadDataGridViewProgerssAdd()
+        {
+            queueCountIndex++;
+            if (queueCountIndex > queueCountSize) queueCountSize = queueCountIndex + 10;
+            LoadDataGridViewProgerss(queueCountSize, queueCountIndex);
+        }
+
+        public void LoadDataGridViewProgerssEnded()
+        {
+            timerUpdateDataGridViewLoadingProgressbarRemove.Interval = 3000;
+            timerUpdateDataGridViewLoadingProgressbarRemove.Start();
+        }
+
+        private void LoadDataGridViewProgerssCountDown(int queueSize)
+        {
+            if (queueSize > toolStripProgressBarDataGridViewLoading.Maximum) toolStripProgressBarDataGridViewLoading.Maximum = queueSize;
+            LoadDataGridViewProgerss(toolStripProgressBarDataGridViewLoading.Maximum, toolStripProgressBarDataGridViewLoading.Maximum - queueSize);
+        }
+
         private void LoadDataGridViewProgerss(int queueSize, int queueCount = 0)
         {
-            int threadLazyLoadingQueueSize = queueSize + queueCount;
-            if (threadLazyLoadingQueueSize > toolStripProgressBarDataGridViewLoading.Maximum) toolStripProgressBarDataGridViewLoading.Maximum = threadLazyLoadingQueueSize;            
-            toolStripProgressBarDataGridViewLoading.Value = toolStripProgressBarDataGridViewLoading.Maximum - threadLazyLoadingQueueSize;
+            queueCountIndex = queueCount;
+            queueCountSize = queueSize;
+
+            if (queueSize > toolStripProgressBarDataGridViewLoading.Maximum) toolStripProgressBarDataGridViewLoading.Maximum = queueSize;
+            toolStripProgressBarDataGridViewLoading.Value = queueCount;
 
             if (!toolStripProgressBarDataGridViewLoading.Visible)
             {
@@ -233,19 +250,15 @@ namespace PhotoTagsSynchronizer
                 if (stopwatchhDelayShowProgressbar.IsRunning && stopwatchhDelayShowProgressbar.ElapsedMilliseconds > 600) toolStripProgressBarDataGridViewLoading.Visible = true;
             }
 
-            if (queueSize == 0 && queueCount == 0)
-            {
-                timerUpdateDataGridViewLoadingProgressbarRemove.Interval = 3000;
-                timerUpdateDataGridViewLoadingProgressbarRemove.Start();
-            }
         }
 
         private void timerUpdateDataGridViewLoadingProgressbarRemove_Tick(object sender, EventArgs e)
         {
             stopwatchhDelayShowProgressbar.Stop();
             toolStripProgressBarDataGridViewLoading.Visible = false;
-            
-
+            toolStripProgressBarDataGridViewLoading.Maximum = 1;
+            queueCountIndex = 0;
+            queueCountSize = 0;
             timerUpdateDataGridViewLoadingProgressbarRemove.Stop(); 
         }
 
