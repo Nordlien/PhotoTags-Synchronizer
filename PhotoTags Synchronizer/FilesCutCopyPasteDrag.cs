@@ -215,11 +215,9 @@ namespace PhotoTagsSynchronizer
 
         public void DeleteFilesMetadataBeforeReload(FolderTreeView folderTreeViewFolder, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
         {
-
             foreach (ImageListViewItem item in itemCollection)
             {
-                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
-                    this.DeleteMetadataFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
+                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) this.DeleteMetadataFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
             }
         }
         #endregion

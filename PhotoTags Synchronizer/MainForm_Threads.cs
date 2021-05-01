@@ -17,67 +17,156 @@ namespace PhotoTagsSynchronizer
 {
     public partial class MainForm : Form
     {
-        private Thread threadCacheSelectedFastRead = null;
-        private Thread threadCacheFolderFastRead = null;
-        private Thread _ThreadPreloadingMetadata = null;
-        private Thread _ThreadLazyLoadingMetadata = null;
-        private Thread _ThreadLazyLoadingThumbnail = null;
+        private static readonly Object _ThreadCacheSelectedFastReadLock = new Object();
+        private static Thread threadCacheSelectedFastRead = null;
+        private static Thread _ThreadCacheSelectedFastRead
+        {
+            get { lock (_ThreadCacheSelectedFastReadLock) { return threadCacheSelectedFastRead; } }
+            set { lock (_ThreadCacheSelectedFastReadLock) { threadCacheSelectedFastRead = value; } }
+        }
+        /*
+        {
+            get { lock (_Lock) { return data; } }
+            set { lock (_Lock) { data = value; } }
+        }
+        */
 
-        private Thread _ThreadExiftool = null;
-        private Thread _ThreadThumbnailMedia = null;
-        private Thread _ThreadMicrosoftPhotos = null;
-        private Thread _ThreadWindowsLiveGallery = null;
-        private Thread _ThreadThumbnailRegion = null;
+        private static readonly Object _ThreadCacheFolderFastReadLock = new Object();
+        private static Thread threadCacheFolderFastRead = null;
+        private static Thread _ThreadCacheFolderFastRead
+        {
+            get { lock (_ThreadCacheFolderFastReadLock) { return threadCacheFolderFastRead; } }
+            set { lock (_ThreadCacheFolderFastReadLock) { threadCacheFolderFastRead = value; } }
+        }
 
-        private Thread _ThreadSaveMetadata = null;
-        private Thread _ThreadRenameMedafiles = null;
+        private static readonly Object _ThreadPreloadingMetadataLock = new Object();
+        private static Thread threadPreloadingMetadata = null;
+        private static Thread _ThreadPreloadingMetadata
+        {
+            get { lock (_ThreadPreloadingMetadataLock) { return threadPreloadingMetadata; } }
+            set { lock (_ThreadPreloadingMetadataLock) { threadPreloadingMetadata = value; } }
+        }
 
-        private List<FileEntryAttribute> commonQueuePreloadingMetadata = new List<FileEntryAttribute>();
+        private static readonly Object _ThreadLazyLoadingMetadataLock = new Object();
+        private static Thread threadLazyLoadingMetadata = null;
+        private static Thread _ThreadLazyLoadingMetadata
+        {
+            get { lock (_ThreadLazyLoadingMetadataLock) { return  threadLazyLoadingMetadata; } }
+            set { lock (_ThreadLazyLoadingMetadataLock) { threadLazyLoadingMetadata = value; } }
+        }
+
+        private static readonly Object _ThreadLazyLoadingThumbnailLock = new Object();
+        private static Thread threadLazyLoadingThumbnail = null;
+        private static Thread _ThreadLazyLoadingThumbnail
+        {
+            get { lock (_ThreadLazyLoadingThumbnailLock) { return threadLazyLoadingThumbnail; } }
+            set { lock (_ThreadLazyLoadingThumbnailLock) { threadLazyLoadingThumbnail = value; } }
+        }
+
+        private static readonly Object _ThreadExiftoolLock = new Object();
+        private static Thread threadExiftool = null;
+        private static Thread _ThreadExiftool
+        {
+            get { lock (_ThreadExiftoolLock) { return threadExiftool; } }
+            set { lock (_ThreadExiftoolLock) { threadExiftool = value; } }
+        }
+
+        private static readonly Object _ThreadThumbnailMediaLock = new Object();
+        private static Thread threadThumbnailMedia = null;
+        private static Thread _ThreadThumbnailMedia
+        {
+            get { lock (_ThreadThumbnailMediaLock) { return threadThumbnailMedia; } }
+            set { lock (_ThreadThumbnailMediaLock) { threadThumbnailMedia = value; } }
+        }
+
+        private static readonly Object _ThreadMicrosoftPhotosLock = new Object();
+        private static Thread threadMicrosoftPhotos = null;
+        private static Thread _ThreadMicrosoftPhotos
+        {
+            get { lock (_ThreadMicrosoftPhotosLock) { return threadMicrosoftPhotos; } }
+            set { lock (_ThreadMicrosoftPhotosLock) { threadMicrosoftPhotos = value; } }
+        }
+
+        private static readonly Object _ThreadWindowsLiveGalleryLock = new Object();
+        private static Thread threadWindowsLiveGallery = null;
+        private static Thread _ThreadWindowsLiveGallery
+        {
+            get { lock (_ThreadWindowsLiveGalleryLock) { return threadWindowsLiveGallery; } }
+            set { lock (_ThreadWindowsLiveGalleryLock) { threadWindowsLiveGallery = value; } }
+        }
+
+        private static readonly Object _ThreadThumbnailRegionLock = new Object();
+        private static Thread threadThumbnailRegion = null;
+        private static Thread _ThreadThumbnailRegion
+        {
+            get { lock (_ThreadThumbnailRegionLock) { return threadThumbnailRegion; } }
+            set { lock (_ThreadThumbnailRegionLock) { threadThumbnailRegion = value; } }
+        }
+
+        private static readonly Object _ThreadSaveMetadataLock = new Object();
+        private static Thread threadSaveMetadata = null;
+        private static Thread _ThreadSaveMetadata
+        {
+            get { lock (_ThreadSaveMetadataLock) { return threadSaveMetadata; } }
+            set { lock (_ThreadSaveMetadataLock) { threadSaveMetadata = value; } }
+        }
+
+        private static readonly Object _ThreadRenameMedafilesLock = new Object();
+        private static Thread threadRenameMedafiles = null;
+        private static Thread _ThreadRenameMedafiles
+        {
+            get { lock (_ThreadRenameMedafilesLock) { return threadRenameMedafiles; } }
+            set { lock (_ThreadRenameMedafilesLock) { threadRenameMedafiles = value; } }
+        }
+
+
+
+        private static List<FileEntryAttribute> commonQueuePreloadingMetadata = new List<FileEntryAttribute>();
         private static readonly Object commonQueuePreloadingMetadataLock = new Object();
 
-        private List<FileEntryAttribute> commonQueueLazyLoadingMetadata = new List<FileEntryAttribute>();
+        private static List<FileEntryAttribute> commonQueueLazyLoadingMetadata = new List<FileEntryAttribute>();
         private static readonly Object commonQueueLazyLoadingMetadataLock = new Object();
 
-        private List<FileEntryAttribute> commonQueueLazyLoadingThumbnail = new List<FileEntryAttribute>();
+        private static List<FileEntryAttribute> commonQueueLazyLoadingThumbnail = new List<FileEntryAttribute>();
         private static readonly Object commonQueueLazyLoadingThumbnailLock = new Object();
 
         //Region "Face" thumbnails
-        private List<Metadata>         commonQueueReadPosterAndSaveFaceThumbnails = new List<Metadata>();
+        private static List<Metadata> commonQueueReadPosterAndSaveFaceThumbnails = new List<Metadata>();
         private static readonly Object commonQueueReadPosterAndSaveFaceThumbnailsLock = new Object();
 
         //Thumbnail
-        private List<FileEntryImage>   commonQueueSaveThumbnailToDatabase = new List<FileEntryImage>();
+        private static List<FileEntryImage> commonQueueSaveThumbnailToDatabase = new List<FileEntryImage>();
         private static readonly Object commonQueueSaveThumbnailToDatabaseLock = new Object();
 
         //Microsoft Photos
-        private List<FileEntry>        commonQueueReadMetadataFromMicrosoftPhotos = new List<FileEntry>();
+        private static List<FileEntry> commonQueueReadMetadataFromMicrosoftPhotos = new List<FileEntry>();
         private static readonly Object commonQueueReadMetadataFromMicrosoftPhotosLock = new Object();
 
         //Windows Live Photo Gallery
-        private List<FileEntry>        commonQueueReadMetadataFromWindowsLivePhotoGallery = new List<FileEntry>();
+        private static List<FileEntry> commonQueueReadMetadataFromWindowsLivePhotoGallery = new List<FileEntry>();
         private static readonly Object commonQueueReadMetadataFromWindowsLivePhotoGalleryLock = new Object();
 
         //Exif
-        private List<FileEntry>        commonQueueReadMetadataFromExiftool = new List<FileEntry>();
+        private static List<FileEntry> commonQueueReadMetadataFromExiftool = new List<FileEntry>();
         private static readonly Object commonQueueReadMetadataFromExiftoolLock = new Object();
         
-        private List<string>           mediaFilesNotInDatabase = new List<string>(); //It's globale, just to manage to show count status
+        private static List<string> mediaFilesNotInDatabase = new List<string>(); //It's globale, just to manage to show count status
         private static readonly Object mediaFilesNotInDatabaseLock = new Object();
 
-        private List<Metadata>         commonQueueSaveMetadataUpdatedByUser = new List<Metadata>();
+        private static List<Metadata> commonQueueSaveMetadataUpdatedByUser = new List<Metadata>();
         private static readonly Object commonQueueSaveMetadataUpdatedByUserLock = new Object();
-        private List<Metadata>         commonOrigialMetadataBeforeUserUpdate = new List<Metadata>();
+        private static List<Metadata> commonOrigialMetadataBeforeUserUpdate = new List<Metadata>();
         private static readonly Object commonOrigialMetadataBeforeUserUpdateLock = new Object();
-        private List<Metadata>         commonQueueMetadataWrittenByExiftoolReadyToVerify = new List<Metadata>();
+        private static List<Metadata> commonQueueMetadataWrittenByExiftoolReadyToVerify = new List<Metadata>();
         private static readonly Object commonQueueMetadataWrittenByExiftoolReadyToVerifyLock = new Object();
 
         //Rename
         private static Dictionary<string, string> commonQueueRename = new Dictionary<string, string>();
-        private static readonly Object            commonQueueRenameLock = new Object();
+        private static readonly Object  commonQueueRenameLock = new Object();
 
         //Error handling
-        private Dictionary<string, string> queueErrorQueue = new Dictionary<string, string>();
-        private static readonly Object     queueErrorQueueLock = new Object();
+        private static Dictionary<string, string> queueErrorQueue = new Dictionary<string, string>();
+        private static readonly Object queueErrorQueueLock = new Object();
 
 
         #region Lock
@@ -300,9 +389,9 @@ namespace PhotoTagsSynchronizer
                     return;
                 }
 
-                if (threadCacheSelectedFastRead == null)
+                if (_ThreadCacheSelectedFastRead == null)
                 {
-                    threadCacheSelectedFastRead = new Thread(() =>
+                    _ThreadCacheSelectedFastRead = new Thread(() =>
                     {
                         databaseAndCacheMetadataExiftool.ReadToCache(searchFilterResult, MetadataBrokerType.ExifTool);
                         databaseAndCacheThumbnail.ReadToCache(searchFilterResult);
@@ -312,9 +401,9 @@ namespace PhotoTagsSynchronizer
                             databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(searchFilterResult); //Read missing, new media files added
                         MetadataDatabaseCache.StopCaching = false;
                         ThumbnailDatabaseCache.StopCaching = false;
-                        threadCacheSelectedFastRead = null;
+                        _ThreadCacheSelectedFastRead = null;
                     });
-                    threadCacheSelectedFastRead.Start();
+                    _ThreadCacheSelectedFastRead.Start();
                 }
             }
             catch
@@ -322,7 +411,7 @@ namespace PhotoTagsSynchronizer
                 //Retry after crash, eg. thread creation failed
                 MetadataDatabaseCache.StopCaching = false;
                 ThumbnailDatabaseCache.StopCaching = false;
-                threadCacheSelectedFastRead = null;
+                _ThreadCacheSelectedFastRead = null;
             }
         }
         #endregion 
@@ -340,9 +429,9 @@ namespace PhotoTagsSynchronizer
                     return; 
                 }
 
-                if (threadCacheFolderFastRead == null)
+                if (_ThreadCacheFolderFastRead == null)
                 {
-                    threadCacheFolderFastRead = new Thread(() =>
+                    _ThreadCacheFolderFastRead = new Thread(() =>
                     {
                         if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(selectedFolder); //Read only once per folder
                         if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(filesFoundInDirectory); //Read missing, new media files added
@@ -351,9 +440,9 @@ namespace PhotoTagsSynchronizer
                         if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(filesFoundInDirectory); //Read missing, new media files added
                         MetadataDatabaseCache.StopCaching = false;
                         ThumbnailDatabaseCache.StopCaching = false;
-                        threadCacheFolderFastRead = null;
+                        _ThreadCacheFolderFastRead = null;
                     });
-                    threadCacheFolderFastRead.Start();
+                    _ThreadCacheFolderFastRead.Start();
                 }
             
             }
@@ -362,7 +451,7 @@ namespace PhotoTagsSynchronizer
                 //Retry after crash, eg. thread creation failed
                 MetadataDatabaseCache.StopCaching = false;
                 ThumbnailDatabaseCache.StopCaching = false;
-                threadCacheFolderFastRead = null;
+                _ThreadCacheFolderFastRead = null;
             }
         }
         #endregion 
@@ -433,7 +522,7 @@ namespace PhotoTagsSynchronizer
         #region LazyLoadning - Metadata - Thread 
         public void ThreadLazyLoadningMetadata()
         {
-            if ((_ThreadLazyLoadingMetadata == null /*|| !_ThreadLazyLoadingMetadata.IsAlive*/) && CommonQueueLazyLoadingMetadataCountLock() > 0)
+            if((_ThreadLazyLoadingMetadata == null /*|| !_ThreadLazyLoadingMetadata.IsAlive*/) && CommonQueueLazyLoadingMetadataCountLock() > 0)
             {
                 try
                 {
@@ -544,13 +633,11 @@ namespace PhotoTagsSynchronizer
         #region LazyLoadning - Thread LazyLoadning
         public void ThreadLazyLoadningThumbnail()
         {
-            if ((_ThreadLazyLoadingThumbnail == null /*|| !_ThreadLazyLoadingThumbnail.IsAlive*/) && 
-                CommonQueueLazyLoadingThumbnailCountLock() > 0)
+            if (_ThreadLazyLoadingThumbnail == null && CommonQueueLazyLoadingThumbnailCountLock() > 0)
             {
+
                 _ThreadLazyLoadingThumbnail = new Thread(() =>
                 {
-                    //DataGridViewSuspendInvoke();
-
                     while (CommonQueueLazyLoadingThumbnailCountLock() > 0 && !GlobalData.IsApplicationClosing)
                     {
                         int queueCount = CommonQueueLazyLoadingThumbnailCountLock();
@@ -571,7 +658,7 @@ namespace PhotoTagsSynchronizer
                             for (int queueIndex = 0; queueIndex < queueCount; queueIndex++) commonQueueLazyLoadingThumbnail.RemoveAt(0);
                         }
                     }
-                    
+
                     //DataGridViewResumeInvoke();
 
                     Application.DoEvents();
@@ -1434,7 +1521,11 @@ namespace PhotoTagsSynchronizer
                                             } 
 
                                             queueCount--;
-                                            commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(thumbnailIndex);
+                                            lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
+                                            {
+                                                commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(thumbnailIndex);
+                                            }
+
                                             if (fileFoundNeedCheckForMore) break; //No need to search more.
                                         }
                                     }

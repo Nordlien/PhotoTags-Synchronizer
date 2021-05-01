@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace DataGridViewGeneric
@@ -665,27 +666,55 @@ namespace DataGridViewGeneric
         #endregion 
 
         #region Suspend and Resume layout - ResumeLayout
+
+        private static Thread _ThreadResumeDataGrid = null;
+
+        private static void ResumeLayoutInvoke(DataGridView dataGridView)
+        {
+            dataGridView.AutoSizeRowsMode = dataGridViewAutoSizeRowsMode;
+            dataGridView.AutoSizeColumnsMode = dataGridViewAutoSizeColumnMode;
+            dataGridView.RowHeadersWidthSizeMode = dataGridViewRowHeadersWidthSizeMode;
+            dataGridView.ColumnHeadersHeightSizeMode = dataGridViewColumnHeadersHeightSizeMode;
+
+            dataGridView.RowHeadersVisible = true;
+            dataGridView.ResumeLayout();
+
+            SendMessage(dataGridView.Handle, WM_SETREDRAW, true, 0);
+            dataGridView.Refresh();
+
+            isSuspended = false;
+        }
+
         public static bool ResumeLayout(DataGridView dataGridView, int queueSize)
         {
             bool didResume = false;
             suspendCount--;
+            if (suspendCount < 0) suspendCount = 0;
             if (suspendCount == 0 && isSuspended)
             {
                 if (queueSize > 0) return didResume; //Wait new suspend
-                dataGridView.AutoSizeRowsMode = dataGridViewAutoSizeRowsMode;
-                dataGridView.AutoSizeColumnsMode = dataGridViewAutoSizeColumnMode;
-                dataGridView.RowHeadersWidthSizeMode = dataGridViewRowHeadersWidthSizeMode;
-                dataGridView.ColumnHeadersHeightSizeMode = dataGridViewColumnHeadersHeightSizeMode;
 
-                dataGridView.RowHeadersVisible = true;
-                dataGridView.ResumeLayout();
+                if (_ThreadResumeDataGrid == null)
+                {
+                    try
+                    {
+                        _ThreadResumeDataGrid = new Thread(() =>
+                        {
+                            Thread.Sleep(200);
+                            dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
+                            _ThreadResumeDataGrid = null;
+                        });
 
-                SendMessage(dataGridView.Handle, WM_SETREDRAW, true, 0);
-                dataGridView.Refresh();
-                isSuspended = false;
-                didResume = true;
+                        if (_ThreadResumeDataGrid != null) _ThreadResumeDataGrid.Start();
+                    } catch 
+                    { 
+                        _ThreadResumeDataGrid = null; 
+                    }
+                    didResume = true;
+                } 
+
             }
-            else if (suspendCount < 0) suspendCount = 0;
+             
             return didResume;
         }
         #endregion

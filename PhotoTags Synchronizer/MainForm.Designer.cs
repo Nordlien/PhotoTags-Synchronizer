@@ -1386,7 +1386,7 @@ namespace PhotoTagsSynchronizer
             this.ratateCCW270ToolStripMenuItem,
             this.mediaPreviewToolStripMenuItem});
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
-            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 552);
+            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 524);
             // 
             // toolStripMenuItemImageListViewCut
             // 

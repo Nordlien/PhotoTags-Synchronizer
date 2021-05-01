@@ -2165,7 +2165,9 @@ namespace MetadataLibrary
         /// <param name="regionStructure">New region data</param>
         private void MetadataRegionCacheUpdate(FileEntryBroker fileEntryBroker, RegionStructure regionStructure)
         {
-            Metadata metadataInCache = ReadMetadataFromCacheOnly(fileEntryBroker);
+            Metadata metadataInCache = new Metadata(ReadMetadataFromCacheOnly(fileEntryBroker));
+            MetadataCacheRemoveMetadataCacheRemove(fileEntryBroker);
+
             if (metadataInCache != null)
             {
                 lock (metadataCacheLock)
@@ -2185,7 +2187,8 @@ namespace MetadataLibrary
                         metadataInCache.PersonalRegionList.Insert(indexRegionFound, new RegionStructure(regionStructure));
                     }
                 }
-            }
+                MetadataCacheUpdate(fileEntryBroker, metadataInCache);
+            }            
         }
         #endregion 
 

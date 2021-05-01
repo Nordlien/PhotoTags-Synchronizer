@@ -134,9 +134,10 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsPopulatingButtonAction = false;
             GlobalData.IsPopulatingImageListView = false;
 
-            FilesSelected();
             ImageListViewResumeLayoutInvoke(imageListView);
             imageListView.Focus();
+
+            FilesSelected();
             lastGroupBaseIndex = baseItemIndex;
         }
 

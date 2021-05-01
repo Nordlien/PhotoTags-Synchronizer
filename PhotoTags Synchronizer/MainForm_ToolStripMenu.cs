@@ -1009,8 +1009,8 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsPopulatingImageListView = false;
             using (new WaitCursor())
             {
-                FilesSelected();
                 ImageListViewResumeLayoutInvoke(imageListView1);
+                FilesSelected();                
             }
 
             DataGridView dataGridView = GetActiveTabDataGridView();
@@ -1043,8 +1043,8 @@ namespace PhotoTagsSynchronizer
 
             using (new WaitCursor())
             {
-                FilesSelected();
                 ImageListViewResumeLayoutInvoke(imageListView1);
+                FilesSelected();                
             }
 
             DisplayAllQueueStatus();

@@ -272,7 +272,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            imageListView.SuspendLayout(); //When this where, it crash, need debug why, this needed to avoid flashing
+            imageListView.SuspendLayout(); 
         }
         #endregion
 
@@ -284,8 +284,7 @@ namespace PhotoTagsSynchronizer
                 this.BeginInvoke(new Action<ImageListView>(ImageListViewResumeLayoutInvoke), imageListView);
                 return;
             }
-
-            imageListView.ResumeLayout(); //When this where, it crash, need debug why, this needed to avoid flashing
+            imageListView.ResumeLayout(); 
         }
         #endregion
 
@@ -391,9 +390,10 @@ namespace PhotoTagsSynchronizer
                     else imageListView1.Items.Add(fileEntry.FileFullPath);
                 }
             }
-            ImageListViewResumeLayoutInvoke(imageListView1);
-            imageListView1.Enabled = true;
 
+            imageListView1.Enabled = true;
+            ImageListViewResumeLayoutInvoke(imageListView1);
+            
             StartThreads();
         }
         #endregion
@@ -440,8 +440,8 @@ namespace PhotoTagsSynchronizer
                     else imageListView1.Items.Add(fileInfo);
                 }
 
-                ImageListViewResumeLayoutInvoke(imageListView1); //Trigger ImageListView ItemSelected
                 imageListView1.Enabled = true;
+                ImageListViewResumeLayoutInvoke(imageListView1); //Trigger ImageListView ItemSelected                
                 //-------- FolderSelected_AddFilesImageListView -------------
 
                 GlobalData.lastReadFolderWasRecursive = recursive;

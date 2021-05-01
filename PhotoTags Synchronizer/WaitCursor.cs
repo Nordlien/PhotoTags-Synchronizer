@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Windows.Input;
+using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
     public class WaitCursor : IDisposable
     {
-        private Cursor _previousCursor;
-
         public WaitCursor()
         {
-            _previousCursor = Mouse.OverrideCursor;
-            Mouse.OverrideCursor = Cursors.Wait;
+            Application.UseWaitCursor = true;
+            Cursor.Current = Cursors.WaitCursor;
         }
 
         #region IDisposable Members
 
         public void Dispose()
         {
-            Mouse.OverrideCursor = _previousCursor;
+            Application.UseWaitCursor = false;
+            Cursor.Current = Cursors.Default;
         }
 
         #endregion
