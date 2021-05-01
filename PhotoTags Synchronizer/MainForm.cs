@@ -259,6 +259,7 @@ namespace PhotoTagsSynchronizer
             isSettingDefaultComboxValues = false;
             //Application
             ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
+            RegionThumbnailHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
 
             isFormLoading = true;
 

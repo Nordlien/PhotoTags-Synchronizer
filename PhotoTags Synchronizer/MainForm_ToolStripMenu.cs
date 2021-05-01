@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Thumbnails;
 
 namespace PhotoTagsSynchronizer
 {
@@ -695,6 +696,8 @@ namespace PhotoTagsSynchronizer
                 if (config.ShowDialog() != DialogResult.Cancel)
                 {
                     ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
+                    RegionThumbnailHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
+
                     databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
                     RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
 

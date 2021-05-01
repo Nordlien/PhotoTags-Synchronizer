@@ -1968,5 +1968,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["CacheFolderWebScraperDataSets"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("96, 96")]
+        public global::System.Drawing.Size ApplicationRegionThumbnail {
+            get {
+                return ((global::System.Drawing.Size)(this["ApplicationRegionThumbnail"]));
+            }
+            set {
+                this["ApplicationRegionThumbnail"] = value;
+            }
+        }
     }
 }

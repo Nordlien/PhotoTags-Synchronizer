@@ -1072,5 +1072,8 @@ https://photos.google.com/people</Value>
     <Setting Name="CacheFolderWebScraperDataSets" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ApplicationRegionThumbnail" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">96, 96</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

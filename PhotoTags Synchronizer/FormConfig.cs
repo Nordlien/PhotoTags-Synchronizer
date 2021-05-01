@@ -333,6 +333,8 @@ namespace PhotoTagsSynchronizer
         {
             //Application
             Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
+            Properties.Settings.Default.ApplicationRegionThumbnail = ThumbnailSizes[comboBoxApplicationRegionThumbnailSizes.SelectedIndex];
+
             Properties.Settings.Default.ApplicationPreferredLanguages = textBoxApplicationPreferredLanguages.Text;
             Properties.Settings.Default.MaxRowsInSearchResult = (int)numericUpDownApplicationMaxRowsInSearchResult.Value;
             Properties.Settings.Default.SuggestRegionNameNearbyDays = (int)numericUpDownPeopleSuggestNameDaysInterval.Value;
@@ -464,9 +466,14 @@ namespace PhotoTagsSynchronizer
         public void PopulateApplication()
         {
             for (int i = 0; i < ThumbnailSizes.Length; i++)
+            {
                 comboBoxApplicationThumbnailSizes.Items.Add(ThumbnailSizes[i].ToString());
-
+                comboBoxApplicationRegionThumbnailSizes.Items.Add(ThumbnailSizes[i].ToString());
+            }
+            
             comboBoxApplicationThumbnailSizes.Text = Properties.Settings.Default.ApplicationThumbnail.ToString();
+            comboBoxApplicationRegionThumbnailSizes.Text = Properties.Settings.Default.ApplicationRegionThumbnail.ToString();
+
             textBoxApplicationPreferredLanguages.Text = Properties.Settings.Default.ApplicationPreferredLanguages;
             numericUpDownApplicationMaxRowsInSearchResult.Value = Properties.Settings.Default.MaxRowsInSearchResult;
             numericUpDownPeopleSuggestNameDaysInterval.Value = Properties.Settings.Default.SuggestRegionNameNearbyDays;
