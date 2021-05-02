@@ -121,6 +121,7 @@ namespace PhotoTagsSynchronizer
         #region FilesCutCopyPasteDrag - DeleteSelectedFiles
         public void DeleteSelectedFiles(ImageListView imageListView)
         {
+
             GlobalData.IsPopulatingImageListView = true;
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 

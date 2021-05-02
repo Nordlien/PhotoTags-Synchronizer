@@ -12,6 +12,7 @@ using Manina.Windows.Forms;
 using System.Diagnostics;
 using FileDateTime;
 using Thumbnails;
+using System.Collections.Specialized;
 
 namespace PhotoTagsSynchronizer
 {
@@ -700,68 +701,72 @@ namespace PhotoTagsSynchronizer
         #region Thread - SaveThumbnail
         public void ThreadSaveThumbnail()
         {
-            if ((_ThreadThumbnailMedia == null /*|| !_ThreadThumbnailMedia.IsAlive*/) && CommonQueueSaveThumbnailToDatabaseCountLock() > 0)
+            if (
+               (_ThreadThumbnailMedia == null || 
+               (_ThreadThumbnailMedia.ThreadState != System.Threading.ThreadState.Running && _ThreadThumbnailMedia.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
+               ) && CommonQueueSaveThumbnailToDatabaseCountLock() > 0)
             {
                 try
                 {
-                    _ThreadThumbnailMedia = new Thread(() =>
+                    lock (_ThreadThumbnailMediaLock)
                     {
+                        _ThreadThumbnailMedia = new Thread(() =>
+                        {
                         //DataGridViewSuspendInvoke();
 
                         while (CommonQueueSaveThumbnailToDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue or App will close
                         {
-                            if (CommonQueueReadMetadataFromExiftoolCountLock() > 0) break; //Wait all metadata readfirst
+                                if (CommonQueueReadMetadataFromExiftoolCountLock() > 0) break; //Wait all metadata readfirst
                             if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
 
                             try
-                            {
-                                FileEntryImage fileEntryImage;
-                                lock (commonQueueSaveThumbnailToDatabaseLock)
                                 {
-                                    fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
-                                }
+                                    FileEntryImage fileEntryImage;
+                                    lock (commonQueueSaveThumbnailToDatabaseLock)
+                                    {
+                                        fileEntryImage = new FileEntryImage(commonQueueSaveThumbnailToDatabase[0]);
+                                    }
 
-                                if (fileEntryImage.Image == null)
-                                {
-                                    fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
-                                    if (fileEntryImage.Image != null) ImageListViewReloadThumbnailInvoke(imageListView1, fileEntryImage.FileFullPath);
-                                }
+                                    if (fileEntryImage.Image == null)
+                                    {
+                                        fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
+                                        if (fileEntryImage.Image != null) ImageListViewReloadThumbnailInvoke(imageListView1, fileEntryImage.FileFullPath);
+                                    }
 
-                                if (fileEntryImage.Image != null && !databaseAndCacheThumbnail.DoesThumbnailExist(fileEntryImage))
-                                {
-                                    databaseAndCacheThumbnail.TransactionBeginBatch();
-                                    databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
-                                    databaseAndCacheThumbnail.TransactionCommitBatch();
+                                    if (fileEntryImage.Image != null && !databaseAndCacheThumbnail.DoesThumbnailExist(fileEntryImage))
+                                    {
+                                        databaseAndCacheThumbnail.TransactionBeginBatch();
+                                        databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);
+                                        databaseAndCacheThumbnail.TransactionCommitBatch();
 
-                                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Current), fileEntryImage.Image);
-                                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Error), fileEntryImage.Image);
-                                }
-                                else
-                                {
+                                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Current), fileEntryImage.Image);
+                                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntryImage, FileEntryVersion.Error), fileEntryImage.Image);
+                                    }
+                                    else
+                                    {
                                     //DEBUG, Manage to reproduce when select lot files and run log AutoCorrect Updates, Refresh
                                 }
 
-                                lock (commonQueueSaveThumbnailToDatabaseLock)
-                                {
-                                    if (commonQueueSaveThumbnailToDatabase.Count > 0) commonQueueSaveThumbnailToDatabase.RemoveAt(0);
+                                    lock (commonQueueSaveThumbnailToDatabaseLock)
+                                    {
+                                        if (commonQueueSaveThumbnailToDatabase.Count > 0) commonQueueSaveThumbnailToDatabase.RemoveAt(0);
+                                    }
                                 }
+                                catch (Exception ex)
+                                {
+                                    Logger.Error("ThreadSaveThumbnail: " + ex.Message);
+                                }
+                                DisplayAllQueueStatus();
                             }
-                            catch (Exception ex)
-                            {
-                                Logger.Error("ThreadSaveThumbnail: " + ex.Message);
-                            }
-                            DisplayAllQueueStatus();
-                        }
 
-                        if (GlobalData.IsApplicationClosing) lock (commonQueueSaveThumbnailToDatabaseLock) commonQueueSaveThumbnailToDatabase.Clear();
+                            if (GlobalData.IsApplicationClosing) lock (commonQueueSaveThumbnailToDatabaseLock) commonQueueSaveThumbnailToDatabase.Clear();
 
-                        //DataGridViewResumeInvoke();
-                    
-                        StartThreads();
-                        TriggerAutoResetEventQueueEmpty();
-                        _ThreadThumbnailMedia = null;
-                    });
-
+                            //DataGridViewResumeInvoke();
+                            _ThreadThumbnailMedia = null;
+                            StartThreads();
+                            TriggerAutoResetEventQueueEmpty();                            
+                        });
+                    }
                     if (_ThreadThumbnailMedia != null) _ThreadThumbnailMedia.Start();
                 }
                 catch (Exception ex)
@@ -1585,7 +1590,120 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        public bool IsFileInUsed(string fullFilename)
+        public bool IsFileInThreadQueue(StringCollection fileList)
+        {
+            bool fileInUse = false;
+            foreach (string fullFilename in fileList)
+            {
+                fileInUse = IsFileInThreadQueue(fullFilename);
+                if (fileInUse) break;
+            }
+            return fileInUse;
+        }
+
+        public bool IsFileInThreadQueue(Manina.Windows.Forms.ImageListView imageListView)
+        {
+            bool fileInUse = false;
+            foreach (Manina.Windows.Forms.ImageListViewItem listViewItem in imageListView.SelectedItems)
+            {
+                fileInUse = IsFileInThreadQueue(listViewItem.FileFullPath);
+                if (fileInUse) break;
+            }
+            return fileInUse;
+        }
+
+        public bool IsFolderInThreadQueue(string folder)
+        {
+            bool folderInUse = false;
+            #region commonQueueReadPosterAndSaveFaceThumbnails
+            lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
+            {
+                foreach (Metadata metadata in commonQueueReadPosterAndSaveFaceThumbnails)
+                {
+                    if (metadata.FileFullPath.StartsWith(folder))
+                    {
+                        folderInUse = true;
+                        break;
+                    }
+                }
+            }
+            #endregion
+
+            #region commonQueueSaveThumbnailToDatabase
+            if (!folderInUse)
+                lock (commonQueueSaveThumbnailToDatabaseLock)
+                {
+                    foreach (FileEntryImage fileEntry in commonQueueSaveThumbnailToDatabase)
+                    {
+                        if (fileEntry.FileFullPath.StartsWith(folder))
+                        {
+                            folderInUse = true;
+                            break;
+                        }
+                    }
+                }
+            #endregion
+
+            #region commonQueueReadMetadataFromMicrosoftPhotos
+            if (!folderInUse)
+                lock (commonQueueReadMetadataFromMicrosoftPhotosLock)
+                {
+                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
+                    {
+                        if (fileEntry.FileFullPath.StartsWith(folder))
+                        {
+                            folderInUse = true;
+                            break;
+                        }
+                    }
+                }
+            #endregion
+
+            #region commonQueueReadMetadataFromWindowsLivePhotoGallery
+            if (!folderInUse)
+                lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock)
+                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
+                    {
+                        if (fileEntry.FileFullPath.StartsWith(folder))
+                        {
+                            folderInUse = true;
+                            break;
+                        }
+                    }
+            #endregion
+
+            #region commonQueueReadMetadataFromExiftool
+            if (!folderInUse)
+                lock (commonQueueReadMetadataFromExiftoolLock)
+                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromExiftool)
+                    {
+                        if (fileEntry.FileFullPath.StartsWith(folder))
+                        {
+                            folderInUse = true;
+                            break;
+                        }
+                    }
+            #endregion
+
+            #region commonQueueSaveMetadataUpdatedByUser
+            if (!folderInUse)
+                lock (commonQueueSaveMetadataUpdatedByUserLock)
+                {
+                    foreach (Metadata metadata in commonQueueSaveMetadataUpdatedByUser)
+                    {
+                        if (metadata.FileFullPath.StartsWith(folder))
+                        {
+                            folderInUse = true;
+                            break;
+                        }
+                    }
+                }
+            #endregion
+
+            return folderInUse;
+        }
+
+        public bool IsFileInThreadQueue(string fullFilename)
         {
             bool fileInUse = false;
             #region commonQueueReadPosterAndSaveFaceThumbnails
@@ -1699,7 +1817,7 @@ namespace PhotoTagsSynchronizer
                             {
                                 fullFilename = keyValuePair.Key;
                                 renameVaiable = keyValuePair.Value;
-                                fileInUse = IsFileInUsed(fullFilename);
+                                fileInUse = IsFileInThreadQueue(fullFilename);
                                 if (!fileInUse) break; //File not in use found, start rename it
                             }
 

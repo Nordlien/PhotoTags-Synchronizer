@@ -1111,6 +1111,12 @@ namespace PhotoTagsSynchronizer
             folderTreeViewFolder.Enabled = false;
             imageListView1.Enabled = false;
 
+            if (IsFileInThreadQueue(imageListView1))
+            {
+                MessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.");
+                return;
+            }
+
             if (MessageBox.Show("Are you sure you will delete the files", "Files will be deleted!", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 using (new WaitCursor())
@@ -1158,9 +1164,14 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
         {
             string folder = folderTreeViewFolder.GetSelectedNodePath();
+
+            if (IsFolderInThreadQueue(folder))
+            {
+                MessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.");
+                return;
+            }
             try
             {
-
                 string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories).Take(51).ToArray();
                 if (MessageBox.Show("You are about to delete the folder:\r\n\r\n" +
                     folder + "\r\n\r\n" +
@@ -1374,13 +1385,22 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FolderTree - Drag and Drop -  Files or Folders
+        #region FolderTree - Drag and Drop - Files or Folders - ** Check if File is in ThreadQueue before accept move **
         private void CopyOrMove(DragDropEffects dragDropEffects, TreeNode targetNode, StringCollection fileDropList, string targetDirectory)
         {
             if (dragDropEffects == DragDropEffects.None)
             {
                 MessageBox.Show("Was not able to detect if you select copy or cut object that was pasted or dropped");
                 return;
+            }
+
+            if (dragDropEffects == DragDropEffects.None)
+            {
+                if (IsFileInThreadQueue(fileDropList))
+                {
+                    MessageBox.Show("Can't move files. Files are being used, you need wait until process is finished.");
+                    return;
+                }
             }
 
             StringCollection files = new StringCollection();
