@@ -700,8 +700,8 @@ namespace DataGridViewGeneric
                     {
                         _ThreadResumeDataGrid = new Thread(() =>
                         {
-                            Thread.Sleep(200);
-                            dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
+                            Thread.Sleep(750);
+                            if (suspendCount == 0) dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
                             _ThreadResumeDataGrid = null;
                         });
 

@@ -71,7 +71,7 @@ namespace Thumbnails
                 {
                     regionStructure = metadata.PersonalRegionList[i];
                     regionStructure.Thumbnail = CopyRegionFromImage(image, regionStructure);
-                    metadataDatabase.UpdateRegionThumbnail(metadata.FileEntryBroker, regionStructure);
+                    metadataDatabase.UpdateRegionThumbnail(metadata, regionStructure);
                 }
             }
             return true;

@@ -991,11 +991,13 @@ namespace PhotoTagsSynchronizer
         {
             if (GlobalData.IsPopulatingAnything()) return;
             //if (GlobalData.IsAgredagedGridViewAny()) return;
+            
             GlobalData.IsPopulatingButtonAction = true;
             GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 
             folderTreeViewFolder.Enabled = false;
+
             using (new WaitCursor())
             {
                 ImageListViewSuspendLayoutInvoke(imageListView1);
@@ -1003,19 +1005,18 @@ namespace PhotoTagsSynchronizer
                 LoadDataGridViewProgerss(imageListView1.SelectedItems.Count * 2, 0);
                 filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(this, imageListView1, imageListView1.Items, true);
                 filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1, imageListView1.Items, true);
-            }
-            LoadDataGridViewProgerssEnded();
 
-            folderTreeViewFolder.Enabled = true;
+                LoadDataGridViewProgerssEnded();
 
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-            GlobalData.IsPopulatingButtonAction = false;
-            GlobalData.IsPopulatingImageListView = false;
-            using (new WaitCursor())
-            {
+                folderTreeViewFolder.Enabled = true;
+
                 ImageListViewResumeLayoutInvoke(imageListView1);
-                FilesSelected();                
+
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+                GlobalData.IsPopulatingButtonAction = false;
+                GlobalData.IsPopulatingImageListView = false;
             }
+            FilesSelected();
 
             DataGridView dataGridView = GetActiveTabDataGridView();
             if (dataGridView != null) DataGridViewHandler.Focus(dataGridView);
@@ -1040,20 +1041,20 @@ namespace PhotoTagsSynchronizer
                 LoadDataGridViewProgerss(imageListView1.SelectedItems.Count * 2, 0);
                 filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(this, imageListView1, imageListView1.Items, false);
                 filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1, imageListView1.Items, false);
-            }
-            LoadDataGridViewProgerssEnded();
 
-            folderTreeViewFolder.Enabled = true;
+                LoadDataGridViewProgerssEnded();
 
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-            GlobalData.IsPopulatingButtonAction = false;
-            GlobalData.IsPopulatingImageListView = false;
+                folderTreeViewFolder.Enabled = true;
 
-            using (new WaitCursor())
-            {
                 ImageListViewResumeLayoutInvoke(imageListView1);
-                FilesSelected();                
-            }
+
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+                GlobalData.IsPopulatingButtonAction = false;
+                GlobalData.IsPopulatingImageListView = false;
+            }    
+            
+            FilesSelected();                
+            
 
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();

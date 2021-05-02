@@ -162,7 +162,14 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Populate File - For FileEntryAttribute and Tag
+
+
         //TODO: First face will not be refreach, due to DataGridView is not been finnished created before the data trigger update
+        
+        
+        
+        
+        
         private void PopulateDataGrivViewForFileEntryAttributeAndTag(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tag, int queueCount)
         {
             lock (GlobalData.populateSelectedLock)
@@ -177,7 +184,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                         break;
                     case "People":
-                        DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                        DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);                        
                         break;
                     case "Map":
                         DataGridViewHandlerMap.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
@@ -223,8 +230,10 @@ namespace PhotoTagsSynchronizer
             {
                 List<FileEntryAttribute> fileEntryAttributeDateVersions = databaseAndCacheMetadataExiftool.ListFileEntryAttributesCache(MetadataBrokerType.ExifTool, imageListViewItem.FileFullPath);
                 //When list is 0, then Metadata was not readed from mediafile and needs put back in read queue
-                if (fileEntryAttributeDateVersions.Count == 0) AddQueueMetadataReadToCacheOrUpdateFromSoruce(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
-
+                if (fileEntryAttributeDateVersions.Count == 0)
+                {
+                    AddQueueMetadataReadToCacheOrUpdateFromSoruce(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
+                }
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }
 

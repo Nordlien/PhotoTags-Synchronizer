@@ -133,14 +133,14 @@ namespace PhotoTagsSynchronizer
             {
                 rowIndexUsed = rowIndexRowFound;
                 RegionStructure regionStructureInCell = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndexUsed);
-                if (regionStructureInCell == null || regionStructureInCell?.Thumbnail == null || metadata.Broker == MetadataBrokerType.ExifTool)
+                if (regionStructureInCell == null || regionStructureInCell?.Thumbnail == null || (metadata.Broker == MetadataBrokerType.ExifTool && regionStructureToAdd.Thumbnail != null))
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexUsed, regionStructureToAdd); //Prioritize ExifTool
             } 
             else if (rowBlankFound) //Found row and but no cell with correct region
             {
                 rowIndexUsed = firstBlankFound;
                 RegionStructure regionStructureInCell = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndexUsed);
-                if (regionStructureInCell == null || regionStructureInCell?.Thumbnail == null || metadata.Broker == MetadataBrokerType.ExifTool)
+                if (regionStructureInCell == null || regionStructureInCell?.Thumbnail == null || (metadata.Broker == MetadataBrokerType.ExifTool && regionStructureToAdd.Thumbnail != null))
                     DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndexUsed, regionStructureToAdd); //Prioritize ExifTool
             }
             else //No postion found, add on sorted location
@@ -168,7 +168,7 @@ namespace PhotoTagsSynchronizer
             foreach (RegionStructure region in metadata.PersonalRegionList)
             {
                 DataGridViewGenericRow dataGridViewGenericRow = new DataGridViewGenericRow(headerPeople, region.Name, ReadWriteAccess.AllowCellReadAndWrite);
-
+                
                 AddRowRegion(dataGridView, metadataBrokerType, metadata, columnIndex, dataGridViewGenericRow,
                     new RegionStructure(region),//DataGridViewHandler.DeepCopy(region),
                     new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Undefine, true)); //Other cell for this row will by default be Empty and disabled
@@ -177,16 +177,19 @@ namespace PhotoTagsSynchronizer
 
         
         public static void PopulateFile(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, ShowWhatColumns showWhatColumns)
-
         {
             //-----------------------------------------------------------------
             //Chech if need to stop
-            if (GlobalData.IsApplicationClosing) return;
-            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) return;      //Not default columns or rows added
-            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) return;  //In progress doing so
+            if (GlobalData.IsApplicationClosing) 
+                return;
+            if (!DataGridViewHandler.GetIsAgregated(dataGridView)) 
+                return;      //Not default columns or rows added
+            if (DataGridViewHandler.GetIsPopulatingFile(dataGridView)) 
+                return;  //In progress doing so
 
             //Check if file is in DataGridView, and needs updated
-            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) return;
+            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath)) 
+                return;
 
             //When file found, Tell it's populating file, avoid two process updates
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, true);
@@ -217,7 +220,7 @@ namespace PhotoTagsSynchronizer
             int columnIndex = DataGridViewHandler.AddColumnOrUpdateNew(dataGridView, fileEntryAttribute, thumbnail, metadata, readWriteAccessColumn, showWhatColumns, DataGridViewGenericCellStatus.DefaultEmpty());
             //-----------------------------------------------------------------
 
-
+            if (columnIndex == -1) columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryAttribute); //Find column Index for Filename and date last written
             if (columnIndex != -1) 
             {
 

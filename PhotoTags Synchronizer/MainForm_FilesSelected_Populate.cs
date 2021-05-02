@@ -71,8 +71,6 @@ namespace PhotoTagsSynchronizer
                 rotateCW90ToolStripMenuItem.Enabled = true;
             }
 
-            
-            
             using (new WaitCursor())
             {
                 GlobalData.IsPopulatingImageListView = true;

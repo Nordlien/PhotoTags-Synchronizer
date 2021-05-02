@@ -1418,7 +1418,7 @@ namespace PhotoTagsSynchronizer
             //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
             lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
             {
-                if (!commonQueueReadPosterAndSaveFaceThumbnails.Contains(metadata)) commonQueueReadPosterAndSaveFaceThumbnails.Add(metadata);
+                if (!commonQueueReadPosterAndSaveFaceThumbnails.Contains(metadata)) commonQueueReadPosterAndSaveFaceThumbnails.Add(new Metadata(metadata));
             }
             StartThreads();
         }
@@ -1445,9 +1445,6 @@ namespace PhotoTagsSynchronizer
                     
                         while (CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0 && !GlobalData.IsApplicationClosing && !IsThreadRunningExcept_ThreadThumbnailRegion()) //In case some more added to the queue
                         {
-
-                            
-
                             try
                             {                            
                                 FileEntry fileEntryRegion;
@@ -1470,19 +1467,20 @@ namespace PhotoTagsSynchronizer
                                     int queueCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock(); //Mark count that we will work with. 
                                     for (int thumbnailIndex = 0; thumbnailIndex < queueCount; thumbnailIndex++)
                                     {
-                                        Metadata metadataActiveCopy = null;
+                                        Metadata metadataActiveAlreadyCopy = null;
                                         lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) 
-                                            { metadataActiveCopy = new Metadata(commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex]); }
+                                            { metadataActiveAlreadyCopy = commonQueueReadPosterAndSaveFaceThumbnails[thumbnailIndex]; }
 
                                         //Find current file entry in queue, Exiftool, Microsoft Photos, Windows Live Gallery, etc...
-                                        if (metadataActiveCopy.FileFullPath == fileEntryRegion.FileFullPath &&
-                                            metadataActiveCopy.FileDateModified == fileEntryRegion.LastWriteDateTime)
+                                        if (metadataActiveAlreadyCopy.FileFullPath == fileEntryRegion.FileFullPath &&
+                                            metadataActiveAlreadyCopy.FileDateModified == fileEntryRegion.LastWriteDateTime)
                                         {
                                             fileFoundNeedCheckForMore = true;
                                             fileIndexFound = thumbnailIndex;
                                             fileFoundInList = true;
+                                            
                                             //When found entry, check if has Face Regions to save
-                                            if (metadataActiveCopy.PersonalRegionList.Count > 0)
+                                            if (metadataActiveAlreadyCopy.PersonalRegionList.Count > 0)
                                             {
                                                 ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
 
@@ -1496,7 +1494,7 @@ namespace PhotoTagsSynchronizer
                                                     {
                                                         databaseAndCacheThumbnail.TransactionBeginBatch(); //Only load image when regions found
                                                         //Metadata found and updated, updated DataGricView                                             
-                                                        RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, metadataActiveCopy, image);
+                                                        RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, metadataActiveAlreadyCopy, image);
 
                                                         fileFoundInList = true;
                                                         databaseAndCacheThumbnail.TransactionCommitBatch();

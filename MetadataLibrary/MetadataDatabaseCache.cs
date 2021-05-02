@@ -726,9 +726,9 @@ namespace MetadataLibrary
         /// </summary>
         /// <param name="fileEntryBroker">Mediafile data will be updated</param>
         /// <param name="regionStructure">New RegionStructure that will be saved</param>
-        public void UpdateRegionThumbnail(FileEntryBroker fileEntryBroker, RegionStructure regionStructure)
+        public void UpdateRegionThumbnail(Metadata metadata, RegionStructure regionStructure)
         {
-            MetadataRegionCacheUpdate(fileEntryBroker, regionStructure);
+            MetadataRegionCacheUpdate(metadata, regionStructure);
 
             string sqlCommand =
                     "UPDATE MediaPersonalRegions " +
@@ -748,10 +748,10 @@ namespace MetadataLibrary
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
+                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadata.Broker);
+                commandDatabase.Parameters.AddWithValue("@FileDirectory", metadata.FileDirectory);
+                commandDatabase.Parameters.AddWithValue("@FileName", metadata.FileName);
+                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(metadata.FileDateModified));
                 commandDatabase.Parameters.AddWithValue("@Type", regionStructure.Type);
                 commandDatabase.Parameters.AddWithValue("@Name", regionStructure.Name);
                 commandDatabase.Parameters.AddWithValue("@AreaX", regionStructure.AreaX);
@@ -2114,12 +2114,24 @@ namespace MetadataLibrary
         #endregion
 
         #region Cache Metadata - Read - CacheOnly
-            public Metadata ReadMetadataFromCacheOnly(FileEntryBroker fileEntryBroker)
+        public Metadata ReadMetadataFromCacheOnly(FileEntryBroker fileEntryBroker)
         {
             lock (metadataCacheLock)
             {
                 if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result 
                 if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null             
+            }
+            return null;
+        }
+        #endregion
+
+        #region Cache Metadata - Read - CacheOnly
+        public Metadata ReadMetadataFromCacheOnlyCopy(FileEntryBroker fileEntryBroker)
+        {
+            lock (metadataCacheLock)
+            {
+                if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result 
+                if (metadataCache.ContainsKey(fileEntryBroker)) return new Metadata(metadataCache[fileEntryBroker]); //Also return null             
             }
             return null;
         }
@@ -2163,19 +2175,19 @@ namespace MetadataLibrary
         /// </summary>
         /// <param name="fileEntryBroker">Index of metadata to search for in cache</param>
         /// <param name="regionStructure">New region data</param>
-        private void MetadataRegionCacheUpdate(FileEntryBroker fileEntryBroker, RegionStructure regionStructure)
+        private void MetadataRegionCacheUpdate(Metadata metadata, RegionStructure regionStructure)
         {
-            Metadata metadataInCache = new Metadata(ReadMetadataFromCacheOnly(fileEntryBroker));
-            MetadataCacheRemoveMetadataCacheRemove(fileEntryBroker);
+            Metadata metadataCopy = new Metadata(metadata);
+            MetadataCacheRemoveMetadataCacheRemove(metadata.FileEntryBroker);
 
-            if (metadataInCache != null)
+            if (metadataCopy != null)
             {
                 lock (metadataCacheLock)
                 {
                     int indexRegionFound = -1;
-                    for (int indexRegion = 0; indexRegion < metadataInCache.PersonalRegionList.Count; indexRegion++)
+                    for (int indexRegion = 0; indexRegion < metadataCopy.PersonalRegionList.Count; indexRegion++)
                     {
-                        if (regionStructure == metadataInCache.PersonalRegionList[indexRegion])
+                        if (regionStructure == metadataCopy.PersonalRegionList[indexRegion])
                         {
                             indexRegionFound = indexRegion;
                             break;
@@ -2183,11 +2195,11 @@ namespace MetadataLibrary
                     }
                     if (indexRegionFound >= 0)
                     {
-                        metadataInCache.PersonalRegionList.RemoveAt(indexRegionFound);
-                        metadataInCache.PersonalRegionList.Insert(indexRegionFound, new RegionStructure(regionStructure));
+                        metadataCopy.PersonalRegionList.RemoveAt(indexRegionFound);
+                        metadataCopy.PersonalRegionList.Insert(indexRegionFound, new RegionStructure(regionStructure));
                     }
                 }
-                MetadataCacheUpdate(fileEntryBroker, metadataInCache);
+                MetadataCacheUpdate(metadata.FileEntryBroker, metadataCopy);
             }            
         }
         #endregion 
