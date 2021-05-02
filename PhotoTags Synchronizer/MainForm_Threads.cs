@@ -1585,6 +1585,97 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        public bool IsFileInUsed(string fullFilename)
+        {
+            bool fileInUse = false;
+            #region commonQueueReadPosterAndSaveFaceThumbnails
+            lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
+            {
+                foreach (Metadata metadata in commonQueueReadPosterAndSaveFaceThumbnails)
+                {
+                    if (metadata.FileFullPath == fullFilename)
+                    {
+                        fileInUse = true;
+                        break;
+                    }
+                }
+            }
+            #endregion
+
+            #region commonQueueSaveThumbnailToDatabase
+            if (!fileInUse)
+                lock (commonQueueSaveThumbnailToDatabaseLock)
+                {
+                    foreach (FileEntryImage fileEntry in commonQueueSaveThumbnailToDatabase)
+                    {
+                        if (fileEntry.FileFullPath == fullFilename)
+                        {
+                            fileInUse = true;
+                            break;
+                        }
+                    }
+                }
+            #endregion
+
+            #region commonQueueReadMetadataFromMicrosoftPhotos
+            if (!fileInUse)
+                lock (commonQueueReadMetadataFromMicrosoftPhotosLock)
+                {
+                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
+                    {
+                        if (fileEntry.FileFullPath == fullFilename)
+                        {
+                            fileInUse = true;
+                            break;
+                        }
+                    }
+                }
+            #endregion
+
+            #region commonQueueReadMetadataFromWindowsLivePhotoGallery
+            if (!fileInUse)
+                lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock)
+                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
+                    {
+                        if (fileEntry.FileFullPath == fullFilename)
+                        {
+                            fileInUse = true;
+                            break;
+                        }
+                    }
+            #endregion
+
+            #region commonQueueReadMetadataFromExiftool
+            if (!fileInUse)
+                lock (commonQueueReadMetadataFromExiftoolLock)
+                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromExiftool)
+                    {
+                        if (fileEntry.FileFullPath == fullFilename)
+                        {
+                            fileInUse = true;
+                            break;
+                        }
+                    }
+            #endregion
+
+            #region commonQueueSaveMetadataUpdatedByUser
+            if (!fileInUse)
+                lock (commonQueueSaveMetadataUpdatedByUserLock)
+                {
+                    foreach (Metadata metadata in commonQueueSaveMetadataUpdatedByUser)
+                    {
+                        if (metadata.FileFullPath == fullFilename)
+                        {
+                            fileInUse = true;
+                            break;
+                        }
+                    }
+                }
+            #endregion
+
+            return fileInUse;
+        }
+
         #region Rename - ThreadRename
         public void ThreadRename()
         {
@@ -1599,6 +1690,7 @@ namespace PhotoTagsSynchronizer
                         string fullFilename = "";
                         string renameVaiable = "";
                         bool fileInUse = false;
+
                         #region Find a file ready for rename
                         lock (commonQueueRenameLock)
                         {
@@ -1607,95 +1699,12 @@ namespace PhotoTagsSynchronizer
                             {
                                 fullFilename = keyValuePair.Key;
                                 renameVaiable = keyValuePair.Value;
-
-                                #region commonQueueReadPosterAndSaveFaceThumbnails
-                                lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
-                                {
-                                    foreach (Metadata metadata in commonQueueReadPosterAndSaveFaceThumbnails)
-                                    {
-                                        if (metadata.FileFullPath == fullFilename)
-                                        {
-                                            fileInUse = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                                #endregion 
-
-                                #region commonQueueSaveThumbnailToDatabase
-                                if (!fileInUse)
-                                    lock (commonQueueSaveThumbnailToDatabaseLock)
-                                    {
-                                        foreach (FileEntryImage fileEntry in commonQueueSaveThumbnailToDatabase)
-                                        {
-                                            if (fileEntry.FileFullPath == fullFilename)
-                                            {
-                                                fileInUse = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                #endregion
-
-                                #region commonQueueReadMetadataFromMicrosoftPhotos
-                                if (!fileInUse) 
-                                    lock(commonQueueReadMetadataFromMicrosoftPhotosLock)
-                                    {
-                                        foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
-                                        {
-                                            if (fileEntry.FileFullPath == fullFilename)
-                                            {
-                                                fileInUse = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                #endregion
-
-                                #region commonQueueReadMetadataFromWindowsLivePhotoGallery
-                                if (!fileInUse)
-                                    lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock)
-                                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
-                                    {
-                                        if (fileEntry.FileFullPath == fullFilename)
-                                        {
-                                            fileInUse = true;
-                                            break;
-                                        }
-                                    }
-                                #endregion
-
-                                #region commonQueueReadMetadataFromExiftool
-                                if (!fileInUse)
-                                    lock(commonQueueReadMetadataFromExiftoolLock)
-                                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromExiftool)
-                                    {
-                                        if (fileEntry.FileFullPath == fullFilename)
-                                        {
-                                            fileInUse = true;
-                                            break;
-                                        }
-                                    }
-                                #endregion
-
-                                #region commonQueueSaveMetadataUpdatedByUser
-                                if (!fileInUse)
-                                    lock (commonQueueSaveMetadataUpdatedByUserLock)
-                                    {
-                                        foreach (Metadata metadata in commonQueueSaveMetadataUpdatedByUser)
-                                        {
-                                            if (metadata.FileFullPath == fullFilename)
-                                            {
-                                                fileInUse = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                #endregion
-                            
+                                fileInUse = IsFileInUsed(fullFilename);
+                                if (!fileInUse) break; //File not in use found, start rename it
                             }
+
                         }
-                        #endregion 
+                        #endregion
 
                         #region Remove from qeueu
                         if (!fileInUse)
