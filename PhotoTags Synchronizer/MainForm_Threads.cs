@@ -73,12 +73,12 @@ namespace PhotoTagsSynchronizer
         }
 
         private static readonly Object _ThreadThumbnailMediaLock = new Object();
-        private static Thread threadThumbnailMedia = null;
-        private static Thread _ThreadThumbnailMedia
-        {
+        //private static Thread threadThumbnailMedia = null;
+        private static Thread _ThreadThumbnailMedia = null;
+        /*{
             get { lock (_ThreadThumbnailMediaLock) { return threadThumbnailMedia; } }
             set { lock (_ThreadThumbnailMediaLock) { threadThumbnailMedia = value; } }
-        }
+        }*/
 
         private static readonly Object _ThreadMicrosoftPhotosLock = new Object();
         private static Thread threadMicrosoftPhotos = null;
@@ -712,14 +712,13 @@ namespace PhotoTagsSynchronizer
                     {
                         _ThreadThumbnailMedia = new Thread(() =>
                         {
-                        //DataGridViewSuspendInvoke();
-
-                        while (CommonQueueSaveThumbnailToDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue or App will close
-                        {
+                            #region While data in thread
+                            while (CommonQueueSaveThumbnailToDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue or App will close
+                            {
                                 if (CommonQueueReadMetadataFromExiftoolCountLock() > 0) break; //Wait all metadata readfirst
-                            if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
+                                if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
 
-                            try
+                                try
                                 {
                                     FileEntryImage fileEntryImage;
                                     lock (commonQueueSaveThumbnailToDatabaseLock)
@@ -744,8 +743,8 @@ namespace PhotoTagsSynchronizer
                                     }
                                     else
                                     {
-                                    //DEBUG, Manage to reproduce when select lot files and run log AutoCorrect Updates, Refresh
-                                }
+                                        //DEBUG, Manage to reproduce when select lot files and run log AutoCorrect Updates, Refresh
+                                    }
 
                                     lock (commonQueueSaveThumbnailToDatabaseLock)
                                     {
@@ -761,13 +760,15 @@ namespace PhotoTagsSynchronizer
 
                             if (GlobalData.IsApplicationClosing) lock (commonQueueSaveThumbnailToDatabaseLock) commonQueueSaveThumbnailToDatabase.Clear();
 
-                            //DataGridViewResumeInvoke();
-                            _ThreadThumbnailMedia = null;
-                            StartThreads();
+                            #endregion 
+
+                            //_ThreadThumbnailMedia = null;
+                            //StartThreads();
                             TriggerAutoResetEventQueueEmpty();                            
                         });
-                    }
-                    if (_ThreadThumbnailMedia != null) _ThreadThumbnailMedia.Start();
+
+                        if (_ThreadThumbnailMedia != null) _ThreadThumbnailMedia.Start();
+                    }                    
                 }
                 catch (Exception ex)
                 {

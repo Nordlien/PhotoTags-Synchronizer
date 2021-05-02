@@ -164,11 +164,11 @@ namespace WindowsLivePhotoGallery
             }
         }
 
-        
+        private bool lostConnectionWithTimeout = false;
         public Metadata Read(MetadataBrokerType broker, string fullFilePath)
         {
             Stopwatch stopWatch = new Stopwatch();
-            
+            if (lostConnectionWithTimeout) return null;
             stopWatch.Restart();
             StartServer();
 
@@ -188,10 +188,16 @@ namespace WindowsLivePhotoGallery
                 if (stopWatch.ElapsedMilliseconds > 10) Logger.Info("Push file request {0}ms...", stopWatch.ElapsedMilliseconds);
 
                 stopWatch.Restart();
-                if (waitEventPipeCommandReturn.WaitOne(60000)) 
+                if (waitEventPipeCommandReturn.WaitOne(10000))
                     return metadataReadFromPipe;
-                else 
+                else
+                {
+                    lostConnectionWithTimeout = true;
+                    MessageBox.Show("Lost connection with Windows Live Photo Gallery pipe server. Recomment to close application and restart.");
                     Logger.Info("Wait message timeout... {0}", stopWatch.ElapsedMilliseconds);
+                    return null;
+
+                }
             }
             return null;
         }
