@@ -475,47 +475,42 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-        private void FolderTreeInitInvoke()
-        {
-            if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action(FolderTreeInitInvoke));
-                return;
-            }
-
-            SplashForm.UpdateStatus("Initialize folder tree...");
-            GlobalData.IsPopulatingFolderTree = true;
-
-            this.folderTreeViewFolder.InitFolderTreeView();
-
-            Properties.Settings.Default.Reload();
-            string folder = Properties.Settings.Default.LastFolder;
-            if (Directory.Exists(folder))
-                folderTreeViewFolder.DrillToFolder(folder);
-            else
-                folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
-            GlobalData.IsPopulatingFolderTree = false;
-
-            SplashForm.UpdateStatus("Populate search filters...");
-            PopulateDatabaseFilter();
-
-            PopulateSelectGroupToolStripMenuItems();
-        }
-
         #region MainForm_Load / Shown
         private void MainForm_Load(object sender, EventArgs e)
         {
 
             try
             {
-                Thread threadCache = new Thread(() =>
-                {
-                    FolderTreeInitInvoke();
-                });
-                threadCache.Start();
+                SplashForm.UpdateStatus("Initialize folder tree...");
+                GlobalData.IsPopulatingFolderTree = true;
+
+                this.folderTreeViewFolder.InitFolderTreeView();
+
+                string folder = Properties.Settings.Default.LastFolder;
+                if (Directory.Exists(folder))
+                    folderTreeViewFolder.DrillToFolder(folder);
+                else
+                    folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
+                GlobalData.IsPopulatingFolderTree = false;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            try
+            {
+                SplashForm.UpdateStatus("Populate search filters...");
+                PopulateDatabaseFilter();
+
+                PopulateSelectGroupToolStripMenuItems();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
+
 
             SplashForm.CloseForm();
 

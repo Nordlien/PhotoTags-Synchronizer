@@ -18,6 +18,7 @@ namespace PhotoTagsSynchronizer
 {
     public partial class MainForm : Form
     {
+        #region Thread variables
         private static readonly Object _ThreadCacheSelectedFastReadLock = new Object();
         private static Thread _ThreadCacheSelectedFastRead = null; //
 
@@ -53,10 +54,9 @@ namespace PhotoTagsSynchronizer
 
         private static readonly Object _ThreadRenameMedafilesLock = new Object();
         private static Thread _ThreadRenameMedafiles = null; //
+        #endregion
 
-
-
-
+        #region Queue listes
         private static List<FileEntryAttribute> commonQueuePreloadingMetadata = new List<FileEntryAttribute>();
         private static readonly Object commonQueuePreloadingMetadataLock = new Object();
 
@@ -103,7 +103,7 @@ namespace PhotoTagsSynchronizer
         //Error handling
         private static Dictionary<string, string> queueErrorQueue = new Dictionary<string, string>();
         private static readonly Object queueErrorQueueLock = new Object();
-
+        #endregion
 
         #region Get Count of items in Queue with Lock
         /// <summary>
