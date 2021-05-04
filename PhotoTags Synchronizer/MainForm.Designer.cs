@@ -38,6 +38,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBarThreadQueue = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripProgressBarSaveProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripProgressBarDataGridViewLoading = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusQueue = new System.Windows.Forms.ToolStripStatusLabel();
@@ -477,6 +478,7 @@ namespace PhotoTagsSynchronizer
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusFilesAndSelected,
+            this.toolStripProgressBarThreadQueue,
             this.toolStripProgressBarSaveProgress,
             this.toolStripProgressBarDataGridViewLoading,
             this.toolStripStatusQueue,
@@ -496,12 +498,22 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusFilesAndSelected.Size = new System.Drawing.Size(133, 24);
             this.toolStripStatusFilesAndSelected.Text = "Files: 0 Selected: 0";
             // 
+            // toolStripProgressBarThreadQueue
+            // 
+            this.toolStripProgressBarThreadQueue.ForeColor = System.Drawing.Color.Red;
+            this.toolStripProgressBarThreadQueue.Name = "toolStripProgressBarThreadQueue";
+            this.toolStripProgressBarThreadQueue.Size = new System.Drawing.Size(100, 22);
+            this.toolStripProgressBarThreadQueue.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.toolStripProgressBarThreadQueue.ToolTipText = "Fetching Exifdata from media";
+            this.toolStripProgressBarThreadQueue.Value = 50;
+            // 
             // toolStripProgressBarSaveProgress
             // 
             this.toolStripProgressBarSaveProgress.Name = "toolStripProgressBarSaveProgress";
             this.toolStripProgressBarSaveProgress.Size = new System.Drawing.Size(100, 22);
             this.toolStripProgressBarSaveProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.toolStripProgressBarSaveProgress.ToolTipText = "Save progress";
+            this.toolStripProgressBarSaveProgress.Value = 50;
             this.toolStripProgressBarSaveProgress.Visible = false;
             // 
             // toolStripProgressBarDataGridViewLoading
@@ -509,8 +521,8 @@ namespace PhotoTagsSynchronizer
             this.toolStripProgressBarDataGridViewLoading.Name = "toolStripProgressBarDataGridViewLoading";
             this.toolStripProgressBarDataGridViewLoading.Size = new System.Drawing.Size(100, 22);
             this.toolStripProgressBarDataGridViewLoading.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.toolStripProgressBarDataGridViewLoading.ToolTipText = "Load metadata status";
-            this.toolStripProgressBarDataGridViewLoading.Value = 100;
+            this.toolStripProgressBarDataGridViewLoading.ToolTipText = "Update DataGridView ";
+            this.toolStripProgressBarDataGridViewLoading.Value = 50;
             this.toolStripProgressBarDataGridViewLoading.Visible = false;
             // 
             // toolStripStatusQueue
@@ -4650,6 +4662,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsAndKeywordMediaPreview;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMediaPreview;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningMediaPreview;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarThreadQueue;
     }
 }
 
