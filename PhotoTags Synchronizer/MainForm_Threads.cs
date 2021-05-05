@@ -1517,7 +1517,7 @@ namespace PhotoTagsSynchronizer
                 if (
                    (_ThreadThumbnailRegion == null ||
                    (_ThreadThumbnailRegion.ThreadState != System.Threading.ThreadState.Running && _ThreadThumbnailRegion.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   ) && CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0)
+                   )) //&& CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0)
                 {
 
                     lock (_ThreadThumbnailRegionLock)
@@ -1525,29 +1525,36 @@ namespace PhotoTagsSynchronizer
                         _ThreadThumbnailRegion = new Thread(() =>
                         {
                             #region
-                            while (CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0 && !GlobalData.IsApplicationClosing && !IsThreadRunningExcept_ThreadThumbnailRegion()) //In case some more added to the queue
+
+                            int curentCommonQueueReadPosterAndSaveFaceThumbnailsCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock();
+                            bool onlyDoWhatIsInCacheToAvoidHarddriveOverload = (IsThreadRunningExcept_ThreadThumbnailRegion() == true);
+                            
+                            int indexSource = 0;
+
+                            while (indexSource < curentCommonQueueReadPosterAndSaveFaceThumbnailsCount)  //Loop until queue empty or checked all
                             {
                                 try
                                 {
                                     FileEntry fileEntryRegion;
                                     lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
-                                    { fileEntryRegion = new FileEntry(commonQueueReadPosterAndSaveFaceThumbnails[0].FileEntryBroker); }
+                                    { fileEntryRegion = new FileEntry(commonQueueReadPosterAndSaveFaceThumbnails[indexSource].FileEntryBroker); }
 
-                                    bool fileFoundNeedCheckForMore;
-                                    int fileIndexFound;
+                                    int fileIndexFound; //Loop all files and check more version of the file
+                                    bool fileFoundNeedCheckForMoreWithSameFilename; //Due to remove item, need loop queue once more
+                                    bool fileFoundRemoveFromList; //If other ques not empty, only create Regions on cahced posters, when others queues emoty start working on hardrive
                                     bool fileFoundInList = false;
 
-                                    do //Remove all with same filename in the queue
+                                    do //Loop the queue, to find regions for WLPG, Photos, WebScraping, Exiftoool then save and remove all with same filename
                                     {
-                                        fileFoundNeedCheckForMore = false;
+                                        fileFoundNeedCheckForMoreWithSameFilename = false;
+                                        fileFoundRemoveFromList = false;
                                         fileIndexFound = -1;
-
-                                        //Check Exiftool, Microsoft Phontos, Windows Live Photo Gallery in queue also
 
                                         Image image = null; //No image loaded
 
                                         int queueCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock(); //Mark count that we will work with. 
-                                        for (int thumbnailIndex = 0; thumbnailIndex < queueCount; thumbnailIndex++)
+
+                                        for (int thumbnailIndex = indexSource; thumbnailIndex < queueCount; thumbnailIndex++) //Not need to check already checked -> thumbnailIndex = indexSource
                                         {
                                             Metadata metadataActiveAlreadyCopy = null;
                                             lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
@@ -1557,64 +1564,84 @@ namespace PhotoTagsSynchronizer
                                             if (metadataActiveAlreadyCopy.FileFullPath == fileEntryRegion.FileFullPath &&
                                                 metadataActiveAlreadyCopy.FileDateModified == fileEntryRegion.LastWriteDateTime)
                                             {
-                                                fileFoundNeedCheckForMore = true;
+
                                                 fileIndexFound = thumbnailIndex;
                                                 fileFoundInList = true;
+                                                fileFoundNeedCheckForMoreWithSameFilename = true;
 
                                                 //When found entry, check if has Face Regions to save
-                                                if (metadataActiveAlreadyCopy.PersonalRegionList.Count > 0)
+                                                if (metadataActiveAlreadyCopy.PersonalRegionList.Count == 0)
                                                 {
-                                                    ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
-
-                                                    //Check if the current Metadata are same as newst file...
-                                                    //If not file exist anymore, date will become {01.01.1601 01:00:00}
-                                                    if (File.Exists(fileEntryRegion.FileFullPath) && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
+                                                    fileFoundRemoveFromList = true; //No regions to create, remove from queue
+                                                }
+                                                else
+                                                {
+                                                    if (onlyDoWhatIsInCacheToAvoidHarddriveOverload)
                                                     {
-                                                        if (image == null) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, true); //Only load once when found
+                                                        image = PosterCacheRead(fileEntryRegion.FileFullPath);
+                                                        if (image != null) 
+                                                            fileFoundRemoveFromList = true;
+                                                        else 
+                                                            fileFoundRemoveFromList = false; //Not in cache, need wait for loading starts (that's after all other queue empty)
+                                                    }
+                                                    else
+                                                    {
+                                                        fileFoundRemoveFromList = true;
+                                                        ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
 
-                                                        if (image != null) //If still Failed load cover art, often occur after filed is moved or deleted
+                                                        //Check if the current Metadata are same as newst file... If not file exist anymore, date will become {01.01.1601 01:00:00}
+                                                        if (File.Exists(fileEntryRegion.FileFullPath) && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
                                                         {
-                                                            databaseAndCacheThumbnail.TransactionBeginBatch(); //Only load image when regions found
-                                                                                                               //Metadata found and updated, updated DataGricView                                             
-                                                            RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, metadataActiveAlreadyCopy, image);
+                                                            
+                                                            image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, true); //Only load once when found
 
-                                                            fileFoundInList = true;
-                                                            databaseAndCacheThumbnail.TransactionCommitBatch();
+                                                            if (image == null) //If failed load cover art, often occur after filed is moved or deleted
+                                                            {
+                                                                //fileFoundInList = false;
 
-                                                            PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntryRegion, FileEntryVersion.Current)); //Updated Gridview
-                                                        }
-                                                        else
-                                                        {
-                                                            fileFoundInList = false;
 
-                                                            string writeErrorDesciption = "Failed loading file. Was not able to update thumbnail for region for the file:" + fileEntryRegion.FileFullPath;
-                                                            Logger.Error(writeErrorDesciption);
+                                                                string writeErrorDesciption = "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryRegion.FileFullPath;
+                                                                Logger.Error(writeErrorDesciption);
 
-                                                            AddError(
-                                                                fileEntryRegion.Directory,
-                                                                fileEntryRegion.FileName,
-                                                                fileEntryRegion.LastWriteDateTime,
-                                                                AddErrorFileSystemRegion, AddErrorFileSystemRead,
-                                                                AddErrorFileSystemRead, AddErrorFileSystemRead,
-                                                                writeErrorDesciption);
+                                                                AddError(
+                                                                    fileEntryRegion.Directory,
+                                                                    fileEntryRegion.FileName,
+                                                                    fileEntryRegion.LastWriteDateTime,
+                                                                    AddErrorFileSystemRegion, AddErrorFileSystemRead,
+                                                                    AddErrorFileSystemRead, AddErrorFileSystemRead,
+                                                                    writeErrorDesciption);
+                                                            }
                                                         }
                                                     }
-                                                    //else Logger.Info("Don't load posters when request are with Diffrent LastWrittenDateTime:" + commonQueueReadPosterAndSaveFaceThumbnails[0].FileName);
+
+                                                    if (image != null) //Save regions when have image poster 
+                                                    {
+                                                        databaseAndCacheThumbnail.TransactionBeginBatch();                                                                                                                                                       
+                                                        RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, metadataActiveAlreadyCopy, image);
+                                                        databaseAndCacheThumbnail.TransactionCommitBatch();
+                                                        PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntryRegion, FileEntryVersion.Current)); //Updated Gridview
+                                                    }
                                                 }
 
-                                                if (fileFoundNeedCheckForMore) break; //No need to search more.
+                                                if (fileFoundNeedCheckForMoreWithSameFilename) break; //No need to search more.
                                             }
-                                        }
+                                        } //end of loop: for (int thumbnailIndex = indexSource; thumbnailIndex < queueCount; thumbnailIndex++)
 
                                         lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
                                         {
-                                            if (fileIndexFound > -1) commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(fileIndexFound);
+                                            if (fileFoundRemoveFromList && fileIndexFound > -1)
+                                            {
+                                                curentCommonQueueReadPosterAndSaveFaceThumbnailsCount--;
+                                                commonQueueReadPosterAndSaveFaceThumbnails.RemoveAt(fileIndexFound);
+                                                //Check next FileEntry in queue, current will be next, due to removed an item
+                                            }
+                                            else indexSource++; //Check next FileEntry in queue
                                         }
 
 
-                                    } while (fileFoundNeedCheckForMore);
+                                    } while (fileFoundNeedCheckForMoreWithSameFilename);
 
-                                    if (!fileFoundInList)
+                                    if (!fileFoundInList) //Should never occur ;-)
                                     {
                                         string writeErrorDesciption = "ThreadReadMediaPosterSaveRegions, file not found list for updated:" + fileEntryRegion.FileFullPath;
                                         Logger.Error(writeErrorDesciption);
@@ -1626,7 +1653,8 @@ namespace PhotoTagsSynchronizer
                                 }
 
                                 DisplayAllQueueStatus();
-                            }
+
+                            } //while (indexSource < curentCommonQueueReadPosterAndSaveFaceThumbnailsCount);
 
                             if (GlobalData.IsApplicationClosing) lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) commonQueueReadPosterAndSaveFaceThumbnails.Clear();
                             #endregion
