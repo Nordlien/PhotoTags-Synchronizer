@@ -100,7 +100,7 @@ namespace Exiftool
             dbTools.TransactionCommitBatch(false);
         }
 
-        public void DeleteDirectory(string fileDirectory)
+        public void DeleteDirectoryAndHistory(string fileDirectory)
         {
             string sqlCommand = "DELETE FROM MediaExiftoolTagsWarning WHERE FileDirectory = @FileDirectory";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))

@@ -74,9 +74,8 @@ namespace PhotoTagsSynchronizer
                 return;
             }
 
-            
             toolStripStatusFilesAndSelected.Text = string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
-
+            
             int regionCount = 0;
             try
             {
@@ -85,54 +84,55 @@ namespace PhotoTagsSynchronizer
                     foreach (Metadata metadataRegionCount in commonQueueReadPosterAndSaveFaceThumbnails) regionCount += metadataRegionCount.PersonalRegionList.Count;
                 }
             } catch { }
-
+            
             int threadQueuCount = 0;
-            if (GetFileEntriesRotateMediaCountLock() > 0) 
-                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Rotate: {0}", GetFileEntriesRotateMediaCountLock());
-            threadQueuCount += GetFileEntriesRotateMediaCountLock();
+            if (GetFileEntriesRotateMediaCountDirty() > 0) 
+                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Rotate: {0}", GetFileEntriesRotateMediaCountDirty());
+            threadQueuCount += GetFileEntriesRotateMediaCountDirty();
 
-            if (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0)
-                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("WLPG: {0}", CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock());
-            threadQueuCount += CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock();
-
-            if (CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0)
-                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("MP: {0}", CommonQueueReadMetadataFromMicrosoftPhotosCountLock());
-            threadQueuCount += CommonQueueReadMetadataFromMicrosoftPhotosCountLock();
-
-            if (CommonQueueSaveThumbnailToDatabaseCountLock() > 0)
-                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Thumbnails: {0}", CommonQueueSaveThumbnailToDatabaseCountLock());
-            threadQueuCount += CommonQueueSaveThumbnailToDatabaseCountLock();
-
-            if (CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() + regionCount > 0 )
+            if (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty() > 0)
+                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("WLPG: {0}", CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty());
+            threadQueuCount += CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty();
+            
+            if (CommonQueueReadMetadataFromMicrosoftPhotosCountDirty() > 0)
+                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("MP: {0}", CommonQueueReadMetadataFromMicrosoftPhotosCountDirty());
+            threadQueuCount += CommonQueueReadMetadataFromMicrosoftPhotosCountDirty();
+            
+            if (CommonQueueSaveThumbnailToDatabaseCountDirty() > 0)
+                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Thumbnails: {0}", CommonQueueSaveThumbnailToDatabaseCountDirty());
+            threadQueuCount += CommonQueueSaveThumbnailToDatabaseCountDirty();
+            
+            if (CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty() + regionCount > 0 )
                 toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Regions: {0}/{1}", 
-                CommonQueueReadPosterAndSaveFaceThumbnailsCountLock(), regionCount);
-            threadQueuCount += CommonQueueReadPosterAndSaveFaceThumbnailsCountLock();
+                CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty(), regionCount);
+            threadQueuCount += CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty();
             threadQueuCount += regionCount;
-
-            if (CommonQueueReadMetadataFromExiftoolCountLock() +  MediaFilesNotInDatabaseCountLock() + CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountLock() > 0)
+            
+            if (CommonQueueReadMetadataFromExiftoolCountDirty() + MediaFilesNotInDatabaseCountDirty() + CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty() > 0)
                 toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Exif: Check:{0} Exiftool:{1} Verify:{2}",
-                CommonQueueReadMetadataFromExiftoolCountLock(), MediaFilesNotInDatabaseCountLock(), CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountLock());
-            threadQueuCount += CommonQueueReadMetadataFromExiftoolCountLock();
-            threadQueuCount += MediaFilesNotInDatabaseCountLock();
-            threadQueuCount += CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountLock();
-
-            if (CountSaveQueue() > 0)                                   
-               toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Saving: {0}", CountSaveQueue());
-            threadQueuCount += CountSaveQueue();
-
-            if (CommonQueueRenameCountLock() > 0)
-                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Rename: {0}", CommonQueueRenameCountLock());
-            threadQueuCount += CommonQueueRenameCountLock();
-
-            if (CommonQueuePreloadingMetadataCountLock() + CommonQueueLazyLoadingMetadataCountLock() + CommonQueueLazyLoadingThumbnailCountLock() > 0)
+                CommonQueueReadMetadataFromExiftoolCountDirty(), MediaFilesNotInDatabaseCountDirty(), CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty());
+            
+            threadQueuCount += CommonQueueReadMetadataFromExiftoolCountDirty();
+            threadQueuCount += MediaFilesNotInDatabaseCountDirty();
+            threadQueuCount += CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty();
+            
+            if (CountSaveQueueLock() > 0)                                   
+               toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Saving: {0}", CountSaveQueueLock());
+            threadQueuCount += CountSaveQueueLock();
+            
+            if (CommonQueueRenameCountDirty() > 0)
+                toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Rename: {0}", CommonQueueRenameCountDirty());
+            threadQueuCount += CommonQueueRenameCountDirty();
+            
+            if (CommonQueuePreloadingMetadataCountDirty() + CommonQueueLazyLoadingMetadataCountDirty() + CommonQueueLazyLoadingThumbnailCountDirty() > 0)
                 toolStripStatusQueue.Text += (toolStripStatusQueue.Text == "" ? "" : " ") + string.Format("Preload: {0}, Metadata: {1}, Thumbnail: {2}",
-                CommonQueuePreloadingMetadataCountLock(),
-                CommonQueueLazyLoadingMetadataCountLock(),
-                CommonQueueLazyLoadingThumbnailCountLock()); 
-            threadQueuCount += CommonQueuePreloadingMetadataCountLock();
-            threadQueuCount += CommonQueueLazyLoadingMetadataCountLock();
-            threadQueuCount += CommonQueueLazyLoadingThumbnailCountLock();
-
+                CommonQueuePreloadingMetadataCountDirty(),
+                CommonQueueLazyLoadingMetadataCountDirty(),
+                CommonQueueLazyLoadingThumbnailCountDirty()); 
+            threadQueuCount += CommonQueuePreloadingMetadataCountDirty();
+            threadQueuCount += CommonQueueLazyLoadingMetadataCountDirty();
+            threadQueuCount += CommonQueueLazyLoadingThumbnailCountDirty();
+            
             LoadDataThreadProgerssCountDown(threadQueuCount);
         }
         #endregion
@@ -215,7 +215,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region UpdateExiftoolSaveStatus - CountSaveQueue
-        private int CountSaveQueue()
+        private int CountSaveQueueLock()
         {
             int countToSave = CommonQueueSaveMetadataUpdatedByUserCountLock();
             try
@@ -241,7 +241,8 @@ namespace PhotoTagsSynchronizer
         public void LoadDataGridViewProgerssAdd()
         {
             queueCountIndex++;
-            if (queueCountIndex > queueCountSize) queueCountSize = queueCountIndex + 10;
+            if (queueCountIndex > queueCountSize) 
+                queueCountSize = queueCountIndex + 100;
             LoadDataGridViewProgerss(queueCountSize, queueCountIndex);
         }
 

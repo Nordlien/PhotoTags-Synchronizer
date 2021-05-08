@@ -27,8 +27,6 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
         private ShowWhatColumns showWhatColumns;
 
         private readonly Size[] thumbnailSizes =
@@ -304,7 +302,9 @@ namespace PhotoTagsSynchronizer
                 using (nHttpServer = new HttpServer())
                 {
                     nHttpServer.WriteBufferSize = 1024 * 1024 * 10;
+                    nHttpServer.RequestReceived -= NHttpServer_RequestReceived;
                     nHttpServer.RequestReceived += NHttpServer_RequestReceived;
+                    nHttpServer.StateChanged -= NHttpServer_StateChanged;
                     nHttpServer.StateChanged += NHttpServer_StateChanged;
                     nHttpServer.UnhandledException += NHttpServer_UnhandledException;
                     nHttpServer.EndPoint = new IPEndPoint(IPAddress.Parse(GetLocalIp()), GetOpenPort());

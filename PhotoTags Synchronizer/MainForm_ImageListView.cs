@@ -199,7 +199,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region ImageListView - ClearAll
+        #region ImageListView - ClearThumbnailCache
         private void ImageListViewClearThumbnailCache(ImageListView imageListeView)
         {
             imageListeView.ClearThumbnailCache();
@@ -398,6 +398,18 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ImageListViewGetSelected
+        private List<FileEntry> ImageListViewGetSelected(ImageListView imageListView)
+        {
+            List<FileEntry> fileEntries = new List<FileEntry>();
+            foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
+            {
+                fileEntries.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
+            }
+            return fileEntries;
+        }
+        #endregion
+
         #region ImageListView - Aggregate - WithFilesFromFolder
         //Folder selected after Form load/init, click new folder and clear cache and re-read folder
         private List<FileEntry> ImageListViewAggregateWithFilesFromFolder(string selectedFolder, bool recursive)
@@ -405,8 +417,7 @@ namespace PhotoTagsSynchronizer
             FileInfo[] filesFoundInDirectory = null;
             if (Directory.Exists(selectedFolder))
             {
-                ClearQueueExiftool();
-
+                
                 //-------- FolderSelected_AddFilesImageListView -------------
                 Properties.Settings.Default.LastFolder = selectedFolder;
                 Properties.Settings.Default.Save();
@@ -459,12 +470,6 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Aggregate - Rename Items
         private void UpdateImageViewListeAfterRename(ImageListView imageListView, Dictionary<string, string> renameSuccess, Dictionary<string, string> renameFailed, bool onlyRenameAddbackToListView)
         {
-            /*if (InvokeRequired)
-            {
-                this.BeginInvoke(new Action<Dictionary<string, string>, Dictionary<string, string>, bool>(UpdateImageViewListeAfterRename), renameSuccess, renameFailed, onlyRenameAddbackToListView);
-                return;
-            }*/
-
             //GlobalData.DoNotRefreshImageListView = true;
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
             ImageListViewSuspendLayoutInvoke(imageListView);

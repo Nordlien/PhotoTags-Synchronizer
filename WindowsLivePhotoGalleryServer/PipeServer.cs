@@ -82,8 +82,6 @@ namespace WindowsLivePhotoGalleryServer
             server.ClientMessage += OnClientMessage;
             server.Error += OnError;
             server.Start();
-            
-            Console.WriteLine("Server up and running..."); //NB: Write message back to client. Client wait for this signal... If change, also change in client code
 
             Logger.Info("Server up and running...");
             Logger.Info("Waiting client connection...");

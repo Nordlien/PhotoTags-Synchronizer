@@ -1505,7 +1505,7 @@ namespace PhotoTagsSynchronizer
                 {
                     DateTime packageDateTime = (DateTime)listViewItem.Tag;
 
-                    int rowsAffected = DatabaseAndCacheMetadataExiftool.DeleteDirectory(MetadataBrokerType.WebScraping, webScrapingName, packageDateTime);
+                    int rowsAffected = DatabaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.WebScraping, webScrapingName, packageDateTime);
                     fastColoredTextBoxJavaScriptResult.Text += rowsAffected.ToString() + " rows deleted for date: "  + packageDateTime.ToString() + "\r\n";
                 }
             }

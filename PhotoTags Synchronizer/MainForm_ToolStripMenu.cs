@@ -986,6 +986,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+
+
         #region ToolStrip - Reload Metadata - Selected items - Click
         private void toolStripMenuItemReloadThumbnailAndMetadata_Click(object sender, EventArgs e)
         {
@@ -1003,8 +1005,11 @@ namespace PhotoTagsSynchronizer
                 ImageListViewSuspendLayoutInvoke(imageListView1);
 
                 LoadDataGridViewProgerss(imageListView1.SelectedItems.Count * 2, 0);
-                filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(this, imageListView1, imageListView1.Items, true);
-                filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1, imageListView1.Items, true);
+
+                List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView1);
+AddQueueExiftool(fileEntrySelectedItems);
+                filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(this, imageListView1.Items, true);
+                filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1.Items, true);
 
                 LoadDataGridViewProgerssEnded();
 
@@ -1038,9 +1043,13 @@ namespace PhotoTagsSynchronizer
             {
                 ImageListViewSuspendLayoutInvoke(imageListView1);
 
-                LoadDataGridViewProgerss(imageListView1.SelectedItems.Count * 2, 0);
-                filesCutCopyPasteDrag.DeleteFilesMetadataBeforeReload(this, imageListView1, imageListView1.Items, false);
-                filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1, imageListView1.Items, false);
+                List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView1);
+                //ClearQueueExiftool();
+                AddQueueExiftool(fileEntrySelectedItems);
+                LoadDataGridViewProgerss(imageListView1.Items.Count * 2, 0);
+
+                filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(this, imageListView1.Items, false);
+                filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1.Items, false);
 
                 LoadDataGridViewProgerssEnded();
 
@@ -1088,7 +1097,7 @@ namespace PhotoTagsSynchronizer
             {
                 using (new WaitCursor())
                 {
-                    filesCutCopyPasteDrag.DeleteDirectory(folder);
+                    filesCutCopyPasteDrag.DeleteDirectoryAndHistory(folder);
                 }
             }
             using (new WaitCursor())
@@ -1097,7 +1106,11 @@ namespace PhotoTagsSynchronizer
                 imageListView1.Refresh();
 
                 Application.DoEvents();
-                _ = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);
+
+                ClearQueueExiftool();
+                List<FileEntry> fileEntrySelectedItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);                
+                AddQueueExiftool(fileEntrySelectedItems);
+
             }
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();

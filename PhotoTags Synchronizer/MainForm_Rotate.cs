@@ -125,10 +125,12 @@ namespace PhotoTagsSynchronizer
 
         private int GetFileEntriesRotateMediaCountLock()
         {
-            lock (fileEntriesRotateMediaLock)
-            {
-                return fileEntriesRotateMedia.Count();
-            }
+            lock (fileEntriesRotateMediaLock) return fileEntriesRotateMedia.Count();            
+        }
+
+        private int GetFileEntriesRotateMediaCountDirty()
+        {
+            return fileEntriesRotateMedia.Count();            
         }
 
         private void RotateInit(ImageListView imageListView, int rotateDegrees)

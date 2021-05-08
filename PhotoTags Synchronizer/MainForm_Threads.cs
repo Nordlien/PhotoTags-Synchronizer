@@ -115,11 +115,21 @@ namespace PhotoTagsSynchronizer
             lock (commonQueuePreloadingMetadataLock) return commonQueuePreloadingMetadata.Count;
         }
 
+        private int CommonQueuePreloadingMetadataCountDirty()
+        {
+            return commonQueuePreloadingMetadata.Count;
+        }
+
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
         /// <returns>Number of items in queue</returns>
         private int CommonQueueLazyLoadingMetadataCountLock()
+        {
+            lock (commonQueueLazyLoadingMetadataLock) return commonQueueLazyLoadingMetadata.Count;
+        }
+
+        private int CommonQueueLazyLoadingMetadataCountDirty()
         {
             lock (commonQueueLazyLoadingMetadataLock) return commonQueueLazyLoadingMetadata.Count;
         }
@@ -133,6 +143,11 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueLazyLoadingThumbnailLock) return commonQueueLazyLoadingThumbnail.Count;
         }
 
+        private int CommonQueueLazyLoadingThumbnailCountDirty()
+        {
+            lock (commonQueueLazyLoadingThumbnailLock) return commonQueueLazyLoadingThumbnail.Count;
+        }
+
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -140,6 +155,11 @@ namespace PhotoTagsSynchronizer
         private int CommonQueueReadPosterAndSaveFaceThumbnailsCountLock()
         {
             lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) return commonQueueReadPosterAndSaveFaceThumbnails.Count;
+        }
+
+        private int CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty()
+        {
+            return commonQueueReadPosterAndSaveFaceThumbnails.Count;
         }
 
         /// <summary>
@@ -151,6 +171,11 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueSaveThumbnailToDatabaseLock) return commonQueueSaveThumbnailToDatabase.Count;
         }
 
+        private int CommonQueueSaveThumbnailToDatabaseCountDirty()
+        {
+            return commonQueueSaveThumbnailToDatabase.Count;
+        }
+
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -160,9 +185,19 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueReadMetadataFromMicrosoftPhotosLock) return commonQueueReadMetadataFromMicrosoftPhotos.Count;
         }
 
+        private int CommonQueueReadMetadataFromMicrosoftPhotosCountDirty()
+        {
+            return commonQueueReadMetadataFromMicrosoftPhotos.Count;
+        }
+
         private int CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock()
         {
             lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) return commonQueueReadMetadataFromWindowsLivePhotoGallery.Count;
+        }
+
+        private int CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty()
+        {
+            return commonQueueReadMetadataFromWindowsLivePhotoGallery.Count;
         }
 
         /// <summary>
@@ -174,6 +209,11 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueReadMetadataFromExiftoolLock) return commonQueueReadMetadataFromExiftool.Count;
         }
 
+        private int CommonQueueReadMetadataFromExiftoolCountDirty()
+        {
+            return commonQueueReadMetadataFromExiftool.Count;
+        }
+
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -181,6 +221,11 @@ namespace PhotoTagsSynchronizer
         private int CommonQueueSaveMetadataUpdatedByUserCountLock()
         {
             lock (commonQueueSaveMetadataUpdatedByUserLock) return commonQueueSaveMetadataUpdatedByUser.Count;
+        }
+
+        private int CommonQueueSaveMetadataUpdatedByUserCountDirty()
+        {
+            return commonQueueSaveMetadataUpdatedByUser.Count;
         }
 
         /// <summary>
@@ -201,6 +246,11 @@ namespace PhotoTagsSynchronizer
             lock (mediaFilesNotInDatabaseLock) return mediaFilesNotInDatabase.Count;
         }
 
+        private int MediaFilesNotInDatabaseCountDirty()
+        {
+            return mediaFilesNotInDatabase.Count;
+        }
+
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -210,6 +260,11 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock) return commonQueueMetadataWrittenByExiftoolReadyToVerify.Count;
         }
 
+        private int CommonQueueMetadataWrittenByExiftoolReadyToVerifyCountDirty()
+        {
+            return commonQueueMetadataWrittenByExiftoolReadyToVerify.Count;
+        }
+
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -217,6 +272,11 @@ namespace PhotoTagsSynchronizer
         private int CommonQueueRenameCountLock()
         {
             lock (commonQueueRenameLock) return commonQueueRename.Count;
+        }
+
+        private int CommonQueueRenameCountDirty()
+        {
+            return commonQueueRename.Count;
         }
         #endregion
 
@@ -275,12 +335,12 @@ namespace PhotoTagsSynchronizer
         private bool IsThreadRunningExcept_ThreadThumbnailRegion()
         {
             return
-                CommonQueueSaveThumbnailToDatabaseCountLock() > 0 ||
-                CommonQueueReadMetadataFromExiftoolCountLock() > 0 ||
-                CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 ||
-                CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0 ||
+                CommonQueueSaveThumbnailToDatabaseCountDirty() > 0 ||
+                CommonQueueReadMetadataFromExiftoolCountDirty() > 0 ||
+                CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty() > 0 ||
+                CommonQueueReadMetadataFromMicrosoftPhotosCountDirty() > 0 ||
                 //queueThumbnailRegion.Count > 0 ||
-                CommonQueueSaveMetadataUpdatedByUserCountLock() > 0;
+                CommonQueueSaveMetadataUpdatedByUserCountDirty() > 0;
         }
 
         /// <summary>
@@ -288,12 +348,12 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         private void TriggerAutoResetEventQueueEmpty()
         {
-            if (CommonQueueSaveThumbnailToDatabaseCountLock() == 0 &&
-                CommonQueueReadMetadataFromExiftoolCountLock() == 0 &&
-                CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() == 0 &&
-                CommonQueueReadMetadataFromMicrosoftPhotosCountLock() == 0 &&
-                CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() == 0 &&
-                CommonQueueSaveMetadataUpdatedByUserCountLock() == 0
+            if (CommonQueueSaveThumbnailToDatabaseCountDirty() == 0 &&
+                CommonQueueReadMetadataFromExiftoolCountDirty() == 0 &&
+                CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty() == 0 &&
+                CommonQueueReadMetadataFromMicrosoftPhotosCountDirty() == 0 &&
+                CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty() == 0 &&
+                CommonQueueSaveMetadataUpdatedByUserCountDirty() == 0
                 )
             {
                 //When out of memory, then wait for cache to empty
@@ -338,15 +398,23 @@ namespace PhotoTagsSynchronizer
                 if (
                    (_ThreadPreloadingMetadata == null ||
                    (_ThreadPreloadingMetadata.ThreadState != System.Threading.ThreadState.Running && _ThreadPreloadingMetadata.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   ) && CommonQueuePreloadingMetadataCountLock() > 0 && ThreadLazyLoadingQueueSize() == 0)
+                   ) && CommonQueuePreloadingMetadataCountDirty() > 0 /*&& ThreadLazyLoadingQueueSize() == 0*/)
                 {
                     lock (_ThreadPreloadingMetadataLock)
                     {
                         _ThreadPreloadingMetadata = new Thread(() =>
                         {
                             #region
-                            while (CommonQueuePreloadingMetadataCountLock() > 0 && !GlobalData.IsApplicationClosing && ThreadLazyLoadingQueueSize() == 0)
+                            while (CommonQueuePreloadingMetadataCountLock() > 0 /*&& !GlobalData.IsApplicationClosing && ThreadLazyLoadingQueueSize() == 0*/)
                             {
+                                // FileEntryAttribute fileEntryAttribute;
+                                //lock (commonQueuePreloadingMetadataLock) fileEntryAttribute = new FileEntryAttribute(commonQueuePreloadingMetadata[0]);
+                                //_ = databaseAndCacheMetadataExiftool.ReadToCache(commonQueuePreloadingMetadataLock)
+                                //_ = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
+                                //_ = databaseAndCacheMetadataMicrosoftPhotos.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.MicrosoftPhotos));
+                                //_ = databaseAndCacheMetadataWindowsLivePhotoGallery.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.WindowsLivePhotoGallery));
+
+                                //lock (commonQueuePreloadingMetadataLock) if (commonQueuePreloadingMetadata.Count > 0) commonQueuePreloadingMetadata.RemoveAt(0);
 
                                 List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
                                 int countInQueue = CommonQueuePreloadingMetadataCountLock();
@@ -354,15 +422,21 @@ namespace PhotoTagsSynchronizer
                                 {
                                     if (countInQueue > 0)
                                     {
+                                        
                                         for (int indexQueue = 0; indexQueue < countInQueue; indexQueue++)
                                         {
-                                            fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.ExifTool));
-                                            fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.MicrosoftPhotos));
-                                            fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.WindowsLivePhotoGallery));
+                                            AddQueueMetadataReadToCacheOrUpdateFromSoruce(commonQueuePreloadingMetadata[indexQueue]);
+                                            //fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.ExifTool));
+                                            //fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.MicrosoftPhotos));
+                                            //fileEntryBrokers.Add(new FileEntryBroker(commonQueuePreloadingMetadata[indexQueue], MetadataBrokerType.WindowsLivePhotoGallery));
                                         }
                                         commonQueuePreloadingMetadata.RemoveRange(0, countInQueue);
                                     }
                                 }
+
+                                //foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers) AddQueueMetadataReadToCacheOrUpdateFromSoruce(fileEntryBroker);
+                                //AddQueueSaveThumbnailMedia(new FileEntryImage(fileEntry, cloneBitmap));
+
                             }
                             Application.DoEvents();
                             #endregion
@@ -498,15 +572,15 @@ namespace PhotoTagsSynchronizer
         public int ThreadLazyLoadingQueueSize()
         {
             return
-                //CommonQueueSaveThumbnailToDatabaseCountLock() +
-                MediaFilesNotInDatabaseCountLock() +
-                CommonQueueLazyLoadingThumbnailCountLock() +
-                CommonQueueLazyLoadingMetadataCountLock() +
-                CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() +
-                CommonQueueReadMetadataFromMicrosoftPhotosCountLock() +
-                CommonQueueReadMetadataFromExiftoolCountLock();
-            //  CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() +
-            //  CommonQueueSaveMetadataUpdatedByUserCountLock();
+                //CommonQueueSaveThumbnailToDatabaseCountDirty() +
+                MediaFilesNotInDatabaseCountDirty() +
+                CommonQueueLazyLoadingThumbnailCountDirty() +
+                CommonQueueLazyLoadingMetadataCountDirty() +
+                CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty() +
+                CommonQueueReadMetadataFromMicrosoftPhotosCountDirty() +
+                CommonQueueReadMetadataFromExiftoolCountDirty();
+            //  CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty() +
+            //  CommonQueueSaveMetadataUpdatedByUserCountDirty();
         }
         #endregion 
 
@@ -521,7 +595,6 @@ namespace PhotoTagsSynchronizer
                     Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
 
                     if (metadata == null) AddQueueExiftool(fileEntry); //If Metadata don't exisit in database, put it in read queue
-
                     //if (!databaseAndCacheMetadataExiftool.MetadataHasBeenRead(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool))) AddQueueExiftool(fileEntry);
                     if (!databaseAndCacheMetadataMicrosoftPhotos.MetadataHasBeenRead(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos))) AddQueueMicrosoftPhotos(fileEntry);
                     if (!databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataHasBeenRead(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery))) AddQueueWindowsLivePhotoGallery(fileEntry);
@@ -548,7 +621,7 @@ namespace PhotoTagsSynchronizer
                     if (!commonQueueLazyLoadingMetadata.Contains(fileEntryAttribute)) commonQueueLazyLoadingMetadata.Add(fileEntryAttribute);
                 }
             }
-            StartThreads();
+            //StartThreads();
         }
         #endregion
 
@@ -560,7 +633,7 @@ namespace PhotoTagsSynchronizer
                 if (
                    (_ThreadLazyLoadingMetadata == null ||
                    (_ThreadLazyLoadingMetadata.ThreadState != System.Threading.ThreadState.Running && _ThreadLazyLoadingMetadata.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   ) && CommonQueueLazyLoadingMetadataCountLock() > 0)
+                   ) && CommonQueueLazyLoadingMetadataCountDirty() > 0)
                 {
 
                     lock (_ThreadLazyLoadingMetadataLock)
@@ -665,20 +738,19 @@ namespace PhotoTagsSynchronizer
                     if (!commonQueueLazyLoadingThumbnail.Contains(fileEntryAttribute)) commonQueueLazyLoadingThumbnail.Add(fileEntryAttribute);
                 }
             }
-            StartThreads();
+            //StartThreads();
         }
         #endregion
 
         #region LazyLoadning - Thread LazyLoadning
         public void ThreadLazyLoadningThumbnail()
         {
-            //if (_ThreadLazyLoadingThumbnail == null && CommonQueueLazyLoadingThumbnailCountLock() > 0)
             try
             {
                 if (
                    (_ThreadLazyLoadingThumbnail == null ||
                    (_ThreadLazyLoadingThumbnail.ThreadState != System.Threading.ThreadState.Running && _ThreadLazyLoadingThumbnail.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   ) && CommonQueueLazyLoadingThumbnailCountLock() > 0)
+                   ) && CommonQueueLazyLoadingThumbnailCountDirty() > 0)
                 {
                     lock (_ThreadLazyLoadingThumbnailLock)
                     {
@@ -754,7 +826,7 @@ namespace PhotoTagsSynchronizer
                 if (
                    (_ThreadSaveThumbnail == null ||
                    (_ThreadSaveThumbnail.ThreadState != System.Threading.ThreadState.Running && _ThreadSaveThumbnail.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   ) && CommonQueueSaveThumbnailToDatabaseCountLock() > 0)
+                   ) && CommonQueueSaveThumbnailToDatabaseCountDirty() > 0)
                 {
                     lock (_ThreadSaveThumbnailLock)
                     {
@@ -831,6 +903,17 @@ namespace PhotoTagsSynchronizer
 
         #region Exiftool 
 
+        #region PopulatePreloadMetadataQueue
+        private void AddQueueExiftool(List<FileEntry> fileEntries)
+        {
+            lock (commonQueueReadMetadataFromExiftoolLock)
+            {
+                foreach (FileEntry fileEntry in fileEntries) //AddQueueExiftool(fileEntry);
+                    if (!commonQueueReadMetadataFromExiftool.Contains(fileEntry)) commonQueueReadMetadataFromExiftool.Add(fileEntry);
+            }
+        }
+        #endregion
+
         #region AddQueue - AddQueueExiftool(FileEntry fileEntry)
         /// <summary>
         /// Add File Entry to Read "Metadata Queue"
@@ -861,7 +944,7 @@ namespace PhotoTagsSynchronizer
                 if (
                    (_ThreadCollectMetadataExiftool == null ||
                    (_ThreadCollectMetadataExiftool.ThreadState != System.Threading.ThreadState.Running && _ThreadCollectMetadataExiftool.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   ) && CommonQueueReadMetadataFromExiftoolCountLock() > 0)
+                   ) && CommonQueueReadMetadataFromExiftoolCountDirty() > 0)
                 {
 
                     lock (_ThreadExiftoolLock)
@@ -908,31 +991,37 @@ namespace PhotoTagsSynchronizer
                                     //use at the command prompt is 8191 characters. On computers running Microsoft Windows 2000 or 
                                     //Windows NT 4.0, the maximum length of the string that you can use at the command prompt is 2047 
                                     //characters.
+                                    bool useArgFile = true;
 
                                     int argumnetLength = 80; //Init command length;
+                                    int maxParameterCommandLength = 2047;
+                                    if (useArgFile) maxParameterCommandLength = 50000;
                                     List<String> useExiftoolOnThisSubsetOfFiles;
+                                    
                                     lock (mediaFilesNotInDatabaseLock)
                                     {
-                                        while (argumnetLength < 2047 && range < mediaFilesNotInDatabase.Count)
+                                        while (argumnetLength < maxParameterCommandLength && range < mediaFilesNotInDatabase.Count)
                                         {
                                             argumnetLength += mediaFilesNotInDatabase[range].Length + 3; //+3 = space and 2x"
                                             range++;
                                         }
 
-                                        if (argumnetLength > 2047) range--;
+                                        if (argumnetLength > maxParameterCommandLength) range--;
                                         useExiftoolOnThisSubsetOfFiles = mediaFilesNotInDatabase.GetRange(0, range);
                                     }
                                     #endregion
 
                                     #region Read using Exiftool
+                                    string lastKnownExiftoolError = "";
                                     List<Metadata> metadataReadbackExiftoolAfterSaved = new List<Metadata>();
                                     try
                                     {
-                                        metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles);
+                                        metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles, useArgFile);
                                     }
                                     catch (Exception ex)
                                     {
-                                        Logger.Error("Running Exiftool failed" + ex.Message);
+                                        lastKnownExiftoolError = ex.Message;
+                                        Logger.Error("Running Exiftool failed." + ex.Message);
                                     }
                                     #endregion
 
@@ -945,7 +1034,7 @@ namespace PhotoTagsSynchronizer
                                             AddError(Path.GetDirectoryName(fullFilePath), Path.GetFileName(fullFilePath), DateTime.Now,
                                                 AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
                                                 AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
-                                                "The file was not read by exiftool", false);
+                                                "Exiftool failed reading data from file, got an error " + lastKnownExiftoolError + ": " + fullFilePath, false);
                                             filesNotRead += (filesNotRead == "" ? "" : ";") + filesNotRead;
                                         }
                                     }
@@ -1043,13 +1132,12 @@ namespace PhotoTagsSynchronizer
         #region Thread - ThreadSaveMetadata
         public void ThreadSaveMetadata()
         {
-            //if ((_ThreadSaveMetadata == null /*|| !_ThreadSaveMetadata.IsAlive*/) && CommonQueueSaveMetadataUpdatedByUserCountLock() > 0)
             try
             {
                 if (
                    (_ThreadSaveMetadata == null ||
                    (_ThreadSaveMetadata.ThreadState != System.Threading.ThreadState.Running && _ThreadSaveMetadata.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   ) && CommonQueueSaveMetadataUpdatedByUserCountLock() > 0)
+                   ) && CommonQueueSaveMetadataUpdatedByUserCountDirty() > 0)
                 {
 
                     lock (_ThreadSaveMetadataLock)
@@ -1318,7 +1406,7 @@ namespace PhotoTagsSynchronizer
                 if (
                    (_ThreadMicrosoftPhotos == null ||
                    (_ThreadMicrosoftPhotos.ThreadState != System.Threading.ThreadState.Running && _ThreadMicrosoftPhotos.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   ) && CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0)
+                   ) && CommonQueueReadMetadataFromMicrosoftPhotosCountDirty() > 0)
                 {
 
                     lock (_ThreadMicrosoftPhotosLock)
@@ -1417,7 +1505,7 @@ namespace PhotoTagsSynchronizer
                 if (
                    (_ThreadWindowsLiveGallery == null ||
                    (_ThreadWindowsLiveGallery.ThreadState != System.Threading.ThreadState.Running && _ThreadWindowsLiveGallery.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   ) && CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0)
+                   ) && CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountDirty() > 0)
                 {
 
                     lock (_ThreadWindowsLiveGalleryLock)
@@ -1517,7 +1605,7 @@ namespace PhotoTagsSynchronizer
                 if (
                    (_ThreadThumbnailRegion == null ||
                    (_ThreadThumbnailRegion.ThreadState != System.Threading.ThreadState.Running && _ThreadThumbnailRegion.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   )) //&& CommonQueueReadPosterAndSaveFaceThumbnailsCountLock() > 0)
+                   )) //&& CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty() > 0)
                 {
 
                     lock (_ThreadThumbnailRegionLock)
@@ -1598,7 +1686,6 @@ namespace PhotoTagsSynchronizer
                                                             if (image == null) //If failed load cover art, often occur after filed is moved or deleted
                                                             {
                                                                 //fileFoundInList = false;
-
 
                                                                 string writeErrorDesciption = "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryRegion.FileFullPath;
                                                                 Logger.Error(writeErrorDesciption);
@@ -1941,7 +2028,7 @@ namespace PhotoTagsSynchronizer
                 if (
                    (_ThreadRenameMedafiles == null ||
                    (_ThreadRenameMedafiles.ThreadState != System.Threading.ThreadState.Running && _ThreadRenameMedafiles.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                   ) && CommonQueueRenameCountLock() > 0)
+                   ) && CommonQueueRenameCountDirty() > 0)
                 {
 
                     lock (_ThreadRenameMedafilesLock)

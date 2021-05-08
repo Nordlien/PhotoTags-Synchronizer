@@ -18,6 +18,8 @@ namespace PhotoTagsSynchronizer
 {
     public partial class MainForm : Form
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         #region Preview - globale variables
         private List<string> previewMediaItemFilenames = new List<string>();
         private int previewMediaShowItemIndex = 0;
@@ -104,7 +106,7 @@ namespace PhotoTagsSynchronizer
         #region Vlc Chromecast - Chromecast Device Discoverer - Added
         private void VlcRendererDiscoverer_ItemAdded(object sender, RendererDiscovererItemAddedEventArgs e)
         {
-            Console.WriteLine($"New item discovered: {e.RendererItem.Name} of type {e.RendererItem.Type}");
+            Logger.Trace($"New item discovered: {e.RendererItem.Name} of type {e.RendererItem.Type}");            
             if (e.RendererItem.CanRenderVideo && !vlcRendererItems.Contains(e.RendererItem)) vlcRendererItems.Add(e.RendererItem);
 
         }
@@ -650,7 +652,7 @@ namespace PhotoTagsSynchronizer
                                 if (status.ExtendedStatus == null)
                                 {
                                     MessageBox.Show("GoogleCast Status Player reason: " + MediaStatusToText(status));
-                                    Console.WriteLine("GoogleCast_mediaChannel_StatusChanged: " + MediaStatusToText(status, ext));
+                                    Logger.Trace("GoogleCast_mediaChannel_StatusChanged: " + MediaStatusToText(status, ext));
                                 }
                                 break;
                         }
@@ -669,7 +671,7 @@ namespace PhotoTagsSynchronizer
                         break;
                     default:
                         MessageBox.Show("GoogleCast Status Player: " + MediaStatusToText(status));
-                        Console.WriteLine("GoogleCast_mediaChannel_StatusChanged: " + MediaStatusToText(status, ext));
+                        Logger.Trace("GoogleCast_mediaChannel_StatusChanged: " + MediaStatusToText(status, ext));
                         break;
                 }
                 if (status.ExtendedStatus != null) GoogleCast_StatusChanged(status.ExtendedStatus, ext + 1);
@@ -813,7 +815,7 @@ namespace PhotoTagsSynchronizer
                 return;
             }
             if (nHttpServer != null) toolStripLabelMediaPreviewStatus.Text = "nHTTP server new state: " + nHttpServer.State.ToString();
-            Console.WriteLine("nHTTP server new state: " + nHttpServer.State.ToString());
+            Logger.Info("nHTTP server new state: " + nHttpServer.State.ToString());
         }
         #endregion 
 
@@ -1746,7 +1748,7 @@ namespace PhotoTagsSynchronizer
                             chromecastAgruments = chromecastAgruments.Replace("{acodec}", chromecastAudioCodec);
                             chromecastAgruments = chromecastAgruments.Replace("{url}", chromecastUrl);
 
-                            Console.WriteLine(chromecastAgruments);                            
+                            Logger.Trace(chromecastAgruments);                            
                             media.AddOption(chromecastAgruments);
 
                             
@@ -1755,7 +1757,7 @@ namespace PhotoTagsSynchronizer
                             
                             //if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(new Media(_libVLC, fullFilename, FromType.FromPath));
                             if (!videoView1.MediaPlayer.IsPlaying) videoView1.MediaPlayer.Play(media);
-                            Console.WriteLine("http://" + (chromecastUrl.StartsWith(":") ? vlcChromecastIPEndPoint.Address.ToString() : "") + chromecastUrl);
+                            Logger.Trace("http://" + (chromecastUrl.StartsWith(":") ? vlcChromecastIPEndPoint.Address.ToString() : "") + chromecastUrl);
                             ShowMediaChromecast("http://" + (chromecastUrl.StartsWith(":") ? vlcChromecastIPEndPoint.Address.ToString() : "") + chromecastUrl);
                              
                             break;

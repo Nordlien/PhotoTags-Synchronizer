@@ -39,20 +39,20 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FilesCutCopyPasteDrag - DeleteDirectory
-        public void DeleteDirectory(string folder)
+        #region FilesCutCopyPasteDrag - DeleteDirectoryAndHistory
+        public void DeleteDirectoryAndHistory(string folder)
         {
-            databaseAndCacheMetadataExiftool.DeleteDirectory(MetadataBrokerType.ExifTool, folder); //Also delete When (Broker & @Broker) = @Broker
-            databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectory(MetadataBrokerType.MicrosoftPhotos, folder);
-            databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectory(MetadataBrokerType.WindowsLivePhotoGallery, folder);
-            databaseExiftoolData.DeleteDirectory(folder);
-            databaseExiftoolWarning.DeleteDirectory(folder);
-            databaseAndCacheThumbnail.DeleteDirectory(folder);
+            databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool, folder); //Also delete When (Broker & @Broker) = @Broker
+            databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectoryAndHistory(MetadataBrokerType.MicrosoftPhotos, folder);
+            databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectoryAndHistory(MetadataBrokerType.WindowsLivePhotoGallery, folder);
+            databaseExiftoolData.DeleteDirectoryAndHistory(folder);
+            databaseExiftoolWarning.DeleteDirectoryAndHistory(folder);
+            databaseAndCacheThumbnail.DeleteDirectoryAndHistory(folder);
         }
         #endregion
 
-        #region FilesCutCopyPasteDrag - DeleteMetadataFileEntry
-        public void DeleteMetadataFileEntry(FileEntry fileEntry)
+        #region FilesCutCopyPasteDrag - DeleteFileEntry
+        public void DeleteFileEntry(FileEntry fileEntry)
         {
 
             databaseAndCacheMetadataExiftool.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
@@ -70,8 +70,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region FilesCutCopyPasteDrag - DeleteMetadataHirstory
-        public void DeleteMetadataHirstory(string fullFilePath)
+        #region FilesCutCopyPasteDrag - DeleteFileAndHistory
+        public void DeleteFileAndHistory(string fullFilePath)
         {
 
             List<FileEntryBroker> fileEntryBrokers = databaseAndCacheMetadataExiftool.ListFileEntryBrokerDateVersions(MetadataBrokerType.ExifTool, fullFilePath);
@@ -131,7 +131,7 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
-                    this.DeleteMetadataHirstory(imageListViewItem.FileFullPath);
+                    this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
                     File.Delete(imageListViewItem.FileFullPath);
                     imageListView.Items.Remove(imageListViewItem);
                 }
@@ -179,9 +179,9 @@ namespace PhotoTagsSynchronizer
 
             foreach (string directory in dirs)
             {
-                this.DeleteDirectory(directory);
+                this.DeleteDirectoryAndHistory(directory);
             }
-            this.DeleteDirectory(folder);
+            this.DeleteDirectoryAndHistory(folder);
 
             TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
             TreeNode parentNode = folderTreeViewFolder.SelectedNode.Parent;
@@ -201,7 +201,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteFilesMetadataForReload
-        public void ImageListViewReload(MainForm mainForm, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
+        public void ImageListViewReload(MainForm mainForm, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
         {            
             foreach (ImageListViewItem item in itemCollection)
             {
@@ -213,12 +213,14 @@ namespace PhotoTagsSynchronizer
             }
             
         }
+        #endregion 
 
-        public void DeleteFilesMetadataBeforeReload(MainForm mainForm, ImageListView imageListView, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
+        #region FilesCutCopyPasteDrag - DeleteSelectedFilesBeforeReload
+        public void DeleteSelectedFilesBeforeReload(MainForm mainForm, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
         {
             foreach (ImageListViewItem item in itemCollection)
             {
-                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) this.DeleteMetadataFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
+                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) this.DeleteFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
                 mainForm.LoadDataGridViewProgerssAdd();
             }
         }
@@ -238,7 +240,7 @@ namespace PhotoTagsSynchronizer
             
             foreach (ImageListViewItem item in imageListView.SelectedItems)
             {
-                this.DeleteMetadataHirstory(item.FileFullPath);
+                this.DeleteFileAndHistory(item.FileFullPath);
             }
 
             foreach (ImageListViewItem item in imageListView.SelectedItems)

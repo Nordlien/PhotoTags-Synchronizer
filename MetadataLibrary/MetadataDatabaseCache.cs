@@ -1078,7 +1078,7 @@ namespace MetadataLibrary
         /// <param name="fileDirectory">Media in this Folder</param>
         /// <param name="fileDateModified">When media file is modified, if null delete all</param>
         /// <returns></returns>
-        public int DeleteDirectory(MetadataBrokerType broker, string fileDirectory, DateTime? dateTime = null)
+        public int DeleteDirectoryAndHistory(MetadataBrokerType broker, string fileDirectory, DateTime? dateTime = null)
         {
             int rowsAffected = 0;
             int rowsAffectedTotal = 0;

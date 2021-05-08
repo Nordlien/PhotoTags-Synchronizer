@@ -7,6 +7,7 @@ using ImageAndMovieFileExtentions;
 using Manina.Windows.Forms;
 using System.Threading;
 using Thumbnails;
+using System.Diagnostics;
 
 namespace PhotoTagsSynchronizer
 {
@@ -37,17 +38,21 @@ namespace PhotoTagsSynchronizer
                 }
 
                 folderTreeViewFolder.Enabled = false;
+
+                ClearQueueExiftool();
                 List<FileEntry> imageListViewFileEntryItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
+                AddQueueExiftool(imageListViewFileEntryItems);
                 
                 folderTreeViewFolder.Enabled = true;
+                
                 if (runPopulateFilter) PopulateTreeViewFolderFilterThread(imageListViewFileEntryItems);
-                PopulatePreloadMetadataQueue(imageListViewFileEntryItems);
+                
 
                 GlobalData.IsPopulatingFolderSelected = false;
             }
 
             FilesSelected(); //Even when 0 selected files, allocate data and flags, etc...
-
+            
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
@@ -71,6 +76,7 @@ namespace PhotoTagsSynchronizer
                 folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
                 if (runPopulateFilter) PopulateTreeViewFolderFilterThread(searchFilterResult);
 
+AddQueueExiftool(searchFilterResult);
                 GlobalData.IsPopulatingFolderSelected = false;
             }
             
@@ -82,14 +88,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region PopulatePreloadMetadataQueue
-        private void PopulatePreloadMetadataQueue(List<FileEntry> imageListViewFileEntryItems)
-        {
-            foreach (FileEntry imageListViewItemFileEntryItem in imageListViewFileEntryItems) 
-                AddQueuePreloadningMetadata(new FileEntryAttribute(imageListViewItemFileEntryItem, FileEntryVersion.Current));
-        }
-        #endregion
-        
         #endregion
 
 

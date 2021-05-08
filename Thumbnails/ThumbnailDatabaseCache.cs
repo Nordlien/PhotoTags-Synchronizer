@@ -164,7 +164,7 @@ namespace Thumbnails
         #endregion 
 
         #region Thumbnail - DeleteDirectory
-        public void DeleteDirectory(string fileDirectory)
+        public void DeleteDirectoryAndHistory(string fileDirectory)
         {
             ThumbnailClearCache();
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
