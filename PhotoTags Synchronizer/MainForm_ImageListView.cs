@@ -81,7 +81,7 @@ namespace PhotoTagsSynchronizer
             if (File.Exists(e.FileName))
             {
                 FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
-                if (e.Thumbnail == null) e.Thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry);                
+                if (e.Thumbnail == null) e.Thumbnail = new Bitmap(GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry));
             }
             else
             {

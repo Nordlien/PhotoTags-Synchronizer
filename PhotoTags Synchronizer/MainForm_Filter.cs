@@ -496,7 +496,7 @@ namespace PhotoTagsSynchronizer
             if (threadPopulateFilter != null) // || threadPopulateFilter.ThreadState == System.Threading.ThreadState.Running || threadPopulateFilter.ThreadState == System.Threading.ThreadState.WaitSleepJoin)                   
             {
                     //GlobalData.IsImageListViewForEachInProgressRequestStop = true;
-                    WaitThread_PopulateTreeViewFolderFilter_Stopped.WaitOne(60000);
+                    WaitThread_PopulateTreeViewFolderFilter_Stopped.WaitOne(10000);
             }
 
             threadPopulateFilter = new Thread(() => 
