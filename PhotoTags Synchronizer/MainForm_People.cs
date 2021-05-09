@@ -326,7 +326,9 @@ namespace PhotoTagsSynchronizer
             if (metadata != null) 
             {
                 foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
-                {                
+                {
+                    //databaseAndCacheMetadataExiftool.PersonalRegionNameCountCacheUpdated(MetadataBrokerType.ExifTool, regionStructure.Name);
+
                     if (!regionNamesRenameFromTopCoundAdded.Contains(regionStructure.Name))
                     {
                         regionNamesRenameFromTopCoundAdded.Add(regionStructure.Name);
