@@ -320,6 +320,11 @@ namespace PhotoTagsSynchronizer
 
         }
 
+        public void PopulatePeopleToolStripMenuItems(Metadata metadata)
+        {
+
+        }
+
         public void PopulatePeopleToolStripMenuItems()
         {            
             toolStripMenuItemPeopleRenameFromAll.DropDownItems.Clear();

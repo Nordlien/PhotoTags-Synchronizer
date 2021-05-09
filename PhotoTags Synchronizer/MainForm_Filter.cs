@@ -504,6 +504,7 @@ namespace PhotoTagsSynchronizer
                 PopulateTreeViewFolderFilterInvoke(imageListViewFileEntryItems);
                 threadPopulateFilter = null;
             });
+            threadPopulateFilter.Priority = ThreadPriority.Lowest;
             threadPopulateFilter.Start();
         }
         #endregion 
@@ -580,7 +581,6 @@ namespace PhotoTagsSynchronizer
                             if (!string.IsNullOrEmpty(keywordTag.Keyword) && !keywords.Contains(keywordTag.Keyword)) keywords.Add(keywordTag.Keyword);
                         }
                     } 
-                    
                 }
 
                 if (!GlobalData.IsImageListViewForEachInProgressRequestStop)

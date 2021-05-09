@@ -76,7 +76,7 @@ namespace PhotoTagsSynchronizer
                 folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
                 if (runPopulateFilter) PopulateTreeViewFolderFilterThread(searchFilterResult);
 
-AddQueueExiftool(searchFilterResult);
+                AddQueueExiftool(searchFilterResult);
                 GlobalData.IsPopulatingFolderSelected = false;
             }
             

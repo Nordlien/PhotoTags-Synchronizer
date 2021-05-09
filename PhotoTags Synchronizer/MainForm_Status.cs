@@ -66,8 +66,14 @@ namespace PhotoTagsSynchronizer
 
 
         #region DisplayAllQueueStatus - Updated display
+        private Stopwatch stopwatchLastDisplayed = new Stopwatch();
         private void DisplayAllQueueStatus()
         {
+            if (!stopwatchLastDisplayed.IsRunning) stopwatchLastDisplayed.Start();
+            if (stopwatchLastDisplayed.ElapsedMilliseconds < 500) 
+                return;
+            stopwatchLastDisplayed.Restart();
+
             if (InvokeRequired)
             {
                 this.BeginInvoke(new Action(DisplayAllQueueStatus));
