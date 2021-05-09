@@ -202,8 +202,8 @@ namespace PhotoTagsSynchronizer
                 }
 
                 #region
-                PopulatePeopleToolStripMenuItems(fileEntryAttribute);
-                PopulateTreeViewFolderFilterInvoke(fileEntryAttribute);
+//PopulatePeopleToolStripMenuItems(fileEntryAttribute);
+PopulateTreeViewFolderFilterInvoke(fileEntryAttribute);
                 #endregion
 
                 if (DataGridViewHandler.ResumeLayout(dataGridView, queueCount))
@@ -347,6 +347,7 @@ namespace PhotoTagsSynchronizer
                         LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                         break;
                     case "People":
+                        PopulatePeopleToolStripMenuItems();
                         DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerPeople.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerPeople.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
