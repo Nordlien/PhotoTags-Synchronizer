@@ -320,21 +320,52 @@ namespace PhotoTagsSynchronizer
 
         }
 
-        public void PopulatePeopleToolStripMenuItems(Metadata metadata)
+        public void PopulatePeopleToolStripMenuItems(FileEntryAttribute fileEntryAttribute)
         {
+            Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
+            if (metadata != null) 
+            {
+                foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
+                {                
+                    if (!regionNamesRenameFromTopCoundAdded.Contains(regionStructure.Name))
+                    {
+                        regionNamesRenameFromTopCoundAdded.Add(regionStructure.Name);
+                        ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
+                        newTagSubItem.Name = regionStructure.Name;
+                        newTagSubItem.Text = regionStructure.Name;
+                        newTagSubItem.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
+                        toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Add(newTagSubItem);
+                    }
 
+                    if (!regionNamesRenameFromAllAdded.Contains(regionStructure.Name))
+                    {
+                        regionNamesRenameFromAllAdded.Add(regionStructure.Name);
+                        ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
+                        newTagSubItem.Name = regionStructure.Name;
+                        newTagSubItem.Text = regionStructure.Name;
+                        newTagSubItem.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
+                        toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Add(newTagSubItem);
+                    }
+                }
+            }
         }
+
+        private static HashSet<string> regionNamesRenameFromAllAdded = new HashSet<string>();
+        private static HashSet<string> regionNamesRenameFromTopCoundAdded = new HashSet<string>();
 
         public void PopulatePeopleToolStripMenuItems()
         {            
             toolStripMenuItemPeopleRenameFromAll.DropDownItems.Clear();
             toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Clear();
             toolStripMenuItemPeopleRenameFromLast1.DropDownItems.Clear();
+            toolStripMenuItemPeopleRenameFromLast2.DropDownItems.Clear();
+            toolStripMenuItemPeopleRenameFromLast3.DropDownItems.Clear();
 
             List<string> regioNames;
             regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.ExifTool, Properties.Settings.Default.SuggestRegionNameTopMostCount);
             foreach (string name in regioNames)
             {
+                regionNamesRenameFromTopCoundAdded.Add(name);
                 ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
                 newTagSubItem.Name = name;
                 newTagSubItem.Text = name;
@@ -345,6 +376,7 @@ namespace PhotoTagsSynchronizer
             regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache(MetadataBrokerType.ExifTool);
             foreach (string name in regioNames)
             {
+                regionNamesRenameFromAllAdded.Add(name);
                 ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
                 newTagSubItem.Name = name;
                 newTagSubItem.Text = name;

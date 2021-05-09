@@ -507,7 +507,14 @@ namespace PhotoTagsSynchronizer
             threadPopulateFilter.Priority = ThreadPriority.Lowest;
             threadPopulateFilter.Start();
         }
-        #endregion 
+        #endregion
+
+        #region
+        private void PopulateTreeViewFolderFilterInvoke(FileEntryAttribute fileEntryAttribute)
+        {
+
+        }
+        #endregion
 
         #region PopulateTreeViewFolderFilter - Invoke
         private void PopulateTreeViewFolderFilterInvoke(List<FileEntry> imageListViewFileEntryItems)

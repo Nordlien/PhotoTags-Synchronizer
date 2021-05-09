@@ -201,6 +201,11 @@ namespace PhotoTagsSynchronizer
                         throw new NotImplementedException();
                 }
 
+                #region
+                PopulatePeopleToolStripMenuItems(fileEntryAttribute);
+                PopulateTreeViewFolderFilterInvoke(fileEntryAttribute);
+                #endregion
+
                 if (DataGridViewHandler.ResumeLayout(dataGridView, queueCount))
                 {
                     LazyLoadMissing();
