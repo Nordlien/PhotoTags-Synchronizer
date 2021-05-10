@@ -93,14 +93,16 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region PopulateTreeViewBasicNodes
+        #region ClearTreeViewNodes
         public static void ClearTreeViewNodes(TreeView treeView)
         {
             GlobalData.IsPopulatingFilter = true;
             treeView.Nodes.Clear();
             GlobalData.IsPopulatingFilter = false;
         }
+        #endregion
 
+        #region PopulateTreeViewBasicNodes
         public static void PopulateTreeViewBasicNodes(TreeView treeView, string rootNode)
         {
             GlobalData.IsPopulatingFilter = true;
@@ -157,14 +159,28 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.IsPopulatingFilter = false;
         }
-        #endregion
+        #endregion 
+
+        
 
         #region PopulateTreeViewWithValues
         public static void PopulateTreeViewWithValues(TreeView treeView, string keyRoot, string key, List<string> nodes)
         {
             foreach (string node in nodes)
             {
-                TreeNode treeNode = treeView.Nodes[keyRoot].Nodes[key].Nodes.Add(node, FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, node, false));
+                bool found = false;
+                for (int indexNode = 0; indexNode < treeView.Nodes[keyRoot].Nodes[key].Nodes.Count; indexNode++)
+                {
+                    if (treeView.Nodes[keyRoot].Nodes[key].Nodes[indexNode].Text == node)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    TreeNode treeNode = treeView.Nodes[keyRoot].Nodes[key].Nodes.Add(node, FilterVerifyer.GetTreeNodeText(GlobalData.SearchFolder, node, false));
+                }
             }
         }
         #endregion 
@@ -363,9 +379,9 @@ namespace PhotoTagsSynchronizer
             filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeView, FilterVerifyer.Root);
 
             if (GlobalData.SearchFolder)
-                PopulateImageListViewBasedOnSelectedFolderAndOrFilter(GlobalData.lastReadFolderWasRecursive, false);
+                PopulateImageListView_FromFolderSelected(GlobalData.lastReadFolderWasRecursive, false);
             else
-                PopulateImageisteViedBasedOnSearchResult(GlobalData.SerachFilterResult, false);
+                PopulateImageListView_FromSearchTab(GlobalData.SerachFilterResult, false);
         }
         #endregion
 
@@ -408,7 +424,36 @@ namespace PhotoTagsSynchronizer
             if (list.Contains(null)) list.Remove(null);
             list.Insert(0, "(Is not defined)");
         }
-        #endregion 
+        #endregion
+
+
+        private static List<string> treeViewFolderFilterAlbums = new List<string>();
+        private static int treeViewFolderFilterAlbumsCount = 0;
+        private static List<string> treeViewFolderFilterTitles = new List<string>();
+        private static int treeViewFolderFilterTitlesCount = 0;
+        private static List<string> treeViewFolderFilterComments = new List<string>();
+        private static int treeViewFolderFilterCommentsCount = 0;
+        private static List<string> treeViewFolderFilterDescriptions = new List<string>();
+        private static int treeViewFolderFilterDescriptionsCount = 0;
+        private static List<string> treeViewFolderFilterAuthors = new List<string>();
+        private static int treeViewFolderFilterAuthorsCount = 0;
+        private static List<string> treeViewFolderFilterRatings = new List<string>();
+        private static int treeViewFolderFilterRatingsCount = 0;
+        private static List<string> treeViewFolderFilterDates = new List<string>();
+        private static int treeViewFolderFilterDatesCount = 0;
+        private static List<string> treeViewFolderFilterLocations = new List<string>();
+        private static int treeViewFolderFilterLocationsCount = 0;
+        private static List<string> treeViewFolderFilterCities = new List<string>();
+        private static int treeViewFolderFilterCitiesCount = 0;
+        private static List<string> treeViewFolderFilterStates = new List<string>();
+        private static int treeViewFolderFilterStatesCount = 0;
+        private static List<string> treeViewFolderFilterCountries = new List<string>();
+        private static int treeViewFolderFilterCountriesCount = 0;
+        private static List<string> treeViewFolderFilterPeoples = new List<string>();
+        private static int treeViewFolderFilterPeoplesCount = 0;
+        private static List<string> treeViewFolderFilterKeywords = new List<string>();
+        private static int treeViewFolderFilterKeywordsCount = 0;
+
 
         #region PopulateDatabaseFilter
         public void PopulateDatabaseFilter()
@@ -487,6 +532,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region PopulateTreeViewFolderFilter - Thread
+        private bool IsPopulateTreeViewFolderFilterThreadRunning { get; set; }
         Thread threadPopulateFilter = null;
         private void PopulateTreeViewFolderFilterThread(List<FileEntry> imageListViewFileEntryItems)
         {
@@ -495,48 +541,24 @@ namespace PhotoTagsSynchronizer
 
             if (threadPopulateFilter != null) // || threadPopulateFilter.ThreadState == System.Threading.ThreadState.Running || threadPopulateFilter.ThreadState == System.Threading.ThreadState.WaitSleepJoin)                   
             {
-                //GlobalData.IsImageListViewForEachInProgressRequestStop = true;
                 WaitThread_PopulateTreeViewFolderFilter_Stopped.WaitOne(10000);
             }
 
             threadPopulateFilter = new Thread(() =>
             {
+                IsPopulateTreeViewFolderFilterThreadRunning = true;
                 PopulateTreeViewFolderFilterInvoke(imageListViewFileEntryItems);
                 threadPopulateFilter = null;
+                IsPopulateTreeViewFolderFilterThreadRunning = false;
             });
             threadPopulateFilter.Priority = ThreadPriority.Lowest;
             threadPopulateFilter.Start();
         }
         #endregion
 
-        #region PopulateTreeViewFolderFilter - Invoke
-        private static List<string> treeViewFolderFilterAlbums = new List<string>();
-        private static int treeViewFolderFilterAlbumsCount = 0;
-        private static List<string> treeViewFolderFilterTitles = new List<string>();
-        private static int treeViewFolderFilterTitlesCount = 0;
-        private static List<string> treeViewFolderFilterComments = new List<string>();
-        private static int treeViewFolderFilterCommentsCount = 0;
-        private static List<string> treeViewFolderFilterDescriptions = new List<string>();
-        private static int treeViewFolderFilterDescriptionsCount = 0;
-        private static List<string> treeViewFolderFilterAuthors = new List<string>();
-        private static int treeViewFolderFilterAuthorsCount = 0;
-        private static List<string> treeViewFolderFilterRatings = new List<string>();
-        private static int treeViewFolderFilterRatingsCount = 0;
-        private static List<string> treeViewFolderFilterDates = new List<string>();
-        private static int treeViewFolderFilterDatesCount = 0;
-        private static List<string> treeViewFolderFilterLocations = new List<string>();
-        private static int treeViewFolderFilterLocationsCount = 0;
-        private static List<string> treeViewFolderFilterCities = new List<string>();
-        private static int treeViewFolderFilterCitiesCount = 0;
-        private static List<string> treeViewFolderFilterStates = new List<string>();
-        private static int treeViewFolderFilterStatesCount = 0;
-        private static List<string> treeViewFolderFilterCountries = new List<string>();
-        private static int treeViewFolderFilterCountriesCount = 0;
-        private static List<string> treeViewFolderFilterPeoples = new List<string>();
-        private static int treeViewFolderFilterPeoplesCount = 0;
-        private static List<string> treeViewFolderFilterKeywords = new List<string>();
-        private static int treeViewFolderFilterKeywordsCount = 0;
-
+        
+        
+        #region PopulateTreeViewFolderFilter - Add - Invoke
         private void PopulateTreeViewFolderFilterAdd(FileEntryBroker fileEntryBroker) //new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool)
         {
             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
@@ -572,7 +594,9 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion 
 
+        #region PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke
         private void PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke()
         {
             if (InvokeRequired)
@@ -585,7 +609,6 @@ namespace PhotoTagsSynchronizer
             {
                 string node = FilterVerifyer.Root;
 
-                
                 if (treeViewFolderFilterAlbums.Count != treeViewFolderFilterAlbumsCount)
                 {
                     treeViewFolderFilterAlbums.Sort();
@@ -678,7 +701,10 @@ namespace PhotoTagsSynchronizer
                 }
             }
         }
+        #endregion
 
+        #region PopulateTreeViewFolderFilterInvoke
+        
         private void PopulateTreeViewFolderFilterInvoke(List<FileEntry> imageListViewFileEntryItems)
         {
             if (InvokeRequired)
@@ -726,6 +752,7 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (FileEntry fileEntry in imageListViewFileEntryItems)
                 {
+                    if (GlobalData.IsStopAndEmptyExiftoolReadQueueRequest) break;
                     if (GlobalData.IsApplicationClosing) break;
                     if (GlobalData.IsImageListViewForEachInProgressRequestStop) break;
 
@@ -843,7 +870,7 @@ namespace PhotoTagsSynchronizer
                 useKeywordList, needAllKeywords, keywords, withoutKeywords,
                 checkIfHasExifWarning, maxRowsInResult);
             GlobalData.SearchFolder = false;
-            PopulateImageisteViedBasedOnSearchResult(GlobalData.SerachFilterResult, true);
+            PopulateImageListView_FromSearchTab(GlobalData.SerachFilterResult, true);
         }
         #endregion 
     }

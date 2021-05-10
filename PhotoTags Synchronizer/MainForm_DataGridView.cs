@@ -202,8 +202,11 @@ namespace PhotoTagsSynchronizer
                 }
 
                 #region PopulateTreeViewFolderFilter
-                PopulateTreeViewFolderFilterAdd(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
-                PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke();
+                if (!IsPopulateTreeViewFolderFilterThreadRunning)
+                {
+                    PopulateTreeViewFolderFilterAdd(new FileEntryBroker(fileEntryAttribute, MetadataBrokerType.ExifTool));
+                    PopulateTreeViewFolderFilterUpdatedTreeViewFilterInvoke();
+                }
                 #endregion
 
                 if (DataGridViewHandler.ResumeLayout(dataGridView, queueCount))

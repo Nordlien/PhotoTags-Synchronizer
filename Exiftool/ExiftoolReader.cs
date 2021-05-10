@@ -624,7 +624,8 @@ namespace Exiftool
                     #region while (!process.StandardOutput.EndOfStream)
                     while (!process.StandardOutput.EndOfStream)
                     {
-                        if (isClosing) break; //If user closeing the application, stop continue reading
+                        if (isClosing) 
+                            break; //If user closeing the application, stop continue reading
 
                         String readedLineFromExiftool = process.StandardOutput.ReadLine();
                         Int32 foundToSeperatorInLine = readedLineFromExiftool.IndexOf("\t");

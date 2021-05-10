@@ -1,6 +1,7 @@
 ﻿using ApplicationAssociations;
 using DataGridViewGeneric;
 using Exiftool;
+using ImageAndMovieFileExtentions;
 using LocationNames;
 using Manina.Windows.Forms;
 using MetadataLibrary;
@@ -337,7 +338,7 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Refreh Folder - Click
         private void toolStripMenuItemRefreshFolder_Click(object sender, EventArgs e)
         {
-            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
+            PopulateImageListView_FromFolderSelected(false, true);
             folderTreeViewFolder.Focus();
 
         }
@@ -973,7 +974,7 @@ namespace PhotoTagsSynchronizer
             TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
             filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
             GlobalData.DoNotRefreshImageListView = false;
-            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
+            PopulateImageListView_FromFolderSelected(false, true);
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -981,7 +982,7 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Refresh - Items in listview 
         private void toolStripMenuItemTreeViewFolderReadSubfolders_Click(object sender, EventArgs e)
         {
-            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(true, true);
+            PopulateImageListView_FromFolderSelected(true, true);
             folderTreeViewFolder.Focus();
         }
         #endregion
@@ -1064,7 +1065,6 @@ AddQueueExiftoolLock(fileEntrySelectedItems);
             
             FilesSelected();                
             
-
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
@@ -1110,9 +1110,10 @@ AddQueueExiftoolLock(fileEntrySelectedItems);
                 ClearQueuePreloadningMetadata();
                 ClearQueueExiftool();
 
-                List<FileEntry> fileEntrySelectedItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);                
-                AddQueueExiftoolLock(fileEntrySelectedItems);
-
+                List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(this.folderTreeViewFolder.GetSelectedNodePath(), false);
+                PopulateImageListView(fileEntries, false);
+                //List<FileEntry> fileEntrySelectedItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);                
+                //AddQueueExiftoolLock(fileEntrySelectedItems);
             }
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
@@ -1196,7 +1197,7 @@ AddQueueExiftoolLock(fileEntrySelectedItems);
                     using (new WaitCursor())
                     {
                         filesCutCopyPasteDrag.DeleteFilesInFolder(folderTreeViewFolder, folder);
-                        PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
+                        PopulateImageListView_FromFolderSelected(false, true);
                     }
                 }
             }
@@ -1359,7 +1360,7 @@ AddQueueExiftoolLock(fileEntrySelectedItems);
         {
             if (GlobalData.IsDragAndDropActive) return;
             if (GlobalData.DoNotRefreshImageListView) return;
-            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
+            PopulateImageListView_FromFolderSelected(false, true);
         }
         #endregion 
 
@@ -1570,7 +1571,7 @@ AddQueueExiftoolLock(fileEntrySelectedItems);
                             GlobalData.DoNotRefreshImageListView = false;
 
                             //----- Updated ImageListView with files ------
-                            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
+                            PopulateImageListView_FromFolderSelected(false, true);
                         }
                         else //Copied or NOT (cancel) a folder to new location in eg. Windows Explorer
                         {

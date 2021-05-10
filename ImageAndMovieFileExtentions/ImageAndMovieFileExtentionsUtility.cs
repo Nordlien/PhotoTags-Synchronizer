@@ -629,6 +629,15 @@ namespace ImageAndMovieFileExtentions
             return GetFilesByExtensions(directory, GetAllMediaExtentions(), recursive);
         }
 
+        public static List<FileEntry> ListAllMediaFileEntries(string directory, bool recursive)
+        {
+            FileInfo[] filesFoundInDirectory = GetFilesByExtensions(directory, GetAllMediaExtentions(), recursive);
+            List<FileEntry> fileEntries = new List<FileEntry>();
+            foreach (FileInfo fileInfo in filesFoundInDirectory) fileEntries.Add(new FileEntry(fileInfo.DirectoryName, fileInfo.Name, fileInfo.LastWriteTime));
+            return fileEntries;
+        }
+
+
         public static FileInfo[] GetFilesByExtensions(string folder, List<string> extensions, bool recursive)
         {
             SearchOption searchOption;

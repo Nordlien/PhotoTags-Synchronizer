@@ -364,21 +364,36 @@ namespace PhotoTagsSynchronizer
         {
             imageListView1.Items.Add(fullFilename);
         }
-        #endregion 
+        #endregion
+
+        #region ImageListViewGetSelected
+        private List<FileEntry> ImageListViewGetSelected(ImageListView imageListView)
+        {
+            List<FileEntry> fileEntries = new List<FileEntry>();
+            foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
+            {
+                fileEntries.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
+            }
+            return fileEntries;
+        }
+        #endregion
 
         #region ImageListView - Aggregate - FromSearchFilter
-        private void ImageListViewAggregateFromSearchFilter(List<FileEntry> searchFilterResult)
+        private void ImageListViewAggregateWithMediaFiles(List<FileEntry> fileEntries)
         {
+            //if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFolder(selectedFolder, filesFoundInDirectory, recursive);
+            if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) imageListView1.CacheMode = CacheMode.OnDemand;
+            else imageListView1.CacheMode = CacheMode.Continuous;
+
             ImageListViewClearAll(imageListView1);
 
             imageListView1.Enabled = false;
             ImageListViewSuspendLayoutInvoke(imageListView1);
 
-            //bool isAndBetweenFieldTagsFolder = treeViewFilter.Nodes[FilterVerifyer.Root].Checked;
             FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
             int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root);
 
-            foreach (FileEntry fileEntry in searchFilterResult)
+            foreach (FileEntry fileEntry in fileEntries)
             {
                 if (File.Exists(fileEntry.FileFullPath))
                 {
@@ -397,76 +412,7 @@ namespace PhotoTagsSynchronizer
             StartThreads();
         }
         #endregion
-
-        #region ImageListViewGetSelected
-        private List<FileEntry> ImageListViewGetSelected(ImageListView imageListView)
-        {
-            List<FileEntry> fileEntries = new List<FileEntry>();
-            foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
-            {
-                fileEntries.Add(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
-            }
-            return fileEntries;
-        }
-        #endregion
-
-        #region ImageListView - Aggregate - WithFilesFromFolder
-        //Folder selected after Form load/init, click new folder and clear cache and re-read folder
-        private List<FileEntry> ImageListViewAggregateWithFilesFromFolder(string selectedFolder, bool recursive)
-        {
-            FileInfo[] filesFoundInDirectory = null;
-            if (Directory.Exists(selectedFolder))
-            {
-                
-                //-------- FolderSelected_AddFilesImageListView -------------
-                Properties.Settings.Default.LastFolder = selectedFolder;
-                Properties.Settings.Default.Save();
-
-                FilterVerifyer filterVerifyerFolder = new FilterVerifyer();
-                int valuesCountAdded = filterVerifyerFolder.ReadValuesFromRootNodesWithChilds(treeViewFilter, FilterVerifyer.Root);
-
-                filesFoundInDirectory = ImageAndMovieFileExtentionsUtility.ListAllMediaFiles(selectedFolder, recursive);
-
-                if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFolder(selectedFolder, filesFoundInDirectory, recursive);
-                
-
-                if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) 
-                    imageListView1.CacheMode = CacheMode.OnDemand;
-                else 
-                    imageListView1.CacheMode = CacheMode.Continuous;
-
-                imageListView1.Enabled = false;
-                ImageListViewClearAll(imageListView1); //Trigger ImageListView ItemSelected
-                
-                ImageListViewSuspendLayoutInvoke(imageListView1);
-
-                foreach (FileInfo fileInfo in filesFoundInDirectory)
-                {
-                    if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed
-                    {
-                        Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(
-                            new FileEntryBroker(fileInfo.DirectoryName, fileInfo.Name, fileInfo.LastWriteTime, MetadataBrokerType.ExifTool));
-                        if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileInfo);
-                    }
-                    else imageListView1.Items.Add(fileInfo);
-                }
-
-                imageListView1.Enabled = true;
-                ImageListViewResumeLayoutInvoke(imageListView1); //Trigger ImageListView ItemSelected                
-                //-------- FolderSelected_AddFilesImageListView -------------
-
-                GlobalData.lastReadFolderWasRecursive = recursive;
-
-                StartThreads();
-
-            }
-
-            List<FileEntry> fileEntryFound = new List<FileEntry>();
-            foreach (FileInfo fileInfo in filesFoundInDirectory) fileEntryFound.Add(new FileEntry(fileInfo.DirectoryName, fileInfo.Name, fileInfo.LastWriteTime));
-            return fileEntryFound;
-        }
-        #endregion
-
+        
         #region ImageListView - Aggregate - Rename Items
         private void UpdateImageViewListeAfterRename(ImageListView imageListView, Dictionary<string, string> renameSuccess, Dictionary<string, string> renameFailed, bool onlyRenameAddbackToListView)
         {

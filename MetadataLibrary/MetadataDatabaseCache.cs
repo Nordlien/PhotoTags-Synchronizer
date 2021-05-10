@@ -61,17 +61,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region ReadToCache
-        public void ReadToCache(FileInfo[] filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
-        {
-            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
-            foreach (FileInfo fileInfo in filesFoundInDirectory)
-            {
-                fileEntryBrokers.Add(new FileEntryBroker(fileInfo.FullName, fileInfo.LastWriteTime, metadataBrokerType));
-            }
-            ReadToCache(fileEntryBrokers);  
-        }
-        #endregion
+        
 
         #region ReadToCacheWebScraperDataSet
         public void ReadToCacheWebScraperDataSet(FileInfo[] filesFoundInDirectory)
@@ -106,6 +96,17 @@ namespace MetadataLibrary
         }
         #endregion
 
+        #region ReadToCache
+        public void ReadToCache(FileInfo[] filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
+        {
+            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+            foreach (FileInfo fileInfo in filesFoundInDirectory)
+            {
+                fileEntryBrokers.Add(new FileEntryBroker(fileInfo.FullName, fileInfo.LastWriteTime, metadataBrokerType));
+            }
+            ReadToCache(fileEntryBrokers);
+        }
+        #endregion
 
         #region ReadToCache - List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType
         public void ReadToCache(List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
@@ -2249,12 +2250,15 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        #region Cache - Remove
+        #region Cache - ListFileEntryAttributesCacheRemove(FileBroker fileBroker)
+
         private void ListFileEntryAttributesCacheRemove(FileBroker fileBroker)
         {
             if (listFileAttributeDateVersions.ContainsKey(fileBroker)) listFileAttributeDateVersions.Remove(fileBroker);
         }
+        #endregion
 
+        #region Cache - Remove
         /// <summary>
         /// Remove metadata from Cache
         /// </summary>

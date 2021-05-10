@@ -311,7 +311,6 @@ namespace PhotoTagsSynchronizer
                     Logger.Info("nHTTP server started: " + DateTime.Now.ToString() + " ip: " + nHttpServer.EndPoint.ToString());
                     nHttpServer.Start();
                     WaitApplicationClosing = new AutoResetEvent(false);
-
                     WaitApplicationClosing.WaitOne();
                     Application.DoEvents();
                 }
@@ -387,6 +386,8 @@ namespace PhotoTagsSynchronizer
         #region MainForm_FormClosing
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            exiftoolReader.MetadataGroupPrioityWrite(); //Updated json config file if new tags found
+
             if (commonQueueSaveMetadataUpdatedByUser.Count > 0)
             {
                 if (MessageBox.Show(
@@ -397,7 +398,9 @@ namespace PhotoTagsSynchronizer
                     return;
                 }
             }
+
             GlobalData.IsApplicationClosing = true;
+            GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
             MetadataDatabaseCache.StopCaching = true;
             ThumbnailDatabaseCache.StopCaching = true;
 
@@ -531,7 +534,7 @@ namespace PhotoTagsSynchronizer
         {
             isFormLoading = false;
 
-            PopulateImageListViewBasedOnSelectedFolderAndOrFilter(false, true);
+            PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
 

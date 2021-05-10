@@ -78,14 +78,20 @@ namespace MetadataPriorityLibrary
         }
 
         public void WriteAlways()
-        {            
-            List<MetadataPriorityGroup> metadataGroupPriorityList = new List<MetadataPriorityGroup>();
-            foreach (KeyValuePair<MetadataPriorityKey, MetadataPriorityValues> entry in MetadataPrioityDictionary)
+        {
+            try
             {
-                metadataGroupPriorityList.Add(new MetadataPriorityGroup(entry.Key, entry.Value));
+                List<MetadataPriorityGroup> metadataGroupPriorityList = new List<MetadataPriorityGroup>();
+                foreach (KeyValuePair<MetadataPriorityKey, MetadataPriorityValues> entry in MetadataPrioityDictionary)
+                {
+                    metadataGroupPriorityList.Add(new MetadataPriorityGroup(entry.Key, entry.Value));
+                }
+                string filename = CreteFilename();
+                File.WriteAllText(filename, JsonConvert.SerializeObject(metadataGroupPriorityList, Newtonsoft.Json.Formatting.Indented));
+            } catch (Exception ex)
+            {
+                Logger.Error("metadataGroupPriorityList write to file failed:" + ex.Message);
             }
-            string filename = CreteFilename();
-            File.WriteAllText(filename, JsonConvert.SerializeObject(metadataGroupPriorityList, Newtonsoft.Json.Formatting.Indented));
         }
 
         public void Add(string region, string tag, string composite)

@@ -30,6 +30,8 @@ namespace PhotoTagsSynchronizer
 
         //
         public static bool IsApplicationClosing { get; set; } = false;
+        public static bool IsStopAndEmptyExiftoolReadQueueRequest { get; set; } = false;
+        public static bool IsStopAndEmptyThumbnailQueueRequest { get; set; } = false;
         public static bool IsPopulatingFolderTree { get; set; } = true;
         public static bool IsPopulatingImageListView { get; set; } = false;
 

@@ -15,9 +15,43 @@ namespace PhotoTagsSynchronizer
     {
         #region FolderSelected or FilterSearch clicked
 
-        #region FolderSelected - Populate DataGridView, ImageListView 
-        private void PopulateImageListViewBasedOnSelectedFolderAndOrFilter(bool recursive, bool runPopulateFilter)
+        #region PopulateImageListView
+        private void PopulateImageListView(List<FileEntry> fileEntries, bool runPopulateFilter = true)
         {
+            using (new WaitCursor())
+            {
+                GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
+                GlobalData.SearchFolder = true;
+                folderTreeViewFolder.Enabled = false;
+
+                ClearQueuePreloadningMetadata();
+                ClearQueueExiftool();
+
+                if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFileEntries(fileEntries);
+                if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
+
+                ImageListViewAggregateWithMediaFiles(fileEntries);
+                
+                folderTreeViewFolder.Enabled = true;
+
+                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(fileEntries);
+                AddQueueExiftoolLock(fileEntries);
+
+                GlobalData.IsPopulatingFolderSelected = false;
+            }
+
+            FilesSelected(); //Even when 0 selected files, allocate data and flags, etc...
+            DisplayAllQueueStatus();
+            folderTreeViewFolder.Focus();
+        }
+        #endregion 
+
+        #region FolderSelected - Populate DataGridView, ImageListView 
+        private void PopulateImageListView_FromFolderSelected(bool recursive, bool runPopulateFilter)
+        {
+            
+
+            #region Read folder files
             if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new
             {
                 ImageListViewClearAll(imageListView1);
@@ -26,65 +60,23 @@ namespace PhotoTagsSynchronizer
 
             if (GlobalData.IsPopulatingAnything()) return;
 
-            using (new WaitCursor())
-            {
-                GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
-                GlobalData.SearchFolder = true;
+            string selectedFolder = this.folderTreeViewFolder.GetSelectedNodePath();
+            Properties.Settings.Default.LastFolder = selectedFolder;
+            Properties.Settings.Default.Save();
 
-                if (runPopulateFilter)
-                {
-                    FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
-                }
+            List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);            
+            #endregion 
 
-                folderTreeViewFolder.Enabled = false;
-
-                ClearQueuePreloadningMetadata();
-                ClearQueueExiftool();
-                List<FileEntry> imageListViewFileEntryItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
-                AddQueueExiftoolLock(imageListViewFileEntryItems);
-                
-                folderTreeViewFolder.Enabled = true;
-                
-                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(imageListViewFileEntryItems);
-                
-
-                GlobalData.IsPopulatingFolderSelected = false;
-            }
-
-            FilesSelected(); //Even when 0 selected files, allocate data and flags, etc...
-            
-            DisplayAllQueueStatus();
-            folderTreeViewFolder.Focus();
+            PopulateImageListView(fileEntries, runPopulateFilter);
         }
         #endregion
 
         #region FolderSearchFilter - Populate DataGridView, ImageListView 
-        private void PopulateImageisteViedBasedOnSearchResult(List<FileEntry> searchFilterResult, bool runPopulateFilter = true)
+        private void PopulateImageListView_FromSearchTab(List<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
-            
-            using (new WaitCursor())
-            {
-                GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
-                GlobalData.SearchFolder = false;
 
-                folderTreeViewFolder.Enabled = false;
-
-                if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheSelected(searchFilterResult);
-
-                ImageListViewAggregateFromSearchFilter(searchFilterResult);
-                folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
-                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(searchFilterResult);
-
-                AddQueueExiftoolLock(searchFilterResult);
-                GlobalData.IsPopulatingFolderSelected = false;
-            }
-            
-
-            FilesSelected(); //Even when 0 selected files, allocate data and flags, etc...
-
-            DisplayAllQueueStatus();
-            folderTreeViewFolder.Focus();
+            PopulateImageListView(searchFilterResult, runPopulateFilter);
         }
         #endregion 
 
