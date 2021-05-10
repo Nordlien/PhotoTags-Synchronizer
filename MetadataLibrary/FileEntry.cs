@@ -30,6 +30,10 @@ namespace MetadataLibrary
         public FileEntry(string directory, string filename, DateTime lastAccesDateTime)
         {
             this.fullFilePath = Path.Combine(directory, filename);
+            //DEBUG
+            if (filename[filename.Length - 4] != '.')
+            { 
+            }
             this.lastWriteDateTime = lastAccesDateTime;
         }
 

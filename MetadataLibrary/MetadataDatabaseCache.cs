@@ -1405,20 +1405,33 @@ namespace MetadataLibrary
         #endregion
 
         #region List Files - Missing Entries
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="broker"></param>
+        /// <param name="files"></param>
+        /// <returns>List all files not in Database, When StopCaching is set, process stops, due to user cancelled.</returns>
         public List<String> ListAllMissingFileEntries(MetadataBrokerType broker, List<FileEntry> files)
         {
             if (files == null) return null;
 
             List<String> mediaFilesNoInDatabase = new List<String>();
 
+            ReadToCache(files, broker); // Faster read
+            if (StopCaching) 
+            { 
+                StopCaching = false; 
+                return mediaFilesNoInDatabase; 
+            }
+
             foreach (FileEntry file in files)
             {
                 FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FileFullPath, file.LastWriteDateTime, broker);
-
-                Metadata metadata = ReadMetadataFromCacheOrDatabase(fileEntryBroker);
+                Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
                 if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FileFullPath);
+                if (StopCaching) { StopCaching = false; return mediaFilesNoInDatabase; }
             }
-
+            
             return mediaFilesNoInDatabase;
         }
         #endregion

@@ -445,7 +445,7 @@ namespace PhotoTagsSynchronizer
                     if (valuesCountAdded > 0) // no filter values added, no need read from database, this just for optimize speed
                     {
                         Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(
-                            new FileEntryBroker(fileInfo.Name, fileInfo.DirectoryName, fileInfo.LastWriteTime, MetadataBrokerType.ExifTool));
+                            new FileEntryBroker(fileInfo.DirectoryName, fileInfo.Name, fileInfo.LastWriteTime, MetadataBrokerType.ExifTool));
                         if (filterVerifyerFolder.VerifyMetadata(metadata)) imageListView1.Items.Add(fileInfo);
                     }
                     else imageListView1.Items.Add(fileInfo);

@@ -977,7 +977,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
-                                while (MediaFilesNotInDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                                while (!commonStopQueue && MediaFilesNotInDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing)
                                 {
                                     #region Create a subset of files to Read using Exiftool command line with parameters, and remove subset from queue
                                     int range = 0;
@@ -1099,13 +1099,17 @@ namespace PhotoTagsSynchronizer
         #region ClearQueue - Exiftool
         public void ClearQueueExiftool()
         {
-            //MetadataDatabaseCache.StopCaching = false;
-            //ThumbnailDatabaseCache.StopCaching = false;
+            MetadataDatabaseCache.StopCaching = true;
+            ThumbnailDatabaseCache.StopCaching = true;
             commonStopQueue = true;
+            
             lock (commonQueueReadMetadataFromExiftoolLock) 
             {
                 commonQueueReadMetadataFromExiftool.Clear();
             }
+
+            MetadataDatabaseCache.StopCaching = false;
+            ThumbnailDatabaseCache.StopCaching = false;
             commonStopQueue = false;
         }
         #endregion

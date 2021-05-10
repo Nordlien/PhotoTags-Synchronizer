@@ -47,7 +47,8 @@ namespace PhotoTagsSynchronizer
         #region UpdatedStatusAction - Trigger by ExiftoolReader_afterNewMediaFoundEvent
         private void ExiftoolReader_afterNewMediaFoundEvent(FileEntry fileEntry)
         {
-            lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Remove(fileEntry);            
+            lock (commonQueueReadMetadataFromExiftoolLock) 
+                commonQueueReadMetadataFromExiftool.Remove(fileEntry);            
             UpdateStatusAction("Exiftool read and cached: " + fileEntry.FileName);
             DisplayAllQueueStatus(); //Update number count also
         }
