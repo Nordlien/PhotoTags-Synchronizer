@@ -1301,10 +1301,10 @@ namespace PhotoTagsSynchronizer
             // tabPageFilterTags
             // 
             this.tabPageFilterTags.Controls.Add(this.treeViewFilter);
-            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 25);
+            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 26);
             this.tabPageFilterTags.Name = "tabPageFilterTags";
             this.tabPageFilterTags.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFilterTags.Size = new System.Drawing.Size(330, 863);
+            this.tabPageFilterTags.Size = new System.Drawing.Size(330, 862);
             this.tabPageFilterTags.TabIndex = 1;
             this.tabPageFilterTags.Text = "Filter";
             this.tabPageFilterTags.UseVisualStyleBackColor = true;
@@ -1320,7 +1320,7 @@ namespace PhotoTagsSynchronizer
             treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeViewFilter.Size = new System.Drawing.Size(324, 857);
+            this.treeViewFilter.Size = new System.Drawing.Size(324, 856);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -1398,7 +1398,7 @@ namespace PhotoTagsSynchronizer
             this.ratateCCW270ToolStripMenuItem,
             this.mediaPreviewToolStripMenuItem});
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
-            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 552);
+            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 524);
             // 
             // toolStripMenuItemImageListViewCut
             // 

@@ -80,7 +80,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region LazyLoadMissing()
-        private void LazyLoadMissing()
+        private void LazyLoadMissingLock()
         {
             DataGridView dataGridView = GetActiveTabDataGridView();
             if (dataGridView == null) return;
@@ -168,7 +168,7 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridViewHandler.SuspendLayout(dataGridView, queueCount);
 
-                LoadDataGridViewProgerssCountDown(ThreadLazyLoadingQueueSize() + queueCount);
+                LoadDataGridViewProgerssCountDown(ThreadLazyLoadingQueueSizeDirty() + queueCount);
                 
                 switch (tag)
                 {
@@ -208,11 +208,11 @@ PopulateTreeViewFolderFilterInvoke(fileEntryAttribute);
 
                 if (DataGridViewHandler.ResumeLayout(dataGridView, queueCount))
                 {
-                    LazyLoadMissing();
+                    LazyLoadMissingLock();
 
                     PopulateDataGridViewForSelectedItemsExtrasInvoke();
-                    LoadDataGridViewProgerssCountDown(ThreadLazyLoadingQueueSize() + queueCount);
-                    if (ThreadLazyLoadingQueueSize() + queueCount == 0) LoadDataGridViewProgerssEnded();
+                    LoadDataGridViewProgerssCountDown(ThreadLazyLoadingQueueSizeDirty() + queueCount);
+                    if (ThreadLazyLoadingQueueSizeDirty() + queueCount == 0) LoadDataGridViewProgerssEnded();
                 }
             }
         }
@@ -234,8 +234,10 @@ PopulateTreeViewFolderFilterInvoke(fileEntryAttribute);
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }
 
-            AddQueueLazyLoadningMetadata(lazyLoadingAllExiftoolVersionOfMediaFile);
-            AddQueueLazyLoadningThumbnail(lazyLoadingAllExiftoolVersionOfMediaFile);
+            AddQueueLazyLoadningMetadataLock(lazyLoadingAllExiftoolVersionOfMediaFile);
+            AddQueueLazyLoadningThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
+
+            StartThreads();
         }
         #endregion 
 
@@ -265,13 +267,13 @@ PopulateTreeViewFolderFilterInvoke(fileEntryAttribute);
                     case "Date":
                         break;
                     case "ExifTool":
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSize());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSizeDirty());
                         break;
                     case "Warning":
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSize());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSizeDirty());
                         break;
                     case "Properties":
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSize());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSizeDirty());
                         break;
                     case "Rename":
                         break;
@@ -313,8 +315,6 @@ PopulateTreeViewFolderFilterInvoke(fileEntryAttribute);
 
             lock (GlobalData.populateSelectedLock)
             {
-                StartThreads();
-
                 DataGridView dataGridView = GetActiveTabDataGridView();
                 List<FileEntryAttribute> lazyLoading;
 
@@ -374,16 +374,16 @@ PopulateTreeViewFolderFilterInvoke(fileEntryAttribute);
                         DataGridViewHandlerExiftool.DatabaseExiftoolData = databaseExiftoolData;
                         DataGridViewHandlerExiftool.exiftoolReader = exiftoolReader;
                         lazyLoading = DataGridViewHandlerExiftool.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, showWhatColumns);
-                        AddQueueLazyLoadningMetadata(lazyLoading);
-                        AddQueueLazyLoadningThumbnail(lazyLoading);
+                        AddQueueLazyLoadningMetadataLock(lazyLoading);
+                        AddQueueLazyLoadningThumbnailLock(lazyLoading);
                         break;
                     case "Warning":
                         DataGridViewHandlerExiftoolWarnings.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
                         DataGridViewHandlerExiftoolWarnings.exiftoolReader = exiftoolReader;
                         lazyLoading = DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, showWhatColumns);
-                        AddQueueLazyLoadningMetadata(lazyLoading);
-                        AddQueueLazyLoadningThumbnail(lazyLoading);
+                        AddQueueLazyLoadningMetadataLock(lazyLoading);
+                        AddQueueLazyLoadningThumbnailLock(lazyLoading);
                         break;
                     case "Properties":
                         DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
@@ -410,6 +410,7 @@ PopulateTreeViewFolderFilterInvoke(fileEntryAttribute);
                 }
 
                 //DataGridViewResumeInvoke();
+                StartThreads();
             }
         }
         #endregion

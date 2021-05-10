@@ -109,7 +109,7 @@ namespace PhotoTagsSynchronizer
                 if (metadata != null)
                 {                   
                     metadata.PersonalRegionRotate(rotateDegrees);
-                    AddQueueSaveMetadataUpdatedByUser(metadata, metadataOriginal);
+                    AddQueueSaveMetadataUpdatedByUserLock(metadata, metadataOriginal);
                 }
                 //ImageListViewReloadThumbnailInvoke(imageListView1, fileEntry.FileFullPath);
             }

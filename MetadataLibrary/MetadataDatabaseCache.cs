@@ -1956,8 +1956,10 @@ namespace MetadataLibrary
         #region RegionNamesUpdated
         public void PersonalRegionNameCountCacheUpdated(MetadataBrokerType metadataBrokerType, string name)
         {
-            if (metadataRegionNameCountCache == null) metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>();
-            if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType)) metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>());
+            if (metadataRegionNameCountCache == null) 
+                metadataRegionNameCountCache = new Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>>(); //It should already been created, why isn'y
+            if (!metadataRegionNameCountCache.ContainsKey(metadataBrokerType)) 
+                metadataRegionNameCountCache.Add(metadataBrokerType, new Dictionary<StringNullable, int>()); //It should already been created, why isn'y
             StringNullable stringNullableName = new StringNullable(name);
             if (!metadataRegionNameCountCache[metadataBrokerType].ContainsKey(stringNullableName)) 
             {

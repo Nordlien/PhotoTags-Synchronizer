@@ -34,14 +34,14 @@ namespace PhotoTagsSynchronizer
                 if (runPopulateFilter)
                 {
                     FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
-                    ClearQueuePreloadningMetadata();
                 }
 
                 folderTreeViewFolder.Enabled = false;
 
+                ClearQueuePreloadningMetadata();
                 ClearQueueExiftool();
                 List<FileEntry> imageListViewFileEntryItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), recursive);
-                AddQueueExiftool(imageListViewFileEntryItems);
+                AddQueueExiftoolLock(imageListViewFileEntryItems);
                 
                 folderTreeViewFolder.Enabled = true;
                 
@@ -76,7 +76,7 @@ namespace PhotoTagsSynchronizer
                 folderTreeViewFolder.Enabled = true; //Avoid select folder while loading ImageListView
                 if (runPopulateFilter) PopulateTreeViewFolderFilterThread(searchFilterResult);
 
-                AddQueueExiftool(searchFilterResult);
+                AddQueueExiftoolLock(searchFilterResult);
                 GlobalData.IsPopulatingFolderSelected = false;
             }
             

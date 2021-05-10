@@ -109,7 +109,7 @@ namespace PhotoTagsSynchronizer
             foreach (int updatedRecord in listOfUpdates)
             {
                 //Add only metadata to save queue that that has changed by users
-                AddQueueSaveMetadataUpdatedByUser(metadataListFromDataGridView[updatedRecord], metadataListOriginalExiftool[updatedRecord]);
+                AddQueueSaveMetadataUpdatedByUserLock(metadataListFromDataGridView[updatedRecord], metadataListOriginalExiftool[updatedRecord]);
             }
             ThreadSaveMetadata();
         }
@@ -764,8 +764,8 @@ namespace PhotoTagsSynchronizer
                     databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude);
                 if (metadataToSave != null)
                 {
-                    AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
-                    AddQueueRename(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                    AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
+                    AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                 }
             }
             StartThreads();
@@ -793,8 +793,8 @@ namespace PhotoTagsSynchronizer
                     locationAccuracyLatitude, locationAccuracyLongitude);
                 if (metadataToSave != null)
                 {
-                    AddQueueSaveMetadataUpdatedByUser(metadataToSave, metadataOriginal);
-                    AddQueueRename(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                    AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
+                    AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                 }
             }
 
@@ -1007,7 +1007,7 @@ namespace PhotoTagsSynchronizer
                 LoadDataGridViewProgerss(imageListView1.SelectedItems.Count * 2, 0);
 
                 List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView1);
-AddQueueExiftool(fileEntrySelectedItems);
+AddQueueExiftoolLock(fileEntrySelectedItems);
                 filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(this, imageListView1.Items, true);
                 filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1.Items, true);
 
@@ -1045,7 +1045,7 @@ AddQueueExiftool(fileEntrySelectedItems);
 
                 List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView1);
                 //ClearQueueExiftool();
-                AddQueueExiftool(fileEntrySelectedItems);
+                AddQueueExiftoolLock(fileEntrySelectedItems);
                 LoadDataGridViewProgerss(imageListView1.Items.Count * 2, 0);
 
                 filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(this, imageListView1.Items, false);
@@ -1107,9 +1107,11 @@ AddQueueExiftool(fileEntrySelectedItems);
 
                 Application.DoEvents();
 
+                ClearQueuePreloadningMetadata();
                 ClearQueueExiftool();
+
                 List<FileEntry> fileEntrySelectedItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);                
-                AddQueueExiftool(fileEntrySelectedItems);
+                AddQueueExiftoolLock(fileEntrySelectedItems);
 
             }
             DisplayAllQueueStatus();
@@ -1124,7 +1126,7 @@ AddQueueExiftool(fileEntrySelectedItems);
             folderTreeViewFolder.Enabled = false;
             imageListView1.Enabled = false;
 
-            if (IsFileInThreadQueue(imageListView1))
+            if (IsFileInThreadQueueLock(imageListView1))
             {
                 MessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.");
                 return;
@@ -1178,7 +1180,7 @@ AddQueueExiftool(fileEntrySelectedItems);
         {
             string folder = folderTreeViewFolder.GetSelectedNodePath();
 
-            if (IsFolderInThreadQueue(folder))
+            if (IsFolderInThreadQueueLock(folder))
             {
                 MessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.");
                 return;
@@ -1409,7 +1411,7 @@ AddQueueExiftool(fileEntrySelectedItems);
 
             if (dragDropEffects == DragDropEffects.None)
             {
-                if (IsFileInThreadQueue(fileDropList))
+                if (IsFileInThreadQueueLock(fileDropList))
                 {
                     MessageBox.Show("Can't move files. Files are being used, you need wait until process is finished.");
                     return;
