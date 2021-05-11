@@ -114,7 +114,8 @@ namespace MetadataLibrary
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
             foreach (FileEntry fileEntry in filesFoundInDirectory)
             {
-                if (StopCaching) { StopCaching = false; return; }
+                if (StopCaching) 
+                    { StopCaching = false; return; }
                 fileEntryBrokers.Add(new FileEntryBroker(fileEntry, metadataBrokerType));
             }
             ReadToCache(fileEntryBrokers);
@@ -1430,7 +1431,8 @@ namespace MetadataLibrary
                 FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FileFullPath, file.LastWriteDateTime, broker);
                 Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
                 if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FileFullPath);
-                if (StopCaching) { StopCaching = false; return mediaFilesNoInDatabase; }
+                if (StopCaching) 
+                    { StopCaching = false; return mediaFilesNoInDatabase; }
             }
             
             return mediaFilesNoInDatabase;
