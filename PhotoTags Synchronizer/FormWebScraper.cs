@@ -421,7 +421,7 @@ namespace PhotoTagsSynchronizer
         private void FormWebScraper_Load(object sender, EventArgs e)
         {
             //DatabaseAndCacheMetadataExiftool.OnReadRecord -= DatabaseAndCacheMetadataExiftool_OnReadRecord;
-            DatabaseAndCacheMetadataExiftool.OnReadRecord += DatabaseAndCacheMetadataExiftool_OnReadRecord;
+            DatabaseAndCacheMetadataExiftool.OnRecordReadToCacheParameter += DatabaseAndCacheMetadataExiftool_OnReadRecord;
 
             List<DateTime> webScrapingDataSetDates = DatabaseAndCacheMetadataExiftool.ListWebScraperDataSet(MetadataBrokerType.WebScraping, webScrapingName);
             _webScrapingDataSet = WebScrapingDataSetStatusRead(webScrapingDataSetDates);
@@ -1383,8 +1383,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        
-
         #region GUI - Update Status 
         private Stopwatch stopwatchCounter = new Stopwatch();
 
@@ -1399,7 +1397,7 @@ namespace PhotoTagsSynchronizer
             toolStripStatusLabelStatus.Text = text + counter.ToString();
         }
 
-        private void DatabaseAndCacheMetadataExiftool_OnReadRecord(object sender, ReadRecordEventArgs e)
+        private void DatabaseAndCacheMetadataExiftool_OnReadRecord(object sender, ReadToCacheParameterRecordEventArgs e)
         {
             readCount++;
             UpdatedCounter("Read: ", readCount);

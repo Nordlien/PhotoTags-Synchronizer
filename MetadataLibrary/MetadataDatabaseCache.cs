@@ -13,22 +13,35 @@ using System.Linq;
 
 namespace MetadataLibrary
 {
-    public class ReadRecordEventArgs : EventArgs
+    public class ReadToCacheParameterRecordEventArgs : EventArgs
     {
-        public int MetadataCount { get; set; }
-        public int RegionCount { get; set; }
-        public int KeywordCount { get; set; }
-        public ReadRecordEventArgs()
-        {
-            MetadataCount = 0;
-            RegionCount = 0;
-            KeywordCount = 0;
-        }
+        public int MetadataCount { get; set; } = 0;
+        public int RegionCount { get; set; } = 0;
+        public int KeywordCount { get; set; } = 0;
+        public bool Aborted { get; set; } = false;
     }
+
+    public class ReadToCacheFileEntriesRecordEventArgs : EventArgs
+    {
+        public int HashQueue { get; set; } = 0; 
+        public int FileEntries { get; set; } = 0;
+        public int MetadataCount { get; set; } = 0;
+        public int RegionCount { get; set; } = 0;
+        public int KeywordCount { get; set; } = 0;
+        public bool Aborted { get; set; } = false;
+    }
+
     public class MetadataDatabaseCache
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static bool StopCaching { get; set; } = false;
+
+        public delegate void ReadToCacheParameterRecordEvent(object sender, ReadToCacheParameterRecordEventArgs e);
+        public event ReadToCacheParameterRecordEvent OnRecordReadToCacheParameter;
+
+        public delegate void ReadToCacheRecordEvent(object sender, ReadToCacheFileEntriesRecordEventArgs e);
+        public event ReadToCacheRecordEvent OnRecordReadToCache;
+
 
         private SqliteDatabaseUtilities dbTools;
         public MetadataDatabaseCache(SqliteDatabaseUtilities databaseTools)
@@ -60,9 +73,7 @@ namespace MetadataLibrary
             
         }
         #endregion
-
-        
-
+        /*
         #region ReadToCacheWebScraperDataSet
         public void ReadToCacheWebScraperDataSet(FileInfo[] filesFoundInDirectory)
         {
@@ -79,6 +90,7 @@ namespace MetadataLibrary
             }
         }
         #endregion
+        */
 
         #region ReadToCacheWebScraperDataSet
         public void ReadToCacheWebScraperDataSet(List<FileEntry> filesFoundInDirectory)
@@ -96,6 +108,7 @@ namespace MetadataLibrary
         }
         #endregion
 
+        /*
         #region ReadToCache
         public void ReadToCache(FileInfo[] filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
         {
@@ -107,6 +120,7 @@ namespace MetadataLibrary
             ReadToCache(fileEntryBrokers);
         }
         #endregion
+        */
 
         #region ReadToCache - List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType
         public void ReadToCache(List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
@@ -125,6 +139,10 @@ namespace MetadataLibrary
         #region ReadToCache - List<FileEntryBroker> fileEntriesBroker
         public void ReadToCache(List<FileEntryBroker> fileEntriesBroker)
         {
+            ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs();
+            readToCacheFileEntriesRecordEventArgs.HashQueue = fileEntriesBroker.GetHashCode();
+            readToCacheFileEntriesRecordEventArgs.FileEntries = fileEntriesBroker.Count();
+
             List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
             foreach (FileEntryBroker fileEntryBrokerToCheckInCache in fileEntriesBroker)
             {
@@ -148,7 +166,16 @@ namespace MetadataLibrary
             {
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    if (StopCaching) { StopCaching = false; return; }
+                    if (StopCaching)
+                    {
+                        readToCacheFileEntriesRecordEventArgs.Aborted = true;
+                        OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
+                        StopCaching = false; 
+                        return;
+                    }
+                    readToCacheFileEntriesRecordEventArgs.MetadataCount++;
+                    if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
+
                     //commandDatabase.Prepare();
                     commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
                     commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileEntryBroker.FileFullPath));
@@ -207,7 +234,16 @@ namespace MetadataLibrary
                 //commandDatabase.Prepare();
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    if (StopCaching) { StopCaching = false; return; }
+                    if (StopCaching)
+                    {
+                        readToCacheFileEntriesRecordEventArgs.Aborted = true;
+                        OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
+                        StopCaching = false;
+                        return;
+                    }
+                    readToCacheFileEntriesRecordEventArgs.KeywordCount++;
+                    if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
+
                     Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
                     if (metadata != null)
                     {
@@ -246,7 +282,16 @@ namespace MetadataLibrary
 
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokersToPutInCache)
                 {
-                    if (StopCaching) { StopCaching = false; return; }
+                    if (StopCaching)
+                    {
+                        readToCacheFileEntriesRecordEventArgs.Aborted = true;
+                        OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
+                        StopCaching = false;
+                        return;
+                    }
+                    readToCacheFileEntriesRecordEventArgs.RegionCount++;
+                    if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
+
                     Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
                     if (metadata != null)
                     {
@@ -278,7 +323,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region ReadToCache All Metadatas
+        #region ReadToCache - All Metadatas
         public void ReadToCacheAllMetadatas() //Hack to read data to cache and the database worked much faster after this
         {
             if (StopCaching) { StopCaching = false; return; }
@@ -286,7 +331,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region ReadToCache- All WebScarping DataSets
+        #region ReadToCache - All WebScarping DataSets
         public void ReadToCacheWebScarpingDataSets()
         {
             if (StopCaching) { StopCaching = false; return; }
@@ -297,10 +342,9 @@ namespace MetadataLibrary
 
         #region ReadLot
 
-        public delegate void ReadRecordEvent(object sender, ReadRecordEventArgs e);
-        public event ReadRecordEvent OnReadRecord;
+        private static List<ReadToCacheParameters> readToCacheParamtersCached = new List<ReadToCacheParameters>();
 
-        #region ReadToCache - Parameters
+        #region ReadToCache - class ReadToCacheParameters
         private class ReadToCacheParameters : IComparable<ReadToCacheParameters>, IEquatable<ReadToCacheParameters>
         {
             public ReadToCacheParameters()
@@ -382,10 +426,9 @@ namespace MetadataLibrary
                 return !(left == right);
             }
         }
-        #endregion  
-        private static List<ReadToCacheParameters> readToCacheParamtersCached = new List<ReadToCacheParameters>();
+        #endregion
 
-        #region ReadToCache - Parameters
+        #region ReadToCache - ReadToCacheWhereParameters
         public void ReadToCacheWhereParameters(MetadataBrokerType metadataBrokerType, string folder, string filename, DateTime? fileDateModified, bool readDataIntoCache = true) //Hack to read data to cache and the database worked much faster after this
         {
             if (StopCaching) { StopCaching = false; return; }
@@ -412,8 +455,7 @@ namespace MetadataLibrary
                     "LocationName, LocationCountry, LocationCity, LocationState " +
                 "FROM MediaMetadata " + sqlWhere;
 
-
-            ReadRecordEventArgs readRecordEventArgs = new ReadRecordEventArgs();
+            ReadToCacheParameterRecordEventArgs readRecordEventArgs = new ReadToCacheParameterRecordEventArgs();
 
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
@@ -427,9 +469,14 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching) { StopCaching = false; return; }
+                        if (StopCaching) { 
+                            readRecordEventArgs.Aborted = true; 
+                            OnRecordReadToCacheParameter(this, readRecordEventArgs); 
+                            StopCaching = false; return; 
+                        }
                         readRecordEventArgs.MetadataCount++;
-                        if (OnReadRecord != null) OnReadRecord(this, readRecordEventArgs);
+                        if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
+
                         
                         if (readDataIntoCache)
                         {
@@ -489,9 +536,14 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching) { StopCaching = false; return; }
+                        if (StopCaching)
+                        {
+                            readRecordEventArgs.Aborted = true;
+                            OnRecordReadToCacheParameter(this, readRecordEventArgs);
+                            StopCaching = false; return;
+                        }
                         readRecordEventArgs.KeywordCount++;
-                        if (OnReadRecord != null) OnReadRecord(this, readRecordEventArgs);
+                        if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
 
                         if (readDataIntoCache)
                         {
@@ -536,9 +588,14 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching) { StopCaching = false; return; }
+                        if (StopCaching)
+                        {
+                            readRecordEventArgs.Aborted = true;
+                            OnRecordReadToCacheParameter(this, readRecordEventArgs);
+                            StopCaching = false; return;
+                        }
                         readRecordEventArgs.RegionCount++;
-                        if (OnReadRecord != null) OnReadRecord(this, readRecordEventArgs);
+                        if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
 
                         if (readDataIntoCache)
                         {
@@ -1715,6 +1772,7 @@ namespace MetadataLibrary
         }
         #endregion
 
+        /*
         #region ListAllMediaDateTakenYearAndMonth()
         //SELECT strftime('%Y-%m-%d %H:%M:%S',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'Date1' FROM MediaMetadata ORDER BY Date1
         //SELECT DISTINCT strftime('%Y-%m',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'MediaDateTaken' FROM MediaMetadata ORDER BY MediaDateTaken
@@ -1742,6 +1800,7 @@ namespace MetadataLibrary
             return listing;
         }
         #endregion
+        */
 
         #region ListAllPersonalDescriptions()
         public List<string> ListAllPersonalDescriptions(MetadataBrokerType metadataBrokerType)
@@ -2159,6 +2218,7 @@ namespace MetadataLibrary
         }
         #endregion
 
+        /*
         #region Cache Metadata - Read - CacheOnly
         public Metadata ReadMetadataFromCacheOnlyCopy(FileEntryBroker fileEntryBroker)
         {
@@ -2170,6 +2230,7 @@ namespace MetadataLibrary
             return null;
         }
         #endregion
+        */
 
         #region Cache Metadata - MetadataHasBeenRead
         public bool MetadataHasBeenRead(FileEntryBroker fileEntryBroker)

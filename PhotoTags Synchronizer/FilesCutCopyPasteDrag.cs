@@ -208,7 +208,7 @@ namespace PhotoTagsSynchronizer
                 if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
                 {
                     item.Update();
-                    mainForm.LoadDataGridViewProgerssAdd();
+                    mainForm.GeneralProgressIncrement();
                 }
             }
             
@@ -221,7 +221,7 @@ namespace PhotoTagsSynchronizer
             foreach (ImageListViewItem item in itemCollection)
             {
                 if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) this.DeleteFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
-                mainForm.LoadDataGridViewProgerssAdd();
+                mainForm.GeneralProgressIncrement();
             }
         }
         #endregion

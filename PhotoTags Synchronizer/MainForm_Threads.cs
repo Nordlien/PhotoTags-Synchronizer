@@ -25,8 +25,8 @@ namespace PhotoTagsSynchronizer
         private static readonly Object _ThreadCacheSelectedFastReadLock = new Object();
         private static Thread _ThreadCacheSelectedFastRead = null; //
 
-        private static readonly Object _ThreadCacheFolderFastReadLock = new Object();
-        private static Thread _ThreadCacheFolderFastRead = null; //
+        //private static readonly Object _ThreadCacheFolderFastReadLock = new Object();
+        //private static Thread _ThreadCacheFolderFastRead = null; //
 
         private static readonly Object _ThreadPreloadingMetadataLock = new Object();
         private static Thread _ThreadPreloadingMetadata = null; //
@@ -715,14 +715,14 @@ namespace PhotoTagsSynchronizer
                                         }
                                     }
 
+                                    
                                     updatedDataGridCount--;
                                     PopulateDataGridViewForFileEntryAttributeInvoke(fileEntryAttribute, updatedDataGridCount);
                                 }
 
                                 lock (commonQueueLazyLoadingMetadataLock)
                                 {
-                                    for (int queueIndex = 0; queueIndex < queueCount; queueIndex++)
-                                        commonQueueLazyLoadingMetadata.RemoveAt(0);
+                                    for (int queueIndex = 0; queueIndex < queueCount; queueIndex++) commonQueueLazyLoadingMetadata.RemoveAt(0);
                                 }
 
                                 if (GlobalData.IsApplicationClosing) lock (commonQueueLazyLoadingMetadataLock) commonQueueLazyLoadingMetadata.Clear();
@@ -1132,7 +1132,6 @@ namespace PhotoTagsSynchronizer
                                     #endregion
 
                                     lock (mediaFilesNotInDatabaseLock) mediaFilesNotInDatabase.RemoveRange(0, range); //Remove subset from queue before update status bar
-                                    DisplayAllQueueStatus();
                                 }
                             }
 
@@ -1200,7 +1199,6 @@ namespace PhotoTagsSynchronizer
         {
             lock (commonQueueSaveMetadataUpdatedByUserLock) commonQueueSaveMetadataUpdatedByUser.Add(metadataToSave);
             lock (commonOrigialMetadataBeforeUserUpdateLock) commonOrigialMetadataBeforeUserUpdate.Add(metadataOriginal);
-            DisplayAllQueueStatus();
         }
         #endregion
 
@@ -1208,7 +1206,6 @@ namespace PhotoTagsSynchronizer
         public void AddQueueVerifyMetadataLock(Metadata metadataToVerifyAfterSavedByExiftool)
         {
             lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock) commonQueueMetadataWrittenByExiftoolReadyToVerify.Add(metadataToVerifyAfterSavedByExiftool);
-            DisplayAllQueueStatus();
         }
         #endregion 
 
@@ -1427,9 +1424,6 @@ namespace PhotoTagsSynchronizer
 
                                 //Status updated for user
                                 ShowExiftoolSaveProgressClear();
-                                DisplayAllQueueStatus();
-
-                                //Thread.Sleep(100); //Wait in case of loop
                             }
 
                             if (GlobalData.IsApplicationClosing)
@@ -1531,12 +1525,8 @@ namespace PhotoTagsSynchronizer
                                     else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
 
                                     lock (commonQueueReadMetadataFromMicrosoftPhotosLock) if (commonQueueReadMetadataFromMicrosoftPhotos.Count > 0) commonQueueReadMetadataFromMicrosoftPhotos.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
-
-                                    DisplayAllQueueStatus();
                                 }
                                 #endregion
-
-                                DisplayAllQueueStatus();
                             }
 
                             if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromMicrosoftPhotosLock) commonQueueReadMetadataFromMicrosoftPhotos.Clear();
@@ -1634,12 +1624,8 @@ namespace PhotoTagsSynchronizer
                                     else Logger.Warn("File don't exsist anymore: " + fileEntry.FileFullPath);
 
                                     lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) if (commonQueueReadMetadataFromWindowsLivePhotoGallery.Count > 0) commonQueueReadMetadataFromWindowsLivePhotoGallery.RemoveAt(0); //Remove from queue after read. Otherwise wrong text in status bar
-
-                                    DisplayAllQueueStatus();
                                 }
                                 #endregion
-
-                                DisplayAllQueueStatus();
                             }
 
                             if (GlobalData.IsApplicationClosing) lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromWindowsLivePhotoGallery.Clear();
@@ -1830,9 +1816,6 @@ namespace PhotoTagsSynchronizer
                                 {
                                     Logger.Error("ThreadReadMediaPosterSaveRegions crashed" + e.Message);
                                 }
-
-                                DisplayAllQueueStatus();
-
                             } //while (indexSource < curentCommonQueueReadPosterAndSaveFaceThumbnailsCount);
 
                             if (GlobalData.IsApplicationClosing) lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) commonQueueReadPosterAndSaveFaceThumbnails.Clear();
@@ -2181,9 +2164,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
-                                //Status updated for user
                                 ShowExiftoolSaveProgressClear();
-                                DisplayAllQueueStatus();
                             }
 
                             #endregion

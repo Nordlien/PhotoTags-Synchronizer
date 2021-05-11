@@ -1005,14 +1005,14 @@ namespace PhotoTagsSynchronizer
             {
                 ImageListViewSuspendLayoutInvoke(imageListView1);
 
-                LoadDataGridViewProgerss(imageListView1.SelectedItems.Count * 2, 0);
+                GeneralProgressIncrementSetProgerss(imageListView1.SelectedItems.Count * 2, 0);
 
                 List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView1);
 AddQueueExiftoolLock(fileEntrySelectedItems);
                 filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(this, imageListView1.Items, true);
                 filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1.Items, true);
 
-                LoadDataGridViewProgerssEnded();
+                GeneralProgressEndReached();
 
                 folderTreeViewFolder.Enabled = true;
 
@@ -1047,12 +1047,12 @@ AddQueueExiftoolLock(fileEntrySelectedItems);
                 List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView1);
                 //ClearQueueExiftool();
                 AddQueueExiftoolLock(fileEntrySelectedItems);
-                LoadDataGridViewProgerss(imageListView1.Items.Count * 2, 0);
+                GeneralProgressIncrementSetProgerss(imageListView1.Items.Count * 2, 0);
 
                 filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(this, imageListView1.Items, false);
                 filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1.Items, false);
 
-                LoadDataGridViewProgerssEnded();
+                GeneralProgressEndReached();
 
                 folderTreeViewFolder.Enabled = true;
 
@@ -1064,8 +1064,6 @@ AddQueueExiftoolLock(fileEntrySelectedItems);
             }    
             
             FilesSelected();                
-            
-            DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
         #endregion 

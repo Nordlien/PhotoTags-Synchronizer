@@ -80,6 +80,9 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region LazyLoadMissing()
+        /// <summary>
+        /// When DatGridView is updated with all data, no more in queue. Need to check if some data is missing, due to change tabs, etc.
+        /// </summary>
         private void LazyLoadMissingLock()
         {
             DataGridView dataGridView = GetActiveTabDataGridView();
@@ -97,8 +100,7 @@ namespace PhotoTagsSynchronizer
                         if (dataGridViewGenericColumn.Metadata == null) 
                             lazyLoadingMissedUpdatedDueToThread.Add(dataGridViewGenericColumn.FileEntryAttribute);
                     }
-                }
-                
+                }  
             }
         }
         #endregion 
@@ -168,8 +170,6 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridViewHandler.SuspendLayout(dataGridView, queueCount);
 
-                LoadDataGridViewProgerssCountDown(ThreadLazyLoadingQueueSizeDirty() + queueCount);
-                
                 switch (tag)
                 {
                     case "Tags":
@@ -209,13 +209,19 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
+                if (ThreadLazyLoadingQueueSizeDirty() == 0) 
+                    queueCount = 0; // We don't know qhat order the data is cominging
+                //if (queueCount == 0) 
+                GeneralProgressIncrementCountdown(queueCount); //Also used for delete files count,
+                //else GeneralProgressIncrementCountDown(ThreadLazyLoadingQueueSizeDirty());
+
                 if (DataGridViewHandler.ResumeLayout(dataGridView, queueCount))
                 {
                     LazyLoadMissingLock();
 
                     PopulateDataGridViewForSelectedItemsExtrasInvoke();
-                    LoadDataGridViewProgerssCountDown(ThreadLazyLoadingQueueSizeDirty() + queueCount);
-                    if (ThreadLazyLoadingQueueSizeDirty() + queueCount == 0) LoadDataGridViewProgerssEnded();
+                    
+                    if (ThreadLazyLoadingQueueSizeDirty() + queueCount == 0) GeneralProgressEndReached();
                 }
             }
         }

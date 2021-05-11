@@ -56,7 +56,7 @@ namespace PhotoTagsSynchronizer
         private MetadataDatabaseCache databaseAndCacheMetadataExiftool;
         private MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGallery;
         private MetadataDatabaseCache databaseAndCacheMetadataMicrosoftPhotos;
-
+        
         private LocationNameLookUpCache databaseLocationAddress;
 
         private ExiftoolReader exiftoolReader;
@@ -170,6 +170,7 @@ namespace PhotoTagsSynchronizer
             databaseAndCahceCameraOwner = new CameraOwnersDatabaseCache(databaseUtilitiesSqliteMetadata);
             databaseLocationAddress = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
 
+            databaseAndCacheMetadataExiftool.OnRecordReadToCache += DatabaseAndCacheMetadataExiftool_OnRecordReadToCache;
             //databaseUtilitiesSqliteWindowsLivePhotoGallery = new SqliteDatabaseUtilities(DatabaseType.SqliteWindowsLivePhotoGallaryCache);
             //databaseAndCacheMetadataWindowsLivePhotoGallery = new MetadataDatabaseCache(databaseUtilitiesSqliteWindowsLivePhotoGallery);
             databaseAndCacheMetadataWindowsLivePhotoGallery = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
@@ -317,6 +318,7 @@ namespace PhotoTagsSynchronizer
             });
             _ThreadHttp.Start();
         }
+
         #endregion
 
         #region Resize and restore windows size when reopen application        

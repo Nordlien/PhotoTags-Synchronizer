@@ -29,6 +29,7 @@ namespace PhotoTagsSynchronizer
                 toolStripProgressBarSaveProgress.Minimum = 0;
                 toolStripProgressBarSaveProgress.Maximum = imageListView.Items.Count;
                 toolStripProgressBarSaveProgress.Visible = true;
+                toolStripStatusLabelSaveProgress.Visible = true;
 
                 bool checkDayRange = maxDayRange > 0;
 
@@ -115,6 +116,7 @@ namespace PhotoTagsSynchronizer
                     if (direction == 1) toolStripProgressBarSaveProgress.Value = itemIndex;
                     else toolStripProgressBarSaveProgress.Value = imageListViewItems.Count - itemIndex;
                     toolStripProgressBarSaveProgress.Visible = true;
+                    toolStripStatusLabelSaveProgress.Visible = true;
 
                     itemIndex += direction;                    
                 }

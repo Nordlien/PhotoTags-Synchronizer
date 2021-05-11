@@ -224,7 +224,10 @@ namespace PhotoTagsSynchronizer
         private void timerSaveProgessRemoveProgress_Tick(object sender, EventArgs e)
         {
             if (stopwatchRemoveSaveProgressbar.Elapsed.TotalMilliseconds > 1000)
+            {
                 toolStripProgressBarSaveProgress.Visible = false;
+                toolStripStatusLabelSaveProgress.Visible = false;
+            }
         }
 
         private void MmpegProgress(string data)
@@ -265,6 +268,7 @@ namespace PhotoTagsSynchronizer
                         toolStripProgressBarSaveProgress.Minimum = 0;
                         toolStripProgressBarSaveProgress.Maximum = (int)durationMpegVideoConvertion.TotalMilliseconds / 100;
                         toolStripProgressBarSaveProgress.Visible = true;
+                        toolStripStatusLabelSaveProgress.Visible = true;
                     }
                 }
 
@@ -297,6 +301,7 @@ namespace PhotoTagsSynchronizer
                     {
                         toolStripProgressBarSaveProgress.Value = (int)locationMpegVideoConvertion.TotalMilliseconds / 100;
                         toolStripProgressBarSaveProgress.Visible = true;
+                        toolStripStatusLabelSaveProgress.Visible = true;
                     }
                 }
             }

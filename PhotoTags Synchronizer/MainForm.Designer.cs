@@ -38,10 +38,13 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBarThreadQueue = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripLabelGeneralProgress = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBarGeneralProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabelSaveProgress = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBarSaveProgress = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripProgressBarDataGridViewLoading = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusQueue = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripLabelThreadQueue = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBarThreadQueue = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusThreadQueueCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusAction = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerFolder = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -336,11 +339,11 @@ namespace PhotoTagsSynchronizer
             this.imageListFilter = new System.Windows.Forms.ImageList(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.timerShowErrorMessage = new System.Windows.Forms.Timer(this.components);
-            this.timerActionStatusRemove = new System.Windows.Forms.Timer(this.components);
+            this.timerShowStatusText_RemoveTimer = new System.Windows.Forms.Timer(this.components);
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
             this.timerShowExiftoolSaveProgress = new System.Windows.Forms.Timer(this.components);
-            this.timerStatusUpdate = new System.Windows.Forms.Timer(this.components);
-            this.timerUpdateDataGridViewLoadingProgressbarRemove = new System.Windows.Forms.Timer(this.components);
+            this.timerStatusThreadQueue = new System.Windows.Forms.Timer(this.components);
+            this.timerUpdateGeneralProgressRemoveProgessbar = new System.Windows.Forms.Timer(this.components);
             this.panelMediaPreview = new System.Windows.Forms.Panel();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.imageBoxPreview = new Cyotek.Windows.Forms.ImageBox();
@@ -478,10 +481,13 @@ namespace PhotoTagsSynchronizer
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusFilesAndSelected,
-            this.toolStripProgressBarThreadQueue,
+            this.toolStripLabelGeneralProgress,
+            this.toolStripProgressBarGeneralProgress,
+            this.toolStripStatusLabelSaveProgress,
             this.toolStripProgressBarSaveProgress,
-            this.toolStripProgressBarDataGridViewLoading,
-            this.toolStripStatusQueue,
+            this.toolStripLabelThreadQueue,
+            this.toolStripProgressBarThreadQueue,
+            this.toolStripStatusThreadQueueCount,
             this.toolStripStatusAction});
             this.statusStrip.Location = new System.Drawing.Point(0, 0);
             this.statusStrip.Name = "statusStrip";
@@ -498,14 +504,28 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusFilesAndSelected.Size = new System.Drawing.Size(133, 24);
             this.toolStripStatusFilesAndSelected.Text = "Files: 0 Selected: 0";
             // 
-            // toolStripProgressBarThreadQueue
+            // toolStripLabelGeneralProgress
             // 
-            this.toolStripProgressBarThreadQueue.ForeColor = System.Drawing.Color.Red;
-            this.toolStripProgressBarThreadQueue.Name = "toolStripProgressBarThreadQueue";
-            this.toolStripProgressBarThreadQueue.Size = new System.Drawing.Size(100, 22);
-            this.toolStripProgressBarThreadQueue.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.toolStripProgressBarThreadQueue.ToolTipText = "Fetching Exifdata from media";
-            this.toolStripProgressBarThreadQueue.Value = 50;
+            this.toolStripLabelGeneralProgress.Name = "toolStripLabelGeneralProgress";
+            this.toolStripLabelGeneralProgress.Size = new System.Drawing.Size(67, 24);
+            this.toolStripLabelGeneralProgress.Text = "Working:";
+            this.toolStripLabelGeneralProgress.Visible = false;
+            // 
+            // toolStripProgressBarGeneralProgress
+            // 
+            this.toolStripProgressBarGeneralProgress.Name = "toolStripProgressBarGeneralProgress";
+            this.toolStripProgressBarGeneralProgress.Size = new System.Drawing.Size(100, 22);
+            this.toolStripProgressBarGeneralProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.toolStripProgressBarGeneralProgress.ToolTipText = "Update DataGridView ";
+            this.toolStripProgressBarGeneralProgress.Value = 50;
+            this.toolStripProgressBarGeneralProgress.Visible = false;
+            // 
+            // toolStripStatusLabelSaveProgress
+            // 
+            this.toolStripStatusLabelSaveProgress.Name = "toolStripStatusLabelSaveProgress";
+            this.toolStripStatusLabelSaveProgress.Size = new System.Drawing.Size(43, 24);
+            this.toolStripStatusLabelSaveProgress.Text = "Save:";
+            this.toolStripStatusLabelSaveProgress.Visible = false;
             // 
             // toolStripProgressBarSaveProgress
             // 
@@ -516,24 +536,32 @@ namespace PhotoTagsSynchronizer
             this.toolStripProgressBarSaveProgress.Value = 50;
             this.toolStripProgressBarSaveProgress.Visible = false;
             // 
-            // toolStripProgressBarDataGridViewLoading
+            // toolStripLabelThreadQueue
             // 
-            this.toolStripProgressBarDataGridViewLoading.Name = "toolStripProgressBarDataGridViewLoading";
-            this.toolStripProgressBarDataGridViewLoading.Size = new System.Drawing.Size(100, 22);
-            this.toolStripProgressBarDataGridViewLoading.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.toolStripProgressBarDataGridViewLoading.ToolTipText = "Update DataGridView ";
-            this.toolStripProgressBarDataGridViewLoading.Value = 50;
-            this.toolStripProgressBarDataGridViewLoading.Visible = false;
+            this.toolStripLabelThreadQueue.Name = "toolStripLabelThreadQueue";
+            this.toolStripLabelThreadQueue.Size = new System.Drawing.Size(159, 24);
+            this.toolStripLabelThreadQueue.Text = "Background processes:";
+            this.toolStripLabelThreadQueue.Visible = false;
             // 
-            // toolStripStatusQueue
+            // toolStripProgressBarThreadQueue
             // 
-            this.toolStripStatusQueue.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            this.toolStripProgressBarThreadQueue.ForeColor = System.Drawing.Color.Red;
+            this.toolStripProgressBarThreadQueue.Name = "toolStripProgressBarThreadQueue";
+            this.toolStripProgressBarThreadQueue.Size = new System.Drawing.Size(100, 22);
+            this.toolStripProgressBarThreadQueue.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.toolStripProgressBarThreadQueue.ToolTipText = "Fetching Exifdata from media";
+            this.toolStripProgressBarThreadQueue.Value = 50;
+            this.toolStripProgressBarThreadQueue.Visible = false;
+            // 
+            // toolStripStatusThreadQueueCount
+            // 
+            this.toolStripStatusThreadQueueCount.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.toolStripStatusQueue.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.toolStripStatusQueue.Name = "toolStripStatusQueue";
-            this.toolStripStatusQueue.Size = new System.Drawing.Size(56, 24);
-            this.toolStripStatusQueue.Text = "Queue";
+            this.toolStripStatusThreadQueueCount.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.toolStripStatusThreadQueueCount.Name = "toolStripStatusThreadQueueCount";
+            this.toolStripStatusThreadQueueCount.Size = new System.Drawing.Size(56, 24);
+            this.toolStripStatusThreadQueueCount.Text = "Queue";
             // 
             // toolStripStatusAction
             // 
@@ -2106,9 +2134,9 @@ namespace PhotoTagsSynchronizer
             // tabPagePeople
             // 
             this.tabPagePeople.Controls.Add(this.dataGridViewPeople);
-            this.tabPagePeople.Location = new System.Drawing.Point(4, 26);
+            this.tabPagePeople.Location = new System.Drawing.Point(4, 25);
             this.tabPagePeople.Name = "tabPagePeople";
-            this.tabPagePeople.Size = new System.Drawing.Size(537, 862);
+            this.tabPagePeople.Size = new System.Drawing.Size(537, 863);
             this.tabPagePeople.TabIndex = 2;
             this.tabPagePeople.Tag = "People";
             this.tabPagePeople.Text = "People";
@@ -2126,7 +2154,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewPeople.Name = "dataGridViewPeople";
             this.dataGridViewPeople.RowHeadersWidth = 51;
             this.dataGridViewPeople.RowTemplate.Height = 24;
-            this.dataGridViewPeople.Size = new System.Drawing.Size(531, 856);
+            this.dataGridViewPeople.Size = new System.Drawing.Size(531, 857);
             this.dataGridViewPeople.TabIndex = 0;
             this.dataGridViewPeople.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPeople_CellBeginEdit);
             this.dataGridViewPeople.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPeople_CellEndEdit);
@@ -2401,9 +2429,9 @@ namespace PhotoTagsSynchronizer
             // tabPageMap
             // 
             this.tabPageMap.Controls.Add(this.splitContainerMap);
-            this.tabPageMap.Location = new System.Drawing.Point(4, 26);
+            this.tabPageMap.Location = new System.Drawing.Point(4, 25);
             this.tabPageMap.Name = "tabPageMap";
-            this.tabPageMap.Size = new System.Drawing.Size(537, 862);
+            this.tabPageMap.Size = new System.Drawing.Size(537, 863);
             this.tabPageMap.TabIndex = 3;
             this.tabPageMap.Tag = "Map";
             this.tabPageMap.Text = "Map";
@@ -2431,7 +2459,7 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerMap.Panel2.Controls.Add(this.panel3);
             this.splitContainerMap.Panel2.Controls.Add(this.panelBrowser);
-            this.splitContainerMap.Size = new System.Drawing.Size(537, 862);
+            this.splitContainerMap.Size = new System.Drawing.Size(537, 863);
             this.splitContainerMap.SplitterDistance = 390;
             this.splitContainerMap.SplitterWidth = 10;
             this.splitContainerMap.TabIndex = 5;
@@ -2732,7 +2760,7 @@ namespace PhotoTagsSynchronizer
             this.panel3.Controls.Add(this.pictureBox1);
             this.panel3.Controls.Add(this.comboBoxMapZoomLevel);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 432);
+            this.panel3.Location = new System.Drawing.Point(0, 433);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(537, 30);
             this.panel3.TabIndex = 17;
@@ -2793,16 +2821,16 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBrowser.Location = new System.Drawing.Point(0, 0);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(537, 462);
+            this.panelBrowser.Size = new System.Drawing.Size(537, 463);
             this.panelBrowser.TabIndex = 1;
             // 
             // tabPageDate
             // 
             this.tabPageDate.Controls.Add(this.textBox1);
             this.tabPageDate.Controls.Add(this.dataGridViewDate);
-            this.tabPageDate.Location = new System.Drawing.Point(4, 26);
+            this.tabPageDate.Location = new System.Drawing.Point(4, 25);
             this.tabPageDate.Name = "tabPageDate";
-            this.tabPageDate.Size = new System.Drawing.Size(537, 862);
+            this.tabPageDate.Size = new System.Drawing.Size(537, 863);
             this.tabPageDate.TabIndex = 6;
             this.tabPageDate.Tag = "Date";
             this.tabPageDate.Text = "Date";
@@ -2832,7 +2860,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewDate.Name = "dataGridViewDate";
             this.dataGridViewDate.RowHeadersWidth = 51;
             this.dataGridViewDate.RowTemplate.Height = 24;
-            this.dataGridViewDate.Size = new System.Drawing.Size(534, 777);
+            this.dataGridViewDate.Size = new System.Drawing.Size(534, 778);
             this.dataGridViewDate.TabIndex = 0;
             this.dataGridViewDate.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewDate_CellBeginEdit);
             this.dataGridViewDate.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDate_CellEndEdit);
@@ -2843,9 +2871,9 @@ namespace PhotoTagsSynchronizer
             // tabPageExifTool
             // 
             this.tabPageExifTool.Controls.Add(this.dataGridViewExifTool);
-            this.tabPageExifTool.Location = new System.Drawing.Point(4, 26);
+            this.tabPageExifTool.Location = new System.Drawing.Point(4, 25);
             this.tabPageExifTool.Name = "tabPageExifTool";
-            this.tabPageExifTool.Size = new System.Drawing.Size(537, 862);
+            this.tabPageExifTool.Size = new System.Drawing.Size(537, 863);
             this.tabPageExifTool.TabIndex = 4;
             this.tabPageExifTool.Tag = "ExifTool";
             this.tabPageExifTool.Text = "ExifTool";
@@ -2862,7 +2890,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifTool.Name = "dataGridViewExifTool";
             this.dataGridViewExifTool.RowHeadersWidth = 51;
             this.dataGridViewExifTool.RowTemplate.Height = 24;
-            this.dataGridViewExifTool.Size = new System.Drawing.Size(537, 862);
+            this.dataGridViewExifTool.Size = new System.Drawing.Size(537, 863);
             this.dataGridViewExifTool.TabIndex = 0;
             this.dataGridViewExifTool.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifTool_CellBeginEdit);
             this.dataGridViewExifTool.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifTool_CellPainting);
@@ -2967,10 +2995,10 @@ namespace PhotoTagsSynchronizer
             // tabPageExifToolWarning
             // 
             this.tabPageExifToolWarning.Controls.Add(this.dataGridViewExifToolWarning);
-            this.tabPageExifToolWarning.Location = new System.Drawing.Point(4, 26);
+            this.tabPageExifToolWarning.Location = new System.Drawing.Point(4, 25);
             this.tabPageExifToolWarning.Name = "tabPageExifToolWarning";
             this.tabPageExifToolWarning.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageExifToolWarning.Size = new System.Drawing.Size(537, 862);
+            this.tabPageExifToolWarning.Size = new System.Drawing.Size(537, 863);
             this.tabPageExifToolWarning.TabIndex = 5;
             this.tabPageExifToolWarning.Tag = "Warning";
             this.tabPageExifToolWarning.Text = "Warnings";
@@ -2996,7 +3024,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.ReadOnly = true;
             this.dataGridViewExifToolWarning.RowHeadersWidth = 51;
             this.dataGridViewExifToolWarning.RowTemplate.Height = 24;
-            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(531, 856);
+            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(531, 857);
             this.dataGridViewExifToolWarning.TabIndex = 0;
             this.dataGridViewExifToolWarning.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifToolWarning_CellBeginEdit);
             this.dataGridViewExifToolWarning.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifToolWarning_CellPainting);
@@ -3101,10 +3129,10 @@ namespace PhotoTagsSynchronizer
             // tabPageFileProperties
             // 
             this.tabPageFileProperties.Controls.Add(this.dataGridViewProperties);
-            this.tabPageFileProperties.Location = new System.Drawing.Point(4, 26);
+            this.tabPageFileProperties.Location = new System.Drawing.Point(4, 25);
             this.tabPageFileProperties.Name = "tabPageFileProperties";
             this.tabPageFileProperties.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFileProperties.Size = new System.Drawing.Size(537, 862);
+            this.tabPageFileProperties.Size = new System.Drawing.Size(537, 863);
             this.tabPageFileProperties.TabIndex = 7;
             this.tabPageFileProperties.Tag = "Properties";
             this.tabPageFileProperties.Text = "Properties";
@@ -3122,7 +3150,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewProperties.Name = "dataGridViewProperties";
             this.dataGridViewProperties.RowHeadersWidth = 51;
             this.dataGridViewProperties.RowTemplate.Height = 24;
-            this.dataGridViewProperties.Size = new System.Drawing.Size(531, 856);
+            this.dataGridViewProperties.Size = new System.Drawing.Size(531, 857);
             this.dataGridViewProperties.TabIndex = 0;
             this.dataGridViewProperties.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewProperties_CellBeginEdit);
             this.dataGridViewProperties.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewProperties_CellPainting);
@@ -3137,9 +3165,9 @@ namespace PhotoTagsSynchronizer
             this.tabPageFileRename.Controls.Add(this.label1);
             this.tabPageFileRename.Controls.Add(this.textBoxRenameNewName);
             this.tabPageFileRename.Controls.Add(this.dataGridViewRename);
-            this.tabPageFileRename.Location = new System.Drawing.Point(4, 26);
+            this.tabPageFileRename.Location = new System.Drawing.Point(4, 25);
             this.tabPageFileRename.Name = "tabPageFileRename";
-            this.tabPageFileRename.Size = new System.Drawing.Size(537, 862);
+            this.tabPageFileRename.Size = new System.Drawing.Size(537, 863);
             this.tabPageFileRename.TabIndex = 8;
             this.tabPageFileRename.Tag = "Rename";
             this.tabPageFileRename.Text = "Rename";
@@ -3253,7 +3281,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.Name = "dataGridViewRename";
             this.dataGridViewRename.RowHeadersWidth = 51;
             this.dataGridViewRename.RowTemplate.Height = 24;
-            this.dataGridViewRename.Size = new System.Drawing.Size(534, 758);
+            this.dataGridViewRename.Size = new System.Drawing.Size(534, 759);
             this.dataGridViewRename.TabIndex = 0;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewRename_CellPainting);
@@ -3838,10 +3866,10 @@ namespace PhotoTagsSynchronizer
             this.timerShowErrorMessage.Interval = 1500;
             this.timerShowErrorMessage.Tick += new System.EventHandler(this.timerShowErrorMessage_Tick);
             // 
-            // timerActionStatusRemove
+            // timerShowStatusText_RemoveTimer
             // 
-            this.timerActionStatusRemove.Interval = 1500;
-            this.timerActionStatusRemove.Tick += new System.EventHandler(this.timerActionStatusRemove_Tick);
+            this.timerShowStatusText_RemoveTimer.Interval = 1500;
+            this.timerShowStatusText_RemoveTimer.Tick += new System.EventHandler(this.timerShowStatusText_RemoveTimer_Tick);
             // 
             // timerStartThread
             // 
@@ -3855,16 +3883,16 @@ namespace PhotoTagsSynchronizer
             this.timerShowExiftoolSaveProgress.Interval = 400;
             this.timerShowExiftoolSaveProgress.Tick += new System.EventHandler(this.timerShowExiftoolSaveProgress_Tick);
             // 
-            // timerStatusUpdate
+            // timerStatusThreadQueue
             // 
-            this.timerStatusUpdate.Enabled = true;
-            this.timerStatusUpdate.Interval = 400;
-            this.timerStatusUpdate.Tick += new System.EventHandler(this.timerStatusUpdate_Tick);
+            this.timerStatusThreadQueue.Enabled = true;
+            this.timerStatusThreadQueue.Interval = 400;
+            this.timerStatusThreadQueue.Tick += new System.EventHandler(this.timerStatusThreadQueue_Tick);
             // 
-            // timerUpdateDataGridViewLoadingProgressbarRemove
+            // timerUpdateGeneralProgressRemoveProgessbar
             // 
-            this.timerUpdateDataGridViewLoadingProgressbarRemove.Interval = 1000;
-            this.timerUpdateDataGridViewLoadingProgressbarRemove.Tick += new System.EventHandler(this.timerUpdateDataGridViewLoadingProgressbarRemove_Tick);
+            this.timerUpdateGeneralProgressRemoveProgessbar.Interval = 500;
+            this.timerUpdateGeneralProgressRemoveProgessbar.Tick += new System.EventHandler(this.timerUpdateGeneralProgressRemoveProgessbar_Tick);
             // 
             // panelMediaPreview
             // 
@@ -4350,7 +4378,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.TabPage tabPageTags;
         private System.Windows.Forms.TabPage tabPagePeople;
         private System.Windows.Forms.TabPage tabPageExifTool;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusQueue;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusThreadQueueCount;
         private System.Windows.Forms.DataGridView dataGridViewExifTool;
         private System.Windows.Forms.ComboBox comboBoxDescription;
         private System.Windows.Forms.ComboBox comboBoxTitle;
@@ -4392,7 +4420,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsAndKeywordsBrokerOverwriteText;
         private System.Windows.Forms.ToolStripButton toolStripButtonSaveAllMetadata;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusAction;
-        private System.Windows.Forms.Timer timerActionStatusRemove;
+        private System.Windows.Forms.Timer timerShowStatusText_RemoveTimer;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripImageListView;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewCut;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewCopy;
@@ -4586,9 +4614,9 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast3;
         private DragNDrop.TreeViewWithoutDoubleClick treeViewFilter;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarDataGridViewLoading;
-        private System.Windows.Forms.Timer timerStatusUpdate;
-        private System.Windows.Forms.Timer timerUpdateDataGridViewLoadingProgressbarRemove;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarGeneralProgress;
+        private System.Windows.Forms.Timer timerStatusThreadQueue;
+        private System.Windows.Forms.Timer timerUpdateGeneralProgressRemoveProgessbar;
         private System.Windows.Forms.ToolStripMenuItem mediaPreviewToolStripMenuItem;
         private System.Windows.Forms.Panel panelMediaPreview;
         private System.Windows.Forms.ToolStrip toolStrip1;
@@ -4663,6 +4691,9 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMediaPreview;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningMediaPreview;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarThreadQueue;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripLabelGeneralProgress;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSaveProgress;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripLabelThreadQueue;
     }
 }
 

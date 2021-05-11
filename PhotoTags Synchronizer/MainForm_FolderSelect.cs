@@ -20,6 +20,8 @@ namespace PhotoTagsSynchronizer
         {
             using (new WaitCursor())
             {
+                UpdateStatusAction("Adding files to image list: " + fileEntries.Count);
+
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
                 GlobalData.SearchFolder = true;
                 folderTreeViewFolder.Enabled = false;
@@ -41,7 +43,6 @@ namespace PhotoTagsSynchronizer
             }
 
             FilesSelected(); //Even when 0 selected files, allocate data and flags, etc...
-            DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();
         }
         #endregion 
@@ -64,8 +65,9 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.LastFolder = selectedFolder;
             Properties.Settings.Default.Save();
 
-            List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);            
-            #endregion 
+            UpdateStatusAction("Read files in folder: " + selectedFolder);
+            List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
+            #endregion
 
             PopulateImageListView(fileEntries, runPopulateFilter);
         }

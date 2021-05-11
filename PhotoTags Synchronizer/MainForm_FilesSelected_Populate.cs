@@ -80,7 +80,6 @@ namespace PhotoTagsSynchronizer
                 PopulateDataGridViewForSelectedItemsInvoke(imageListView1.SelectedItems);                
                 PopulateImageListViewOpenWithToolStripThread(imageListView1.SelectedItems);
                 
-                DisplayAllQueueStatus();
                 GlobalData.IsPopulatingImageListView = false;
             }
         }
