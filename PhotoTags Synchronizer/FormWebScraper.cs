@@ -393,7 +393,7 @@ namespace PhotoTagsSynchronizer
             
             browser = new ChromiumWebBrowser("https://photos.google.com/") { Dock = DockStyle.Fill, };
             browser.BrowserSettings.Javascript = CefState.Enabled;
-            browser.BrowserSettings.WebSecurity = CefState.Enabled;
+            //browser.BrowserSettings.WebSecurity = CefState.Enabled;
             browser.BrowserSettings.WebGl = CefState.Enabled;
             browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
             browser.BrowserSettings.Plugins = CefState.Enabled;
