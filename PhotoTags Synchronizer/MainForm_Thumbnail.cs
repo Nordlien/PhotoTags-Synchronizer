@@ -41,7 +41,7 @@ namespace PhotoTagsSynchronizer
                 {
                     try
                     {
-                        if (isFileInCloud) UpdateStatusAction("Read thumbnail from Cloud: " + fileEntry.FileFullPath);
+                        if (isFileInCloud) UpdateStatusAction("File is in Cloud, check if windows has thumbnail: " + fileEntry.FileFullPath);
                         else UpdateStatusAction("Read thumbnail from file: " + fileEntry.FileFullPath);
                     }
                     catch { }

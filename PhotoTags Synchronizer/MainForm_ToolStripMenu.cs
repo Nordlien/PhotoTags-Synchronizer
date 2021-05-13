@@ -987,85 +987,56 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-
-
-        #region ToolStrip - Reload Metadata - Selected items - Click
-        private void toolStripMenuItemReloadThumbnailAndMetadata_Click(object sender, EventArgs e)
+        #region Reoload - Delete Last Mediadata And Reload
+        void DeleteLastMediadataAndReload(ImageListView imageListView, bool updatedOnlySelected)
         {
             if (GlobalData.IsPopulatingAnything()) return;
             //if (GlobalData.IsAgredagedGridViewAny()) return;
-            
             GlobalData.IsPopulatingButtonAction = true;
             GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 
             folderTreeViewFolder.Enabled = false;
-
             using (new WaitCursor())
             {
-                ImageListViewSuspendLayoutInvoke(imageListView1);
+                ImageListViewSuspendLayoutInvoke(imageListView);
 
-                GeneralProgressIncrementSetProgerss(imageListView1.SelectedItems.Count * 2, 0);
+                List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView);
+                //ClearQueueExiftool();
+                //AddQueueExiftoolLock(fileEntrySelectedItems);
+                filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(imageListView.Items, updatedOnlySelected);
 
-                List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView1);
-AddQueueExiftoolLock(fileEntrySelectedItems);
-                GeneralProgressIncrementSetProgerss(imageListView1.Items.Count * 2, 0);
-
-                filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(this, imageListView1.Items, true);
-                filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1.Items, true);
-
+                GeneralProgressIncrementSetProgerss(imageListView.Items.Count, 0);
+                filesCutCopyPasteDrag.ImageListViewReload(this, imageListView.Items, updatedOnlySelected);
                 GeneralProgressEndReached();
 
                 folderTreeViewFolder.Enabled = true;
 
-                ImageListViewResumeLayoutInvoke(imageListView1);
+                ImageListViewResumeLayoutInvoke(imageListView);
 
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
                 GlobalData.IsPopulatingButtonAction = false;
                 GlobalData.IsPopulatingImageListView = false;
+
+                FilesSelected();
             }
-            FilesSelected();
+        }
+        #endregion 
+
+        #region ToolStrip - Reload Metadata - Selected items - Click
+        private void toolStripMenuItemReloadThumbnailAndMetadata_Click(object sender, EventArgs e)
+        {
+            DeleteLastMediadataAndReload(imageListView1, true);
 
             DataGridView dataGridView = GetActiveTabDataGridView();
             if (dataGridView != null) DataGridViewHandler.Focus(dataGridView);
-
         }
         #endregion 
 
         #region ToolStrip - Reload Metadata - Folder - Click
         private void toolStripMenuItemTreeViewFolderReload_Click(object sender, EventArgs e)
         {
-            if (GlobalData.IsPopulatingAnything()) return;
-            //if (GlobalData.IsAgredagedGridViewAny()) return;
-            GlobalData.IsPopulatingButtonAction = true;
-            GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-
-            folderTreeViewFolder.Enabled = false;
-            using (new WaitCursor())
-            {
-                ImageListViewSuspendLayoutInvoke(imageListView1);
-
-                List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView1);
-                //ClearQueueExiftool();
-                AddQueueExiftoolLock(fileEntrySelectedItems);
-                GeneralProgressIncrementSetProgerss(imageListView1.Items.Count * 2, 0);
-
-                filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(this, imageListView1.Items, false);
-                filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1.Items, false);
-
-                GeneralProgressEndReached();
-
-                folderTreeViewFolder.Enabled = true;
-
-                ImageListViewResumeLayoutInvoke(imageListView1);
-
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-                GlobalData.IsPopulatingButtonAction = false;
-                GlobalData.IsPopulatingImageListView = false;
-            }    
-            
-            FilesSelected();                
+            DeleteLastMediadataAndReload(imageListView1, false);
             folderTreeViewFolder.Focus();
         }
         #endregion 
@@ -1104,7 +1075,6 @@ AddQueueExiftoolLock(fileEntrySelectedItems);
             {
                 ImageListViewClearThumbnailCache(imageListView1);
                 imageListView1.Refresh();
-
                 Application.DoEvents();
 
                 ClearQueuePreloadningMetadata();

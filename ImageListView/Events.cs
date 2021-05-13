@@ -486,6 +486,7 @@ namespace Manina.Windows.Forms
         private string mFileName;
         private Image mImage;
         private Size mThumbnailSize;
+        private DateTime mLastWrite;
 
         /// <summary>
         /// Use this Image instead
@@ -502,6 +503,7 @@ namespace Manina.Windows.Forms
             set { mThumbnailSize = value; }
         }
 
+
         /// <summary>
         /// Get Filename for Image that are become to be loaded
         /// </summary>
@@ -511,23 +513,27 @@ namespace Manina.Windows.Forms
             //set { mFileName = value; }
         }
 
+        public DateTime? LastWritten
+        {
+            get { return mLastWrite; }
+        }
        
         /// <summary>
         /// Initializes a new instance of the RetrieveImageEventArgs class.
         /// </summary>
         /// <param name="filename">The item that is the target of this event.</param>
-        /// <param name="size">The size of thumbnail to fetch or create that is the target of this event.</param>
-        public RetrieveItemThumbnailEventArgs(string filename, Size size)
+        /// <param name="thumbnailSize">The size of thumbnail to fetch or create that is the target of this event.</param>
+        public RetrieveItemThumbnailEventArgs(string filename, Size thumbnailSize)
         {
             mFileName = filename;
-            mThumbnailSize = size;
+            mThumbnailSize = thumbnailSize;
         }
     }
 
     //RetrieveItemMetadataDetails
     //JTN Added
     /// <summary>
-    /// Represents the event arguments for the thumbnail before load from file. If Thumbnail set, load from fill will not occure
+    /// Represents the event arguments for the thumbnail before load from file. If Thumbnail set, load from file will not occure
     /// </summary>
     [Serializable, ComVisible(true)]
     public class RetrieveItemMetadataDetailsEventArgs
@@ -544,6 +550,7 @@ namespace Manina.Windows.Forms
             //set { mFileName = value; }
         }
 
+       
         /// <summary>
         /// Get and Set FileMetadata for Image that are become to be loaded
         /// </summary>

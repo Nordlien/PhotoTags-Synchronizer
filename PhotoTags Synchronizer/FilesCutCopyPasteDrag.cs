@@ -52,6 +52,34 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteFileEntry
+        public void DeleteFileEntries(List<FileEntry> fileEntries)
+        {
+            List<FileEntryBroker> fileEntryBrokersExifTool = new List<FileEntryBroker>();
+            List<FileEntryBroker> fileEntryBrokersMicrosoftPhotos = new List<FileEntryBroker>();
+            List<FileEntryBroker> fileEntryBrokersWindowsPhotoGallary = new List<FileEntryBroker>();
+
+            foreach (FileEntry fileEntry in fileEntries)
+            {
+                fileEntryBrokersExifTool.Add(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
+                fileEntryBrokersMicrosoftPhotos.Add(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
+                fileEntryBrokersWindowsPhotoGallary.Add(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
+            }
+
+            databaseAndCacheMetadataExiftool.MetadataCacheRemove(fileEntryBrokersExifTool);
+            databaseAndCacheMetadataExiftool.DeleteFileEntries(fileEntryBrokersExifTool);  //Also delete When (Broker & @Broker) = @Broker
+
+            databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(fileEntryBrokersMicrosoftPhotos);
+            databaseAndCacheMetadataMicrosoftPhotos.DeleteFileEntries(fileEntryBrokersMicrosoftPhotos);
+
+            databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(fileEntryBrokersWindowsPhotoGallary);
+            databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntries(fileEntryBrokersWindowsPhotoGallary);
+
+            databaseExiftoolData.DeleteFileEntriesFromMediaExiftoolTags(fileEntries);
+            databaseExiftoolWarning.DeleteFileEntriesFromMediaExiftoolTagsWarning(fileEntries);
+            databaseAndCacheThumbnail.DeleteThumbnails(fileEntries);
+        }
+
+        /*
         public void DeleteFileEntry(FileEntry fileEntry)
         {
 
@@ -68,53 +96,41 @@ namespace PhotoTagsSynchronizer
             databaseExiftoolWarning.DeleteFileEntry(fileEntry);
             databaseAndCacheThumbnail.DeleteThumbnail(fileEntry);
         }
+        */
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteFileAndHistory
         public void DeleteFileAndHistory(string fullFilePath)
         {
-
             List<FileEntryBroker> fileEntryBrokers = databaseAndCacheMetadataExiftool.ListFileEntryBrokerDateVersions(MetadataBrokerType.ExifTool, fullFilePath);
-            foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
-            {
-                databaseAndCacheMetadataExiftool.MetadataCacheRemove(fileEntryBroker);
-                databaseAndCacheMetadataExiftool.DeleteFileEntry(fileEntryBroker);
-            }
 
-            fileEntryBrokers =
-                databaseAndCacheMetadataMicrosoftPhotos.ListFileEntryBrokerDateVersions(MetadataBrokerType.MicrosoftPhotos, fullFilePath);
-            foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
-            {
-                databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(fileEntryBroker);
-                databaseAndCacheMetadataMicrosoftPhotos.DeleteFileEntry(fileEntryBroker);
-            }
+            databaseAndCacheMetadataExiftool.MetadataCacheRemove(fileEntryBrokers);
+            databaseAndCacheMetadataExiftool.DeleteFileEntries(fileEntryBrokers);
 
-            fileEntryBrokers =
-                databaseAndCacheMetadataWindowsLivePhotoGallery.ListFileEntryBrokerDateVersions(MetadataBrokerType.WindowsLivePhotoGallery, fullFilePath);
-            foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
-            {
-                databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(fileEntryBroker);
-                databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntry(fileEntryBroker);
-            }
+            fileEntryBrokers = databaseAndCacheMetadataMicrosoftPhotos.ListFileEntryBrokerDateVersions(MetadataBrokerType.MicrosoftPhotos, fullFilePath);
+            databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(fileEntryBrokers);
+            databaseAndCacheMetadataMicrosoftPhotos.DeleteFileEntries(fileEntryBrokers);
 
+            fileEntryBrokers = databaseAndCacheMetadataWindowsLivePhotoGallery.ListFileEntryBrokerDateVersions(MetadataBrokerType.WindowsLivePhotoGallery, fullFilePath);
+            databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(fileEntryBrokers);
+            databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntries(fileEntryBrokers);
+            
             List<FileEntryAttribute> fileEntryAttributes;
+            List<FileEntry> fileEntrys = new List<FileEntry>();
+
             fileEntryAttributes = databaseExiftoolData.ListFileEntryDateVersions(fullFilePath);
-            foreach (FileEntry fileEntry in fileEntryAttributes)
-            {
-                databaseExiftoolData.DeleteFileMediaExiftoolTags(fileEntry);
-            }
-
+            fileEntrys.Clear();
+            foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes) fileEntrys.Add(fileEntryAttribute);
+            databaseExiftoolData.DeleteFileEntriesFromMediaExiftoolTags(fileEntrys);
+            
             fileEntryAttributes = databaseExiftoolWarning.ListFileEntryDateVersions(fullFilePath);
-            foreach (FileEntry fileEntry in fileEntryAttributes)
-            {
-                databaseExiftoolWarning.DeleteFileEntry(fileEntry);
-            }
-
+            fileEntrys.Clear();
+            foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes) fileEntrys.Add(fileEntryAttribute);
+            databaseExiftoolWarning.DeleteFileEntriesFromMediaExiftoolTagsWarning(fileEntrys);
+            
             List<FileEntry> fileEntries = databaseAndCacheThumbnail.ListFileEntryDateVersions(fullFilePath);
-            foreach (FileEntry fileEntry in fileEntries)
-            {
-                databaseAndCacheThumbnail.DeleteThumbnail(fileEntry);
-            }
+            databaseAndCacheThumbnail.DeleteThumbnails(fileEntries);
+            
         }
         #endregion
 
@@ -208,21 +224,22 @@ namespace PhotoTagsSynchronizer
                 if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
                 {
                     item.Update();
-                    mainForm.GeneralProgressIncrement();
+                    //mainForm.GeneralProgressIncrement();
                 }
             }
-            
         }
         #endregion 
 
         #region FilesCutCopyPasteDrag - DeleteSelectedFilesBeforeReload
-        public void DeleteSelectedFilesBeforeReload(MainForm mainForm, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
+        public void DeleteSelectedFilesBeforeReload(ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
         {
+            List<FileEntry> fileEntries = new List<FileEntry>();
             foreach (ImageListViewItem item in itemCollection)
             {
-                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) this.DeleteFileEntry(new FileEntry(item.FileFullPath, item.DateModified));
-                mainForm.GeneralProgressIncrement();
+                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) fileEntries.Add(new FileEntry(item.FileFullPath, item.DateModified));
             }
+
+            this.DeleteFileEntries(fileEntries);
         }
         #endregion
 

@@ -31,6 +31,14 @@ namespace MetadataLibrary
         public bool Aborted { get; set; } = false;
     }
 
+    public class DeleteRecordEventArgs : EventArgs
+    {
+        public int HashQueue { get; set; } = 0;
+        public string TableName { get; set; } = "";
+        public int FileEntries { get; set; } = 0;
+        public int Count { get; set; } = 0;
+    }
+
     public class MetadataDatabaseCache
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -42,6 +50,8 @@ namespace MetadataLibrary
         public delegate void ReadToCacheRecordEvent(object sender, ReadToCacheFileEntriesRecordEventArgs e);
         public event ReadToCacheRecordEvent OnRecordReadToCache;
 
+        public delegate void DeleteRecordEvent(object sender, DeleteRecordEventArgs e);
+        public event DeleteRecordEvent OnDeleteRecord;
 
         private SqliteDatabaseUtilities dbTools;
         public MetadataDatabaseCache(SqliteDatabaseUtilities databaseTools)
@@ -715,7 +725,9 @@ namespace MetadataLibrary
                 {
                     Logger.Error("Delete MediaMetadata and sub data due to previous application crash for file: " + metadata.FileFullPath);
                     //Delete all extries due to crash.
-                    DeleteFileEntry(metadata.FileEntryBroker);
+                    DeleteFileEntryFromMediaMetadata(metadata.FileEntryBroker);
+                    DeleteFileEntryFromMediaPersonalKeywords(metadata.FileEntryBroker);
+                    DeleteFileEntryFromMediaPersonalRegions(metadata.FileEntryBroker);
                     commandDatabase.ExecuteNonQuery();
                 }
             }
@@ -742,7 +754,7 @@ namespace MetadataLibrary
                     {
                         Logger.Error("Delete MediaPersonalKeywords data due to previous application crash for file: " + metadata.FileFullPath);
                         //Delete all extries due to crash.
-                        DeleteFileMediaPersonalKeywords(metadata.FileEntryBroker);
+                        //DeleteFileEntryFromMediaPersonalKeywords(metadata.FileEntryBroker);
                         commandDatabase.ExecuteNonQuery();
                     }
                 }
@@ -780,7 +792,7 @@ namespace MetadataLibrary
                     {
                         Logger.Error("Delete MediaPersonalRegions data due to previous application crash for file: " + metadata.FileFullPath);
                         //Delete all extries due to crash.
-                        DeleteFileMediaPersonalRegions(metadata.FileEntryBroker);
+                        //DeleteFileEntryFromMediaPersonalRegions(metadata.FileEntryBroker);
                         commandDatabase.ExecuteNonQuery();
                     }
                 }
@@ -1167,12 +1179,28 @@ namespace MetadataLibrary
         #endregion
 
         #region Delete File - Metadata
+        private void DeleteFileEntryFromMediaMetadata(FileEntryBroker fileEntryBroker)
+        {
+            List<FileEntryBroker> fileEntrieBrokers = new List<FileEntryBroker>();
+            fileEntrieBrokers.Add(fileEntryBroker);
+            DeleteFileEntriesFromMediaMetadata(fileEntrieBrokers);
+        }
         /// <summary>
         /// Delete all records that fits parameters
         /// </summary>
         /// <param name="fileEntryBroker">Folder, Filename and When (Broker & @Broker) = @Broker</param>
-        private void DeleteFileMediaMetadata(FileEntryBroker fileEntryBroker)
+        private void DeleteFileEntriesFromMediaMetadata(List<FileEntryBroker> fileEntryBrokers)
         {
+            DeleteRecordEventArgs deleteRecordEventArgs = new DeleteRecordEventArgs();
+            deleteRecordEventArgs.HashQueue = fileEntryBrokers.GetHashCode();
+            deleteRecordEventArgs.TableName = "Metadata";
+            deleteRecordEventArgs.FileEntries = fileEntryBrokers.Count();
+            if (deleteRecordEventArgs.FileEntries == 0)
+            {
+                OnDeleteRecord(this, deleteRecordEventArgs);
+                return;
+            }
+
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
                             "(Broker & @Broker) = @Broker " +
                             "AND FileDirectory = @FileDirectory " +
@@ -1180,23 +1208,45 @@ namespace MetadataLibrary
                             "AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
+                {
+                    deleteRecordEventArgs.Count++;
+                    if (OnDeleteRecord != null) OnDeleteRecord(this, deleteRecordEventArgs);
+
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
+                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
+                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
+                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                }
             }
         }
         #endregion
 
         #region Delete File - Personal Regions
+        private void DeleteFileEntryFromMediaPersonalRegions(FileEntryBroker fileEntryBroker)
+        {
+            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+            fileEntryBrokers.Add(fileEntryBroker);
+            DeleteFileEntriesFromMediaPersonalRegions(fileEntryBrokers);
+        }
         /// <summary>
         /// Delete all records that fits parameters
         /// </summary>
         /// <param name="fileEntryBroker">Folder, Filename and When (Broker & @Broker) = @Broker</param>
-        private void DeleteFileMediaPersonalRegions(FileEntryBroker fileEntryBroker)
+        private void DeleteFileEntriesFromMediaPersonalRegions(List<FileEntryBroker> fileEntryBrokers)
         {
+            DeleteRecordEventArgs deleteRecordEventArgs = new DeleteRecordEventArgs();
+            deleteRecordEventArgs.HashQueue = fileEntryBrokers.GetHashCode();
+            deleteRecordEventArgs.TableName = "Regions";
+            deleteRecordEventArgs.FileEntries = fileEntryBrokers.Count();
+            if (deleteRecordEventArgs.FileEntries == 0)
+            {
+                OnDeleteRecord(this, deleteRecordEventArgs);
+                return;
+            }
+
             string sqlCommand = "DELETE FROM MediaPersonalRegions WHERE " +
                 "(Broker & @Broker) = @Broker " +
                 "AND FileDirectory = @FileDirectory " +
@@ -1204,23 +1254,46 @@ namespace MetadataLibrary
                 "AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
+                {
+                    deleteRecordEventArgs.Count++;
+                    if (OnDeleteRecord != null) OnDeleteRecord(this, deleteRecordEventArgs);
+
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
+                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
+                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
+                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                }
             }
         }
         #endregion
 
         #region Delete File - Personal Keywords
+        private void DeleteFileEntryFromMediaPersonalKeywords(FileEntryBroker fileEntryBroker)
+        {
+            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+            fileEntryBrokers.Add(fileEntryBroker);
+            DeleteFileEntriesFromMediaPersonalKeywords(fileEntryBrokers);
+        }
+
         /// <summary>
         /// Delete all records that fits parameters
         /// </summary>
         /// <param name="fileEntryBroker">Folder, Filename and When (Broker & @Broker) = @Broker</param>
-        private void DeleteFileMediaPersonalKeywords(FileEntryBroker fileEntryBroker)
+        private void DeleteFileEntriesFromMediaPersonalKeywords(List<FileEntryBroker> fileEntryBrokers)
         {
+            DeleteRecordEventArgs deleteRecordEventArgs = new DeleteRecordEventArgs();
+            deleteRecordEventArgs.HashQueue = fileEntryBrokers.GetHashCode();
+            deleteRecordEventArgs.TableName = "Keywords";
+            deleteRecordEventArgs.FileEntries = fileEntryBrokers.Count();
+            if (deleteRecordEventArgs.FileEntries == 0)
+            {
+                OnDeleteRecord(this, deleteRecordEventArgs);
+                return;
+            }
+
             string sqlCommand = "DELETE FROM MediaPersonalKeywords WHERE " +
                             "(Broker & @Broker) = @Broker " +
                             "AND FileDirectory = @FileDirectory " +
@@ -1228,23 +1301,36 @@ namespace MetadataLibrary
                             "AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
+                {
+                    deleteRecordEventArgs.Count++;
+                    if (OnDeleteRecord != null) OnDeleteRecord(this, deleteRecordEventArgs);
+
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@Broker", fileEntryBroker.Broker);
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
+                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
+                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
+                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                }
             }
         }
         #endregion
 
-        #region Delete File
+        #region Delete FileEntries
         public void DeleteFileEntry(FileEntryBroker fileEntryBroker)
         {
-            DeleteFileMediaMetadata(fileEntryBroker);
-            DeleteFileMediaPersonalRegions(fileEntryBroker);
-            DeleteFileMediaPersonalKeywords(fileEntryBroker);
-            MetadataCacheRemove(fileEntryBroker);
+            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+            fileEntryBrokers.Add(fileEntryBroker);
+            DeleteFileEntries(fileEntryBrokers);
+        }
+         
+        public void DeleteFileEntries(List<FileEntryBroker> fileEntryBrokers)
+        {
+            DeleteFileEntriesFromMediaMetadata(fileEntryBrokers);
+            DeleteFileEntriesFromMediaPersonalRegions(fileEntryBrokers);
+            DeleteFileEntriesFromMediaPersonalKeywords(fileEntryBrokers);
+            MetadataCacheRemove(fileEntryBrokers);
         }
         #endregion
 
@@ -1995,7 +2081,6 @@ namespace MetadataLibrary
         }
         #endregion
 
-
         #region ListAllPersonalRegionNameCountCache
         private static Dictionary<MetadataBrokerType, Dictionary<StringNullable, int>> metadataRegionNameCountCache = null;
         private static readonly Object metadataRegionNameCountCacheLock = new Object();
@@ -2263,14 +2348,11 @@ namespace MetadataLibrary
         {
             if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
 
-            //if (metadata != null || (metadata == null && fileEntryBroker.Broker != MetadataBrokerType.ExifTool))
-            //{
-                lock (metadataCacheLock)
-                {
-                    if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
-                    else metadataCache.Add(fileEntryBroker, metadata);
-                }
-            //} 
+            lock (metadataCacheLock)
+            {
+                if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
+                else metadataCache.Add(fileEntryBroker, metadata);
+            }
         }
         #endregion
 
@@ -2309,8 +2391,6 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        #endregion
-
         #region Cache Metadata - Remove
         private void MetadataCacheRemoveMetadataCacheRemove(FileEntryBroker fileEntryBroker)
         {
@@ -2338,16 +2418,27 @@ namespace MetadataLibrary
         /// <param name="fileEntryBroker">Filename, Folder and Broker (also | MetadataBrokerType.ExifToolWriteError)</param>
         public void MetadataCacheRemove(FileEntryBroker fileEntryBroker)
         {
-            MetadataCacheRemoveMetadataCacheRemove(fileEntryBroker);
-            MetadataCacheRemoveMetadataCacheRemove(new FileEntryBroker(fileEntryBroker, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError));            
+            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+            fileEntryBrokers.Add(fileEntryBroker);
+            MetadataCacheRemove(fileEntryBrokers);
+        }
+
+        public void MetadataCacheRemove(List<FileEntryBroker> fileEntryBrokers)
+        {
             MetadataRegionNamesCacheClear();
             ListAllPersonalRegionNameCountCacheClear();
-            ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker, fileEntryBroker.FileFullPath));
-            ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker | MetadataBrokerType.ExifToolWriteError, fileEntryBroker.FileFullPath));
+
+            foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
+            {
+                MetadataCacheRemoveMetadataCacheRemove(fileEntryBroker);
+                MetadataCacheRemoveMetadataCacheRemove(new FileEntryBroker(fileEntryBroker, MetadataBrokerType.ExifTool | MetadataBrokerType.ExifToolWriteError));
+                ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker, fileEntryBroker.FileFullPath));
+                ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker | MetadataBrokerType.ExifToolWriteError, fileEntryBroker.FileFullPath));
+            }
         }
         #endregion
 
-        #region Cache - Remove
+        #region Cache - Remove Folder + Filename (Copy and Move use this)
         public void MetadataCacheRemove(string directory, string fileName)
         {
             bool found;
@@ -2370,7 +2461,7 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        #region Cache - Remove
+        #region Cache - Remove Folder
         public void MetadataCacheRemove(string directory)
         {
             bool found;
@@ -2393,7 +2484,7 @@ namespace MetadataLibrary
         }
         #endregion 
 
-        #region Cache - Remove
+        #region Cache - Remove Folder + MetadataBrokerType
         public void MetadataCacheRemove(MetadataBrokerType broker, string directory, DateTime dateTime)
         {
             List<FileEntryBroker> foundKeys = new List<FileEntryBroker>();
@@ -2408,5 +2499,7 @@ namespace MetadataLibrary
             foreach (FileEntryBroker fileEntryBrokerRemove in foundKeys) MetadataCacheRemove(fileEntryBrokerRemove);
         }
         #endregion 
+
+        #endregion
     }
 }

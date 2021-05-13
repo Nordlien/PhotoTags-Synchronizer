@@ -148,18 +148,22 @@ namespace Thumbnails
         #endregion
 
         #region Thumbnail - DeleteThumbnail
-        public void DeleteThumbnail(FileEntry fileEntry)
+        public void DeleteThumbnails(List<FileEntry> fileEntries)
         {
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory AND FileName = @FileName AND FileDateModified = @FileDateModified";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                foreach (FileEntry fileEntry in fileEntries)
+                {
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
+                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
+                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
+                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                    ThumnbailCacheRemove(fileEntry);
+                }
             }
-            ThumnbailCacheRemove(fileEntry);
+            
         }
         #endregion 
 

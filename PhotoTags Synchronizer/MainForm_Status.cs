@@ -122,7 +122,7 @@ namespace PhotoTagsSynchronizer
             if (CommonQueueReadMetadataFromExiftoolCountDirty() > 0)
             {
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                string.Format("DB Read:{0}", CommonQueueReadMetadataFromExiftoolCountDirty());
+                    string.Format("DB Read:{0}", CommonQueueReadMetadataFromExiftoolCountDirty());
                 threadQueuCount += CommonQueueReadMetadataFromExiftoolCountDirty();
                 try
                 {
@@ -133,6 +133,19 @@ namespace PhotoTagsSynchronizer
                 }
                 catch { }
             }
+
+            try
+            {
+                if (deleteRecordQueues.Count > 0)
+                {
+                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + "Delete: ";
+
+                    foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues)
+                        toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + keyValuePair.Value;
+                }
+            }
+            catch { }
+            
 
             if (MediaFilesNotInDatabaseCountDirty() > 0)
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
@@ -189,6 +202,11 @@ namespace PhotoTagsSynchronizer
                 toolStripProgressBarThreadQueue.Visible = false;
             }
             #endregion 
+
+            //toolStripStatusThreadQueueCount.Refresh();
+            //toolStripStatusThreadQueueCount.Refresh();
+            //Application.DoEvents();
+            //this.Refresh();
         }
         #endregion
 
@@ -207,9 +225,29 @@ namespace PhotoTagsSynchronizer
                 else readToCacheQueues[e.HashQueue] = queueLeft;
             }            
         }
-        #endregion 
+        #endregion
+
+        #region DatabaseAndCacheMetadataExiftool_OnDeleteRecord
+        private Dictionary<int, int> deleteRecordQueues = new Dictionary<int, int>();
+        private void DatabaseAndCacheMetadataExiftool_OnDeleteRecord(object sender, DeleteRecordEventArgs e)
+        {
+            int queueLeft = e.FileEntries - e.Count;
+            if (queueLeft == 0)
+            {
+                if (!deleteRecordQueues.ContainsKey(e.HashQueue)) deleteRecordQueues.Remove(e.HashQueue);
+            }
+            else
+            {
+                if (!deleteRecordQueues.ContainsKey(e.HashQueue)) deleteRecordQueues.Add(e.HashQueue, queueLeft);
+                else deleteRecordQueues[e.HashQueue] = queueLeft;
+                
+            }
+            //DisplayAllQueueStatus();
+        }
 
         #endregion
+
+        #endregion 
 
 
         #region UpdateExiftoolSaveStatus - Show Exiftool write progress, find Exiftool tmp file and show filesize on screen

@@ -703,7 +703,7 @@ namespace Exiftool
                             oldExifToolFilePath = new ExiftoolData(exifToolData);
 
                             //In case of crash, delete old data
-                            metadataDatabaseCache.DeleteFileEntry(metadata.FileEntryBroker);
+                            if (metadataDatabaseCache.ReadMetadataFromCacheOnly(metadata.FileEntryBroker) != null) metadataDatabaseCache.DeleteFileEntry(metadata.FileEntryBroker);
                         }
                         #endregion
 

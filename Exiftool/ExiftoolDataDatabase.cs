@@ -87,7 +87,7 @@ namespace Exiftool
                 {
                     Logger.Error("Delete MediaExiftoolTags data due to previous application crash for file: " + exifToolData.FullFilePath);
                     //Delete all extries due to crash.
-                    DeleteFileMediaExiftoolTags(new FileEntry(exifToolData.FileDirectory, exifToolData.FileName, exifToolData.FileDateModified));
+                    DeleteFileEntryMediaExiftoolTags(new FileEntry(exifToolData.FileDirectory, exifToolData.FileName, exifToolData.FileDateModified));
                     commandDatabase.ExecuteNonQuery();
                     return false;                     
                 }   // Execute the query
@@ -106,7 +106,14 @@ namespace Exiftool
             }
         }
 
-        public void DeleteFileMediaExiftoolTags(FileEntry fileEntry)
+        private void DeleteFileEntryMediaExiftoolTags(FileEntry fileEntry)
+        {
+            List<FileEntry> fileEntries = new List<FileEntry>();
+            fileEntries.Add(fileEntry);
+            DeleteFileEntriesFromMediaExiftoolTags(fileEntries);
+        }
+
+        public void DeleteFileEntriesFromMediaExiftoolTags(List<FileEntry> fileEntries)
         {
             string sqlCommand = "DELETE FROM MediaExiftoolTags " +
                 "WHERE FileDirectory = @FileDirectory " +
@@ -114,11 +121,14 @@ namespace Exiftool
                 "AND FileDateModified = @FileDateModified ";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
-                commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
-                commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                foreach (FileEntry fileEntry in fileEntries)
+                {
+                    //commandDatabase.Prepare();
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
+                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);
+                    commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntry.LastWriteDateTime));
+                    commandDatabase.ExecuteNonQuery();      // Execute the query
+                }
             }
         }
 

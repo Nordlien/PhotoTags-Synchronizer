@@ -52,7 +52,16 @@ namespace SqliteDatabase
             {
                 string databaseCommandText = databaseCommand.CommandText;
                 foreach (SqliteParameter sqliteParameter in databaseCommand.Parameters)
-                    databaseCommandText = databaseCommandText.Replace(sqliteParameter.ParameterName, (sqliteParameter.Value == null ? "null" : sqliteParameter.Value.ToString()));
+                    databaseCommandText = databaseCommandText.Replace(sqliteParameter.ParameterName, 
+                            (sqliteParameter.Value == null ? 
+                            "null" :
+                                (
+                                    (sqliteParameter.DbType == System.Data.DbType.String ? "'" : "") + 
+                                    sqliteParameter.Value.ToString() + 
+                                    (sqliteParameter.DbType == System.Data.DbType.String ? "'" : "")
+                                )
+                            )
+                        );
                 Logger.Error("Database error, message: " + e.Message + " Sql command:" + databaseCommandText);
                 return -1;
             }

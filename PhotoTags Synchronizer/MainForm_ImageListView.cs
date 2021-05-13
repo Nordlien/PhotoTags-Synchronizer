@@ -77,9 +77,11 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.DoNotRefreshImageListView) return;
             if (imageListView1.IsDisposed) return;
             GlobalData.retrieveThumbnailCount++; //Counter to keey track of active threads. Can't quit application before thread empty
+            Logger.Trace("In.: " + GlobalData.retrieveThumbnailCount + " " + e.FileName);
 
             if (File.Exists(e.FileName))
             {
+                
                 FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
                 if (e.Thumbnail == null) e.Thumbnail = new Bitmap(GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry));
             }
@@ -91,6 +93,7 @@ namespace PhotoTagsSynchronizer
             Application.DoEvents();
 
             GlobalData.retrieveThumbnailCount--;
+            Logger.Trace("Out: " + GlobalData.retrieveThumbnailCount + " " + e.FileName);
         }
         #endregion
 
@@ -106,6 +109,7 @@ namespace PhotoTagsSynchronizer
             if (imageListView1.IsDisposed) return;
 
             GlobalData.retrieveImageCount++; //Counter to keey track of active threads. Can't quit application before thread empty
+            Logger.Trace("In.: " + GlobalData.retrieveImageCount + " " + e.FullFilePath);
             bool retry = false;
             int retryCount = 3; //In case of waiting for OneDrive to load and timeout 
 
@@ -173,6 +177,7 @@ namespace PhotoTagsSynchronizer
             }
 
             GlobalData.retrieveImageCount--;
+            Logger.Trace("Out: " + GlobalData.retrieveImageCount + " " + e.FullFilePath);
         }
         #endregion 
 
