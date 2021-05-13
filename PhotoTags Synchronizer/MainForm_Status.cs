@@ -161,7 +161,7 @@ namespace PhotoTagsSynchronizer
 
             if (CommonQueueLazyLoadingMetadataCountDirty() > 0)
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("Metadata: {0}", CommonQueuePreloadingMetadataCountDirty(), CommonQueueLazyLoadingMetadataCountDirty(), CommonQueueLazyLoadingThumbnailCountDirty());
+                    string.Format("Metadata: {0}", CommonQueueLazyLoadingMetadataCountDirty());
             threadQueuCount += CommonQueueLazyLoadingMetadataCountDirty();
             
             if (CommonQueueLazyLoadingThumbnailCountDirty() > 0)

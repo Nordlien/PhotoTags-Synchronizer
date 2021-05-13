@@ -139,16 +139,23 @@ namespace MetadataLibrary
         #region ReadToCache - List<FileEntryBroker> fileEntriesBroker
         public void ReadToCache(List<FileEntryBroker> fileEntriesBroker)
         {
-            ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs();
-            readToCacheFileEntriesRecordEventArgs.HashQueue = fileEntriesBroker.GetHashCode();
-            readToCacheFileEntriesRecordEventArgs.FileEntries = fileEntriesBroker.Count();
-
+            
             List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
             foreach (FileEntryBroker fileEntryBrokerToCheckInCache in fileEntriesBroker)
             {
                 if (StopCaching) { StopCaching = false; return; }
-                Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBrokerToCheckInCache);
-                if (metadata == null) fileEntryBrokersToPutInCache.Add(fileEntryBrokerToCheckInCache);
+                if (!IsMetadataInCache(fileEntryBrokerToCheckInCache)) fileEntryBrokersToPutInCache.Add(fileEntryBrokerToCheckInCache);
+            }
+
+            ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs();
+            readToCacheFileEntriesRecordEventArgs.HashQueue = fileEntriesBroker.GetHashCode();
+            readToCacheFileEntriesRecordEventArgs.FileEntries = fileEntryBrokersToPutInCache.Count();
+            if (readToCacheFileEntriesRecordEventArgs.FileEntries == 0)
+            {
+                readToCacheFileEntriesRecordEventArgs.Aborted = false;
+                OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
+                StopCaching = false;
+                return;
             }
 
             #region MediaMetadata
@@ -178,8 +185,8 @@ namespace MetadataLibrary
 
                     //commandDatabase.Prepare();
                     commandDatabase.Parameters.AddWithValue("@Broker", (int)fileEntryBroker.Broker);
-                    commandDatabase.Parameters.AddWithValue("@FileName", Path.GetFileName(fileEntryBroker.FileFullPath));
-                    commandDatabase.Parameters.AddWithValue("@FileDirectory", Path.GetDirectoryName(fileEntryBroker.FileFullPath));
+                    commandDatabase.Parameters.AddWithValue("@FileName", fileEntryBroker.FileName);
+                    commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntryBroker.Directory);
                     commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(fileEntryBroker.LastWriteDateTime));
 
                     using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
@@ -217,7 +224,10 @@ namespace MetadataLibrary
                             metadata.LocationCity = dbTools.ConvertFromDBValString(reader["LocationCity"]);
                             metadata.LocationState = dbTools.ConvertFromDBValString(reader["LocationState"]);
 
-                            MetadataCacheUpdate(metadata.FileEntryBroker, metadata);
+                            MetadataCacheUpdate(fileEntryBroker, metadata);
+                        } else
+                        {
+                            MetadataCacheUpdate(fileEntryBroker, null);
                         }
                     }
                 }
@@ -2233,7 +2243,7 @@ namespace MetadataLibrary
         */
 
         #region Cache Metadata - MetadataHasBeenRead
-        public bool MetadataHasBeenRead(FileEntryBroker fileEntryBroker)
+        public bool IsMetadataInCache(FileEntryBroker fileEntryBroker)
         {
             lock (metadataCacheLock)
             {
@@ -2253,14 +2263,14 @@ namespace MetadataLibrary
         {
             if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
 
-            if (metadata != null || (metadata == null && fileEntryBroker.Broker != MetadataBrokerType.ExifTool))
-            {
+            //if (metadata != null || (metadata == null && fileEntryBroker.Broker != MetadataBrokerType.ExifTool))
+            //{
                 lock (metadataCacheLock)
                 {
                     if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
                     else metadataCache.Add(fileEntryBroker, metadata);
                 }
-            } 
+            //} 
         }
         #endregion
 

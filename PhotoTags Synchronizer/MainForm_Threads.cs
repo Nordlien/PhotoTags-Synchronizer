@@ -624,8 +624,8 @@ namespace PhotoTagsSynchronizer
 
                     if (metadata == null) AddQueueExiftoolLock(fileEntry); //If Metadata don't exisit in database, put it in read queue
                     //if (!databaseAndCacheMetadataExiftool.MetadataHasBeenRead(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool))) AddQueueExiftool(fileEntry);
-                    if (!databaseAndCacheMetadataMicrosoftPhotos.MetadataHasBeenRead(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos))) AddQueueMicrosoftPhotosLock(fileEntry);
-                    if (!databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataHasBeenRead(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery))) AddQueueWindowsLivePhotoGalleryLock(fileEntry);
+                    if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos))) AddQueueMicrosoftPhotosLock(fileEntry);
+                    if (!databaseAndCacheMetadataWindowsLivePhotoGallery.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery))) AddQueueWindowsLivePhotoGalleryLock(fileEntry);
                 }
             }
             else

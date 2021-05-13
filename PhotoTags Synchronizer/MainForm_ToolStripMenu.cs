@@ -1009,6 +1009,8 @@ namespace PhotoTagsSynchronizer
 
                 List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView1);
 AddQueueExiftoolLock(fileEntrySelectedItems);
+                GeneralProgressIncrementSetProgerss(imageListView1.Items.Count * 2, 0);
+
                 filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(this, imageListView1.Items, true);
                 filesCutCopyPasteDrag.ImageListViewReload(this, imageListView1.Items, true);
 

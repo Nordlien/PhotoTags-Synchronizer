@@ -401,6 +401,8 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
+            browser.Dispose();
+
             GlobalData.IsApplicationClosing = true;
             GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
             MetadataDatabaseCache.StopCaching = true;
