@@ -113,10 +113,10 @@ namespace PhotoTagsSynchronizer
                     string.Format("Save Thumbnails: {0}", CommonQueueSaveThumbnailToDatabaseCountDirty());
             threadQueuCount += CommonQueueSaveThumbnailToDatabaseCountDirty();
 
-            if (CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty() + regionCount > 0)
+            if (regionCount > 0)
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("Save Regions: {0}/{1}", CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty(), regionCount);
-            threadQueuCount += CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty();
+                    string.Format("Save Regions: {0}", regionCount); //CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty(), 
+            //threadQueuCount += CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty();
             threadQueuCount += regionCount;
 
 
@@ -188,7 +188,7 @@ namespace PhotoTagsSynchronizer
             #region Updated progressbar
             int queueRemainding = threadQueuCount;
             if (queueRemainding > toolStripProgressBarThreadQueue.Maximum) toolStripProgressBarThreadQueue.Maximum = queueRemainding;
-            toolStripProgressBarThreadQueue.Value = queueRemainding;
+            toolStripProgressBarThreadQueue.Value = toolStripProgressBarThreadQueue.Maximum - queueRemainding;
             if (queueRemainding != 0)
             {
                 toolStripStatusThreadQueueCount.Visible = true;

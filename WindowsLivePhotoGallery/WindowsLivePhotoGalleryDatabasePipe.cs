@@ -298,8 +298,17 @@ namespace WindowsLivePhotoGallery
                         if (!consoleProcessErrorOccurred) //Wait Hello Timeout
                         {
                             stopwatch.Start();
-                            pipeClient.WaitForConnection(5000);
-                            Logger.Trace("[Windows Live Photo Gallery | Console Process] Waited for Pipe Client connection: " + stopwatch.ElapsedMilliseconds + "ms.");
+                            try
+                            {
+                                if (pipeClient != null)
+                                {
+                                    pipeClient.WaitForConnection(5000);
+                                    Logger.Trace("[Windows Live Photo Gallery | Console Process] Waited for Pipe Client connection: " + stopwatch.ElapsedMilliseconds + "ms.");
+                                }
+                            } catch (Exception ex)
+                            {
+                                Logger.Trace("[Windows Live Photo Gallery | Console Process] Waited for Pipe Client connection was disconnected. " + ex.Message);
+                            }
                         }
                         #endregion 
                     }
@@ -434,8 +443,17 @@ namespace WindowsLivePhotoGallery
                     pipeMessageCommand.Command = "File";
                     pipeMessageCommand.Message = "File:" + fullFilePath;
 
-                    pipeClientEventWaitPipeCommandReturn.Reset(); //Clear in case of timeout
-                    pipeClient.PushMessage(pipeMessageCommand);
+                    if (pipeClient != null)
+                    {
+                        try
+                        {
+                            pipeClientEventWaitPipeCommandReturn.Reset(); //Clear in case of timeout
+                            pipeClient.PushMessage(pipeMessageCommand);
+                        } catch (Exception ex)
+                        {
+                            Logger.Error(ex.Message);
+                        }
+                    }
                     Logger.Trace("[Windows Live Photo Gallery | Pipe Client] Push message: Request File {0}ms...", stopWatch.ElapsedMilliseconds);
 
                     stopWatch.Restart();
@@ -460,21 +478,24 @@ namespace WindowsLivePhotoGallery
                             }
                             Logger.Error(globalErrorMessageHandler);
 
-                            switch (MessageBox.Show(
-                                "Retry - and wait more.\r\n" +
-                                "Ignor - and contine trying.\r\n" +
-                                "Abort - and stop loading data from Windows Live Photo Gallery", 
-                                "Waiting answer from server timeouted...", MessageBoxButtons.AbortRetryIgnore))
+                            if (!pipeClientDiconnected && !pipeClientProcessErrorOccurred && !consoleProcessDisconnected)
                             {
-                                case DialogResult.Retry:
-                                    retryWait = true;
-                                    break;
-                                case DialogResult.Ignore:
-                                    retryWait = false;
-                                    break;
-                                case DialogResult.Abort:
-                                    errorHasOccurdDoNotReconnect = true;
-                                    return null;                                    
+                                switch (MessageBox.Show(
+                                    "Retry - and wait more.\r\n" +
+                                    "Ignor - and contine trying.\r\n" +
+                                    "Abort - and stop loading data from Windows Live Photo Gallery",
+                                    "Waiting answer from server timeouted...", MessageBoxButtons.AbortRetryIgnore))
+                                {
+                                    case DialogResult.Retry:
+                                        retryWait = true;
+                                        break;
+                                    case DialogResult.Ignore:
+                                        retryWait = false;
+                                        break;
+                                    case DialogResult.Abort:
+                                        errorHasOccurdDoNotReconnect = true;
+                                        return null;
+                                }
                             }
 
                         }

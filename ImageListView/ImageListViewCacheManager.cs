@@ -915,8 +915,7 @@ namespace Manina.Windows.Forms
                                     {
                                         Image image;
                                         image = ThumbnailFromFile(request.FileName, request.Size, request.UseEmbeddedThumbnails, out wasThumbnailReadFromFile, out didThumbnailReadErrorOccur);
-                                        if (image != null) 
-                                            thumb = image; 
+                                        if (image != null) thumb = image; 
                                     }
                                 }
                             }
