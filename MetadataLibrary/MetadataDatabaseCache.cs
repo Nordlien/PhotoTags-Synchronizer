@@ -1868,36 +1868,6 @@ namespace MetadataLibrary
         }
         #endregion
 
-        /*
-        #region ListAllMediaDateTakenYearAndMonth()
-        //SELECT strftime('%Y-%m-%d %H:%M:%S',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'Date1' FROM MediaMetadata ORDER BY Date1
-        //SELECT DISTINCT strftime('%Y-%m',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'MediaDateTaken' FROM MediaMetadata ORDER BY MediaDateTaken
-        public List<string> ListAllMediaDateTakenYearAndMonth(MetadataBrokerType metadataBrokerType)
-        {
-
-            List<string> listing = new List<string>();
-
-            string sqlCommand =
-                "SELECT DISTINCT strftime('%Y-%m',MediaDateTaken/10000000 - 62135596800,'unixepoch') as 'MediaDateTaken' FROM MediaMetadata ORDER BY MediaDateTaken WHERE Broker = @Broker";
-
-            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
-            {
-                //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                
-                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        listing.Add(dbTools.ConvertFromDBValString(reader["MediaDateTaken"]));
-                    }
-                }
-            }
-            return listing;
-        }
-        #endregion
-        */
-
         #region ListAllPersonalDescriptions()
         public List<string> ListAllPersonalDescriptions(MetadataBrokerType metadataBrokerType)
         {

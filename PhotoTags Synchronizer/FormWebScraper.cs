@@ -1391,7 +1391,7 @@ namespace PhotoTagsSynchronizer
             if (!stopwatchCounter.IsRunning) stopwatchCounter.Start();
             if (stopwatchCounter.ElapsedMilliseconds > 300)
             {
-                Application.DoEvents();
+                //Application.DoEvents();
                 stopwatchCounter.Restart();
             }
             toolStripStatusLabelStatus.Text = text + counter.ToString();

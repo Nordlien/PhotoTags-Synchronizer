@@ -127,7 +127,7 @@ namespace PhotoTagsSynchronizer
             double elapseMilliseconds = (DateTime.Now - timerIntervalCheck).TotalMilliseconds;
             if (elapseMilliseconds >= 300)
             {
-                Application.DoEvents();
+                //Application.DoEvents();
                 timerIntervalCheck = DateTime.Now;
                 forceUpdate = true;
             }
@@ -142,7 +142,7 @@ namespace PhotoTagsSynchronizer
                 TimeSpan timeTaken = timer.Elapsed;
                 toolStripStatusLabelStatus.Text = "Locations found: " + _locationsCount + " Time taken: " + timeTaken.ToString(@"m\:ss\.fff");
                 statusStripStatus.Refresh();
-                Application.DoEvents();
+                //Application.DoEvents();
             }
         }
 

@@ -26,7 +26,6 @@ namespace WindowsLivePhotoGallery
         
         private bool consoleProcessErrorOccurred = false;
         private bool consoleProcessDisconnected = false;
-        private bool consoleProcessConnecting = false;
 
         private bool pipeClientProcessErrorOccurred = false;
         private bool pipeClientDiconnected = false;
@@ -233,7 +232,6 @@ namespace WindowsLivePhotoGallery
 
             if (!isServerAlreadyRunning)
             {
-                consoleProcessConnecting = true;
                 string windowsLiveGalleryServerfileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Pipe\\WindowsLivePhotoGalleryServer.exe");
 
                 if (File.Exists(windowsLiveGalleryServerfileName))
@@ -328,8 +326,6 @@ namespace WindowsLivePhotoGallery
                     Logger.Error(globalErrorMessageHandler);
                     #endregion
                 }
-                consoleProcessConnecting = false;
-
             }
         }
 

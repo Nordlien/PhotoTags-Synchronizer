@@ -60,6 +60,7 @@ namespace PhotoTagsSynchronizer
         private void timerStatusThreadQueue_Tick(object sender, EventArgs e)
         {
             DisplayAllQueueStatus();
+            //Application.DoEvents();
         }
         #endregion 
 
@@ -203,10 +204,6 @@ namespace PhotoTagsSynchronizer
             }
             #endregion 
 
-            //toolStripStatusThreadQueueCount.Refresh();
-            //toolStripStatusThreadQueueCount.Refresh();
-            //Application.DoEvents();
-            //this.Refresh();
         }
         #endregion
 
@@ -362,13 +359,14 @@ namespace PhotoTagsSynchronizer
         #region GeneralProgressIncrementSetProgerss
         private void GeneralProgressIncrementSetProgerss(int queueSize, int queueCount = 0)
         {
+
             generalProgressCountIndex = queueCount;
             generalProgressCountSize = queueSize;
 
             if (queueSize > toolStripProgressBarGeneralProgress.Maximum) toolStripProgressBarGeneralProgress.Maximum = queueSize;
             toolStripProgressBarGeneralProgress.Value = queueCount;
 
-            if (queueSize != queueCount)
+            if (queueSize != queueCount && queueSize > 1)
             {
                 toolStripProgressBarGeneralProgress.Visible = true;
                 toolStripLabelGeneralProgress.Visible = true;
@@ -383,7 +381,7 @@ namespace PhotoTagsSynchronizer
                 generalProgressCountSize = 0;
             }
 
-            if (!toolStripProgressBarGeneralProgress.Visible)
+            if (toolStripProgressBarGeneralProgress.Visible)
             {
                 if (stopwatchhDelayShowProgressbar == null)
                 {
@@ -391,12 +389,12 @@ namespace PhotoTagsSynchronizer
                     stopwatchhDelayShowProgressbar.Restart();
                 }
                 if (!stopwatchhDelayShowProgressbar.IsRunning) stopwatchhDelayShowProgressbar.Restart();
-
-                if (stopwatchhDelayShowProgressbar.IsRunning && stopwatchhDelayShowProgressbar.ElapsedMilliseconds > 600)
+                /*
+                if (stopwatchhDelayShowProgressbar.IsRunning && stopwatchhDelayShowProgressbar.ElapsedMilliseconds < 600)
                 {
                     toolStripProgressBarGeneralProgress.Visible = true;
                     toolStripLabelGeneralProgress.Visible = true;
-                }
+                }*/
             }           
         }
         #endregion

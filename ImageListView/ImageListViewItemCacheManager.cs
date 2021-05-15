@@ -126,6 +126,7 @@ namespace Manina.Windows.Forms
             editCache = new Dictionary<Guid, bool>();
 
             mThread = new Thread(new ThreadStart(DoWork));
+            mThread.Priority = ThreadPriority.BelowNormal; //JTN Added
             mThread.IsBackground = true;
 
             stopping = false;

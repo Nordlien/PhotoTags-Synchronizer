@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -34,7 +35,11 @@ namespace PhotoTagsSynchronizer
             Image thumbnailImage;
             try
             {
+                Stopwatch stopwatch = new Stopwatch();
+
+                stopwatch.Restart();
                 thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntry);
+                         Logger.Trace("GetThumbnail - from database:  " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (thumbnailImage == null ? " Found" : "") + fileEntry.FileFullPath);
 
                 bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath);
                 if (thumbnailImage == null)
@@ -47,11 +52,15 @@ namespace PhotoTagsSynchronizer
                     catch { }
 
                     //Was not readed from database, need to cache to database
+                    stopwatch.Restart();
                     thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, true, isFileInCloud);
+                         Logger.Trace("GetThumbnail - from CoverArt:       " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (thumbnailImage == null ? " Found" : "") + fileEntry.FileFullPath);
 
                     if (thumbnailImage != null)
                     {
+                        stopwatch.Restart();
                         Image cloneBitmap = Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true); //Need create a clone, due to GDI + not thread safe
+                        Logger.Trace("GetThumbnail - from read from file:  " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (thumbnailImage == null ? " Found" : "") + fileEntry.FileFullPath);
 
                         AddQueueMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
                         AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, cloneBitmap));
@@ -193,25 +202,43 @@ namespace PhotoTagsSynchronizer
                     if (isFileInCloud) doNotReadFullFileIfInCloud = true; ;
                 }
 
+                Stopwatch stopwatch = new Stopwatch();
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
+                    stopwatch.Restart();
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
+                    Logger.Trace("LoadMediaCoverArtThumbnail - Init WindowsPropertyReader:  " + stopwatch.ElapsedMilliseconds + "ms. ");
                     Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
+                    Logger.Trace("LoadMediaCoverArtThumbnail - Windows Property:           " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + fullFilePath);
+
                     if (image != null) return image;
                     if (doNotReadFullFileIfInCloud) return image; //Don't read from file
 
+                    stopwatch.Restart();
                     ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
-                    return Utility.ThumbnailFromImage(LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile), maxSize, Color.White, false);
+                    Logger.Trace("LoadMediaCoverArtThumbnail - Wait unlock:  " + stopwatch.ElapsedMilliseconds + "ms. ");
+                    image = Utility.ThumbnailFromImage(LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile), maxSize, Color.White, false);
+                    Logger.Trace("LoadMediaCoverArtThumbnail - Windows Property:           " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + fullFilePath);
+                    return image;
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
                 {
+                    stopwatch.Restart();
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
+                    Logger.Trace("LoadMediaCoverArtThumbnail - Init WindowsPropertyReader:  " + stopwatch.ElapsedMilliseconds + "ms. "); 
                     Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
+                    Logger.Trace("LoadMediaCoverArtThumbnail - Windows Property:           " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + fullFilePath);
                     if (doNotReadFullFileIfInCloud) return image; //Don't read from file
 
+                    stopwatch.Restart();
                     ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                    Logger.Trace("LoadMediaCoverArtThumbnail - Wait unlock:  " + stopwatch.ElapsedMilliseconds + "ms. ");
                     if (image == null) image = Utility.ThumbnailFromImage(ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath, maxSize, false), maxSize, Color.White, false);
+                    Logger.Trace("LoadMediaCoverArtThumbnail - MagickGeometry:             " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + fullFilePath);
+
+                    stopwatch.Restart();
                     if (image == null) image = Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White, false);
+                    Logger.Trace("LoadMediaCoverArtThumbnail - Utility.ThumbnailFromFile:  " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + " " + fullFilePath);
                     return image;
                 }
             }

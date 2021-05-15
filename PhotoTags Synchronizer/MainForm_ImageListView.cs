@@ -76,8 +76,12 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (GlobalData.DoNotRefreshImageListView) return;
             if (imageListView1.IsDisposed) return;
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             GlobalData.retrieveThumbnailCount++; //Counter to keey track of active threads. Can't quit application before thread empty
-            Logger.Trace("In.: " + GlobalData.retrieveThumbnailCount + " " + e.FileName);
+            Logger.Trace("RetrieveThumbnail in:  " + GlobalData.retrieveThumbnailCount + " " + e.FileName);
 
             if (File.Exists(e.FileName))
             {
@@ -90,10 +94,9 @@ namespace PhotoTagsSynchronizer
                 Logger.Warn("File not exist: " + e.FileName);
             }
 
-            Application.DoEvents();
-
             GlobalData.retrieveThumbnailCount--;
-            Logger.Trace("Out: " + GlobalData.retrieveThumbnailCount + " " + e.FileName);
+            Logger.Trace("RetrieveThumbnail out:" + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 300 ? " SLOW " : "") + GlobalData.retrieveThumbnailCount + " " + e.FileName);
+            //Application.DoEvents(); Process is terminated due to StackOverflowException.
         }
         #endregion
 
@@ -109,10 +112,13 @@ namespace PhotoTagsSynchronizer
             if (imageListView1.IsDisposed) return;
 
             GlobalData.retrieveImageCount++; //Counter to keey track of active threads. Can't quit application before thread empty
-            Logger.Trace("In.: " + GlobalData.retrieveImageCount + " " + e.FullFilePath);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            Logger.Trace("RetrieveImage in:  " + GlobalData.retrieveImageCount + " " + e.FullFilePath);
             bool retry = false;
             int retryCount = 3; //In case of waiting for OneDrive to load and timeout 
 
+            #region For 32-bit OS, where very little memory, and need to clean up
             do
             {
                 try
@@ -166,6 +172,7 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
             } while (retry);
+            #endregion 
 
             foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
             {
@@ -177,7 +184,7 @@ namespace PhotoTagsSynchronizer
             }
 
             GlobalData.retrieveImageCount--;
-            Logger.Trace("Out: " + GlobalData.retrieveImageCount + " " + e.FullFilePath);
+            Logger.Trace("RetrieveImage out: " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 300 ? " SLOW " : "") + GlobalData.retrieveImageCount + " " + e.FullFilePath);
         }
         #endregion 
 

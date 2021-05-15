@@ -1075,8 +1075,7 @@ namespace PhotoTagsSynchronizer
             {
                 ImageListViewClearThumbnailCache(imageListView1);
                 imageListView1.Refresh();
-                Application.DoEvents();
-
+                
                 ClearQueuePreloadningMetadata();
                 ClearQueueExiftool();
 

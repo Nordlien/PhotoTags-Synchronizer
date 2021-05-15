@@ -562,7 +562,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateTreeViewFolderFilterAdd(FileEntryBroker fileEntryBroker) //new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool)
         {
             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
-            Application.DoEvents();
+            //Application.DoEvents();
 
             if (metadata != null)
             {

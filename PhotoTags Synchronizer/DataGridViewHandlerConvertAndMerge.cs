@@ -1632,7 +1632,7 @@ namespace PhotoTagsSynchronizer
                         formTerminalWindow.LogError(line + "\r\n");
                         //if (!line.StartsWith("Warning")) hasExiftoolErrorMessage = true;
                         Logger.Error("EXIFTOOL WRITE ERROR: " + line);
-                        Application.DoEvents();
+                        //Application.DoEvents();
                     }
 
                     while (!process.StandardOutput.EndOfStream)
@@ -1642,7 +1642,7 @@ namespace PhotoTagsSynchronizer
                         formTerminalWindow.LogInfo(line + "\r\n");
                         //if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
                         Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
-                        Application.DoEvents();
+                        //Application.DoEvents();
                     }
 
 
@@ -1719,7 +1719,7 @@ namespace PhotoTagsSynchronizer
                         formTerminalWindow.LogError(line + "\r\n");
                         //if (!line.StartsWith("Warning")) hasExiftoolErrorMessage = true;
                         Logger.Error("EXIFTOOL WRITE ERROR: " + line);
-                        Application.DoEvents();
+                        //Application.DoEvents();
                     }
 
                     while (!process.StandardOutput.EndOfStream)
@@ -1729,7 +1729,7 @@ namespace PhotoTagsSynchronizer
                         formTerminalWindow.LogInfo(line + "\r\n");
                         //if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
                         Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
-                        Application.DoEvents();
+                        //Application.DoEvents();
                     }
 
                     process.WaitForExit();
@@ -1788,7 +1788,7 @@ namespace PhotoTagsSynchronizer
                     exiftoolOutput += line + "\r\n";
                     formTerminalWindow.LogError(line + "\r\n");
                     Logger.Error("EXIFTOOL WRITE ERROR: " + line);
-                    Application.DoEvents();
+                    //Application.DoEvents();
                 }
 
                 while (!process.StandardOutput.EndOfStream)
@@ -1798,7 +1798,7 @@ namespace PhotoTagsSynchronizer
                     formTerminalWindow.LogInfo(line + "\r\n");
                     //if (line.StartsWith("Error")) hasExiftoolErrorMessage = true;
                     Logger.Info("EXIFTOOL WRITE OUTPUT: " + line);
-                    Application.DoEvents();
+                    //Application.DoEvents();
                 }
 
                 process.WaitForExit();

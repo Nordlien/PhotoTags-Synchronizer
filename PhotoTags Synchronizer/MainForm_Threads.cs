@@ -1082,6 +1082,7 @@ namespace PhotoTagsSynchronizer
                                     List<Metadata> metadataReadbackExiftoolAfterSaved = new List<Metadata>();
                                     try
                                     {
+                                        if (argumnetLength < maxParameterCommandLength) useArgFile = true;
                                         metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles, useArgFile);
                                     }
                                     catch (Exception ex)
