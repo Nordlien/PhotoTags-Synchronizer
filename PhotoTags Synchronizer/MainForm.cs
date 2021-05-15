@@ -224,7 +224,7 @@ namespace PhotoTagsSynchronizer
             try
             {
                 databaseWindowsLivePhotGallery = new WindowsLivePhotoGalleryDatabasePipe();
-                databaseWindowsLivePhotGallery.Connect(databaseAndCacheMetadataWindowsLivePhotoGallery);
+                databaseWindowsLivePhotGallery.ConnectDatabase(databaseAndCacheMetadataWindowsLivePhotoGallery);
             }
             catch (Exception e)
             {

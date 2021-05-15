@@ -5,6 +5,7 @@ using MetadataLibrary;
 using System.IO;
 using System.Diagnostics;
 using PipeMessage;
+using System.Threading.Tasks;
 
 namespace WindowsLivePhotoGalleryServer
 {
@@ -13,69 +14,66 @@ namespace WindowsLivePhotoGalleryServer
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private bool KeepRunning = true;
+        private Stopwatch stopwatchLastCommand = new Stopwatch();
         private WindowsLivePhotoGalleryDatabaseReader databaseWindowsLivePhotGallery;
 
+        #region PipeServer
         public PipeServer(string pipeName)
         {
+            stopwatchLastCommand.Start();
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
             string destinationFile = Path.Combine(databasePath, "Pictures.pd6");
             string sourceFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\\Windows Live Photo Gallery\\Pictures.pd6");
 
+            #region Create folder
             try
             {
-                if (!Directory.Exists(databasePath))
-                {
-                    Directory.CreateDirectory(databasePath);
-                }
+                if (!Directory.Exists(databasePath)) Directory.CreateDirectory(databasePath);                
             }
             catch (Exception e)
             {
-                Logger.Error("Failed create direcotry for storing copy of the database: " + e.Message);
+                WriteError("Failed create folder for storing copy of the database: " + e.Message);
                 databaseWindowsLivePhotGallery = null;
                 return;
             }
+            #endregion 
 
+            #region Copy Windows Live Photo Gallery database
             try
             {
-                if (!File.Exists(destinationFile) || (File.GetLastWriteTime(sourceFile) >= File.GetLastWriteTime(destinationFile).AddSeconds(3600))) //Copy new only every hour
+                if (!File.Exists(destinationFile) || (File.GetLastWriteTime(sourceFile) >= File.GetLastWriteTime(destinationFile).AddSeconds(3600)))
+                {
+                    //Copy new only every hour
                     File.Copy(sourceFile, destinationFile, true);
-                Logger.Info("Copy the databasebase file");
-                Logger.Info("Copy from: " + sourceFile);
-                Logger.Info("Copy to:   " + destinationFile);
+                    WriteResponseLine("Copy the databasebase file");    //Write message back to client
+                    WriteResponseLine("Copy from: " + sourceFile);      //Write message back to client
+                    WriteResponseLine("Copy to:   " + destinationFile); //Write message back to client
+                }
             }
             catch (IOException iox)
             {
-                Logger.Error("Copy the database failed: " + iox.Message);
-                Console.Error.WriteLine("Copy the database failed: " + iox.Message); //Write Error message back to client
+                WriteError("Copy the database failed: " + iox.Message);
                 return;
             }
+            #endregion 
 
-
+            #region Connect to database
             try
             {
                 databaseWindowsLivePhotGallery = new WindowsLivePhotoGalleryDatabaseReader();
                 databaseWindowsLivePhotGallery.Connect(destinationFile);
-                Logger.Info("Windows Live Photo Gallery connected: " + destinationFile);
+                WriteResponseLine("Windows Live Photo Gallery connected: " + destinationFile); //Write message back to client
             }
             catch (Exception e)
             {
-                Logger.Error("Windows Live Photo Gallery warning: " + e.Message);
-                Console.Error.WriteLine("Windows Live Photo Gallery warning: " + e.Message); //Write Error message back to client
+                WriteError("Windows Live Photo Gallery connect to database failed: " + e.Message);
                 databaseWindowsLivePhotGallery = null;
                 return;
             }
+            WriteResponseLine("Cache Database connected...");//Write message back to client
+            #endregion
 
-            try
-            {
-                Logger.Info("Cache Database connected...");
-            }
-            catch (Exception e)
-            {
-                Logger.Error("Failed connect cache database: " + e.Message);
-                Console.Error.WriteLine("Failed connect cache database: " + e.Message); //Write Error message back to client
-                return;
-            }
-
+            #region Server Start
             var server = new NamedPipeServer<PipeMessageCommand>(pipeName);
             server.ClientConnected += OnClientConnected;
             server.ClientDisconnected += OnClientDisconnected;
@@ -83,68 +81,104 @@ namespace WindowsLivePhotoGalleryServer
             server.Error += OnError;
             server.Start();
 
-            Logger.Info("Server up and running...");
-            Logger.Info("Waiting client connection...");
-            
+            WriteResponseLine("Server up and running...");
+            WriteResponseLine("Waiting client connection...");
+            #endregion 
 
+            #region Server loop
+            stopwatchLastCommand.Start();
             while (KeepRunning)
             {
-                Thread.Sleep(10);
+                Thread.Sleep(10);                
+                if (stopwatchLastCommand.ElapsedMilliseconds > 100000) 
+                {
+                    WriteResponseLine("Server didn't get any request, quiting...");
+                    WriteResponseLine("Server disconnecting...");
+                    KeepRunning = false;
+                } 
             }
+            #endregion 
+
             server.Stop();
         }
+        #endregion
 
+        #region OnClientConnected - Hello
         private void OnClientConnected(NamedPipeConnection<PipeMessageCommand, PipeMessageCommand> connection)
         {
-            Logger.Info("Client {0} is now connected!", connection.Id);
+            WriteResponseLine("Client {" + connection.Id +"} is now connected!");
             
             PipeMessageCommand pipeMessageCommand = new PipeMessageCommand();
             pipeMessageCommand.FullFileName = "";
             pipeMessageCommand.Command = "Hello";
             pipeMessageCommand.Message = "Hello";
             connection.PushMessage(pipeMessageCommand);
-            
         }
+        #endregion 
 
+        #region OnClientDisconnected
         private void OnClientDisconnected(NamedPipeConnection<PipeMessageCommand, PipeMessageCommand> connection)
         {
-            Logger.Info("Client {0} disconnected", connection.Id);
+            WriteResponseLine("Client {" + connection.Id + "} disconnected");
             KeepRunning = false;
         }
+        #endregion 
 
-        Object lockObject = new Object();
+        #region OnClientMessage
         private void OnClientMessage(NamedPipeConnection<PipeMessageCommand, PipeMessageCommand> connection, PipeMessageCommand message)
         {
+            stopwatchLastCommand.Restart();
+
             if (message.Command == "Quit!") KeepRunning = false;
             if (message.Command.StartsWith("File"))
-            {
+            {            
                 string fullFilePath = message.FullFileName;
-                Logger.Info("Client {0} Proccessing file: {1}", connection.Id, fullFilePath);
+                WriteResponseLine("Client {" + connection.Id + "} Proccessing file: {" + fullFilePath + "}");
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
                 Metadata metadata = databaseWindowsLivePhotGallery.Read(MetadataBrokerType.WindowsLivePhotoGallery, fullFilePath);
-                
-                if (metadata == null)
-                    Logger.Info("Client ID: {0}, Proccessing file: {1}, Time Elapsed Milliseconds: {2}, Metadata NOT found ", connection.Id, fullFilePath, stopwatch.ElapsedMilliseconds.ToString());
-                else
-                    Logger.Info("Client ID: {0}, Proccessing file: {1}, Time Elapsed Milliseconds: {2}, Metadata found ", connection.Id, fullFilePath, stopwatch.ElapsedMilliseconds.ToString());
+
+                WriteResponseLine(
+                    "Client ID: {" + connection.Id + "}, " +
+                    (metadata == null ? "File not found" : "Data found") + " " +
+                    "File: {" + fullFilePath + "}, " +
+                    "Time Elapsed Milliseconds: {" + stopwatch.ElapsedMilliseconds.ToString() + "}" );
 
                 PipeMessageCommand pipeMessageCommand = new PipeMessageCommand();
                 pipeMessageCommand.FullFileName = fullFilePath;
                 pipeMessageCommand.Command = "File";
                 pipeMessageCommand.Message = "File:" + fullFilePath;
                 pipeMessageCommand.Metadata = metadata;
-                connection.PushMessage(pipeMessageCommand);                
-            } else
+                connection.PushMessage(pipeMessageCommand);
+            } 
+            else 
             {
-                Logger.Info("Unknown command: " + message.Command);
+                WriteResponseLine("Unknown command: " + message.Command);
             }
         }
+        #endregion 
 
+        #region OnError
         private void OnError(Exception exception)
         {
-            Logger.Error("ERROR: {0}", exception.Message);
+            WriteError("ERROR: " + exception.Message);
             KeepRunning = false;
         }
+        #endregion
+
+        #region WriteResponseLine
+        private void WriteResponseLine(string message)
+        {
+            Console.WriteLine(message);
+        }
+        #endregion
+
+        #region WriteError
+        private void WriteError(string message)
+        {
+            Logger.Error(message);
+            Console.Error.WriteLine(message); //Write Error message back to client
+        }
+        #endregion
     }
 }

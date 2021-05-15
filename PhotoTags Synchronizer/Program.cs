@@ -81,7 +81,6 @@ namespace PhotoTagsSynchronizer
             
             mainForm = new MainForm(); //this takes ages
             Application.Run(mainForm);
-            
         }
 
         public static MainForm mainForm = null;

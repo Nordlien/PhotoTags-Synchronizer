@@ -13,91 +13,236 @@ namespace WindowsLivePhotoGallery
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private NamedPipeClient<PipeMessageCommand> client = new NamedPipeClient<PipeMessageCommand>("SqlCeDatabase32Pipe");
+        private NamedPipeClient<PipeMessageCommand> pipeClient; // = new NamedPipeClient<PipeMessageCommand>("SqlCeDatabase32Pipe");
         private MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGalleryPipe;
-        private Process process;
-        private string errorMessage = "";
-        private bool errorOccurred = false;
-        private readonly AutoResetEvent waitEventServerStarted = new AutoResetEvent(false);
-        private readonly AutoResetEvent waitEventPipeCommandReturn = new AutoResetEvent(false);
+        private Metadata metadataReadFromPipe;
 
-        public void Connect(MetadataDatabaseCache metadataDatabaseCache)
+        private Process process;
+
+        private static readonly Object _ErrorHandlingLock = new Object();
+        private static readonly Object _PipeClientLock = new Object();
+        
+        private string globalErrorMessageHandler = "";
+        
+        private bool consoleProcessErrorOccurred = false;
+        private bool consoleProcessDisconnected = false;
+        private bool consoleProcessConnecting = false;
+
+        private bool pipeClientProcessErrorOccurred = false;
+        private bool pipeClientDiconnected = false;
+
+        private readonly AutoResetEvent consoleProcessWaitEventStarted = new AutoResetEvent(false);
+        private readonly AutoResetEvent consoleProcessWaitEventServerExited = new AutoResetEvent(false);
+        private readonly AutoResetEvent pipeClientEventWaitPipeCommandReturn = new AutoResetEvent(false);
+
+
+        #region Constructor
+        public WindowsLivePhotoGalleryDatabasePipe()
+        {
+            //ReconnectPipe();
+        }
+        #endregion
+
+        #region ConnectDatabase
+        public void ConnectDatabase(MetadataDatabaseCache metadataDatabaseCache)
         {
             this.databaseAndCacheMetadataWindowsLivePhotoGalleryPipe = metadataDatabaseCache;
         }
+        #endregion
 
-        public WindowsLivePhotoGalleryDatabasePipe ()
-        {
-            client.ServerMessage += Client_ServerMessage;
-            client.Error += Client_Error;
-            client.Start(TimeSpan.FromSeconds(30)); 
-        }
+        #region PipeClient
 
-        private void Client_Error(Exception exception)
+        #region PipeClient Error
+        private void PipeClient_Error(Exception exception)
         {
-            Logger.Trace("Client_Error " + exception.Message);
-            //throw new NotImplementedException();
-            errorOccurred = true;
-            //waitEventServerStarted.Set();
-        }
-
-        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            Logger.Error("MWLG error:  " + e.Data);
-            errorMessage = e.Data;
-            errorOccurred = true;
-            waitEventServerStarted.Set();            
-        }
-
-        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            Logger.Info("MWLG output: " + e.Data);
-            if (e.Data == "Server up and running...")
+            lock (_ErrorHandlingLock)
             {
-                errorOccurred = false;
-                waitEventServerStarted.Set();
+                pipeClientProcessErrorOccurred = true;
+                globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "[Windows Live Photo Gallery | Pipe Client] Error: " + exception.Message;
+            }
+            Logger.Error(globalErrorMessageHandler);
+            pipeClientEventWaitPipeCommandReturn.Set();
+        }
+        #endregion
+
+        #region PipeClient_ServerMessage
+        private void PipeClient_ServerMessage(NamedPipeConnection<PipeMessageCommand, PipeMessageCommand> connection, PipeMessageCommand message)
+        {
+            Logger.Trace("[Windows Live Photo Gallery | Pipe Client] ServerMessage - Id: {" + connection.Id + "}, " + 
+                "Metadata: " + (message.Metadata == null ? "NULL" : "Found") + " " +
+                "Command: " + message.Command + " " + 
+                "Message: " + message.Message );
+
+            metadataReadFromPipe = message.Metadata;
+            if (message.Command == "File") pipeClientEventWaitPipeCommandReturn.Set();
+        }
+        #endregion
+
+        #region PipeClient_Start_WithoutConnect()
+        public void PipeClient_Start_WithoutConnect()
+        {
+            Logger.Trace("[Windows Live Photo Gallery | Pipe Client] ReconnectPipe");
+            try
+            {
+                if (pipeClient == null)
+                {
+                    lock (_PipeClientLock)
+                    {
+                        pipeClient = new NamedPipeClient<PipeMessageCommand>("SqlCeDatabase32Pipe");
+                        pipeClient.ServerMessage -= PipeClient_ServerMessage;
+                        pipeClient.ServerMessage += PipeClient_ServerMessage;
+                        pipeClient.Error -= PipeClient_Error;
+                        pipeClient.Error += PipeClient_Error;
+                        pipeClient.Disconnected -= PipeClient_Disconnected;
+                        pipeClient.Disconnected += PipeClient_Disconnected;
+                    }
+                    
+                    pipeClient.Start(TimeSpan.FromSeconds(30));
+                    
+                    lock (_ErrorHandlingLock)
+                    {
+                        pipeClientProcessErrorOccurred = false;
+                        pipeClientDiconnected = false;
+                    }
+                }
+            } 
+            catch (Exception ex)
+            {
+                lock (_ErrorHandlingLock)
+                {
+                    pipeClientProcessErrorOccurred = true;
+                    pipeClientDiconnected = false; 
+                    globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "[Windows Live Photo Gallery | Pipe Client] Reconnect error: " + ex.Message;
+                }
+                Logger.Error(globalErrorMessageHandler);
             }
         }
+        #endregion
 
-
-        private Metadata metadataReadFromPipe;
-        private void Client_ServerMessage(NamedPipeConnection<PipeMessageCommand, PipeMessageCommand> connection, PipeMessageCommand message)
+        #region PipeClient_Disconnected
+        private void PipeClient_Disconnected(NamedPipeConnection<PipeMessageCommand, PipeMessageCommand> connection)
         {
-            Logger.Trace("Microsoft Windows Live Gallery Pipe message" + message.Message + " Command:" + message.Command);
-            if (message.Metadata == null) 
-                Logger.Trace("Microsoft Windows Live Gallery Pipe: metadata not found");
-            else 
-                Logger.Trace("Microsoft Windows Live Gallery Pipe found: " + Path.Combine(message.Metadata.FileFullPath, message.Metadata.FileName));
-            metadataReadFromPipe = message.Metadata;
-            if (message.Command == "File") 
-                waitEventPipeCommandReturn.Set();
+            Logger.Trace("[Windows Live Photo Gallery | Pipe Client] Disconnected - Id: {" + connection.Id + "} Disconnect Pipe");
+            lock (_PipeClientLock)
+            {
+                pipeClientDiconnected = true;
+            }
         }
+        #endregion
 
-        private bool messageShown = false;
-
-        private void StartServer()
+        #region PipeClient ForceDisconnectAfterError
+        private void PipeClientForceDisconnectAfterError(ref bool _pipeClientProcessErrorOccurred, ref bool _pipeClientDiconnected, ref bool _consoleProcessDisconnected)
         {
-            bool isServerRunning = true;
+            #region Error handling message
+            if (_pipeClientProcessErrorOccurred || _pipeClientDiconnected || _consoleProcessDisconnected)
+            {
+                //Don't disconnect on "consoleProcessErrorOccurred" Console Errors, Error from console can be data error, database error, etc..
+                try
+                {
+                    if (pipeClient != null)
+                    {
+                        Logger.Trace("[Windows Live Photo Gallery | Pipe Client] Force Disconnect After Error");
+                        pipeClient.Stop();
+                        pipeClient.WaitForDisconnection(5000);
+                    }
+                }
+                finally
+                {
+                    lock (_PipeClientLock)
+                    {
+                        pipeClient = null;
+                        pipeClientDiconnected = true;
+                        Logger.Trace("[Windows Live Photo Gallery | Pipe Client] Force Disconnect After Error - null");
+                    }                    
+                }
+            }
+            #endregion
+        }
+        #endregion
+
+        #endregion 
+
+        #region ConsoleProcess
+
+        #region ConsoleProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        private void ConsoleProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data != null)
+            {
+                lock (_ErrorHandlingLock)
+                {
+                    consoleProcessErrorOccurred = true;
+                    globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "[Windows Live Photo Gallery | Console Process] Error: " + e.Data;
+                }
+                Logger.Error(globalErrorMessageHandler);                
+            }
+            consoleProcessWaitEventStarted.Set(); 
+        }
+        #endregion
+
+        #region ConsoleProcess_OutputDataReceived
+        private void ConsoleProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            Logger.Trace("[Windows Live Photo Gallery | Console Process] Data received: " + e.Data);
+            if (e.Data == "Server up and running...") consoleProcessWaitEventStarted.Set();
+            else if (e.Data == "Server disconnecting...") 
+            {
+                lock (_ErrorHandlingLock) { consoleProcessDisconnected = true; }
+                PipeClientForceDisconnectAfterError(ref pipeClientProcessErrorOccurred, ref pipeClientDiconnected, ref consoleProcessDisconnected);
+                consoleProcessWaitEventServerExited.Set();
+            }
+        }
+        #endregion
+
+        #region ConsoleProcess_Exited
+        private void ConsoleProcess_Exited(object sender, EventArgs e)
+        {
+            Logger.Trace("[Windows Live Photo Gallery | Console Process] Exited");
+            lock (_ErrorHandlingLock) { consoleProcessDisconnected = true; }
+            PipeClientForceDisconnectAfterError(ref pipeClientProcessErrorOccurred, ref pipeClientDiconnected, ref consoleProcessDisconnected);
+            consoleProcessWaitEventServerExited.Set();
+        }
+        #endregion 
+
+        #region ConsoleProcess - IsConsoleServerRunning
+        private bool IsConsoleProcessRunning()
+        {
+            bool isConsoleServerRunning;
+            #region Mutex avoid start twice
             Mutex mutex = new System.Threading.Mutex(false, "WindowsLivePhotoGalleryServer");
             try
             {
                 //Allow only one server to run
-                if (mutex.WaitOne(0, false)) isServerRunning = false;
-                else isServerRunning = true;
+                if (mutex.WaitOne(0, false)) isConsoleServerRunning = false;
+                else isConsoleServerRunning = true;
             }
             finally
             {
                 if (mutex != null) mutex.Close();
             }
+            #endregion
+            Logger.Trace("[Windows Live Photo Gallery | Console Process] IsConsoleServerRunning: " + isConsoleServerRunning);
+            return isConsoleServerRunning;
+        }
+        #endregion 
 
-            if (!isServerRunning)
+        #region ConsoleProcess - Start
+        private void ConsoleProcessStart()
+        {
+            bool isServerAlreadyRunning = IsConsoleProcessRunning();
+
+            if (!isServerAlreadyRunning)
             {
+                consoleProcessConnecting = true;
                 string windowsLiveGalleryServerfileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Pipe\\WindowsLivePhotoGalleryServer.exe");
-                
+
                 if (File.Exists(windowsLiveGalleryServerfileName))
-                {                
+                {
                     try
                     {
+                        consoleProcessWaitEventStarted.Reset();
+
+                        #region Create ProcessStartInfo
                         ProcessStartInfo startInfo = new ProcessStartInfo
                         {
                             FileName = windowsLiveGalleryServerfileName,
@@ -109,98 +254,228 @@ namespace WindowsLivePhotoGallery
                             RedirectStandardOutput = true
                         };
 
-                        process = new Process
-                        {
-                            StartInfo = startInfo
-                        };
-                        process.OutputDataReceived += Process_OutputDataReceived;
-                        process.ErrorDataReceived += Process_ErrorDataReceived;
-                        
-                        if (process.Start())
-                        {
-                            process.BeginErrorReadLine();
-                            process.BeginOutputReadLine();
+                        process = new Process { StartInfo = startInfo };
+                        process.OutputDataReceived -= ConsoleProcess_OutputDataReceived;
+                        process.OutputDataReceived += ConsoleProcess_OutputDataReceived;
+                        process.ErrorDataReceived -= ConsoleProcess_ErrorDataReceived;
+                        process.ErrorDataReceived += ConsoleProcess_ErrorDataReceived;
+                        process.Exited -= ConsoleProcess_Exited;
+                        process.Exited += ConsoleProcess_Exited;
+                        #endregion
 
-                            if (!waitEventServerStarted.WaitOne(60000))
+                        Stopwatch stopwatch = new Stopwatch();
+
+                        #region process.Start()
+                        stopwatch.Restart();
+                        if (process.Start()) Logger.Trace("[Windows Live Photo Gallery | Console Process] Started. " + stopwatch.ElapsedMilliseconds + " ms.");
+                        else Logger.Trace("[Windows Live Photo Gallery | Console Process] Existing process reused. " + stopwatch.ElapsedMilliseconds + " ms.");
+
+                        lock (_ErrorHandlingLock)
+                        {
+                            consoleProcessDisconnected = false;
+                            consoleProcessErrorOccurred = false;
+                        }
+
+                        process.BeginErrorReadLine();
+                        process.BeginOutputReadLine();
+                        #endregion
+
+                        #region Wait hello
+                        stopwatch.Restart();
+                        if (!consoleProcessWaitEventStarted.WaitOne(10000))
+                        {
+                            lock (_ErrorHandlingLock)
                             {
-                                errorOccurred = true;
-                                errorMessage += "Waiting for server to start timeouted" + "\r\n";
-                                Logger.Error(errorMessage);
+                                consoleProcessDisconnected = false;
+                                consoleProcessErrorOccurred = true;
                             }
 
-                            if (!errorOccurred) client.WaitForConnection(60000);
+                            globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "[Windows Live Photo Gallery | Console Process] Wait console process 'hello' responed. " + stopwatch.ElapsedMilliseconds + " ms.";
+                            Logger.Error(globalErrorMessageHandler);
                         }
-                        else
+                        else Logger.Trace("[Windows Live Photo Gallery | Console Process] Wait console process 'hello' responed. " + stopwatch.ElapsedMilliseconds + " ms.");
+                        #endregion
+
+                        #region PipeClient Connect
+                        if (!consoleProcessErrorOccurred) //Wait Hello Timeout
                         {
-                            errorOccurred = true;
-                            errorMessage += "Can't start the process, process staring failed, exception unknown:" + windowsLiveGalleryServerfileName + "\r\n";
-                            Logger.Error(errorMessage);
+                            stopwatch.Start();
+                            pipeClient.WaitForConnection(5000);
+                            Logger.Trace("[Windows Live Photo Gallery | Console Process] Waited for Pipe Client connection: " + stopwatch.ElapsedMilliseconds + "ms.");
                         }
-                    } catch (Exception e)
-                    {
-                        errorOccurred = true;
-                        errorMessage += "Faild starting the process, with exception message: " + e.Message + "\r\n";
-                        Logger.Error(errorMessage);
+                        #endregion 
                     }
-                } 
+                    catch (Exception e)
+                    {
+                        #region Error handling
+                        lock (_ErrorHandlingLock)
+                        {
+                            consoleProcessErrorOccurred = true;
+                            globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "Faild starting the process " + windowsLiveGalleryServerfileName + ", with exception message: " + e.Message;
+                        }
+                        Logger.Error(globalErrorMessageHandler);
+                        #endregion 
+                    }
+                }
                 else
                 {
-                    errorOccurred = true;
-                    errorMessage += "File not found, can't start the process:" + windowsLiveGalleryServerfileName + "\r\n";
-                    Logger.Error(errorMessage);
-                }
-
-                if (errorOccurred)
-                {
-                    client = null;
-                    if (!messageShown)
+                    #region Error handling
+                    lock (_ErrorHandlingLock)
                     {
-                        
-                        MessageBox.Show("Error from WindowsLiveGallery background process:\r\n" + errorMessage);
-                        messageShown = true;
-                        errorMessage = "";
+                        consoleProcessErrorOccurred = true;
+                        globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "File not found, can't start the process:" + windowsLiveGalleryServerfileName;
                     }
+                    Logger.Error(globalErrorMessageHandler);
+                    #endregion
                 }
+                consoleProcessConnecting = false;
+
             }
         }
 
-        private bool lostConnectionWithTimeout = false;
+        
+        #endregion
+
+        #endregion
+
+        #region ShowErrorMessageAskForRetry
+        private bool ShowErrorMessageAskForRetry(string errorMessage)
+        {
+            bool retryConnect = false;
+            
+            if (MessageBox.Show(
+                "Error from Windows Live Photo Gallery background process:\r\n" + errorMessage + "\r\n\r\n" +
+                "Do you want try reconnect?",
+                "Error from Windows Live Photo Gallery background process",
+                MessageBoxButtons.RetryCancel) == DialogResult.Retry)
+            {
+                retryConnect = true;
+            }
+            else
+            {
+                retryConnect = false;
+            }
+
+            return retryConnect;
+        }
+        #endregion
+
+        #region ErrorMessageReset()
+        private void ErrorMessageReset()
+        {
+            globalErrorMessageHandler = "";
+            
+            consoleProcessErrorOccurred = false;
+            consoleProcessDisconnected = false;
+
+            pipeClientProcessErrorOccurred = false;
+            pipeClientDiconnected = false;
+        }
+        #endregion
+
+        #region Metadata Read
+        private bool errorHasOccurdDoNotReconnect = false; 
         public Metadata Read(MetadataBrokerType broker, string fullFilePath)
         {
+            if (errorHasOccurdDoNotReconnect) return null;
+            
             Stopwatch stopWatch = new Stopwatch();
-            if (lostConnectionWithTimeout) return null;
-            stopWatch.Restart();
-            StartServer();
+            
+            ErrorMessageReset();
 
-
-            if (client != null)
+            bool retryConnect = false;
+            do
             {
-                metadataReadFromPipe = null;
+                PipeClientForceDisconnectAfterError(ref pipeClientProcessErrorOccurred, ref pipeClientDiconnected, ref consoleProcessDisconnected);
 
-                PipeMessageCommand pipeMessageCommand = new PipeMessageCommand();
-                pipeMessageCommand.FullFileName = fullFilePath;
-                pipeMessageCommand.Command = "File";
-                pipeMessageCommand.Message = "File:" + fullFilePath;
-
-                waitEventPipeCommandReturn.Reset(); //Clear in case of timeout
-                client.PushMessage(pipeMessageCommand);
-                stopWatch.Stop();
-                if (stopWatch.ElapsedMilliseconds > 10) Logger.Info("Push file request {0}ms...", stopWatch.ElapsedMilliseconds);
-
-                stopWatch.Restart();
-                if (waitEventPipeCommandReturn.WaitOne(10000))
-                    return metadataReadFromPipe;
-                else
+                #region Start PipeClient, if "HANGING" Console process exist, kill that first
+                if (pipeClient == null)
                 {
-                    lostConnectionWithTimeout = true;
-                    MessageBox.Show("Lost connection with Windows Live Photo Gallery pipe server. Recomment to close application and restart.");
-                    Logger.Info("Wait message timeout... {0}", stopWatch.ElapsedMilliseconds);
-                    return null;
+                    //Chech if Console Procss running after crash
+                    if (IsConsoleProcessRunning())
+                    {
+                        try
+                        {
+                            consoleProcessWaitEventServerExited.Reset();
 
+                            if (process != null) process.CloseMainWindow();
+                            else Logger.Warn("[Windows Live Photo Gallery | Console Process] Console Server running, but lost process connection with it"); 
+                            
+                            if (!consoleProcessWaitEventServerExited.WaitOne(2000))
+                            {
+                                if (process != null && IsConsoleProcessRunning()) process.Kill();
+                                consoleProcessWaitEventServerExited.WaitOne(2000);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Warn("[Windows Live Photo Gallery | Console Process] Kill process. " + ex.Message);
+                        }
+                    }
+
+                    PipeClient_Start_WithoutConnect();
                 }
-            }
+                #endregion
+
+                if (!pipeClientDiconnected || !pipeClientProcessErrorOccurred || pipeClient != null) ConsoleProcessStart();
+
+                #region PipeMessageCommand
+                if (!pipeClientProcessErrorOccurred && !consoleProcessErrorOccurred)
+                {
+                    metadataReadFromPipe = null;
+
+                    stopWatch.Restart();
+                    PipeMessageCommand pipeMessageCommand = new PipeMessageCommand();
+                    pipeMessageCommand.FullFileName = fullFilePath;
+                    pipeMessageCommand.Command = "File";
+                    pipeMessageCommand.Message = "File:" + fullFilePath;
+
+                    pipeClientEventWaitPipeCommandReturn.Reset(); //Clear in case of timeout
+                    pipeClient.PushMessage(pipeMessageCommand);
+                    Logger.Trace("[Windows Live Photo Gallery | Pipe Client] Push message: Request File {0}ms...", stopWatch.ElapsedMilliseconds);
+
+                    stopWatch.Restart();
+                    if (pipeClientEventWaitPipeCommandReturn.WaitOne(30000))
+                    {
+                        Logger.Trace("[Windows Live Photo Gallery | Console Process] Push message: Wait answer {0}ms...", stopWatch.ElapsedMilliseconds);
+                        return metadataReadFromPipe;
+                    }                         
+                    else
+                    {
+                        Logger.Trace("[Windows Live Photo Gallery | Console Process] Push message: Wait answer failed {0} ms...", stopWatch.ElapsedMilliseconds);
+                        lock (_ErrorHandlingLock)
+                        {
+                            pipeClientProcessErrorOccurred = true;
+                            globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "[Windows Live Photo Gallery | Pipe Client] No response from server. Wait message timeout...";
+                        }
+                        Logger.Error(globalErrorMessageHandler);
+                    }
+           
+                }
+                #endregion
+
+                #region MessageBox - retry
+                bool errorOccured;
+                string errorMessage;
+                
+                lock (_ErrorHandlingLock)
+                {
+                    errorOccured = (pipeClientProcessErrorOccurred || consoleProcessErrorOccurred || !string.IsNullOrWhiteSpace(globalErrorMessageHandler));
+                    errorMessage = globalErrorMessageHandler;
+                    globalErrorMessageHandler = "";
+                    
+                }
+
+                if (errorOccured)
+                {
+                    retryConnect = ShowErrorMessageAskForRetry(errorMessage);
+                    
+                } else retryConnect = false;
+                #endregion 
+
+            } while (retryConnect);
             return null;
         }
-
+        #endregion 
     }
 }
