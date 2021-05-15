@@ -395,21 +395,29 @@ namespace WindowsLivePhotoGallery
                     if (IsConsoleProcessRunning())
                     {
                         try
-                        {
+                        {   
                             consoleProcessWaitEventServerExited.Reset();
 
                             if (process != null) process.CloseMainWindow();
-                            else Logger.Warn("[Windows Live Photo Gallery | Console Process] Console Server running, but lost process connection with it"); 
-                            
-                            if (!consoleProcessWaitEventServerExited.WaitOne(2000))
-                            {
-                                if (process != null && IsConsoleProcessRunning()) process.Kill();
-                                consoleProcessWaitEventServerExited.WaitOne(2000);
-                            }
+                            else Logger.Warn("[Windows Live Photo Gallery | Console Process] Console Server running, but lost process connection with it. Can't close it.");
+                            consoleProcessWaitEventServerExited.WaitOne(2000);
                         }
                         catch (Exception ex)
                         {
-                            Logger.Warn("[Windows Live Photo Gallery | Console Process] Kill process. " + ex.Message);
+                            Logger.Warn("[Windows Live Photo Gallery | Console Process] Close process was not preformed. " + ex.Message);
+                        }
+                    }
+
+                    if (IsConsoleProcessRunning())
+                    {
+                        try
+                        {
+                            if (process != null) process.Kill();
+                            else Logger.Warn("[Windows Live Photo Gallery | Console Process] Console Server running, but lost process connection with it. Can't kill it.");
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Warn("[Windows Live Photo Gallery | Console Process] Kill process was not preformed. " + ex.Message);
                         }
                     }
 
@@ -435,22 +443,48 @@ namespace WindowsLivePhotoGallery
                     Logger.Trace("[Windows Live Photo Gallery | Pipe Client] Push message: Request File {0}ms...", stopWatch.ElapsedMilliseconds);
 
                     stopWatch.Restart();
-                    if (pipeClientEventWaitPipeCommandReturn.WaitOne(30000))
+
+                    #region Retry timeout
+                    bool retryWait;
+                    do
                     {
-                        Logger.Trace("[Windows Live Photo Gallery | Console Process] Push message: Wait answer {0}ms...", stopWatch.ElapsedMilliseconds);
-                        return metadataReadFromPipe;
-                    }                         
-                    else
-                    {
-                        Logger.Trace("[Windows Live Photo Gallery | Console Process] Push message: Wait answer failed {0} ms...", stopWatch.ElapsedMilliseconds);
-                        lock (_ErrorHandlingLock)
+                        retryWait = false;
+                        if (pipeClientEventWaitPipeCommandReturn.WaitOne(20000))
                         {
-                            pipeClientProcessErrorOccurred = true;
-                            globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "[Windows Live Photo Gallery | Pipe Client] No response from server. Wait message timeout...";
+                            Logger.Trace("[Windows Live Photo Gallery | Console Process] Push message: Wait answer {0}ms...", stopWatch.ElapsedMilliseconds);
+                            return metadataReadFromPipe;
                         }
-                        Logger.Error(globalErrorMessageHandler);
-                    }
-           
+                        else
+                        {
+                            Logger.Trace("[Windows Live Photo Gallery | Console Process] Push message: Wait answer failed {0}ms...", stopWatch.ElapsedMilliseconds);
+                            lock (_ErrorHandlingLock)
+                            {
+                                pipeClientProcessErrorOccurred = true;
+                                globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "[Windows Live Photo Gallery | Pipe Client] No response from server. Wait message timeout...";
+                            }
+                            Logger.Error(globalErrorMessageHandler);
+
+                            switch (MessageBox.Show(
+                                "Retry - and wait more.\r\n" +
+                                "Ignor - and contine trying.\r\n" +
+                                "Abort - and stop loading data from Windows Live Photo Gallery", 
+                                "Waiting answer from server timeouted...", MessageBoxButtons.AbortRetryIgnore))
+                            {
+                                case DialogResult.Retry:
+                                    retryWait = true;
+                                    break;
+                                case DialogResult.Ignore:
+                                    retryWait = false;
+                                    break;
+                                case DialogResult.Abort:
+                                    errorHasOccurdDoNotReconnect = true;
+                                    return null;                                    
+                            }
+
+                        }
+                    } while (retryWait);
+                    #endregion 
+
                 }
                 #endregion
 
@@ -463,7 +497,6 @@ namespace WindowsLivePhotoGallery
                     errorOccured = (pipeClientProcessErrorOccurred || consoleProcessErrorOccurred || !string.IsNullOrWhiteSpace(globalErrorMessageHandler));
                     errorMessage = globalErrorMessageHandler;
                     globalErrorMessageHandler = "";
-                    
                 }
 
                 if (errorOccured)

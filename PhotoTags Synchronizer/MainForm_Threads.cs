@@ -408,6 +408,7 @@ namespace PhotoTagsSynchronizer
                         #region
                         try
                         {
+                            Logger.Trace("ThreadPreloadningMetadata - started");
                             while (CommonQueuePreloadingMetadataCountLock() > 0 /*&& !GlobalData.IsApplicationClosing && ThreadLazyLoadingQueueSize() == 0*/)
                             {
                                 // FileEntryAttribute fileEntryAttribute;
@@ -451,6 +452,7 @@ namespace PhotoTagsSynchronizer
                         finally
                         {
                             _ThreadPreloadingMetadata = null;
+                            Logger.Trace("ThreadPreloadningMetadata - ended");
                         }
                         #endregion
                     });
@@ -664,6 +666,7 @@ namespace PhotoTagsSynchronizer
                         #region
                         try
                         {
+                            Logger.Trace("ThreadLazyLoadningMetadata - started");
                             while (CommonQueueLazyLoadingMetadataCountLock() > 0 && !GlobalData.IsApplicationClosing)
                             {
                                 int queueCount = CommonQueueLazyLoadingMetadataCountLock();
@@ -738,6 +741,7 @@ namespace PhotoTagsSynchronizer
                         finally
                         {
                             _ThreadLazyLoadingMetadata = null;
+                            Logger.Trace("ThreadLazyLoadningMetadata - ended");
                         }
                         #endregion
                     });
@@ -879,6 +883,7 @@ namespace PhotoTagsSynchronizer
                         #region While data in thread
                         try
                         {
+                            Logger.Trace("ThreadSaveThumbnail - started");
                             while (CommonQueueSaveThumbnailToDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue or App will close
                             {
                                 if (CommonQueueReadMetadataFromExiftoolCountLock() > 0) break; //Wait all metadata readfirst
@@ -934,6 +939,7 @@ namespace PhotoTagsSynchronizer
                         finally
                         {
                             _ThreadSaveThumbnail = null;
+                            Logger.Trace("ThreadSaveThumbnail - ended");
                         }
                         #endregion
                     });
@@ -1003,6 +1009,7 @@ namespace PhotoTagsSynchronizer
                         #region
                         try
                         {
+                            Logger.Trace("ThreadCollectMetadataExiftool - started");
                             while (!GlobalData.IsStopAndEmptyExiftoolReadQueueRequest && CommonQueueReadMetadataFromExiftoolCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                             {
                                 if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
@@ -1154,6 +1161,7 @@ namespace PhotoTagsSynchronizer
                         {
                             GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = false;
                             _ThreadCollectMetadataExiftool = null;
+                            Logger.Trace("ThreadCollectMetadataExiftool - ended");
                         }
                         #endregion
                     });
@@ -1223,6 +1231,7 @@ namespace PhotoTagsSynchronizer
                         #region
                         try
                         {
+                            Logger.Trace("ThreadSaveMetadata - started");
                             #region Init Write Variables and Parameters
                             string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
                             string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
@@ -1441,6 +1450,7 @@ namespace PhotoTagsSynchronizer
                         finally
                         {
                             _ThreadSaveMetadata = null;
+                            Logger.Trace("ThreadSaveMetadata - ended");
                         }
 
                         #endregion
@@ -1495,6 +1505,7 @@ namespace PhotoTagsSynchronizer
                         #region
                         try
                         {
+                            Logger.Trace("ThreadCollectMetadataMicrosoftPhotos - started");
                             while (CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0 && !GlobalData.IsApplicationClosing)
                             {
                                 #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
@@ -1540,6 +1551,7 @@ namespace PhotoTagsSynchronizer
                         finally
                         {
                             _ThreadMicrosoftPhotos = null;
+                            Logger.Trace("ThreadCollectMetadataMicrosoftPhotos - ended");
                         }
                         #endregion
 
@@ -1594,6 +1606,7 @@ namespace PhotoTagsSynchronizer
                         #region
                         try
                         {
+                            Logger.Trace("ThreadCollectMetadataWindowsLiveGallery - started");
                             while (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 && !GlobalData.IsApplicationClosing)
                             {
                                 #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
@@ -1639,6 +1652,7 @@ namespace PhotoTagsSynchronizer
                         finally
                         {
                             _ThreadWindowsLiveGallery = null;
+                            Logger.Trace("ThreadCollectMetadataWindowsLiveGallery - ended");
                         }
                         #endregion
                     });
@@ -1683,13 +1697,14 @@ namespace PhotoTagsSynchronizer
             {
                 if (IsThreadRunningExcept_ThreadThumbnailRegion()) return; //Wait other thread to finnish first. Otherwise it will generate high load on disk use
 
-                lock (_ThreadThumbnailRegionLock) if (_ThreadThumbnailRegion != null) return;
+                lock (_ThreadThumbnailRegionLock) if (_ThreadThumbnailRegion != null || CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty() <= 0) return;
 
                 lock (_ThreadThumbnailRegionLock)
                 {
                     _ThreadThumbnailRegion = new Thread(() =>
                     {
                         #region
+                        Logger.Trace("ThreadReadMediaPosterSaveRegions - started");
                         try
                         {
                             int curentCommonQueueReadPosterAndSaveFaceThumbnailsCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock();
@@ -1828,6 +1843,7 @@ namespace PhotoTagsSynchronizer
                         } finally
                         {
                             _ThreadThumbnailRegion = null;
+                            Logger.Trace("ThreadReadMediaPosterSaveRegions - ended");
                         }
                         #endregion
                     });
@@ -2101,6 +2117,7 @@ namespace PhotoTagsSynchronizer
                         try
                         {
                             #region
+                            Logger.Trace("ThreadRename - started");
                             while (CommonQueueRenameCountLock() > 0 && !GlobalData.IsApplicationClosing)
                             {
                                 string fullFilename = "";
@@ -2176,6 +2193,7 @@ namespace PhotoTagsSynchronizer
                         } finally
                         {
                             _ThreadRenameMedafiles = null;
+                            Logger.Trace("ThreadRename - started");
                         }
                     });
 
