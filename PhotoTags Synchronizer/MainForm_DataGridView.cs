@@ -168,7 +168,7 @@ namespace PhotoTagsSynchronizer
         {
             lock (GlobalData.populateSelectedLock)
             {
-                DataGridViewHandler.SuspendLayout(dataGridView, queueCount);
+                DataGridViewHandler.SuspendLayout(dataGridView, fileEntryAttribute.FileFullPath);
 
                 switch (tag)
                 {

@@ -1775,10 +1775,11 @@ namespace PhotoTagsSynchronizer
                                                         if (File.Exists(fileEntryRegion.FileFullPath) && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
                                                         {
 
-                                                            image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, true); //Only load once when found
+                                                            image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, true); 
 
                                                             if (image == null) //If failed load cover art, often occur after filed is moved or deleted
                                                             {
+                                                                if (ExiftoolWriter.IsFileInCloud(fileEntryRegion.FileFullPath))
                                                                 //fileFoundInList = false;
 
                                                                 string writeErrorDesciption = "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryRegion.FileFullPath;

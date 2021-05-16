@@ -633,11 +633,11 @@ namespace DataGridViewGeneric
         #region Suspend and Resume layout - SuspendLayout
         private static int suspendCount = 0;
         private static bool isSuspended = false;
-        public static void SuspendLayout(DataGridView dataGridView, int queueSize)
+        public static void SuspendLayout(DataGridView dataGridView, string fullFileName)
         {
             suspendCount++;
             if (suspendCount > 1) return; //Already suspended
-
+            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fullFileName)) return; //No need to supspend when not updated 
 
             if (!isSuspended)
             {
@@ -666,7 +666,6 @@ namespace DataGridViewGeneric
         #endregion 
 
         #region Suspend and Resume layout - ResumeLayout
-
         private static Thread _ThreadResumeDataGrid = null;
 
         private static void ResumeLayoutInvoke(DataGridView dataGridView)
@@ -712,7 +711,6 @@ namespace DataGridViewGeneric
                     }
                     didResume = true;
                 } 
-
             }
              
             return didResume;
