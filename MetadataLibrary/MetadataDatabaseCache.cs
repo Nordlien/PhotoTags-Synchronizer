@@ -1507,6 +1507,7 @@ namespace MetadataLibrary
         #endregion 
 
         private static Dictionary<FileBroker, List<FileEntryAttribute>> listFileAttributeDateVersions = new Dictionary<FileBroker, List<FileEntryAttribute>>();
+        private static readonly Object _listFileAttributeDateVersionsLock = new Object();
 
         #region List File Date Versions - Attribute
         /// <summary>
@@ -1517,15 +1518,28 @@ namespace MetadataLibrary
         /// <returns></returns>
         public List<FileEntryAttribute> ListFileEntryAttributesCache(MetadataBrokerType broker, string fullFileName)
         {
-            FileBroker fileBroker = new FileBroker(broker, fullFileName);
-            if (listFileAttributeDateVersions.ContainsKey(fileBroker)) return listFileAttributeDateVersions[fileBroker];
-
             List<FileEntryAttribute> fileEntryAttributes = new List<FileEntryAttribute>();
-            ListFileEntryAttributes2(ref fileEntryAttributes, broker, fullFileName);
-            MetadataBrokerType broker2 = broker | MetadataBrokerType.ExifToolWriteError;
-            ListFileEntryAttributes2(ref fileEntryAttributes, broker2, fullFileName);
+            try
+            {
+                FileBroker fileBroker = new FileBroker(broker, fullFileName);
+                lock (_listFileAttributeDateVersionsLock)
+                {
+                    if (listFileAttributeDateVersions.ContainsKey(fileBroker)) return listFileAttributeDateVersions[fileBroker];
+                }
 
-            listFileAttributeDateVersions.Add(fileBroker, fileEntryAttributes);
+                ListFileEntryAttributes2(ref fileEntryAttributes, broker, fullFileName);
+                MetadataBrokerType broker2 = broker | MetadataBrokerType.ExifToolWriteError;
+                ListFileEntryAttributes2(ref fileEntryAttributes, broker2, fullFileName);
+
+                lock (_listFileAttributeDateVersionsLock)
+                {
+                    listFileAttributeDateVersions.Add(fileBroker, fileEntryAttributes);
+                }
+                
+            } catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
 
             return fileEntryAttributes;
         }
@@ -2203,12 +2217,16 @@ namespace MetadataLibrary
 
         #region MetadataRegionNamesCache
         private static Dictionary<MetadataRegionNameKey, List<string>> metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, List<string>>();
+        private static readonly Object _metadataRegionNamesCacheLock = new Object();
 
         #region MetadataRegionNamesCache - MetadataRegionNamesCacheClear
         public void MetadataRegionNamesCacheClear()
         {
-            metadataRegionNamesCache = null;
-            metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, List<string>>();
+            lock (_metadataRegionNamesCacheLock)
+            {
+                metadataRegionNamesCache = null;
+                metadataRegionNamesCache = new Dictionary<MetadataRegionNameKey, List<string>>();
+            }
         }
         #endregion
 
@@ -2258,14 +2276,14 @@ namespace MetadataLibrary
         #region MetadataRegionNamesCache - MetadataRegionNamesCacheContainsKey
         private bool MetadataRegionNamesCacheContainsKey(MetadataRegionNameKey key)
         {
-            return metadataRegionNamesCache.ContainsKey(key);
+            lock (_metadataRegionNamesCacheLock) return metadataRegionNamesCache.ContainsKey(key);
         }
         #endregion
 
         #region MetadataRegionNamesCache - MetadataRegionNamesCacheGet
         private List<string> MetadataRegionNamesCacheGet(MetadataRegionNameKey key)
         {
-            return metadataRegionNamesCache[key];
+            lock (_metadataRegionNamesCacheLock) return metadataRegionNamesCache[key];
         }
         #endregion
 
@@ -2273,8 +2291,11 @@ namespace MetadataLibrary
         private void MetadataRegionNamesCacheUpdate(MetadataRegionNameKey key, List<string> regionNames)
         {
             //Update cache
-            if (MetadataRegionNamesCacheContainsKey(key)) metadataRegionNamesCache[key] = regionNames;
-            else metadataRegionNamesCache.Add(key, regionNames);
+            lock (_metadataRegionNamesCacheLock)
+            {
+                if (MetadataRegionNamesCacheContainsKey(key)) metadataRegionNamesCache[key] = regionNames;
+                else metadataRegionNamesCache.Add(key, regionNames);
+            }
         }
         #endregion
 
@@ -2288,12 +2309,9 @@ namespace MetadataLibrary
         public Metadata ReadMetadataFromCacheOrDatabase(FileEntryBroker fileEntryBroker)
         {
             if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
-            lock (metadataCacheLock)
-            {
-                if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null
-            }
-            Metadata metadata = Read(fileEntryBroker);
+            lock (metadataCacheLock) if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null
             
+            Metadata metadata = Read(fileEntryBroker);
             MetadataCacheUpdate(fileEntryBroker, metadata);
             return metadata;
         }
@@ -2310,20 +2328,6 @@ namespace MetadataLibrary
             return null;
         }
         #endregion
-
-        /*
-        #region Cache Metadata - Read - CacheOnly
-        public Metadata ReadMetadataFromCacheOnlyCopy(FileEntryBroker fileEntryBroker)
-        {
-            lock (metadataCacheLock)
-            {
-                if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result 
-                if (metadataCache.ContainsKey(fileEntryBroker)) return new Metadata(metadataCache[fileEntryBroker]); //Also return null             
-            }
-            return null;
-        }
-        #endregion
-        */
 
         #region Cache Metadata - MetadataHasBeenRead
         public bool IsMetadataInCache(FileEntryBroker fileEntryBroker)
@@ -2365,47 +2369,69 @@ namespace MetadataLibrary
             Metadata metadataCopy = new Metadata(metadata);
             MetadataCacheRemoveMetadataCacheRemove(metadata.FileEntryBroker);
 
-            if (metadataCopy != null)
+            try
             {
-                lock (metadataCacheLock)
+                if (metadataCopy != null)
                 {
-                    int indexRegionFound = -1;
-                    for (int indexRegion = 0; indexRegion < metadataCopy.PersonalRegionList.Count; indexRegion++)
+                    lock (metadataCacheLock)
                     {
-                        if (regionStructure == metadataCopy.PersonalRegionList[indexRegion])
+                        int indexRegionFound = -1;
+                        for (int indexRegion = 0; indexRegion < metadataCopy.PersonalRegionList.Count; indexRegion++)
                         {
-                            indexRegionFound = indexRegion;
-                            break;
+                            if (regionStructure == metadataCopy.PersonalRegionList[indexRegion])
+                            {
+                                indexRegionFound = indexRegion;
+                                break;
+                            }
+                        }
+                        if (indexRegionFound >= 0)
+                        {
+                            metadataCopy.PersonalRegionList.RemoveAt(indexRegionFound);
+                            metadataCopy.PersonalRegionList.Insert(indexRegionFound, new RegionStructure(regionStructure));
                         }
                     }
-                    if (indexRegionFound >= 0)
-                    {
-                        metadataCopy.PersonalRegionList.RemoveAt(indexRegionFound);
-                        metadataCopy.PersonalRegionList.Insert(indexRegionFound, new RegionStructure(regionStructure));
-                    }
+                    MetadataCacheUpdate(metadata.FileEntryBroker, metadataCopy);
                 }
-                MetadataCacheUpdate(metadata.FileEntryBroker, metadataCopy);
-            }            
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
         }
         #endregion 
 
         #region Cache Metadata - Remove
         private void MetadataCacheRemoveMetadataCacheRemove(FileEntryBroker fileEntryBroker)
         {
-            if (fileEntryBroker == null) return;
-            if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
-            lock (metadataCacheLock)
+            try
             {
-                if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache.Remove(fileEntryBroker);
+                if (fileEntryBroker == null) return;
+                if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+                lock (metadataCacheLock)
+                {
+                    if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache.Remove(fileEntryBroker);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
             }
         }
         #endregion 
 
         #region Cache - ListFileEntryAttributesCacheRemove(FileBroker fileBroker)
-
         private void ListFileEntryAttributesCacheRemove(FileBroker fileBroker)
         {
-            if (listFileAttributeDateVersions.ContainsKey(fileBroker)) listFileAttributeDateVersions.Remove(fileBroker);
+            try
+            {
+                lock (_listFileAttributeDateVersionsLock)
+                {
+                    if (listFileAttributeDateVersions.ContainsKey(fileBroker)) listFileAttributeDateVersions.Remove(fileBroker);
+                }
+            } catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
         }
         #endregion
 
@@ -2440,22 +2466,33 @@ namespace MetadataLibrary
         public void MetadataCacheRemove(string directory, string fileName)
         {
             bool found;
-            do
+            try
             {
-                found = false;
-                FileEntryBroker fileEntryBrokerFound = null;
-                foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
+                do
                 {
-                    if (fileEntryBroker.Directory == directory && fileEntryBroker.FileName == fileName)
+                    found = false;
+                    
+                    FileEntryBroker fileEntryBrokerFound = null;
+                    lock (metadataCacheLock)
                     {
-                        fileEntryBrokerFound = fileEntryBroker;
-                        found = true;
-                        break;
+                        foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
+                        {
+                            if (fileEntryBroker.Directory == directory && fileEntryBroker.FileName == fileName)
+                            {
+                                fileEntryBrokerFound = fileEntryBroker;
+                                found = true;
+                                break;
+                            }
+                        }
                     }
-                }
-                if (found) MetadataCacheRemove(fileEntryBrokerFound);
-                
-            } while (found);
+                    if (found) MetadataCacheRemove(fileEntryBrokerFound);
+
+                } while (found);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
         }
         #endregion 
 
@@ -2463,22 +2500,31 @@ namespace MetadataLibrary
         public void MetadataCacheRemove(string directory)
         {
             bool found;
-            do
+            try
             {
-                found = false;
-                FileEntryBroker fileEntryBrokerFound = null;
-                foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
+                do
                 {
-                    if (fileEntryBroker.Directory == directory)
+                    found = false;
+                    FileEntryBroker fileEntryBrokerFound = null;
+                    lock (metadataCacheLock)
                     {
-                        fileEntryBrokerFound = fileEntryBroker;
-                        found = true;
-                        break;
+                        foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
+                        {
+                            if (fileEntryBroker.Directory == directory)
+                            {
+                                fileEntryBrokerFound = fileEntryBroker;
+                                found = true;
+                                break;
+                            }
+                        }
                     }
-                }
-                if (found) MetadataCacheRemove(fileEntryBrokerFound);
+                    if (found) MetadataCacheRemove(fileEntryBrokerFound);
 
-            } while (found);
+                } while (found);
+            } catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
         }
         #endregion 
 
@@ -2486,15 +2532,24 @@ namespace MetadataLibrary
         public void MetadataCacheRemove(MetadataBrokerType broker, string directory, DateTime dateTime)
         {
             List<FileEntryBroker> foundKeys = new List<FileEntryBroker>();
-            foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
+            try
             {
-                    
-                if (fileEntryBroker.Broker == broker && fileEntryBroker.Directory == directory && fileEntryBroker.LastWriteDateTime == dateTime)
+                lock (metadataCacheLock)
                 {
-                    foundKeys.Add(fileEntryBroker);
+                    foreach (FileEntryBroker fileEntryBroker in metadataCache.Keys)
+                    {
+                        if (fileEntryBroker.Broker == broker && fileEntryBroker.Directory == directory && fileEntryBroker.LastWriteDateTime == dateTime)
+                        {
+                            foundKeys.Add(fileEntryBroker);
+                        }
+                    }
                 }
+                foreach (FileEntryBroker fileEntryBrokerRemove in foundKeys) MetadataCacheRemove(fileEntryBrokerRemove);
             }
-            foreach (FileEntryBroker fileEntryBrokerRemove in foundKeys) MetadataCacheRemove(fileEntryBrokerRemove);
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
         }
         #endregion 
 
