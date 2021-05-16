@@ -992,28 +992,23 @@ namespace PhotoTagsSynchronizer
         {
             if (GlobalData.IsPopulatingAnything()) return;
             //if (GlobalData.IsAgredagedGridViewAny()) return;
-            GlobalData.IsPopulatingButtonAction = true;
-            GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
 
-            folderTreeViewFolder.Enabled = false;
             using (new WaitCursor())
             {
+                GlobalData.IsPopulatingButtonAction = true;
+                GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                folderTreeViewFolder.Enabled = false;
                 ImageListViewSuspendLayoutInvoke(imageListView);
-
-                List<FileEntry> fileEntrySelectedItems = ImageListViewGetSelected(imageListView);
+                
                 //ClearQueueExiftool();
                 //AddQueueExiftoolLock(fileEntrySelectedItems);
-                filesCutCopyPasteDrag.DeleteSelectedFilesBeforeReload(imageListView.Items, updatedOnlySelected);
-
-                GeneralProgressIncrementSetProgerss(imageListView.Items.Count, 0);
-                filesCutCopyPasteDrag.ImageListViewReload(this, imageListView.Items, updatedOnlySelected);
-                GeneralProgressEndReached();
+                UpdateStatusAction("Delete all data and files...");
+                filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
+                filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
 
                 folderTreeViewFolder.Enabled = true;
-
                 ImageListViewResumeLayoutInvoke(imageListView);
-
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
                 GlobalData.IsPopulatingButtonAction = false;
                 GlobalData.IsPopulatingImageListView = false;
@@ -1046,7 +1041,7 @@ namespace PhotoTagsSynchronizer
         {
             using (new WaitCursor())
             {
-                filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(folderTreeViewFolder, imageListView1);
+                filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(this, folderTreeViewFolder, imageListView1);
                 FilesSelected();
                 DisplayAllQueueStatus();
             }
@@ -1068,7 +1063,10 @@ namespace PhotoTagsSynchronizer
             {
                 using (new WaitCursor())
                 {
-                    filesCutCopyPasteDrag.DeleteDirectoryAndHistory(folder);
+                    UpdateStatusAction("Delete all record about files in database....");
+                    int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(this, FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize, folder);
+                    GeneralProgressEndReached();
+                    UpdateStatusAction(recordAffected + " records was delete from database....");
                 }
             }
             using (new WaitCursor())
@@ -1081,6 +1079,7 @@ namespace PhotoTagsSynchronizer
 
                 List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(this.folderTreeViewFolder.GetSelectedNodePath(), false);
                 PopulateImageListView(fileEntries, false);
+
                 //List<FileEntry> fileEntrySelectedItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);                
                 //AddQueueExiftoolLock(fileEntrySelectedItems);
             }
@@ -1106,7 +1105,8 @@ namespace PhotoTagsSynchronizer
             {
                 using (new WaitCursor())
                 {
-                    filesCutCopyPasteDrag.DeleteSelectedFiles(imageListView1);
+                    UpdateStatusAction("Deleing files and all record about files in database....");
+                    filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1);
                     FilesSelected();
                 }
             }
@@ -1165,7 +1165,9 @@ namespace PhotoTagsSynchronizer
                 {
                     using (new WaitCursor())
                     {
-                        filesCutCopyPasteDrag.DeleteFilesInFolder(folderTreeViewFolder, folder);
+                        UpdateStatusAction("Delete all record about files in database....");
+                        int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, folderTreeViewFolder, folder);
+                        UpdateStatusAction(recordAffected + " records was delete from database....");
                         PopulateImageListView_FromFolderSelected(false, true);
                     }
                 }

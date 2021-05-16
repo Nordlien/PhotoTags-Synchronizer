@@ -23,7 +23,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region UpdateStatusAction - (+Timer start)
-        private void UpdateStatusAction(string text)
+        public void UpdateStatusAction(string text)
         {
             if (InvokeRequired)
             {
@@ -119,34 +119,58 @@ namespace PhotoTagsSynchronizer
             //threadQueuCount += CommonQueueReadPosterAndSaveFaceThumbnailsCountDirty();
             threadQueuCount += regionCount;
 
-
             if (CommonQueueReadMetadataFromExiftoolCountDirty() > 0)
             {
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("DB Read:{0}", CommonQueueReadMetadataFromExiftoolCountDirty());
+                    string.Format("ExifCheck:{0}", CommonQueueReadMetadataFromExiftoolCountDirty());
                 threadQueuCount += CommonQueueReadMetadataFromExiftoolCountDirty();
+            }
+
+            if (readToCacheQueues.Count > 0)
+            {                
                 try
                 {
-                    foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues)
-                        toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                            //"#" + keyValuePair.Key.ToString() + " " +
-                            keyValuePair.Value;
+                    toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                        string.Format("Read:");
+
+                    lock (_readToCacheQueuesLock)
+                    {
+                        foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues)
+                        {
+                            toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                                //"#" + keyValuePair.Key.ToString() + " " +
+                                keyValuePair.Value;
+                            threadQueuCount += keyValuePair.Value;
+                        }
+                    }
                 }
-                catch { }
+                catch { 
+                }
             }
 
-            try
+
+
+            if (deleteRecordQueues.Count > 0)
             {
-                if (deleteRecordQueues.Count > 0)
-                {
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + "Delete: ";
-
-                    foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues)
-                        toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + keyValuePair.Value;
+                try
+                {
+                    lock (_deleteRecordQueuesLock)
+                    {
+                        foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues)
+                        {
+                            toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + keyValuePair.Value;
+                            threadQueuCount += keyValuePair.Value;
+                        }
+                    }
+                }
+                catch
+                {
                 }
             }
-            catch { }
-            
+
+
+
 
             if (MediaFilesNotInDatabaseCountDirty() > 0)
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
@@ -209,37 +233,71 @@ namespace PhotoTagsSynchronizer
 
         #region DatabaseAndCacheMetadataExiftool_OnRecordReadToCache
         private Dictionary<int, int> readToCacheQueues = new Dictionary<int, int>();
+        private static readonly Object _readToCacheQueuesLock = new Object();
         private void DatabaseAndCacheMetadataExiftool_OnRecordReadToCache(object sender, ReadToCacheFileEntriesRecordEventArgs e)
         {
-            int queueLeft = e.FileEntries - (e.KeywordCount + e.MetadataCount + e.RegionCount) / 3;
-            if (queueLeft == 0 || e.Aborted)
+            int queueLeft = e.FileEntries - (e.KeywordCount + e.MetadataCount + e.RegionCount);
+
+            lock (_readToCacheQueuesLock)
             {
-                if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
-            } 
-            else
-            {
-                if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
-                else readToCacheQueues[e.HashQueue] = queueLeft;
-            }            
+                if (e.InitCounter && e.FileEntries > 0 && queueLeft > 0)
+                {
+                    if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
+                }
+                else
+                {
+                    if (readToCacheQueues.ContainsKey(e.HashQueue))
+                    {
+                        if (queueLeft == 0 || e.Aborted)
+                        {
+                            if (readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
+                        }
+                        else
+                        {
+                            readToCacheQueues[e.HashQueue] = queueLeft;
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
         }
         #endregion
 
         #region DatabaseAndCacheMetadataExiftool_OnDeleteRecord
         private Dictionary<int, int> deleteRecordQueues = new Dictionary<int, int>();
+        private static readonly Object _deleteRecordQueuesLock = new Object();
         private void DatabaseAndCacheMetadataExiftool_OnDeleteRecord(object sender, DeleteRecordEventArgs e)
         {
             int queueLeft = e.FileEntries - e.Count;
-            if (queueLeft == 0)
+            lock (_deleteRecordQueuesLock)
             {
-                if (!deleteRecordQueues.ContainsKey(e.HashQueue)) deleteRecordQueues.Remove(e.HashQueue);
+                if (e.InitCounter && e.FileEntries > 0 && queueLeft > 0)
+                {
+                    if (!readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Add(e.HashQueue, queueLeft);
+                }
+                else
+                {
+                    if (readToCacheQueues.ContainsKey(e.HashQueue))
+                    {
+                        if (queueLeft == 0 || e.Aborted)
+                        {
+                            if (readToCacheQueues.ContainsKey(e.HashQueue)) readToCacheQueues.Remove(e.HashQueue);
+                        }
+                        else
+                        {
+                            readToCacheQueues[e.HashQueue] = queueLeft;
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
             }
-            else
-            {
-                if (!deleteRecordQueues.ContainsKey(e.HashQueue)) deleteRecordQueues.Add(e.HashQueue, queueLeft);
-                else deleteRecordQueues[e.HashQueue] = queueLeft;
-                
-            }
-            //DisplayAllQueueStatus();
+            DisplayAllQueueStatus();
         }
 
         #endregion
@@ -250,7 +308,7 @@ namespace PhotoTagsSynchronizer
         #region UpdateExiftoolSaveStatus - Show Exiftool write progress, find Exiftool tmp file and show filesize on screen
 
         Dictionary<string, long> fileSaveSizeWatcher = new Dictionary<string, long>();
-        private static readonly Object fileSaveSizeLock = new Object();
+        private static readonly Object _fileSaveSizeLock = new Object();
         
         #region UpdateExiftoolSaveStatus - Trigger by Timer Tick
         private void timerShowExiftoolSaveProgress_Tick(object sender, EventArgs e)
@@ -264,7 +322,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                lock (fileSaveSizeLock)
+                lock (_fileSaveSizeLock)
                 {
                     if (fileSaveSizeWatcher.Count == 0) return;
                     foreach (KeyValuePair<string, long> keyValuePair in fileSaveSizeWatcher)
@@ -290,7 +348,7 @@ namespace PhotoTagsSynchronizer
         #region UpdateExiftoolSaveStatus - ShowExiftoolSaveProgressClear()
         private void ShowExiftoolSaveProgressClear()
         {
-            lock (fileSaveSizeLock) fileSaveSizeWatcher.Clear();
+            lock (_fileSaveSizeLock) fileSaveSizeWatcher.Clear();
             //timerShowExiftoolSaveProgress.Start();
         }
         #endregion 
@@ -298,7 +356,7 @@ namespace PhotoTagsSynchronizer
         #region UpdateExiftoolSaveStatus - AddWatcherShowExiftoolSaveProcessQueue
         private void AddWatcherShowExiftoolSaveProcessQueue(string fullFileName)
         {
-            lock (fileSaveSizeLock)
+            lock (_fileSaveSizeLock)
             {
                 if (!fileSaveSizeWatcher.ContainsKey(fullFileName)) fileSaveSizeWatcher.Add(fullFileName, 0);
             }
@@ -311,7 +369,7 @@ namespace PhotoTagsSynchronizer
             int countToSave = CommonQueueSaveMetadataUpdatedByUserCountLock();
             try
             {  
-                lock (fileSaveSizeLock)
+                lock (_fileSaveSizeLock)
                 {                    
                     if (countToSave == 0 && fileSaveSizeWatcher.Count == 0) return countToSave; //Zero 0
                     foreach (KeyValuePair<string, long> keyValuePair in fileSaveSizeWatcher) if (keyValuePair.Value == 0) countToSave++; //In progress with Exiftool
@@ -330,16 +388,6 @@ namespace PhotoTagsSynchronizer
         private int generalProgressCountIndex = 0;
         private int generalProgressCountSize = 0;
 
-        #region GeneralProgressIncrement
-        public void GeneralProgressIncrement()
-        {
-            generalProgressCountIndex++;
-            if (generalProgressCountIndex > generalProgressCountSize) 
-                generalProgressCountSize = generalProgressCountIndex + 100;
-            GeneralProgressIncrementSetProgerss(generalProgressCountSize, generalProgressCountIndex);
-        }
-        #endregion 
-
         #region GeneralProgressEndReached
         public void GeneralProgressEndReached()
         {
@@ -349,7 +397,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GeneralProgressIncrementCountdown
-        private void GeneralProgressIncrementCountdown(int queueSize)
+        public void GeneralProgressIncrementCountdown(int queueSize)
         {
             if (queueSize > toolStripProgressBarGeneralProgress.Maximum) toolStripProgressBarGeneralProgress.Maximum = queueSize;
             GeneralProgressIncrementSetProgerss(toolStripProgressBarGeneralProgress.Maximum, toolStripProgressBarGeneralProgress.Maximum - queueSize);
@@ -357,7 +405,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region GeneralProgressIncrementSetProgerss
-        private void GeneralProgressIncrementSetProgerss(int queueSize, int queueCount = 0)
+        public void GeneralProgressIncrementSetProgerss(int queueSize, int queueCount = 0)
         {
 
             generalProgressCountIndex = queueCount;

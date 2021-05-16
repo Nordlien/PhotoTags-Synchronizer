@@ -40,14 +40,29 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteDirectoryAndHistory
-        public void DeleteDirectoryAndHistory(string folder)
+        public static int DeleteDirectoryAndHistorySize = 6;
+        public int DeleteDirectoryAndHistory(MainForm mainForm, int queueSize, string folder)
         {
-            databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool, folder); //Also delete When (Broker & @Broker) = @Broker
-            databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectoryAndHistory(MetadataBrokerType.MicrosoftPhotos, folder);
-            databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectoryAndHistory(MetadataBrokerType.WindowsLivePhotoGallery, folder);
-            databaseExiftoolData.DeleteDirectoryAndHistory(folder);
-            databaseExiftoolWarning.DeleteDirectoryAndHistory(folder);
-            databaseAndCacheThumbnail.DeleteDirectoryAndHistory(folder);
+            int rowsAffected = 0;
+            
+            rowsAffected += databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool, folder); //Also delete When (Broker & @Broker) = @Broker
+            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //1
+
+            rowsAffected += databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectoryAndHistory(MetadataBrokerType.MicrosoftPhotos, folder);
+            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //2
+
+            rowsAffected += databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectoryAndHistory(MetadataBrokerType.WindowsLivePhotoGallery, folder);
+            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //3
+
+            rowsAffected += databaseExiftoolData.DeleteDirectoryAndHistory(folder);
+            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //4
+
+            rowsAffected += databaseExiftoolWarning.DeleteDirectoryAndHistory(folder);
+            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //5
+
+            rowsAffected += databaseAndCacheThumbnail.DeleteDirectoryAndHistory(folder);
+            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //6
+            return rowsAffected;
         }
         #endregion
 
@@ -78,25 +93,6 @@ namespace PhotoTagsSynchronizer
             databaseExiftoolWarning.DeleteFileEntriesFromMediaExiftoolTagsWarning(fileEntries);
             databaseAndCacheThumbnail.DeleteThumbnails(fileEntries);
         }
-
-        /*
-        public void DeleteFileEntry(FileEntry fileEntry)
-        {
-
-            databaseAndCacheMetadataExiftool.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
-            databaseAndCacheMetadataExiftool.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));  //Also delete When (Broker & @Broker) = @Broker
-
-            databaseAndCacheMetadataMicrosoftPhotos.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
-            databaseAndCacheMetadataMicrosoftPhotos.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos));
-
-            databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
-            databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntry(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery));
-
-            databaseExiftoolData.DeleteFileMediaExiftoolTags(fileEntry);
-            databaseExiftoolWarning.DeleteFileEntry(fileEntry);
-            databaseAndCacheThumbnail.DeleteThumbnail(fileEntry);
-        }
-        */
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteFileAndHistory
@@ -135,7 +131,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteSelectedFiles
-        public void DeleteSelectedFiles(ImageListView imageListView)
+        public void DeleteSelectedFiles(MainForm mainForm, ImageListView imageListView)
         {
 
             GlobalData.IsPopulatingImageListView = true;
@@ -147,8 +143,9 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
-                    this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
+                    mainForm.UpdateStatusAction("Deleting the file " + imageListViewItem.FileFullPath + " and records in database");
                     File.Delete(imageListViewItem.FileFullPath);
+                    this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
                     imageListView.Items.Remove(imageListViewItem);
                 }
                 catch
@@ -187,17 +184,23 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - DeleteFilesInFolder
-        public void DeleteFilesInFolder(FolderTreeView folderTreeViewFolder, string folder)
+        public int DeleteFilesInFolder(MainForm mainForm, FolderTreeView folderTreeViewFolder, string folder)
         {
             string[] dirs = Directory.GetDirectories(folder + (folder.EndsWith(@"\") ? "" : @"\"), "*", SearchOption.AllDirectories);
 
             Directory.Delete(folder, true);
 
+            int recordAffected = 0;
+            int queueCount = (dirs.Length + 1) * FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
+            
             foreach (string directory in dirs)
             {
-                this.DeleteDirectoryAndHistory(directory);
+                mainForm.UpdateStatusAction("Delete all data and files from folder: " + directory);
+                recordAffected += this.DeleteDirectoryAndHistory(mainForm, queueCount, directory);
             }
-            this.DeleteDirectoryAndHistory(folder);
+            mainForm.UpdateStatusAction("Delete all data and files from folder: " + folder);
+            recordAffected += this.DeleteDirectoryAndHistory(mainForm, queueCount, folder);
+            mainForm.GeneralProgressEndReached();
 
             TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
             TreeNode parentNode = folderTreeViewFolder.SelectedNode.Parent;
@@ -210,28 +213,24 @@ namespace PhotoTagsSynchronizer
                 RefeshFolderTree(folderTreeViewFolder, parentNode);
             }
             GlobalData.DoNotRefreshImageListView = false;
-            
-
             #endregion
+
+            return recordAffected;
         }
         #endregion
 
-        #region FilesCutCopyPasteDrag - DeleteFilesMetadataForReload
-        public void ImageListViewReload(MainForm mainForm, ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
+        #region FilesCutCopyPasteDrag - ImageListViewReload
+        public void ImageListViewReload(ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
         {            
             foreach (ImageListViewItem item in itemCollection)
             {
-                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected))
-                {
-                    item.Update();
-                    //mainForm.GeneralProgressIncrement();
-                }
+                if (!updatedOnlySelected || (updatedOnlySelected && item.Selected)) item.Update();                
             }
         }
         #endregion 
 
         #region FilesCutCopyPasteDrag - DeleteSelectedFilesBeforeReload
-        public void DeleteSelectedFilesBeforeReload(ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
+        public void DeleteFileEntriesBeforeReload(ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
         {
             List<FileEntry> fileEntries = new List<FileEntry>();
             foreach (ImageListViewItem item in itemCollection)
@@ -244,7 +243,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory
-        public void ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(FolderTreeView folderTreeViewFolder, ImageListView imageListView)
+        public void ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(MainForm mainForm, FolderTreeView folderTreeViewFolder, ImageListView imageListView)
         {
             if (GlobalData.IsPopulatingAnything()) return;
 
@@ -254,10 +253,15 @@ namespace PhotoTagsSynchronizer
             imageListView.Enabled = false;
             imageListView.SuspendLayout();
 
-            
-            foreach (ImageListViewItem item in imageListView.SelectedItems)
+            int queueSize = imageListView.SelectedItems.Count;
+            int queueCount = 0;
+
+            mainForm.GeneralProgressIncrementSetProgerss(queueSize);
+            foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
             {
-                this.DeleteFileAndHistory(item.FileFullPath);
+                mainForm.GeneralProgressIncrementSetProgerss(queueSize, ++queueCount); 
+                mainForm.UpdateStatusAction("Refreshing database for " + imageListViewItem.FileFullPath);
+                this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
             }
 
             foreach (ImageListViewItem item in imageListView.SelectedItems)

@@ -14,7 +14,7 @@ using System.Linq;
 namespace MetadataLibrary
 {
     public class ReadToCacheParameterRecordEventArgs : EventArgs
-    {
+    {        
         public int MetadataCount { get; set; } = 0;
         public int RegionCount { get; set; } = 0;
         public int KeywordCount { get; set; } = 0;
@@ -23,12 +23,34 @@ namespace MetadataLibrary
 
     public class ReadToCacheFileEntriesRecordEventArgs : EventArgs
     {
-        public int HashQueue { get; set; } = 0; 
+
+        public int HashQueue { get; set; } = 0;
         public int FileEntries { get; set; } = 0;
         public int MetadataCount { get; set; } = 0;
         public int RegionCount { get; set; } = 0;
         public int KeywordCount { get; set; } = 0;
         public bool Aborted { get; set; } = false;
+        public bool InitCounter { get; set; } = true;
+
+        public ReadToCacheFileEntriesRecordEventArgs()
+        {
+
+        }
+        public ReadToCacheFileEntriesRecordEventArgs(ReadToCacheFileEntriesRecordEventArgs orginal) 
+            : this(orginal.HashQueue, orginal.FileEntries, orginal.MetadataCount, orginal.RegionCount, orginal.KeywordCount, orginal.Aborted, false)
+        {
+        }
+        
+        public ReadToCacheFileEntriesRecordEventArgs(int hashQueue, int fileEntries, int metadataCount, int regionCount, int keywordCount, bool aborted, bool initCounter)
+        {
+            HashQueue = hashQueue;
+            FileEntries = fileEntries;
+            MetadataCount = metadataCount;
+            RegionCount = regionCount;
+            KeywordCount = keywordCount;
+            Aborted = aborted;
+            InitCounter = initCounter;
+        } 
     }
 
     public class DeleteRecordEventArgs : EventArgs
@@ -37,6 +59,26 @@ namespace MetadataLibrary
         public string TableName { get; set; } = "";
         public int FileEntries { get; set; } = 0;
         public int Count { get; set; } = 0;
+        public bool Aborted { get; set; } = false;
+        public bool InitCounter { get; set; } = true;
+
+        public DeleteRecordEventArgs()
+        {
+        }
+
+        public DeleteRecordEventArgs(DeleteRecordEventArgs orginal) : this (orginal.HashQueue, orginal.TableName, orginal.FileEntries, orginal.Count, orginal.Aborted, false)
+        {
+        }
+
+        public DeleteRecordEventArgs(int hashQueue, string tableName, int fileEntries, int count, bool aborted, bool initCounter)
+        {
+            HashQueue = hashQueue;
+            TableName = tableName;
+            FileEntries = fileEntries;
+            Count = count;
+            Aborted = aborted;
+            InitCounter = initCounter;
+        }
     }
 
     public class MetadataDatabaseCache
@@ -83,24 +125,6 @@ namespace MetadataLibrary
             
         }
         #endregion
-        /*
-        #region ReadToCacheWebScraperDataSet
-        public void ReadToCacheWebScraperDataSet(FileInfo[] filesFoundInDirectory)
-        {
-            DateTime? dataSetDateTime = GetWebScraperLastPackageDate();
-            if (dataSetDateTime != null)
-            {
-                List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
-                foreach (FileInfo fileInfo in filesFoundInDirectory)
-                {
-                    if (StopCaching) { StopCaching = false; return; }
-                    fileEntryBrokers.Add(new FileEntryBroker(MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, fileInfo.Name, (DateTime)dataSetDateTime, MetadataBrokerType.WebScraping));
-                }
-                ReadToCache(fileEntryBrokers);
-            }
-        }
-        #endregion
-        */
 
         #region ReadToCacheWebScraperDataSet
         public void ReadToCacheWebScraperDataSet(List<FileEntry> filesFoundInDirectory)
@@ -117,20 +141,6 @@ namespace MetadataLibrary
             }
         }
         #endregion
-
-        /*
-        #region ReadToCache
-        public void ReadToCache(FileInfo[] filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
-        {
-            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
-            foreach (FileInfo fileInfo in filesFoundInDirectory)
-            {
-                fileEntryBrokers.Add(new FileEntryBroker(fileInfo.FullName, fileInfo.LastWriteTime, metadataBrokerType));
-            }
-            ReadToCache(fileEntryBrokers);
-        }
-        #endregion
-        */
 
         #region ReadToCache - List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType
         public void ReadToCache(List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
@@ -157,16 +167,17 @@ namespace MetadataLibrary
                 if (!IsMetadataInCache(fileEntryBrokerToCheckInCache)) fileEntryBrokersToPutInCache.Add(fileEntryBrokerToCheckInCache);
             }
 
-            ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs();
-            readToCacheFileEntriesRecordEventArgs.HashQueue = fileEntriesBroker.GetHashCode();
-            readToCacheFileEntriesRecordEventArgs.FileEntries = fileEntryBrokersToPutInCache.Count();
-            if (readToCacheFileEntriesRecordEventArgs.FileEntries == 0)
+            if (fileEntryBrokersToPutInCache.Count() == 0)
             {
-                readToCacheFileEntriesRecordEventArgs.Aborted = false;
-                OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
                 StopCaching = false;
                 return;
             }
+
+            ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgsInit = new ReadToCacheFileEntriesRecordEventArgs();
+            readToCacheFileEntriesRecordEventArgsInit.HashQueue = fileEntriesBroker.GetHashCode();
+            readToCacheFileEntriesRecordEventArgsInit.FileEntries = fileEntryBrokersToPutInCache.Count() * 3;
+            readToCacheFileEntriesRecordEventArgsInit.Aborted = false;
+            OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgsInit);
 
             #region MediaMetadata
             string sqlCommand =
@@ -185,12 +196,15 @@ namespace MetadataLibrary
                 {
                     if (StopCaching)
                     {
-                        readToCacheFileEntriesRecordEventArgs.Aborted = true;
-                        OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
+                        ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgsAbort = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
+                        readToCacheFileEntriesRecordEventArgsAbort.Aborted = true;
+                        OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgsAbort);
                         StopCaching = false; 
                         return;
                     }
-                    readToCacheFileEntriesRecordEventArgs.MetadataCount++;
+
+                    readToCacheFileEntriesRecordEventArgsInit.MetadataCount++;
+                    ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);                   
                     if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
 
                     //commandDatabase.Prepare();
@@ -256,12 +270,15 @@ namespace MetadataLibrary
                 {
                     if (StopCaching)
                     {
-                        readToCacheFileEntriesRecordEventArgs.Aborted = true;
-                        OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
+                        ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgsAbort = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
+                        readToCacheFileEntriesRecordEventArgsAbort.Aborted = true;
+                        OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgsAbort);
                         StopCaching = false;
                         return;
                     }
-                    readToCacheFileEntriesRecordEventArgs.KeywordCount++;
+                    readToCacheFileEntriesRecordEventArgsInit.KeywordCount++;
+                    ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
+                    
                     if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
 
                     Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
@@ -304,12 +321,15 @@ namespace MetadataLibrary
                 {
                     if (StopCaching)
                     {
-                        readToCacheFileEntriesRecordEventArgs.Aborted = true;
-                        OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
+                        ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgsAbort = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
+                        readToCacheFileEntriesRecordEventArgsAbort.Aborted = true;
+                        OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgsAbort);
                         StopCaching = false;
                         return;
                     }
-                    readToCacheFileEntriesRecordEventArgs.RegionCount++;
+
+                    readToCacheFileEntriesRecordEventArgsInit.RegionCount++;
+                    ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgs = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);                    
                     if (OnRecordReadToCache != null) OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgs);
 
                     Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
@@ -340,6 +360,10 @@ namespace MetadataLibrary
                 }
             }
             #endregion 
+
+            ReadToCacheFileEntriesRecordEventArgs readToCacheFileEntriesRecordEventArgsEnd = new ReadToCacheFileEntriesRecordEventArgs(readToCacheFileEntriesRecordEventArgsInit);
+            readToCacheFileEntriesRecordEventArgsEnd.Aborted = true;
+            OnRecordReadToCache(this, readToCacheFileEntriesRecordEventArgsEnd);
         }
         #endregion
 
@@ -1191,15 +1215,13 @@ namespace MetadataLibrary
         /// <param name="fileEntryBroker">Folder, Filename and When (Broker & @Broker) = @Broker</param>
         private void DeleteFileEntriesFromMediaMetadata(List<FileEntryBroker> fileEntryBrokers)
         {
-            DeleteRecordEventArgs deleteRecordEventArgs = new DeleteRecordEventArgs();
-            deleteRecordEventArgs.HashQueue = fileEntryBrokers.GetHashCode();
-            deleteRecordEventArgs.TableName = "Metadata";
-            deleteRecordEventArgs.FileEntries = fileEntryBrokers.Count();
-            if (deleteRecordEventArgs.FileEntries == 0)
-            {
-                OnDeleteRecord(this, deleteRecordEventArgs);
-                return;
-            }
+            if (fileEntryBrokers.Count() == 0) return;
+
+            DeleteRecordEventArgs deleteRecordEventArgsInit = new DeleteRecordEventArgs();
+            deleteRecordEventArgsInit.HashQueue = fileEntryBrokers.GetHashCode();
+            deleteRecordEventArgsInit.TableName = "Metadata";
+            deleteRecordEventArgsInit.FileEntries = fileEntryBrokers.Count();
+            OnDeleteRecord(this, deleteRecordEventArgsInit);
 
             string sqlCommand = "DELETE FROM MediaMetadata WHERE " +
                             "(Broker & @Broker) = @Broker " +
@@ -1210,7 +1232,9 @@ namespace MetadataLibrary
             {
                 foreach (FileEntryBroker fileEntryBroker in fileEntryBrokers)
                 {
-                    deleteRecordEventArgs.Count++;
+                    deleteRecordEventArgsInit.Count++;
+                    DeleteRecordEventArgs deleteRecordEventArgs = new DeleteRecordEventArgs(deleteRecordEventArgsInit);
+                    
                     if (OnDeleteRecord != null) OnDeleteRecord(this, deleteRecordEventArgs);
 
                     //commandDatabase.Prepare();
@@ -1221,6 +1245,10 @@ namespace MetadataLibrary
                     commandDatabase.ExecuteNonQuery();      // Execute the query
                 }
             }
+
+            DeleteRecordEventArgs deleteRecordEventArgsEnd = new DeleteRecordEventArgs(deleteRecordEventArgsInit);
+            deleteRecordEventArgsEnd.Aborted = true;
+            if (OnDeleteRecord != null) OnDeleteRecord(this, deleteRecordEventArgsEnd);
         }
         #endregion
 

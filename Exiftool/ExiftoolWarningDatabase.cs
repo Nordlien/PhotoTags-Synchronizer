@@ -100,15 +100,17 @@ namespace Exiftool
             dbTools.TransactionCommitBatch(false);
         }
 
-        public void DeleteDirectoryAndHistory(string fileDirectory)
+        public int DeleteDirectoryAndHistory(string fileDirectory)
         {
+            int rowsAffected = 0;
             string sqlCommand = "DELETE FROM MediaExiftoolTagsWarning WHERE FileDirectory = @FileDirectory";
             using (var commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            return rowsAffected;
         }
 
         private void DeleteFileEntryFromMediaExiftoolTagsWarning(FileEntry fileEntry)

@@ -209,8 +209,7 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
-                if (ThreadLazyLoadingQueueSizeDirty() == 0) 
-                    queueCount = 0; // We don't know qhat order the data is cominging
+                if (ThreadLazyLoadingQueueSizeDirty() == 0) queueCount = 0; // We don't know what order the data is cominging
                 //if (queueCount == 0) 
                 GeneralProgressIncrementCountdown(queueCount); //Also used for delete files count,
                 //else GeneralProgressIncrementCountDown(ThreadLazyLoadingQueueSizeDirty());

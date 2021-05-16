@@ -168,16 +168,18 @@ namespace Thumbnails
         #endregion 
 
         #region Thumbnail - DeleteDirectory
-        public void DeleteDirectoryAndHistory(string fileDirectory)
+        public int DeleteDirectoryAndHistory(string fileDirectory)
         {
+            int rowsAffected = 0;
             ThumbnailClearCache();
             string sqlCommand = "DELETE FROM MediaThumbnail WHERE FileDirectory = @FileDirectory";
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
                 commandDatabase.Parameters.AddWithValue("@FileDirectory", fileDirectory);
-                commandDatabase.ExecuteNonQuery();      // Execute the query
+                rowsAffected = commandDatabase.ExecuteNonQuery();      // Execute the query
             }
+            return rowsAffected;
         }
         #endregion 
 

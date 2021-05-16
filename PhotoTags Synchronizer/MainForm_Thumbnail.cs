@@ -242,7 +242,9 @@ namespace PhotoTagsSynchronizer
                     return image;
                 }
             }
-            catch { }
+            catch 
+            { 
+            }
 
             return null;
         }
