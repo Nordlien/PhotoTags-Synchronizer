@@ -208,17 +208,22 @@ namespace PhotoTagsSynchronizer
                     stopwatch.Restart();
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
                     Logger.Trace("LoadMediaCoverArtThumbnail - Init WindowsPropertyReader:  " + stopwatch.ElapsedMilliseconds + "ms. ");
+
                     Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     Logger.Trace("LoadMediaCoverArtThumbnail - Windows Property:           " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + fullFilePath);
 
                     if (image != null) return image;
+                    //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
                     if (doNotReadFullFileIfInCloud) return image; //Don't read from file
+                    //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
 
                     stopwatch.Restart();
                     ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
                     Logger.Trace("LoadMediaCoverArtThumbnail - Wait unlock:  " + stopwatch.ElapsedMilliseconds + "ms. ");
+
                     image = Utility.ThumbnailFromImage(LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile), maxSize, Color.White, false);
                     Logger.Trace("LoadMediaCoverArtThumbnail - Windows Property:           " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + fullFilePath);
+                    
                     return image;
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
@@ -226,24 +231,36 @@ namespace PhotoTagsSynchronizer
                     stopwatch.Restart();
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
                     Logger.Trace("LoadMediaCoverArtThumbnail - Init WindowsPropertyReader:  " + stopwatch.ElapsedMilliseconds + "ms. "); 
+                    
                     Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     Logger.Trace("LoadMediaCoverArtThumbnail - Windows Property:           " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + fullFilePath);
+
+                    //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
                     if (doNotReadFullFileIfInCloud) return image; //Don't read from file
+                    //DO NOT READ FROM FILE
 
                     stopwatch.Restart();
                     ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
                     Logger.Trace("LoadMediaCoverArtThumbnail - Wait unlock:  " + stopwatch.ElapsedMilliseconds + "ms. ");
-                    if (image == null) image = Utility.ThumbnailFromImage(ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath, maxSize, false), maxSize, Color.White, false);
-                    Logger.Trace("LoadMediaCoverArtThumbnail - MagickGeometry:             " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + fullFilePath);
+                    
+                    if (image == null)
+                    {
+                        image = Utility.ThumbnailFromImage(ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath, maxSize, true), maxSize, Color.White, false);
+                        Logger.Trace("LoadMediaCoverArtThumbnail - MagickGeometry:             " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + fullFilePath);
+                    }
 
                     stopwatch.Restart();
-                    if (image == null) image = Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White, false);
-                    Logger.Trace("LoadMediaCoverArtThumbnail - Utility.ThumbnailFromFile:  " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + " " + fullFilePath);
+                    if (image == null)
+                    {
+                        image = Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White, false);
+                        Logger.Trace("LoadMediaCoverArtThumbnail - Utility.ThumbnailFromFile:  " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (image == null ? " Found" : "") + " " + fullFilePath);
+                    }
                     return image;
                 }
             }
-            catch 
-            { 
+            catch (Exception ex) 
+            {
+                Logger.Warn(ex.Message);
             }
 
             return null;

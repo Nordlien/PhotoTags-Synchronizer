@@ -521,7 +521,7 @@ namespace Manina.Windows.Forms
         public static Image ThumbnailFromImage(Image image, Size size, Color backColor, bool acceptScaleUp, bool alwaysMakeClone = false)
         {
             if (size.Width <= 0 || size.Height <= 0) throw new ArgumentException();
-
+            if (image == null) return null;
             //JTN added
             if (!alwaysMakeClone) 
             {

@@ -122,6 +122,7 @@ namespace ImageAndMovieFileExtentions
                 {
                     if (allowFailoverReadFullFille)
                     {
+
                         image.Thumbnail(new MagickGeometry(maxSize.Width, maxSize.Height));
                         thumbnailReturn = image.ToBitmap();
                     }
