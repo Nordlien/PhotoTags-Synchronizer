@@ -633,11 +633,11 @@ namespace DataGridViewGeneric
         #region Suspend and Resume layout - SuspendLayout
         private static int suspendCount = 0;
         private static bool isSuspended = false;
-        public static void SuspendLayout(DataGridView dataGridView, string fullFileName)
+        public static void SuspendLayout(DataGridView dataGridView, bool doesColumnFilenameExist)
         {
             suspendCount++;
             if (suspendCount > 1) return; //Already suspended
-            if (!DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fullFileName)) return; //No need to supspend when not updated 
+            if (!doesColumnFilenameExist) return; //No need to supspend when not updated 
 
             if (!isSuspended)
             {

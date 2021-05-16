@@ -1710,6 +1710,7 @@ namespace PhotoTagsSynchronizer
                         {
                             int curentCommonQueueReadPosterAndSaveFaceThumbnailsCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock();
                             bool onlyDoWhatIsInCacheToAvoidHarddriveOverload = (IsThreadRunningExcept_ThreadThumbnailRegion() == true);
+                            bool avoidOfflineMediaFiles = Properties.Settings.Default.AvoidOfflineMediaFiles;
 
                             int indexSource = 0;
 
@@ -1774,24 +1775,23 @@ namespace PhotoTagsSynchronizer
                                                         //Check if the current Metadata are same as newst file... If not file exist anymore, date will become {01.01.1601 01:00:00}
                                                         if (File.Exists(fileEntryRegion.FileFullPath) && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
                                                         {
-
-                                                            image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, true); 
+                                                            image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, avoidOfflineMediaFiles);
 
                                                             if (image == null) //If failed load cover art, often occur after filed is moved or deleted
                                                             {
-                                                                if (ExiftoolWriter.IsFileInCloud(fileEntryRegion.FileFullPath))
-                                                                //fileFoundInList = false;
+                                                                if (!(ExiftoolWriter.IsFileInCloud(fileEntryRegion.FileFullPath) && avoidOfflineMediaFiles))
+                                                                {                                                                
+                                                                    string writeErrorDesciption = "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryRegion.FileFullPath;
+                                                                    Logger.Error(writeErrorDesciption);
 
-                                                                string writeErrorDesciption = "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryRegion.FileFullPath;
-                                                                Logger.Error(writeErrorDesciption);
-
-                                                                AddError(
-                                                                    fileEntryRegion.Directory,
-                                                                    fileEntryRegion.FileName,
-                                                                    fileEntryRegion.LastWriteDateTime,
-                                                                    AddErrorFileSystemRegion, AddErrorFileSystemRead,
-                                                                    AddErrorFileSystemRead, AddErrorFileSystemRead,
-                                                                    writeErrorDesciption);
+                                                                    AddError(
+                                                                        fileEntryRegion.Directory,
+                                                                        fileEntryRegion.FileName,
+                                                                        fileEntryRegion.LastWriteDateTime,
+                                                                        AddErrorFileSystemRegion, AddErrorFileSystemRead,
+                                                                        AddErrorFileSystemRead, AddErrorFileSystemRead,
+                                                                        writeErrorDesciption);
+                                                                }
                                                             }
                                                         }
                                                     }

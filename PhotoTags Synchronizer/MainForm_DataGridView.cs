@@ -168,37 +168,42 @@ namespace PhotoTagsSynchronizer
         {
             lock (GlobalData.populateSelectedLock)
             {
-                DataGridViewHandler.SuspendLayout(dataGridView, fileEntryAttribute.FileFullPath);
+                bool isFileInDataGridView = DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath);
+                    
+                DataGridViewHandler.SuspendLayout(dataGridView, isFileInDataGridView);
 
-                switch (tag)
+                if (isFileInDataGridView)
                 {
-                    case "Tags":
-                        DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        break;
-                    case "People":
-                        DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);                        
-                        break;
-                    case "Map":
-                        DataGridViewHandlerMap.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        break;
-                    case "Date":
-                        DataGridViewHandlerDate.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        break;
-                    case "ExifTool":
-                        DataGridViewHandlerExiftool.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        break;
-                    case "Warning":
-                        DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        break;
-                    case "Properties":
-                        DataGridViewHandlerProperties.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
-                        break;
-                    case "Rename":
-                        break;
-                    case "ConvertAndMerge":
-                        break;
-                    default:
-                        throw new NotImplementedException();
+                    switch (tag)
+                    {
+                        case "Tags":
+                            DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            break;
+                        case "People":
+                            DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            break;
+                        case "Map":
+                            DataGridViewHandlerMap.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            break;
+                        case "Date":
+                            DataGridViewHandlerDate.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            break;
+                        case "ExifTool":
+                            DataGridViewHandlerExiftool.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            break;
+                        case "Warning":
+                            DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            break;
+                        case "Properties":
+                            DataGridViewHandlerProperties.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
+                            break;
+                        case "Rename":
+                            break;
+                        case "ConvertAndMerge":
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
                 }
 
                 #region PopulateTreeViewFolderFilter
@@ -210,16 +215,15 @@ namespace PhotoTagsSynchronizer
                 #endregion
 
                 if (ThreadLazyLoadingQueueSizeDirty() == 0) queueCount = 0; // We don't know what order the data is cominging
-                //if (queueCount == 0) 
-                GeneralProgressIncrementCountdown(queueCount); //Also used for delete files count,
-                //else GeneralProgressIncrementCountDown(ThreadLazyLoadingQueueSizeDirty());
-
+                GeneralProgressIncrementCountdown(queueCount); //Also used for delete files count
+                
                 if (DataGridViewHandler.ResumeLayout(dataGridView, queueCount))
                 {
-                    LazyLoadMissingLock();
-
-                    PopulateDataGridViewForSelectedItemsExtrasInvoke();
-                    
+                    if (isFileInDataGridView)
+                    {
+                        LazyLoadMissingLock();
+                        PopulateDataGridViewForSelectedItemsExtrasInvoke();
+                    }
                     if (ThreadLazyLoadingQueueSizeDirty() + queueCount == 0) GeneralProgressEndReached();
                 }
             }
