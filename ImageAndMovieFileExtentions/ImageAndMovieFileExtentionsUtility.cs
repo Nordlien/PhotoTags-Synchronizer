@@ -118,26 +118,32 @@ namespace ImageAndMovieFileExtentions
         public static Image ThumbnailFromFile(string fullFilename, Size maxSize, bool allowFailoverReadFullFille)
         {
             Image thumbnailReturn = null;
-            using (MagickImage image = new MagickImage(fullFilename))
+            try
             {
-                var profile = image.GetExifProfile();
-                // Create thumbnail from exif information
-                if (profile != null)
+                using (MagickImage image = new MagickImage(fullFilename))
                 {
-                    using (var thumbnail = profile.CreateThumbnail())
+                    var profile = image.GetExifProfile();
+                    // Create thumbnail from exif information
+                    if (profile != null)
                     {
-                        if (thumbnail != null) thumbnailReturn = thumbnail.ToBitmap();
+                        using (var thumbnail = profile.CreateThumbnail())
+                        {
+                            if (thumbnail != null) thumbnailReturn = thumbnail.ToBitmap();
+                        }
                     }
-                }
-                else
-                {
-                    if (allowFailoverReadFullFille)
+                    else
                     {
+                        if (allowFailoverReadFullFille)
+                        {
 
-                        image.Thumbnail(new MagickGeometry(maxSize.Width, maxSize.Height));
-                        thumbnailReturn = image.ToBitmap();
+                            image.Thumbnail(new MagickGeometry(maxSize.Width, maxSize.Height));
+                            thumbnailReturn = image.ToBitmap();
+                        }
                     }
                 }
+            } catch (Exception ex)
+            {
+                Logger.Warn("MagickImage ThumbnailFromFile failed load " + fullFilename + " " + ex.Message);
             }
             return thumbnailReturn;
         }
