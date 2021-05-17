@@ -82,16 +82,20 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.retrieveThumbnailCount++; //Counter to keey track of active threads. Can't quit application before thread empty
             Logger.Trace("RetrieveThumbnail in:  " + GlobalData.retrieveThumbnailCount + " " + e.FileName);
-
-            if (File.Exists(e.FileName))
+            try
             {
-                
-                FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
-                if (e.Thumbnail == null) e.Thumbnail = new Bitmap(GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry));
-            }
-            else
+                if (File.Exists(e.FileName))
+                {
+                    FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
+                    if (e.Thumbnail == null) e.Thumbnail = new Bitmap(GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry));
+                }
+                else
+                {
+                    Logger.Warn("File not exist: " + e.FileName);
+                }
+            } catch (Exception ex)
             {
-                Logger.Warn("File not exist: " + e.FileName);
+                Logger.Warn("imageListView1_RetrieveItemThumbnail failed on: " + e.FileName + " " + ex.Message);
             }
 
             GlobalData.retrieveThumbnailCount--;
@@ -174,13 +178,19 @@ namespace PhotoTagsSynchronizer
             } while (retry);
             #endregion 
 
-            foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
+            try
             {
-                if (imageListViewItem.FileFullPath == e.FullFilePath) //Only to find DateTime Modified in the stored in the ImageListView
+                foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
                 {
-                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(e.FullFilePath, imageListViewItem.DateModified, FileEntryVersion.Current), e.LoadedImage); //Also show error thumbnail
-                    break;
+                    if (imageListViewItem.FileFullPath == e.FullFilePath) //Only to find DateTime Modified in the stored in the ImageListView
+                    {
+                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(e.FullFilePath, imageListViewItem.DateModified, FileEntryVersion.Current), e.LoadedImage); //Also show error thumbnail
+                        break;
+                    }
                 }
+            } catch (Exception ex)
+            {
+                Logger.Warn("imageListView1_RetrieveImage failed on: " + e.FullFilePath + " " + ex.Message);
             }
 
             GlobalData.retrieveImageCount--;
