@@ -1857,8 +1857,7 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
-                    imageBoxPreview.Image = 
-                        ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.LoadImageAndRotate(fullFilename, rotateDegress);    
+                    imageBoxPreview.Image = ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.LoadImageAndRotate(fullFilename, rotateDegress);    
                     MediaPlayerEventsHandler(ButtonStateVlcChromcastState.EndReached, MediaPlaybackEventsSource.ScreenImageViewer);
                 }
                 catch (Exception ex)

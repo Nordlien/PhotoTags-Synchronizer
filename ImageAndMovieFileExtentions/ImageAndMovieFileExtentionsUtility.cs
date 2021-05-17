@@ -82,9 +82,15 @@ namespace ImageAndMovieFileExtentions
         public static Image LoadImage(string fullFilename)
         {
             Bitmap imageReturn = null;
-            using (var image = new MagickImage(fullFilename))
+            try
             {
-                imageReturn = image.ToBitmap();
+                using (var image = new MagickImage(fullFilename))
+                {
+                    imageReturn = image.ToBitmap();
+                }
+            } catch (Exception ex)
+            {
+                Logger.Warn("MagickImage was not eable to load image " + fullFilename + " " + ex.Message);
             }
             return imageReturn;
         }
@@ -103,7 +109,7 @@ namespace ImageAndMovieFileExtentions
         }
         #endregion
 
-        #region 
+        #region RoateImage
         public static void RoateImage(string fullFilename, double degress)
         {
             using (MagickImage image = new MagickImage(fullFilename))
