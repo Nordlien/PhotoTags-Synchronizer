@@ -101,9 +101,11 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region Cache Poster
         private static List<FileEntryImage> posterCache = new List<FileEntryImage>();
         private static readonly Object posterCacheLock = new Object();
 
+        #region Image PosterCacheRead
         private Image PosterCacheRead(string fullFileName)
         {
             Image image = null;
@@ -133,12 +135,15 @@ namespace PhotoTagsSynchronizer
                     }
                 }
             }
-            catch 
-            { 
+            catch (Exception ex)
+            {
+                Logger.Warn(ex.Message);
             }
             return image;
         }
+        #endregion
 
+        #region PosterCacheAdd
         private void PosterCacheAdd(string fullFilePath, Image image)
         {
             try
@@ -150,10 +155,14 @@ namespace PhotoTagsSynchronizer
                     if (posterCache.Count > 10) posterCache.RemoveAt(0); //Only remember last x images
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Warn(ex.Message);
             }
         }
+        #endregion
+
+        #endregion 
 
         #region Thumbnail - LoadMediaCoverArtPoster
         private Image LoadMediaCoverArtPoster(string fullFilePath, bool checkIfCloudFile)
