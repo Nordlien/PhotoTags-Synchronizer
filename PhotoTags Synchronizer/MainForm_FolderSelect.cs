@@ -50,8 +50,6 @@ namespace PhotoTagsSynchronizer
         #region FolderSelected - Populate DataGridView, ImageListView 
         private void PopulateImageListView_FromFolderSelected(bool recursive, bool runPopulateFilter)
         {
-            
-
             #region Read folder files
             if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new
             {

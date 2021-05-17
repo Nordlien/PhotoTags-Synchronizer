@@ -678,7 +678,7 @@ namespace ImageAndMovieFileExtentions
             
             try
             {
-                if (string.IsNullOrWhiteSpace(folder))
+                if (!string.IsNullOrWhiteSpace(folder))
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(folder);
 

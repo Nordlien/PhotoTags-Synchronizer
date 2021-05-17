@@ -524,6 +524,7 @@ namespace PhotoTagsSynchronizer
 
                 int selectedRow = selectedRows[0];
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, selectedRow);
+                if (dataGridViewGenericRow == null) { formRegionSelect.SetImageNone(); return; }
                 if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(); return; }
                 //MessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK);
                 if (dataGridViewGenericColumn.Metadata == null) { formRegionSelect.SetImageNone(); return; }
