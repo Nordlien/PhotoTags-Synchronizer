@@ -469,7 +469,14 @@ namespace PhotoTagsSynchronizer
                             newAlbum = (!string.IsNullOrEmpty(metadataMicrosoftPhotos?.PersonalAlbum) ? metadataMicrosoftPhotos?.PersonalAlbum : newAlbum);
                             break;
                         case MetadataBrokerType.FileSystem:
-                            newAlbum = new DirectoryInfo(metadataCopy.FileDirectory).Name;
+                            try
+                            {
+                                newAlbum = new DirectoryInfo(metadataCopy.FileDirectory).Name;
+                            }
+                            catch 
+                            {
+                                newAlbum = metadataCopy.FileDirectory;
+                            }
                             break;
                         case MetadataBrokerType.WebScraping:
                             newAlbum = (!string.IsNullOrEmpty(metadataWebScraping?.PersonalAlbum) ? metadataWebScraping?.PersonalAlbum : newAlbum);

@@ -161,30 +161,35 @@ namespace PhotoTagsSynchronizer
             Image image = PosterCacheRead(fullFilePath);
             if (image != null) return image; //Found in cache
 
-            if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
+            try
             {
-                if (ExiftoolWriter.IsFileInCloud(fullFilePath)) return null;
-            }
-
-            ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
-            if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
-            {
-                var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-
-                using (Stream memoryStream = new MemoryStream())
+                if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
                 {
-                    ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
-
-                    if (memoryStream.Length > 0) image = Image.FromStream(memoryStream);
-                    else image = null;
+                    if (ExiftoolWriter.IsFileInCloud(fullFilePath)) return null;
                 }
-            }
-            else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
-            {
-                image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath);
-                if (image == null) image = Utility.LoadImageWithoutLock(fullFilePath);
-            }
 
+                ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
+                {
+                    var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
+
+                    using (Stream memoryStream = new MemoryStream())
+                    {
+                        ffMpeg.GetVideoThumbnail(fullFilePath, memoryStream);
+
+                        if (memoryStream.Length > 0) image = Image.FromStream(memoryStream);
+                        else image = null;
+                    }
+                }
+                else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
+                {
+                    image = ImageAndMovieFileExtentionsUtility.LoadImage(fullFilePath);
+                    if (image == null) image = Utility.LoadImageWithoutLock(fullFilePath);
+                }
+            } catch (Exception ex)
+            {
+                Logger.Warn("LoadMediaCoverArtPoster was not able to create poster of the file " + fullFilePath + " " + ex.Message);
+            }
             if (image != null) PosterCacheAdd(fullFilePath, image);
             return image;
         }

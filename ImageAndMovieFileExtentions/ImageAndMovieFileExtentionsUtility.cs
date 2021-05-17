@@ -16,6 +16,7 @@ namespace ImageAndMovieFileExtentions
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        #region MagickFormat ConvertFromMimeFormat
         private static MagickFormat ConvertFromMimeFormat (string contentFormat)
         {
             MagickFormat magickFormat = MagickFormat.Jpeg;
@@ -44,7 +45,9 @@ namespace ImageAndMovieFileExtentions
             }
             return magickFormat;
         }
+        #endregion
 
+        #region byte[] LoadAndConvertImage
         public static byte[] LoadAndConvertImage(string fullFilename, string contentFormat, int width, int height, double rotateDegress)
         {
             byte[] jpegImage = null;
@@ -73,7 +76,9 @@ namespace ImageAndMovieFileExtentions
             }
             return jpegImage;
         }
+        #endregion
 
+        #region Image LoadImage
         public static Image LoadImage(string fullFilename)
         {
             Bitmap imageReturn = null;
@@ -83,7 +88,9 @@ namespace ImageAndMovieFileExtentions
             }
             return imageReturn;
         }
+        #endregion
 
+        #region Image LoadImageAndRotate
         public static Image LoadImageAndRotate(string fullFilename, double degress)
         {
             Bitmap imageReturn = null;
@@ -94,7 +101,9 @@ namespace ImageAndMovieFileExtentions
             }
             return imageReturn;
         }
+        #endregion
 
+        #region 
         public static void RoateImage(string fullFilename, double degress)
         {
             using (MagickImage image = new MagickImage(fullFilename))
@@ -103,7 +112,9 @@ namespace ImageAndMovieFileExtentions
                 image.Write(fullFilename);
             }
         }
+        #endregion
 
+        #region Image ThumbnailFromFile
         public static Image ThumbnailFromFile(string fullFilename, Size maxSize, bool allowFailoverReadFullFille)
         {
             Image thumbnailReturn = null;
@@ -130,7 +141,9 @@ namespace ImageAndMovieFileExtentions
             }
             return thumbnailReturn;
         }
+        #endregion
 
+        #region ConvertDateTimeFromString
         public static DateTime? ConvertDateTimeFromString(String dateTimeToConvert)
         {
             String[] dateFormats = { "yyyy:MM:dd HH:mm", "yyyy:MM:dd HH:mm:ss", "yyyy:MM:dd HH:mm:sszzz", "yyyy:MM:dd HH:mm:ss.fff", "yyyy:MM:dd HH:mm:ss.ff", "yyyy:MM:dd HH:mm:ss.ffff", "yyyy:MM:dd HH:mm:ss.fffff", "yyyy:MM:dd HH:mm:ss.ffffff" };
@@ -150,19 +163,25 @@ namespace ImageAndMovieFileExtentions
                 return null;
             }
         }
+        #endregion
 
+        #region CovertByteArrayToString
         public static string CovertByteArrayToString(byte[] byteArray)
         {
             return Encoding.UTF8.GetString(byteArray);
         }
+        #endregion
 
+        #region Utility.ShellImageFileInfo GetExif
         public static Utility.ShellImageFileInfo GetExif(string fullFilename)
         {
             if (IsImageFormat(fullFilename)) return GetExifImage(fullFilename);
             if (IsVideoFormat(fullFilename)) return GetExifVideo(fullFilename);
             return null;
         }
+        #endregion
 
+        #region Utility.ShellImageFileInfo GetExifVideo
         public static Utility.ShellImageFileInfo GetExifVideo(string fullFilename)
         {
             Utility.ShellImageFileInfo shellImageFileInfo = null;
@@ -210,7 +229,9 @@ namespace ImageAndMovieFileExtentions
 
             return shellImageFileInfo;
         }
+        #endregion
 
+        #region Utility.ShellImageFileInfo GetExifImage
         public static Utility.ShellImageFileInfo GetExifImage(string fullFilename)
         {
             Utility.ShellImageFileInfo shellImageFileInfo = null;  
@@ -346,8 +367,8 @@ namespace ImageAndMovieFileExtentions
 
             return shellImageFileInfo;
         }
+        #endregion
 
-        
 
 
         #region Video and Image Formats
@@ -641,20 +662,24 @@ namespace ImageAndMovieFileExtentions
 
         public static FileInfo[] GetFilesByExtensions(string folder, List<string> extensions, bool recursive)
         {
-            SearchOption searchOption;
-            if (recursive) searchOption = SearchOption.AllDirectories;
-            else searchOption = SearchOption.TopDirectoryOnly;
-
-            DirectoryInfo dirInfo = new DirectoryInfo(folder);
-            FileInfo[] files = dirInfo.GetFiles("*", searchOption).Where(f => extensions.Contains(f.Extension.ToUpper())).ToArray();
-            /*
-            List<FileEntry> fileList = new List<FileEntry>();
-            for (int i = 0; i < files.Length; i++)
+            FileInfo[] files = new FileInfo[0];
+            
+            try
             {
-                fileList.Add(new FileEntryImage(files[i].FullName, files[i].LastWriteTime));
+                if (string.IsNullOrWhiteSpace(folder))
+                {
+                    DirectoryInfo dirInfo = new DirectoryInfo(folder);
+
+                    SearchOption searchOption;
+                    if (recursive) searchOption = SearchOption.AllDirectories;
+                    else searchOption = SearchOption.TopDirectoryOnly;
+
+                    files = dirInfo.GetFiles("*", searchOption).Where(f => extensions.Contains(f.Extension.ToUpper())).ToArray();
+                }
+            } catch (Exception ex)
+            {
+                Logger.Warn("GetFilesByExtensions: " + ex.Message);
             }
-            fileList.Sort();
-            */
             return files;
         }
 
@@ -675,6 +700,7 @@ namespace ImageAndMovieFileExtentions
         }
         #endregion
 
+        #region List<string> GetVideoExtension
         public static List<string> GetVideoExtension(List<Metadata> metadatas)
         {
             List<string> extentions = new List<string>();
@@ -689,7 +715,9 @@ namespace ImageAndMovieFileExtentions
             }
             return extentions;
         }
+        #endregion
 
+        #region List<string> GetImageExtension
         public static List<string> GetImageExtension(List<Metadata> metadatas)
         {
             List<string> extentions = new List<string>();
@@ -704,5 +732,6 @@ namespace ImageAndMovieFileExtentions
             }
             return extentions;
         }
+        #endregion
     }
 }

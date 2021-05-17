@@ -147,27 +147,42 @@ namespace PhotoTagsSynchronizer
 
         private void UpdateRegionThumbnail(DataGridView dataGridView)
         {
-            foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+            try
             {
-                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
-                if (dataGridViewGenericColumn != null)
+                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
                 {
-                    Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, false);
 
-                    DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
-                    dataGridViewGenericRow.HeaderName = DataGridViewHandlerPeople.headerPeople;
-                    DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, cell.RowIndex, dataGridViewGenericRow);
-                    DataGridViewHandler.SetCellRowHeight(dataGridView, cell.RowIndex, DataGridViewHandler.GetCellRowHeight(dataGridView));
-
-                    RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, cell.ColumnIndex, cell.RowIndex);
-                    if (regionStructure != null)
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
+                    if (dataGridViewGenericColumn != null)
                     {
-                        if (imageCoverArt != null) regionStructure.Thumbnail = RegionThumbnailHandler.CopyRegionFromImage(imageCoverArt, regionStructure);
-                        else regionStructure.Thumbnail = (Image)Properties.Resources.FaceLoading;
+
+                        Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, false);
+                        if (imageCoverArt != null)
+                        {
+                            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
+                            dataGridViewGenericRow.HeaderName = DataGridViewHandlerPeople.headerPeople;
+                            DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, cell.RowIndex, dataGridViewGenericRow);
+                            DataGridViewHandler.SetCellRowHeight(dataGridView, cell.RowIndex, DataGridViewHandler.GetCellRowHeight(dataGridView));
+
+                            RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, cell.ColumnIndex, cell.RowIndex);
+                            if (regionStructure != null)
+                            {
+                                if (imageCoverArt != null) regionStructure.Thumbnail = RegionThumbnailHandler.CopyRegionFromImage(imageCoverArt, regionStructure);
+                                else regionStructure.Thumbnail = (Image)Properties.Resources.FaceLoading;
+                            }
+                        } else
+                        {
+                            Logger.Error("Was not able to updated the region thumbnail. Poster was failed to load.");
+                            MessageBox.Show("Was not able to updated the region thumbnail.\r\nPoster was failed to load.");
+                        }
                     }
                 }
             }
-
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+                MessageBox.Show("Was not able to updated the region thumbnail.\r\n\r\n" + ex.Message);
+            }
             DataGridViewHandler.Refresh(dataGridView);
         }
 
@@ -486,43 +501,54 @@ namespace PhotoTagsSynchronizer
         {
             if (formRegionSelect == null) return;
             if (formRegionSelect.Visible == false) return;
-            formRegionSelect.SetSelectionNone();
-
-            DataGridView dataGridView = dataGridViewPeople;
-            if (!dataGridView.Enabled) { formRegionSelect.SetImageNone(); return; }
-
-            if (DataGridViewHandler.GetCellSelectedCount(dataGridView) != 1) { formRegionSelect.SetImageNone(); return; }
-            DataGridViewSelectedCellCollection cellSelected = DataGridViewHandler.GetCellSelected(dataGridView);
-            int rowIndex = cellSelected[0].RowIndex;
-            int columnIndex = cellSelected[0].ColumnIndex;
-            if (rowIndex < 0 || columnIndex < 0) { formRegionSelect.SetImageNone(); return; }
-
-            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
-            if (dataGridViewGenericColumn == null || dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite) return;
-            //MessageBox.Show("You can only change region on current version on media file, not on historical or error log.", "Not correct column type", MessageBoxButtons.OK);
-
-            List<int> selectedRows = DataGridViewHandler.GetRowSelected(dataGridView);
-            if (selectedRows.Count != 1) { formRegionSelect.SetImageNone(); return; }
-            //MessageBox.Show("You can only create a region for one name cell at once.", "Wrong number of selection", MessageBoxButtons.OK);
-
-            int selectedRow = selectedRows[0];
-            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, selectedRow);
-            if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(); return; }
-            //MessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK);
-            if (dataGridViewGenericColumn.Metadata == null) { formRegionSelect.SetImageNone(); return; }
-
-            Image image = LoadMediaCoverArtPoster(dataGridViewGenericColumn.Metadata.FileFullPath, false);
-            if (image != null)
+            try
             {
-                formRegionSelect.SetImage(image, columnIndex, rowIndex);
+                formRegionSelect.SetSelectionNone();
 
-                RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndex);
-                if (region != null)
+                DataGridView dataGridView = dataGridViewPeople;
+                if (!dataGridView.Enabled) { formRegionSelect.SetImageNone(); return; }
+
+                if (DataGridViewHandler.GetCellSelectedCount(dataGridView) != 1) { formRegionSelect.SetImageNone(); return; }
+                DataGridViewSelectedCellCollection cellSelected = DataGridViewHandler.GetCellSelected(dataGridView);
+                int rowIndex = cellSelected[0].RowIndex;
+                int columnIndex = cellSelected[0].ColumnIndex;
+                if (rowIndex < 0 || columnIndex < 0) { formRegionSelect.SetImageNone(); return; }
+
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
+                if (dataGridViewGenericColumn == null || dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite) return;
+                //MessageBox.Show("You can only change region on current version on media file, not on historical or error log.", "Not correct column type", MessageBoxButtons.OK);
+
+                List<int> selectedRows = DataGridViewHandler.GetRowSelected(dataGridView);
+                if (selectedRows.Count != 1) { formRegionSelect.SetImageNone(); return; }
+                //MessageBox.Show("You can only create a region for one name cell at once.", "Wrong number of selection", MessageBoxButtons.OK);
+
+                int selectedRow = selectedRows[0];
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, selectedRow);
+                if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(); return; }
+                //MessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK);
+                if (dataGridViewGenericColumn.Metadata == null) { formRegionSelect.SetImageNone(); return; }
+
+                Image image = LoadMediaCoverArtPoster(dataGridViewGenericColumn.Metadata.FileFullPath, false);
+                if (image != null)
                 {
-                    Rectangle rectangleInImage = region.GetImageRegionPixelRectangle(image.Size);
-                    RectangleF rectangleFInImage = new RectangleF((float)rectangleInImage.X, (float)rectangleInImage.Y, (float)rectangleInImage.Width, (float)rectangleInImage.Height);
-                    formRegionSelect.SetSelection(rectangleFInImage);
+                    formRegionSelect.SetImage(image, columnIndex, rowIndex);
+
+                    RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, columnIndex, rowIndex);
+                    if (region != null)
+                    {
+                        Rectangle rectangleInImage = region.GetImageRegionPixelRectangle(image.Size);
+                        RectangleF rectangleFInImage = new RectangleF((float)rectangleInImage.X, (float)rectangleInImage.Y, (float)rectangleInImage.Width, (float)rectangleInImage.Height);
+                        formRegionSelect.SetSelection(rectangleFInImage);
+                    }
+                } else
+                {
+                    Logger.Warn("Region selector was not able to load poster.");
+                    MessageBox.Show("Region selector was not able to load poster.");
                 }
+            } catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+                MessageBox.Show("Region selector was not able to start.\r\n\r\n" + ex.Message);
             }
         }
 
