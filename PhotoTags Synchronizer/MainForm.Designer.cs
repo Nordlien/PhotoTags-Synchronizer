@@ -2429,9 +2429,9 @@ namespace PhotoTagsSynchronizer
             // tabPageMap
             // 
             this.tabPageMap.Controls.Add(this.splitContainerMap);
-            this.tabPageMap.Location = new System.Drawing.Point(4, 25);
+            this.tabPageMap.Location = new System.Drawing.Point(4, 26);
             this.tabPageMap.Name = "tabPageMap";
-            this.tabPageMap.Size = new System.Drawing.Size(537, 863);
+            this.tabPageMap.Size = new System.Drawing.Size(537, 862);
             this.tabPageMap.TabIndex = 3;
             this.tabPageMap.Tag = "Map";
             this.tabPageMap.Text = "Map";
@@ -2459,8 +2459,8 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerMap.Panel2.Controls.Add(this.panel3);
             this.splitContainerMap.Panel2.Controls.Add(this.panelBrowser);
-            this.splitContainerMap.Size = new System.Drawing.Size(537, 863);
-            this.splitContainerMap.SplitterDistance = 390;
+            this.splitContainerMap.Size = new System.Drawing.Size(537, 862);
+            this.splitContainerMap.SplitterDistance = 389;
             this.splitContainerMap.SplitterWidth = 10;
             this.splitContainerMap.TabIndex = 5;
             this.splitContainerMap.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerMap_SplitterMoved);
@@ -2546,7 +2546,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.ShowCellToolTips = false;
             this.dataGridViewMap.ShowEditingIcon = false;
             this.dataGridViewMap.ShowRowErrors = false;
-            this.dataGridViewMap.Size = new System.Drawing.Size(533, 353);
+            this.dataGridViewMap.Size = new System.Drawing.Size(533, 352);
             this.dataGridViewMap.TabIndex = 10;
             this.dataGridViewMap.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewMap_CellBeginEdit);
             this.dataGridViewMap.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewMap_CellMouseDoubleClick);
@@ -2995,10 +2995,10 @@ namespace PhotoTagsSynchronizer
             // tabPageExifToolWarning
             // 
             this.tabPageExifToolWarning.Controls.Add(this.dataGridViewExifToolWarning);
-            this.tabPageExifToolWarning.Location = new System.Drawing.Point(4, 25);
+            this.tabPageExifToolWarning.Location = new System.Drawing.Point(4, 26);
             this.tabPageExifToolWarning.Name = "tabPageExifToolWarning";
             this.tabPageExifToolWarning.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageExifToolWarning.Size = new System.Drawing.Size(537, 863);
+            this.tabPageExifToolWarning.Size = new System.Drawing.Size(537, 862);
             this.tabPageExifToolWarning.TabIndex = 5;
             this.tabPageExifToolWarning.Tag = "Warning";
             this.tabPageExifToolWarning.Text = "Warnings";
@@ -3024,7 +3024,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.ReadOnly = true;
             this.dataGridViewExifToolWarning.RowHeadersWidth = 51;
             this.dataGridViewExifToolWarning.RowTemplate.Height = 24;
-            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(531, 857);
+            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(531, 856);
             this.dataGridViewExifToolWarning.TabIndex = 0;
             this.dataGridViewExifToolWarning.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifToolWarning_CellBeginEdit);
             this.dataGridViewExifToolWarning.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifToolWarning_CellPainting);

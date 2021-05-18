@@ -331,121 +331,128 @@ namespace PhotoTagsSynchronizer
         #region Config - Save 
         private void buttonConfigSave_Click(object sender, EventArgs e)
         {
-            //Application
-            Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
-            Properties.Settings.Default.ApplicationRegionThumbnail = ThumbnailSizes[comboBoxApplicationRegionThumbnailSizes.SelectedIndex];
+            try
+            {
+                //Application
+                Properties.Settings.Default.ApplicationThumbnail = ThumbnailSizes[comboBoxApplicationThumbnailSizes.SelectedIndex];
+                Properties.Settings.Default.ApplicationRegionThumbnail = ThumbnailSizes[comboBoxApplicationRegionThumbnailSizes.SelectedIndex];
 
-            Properties.Settings.Default.ApplicationPreferredLanguages = textBoxApplicationPreferredLanguages.Text;
-            Properties.Settings.Default.MaxRowsInSearchResult = (int)numericUpDownApplicationMaxRowsInSearchResult.Value;
-            Properties.Settings.Default.SuggestRegionNameNearbyDays = (int)numericUpDownPeopleSuggestNameDaysInterval.Value;
-            Properties.Settings.Default.SuggestRegionNameTopMostCount = (int)numericUpDownPeopleSuggestNameTopMost.Value;
-            Properties.Settings.Default.RegionMissmatchProcent = (float)numericUpDownRegionMissmatchProcent.Value;
-            Properties.Settings.Default.LocationAccuracyLatitude = (float)numericUpDownLocationAccuracyLatitude.Value;
-            Properties.Settings.Default.LocationAccuracyLongitude = (float)numericUpDownLocationAccuracyLongitude.Value;
-            Properties.Settings.Default.AvoidOfflineMediaFiles = checkBoxApplicationAvoidReadMediaFromCloud.Checked;
-            Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode = checkBoxApplicationImageListViewCacheModeOnDemand.Checked;
+                Properties.Settings.Default.ApplicationPreferredLanguages = textBoxApplicationPreferredLanguages.Text;
+                Properties.Settings.Default.MaxRowsInSearchResult = (int)numericUpDownApplicationMaxRowsInSearchResult.Value;
+                Properties.Settings.Default.SuggestRegionNameNearbyDays = (int)numericUpDownPeopleSuggestNameDaysInterval.Value;
+                Properties.Settings.Default.SuggestRegionNameTopMostCount = (int)numericUpDownPeopleSuggestNameTopMost.Value;
+                Properties.Settings.Default.RegionMissmatchProcent = (float)numericUpDownRegionMissmatchProcent.Value;
+                Properties.Settings.Default.LocationAccuracyLatitude = (float)numericUpDownLocationAccuracyLatitude.Value;
+                Properties.Settings.Default.LocationAccuracyLongitude = (float)numericUpDownLocationAccuracyLongitude.Value;
+                Properties.Settings.Default.AvoidOfflineMediaFiles = checkBoxApplicationAvoidReadMediaFromCloud.Checked;
+                Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode = checkBoxApplicationImageListViewCacheModeOnDemand.Checked;
 
-            Properties.Settings.Default.CacheNumberOfPosters = (int)numericUpDownCacheNumberOfPosters.Value;            
-            Properties.Settings.Default.CacheAllMetadatas = checkBoxCacheAllMetadatas.Checked;
-            Properties.Settings.Default.CacheAllThumbnails = checkBoxCacheAllThumbnails.Checked;
-            Properties.Settings.Default.CacheAllWebScraperDataSets = checkBoxCacheAllWebScraperDataSets.Checked;
-            Properties.Settings.Default.CacheFolderMetadatas = checkBoxCacheFolderMetadatas.Checked;
-            Properties.Settings.Default.CacheFolderThumbnails = checkBoxCacheFolderThumbnails.Checked;
-            Properties.Settings.Default.CacheFolderWebScraperDataSets = checkBoxCacheFolderWebScraperDataSets.Checked;
+                Properties.Settings.Default.CacheNumberOfPosters = (int)numericUpDownCacheNumberOfPosters.Value;
+                Properties.Settings.Default.CacheAllMetadatas = checkBoxCacheAllMetadatas.Checked;
+                Properties.Settings.Default.CacheAllThumbnails = checkBoxCacheAllThumbnails.Checked;
+                Properties.Settings.Default.CacheAllWebScraperDataSets = checkBoxCacheAllWebScraperDataSets.Checked;
+                Properties.Settings.Default.CacheFolderMetadatas = checkBoxCacheFolderMetadatas.Checked;
+                Properties.Settings.Default.CacheFolderThumbnails = checkBoxCacheFolderThumbnails.Checked;
+                Properties.Settings.Default.CacheFolderWebScraperDataSets = checkBoxCacheFolderWebScraperDataSets.Checked;
 
-            //AutoCorrect
-            GetAutoCorrectPoperties();
-            Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
+                //AutoCorrect
+                GetAutoCorrectPoperties();
+                Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
 
-            //WebScraping
-            Properties.Settings.Default.WaitEventPageLoadedTimeout = (int)numericUpDownWaitEventPageLoadedTimeout.Value;
-            Properties.Settings.Default.WaitEventPageStartLoadingTimeout = (int)numericUpDownWaitEventPageStartLoadingTimeout.Value;
-            //Properties.Settings.Default.WebScraperScript = textBox.Text;
-            Properties.Settings.Default.WebScraperStartPages = textBoxWebScrapingStartPages.Text;
-            Properties.Settings.Default.WebScrapingDelayInPageScriptToRun = (int)numericUpDownWebScrapingDelayInPageScriptToRun.Value;
-            Properties.Settings.Default.WebScrapingDelayOurScriptToRun = (int)numericUpDownWebScrapingDelayOurScriptToRun.Value;
-            Properties.Settings.Default.WebScrapingPageDownCount = (int)numericUpDownWebScrapingPageDownCount.Value;
-            Properties.Settings.Default.WebScrapingRetry = (int)numericUpDownWebScrapingRetry.Value;
-            Properties.Settings.Default.JavaScriptExecuteTimeout = (int)numericUpDownJavaScriptExecuteTimeout.Value;
+                //WebScraping
+                Properties.Settings.Default.WaitEventPageLoadedTimeout = (int)numericUpDownWaitEventPageLoadedTimeout.Value;
+                Properties.Settings.Default.WaitEventPageStartLoadingTimeout = (int)numericUpDownWaitEventPageStartLoadingTimeout.Value;
+                //Properties.Settings.Default.WebScraperScript = textBox.Text;
+                Properties.Settings.Default.WebScraperStartPages = textBoxWebScrapingStartPages.Text;
+                Properties.Settings.Default.WebScrapingDelayInPageScriptToRun = (int)numericUpDownWebScrapingDelayInPageScriptToRun.Value;
+                Properties.Settings.Default.WebScrapingDelayOurScriptToRun = (int)numericUpDownWebScrapingDelayOurScriptToRun.Value;
+                Properties.Settings.Default.WebScrapingPageDownCount = (int)numericUpDownWebScrapingPageDownCount.Value;
+                Properties.Settings.Default.WebScrapingRetry = (int)numericUpDownWebScrapingRetry.Value;
+                Properties.Settings.Default.JavaScriptExecuteTimeout = (int)numericUpDownJavaScriptExecuteTimeout.Value;
 
-            //Metadata Write
-            Properties.Settings.Default.WriteMetadataTags = fastColoredTextBoxMetadataWriteTags.Text;
-            Properties.Settings.Default.WriteMetadataKeywordAdd = fastColoredTextBoxMetadataWriteKeywordAdd.Text;
-            Properties.Settings.Default.WriteMetadataKeywordDelete = fastColoredTextBoxMetadataWriteKeywordDelete.Text;
+                //Metadata Write
+                Properties.Settings.Default.WriteMetadataTags = fastColoredTextBoxMetadataWriteTags.Text;
+                Properties.Settings.Default.WriteMetadataKeywordAdd = fastColoredTextBoxMetadataWriteKeywordAdd.Text;
+                Properties.Settings.Default.WriteMetadataKeywordDelete = fastColoredTextBoxMetadataWriteKeywordDelete.Text;
 
-            Properties.Settings.Default.XtraAtomAlbumVideo = checkBoxWriteXtraAtomAlbumVideo.Checked;
-            Properties.Settings.Default.XtraAtomCategoriesVideo = checkBoxWriteXtraAtomCategoriesVideo.Checked;
-            Properties.Settings.Default.XtraAtomCommentPicture = checkBoxWriteXtraAtomCommentPicture.Checked;
-            Properties.Settings.Default.XtraAtomCommentVideo = checkBoxWriteXtraAtomCommentVideo.Checked;
-            Properties.Settings.Default.XtraAtomKeywordsVideo = checkBoxWriteXtraAtomKeywordsVideo.Checked;
-            Properties.Settings.Default.XtraAtomRatingPicture = checkBoxWriteXtraAtomRatingPicture.Checked;
-            Properties.Settings.Default.XtraAtomRatingVideo = checkBoxWriteXtraAtomRatingVideo.Checked;
-            Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute = checkBoxWriteFileAttributeCreatedDate.Checked;
-            Properties.Settings.Default.XtraAtomSubjectPicture = checkBoxWriteXtraAtomSubjectPicture.Checked;
-            Properties.Settings.Default.XtraAtomSubjectVideo = checkBoxWriteXtraAtomSubjectVideo.Checked;
-            Properties.Settings.Default.XtraAtomSubtitleVideo = checkBoxWriteXtraAtomSubtitleVideo.Checked;
-            Properties.Settings.Default.XtraAtomArtistVideo = checkBoxWriteXtraAtomArtistVideo.Checked;
+                Properties.Settings.Default.XtraAtomAlbumVideo = checkBoxWriteXtraAtomAlbumVideo.Checked;
+                Properties.Settings.Default.XtraAtomCategoriesVideo = checkBoxWriteXtraAtomCategoriesVideo.Checked;
+                Properties.Settings.Default.XtraAtomCommentPicture = checkBoxWriteXtraAtomCommentPicture.Checked;
+                Properties.Settings.Default.XtraAtomCommentVideo = checkBoxWriteXtraAtomCommentVideo.Checked;
+                Properties.Settings.Default.XtraAtomKeywordsVideo = checkBoxWriteXtraAtomKeywordsVideo.Checked;
+                Properties.Settings.Default.XtraAtomRatingPicture = checkBoxWriteXtraAtomRatingPicture.Checked;
+                Properties.Settings.Default.XtraAtomRatingVideo = checkBoxWriteXtraAtomRatingVideo.Checked;
+                Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute = checkBoxWriteFileAttributeCreatedDate.Checked;
+                Properties.Settings.Default.XtraAtomSubjectPicture = checkBoxWriteXtraAtomSubjectPicture.Checked;
+                Properties.Settings.Default.XtraAtomSubjectVideo = checkBoxWriteXtraAtomSubjectVideo.Checked;
+                Properties.Settings.Default.XtraAtomSubtitleVideo = checkBoxWriteXtraAtomSubtitleVideo.Checked;
+                Properties.Settings.Default.XtraAtomArtistVideo = checkBoxWriteXtraAtomArtistVideo.Checked;
 
-            Properties.Settings.Default.XtraAtomArtistVariable = textBoxWriteXtraAtomArtist.Text;
-            Properties.Settings.Default.XtraAtomAlbumVariable = textBoxWriteXtraAtomAlbum.Text;
-            Properties.Settings.Default.XtraAtomCategoriesVariable = textBoxWriteXtraAtomCategories.Text;
-            Properties.Settings.Default.XtraAtomCommentVariable = textBoxWriteXtraAtomComment.Text;
-            Properties.Settings.Default.XtraAtomKeywordsVariable = textBoxWriteXtraAtomKeywords.Text;
-            Properties.Settings.Default.XtraAtomSubjectVariable = textBoxWriteXtraAtomSubject.Text;
-            Properties.Settings.Default.XtraAtomSubtitleVariable = textBoxWriteXtraAtomSubtitle.Text;
+                Properties.Settings.Default.XtraAtomArtistVariable = textBoxWriteXtraAtomArtist.Text;
+                Properties.Settings.Default.XtraAtomAlbumVariable = textBoxWriteXtraAtomAlbum.Text;
+                Properties.Settings.Default.XtraAtomCategoriesVariable = textBoxWriteXtraAtomCategories.Text;
+                Properties.Settings.Default.XtraAtomCommentVariable = textBoxWriteXtraAtomComment.Text;
+                Properties.Settings.Default.XtraAtomKeywordsVariable = textBoxWriteXtraAtomKeywords.Text;
+                Properties.Settings.Default.XtraAtomSubjectVariable = textBoxWriteXtraAtomSubject.Text;
+                Properties.Settings.Default.XtraAtomSubtitleVariable = textBoxWriteXtraAtomSubtitle.Text;
 
-            //Camera Owner 
-            SaveMetadataCameraOwner(dataGridViewCameraOwner);
+                //Camera Owner 
+                SaveMetadataCameraOwner(dataGridViewCameraOwner);
 
-            //Location Names
-            SaveMetadataLocation(dataGridViewLocationNames);
+                //Location Names
+                SaveMetadataLocation(dataGridViewLocationNames);
 
-            //Filename date formates
-            Properties.Settings.Default.RenameDateFormats = fastColoredTextBoxConfigFilenameDateFormats.Text;
+                //Filename date formates
+                Properties.Settings.Default.RenameDateFormats = fastColoredTextBoxConfigFilenameDateFormats.Text;
 
-            //Convert and Merge
-            Properties.Settings.Default.ConvertAndMergeExecute = textBoxConvertAndMergeFFmpeg.Text;
-            Properties.Settings.Default.ConvertAndMergeMusic = textBoxConvertAndMergeBackgroundMusic.Text;
-            Properties.Settings.Default.ConvertAndMergeImageDuration = (int)numericUpDownConvertAndMergeImageDuration.Value;
-            Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension = comboBoxConvertAndMergeTempfileExtension.Text;
+                //Convert and Merge
+                Properties.Settings.Default.ConvertAndMergeExecute = textBoxConvertAndMergeFFmpeg.Text;
+                Properties.Settings.Default.ConvertAndMergeMusic = textBoxConvertAndMergeBackgroundMusic.Text;
+                Properties.Settings.Default.ConvertAndMergeImageDuration = (int)numericUpDownConvertAndMergeImageDuration.Value;
+                Properties.Settings.Default.ConvertAndMergeOutputTempfileExtension = comboBoxConvertAndMergeTempfileExtension.Text;
 
-            int width = Properties.Settings.Default.ConvertAndMergeOutputWidth;
-            int height = Properties.Settings.Default.ConvertAndMergeOutputHeight;
-            SetResFromCombox(GetComboboxValue(comboBoxConvertAndMergeOutputSize), ref width, ref height);
-            Properties.Settings.Default.ConvertAndMergeOutputWidth = width;
-            Properties.Settings.Default.ConvertAndMergeOutputHeight = height;
+                int width = Properties.Settings.Default.ConvertAndMergeOutputWidth;
+                int height = Properties.Settings.Default.ConvertAndMergeOutputHeight;
+                SetResFromCombox(GetComboboxValue(comboBoxConvertAndMergeOutputSize), ref width, ref height);
+                Properties.Settings.Default.ConvertAndMergeOutputWidth = width;
+                Properties.Settings.Default.ConvertAndMergeOutputHeight = height;
 
-            Properties.Settings.Default.ConvertAndMergeConcatVideosArguments = fastColoredTextBoxConvertAndMergeConcatVideoArgument.Text;
-            Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile =  fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Text;
+                Properties.Settings.Default.ConvertAndMergeConcatVideosArguments = fastColoredTextBoxConvertAndMergeConcatVideoArgument.Text;
+                Properties.Settings.Default.ConvertAndMergeConcatVideosArguFile = fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Text;
 
-            Properties.Settings.Default.ConvertAndMergeConcatImagesArguments = fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Text;
-            Properties.Settings.Default.ConvertAndMergeConcatImagesArguFile = fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Text;
+                Properties.Settings.Default.ConvertAndMergeConcatImagesArguments = fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Text;
+                Properties.Settings.Default.ConvertAndMergeConcatImagesArguFile = fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Text;
 
-            Properties.Settings.Default.ConvertAndMergeConvertVideosArguments = fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Text;
+                Properties.Settings.Default.ConvertAndMergeConvertVideosArguments = fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Text;
 
 
-            //Chromecast
-            width = Properties.Settings.Default.ChromecastImageOutputResolutionWidth;
-            height = Properties.Settings.Default.ChromecastImageOutputResolutionHeight;
-            SetResFromCombox(GetComboboxValue(comboBoxChromecastImageResolution), ref width, ref height);
-            Properties.Settings.Default.ChromecastImageOutputResolutionWidth = width;
-            Properties.Settings.Default.ChromecastImageOutputResolutionHeight = height;
-            Properties.Settings.Default.ChromecastImageOutputFormat = GetComboboxValue(comboBoxChromecastImageFormat); //E.g. .JPEG
+                //Chromecast
+                width = Properties.Settings.Default.ChromecastImageOutputResolutionWidth;
+                height = Properties.Settings.Default.ChromecastImageOutputResolutionHeight;
+                SetResFromCombox(GetComboboxValue(comboBoxChromecastImageResolution), ref width, ref height);
+                Properties.Settings.Default.ChromecastImageOutputResolutionWidth = width;
+                Properties.Settings.Default.ChromecastImageOutputResolutionHeight = height;
+                Properties.Settings.Default.ChromecastImageOutputFormat = GetComboboxValue(comboBoxChromecastImageFormat); //E.g. .JPEG
 
-            Properties.Settings.Default.ChromecastTransporter = GetComboboxValue(comboBoxChromecastVideoTransporter); 
+                Properties.Settings.Default.ChromecastTransporter = GetComboboxValue(comboBoxChromecastVideoTransporter);
 
-            Properties.Settings.Default.ChromecastAgruments = comboBoxChromecastAgruments.Text;
-            Properties.Settings.Default.ChromecastUrl = comboBoxChromecastUrl.Text;
-            Properties.Settings.Default.ChromecastAudioCodec = comboBoxChromecastAudioCodec.Text;
-            Properties.Settings.Default.ChromecastVideoCodec = comboBoxChromecastVideoCodec.Text;
+                Properties.Settings.Default.ChromecastAgruments = comboBoxChromecastAgruments.Text;
+                Properties.Settings.Default.ChromecastUrl = comboBoxChromecastUrl.Text;
+                Properties.Settings.Default.ChromecastAudioCodec = comboBoxChromecastAudioCodec.Text;
+                Properties.Settings.Default.ChromecastVideoCodec = comboBoxChromecastVideoCodec.Text;
 
-            //Save config file
-            Properties.Settings.Default.Save();
+                //Save config file
+                Properties.Settings.Default.Save();
 
-            //Metadata Read
-            MetadataReadPrioity.MetadataPrioityDictionary = metadataPrioityDictionaryCopy;
+                //Metadata Read
+                MetadataReadPrioity.MetadataPrioityDictionary = metadataPrioityDictionaryCopy;
 
-            MetadataReadPrioity.WriteAlways();
+                MetadataReadPrioity.WriteAlways();
+            } catch (Exception ex)
+            {
+                Logger.Warn("buttonConfigSave_Click failed saving config. " + ex.Message);
+                MessageBox.Show("Failed to save config.\r\n\r\n" + ex.Message);
+            }
 
             DialogResult = DialogResult.OK;
             this.Close();

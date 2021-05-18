@@ -429,7 +429,7 @@ namespace PhotoTagsSynchronizer
                 generalProgressCountSize = 0;
             }
 
-            if (toolStripProgressBarGeneralProgress.Visible)
+            if (!toolStripProgressBarGeneralProgress.Visible) //Delayed visible
             {
                 if (stopwatchhDelayShowProgressbar == null)
                 {
@@ -437,12 +437,12 @@ namespace PhotoTagsSynchronizer
                     stopwatchhDelayShowProgressbar.Restart();
                 }
                 if (!stopwatchhDelayShowProgressbar.IsRunning) stopwatchhDelayShowProgressbar.Restart();
-                /*
-                if (stopwatchhDelayShowProgressbar.IsRunning && stopwatchhDelayShowProgressbar.ElapsedMilliseconds < 600)
+                
+                if (stopwatchhDelayShowProgressbar.IsRunning && stopwatchhDelayShowProgressbar.ElapsedMilliseconds > 600)
                 {
                     toolStripProgressBarGeneralProgress.Visible = true;
                     toolStripLabelGeneralProgress.Visible = true;
-                }*/
+                }
             }           
         }
         #endregion

@@ -15,6 +15,7 @@ namespace PhotoTagsSynchronizer
         public const string headerPeople = "People";
         public const string headerPeopleSuggestion = "Suggestion";
         public const string headerPeopleMostUsed = "Most used";
+        public const string headerPeopleAdded = "Added";
 
         public static ThumbnailDatabaseCache DatabaseAndCacheThumbnail { get; set; }
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
@@ -330,13 +331,19 @@ namespace PhotoTagsSynchronizer
                     AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleMostUsed, regionName), true);
                 }
             }
-            #endregion 
-            
+            #endregion
+
+            AddRowHeader(dataGridView, columnIndexDummy, new DataGridViewGenericRow(headerPeopleAdded), false);
             //DataGridViewHandler.Refresh(dataGridView);
 
             //-----------------------------------------------------------------
             DataGridViewHandler.SetIsPopulatingFile(dataGridView, false);
             //-----------------------------------------------------------------
+        }
+
+        public static void AddRowPeople(DataGridView dataGridView, string regionName)
+        {
+            AddRowHeader(dataGridView, -1, new DataGridViewGenericRow(headerPeopleAdded, regionName), true);
         }
 
         public static void PopulateSelectedFiles(DataGridView dataGridView, ImageListViewSelectedItemCollection imageListViewSelectItems, DataGridViewSize dataGridViewSize, ShowWhatColumns showWhatColumns)

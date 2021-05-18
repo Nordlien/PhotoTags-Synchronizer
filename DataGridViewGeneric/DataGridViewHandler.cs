@@ -1979,7 +1979,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Cell Handling - SetCellValue - int columnIndex, int rowIndex, object value
+        #region Cell Handling - SetCellValue - value
         public static void SetCellValue(DataGridView dataGridView, DataGridViewCell dataGridViewCell, object value)
         {
             try
@@ -3155,6 +3155,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region Cell Paint Handling - UpdateSelectedCellsWithNewRegion
         public static bool UpdateSelectedCellsWithNewRegion(DataGridView dataGridView, int columnIndex, RectangleF region)
         {
             bool updated = false;
@@ -3199,6 +3200,7 @@ namespace DataGridViewGeneric
             }
             return updated;
         }
+        #endregion 
 
         #region Cell Paint handling - UpdateSelectedCellsWithNewMouseRegion 
         public static bool UpdateSelectedCellsWithNewMouseRegion(DataGridView dataGridView, int columnIndex, int x1, int y1, int x2, int y2)

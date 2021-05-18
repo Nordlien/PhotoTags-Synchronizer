@@ -2355,6 +2355,8 @@ namespace MetadataLibrary
                 if (metadataCache.ContainsKey(fileEntryBroker)) metadataCache[fileEntryBroker] = metadata;
                 else metadataCache.Add(fileEntryBroker, metadata);
             }
+            ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker, fileEntryBroker.FileFullPath));
+            ListFileEntryAttributesCacheRemove(new FileBroker(fileEntryBroker.Broker | MetadataBrokerType.ExifToolWriteError, fileEntryBroker.FileFullPath));
         }
         #endregion
 

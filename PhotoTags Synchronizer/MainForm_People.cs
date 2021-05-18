@@ -145,26 +145,33 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region Cell header - UpdateRegionThumbnail
         private void UpdateRegionThumbnail(DataGridView dataGridView)
         {
             try
             {
-                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+                foreach (DataGridViewCell dataGridViewCell in dataGridView.SelectedCells)
                 {
 
-                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
+                    DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
                     if (dataGridViewGenericColumn != null)
                     {
 
                         Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, false);
                         if (imageCoverArt != null)
                         {
-                            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
+                            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridViewCell.RowIndex);
                             dataGridViewGenericRow.HeaderName = DataGridViewHandlerPeople.headerPeople;
-                            DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, cell.RowIndex, dataGridViewGenericRow);
-                            DataGridViewHandler.SetCellRowHeight(dataGridView, cell.RowIndex, DataGridViewHandler.GetCellRowHeight(dataGridView));
+                            DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, dataGridViewCell.RowIndex, dataGridViewGenericRow);
+                            DataGridViewHandler.SetCellRowHeight(dataGridView, dataGridViewCell.RowIndex, DataGridViewHandler.GetCellRowHeight(dataGridView));
 
-                            RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, cell.ColumnIndex, cell.RowIndex);
+                            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridViewCell);
+                            dataGridViewGenericCellStatus.CellReadOnly = false;
+                            DataGridViewHandler.SetCellReadOnlyDependingOfStatus(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex, dataGridViewGenericCellStatus);
+                            //DataGridViewHandler.SetCellStatus(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex, dataGridViewGenericCellStatus);
+                            DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+  
+                            RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
                             if (regionStructure != null)
                             {
                                 if (imageCoverArt != null) regionStructure.Thumbnail = RegionThumbnailHandler.CopyRegionFromImage(imageCoverArt, regionStructure);
@@ -185,9 +192,9 @@ namespace PhotoTagsSynchronizer
             }
             DataGridViewHandler.Refresh(dataGridView);
         }
+        #endregion 
 
         #region Cell header - Face region - CellMouseUp
-
         private void dataGridViewPeople_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             drawingRegion = false;
@@ -260,6 +267,9 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region AutoComplete
+
+        #region AutoComplete - ClientListDropDown
         public AutoCompleteStringCollection ClientListDropDown()
         {
             List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerType.ExifTool, DateTime.Now.AddDays(-365), DateTime.Now);
@@ -270,35 +280,30 @@ namespace PhotoTagsSynchronizer
             }
             return autoCompleteStringCollection;
         }
+        #endregion
 
-
+        #region AutoComplete - EditingControlShowing
         private void dataGridViewPeople_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             DataGridView dataGridView = (DataGridView)sender;
 
-            //if (DataGridViewHandler.IsRow dataGridView.CurrentCell.ColumnIndex == 1)
-            //if (DataGridViewHandler.IsRow dataGridView.CurrentCell.ColumnIndex == 1)
-            //{
-                TextBox prodCode = e.Control as TextBox;
-                if (prodCode != null)
-                {
-                    prodCode.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                    prodCode.AutoCompleteCustomSource = ClientListDropDown();
-                    prodCode.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-                }
-            //}
-            //else
-            //{
-            //    TextBox prodCode = e.Control as TextBox;
-            //    if (prodCode != null)
-            //    {
-            //        prodCode.AutoCompleteMode = AutoCompleteMode.None;
-            //    }
-            //}
+            TextBox prodCode = e.Control as TextBox;
+            if (prodCode != null)
+            {
+                prodCode.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                prodCode.AutoCompleteCustomSource = ClientListDropDown();
+                prodCode.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            }            
         }
+        #endregion
+
+        #endregion
+
+        #region People name suggestion  
 
         private List<string> lastUsedNames = new List<string>();
+
+        #region People name suggestion - PeopleAddNewLastUseName
         private void PeopleAddNewLastUseName(string name)
         {
             if (lastUsedNames.Contains(name)) lastUsedNames.Remove(name);
@@ -325,51 +330,21 @@ namespace PhotoTagsSynchronizer
             }
             else toolStripMenuItemPeopleRenameFromLast3.Visible = false;
         }
+        #endregion
 
+        #region People name suggestion - SetPeopleStripToolMenu
         private void SetPeopleStripToolMenu(ToolStripMenuItem toolStripMenuItem, int number, string name)
         {
             toolStripMenuItem.Tag = name;
             toolStripMenuItem.Text = "Rename #" + number + " " + name;
-
             Properties.Settings.Default.PeopleRename = string.Join("\r\n", lastUsedNames.ToArray());
-
         }
-
-        public void PopulatePeopleToolStripMenuItems(FileEntryAttribute fileEntryAttribute)
-        {
-            Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryAttribute.GetFileEntryBroker(MetadataBrokerType.ExifTool));
-            if (metadata != null) 
-            {
-                foreach (RegionStructure regionStructure in metadata.PersonalRegionList)
-                {
-                    //databaseAndCacheMetadataExiftool.PersonalRegionNameCountCacheUpdated(MetadataBrokerType.ExifTool, regionStructure.Name);
-
-                    if (!regionNamesRenameFromTopCoundAdded.Contains(regionStructure.Name))
-                    {
-                        regionNamesRenameFromTopCoundAdded.Add(regionStructure.Name);
-                        ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
-                        newTagSubItem.Name = regionStructure.Name;
-                        newTagSubItem.Text = regionStructure.Name;
-                        newTagSubItem.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
-                        toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Add(newTagSubItem);
-                    }
-
-                    if (!regionNamesRenameFromAllAdded.Contains(regionStructure.Name))
-                    {
-                        regionNamesRenameFromAllAdded.Add(regionStructure.Name);
-                        ToolStripMenuItem newTagSubItem = new ToolStripMenuItem();
-                        newTagSubItem.Name = regionStructure.Name;
-                        newTagSubItem.Text = regionStructure.Name;
-                        newTagSubItem.Click += new System.EventHandler(this.toolStripMenuItemPeopleRenameSelected_Click);
-                        toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Add(newTagSubItem);
-                    }
-                }
-            }
-        }
+        #endregion 
 
         private static HashSet<string> regionNamesRenameFromAllAdded = new HashSet<string>();
         private static HashSet<string> regionNamesRenameFromTopCoundAdded = new HashSet<string>();
 
+        #region People name suggestion - PopulatePeopleToolStripMenuItems
         public void PopulatePeopleToolStripMenuItems()
         {            
             toolStripMenuItemPeopleRenameFromAll.DropDownItems.Clear();
@@ -408,7 +383,12 @@ namespace PhotoTagsSynchronizer
                 PeopleAddNewLastUseName(renameNames[i]);
             }
         }
+        #endregion
 
+        #endregion
+
+        #region People rename
+        #region People rename - PeopleRenameSelected
         private void PeopleRenameSelected(DataGridView dataGridView, string nameSelected)
         {
             Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
@@ -442,14 +422,22 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerType.Empty, cell.ColumnIndex, cell.RowIndex);
                     }
                     
+                } else if (dataGridViewGenericRow == null) //new row
+                {
+                    
+                    DataGridViewHandlerPeople.AddRowPeople(dataGridView, nameSelected);
+                    //EndEditProcess(cell.ColumnIndex, cell.RowIndex);
+                    
+                    //Change the cell and trigger edit and behivour                     
                 }
             }
+            //DataGridViewHandler.AddRow(dataGridView);
 
-            if (updatedCells != null && updatedCells.Count > 0) 
-                ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
-
+            if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
         }
+        #endregion
 
+        #region People rename - PeopleRenameSelected_Click
         private void toolStripMenuItemPeopleRenameSelected_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -457,7 +445,9 @@ namespace PhotoTagsSynchronizer
             PeopleRenameSelected(dataGridView, ((ToolStripMenuItem)sender).Name);
             DataGridViewHandler.Refresh(dataGridView);
         }
+        #endregion
 
+        #region People rename - PeopleRenameFromLast1_Click
         private void toolStripMenuItemPeopleRenameFromLast1_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -465,7 +455,9 @@ namespace PhotoTagsSynchronizer
             PeopleRenameSelected(dataGridView, (string)toolStripMenuItemPeopleRenameFromLast1.Tag);
             DataGridViewHandler.Refresh(dataGridView);
         }
+        #endregion
 
+        #region People rename - PeopleRenameFromLast2_Click
         private void toolStripMenuItemPeopleRenameFromLast2_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -473,7 +465,9 @@ namespace PhotoTagsSynchronizer
             PeopleRenameSelected(dataGridView, (string)toolStripMenuItemPeopleRenameFromLast2.Tag);
             DataGridViewHandler.Refresh(dataGridView);
         }
+        #endregion
 
+        #region People rename - PeopleRenameFromLast3_Click
         private void toolStripMenuItemPeopleRenameFromLast3_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -481,22 +475,39 @@ namespace PhotoTagsSynchronizer
             PeopleRenameSelected(dataGridView, (string)toolStripMenuItemPeopleRenameFromLast3.Tag);
             DataGridViewHandler.Refresh(dataGridView);
         }
+        #endregion
 
+        #endregion 
+
+        #region CellEndEdit        
         private void dataGridViewPeople_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
-            DataGridViewGenericCellStatus dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
-            for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
-            {
-                DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndex, e.RowIndex);
-            }
-            DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, e.RowIndex, 
-                new DataGridViewGenericRow(DataGridViewHandlerPeople.headerPeople,
-                dataGridView[e.ColumnIndex, e.RowIndex].Value == null ? "" : dataGridView[e.ColumnIndex, e.RowIndex].Value.ToString(), ReadWriteAccess.AllowCellReadAndWrite));
-        }
 
-        
-        
+            RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, e.RowIndex);
+
+            for (int columnIndexCheck = 0; columnIndexCheck < DataGridViewHandler.GetColumnCount(dataGridView); columnIndexCheck++)
+            {
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, e.ColumnIndex, e.RowIndex);
+                if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
+
+                DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndexCheck, e.RowIndex);
+            }
+
+            #region Set Row defaults
+            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
+            string dataGridViewGenericRowHeaderName = (dataGridViewGenericRow != null ? dataGridViewGenericRow.HeaderName : DataGridViewHandlerPeople.headerPeopleAdded); 
+            DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, e.RowIndex,
+                new DataGridViewGenericRow(dataGridViewGenericRowHeaderName,
+                dataGridView[e.ColumnIndex, e.RowIndex].Value == null ? "" : dataGridView[e.ColumnIndex, e.RowIndex].Value.ToString(), ReadWriteAccess.AllowCellReadAndWrite));
+            #endregion 
+        }
+        #endregion
+
+        #region FormRegionSelect
+        FormRegionSelect formRegionSelect = new FormRegionSelect();
+
+        #region FormRegionSelect - RegionSelectorLoadAndSelect
         private void RegionSelectorLoadAndSelect()
         {
             if (formRegionSelect == null) return;
@@ -552,8 +563,9 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show("Region selector was not able to start.\r\n\r\n" + ex.Message);
             }
         }
+        #endregion 
 
-        FormRegionSelect formRegionSelect = new FormRegionSelect();
+        #region FormRegionSelect - PeopleShowRegionSelector_Click
         private void toolStripMenuItemPeopleShowRegionSelector_Click(object sender, EventArgs e)
         {
             if (formRegionSelect==null || formRegionSelect.IsDisposed) formRegionSelect = new FormRegionSelect(); 
@@ -565,7 +577,9 @@ namespace PhotoTagsSynchronizer
             formRegionSelect.Show();
             RegionSelectorLoadAndSelect();
         }
+        #endregion 
 
+        #region FormRegionSelect - FormRegionSelect_OnRegionSelected
         private void FormRegionSelect_OnRegionSelected(object sender, RegionSelectedEventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
@@ -584,10 +598,15 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.Refresh(dataGridView);
             }
         }
-    
+        #endregion
+
+        #region FormRegionSelect - CellEnter
         private void dataGridViewPeople_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             RegionSelectorLoadAndSelect();
         }
+        #endregion
+
+        #endregion
     }
 }
