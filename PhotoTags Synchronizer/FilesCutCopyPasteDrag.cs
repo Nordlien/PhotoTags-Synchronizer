@@ -41,27 +41,27 @@ namespace PhotoTagsSynchronizer
 
         #region FilesCutCopyPasteDrag - DeleteDirectoryAndHistory
         public static int DeleteDirectoryAndHistorySize = 6;
-        public int DeleteDirectoryAndHistory(MainForm mainForm, int queueSize, string folder)
+        public int DeleteDirectoryAndHistory(ref int queueSize, string folder)
         {
             int rowsAffected = 0;
             
             rowsAffected += databaseAndCacheMetadataExiftool.DeleteDirectoryAndHistory(MetadataBrokerType.ExifTool, folder); //Also delete When (Broker & @Broker) = @Broker
-            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //1
+            queueSize--; //1
 
             rowsAffected += databaseAndCacheMetadataMicrosoftPhotos.DeleteDirectoryAndHistory(MetadataBrokerType.MicrosoftPhotos, folder);
-            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //2
+            queueSize--; //2
 
             rowsAffected += databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteDirectoryAndHistory(MetadataBrokerType.WindowsLivePhotoGallery, folder);
-            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //3
+            queueSize--; //3
 
             rowsAffected += databaseExiftoolData.DeleteDirectoryAndHistory(folder);
-            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //4
+            queueSize--; //4
 
             rowsAffected += databaseExiftoolWarning.DeleteDirectoryAndHistory(folder);
-            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //5
+            queueSize--; //5
 
             rowsAffected += databaseAndCacheThumbnail.DeleteDirectoryAndHistory(folder);
-            mainForm.GeneralProgressIncrementSetProgerss(queueSize--); //6
+            queueSize--; //6
             return rowsAffected;
         }
         #endregion
@@ -191,16 +191,16 @@ namespace PhotoTagsSynchronizer
             Directory.Delete(folder, true);
 
             int recordAffected = 0;
-            int queueCount = (dirs.Length + 1) * FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
+            GlobalData.ProcessCounterDelete = (dirs.Length + 1) * FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
             
             foreach (string directory in dirs)
             {
                 mainForm.UpdateStatusAction("Delete all data and files from folder: " + directory);
-                recordAffected += this.DeleteDirectoryAndHistory(mainForm, queueCount, directory);
+                recordAffected += this.DeleteDirectoryAndHistory(ref GlobalData.ProcessCounterDelete, directory);
             }
             mainForm.UpdateStatusAction("Delete all data and files from folder: " + folder);
-            recordAffected += this.DeleteDirectoryAndHistory(mainForm, queueCount, folder);
-            mainForm.GeneralProgressEndReached();
+            recordAffected += this.DeleteDirectoryAndHistory(ref GlobalData.ProcessCounterDelete, folder);
+            GlobalData.ProcessCounterDelete = 0;
 
             TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
             TreeNode parentNode = folderTreeViewFolder.SelectedNode.Parent;
@@ -253,23 +253,24 @@ namespace PhotoTagsSynchronizer
             imageListView.Enabled = false;
             imageListView.SuspendLayout();
 
-            int queueSize = imageListView.SelectedItems.Count;
-            int queueCount = 0;
-
-            mainForm.GeneralProgressIncrementSetProgerss(queueSize);
+            GlobalData.ProcessCounterDelete = imageListView.SelectedItems.Count;             
             foreach (ImageListViewItem imageListViewItem in imageListView.SelectedItems)
             {
-                mainForm.GeneralProgressIncrementSetProgerss(queueSize, ++queueCount); 
                 mainForm.UpdateStatusAction("Refreshing database for " + imageListViewItem.FileFullPath);
                 this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
+                GlobalData.ProcessCounterDelete--;
             }
+            GlobalData.ProcessCounterDelete--;
 
+            GlobalData.ProcessCounterRefresh = imageListView.SelectedItems.Count;
             foreach (ImageListViewItem item in imageListView.SelectedItems)
             {
                 item.Update();
                 item.Selected = true;
+                GlobalData.ProcessCounterRefresh--;
             }
-            
+            GlobalData.ProcessCounterRefresh = 0;
+
 
             folderTreeViewFolder.Enabled = true;
 

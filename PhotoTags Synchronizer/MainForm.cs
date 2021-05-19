@@ -459,7 +459,7 @@ namespace PhotoTagsSynchronizer
 
             SplashForm.UpdateStatus("Stopping ImageView caching proccess...");
             int colsedownRetaies = 30;
-            while ((GlobalData.retrieveThumbnailCount > 0 || GlobalData.retrieveImageCount > 0) && colsedownRetaies-- > 0)
+            while ((GlobalData.ProcessCounterRetrieveThumbnailCount > 0 || GlobalData.ProcessCounterRetrieveImageCount > 0) && colsedownRetaies-- > 0)
             {
                 Application.DoEvents();
                 Thread.Sleep(100);

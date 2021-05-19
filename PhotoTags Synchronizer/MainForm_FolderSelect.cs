@@ -37,7 +37,7 @@ namespace PhotoTagsSynchronizer
                 folderTreeViewFolder.Enabled = true;
 
                 if (runPopulateFilter) PopulateTreeViewFolderFilterThread(fileEntries);
-                AddQueueExiftoolLock(fileEntries);
+                //AddQueueExiftoolLock(fileEntries);
 
                 GlobalData.IsPopulatingFolderSelected = false;
             }

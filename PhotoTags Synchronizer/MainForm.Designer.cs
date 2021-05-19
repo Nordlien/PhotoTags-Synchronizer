@@ -38,8 +38,8 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripLabelGeneralProgress = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBarGeneralProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripLabelLazyLoadingDataGridViewProgress = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBarLazyLoadingDataGridViewProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabelSaveProgress = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBarSaveProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripLabelThreadQueue = new System.Windows.Forms.ToolStripStatusLabel();
@@ -343,7 +343,7 @@ namespace PhotoTagsSynchronizer
             this.timerStartThread = new System.Windows.Forms.Timer(this.components);
             this.timerShowExiftoolSaveProgress = new System.Windows.Forms.Timer(this.components);
             this.timerStatusThreadQueue = new System.Windows.Forms.Timer(this.components);
-            this.timerUpdateGeneralProgressRemoveProgessbar = new System.Windows.Forms.Timer(this.components);
+            this.timerLazyLoadingDataGridViewProgressRemoveProgessbar = new System.Windows.Forms.Timer(this.components);
             this.panelMediaPreview = new System.Windows.Forms.Panel();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.imageBoxPreview = new Cyotek.Windows.Forms.ImageBox();
@@ -481,8 +481,8 @@ namespace PhotoTagsSynchronizer
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusFilesAndSelected,
-            this.toolStripLabelGeneralProgress,
-            this.toolStripProgressBarGeneralProgress,
+            this.toolStripLabelLazyLoadingDataGridViewProgress,
+            this.toolStripProgressBarLazyLoadingDataGridViewProgress,
             this.toolStripStatusLabelSaveProgress,
             this.toolStripProgressBarSaveProgress,
             this.toolStripLabelThreadQueue,
@@ -506,19 +506,19 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripLabelGeneralProgress
             // 
-            this.toolStripLabelGeneralProgress.Name = "toolStripLabelGeneralProgress";
-            this.toolStripLabelGeneralProgress.Size = new System.Drawing.Size(67, 24);
-            this.toolStripLabelGeneralProgress.Text = "Working:";
-            this.toolStripLabelGeneralProgress.Visible = false;
+            this.toolStripLabelLazyLoadingDataGridViewProgress.Name = "toolStripLabelGeneralProgress";
+            this.toolStripLabelLazyLoadingDataGridViewProgress.Size = new System.Drawing.Size(67, 24);
+            this.toolStripLabelLazyLoadingDataGridViewProgress.Text = "Working:";
+            this.toolStripLabelLazyLoadingDataGridViewProgress.Visible = false;
             // 
             // toolStripProgressBarGeneralProgress
             // 
-            this.toolStripProgressBarGeneralProgress.Name = "toolStripProgressBarGeneralProgress";
-            this.toolStripProgressBarGeneralProgress.Size = new System.Drawing.Size(100, 22);
-            this.toolStripProgressBarGeneralProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.toolStripProgressBarGeneralProgress.ToolTipText = "Update DataGridView ";
-            this.toolStripProgressBarGeneralProgress.Value = 50;
-            this.toolStripProgressBarGeneralProgress.Visible = false;
+            this.toolStripProgressBarLazyLoadingDataGridViewProgress.Name = "toolStripProgressBarGeneralProgress";
+            this.toolStripProgressBarLazyLoadingDataGridViewProgress.Size = new System.Drawing.Size(100, 22);
+            this.toolStripProgressBarLazyLoadingDataGridViewProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.toolStripProgressBarLazyLoadingDataGridViewProgress.ToolTipText = "Update DataGridView ";
+            this.toolStripProgressBarLazyLoadingDataGridViewProgress.Value = 50;
+            this.toolStripProgressBarLazyLoadingDataGridViewProgress.Visible = false;
             // 
             // toolStripStatusLabelSaveProgress
             // 
@@ -3891,8 +3891,7 @@ namespace PhotoTagsSynchronizer
             // 
             // timerUpdateGeneralProgressRemoveProgessbar
             // 
-            this.timerUpdateGeneralProgressRemoveProgessbar.Interval = 500;
-            this.timerUpdateGeneralProgressRemoveProgessbar.Tick += new System.EventHandler(this.timerUpdateGeneralProgressRemoveProgessbar_Tick);
+            this.timerLazyLoadingDataGridViewProgressRemoveProgessbar.Interval = 500;
             // 
             // panelMediaPreview
             // 
@@ -4615,9 +4614,9 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast3;
         private DragNDrop.TreeViewWithoutDoubleClick treeViewFilter;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarGeneralProgress;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarLazyLoadingDataGridViewProgress;
         private System.Windows.Forms.Timer timerStatusThreadQueue;
-        private System.Windows.Forms.Timer timerUpdateGeneralProgressRemoveProgessbar;
+        private System.Windows.Forms.Timer timerLazyLoadingDataGridViewProgressRemoveProgessbar;
         private System.Windows.Forms.ToolStripMenuItem mediaPreviewToolStripMenuItem;
         private System.Windows.Forms.Panel panelMediaPreview;
         private System.Windows.Forms.ToolStrip toolStrip1;
@@ -4692,7 +4691,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMediaPreview;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExiftoolWarningMediaPreview;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarThreadQueue;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripLabelGeneralProgress;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripLabelLazyLoadingDataGridViewProgress;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSaveProgress;
         private System.Windows.Forms.ToolStripStatusLabel toolStripLabelThreadQueue;
     }

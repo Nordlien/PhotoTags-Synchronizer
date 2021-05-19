@@ -25,8 +25,10 @@ namespace PhotoTagsSynchronizer
 
         public static bool lastReadFolderWasRecursive { get; set; } = false;
 
-        public static int retrieveImageCount = 0;
-        public static int retrieveThumbnailCount = 0;
+        public static int ProcessCounterRetrieveImageCount { get; set; } = 0;
+        public static int ProcessCounterRetrieveThumbnailCount { get; set; } = 0;
+        public static int ProcessCounterDelete = 0;
+        public static int ProcessCounterRefresh { get; set; } = 0;
 
         //
         public static bool IsApplicationClosing { get; set; } = false;
@@ -34,9 +36,7 @@ namespace PhotoTagsSynchronizer
         public static bool IsStopAndEmptyThumbnailQueueRequest { get; set; } = false;
         public static bool IsPopulatingFolderTree { get; set; } = true;
         public static bool IsPopulatingImageListView { get; set; } = false;
-
         public static bool IsImageListViewForEachInProgressRequestStop { get; set; } = false;
-
         public static bool IsPopulatingFolderSelected { get; set; } = false;
         public static bool IsDataGridViewCutPasteDeleteFindReplaceInProgress { get; set; } = false;
 

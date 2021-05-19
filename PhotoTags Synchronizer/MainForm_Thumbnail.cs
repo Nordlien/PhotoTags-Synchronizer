@@ -62,7 +62,7 @@ namespace PhotoTagsSynchronizer
                         Image cloneBitmap = Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true); //Need create a clone, due to GDI + not thread safe
                         Logger.Trace("GetThumbnail - from read from file:  " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (thumbnailImage == null ? " Found" : "") + fileEntry.FileFullPath);
 
-                        AddQueueMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
+                        AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
                         AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, cloneBitmap));
                         thumbnailImage = Utility.ThumbnailFromImage(cloneBitmap, imageListView1.ThumbnailSize, Color.White, true, true);
                         

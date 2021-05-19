@@ -144,11 +144,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region DataGridView - Populate File - For FileEntryAttribute missing Tag - Invoke
-        private void PopulateDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute, int queueCount = 0)
+        private void PopulateDataGridViewForFileEntryAttributeInvoke(FileEntryAttribute fileEntryAttribute)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<FileEntryAttribute, int>(PopulateDataGridViewForFileEntryAttributeInvoke), fileEntryAttribute, queueCount);
+                this.BeginInvoke(new Action<FileEntryAttribute>(PopulateDataGridViewForFileEntryAttributeInvoke), fileEntryAttribute);
                 return;
             }
             if (GlobalData.IsApplicationClosing) return;
@@ -157,14 +157,14 @@ namespace PhotoTagsSynchronizer
             if (IsActiveDataGridViewAgregated(tag))
             {
                 DataGridView dataGridView = GetDataGridViewForTag(tag);
-                PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag, queueCount);
+                PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
             }
             
         }
         #endregion
 
         #region DataGridView - Populate File - For FileEntryAttribute and Tag
-        private void PopulateDataGrivViewForFileEntryAttributeAndTag(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tag, int queueCount)
+        private void PopulateDataGrivViewForFileEntryAttributeAndTag(DataGridView dataGridView, FileEntryAttribute fileEntryAttribute, string tag)
         {
             lock (GlobalData.populateSelectedLock)
             {
@@ -214,8 +214,8 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
-                if (ThreadLazyLoadingQueueSizeDirty() == 0) queueCount = 0; // We don't know what order the data is cominging
-                GeneralProgressIncrementCountdown(queueCount); //Also used for delete files count
+                int queueCount = ThreadLazyLoadingDataGridVIewQueueSizeDirty();
+                LazyLoadingDataGridViewProgressUpdateStatus(queueCount); 
                 
                 if (DataGridViewHandler.ResumeLayout(dataGridView, queueCount))
                 {
@@ -224,7 +224,7 @@ namespace PhotoTagsSynchronizer
                         LazyLoadMissingLock();
                         PopulateDataGridViewForSelectedItemsExtrasInvoke();
                     }
-                    if (ThreadLazyLoadingQueueSizeDirty() + queueCount == 0) GeneralProgressEndReached();
+                    if (ThreadLazyLoadingDataGridVIewQueueSizeDirty() == 0) LazyLoadingDataGridViewProgressEndReached();
                 }
             }
         }
@@ -241,13 +241,13 @@ namespace PhotoTagsSynchronizer
                 //When list is 0, then Metadata was not readed from mediafile and needs put back in read queue
                 if (fileEntryAttributeDateVersions.Count == 0)
                 {
-                    AddQueueMetadataReadToCacheOrUpdateFromSoruce(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
+                    AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(new FileEntry(imageListViewItem.FileFullPath, imageListViewItem.DateModified));
                 }
                 lazyLoadingAllExiftoolVersionOfMediaFile.AddRange(fileEntryAttributeDateVersions);
             }
 
-            AddQueueLazyLoadningMetadataLock(lazyLoadingAllExiftoolVersionOfMediaFile);
-            AddQueueLazyLoadningThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
+            AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoadingAllExiftoolVersionOfMediaFile);
+            AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoadingAllExiftoolVersionOfMediaFile);
 
             StartThreads();
         }
@@ -279,13 +279,13 @@ namespace PhotoTagsSynchronizer
                     case "Date":
                         break;
                     case "ExifTool":
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSizeDirty());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridVIewQueueSizeDirty());
                         break;
                     case "Warning":
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSizeDirty());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridVIewQueueSizeDirty());
                         break;
                     case "Properties":
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingQueueSizeDirty());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridVIewQueueSizeDirty());
                         break;
                     case "Rename":
                         break;
@@ -386,16 +386,16 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerExiftool.DatabaseExiftoolData = databaseExiftoolData;
                         DataGridViewHandlerExiftool.exiftoolReader = exiftoolReader;
                         lazyLoading = DataGridViewHandlerExiftool.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, showWhatColumns);
-                        AddQueueLazyLoadningMetadataLock(lazyLoading);
-                        AddQueueLazyLoadningThumbnailLock(lazyLoading);
+                        AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoading);
+                        AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoading);
                         break;
                     case "Warning":
                         DataGridViewHandlerExiftoolWarnings.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
                         DataGridViewHandlerExiftoolWarnings.exiftoolReader = exiftoolReader;
                         lazyLoading = DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, showWhatColumns);
-                        AddQueueLazyLoadningMetadataLock(lazyLoading);
-                        AddQueueLazyLoadningThumbnailLock(lazyLoading);
+                        AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoading);
+                        AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoading);
                         break;
                     case "Properties":
                         DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();

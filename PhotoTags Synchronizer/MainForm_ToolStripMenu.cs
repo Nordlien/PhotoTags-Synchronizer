@@ -1064,8 +1064,9 @@ namespace PhotoTagsSynchronizer
                 using (new WaitCursor())
                 {
                     UpdateStatusAction("Delete all record about files in database....");
-                    int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(this, FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize, folder);
-                    GeneralProgressEndReached();
+                    GlobalData.ProcessCounterDelete = FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
+                    int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(ref FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize, folder);
+                    GlobalData.ProcessCounterDelete = 0;
                     UpdateStatusAction(recordAffected + " records was delete from database....");
                 }
             }
