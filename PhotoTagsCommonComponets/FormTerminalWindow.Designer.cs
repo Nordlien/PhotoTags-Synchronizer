@@ -58,6 +58,7 @@ namespace PhotoTagsCommonComponets
             this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBox1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBox1.ForeColor = System.Drawing.Color.Yellow;
             this.fastColoredTextBox1.IsReplaceMode = false;
             this.fastColoredTextBox1.Location = new System.Drawing.Point(0, 0);
@@ -89,6 +90,7 @@ namespace PhotoTagsCommonComponets
             this.ClientSize = new System.Drawing.Size(1483, 761);
             this.Controls.Add(this.buttonScrollToEnd);
             this.Controls.Add(this.fastColoredTextBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormTerminalWindow";
             this.Text = "Terminal Console Window";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTerminalWindow_FormClosing);

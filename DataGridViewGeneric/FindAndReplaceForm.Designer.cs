@@ -28,7 +28,7 @@ namespace DataGridViewGeneric
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindAndReplaceForm));
             this.tabControlFindAndReplace = new System.Windows.Forms.TabControl();
             this.FindPage = new System.Windows.Forms.TabPage();
             this.checkBoxSearchAlsoRowHeaders = new System.Windows.Forms.CheckBox();
@@ -59,7 +59,7 @@ namespace DataGridViewGeneric
             this.ReplaceLabel = new System.Windows.Forms.Label();
             this.FindWhatTextBox2 = new System.Windows.Forms.TextBox();
             this.FindLabel2 = new System.Windows.Forms.Label();
-            this.contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -615,6 +615,7 @@ namespace DataGridViewGeneric
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(699, 267);
             this.Controls.Add(this.tabControlFindAndReplace);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
