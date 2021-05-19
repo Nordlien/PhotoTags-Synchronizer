@@ -114,6 +114,7 @@
             this.fctb1.CharWidth = 10;
             this.fctb1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fctb1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fctb1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fctb1.IsReplaceMode = false;
             this.fctb1.Location = new System.Drawing.Point(0, 21);
             this.fctb1.Margin = new System.Windows.Forms.Padding(4);
@@ -151,6 +152,7 @@
             this.fctb2.CharWidth = 10;
             this.fctb2.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fctb2.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fctb2.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fctb2.IsReplaceMode = false;
             this.fctb2.Location = new System.Drawing.Point(0, 21);
             this.fctb2.Margin = new System.Windows.Forms.Padding(4);
@@ -159,7 +161,7 @@
             this.fctb2.ReadOnly = true;
             this.fctb2.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fctb2.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fctb2.ServiceColors")));
-            this.fctb2.Size = new System.Drawing.Size(446, 463);
+            this.fctb2.Size = new System.Drawing.Size(445, 463);
             this.fctb2.TabIndex = 27;
             this.fctb2.Text = "fastColoredTextBox2";
             this.fctb2.Zoom = 100;
@@ -217,6 +219,7 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormCompareText";
             this.Text = "Compare text";

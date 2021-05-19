@@ -89,6 +89,9 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CefSharp">
       <!--HintPath>..\bin\Debug\CefSharp.dll</HintPath-->
@@ -203,6 +206,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_SelectGroup.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm_Thumbnail.cs">
