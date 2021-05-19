@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMessageBox));
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBoxMessage = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
@@ -59,6 +60,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMessageBox";
             this.Text = "Warning!!!";
             this.panel1.ResumeLayout(false);
