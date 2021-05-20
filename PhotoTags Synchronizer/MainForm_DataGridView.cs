@@ -97,8 +97,7 @@ namespace PhotoTagsSynchronizer
                 {
                     if (commonQueueReadMetadataFromExiftool.Contains(new FileEntry (dataGridViewGenericColumn.FileEntryAttribute.FileEntry)))
                     {
-                        if (dataGridViewGenericColumn.Metadata == null) 
-                            lazyLoadingMissedUpdatedDueToThread.Add(dataGridViewGenericColumn.FileEntryAttribute);
+                        if (dataGridViewGenericColumn.Metadata == null) lazyLoadingMissedUpdatedDueToThread.Add(dataGridViewGenericColumn.FileEntryAttribute);
                     }
                 }  
             }
@@ -215,16 +214,15 @@ namespace PhotoTagsSynchronizer
                 #endregion
 
                 int queueCount = ThreadLazyLoadingDataGridVIewQueueSizeDirty();
-                LazyLoadingDataGridViewProgressUpdateStatus(queueCount); 
+                if (isFileInDataGridView) LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
+
+                DataGridViewHandler.ResumeLayout(dataGridView);
                 
-                if (DataGridViewHandler.ResumeLayout(dataGridView, queueCount))
+                if (queueCount == 0)
                 {
-                    if (isFileInDataGridView)
-                    {
-                        LazyLoadMissingLock();
-                        PopulateDataGridViewForSelectedItemsExtrasInvoke();
-                    }
-                    if (ThreadLazyLoadingDataGridVIewQueueSizeDirty() == 0) LazyLoadingDataGridViewProgressEndReached();
+                    //LazyLoadMissingLock();
+                    if (isFileInDataGridView) PopulateDataGridViewForSelectedItemsExtrasInvoke();
+                    LazyLoadingDataGridViewProgressEndReached();
                 }
             }
         }
@@ -330,7 +328,7 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = GetActiveTabDataGridView();
                 List<FileEntryAttribute> lazyLoading;
 
-                //DataGridViewSuspendInvoke();
+                DataGridViewHandler.SuspendLayout(dataGridView, true);
 
                 switch (GetActiveTabTag())
                 {
@@ -420,10 +418,9 @@ namespace PhotoTagsSynchronizer
                         throw new NotImplementedException();
 
                 }
-
-                //DataGridViewResumeInvoke();
-                StartThreads();
+                DataGridViewHandler.ResumeLayout(dataGridView);                
             }
+            StartThreads();
         }
         #endregion
     }

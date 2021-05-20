@@ -684,15 +684,13 @@ namespace DataGridViewGeneric
             isSuspended = false;
         }
 
-        public static bool ResumeLayout(DataGridView dataGridView, int queueSize)
+        public static bool ResumeLayout(DataGridView dataGridView)
         {
             bool didResume = false;
             suspendCount--;
             if (suspendCount < 0) suspendCount = 0;
             if (suspendCount == 0 && isSuspended)
-            {
-                if (queueSize > 0) return didResume; //Wait new suspend
-
+            {                
                 if (_ThreadResumeDataGrid == null)
                 {
                     try
