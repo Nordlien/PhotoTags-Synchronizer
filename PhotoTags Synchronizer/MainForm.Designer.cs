@@ -504,16 +504,16 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusFilesAndSelected.Size = new System.Drawing.Size(133, 24);
             this.toolStripStatusFilesAndSelected.Text = "Files: 0 Selected: 0";
             // 
-            // toolStripLabelGeneralProgress
+            // toolStripLabelLazyLoadingDataGridViewProgress
             // 
-            this.toolStripLabelLazyLoadingDataGridViewProgress.Name = "toolStripLabelGeneralProgress";
+            this.toolStripLabelLazyLoadingDataGridViewProgress.Name = "toolStripLabelLazyLoadingDataGridViewProgress";
             this.toolStripLabelLazyLoadingDataGridViewProgress.Size = new System.Drawing.Size(67, 24);
             this.toolStripLabelLazyLoadingDataGridViewProgress.Text = "Working:";
             this.toolStripLabelLazyLoadingDataGridViewProgress.Visible = false;
             // 
-            // toolStripProgressBarGeneralProgress
+            // toolStripProgressBarLazyLoadingDataGridViewProgress
             // 
-            this.toolStripProgressBarLazyLoadingDataGridViewProgress.Name = "toolStripProgressBarGeneralProgress";
+            this.toolStripProgressBarLazyLoadingDataGridViewProgress.Name = "toolStripProgressBarLazyLoadingDataGridViewProgress";
             this.toolStripProgressBarLazyLoadingDataGridViewProgress.Size = new System.Drawing.Size(100, 22);
             this.toolStripProgressBarLazyLoadingDataGridViewProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.toolStripProgressBarLazyLoadingDataGridViewProgress.ToolTipText = "Update DataGridView ";
@@ -3889,7 +3889,7 @@ namespace PhotoTagsSynchronizer
             this.timerStatusThreadQueue.Interval = 400;
             this.timerStatusThreadQueue.Tick += new System.EventHandler(this.timerStatusThreadQueue_Tick);
             // 
-            // timerUpdateGeneralProgressRemoveProgessbar
+            // timerLazyLoadingDataGridViewProgressRemoveProgessbar
             // 
             this.timerLazyLoadingDataGridViewProgressRemoveProgessbar.Interval = 500;
             // 

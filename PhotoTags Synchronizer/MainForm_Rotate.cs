@@ -271,8 +271,6 @@ namespace PhotoTagsSynchronizer
                         toolStripStatusLabelSaveProgress.Visible = true;
                     }
                 }
-
-
             }
 
             //frame=   68 fps= 17 q=29.0 size=       0kB time=00:00:02.35 bitrate=   0.2kbits/s speed=0.601x 
