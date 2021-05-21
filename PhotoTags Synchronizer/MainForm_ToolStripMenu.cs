@@ -1076,7 +1076,7 @@ namespace PhotoTagsSynchronizer
                 imageListView1.Refresh();
                 
                 ClearQueuePreloadningMetadata();
-                ClearQueueExiftool();
+                ClearAllQueues();
 
                 List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(this.folderTreeViewFolder.GetSelectedNodePath(), false);
                 PopulateImageListView(fileEntries, false);

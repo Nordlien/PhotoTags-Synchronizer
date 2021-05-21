@@ -214,7 +214,8 @@ namespace PhotoTagsSynchronizer
             threadQueuCount += CommonQueueLazyLoadingThumbnailCountDirty();
 
             int lasyLoadingDataGridViewCount = ThreadLazyLoadingDataGridViewQueueSizeDirty();
-            if (lasyLoadingDataGridViewCount == 0) LazyLoadingDataGridViewProgressEndReached();
+            if (lasyLoadingDataGridViewCount == 0) 
+                LazyLoadingDataGridViewProgressEndReached();
 
             toolStripStatusThreadQueueCount.Text = "(" + threadQueuCount + ") " + toolStripStatusThreadQueueCount.Text;
             
@@ -396,6 +397,7 @@ namespace PhotoTagsSynchronizer
         {
             timerLazyLoadingDataGridViewProgressRemoveProgessbar.Interval = 1000;
             timerLazyLoadingDataGridViewProgressRemoveProgessbar.Start();
+            LazyLoadingDataGridViewProgressUpdateStatus(0);
         }
         #endregion
 

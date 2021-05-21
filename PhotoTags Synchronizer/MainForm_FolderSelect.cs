@@ -27,7 +27,7 @@ namespace PhotoTagsSynchronizer
                 folderTreeViewFolder.Enabled = false;
 
                 ClearQueuePreloadningMetadata();
-                ClearQueueExiftool();
+                ClearAllQueues();
 
                 if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFileEntries(fileEntries);
                 if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
@@ -37,7 +37,6 @@ namespace PhotoTagsSynchronizer
                 folderTreeViewFolder.Enabled = true;
 
                 if (runPopulateFilter) PopulateTreeViewFolderFilterThread(fileEntries);
-                //AddQueueExiftoolLock(fileEntries);
 
                 GlobalData.IsPopulatingFolderSelected = false;
             }
