@@ -29,7 +29,7 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         /// <param name="fileEntry"></param>
         /// <returns></returns>
-        private Image GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(FileEntry fileEntry)
+        private Image GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(FileEntry fileEntry, bool isFileInCloud)
         {
 
             Image thumbnailImage;
@@ -39,9 +39,8 @@ namespace PhotoTagsSynchronizer
 
                 stopwatch.Restart();
                 thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntry);
-                         Logger.Trace("GetThumbnail - from database:  " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (thumbnailImage == null ? " Found" : "") + fileEntry.FileFullPath);
+                Logger.Trace("GetThumbnail - from database:  " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (thumbnailImage == null ? " Found" : "") + fileEntry.FileFullPath);
 
-                bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath);
                 if (thumbnailImage == null)
                 {
                     try
@@ -71,21 +70,10 @@ namespace PhotoTagsSynchronizer
                     {
                         if (isFileInCloud) thumbnailImage = (Image)Properties.Resources.load_image_error_in_cloud;
                         else thumbnailImage = (Image)Properties.Resources.load_image_error_thumbnail;
-                        return thumbnailImage;
+                        //return thumbnailImage;
                     }
                 }
                 
-                if (isFileInCloud)
-                {
-                    //Bitmap bitmap = new Bitmap(imageListView1.ThumbnailSize.Width, imageListView1.ThumbnailSize.Height);
-                    using (Graphics g = Graphics.FromImage(thumbnailImage))
-                    {
-                        g.DrawImage(Properties.Resources.FileInCloud, 0, 0);
-                    }
-                    //e.Graphics.DrawImage(image, e.CellBounds.Left + e.CellBounds.Width - image.Width - 1, e.CellBounds.Top + 1);
-                }
-                
-
             }
             catch (IOException ioe)
             {

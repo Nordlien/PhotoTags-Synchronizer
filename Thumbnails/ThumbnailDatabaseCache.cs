@@ -259,7 +259,7 @@ namespace Thumbnails
         #endregion
 
         #region Thumbnail - Cache - ThumbnailCacheUpdate
-        private void ThumbnailCacheUpdate(FileEntry fileEntry, Image image)
+        public void ThumbnailCacheUpdate(FileEntry fileEntry, Image image)
         {
             if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result
             if (thumbnailCache.ContainsKey(fileEntry)) thumbnailCache[fileEntry] = image;

@@ -425,7 +425,7 @@ namespace PhotoTagsSynchronizer
         #region LazyLoadingDataGridView - DataGridView - Metadata
 
         #region LazyLoadingDataGridView - ThreadLazyLoadingQueueSize()
-        public int ThreadLazyLoadingDataGridVIewQueueSizeDirty()
+        public int ThreadLazyLoadingDataGridViewQueueSizeDirty()
         {
             return
                 //CommonQueueSaveThumbnailToDatabaseCountDirty() +

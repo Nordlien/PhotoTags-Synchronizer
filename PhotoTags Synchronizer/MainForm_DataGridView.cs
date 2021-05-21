@@ -79,30 +79,30 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region LazyLoadMissing()
-        /// <summary>
-        /// When DatGridView is updated with all data, no more in queue. Need to check if some data is missing, due to change tabs, etc.
-        /// </summary>
-        private void LazyLoadMissingLock()
+#region LazyLoadMissing()
+/// <summary>
+/// When DatGridView is updated with all data, no more in queue. Need to check if some data is missing, due to change tabs, etc.
+/// </summary>
+private void LazyLoadMissingLock()
+{
+    DataGridView dataGridView = GetActiveTabDataGridView();
+    if (dataGridView == null) return;
+
+    List<FileEntryAttribute> lazyLoadingMissedUpdatedDueToThread = new List<FileEntryAttribute>();
+    List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, false);
+
+    foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
+    {
+        lock (commonQueueReadMetadataFromExiftoolLock)
         {
-            DataGridView dataGridView = GetActiveTabDataGridView();
-            if (dataGridView == null) return;
-
-            List<FileEntryAttribute> lazyLoadingMissedUpdatedDueToThread = new List<FileEntryAttribute>();
-            List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, false);
-
-            foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
+            if (commonQueueReadMetadataFromExiftool.Contains(new FileEntry (dataGridViewGenericColumn.FileEntryAttribute.FileEntry)))
             {
-                lock (commonQueueReadMetadataFromExiftoolLock)
-                {
-                    if (commonQueueReadMetadataFromExiftool.Contains(new FileEntry (dataGridViewGenericColumn.FileEntryAttribute.FileEntry)))
-                    {
-                        if (dataGridViewGenericColumn.Metadata == null) lazyLoadingMissedUpdatedDueToThread.Add(dataGridViewGenericColumn.FileEntryAttribute);
-                    }
-                }  
+                if (dataGridViewGenericColumn.Metadata == null) lazyLoadingMissedUpdatedDueToThread.Add(dataGridViewGenericColumn.FileEntryAttribute);
             }
-        }
-        #endregion 
+        }  
+    }
+}
+#endregion 
 
         #region DataGridVIew - IsActiveDataGridViewAgregated
         private bool IsActiveDataGridViewAgregated(string tag)
@@ -213,7 +213,7 @@ namespace PhotoTagsSynchronizer
                 }
                 #endregion
 
-                int queueCount = ThreadLazyLoadingDataGridVIewQueueSizeDirty();
+                int queueCount = ThreadLazyLoadingDataGridViewQueueSizeDirty();
                 if (isFileInDataGridView) LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
 
                 DataGridViewHandler.ResumeLayout(dataGridView);
@@ -277,13 +277,13 @@ namespace PhotoTagsSynchronizer
                     case "Date":
                         break;
                     case "ExifTool":
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridVIewQueueSizeDirty());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridViewQueueSizeDirty());
                         break;
                     case "Warning":
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridVIewQueueSizeDirty());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridViewQueueSizeDirty());
                         break;
                     case "Properties":
-                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridVIewQueueSizeDirty());
+                        DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridViewQueueSizeDirty());
                         break;
                     case "Rename":
                         break;
