@@ -991,8 +991,7 @@ namespace PhotoTagsSynchronizer
         void DeleteLastMediadataAndReload(ImageListView imageListView, bool updatedOnlySelected)
         {
             if (GlobalData.IsPopulatingAnything()) return;
-            //if (GlobalData.IsAgredagedGridViewAny()) return;
-
+            
             using (new WaitCursor())
             {
                 GlobalData.IsPopulatingButtonAction = true;
@@ -1000,9 +999,12 @@ namespace PhotoTagsSynchronizer
                 GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
                 folderTreeViewFolder.Enabled = false;
                 ImageListViewSuspendLayoutInvoke(imageListView);
-                
-                //ClearQueueExiftool();
-                //AddQueueExiftoolLock(fileEntrySelectedItems);
+
+                //Clean up ImageListView and other queues
+                ImageListViewClearThumbnailCache(imageListView1);
+                imageListView1.Refresh();
+                ClearAllQueues();
+
                 UpdateStatusAction("Delete all data and files...");
                 filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
                 filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
@@ -1063,25 +1065,20 @@ namespace PhotoTagsSynchronizer
             {
                 using (new WaitCursor())
                 {
+                    //Clean up ImageListView and other queues
+                    ImageListViewClearThumbnailCache(imageListView1);
+                    imageListView1.Refresh();
+                    ClearAllQueues();
+
                     UpdateStatusAction("Delete all record about files in database....");
                     GlobalData.ProcessCounterDelete = FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
                     int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(ref FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize, folder);
                     GlobalData.ProcessCounterDelete = 0;
                     UpdateStatusAction(recordAffected + " records was delete from database....");
+
+                    List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(this.folderTreeViewFolder.GetSelectedNodePath(), false);
+                    PopulateImageListView(fileEntries, false);
                 }
-            }
-            using (new WaitCursor())
-            {
-                ImageListViewClearThumbnailCache(imageListView1);
-                imageListView1.Refresh();
-                
-                ClearAllQueues();
-
-                List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(this.folderTreeViewFolder.GetSelectedNodePath(), false);
-                PopulateImageListView(fileEntries, false);
-
-                //List<FileEntry> fileEntrySelectedItems = ImageListViewAggregateWithFilesFromFolder(this.folderTreeViewFolder.GetSelectedNodePath(), false);                
-                //AddQueueExiftoolLock(fileEntrySelectedItems);
             }
             DisplayAllQueueStatus();
             folderTreeViewFolder.Focus();

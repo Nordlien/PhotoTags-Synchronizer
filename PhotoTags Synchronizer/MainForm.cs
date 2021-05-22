@@ -419,7 +419,7 @@ namespace PhotoTagsSynchronizer
 
             WaitApplicationClosing.Set();
 
-            SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
+            SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 5, false, false);
 
             SplashForm.UpdateStatus("Saving layout...");
 
