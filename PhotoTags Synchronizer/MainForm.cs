@@ -419,7 +419,7 @@ namespace PhotoTagsSynchronizer
 
             WaitApplicationClosing.Set();
 
-            SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 7, false, false);
+            SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
 
             SplashForm.UpdateStatus("Saving layout...");
 
@@ -457,25 +457,19 @@ namespace PhotoTagsSynchronizer
             Application.DoEvents();
             Thread.Sleep(200);
 
-            SplashForm.UpdateStatus("Stopping ImageView caching proccess...");
-            int colsedownRetaies = 30;
-            while ((GlobalData.ProcessCounterRetrieveThumbnailCount > 0 || GlobalData.ProcessCounterRetrieveImageCount > 0) && colsedownRetaies-- > 0)
-            {
-                Application.DoEvents();
-                Thread.Sleep(100);
-            }
-
+            int waitForProcessEndRetray = 30;
+            
             SplashForm.UpdateStatus("Stopping ImageView background threads...");
-            colsedownRetaies = 30;
-            while (!imageListView1.IsBackgroundThreadsStopped() && colsedownRetaies-- > 0)
+            waitForProcessEndRetray = 30;
+            while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
             {
                 Application.DoEvents();
                 Thread.Sleep(100);
             }
 
             SplashForm.UpdateStatus("Stopping fetch metadata background threads...");
-            colsedownRetaies = 30;
-            while (IsAnyThreadRunning() && colsedownRetaies-- > 0)
+            waitForProcessEndRetray = 30;
+            while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
             {
                 Application.DoEvents();
                 Thread.Sleep(100);

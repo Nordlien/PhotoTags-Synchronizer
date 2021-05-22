@@ -25,8 +25,6 @@ namespace PhotoTagsSynchronizer
 
         public static bool lastReadFolderWasRecursive { get; set; } = false;
 
-        public static int ProcessCounterRetrieveImageCount { get; set; } = 0;
-        public static int ProcessCounterRetrieveThumbnailCount { get; set; } = 0;
         public static int ProcessCounterDelete = 0;
         public static int ProcessCounterRefresh { get; set; } = 0;
 

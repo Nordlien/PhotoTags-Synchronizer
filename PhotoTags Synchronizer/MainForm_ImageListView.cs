@@ -77,7 +77,6 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.DoNotRefreshImageListView) return;
             if (imageListView1.IsDisposed) return;
 
-            GlobalData.ProcessCounterRetrieveThumbnailCount++; //Counter to keey track of active threads. Can't quit application before thread empty
             try
             {
                 if (File.Exists(e.FileName))
@@ -112,9 +111,7 @@ namespace PhotoTagsSynchronizer
             } catch (Exception ex)
             {
                 Logger.Warn("imageListView1_RetrieveItemThumbnail failed on: " + e.FileName + " " + ex.Message);
-            }
-
-            GlobalData.ProcessCounterRetrieveThumbnailCount--;            
+            }          
         }
         #endregion
 
@@ -129,10 +126,6 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
             if (imageListView1.IsDisposed) return;
 
-            GlobalData.ProcessCounterRetrieveImageCount++; //Counter to keey track of active threads. Can't quit application before thread empty
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            Logger.Trace("RetrieveImage in:  " + GlobalData.ProcessCounterRetrieveImageCount + " " + e.FullFilePath);
             bool retry = false;
             int retryCount = 3; //In case of waiting for OneDrive to load and timeout 
 
@@ -207,8 +200,6 @@ namespace PhotoTagsSynchronizer
                 Logger.Warn("imageListView1_RetrieveImage failed on: " + e.FullFilePath + " " + ex.Message);
             }
 
-            GlobalData.ProcessCounterRetrieveImageCount--;
-            Logger.Trace("RetrieveImage out: " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 300 ? " SLOW " : "") + GlobalData.ProcessCounterRetrieveImageCount + " " + e.FullFilePath);
         }
         #endregion 
 
