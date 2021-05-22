@@ -77,11 +77,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.DoNotRefreshImageListView) return;
             if (imageListView1.IsDisposed) return;
 
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             GlobalData.ProcessCounterRetrieveThumbnailCount++; //Counter to keey track of active threads. Can't quit application before thread empty
-            Logger.Trace("RetrieveThumbnail in:  " + GlobalData.ProcessCounterRetrieveThumbnailCount + " " + e.FileName);
             try
             {
                 if (File.Exists(e.FileName))
@@ -118,9 +114,7 @@ namespace PhotoTagsSynchronizer
                 Logger.Warn("imageListView1_RetrieveItemThumbnail failed on: " + e.FileName + " " + ex.Message);
             }
 
-            GlobalData.ProcessCounterRetrieveThumbnailCount--;
-            Logger.Trace("RetrieveThumbnail out:" + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 300 ? " SLOW " : "") + GlobalData.ProcessCounterRetrieveThumbnailCount + " " + e.FileName);
-            //Application.DoEvents(); Process is terminated due to StackOverflowException.
+            GlobalData.ProcessCounterRetrieveThumbnailCount--;            
         }
         #endregion
 
