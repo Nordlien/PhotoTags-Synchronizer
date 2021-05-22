@@ -26,7 +26,6 @@ namespace PhotoTagsSynchronizer
                 GlobalData.SearchFolder = true;
                 folderTreeViewFolder.Enabled = false;
 
-                ClearQueuePreloadningMetadata();
                 ClearAllQueues();
 
                 if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFileEntries(fileEntries);

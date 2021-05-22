@@ -788,47 +788,7 @@ namespace Manina.Windows.Forms
                     return null;
                 }
             }
-            /*
-            if (eRetrieveItemThumbnailEventArgs.Thumbnail == null) //Picture NOT found in f.ex. database
-            {
-                //Read from external file reader / picture loader / video thumbnail loader                
-                RetrieveItemImageEventArgs eRetrieveItemImageEventArgs = new RetrieveItemImageEventArgs(fileName);
-                mImageListView.RetrieveItemImageInternal(eRetrieveItemImageEventArgs);
-
-                didErrorOccur = eRetrieveItemImageEventArgs.DidErrorOccourLoadMedia;
-                wasThumbnailReadFromFile = eRetrieveItemImageEventArgs.WasImageReadFromFile;
-
-                //If eRetrieveItemImageEventArgs.LoadedImage == null and Error, then we got an error picture
-                Image image = null;
-
-                if (eRetrieveItemImageEventArgs.LoadedImage == null)
-                {
-                    image = Utility.ThumbnailFromFile(fileName, size, useEmbeddedThumbnails, Color.White);
-                    if (image == null)
-                    {
-                        didErrorOccur = true;
-                        wasThumbnailReadFromFile = true;
-                    }
-                } 
-                else 
-                {
-                    //Convert loaded picture to thumbnail
-                    lock (eRetrieveItemImageEventArgs.LoadedImage)
-                    {
-                        try
-                        {
-                            image = Utility.ThumbnailFromImage(eRetrieveItemImageEventArgs.LoadedImage, size, Color.White);
-                        } catch { }
-                    }
-                }
-
-                return image;
-            }
-            else
-            {*/
-                //return eRetrieveItemThumbnailEventArgs.Thumbnail;
-                //}
-            }
+        }
 
 
 

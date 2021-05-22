@@ -35,42 +35,25 @@ namespace PhotoTagsSynchronizer
             Image thumbnailImage;
             try
             {
-                Stopwatch stopwatch = new Stopwatch();
-
-                stopwatch.Restart();
                 thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntry);
-                Logger.Trace("GetThumbnail - from database:  " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (thumbnailImage == null ? " Found" : "") + fileEntry.FileFullPath);
 
-                if (thumbnailImage == null)
+                if (thumbnailImage == null) //Was not read from database or cache
                 {
-                    try
-                    {
-                        if (isFileInCloud) UpdateStatusAction("File is in Cloud, check if windows has thumbnail: " + fileEntry.FileFullPath);
-                        else UpdateStatusAction("Read thumbnail from file: " + fileEntry.FileFullPath);
-                    }
-                    catch { }
-
-                    //Was not readed from database, need to cache to database
-                    stopwatch.Restart();
+                    if (isFileInCloud) UpdateStatusAction("File is in Cloud, check if windows has thumbnail: " + fileEntry.FileFullPath);
+                    else UpdateStatusAction("Read thumbnail from file: " + fileEntry.FileFullPath);
+                    
                     thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, true, isFileInCloud);
-                         Logger.Trace("GetThumbnail - from CoverArt:       " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (thumbnailImage == null ? " Found" : "") + fileEntry.FileFullPath);
 
                     if (thumbnailImage != null)
                     {
-                        stopwatch.Restart();
-                        Image cloneBitmap = Utility.ThumbnailFromImage(thumbnailImage, ThumbnailMaxUpsize, Color.White, true); //Need create a clone, due to GDI + not thread safe
-                        Logger.Trace("GetThumbnail - from read from file:  " + " " + stopwatch.ElapsedMilliseconds + "ms. " + (stopwatch.ElapsedMilliseconds > 500 ? " SLOW " : "") + (thumbnailImage == null ? " Found" : "") + fileEntry.FileFullPath);
-
+                        databaseAndCacheThumbnail.ThumbnailCacheUpdate(fileEntry, thumbnailImage); //Remember the Thumbnail, before Save, for show in DataGridView etc., no need to load again                        
                         AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
-                        AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, cloneBitmap));
-                        thumbnailImage = Utility.ThumbnailFromImage(cloneBitmap, imageListView1.ThumbnailSize, Color.White, true, true);
-                        
+                        AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, thumbnailImage));
                     }
                     else
                     {
                         if (isFileInCloud) thumbnailImage = (Image)Properties.Resources.load_image_error_in_cloud;
                         else thumbnailImage = (Image)Properties.Resources.load_image_error_thumbnail;
-                        //return thumbnailImage;
                     }
                 }
                 

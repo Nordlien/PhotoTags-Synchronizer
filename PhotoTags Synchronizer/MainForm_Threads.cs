@@ -344,6 +344,11 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
             GlobalData.IsStopAndEmptyThumbnailQueueRequest = true;
 
+            lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Clear();
+            lock (commonQueueReadMetadataFromMicrosoftPhotosLock) commonQueueReadMetadataFromMicrosoftPhotos.Clear();
+            lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromWindowsLivePhotoGallery.Clear();
+            //lock (commonQueueSaveThumbnailToDatabaseLock) commonQueueSaveThumbnailToDatabase.Clear();
+
             WaitExittoolReadCacheThread = new AutoResetEvent(false);
             WaitThumbnailReadCacheThread = new AutoResetEvent(false);
 
@@ -358,10 +363,6 @@ namespace PhotoTagsSynchronizer
             GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = false;
             GlobalData.IsStopAndEmptyThumbnailQueueRequest = false;
 
-            lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Clear();
-            lock (commonQueueReadMetadataFromMicrosoftPhotosLock) commonQueueReadMetadataFromMicrosoftPhotos.Clear();
-            lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) commonQueueReadMetadataFromWindowsLivePhotoGallery.Clear();             
-            lock (commonQueueSaveThumbnailToDatabaseLock) commonQueueSaveThumbnailToDatabase.Clear();
         }
         #endregion
 

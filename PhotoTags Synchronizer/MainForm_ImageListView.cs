@@ -89,19 +89,20 @@ namespace PhotoTagsSynchronizer
                     FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
                     bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath);
 
-                    if (e.Thumbnail == null) e.Thumbnail = new Bitmap(GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, isFileInCloud));
+                    if (e.Thumbnail == null)
+                    {
+                        e.Thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, isFileInCloud);
+                        if (e.Thumbnail != null) e.Thumbnail = new Bitmap(e.Thumbnail); //Make a copy
+                    }
+
                     if (e.Thumbnail != null)
                     {
-                        databaseAndCacheThumbnail.ThumbnailCacheUpdate(fileEntry, e.Thumbnail); //Remember the Thumbnail, before Save, for show in DataGridView etc., no need to load again
-                        
+                                                
                         if (isFileInCloud) //If Media is in cloud, show Icon
                         {
-                            Image cloneBitmap = Utility.ThumbnailFromImage(e.Thumbnail, ThumbnailMaxUpsize, Color.White, true);
-                            using (Graphics g = Graphics.FromImage(cloneBitmap))
-                            {
-                                g.DrawImage(Properties.Resources.FileInCloud, 0, 0);
-                            }
-                            e.Thumbnail = cloneBitmap;
+                            Image thumbnailWithCloud = Utility.ThumbnailFromImage(e.Thumbnail, ThumbnailMaxUpsize, Color.White, true);
+                            using (Graphics g = Graphics.FromImage(thumbnailWithCloud)) { g.DrawImage(Properties.Resources.FileInCloud, 0, 0); }
+                            e.Thumbnail = thumbnailWithCloud;
                         }
 
                         UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Current), e.Thumbnail);
