@@ -372,18 +372,20 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         /// <param name="fileEntries">List of FileEntires to put in cache</param>
         public void CacheFileEntries(List<FileEntry> fileEntries)
-        {
-            if (MetadataDatabaseCache.StopCaching == true || ThumbnailDatabaseCache.StopCaching == true)
-            {
-                MetadataDatabaseCache.StopCaching = false;
-                ThumbnailDatabaseCache.StopCaching = false;
-                return;
-            }
-
+        {            
             try
             {
-                lock (_ThreadCacheSelectedFastReadLock) if (_ThreadCacheSelectedFastRead != null) return;
+                bool isThreadRunning;
+                int retry = 20;
+                do
+                {
+                    lock (_ThreadCacheSelectedFastReadLock) isThreadRunning = (_ThreadCacheSelectedFastRead != null);
+                    if (isThreadRunning) Thread.Sleep(100); //Wait thread stopping
+                } while (isThreadRunning && retry-- > 0);
 
+                lock (_ThreadCacheSelectedFastReadLock) isThreadRunning = (_ThreadCacheSelectedFastRead != null);
+                if (isThreadRunning) return; //Still running, give up
+                
                 lock (_ThreadCacheSelectedFastReadLock)
                 {
                     _ThreadCacheSelectedFastRead = new Thread(() =>
@@ -395,8 +397,7 @@ namespace PhotoTagsSynchronizer
                             databaseAndCacheThumbnail.ReadToCache(fileEntries);
                             if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(fileEntries); //Read missing, new media files added
                             if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.ExifTool); //Read missing, new media files added
-                            if (cacheFolderWebScraperDataSets)
-                                databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Read missing, new media files added
+                            if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Read missing, new media files added
                         }
                         catch (Exception ex)
                         {
@@ -406,7 +407,7 @@ namespace PhotoTagsSynchronizer
                         {
                             MetadataDatabaseCache.StopCaching = false;
                             ThumbnailDatabaseCache.StopCaching = false;
-                            _ThreadCacheSelectedFastRead = null;
+                            lock (_ThreadCacheSelectedFastReadLock) _ThreadCacheSelectedFastRead = null;                            
                         }
                         #endregion
                     });
@@ -877,7 +878,7 @@ namespace PhotoTagsSynchronizer
                                     List<Metadata> metadataReadbackExiftoolAfterSaved = new List<Metadata>();
                                     try
                                     {
-                                        if (argumnetLength < maxParameterCommandLength) useArgFile = true;
+                                        if (argumnetLength < maxParameterCommandLength) useArgFile = false;
                                         metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles, useArgFile);
                                     }
                                     catch (Exception ex)

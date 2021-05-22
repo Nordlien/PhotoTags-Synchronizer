@@ -14,6 +14,7 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingAnything()) return; //E.g. Populate FolderSelect
             if (GlobalData.DoNotRefreshDataGridViewWhileFileSelect) return;
 
+            #region Enable and Disable GUI
             if (imageListView1.SelectedItems.Count == 0)
             {
                 toolStripMenuItemImageListViewCut.Enabled = false;
@@ -71,7 +72,8 @@ namespace PhotoTagsSynchronizer
                 rotateCWToolStripButton.Enabled = true;
                 rotateCW90ToolStripMenuItem.Enabled = true;
             }
-            
+            #endregion 
+
             using (new WaitCursor())
             {
                 GlobalData.IsPopulatingImageListView = true;

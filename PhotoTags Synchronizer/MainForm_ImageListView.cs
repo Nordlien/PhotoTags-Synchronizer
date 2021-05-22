@@ -84,24 +84,23 @@ namespace PhotoTagsSynchronizer
                     FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
                     bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath);
 
-                    if (e.Thumbnail == null)
-                    {
-                        e.Thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, isFileInCloud);
-                        if (e.Thumbnail != null) e.Thumbnail = new Bitmap(e.Thumbnail); //Make a copy
-                    }
-
                     if (e.Thumbnail != null)
                     {
-                                                
+                        return; //Can't e true
+                    }
+
+                    Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, isFileInCloud);
+                    if (thumbnail != null)
+                    {
+                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Current), thumbnail);
+                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), thumbnail);
+                            
+                        Image thumbnailWithCloud = Utility.ThumbnailFromImage(thumbnail, ThumbnailMaxUpsize, Color.White, true);                        
                         if (isFileInCloud) //If Media is in cloud, show Icon
                         {
-                            Image thumbnailWithCloud = Utility.ThumbnailFromImage(e.Thumbnail, ThumbnailMaxUpsize, Color.White, true);
                             using (Graphics g = Graphics.FromImage(thumbnailWithCloud)) { g.DrawImage(Properties.Resources.FileInCloud, 0, 0); }
-                            e.Thumbnail = thumbnailWithCloud;
                         }
-
-                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Current), e.Thumbnail);
-                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), e.Thumbnail);
+                        e.Thumbnail = thumbnailWithCloud;
                     }
                 }
                 else
