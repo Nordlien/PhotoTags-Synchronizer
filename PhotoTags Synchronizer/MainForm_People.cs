@@ -44,8 +44,8 @@ namespace PhotoTagsSynchronizer
             if (!(sender is DataGridView)) return;
             
             object val = DataGridViewHandler.GetCellValue((DataGridView)sender, e.ColumnIndex, e.RowIndex);
-            if (!(val is MetadataLibrary.RegionStructure)) return;
-            MetadataLibrary.RegionStructure region = (MetadataLibrary.RegionStructure)val;
+            if (!(val is RegionStructure)) return;
+            RegionStructure region = (RegionStructure)val;
 
             if (region == null) return;
             region.Name = (string)e.Value;
@@ -64,7 +64,6 @@ namespace PhotoTagsSynchronizer
         private bool drawingRegion = false;
 
         #region Cell header - Face region - CellMouseDown
-
         private void dataGridViewPeople_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             drawingRegion = false;
@@ -484,11 +483,11 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewPeople;
 
-            RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, e.RowIndex);
+            //RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, e.RowIndex);
 
             for (int columnIndexCheck = 0; columnIndexCheck < DataGridViewHandler.GetColumnCount(dataGridView); columnIndexCheck++)
             {
-                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, e.ColumnIndex, e.RowIndex);
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndexCheck, e.RowIndex);
                 if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
 
                 DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndexCheck, e.RowIndex);
