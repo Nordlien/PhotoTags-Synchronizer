@@ -2198,7 +2198,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleShowRegionSelector,
             this.toolStripMenuItemPeopleMediaPreview});
             this.contextMenuStripPeople.Name = "contextMenuStripMap";
-            this.contextMenuStripPeople.Size = new System.Drawing.Size(368, 628);
+            this.contextMenuStripPeople.Size = new System.Drawing.Size(368, 656);
             // 
             // toolStripMenuItemPeopleRenameFromLast1
             // 

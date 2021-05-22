@@ -2211,6 +2211,22 @@ namespace MetadataLibrary
         {
             return ListAllPersonalRegionNameTopCountCache(metadataBrokerType, int.MaxValue); 
         }
+
+        public List<string> ListAllPersonalRegionsCache()
+        {
+            List<string> joinAllRegions = ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.ExifTool, int.MaxValue);
+
+            List<string> joinAddRegions = ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.WebScraping, int.MaxValue);
+            foreach (string addRegion in joinAddRegions) if (!joinAllRegions.Contains(addRegion)) joinAllRegions.Add(addRegion);
+
+            joinAddRegions = ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.WindowsLivePhotoGallery, int.MaxValue);
+            foreach (string addRegion in joinAddRegions) if (!joinAllRegions.Contains(addRegion)) joinAllRegions.Add(addRegion);
+
+            joinAddRegions = ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.MicrosoftPhotos, int.MaxValue);
+            foreach (string addRegion in joinAddRegions) if (!joinAllRegions.Contains(addRegion)) joinAllRegions.Add(addRegion);
+            
+            return joinAddRegions;
+        }
         #endregion
 
         #endregion

@@ -365,7 +365,7 @@ namespace PhotoTagsSynchronizer
                 toolStripMenuItemPeopleRenameFromMostUsed.DropDownItems.Add(newTagSubItem);
             }
 
-            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache(MetadataBrokerType.ExifTool);
+            regioNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
             foreach (string name in regioNames)
             {
                 regionNamesRenameFromAllAdded.Add(name);

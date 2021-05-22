@@ -53,15 +53,19 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region DataGridView - GetActiveTabTag()
         private string GetActiveTabTag()
         {
             return tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
         }
+        #endregion
 
+        #region DataGridView - GetActiveTabDataGridView()
         private DataGridView GetActiveTabDataGridView()
         {
             return GetDataGridViewForTag(GetActiveTabTag());
         }
+        #endregion 
 
         #region DataGridView - Update Image - OnFileEntry - OnSelectedGrivView
         private void UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(FileEntryAttribute fileEntryAttribute, Image image)
@@ -78,31 +82,6 @@ namespace PhotoTagsSynchronizer
             lock (GlobalData.populateSelectedLock) DataGridViewHandler.SetDataGridImageOnFileEntryAttribute(dataGridView, fileEntryAttribute, image);
         }
         #endregion
-
-#region LazyLoadMissing()
-/// <summary>
-/// When DatGridView is updated with all data, no more in queue. Need to check if some data is missing, due to change tabs, etc.
-/// </summary>
-private void LazyLoadMissingLock()
-{
-    DataGridView dataGridView = GetActiveTabDataGridView();
-    if (dataGridView == null) return;
-
-    List<FileEntryAttribute> lazyLoadingMissedUpdatedDueToThread = new List<FileEntryAttribute>();
-    List<DataGridViewGenericColumn> dataGridViewGenericColumnList = DataGridViewHandler.GetColumnDataGridViewGenericColumnList(dataGridView, false);
-
-    foreach (DataGridViewGenericColumn dataGridViewGenericColumn in dataGridViewGenericColumnList)
-    {
-        lock (commonQueueReadMetadataFromExiftoolLock)
-        {
-            if (commonQueueReadMetadataFromExiftool.Contains(new FileEntry (dataGridViewGenericColumn.FileEntryAttribute.FileEntry)))
-            {
-                if (dataGridViewGenericColumn.Metadata == null) lazyLoadingMissedUpdatedDueToThread.Add(dataGridViewGenericColumn.FileEntryAttribute);
-            }
-        }  
-    }
-}
-#endregion 
 
         #region DataGridVIew - IsActiveDataGridViewAgregated
         private bool IsActiveDataGridViewAgregated(string tag)

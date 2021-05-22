@@ -84,11 +84,6 @@ namespace PhotoTagsSynchronizer
                     FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
                     bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath);
 
-                    if (e.Thumbnail != null)
-                    {
-                        return; //Can't e true
-                    }
-
                     Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, isFileInCloud);
                     if (thumbnail != null)
                     {
