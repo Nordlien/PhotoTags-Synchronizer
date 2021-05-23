@@ -987,7 +987,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Reoload - Delete Last Mediadata And Reload
+        #region ToolStrip - Reload Metadata - Delete Last Mediadata And Reload
         void DeleteLastMediadataAndReload(ImageListView imageListView, bool updatedOnlySelected)
         {
             if (GlobalData.IsPopulatingAnything()) return;
@@ -1002,11 +1002,14 @@ namespace PhotoTagsSynchronizer
 
                 //Clean up ImageListView and other queues
                 ImageListViewClearThumbnailCache(imageListView1);
-                imageListView1.Refresh();
+                //imageListView1.Refresh();
                 ClearAllQueues();
 
                 UpdateStatusAction("Delete all data and files...");
-                filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
+                lock (GlobalData.ReloadAllowedFromCloudLock)
+                {
+                    GlobalData.ReloadAllowedFromCloud = filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
+                }
                 filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
 
                 folderTreeViewFolder.Enabled = true;
@@ -1142,52 +1145,6 @@ namespace PhotoTagsSynchronizer
 
         #region ImageListView
 
-        #region TreeView - Delete Files - Directory - Click
-        private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
-        {
-            string folder = folderTreeViewFolder.GetSelectedNodePath();
-
-            if (IsFolderInThreadQueueLock(folder))
-            {
-                MessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.");
-                return;
-            }
-            try
-            {
-                string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories).Take(51).ToArray();
-                if (MessageBox.Show("You are about to delete the folder:\r\n\r\n" +
-                    folder + "\r\n\r\n" +
-                    "There are " + (fileAndFolderEntriesCount.Length == 51 ? " over 50+" : fileAndFolderEntriesCount.Length.ToString()) + " files found.\r\n\r\n" +
-                    "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                {
-                    using (new WaitCursor())
-                    {
-                        UpdateStatusAction("Delete all record about files in database....");
-                        int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, folderTreeViewFolder, folder);
-                        UpdateStatusAction(recordAffected + " records was delete from database....");
-                        PopulateImageListView_FromFolderSelected(false, true);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Error when delete folder." + ex.Message);
-
-                AddError(
-                    folder,
-                    AddErrorFileSystemRegion, AddErrorFileSystemDeleteFolder, folder, folder,
-                    "Was not able to delete folder with files and subfolder!\r\n\r\n" +
-                    "From: " + folder + "\r\n\r\n" +
-                    "Error message:\r\n" + ex.Message + "\r\n");
-            }
-            finally
-            {
-                GlobalData.DoNotRefreshImageListView = false;
-            }
-            folderTreeViewFolder.Focus();
-        }
-        #endregion
-
         #region ImageListView - Cut - Click
         private void toolStripMenuItemImageListViewCut_Click(object sender, EventArgs e)
         {
@@ -1270,6 +1227,52 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FoldeTree
+
+        #region FolderTreeView - Delete Files - Directory - Click
+        private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
+        {
+            string folder = folderTreeViewFolder.GetSelectedNodePath();
+
+            if (IsFolderInThreadQueueLock(folder))
+            {
+                MessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.");
+                return;
+            }
+            try
+            {
+                string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories).Take(51).ToArray();
+                if (MessageBox.Show("You are about to delete the folder:\r\n\r\n" +
+                    folder + "\r\n\r\n" +
+                    "There are " + (fileAndFolderEntriesCount.Length == 51 ? " over 50+" : fileAndFolderEntriesCount.Length.ToString()) + " files found.\r\n\r\n" +
+                    "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    using (new WaitCursor())
+                    {
+                        UpdateStatusAction("Delete all record about files in database....");
+                        int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, folderTreeViewFolder, folder);
+                        UpdateStatusAction(recordAffected + " records was delete from database....");
+                        PopulateImageListView_FromFolderSelected(false, true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error when delete folder." + ex.Message);
+
+                AddError(
+                    folder,
+                    AddErrorFileSystemRegion, AddErrorFileSystemDeleteFolder, folder, folder,
+                    "Was not able to delete folder with files and subfolder!\r\n\r\n" +
+                    "From: " + folder + "\r\n\r\n" +
+                    "Error message:\r\n" + ex.Message + "\r\n");
+            }
+            finally
+            {
+                GlobalData.DoNotRefreshImageListView = false;
+            }
+            folderTreeViewFolder.Focus();
+        }
+        #endregion
 
         #region FolderTree - Cut - Click
         private void toolStripMenuItemTreeViewFolderCut_Click(object sender, EventArgs e)

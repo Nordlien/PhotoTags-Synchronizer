@@ -29,7 +29,7 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         /// <param name="fileEntry"></param>
         /// <returns></returns>
-        private Image GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(FileEntry fileEntry, bool isFileInCloud)
+        private Image GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(FileEntry fileEntry, bool dontReadFilesInCloud, bool isFileInCloud)
         {
 
             Image thumbnailImage;
@@ -40,7 +40,7 @@ namespace PhotoTagsSynchronizer
                 if (isFileInCloud) UpdateStatusAction("File is in Cloud, check if windows has thumbnail: " + fileEntry.FileFullPath);
                 else UpdateStatusAction("Read thumbnail from file: " + fileEntry.FileFullPath);
 
-                thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, true, isFileInCloud);
+                thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, dontReadFilesInCloud, isFileInCloud);
 
                 if (thumbnailImage != null)
                 {
@@ -121,18 +121,13 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Thumbnail - LoadMediaCoverArtPoster
-        private Image LoadMediaCoverArtPoster(string fullFilePath, bool checkIfCloudFile)
+        private Image LoadMediaCoverArtPoster(string fullFilePath) //, bool dontReadFilesInCloud, bool isFileInCloud)
         {
             Image image = PosterCacheRead(fullFilePath);
             if (image != null) return image; //Found in cache
 
             try
             {
-                if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
-                {
-                    if (ExiftoolWriter.IsFileInCloud(fullFilePath)) return null;
-                }
-
                 ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
@@ -161,16 +156,16 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region Thumbnail - LoadMediaCoverArtThumbnail
-        private Image LoadMediaCoverArtThumbnail(string fullFilePath, Size maxSize, bool checkIfCloudFile, bool isFileInCloud = false)
+        private Image LoadMediaCoverArtThumbnail(string fullFilePath, Size maxSize, bool dontReadFilesInCloud, bool isFileInCloud = false)
         {
             Image image = null;
             try
             {
-                bool doNotReadFullFileIfInCloud = false;
+                bool doNotReadFullFileItsInCloud = false;
                 
-                if (checkIfCloudFile && Properties.Settings.Default.AvoidOfflineMediaFiles)
+                if (isFileInCloud && dontReadFilesInCloud)
                 {
-                    if (isFileInCloud) doNotReadFullFileIfInCloud = true; 
+                    doNotReadFullFileItsInCloud = true; 
                 }
 
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
@@ -179,10 +174,10 @@ namespace PhotoTagsSynchronizer
                     image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     
                     //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
-                    if (image != null && !doNotReadFullFileIfInCloud)
+                    if (image == null && !doNotReadFullFileItsInCloud)
                     {                        
                         ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
-                        image = LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile);
+                        image = LoadMediaCoverArtPoster(fullFilePath);
                     }
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
@@ -190,17 +185,17 @@ namespace PhotoTagsSynchronizer
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
                     image = windowsPropertyReader.GetThumbnail(fullFilePath);
 
-                    if (image == null)
+                    if (image == null && !doNotReadFullFileItsInCloud)
                     {
                         ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
                         image = ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath);
                     }
 
                     //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
-                    if (image == null && !doNotReadFullFileIfInCloud)
+                    if (image == null && !doNotReadFullFileItsInCloud)
                     {
                         ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
-                        image = LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile); //Also put in cashe
+                        image = LoadMediaCoverArtPoster(fullFilePath); 
                     }
                 }
             }

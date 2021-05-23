@@ -82,11 +82,21 @@ namespace PhotoTagsSynchronizer
                 if (File.Exists(e.FileName))
                 {
                     FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
-                    bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath);
+                    bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath); 
+                    bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
+
+                    lock (GlobalData.ReloadAllowedFromCloudLock)
+                    {
+                        if (GlobalData.ReloadAllowedFromCloud != null && GlobalData.ReloadAllowedFromCloud.Contains(fileEntry))
+                        {
+                            GlobalData.ReloadAllowedFromCloud.Remove(fileEntry);
+                            dontReadFileFromCloud = false;
+                        }
+                    }
 
                     try
                     {
-                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, isFileInCloud);
+                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, dontReadFileFromCloud, isFileInCloud);
                         
                         if (thumbnail != null) //Add cloud icon if needed
                         {
@@ -99,7 +109,8 @@ namespace PhotoTagsSynchronizer
                         }
                         else
                         {
-                            if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.load_image_error_in_cloud;
+                            if (ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.load_image_error_onedrive;
+                            else if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.load_image_error_in_cloud;
                             else e.Thumbnail = (Image)Properties.Resources.load_image_error_thumbnail;
                         }
                     }
@@ -146,7 +157,7 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
-                    Image fullSizeImage = LoadMediaCoverArtPoster(e.FullFilePath, true);
+                    Image fullSizeImage = LoadMediaCoverArtPoster(e.FullFilePath);
                     e.LoadedImage = fullSizeImage;
                     e.WasImageReadFromFile = true;
                     e.DidErrorOccourLoadMedia = false;
@@ -263,11 +274,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - ReloadThumbnail - Filename - Invoke
-        private void ImageListViewReloadThumbnailInvoke(ImageListView imageListView, string fullFileName)
+        private void ImageListViewReloadThumbnailAndMetadataInvoke(ImageListView imageListView, string fullFileName)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<ImageListView, string>(ImageListViewReloadThumbnailInvoke), imageListView, fullFileName);
+                this.BeginInvoke(new Action<ImageListView, string>(ImageListViewReloadThumbnailAndMetadataInvoke), imageListView, fullFileName);
                 return;
             }
 

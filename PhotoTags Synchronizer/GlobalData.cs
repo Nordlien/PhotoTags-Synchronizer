@@ -6,11 +6,13 @@ namespace PhotoTagsSynchronizer
 {
     public static class GlobalData
     {
-        private static object isGlobalDataBeenUpdated = new object();
         public static readonly object populateSelectedLock = new object(); //Avoid gridview to update while updateing
         public static readonly object metadataUpdateLock = new object();
 
         public static List<FileEntry> SerachFilterResult { get; set; }
+        public static List<FileEntry> ReloadAllowedFromCloud { get; set; } = new List<FileEntry>();
+        public static readonly object ReloadAllowedFromCloudLock = new object();
+
         public static bool SearchFolder { get; set; } = true;
 
         public static DataGridViewHandler dataGridViewHandlerTags = null;

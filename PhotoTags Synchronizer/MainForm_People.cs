@@ -156,7 +156,7 @@ namespace PhotoTagsSynchronizer
                     if (dataGridViewGenericColumn != null)
                     {
 
-                        Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath, false);
+                        Image imageCoverArt = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
                         if (imageCoverArt != null)
                         {
                             DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridViewCell.RowIndex);
@@ -539,7 +539,7 @@ namespace PhotoTagsSynchronizer
                 //MessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK);
                 if (dataGridViewGenericColumn.Metadata == null) { formRegionSelect.SetImageNone(); return; }
 
-                Image image = LoadMediaCoverArtPoster(dataGridViewGenericColumn.Metadata.FileFullPath, false);
+                Image image = LoadMediaCoverArtPoster(dataGridViewGenericColumn.Metadata.FileFullPath);
                 if (image != null)
                 {
                     formRegionSelect.SetImage(image, columnIndex, rowIndex);

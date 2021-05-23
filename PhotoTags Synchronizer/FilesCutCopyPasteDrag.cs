@@ -230,7 +230,7 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region FilesCutCopyPasteDrag - DeleteSelectedFilesBeforeReload
-        public void DeleteFileEntriesBeforeReload(ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
+        public List<FileEntry> DeleteFileEntriesBeforeReload(ImageListViewItemCollection itemCollection, bool updatedOnlySelected)
         {
             List<FileEntry> fileEntries = new List<FileEntry>();
             foreach (ImageListViewItem item in itemCollection)
@@ -239,6 +239,7 @@ namespace PhotoTagsSynchronizer
             }
 
             this.DeleteFileEntries(fileEntries);
+            return fileEntries;
         }
         #endregion
 

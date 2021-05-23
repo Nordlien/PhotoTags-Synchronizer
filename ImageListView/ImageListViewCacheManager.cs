@@ -748,7 +748,6 @@ namespace Manina.Windows.Forms
             return image;
         }
 
-        
         private Image ThumbnailFromFile(string fileName, Size size, UseEmbeddedThumbnails useEmbeddedThumbnails, out bool wasThumbnailReadFromFile, out bool didErrorOccur)
         {
             if (useEmbeddedThumbnails == UseEmbeddedThumbnails.Never)

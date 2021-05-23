@@ -709,7 +709,8 @@ namespace PhotoTagsSynchronizer
                                     if (fileEntryImage.Image == null)
                                     {
                                         fileEntryImage.Image = LoadMediaCoverArtThumbnail(fileEntryImage.FileFullPath, ThumbnailSaveSize, false);
-                                        if (fileEntryImage.Image != null) ImageListViewReloadThumbnailInvoke(imageListView1, fileEntryImage.FileFullPath);
+                                        if (fileEntryImage.Image != null) 
+                                            ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileEntryImage.FileFullPath);
                                     }
 
                                     if (fileEntryImage.Image != null && !databaseAndCacheThumbnail.DoesThumbnailExist(fileEntryImage))
@@ -1190,7 +1191,7 @@ namespace PhotoTagsSynchronizer
                                             currentMetadata.FileDateModified = currentLastWrittenDateTime;
                                             AddQueueVerifyMetadataLock(currentMetadata);
                                             AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(currentMetadata.FileEntryBroker);
-                                            ImageListViewReloadThumbnailInvoke(imageListView1, fileSuposeToBeUpdated.FileFullPath);
+                                            ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileSuposeToBeUpdated.FileFullPath);
                                         }
                                     }
                                 }
@@ -1479,7 +1480,7 @@ namespace PhotoTagsSynchronizer
                         {
                             int curentCommonQueueReadPosterAndSaveFaceThumbnailsCount = CommonQueueReadPosterAndSaveFaceThumbnailsCountLock();
                             bool onlyDoWhatIsInCacheToAvoidHarddriveOverload = (IsThreadRunningExcept_ThreadThumbnailRegion() == true);
-                            bool avoidOfflineMediaFiles = Properties.Settings.Default.AvoidOfflineMediaFiles;
+                            bool dontReadFilesInCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
 
                             int indexSource = 0;
 
@@ -1544,11 +1545,13 @@ namespace PhotoTagsSynchronizer
                                                         //Check if the current Metadata are same as newst file... If not file exist anymore, date will become {01.01.1601 01:00:00}
                                                         if (File.Exists(fileEntryRegion.FileFullPath) && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
                                                         {
-                                                            image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath, avoidOfflineMediaFiles);
+                                                            bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntryRegion.FileFullPath);
+
+                                                            if (!isFileInCloud || (isFileInCloud && !dontReadFilesInCloud)) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath);
 
                                                             if (image == null) //If failed load cover art, often occur after filed is moved or deleted
                                                             {
-                                                                if (!(ExiftoolWriter.IsFileInCloud(fileEntryRegion.FileFullPath) && avoidOfflineMediaFiles))
+                                                                if (!(ExiftoolWriter.IsFileInCloud(fileEntryRegion.FileFullPath) && dontReadFilesInCloud))
                                                                 {                                                                
                                                                     string writeErrorDesciption = "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryRegion.FileFullPath;
                                                                     Logger.Error(writeErrorDesciption);
