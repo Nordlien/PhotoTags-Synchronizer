@@ -15,7 +15,10 @@ namespace Thumbnails
 {
     public class ThumbnailDatabaseCache
     {
-        public static bool StopCaching { get; set; } = false;
+        public static bool StopCaching { 
+            get; 
+            set; 
+        } = false;
         private SqliteDatabaseUtilities dbTools;
         public ThumbnailDatabaseCache(SqliteDatabaseUtilities databaseTools)
         {
@@ -94,7 +97,8 @@ namespace Thumbnails
             {
                 foreach (FileEntry fileEntry in fileEntriesPutInCache)
                 {
-                    if (StopCaching) { StopCaching = false; return; }
+                    if (StopCaching) { 
+                        StopCaching = false; return; }
                     //commandDatabase.Prepare();
                     commandDatabase.Parameters.AddWithValue("@FileDirectory", fileEntry.Directory);
                     commandDatabase.Parameters.AddWithValue("@FileName", fileEntry.FileName);

@@ -148,8 +148,7 @@ namespace MetadataLibrary
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
             foreach (FileEntry fileEntry in filesFoundInDirectory)
             {
-                if (StopCaching) 
-                    { StopCaching = false; return; }
+                if (StopCaching) { StopCaching = false; return; }
                 fileEntryBrokers.Add(new FileEntryBroker(fileEntry, metadataBrokerType));
             }
             ReadToCache(fileEntryBrokers);

@@ -28,6 +28,7 @@ namespace PhotoTagsSynchronizer
 
                 ClearAllQueues();
 
+                
                 if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFileEntries(fileEntries);
                 if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
 

@@ -338,11 +338,11 @@ namespace PhotoTagsSynchronizer
         #region ClearQueue - Exiftool
         public void ClearAllQueues()
         {
-            MetadataDatabaseCache.StopCaching = true;
-            ThumbnailDatabaseCache.StopCaching = true;
-
             GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
             GlobalData.IsStopAndEmptyThumbnailQueueRequest = true;
+
+            MetadataDatabaseCache.StopCaching = true;
+            ThumbnailDatabaseCache.StopCaching = true;
 
             lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Clear();
             lock (commonQueueReadMetadataFromMicrosoftPhotosLock) commonQueueReadMetadataFromMicrosoftPhotos.Clear();
@@ -359,6 +359,9 @@ namespace PhotoTagsSynchronizer
 
             WaitThumbnailReadCacheThread.WaitOne(10000);
             WaitThumbnailReadCacheThread = null;
+
+            MetadataDatabaseCache.StopCaching = false;
+            ThumbnailDatabaseCache.StopCaching = false;
 
             GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = false;
             GlobalData.IsStopAndEmptyThumbnailQueueRequest = false;
@@ -397,6 +400,8 @@ namespace PhotoTagsSynchronizer
                             databaseAndCacheThumbnail.ReadToCache(fileEntries);
                             if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(fileEntries); //Read missing, new media files added
                             if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.ExifTool); //Read missing, new media files added
+                            if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.WindowsLivePhotoGallery); //Read missing, new media files added
+                            if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.MicrosoftPhotos); //Read missing, new media files added
                             if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Read missing, new media files added
                         }
                         catch (Exception ex)
