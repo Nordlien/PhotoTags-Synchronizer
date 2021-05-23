@@ -44,9 +44,7 @@ namespace Exiftool
             try
             {
                 FileAttributes fileAttributes = File.GetAttributes(fullFileName);
-                Console.WriteLine(((int)fileAttributes).ToString("X"));
-                if ((((int)fileAttributes) & 0x000400000) == 0x000400000)
-                    return true;
+                if ((((int)fileAttributes) & 0x000400000) == 0x000400000) return true;
             }
             catch { return true; }
             return false;
@@ -58,9 +56,7 @@ namespace Exiftool
             try
             {
                 FileAttributes fileAttributes = File.GetAttributes(fullFileName);
-                Console.WriteLine(((int)fileAttributes).ToString("X"));
-                if ((((int)fileAttributes) & 0x000400000) == 0x000400000)
-                    return true;
+                if ((((int)fileAttributes) & 0x000500000) == 0x000500000) return true;
             }
             catch { return true; }
             return false;
