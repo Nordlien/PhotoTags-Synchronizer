@@ -306,10 +306,10 @@ namespace Thumbnails
         public Image ReadThumbnailFromCacheOrDatabase(FileEntry fileEntry)
         {
             if (fileEntry.GetType() != typeof(FileEntry)) fileEntry = new FileEntry(fileEntry); //When NOT FileEntry it Will give wrong hash value, and wrong key and wrong result            
-            if (thumbnailCache.ContainsKey(fileEntry)) return thumbnailCache[fileEntry];
+            if (thumbnailCache.ContainsKey(fileEntry)) return new Bitmap(thumbnailCache[fileEntry]);
             
             Image image = Read(fileEntry);
-            if (image != null) ThumbnailCacheUpdate(fileEntry, image);
+            if (image != null) ThumbnailCacheUpdate(fileEntry, new Bitmap(image));
             return image;
         }
         #endregion

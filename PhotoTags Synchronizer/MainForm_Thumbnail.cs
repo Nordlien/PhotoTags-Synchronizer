@@ -33,41 +33,26 @@ namespace PhotoTagsSynchronizer
         {
 
             Image thumbnailImage;
-            try
-            {
-                thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntry);
+            thumbnailImage = databaseAndCacheThumbnail.ReadThumbnailFromCacheOrDatabase(fileEntry);
 
-                if (thumbnailImage == null) //Was not read from database or cache
+            if (thumbnailImage == null) //Was not read from database or cache
+            {
+                if (isFileInCloud) UpdateStatusAction("File is in Cloud, check if windows has thumbnail: " + fileEntry.FileFullPath);
+                else UpdateStatusAction("Read thumbnail from file: " + fileEntry.FileFullPath);
+
+                thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, true, isFileInCloud);
+
+                if (thumbnailImage != null)
                 {
-                    if (isFileInCloud) UpdateStatusAction("File is in Cloud, check if windows has thumbnail: " + fileEntry.FileFullPath);
-                    else UpdateStatusAction("Read thumbnail from file: " + fileEntry.FileFullPath);
-                    
-                    thumbnailImage = LoadMediaCoverArtThumbnail(fileEntry.FileFullPath, ThumbnailSaveSize, true, isFileInCloud);
+                    databaseAndCacheThumbnail.ThumbnailCacheUpdate(fileEntry, new Bitmap(thumbnailImage)); //Remember the Thumbnail, before Save, for show in DataGridView etc., no need to load again                        
+                    AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
+                    AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, new Bitmap(thumbnailImage))); 
 
-                    if (thumbnailImage != null)
-                    {
-                        databaseAndCacheThumbnail.ThumbnailCacheUpdate(fileEntry, thumbnailImage); //Remember the Thumbnail, before Save, for show in DataGridView etc., no need to load again                        
-                        AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntry);
-                        AddQueueSaveThumbnailMediaLock(new FileEntryImage(fileEntry, thumbnailImage));
-                    }
-                    else
-                    {
-                        if (isFileInCloud) thumbnailImage = (Image)Properties.Resources.load_image_error_in_cloud;
-                        else thumbnailImage = (Image)Properties.Resources.load_image_error_thumbnail;
-                    }
+                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Current), new Bitmap(thumbnailImage));
+                    UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), new Bitmap(thumbnailImage));
                 }
-                
             }
-            catch (IOException ioe)
-            {
-                Logger.Warn("Load image error, OneDrive issues" + ioe.Message);
-                thumbnailImage = (Image)Properties.Resources.load_image_error_onedrive;
-            }
-            catch (Exception e)
-            {
-                Logger.Warn("Load image error: " + e.Message);
-                thumbnailImage = (Image)Properties.Resources.load_image_error_general;
-            }
+
             return thumbnailImage;
         }
         #endregion
@@ -178,6 +163,7 @@ namespace PhotoTagsSynchronizer
         #region Thumbnail - LoadMediaCoverArtThumbnail
         private Image LoadMediaCoverArtThumbnail(string fullFilePath, Size maxSize, bool checkIfCloudFile, bool isFileInCloud = false)
         {
+            Image image = null;
             try
             {
                 bool doNotReadFullFileIfInCloud = false;
@@ -190,30 +176,32 @@ namespace PhotoTagsSynchronizer
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();                    
-                    Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
-                    
-
-                    if (image != null) return image;
+                    image = windowsPropertyReader.GetThumbnail(fullFilePath);
                     
                     //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
-                    if (doNotReadFullFileIfInCloud) return image; //Don't read from file
-                    
-                    ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
-                    image = Utility.ThumbnailFromImage(LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile), maxSize, Color.White, false);                    
-                    return image;
+                    if (image != null && !doNotReadFullFileIfInCloud)
+                    {                        
+                        ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                        image = LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile);
+                    }
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsImageFormat(fullFilePath))
                 {
                     WindowsProperty.WindowsPropertyReader windowsPropertyReader = new WindowsProperty.WindowsPropertyReader();
-                    Image image = windowsPropertyReader.GetThumbnail(fullFilePath);
-                    
-                    //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
-                    if (doNotReadFullFileIfInCloud) return image; //Don't read from file                    
+                    image = windowsPropertyReader.GetThumbnail(fullFilePath);
 
-                    ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
-                    if (image == null) image = ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath, maxSize, true);
-                    if (image == null) image = Utility.ThumbnailFromFile(fullFilePath, maxSize, UseEmbeddedThumbnails.Auto, Color.White, false);
-                    return image;
+                    if (image == null)
+                    {
+                        ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                        image = ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath);
+                    }
+
+                    //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
+                    if (image == null && !doNotReadFullFileIfInCloud)
+                    {
+                        ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                        image = LoadMediaCoverArtPoster(fullFilePath, checkIfCloudFile); //Also put in cashe
+                    }
                 }
             }
             catch (Exception ex) 
@@ -221,7 +209,8 @@ namespace PhotoTagsSynchronizer
                 Logger.Warn(ex.Message);
             }
 
-            return null;
+            if (image != null) image = Utility.ThumbnailFromImage(image, maxSize, Color.White, false);
+            return image;
         }
         #endregion
     }

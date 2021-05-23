@@ -460,44 +460,54 @@ namespace Furty.Windows.Forms
 		#region Add Root Node
 		private static void AddRootNode(TreeView tree, ref int imageCount, ImageList imageList, ShellFolder shellFolder, bool getIcons)
 		{
-            Shell32.Shell shell32 = new Shell32.Shell();
-			Shell32.Folder shell32Folder = shell32.NameSpace(shellFolder);
-			Shell32.FolderItems items = shell32Folder.Items();
+            try
+            {
+                Shell32.Shell shell32 = new Shell32.Shell();
+                Shell32.Folder shell32Folder = shell32.NameSpace(shellFolder);
+                Shell32.FolderItems items = shell32Folder.Items();
 
-            tree.Nodes.Clear();
-			TreeNode desktop = new TreeNode("Desktop", 0, 0);
-	
-			// Added in version 1.11
-			// add a FolderItem object to the root (Desktop) node tag that corresponds to the DesktopDirectory namespace
-			// This ensures that the GetSelectedNodePath will return the actual Desktop folder path when queried.
-			// There's possibly a better way to create a Shell32.FolderItem instance for this purpose, 
-			// but I surely don't know it
+                tree.Nodes.Clear();
+                TreeNode desktop = new TreeNode("Desktop", 0, 0);
 
-			Shell32.Folder dfolder = shell32.NameSpace(ShellFolder.DesktopDirectory);
-			foreach(Shell32.FolderItem fi in dfolder.ParentFolder.Items())
-			{
-				if(fi.Name == dfolder.Title)
-				{
-					desktop.Tag = fi;
-					break;
-				}
-			}
+                // Added in version 1.11
+                // add a FolderItem object to the root (Desktop) node tag that corresponds to the DesktopDirectory namespace
+                // This ensures that the GetSelectedNodePath will return the actual Desktop folder path when queried.
+                // There's possibly a better way to create a Shell32.FolderItem instance for this purpose, 
+                // but I surely don't know it
 
-            // Add the Desktop root node to the tree
-            tree.Nodes.Add(desktop);
+                Shell32.Folder dfolder = shell32.NameSpace(ShellFolder.DesktopDirectory);
+                foreach (Shell32.FolderItem fi in dfolder.ParentFolder.Items())
+                {
+                    if (fi.Name == dfolder.Title)
+                    {
+                        desktop.Tag = fi;
+                        break;
+                    }
+                }
 
-            // iterate through the Desktop namespace and populate the first level nodes
-            foreach (Shell32.FolderItem item in items)
-			{
-                if (item.IsFolder) // this ensures that desktop shortcuts etc are not displayed
-				{
-                    TreeNode tn = AddTreeNode(item, ref imageCount, imageList, getIcons);
-                    desktop.Nodes.Add(tn);
-                    CheckForSubDirs(tn, imageList);
-				}
+                // Add the Desktop root node to the tree
+                tree.Nodes.Add(desktop);
 
-			}
+                // iterate through the Desktop namespace and populate the first level nodes
+                if (items != null)
+                {
+                    for (int index = 0; index < items.Count; index++)
+                    //foreach (Shell32.FolderItem item in items) //
+                    {
+                        Shell32.FolderItem item = items.Item(index);
 
+                        if (item.IsFolder) // this ensures that desktop shortcuts etc are not displayed
+                        {
+                            TreeNode tn = AddTreeNode(item, ref imageCount, imageList, getIcons);
+                            desktop.Nodes.Add(tn);
+                            CheckForSubDirs(tn, imageList);
+                        }
+                    }
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 		#endregion
 
@@ -578,7 +588,7 @@ namespace Furty.Windows.Forms
 		
 		private static TreeNode AddTreeNode(Shell32.FolderItem item, ref int imageCount, ImageList imageList, bool getIcons)
 		{
-			TreeNode tn = new TreeNode();
+            TreeNode tn = new TreeNode();
 			tn.Text = item.Name;
 			tn.Tag = item;
 

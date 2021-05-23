@@ -383,6 +383,16 @@ namespace PhotoTagsSynchronizer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap load_image_error_file_not_exist {
+            get {
+                object obj = ResourceManager.GetObject("load_image_error_file_not_exist", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap load_image_error_general {
             get {
                 object obj = ResourceManager.GetObject("load_image_error_general", resourceCulture);

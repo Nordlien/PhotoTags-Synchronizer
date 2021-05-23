@@ -121,7 +121,7 @@ namespace ImageAndMovieFileExtentions
         #endregion
 
         #region Image ThumbnailFromFile
-        public static Image ThumbnailFromFile(string fullFilename, Size maxSize, bool allowFailoverReadFullFille)
+        public static Image ThumbnailFromFile(string fullFilename)
         {
             Image thumbnailReturn = null;
             try
@@ -132,18 +132,12 @@ namespace ImageAndMovieFileExtentions
                     // Create thumbnail from exif information
                     if (profile != null)
                     {
-                        using (var thumbnail = profile.CreateThumbnail())
+                        if (profile.ThumbnailLength > 0)
                         {
-                            if (thumbnail != null) thumbnailReturn = thumbnail.ToBitmap();
-                        }
-                    }
-                    else
-                    {
-                        if (allowFailoverReadFullFille)
-                        {
-
-                            image.Thumbnail(new MagickGeometry(maxSize.Width, maxSize.Height));
-                            thumbnailReturn = image.ToBitmap();
+                            using (var thumbnail = profile.CreateThumbnail())
+                            {
+                                if (thumbnail != null && profile.ThumbnailLength > 0) thumbnailReturn = thumbnail.ToBitmap();
+                            }
                         }
                     }
                 }

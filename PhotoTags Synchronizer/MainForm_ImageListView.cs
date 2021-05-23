@@ -84,28 +84,46 @@ namespace PhotoTagsSynchronizer
                     FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
                     bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath);
 
-                    Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, isFileInCloud);
-                    if (thumbnail != null)
+                    try
                     {
-                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Current), thumbnail);
-                        UpdateImageOnFileEntryAttributeOnSelectedGrivViewInvoke(new FileEntryAttribute(fileEntry, FileEntryVersion.Error), thumbnail);
-                            
-                        Image thumbnailWithCloud = Utility.ThumbnailFromImage(thumbnail, ThumbnailMaxUpsize, Color.White, true);                        
-                        if (isFileInCloud) //If Media is in cloud, show Icon
+                        Image thumbnail = GetThumbnailFromDatabaseUpdatedDatabaseIfNotExist(fileEntry, isFileInCloud);
+                        
+                        if (thumbnail != null) //Add cloud icon if needed
                         {
-                            using (Graphics g = Graphics.FromImage(thumbnailWithCloud)) { g.DrawImage(Properties.Resources.FileInCloud, 0, 0); }
+                            Image thumbnailWithCloudIfFromCloud = Utility.ThumbnailFromImage(thumbnail, ThumbnailMaxUpsize, Color.White, true);
+                            if (isFileInCloud) //If Media is in cloud, show Icon
+                            {
+                                using (Graphics g = Graphics.FromImage(thumbnailWithCloudIfFromCloud)) { g.DrawImage(Properties.Resources.FileInCloud, 0, 0); }
+                            }
+                            e.Thumbnail = thumbnailWithCloudIfFromCloud;
                         }
-                        e.Thumbnail = thumbnailWithCloud;
+                        else
+                        {
+                            if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.load_image_error_in_cloud;
+                            else e.Thumbnail = (Image)Properties.Resources.load_image_error_thumbnail;
+                        }
+                    }
+                    catch (IOException ioe)
+                    {
+                        Logger.Warn("Load image error, OneDrive issues" + ioe.Message);
+                        e.Thumbnail = (Image)Properties.Resources.load_image_error_onedrive;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Warn("Load image error: " + ex.Message);
+                        e.Thumbnail = (Image)Properties.Resources.load_image_error_general;
                     }
                 }
                 else
                 {
                     Logger.Warn("File not exist: " + e.FileName);
+                    e.Thumbnail = (Image)Properties.Resources.load_image_error_file_not_exist;
                 }
             } catch (Exception ex)
             {
                 Logger.Warn("imageListView1_RetrieveItemThumbnail failed on: " + e.FileName + " " + ex.Message);
-            }          
+                e.Thumbnail = (Image)Properties.Resources.load_image_error_general;
+            }
         }
         #endregion
 
