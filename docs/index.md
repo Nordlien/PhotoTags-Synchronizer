@@ -1,50 +1,62 @@
-## Welcome to GitHub Pages
+# Welcome to PhotoTags Synchronizer
+Keep the tags where it belongs.
 
-You can use the [editor on GitHub](https://github.com/Nordlien/PhotoTags-Synchronizer/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+## Key features
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+- Keyword tagging
+ - Fast and easy tagging
+ - Tag many files at once
+ - Copy and Paste into Excel or Google Sheets
+- Synchronizer
+ - From Microsoft Windows Photo Gallery
+ - From Microsoft Photos
+ - WebScraping in countries allowed
+- Powerfull Exiftool GUI
+ - See Exif history
+ - See warning when tags mismach
+ - Can also write Microsoft Atoms back to files
+- GEO tagging
+  - Import from Goole Histort
+  - Import from JSON and KLM files
+  - GEO tag using map
+  - Lock up name, region, city and country
+- Chromecast
+ - Support casting of video directly from PC
+ - Support casting of pcitures directly from PC
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Keyword tagging
 
-| T est SSSS SSSS SSSSSS SSs sss sssssssssss sssss ss ssssss sssssssssss sss ssssss ssss sssss sss ssss ssss sss sss ss sss sssssss ss
-|--
-| dssdd
-|--
-|![Test2](screenshot/001.jpg)
+![Keyword tagging](screenshots/screenshot_keyword_tags.png)
 
-<div class='block'>
-  <span class='badge badge-info'>78</span>
-  <span class='badge badge-success'>3</span>
-  <span class='badge badge-warning'>14</span>
-  <span class='badge badge-error'>1845</span>
-</div>
+## Region name and people tagging
 
-```markdown
-Syntax highlighted code block
+![Region name and people tagging](screenshots/screenshot_people.png)
 
-# Header 1
-## Header 2
-### Header 3
+## Date and time
 
-- Bulleted
-- List
+![Date and time tool](screenshots/screenshot_date_and_time.png)
 
-1. Numbered
-2. List
+## GEO tagging with Map
 
-**Bold** and _Italic_ and `Code` text
+![GEO tagging with Map](screenshots/screenshot_map.png)
 
-[Link](url) and ![Image](src)
-```
+## Exiftool GUI
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+![Exiftool GUI](screenshots/screenshot_exiftool.png)
 
-### Jekyll Themes
+## Give Warning when Tags missmatch
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Nordlien/PhotoTags-Synchronizer/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+![Give Warning when Tags missmatch](screenshots/screenshot_exiftoolwarnings.png)
 
-### Support or Contact
+## Windows Properties
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+![Windows Properties](screenshots/screenshot_windowsproperties.png)
+
+## Powerfull Rename Tool
+
+![Powerfull Rename Tool](screenshots/screenshot_renametool.png)
+
+## Convert and merge media files
+
+![Convert and merge media files](screenshots/screenshot_convert_and_merge.png)
