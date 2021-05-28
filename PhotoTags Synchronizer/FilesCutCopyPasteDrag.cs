@@ -176,9 +176,6 @@ namespace PhotoTagsSynchronizer
                 folderTreeViewFolder.SelectedNode = targetNode;
                 targetNode.Collapse();
                 targetNode.Expand();
-            } else
-            {
-                //DEBUG: None node is selected
             }
         }
         #endregion

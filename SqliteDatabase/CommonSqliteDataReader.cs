@@ -49,7 +49,7 @@ namespace SqliteDatabase
                 {
                     // TODO: dispose managed state (managed objects).
                 }
-                sqliteDataReader.Dispose();
+                if (sqliteDataReader != null)sqliteDataReader.Dispose();
                 disposedValue = true;
             }
         }
