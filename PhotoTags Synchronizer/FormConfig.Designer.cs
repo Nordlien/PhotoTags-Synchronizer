@@ -284,6 +284,8 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMapZoomLevel = new System.Windows.Forms.ComboBox();
             this.panelBrowser = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.buttonLocationImport = new System.Windows.Forms.Button();
+            this.buttonLocationExport = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.tabPageConvertAndMerge = new System.Windows.Forms.TabPage();
             this.panelConvertAndMerge = new System.Windows.Forms.Panel();
@@ -807,7 +809,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
             this.groupBox4.Location = new System.Drawing.Point(3, 392);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(716, 85);
+            this.groupBox4.Size = new System.Drawing.Size(674, 85);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Region Name suggestions (People Face names)";
@@ -895,7 +897,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox3.Controls.Add(this.label38);
             this.groupBox3.Location = new System.Drawing.Point(3, 321);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(716, 65);
+            this.groupBox3.Size = new System.Drawing.Size(674, 65);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Search result";
@@ -943,7 +945,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
             this.groupBox2.Location = new System.Drawing.Point(3, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(716, 156);
+            this.groupBox2.Size = new System.Drawing.Size(674, 156);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nominatim look-up";
@@ -990,7 +992,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(183, 68);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(528, 22);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(486, 22);
             this.textBoxApplicationPreferredLanguages.TabIndex = 3;
             // 
             // comboBoxApplicationLanguages
@@ -1201,7 +1203,7 @@ namespace PhotoTagsSynchronizer
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(183, 38);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(528, 24);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(486, 24);
             this.comboBoxApplicationLanguages.TabIndex = 4;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
             // 
@@ -1219,7 +1221,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(711, 150);
+            this.groupBox1.Size = new System.Drawing.Size(669, 150);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thumbnail size";
@@ -3843,6 +3845,8 @@ namespace PhotoTagsSynchronizer
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.buttonLocationImport);
+            this.panel3.Controls.Add(this.buttonLocationExport);
             this.panel3.Controls.Add(this.textBox4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(3, 3);
@@ -3850,16 +3854,38 @@ namespace PhotoTagsSynchronizer
             this.panel3.Size = new System.Drawing.Size(760, 742);
             this.panel3.TabIndex = 0;
             // 
+            // buttonLocationImport
+            // 
+            this.buttonLocationImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonLocationImport.Location = new System.Drawing.Point(666, 34);
+            this.buttonLocationImport.Name = "buttonLocationImport";
+            this.buttonLocationImport.Size = new System.Drawing.Size(91, 26);
+            this.buttonLocationImport.TabIndex = 8;
+            this.buttonLocationImport.Text = "Import";
+            this.buttonLocationImport.UseVisualStyleBackColor = true;
+            this.buttonLocationImport.Click += new System.EventHandler(this.buttonLocationImport_Click);
+            // 
+            // buttonLocationExport
+            // 
+            this.buttonLocationExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonLocationExport.Location = new System.Drawing.Point(666, 3);
+            this.buttonLocationExport.Name = "buttonLocationExport";
+            this.buttonLocationExport.Size = new System.Drawing.Size(91, 25);
+            this.buttonLocationExport.TabIndex = 7;
+            this.buttonLocationExport.Text = "Export";
+            this.buttonLocationExport.UseVisualStyleBackColor = true;
+            this.buttonLocationExport.Click += new System.EventHandler(this.buttonLocationExport_Click);
+            // 
             // textBox4
             // 
             this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox4.Location = new System.Drawing.Point(-3, -2);
+            this.textBox4.Location = new System.Drawing.Point(2, 3);
             this.textBox4.Margin = new System.Windows.Forms.Padding(2);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(764, 62);
+            this.textBox4.Size = new System.Drawing.Size(659, 57);
             this.textBox4.TabIndex = 6;
             this.textBox4.Text = "Location names is to set names automaticly on location based un GPS coordinates. " +
     "E.g. Home, Zoo Park, Cabin, Parents Home, etc.";
@@ -5309,5 +5335,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Label label85;
         private System.Windows.Forms.ComboBox comboBoxApplicationRegionThumbnailSizes;
         private System.Windows.Forms.Label label84;
+        private System.Windows.Forms.Button buttonLocationImport;
+        private System.Windows.Forms.Button buttonLocationExport;
     }
 }

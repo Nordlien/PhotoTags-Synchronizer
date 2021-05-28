@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace LocationNames
 {
-
+    
     public class LocationCoordinate
     {
         public LocationCoordinate()
@@ -12,13 +13,19 @@ namespace LocationNames
             Longitude = 0;
         }
 
+        public LocationCoordinate(LocationCoordinate locationCoordinate) : this (locationCoordinate.Latitude, locationCoordinate.Longitude)
+        { 
+        }
+
         public LocationCoordinate(float latitude, float longitude)
         {
             Latitude = latitude;
             Longitude = longitude;
         }
 
+        [JsonProperty("Latitude")]
         public float Latitude { get; set; }
+        [JsonProperty("Longitude")]
         public float Longitude { get; set; }
 
         public override bool Equals(object obj)

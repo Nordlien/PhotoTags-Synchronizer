@@ -6,6 +6,7 @@ using FastColoredTextBoxNS;
 using LocationNames;
 using MetadataLibrary;
 using MetadataPriorityLibrary;
+using Newtonsoft.Json;
 using NLog;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
@@ -1010,6 +1011,8 @@ namespace PhotoTagsSynchronizer
         private int columnIndexRegion = 2;
         private int columnIndexCountry = 3;
 
+        
+
         #region Location names - PopulateMetadataLocationNames
         private void PopulateMetadataLocationNames(DataGridView dataGridView, Dictionary<LocationCoordinate, LocationDescription> locationNames)
         {
@@ -1111,6 +1114,100 @@ namespace PhotoTagsSynchronizer
             PopulateMetadataLocationNames(dataGridView, locationNotFound);
         }
         #endregion 
+
+        private class LocationRecord
+        {
+            public LocationRecord(LocationCoordinate locationCoordinate, LocationDescription locationDescription)
+            {
+                LocationCoordinate = locationCoordinate;
+                LocationDescription = locationDescription;
+            }
+
+            public LocationCoordinate LocationCoordinate { get; set; } = new LocationCoordinate();
+            public LocationDescription LocationDescription { get; set; } = new LocationDescription();
+        }
+
+        private void buttonLocationExport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                //saveFileDialog1.InitialDirectory = @ "C:\";      
+                saveFileDialog1.Title = "Save locations as JSON";
+                saveFileDialog1.CheckFileExists = false;
+                saveFileDialog1.CheckPathExists = false;
+                saveFileDialog1.DefaultExt = "json";
+                saveFileDialog1.Filter = "JSON files (*.json)|*.json";
+                saveFileDialog1.FilterIndex = 1;
+                saveFileDialog1.RestoreDirectory = true;
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    DataGridView dataGridView = dataGridViewLocationNames;
+
+                    int rowCount = DataGridViewHandler.GetRowCount(dataGridView);
+                    List<LocationRecord> locationRecords = new List<LocationRecord>();
+
+                    for (int row = 0; row < rowCount; row++)
+                    {
+                        DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, row);
+                        if (!dataGridViewGenericRow.IsHeader)
+                        {
+                            LocationCoordinate locationCoordinate = dataGridViewGenericRow.LocationCoordinate;
+                            LocationDescription locationDescription = new LocationDescription(
+                                DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexName, row),
+                                DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexCity, row),
+                                DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexRegion, row),
+                                DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndexCountry, row));
+
+                            locationRecords.Add(new LocationRecord(locationCoordinate, locationDescription));
+                        }
+                        
+                    }
+                    string output = JsonConvert.SerializeObject(locationRecords);
+                    System.IO.File.WriteAllText(saveFileDialog1.FileName, output, Encoding.UTF8);
+
+                   
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show("Error saving JSON file!\r\n\r\n" + ex.Message, "Was not able to save JSON file");
+            }
+        }
+
+        private void buttonLocationImport_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewLocationNames;
+
+            try
+            {
+                OpenFileDialog openFileDialog1 = new OpenFileDialog
+                {
+                    Title = "Browse JSON Files",
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+
+                    DefaultExt = "json",
+                    Filter = "json files (*.json)|*.json",
+                    FilterIndex = 1,
+                    RestoreDirectory = true,
+                    ReadOnlyChecked = false,
+                    ShowReadOnly = true
+                };
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    string input = System.IO.File.ReadAllText(openFileDialog1.FileName, Encoding.UTF8);
+                    List<LocationRecord> readResult = JsonConvert.DeserializeObject<List<LocationRecord>>(input);
+                    Dictionary<LocationCoordinate, LocationDescription> locationNames = new Dictionary<LocationCoordinate, LocationDescription>();
+                    foreach (LocationRecord locationRecord in readResult) locationNames.Add(locationRecord.LocationCoordinate, locationRecord.LocationDescription);
+                    PopulateMetadataLocationNames(dataGridView, locationNames);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading JSON file!\r\n\r\n" + ex.Message, "Was not able to load JSON file");
+            }
+        }
 
         #region Location names - SaveMetadataLocation
         private void SaveMetadataLocation(DataGridView dataGridView)
@@ -1432,6 +1529,8 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, toolStripMenuItemMapHideEqual.Checked, toolStripMenuItemMapShowFavorite.Checked);
         }
         #endregion
+
+        
 
         #endregion 
 
@@ -2199,7 +2298,9 @@ namespace PhotoTagsSynchronizer
                 //threadReloadLocationUsingNominatim.Abort();
             }
         }
-        #endregion 
+        #endregion
+
+        
     }
 }
 

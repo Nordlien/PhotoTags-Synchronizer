@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace LocationNames
 {
@@ -12,6 +13,11 @@ namespace LocationNames
             Region = null;
             Country = null;
         }
+
+        public LocationDescription(LocationDescription locationDescription) : this (locationDescription.Name, locationDescription.City, locationDescription.Region, locationDescription.Country)
+        {
+        }
+
         public LocationDescription(string name, string city, string region, string country)
         {
             Name = name;
@@ -20,9 +26,13 @@ namespace LocationNames
             Country = country;
         }
 
+        [JsonProperty("Name")]
         public string Name { get; set; }
+        [JsonProperty("City")]
         public string City { get; set; }
+        [JsonProperty("Region")]
         public string Region { get; set; }
+        [JsonProperty("Country")]
         public string Country { get; set; }
 
         public override bool Equals(object obj)
