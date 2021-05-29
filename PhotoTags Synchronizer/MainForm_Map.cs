@@ -363,8 +363,8 @@ namespace PhotoTagsSynchronizer
                         {
                             DataGridViewGenericColumn gridViewGenericColumnCheck = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnIndex);
 
-                            if (gridViewGenericColumnCheck.Metadata.CameraMake == gridViewGenericColumn.Metadata.CameraMake &&
-                                gridViewGenericColumnCheck.Metadata.CameraModel == gridViewGenericColumn.Metadata.CameraModel)
+                            if (gridViewGenericColumnCheck?.Metadata?.CameraMake == gridViewGenericColumn.Metadata.CameraMake &&
+                                gridViewGenericColumnCheck?.Metadata?.CameraModel == gridViewGenericColumn.Metadata.CameraModel)
                             {
                                 //DataGridViewHandlerMap.SetCameraOwner(dataGridView, columnIndex, selectedCameraOwner);
 

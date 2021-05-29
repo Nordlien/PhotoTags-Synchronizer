@@ -162,7 +162,7 @@ namespace PhotoTagsSynchronizer
             else
             {
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerGoogleLocations, tagCoordinates), 
-                    mediaCreateUTC.ToShortDateString() + " " + mediaCreateUTC.ToShortTimeString() + " +/- " + accepedIntervalSecound + "secounds not found", 
+                    "Not found: Coordinates timestamp " + mediaCreateUTC.ToShortDateString() + " " + mediaCreateUTC.ToShortTimeString() + " +/- " + accepedIntervalSecound + " secounds not found", 
                     true);                    
             }
         }
