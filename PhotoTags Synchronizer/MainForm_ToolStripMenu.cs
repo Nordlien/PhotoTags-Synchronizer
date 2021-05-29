@@ -917,7 +917,7 @@ namespace PhotoTagsSynchronizer
                 #endregion 
 
                 #region AutoCorrect
-                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); ;
+                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); 
                 float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                 float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
 
@@ -937,7 +937,11 @@ namespace PhotoTagsSynchronizer
                         databaseGoogleLocationHistory, 
                         locationAccuracyLatitude, locationAccuracyLongitude);
 
-                    metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
+                    if (metadataToSave != null) metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
+                    else
+                    {
+                        Logger.Warn("Metadata was not loaded for file, check if file is only in cloud:" + item.FileFullPath);
+                    }
                     metadataListEmpty.Add(new Metadata(metadataOriginal));
                 }
 
