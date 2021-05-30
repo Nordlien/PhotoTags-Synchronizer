@@ -35,6 +35,7 @@ Keep the tags where it belongs.
     - Convert around 200 [Video File Codecs using ffmpeg][e2a8453e]
 
 ## Key problems to solve
+
 - Don't lose your work / meta information.<br><br>When meta information are stored in cloud, your are not able to change provider without losing your tagging work.<br>When data is stored in local database, you will lose your tagging when change computer.<br><br>
   - Microsoft Windows Live Gallery
     - Store most of meta information in Media Files
