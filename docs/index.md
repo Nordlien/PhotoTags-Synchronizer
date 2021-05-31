@@ -1,6 +1,11 @@
 # Welcome to PhotoTags Synchronizer
 Keep the tags where it belongs.
 
+## Userguide
+[Userguide][11247b8f]
+
+  [11247b8f]: userguide "Userguide"
+
 ## Key features
 
 - Keyword tagging [Keywords][3737e4b0]
