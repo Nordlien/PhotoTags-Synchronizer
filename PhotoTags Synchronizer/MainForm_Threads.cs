@@ -1083,28 +1083,6 @@ namespace PhotoTagsSynchronizer
                                 //Wait file to be unloacked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
                                 if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(queueSubsetMetadataToSave);
 
-                                #region Write Xtra Atom properites
-                                Dictionary<string, string> writeXtraAtomErrorMessageForFile = new Dictionary<string, string>();
-                                List<FileEntry> filesUpdatedByWritePropertiesAndLastWriteTime = new List<FileEntry>();
-
-                                if (!GlobalData.IsApplicationClosing)
-                                {
-                                    UpdateStatusAction("Write Xtra Atom to " + queueSubsetMetadataToSave.Count + " media files...");
-
-                                    filesUpdatedByWritePropertiesAndLastWriteTime = ExiftoolWriter.WriteXtraAtom(
-                                        queueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
-                                        writeXtraAtomAlbumVariable, writeXtraAtomAlbumVideo,
-                                        writeXtraAtomCategoriesVariable, writeXtraAtomCategoriesVideo,
-                                        writeXtraAtomCommentVariable, writeXtraAtomCommentPicture, writeXtraAtomCommentVideo,
-                                        writeXtraAtomKeywordsVariable, writeXtraAtomKeywordsVideo,
-                                        writeXtraAtomRatingPicture, writeXtraAtomRatingVideo,
-                                        writeXtraAtomSubjectVariable, writeXtraAtomSubjectPicture, wtraAtomSubjectVideo,
-                                        writeXtraAtomSubtitleVariable, writeXtraAtomSubtitleVideo,
-                                        writeXtraAtomArtistVariable, writeXtraAtomArtistVideo,
-                                        out writeXtraAtomErrorMessageForFile);
-                                }
-                                #endregion
-
                                 #region File Create date and Time attribute
                                 if (!GlobalData.IsApplicationClosing)
                                 {
@@ -1131,6 +1109,9 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
+                                //Wait file to be unloacked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
+                                if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(queueSubsetMetadataToSave);
+
                                 #region Save Metadatas using Exiftool   
                                 List<FileEntry> mediaFilesWithChangesWillBeUpdated = new List<FileEntry>();
                                 string exiftoolErrorMessage = "";
@@ -1149,6 +1130,31 @@ namespace PhotoTagsSynchronizer
                                         exiftoolErrorMessage = ex.Message;
                                         Logger.Error("EXIFTOOL.EXE error...\r\n\r\n" + ex.Message);
                                     }
+                                }
+                                #endregion
+
+                                //Wait file to be unloacked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
+                                if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(queueSubsetMetadataToSave);
+
+                                #region Write Xtra Atom properites
+                                Dictionary<string, string> writeXtraAtomErrorMessageForFile = new Dictionary<string, string>();
+                                List<FileEntry> filesUpdatedByWritePropertiesAndLastWriteTime = new List<FileEntry>();
+
+                                if (!GlobalData.IsApplicationClosing)
+                                {
+                                    UpdateStatusAction("Write Xtra Atom to " + queueSubsetMetadataToSave.Count + " media files...");
+
+                                    filesUpdatedByWritePropertiesAndLastWriteTime = ExiftoolWriter.WriteXtraAtom(
+                                        queueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
+                                        writeXtraAtomAlbumVariable, writeXtraAtomAlbumVideo,
+                                        writeXtraAtomCategoriesVariable, writeXtraAtomCategoriesVideo,
+                                        writeXtraAtomCommentVariable, writeXtraAtomCommentPicture, writeXtraAtomCommentVideo,
+                                        writeXtraAtomKeywordsVariable, writeXtraAtomKeywordsVideo,
+                                        writeXtraAtomRatingPicture, writeXtraAtomRatingVideo,
+                                        writeXtraAtomSubjectVariable, writeXtraAtomSubjectPicture, wtraAtomSubjectVideo,
+                                        writeXtraAtomSubtitleVariable, writeXtraAtomSubtitleVideo,
+                                        writeXtraAtomArtistVariable, writeXtraAtomArtistVideo,
+                                        out writeXtraAtomErrorMessageForFile);
                                 }
                                 #endregion
 

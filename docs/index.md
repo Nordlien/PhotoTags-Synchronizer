@@ -43,16 +43,16 @@ Keep the tags where it belongs.
 
 ## Key problems to solve
 [More details][fbe6f277]
-- Don't lose your work / meta information.<br><br>When meta information are stored in cloud, your are not able to change provider without losing your tagging work.<br>When data is stored in local database, you will lose your tagging when change computer.<br><br>
+- Don't lose your work and meta information.<br><br>When meta information are stored in cloud, your are not able to change provider without losing your tagging work.<br>When data is stored in local database, you will lose your tagging when change computer.<br><br>
   - Microsoft Windows Live Gallery
     - Store most of meta information in Media Files
-    - Problem 1: But not all meta information, e.g. on lot video formats
-    - Problem 2: Save meta information using Microsoft Atoms not using international standards
-    - Problem 3: Many other tools, also Exiftool can only read but not updated Microsoft Atoms
-    - Problem 4: When moving media files from old computer to new computer, you lose tagging, because a lot of tags stored in database and not in the media file.
+    - Problem 1: But not all meta information will be saved, example, e.g. on many video files.
+    - Problem 2: Save meta information using Microsoft Atoms not using international standards.
+    - Problem 3: Many other tools, Exiftool can only read but can not save Microsoft Xtra Atoms
+    - Problem 4: When moving media files from old computer to new computer, you lose meta information, because a lot of meta information saved only in a local database and not in the media file.
   - Microsoft Photos
     - Problem 1: Store some information only in local database and some information in cloud.
-    - Problem 2: There are no synchronization between data store locally and between local computers
+    - Problem 2: There are no synchronization between data store locally and between other computers
   - Google Photos and most likely all other cloud storage providers
     - Problem 1: All data is stored in the cloud. If you want to move to another provider, all your tags are gone. According to GDPR this data is yours, but you are not able to download it.
 
