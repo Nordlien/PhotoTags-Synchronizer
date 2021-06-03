@@ -64,7 +64,7 @@ namespace PhotoTagsSynchronizer
             %MediaAuthor%
             %LocationName%
             %LocationCountry%
-            %LocationState%
+            %LocationRegion%
             */
             string newFilename = newFilenameVariable;
             newFilename = newFilename.Replace("%FileName%", Path.GetFileNameWithoutExtension(oldFilename));
@@ -112,7 +112,8 @@ namespace PhotoTagsSynchronizer
 
             newFilename = newFilename.Replace("%LocationName%", (metadata == null || metadata.LocationName == null) ? "" : metadata.LocationName);
             newFilename = newFilename.Replace("%LocationCountry%", (metadata == null || metadata.LocationCountry == null) ? "" : metadata.LocationCountry);
-            newFilename = newFilename.Replace("%LocationState%", (metadata == null || metadata.LocationState == null) ? "" : metadata.LocationState);
+            newFilename = newFilename.Replace("%LocationRegion%", (metadata == null || metadata.LocationState == null) ? "" : metadata.LocationState);
+            newFilename = newFilename.Replace("%LocationCity%", (metadata == null || metadata.LocationCity == null) ? "" : metadata.LocationCity);
 
             if (newFilename.Contains("%Trim%")) newFilename = newFilename.Replace("%Trim%", "").Trim().Replace("  ", " ").Replace("_ ", "_").Replace(" -", "-").Replace("- ", "-").Replace(" .", ".");
 
