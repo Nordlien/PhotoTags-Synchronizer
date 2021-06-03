@@ -78,23 +78,41 @@ Keep the tags where it belongs.
 
 ![GEO tagging with Map](screenshots/screenshot_map.png)
 
-## Exiftool GUI
+## Powerful Exiftool GUI
+- Show all meta infomration the ExifTool provides.
+- Comapre meta infomration between files
+- Compare meta information before and after changes in the media file(s)
 
 ![Exiftool GUI](screenshots/screenshot_exiftool.png)
 
 
 ## Give Warning when Tags mismatch
-
+Show what fiels are mismatch between diffrent standards, when they should contain the same information.
 ![Give Warning when Tags mismatch](screenshots/screenshot_exiftoolwarnings.png)
 
 ## Windows Properties
+- Show and edit using Windows Properties
 
 ![Windows Properties](screenshots/screenshot_windowsproperties.png)
 
 ## Powerful Rename Tool
+- Rename files with information from the media file
 
 ![Powerful Rename Tool](screenshots/screenshot_renametool.png)
 
 ## Convert and merge media files
+- Combine multiple images and videos into a slideshow video
+- Use the power of [ffmeg.exe](https://www.ffmpeg.org/) (or others tools) to convert videos
+
 
 ![Convert and merge media files](screenshots/screenshot_convert_and_merge.png)
+
+## View and Chromecast
+- View images
+- View videos
+- Create Slideshow
+- Chromecast picture
+- Chromecast videos
+- Create slideshow on Chromecast
+
+![Chromecast](screenshots/screenshot_preview_chromecast.png)
