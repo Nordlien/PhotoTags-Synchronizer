@@ -1,5 +1,6 @@
 # Rename tool
 
+![Rename tool](screenshot_renametool_variables.png)
 
 ## Examples:
 

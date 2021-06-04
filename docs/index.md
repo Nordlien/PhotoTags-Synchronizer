@@ -23,6 +23,7 @@ Keep the tags where it belongs.
   - See Exif history
   - See warning when tags mismatch
   - Can also write Microsoft Atoms back to files
+- Powerful rename tool 
 - GEOtagging
   - Import from Google History
   - Import from JSON and KML files
