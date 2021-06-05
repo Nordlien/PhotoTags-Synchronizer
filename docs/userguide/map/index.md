@@ -1,7 +1,7 @@
 # GEOtagging
 
 ## How to GEOtag your media files
-![User interface](maps_userinterface.png)
+![User interface](map_userinterface.png)
 
 1. Meta information about GPS locations stored in the media file. When empty, no GPS location was found.
 2. GPS location found in the GPS locations history you have imported for a person or persons. The person you select for camera make and model will be used what person's GPS locations history will be used.
