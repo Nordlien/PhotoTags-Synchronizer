@@ -13,19 +13,19 @@
 
 ## Application
 Here you can change general settings about the applications.
-- Thumbnail size. The smaller the thumbnail is, the faster the application will run and small the database will become. But the thumbnail will also become blury when thumbnail will be upsized.
+- Thumbnail size. The smaller the thumbnail is, the faster the application will run and the smaller the database will become. But the thumbnail will also become blurry when thumbnail will be upsized.
   - Poster Thumbnail size. Size of media file thumbnail. A small version of the picture, or a small version of a frame from the video.
-  - Region is often a face of person inside the picture.
+  - Region is often the face of the person inside the picture.
 - Nominatim look-up
-  - What language is prefrerred when looking up location name, region/state, city and contry.
+  - What language is preferred when looking up location name, region/state, city and country.
 - Search result
-  - When search for media files, this will be maximum of media files found. This to avoid working with to media files at once.
+  - When searching for media files, this will be the maximum of media files found. This to avoid working with media files at once.
 - Region name suggestions. See [People/Regions](../people/) for more information.
-  - Number of days. When tagging names for people, a shortcut for most likly names are create. People you been together with during last x days, will apper in this list.
-  - Number of most common.  When tagging names for people, a shortcut for most used names will apper in this list. Here you can set maximum nuber of names you want to see in this list.
+  - Number of days. When tagging names for people, a shortcut for most likely names are created. People you been together with during last x days, will appear in this list.
+  - Number of most common.  When tagging names for people, a shortcut for most used names will appear in this list. Here you can set the maximum number of names you want to see in this list.
 - Region media and list view
-  - Avoid read media files from Cloud. If media files are only stored in the cloud, when checked, the application will not load the thumbnail, this avoid for exmaple bid vide files to be download, just to get the get thumbnail.
-  - Load Image Thumbnails "on demand". When present thumbnails in the image view, when checked, thumnbail will only be loaded when it will be presented on the screen, otherwise, it will contine the work in background.
+  - Avoid reading media files from the Cloud. If media files are only stored in the cloud, when checked, the application will not load the thumbnail, this avoid for example big video files to be download, just to get the get thumbnail.
+  - Load Image Thumbnails "on demand". When presenting thumbnails in the image view, when checked, the thumbnail will only be loaded when it will be presented on the screen, otherwise, it will continue the work in the background.
 - GPS Location Accuracy
   - Latitude
   - Longitude
@@ -35,13 +35,13 @@ Here you can change general settings about the applications.
 ![Application](config_application.png)
 
 ## Metadata Read
-All meta information read in this application will be assiged to a value internaly in the application.
+All meta information read in this application will be assigned to a value internally in the application.
 
 ![Metadata Read](config_metadata-read.png)
 
-### Example of diffrent standards
+### Example of different standards
 
-As an exmaple: Athur has a few standards where this meta information can be stored.
+As an example: Athur has a few standards where this meta information can be stored.
 
 - Single
   - EXIF:IFD0, XPAuthor
@@ -52,7 +52,7 @@ As an exmaple: Athur has a few standards where this meta information can be stor
   - PDF, Creator
   - XMP:XMP-dc, Creator
 
-### PhotoTags Syncronizer internally overview
+### PhotoTags Synchronizer internally overview
 
 Here is an overview what the application use internally:
 
@@ -104,11 +104,11 @@ Here is an overview what the application use internally:
   - LocationRegion/State
 
 
-### Change how meta infomration is read and used
+### Change how meta information is read and used
 
 In theory you can use any meta information where you want. Just assign to the fields you want to use.
 
-Please also note, that there are few diffrent standards data is stored.
+Please also note that there are few different standards for storing data.
 
 As example:
 - Just as as text
@@ -117,18 +117,18 @@ As example:
 
 ### Priority
 
-Because mulitple standards, meta information can become out of sync, depending on how camera and software you used saving the meta information.
+Because of multiple standards, meta information can become out of sync, depending on how camera and software you used saving the meta information.
 
-If the softwate don't updated all meta information that in theory should be "equal", then you will get data out of sync.
+If the software won't update all meta information that in theory should be "equal", then you will get data out of sync.
 
 Example:
-- Software 1: Updated this EXIF:IFD0, XPAuthor with Name1
+- Software 1: Updates EXIF:IFD0, XPAuthor with Name1
 - Software 2: Updates IPTC. By-line with Name2
-- Software 3: Updateds QuickTime:ItemList, Artist with Name3
+- Software 3: Updates QuickTime:ItemList, Artist with Name3
 
-By settning all fields as Author, and what priority each meta information has you can solve this.
+By setting all fields as Author, and what priority each meta information has you can solve this.
 
-If you want QuickTime to win, just set hight priority than IPTC and EXIF.
+If you want QuickTime to win, just set high priority than IPTC and EXIF.
 
 #### Warnings
 When there are mismatch between meta information that in theory should be equal, a warning will be saved and you can see all warnings in the [Warnings tab](../warnings/)
@@ -154,16 +154,16 @@ Exiftool | Warnings
 ## WebScraper
 See also [WebScraping user guide](../webscraping/)
 
-- Web Scarping settings
-  - JavaScript Execute Timeout<br>How long time before the injected scraping script should run before timeout. On slower computer you can increase this number.
-  - Web Scarping Delay 1 (Our script to run)<br>A short delay, let existing script to finalize before we run our injected scraping scrpit again. On slower computer, you can increase this number.
-  - Web Scraping Retry<br>Number of retry run the script after error or timeout.
-  - Web Scraping Delay 2 (In-Page script to run)<br>A short delay, let existing script to finalize before we run the scraping scrpit. On slower computer, you can increase this number.
+- Web Scraping settings
+  - JavaScript Execute Timeout<br>How long time before the injected scraping script should run before timeout. On a slower computer you can increase this number.
+  - Web Scraping Delay 1 (Our script to run)<br>A short delay, let existing script to finalize before we run our injected scraping script again. On a slower computer, you can increase this number.
+  - Web Scraping Retry<br>Number of retry run the script after an error or timeout.
+  - Web Scraping Delay 2 (In-Page script to run)<br>A short delay, let existing script to finalize before we run the scraping script. On slower computer, you can increase this number.
   - Page Start Loading Timeout<br>When trying to open a page, hot long should web browser wait before consider timeout
   - Page Loaded Timeout<br>
-  - Number of PageDown keystroke.<br> When scraping categories, then the scraper send PageDown keypress, and check if new data has been loaded to the web browser. If not new data has been found, the scraper consider we are at the end of the page.
+  - Number of PageDown keystroke.<br> When scraping categories, then the scraper sends PageDown keypress, and checks if new data has been loaded to the web browser. If no new data has been found, the scraper considers we are at the end of the page.
 - Start pages for scraping categories
-  - A list of page that will be scarped to scrap catergories
+  - A list of page that will be scraped to scrap categories
 
 ![WebScraper](config_webscraper.png)
 
@@ -290,7 +290,7 @@ A list of variables you can write back in Windows Xtra atoms and back to any met
 
 ### Write Windows Xtra atom properties
 
-Here you can setup what Xtra atoms should be write back to the media file.
+Here you can set up what Xtra atoms should be written back to the media file.
 
 When Video is selected, data is written back to video files.
 
@@ -299,7 +299,7 @@ When Picture is selected, data will be written back to image files where support
   - Keywords
   - Categories
   - Album
-  - Subtilte
+  - Subtitle
   - Subject
   - Comment
   - Artist
@@ -308,7 +308,7 @@ When Picture is selected, data will be written back to image files where support
 ![Metadata Write](config_metadata-write.png)
 
 ## File date formats
-When remove date and time from filename, what format will be accepted to remove from file name.
+When removing date and time from filename, what format will be accepted to remove from file name.
 
 On the [Date and Time tab](../date/) all date and time found in file name, will be present as found date and time.
 
@@ -323,9 +323,9 @@ See [AutoCorrect user guide](../autocorrect/) for more information.
 ## Camera owner
 See [GEOtagging user guide](../map/) for more information.
 
-Camera owner is used when finding correct owner for GPS location history.
+Camera owner is used when finding the correct owner for GPS location history.
 
-Camera owner can be used to set Author field.
+Camera owner can be used to set the Author field.
 
 ![Camera owner](config_camera-owner.png)
 
