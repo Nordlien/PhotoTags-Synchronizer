@@ -50,7 +50,7 @@ As an exmaple: Athur has a few standards where this meta information can be stor
   - QuickTime:ItemList, Author
 - List
   - PDF, Creator
-  - XMP:XMP-dc | Creator
+  - XMP:XMP-dc, Creator
 
 ### PhotoTags Syncronizer internally overview
 
@@ -130,7 +130,7 @@ By settning all fields as Author, and what priority each meta information has yo
 
 If you want QuickTime to win, just set hight priority than IPTC and EXIF.
 
-#### warnings
+#### Warnings
 When there are mismatch between meta information that in theory should be equal, a warning will be saved and you can see all warnings in the [Warnings tab](/userguide/warnings)
 
 #### Assign meta information and priority
@@ -152,21 +152,186 @@ Exiftool | Warnings
 ![Exiftool contextmenu](config_metadata-read-exiftool-contextmenu.png) | ![Warnings](config_metadata-read-warnings-contextmenu.png)
 
 ## WebScraper
+See also [WebScraping user guide](/userguide/webscraping)
+
+- Web Scarping settings
+  - JavaScript Execute Timeout<br>How long time before the injected scraping script should run before timeout. On slower computer you can increase this number.
+  - Web Scarping Delay 1 (Our script to run)<br>A short delay, let existing script to finalize before we run our injected scraping scrpit again. On slower computer, you can increase this number.
+  - Web Scraping Retry<br>Number of retry run the script after error or timeout.
+  - Web Scraping Delay 2 (In-Page script to run)<br>A short delay, let existing script to finalize before we run the scraping scrpit. On slower computer, you can increase this number.
+  - Page Start Loading Timeout<br>When trying to open a page, hot long should web browser wait before consider timeout
+  - Page Loaded Timeout<br>
+  - Number of PageDown keystroke.<br> When scraping categories, then the scraper send PageDown keypress, and check if new data has been loaded to the web browser. If not new data has been found, the scraper consider we are at the end of the page.
+- Start pages for scraping categories
+  - A list of page that will be scarped to scrap catergories
+
 ![WebScraper](config_webscraper.png)
 
 ## Metadata Write
+
+### Variables
+
+A list of variables you can write back in Windows Xtra atoms and back to any meta information fields.
+
+  - System
+	  - {SystemDateTime}
+	  - {SystemDateTimeDateStamp}
+	  - {SystemDateTimeTimeStamp}
+	  - {SystemDateTime_yyyy}
+	  - {SystemDateTime_MM}
+	  - {SystemDateTime_dd}
+	  - {SystemDateTime_HH}
+	  - {SystemDateTime_mm}
+	  - {SystemDateTime_ss}
+  - Filesystem
+	  - {FileName}
+	  - {FileFullPath}
+	  - {FileFullPath.8.3}
+	  - {FileNameWithoutExtension}
+	  - {FileNameWithoutDateTime}
+	  - {FileExtension}
+	  - {FileDirectory}
+	  - {FileSize}
+	  - {FileDateCreated}
+	  - {FileDateCreatedDateStamp}
+	  - {FileDateCreatedTimeStamp}
+	  - {FileDateCreated_yyyy}
+	  - {FileDateCreated_MM}
+	  - {FileDateCreated_dd}
+	  - {FileDateCreated_HH}
+	  - {FileDateCreated_mm}
+	  - {FileDateCreated_ss}
+	  - {FileDateModified}
+	  - {IfFileDateModifiedChanged}
+	  - {FileDateModifiedDateStamp}
+	  - {FileDateModifiedTimeStamp}
+	  - {FileDateModified_yyyy}
+	  - {FileDateModified_MM}
+	  - {FileDateModified_dd}
+	  - {FileDateModified_HH}
+	  - {FileDateModified_mm}
+	  - {FileDateModified_ss}
+	  - {FileLastAccessed}
+	  - {FileLastAccessedDateStamp}
+	  - {FileLastAccessedTimeStamp}
+	  - {FileLastAccessed_yyyy}
+	  - {FileLastAccessed_MM}
+	  - {FileLastAccessed_dd}
+	  - {FileLastAccessed_HH}
+	  - {FileLastAccessed_mm}
+	  - {FileLastAccessed_ss}
+	  - {FileMimeType}
+  - Personal
+	  - {PersonalTitle}
+	  - {IfPersonalTitleChanged}
+	  - {PersonalDescription}
+	  - {IfPersonalDescriptionChanged}
+	  - {PersonalComments}
+	  - {IfPersonalCommentsChanged}
+	  - {PersonalRating}
+	  - {IfPersonalRatingChanged}
+	  - {PersonalRatingPercent}
+	  - {PersonalAuthor}
+	  - {IfPersonalAuthorChanged}
+	  - {PersonalAlbum}
+	  - {IfPersonalAlbumChanged}
+	  - {PersonalRegionInfoMP}
+	  - {PersonalRegionInfo}
+	  - {IfPersonalRegionChanged}
+  - Keyword
+	  - {PersonalKeywordsList}
+	  - {PersonalKeywordsXML}
+	  - {PersonalKeywordItemsDelete}
+	  - {PersonalKeywordItemsAdd}
+	  - {IfPersonalKeywordsChanged}
+  - Camera
+	  - {CameraMake}
+	  - {CameraModel}
+  - Media
+	  - {IfMediaDateTakenChanged}
+	  - {MediaDateTakenDateStamp}
+	  - {MediaDateTakenTimeStamp}
+	  - {MediaDateTaken_yyyy}
+	  - {MediaDateTaken_MM}
+	  - {MediaDateTaken_dd}
+	  - {MediaDateTaken_HH}
+	  - {MediaDateTaken_mm}
+	  - {MediaDateTaken_ss}
+	  - {MediaWidth}
+	  - {MediaHeight}
+	  - {MediaOrientation}
+	  - {MediaVideoLength}
+  - Location
+	  - {LocationAltitude}
+	  - {IfLocationAltitudeChanged}
+	  - {LocationLatitude}
+	  - {IfLocationLatitudeChanged}
+	  - {LocationLongitude}
+	  - {IfLocationLongitudeChanged}
+	  - {LocationDateTime}
+	  - {IfLocationDateTimeChanged}
+	  - {LocationDateTimeUTC}
+	  - {LocationDateTimeDateStamp}
+	  - {LocationDateTimeTimeStamp}
+	  - {LocationDateTime_yyyy}
+	  - {LocationDateTime_MM}
+	  - {LocationDateTime_dd}
+	  - {LocationDateTime_HH}
+	  - {LocationDateTime_mm}
+	  - {LocationDateTime_ss}
+	  - {LocationName}
+	  - {IfLocationNameChanged}
+	  - {LocationCity}
+	  - {IfLocationCityChanged}
+	  - {LocationState}
+	  - {IfLocationStateChanged}
+	  - {LocationCountry}
+	  - {IfLocationCountryChanged}
+
+### Write Windows Xtra atom properties
+
+Here you can setup what Xtra atoms should be write back to the media file.
+
+When Video is selected, data is written back to video files.
+
+When Picture is selected, data will be written back to image files where supported.
+
+  - Keywords
+  - Categories
+  - Album
+  - Subtilte
+  - Subject
+  - Comment
+  - Artist
+  - Rating
+
 ![Metadata Write](config_metadata-write.png)
 
 ## File date formats
+When remove date and time from filename, what format will be accepted to remove from file name.
+
+On the [Date and Time tab](/userguide/date) all date and time found in file name, will be present as found date and time.
+
 ![File date formats](config_file-date-formats.png)
 
 ## AutoCorrect
+
+See [AutoCorrect user guide](/userguide/autocorrect/) for more information.
+
 ![AutoCorrect](config_autocorrect.png)
 
 ## Camera owner
+See [GEOtagging user guide](/userguide/map/) for more information.
+
+Camera owner is used when finding correct owner for GPS location history.
+
+Camera owner can be used to set Author field.
+
 ![Camera owner](config_camera-owner.png)
 
 ## Location names
+See [GEOtagging user guide](/userguide/map/) for more information.
+
 ![Location names](config_location-names.png)
 
 ## Convert and merge

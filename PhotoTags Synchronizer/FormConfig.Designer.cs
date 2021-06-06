@@ -1512,6 +1512,8 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBox11
             // 
+            this.groupBox11.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox11.Controls.Add(this.label82);
             this.groupBox11.Controls.Add(this.label81);
             this.groupBox11.Controls.Add(this.label80);
@@ -1538,7 +1540,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox11.Size = new System.Drawing.Size(763, 249);
             this.groupBox11.TabIndex = 1;
             this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "groupBox11";
+            this.groupBox11.Text = "Web Scraping settings";
             // 
             // label82
             // 
@@ -1851,10 +1853,13 @@ namespace PhotoTagsSynchronizer
             this.groupBox10.Size = new System.Drawing.Size(763, 487);
             this.groupBox10.TabIndex = 0;
             this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Start pages for scraping";
+            this.groupBox10.Text = "Start pages for scraping categories";
             // 
             // textBoxWebScrapingStartPages
             // 
+            this.textBoxWebScrapingStartPages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWebScrapingStartPages.Location = new System.Drawing.Point(6, 21);
             this.textBoxWebScrapingStartPages.Multiline = true;
             this.textBoxWebScrapingStartPages.Name = "textBoxWebScrapingStartPages";
@@ -1967,7 +1972,7 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharHeight = 18;
@@ -2000,7 +2005,7 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharHeight = 18;
