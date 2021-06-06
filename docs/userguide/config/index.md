@@ -310,18 +310,18 @@ When Picture is selected, data will be written back to image files where support
 ## File date formats
 When remove date and time from filename, what format will be accepted to remove from file name.
 
-On the [Date and Time tab](/userguide/date) all date and time found in file name, will be present as found date and time.
+On the [Date and Time tab](../date/) all date and time found in file name, will be present as found date and time.
 
 ![File date formats](config_file-date-formats.png)
 
 ## AutoCorrect
 
-See [AutoCorrect user guide](/userguide/autocorrect/) for more information.
+See [AutoCorrect user guide](../autocorrect/) for more information.
 
 ![AutoCorrect](config_autocorrect.png)
 
 ## Camera owner
-See [GEOtagging user guide](/userguide/map/) for more information.
+See [GEOtagging user guide](../map/) for more information.
 
 Camera owner is used when finding correct owner for GPS location history.
 
@@ -330,7 +330,7 @@ Camera owner can be used to set Author field.
 ![Camera owner](config_camera-owner.png)
 
 ## Location names
-See [GEOtagging user guide](/userguide/map/) for more information.
+See [GEOtagging user guide](../map/) for more information.
 
 ![Location names](config_location-names.png)
 
