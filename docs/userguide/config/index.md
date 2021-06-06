@@ -20,7 +20,7 @@ Here you can change general settings about the applications.
   - What language is prefrerred when looking up location name, region/state, city and contry.
 - Search result
   - When search for media files, this will be maximum of media files found. This to avoid working with to media files at once.
-- Region name suggestions. See [People/Regions](\userguide\people) for more information.
+- Region name suggestions. See [People/Regions](../people/) for more information.
   - Number of days. When tagging names for people, a shortcut for most likly names are create. People you been together with during last x days, will apper in this list.
   - Number of most common.  When tagging names for people, a shortcut for most used names will apper in this list. Here you can set maximum nuber of names you want to see in this list.
 - Region media and list view
@@ -131,7 +131,7 @@ By settning all fields as Author, and what priority each meta information has yo
 If you want QuickTime to win, just set hight priority than IPTC and EXIF.
 
 #### Warnings
-When there are mismatch between meta information that in theory should be equal, a warning will be saved and you can see all warnings in the [Warnings tab](/userguide/warnings)
+When there are mismatch between meta information that in theory should be equal, a warning will be saved and you can see all warnings in the [Warnings tab](../warnings/)
 
 #### Assign meta information and priority
 
@@ -152,7 +152,7 @@ Exiftool | Warnings
 ![Exiftool contextmenu](config_metadata-read-exiftool-contextmenu.png) | ![Warnings](config_metadata-read-warnings-contextmenu.png)
 
 ## WebScraper
-See also [WebScraping user guide](/userguide/webscraping)
+See also [WebScraping user guide](../webscraping/)
 
 - Web Scarping settings
   - JavaScript Execute Timeout<br>How long time before the injected scraping script should run before timeout. On slower computer you can increase this number.
