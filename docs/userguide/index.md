@@ -4,6 +4,7 @@
 - [AutoCorrect](autocorrect)
 - [Config](config)
 - [Keywords](keywords)
+- [People](people)
 - [GEOtagging](map)
 - [Date and time](date)
 - [ExifTool GUI](exiftool)
