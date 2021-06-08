@@ -1,7 +1,3 @@
----
-layout: default
----
-
 # Userguide
 
 - General information
@@ -25,6 +21,12 @@ layout: default
   - [Rename](renametool) - A powerful rename tool with lot of variables to use
   - [Convert & Merge](convert-and-merge) - Convert pictures and videos into one video file
 
+Include test<br>
+
+{% include header.html %}
+<br>
+{% include footer.html %}
+<br>
 {% include_relative ../config/ %}
 
 Test
