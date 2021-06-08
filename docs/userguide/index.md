@@ -25,6 +25,8 @@ layout: default
   - [Rename](renametool) - A powerful rename tool with lot of variables to use
   - [Convert & Merge](convert-and-merge) - Convert pictures and videos into one video file
 
+{{% include header.html %}}
+{{% include footer.html %}}
 {% include_relative ../config/ %}
 
 Test
