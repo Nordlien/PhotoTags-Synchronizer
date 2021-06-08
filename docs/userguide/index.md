@@ -23,11 +23,11 @@
 
 Include test<br>
 
-% include header.html %
+{% include header.html %}
 <br>
-% include footer.html %
+{% include footer.html %}
 <br>
--- include_relative ../config/ --
+{% include_relative ../config/ %}
 
 Test
 Cheching
