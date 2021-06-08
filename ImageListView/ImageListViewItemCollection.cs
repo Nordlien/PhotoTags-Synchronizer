@@ -507,7 +507,7 @@ namespace Manina.Windows.Forms
                             long ay = y.Dimensions.Width * y.Dimensions.Height;
                             result = (ax < ay ? -1 : (ax > ay ? 1 : 0));
                             break;
-                        case ColumnType.FileName:
+                        case ColumnType.FileFullPath:
                             result = string.Compare(x.FileFullPath, y.FileFullPath, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         case ColumnType.FileDirectory:
@@ -527,8 +527,8 @@ namespace Manina.Windows.Forms
                             float ry = y.Resolution.Width * y.Resolution.Height;
                             result = (rx < ry ? -1 : (rx > ry ? 1 : 0));
                             break;
-                        case ColumnType.ImageDescription:
-                            result = string.Compare(x.ImageDescription, y.ImageDescription, StringComparison.InvariantCultureIgnoreCase);
+                        case ColumnType.MediaDescription:
+                            result = string.Compare(x.MediaDescription, y.MediaDescription, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         case ColumnType.EquipmentModel:
                             result = string.Compare(x.EquipmentModel, y.EquipmentModel, StringComparison.InvariantCultureIgnoreCase);
@@ -536,8 +536,8 @@ namespace Manina.Windows.Forms
                         case ColumnType.DateTaken:
                             result = DateTime.Compare(x.DateTaken, y.DateTaken);
                             break;
-                        case ColumnType.Artist:
-                            result = string.Compare(x.Artist, y.Artist, StringComparison.InvariantCultureIgnoreCase);
+                        case ColumnType.MediaAuthor:
+                            result = string.Compare(x.MediaAuthor, y.MediaAuthor, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         case ColumnType.Copyright:
                             result = string.Compare(x.Copyright, y.Copyright, StringComparison.InvariantCultureIgnoreCase);
@@ -557,8 +557,8 @@ namespace Manina.Windows.Forms
                         case ColumnType.Aperture:
                             result = string.Compare(x.Aperture, y.Aperture, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.UserComment:
-                            result = string.Compare(x.UserComment, y.UserComment, StringComparison.InvariantCultureIgnoreCase);
+                        case ColumnType.MediaComment:
+                            result = string.Compare(x.MediaComment, y.MediaComment, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         default:
                             result = 0;

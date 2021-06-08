@@ -51,17 +51,29 @@ namespace Manina.Windows.Forms
         private SizeF mResolution;
         
         // Exif tags
-        private string mImageDescription;
+        
         private string mEquipmentModel;
         private DateTime mDateTaken;
-        private string mArtist;
         private string mCopyright;
         private string mExposureTime;
         private float mFNumber;
         private ushort mISOSpeed;
         private string mShutterSpeed;
         private string mAperture;
-        private string mUserComment;
+        
+
+        //JTN: Added more column types
+        private string mMediaAlbum;
+        private string mMediaTitle;
+        private string mMediaDescription;
+        private string mMediaComment;
+        private string mMediaAuthor;
+        private byte mMediaRating;        
+        private string mLocationName;
+        private string mLocationRegionState;
+        private string mLocationCity;
+        private string mLocationCountry;
+        
 
         // Used for virtual items
         internal bool isVirtualItem;
@@ -335,12 +347,6 @@ namespace Manina.Windows.Forms
         public SizeF Resolution { get { UpdateFileInfo(false); return mResolution; } }
         
         /// <summary>
-        /// Gets image deascription.
-        /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets image deascription.")]
-        public string ImageDescription { get { UpdateFileInfo(false); return mImageDescription; } }
-        
-        /// <summary>
         /// Gets the camera model.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the camera model.")]
@@ -352,11 +358,7 @@ namespace Manina.Windows.Forms
         [Category("Data"), Browsable(false), Description("Gets the date and time the image was taken.")]
         public DateTime DateTaken { get { UpdateFileInfo(false); return mDateTaken; } }
         
-        /// <summary>
-        /// Gets the name of the artist.
-        /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets the name of the artist.")]
-        public string Artist { get { UpdateFileInfo(false); return mArtist; } }
+        
         
         /// <summary>
         /// Gets image copyright information.
@@ -393,12 +395,70 @@ namespace Manina.Windows.Forms
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the lens aperture value.")]
         public string Aperture { get { UpdateFileInfo(false); return mAperture; } }
+
+        //JTN: Added more column types
         
+        /// <summary>
+        /// Gets media album.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets media album.")]
+        public string MediaAlbum { get { UpdateFileInfo(false); return mMediaAlbum; } }
+
+        /// <summary>
+        /// Gets media title.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets media title.")]
+        public string MediaTitle { get { UpdateFileInfo(false); return mMediaTitle; } }
+        
+        /// <summary>
+        /// Gets media description.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets media description.")]
+        public string MediaDescription { get { UpdateFileInfo(false); return mMediaDescription; } }
+
         /// <summary>
         /// Gets user comments.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets user comments.")]
-        public string UserComment { get { UpdateFileInfo(false); return mUserComment; } }
+        public string MediaComment { get { UpdateFileInfo(false); return mMediaComment; } }
+
+        /// <summary>
+        /// Gets the name of the artist.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets the name of the media file author.")]
+        public string MediaAuthor { get { UpdateFileInfo(false); return mMediaAuthor; } }
+
+        /// <summary>
+        /// Gets the media rating.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets the media rating.")]
+        public byte MediaRating { get { UpdateFileInfo(false); return mMediaRating; } }
+
+        /// <summary>
+        /// Gets the media location name.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets the name of the media location name.")]
+        public string LocationName { get { UpdateFileInfo(false); return mLocationName; } }
+
+        /// <summary>
+        /// Gets the media location region or state.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets the name of the media Llocation region or state.")]
+        public string LocationRegionState { get { UpdateFileInfo(false); return mLocationRegionState; } }
+
+        /// <summary>
+        /// Gets the media location city.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets the name of the media location city.")]
+        public string LocationCity { get { UpdateFileInfo(false); return mLocationCity; } }
+
+        /// <summary>
+        /// Gets the media location country.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets the name of the media location country.")]
+        public string LocationCountry { get { UpdateFileInfo(false); return mLocationCountry; } }
+        
+
         #endregion
 
         #region Constructors
@@ -566,77 +626,78 @@ namespace Manina.Windows.Forms
         /// <returns>Formatted text for the given column type.</returns>
         public string GetSubItemText(ColumnType type)
         {
+            //JTN: Added more column types
             switch (type)
             {
                 case ColumnType.DateAccessed:
-                    if (DateAccessed == DateTime.MinValue)
-                        return "";
-                    else
-                        return DateAccessed.ToString("g");
+                    if (DateAccessed == DateTime.MinValue) return "";
+                    else return DateAccessed.ToString("g");
                 case ColumnType.DateCreated:
-                    if (DateCreated == DateTime.MinValue)
-                        return "";
-                    else
-                        return DateCreated.ToString("g");
+                    if (DateCreated == DateTime.MinValue) return "";
+                    else return DateCreated.ToString("g");
                 case ColumnType.DateModified:
-                    if (DateModified == DateTime.MinValue)
-                        return "";
-                    else
-                        return DateModified.ToString("g");
-                case ColumnType.FileName:
+                    if (DateModified == DateTime.MinValue) return "";
+                    else return DateModified.ToString("g");
+                case ColumnType.FileFullPath:
                     return FileFullPath;
                 case ColumnType.Name:
                     return Text;
                 case ColumnType.FileDirectory:
                     return FileDirectory;
                 case ColumnType.FileSize:
-                    if (FileSize == 0)
-                        return "";
-                    else
-                        return Utility.FormatSize(FileSize);
+                    if (FileSize == 0) return "";
+                    else return Utility.FormatSize(FileSize);
                 case ColumnType.FileType:
                     return FileType;
                 case ColumnType.Dimensions:
-                    if (Dimensions == Size.Empty)
-                        return "";
-                    else
-                        return string.Format("{0} x {1}", Dimensions.Width, Dimensions.Height);
+                    if (Dimensions == Size.Empty) return "";
+                    else return string.Format("{0} x {1}", Dimensions.Width, Dimensions.Height);
                 case ColumnType.Resolution:
-                    if (Resolution == SizeF.Empty)
-                        return "";
-                    else
-                        return string.Format("{0} x {1}", Resolution.Width, Resolution.Height);
-                case ColumnType.ImageDescription:
-                    return ImageDescription;
+                    if (Resolution == SizeF.Empty) return "";
+                    else return string.Format("{0} x {1}", Resolution.Width, Resolution.Height);
+                
                 case ColumnType.EquipmentModel:
                     return EquipmentModel;
                 case ColumnType.DateTaken:
-                    if (DateTaken == DateTime.MinValue)
-                        return "";
-                    else
-                        return DateTaken.ToString("g");
-                case ColumnType.Artist:
-                    return Artist;
+                    if (DateTaken == DateTime.MinValue) return "";
+                    else return DateTaken.ToString("g");                
                 case ColumnType.Copyright:
                     return Copyright;
                 case ColumnType.ExposureTime:
                     return ExposureTime;
                 case ColumnType.FNumber:
-                    if (FNumber == 0.0f)
-                        return "";
-                    else
-                        return FNumber.ToString("f2");
+                    if (FNumber == 0.0f) return "";
+                    else return FNumber.ToString("f2");
                 case ColumnType.ISOSpeed:
-                    if (ISOSpeed == 0)
-                        return "";
-                    else
-                        return ISOSpeed.ToString();
+                    if (ISOSpeed == 0) return "";
+                    else return ISOSpeed.ToString();
                 case ColumnType.ShutterSpeed:
                     return ShutterSpeed;
                 case ColumnType.Aperture:
                     return Aperture;
-                case ColumnType.UserComment:
-                    return UserComment;
+                
+
+                case ColumnType.MediaAlbum:
+                    return MediaAlbum;
+                case ColumnType.MediaTitle:
+                    return MediaTitle;
+                case ColumnType.MediaDescription:
+                    return MediaDescription;
+                case ColumnType.MediaComment:
+                    return MediaComment;
+                case ColumnType.MediaAuthor:
+                    return MediaAuthor;
+                case ColumnType.MediaRating:
+                    if (MediaRating <= 0) return "";
+                    else return MediaRating.ToString();
+                case ColumnType.LocationName:
+                    return LocationName;
+                case ColumnType.LocationRegionState:
+                    return LocationRegionState;
+                case ColumnType.LocationCity:
+                    return LocationCity;
+                case ColumnType.LocationCountry:
+                    return LocationCountry;
                 default:
                     throw new ArgumentException("Unknown column type", "type");
             }
@@ -696,17 +757,27 @@ namespace Manina.Windows.Forms
                 mDimensions = info.Dimensions;
                 mResolution = info.Resolution;
                 // Exif tags
-                mImageDescription = info.ImageDescription;
                 mEquipmentModel = info.EquipmentModel;
                 mDateTaken = info.DateTaken;
-                mArtist = info.Artist;
                 mCopyright = info.Copyright;
                 mExposureTime = info.ExposureTime;
                 mFNumber = info.FNumber;
                 mISOSpeed = info.ISOSpeed;
                 mShutterSpeed = info.ShutterSpeed;
                 mAperture = info.ApertureValue;
-                mUserComment = info.UserComment;
+                
+                //Exif extras
+                mMediaAlbum = info.MediaAlbum;
+                mMediaTitle = info.MediaTitle;
+                mMediaDescription = info.MediaDescription;
+
+                mMediaComment = info.MediaComment;
+                mMediaAuthor = info.MediaAuthor;
+                mMediaRating = info.MediaRating;
+                mLocationName = info.LocationName;
+                mLocationRegionState = info.LocationRegionState;
+                mLocationCity = info.LocationCity;
+                mLocationCountry = info.LocationCountry;
 
                 isFileInfoDirty = false;
                 isDirty = false;
@@ -729,18 +800,27 @@ namespace Manina.Windows.Forms
             mDimensions = info.Dimensions;
             mResolution = info.Resolution;
             // Exif tags
-            mImageDescription = info.ImageDescription;
             mEquipmentModel = info.EquipmentModel;
             mDateTaken = info.DateTaken;
-            mArtist = info.Artist;
             mCopyright = info.Copyright;
             mExposureTime = info.ExposureTime;
             mFNumber = info.FNumber;
             mISOSpeed = info.ISOSpeed;
             mShutterSpeed = info.ShutterSpeed;
             mAperture = info.Aperture;
-            mUserComment = info.UserComment;
-
+            
+            //Exif extras
+            mMediaAlbum = info.MediaAlbum;
+            mMediaTitle = info.MediaTitle;
+            mMediaDescription = info.MediaDescription;
+            mMediaComment = info.MediaComment;
+            mMediaAuthor = info.MediaAuthor;
+            mMediaRating = info.MediaRating;
+            mLocationName = info.LocationName;
+            mLocationRegionState = info.LocationRegionState;
+            mLocationCity = info.LocationCity;
+            mLocationCountry = info.LocationCountry;
+            
             isFileInfoDirty = false;
             isDirty = false;
         }

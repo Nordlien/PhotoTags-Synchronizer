@@ -216,18 +216,42 @@ namespace Manina.Windows.Forms
             public string TypeName { get;  set; }
             public Size Dimensions { get;  set; }
             public SizeF Resolution { get;  set; }
+
             // Exif tags
-            public string ImageDescription { get;  set; }
+            //public string ImageDescription { get;  set; }
             public string EquipmentModel { get;  set; }
             public DateTime DateTaken { get;  set; }
-            public string Artist { get;  set; }
+            //public string Artist { get;  set; }
             public string Copyright { get;  set; }
             public string ExposureTime { get;  set; }
             public float FNumber { get;  set; }
             public ushort ISOSpeed { get;  set; }
             public string ShutterSpeed { get;  set; }
             public string ApertureValue { get;  set; }
-            public string UserComment { get;  set; }
+            //public string UserComment { get;  set; }
+
+            //Exif extras
+            
+            public string MediaAlbum { get; set; }
+            
+            public string MediaTitle { get; set; }
+            
+            public string MediaDescription { get; set; }
+            
+            public string MediaComment { get; set; }
+            
+            public string MediaAuthor { get; set; }
+            
+            public byte MediaRating { get; set; }
+            
+            public string LocationName { get; set; }
+            
+            public string LocationRegionState { get; set; }
+            
+            public string LocationCity { get; set; }
+            
+            public string LocationCountry { get; set; }
+
 
             //JTN Added, create empty version
             public ShellImageFileInfo()

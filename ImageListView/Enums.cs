@@ -82,6 +82,7 @@ namespace Manina.Windows.Forms
     /// </summary>
     public enum ColumnType
     {
+        //JTN: Added more column types
         /// <summary>
         /// The text of the item, defaults to filename if
         /// the text is not provided.
@@ -106,7 +107,7 @@ namespace Manina.Windows.Forms
         /// <summary>
         /// The full path to the file.
         /// </summary>
-        FileName,
+        FileFullPath,
         /// <summary>
         /// The path to the folder containing the file.
         /// </summary>
@@ -123,10 +124,7 @@ namespace Manina.Windows.Forms
         /// Image resolution if dpi.
         /// </summary>
         Resolution,
-        /// <summary>
-        /// Image description (Exif tag).
-        /// </summary>
-        ImageDescription,
+       
         /// <summary>
         /// The equipment model (Exif tag).
         /// </summary>
@@ -135,10 +133,7 @@ namespace Manina.Windows.Forms
         /// The date image was taken (Exif tag).
         /// </summary>
         DateTaken,
-        /// <summary>
-        /// The artist taking the image (Exif tag).
-        /// </summary>
-        Artist,
+        
         /// <summary>
         /// Image copyright information (Exif tag).
         /// </summary>
@@ -163,10 +158,47 @@ namespace Manina.Windows.Forms
         /// The lens aperture (Exif tag).
         /// </summary>
         Aperture,
+
         /// <summary>
-        /// User comment (Exif tag).
+        /// Media Album (Exif tag).
         /// </summary>
-        UserComment,
+        MediaAlbum,
+        /// <summary>
+        /// Media Title (Exif tag).
+        /// </summary>
+        MediaTitle,
+        /// <summary>
+        /// Media Description (Exif tag).
+        /// </summary>
+        MediaDescription,
+        /// <summary>
+        /// Media Comments (Exif tag).
+        /// </summary>
+        MediaComment,
+        /// <summary>
+        /// Media Author (Exif tag).
+        /// </summary>
+        MediaAuthor,
+        /// <summary>
+        /// Media Rating (Exif tag).
+        /// </summary>
+        MediaRating,
+        /// <summary>
+        /// Location Name (Exif tag).
+        /// </summary>
+        LocationName,
+        /// <summary>
+        /// Location Region or State (Exif tag).
+        /// </summary>
+        LocationRegionState,
+        /// <summary>
+        /// Location City (Exif tag).
+        /// </summary>
+        LocationCity,
+        /// <summary>
+        /// Location Country (Exif tag).
+        /// </summary>
+        LocationCountry
     }
     /// <summary>
     /// Represents the order by which items are drawn.

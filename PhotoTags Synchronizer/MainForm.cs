@@ -548,8 +548,138 @@ namespace PhotoTagsSynchronizer
 
 
 
+
         #endregion
 
+
+        private void ImageListViewSortColumn(ImageListView imageListView, ColumnType columnToSort)
+        {
+            if (imageListView.SortColumn == columnToSort)
+            {
+                if (imageListView.SortOrder == SortOrder.Descending) imageListView.SortOrder = SortOrder.Ascending;
+                else imageListView.SortOrder = SortOrder.Descending;
+            } 
+            else
+            {
+                imageListView.SortColumn = columnToSort;
+                imageListView.SortOrder = SortOrder.Ascending;
+            }            
+        }
+
+        private void ToolStripMenuItemSortByFilename_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.Name);
+            /*
+            /// The text of the item, defaults to filename if
+            Name,
+            /// The last access date.
+            DateAccessed,
+            /// The creation date.
+            DateCreated,
+            /// The last modification date.
+            DateModified,
+            /// Mime type of the file.
+            FileType,
+            /// The full path to the file.
+            FileName,
+            /// The path to the folder containing the file.
+            FileDirectory,
+            /// The size of the file.
+            FileSize,
+            /// Image dimensions in pixels.
+            Dimensions,
+            /// Image resolution if dpi.
+            Resolution,
+            /// Image description (Exif tag).
+            ImageDescription,
+            /// The equipment model (Exif tag).
+            EquipmentModel,
+            /// The date image was taken (Exif tag).
+            DateTaken,
+            /// The artist taking the image (Exif tag).
+            Artist,
+            /// Image copyright information (Exif tag).
+            Copyright,
+            /// Exposure time in seconds (Exif tag).
+            ExposureTime,
+            /// The F number (Exif tag).
+            FNumber,
+            /// ISO speed (Exif tag).
+            ISOSpeed,
+            /// Shutter speed (Exif tag).
+            ShutterSpeed,
+            /// The lens aperture (Exif tag).
+            Aperture,
+            /// User comment (Exif tag).      
+            UserComment,
+            */
+        }
+
+        
+        private void ToolStripMenuItemSortByFileCreatedDate_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.DateCreated);
+        }
+
+        private void ToolStripMenuItemSortByFileModifiedDate_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.DateCreated);
+        }
+
+        private void ToolStripMenuItemSortByMediaDateTaken_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.DateTaken);
+        }
+
+        private void ToolStripMenuItemSortByMediaAlbum_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaAlbum);
+        }
+
+        private void ToolStripMenuItemSortByMediaTitle_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaTitle);
+        }
+
+        private void ToolStripMenuItemSortByMediaDescription_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaDescription);
+        }
+
+        private void ToolStripMenuItemSortByMediaComments_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaComment);
+        }
+
+        private void ToolStripMenuItemSortByMediaAuthor_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaAuthor);
+        }
+
+        private void ToolStripMenuItemSortByMediaRating_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaRating);
+        }
+
+        private void ToolStripMenuItemSortByLocationName_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationName);
+        }
+
+        private void ToolStripMenuItemSortByLocationRegionState_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationRegionState);
+        }
+
+        private void ToolStripMenuItemSortByLocationCity_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationCity);
+        }
+
+        private void ToolStripMenuItemSortByLocationCountry_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationCountry);
+        }
         
     }
 

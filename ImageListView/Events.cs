@@ -725,10 +725,7 @@ namespace Manina.Windows.Forms
         /// Gets or sets image resolution in pixels per inch.
         /// </summary>
         public SizeF Resolution { get; set; }
-        /// <summary>
-        /// Gets or sets image deascription.
-        /// </summary>
-        public string ImageDescription { get; set; }
+        //public string ImageDescription { get; set; }
         /// <summary>
         /// Gets or sets the camera model.
         /// </summary>
@@ -737,10 +734,7 @@ namespace Manina.Windows.Forms
         /// Gets or sets the date and time the image was taken.
         /// </summary>
         public DateTime DateTaken { get; set; }
-        /// <summary>
-        /// Gets or sets the name of the artist.
-        /// </summary>
-        public string Artist { get; set; }
+        //public string Artist { get; set; }
         /// <summary>
         /// Gets or sets image copyright information.
         /// </summary>
@@ -765,10 +759,49 @@ namespace Manina.Windows.Forms
         /// Gets or sets the lens aperture value.
         /// </summary>
         public string Aperture { get; set; }
+        //public string UserComment { get; set; }
+
         /// <summary>
-        /// Gets or sets user comments.
+        /// Get and set MediaAlbum
         /// </summary>
-        public string UserComment { get; set; }
+        public string MediaAlbum { get; set; }
+        /// <summary>
+        /// Get and set MediaTitle
+        /// </summary>
+        public string MediaTitle { get; set; }
+        /// <summary>
+        /// Get and set MediaDescription
+        /// </summary>
+        public string MediaDescription { get; set; }
+        /// <summary>
+        /// Get and set MediaComment
+        /// </summary>
+        public string MediaComment { get; set; }
+        /// <summary>
+        /// Get and set MediaAuthor
+        /// </summary>
+        public string MediaAuthor { get; set; }
+        /// <summary>
+        /// Get and set MediaRating
+        /// </summary>
+        public byte MediaRating { get; set; }
+        /// <summary>
+        /// Get and set LocationName
+        /// </summary>
+        public string LocationName { get; set; }
+        /// <summary>
+        /// Get and set LocationRegionState
+        /// </summary>
+        public string LocationRegionState { get; set; }
+        /// <summary>
+        /// Get and set LocationCity
+        /// </summary>
+        public string LocationCity { get; set; }
+        /// <summary>
+        /// Get and set LocationCountry
+        /// </summary>
+        public string LocationCountry { get; set; }
+        
 
         /// <summary>
         /// Initializes a new instance of the LayoutEventArgs class.

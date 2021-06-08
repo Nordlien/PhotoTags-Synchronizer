@@ -5,13 +5,11 @@ using System.IO;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using ImageAndMovieFileExtentions;
-using System.Diagnostics;
 using System.Threading;
 using ApplicationAssociations;
 using Exiftool;
 using System.Collections.Generic;
 using static Manina.Windows.Forms.ImageListView;
-using Thumbnails;
 
 namespace PhotoTagsSynchronizer
 {
@@ -26,17 +24,13 @@ namespace PhotoTagsSynchronizer
         {
             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool));
 
-            //Application.DoEvents();
             try
             {
-                //if (metadata == null) metadata = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
                 if (metadata == null || metadata.FileName == null)
                 {
                     ExiftoolWriter.WaitLockedFileToBecomeUnlocked(e.FileName);
                     Utility.ShellImageFileInfo shellImageFileInfo = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
 
-                    //Utility.ShellImageFileInfo shellImageFileInfo = new Utility.ShellImageFileInfo();
-                    //shellImageFileInfo.ReadShellImageFileInfo(e.FileName);
                     e.FileMetadata = shellImageFileInfo;
                 }
                 else
@@ -56,6 +50,7 @@ namespace PhotoTagsSynchronizer
                     if (metadata.MediaDateTaken != null) e.FileMetadata.DateTaken = (DateTime)metadata.MediaDateTaken;
                     e.FileMetadata.Artist = metadata.PersonalAuthor;
                     e.FileMetadata.UserComment = metadata.PersonalComments;
+
                 }
             } catch 
             {

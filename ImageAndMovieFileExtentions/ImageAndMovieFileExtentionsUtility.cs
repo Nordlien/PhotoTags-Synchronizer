@@ -292,15 +292,8 @@ namespace ImageAndMovieFileExtentions
                         if (valueRational != null) shellImageFileInfo.ApertureValue = valueRational.ToString();
                         #endregion
 
-                        #region shellImageFileInfo.Artist / ExifTag.Artist
-                        var valueString = profile.GetValue(ExifTag.Artist);
-                        var valueByteArray = profile.GetValue(ExifTag.XPAuthor);
-                        if (valueString != null) shellImageFileInfo.Artist = valueString.Value;
-                        else if (valueByteArray != null) shellImageFileInfo.Artist = CovertByteArrayToString(valueByteArray.Value);
-                        #endregion
-
                         #region shellImageFileInfo.Copyright / ExifTag.Copyright
-                        valueString = profile.GetValue(ExifTag.Copyright);
+                        var valueString = profile.GetValue(ExifTag.Copyright);
                         if (valueString != null) shellImageFileInfo.Copyright = valueString.Value;
                         #endregion
 
@@ -333,10 +326,7 @@ namespace ImageAndMovieFileExtentions
                         if (valueRational != null) shellImageFileInfo.FNumber = (float)valueRational.Value.ToDouble();
                         #endregion
 
-                        #region shellImageFileInfo.ImageDescription / ExifTag.ImageDescription
-                        valueString = profile.GetValue(ExifTag.ImageDescription);
-                        if (valueString != null) shellImageFileInfo.ImageDescription = valueString.Value;
-                        #endregion
+                        
 
                         #region shellImageFileInfo.ISOSpeed / ExifTag.ISOSpeed
                         var valueuInt = profile.GetValue(ExifTag.ISOSpeed);
@@ -361,11 +351,51 @@ namespace ImageAndMovieFileExtentions
                         shellImageFileInfo.TypeName = shellImageFileInfo.GetFileType(fullFilename, shellImageFileInfo.Extension);
                         #endregion
 
+
+                        //public string MediaAlbum { get; set; }            
+                        #region shellImageFileInfo.MediaAlbum / ExifTag.ImageDescription
+                        //valueString = profile.GetValue(ExifTag.Al);
+                        //if (valueString != null) shellImageFileInfo.MediaDescription = valueString.Value;
+                        #endregion
+
+                        //public string MediaTitle { get; set; }           
+                        #region shellImageFileInfo.UserComment / ExifTag.XPTitle
+                        var valueByteArray = profile.GetValue(ExifTag.XPTitle);
+                        if (valueByteArray != null) shellImageFileInfo.MediaTitle = CovertByteArrayToString(valueByteArray.Value);
+                        #endregion
+
+                        //public string MediaDescription { get; set; }
+                        #region shellImageFileInfo.ImageDescription / ExifTag.ImageDescription
+                        valueString = profile.GetValue(ExifTag.ImageDescription);
+                        if (valueString != null) shellImageFileInfo.MediaDescription = valueString.Value;
+                        #endregion
+
+                        //public string MediaComment { get; set; }
                         #region shellImageFileInfo.UserComment / ExifTag.UserComment or ExifTag.XPComment
                         valueByteArray = profile.GetValue(ExifTag.UserComment);
                         if (valueByteArray == null) valueByteArray = profile.GetValue(ExifTag.XPComment);
-                        if (valueByteArray != null) shellImageFileInfo.UserComment = CovertByteArrayToString(valueByteArray.Value);
+                        if (valueByteArray != null) shellImageFileInfo.MediaComment = CovertByteArrayToString(valueByteArray.Value);
                         #endregion
+
+                        //public string MediaAuthor { get; set; }
+                        #region shellImageFileInfo.Artist / ExifTag.Artist
+                        valueString = profile.GetValue(ExifTag.Artist);
+                        valueByteArray = profile.GetValue(ExifTag.XPAuthor);
+                        if (valueString != null) shellImageFileInfo.MediaAuthor = valueString.Value;
+                        else if (valueByteArray != null) shellImageFileInfo.MediaAuthor = CovertByteArrayToString(valueByteArray.Value);
+                        #endregion
+
+                        //public byte MediaRating { get; set; }
+                        #region shellImageFileInfo.Rating / ExifTag.Rating
+                        var valueuShort = profile.GetValue(ExifTag.Rating);
+                        if (valueuShort != null) shellImageFileInfo.MediaRating = (byte)(ushort)valueuShort.Value;
+                        #endregion
+
+                        //public string LocationName { get; set; }
+                        //public string LocationRegionState { get; set; }
+                        //public string LocationCity { get; set; }
+                        //public string LocationCountry { get; set; }
+
                     }
                 }
             }
@@ -641,7 +671,7 @@ namespace ImageAndMovieFileExtentions
             ".WTV", // – Windows Vista's and up Windows Media Center recorded television format
             ".YUV", // – raw video format; resolution (horizontal x vertical) and sample structure 4:2:2 or 4:2:0 must be known explicitly
             ".WebM" // – video file format for web video using HTML5*/
-        };
+                    };
 
 
         private static List<string> GetAllMediaExtentions()

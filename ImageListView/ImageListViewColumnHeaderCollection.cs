@@ -91,18 +91,18 @@ namespace Manina.Windows.Forms
                     new ImageListViewColumnHeader(ColumnType.FileSize),
                     new ImageListViewColumnHeader(ColumnType.FileDirectory),
                     new ImageListViewColumnHeader(ColumnType.FileType),
-                    new ImageListViewColumnHeader(ColumnType.FileName),
+                    new ImageListViewColumnHeader(ColumnType.FileFullPath),
                     new ImageListViewColumnHeader(ColumnType.DateTaken),
                     new ImageListViewColumnHeader(ColumnType.DateCreated),
                     new ImageListViewColumnHeader(ColumnType.DateAccessed),
                     new ImageListViewColumnHeader(ColumnType.DateModified),
                     
-                    new ImageListViewColumnHeader(ColumnType.ImageDescription),
-                    new ImageListViewColumnHeader(ColumnType.UserComment),
+                    new ImageListViewColumnHeader(ColumnType.MediaDescription),
+                    new ImageListViewColumnHeader(ColumnType.MediaComment),
 
                     new ImageListViewColumnHeader(ColumnType.EquipmentModel),
 
-                    new ImageListViewColumnHeader(ColumnType.Artist),
+                    new ImageListViewColumnHeader(ColumnType.MediaAuthor),
                     new ImageListViewColumnHeader(ColumnType.Copyright),
 
                     

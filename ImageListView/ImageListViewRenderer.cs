@@ -1092,7 +1092,7 @@ namespace Manina.Windows.Forms
                     // Metatada
                     foreach (ImageListView.ImageListViewColumnHeader column in mImageListView.Columns)
                     {
-                        if (column.Type == ColumnType.ImageDescription)
+                        if (column.Type == ColumnType.MediaDescription)
                         {
                             bounds.Y += 8;
                             bounds.Height -= 8;
@@ -1103,7 +1103,7 @@ namespace Manina.Windows.Forms
                         if (column.Visible &&
                             column.Type != ColumnType.FileType &&
                             column.Type != ColumnType.DateAccessed &&
-                            column.Type != ColumnType.FileName &&
+                            column.Type != ColumnType.FileFullPath &&
                             column.Type != ColumnType.FileDirectory &&
                             column.Type != ColumnType.Name)
                         {
