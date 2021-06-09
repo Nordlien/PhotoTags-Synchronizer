@@ -87,19 +87,19 @@ namespace Manina.Windows.Forms
         /// The text of the item, defaults to filename if
         /// the text is not provided.
         /// </summary>
-        Name,
+        FileName,
         /// <summary>
         /// The last access date.
         /// </summary>
-        DateAccessed,
+        FileDateAccessed,
         /// <summary>
         /// The creation date.
         /// </summary>
-        DateCreated,
+        FileDateCreated,
         /// <summary>
         /// The last modification date.
         /// </summary>
-        DateModified,
+        FileDateModified,
         /// <summary>
         /// Mime type of the file.
         /// </summary>
@@ -119,45 +119,45 @@ namespace Manina.Windows.Forms
         /// <summary>
         /// Image dimensions in pixels.
         /// </summary>
-        Dimensions,
+        MediaDimensions,
         /// <summary>
         /// Image resolution if dpi.
         /// </summary>
-        Resolution,
+        MediaResolution,
        
         /// <summary>
         /// The equipment model (Exif tag).
         /// </summary>
-        EquipmentModel,
+        CameraModel,
         /// <summary>
         /// The date image was taken (Exif tag).
         /// </summary>
-        DateTaken,
+        MediaDateTaken,
         
         /// <summary>
         /// Image copyright information (Exif tag).
         /// </summary>
-        Copyright,
+        MediaCopyright,
         /// <summary>
         /// Exposure time in seconds (Exif tag).
         /// </summary>
-        ExposureTime,
+        CameraExposureTime,
         /// <summary>
         /// The F number (Exif tag).
         /// </summary>
-        FNumber,
+        CameraFNumber,
         /// <summary>
         /// ISO speed (Exif tag).
         /// </summary>
-        ISOSpeed,
+        CameraISOSpeed,
         /// <summary>
         /// Shutter speed (Exif tag).
         /// </summary>
-        ShutterSpeed,
+        CameraShutterSpeed,
         /// <summary>
         /// The lens aperture (Exif tag).
         /// </summary>
-        Aperture,
+        CameraAperture,
 
         /// <summary>
         /// Media Album (Exif tag).

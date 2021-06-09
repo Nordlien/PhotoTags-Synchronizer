@@ -493,16 +493,16 @@ namespace Manina.Windows.Forms
                     int result = 0;
                     switch (mSortColumn)
                     {
-                        case ColumnType.DateAccessed:
+                        case ColumnType.FileDateAccessed:
                             result = DateTime.Compare(x.DateAccessed, y.DateAccessed);
                             break;
-                        case ColumnType.DateCreated:
+                        case ColumnType.FileDateCreated:
                             result = DateTime.Compare(x.DateCreated, y.DateCreated);
                             break;
-                        case ColumnType.DateModified:
+                        case ColumnType.FileDateModified:
                             result = DateTime.Compare(x.DateModified, y.DateModified);
                             break;
-                        case ColumnType.Dimensions:
+                        case ColumnType.MediaDimensions:
                             long ax = x.Dimensions.Width * x.Dimensions.Height;
                             long ay = y.Dimensions.Width * y.Dimensions.Height;
                             result = (ax < ay ? -1 : (ax > ay ? 1 : 0));
@@ -519,10 +519,10 @@ namespace Manina.Windows.Forms
                         case ColumnType.FileType:
                             result = string.Compare(x.FileType, y.FileType, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.Name:
+                        case ColumnType.FileName:
                             result = string.Compare(x.Text, y.Text, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.Resolution:
+                        case ColumnType.MediaResolution:
                             float rx = x.Resolution.Width * x.Resolution.Height;
                             float ry = y.Resolution.Width * y.Resolution.Height;
                             result = (rx < ry ? -1 : (rx > ry ? 1 : 0));
@@ -530,31 +530,31 @@ namespace Manina.Windows.Forms
                         case ColumnType.MediaDescription:
                             result = string.Compare(x.MediaDescription, y.MediaDescription, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.EquipmentModel:
+                        case ColumnType.CameraModel:
                             result = string.Compare(x.EquipmentModel, y.EquipmentModel, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.DateTaken:
+                        case ColumnType.MediaDateTaken:
                             result = DateTime.Compare(x.DateTaken, y.DateTaken);
                             break;
                         case ColumnType.MediaAuthor:
                             result = string.Compare(x.MediaAuthor, y.MediaAuthor, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.Copyright:
+                        case ColumnType.MediaCopyright:
                             result = string.Compare(x.Copyright, y.Copyright, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.ExposureTime:
+                        case ColumnType.CameraExposureTime:
                             result = string.Compare(x.ExposureTime, y.ExposureTime, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.FNumber:
+                        case ColumnType.CameraFNumber:
                             result = (x.FNumber < y.FNumber ? -1 : (x.FNumber > y.FNumber ? 1 : 0));
                             break;
-                        case ColumnType.ISOSpeed:
+                        case ColumnType.CameraISOSpeed:
                             result = (x.ISOSpeed < y.ISOSpeed ? -1 : (x.ISOSpeed > y.ISOSpeed ? 1 : 0));
                             break;
-                        case ColumnType.ShutterSpeed:
+                        case ColumnType.CameraShutterSpeed:
                             result = string.Compare(x.ShutterSpeed, y.ShutterSpeed, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.Aperture:
+                        case ColumnType.CameraAperture:
                             result = string.Compare(x.Aperture, y.Aperture, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         case ColumnType.MediaComment:

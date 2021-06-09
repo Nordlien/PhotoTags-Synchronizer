@@ -63,63 +63,54 @@ namespace Manina.Windows.Forms {
         /// <summary>
         ///   Looks up a localized string similar to Aperture.
         /// </summary>
-        internal static string Aperture {
+        internal static string CameraAperture {
             get {
-                return ResourceManager.GetString("Aperture", resourceCulture);
+                return ResourceManager.GetString("CameraAperture", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Artist.
+        ///   Looks up a localized string similar to Exposure.
         /// </summary>
-        internal static string Artist {
+        internal static string CameraExposureTime {
             get {
-                return ResourceManager.GetString("Artist", resourceCulture);
+                return ResourceManager.GetString("CameraExposureTime", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copyright.
+        ///   Looks up a localized string similar to F Number.
         /// </summary>
-        internal static string Copyright {
+        internal static string CameraFNumber {
             get {
-                return ResourceManager.GetString("Copyright", resourceCulture);
+                return ResourceManager.GetString("CameraFNumber", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last Access.
+        ///   Looks up a localized string similar to ISO Speed.
         /// </summary>
-        internal static string DateAccessed {
+        internal static string CameraISOSpeed {
             get {
-                return ResourceManager.GetString("DateAccessed", resourceCulture);
+                return ResourceManager.GetString("CameraISOSpeed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Created.
+        ///   Looks up a localized string similar to Model.
         /// </summary>
-        internal static string DateCreated {
+        internal static string CameraModel {
             get {
-                return ResourceManager.GetString("DateCreated", resourceCulture);
+                return ResourceManager.GetString("CameraModel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Modified.
+        ///   Looks up a localized string similar to Shutter.
         /// </summary>
-        internal static string DateModified {
+        internal static string CameraShutterSpeed {
             get {
-                return ResourceManager.GetString("DateModified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Taken.
-        /// </summary>
-        internal static string DateTaken {
-            get {
-                return ResourceManager.GetString("DateTaken", resourceCulture);
+                return ResourceManager.GetString("CameraShutterSpeed", resourceCulture);
             }
         }
         
@@ -134,24 +125,6 @@ namespace Manina.Windows.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dimensions.
-        /// </summary>
-        internal static string Dimensions {
-            get {
-                return ResourceManager.GetString("Dimensions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Camera.
-        /// </summary>
-        internal static string EquipmentModel {
-            get {
-                return ResourceManager.GetString("EquipmentModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ErrorImage {
@@ -162,16 +135,34 @@ namespace Manina.Windows.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exposure Time.
+        ///   Looks up a localized string similar to Accessed.
         /// </summary>
-        internal static string ExposureTime {
+        internal static string FileDateAccessed {
             get {
-                return ResourceManager.GetString("ExposureTime", resourceCulture);
+                return ResourceManager.GetString("FileDateAccessed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Path.
+        ///   Looks up a localized string similar to Created.
+        /// </summary>
+        internal static string FileDateCreated {
+            get {
+                return ResourceManager.GetString("FileDateCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modified.
+        /// </summary>
+        internal static string FileDateModified {
+            get {
+                return ResourceManager.GetString("FileDateModified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Directory.
         /// </summary>
         internal static string FileDirectory {
             get {
@@ -180,7 +171,16 @@ namespace Manina.Windows.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filename.
+        ///   Looks up a localized string similar to Path.
+        /// </summary>
+        internal static string FileFullPath {
+            get {
+                return ResourceManager.GetString("FileFullPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string FileName {
             get {
@@ -207,56 +207,128 @@ namespace Manina.Windows.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to F Number.
+        ///   Looks up a localized string similar to City.
         /// </summary>
-        internal static string FNumber {
+        internal static string LocationCity {
             get {
-                return ResourceManager.GetString("FNumber", resourceCulture);
+                return ResourceManager.GetString("LocationCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        internal static string LocationCountry {
+            get {
+                return ResourceManager.GetString("LocationCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LocationName.
+        /// </summary>
+        internal static string LocationName {
+            get {
+                return ResourceManager.GetString("LocationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Region/State.
+        /// </summary>
+        internal static string LocationRegionState {
+            get {
+                return ResourceManager.GetString("LocationRegionState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Album.
+        /// </summary>
+        internal static string MediaAlbum {
+            get {
+                return ResourceManager.GetString("MediaAlbum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        internal static string MediaAuthor {
+            get {
+                return ResourceManager.GetString("MediaAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        internal static string MediaComment {
+            get {
+                return ResourceManager.GetString("MediaComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copyright.
+        /// </summary>
+        internal static string MediaCopyright {
+            get {
+                return ResourceManager.GetString("MediaCopyright", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date Taken.
+        /// </summary>
+        internal static string MediaDateTaken {
+            get {
+                return ResourceManager.GetString("MediaDateTaken", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
-        internal static string ImageDescription {
+        internal static string MediaDescription {
             get {
-                return ResourceManager.GetString("ImageDescription", resourceCulture);
+                return ResourceManager.GetString("MediaDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ISO Speed.
+        ///   Looks up a localized string similar to Dimensions.
         /// </summary>
-        internal static string ISOSpeed {
+        internal static string MediaDimensions {
             get {
-                return ResourceManager.GetString("ISOSpeed", resourceCulture);
+                return ResourceManager.GetString("MediaDimensions", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name.
+        ///   Looks up a localized string similar to Rating.
         /// </summary>
-        internal static string Name {
+        internal static string MediaRating {
             get {
-                return ResourceManager.GetString("Name", resourceCulture);
+                return ResourceManager.GetString("MediaRating", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Resolution.
         /// </summary>
-        internal static string Resolution {
+        internal static string MediaResolution {
             get {
-                return ResourceManager.GetString("Resolution", resourceCulture);
+                return ResourceManager.GetString("MediaResolution", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shutter Speed.
+        ///   Looks up a localized string similar to Title.
         /// </summary>
-        internal static string ShutterSpeed {
+        internal static string MediaTitle {
             get {
-                return ResourceManager.GetString("ShutterSpeed", resourceCulture);
+                return ResourceManager.GetString("MediaTitle", resourceCulture);
             }
         }
         
@@ -277,15 +349,6 @@ namespace Manina.Windows.Forms {
             get {
                 object obj = ResourceManager.GetObject("SortDescending", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Comments.
-        /// </summary>
-        internal static string UserComment {
-            get {
-                return ResourceManager.GetString("UserComment", resourceCulture);
             }
         }
     }

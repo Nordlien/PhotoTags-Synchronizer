@@ -35,27 +35,60 @@ namespace PhotoTagsSynchronizer
                 }
                 else
                 {
-                    e.FileMetadata = new Utility.ShellImageFileInfo();
-                    e.FileMetadata.LastAccessTime = (DateTime)metadata.FileLastAccessed;
-                    e.FileMetadata.CreationTime = (DateTime)metadata.FileDateCreated;
-                    e.FileMetadata.LastWriteTime = (DateTime)metadata.FileDateModified;
-                    e.FileMetadata.Size = (long)metadata.FileSize;
-                    e.FileMetadata.TypeName = metadata.FileMimeType;
-                    e.FileMetadata.DirectoryName = metadata.FileDirectory;
-                    if (metadata.MediaWidth != null && metadata.MediaHeight != null) e.FileMetadata.Dimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
+                    e.FileMetadata = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
+                    if (e.FileMetadata == null) e.FileMetadata = new Utility.ShellImageFileInfo();
+                    
+                    
+                    // Exif tags, Utility.ShellImageFileInfo()
+                    e.FileMetadata.MediaDescription = metadata.PersonalDescription;
+                    e.FileMetadata.CameraModel = metadata.CameraModel;
+                    if (metadata.MediaDateTaken != null) e.FileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
+                    e.FileMetadata.MediaAuthor = metadata.PersonalAuthor;
+                    e.FileMetadata.MediaComment = metadata.PersonalComments;
 
-                    // Exif tags
-                    e.FileMetadata.ImageDescription = metadata.PersonalDescription;
-                    e.FileMetadata.EquipmentModel = metadata.CameraModel;
-                    if (metadata.MediaDateTaken != null) e.FileMetadata.DateTaken = (DateTime)metadata.MediaDateTaken;
-                    e.FileMetadata.Artist = metadata.PersonalAuthor;
-                    e.FileMetadata.UserComment = metadata.PersonalComments;
+                    #region Provided by FileInfo
+                    e.FileMetadata.FileDateAccessed = (DateTime)metadata.FileDateAccessed;
+                    e.FileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
+                    e.FileMetadata.FileDateModified = (DateTime)metadata.FileDateModified;
+                    e.FileMetadata.FileSize = (long)metadata.FileSize;
+                    e.FileMetadata.FileMimeType = metadata.FileMimeType;
+                    e.FileMetadata.FileDirectory = metadata.FileDirectory;
+                    #endregion
 
+                    #region Provided by ShellImageFileInfo, MagickImage                                
+                    e.FileMetadata.CameraModel = metadata.CameraModel;
+                    //e.FileMetadata.CameraExposureTime = metadata.CameraExposureTime;
+                    //e.FileMetadata.CameraFNumber = metadata.CameraFNumber;
+                    //e.FileMetadata.CameraISOSpeed = metadata.CameraISOSpeed;
+                    //e.FileMetadata.CameraShutterSpeed = metadata.CameraShutterSpeed;
+                    //e.FileMetadata.CameraAperture = metadata.CameraAperture;
+                    if (metadata.MediaWidth != null && metadata.MediaHeight != null) e.FileMetadata.MediaDimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
+                    //e.FileMetadata.MediaResolution = metadata.MediaResolution;
+                    //e.FileMetadata.MediaDateTaken = metadata.MediaDateTaken;
+                    //e.FileMetadata.MediaCopyright = metadata.MediaCopyright;
+                    #endregion
+
+                    #region Provided by MagickImage, Exiftool
+                    e.FileMetadata.MediaTitle = metadata.PersonalTitle;
+                    e.FileMetadata.MediaDescription = metadata.PersonalDescription;
+                    e.FileMetadata.MediaComment = metadata.PersonalComments;
+                    e.FileMetadata.MediaAuthor = metadata.PersonalAuthor;
+                    e.FileMetadata.MediaRating = (byte)(metadata.PersonalRating == null ? 0 : metadata.PersonalRating);
+                    #endregion
+
+                    #region Provided by Exiftool
+                    e.FileMetadata.MediaAlbum = metadata.PersonalAlbum;
+                    e.FileMetadata.LocationName = metadata.LocationName;
+                    e.FileMetadata.LocationRegionState = metadata.LocationState;
+                    e.FileMetadata.LocationCity = metadata.LocationCity;
+                    e.FileMetadata.LocationCountry = metadata.LocationCountry;
+                    #endregion
                 }
-            } catch 
+            } catch (Exception ex)
             {
+                Logger.Error(ex.Message);
                 e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
-                e.FileMetadata.DirectoryName = Path.GetDirectoryName(e.FileName);
+                e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
             }
         }
         #endregion

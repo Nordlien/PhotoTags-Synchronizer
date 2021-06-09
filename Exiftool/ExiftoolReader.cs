@@ -786,8 +786,8 @@ namespace Exiftool
                                     break;
                                 case CompositeTags.FileAccessDateTime:
                                 case "FileAccessDate":
-                                    metadata.FileLastAccessed = ConvertAndCheckDateFromString(
-                                        metadata.FileLastAccessed, exifToolData, oldExifToolFileAccessDate,
+                                    metadata.FileDateAccessed = ConvertAndCheckDateFromString(
+                                        metadata.FileDateAccessed, exifToolData, oldExifToolFileAccessDate,
                                         CompositeTags.FileAccessDateTime, ref metadata.errors);
                                     oldExifToolFileAccessDate = new ExiftoolData(exifToolData);
                                     break;
@@ -1418,7 +1418,7 @@ namespace Exiftool
                     process.WaitForExit(1500);
 
                     #region Write last Metadata and trigger Event afterNewMediaFoundEvent
-                    if (metadata != null && metadata.FileLastAccessed != null) //Save the last one, remover we save everytime, when new file found
+                    if (metadata != null && metadata.FileDateAccessed != null) //Save the last one, remover we save everytime, when new file found
                     {
                         CheckTimeZone(metadata, ref metadata.errors);
                         metaDataCollections.Add(metadata);

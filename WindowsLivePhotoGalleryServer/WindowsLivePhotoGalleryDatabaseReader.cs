@@ -163,7 +163,7 @@ namespace WindowsLivePhotoGalleryServer
                     {
                         metadata.FileDateModified = File.GetLastWriteTime(fullFilePath);
                         metadata.FileDateCreated = File.GetCreationTime(fullFilePath);
-                        metadata.FileLastAccessed = File.GetLastAccessTime(fullFilePath);
+                        metadata.FileDateAccessed = File.GetLastAccessTime(fullFilePath);
                     }
 
                     //Personal

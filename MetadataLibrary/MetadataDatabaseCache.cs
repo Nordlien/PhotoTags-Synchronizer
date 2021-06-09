@@ -224,7 +224,7 @@ namespace MetadataLibrary
                             metadata.FileSize = dbTools.ConvertFromDBValLong(reader["FileSize"]);
                             metadata.FileDateCreated = dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateCreated"]);
                             metadata.FileDateModified = dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]);
-                            metadata.FileLastAccessed = dbTools.ConvertFromDBValDateTimeLocal(reader["FileLastAccessed"]);
+                            metadata.FileDateAccessed = dbTools.ConvertFromDBValDateTimeLocal(reader["FileLastAccessed"]);
                             metadata.FileMimeType = dbTools.ConvertFromDBValString(reader["FileMimeType"]);
                             metadata.PersonalAlbum = dbTools.ConvertFromDBValString(reader["PersonalAlbum"]);
                             metadata.PersonalTitle = dbTools.ConvertFromDBValString(reader["PersonalTitle"]);
@@ -531,7 +531,7 @@ namespace MetadataLibrary
                             metadata.FileSize = dbTools.ConvertFromDBValLong(reader["FileSize"]);
                             metadata.FileDateCreated = dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateCreated"]);
                             metadata.FileDateModified = dbTools.ConvertFromDBValDateTimeLocal(reader["FileDateModified"]);
-                            metadata.FileLastAccessed = dbTools.ConvertFromDBValDateTimeLocal(reader["FileLastAccessed"]);
+                            metadata.FileDateAccessed = dbTools.ConvertFromDBValDateTimeLocal(reader["FileLastAccessed"]);
                             metadata.FileMimeType = dbTools.ConvertFromDBValString(reader["FileMimeType"]);
                             metadata.PersonalAlbum = dbTools.ConvertFromDBValString(reader["PersonalAlbum"]);
                             metadata.PersonalTitle = dbTools.ConvertFromDBValString(reader["PersonalTitle"]);
@@ -712,7 +712,7 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@FileSize", metadata.FileSize);
                 commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(metadata.FileDateCreated));
                 commandDatabase.Parameters.AddWithValue("@FileDateModified", dbTools.ConvertFromDateTimeToDBVal(metadata.FileDateModified));
-                commandDatabase.Parameters.AddWithValue("@FileLastAccessed", dbTools.ConvertFromDateTimeToDBVal(metadata.FileLastAccessed));
+                commandDatabase.Parameters.AddWithValue("@FileLastAccessed", dbTools.ConvertFromDateTimeToDBVal(metadata.FileDateAccessed));
                 commandDatabase.Parameters.AddWithValue("@FileMimeType", metadata.FileMimeType);
                 commandDatabase.Parameters.AddWithValue("@PersonalTitle", metadata.PersonalTitle);
                 commandDatabase.Parameters.AddWithValue("@PersonalAlbum", metadata.PersonalAlbum);

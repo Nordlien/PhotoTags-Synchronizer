@@ -194,7 +194,7 @@ namespace Manina.Windows.Forms
                             rt.Y = bounds.Bottom - (bounds.Height - imageHeight) / 2 + 4;
                             string details = "";
                             if (item.Dimensions != Size.Empty)
-                                details += item.GetSubItemText(ColumnType.Dimensions) + " pixels ";
+                                details += item.GetSubItemText(ColumnType.MediaDimensions) + " pixels ";
                             if (item.FileSize != 0)
                                 details += item.GetSubItemText(ColumnType.FileSize);
                             using (Brush bGrayText = new SolidBrush(Color.Gray))

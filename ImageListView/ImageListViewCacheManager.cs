@@ -381,7 +381,7 @@ namespace Manina.Windows.Forms
         /// <param name="guid">The guid representing the item.</param>
         public CacheState GetCacheState(Guid guid)
         {
-            lock (lockObject)
+            lock (lockObject) //JTN: Debug - A deadlock oocured on this
             {
                 CacheItem item = null;
                 if (thumbCache.TryGetValue(guid, out item))

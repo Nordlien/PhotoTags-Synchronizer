@@ -205,53 +205,134 @@ namespace Manina.Windows.Forms
             private uint structSize = 0;
 
             public bool Error { get;  set; }
+
+            #region Provided by FileInfo
+            /// <summary>
+            /// FileAttributes supported by FileInfo 
+            /// </summary>
             public FileAttributes FileAttributes { get;  set; }
-            public DateTime CreationTime { get;  set; }
-            public DateTime LastAccessTime { get;  set; }
-            public DateTime LastWriteTime { get;  set; }
+            /// <summary>
+            /// CreationTime supported by FileInfo 
+            /// </summary>
+            public DateTime FileDateCreated { get;  set; }
+            /// <summary>
+            /// LastAccessTime supported by FileInfo 
+            /// </summary>
+            public DateTime FileDateAccessed { get;  set; }
+            /// <summary>
+            /// LastWriteTime supported by FileInfo 
+            /// </summary>
+            public DateTime FileDateModified { get;  set; }
+            /// <summary>
+            /// Extension supported by FileInfo 
+            /// </summary>
             public string Extension { get;  set; }
-            public string DirectoryName { get;  set; }
+            /// <summary>
+            /// DirectoryName supported by FileInfo 
+            /// </summary>
+            public string FileDirectory { get;  set; }
+            /// <summary>
+            /// DisplayName supported by FileInfo
+            /// </summary>
             public string DisplayName { get;  set; }
-            public long Size { get;  set; }
-            public string TypeName { get;  set; }
-            public Size Dimensions { get;  set; }
-            public SizeF Resolution { get;  set; }
+            /// <summary>
+            /// File size supported by FileInfo 
+            /// </summary>
+            public long FileSize { get;  set; }
+            /// <summary>
+            /// TypeName supported by FileInfo 
+            /// </summary>
+            public string FileMimeType { get;  set; }
+            #endregion
 
-            // Exif tags
-            //public string ImageDescription { get;  set; }
-            public string EquipmentModel { get;  set; }
-            public DateTime DateTaken { get;  set; }
-            //public string Artist { get;  set; }
-            public string Copyright { get;  set; }
-            public string ExposureTime { get;  set; }
-            public float FNumber { get;  set; }
-            public ushort ISOSpeed { get;  set; }
-            public string ShutterSpeed { get;  set; }
-            public string ApertureValue { get;  set; }
-            //public string UserComment { get;  set; }
+            #region Provided by ShellImageFileInfo, MagickImage
+            /// <summary>
+            /// Dimensions supported by ShellImageFileInfo, MagickImage 
+            /// </summary>
+            public Size MediaDimensions { get;  set; }
+            /// <summary>
+            /// Resolution supported by ShellImageFileInfo, MagickImage
+            /// </summary>
+            public SizeF MediaResolution { get;  set; }
+            /// <summary>
+            /// supported by ShellImageFileInfo, MagickImage
+            /// </summary>
+            public string CameraModel { get;  set; } 
+            /// <summary>
+            /// supported by ShellImageFileInfo, MagickImage
+            /// </summary>
+            public DateTime MediaDateTaken { get;  set; }
+            /// <summary>
+            /// Copyright supported by ShellImageFileInfo, MagickImage
+            /// </summary>
+            public string MediaCopyright { get;  set; }
+            /// <summary>
+            /// ExposureTime supported by ShellImageFileInfo, MagickImage
+            /// </summary>
+            public string CameraExposureTime { get;  set; }
+            /// <summary>
+            /// FNumber supported by ShellImageFileInfo, MagickImage
+            /// </summary>
+            public float CameraFNumber { get;  set; }
+            /// <summary>
+            /// ISOSpeed supported by ShellImageFileInfo, MagickImage
+            /// </summary>
+            public ushort CameraISOSpeed { get;  set; }
+            /// <summary>
+            /// ShutterSpeed supported by ShellImageFileInfo
+            /// </summary>
+            public string CameraShutterSpeed { get;  set; }
+            /// <summary>
+            /// ApertureValue supported by ShellImageFileInfo, MagickImage
+            /// </summary>
+            public string CameraAperture { get;  set; }
+            #endregion
 
-            //Exif extras
-            
-            public string MediaAlbum { get; set; }
-            
+            #region Provided by MagickImage, Exiftool
+            /// <summary>
+            /// MediaTitle supported by MagickImage, Exiftool
+            /// </summary>
             public string MediaTitle { get; set; }
-            
+            /// <summary>
+            /// MediaDescription supported by MagickImage, Exiftool
+            /// </summary>
             public string MediaDescription { get; set; }
-            
+            /// <summary>
+            /// MediaComment supported by MagickImage, Exiftool, 
+            /// </summary>
             public string MediaComment { get; set; }
-            
+            /// <summary>
+            /// MediaAuthor supported by MagickImage, Exiftool
+            /// </summary>
             public string MediaAuthor { get; set; }
-            
+            /// <summary>
+            /// MediaRating supported by MagickImage, Exiftool
+            /// </summary>
             public byte MediaRating { get; set; }
-            
-            public string LocationName { get; set; }
-            
-            public string LocationRegionState { get; set; }
-            
-            public string LocationCity { get; set; }
-            
-            public string LocationCountry { get; set; }
+            #endregion
 
+            #region Provided by Exiftool
+            /// <summary>
+            /// MediaAlbum supported by Exiftool
+            /// </summary>
+            public string MediaAlbum { get; set; }
+            /// <summary>
+            /// LocationName supported by Exiftool
+            /// </summary>
+            public string LocationName { get; set; }
+            /// <summary>
+            /// LocationRegionState supported by Exiftool
+            /// </summary>
+            public string LocationRegionState { get; set; }
+            /// <summary>
+            /// LocationCity supported by Exiftool
+            /// </summary>
+            public string LocationCity { get; set; }
+            /// <summary>
+            /// LocationCountry supported by Exiftool
+            /// </summary>
+            public string LocationCountry { get; set; }
+            #endregion 
 
             //JTN Added, create empty version
             public ShellImageFileInfo()
@@ -345,23 +426,15 @@ namespace Manina.Windows.Forms
                     WaitFileRenameAndUnlocked(path);
                     FileInfo info = new FileInfo(path);
                     FileAttributes = info.Attributes;
-                    CreationTime = info.CreationTime;
-                    LastAccessTime = info.LastAccessTime;
-                    LastWriteTime = info.LastWriteTime;
-                    Size = info.Length;
-                    DirectoryName = info.DirectoryName;
+                    FileDateCreated = info.CreationTime;
+                    FileDateAccessed = info.LastAccessTime;
+                    FileDateModified = info.LastWriteTime;
+                    FileSize = info.Length;
+                    FileDirectory = info.DirectoryName;
                     DisplayName = info.Name;
                     Extension = info.Extension.Trim().ToUpper();
 
-                    //if (!cachedFileTypes.TryGetValue(Extension, out typeName))
-                    //{
-                    //SHFILEINFO shinfo = new SHFILEINFO();
-                    //if (structSize == 0) structSize = (uint)Marshal.SizeOf(shinfo);
-                    //SHGetFileInfo(path, (FileAttributes)0, out shinfo, structSize, SHGFI.TypeName);
-                    //typeName = shinfo.szTypeName;
-                    //cachedFileTypes.Add(Extension, typeName);
-                    //}
-                    TypeName = GetFileType(path, Extension);
+                    FileMimeType = GetFileType(path, Extension);
 
                     if (Extension == ".JPG" || Extension == ".GIF" || Extension == ".JPEG" || Extension == ".BMP")
                     {
@@ -371,45 +444,45 @@ namespace Manina.Windows.Forms
                         {
                             using (Image img = Image.FromStream(stream, false, false)) //System.IO.IOException: 'The cloud sync provider failed to validate the downloaded data.
                             {
-                                Dimensions = img.Size;
-                                Resolution = new SizeF(img.HorizontalResolution, img.VerticalResolution);
+                                MediaDimensions = img.Size;
+                                MediaResolution = new SizeF(img.HorizontalResolution, img.VerticalResolution);
                                 // Read exif properties
                                 foreach (PropertyItem prop in img.PropertyItems)
                                 {
                                     switch (prop.Id)
                                     {
                                         case PropertyTagImageDescription:
-                                            ImageDescription = ReadExifAscii(prop.Value);
+                                            MediaDescription = ReadExifAscii(prop.Value);
                                             break;
                                         case PropertyTagEquipmentModel:
-                                            EquipmentModel = ReadExifAscii(prop.Value);
+                                            CameraModel = ReadExifAscii(prop.Value);
                                             break;
                                         case PropertyTagDateTime:
-                                            DateTaken = ReadExifDateTime(prop.Value);
+                                            MediaDateTaken = ReadExifDateTime(prop.Value);
                                             break;
                                         case PropertyTagArtist:
-                                            Artist = ReadExifAscii(prop.Value);
+                                            MediaAuthor = ReadExifAscii(prop.Value);
                                             break;
                                         case PropertyTagCopyright:
-                                            Copyright = ReadExifAscii(prop.Value);
+                                            MediaCopyright = ReadExifAscii(prop.Value);
                                             break;
                                         case PropertyTagExposureTime:
-                                            ExposureTime = ReadExifURational(prop.Value);
+                                            CameraExposureTime = ReadExifURational(prop.Value);
                                             break;
                                         case PropertyTagFNumber:
-                                            FNumber = ReadExifFloat(prop.Value);
+                                            CameraFNumber = ReadExifFloat(prop.Value);
                                             break;
                                         case PropertyTagISOSpeed:
-                                            ISOSpeed = ReadExifUShort(prop.Value);
+                                            CameraISOSpeed = ReadExifUShort(prop.Value);
                                             break;
                                         case PropertyTagShutterSpeed:
-                                            ShutterSpeed = ReadExifRational(prop.Value);
+                                            CameraShutterSpeed = ReadExifRational(prop.Value);
                                             break;
                                         case PropertyTagAperture:
-                                            ApertureValue = ReadExifURational(prop.Value);
+                                            CameraAperture = ReadExifURational(prop.Value);
                                             break;
                                         case PropertyTagUserComment:
-                                            UserComment = ReadExifAscii(prop.Value);
+                                            MediaComment = ReadExifAscii(prop.Value);
                                             break;
                                     }
                                 }

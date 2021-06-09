@@ -846,7 +846,7 @@ namespace PhotoTagsSynchronizer
                         metadata.FileDirectory = scrapingResult.Url;
                         metadata.FileDateCreated = DateTime.Now;
                         metadata.FileDateModified = DateTime.Now;
-                        metadata.FileLastAccessed = DateTime.Now;
+                        metadata.FileDateAccessed = DateTime.Now;
 
                         if (scrapingResult.Description != null) metadata.PersonalTitle = scrapingResult.Description;
                         

@@ -568,7 +568,7 @@ namespace PhotoTagsSynchronizer
 
         private void ToolStripMenuItemSortByFilename_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.Name);
+            ImageListViewSortColumn(imageListView1, ColumnType.FileName);
             /*
             /// The text of the item, defaults to filename if
             Name,
@@ -618,17 +618,17 @@ namespace PhotoTagsSynchronizer
         
         private void ToolStripMenuItemSortByFileCreatedDate_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.DateCreated);
+            ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
         }
 
         private void ToolStripMenuItemSortByFileModifiedDate_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.DateCreated);
+            ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
         }
 
         private void ToolStripMenuItemSortByMediaDateTaken_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.DateTaken);
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaDateTaken);
         }
 
         private void ToolStripMenuItemSortByMediaAlbum_Click(object sender, EventArgs e)

@@ -173,7 +173,7 @@ namespace Manina.Windows.Forms
                                 {
                                     string text = "";
                                     if (item.Dimensions != Size.Empty)
-                                        text += item.GetSubItemText(ColumnType.Dimensions) + " pixels ";
+                                        text += item.GetSubItemText(ColumnType.MediaDimensions) + " pixels ";
                                     if (item.Resolution != SizeF.Empty)
                                         text += item.Resolution.Width + " dpi";
                                     g.DrawString(text, ImageListView.Font, bItemDetails, rt, sf);
@@ -187,7 +187,7 @@ namespace Manina.Windows.Forms
                                 }
                                 if (item.DateModified != DateTime.MinValue)
                                 {
-                                    g.DrawString(item.GetSubItemText(ColumnType.DateModified),
+                                    g.DrawString(item.GetSubItemText(ColumnType.FileDateModified),
                                         ImageListView.Font, bItemDetails, rt, sf);
                                 }
                             }

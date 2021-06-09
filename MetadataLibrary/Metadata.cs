@@ -53,7 +53,7 @@ namespace MetadataLibrary
             if (metadata.FileSize == null) metadata.FileSize = metadataLoser.FileSize;
             if (metadata.FileDateCreated == null) metadata.FileDateCreated = metadataLoser.FileDateCreated;
             if (metadata.FileDateModified == null) metadata.FileDateModified = metadataLoser.FileDateModified;
-            if (metadata.FileLastAccessed == null) metadata.FileLastAccessed = metadataLoser.FileLastAccessed;
+            if (metadata.FileDateAccessed == null) metadata.FileDateAccessed = metadataLoser.FileDateAccessed;
             if (metadata.FileMimeType == null) metadata.FileMimeType = metadataLoser.FileMimeType;
 
             //Personal
@@ -110,7 +110,7 @@ namespace MetadataLibrary
             FileSize = metadata.FileSize;
             FileDateCreated = metadata.FileDateCreated;
             FileDateModified = metadata.FileDateModified;
-            FileLastAccessed = metadata.FileLastAccessed;
+            FileDateAccessed = metadata.FileDateAccessed;
             FileMimeType = metadata.FileMimeType;
 
             //Personal
@@ -194,7 +194,7 @@ namespace MetadataLibrary
             if (m1.FileSize != m2.FileSize) return false;
             if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateCreated, m2.FileDateCreated)) return false;
             if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateModified, m2.FileDateModified)) return false;
-            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileLastAccessed, m2.FileLastAccessed)) return false;
+            if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(m1.FileDateAccessed, m2.FileDateAccessed)) return false;
             if (m1.FileMimeType != m2.FileMimeType) return false;
 
             //Personal
@@ -246,7 +246,7 @@ namespace MetadataLibrary
             if (FileSize != null) hashCode += FileSize.GetHashCode();
             if (FileDateCreated != null) hashCode += FileDateCreated.GetHashCode();
             if (FileDateModified != null) hashCode += FileDateModified.GetHashCode();
-            if (FileLastAccessed != null) hashCode += FileLastAccessed.GetHashCode();
+            if (FileDateAccessed != null) hashCode += FileDateAccessed.GetHashCode();
             if (FileMimeType != null) hashCode += FileMimeType.GetHashCode();
 
             //Personal
@@ -404,7 +404,7 @@ namespace MetadataLibrary
             if (m1.FileSize != m2.FileSize) errors += AddError("File size", m1.FileSize, m2.FileSize);
             if (m1.FileDateCreated != m2.FileDateCreated) errors += AddError("File Date Created", m1.FileDateCreated, m2.FileDateCreated);
             if (m1.FileDateModified != m2.FileDateModified) errors += AddError("File Date Modified", m1.FileDateModified, m2.FileDateModified);
-            if (m1.FileLastAccessed != m2.FileLastAccessed) errors += AddError("File Last Accessed", m1.FileLastAccessed, m2.FileLastAccessed);
+            if (m1.FileDateAccessed != m2.FileDateAccessed) errors += AddError("File Last Accessed", m1.FileDateAccessed, m2.FileDateAccessed);
             if (m1.FileMimeType != m2.FileMimeType) errors += AddError("FileMimeType", m1.FileMimeType, m2.FileMimeType);
 
             //Personal
@@ -492,7 +492,7 @@ namespace MetadataLibrary
         public Int64? FileSize { get; set; }
         public DateTime? FileDateCreated { get; set; }
         public DateTime? FileDateModified { get; set; }
-        public DateTime? FileLastAccessed { get; set; }
+        public DateTime? FileDateAccessed { get; set; }
         public string FileMimeType { get; set; }
         #endregion
 
@@ -1186,34 +1186,34 @@ namespace MetadataLibrary
                     result = TimeZoneLibrary.ToStringDateTime_ss(FileDateModified);
                     break;
                 case "{FileLastAccessed}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileLastAccessed);
-                    else result = TimeZoneLibrary.ToStringFilename(FileLastAccessed);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftool(FileDateAccessed);
+                    else result = TimeZoneLibrary.ToStringFilename(FileDateAccessed);
                     break;
                 case "{FileLastAccessedDateStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(FileLastAccessed);
-                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileLastAccessed);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolDateStamp(FileDateAccessed);
+                    else result = TimeZoneLibrary.ToStringFilenameDateStamp(FileDateAccessed);
                     break;
                 case "{FileLastAccessedTimeStamp}":
-                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(FileLastAccessed);
-                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileLastAccessed);
+                    if (useExifFormat) result = TimeZoneLibrary.ToStringExiftoolTimeStamp(FileDateAccessed);
+                    else result = TimeZoneLibrary.ToStringFilenameTimeStamp(FileDateAccessed);
                     break;
                 case "{FileLastAccessed_yyyy}":
-                    result = TimeZoneLibrary.ToStringDateTime_yyyy(FileLastAccessed);
+                    result = TimeZoneLibrary.ToStringDateTime_yyyy(FileDateAccessed);
                     break;
                 case "{FileLastAccessed_MM}":
-                    result = TimeZoneLibrary.ToStringDateTime_MM(FileLastAccessed);
+                    result = TimeZoneLibrary.ToStringDateTime_MM(FileDateAccessed);
                     break;
                 case "{FileLastAccessed_dd}":
-                    result = TimeZoneLibrary.ToStringDateTime_dd(FileLastAccessed);
+                    result = TimeZoneLibrary.ToStringDateTime_dd(FileDateAccessed);
                     break;
                 case "{FileLastAccessed_HH}":
-                    result = TimeZoneLibrary.ToStringDateTime_HH(FileLastAccessed);
+                    result = TimeZoneLibrary.ToStringDateTime_HH(FileDateAccessed);
                     break;
                 case "{FileLastAccessed_mm}":
-                    result = TimeZoneLibrary.ToStringDateTime_mm(FileLastAccessed);
+                    result = TimeZoneLibrary.ToStringDateTime_mm(FileDateAccessed);
                     break;
                 case "{FileLastAccessed_ss}":
-                    result = TimeZoneLibrary.ToStringDateTime_ss(FileLastAccessed);
+                    result = TimeZoneLibrary.ToStringDateTime_ss(FileDateAccessed);
                     break;
                 case "{FileMimeType}":
                     result = FileMimeType;
@@ -1395,7 +1395,7 @@ namespace MetadataLibrary
             {
                 //System
                 case "{IfFileDateModifiedChanged}":
-                    if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(this.FileLastAccessed, metadata.FileLastAccessed)) result = true;
+                    if (!TimeZoneLibrary.IsDateTimeEqualWithinOneSecond(this.FileDateAccessed, metadata.FileDateAccessed)) result = true;
                     break;
 
                 //Personal

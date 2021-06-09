@@ -1072,7 +1072,7 @@ namespace Manina.Windows.Forms
                     bounds.Height -= pos.Height + 16;
 
                     // Item text
-                    if (mImageListView.Columns[ColumnType.Name].Visible && bounds.Height > 0)
+                    if (mImageListView.Columns[ColumnType.FileName].Visible && bounds.Height > 0)
                     {
                         int y = Utility.DrawStringPair(g, bounds, "", item.Text, mImageListView.Font,
                             SystemBrushes.GrayText, SystemBrushes.WindowText);
@@ -1102,10 +1102,10 @@ namespace Manina.Windows.Forms
 
                         if (column.Visible &&
                             column.Type != ColumnType.FileType &&
-                            column.Type != ColumnType.DateAccessed &&
+                            column.Type != ColumnType.FileDateAccessed &&
                             column.Type != ColumnType.FileFullPath &&
                             column.Type != ColumnType.FileDirectory &&
-                            column.Type != ColumnType.Name)
+                            column.Type != ColumnType.FileName)
                         {
                             string caption = column.Text;
                             string text = item.GetSubItemText(column.Type);

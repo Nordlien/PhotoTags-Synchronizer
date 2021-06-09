@@ -692,15 +692,15 @@ namespace Manina.Windows.Forms
         /// <summary>
         /// Gets or sets the last access date of the image file represented by this item.
         /// </summary>
-        public DateTime DateAccessed { get; set; }
+        public DateTime FileDateAccessed { get; set; }
         /// <summary>
         /// Gets or sets the creation date of the image file represented by this item.
         /// </summary>
-        public DateTime DateCreated { get; set; }
+        public DateTime FileDateCreated { get; set; }
         /// <summary>
         /// Gets or sets the modification date of the image file represented by this item.
         /// </summary>
-        public DateTime DateModified { get; set; }
+        public DateTime FileDateModified { get; set; }
         /// <summary>
         /// Gets or sets the shell type of the image file represented by this item.
         /// </summary>
@@ -720,45 +720,45 @@ namespace Manina.Windows.Forms
         /// <summary>
         /// Gets or sets image dimensions.
         /// </summary>
-        public Size Dimensions { get; set; }
+        public Size MediaDimensions { get; set; }
         /// <summary>
         /// Gets or sets image resolution in pixels per inch.
         /// </summary>
-        public SizeF Resolution { get; set; }
+        public SizeF MediaResolution { get; set; }
         //public string ImageDescription { get; set; }
         /// <summary>
         /// Gets or sets the camera model.
         /// </summary>
-        public string EquipmentModel { get; set; }
+        public string CameraModel { get; set; }
         /// <summary>
         /// Gets or sets the date and time the image was taken.
         /// </summary>
-        public DateTime DateTaken { get; set; }
+        public DateTime MediaDateTaken { get; set; }
         //public string Artist { get; set; }
         /// <summary>
         /// Gets or sets image copyright information.
         /// </summary>
-        public string Copyright { get; set; }
+        public string MediaCopyright { get; set; }
         /// <summary>
         /// Gets or sets the exposure time in seconds.
         /// </summary>
-        public string ExposureTime { get; set; }
+        public string CameraExposureTime { get; set; }
         /// <summary>
         /// Gets or sets the F number.
         /// </summary>
-        public float FNumber { get; set; }
+        public float CameraFNumber { get; set; }
         /// <summary>
         /// Gets or sets the ISO speed.
         /// </summary>
-        public ushort ISOSpeed { get; set; }
+        public ushort CameraISOSpeed { get; set; }
         /// <summary>
         /// Gets or sets the shutter speed.
         /// </summary>
-        public string ShutterSpeed { get; set; }
+        public string CameraShutterSpeed { get; set; }
         /// <summary>
         /// Gets or sets the lens aperture value.
         /// </summary>
-        public string Aperture { get; set; }
+        public string CameraAperture { get; set; }
         //public string UserComment { get; set; }
 
         /// <summary>

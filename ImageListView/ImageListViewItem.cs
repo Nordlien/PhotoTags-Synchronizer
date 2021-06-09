@@ -40,26 +40,26 @@ namespace Manina.Windows.Forms
         private int mZOrder;
         
         // File info
-        private DateTime mDateAccessed;
-        private DateTime mDateCreated;
-        private DateTime mDateModified;
+        private DateTime mFileDateAccessed;
+        private DateTime mFileDateCreated;
+        private DateTime mFileDateModified;
         private string mFileType;
         private string mFileName;
         private string mFileDirectory;
         private long mFileSize;
-        private Size mDimensions;
-        private SizeF mResolution;
+        private Size mMediaDimensions;
+        private SizeF mMediaResolution;
         
         // Exif tags
         
-        private string mEquipmentModel;
-        private DateTime mDateTaken;
-        private string mCopyright;
-        private string mExposureTime;
-        private float mFNumber;
-        private ushort mISOSpeed;
-        private string mShutterSpeed;
-        private string mAperture;
+        private string mCameraModel;
+        private DateTime mMediaDateTaken;
+        private string mMediaCopyright;
+        private string mCameraExposureTime;
+        private float mCameraFNumber;
+        private ushort mCameraISOSpeed;
+        private string mCameraShutterSpeed;
+        private string mCameraAperture;
         
 
         //JTN: Added more column types
@@ -255,20 +255,20 @@ namespace Manina.Windows.Forms
         /// Gets the last access date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the last access date of the image file represented by this item.")]
-        public DateTime DateAccessed { get { UpdateFileInfo(true); return mDateAccessed; } }
+        public DateTime DateAccessed { get { UpdateFileInfo(true); return mFileDateAccessed; } }
         
         /// <summary>
         /// Gets the creation date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the creation date of the image file represented by this item.")]
-        public DateTime DateCreated { get { UpdateFileInfo(true); return mDateCreated; } }
+        public DateTime DateCreated { get { UpdateFileInfo(true); return mFileDateCreated; } }
         
         /// <summary>
         /// Gets the modification date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the modification date of the image file represented by this item.")]
         
-        public DateTime DateModified { get { UpdateFileInfo(true); return mDateModified; } }
+        public DateTime DateModified { get { UpdateFileInfo(true); return mFileDateModified; } }
         /// <summary>
         /// Gets the shell type of the image file represented by this item.
         /// </summary>
@@ -338,25 +338,25 @@ namespace Manina.Windows.Forms
         /// Gets image dimensions.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets image dimensions.")]
-        public Size Dimensions { get { UpdateFileInfo(false); return mDimensions; } }
+        public Size Dimensions { get { UpdateFileInfo(false); return mMediaDimensions; } }
         
         /// <summary>
         /// Gets image resolution in pixels per inch.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets image resolution in pixels per inch.")]
-        public SizeF Resolution { get { UpdateFileInfo(false); return mResolution; } }
+        public SizeF Resolution { get { UpdateFileInfo(false); return mMediaResolution; } }
         
         /// <summary>
         /// Gets the camera model.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the camera model.")]
-        public string EquipmentModel { get { UpdateFileInfo(false); return mEquipmentModel; } }
+        public string EquipmentModel { get { UpdateFileInfo(false); return mCameraModel; } }
         
         /// <summary>
         /// Gets the date and time the image was taken.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the date and time the image was taken.")]
-        public DateTime DateTaken { get { UpdateFileInfo(false); return mDateTaken; } }
+        public DateTime DateTaken { get { UpdateFileInfo(false); return mMediaDateTaken; } }
         
         
         
@@ -364,37 +364,37 @@ namespace Manina.Windows.Forms
         /// Gets image copyright information.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets image copyright information.")]
-        public string Copyright { get { UpdateFileInfo(false); return mCopyright; } }
+        public string Copyright { get { UpdateFileInfo(false); return mMediaCopyright; } }
         
         /// <summary>
         /// Gets the exposure time in seconds.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the exposure time in seconds.")]
-        public string ExposureTime { get { UpdateFileInfo(false); return mExposureTime; } }
+        public string ExposureTime { get { UpdateFileInfo(false); return mCameraExposureTime; } }
         
         /// <summary>
         /// Gets the F number.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the F number.")]
-        public float FNumber { get { UpdateFileInfo(false); return mFNumber; } }
+        public float FNumber { get { UpdateFileInfo(false); return mCameraFNumber; } }
         
         /// <summary>
         /// Gets the ISO speed.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the ISO speed.")]
-        public ushort ISOSpeed { get { UpdateFileInfo(false); return mISOSpeed; } }
+        public ushort ISOSpeed { get { UpdateFileInfo(false); return mCameraISOSpeed; } }
         
         /// <summary>
         /// Gets the shutter speed.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the shutter speed.")]
-        public string ShutterSpeed { get { UpdateFileInfo(false); return mShutterSpeed; } }
+        public string ShutterSpeed { get { UpdateFileInfo(false); return mCameraShutterSpeed; } }
         
         /// <summary>
         /// Gets the lens aperture value.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the lens aperture value.")]
-        public string Aperture { get { UpdateFileInfo(false); return mAperture; } }
+        public string Aperture { get { UpdateFileInfo(false); return mCameraAperture; } }
 
         //JTN: Added more column types
         
@@ -507,9 +507,9 @@ namespace Manina.Windows.Forms
             mFileName = fileInfo.FullName;
             mText = Path.GetFileName(mFileName);
 
-            mDateAccessed = fileInfo.LastAccessTime;
-            mDateCreated = fileInfo.CreationTime;
-            mDateModified = fileInfo.LastWriteTime;
+            mFileDateAccessed = fileInfo.LastAccessTime;
+            mFileDateCreated = fileInfo.CreationTime;
+            mFileDateModified = fileInfo.LastWriteTime;
             mFileSize = fileInfo.Length;
             mFileDirectory = fileInfo.DirectoryName;
 
@@ -530,7 +530,7 @@ namespace Manina.Windows.Forms
             isVirtualItem = true;
             mVirtualItemKey = key;
             mText = text;
-            mDimensions = dimensions;
+            mMediaDimensions = dimensions;
         }
         
         /// <summary>
@@ -629,18 +629,18 @@ namespace Manina.Windows.Forms
             //JTN: Added more column types
             switch (type)
             {
-                case ColumnType.DateAccessed:
+                case ColumnType.FileDateAccessed:
                     if (DateAccessed == DateTime.MinValue) return "";
                     else return DateAccessed.ToString("g");
-                case ColumnType.DateCreated:
+                case ColumnType.FileDateCreated:
                     if (DateCreated == DateTime.MinValue) return "";
                     else return DateCreated.ToString("g");
-                case ColumnType.DateModified:
+                case ColumnType.FileDateModified:
                     if (DateModified == DateTime.MinValue) return "";
                     else return DateModified.ToString("g");
                 case ColumnType.FileFullPath:
                     return FileFullPath;
-                case ColumnType.Name:
+                case ColumnType.FileName:
                     return Text;
                 case ColumnType.FileDirectory:
                     return FileDirectory;
@@ -649,31 +649,31 @@ namespace Manina.Windows.Forms
                     else return Utility.FormatSize(FileSize);
                 case ColumnType.FileType:
                     return FileType;
-                case ColumnType.Dimensions:
+                case ColumnType.MediaDimensions:
                     if (Dimensions == Size.Empty) return "";
                     else return string.Format("{0} x {1}", Dimensions.Width, Dimensions.Height);
-                case ColumnType.Resolution:
+                case ColumnType.MediaResolution:
                     if (Resolution == SizeF.Empty) return "";
                     else return string.Format("{0} x {1}", Resolution.Width, Resolution.Height);
                 
-                case ColumnType.EquipmentModel:
+                case ColumnType.CameraModel:
                     return EquipmentModel;
-                case ColumnType.DateTaken:
+                case ColumnType.MediaDateTaken:
                     if (DateTaken == DateTime.MinValue) return "";
                     else return DateTaken.ToString("g");                
-                case ColumnType.Copyright:
+                case ColumnType.MediaCopyright:
                     return Copyright;
-                case ColumnType.ExposureTime:
+                case ColumnType.CameraExposureTime:
                     return ExposureTime;
-                case ColumnType.FNumber:
+                case ColumnType.CameraFNumber:
                     if (FNumber == 0.0f) return "";
                     else return FNumber.ToString("f2");
-                case ColumnType.ISOSpeed:
+                case ColumnType.CameraISOSpeed:
                     if (ISOSpeed == 0) return "";
                     else return ISOSpeed.ToString();
-                case ColumnType.ShutterSpeed:
+                case ColumnType.CameraShutterSpeed:
                     return ShutterSpeed;
-                case ColumnType.Aperture:
+                case ColumnType.CameraAperture:
                     return Aperture;
                 
 
@@ -748,36 +748,44 @@ namespace Manina.Windows.Forms
             if (!isDirty && !isFileInfoDirty) return;
             if (info != null)
             {
-                mDateAccessed = info.LastAccessTime;
-                mDateCreated = info.CreationTime;
-                mDateModified = info.LastWriteTime;
-                mFileSize = info.Size;
-                mFileType = info.TypeName;
-                mFileDirectory = info.DirectoryName;
-                mDimensions = info.Dimensions;
-                mResolution = info.Resolution;
-                // Exif tags
-                mEquipmentModel = info.EquipmentModel;
-                mDateTaken = info.DateTaken;
-                mCopyright = info.Copyright;
-                mExposureTime = info.ExposureTime;
-                mFNumber = info.FNumber;
-                mISOSpeed = info.ISOSpeed;
-                mShutterSpeed = info.ShutterSpeed;
-                mAperture = info.ApertureValue;
-                
-                //Exif extras
-                mMediaAlbum = info.MediaAlbum;
+                #region Provided by FileInfo
+                mFileDateAccessed = info.FileDateAccessed;
+                mFileDateCreated = info.FileDateCreated;
+                mFileDateModified = info.FileDateModified;
+                mFileSize = info.FileSize;
+                mFileType = info.FileMimeType;
+                mFileDirectory = info.FileDirectory;
+                #endregion 
+
+                #region Provided by ShellImageFileInfo, MagickImage                                
+                mCameraModel = info.CameraModel;                
+                mCameraExposureTime = info.CameraExposureTime;
+                mCameraFNumber = info.CameraFNumber;
+                mCameraISOSpeed = info.CameraISOSpeed;
+                mCameraShutterSpeed = info.CameraShutterSpeed;
+                mCameraAperture = info.CameraAperture;
+
+                mMediaDimensions = info.MediaDimensions;
+                mMediaResolution = info.MediaResolution;
+                mMediaDateTaken = info.MediaDateTaken;
+                mMediaCopyright = info.MediaCopyright;
+                #endregion 
+
+                #region Provided by MagickImage, Exiftool
                 mMediaTitle = info.MediaTitle;
                 mMediaDescription = info.MediaDescription;
-
                 mMediaComment = info.MediaComment;
-                mMediaAuthor = info.MediaAuthor;
+                mMediaAuthor = info.MediaAuthor;                
                 mMediaRating = info.MediaRating;
+                #endregion 
+
+                #region Provided by Exiftool
+                mMediaAlbum = info.MediaAlbum;
                 mLocationName = info.LocationName;
                 mLocationRegionState = info.LocationRegionState;
                 mLocationCity = info.LocationCity;
                 mLocationCountry = info.LocationCountry;
+                #endregion
 
                 isFileInfoDirty = false;
                 isDirty = false;
@@ -790,37 +798,45 @@ namespace Manina.Windows.Forms
         {
             if (!isDirty && !isFileInfoDirty) return;
 
-            mDateAccessed = info.DateAccessed;
-            mDateCreated = info.DateCreated;
-            mDateModified = info.DateModified;
-            mFileName = info.FileName;
+            #region Provided by FileInfo
+            mFileDateAccessed = info.FileDateAccessed;
+            mFileDateCreated = info.FileDateCreated;
+            mFileDateModified = info.FileDateModified;
             mFileSize = info.FileSize;
             mFileType = info.FileType;
             mFileDirectory = info.FileDirectory;
-            mDimensions = info.Dimensions;
-            mResolution = info.Resolution;
-            // Exif tags
-            mEquipmentModel = info.EquipmentModel;
-            mDateTaken = info.DateTaken;
-            mCopyright = info.Copyright;
-            mExposureTime = info.ExposureTime;
-            mFNumber = info.FNumber;
-            mISOSpeed = info.ISOSpeed;
-            mShutterSpeed = info.ShutterSpeed;
-            mAperture = info.Aperture;
-            
-            //Exif extras
-            mMediaAlbum = info.MediaAlbum;
+            #endregion
+
+            #region Provided by ShellImageFileInfo, MagickImage                                
+            mCameraModel = info.CameraModel;
+            mCameraExposureTime = info.CameraExposureTime;
+            mCameraFNumber = info.CameraFNumber;
+            mCameraISOSpeed = info.CameraISOSpeed;
+            mCameraShutterSpeed = info.CameraShutterSpeed;
+            mCameraAperture = info.CameraAperture;
+
+            mMediaDimensions = info.MediaDimensions;
+            mMediaResolution = info.MediaResolution;
+            mMediaDateTaken = info.MediaDateTaken;
+            mMediaCopyright = info.MediaCopyright;
+            #endregion
+
+            #region Provided by MagickImage, Exiftool
             mMediaTitle = info.MediaTitle;
             mMediaDescription = info.MediaDescription;
             mMediaComment = info.MediaComment;
             mMediaAuthor = info.MediaAuthor;
             mMediaRating = info.MediaRating;
+            #endregion
+
+            #region Provided by Exiftool
+            mMediaAlbum = info.MediaAlbum;
             mLocationName = info.LocationName;
             mLocationRegionState = info.LocationRegionState;
             mLocationCity = info.LocationCity;
             mLocationCountry = info.LocationCountry;
-            
+            #endregion
+
             isFileInfoDirty = false;
             isDirty = false;
         }

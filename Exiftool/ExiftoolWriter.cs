@@ -434,7 +434,7 @@ namespace Exiftool
             } while (foundOldVersionToVerify);
 
             metadataUpdatedByUserCopy.FileDateModified = metadataRead.FileDateModified;   //After save, this was updated
-            metadataUpdatedByUserCopy.FileLastAccessed = metadataRead.FileLastAccessed;   //This has changed, do not care
+            metadataUpdatedByUserCopy.FileDateAccessed = metadataRead.FileDateAccessed;   //This has changed, do not care
             metadataUpdatedByUserCopy.FileSize = metadataRead.FileSize;                   //This has changed, do not care
             metadataUpdatedByUserCopy.Errors = metadataRead.Errors;                       //This has changed, do not care, Hopefully this is gone
             metadataUpdatedByUserCopy.Broker = metadataRead.Broker;                       //This has changed, do not care

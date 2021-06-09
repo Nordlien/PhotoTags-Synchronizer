@@ -207,7 +207,7 @@ namespace Manina.Windows.Forms
             /// Initializes a new instance of the ImageListViewColumnHeader class.
             /// </summary>
             public ImageListViewColumnHeader()
-                : this(ColumnType.Name)
+                : this(ColumnType.FileName)
             {
                 ;
             }

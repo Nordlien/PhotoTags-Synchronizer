@@ -95,7 +95,7 @@ namespace MicrosoftPhotos
                                 //Due to sometimes NULL in Microsoft Database, I always use current file attributes.
                                 metadata.FileDateCreated = File.GetCreationTime(fullFilePath);
                                 metadata.FileDateModified = File.GetLastWriteTime(fullFilePath);
-                                metadata.FileLastAccessed = File.GetLastAccessTime(fullFilePath);
+                                metadata.FileDateAccessed = File.GetLastAccessTime(fullFilePath);
                             }
 
                             //Personal

@@ -461,7 +461,7 @@ namespace Manina.Windows.Forms
             mPaneWidth = 240;
             mRetryOnError = true;
             mSelectedItems = new ImageListViewSelectedItemCollection(this);
-            mSortColumn = ColumnType.Name;
+            mSortColumn = ColumnType.FileName;
             mSortOrder = SortOrder.None;
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.Opaque |
                 ControlStyles.Selectable | ControlStyles.UserMouse, true);

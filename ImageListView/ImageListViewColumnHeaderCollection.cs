@@ -87,34 +87,42 @@ namespace Manina.Windows.Forms
                 mImageListView = owner;
                 // Create the default column set
                 mItems = new ImageListViewColumnHeader[] {
-                    new ImageListViewColumnHeader(ColumnType.Name),
-                    new ImageListViewColumnHeader(ColumnType.FileSize),
-                    new ImageListViewColumnHeader(ColumnType.FileDirectory),
+                    //JTN: Added more columns
+                    
+                    new ImageListViewColumnHeader(ColumnType.FileName),
+                    new ImageListViewColumnHeader(ColumnType.FileDateAccessed),
+                    new ImageListViewColumnHeader(ColumnType.FileDateCreated),
+                    new ImageListViewColumnHeader(ColumnType.FileDateModified),
+                    new ImageListViewColumnHeader(ColumnType.MediaDateTaken),
+
                     new ImageListViewColumnHeader(ColumnType.FileType),
                     new ImageListViewColumnHeader(ColumnType.FileFullPath),
-                    new ImageListViewColumnHeader(ColumnType.DateTaken),
-                    new ImageListViewColumnHeader(ColumnType.DateCreated),
-                    new ImageListViewColumnHeader(ColumnType.DateAccessed),
-                    new ImageListViewColumnHeader(ColumnType.DateModified),
+                    new ImageListViewColumnHeader(ColumnType.FileDirectory),
+                    new ImageListViewColumnHeader(ColumnType.FileSize),
                     
+                    new ImageListViewColumnHeader(ColumnType.MediaAlbum),
+                    new ImageListViewColumnHeader(ColumnType.MediaTitle),
                     new ImageListViewColumnHeader(ColumnType.MediaDescription),
                     new ImageListViewColumnHeader(ColumnType.MediaComment),
-
-                    new ImageListViewColumnHeader(ColumnType.EquipmentModel),
-
                     new ImageListViewColumnHeader(ColumnType.MediaAuthor),
-                    new ImageListViewColumnHeader(ColumnType.Copyright),
-
+                    new ImageListViewColumnHeader(ColumnType.MediaRating),
                     
+                    new ImageListViewColumnHeader(ColumnType.LocationName),
+                    new ImageListViewColumnHeader(ColumnType.LocationRegionState),
+                    new ImageListViewColumnHeader(ColumnType.LocationCity),
+                    new ImageListViewColumnHeader(ColumnType.LocationCountry),
 
-                    new ImageListViewColumnHeader(ColumnType.Dimensions),
-                    new ImageListViewColumnHeader(ColumnType.Resolution),
+                    new ImageListViewColumnHeader(ColumnType.CameraModel),
+                    new ImageListViewColumnHeader(ColumnType.MediaCopyright),
                     
-                    new ImageListViewColumnHeader(ColumnType.ExposureTime),
-                    new ImageListViewColumnHeader(ColumnType.FNumber),
-                    new ImageListViewColumnHeader(ColumnType.ISOSpeed),
-                    new ImageListViewColumnHeader(ColumnType.ShutterSpeed),
-                    new ImageListViewColumnHeader(ColumnType.Aperture),
+                    new ImageListViewColumnHeader(ColumnType.MediaDimensions),
+                    new ImageListViewColumnHeader(ColumnType.MediaResolution),
+                    new ImageListViewColumnHeader(ColumnType.CameraExposureTime),
+                    new ImageListViewColumnHeader(ColumnType.CameraFNumber),
+                    new ImageListViewColumnHeader(ColumnType.CameraISOSpeed),
+                    new ImageListViewColumnHeader(ColumnType.CameraShutterSpeed),
+                    new ImageListViewColumnHeader(ColumnType.CameraAperture)
+                   
                };
                 for (int i = 0; i < mItems.Length; i++)
                 {
