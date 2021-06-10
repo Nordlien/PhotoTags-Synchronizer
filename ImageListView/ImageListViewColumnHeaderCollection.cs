@@ -90,9 +90,9 @@ namespace Manina.Windows.Forms
                     //JTN: Added more columns
                     
                     new ImageListViewColumnHeader(ColumnType.FileName),
-                    new ImageListViewColumnHeader(ColumnType.FileDateAccessed),
                     new ImageListViewColumnHeader(ColumnType.FileDateCreated),
                     new ImageListViewColumnHeader(ColumnType.FileDateModified),
+
                     new ImageListViewColumnHeader(ColumnType.MediaDateTaken),
 
                     new ImageListViewColumnHeader(ColumnType.FileType),
@@ -112,18 +112,12 @@ namespace Manina.Windows.Forms
                     new ImageListViewColumnHeader(ColumnType.LocationCity),
                     new ImageListViewColumnHeader(ColumnType.LocationCountry),
 
+                    new ImageListViewColumnHeader(ColumnType.CameraMake),
                     new ImageListViewColumnHeader(ColumnType.CameraModel),
-                    new ImageListViewColumnHeader(ColumnType.MediaCopyright),
                     
-                    new ImageListViewColumnHeader(ColumnType.MediaDimensions),
-                    new ImageListViewColumnHeader(ColumnType.MediaResolution),
-                    new ImageListViewColumnHeader(ColumnType.CameraExposureTime),
-                    new ImageListViewColumnHeader(ColumnType.CameraFNumber),
-                    new ImageListViewColumnHeader(ColumnType.CameraISOSpeed),
-                    new ImageListViewColumnHeader(ColumnType.CameraShutterSpeed),
-                    new ImageListViewColumnHeader(ColumnType.CameraAperture)
-                   
-               };
+                    new ImageListViewColumnHeader(ColumnType.MediaDimensions)
+                };
+
                 for (int i = 0; i < mItems.Length; i++)
                 {
                     ImageListViewColumnHeader col = mItems[i];

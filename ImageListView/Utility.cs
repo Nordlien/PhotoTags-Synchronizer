@@ -210,128 +210,251 @@ namespace Manina.Windows.Forms
             /// <summary>
             /// FileAttributes supported by FileInfo 
             /// </summary>
-            public FileAttributes FileAttributes { get;  set; }
+            public FileAttributes FileAttributes 
+            { 
+                get { return fileAttributes; }  
+                set { fileAttributes = value; IsFileAttributesSet = true; } 
+            }
+            private FileAttributes fileAttributes;
+            public bool IsFileAttributesSet { get; set; } = false;
+
             /// <summary>
             /// CreationTime supported by FileInfo 
             /// </summary>
-            public DateTime FileDateCreated { get;  set; }
-            /// <summary>
-            /// LastAccessTime supported by FileInfo 
-            /// </summary>
-            public DateTime FileDateAccessed { get;  set; }
+            public DateTime FileDateCreated
+            {
+                get { return fileDateCreated; }
+                set { fileDateCreated = value; IsFileDateCreatedSet = true; }
+            }
+            private DateTime fileDateCreated;
+            public bool IsFileDateCreatedSet { get; set; } = false;
+            
             /// <summary>
             /// LastWriteTime supported by FileInfo 
             /// </summary>
-            public DateTime FileDateModified { get;  set; }
+            public DateTime FileDateModified
+            {
+                get { return fileDateModified; }
+                set { fileDateModified = value; IsFileDateModifiedSet = true; }
+            }
+            private DateTime fileDateModified;
+            public bool IsFileDateModifiedSet { get; set; } = false;
+            
             /// <summary>
             /// Extension supported by FileInfo 
             /// </summary>
-            public string Extension { get;  set; }
+            public string Extension
+            {
+                get { return extension; }
+                set { extension = value; IsExtensionSet = true; }
+            }
+            private string extension;
+            public bool IsExtensionSet { get; set; } = false;
+            
             /// <summary>
             /// DirectoryName supported by FileInfo 
             /// </summary>
-            public string FileDirectory { get;  set; }
+            public string FileDirectory
+            {
+                get { return fileDirectory; }
+                set { fileDirectory = value; IsFileDirectorySet = true; }
+            }
+            private string fileDirectory;
+            public bool IsFileDirectorySet { get; set; } = false;
+            
             /// <summary>
             /// DisplayName supported by FileInfo
             /// </summary>
-            public string DisplayName { get;  set; }
+            public string DisplayName
+            {
+                get { return displayName; }
+                set { displayName = value; IsDisplayNameSet = true; }
+            }
+            private string displayName;
+            public bool IsDisplayNameSet { get; set; } = false;
+            
             /// <summary>
             /// File size supported by FileInfo 
             /// </summary>
-            public long FileSize { get;  set; }
+            public long FileSize
+            {
+                get { return fileSize; }
+                set { fileSize = value; IsFileSizeSet = true; }
+            }
+            private long fileSize;
+            public bool IsFileSizeSet { get; set; } = false;
+
             /// <summary>
             /// TypeName supported by FileInfo 
             /// </summary>
-            public string FileMimeType { get;  set; }
+            public string FileMimeType
+            {
+                get { return fileMimeType; }
+                set { fileMimeType = value; IsFileMimeTypeSet = true; }
+            }
+            private string fileMimeType;
+            public bool IsFileMimeTypeSet { get; set; } = false;
             #endregion
 
             #region Provided by ShellImageFileInfo, MagickImage
             /// <summary>
             /// Dimensions supported by ShellImageFileInfo, MagickImage 
             /// </summary>
-            public Size MediaDimensions { get;  set; }
-            /// <summary>
-            /// Resolution supported by ShellImageFileInfo, MagickImage
-            /// </summary>
-            public SizeF MediaResolution { get;  set; }
+            public Size MediaDimensions
+            {
+                get { return mediaDimensions; }
+                set { mediaDimensions = value; IsMediaDimensionsSet = true; }
+            }
+            private Size mediaDimensions;
+            public bool IsMediaDimensionsSet { get; set; } = false;
+            
             /// <summary>
             /// supported by ShellImageFileInfo, MagickImage
             /// </summary>
-            public string CameraModel { get;  set; } 
+            public string CameraMake
+            {
+                get { return cameraMake; }
+                set { cameraMake = value; IsCameraMakeSet = true; }
+            }
+            private string cameraMake;
+            public bool IsCameraMakeSet { get; set; } = false;
+
             /// <summary>
             /// supported by ShellImageFileInfo, MagickImage
             /// </summary>
-            public DateTime MediaDateTaken { get;  set; }
+            public string CameraModel
+            {
+                get { return cameraModel; }
+                set { cameraModel = value; IsCameraModelSet = true; }
+            }
+            private string cameraModel;
+            public bool IsCameraModelSet { get; set; } = false;
+
             /// <summary>
-            /// Copyright supported by ShellImageFileInfo, MagickImage
+            /// supported by ShellImageFileInfo, MagickImage
             /// </summary>
-            public string MediaCopyright { get;  set; }
-            /// <summary>
-            /// ExposureTime supported by ShellImageFileInfo, MagickImage
-            /// </summary>
-            public string CameraExposureTime { get;  set; }
-            /// <summary>
-            /// FNumber supported by ShellImageFileInfo, MagickImage
-            /// </summary>
-            public float CameraFNumber { get;  set; }
-            /// <summary>
-            /// ISOSpeed supported by ShellImageFileInfo, MagickImage
-            /// </summary>
-            public ushort CameraISOSpeed { get;  set; }
-            /// <summary>
-            /// ShutterSpeed supported by ShellImageFileInfo
-            /// </summary>
-            public string CameraShutterSpeed { get;  set; }
-            /// <summary>
-            /// ApertureValue supported by ShellImageFileInfo, MagickImage
-            /// </summary>
-            public string CameraAperture { get;  set; }
+            public DateTime MediaDateTaken
+            {
+                get { return mediaDateTaken; }
+                set { mediaDateTaken = value; IsMediaDateTakenSet = true; }
+            }
+            private DateTime mediaDateTaken;
+            public bool IsMediaDateTakenSet { get; set; } = false;
+            
             #endregion
 
             #region Provided by MagickImage, Exiftool
             /// <summary>
             /// MediaTitle supported by MagickImage, Exiftool
             /// </summary>
-            public string MediaTitle { get; set; }
+            public string MediaTitle
+            {
+                get { return mediaTitle; }
+                set { mediaTitle = value; IsMediaTitleSet = true; }
+            }
+            private string mediaTitle;
+            public bool IsMediaTitleSet { get; set; } = false;
+
             /// <summary>
             /// MediaDescription supported by MagickImage, Exiftool
             /// </summary>
-            public string MediaDescription { get; set; }
+            public string MediaDescription
+            {
+                get { return mediaDescription; }
+                set { mediaDescription = value; IsMediaDescriptionSet = true; }
+            }
+            private string mediaDescription;
+            public bool IsMediaDescriptionSet { get; set; } = false;
+
             /// <summary>
             /// MediaComment supported by MagickImage, Exiftool, 
             /// </summary>
-            public string MediaComment { get; set; }
+            public string MediaComment
+            {
+                get { return mediaComment; }
+                set { mediaComment = value; IsMediaCommentSet = true; }
+            }
+            private string mediaComment;
+            public bool IsMediaCommentSet { get; set; } = false;
+
             /// <summary>
             /// MediaAuthor supported by MagickImage, Exiftool
             /// </summary>
-            public string MediaAuthor { get; set; }
+            public string MediaAuthor
+            {
+                get { return mediaAuthor; }
+                set { mediaAuthor = value; IsMediaAuthorSet = true; }
+            }
+            private string mediaAuthor;
+            public bool IsMediaAuthorSet { get; set; } = false;
+
             /// <summary>
             /// MediaRating supported by MagickImage, Exiftool
             /// </summary>
-            public byte MediaRating { get; set; }
+            public byte MediaRating
+            {
+                get { return mediaRating; }
+                set { mediaRating = value; IsMediaRatingSet = true; }
+            }
+            private byte mediaRating;
+            public bool IsMediaRatingSet { get; set; } = false;
             #endregion
 
             #region Provided by Exiftool
             /// <summary>
             /// MediaAlbum supported by Exiftool
             /// </summary>
-            public string MediaAlbum { get; set; }
+            public string MediaAlbum
+            {
+                get { return mediaAlbum; }
+                set { mediaAlbum = value; IsMediaAlbumSet = true; }
+            }
+            private string mediaAlbum;
+            public bool IsMediaAlbumSet { get; set; } = false;
+            
             /// <summary>
             /// LocationName supported by Exiftool
             /// </summary>
-            public string LocationName { get; set; }
+            public string LocationName
+            {
+                get { return locationName; }
+                set { locationName = value; IsLocationNameSet = true; }
+            }
+            private string locationName;
+            public bool IsLocationNameSet { get; set; } = false;
+            
             /// <summary>
             /// LocationRegionState supported by Exiftool
             /// </summary>
-            public string LocationRegionState { get; set; }
+            public string LocationRegionState
+            {
+                get { return locationRegionState; }
+                set { locationRegionState = value; IsLocationRegionStateSet = true; }
+            }
+            private string locationRegionState;
+            public bool IsLocationRegionStateSet { get; set; } = false;
+            
             /// <summary>
             /// LocationCity supported by Exiftool
             /// </summary>
-            public string LocationCity { get; set; }
+            public string LocationCity
+            {
+                get { return locationCity; }
+                set { locationCity = value; IsLocationCitySet = true; }
+            }
+            private string locationCity;
+            public bool IsLocationCitySet { get; set; } = false;
+            
             /// <summary>
             /// LocationCountry supported by Exiftool
             /// </summary>
-            public string LocationCountry { get; set; }
+            public string LocationCountry
+            {
+                get { return locationCountry; }
+                set { locationCountry = value; IsLocationCountrySet = true; }
+            }
+            private string locationCountry;
+            public bool IsLocationCountrySet { get; set; } = false;
             #endregion 
 
             //JTN Added, create empty version
@@ -426,16 +549,15 @@ namespace Manina.Windows.Forms
                     WaitFileRenameAndUnlocked(path);
                     FileInfo info = new FileInfo(path);
                     FileAttributes = info.Attributes;
-                    FileDateCreated = info.CreationTime;
-                    FileDateAccessed = info.LastAccessTime;
+                    FileDateCreated = info.CreationTime;                    
                     FileDateModified = info.LastWriteTime;
                     FileSize = info.Length;
                     FileDirectory = info.DirectoryName;
                     DisplayName = info.Name;
                     Extension = info.Extension.Trim().ToUpper();
-
                     FileMimeType = GetFileType(path, Extension);
 
+                    /* NO NEED
                     if (Extension == ".JPG" || Extension == ".GIF" || Extension == ".JPEG" || Extension == ".BMP")
                     {
 
@@ -445,17 +567,16 @@ namespace Manina.Windows.Forms
                             using (Image img = Image.FromStream(stream, false, false)) //System.IO.IOException: 'The cloud sync provider failed to validate the downloaded data.
                             {
                                 MediaDimensions = img.Size;
-                                MediaResolution = new SizeF(img.HorizontalResolution, img.VerticalResolution);
                                 // Read exif properties
                                 foreach (PropertyItem prop in img.PropertyItems)
                                 {
                                     switch (prop.Id)
                                     {
                                         case PropertyTagImageDescription:
-                                            MediaDescription = ReadExifAscii(prop.Value);
+                                            //MediaDescription = ReadExifAscii(prop.Value);
                                             break;
                                         case PropertyTagEquipmentModel:
-                                            CameraModel = ReadExifAscii(prop.Value);
+                                            //CameraModel = ReadExifAscii(prop.Value);
                                             break;
                                         case PropertyTagDateTime:
                                             MediaDateTaken = ReadExifDateTime(prop.Value);
@@ -464,22 +585,22 @@ namespace Manina.Windows.Forms
                                             MediaAuthor = ReadExifAscii(prop.Value);
                                             break;
                                         case PropertyTagCopyright:
-                                            MediaCopyright = ReadExifAscii(prop.Value);
+                                            //MediaCopyright = ReadExifAscii(prop.Value);
                                             break;
                                         case PropertyTagExposureTime:
-                                            CameraExposureTime = ReadExifURational(prop.Value);
+                                            //CameraExposureTime = ReadExifURational(prop.Value);
                                             break;
                                         case PropertyTagFNumber:
-                                            CameraFNumber = ReadExifFloat(prop.Value);
+                                            //CameraFNumber = ReadExifFloat(prop.Value);
                                             break;
                                         case PropertyTagISOSpeed:
-                                            CameraISOSpeed = ReadExifUShort(prop.Value);
+                                            //CameraISOSpeed = ReadExifUShort(prop.Value);
                                             break;
                                         case PropertyTagShutterSpeed:
-                                            CameraShutterSpeed = ReadExifRational(prop.Value);
+                                            //CameraShutterSpeed = ReadExifRational(prop.Value);
                                             break;
                                         case PropertyTagAperture:
-                                            CameraAperture = ReadExifURational(prop.Value);
+                                            //CameraAperture = ReadExifURational(prop.Value);
                                             break;
                                         case PropertyTagUserComment:
                                             MediaComment = ReadExifAscii(prop.Value);
@@ -488,7 +609,7 @@ namespace Manina.Windows.Forms
                                 }
                             }
                         }
-                    }
+                    }*/
                     Error = false;
                 }
                 catch (Exception ex)

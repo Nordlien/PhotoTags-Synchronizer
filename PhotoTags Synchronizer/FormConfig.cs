@@ -346,6 +346,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.LocationAccuracyLatitude = (float)numericUpDownLocationAccuracyLatitude.Value;
                 Properties.Settings.Default.LocationAccuracyLongitude = (float)numericUpDownLocationAccuracyLongitude.Value;
                 Properties.Settings.Default.AvoidOfflineMediaFiles = checkBoxApplicationAvoidReadMediaFromCloud.Checked;
+                Properties.Settings.Default.AvoidReadExifFromCloud = checkBoxApplicationAvoidReadExifFromCloud.Checked;
                 Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode = checkBoxApplicationImageListViewCacheModeOnDemand.Checked;
 
                 Properties.Settings.Default.CacheNumberOfPosters = (int)numericUpDownCacheNumberOfPosters.Value;
@@ -492,6 +493,7 @@ namespace PhotoTagsSynchronizer
             numericUpDownLocationAccuracyLongitude.Value = (decimal)Properties.Settings.Default.LocationAccuracyLongitude;
 
             checkBoxApplicationAvoidReadMediaFromCloud.Checked = Properties.Settings.Default.AvoidOfflineMediaFiles;
+            checkBoxApplicationAvoidReadExifFromCloud.Checked = Properties.Settings.Default.AvoidReadExifFromCloud;
             checkBoxApplicationImageListViewCacheModeOnDemand.Checked = Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode;
 
             numericUpDownCacheNumberOfPosters.Value = (int)Properties.Settings.Default.CacheNumberOfPosters;

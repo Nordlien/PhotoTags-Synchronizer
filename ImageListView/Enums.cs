@@ -87,17 +87,13 @@ namespace Manina.Windows.Forms
         /// The text of the item, defaults to filename if
         /// the text is not provided.
         /// </summary>
-        FileName,
-        /// <summary>
-        /// The last access date.
-        /// </summary>
-        FileDateAccessed,
+        FileName,        
         /// <summary>
         /// The creation date.
         /// </summary>
         FileDateCreated,
         /// <summary>
-        /// The last modification date.
+        /// Mime type of the file.
         /// </summary>
         FileDateModified,
         /// <summary>
@@ -120,45 +116,21 @@ namespace Manina.Windows.Forms
         /// Image dimensions in pixels.
         /// </summary>
         MediaDimensions,
+        
         /// <summary>
-        /// Image resolution if dpi.
+        /// The equipment make (Exif tag).
         /// </summary>
-        MediaResolution,
-       
+        CameraMake,
         /// <summary>
         /// The equipment model (Exif tag).
         /// </summary>
         CameraModel,
+
         /// <summary>
         /// The date image was taken (Exif tag).
         /// </summary>
         MediaDateTaken,
         
-        /// <summary>
-        /// Image copyright information (Exif tag).
-        /// </summary>
-        MediaCopyright,
-        /// <summary>
-        /// Exposure time in seconds (Exif tag).
-        /// </summary>
-        CameraExposureTime,
-        /// <summary>
-        /// The F number (Exif tag).
-        /// </summary>
-        CameraFNumber,
-        /// <summary>
-        /// ISO speed (Exif tag).
-        /// </summary>
-        CameraISOSpeed,
-        /// <summary>
-        /// Shutter speed (Exif tag).
-        /// </summary>
-        CameraShutterSpeed,
-        /// <summary>
-        /// The lens aperture (Exif tag).
-        /// </summary>
-        CameraAperture,
-
         /// <summary>
         /// Media Album (Exif tag).
         /// </summary>

@@ -1980,5 +1980,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ApplicationRegionThumbnail"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AvoidReadExifFromCloud {
+            get {
+                return ((bool)(this["AvoidReadExifFromCloud"]));
+            }
+            set {
+                this["AvoidReadExifFromCloud"] = value;
+            }
+        }
     }
 }

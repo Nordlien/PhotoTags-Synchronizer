@@ -846,7 +846,7 @@ namespace PhotoTagsSynchronizer
                                 #endregion
 
                                 #region Check if need avoid files in cloud, if yes, don't read files in cloud
-                                if (Properties.Settings.Default.AvoidOfflineMediaFiles)
+                                if (Properties.Settings.Default.AvoidReadExifFromCloud)
                                 {
                                     foreach (string fullFileName in mediaFilesNotInDatabaseCheckInCloud)
                                     {

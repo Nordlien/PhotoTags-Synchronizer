@@ -1075,5 +1075,8 @@ https://photos.google.com/people</Value>
     <Setting Name="ApplicationRegionThumbnail" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">96, 96</Value>
     </Setting>
+    <Setting Name="AvoidReadExifFromCloud" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

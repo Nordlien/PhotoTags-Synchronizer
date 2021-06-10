@@ -218,10 +218,6 @@ namespace ImageAndMovieFileExtentions
                     shellImageFileInfo.FileAttributes = fileInfo.Attributes;
                     #endregion
 
-                    #region shellImageFileInfo.LastAccessTime
-                    shellImageFileInfo.FileDateAccessed = fileInfo.LastAccessTime;
-                    #endregion
-
                     #region shellImageFileInfo.LastWriteTime
                     shellImageFileInfo.FileDateModified = fileInfo.LastWriteTime;
                     #endregion
@@ -271,10 +267,6 @@ namespace ImageAndMovieFileExtentions
                         shellImageFileInfo.FileAttributes = fileInfo.Attributes;
                         #endregion
 
-                        #region shellImageFileInfo.LastAccessTime
-                        shellImageFileInfo.FileDateAccessed = fileInfo.LastAccessTime;
-                        #endregion
-
                         #region shellImageFileInfo.LastWriteTime
                         shellImageFileInfo.FileDateModified = fileInfo.LastWriteTime;
                         #endregion
@@ -282,21 +274,16 @@ namespace ImageAndMovieFileExtentions
                         #region shellImageFileInfo.Size
                         shellImageFileInfo.FileSize = fileInfo.Length;
                         #endregion
+
+                        #region shellImageFileInfo.FileMimeType
+                        shellImageFileInfo.FileMimeType = shellImageFileInfo.GetFileType(fullFilename, shellImageFileInfo.Extension);
+                        #endregion
                     }
 
                     IExifProfile profile = image.GetExifProfile();
                     if (profile != null)
                     {
-                        #region shellImageFileInfo.ApertureValue / ExifTag.ApertureValue
-                        var valueRational = profile.GetValue(ExifTag.ApertureValue);
-                        if (valueRational != null) shellImageFileInfo.CameraAperture = valueRational.ToString();
-                        #endregion
-
-                        #region shellImageFileInfo.Copyright / ExifTag.Copyright
-                        var valueString = profile.GetValue(ExifTag.Copyright);
-                        if (valueString != null) shellImageFileInfo.MediaCopyright = valueString.Value;
-                        #endregion
-
+                        
                         #region shellImageFileInfo.DateTaken / ExifTag.DateTimeDigitized
                         var valueDateTime = profile.GetValue(ExifTag.DateTimeDigitized);
                         if (valueDateTime != null && ConvertDateTimeFromString(valueDateTime.Value) != null) shellImageFileInfo.MediaDateTaken = (DateTime)ConvertDateTimeFromString(valueDateTime.Value);
@@ -308,76 +295,34 @@ namespace ImageAndMovieFileExtentions
                         if (valueNumberX != null && valueNumberY != null) shellImageFileInfo.MediaDimensions = new Size((int)valueNumberX.Value, (int)valueNumberX.Value);
                         #endregion
 
-                        #region shellImageFileInfo.EquipmentModel / ExifTag.Model + ExifTag.Make
+                        #region shellImageFileInfo.EquipmentModel / ExifTag.Make
+                        var valueString = profile.GetValue(ExifTag.Make);
+                        if (valueString != null) shellImageFileInfo.CameraMake = valueString.Value;
+                        #endregion
+
+                        #region shellImageFileInfo.EquipmentMake / ExifTag.Model
                         valueString = profile.GetValue(ExifTag.Model);
                         if (valueString != null) shellImageFileInfo.CameraModel = valueString.Value;
-
-                        valueString = profile.GetValue(ExifTag.Make);
-                        if (valueString != null) shellImageFileInfo.CameraModel += (shellImageFileInfo.CameraModel == null ? "" : " ") + valueString.Value;
                         #endregion
-
-                        #region shellImageFileInfo.ExposureTime / ExifTag.ExposureTime
-                        valueRational = profile.GetValue(ExifTag.ExposureTime);
-                        if (valueRational != null) shellImageFileInfo.CameraExposureTime = valueRational.Value.ToString();
-                        #endregion
-
-                        #region shellImageFileInfo.FNumber / ExifTag.FNumber
-                        valueRational = profile.GetValue(ExifTag.FNumber);
-                        if (valueRational != null) shellImageFileInfo.CameraFNumber = (float)valueRational.Value.ToDouble();
-                        #endregion
-
-                        
-
-                        #region shellImageFileInfo.ISOSpeed / ExifTag.ISOSpeed
-                        var valueuInt = profile.GetValue(ExifTag.ISOSpeed);
-                        if (valueuInt != null) shellImageFileInfo.CameraISOSpeed = (ushort)valueuInt.Value;
-                        #endregion
-
-                        #region shellImageFileInfo.Resolution / ExifTag.PixelScale (image.Density.X + image.Density.Y)
-                        var valueDouble = profile.GetValue(ExifTag.PixelScale);
-                        if (valueDouble != null)
-                        {
-                            image.Density.ChangeUnits(DensityUnit.PixelsPerInch);
-                            shellImageFileInfo.MediaResolution = new SizeF((float)image.Density.X, (float)image.Density.Y);
-                        }
-                        #endregion
-
-                        #region shellImageFileInfo.ShutterSpeed / ExifTag.ShutterSpeedValue
-                        var valueSignedRational = profile.GetValue(ExifTag.ShutterSpeedValue);
-                        if (valueSignedRational != null) shellImageFileInfo.CameraShutterSpeed = valueSignedRational.Value.ToString();
-                        #endregion
-
-                        #region shellImageFileInfo.TypeName
-                        shellImageFileInfo.FileMimeType = shellImageFileInfo.GetFileType(fullFilename, shellImageFileInfo.Extension);
-                        #endregion
-
 
                         //public string MediaAlbum { get; set; }            
-                        #region shellImageFileInfo.MediaAlbum / ExifTag.ImageDescription
-                        //valueString = profile.GetValue(ExifTag.Al);
-                        //if (valueString != null) shellImageFileInfo.MediaDescription = valueString.Value;
-                        #endregion
-
-                        //public string MediaTitle { get; set; }           
+                        
                         #region shellImageFileInfo.UserComment / ExifTag.XPTitle
                         var valueByteArray = profile.GetValue(ExifTag.XPTitle);
                         if (valueByteArray != null) shellImageFileInfo.MediaTitle = CovertByteArrayToString(valueByteArray.Value);
                         #endregion
 
-                        //public string MediaDescription { get; set; }
                         #region shellImageFileInfo.ImageDescription / ExifTag.ImageDescription
                         valueString = profile.GetValue(ExifTag.ImageDescription);
                         if (valueString != null) shellImageFileInfo.MediaDescription = valueString.Value;
                         #endregion
 
-                        //public string MediaComment { get; set; }
                         #region shellImageFileInfo.UserComment / ExifTag.UserComment or ExifTag.XPComment
                         valueByteArray = profile.GetValue(ExifTag.UserComment);
                         if (valueByteArray == null) valueByteArray = profile.GetValue(ExifTag.XPComment);
                         if (valueByteArray != null) shellImageFileInfo.MediaComment = CovertByteArrayToString(valueByteArray.Value);
                         #endregion
 
-                        //public string MediaAuthor { get; set; }
                         #region shellImageFileInfo.Artist / ExifTag.Artist
                         valueString = profile.GetValue(ExifTag.Artist);
                         valueByteArray = profile.GetValue(ExifTag.XPAuthor);
@@ -385,7 +330,6 @@ namespace ImageAndMovieFileExtentions
                         else if (valueByteArray != null) shellImageFileInfo.MediaAuthor = CovertByteArrayToString(valueByteArray.Value);
                         #endregion
 
-                        //public byte MediaRating { get; set; }
                         #region shellImageFileInfo.Rating / ExifTag.Rating
                         var valueuShort = profile.GetValue(ExifTag.Rating);
                         if (valueuShort != null) shellImageFileInfo.MediaRating = (byte)(ushort)valueuShort.Value;

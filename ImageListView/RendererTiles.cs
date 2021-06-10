@@ -169,27 +169,14 @@ namespace Manina.Windows.Forms
                                         ImageListView.Font, bItemDetails, rt, sf);
                                     rt.Offset(0, 1.1f * lineHeight);
                                 }
-                                if (item.Dimensions != Size.Empty || item.Resolution != SizeF.Empty)
-                                {
-                                    string text = "";
-                                    if (item.Dimensions != Size.Empty)
-                                        text += item.GetSubItemText(ColumnType.MediaDimensions) + " pixels ";
-                                    if (item.Resolution != SizeF.Empty)
-                                        text += item.Resolution.Width + " dpi";
-                                    g.DrawString(text, ImageListView.Font, bItemDetails, rt, sf);
-                                    rt.Offset(0, 1.1f * lineHeight);
-                                }
+                                
                                 if (item.FileSize != 0)
                                 {
                                     g.DrawString(item.GetSubItemText(ColumnType.FileSize),
                                         ImageListView.Font, bItemDetails, rt, sf);
                                     rt.Offset(0, 1.1f * lineHeight);
                                 }
-                                if (item.DateModified != DateTime.MinValue)
-                                {
-                                    g.DrawString(item.GetSubItemText(ColumnType.FileDateModified),
-                                        ImageListView.Font, bItemDetails, rt, sf);
-                                }
+
                             }
                         }
                     }

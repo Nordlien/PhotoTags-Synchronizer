@@ -38,50 +38,254 @@ namespace Manina.Windows.Forms
         internal bool mSelected;
         private string mText;
         private int mZOrder;
-        
+
         // File info
-        private DateTime mFileDateAccessed;
-        private DateTime mFileDateCreated;
-        private DateTime mFileDateModified;
-        private string mFileType;
-        private string mFileName;
-        private string mFileDirectory;
-        private long mFileSize;
-        private Size mMediaDimensions;
-        private SizeF mMediaResolution;
+        private DateTime mmFileDateCreated;
+        private DateTime mFileDateCreated
+        {
+            get { return mmFileDateCreated; }
+            set { isDirtyFileDateCreated = false; mmFileDateCreated = value; }
+        }
+        private bool isDirtyFileDateCreated = true;
+
+        private DateTime mmFileDateModified;
+        private DateTime mFileDateModified
+        {
+            get { return mmFileDateModified; }
+            set { isDirtyFileDateModified = false; mmFileDateModified = value; }
+        }
+        private bool isDirtyFileDateModified = true;
         
+        private string mmFileType;
+        private string mFileType
+        {
+            get { return mmFileType; }
+            set { isDirtyFileType = false; mmFileType = value; }
+        }
+        private bool isDirtyFileType = true;
+
+        private string mmFileName; 
+        private string mFileName
+        {
+            get { return mmFileName; }
+            set { isDirtyFileName = false; mmFileName = value; }
+        }
+        private bool isDirtyFileName = true;
+
+        private string mmFileDirectory;
+        private string mFileDirectory
+        {
+            get { return mmFileDirectory; }
+            set { isDirtyFileDirectory = false; mmFileDirectory = value; }
+        }
+        private bool isDirtyFileDirectory = true;
+
+        private long mmFileSize;
+        private long mFileSize
+        {
+            get { return mmFileSize; }
+            set { isDirtyFileSize = false; mmFileSize = value; }
+        }
+        private bool isDirtyFileSize = true;
+
+        private Size mmMediaDimensions;
+        private Size mMediaDimensions
+        {
+            get { return mmMediaDimensions; }
+            set { isDirtyMediaDimensions = false; mmMediaDimensions = value; }
+        }
+        private bool isDirtyMediaDimensions = true;
+
         // Exif tags
-        
-        private string mCameraModel;
-        private DateTime mMediaDateTaken;
-        private string mMediaCopyright;
-        private string mCameraExposureTime;
-        private float mCameraFNumber;
-        private ushort mCameraISOSpeed;
-        private string mCameraShutterSpeed;
-        private string mCameraAperture;
-        
+        private string mmCameraMake;
+        private string mCameraMake
+        {
+            get { return mmCameraMake; }
+            set { isDirtyCameraMake = false; mmCameraMake = value; }
+        }
+        private bool isDirtyCameraMake = true;
+
+        private string mmCameraModel;
+        private string mCameraModel
+        {
+            get { return mmCameraModel; }
+            set { isDirtyCameraModel = false; mmCameraModel = value; }
+        }
+        private bool isDirtyCameraModel = true;
+
+        private DateTime mmMediaDateTaken;
+        private DateTime mMediaDateTaken
+        {
+            get { return mmMediaDateTaken; }
+            set { isDirtyMediaDateTaken = false; mmMediaDateTaken = value; }
+        }
+        private bool isDirtyMediaDateTaken = true;
 
         //JTN: Added more column types
-        private string mMediaAlbum;
-        private string mMediaTitle;
-        private string mMediaDescription;
-        private string mMediaComment;
-        private string mMediaAuthor;
-        private byte mMediaRating;        
-        private string mLocationName;
-        private string mLocationRegionState;
-        private string mLocationCity;
-        private string mLocationCountry;
-        
+        private string mmMediaAlbum;
+        private string mMediaAlbum
+        {
+            get { return mmMediaAlbum; }
+            set { isDirtyMediaAlbum = false; mmMediaAlbum = value; }
+        }
+        private bool isDirtyMediaAlbum = true;
+
+        private string mmMediaTitle;
+        private string mMediaTitle
+        {
+            get { return mmMediaTitle; }
+            set { isDirtyMediaTitle = false; mmMediaTitle = value; }
+        }
+        private bool isDirtyMediaTitle = true;
+
+        private string mmMediaDescription;
+        private string mMediaDescription
+        {
+            get { return mmMediaDescription; }
+            set { isDirtyMediaDescription = false; mmMediaDescription = value; }
+        }
+        private bool isDirtyMediaDescription = true;
+
+        private string mmMediaComment;
+        private string mMediaComment
+        {
+            get { return mmMediaComment; }
+            set { isDirtyMediaComment = false; mmMediaComment = value; }
+        }
+        private bool isDirtyMediaComment = true;
+
+        private string mmMediaAuthor;
+        private string mMediaAuthor
+        {
+            get { return mmMediaAuthor; }
+            set { isDirtyMediaAuthor = false; mmMediaAuthor = value; }
+        }
+        private bool isDirtyMediaAuthor = true;
+
+        private byte mmMediaRating;
+        private byte mMediaRating
+        {
+            get { return mmMediaRating; }
+            set { isDirtyMediaRating = false; mmMediaRating = value; }
+        }
+        private bool isDirtyMediaRating = true;
+
+        private string mmLocationName;
+        private string mLocationName
+        {
+            get { return mmLocationName; }
+            set { isDirtyLocationName = false; mmLocationName = value; }
+        }
+        private bool isDirtyLocationName = true;
+
+        private string mmLocationRegionState;
+        private string mLocationRegionState
+        {
+            get { return mmLocationRegionState; }
+            set { isDirtyLocationRegionState = false; mmLocationRegionState = value; }
+        }
+        private bool isDirtyLocationRegionState = true;
+
+        private string mmLocationCity;
+        private string mLocationCity
+        {
+            get { return mmLocationCity; }
+            set { isDirtyLocationCity = false; mmLocationCity = value; }
+        }
+        private bool isDirtyLocationCity = true;
+
+        private string mmLocationCountry;
+        private string mLocationCountry
+        {
+            get { return mmLocationCountry; }
+            set { isDirtyLocationCountry = false; mmLocationCountry = value; }
+        }
+        private bool isDirtyLocationCountry = true;
 
         // Used for virtual items
         internal bool isVirtualItem;
         internal object mVirtualItemKey;
 
         internal ImageListView.ImageListViewItemCollection owner;
-        internal bool isDirty;
-        internal bool isFileInfoDirty; //Added by JTN
+        internal bool mIsDirty;
+        bool isDirty
+        {
+            get { 
+                return isDirtyFileDateCreated ||
+                isDirtyFileDateModified ||
+                isDirtyFileType ||
+                isDirtyFileName ||
+                isDirtyFileDirectory ||
+                isDirtyFileSize ||
+                isDirtyMediaDimensions ||
+                isDirtyCameraMake ||
+                isDirtyCameraModel ||
+                isDirtyMediaDateTaken ||
+                isDirtyMediaAlbum ||
+                isDirtyMediaTitle ||
+                isDirtyMediaDescription ||
+                isDirtyMediaComment ||
+                isDirtyMediaAuthor ||
+                isDirtyMediaRating ||
+                isDirtyLocationName ||
+                isDirtyLocationRegionState ||
+                isDirtyLocationCity ||
+                isDirtyLocationCountry ; 
+            }
+            set
+            {
+                mIsDirty = value;
+                if (mIsDirty)
+                {
+                    isDirtyFileDateCreated = value;
+                    isDirtyFileDateModified = value;
+                    isDirtyFileType = value;
+                    isDirtyFileName = value;
+                    isDirtyFileDirectory = value;
+                    isDirtyFileSize = value;
+                    isDirtyMediaDimensions = value;
+                    isDirtyCameraMake = value;
+                    isDirtyCameraModel = value;
+                    isDirtyMediaDateTaken = value;
+                    isDirtyMediaAlbum = value;
+                    isDirtyMediaTitle = value;
+                    isDirtyMediaDescription = value;
+                    isDirtyMediaComment = value;
+                    isDirtyMediaAuthor = value;
+                    isDirtyMediaRating = value;
+                    isDirtyLocationName = value;
+                    isDirtyLocationRegionState = value;
+                    isDirtyLocationCity = value;
+                    isDirtyLocationCountry = value;
+                }
+            }
+        }
+        internal bool isFileInfoDirty //Added by JTN
+        {
+            get
+            {
+                return isDirtyFileDateCreated ||
+                isDirtyFileDateModified ||
+                isDirtyFileType ||
+                isDirtyFileName ||
+                isDirtyFileDirectory ||
+                isDirtyFileSize /*||
+                isDirtyMediaDimensions ||
+                isDirtyCameraMake ||
+                isDirtyCameraModel ||
+                isDirtyMediaDateTaken ||
+                isDirtyMediaAlbum ||
+                isDirtyMediaTitle ||
+                isDirtyMediaDescription ||
+                isDirtyMediaComment ||
+                isDirtyMediaAuthor ||
+                isDirtyMediaRating ||
+                isDirtyLocationName ||
+                isDirtyLocationRegionState ||
+                isDirtyLocationCity ||
+                isDirtyLocationCountry */;
+            }
+        }
         private bool editing;
         #endregion
 
@@ -252,28 +456,22 @@ namespace Manina.Windows.Forms
         public int ZOrder { get { return mZOrder; } set { mZOrder = value; } }
 
         /// <summary>
-        /// Gets the last access date of the image file represented by this item.
-        /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets the last access date of the image file represented by this item.")]
-        public DateTime DateAccessed { get { UpdateFileInfo(true); return mFileDateAccessed; } }
-        
-        /// <summary>
         /// Gets the creation date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the creation date of the image file represented by this item.")]
-        public DateTime DateCreated { get { UpdateFileInfo(true); return mFileDateCreated; } }
+        public DateTime DateCreated { get { UpdateFileInfo(isDirtyFileDateCreated); return mFileDateCreated; } }
         
         /// <summary>
         /// Gets the modification date of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the modification date of the image file represented by this item.")]
         
-        public DateTime DateModified { get { UpdateFileInfo(true); return mFileDateModified; } }
+        public DateTime DateModified { get { UpdateFileInfo(isDirtyFileDateModified); return mFileDateModified; } }
         /// <summary>
         /// Gets the shell type of the image file represented by this item.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the shell type of the image file represented by this item.")]
-        public string FileType { get { UpdateFileInfo(false); return mFileType; } }
+        public string FileType { get { UpdateFileInfo(isDirtyFileType); return mFileType; } }
         
         /// <summary>
         /// Gets or sets the name of the image fie represented by this item.
@@ -293,7 +491,7 @@ namespace Manina.Windows.Forms
                     if (!isVirtualItem)
                     {
                         isDirty = true;
-                        isFileInfoDirty = true;
+                        //isFileInfoDirty = true;
                         if (mImageListView != null)
                         {
                             mImageListView.cacheManager.Remove(Guid);
@@ -305,158 +503,103 @@ namespace Manina.Windows.Forms
             }
         }
 
-        /*
-            mFileType = fileInfo.TypeName;
-            mDimensions = fileInfo.Dimensions;
-            mResolution = fileInfo.Resolution;            
-            mImageDescription = fileInfo.ImageDescription;
-            mEquipmentModel = fileInfo.EquipmentModel;
-            mDateTaken = infileInfofo.DateTaken;
-            mArtist = fileInfo.Artist;
-            mCopyright = fileInfo.Copyright;
-            mExposureTime = fileInfo.ExposureTime;
-            mFNumber = fileInfo.FNumber;
-            mISOSpeed = fileInfo.ISOSpeed;
-            mShutterSpeed = fileInfo.ShutterSpeed;
-            mAperture = fileInfo.ApertureValue;
-            mUserComment = fileInfo.UserComment;
-            */
-
         /// <summary>
         /// Gets the path of the image fie represented by this item.
         /// </summary>        
         [Category("Data"), Browsable(false), Description("Gets the path of the image fie represented by this item.")]
-        public string FileDirectory { get { UpdateFileInfo(true); return mFileDirectory; } }
+        public string FileDirectory { get { UpdateFileInfo(isDirtyFileDirectory); return mFileDirectory; } }
         
         /// <summary>
         /// Gets file size in bytes.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets file size in bytes.")]
-        public long FileSize { get { UpdateFileInfo(true); return mFileSize; } }
+        public long FileSize { get { UpdateFileInfo(isDirtyFileSize); return mFileSize; } }
         
         /// <summary>
         /// Gets image dimensions.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets image dimensions.")]
-        public Size Dimensions { get { UpdateFileInfo(false); return mMediaDimensions; } }
-        
+        public Size Dimensions { get { UpdateFileInfo(isDirtyMediaDimensions); return mMediaDimensions; } }
+
         /// <summary>
-        /// Gets image resolution in pixels per inch.
+        /// Gets the camera model.
         /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets image resolution in pixels per inch.")]
-        public SizeF Resolution { get { UpdateFileInfo(false); return mMediaResolution; } }
-        
+        [Category("Data"), Browsable(false), Description("Gets the camera make.")]
+        public string CameraMake { get { UpdateFileInfo(isDirtyCameraMake); return mCameraMake; } }
+
         /// <summary>
         /// Gets the camera model.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the camera model.")]
-        public string EquipmentModel { get { UpdateFileInfo(false); return mCameraModel; } }
+        public string CameraModel { get { UpdateFileInfo(isDirtyCameraModel); return mCameraModel; } }
         
         /// <summary>
         /// Gets the date and time the image was taken.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the date and time the image was taken.")]
-        public DateTime DateTaken { get { UpdateFileInfo(false); return mMediaDateTaken; } }
+        public DateTime DateTaken { get { UpdateFileInfo(isDirtyMediaDateTaken); return mMediaDateTaken; } }
         
-        
-        
-        /// <summary>
-        /// Gets image copyright information.
-        /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets image copyright information.")]
-        public string Copyright { get { UpdateFileInfo(false); return mMediaCopyright; } }
-        
-        /// <summary>
-        /// Gets the exposure time in seconds.
-        /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets the exposure time in seconds.")]
-        public string ExposureTime { get { UpdateFileInfo(false); return mCameraExposureTime; } }
-        
-        /// <summary>
-        /// Gets the F number.
-        /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets the F number.")]
-        public float FNumber { get { UpdateFileInfo(false); return mCameraFNumber; } }
-        
-        /// <summary>
-        /// Gets the ISO speed.
-        /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets the ISO speed.")]
-        public ushort ISOSpeed { get { UpdateFileInfo(false); return mCameraISOSpeed; } }
-        
-        /// <summary>
-        /// Gets the shutter speed.
-        /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets the shutter speed.")]
-        public string ShutterSpeed { get { UpdateFileInfo(false); return mCameraShutterSpeed; } }
-        
-        /// <summary>
-        /// Gets the lens aperture value.
-        /// </summary>
-        [Category("Data"), Browsable(false), Description("Gets the lens aperture value.")]
-        public string Aperture { get { UpdateFileInfo(false); return mCameraAperture; } }
-
         //JTN: Added more column types
         
         /// <summary>
         /// Gets media album.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets media album.")]
-        public string MediaAlbum { get { UpdateFileInfo(false); return mMediaAlbum; } }
+        public string MediaAlbum { get { UpdateFileInfo(isDirtyMediaAlbum); return mMediaAlbum; } }
 
         /// <summary>
         /// Gets media title.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets media title.")]
-        public string MediaTitle { get { UpdateFileInfo(false); return mMediaTitle; } }
+        public string MediaTitle { get { UpdateFileInfo(isDirtyMediaTitle); return mMediaTitle; } }
         
         /// <summary>
         /// Gets media description.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets media description.")]
-        public string MediaDescription { get { UpdateFileInfo(false); return mMediaDescription; } }
+        public string MediaDescription { get { UpdateFileInfo(isDirtyMediaDescription); return mMediaDescription; } }
 
         /// <summary>
         /// Gets user comments.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets user comments.")]
-        public string MediaComment { get { UpdateFileInfo(false); return mMediaComment; } }
+        public string MediaComment { get { UpdateFileInfo(isDirtyMediaComment); return mMediaComment; } }
 
         /// <summary>
         /// Gets the name of the artist.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media file author.")]
-        public string MediaAuthor { get { UpdateFileInfo(false); return mMediaAuthor; } }
+        public string MediaAuthor { get { UpdateFileInfo(isDirtyMediaAuthor); return mMediaAuthor; } }
 
         /// <summary>
         /// Gets the media rating.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the media rating.")]
-        public byte MediaRating { get { UpdateFileInfo(false); return mMediaRating; } }
+        public byte MediaRating { get { UpdateFileInfo(isDirtyMediaRating); return mMediaRating; } }
 
         /// <summary>
         /// Gets the media location name.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media location name.")]
-        public string LocationName { get { UpdateFileInfo(false); return mLocationName; } }
+        public string LocationName { get { UpdateFileInfo(isDirtyLocationName); return mLocationName; } }
 
         /// <summary>
         /// Gets the media location region or state.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media Llocation region or state.")]
-        public string LocationRegionState { get { UpdateFileInfo(false); return mLocationRegionState; } }
+        public string LocationRegionState { get { UpdateFileInfo(isDirtyLocationRegionState); return mLocationRegionState; } }
 
         /// <summary>
         /// Gets the media location city.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media location city.")]
-        public string LocationCity { get { UpdateFileInfo(false); return mLocationCity; } }
+        public string LocationCity { get { UpdateFileInfo(isDirtyLocationCity); return mLocationCity; } }
 
         /// <summary>
         /// Gets the media location country.
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the name of the media location country.")]
-        public string LocationCountry { get { UpdateFileInfo(false); return mLocationCountry; } }
+        public string LocationCountry { get { UpdateFileInfo(isDirtyLocationCountry); return mLocationCountry; } }
         
 
         #endregion
@@ -479,7 +622,7 @@ namespace Manina.Windows.Forms
             Selected = false;
 
             isDirty = true;
-            isFileInfoDirty = true;
+            //isFileInfoDirty = true;
             editing = false;
 
             mVirtualItemKey = null;
@@ -507,13 +650,12 @@ namespace Manina.Windows.Forms
             mFileName = fileInfo.FullName;
             mText = Path.GetFileName(mFileName);
 
-            mFileDateAccessed = fileInfo.LastAccessTime;
             mFileDateCreated = fileInfo.CreationTime;
             mFileDateModified = fileInfo.LastWriteTime;
             mFileSize = fileInfo.Length;
             mFileDirectory = fileInfo.DirectoryName;
 
-            isFileInfoDirty = false;
+            //isFileInfoDirty = false;
             // Exif tags
             
         }
@@ -610,7 +752,7 @@ namespace Manina.Windows.Forms
         public void Update()
         {
             isDirty = true;
-            isFileInfoDirty = true;
+            //isFileInfoDirty = true;
             if (mImageListView != null)
             {
                 mImageListView.cacheManager.Remove(mGuid, true);
@@ -629,15 +771,14 @@ namespace Manina.Windows.Forms
             //JTN: Added more column types
             switch (type)
             {
-                case ColumnType.FileDateAccessed:
-                    if (DateAccessed == DateTime.MinValue) return "";
-                    else return DateAccessed.ToString("g");
                 case ColumnType.FileDateCreated:
                     if (DateCreated == DateTime.MinValue) return "";
                     else return DateCreated.ToString("g");
+
                 case ColumnType.FileDateModified:
                     if (DateModified == DateTime.MinValue) return "";
                     else return DateModified.ToString("g");
+                
                 case ColumnType.FileFullPath:
                     return FileFullPath;
                 case ColumnType.FileName:
@@ -652,33 +793,15 @@ namespace Manina.Windows.Forms
                 case ColumnType.MediaDimensions:
                     if (Dimensions == Size.Empty) return "";
                     else return string.Format("{0} x {1}", Dimensions.Width, Dimensions.Height);
-                case ColumnType.MediaResolution:
-                    if (Resolution == SizeF.Empty) return "";
-                    else return string.Format("{0} x {1}", Resolution.Width, Resolution.Height);
-                
+                    
+                case ColumnType.CameraMake:
+                    return CameraMake;
                 case ColumnType.CameraModel:
-                    return EquipmentModel;
+                    return CameraModel;
                 case ColumnType.MediaDateTaken:
                     if (DateTaken == DateTime.MinValue) return "";
                     else return DateTaken.ToString("g");                
-                case ColumnType.MediaCopyright:
-                    return Copyright;
-                case ColumnType.CameraExposureTime:
-                    return ExposureTime;
-                case ColumnType.CameraFNumber:
-                    if (FNumber == 0.0f) return "";
-                    else return FNumber.ToString("f2");
-                case ColumnType.CameraISOSpeed:
-                    if (ISOSpeed == 0) return "";
-                    else return ISOSpeed.ToString();
-                case ColumnType.CameraShutterSpeed:
-                    return ShutterSpeed;
-                case ColumnType.CameraAperture:
-                    return Aperture;
                 
-
-                case ColumnType.MediaAlbum:
-                    return MediaAlbum;
                 case ColumnType.MediaTitle:
                     return MediaTitle;
                 case ColumnType.MediaDescription:
@@ -690,6 +813,9 @@ namespace Manina.Windows.Forms
                 case ColumnType.MediaRating:
                     if (MediaRating <= 0) return "";
                     else return MediaRating.ToString();
+                
+                case ColumnType.MediaAlbum:
+                    return MediaAlbum;
                 case ColumnType.LocationName:
                     return LocationName;
                 case ColumnType.LocationRegionState:
@@ -708,19 +834,22 @@ namespace Manina.Windows.Forms
         /// <summary>
         /// Updates file info for the image file represented by this item.
         /// </summary>
-        private void UpdateFileInfo(bool needCheckOnlyFileInfo)
+        private void UpdateFileInfo(bool isValueDirty)
         {
-            if (needCheckOnlyFileInfo && !isFileInfoDirty) return;
-            if (!needCheckOnlyFileInfo && !isDirty) return;
+            if (!isValueDirty) return;
+            //if (needCheckOnlyFileInfo && !isFileInfoDirty) return;
+            //if (!needCheckOnlyFileInfo && !isDirty) return;
 
             if (isVirtualItem)
             {
+                throw new Exception("Not implemented");
+                /*
                 if (mImageListView != null)
                 {
                     VirtualItemDetailsEventArgs e = new VirtualItemDetailsEventArgs(mVirtualItemKey);
                     mImageListView.RetrieveVirtualItemDetailsInternal(e);
                     UpdateDetailsInternal(e); //Virtual
-                }
+                }*/
             }
             else
             {
@@ -737,8 +866,8 @@ namespace Manina.Windows.Forms
                     UpdateDetailsInternal(info);
                 }
             }
-            isFileInfoDirty = false;
-            isDirty = false;
+            //isFileInfoDirty = false;
+            //isDirty = false;
         }
         /// <summary>
         /// Invoked by the worker thread to update item details.
@@ -749,97 +878,41 @@ namespace Manina.Windows.Forms
             if (info != null)
             {
                 #region Provided by FileInfo
-                mFileDateAccessed = info.FileDateAccessed;
-                mFileDateCreated = info.FileDateCreated;
-                mFileDateModified = info.FileDateModified;
-                mFileSize = info.FileSize;
-                mFileType = info.FileMimeType;
-                mFileDirectory = info.FileDirectory;
+                if (info.IsFileDateCreatedSet) mFileDateCreated = info.FileDateCreated;
+                if (info.IsFileDateModifiedSet) mFileDateModified = info.FileDateModified;
+                if (info.IsFileSizeSet) mFileSize = info.FileSize;
+                if (info.IsFileMimeTypeSet) mFileType = info.FileMimeType;
+                if (info.IsFileDirectorySet) mFileDirectory = info.FileDirectory;
                 #endregion 
 
                 #region Provided by ShellImageFileInfo, MagickImage                                
-                mCameraModel = info.CameraModel;                
-                mCameraExposureTime = info.CameraExposureTime;
-                mCameraFNumber = info.CameraFNumber;
-                mCameraISOSpeed = info.CameraISOSpeed;
-                mCameraShutterSpeed = info.CameraShutterSpeed;
-                mCameraAperture = info.CameraAperture;
-
-                mMediaDimensions = info.MediaDimensions;
-                mMediaResolution = info.MediaResolution;
-                mMediaDateTaken = info.MediaDateTaken;
-                mMediaCopyright = info.MediaCopyright;
+                if (info.IsCameraMakeSet) mCameraMake = info.CameraMake;
+                if (info.IsCameraModelSet) mCameraModel = info.CameraModel;
+                if (info.IsMediaDimensionsSet) mMediaDimensions = info.MediaDimensions;
+                if (info.IsMediaDateTakenSet) mMediaDateTaken = info.MediaDateTaken;
                 #endregion 
 
                 #region Provided by MagickImage, Exiftool
-                mMediaTitle = info.MediaTitle;
-                mMediaDescription = info.MediaDescription;
-                mMediaComment = info.MediaComment;
-                mMediaAuthor = info.MediaAuthor;                
-                mMediaRating = info.MediaRating;
+                if (info.IsMediaTitleSet) mMediaTitle = info.MediaTitle;
+                if (info.IsMediaDescriptionSet) mMediaDescription = info.MediaDescription;
+                if (info.IsMediaCommentSet) mMediaComment = info.MediaComment;
+                if (info.IsMediaAuthorSet) mMediaAuthor = info.MediaAuthor;
+                if (info.IsMediaRatingSet) mMediaRating = info.MediaRating;
                 #endregion 
 
                 #region Provided by Exiftool
-                mMediaAlbum = info.MediaAlbum;
-                mLocationName = info.LocationName;
-                mLocationRegionState = info.LocationRegionState;
-                mLocationCity = info.LocationCity;
-                mLocationCountry = info.LocationCountry;
+                if (info.IsMediaAlbumSet) mMediaAlbum = info.MediaAlbum;
+                if (info.IsLocationNameSet) mLocationName = info.LocationName;
+                if (info.IsLocationRegionStateSet) mLocationRegionState = info.LocationRegionState;
+                if (info.IsLocationCitySet) mLocationCity = info.LocationCity;
+                if (info.IsLocationCountrySet) mLocationCountry = info.LocationCountry;
                 #endregion
 
-                isFileInfoDirty = false;
-                isDirty = false;
+                //isFileInfoDirty = false;
+                //isDirty = false;
             }            
         }
-        /// <summary>
-        /// Invoked by the worker thread to update item details.
-        /// </summary>
-        internal void UpdateDetailsInternal(VirtualItemDetailsEventArgs info)
-        {
-            if (!isDirty && !isFileInfoDirty) return;
-
-            #region Provided by FileInfo
-            mFileDateAccessed = info.FileDateAccessed;
-            mFileDateCreated = info.FileDateCreated;
-            mFileDateModified = info.FileDateModified;
-            mFileSize = info.FileSize;
-            mFileType = info.FileType;
-            mFileDirectory = info.FileDirectory;
-            #endregion
-
-            #region Provided by ShellImageFileInfo, MagickImage                                
-            mCameraModel = info.CameraModel;
-            mCameraExposureTime = info.CameraExposureTime;
-            mCameraFNumber = info.CameraFNumber;
-            mCameraISOSpeed = info.CameraISOSpeed;
-            mCameraShutterSpeed = info.CameraShutterSpeed;
-            mCameraAperture = info.CameraAperture;
-
-            mMediaDimensions = info.MediaDimensions;
-            mMediaResolution = info.MediaResolution;
-            mMediaDateTaken = info.MediaDateTaken;
-            mMediaCopyright = info.MediaCopyright;
-            #endregion
-
-            #region Provided by MagickImage, Exiftool
-            mMediaTitle = info.MediaTitle;
-            mMediaDescription = info.MediaDescription;
-            mMediaComment = info.MediaComment;
-            mMediaAuthor = info.MediaAuthor;
-            mMediaRating = info.MediaRating;
-            #endregion
-
-            #region Provided by Exiftool
-            mMediaAlbum = info.MediaAlbum;
-            mLocationName = info.LocationName;
-            mLocationRegionState = info.LocationRegionState;
-            mLocationCity = info.LocationCity;
-            mLocationCountry = info.LocationCountry;
-            #endregion
-
-            isFileInfoDirty = false;
-            isDirty = false;
-        }
+        
         #endregion
     }
 }

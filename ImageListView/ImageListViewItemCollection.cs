@@ -493,8 +493,8 @@ namespace Manina.Windows.Forms
                     int result = 0;
                     switch (mSortColumn)
                     {
-                        case ColumnType.FileDateAccessed:
-                            result = DateTime.Compare(x.DateAccessed, y.DateAccessed);
+                        case ColumnType.FileName:
+                            result = string.Compare(x.Text, y.Text, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         case ColumnType.FileDateCreated:
                             result = DateTime.Compare(x.DateCreated, y.DateCreated);
@@ -502,10 +502,8 @@ namespace Manina.Windows.Forms
                         case ColumnType.FileDateModified:
                             result = DateTime.Compare(x.DateModified, y.DateModified);
                             break;
-                        case ColumnType.MediaDimensions:
-                            long ax = x.Dimensions.Width * x.Dimensions.Height;
-                            long ay = y.Dimensions.Width * y.Dimensions.Height;
-                            result = (ax < ay ? -1 : (ax > ay ? 1 : 0));
+                        case ColumnType.FileType:
+                            result = string.Compare(x.FileType, y.FileType, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         case ColumnType.FileFullPath:
                             result = string.Compare(x.FileFullPath, y.FileFullPath, StringComparison.InvariantCultureIgnoreCase);
@@ -516,50 +514,53 @@ namespace Manina.Windows.Forms
                         case ColumnType.FileSize:
                             result = (x.FileSize < y.FileSize ? -1 : (x.FileSize > y.FileSize ? 1 : 0));
                             break;
-                        case ColumnType.FileType:
-                            result = string.Compare(x.FileType, y.FileType, StringComparison.InvariantCultureIgnoreCase);
+                        case ColumnType.MediaDimensions:
+                            long ax = x.Dimensions.Width * x.Dimensions.Height;
+                            long ay = y.Dimensions.Width * y.Dimensions.Height;
+                            result = (ax < ay ? -1 : (ax > ay ? 1 : 0));
                             break;
-                        case ColumnType.FileName:
-                            result = string.Compare(x.Text, y.Text, StringComparison.InvariantCultureIgnoreCase);
-                            break;
-                        case ColumnType.MediaResolution:
-                            float rx = x.Resolution.Width * x.Resolution.Height;
-                            float ry = y.Resolution.Width * y.Resolution.Height;
-                            result = (rx < ry ? -1 : (rx > ry ? 1 : 0));
-                            break;
-                        case ColumnType.MediaDescription:
-                            result = string.Compare(x.MediaDescription, y.MediaDescription, StringComparison.InvariantCultureIgnoreCase);
+                        case ColumnType.CameraMake:
+                            result = string.Compare(x.CameraMake, y.CameraMake, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         case ColumnType.CameraModel:
-                            result = string.Compare(x.EquipmentModel, y.EquipmentModel, StringComparison.InvariantCultureIgnoreCase);
+                            result = string.Compare(x.CameraModel, y.CameraModel, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         case ColumnType.MediaDateTaken:
                             result = DateTime.Compare(x.DateTaken, y.DateTaken);
                             break;
-                        case ColumnType.MediaAuthor:
-                            result = string.Compare(x.MediaAuthor, y.MediaAuthor, StringComparison.InvariantCultureIgnoreCase);
+                        case ColumnType.MediaAlbum:
+                            result = string.Compare(x.MediaAlbum, y.MediaAlbum, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.MediaCopyright:
-                            result = string.Compare(x.Copyright, y.Copyright, StringComparison.InvariantCultureIgnoreCase);
+                        case ColumnType.MediaTitle:
+                            result = string.Compare(x.MediaTitle, y.MediaTitle, StringComparison.InvariantCultureIgnoreCase);
                             break;
-                        case ColumnType.CameraExposureTime:
-                            result = string.Compare(x.ExposureTime, y.ExposureTime, StringComparison.InvariantCultureIgnoreCase);
-                            break;
-                        case ColumnType.CameraFNumber:
-                            result = (x.FNumber < y.FNumber ? -1 : (x.FNumber > y.FNumber ? 1 : 0));
-                            break;
-                        case ColumnType.CameraISOSpeed:
-                            result = (x.ISOSpeed < y.ISOSpeed ? -1 : (x.ISOSpeed > y.ISOSpeed ? 1 : 0));
-                            break;
-                        case ColumnType.CameraShutterSpeed:
-                            result = string.Compare(x.ShutterSpeed, y.ShutterSpeed, StringComparison.InvariantCultureIgnoreCase);
-                            break;
-                        case ColumnType.CameraAperture:
-                            result = string.Compare(x.Aperture, y.Aperture, StringComparison.InvariantCultureIgnoreCase);
+                        case ColumnType.MediaDescription:
+                            result = string.Compare(x.MediaDescription, y.MediaDescription, StringComparison.InvariantCultureIgnoreCase);
                             break;
                         case ColumnType.MediaComment:
                             result = string.Compare(x.MediaComment, y.MediaComment, StringComparison.InvariantCultureIgnoreCase);
                             break;
+                        case ColumnType.MediaAuthor:
+                            result = string.Compare(x.MediaAuthor, y.MediaAuthor, StringComparison.InvariantCultureIgnoreCase);
+                            break;
+                        case ColumnType.MediaRating:
+                            long mediaRatingX = x.MediaRating;
+                            long mediaRatingY = y.MediaRating;
+                            result = (mediaRatingX < mediaRatingY ? -1 : (mediaRatingX > mediaRatingY ? 1 : 0));
+                            break;
+                        case ColumnType.LocationName:
+                            result = string.Compare(x.LocationName, y.LocationName, StringComparison.InvariantCultureIgnoreCase);
+                            break;
+                        case ColumnType.LocationRegionState:
+                            result = string.Compare(x.LocationRegionState, y.LocationRegionState, StringComparison.InvariantCultureIgnoreCase);
+                            break;
+                        case ColumnType.LocationCity:
+                            result = string.Compare(x.LocationCity, y.LocationCity, StringComparison.InvariantCultureIgnoreCase);
+                            break;
+                        case ColumnType.LocationCountry:
+                            result = string.Compare(x.LocationCountry, y.LocationCountry, StringComparison.InvariantCultureIgnoreCase);
+                            break;
+
                         default:
                             result = 0;
                             break;

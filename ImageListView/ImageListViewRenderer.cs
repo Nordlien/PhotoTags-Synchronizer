@@ -1102,7 +1102,7 @@ namespace Manina.Windows.Forms
 
                         if (column.Visible &&
                             column.Type != ColumnType.FileType &&
-                            column.Type != ColumnType.FileDateAccessed &&
+                            column.Type != ColumnType.FileDateCreated &&
                             column.Type != ColumnType.FileFullPath &&
                             column.Type != ColumnType.FileDirectory &&
                             column.Type != ColumnType.FileName)

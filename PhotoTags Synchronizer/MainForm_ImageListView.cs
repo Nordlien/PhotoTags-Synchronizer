@@ -29,25 +29,23 @@ namespace PhotoTagsSynchronizer
                 if (metadata == null || metadata.FileName == null)
                 {
                     ExiftoolWriter.WaitLockedFileToBecomeUnlocked(e.FileName);
-                    Utility.ShellImageFileInfo shellImageFileInfo = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
-
-                    e.FileMetadata = shellImageFileInfo;
+                    //Utility.ShellImageFileInfo shellImageFileInfo = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
+                    //e.FileMetadata = shellImageFileInfo;
                 }
                 else
                 {
-                    e.FileMetadata = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
-                    if (e.FileMetadata == null) e.FileMetadata = new Utility.ShellImageFileInfo();
-                    
+                    //e.FileMetadata = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
+                    //if (e.FileMetadata == null) 
+                    e.FileMetadata = new Utility.ShellImageFileInfo();
                     
                     // Exif tags, Utility.ShellImageFileInfo()
                     e.FileMetadata.MediaDescription = metadata.PersonalDescription;
-                    e.FileMetadata.CameraModel = metadata.CameraModel;
+                    
                     if (metadata.MediaDateTaken != null) e.FileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
                     e.FileMetadata.MediaAuthor = metadata.PersonalAuthor;
                     e.FileMetadata.MediaComment = metadata.PersonalComments;
 
                     #region Provided by FileInfo
-                    e.FileMetadata.FileDateAccessed = (DateTime)metadata.FileDateAccessed;
                     e.FileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
                     e.FileMetadata.FileDateModified = (DateTime)metadata.FileDateModified;
                     e.FileMetadata.FileSize = (long)metadata.FileSize;
@@ -56,16 +54,9 @@ namespace PhotoTagsSynchronizer
                     #endregion
 
                     #region Provided by ShellImageFileInfo, MagickImage                                
+                    e.FileMetadata.CameraMake = metadata.CameraMake;
                     e.FileMetadata.CameraModel = metadata.CameraModel;
-                    //e.FileMetadata.CameraExposureTime = metadata.CameraExposureTime;
-                    //e.FileMetadata.CameraFNumber = metadata.CameraFNumber;
-                    //e.FileMetadata.CameraISOSpeed = metadata.CameraISOSpeed;
-                    //e.FileMetadata.CameraShutterSpeed = metadata.CameraShutterSpeed;
-                    //e.FileMetadata.CameraAperture = metadata.CameraAperture;
                     if (metadata.MediaWidth != null && metadata.MediaHeight != null) e.FileMetadata.MediaDimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
-                    //e.FileMetadata.MediaResolution = metadata.MediaResolution;
-                    //e.FileMetadata.MediaDateTaken = metadata.MediaDateTaken;
-                    //e.FileMetadata.MediaCopyright = metadata.MediaCopyright;
                     #endregion
 
                     #region Provided by MagickImage, Exiftool

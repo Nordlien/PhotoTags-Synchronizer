@@ -79,10 +79,7 @@ namespace Manina.Windows.Forms
             /// <summary>
             /// Gets whether Item is a virtual item.
             /// </summary>
-            public bool IsVirtualItem { get { return mIsVirtualItem; } }
-            /// <summary>
-            /// Gets the public key for the virtual item.
-            /// </summary>
+            
             public object VirtualItemKey { get { return mVirtualItemKey; } }
 
             /// <summary>
@@ -234,69 +231,55 @@ namespace Manina.Windows.Forms
                     }
                 }
 
-                
+
                 // Read file info
                 if (item != null && !stoppingBackgroundThreads)
                 {
-                    if (item.IsVirtualItem)
+
+                    //JTN Added try read metadata external before try internal
+                    if (!stoppingBackgroundThreads) break;
+
+                    RetrieveItemMetadataDetailsEventArgs e = new RetrieveItemMetadataDetailsEventArgs(item.FileName);
+                    mImageListView.RetrieveItemMetadataDetailsInternal(e);
+
+
+                    Utility.ShellImageFileInfo info;
+                    if (e.FileMetadata != null)
                     {
-                        if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && !stoppingBackgroundThreads)
-                        {
-                            VirtualItemDetailsEventArgs e = new VirtualItemDetailsEventArgs(item.VirtualItemKey);
-                            mImageListView.RetrieveVirtualItemDetailsInternal(e);
-                            mImageListView.Invoke(new UpdateVirtualItemDetailsDelegateInternal(
-                                mImageListView.UpdateItemDetailsInternal), item.Item, e);
-                        }
+                        info = e.FileMetadata;
                     }
-                    else
+                    else //If not handel outside, try internal
                     {
-                        //JTN Added try read metadata external before try internal
-                        if (!stoppingBackgroundThreads) break;
-                        
-                        RetrieveItemMetadataDetailsEventArgs e = new RetrieveItemMetadataDetailsEventArgs(item.FileName);
-                        mImageListView.RetrieveItemMetadataDetailsInternal(e);
-                        
+                        info = new Utility.ShellImageFileInfo(item.FileName);
+                    }
 
-                        Utility.ShellImageFileInfo info;
-                        if (e.FileMetadata != null)
+
+
+                    // Update file info
+                    if (!Stopping)
+                    {
+
+                        try
                         {
-                            info = e.FileMetadata;
-                        }
-                        else //If not handel outside, try internal
-                        {
-                            info = new Utility.ShellImageFileInfo(item.FileName);
-                        }
-                        
-
-
-                        // Update file info
-                        if (!Stopping)
-                        {
-
-                            try
+                            if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && mImageListView.Enabled)
                             {
-                                if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && mImageListView.Enabled)
+                                if (!stoppingBackgroundThreads)
                                 {
-                                    if (!stoppingBackgroundThreads)
-                                    {
-                                        mImageListView.Invoke(new UpdateItemDetailsDelegateInternal(
-                                                mImageListView.UpdateItemDetailsInternal), item.Item, info);
-                                    }
+                                    mImageListView.Invoke(new UpdateItemDetailsDelegateInternal(
+                                            mImageListView.UpdateItemDetailsInternal), item.Item, info);
                                 }
                             }
-                            catch (ObjectDisposedException ex)
-                            {
-                                Logger.Warn("DoWork: " + ex.Message);
-                                //if (!stopping) throw;
-                            }
-                            catch (InvalidOperationException ex)
-                            {
-                                Logger.Warn("DoWork: " + ex.Message);
-                                //if (!stopping) throw;
-                            }
                         }
-
-
+                        catch (ObjectDisposedException ex)
+                        {
+                            Logger.Warn("DoWork: " + ex.Message);
+                            //if (!stopping) throw;
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            Logger.Warn("DoWork: " + ex.Message);
+                            //if (!stopping) throw;
+                        }
                     }
                 }
             }

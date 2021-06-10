@@ -21,7 +21,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Collections.Generic;
-
+using System.IO;
 
 namespace Manina.Windows.Forms
 {
@@ -132,13 +132,7 @@ namespace Manina.Windows.Forms
     /// <param name="e">A VirtualItemImageEventArgs that contains event data.</param>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public delegate void RetrieveVirtualItemImageEventHandler(object sender, VirtualItemImageEventArgs e);
-    /// <summary>
-    /// Represents the method that will handle the RetrieveVirtualItemDetails event. 
-    /// </summary>
-    /// <param name="sender">The ImageListView object that is the source of the event.</param>
-    /// <param name="e">A VirtualItemDetailsEventArgs that contains event data.</param>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public delegate void RetrieveVirtualItemDetailsEventHandler(object sender, VirtualItemDetailsEventArgs e);
+    
     #endregion
 
     #region Internal Delegates
@@ -147,11 +141,6 @@ namespace Manina.Windows.Forms
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     internal delegate void UpdateItemDetailsDelegateInternal(ImageListViewItem item, Utility.ShellImageFileInfo info);
-    /// <summary>
-    /// Updates item details.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    internal delegate void UpdateVirtualItemDetailsDelegateInternal(ImageListViewItem item, VirtualItemDetailsEventArgs e);
     /// <summary>
     /// Determines if the given item is visible.
     /// </summary>
@@ -679,6 +668,8 @@ namespace Manina.Windows.Forms
             Key = key;
         }
     }
+
+    /*
     /// <summary>
     /// Represents the event arguments related to virtual item details.
     /// </summary>
@@ -689,119 +680,257 @@ namespace Manina.Windows.Forms
         /// Gets the key of the virtual item.
         /// </summary>
         public object Key { get; private set; }
+        #region Provided by FileInfo
         /// <summary>
-        /// Gets or sets the last access date of the image file represented by this item.
+        /// FileAttributes supported by FileInfo 
         /// </summary>
-        public DateTime FileDateAccessed { get; set; }
-        /// <summary>
-        /// Gets or sets the creation date of the image file represented by this item.
-        /// </summary>
-        public DateTime FileDateCreated { get; set; }
-        /// <summary>
-        /// Gets or sets the modification date of the image file represented by this item.
-        /// </summary>
-        public DateTime FileDateModified { get; set; }
-        /// <summary>
-        /// Gets or sets the shell type of the image file represented by this item.
-        /// </summary>
-        public string FileType { get; set; }
-        /// <summary>
-        /// Gets or sets the name of the image fie represented by this item.
-        /// </summary>        
-        public string FileName { get; set; }
-        /// <summary>
-        /// Gets or sets the path of the image fie represented by this item.
-        /// </summary>        
-        public string FileDirectory { get; set; }
-        /// <summary>
-        /// Gets or sets file size in bytes.
-        /// </summary>
-        public long FileSize { get; set; }
-        /// <summary>
-        /// Gets or sets image dimensions.
-        /// </summary>
-        public Size MediaDimensions { get; set; }
-        /// <summary>
-        /// Gets or sets image resolution in pixels per inch.
-        /// </summary>
-        public SizeF MediaResolution { get; set; }
-        //public string ImageDescription { get; set; }
-        /// <summary>
-        /// Gets or sets the camera model.
-        /// </summary>
-        public string CameraModel { get; set; }
-        /// <summary>
-        /// Gets or sets the date and time the image was taken.
-        /// </summary>
-        public DateTime MediaDateTaken { get; set; }
-        //public string Artist { get; set; }
-        /// <summary>
-        /// Gets or sets image copyright information.
-        /// </summary>
-        public string MediaCopyright { get; set; }
-        /// <summary>
-        /// Gets or sets the exposure time in seconds.
-        /// </summary>
-        public string CameraExposureTime { get; set; }
-        /// <summary>
-        /// Gets or sets the F number.
-        /// </summary>
-        public float CameraFNumber { get; set; }
-        /// <summary>
-        /// Gets or sets the ISO speed.
-        /// </summary>
-        public ushort CameraISOSpeed { get; set; }
-        /// <summary>
-        /// Gets or sets the shutter speed.
-        /// </summary>
-        public string CameraShutterSpeed { get; set; }
-        /// <summary>
-        /// Gets or sets the lens aperture value.
-        /// </summary>
-        public string CameraAperture { get; set; }
-        //public string UserComment { get; set; }
+        public FileAttributes FileAttributes
+        {
+            get { return fileAttributes; }
+            set { fileAttributes = value; IsFileAttributesSet = true; }
+        }
+        private FileAttributes fileAttributes;
+        public bool IsFileAttributesSet { get; set; } = false;
 
         /// <summary>
-        /// Get and set MediaAlbum
+        /// CreationTime supported by FileInfo 
         /// </summary>
-        public string MediaAlbum { get; set; }
+        public DateTime FileDateCreated
+        {
+            get { return fileDateCreated; }
+            set { fileDateCreated = value; IsFileDateCreatedSet = true; }
+        }
+        private DateTime fileDateCreated;
+        public bool IsFileDateCreatedSet { get; set; } = false;
+
         /// <summary>
-        /// Get and set MediaTitle
+        /// LastWriteTime supported by FileInfo 
         /// </summary>
-        public string MediaTitle { get; set; }
+        public DateTime FileDateModified
+        {
+            get { return fileDateModified; }
+            set { fileDateModified = value; IsFileDateModifiedSet = true; }
+        }
+        private DateTime fileDateModified;
+        public bool IsFileDateModifiedSet { get; set; } = false;
+
         /// <summary>
-        /// Get and set MediaDescription
+        /// Extension supported by FileInfo 
         /// </summary>
-        public string MediaDescription { get; set; }
+        public string Extension
+        {
+            get { return extension; }
+            set { extension = value; IsExtensionSet = true; }
+        }
+        private string extension;
+        public bool IsExtensionSet { get; set; } = false;
+
         /// <summary>
-        /// Get and set MediaComment
+        /// DirectoryName supported by FileInfo 
         /// </summary>
-        public string MediaComment { get; set; }
+        public string FileDirectory
+        {
+            get { return fileDirectory; }
+            set { fileDirectory = value; IsFileDirectorySet = true; }
+        }
+        private string fileDirectory;
+        public bool IsFileDirectorySet { get; set; } = false;
+
         /// <summary>
-        /// Get and set MediaAuthor
+        /// DisplayName supported by FileInfo
         /// </summary>
-        public string MediaAuthor { get; set; }
+        public string DisplayName
+        {
+            get { return displayName; }
+            set { displayName = value; IsDisplayNameSet = true; }
+        }
+        private string displayName;
+        public bool IsDisplayNameSet { get; set; } = false;
+
         /// <summary>
-        /// Get and set MediaRating
+        /// File size supported by FileInfo 
         /// </summary>
-        public byte MediaRating { get; set; }
+        public long FileSize
+        {
+            get { return fileSize; }
+            set { fileSize = value; IsFileSizeSet = true; }
+        }
+        private long fileSize;
+        public bool IsFileSizeSet { get; set; } = false;
+
         /// <summary>
-        /// Get and set LocationName
+        /// TypeName supported by FileInfo 
         /// </summary>
-        public string LocationName { get; set; }
+        public string FileMimeType
+        {
+            get { return fileMimeType; }
+            set { fileMimeType = value; IsFileMimeTypeSet = true; }
+        }
+        private string fileMimeType;
+        public bool IsFileMimeTypeSet { get; set; } = false;
+        #endregion
+
+        #region Provided by ShellImageFileInfo, MagickImage
         /// <summary>
-        /// Get and set LocationRegionState
+        /// Dimensions supported by ShellImageFileInfo, MagickImage 
         /// </summary>
-        public string LocationRegionState { get; set; }
+        public Size MediaDimensions
+        {
+            get { return mediaDimensions; }
+            set { mediaDimensions = value; IsMediaDimensionsSet = true; }
+        }
+        private Size mediaDimensions;
+        public bool IsMediaDimensionsSet { get; set; } = false;
+
         /// <summary>
-        /// Get and set LocationCity
+        /// supported by ShellImageFileInfo, MagickImage
         /// </summary>
-        public string LocationCity { get; set; }
+        public string CameraMake
+        {
+            get { return cameraMake; }
+            set { cameraMake = value; IsCameraMakeSet = true; }
+        }
+        private string cameraMake;
+        public bool IsCameraMakeSet { get; set; } = false;
+
         /// <summary>
-        /// Get and set LocationCountry
+        /// supported by ShellImageFileInfo, MagickImage
         /// </summary>
-        public string LocationCountry { get; set; }
-        
+        public string CameraModel
+        {
+            get { return cameraModel; }
+            set { cameraModel = value; IsCameraModelSet = true; }
+        }
+        private string cameraModel;
+        public bool IsCameraModelSet { get; set; } = false;
+
+        /// <summary>
+        /// supported by ShellImageFileInfo, MagickImage
+        /// </summary>
+        public DateTime MediaDateTaken
+        {
+            get { return mediaDateTaken; }
+            set { mediaDateTaken = value; IsMediaDateTakenSet = true; }
+        }
+        private DateTime mediaDateTaken;
+        public bool IsMediaDateTakenSet { get; set; } = false;
+
+        #endregion
+
+        #region Provided by MagickImage, Exiftool
+        /// <summary>
+        /// MediaTitle supported by MagickImage, Exiftool
+        /// </summary>
+        public string MediaTitle
+        {
+            get { return mediaTitle; }
+            set { mediaTitle = value; IsMediaTitleSet = true; }
+        }
+        private string mediaTitle;
+        public bool IsMediaTitleSet { get; set; } = false;
+
+        /// <summary>
+        /// MediaDescription supported by MagickImage, Exiftool
+        /// </summary>
+        public string MediaDescription
+        {
+            get { return mediaDescription; }
+            set { mediaDescription = value; IsMediaDescriptionSet = true; }
+        }
+        private string mediaDescription;
+        public bool IsMediaDescriptionSet { get; set; } = false;
+
+        /// <summary>
+        /// MediaComment supported by MagickImage, Exiftool, 
+        /// </summary>
+        public string MediaComment
+        {
+            get { return mediaComment; }
+            set { mediaComment = value; IsMediaCommentSet = true; }
+        }
+        private string mediaComment;
+        public bool IsMediaCommentSet { get; set; } = false;
+
+        /// <summary>
+        /// MediaAuthor supported by MagickImage, Exiftool
+        /// </summary>
+        public string MediaAuthor
+        {
+            get { return mediaAuthor; }
+            set { mediaAuthor = value; IsMediaAuthorSet = true; }
+        }
+        private string mediaAuthor;
+        public bool IsMediaAuthorSet { get; set; } = false;
+
+        /// <summary>
+        /// MediaRating supported by MagickImage, Exiftool
+        /// </summary>
+        public byte MediaRating
+        {
+            get { return mediaRating; }
+            set { mediaRating = value; IsMediaRatingSet = true; }
+        }
+        private byte mediaRating;
+        public bool IsMediaRatingSet { get; set; } = false;
+        #endregion
+
+        #region Provided by Exiftool
+        /// <summary>
+        /// MediaAlbum supported by Exiftool
+        /// </summary>
+        public string MediaAlbum
+        {
+            get { return mediaAlbum; }
+            set { mediaAlbum = value; IsMediaAlbumSet = true; }
+        }
+        private string mediaAlbum;
+        public bool IsMediaAlbumSet { get; set; } = false;
+
+        /// <summary>
+        /// LocationName supported by Exiftool
+        /// </summary>
+        public string LocationName
+        {
+            get { return locationName; }
+            set { locationName = value; IsLocationNameSet = true; }
+        }
+        private string locationName;
+        public bool IsLocationNameSet { get; set; } = false;
+
+        /// <summary>
+        /// LocationRegionState supported by Exiftool
+        /// </summary>
+        public string LocationRegionState
+        {
+            get { return locationRegionState; }
+            set { locationRegionState = value; IsLocationRegionStateSet = true; }
+        }
+        private string locationRegionState;
+        public bool IsLocationRegionStateSet { get; set; } = false;
+
+        /// <summary>
+        /// LocationCity supported by Exiftool
+        /// </summary>
+        public string LocationCity
+        {
+            get { return locationCity; }
+            set { locationCity = value; IsLocationCitySet = true; }
+        }
+        private string locationCity;
+        public bool IsLocationCitySet { get; set; } = false;
+
+        /// <summary>
+        /// LocationCountry supported by Exiftool
+        /// </summary>
+        public string LocationCountry
+        {
+            get { return locationCountry; }
+            set { locationCountry = value; IsLocationCountrySet = true; }
+        }
+        private string locationCountry;
+        public bool IsLocationCountrySet { get; set; } = false;
+        #endregion
+
 
         /// <summary>
         /// Initializes a new instance of the LayoutEventArgs class.
@@ -812,5 +941,7 @@ namespace Manina.Windows.Forms
             Key = key;
         }
     }
+    */
     #endregion
+    
 }

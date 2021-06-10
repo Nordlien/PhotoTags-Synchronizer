@@ -566,53 +566,8 @@ namespace PhotoTagsSynchronizer
         private void ToolStripMenuItemSortByFilename_Click(object sender, EventArgs e)
         {
             ImageListViewSortColumn(imageListView1, ColumnType.FileName);
-            /*
-            /// The text of the item, defaults to filename if
-            Name,
-            /// The last access date.
-            DateAccessed,
-            /// The creation date.
-            DateCreated,
-            /// The last modification date.
-            DateModified,
-            /// Mime type of the file.
-            FileType,
-            /// The full path to the file.
-            FileName,
-            /// The path to the folder containing the file.
-            FileDirectory,
-            /// The size of the file.
-            FileSize,
-            /// Image dimensions in pixels.
-            Dimensions,
-            /// Image resolution if dpi.
-            Resolution,
-            /// Image description (Exif tag).
-            ImageDescription,
-            /// The equipment model (Exif tag).
-            EquipmentModel,
-            /// The date image was taken (Exif tag).
-            DateTaken,
-            /// The artist taking the image (Exif tag).
-            Artist,
-            /// Image copyright information (Exif tag).
-            Copyright,
-            /// Exposure time in seconds (Exif tag).
-            ExposureTime,
-            /// The F number (Exif tag).
-            FNumber,
-            /// ISO speed (Exif tag).
-            ISOSpeed,
-            /// Shutter speed (Exif tag).
-            ShutterSpeed,
-            /// The lens aperture (Exif tag).
-            Aperture,
-            /// User comment (Exif tag).      
-            UserComment,
-            */
         }
 
-        
         private void ToolStripMenuItemSortByFileCreatedDate_Click(object sender, EventArgs e)
         {
             ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
@@ -620,7 +575,7 @@ namespace PhotoTagsSynchronizer
 
         private void ToolStripMenuItemSortByFileModifiedDate_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
+            ImageListViewSortColumn(imageListView1, ColumnType.FileDateModified);
         }
 
         private void ToolStripMenuItemSortByMediaDateTaken_Click(object sender, EventArgs e)
