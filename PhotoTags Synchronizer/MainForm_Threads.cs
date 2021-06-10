@@ -374,7 +374,7 @@ namespace PhotoTagsSynchronizer
         /// Faster read of metadata and put into the cache
         /// </summary>
         /// <param name="fileEntries">List of FileEntires to put in cache</param>
-        public void CacheFileEntries(List<FileEntry> fileEntries)
+        public void CacheFileEntries(List<FileEntry> fileEntries, string selectedFolder)
         {            
             try
             {
@@ -396,13 +396,22 @@ namespace PhotoTagsSynchronizer
                         #region
                         try
                         {
-                            databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.ExifTool);
-                            databaseAndCacheThumbnail.ReadToCache(fileEntries);
-                            if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(fileEntries); //Read missing, new media files added
-                            if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.ExifTool); //Read missing, new media files added
-                            if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.WindowsLivePhotoGallery); //Read missing, new media files added
-                            if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.MicrosoftPhotos); //Read missing, new media files added
-                            if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Read missing, new media files added
+                            if (selectedFolder != null)
+                            {
+                                if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(selectedFolder);
+                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.ExifTool);
+                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.WindowsLivePhotoGallery); 
+                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas(selectedFolder, MetadataBrokerType.MicrosoftPhotos); 
+                                if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Don't have folder
+                            }
+                            else
+                            {
+                                if (cacheFolderThumbnails) databaseAndCacheThumbnail.ReadToCache(fileEntries); //Read missing, new media files added
+                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.ExifTool); //Read missing, new media files added
+                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.WindowsLivePhotoGallery); //Read missing, new media files added
+                                if (cacheFolderMetadatas) databaseAndCacheMetadataExiftool.ReadToCache(fileEntries, MetadataBrokerType.MicrosoftPhotos); //Read missing, new media files added
+                                if (cacheFolderWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScraperDataSet(fileEntries); //Read missing, new media files added
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -412,7 +421,7 @@ namespace PhotoTagsSynchronizer
                         {
                             MetadataDatabaseCache.StopCaching = false;
                             ThumbnailDatabaseCache.StopCaching = false;
-                            lock (_ThreadCacheSelectedFastReadLock) _ThreadCacheSelectedFastRead = null;                            
+                            lock (_ThreadCacheSelectedFastReadLock) _ThreadCacheSelectedFastRead = null;
                         }
                         #endregion
                     });
@@ -718,7 +727,7 @@ namespace PhotoTagsSynchronizer
                                             ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileEntryImage.FileFullPath);
                                     }
 
-                                    if (fileEntryImage.Image != null && !databaseAndCacheThumbnail.DoesThumbnailExist(fileEntryImage))
+                                    if (fileEntryImage.Image != null) // && !databaseAndCacheThumbnail.DoesThumbnailExist(fileEntryImage))
                                     {
                                         databaseAndCacheThumbnail.TransactionBeginBatch();
                                         databaseAndCacheThumbnail.WriteThumbnail(fileEntryImage, fileEntryImage.Image);

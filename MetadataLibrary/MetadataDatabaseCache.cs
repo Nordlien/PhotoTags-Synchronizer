@@ -110,7 +110,7 @@ namespace MetadataLibrary
             dbTools.TransactionCommitBatch(force);
         }
 
-        #region Read Metadata
+        #region Read (FileEntryBroker)
         /// <summary>
         /// Find metadata in database or cache and return the found metadata
         /// </summary>
@@ -142,7 +142,7 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region ReadToCache - List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType
+        #region ReadToCache - List<FileEntry>, MetadataBrokerType
         public void ReadToCache(List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
         {
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
@@ -155,8 +155,8 @@ namespace MetadataLibrary
         }
         #endregion
 
-        #region ReadToCache - List<FileEntryBroker> fileEntriesBroker
-        public void ReadToCache(List<FileEntryBroker> fileEntriesBroker)
+        #region ReadToCache - List<FileEntryBroker>
+        private void ReadToCache(List<FileEntryBroker> fileEntriesBroker)
         {
             
             List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
@@ -366,6 +366,14 @@ namespace MetadataLibrary
         }
         #endregion
 
+        #region ReadToCache - Folder
+        public void ReadToCacheAllMetadatas(string folder, MetadataBrokerType metadataBrokerType) //Hack to read data to cache and the database worked much faster after this
+        {
+            if (StopCaching) { StopCaching = false; return; }
+            ReadToCacheWhereParameters(metadataBrokerType, folder, null, null, true);
+        }
+        #endregion
+
         #region ReadToCache - All Metadatas
         public void ReadToCacheAllMetadatas() //Hack to read data to cache and the database worked much faster after this
         {
@@ -375,19 +383,19 @@ namespace MetadataLibrary
         #endregion
 
         #region ReadToCache - All WebScarping DataSets
-        public void ReadToCacheWebScarpingDataSets()
+        public void ReadToCacheWebScarpingAllDataSets()
         {
             if (StopCaching) { StopCaching = false; return; }
             DateTime? dataSetDateTime = GetWebScraperLastPackageDate();
             if (dataSetDateTime != null) ReadToCacheWhereParameters(MetadataBrokerType.WebScraping, MetadataLibrary.MetadataDatabaseCache.WebScapingFolderName, null, dataSetDateTime, true);
         }
-        #endregion 
+        #endregion
 
         #region ReadLot
 
         private static List<ReadToCacheParameters> readToCacheParamtersCached = new List<ReadToCacheParameters>();
 
-        #region ReadToCache - class ReadToCacheParameters
+        #region class ReadToCacheParameters - ReadToCache 
         private class ReadToCacheParameters : IComparable<ReadToCacheParameters>, IEquatable<ReadToCacheParameters>
         {
             public ReadToCacheParameters()
@@ -1614,19 +1622,12 @@ namespace MetadataLibrary
             List<String> mediaFilesNoInDatabase = new List<String>();
 
             ReadToCache(files, broker); // Faster read
-            if (StopCaching) 
-            { 
-                StopCaching = false; 
-                return mediaFilesNoInDatabase; 
-            }
 
             foreach (FileEntry file in files)
             {
                 FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FileFullPath, file.LastWriteDateTime, broker);
                 Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
                 if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FileFullPath);
-                if (StopCaching) 
-                    { StopCaching = false; return mediaFilesNoInDatabase; }
             }
             
             return mediaFilesNoInDatabase;

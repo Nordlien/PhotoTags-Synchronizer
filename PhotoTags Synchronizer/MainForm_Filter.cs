@@ -703,8 +703,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region PopulateTreeViewFolderFilterInvoke
-        
+        #region PopulateTreeViewFolderFilterInvoke     
         private void PopulateTreeViewFolderFilterInvoke(List<FileEntry> imageListViewFileEntryItems)
         {
             if (InvokeRequired)

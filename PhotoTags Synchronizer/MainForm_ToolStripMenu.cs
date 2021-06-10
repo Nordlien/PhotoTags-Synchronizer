@@ -1083,8 +1083,9 @@ namespace PhotoTagsSynchronizer
                     GlobalData.ProcessCounterDelete = 0;
                     UpdateStatusAction(recordAffected + " records was delete from database....");
 
-                    List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(this.folderTreeViewFolder.GetSelectedNodePath(), false);
-                    PopulateImageListView(fileEntries, false);
+                    string selectedFolder = this.folderTreeViewFolder.GetSelectedNodePath();
+                    List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, false);
+                    PopulateImageListView(fileEntries, selectedFolder, false); 
                 }
             }
             DisplayAllQueueStatus();

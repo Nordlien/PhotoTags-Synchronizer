@@ -70,18 +70,7 @@ namespace Thumbnails
         }
         #endregion
 
-        public void ReadToCache(FileInfo[] filesFoundInDirectory)
-        {
-            List<FileEntry> fileEntries = new List<FileEntry>();
-            foreach (FileInfo fileInfo in filesFoundInDirectory)
-            {
-                if (StopCaching) { StopCaching = false; return; }
-                fileEntries.Add(new FileEntry(fileInfo.FullName, fileInfo.LastWriteTime));
-            }
-            ReadToCache(fileEntries);
-        }
-
-        
+        #region ReadToCache(List<FileEntry> fileEntries)
         public void ReadToCache(List<FileEntry> fileEntries)
         {        
             List<FileEntry> fileEntriesPutInCache = new List<FileEntry>();
@@ -116,6 +105,7 @@ namespace Thumbnails
             }
 
         }
+        #endregion 
 
         #region Thumbnail - Read 
         private static List<string> readFolderToCacheCached = new List<string>();
@@ -285,7 +275,7 @@ namespace Thumbnails
         {
             thumbnailCache = null;
             thumbnailCache = new Dictionary<FileEntry, Image>();
-            readFolderToCacheCached.Clear();
+            readFolderToCacheCached.Clear(); //Don't clear the folder cache when only one or few thumbnails has been updated, that will force system to reread folder all the time
         }
         #endregion 
 

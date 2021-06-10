@@ -16,7 +16,7 @@ namespace PhotoTagsSynchronizer
         #region FolderSelected or FilterSearch clicked
 
         #region PopulateImageListView
-        private void PopulateImageListView(List<FileEntry> fileEntries, bool runPopulateFilter = true)
+        private void PopulateImageListView(List<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
         {
             using (new WaitCursor())
             {
@@ -28,8 +28,7 @@ namespace PhotoTagsSynchronizer
 
                 ClearAllQueues();
 
-                
-                if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFileEntries(fileEntries);
+                if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFileEntries(fileEntries, selectedFolder);
                 if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
 
                 ImageListViewAggregateWithMediaFiles(fileEntries);
@@ -66,7 +65,7 @@ namespace PhotoTagsSynchronizer
             List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
             #endregion
 
-            PopulateImageListView(fileEntries, runPopulateFilter);
+            PopulateImageListView(fileEntries, selectedFolder, runPopulateFilter);
         }
         #endregion
 
@@ -75,7 +74,7 @@ namespace PhotoTagsSynchronizer
         {
             if (GlobalData.IsPopulatingAnything()) return;
 
-            PopulateImageListView(searchFilterResult, runPopulateFilter);
+            PopulateImageListView(searchFilterResult, null, runPopulateFilter);
         }
         #endregion 
 

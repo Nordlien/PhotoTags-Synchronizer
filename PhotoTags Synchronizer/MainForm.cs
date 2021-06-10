@@ -194,12 +194,9 @@ namespace PhotoTagsSynchronizer
             {
                 Thread threadCache = new Thread(() =>
                 {
-                    //private bool cacheAllMetadatas = false;
-                    //private bool cacheAllThumbnails = false;
-                    //private bool cacheAllWebScraperDataSets = false;
                     if (cacheAllThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(null);                    
                     if (cacheAllMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas();
-                    if (cacheAllWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScarpingDataSets();
+                    if (cacheAllWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScarpingAllDataSets();
                 });
                 threadCache.Start();
             }
