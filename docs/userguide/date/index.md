@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # Date and Time
 
 1. Date&Time digitized
@@ -18,3 +20,5 @@
 6. Date and Time found in the media files Meta information
 
 !["Date and time steps"](date_date-and-time-steps.png)
+
+{% include footer.md %}

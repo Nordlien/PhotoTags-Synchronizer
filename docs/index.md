@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # Welcome to PhotoTags Synchronizer
 Keep the tags where it belongs.
 
@@ -23,7 +25,7 @@ Keep the tags where it belongs.
   - See Exif history
   - See warning when tags mismatch
   - Can also write Microsoft Atoms back to files
-- Powerful rename tool 
+- Powerful rename tool
 - GEOtagging
   - Import from Google History
   - Import from JSON and KML files
@@ -117,3 +119,5 @@ Show what fiels are mismatch between diffrent standards, when they should contai
 - Create slideshow on Chromecast
 
 ![Chromecast](screenshots/screenshot_preview_chromecast.png)
+
+{% include footer.md %}

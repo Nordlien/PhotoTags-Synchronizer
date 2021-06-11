@@ -1,7 +1,7 @@
 {% include header.md %}
 
-# Warnings
+# Properties
 
-To be done
+Do be added
 
 {% include footer.md %}

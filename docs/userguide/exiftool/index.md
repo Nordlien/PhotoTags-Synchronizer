@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # Exiftool GUI
 
 With this tool you can compare the change history of any meta information done by any software.
@@ -15,3 +17,5 @@ Show and hide | Result after select
 --|--
 Show only favorite rows<br>![Favorite - show](exiftool-gui_show_favorite_context_menu.png) | Result after selecting<br>![Favorite result](exiftool-gui_show_favorite_context_menu_result.png)
 Hide rows with equal values<br>![Equal - hide](exiftool-gui_hide_equal_context_menu.png) | Result after selecting<br> ![Equale - result](exiftool-gui_hide_equal_context_menu_result.png)
+
+{% include footer.md %}

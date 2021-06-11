@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # Rename tool
 
 ![Rename tool](screenshot_renametool_variables.png)
@@ -117,3 +119,5 @@ Final: C:\Pictures\1999\My Album\1999-01-01 08:35 My picture.jpg
   - The location state / region stored in the media file
 - %LocationCity%
   - The location city stored in the media file
+
+{% include footer.md %}

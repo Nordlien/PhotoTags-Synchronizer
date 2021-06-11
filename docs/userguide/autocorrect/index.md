@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # AutoCorrect
 
 ## GPS Location - The algorithm
@@ -68,4 +70,6 @@ When Camera Make and Model are assigned to a person, this name will be used as t
 
 ## Rename tool
 
-After the media files have been updated the [Rename tool](userguide/renametool) will be run.  
+After the media files have been updated the [Rename tool](userguide/renametool) will be run.
+
+{% include footer.md %}

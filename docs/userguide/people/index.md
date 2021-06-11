@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # People and Region
 
 ## People and Region user interface
@@ -62,3 +64,5 @@ By clicking on the TriState button you can change the state for a given cell, ro
   - ![Some regions are removed in row or column](../tristate/tri_state_switch_off_remove.png) Some regions are removed in row or column
   - ![All regions found will be added for all cells in row or column](../tristate/tri_state_switch_on_add_all.png) All regions found will be added for all cells in row or column
   - ![All regions found will be deleted for all cells in row or column](../tristate/tri_state_switch_on_delete_all.png) All regions found will be deleted for all cells in row or column
+
+{% include footer.md %}

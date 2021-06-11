@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # Config
 
 - Application
@@ -339,3 +341,5 @@ See [GEOtagging user guide](../map/) for more information.
 
 ## Chromecast
 ![Chromecast](config_chromecast.png)
+
+{% include footer.md %}

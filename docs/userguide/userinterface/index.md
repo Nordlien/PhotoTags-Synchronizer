@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # User interface
 
 
@@ -24,3 +26,5 @@ Select what to copy | Select where to paste | Result
 ## Hide equale rows
 Hide all rows where values for each columns are equal
 - Easy compare meta infromation between media files or find changes in historical meta information.
+
+{% include footer.md %}

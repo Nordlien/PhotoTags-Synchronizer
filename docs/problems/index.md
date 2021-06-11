@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # What problems PhotoTags Synchronizer aim to solve
 
 ## Windows Live Photo Gallery
@@ -81,3 +83,5 @@ Google this:
 The GPS tracking history contains UTC date and time and Longitude and Latitude. The PhotoTags Synchronizer will use the UTC time that is closest to the date and time when photo or video was taken. (The accepted range between date taken and UTC time in GPS history is configurable).
 
 If UTC date and time doesn’t exist an algorithm will calculate the UTC date and time. Doing so by trying to guess the time zone based on GPS history, when estimated what time zone media files was taken, then calculate the UTC time based on information we have and estimated.
+
+{% include footer.md %}

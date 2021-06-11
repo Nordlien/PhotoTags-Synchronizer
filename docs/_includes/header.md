@@ -1,2 +1,1 @@
-<br>
-** HEADER TEXT **
+[Home](/) | [User guide](/userguide) | [Download](/download) <br>

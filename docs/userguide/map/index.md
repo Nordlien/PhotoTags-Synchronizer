@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # GEOtagging
 
 ## How to GEOtag your media files
@@ -67,3 +69,5 @@ Select you media files coordinates for what you want to reload, and then select 
 4. Right click to get up "popup menu" and select "Show coordinates on map"
 5. Here you see location on map for selected coordinates
 6. The Name, Region, City and Country to have entered here will be suggested when you update your meta information for your media files.
+
+{% include footer.md %}

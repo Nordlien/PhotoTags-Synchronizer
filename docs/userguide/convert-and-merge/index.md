@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # Convert and merge
 
 With this tool you can convert a set of videos and pictures to create one video file. Kind of slide show video.
@@ -13,3 +15,5 @@ In the [config](../config/) you can set up different parameters and for converti
 In theory you can changes mmpeg to any tools as your prefer to use.
 
 ![Convert and Merge steps](convert-and-merge-steps.png)
+
+{% include footer.md %}

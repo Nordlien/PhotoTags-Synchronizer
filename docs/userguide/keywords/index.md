@@ -1,3 +1,5 @@
+{% include header.md %}
+
 # Keyword Tags
 
 ## Media information
@@ -36,7 +38,7 @@ By clicking on the TriState button you can change the state for a given cell, ro
 --|--|--|--|--
 3 | 4 | 4 | 4 | 4
 3 | 4 | 4 | 4 | 4
-3 | 4 | 4 | 4 | 4  
+3 | 4 | 4 | 4 | 4
 
 ### Description of button states
 
@@ -67,3 +69,5 @@ Added tags | Deleted tags
 ## Add your own keywords
 In the last empty row, you can enter a new keyword you want to add.
 ![Add your own keywords](keywords-add-you-own-keywords.png)
+
+{% include footer.md %}
