@@ -7,8 +7,9 @@
 ToolStrip
 ![Toolstrip](userinterface-layout-toolstrip.png)
 
-Filters<br>![Filter](userinterface-layout-filter.png) | Result from filter<br> ![ImageListView](userinterface-layout-imeglistview.png) | Details view and edit for selected media files<br> ![GridView](userinterface-layout-girdview.png)
+Filters | List View | Grid view
 --|--|--
+1. Start here. Select your filer. Folder or database search.<br>  ![Filter](userinterface-layout-filter.png) | 2. A view of the result from filter<br> ![ImageListView](userinterface-layout-imeglistview.png) | 3. After select files in the List View, then they will presented in this Details view<br> ![GridView](userinterface-layout-girdview.png)
 
 Statusbar
 ![Statusbar](userinterface-layout-statusbar.png)
