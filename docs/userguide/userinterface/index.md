@@ -2,6 +2,17 @@
 
 # User interface
 
+## Bulding blocks
+
+ToolStrip
+![Toolstrip](userinterface-layout-toolstrip.png)
+
+Filters<br>![Filter](userinterface-layout-filter.png) | Result from filter<br> ![ImageListView](userinterface-layout-imeglistview.png) | Details view and edit for selected media files<br> ![GridView](userinterface-layout-girdview.png)
+--|--|--
+
+Statusbar
+![Statusbar](userinterface-layout-statusbar.png)
+
 
 ## Fast copy and paste between media files
 You are able to copy blocks and paste them for many blocks, as long as number of row or columns are equal.
