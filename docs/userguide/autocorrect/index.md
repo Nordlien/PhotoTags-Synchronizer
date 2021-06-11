@@ -24,49 +24,56 @@ Using the UTC date and time, we will lock-up to locations closed to given UTC da
 
 ## Date and Time Digitized
 Updating the data and time media was taken. The date and time taken for the media file will use the first field where data and time exist according to your preferences.
+
 Date Taken  (Date and Time Digitized)
 UTC Date and Time when have GPS location and using location time zone
 First date and time found in the filename
 Last date and time found in the filename
 
 ## Location name, city, region, country
-All locations found will be saved in the database. If the new location is found, the Location name, city, region, country will be looked up using [Nominatim.API](https://nominatim.org/)
+All locations found will be saved in the database.
+
+If the new location is found, the Location name, city, region, country will be looked up using [Nominatim.API](https://nominatim.org/)
+
 In the config, you can change what Location name, city, region, country you what to be used when for a given GEO location. Next time a media with this GEOlocation is found, the Location name, city, region, country from the database will be used.
 
 ## People / Region
 A region is often used to mark a face and name of the person, but in theory can be used to mark anything of interest in the picture. You can set in config, how much the region can differ in size to be accepted as a match.
 
-When a Region from Microsoft Photos doesn't already exist, then this will be added.
-When a Region from Windows live Photo Gallery doesn't already exist, then this will be added.
-When a Region name from Web Scraping doesn’t exist, this region with size of the picture will be added. The region will not be correct, but it will be searchable and you can resize it later.
+- When a Region from Microsoft Photos doesn't already exist, then this will be added.
+- When a Region from Windows live Photo Gallery doesn't already exist, then this will be added.
+- When a Region name from Web Scraping doesn’t exist, this region with size of the picture will be added. The region will not be correct, but it will be searchable and you can resize it later.
 
 ## Keywords
 In config you can select what source you accept new keywords from.
-When a Keyword from Microsoft Photos doesn't already exist, then this will be added. Keywords from Microsoft Photos that will be added are also configured by Confidence setting.
-When a Keyword from Windows live Photo Gallery doesn't already exist, then this will be added.
-When a Keyword from Web Scraping doesn’t exist, this keyword will be added.
+- When a Keyword from Microsoft Photos doesn't already exist, then this will be added. Keywords from Microsoft Photos that will be added are also configured by Confidence setting.
+- When a Keyword from Windows live Photo Gallery doesn't already exist, then this will be added.
+- When a Keyword from Web Scraping doesn’t exist, this keyword will be added.
 
 ### Backup - Date Taken and UTC date and time
-If configure to do backup, extra keywords will be create with Date Taken
-If configure to do backup, extra keywords will be create with UTC date and time
+- If configure to do backup, extra keywords will be create with Date Taken
+- If configure to do backup, extra keywords will be create with UTC date and time
 
 ## Title
-What source I prefer to get the title from.
-Title already in the media file
-Microsoft Photos
-Windows Live Photo Gallery
-Web Scraping
+Depending what priority of source is in config, Title information will be set accordingly.
+
+- Title already in the media file
+- Microsoft Photos
+- Windows Live Photo Gallery
+- Web Scraping
 
 ## Album
-What source I prefer to get the Album information from.
-Title already in the media file
-Microsoft Photos
-Windows Live Photo Gallery
-Web Scraping
-Folder name, Example: C:\Pictures\My Album 1\picture.jpg will create album name: “My Album 1”
+Depending what priority of source is in config, Album information will be set accordingly.
+
+- Title already in the media file
+- Microsoft Photos
+- Windows Live Photo Gallery
+- Web Scraping
+- Folder name
+  - Example: C:\Pictures\My Album 1\picture.jpg will create album name: “My Album 1”
 
 ## Author
-When Camera Make and Model are assigned to a person, this name will be used as the Author on the picture or video recording.
+Whem config is set to upded, and when Camera Make and Model are assigned to a person, this name will be used as the Author on the picture or video recording.
 
 ## Rename tool
 

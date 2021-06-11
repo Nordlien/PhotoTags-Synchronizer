@@ -1,1 +1,1 @@
-<br>Phototags Syncronizer 2021
+<br>PhotoTags Syncronizer 2021
