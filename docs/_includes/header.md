@@ -1,1 +1,1 @@
-[Home](/) | [User guide](/userguide) | [Download](/download) <br>
+[Home](/PhotoTags-Synchronizer/) | [User guide](/PhotoTags-Synchronizer/userguide/) | [Download](/PhotoTags-Synchronizer/download) <br>
