@@ -23,7 +23,7 @@
 
 Include test<br>
 
- include header.md 
+{% include header.md %}
 <br>
 {% include footer.html %}
 <br>
