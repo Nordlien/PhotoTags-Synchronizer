@@ -3,20 +3,52 @@
 # Userguide
 
 - General information
-  - [User interface](userinterface)
+  - [User interface layout](userinterface)
   - [AutoCorrect](autocorrect)
-- ToolStrip Menu
-  - [ToolStrip](toolstrip)
+- [ToolStrip panel](toolstrip)
   - [Image List View](imagelistview)
   - [Grid view](gridview)
   - [Import GPS locations](import-gps-locations)
   - [Save](save)
   - [Config](config)
   - [WebScraping](webscraping)
-- Filter panel
-  - [Filters](filters)
-- Image List view panel
+- [Filters panel](filters)
+  - Select Folder
+  - Search for media files
+  - Addtional filers
+- [Image List View panel](imagelistview)
   - [Image List View](imagelistview)
+  - Sort media files by...
+    - File name
+    - File created date and time
+    - File modified date and time
+    - Media Date Taken
+    - Media Album
+    - Media Title
+    - Media Description
+    - Media Comments
+    - Media Author
+    - Media Rating
+    - Location name
+    - Location Region/State
+    - Location City
+    - Location Country
+  - Cut / Copy / Paste
+  - Delete files
+  - Copy filename to clipboard
+  - Refresh Folder
+  - Reload thumbnail and metadata
+  - Clear thumbnail and metadata history
+  - Select all
+  - AutoCorrect metadata
+  - Open
+  - Open media files with...
+  - Edit
+  - Run batch app or command...
+  - Open and associate dialog...
+  - Open file location
+  - Rotate 90 180, 270 degree
+  - Media preview and chromecast
 - Tabs panel with grid view:
   - [Keywords](keywords) - Meta information and keywords
   - [People](people) - Region and people names
