@@ -6,12 +6,17 @@
   - [User interface](userinterface)
   - [AutoCorrect](autocorrect)
 - ToolStrip Menu
+  - [ToolStrip](toolstrip)
+  - [Image List View](imagelistview)
+  - [Grid view](gridview)
+  - [Import GPS locations](import-gps-locations)
+  - [Save](save)
   - [Config](config)
-  - To be added
+  - [WebScraping](webscraping)
 - Filter panel
-  - To be added
-- List view panel
-  - To be added
+  - [Filters](filters)
+- Image List view panel
+  - [Image List View](imagelistview)
 - Tabs panel with grid view:
   - [Keywords](keywords) - Meta information and keywords
   - [People](people) - Region and people names
