@@ -16,7 +16,7 @@ Keep the tags where it belongs.
   - Copy and Paste from every Gridview into Clipboard and paste where you want (E.g. Microsoft Excel or Google Spreadsheets)
   - Unlimited Redo and Undo
   - Keep track of changes. Store all meta history
-  - Easily find changes done in meta information by comparing Files or previous change history in media file or even both.
+  - Easily find changes done in meta information by comparing Files or previous change history in media files or between files and history previous saved information.
 - Synchronizer
   - From Windows Live Photo Gallery
   - From Microsoft Photos
@@ -52,9 +52,9 @@ Keep the tags where it belongs.
     - Problem 1: But not all meta information will be saved, example, e.g. on many video files.
     - Problem 2: Save meta information using Microsoft Atoms not using international standards.
     - Problem 3: Many other tools, Exiftool can only read but can not save Microsoft Xtra Atoms
-    - Problem 4: When moving media files from old computer to new computer, you lose meta information, because a lot of meta information saved only in a local database and not in the media file.
+    - Problem 4: When moving media files from old computer to new computer, you lose meta information, because a lot of meta information is saved only in a local database and not in the media file.
   - Microsoft Photos
-    - Problem 1: Store some information only in local database and some information in cloud.
+    - Problem 1: Store some information only in a local database and some information in cloud.
     - Problem 2: There are no synchronization between data store locally and between other computers
   - Google Photos and most likely all other cloud storage providers
     - Problem 1: All data is stored in the cloud. If you want to move to another provider, all your tags are gone. According to GDPR this data is yours, but you are not able to download it.
@@ -67,39 +67,76 @@ Keep the tags where it belongs.
 
 ## Keyword tagging
 
+See and edit multiple meta information in multiple media files at once.
+
+See what meta information has been saved about your media file in other applications. See what's been saved in the media file or what's only saved in the database or in the cloud.
+
+See also User Guide for [Keywords](userguide/keywords)
+
 ![Keyword tagging](screenshots/screenshot_keyword_tags.png)
 
 ## Region name and people tagging
+
+See and edit multiple regions like faces and people in multiple media files at once.
+
+See what regions have been saved about your media file using other applications. See what's been saved in the media file or what's only saved in the database or in the cloud.
+
+See also User Guide for [People](userguide/people)
 
 ![Region name and people tagging](screenshots/screenshot_people.png)
 
 ## Date and time
 
+A set of useful tools that will help you finding and setting correct date and time for your media file.
+
+See also User Guide for [Date](userguide/date)
+
 ![Date and time tool](screenshots/screenshot_date_and_time.png)
 
-## GEO tagging with Map
+## GEO tagging with Map, GPS tracker, Google Location History
+
+A set of useful tools that will help you finding and setting correct GEOtagging for your media file.
+
+You can see media files location on a map, and set new location for your media file on the map.
+
+You can find your media files location based on KML or json files with a GPS locations history / GPS tracking file.
+
+See also User Guide for [Map](userguide/map)
 
 ![GEO tagging with Map](screenshots/screenshot_map.png)
 
 ## Powerful Exiftool GUI
-- Show all meta infomration the ExifTool provides.
-- Comapre meta infomration between files
+- Show all meta information the ExifTool provides.
+- Compare meta infomration between files
 - Compare meta information before and after changes in the media file(s)
+
+
+See also User Guide for [Exiftool GUI](userguide/exiftool)
 
 ![Exiftool GUI](screenshots/screenshot_exiftool.png)
 
 
 ## Give Warning when Tags mismatch
-Show what fiels are mismatch between diffrent standards, when they should contain the same information.
+
+Show what fields are mismatched between different standards, when they should contain the same information.
+
+See also User Guide for [Warnings](userguide/warnings)
+
 ![Give Warning when Tags mismatch](screenshots/screenshot_exiftoolwarnings.png)
 
 ## Windows Properties
-- Show and edit using Windows Properties
+
+Show and edit using Windows Properties
+
+See also User Guide for [Properties](userguide/properties)
 
 ![Windows Properties](screenshots/screenshot_windowsproperties.png)
 
 ## Powerful Rename Tool
-- Rename files with information from the media file
+
+Rename files with information from the media file
+
+See also User Guide for [Rename tool](userguide/renametool)
 
 ![Powerful Rename Tool](screenshots/screenshot_renametool.png)
 
@@ -107,10 +144,12 @@ Show what fiels are mismatch between diffrent standards, when they should contai
 - Combine multiple images and videos into a slideshow video
 - Use the power of [ffmeg.exe](https://www.ffmpeg.org/) (or others tools) to convert videos
 
+See also User Guide for [Convert & Merge](userguide/convert-and-merge)
 
 ![Convert and merge media files](screenshots/screenshot_convert_and_merge.png)
 
-## View and Chromecast
+
+## Show and Chromecast video and photos
 - View images
 - View videos
 - Create Slideshow

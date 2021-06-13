@@ -9,7 +9,7 @@ Windows Live Photo Gallery is saving most of the meta information into the media
 
 PC 1 <br> Windows Live Photo Gallery  | PC 2 <br> Windows Live Photo Gallery
 --|--
-Looks as all meta information for 'Captions' is saved properly on PC 1 ![Microsoft Windows Live Gallery - PC1](problem-windows-live-photo-gallery_not-saving-tags2.png) | However, when open on PC 2, the meta information for 'Captions' is not there. This is because data is only stored in local database. ![Microsoft Windows Live Gallery - PC1](problem-windows-live-photo-gallery_not-saving-tags1.png)
+Looks as all meta information for 'Captions' is saved properly on PC 1 ![Microsoft Windows Live Gallery - PC1](problem-windows-live-photo-gallery_not-saving-tags2.png) | However, when open on PC 2, the meta information for 'Captions' is not there. This is because data is only stored in a local database. ![Microsoft Windows Live Gallery - PC1](problem-windows-live-photo-gallery_not-saving-tags1.png)
 
 ### Windows Live Photo Gallery - inconsistent use of fields
 ![Microsoft Windows Live Gallery - Inconsistent](problem-windows-explorer-windows-live-photo-gallery_not-consistent.png)
@@ -74,7 +74,7 @@ After moving to a new time zone and you forgot to change your digital camera wit
 ## Longitude and Latitude
 Old digital cameras don’t have GPS but all modern camera phones have, however, on many phones saving the Longitude and Latitude into the media file is by default turned off, because of GDPR or other reasons of protection.
 
-If you have a GPS tracker that saves GPS history in KML or json format, you can import this history into the applications. If you have turned on Google Maps to store GPS history, then you sould be able to download it as KML and json file(s).
+If you have a GPS tracker that saves GPS history in KML or json format, you can import this history into the applications. If you have turned on Google Maps to store GPS history, then you should be able to download it as KML and json file(s).
 
 Google this:
 - How do I download Google Location History?
@@ -82,6 +82,6 @@ Google this:
 
 The GPS tracking history contains UTC date and time and Longitude and Latitude. The PhotoTags Synchronizer will use the UTC time that is closest to the date and time when photo or video was taken. (The accepted range between date taken and UTC time in GPS history is configurable).
 
-If UTC date and time doesn’t exist an algorithm will calculate the UTC date and time. Doing so by trying to guess the time zone based on GPS history, when estimated what time zone media files was taken, then calculate the UTC time based on information we have and estimated.
+If UTC date and time doesn’t exist an algorithm will calculate the UTC date and time. Doing so by trying to guess the time zone based on GPS history, when estimated what time zone media files were taken, then calculate the UTC time based on information we have and estimated.
 
 {% include footer.md %}

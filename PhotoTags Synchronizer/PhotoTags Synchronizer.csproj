@@ -387,6 +387,9 @@
     <None Include="Resources\About.png" />
     <None Include="Resources\Config.png" />
     <None Include="Resources\Association-Filetype.png" />
+    <Content Include="exiftool.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Audio.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -616,10 +619,10 @@
       <Version>2.16.24</Version>
     </PackageReference>
     <PackageReference Include="LibVLCSharp">
-      <Version>3.5.0</Version>
+      <Version>3.5.1</Version>
     </PackageReference>
     <PackageReference Include="LibVLCSharp.WinForms">
-      <Version>3.5.0</Version>
+      <Version>3.5.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
