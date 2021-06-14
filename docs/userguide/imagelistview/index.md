@@ -27,6 +27,24 @@ Layout | Layout
 Thumbnail <br>![Thumbnails](userinterface-imagelistview-views-thumbnail.png) | Gallery <br> ![Gallery](userinterface-imagelistview-views-gallery.png)
 Pane <br> ![Pane](userinterface-imagelistview-views-pane.png) | Details <br> ![Details](userinterface-imagelistview-views-details.png)
 
+### Thumbnail view layout
+
+![a](../toolstrip/toolstrip-imagelistview-thumbnail-view.png)
+
+## Rotate media file
+
+![Rotate media file](../toolstrip/toolstrip-rotate.png)
+
+## Select by group
+
+Fast way to select a group of pictures, so you can edit all at once that most likly are in a group and with more or less same content.
+
+![Select group](../toolstrip/toolstrip-select-group-by.png)
+
+Select group by | Select group by
+--|--
+![Options](imagelistview-select-group-by-options.png) | ![Click next 1](imagelistview-select-group-by-next-1.png)
+![Click next 2](imagelistview-select-group-by-next-2.png) | ![Click next 3](imagelistview-select-group-by-next-3.png)
 
 ## Context menu
 

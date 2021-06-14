@@ -917,7 +917,8 @@ namespace PhotoTagsSynchronizer
                 #endregion 
 
                 #region AutoCorrect
-                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect); 
+                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                if (autoCorrect == null) MessageBox.Show("AutoCorrect: " + Properties.Settings.Default.AutoCorrect);
                 float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                 float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
 

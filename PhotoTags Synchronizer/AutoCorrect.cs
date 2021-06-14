@@ -400,7 +400,7 @@ namespace PhotoTagsSynchronizer
 
             if (UseKeywordsFromWebScraping && metadataWebScrapingCopy != null)
             {
-                foreach (KeywordTag keywordTag in metadataWebScrapingCopy.PersonalKeywordTags)
+                 foreach (KeywordTag keywordTag in metadataWebScrapingCopy.PersonalKeywordTags)
                 {
                     if (keywordTag.Confidence >= KeywordTagConfidenceLevel) metadataCopy.PersonalKeywordTagsAddIfNotExists(keywordTag);
                 }
