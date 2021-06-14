@@ -331,6 +331,7 @@ Camera owner can be used to set the Author field.
 
 ![Camera owner](config_camera-owner.png)
 
+
 ## Location names
 See [GEOtagging user guide](../map/) for more information.
 

@@ -39,20 +39,18 @@ Select you media files coordinates for what you want to reload, and then select 
 
 # Import Location history
 
-![User](import-location-history.png)
+See also how to Import [GPS Location History](..\import-gps-locations).
 
-# Import Location History
-![Import](import-location-history.png)
-1. Click Import Location History button
-2. Write or Select the person that owns this location history.
-3. Open the File Dialog
-4. Select the file KML or json file you like to import
-5. The Name of the person you enter will become a position for Camera Make and Model. Then different cameras can have different location histories.
-6. The Camera Owner will also be used as Author on the Meta information
+![User](../import-gps-locations/import-location-history.png)
+
+
 
 # Config
 
 ## Camera Owner
+
+See Camera Owner in [Config](../config).
+
 ![Config camera owner](config_camera-owner.png)
 
 1. Select config
@@ -61,6 +59,9 @@ Select you media files coordinates for what you want to reload, and then select 
 4. The Camera owner can be set as Author on the media files meta information.
 
 ## Location information
+
+See Location information in [Config](../config)
+
 ![Config Location information](config_location-information.png)
 
 1. Select config
