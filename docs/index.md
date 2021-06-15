@@ -10,27 +10,35 @@ Keep the tags where it belongs.
 
 ## Key features
 
-- Keyword tagging [Keywords][3737e4b0]
-  - Fast and easy editing meta information in a wide variety of files
-  - Tag many files at once
+- Keyword tagging
+  - See user guide for [Keywords][3737e4b0]
+  - Fast and easy editing meta information in a wide variety of files.
+  - [Keywords](userguide/keywords), [Region/People](userguide/people), [Map Location](map) and [Dates](userguide/date)
+  - Easy edit and tag many files at once
   - Copy and Paste from every Gridview into Clipboard and paste where you want (E.g. Microsoft Excel or Google Spreadsheets)
   - Unlimited Redo and Undo
   - Keep track of changes. Store all meta history
-  - Easily find changes done in meta information by comparing Files or previous change history in media files or between files and history previous saved information.
 - Synchronizer
   - From Windows Live Photo Gallery
   - From Microsoft Photos
   - Using a Powerful customizable web scraping tool in countries was allowed (PS: Use at your own risk, don't break the law).
 - Powerful Exiftool GUI
-  - See Exif history
-  - See warning when tags mismatch
+  - Able to see all meta information provided by Exiftool
+  - Able to see change history of meta information during updates
+  - Compare meta information between files. Easily find changes done in meta information by comparing Files or previous change history in media files or between files and history previous saved information.
+  - See more information in the user guide for [Exiftool tool GUI](userguide/exiftool)
+  - See warning when tags mismatch, See more in user guide for [Warnings](userguide/warnings)
   - Can also write Microsoft Atoms back to files
-- Powerful rename tool
-- GEOtagging
+- Powerful rename tool.
+  - See user guide for [Rename tool](userguide/renametool)
+- Powerful run command tool
+  - A helping tool for Convert, Update, Change and/or Update Photo and Video Files in Bulk using your favorite tool.
+  - See user guide for [Run batch](userguide/runbatch)
+- GEOtagging and Map
   - Import from Google History
   - Import from JSON and KML files
   - GEO tag using map
-  - Lock up name, region, city and country
+  - Lock up location name, region, city and country
 - Chromecast
   - Support casting of video and pictures directly from PC with build-in webserver
 - Media files support
@@ -148,14 +156,24 @@ See also User Guide for [Convert & Merge](userguide/convert-and-merge)
 
 ![Convert and merge media files](screenshots/screenshot_convert_and_merge.png)
 
+## Powerful tool for Convert, Update, Change and/or Update Photo and Video Files in Bulk
 
-## Show and Chromecast video and photos
+Easy start your favorite tool for selected media file and start your favorite tool for each media file with your agruments and use parameter varibales. parameter variables is meta information values from the media file.
+
+See also User Guide for [Run batch](userguide/runbatch)
+
+![](userguide/runbatch/runbatch-command-variables.png)
+
+## Show and Chromecast videos and photos
+
 - View images
 - View videos
 - Create Slideshow
 - Chromecast picture
 - Chromecast videos
 - Create slideshow on Chromecast
+
+See also User Guide for [Media preview and Chromecast](userguide\mediapreview-chromecast)
 
 ![Chromecast](screenshots/screenshot_preview_chromecast.png)
 
