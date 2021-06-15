@@ -148,7 +148,9 @@ namespace PhotoTagsSynchronizer
 
         public static AutoCorrect ConvertConfigValue(string configString)
         {
-            return JsonConvert.DeserializeObject<AutoCorrect>(configString); 
+            AutoCorrect autoCorrect = JsonConvert.DeserializeObject<AutoCorrect>(configString);
+            if (autoCorrect == null) autoCorrect = new AutoCorrect();
+            return autoCorrect;
         }
         #endregion
 

@@ -116,6 +116,10 @@ Edit | Result
 
 ### Run batch; app or command...
 
+Run your favorite convertion and/or morge tool for each selected media file.
+See [Run batch](../runbatch) for more details.
+![Run batch](imagelistview-contextmenu-runbatch.png)
+
 ### Open and associate dialog...
 
 Associate with | Result

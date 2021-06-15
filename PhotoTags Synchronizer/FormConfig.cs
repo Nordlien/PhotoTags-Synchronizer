@@ -206,7 +206,7 @@ namespace PhotoTagsSynchronizer
 
             //AutoCorrect
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-            if (autoCorrect == null) autoCorrect = new AutoCorrect();
+            
             PopulateAutoCorrectPoperties();
 
             //Metadata Write
