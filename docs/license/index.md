@@ -1,22 +1,14 @@
 {% include header.md %}
 
-# license-fast-Colored-textBox-for-syntax-highlighting
-
-# Other
-licenses
-- Homepage:
-- Github:
-- License:
+## ExifTool by Phil Harvey
+- Homepage: https://exiftool.org
+- Github: https://github.com/exiftool/exiftool
+- License: https://exiftool.org/#license / [Local copy of license](license-exiftool.txt)
 
 ## ffmpeg
 - Homepage: https://www.ffmpeg.org/
 - Github: https://github.com/FFmpeg/FFmpeg
 - License: FFmpeg License and Legal Considerations, https://www.ffmpeg.org/legal.html / [Local copy of license](license-ffmpeg.txt)
-
-## ExifTool by Phil Harvey
-- Homepage: https://exiftool.org
-- Github: https://github.com/exiftool/exiftool
-- License: https://exiftool.org/#license / [Local copy of license](license-exiftool.txt)
 
 ## CefSharp
 - Homepage: https://cefsharp.github.io/

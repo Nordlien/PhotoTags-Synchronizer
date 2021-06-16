@@ -1,1 +1,1 @@
-<br>PhotoTags Syncronizer 2021
+<br>PhotoTags Syncronizer 2021, [Licenses](/PhotoTags-Synchronizer/license) 
