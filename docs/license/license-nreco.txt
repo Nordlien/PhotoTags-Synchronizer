@@ -1,0 +1,2 @@
+Copyright & License
+NReco Version 1.0 (nreco1 branch) © 2008-2013 Vitalii Fedorchenko + other contributors (published under LGPL) NReco Version 2.x (master) © 2013-2015 Vitalii Fedorchenko + other contributors (LGPL)
