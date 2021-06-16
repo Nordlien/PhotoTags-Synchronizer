@@ -4,20 +4,17 @@
 
 - General information
   - [User interface layout](userinterface)
-  - [AutoCorrect](autocorrect)
-- [ToolStrip panel](toolstrip)
-  - [Image List View](imagelistview)
-  - [Grid view](gridview)
+  - How to use [AutoCorrect](autocorrect)
+  - What's inside [Config](config)
   - [Import GPS locations](import-gps-locations)
   - [Save](save)
-  - [Config](config)
-  - [WebScraping](webscraping)
-- [Filters panel](filters)
+  - How to do [WebScraping](webscraping)
+  - What's on the [ToolStrip panel](toolstrip)
+- ALl about [Filters panel](filters)
   - Select Folder
   - Search for media files
   - Addtional filers
-- [Image List View panel](imagelistview)
-  - [Image List View](imagelistview)
+- All inside [Image List View panel](imagelistview)
   - Sort media files by...
     - File name
     - File created date and time
@@ -49,7 +46,7 @@
   - Open file location
   - Rotate 90 180, 270 degree
   - Media preview and chromecast
-- Tabs panel with grid view:
+- All inside [Grid view](gridview):
   - [Keywords](keywords) - Meta information and keywords
   - [People](people) - Region and people names
   - [Map](map) - GEOtagging and Map
