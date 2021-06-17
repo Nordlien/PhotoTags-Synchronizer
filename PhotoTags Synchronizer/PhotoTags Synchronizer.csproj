@@ -390,6 +390,7 @@
     <Content Include="exiftool.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\404.png" />
     <Content Include="Resources\Audio.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -425,6 +426,7 @@
     <None Include="Resources\GridNormal.png" />
     <None Include="Resources\FileExplorer.png" />
     <None Include="Resources\FileInCloud.png" />
+    <None Include="Resources\error404.png" />
     <Content Include="Resources\GridBig.png" />
     <Content Include="Resources\GridErrorColumn.png" />
     <None Include="Resources\GridErrorColumn1.png" />

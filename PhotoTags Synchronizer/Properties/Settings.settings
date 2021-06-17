@@ -857,7 +857,7 @@ duration {Duration}</Value>
       <Value Profile="(Default)">1080</Value>
     </Setting>
     <Setting Name="ChromecastImageOutputFormat" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.OGG</Value>
+      <Value Profile="(Default)">.PNG</Value>
     </Setting>
     <Setting Name="ChromecastVideoCodec" Type="System.String" Scope="User">
       <Value Profile="(Default)">vcodec=theo,venc=theora{quality=4},scale=1</Value>

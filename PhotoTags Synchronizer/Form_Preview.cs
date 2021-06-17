@@ -5,6 +5,7 @@ using NHttp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -843,9 +844,10 @@ namespace PhotoTagsSynchronizer
 
                     mediaByteArray = ImageAndMovieFileExtentionsUtility.LoadAndConvertImage(mediaFullFilename, outputImageExtention,
                         Properties.Settings.Default.ChromecastImageOutputResolutionWidth,
-                        Properties.Settings.Default.ChromecastImageOutputResolutionHeight, rotateDegress);
+                        Properties.Settings.Default.ChromecastImageOutputResolutionHeight, rotateDegress);                    
                     e.Response.CacheControl = "";
                     e.Response.ContentType = mimeFormatImage;
+
                 }
                 else if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(mediaFullFilename))
                 {
@@ -861,9 +863,23 @@ namespace PhotoTagsSynchronizer
             e.Response.ExpiresAbsolute = DateTime.Now.AddDays(1);
             e.Response.CharSet = "";
 
-            if (mediaByteArray != null) e.Response.OutputStream.Write(mediaByteArray, 0, mediaByteArray.Length);
-            else e.Response.Status = "404 Not Found";
+            if (mediaByteArray != null && mediaByteArray.Length > 0) e.Response.OutputStream.Write(mediaByteArray, 0, mediaByteArray.Length);
+            else
+            {
+                //e.Response.Status = "404 Not Found";
+                Image image = Properties.Resources.error404;
+                
+                using (var stream = new MemoryStream())
+                {
+                    image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    
+                    e.Response.OutputStream.Write(stream.ToArray(), 0, (int)stream.Length);
+                }
 
+                e.Response.ContentType = "image/png";
+
+                if (mediaByteArray == null || mediaByteArray.Length == 0) MessageBox.Show("Was not able to load the meida file: " + mediaFullFilename);
+            }
         }
         #endregion
 
