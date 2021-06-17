@@ -13,7 +13,7 @@ Keep the tags where it belongs.
 - Keyword tagging
   - See user guide for [Keywords][3737e4b0]
   - Fast and easy editing meta information in a wide variety of files.
-  - [Keywords](userguide/keywords), [Region/People](userguide/people), [Map Location](map) and [Dates](userguide/date)
+  - [Keywords](userguide/keywords), [People and  Region](userguide/people), [GEOtagging](userguide/map) and [Dates](userguide/date)
   - Easy edit and tag many files at once
   - Copy and Paste from every Gridview into Clipboard and paste where you want (E.g. Microsoft Excel or Google Spreadsheets)
   - Unlimited Redo and Undo
