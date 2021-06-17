@@ -14,6 +14,7 @@ namespace MetadataLibrary
     [Serializable]
     public class Metadata
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         //Fields size https://owl.phy.queensu.ca/~phil/exiftool/TagNames.pdf
 
         public String errors = "";
@@ -98,7 +99,7 @@ namespace MetadataLibrary
         }
 
         public Metadata(Metadata metadata)
-        {            
+        {    
             errors = metadata.errors;
 
             //Broker
@@ -121,9 +122,20 @@ namespace MetadataLibrary
             personalRatingPercent = metadata.personalRatingPercent;
             PersonalAuthor = metadata.PersonalAuthor;
             PersonalAlbum = metadata.PersonalAlbum;
-            foreach (RegionStructure region in metadata.personalRegionList) personalRegionList.Add(new RegionStructure(region));
-            foreach (KeywordTag tag in metadata.personalTagList) personalTagList.Add(new KeywordTag(tag));
-
+            try
+            {
+                foreach (RegionStructure region in metadata.personalRegionList) personalRegionList.Add(new RegionStructure(region));
+            } catch (Exception ex)
+            {
+                Logger.Error(ex.Message); //If not thread safe, but don't crash and save error
+            }
+            try
+            {
+                foreach (KeywordTag tag in metadata.personalTagList) personalTagList.Add(new KeywordTag(tag));
+            } catch (Exception ex)
+            {
+                Logger.Error(ex.Message); //If not thread safe, but don't crash and save error
+            }
             //Camera
             CameraMake = metadata.CameraMake;
             CameraModel = metadata.CameraModel;
