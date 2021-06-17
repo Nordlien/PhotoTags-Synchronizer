@@ -3,6 +3,7 @@
 # Userguide
 
 - General information
+  - [Windows Security Alert](windows-security-alert) 
   - [User interface layout](userinterface)
   - How to use [AutoCorrect](autocorrect)
   - What's inside [Config](config)
