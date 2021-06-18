@@ -1517,7 +1517,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".PNG")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".JPG")]
         public string ChromecastImageOutputFormat {
             get {
                 return ((string)(this["ChromecastImageOutputFormat"]));
