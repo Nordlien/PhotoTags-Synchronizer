@@ -116,6 +116,21 @@ namespace PhotoTagsSynchronizer
             this.splitContainerImages = new System.Windows.Forms.SplitContainer();
             this.imageListView1 = new Manina.Windows.Forms.ImageListView();
             this.contextMenuStripImageListView = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.sortMediaFileByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByFilename = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByFileCreatedDate = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByFileModifiedDate = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByMediaDateTaken = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByMediaAlbum = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByMediaTitle = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByMediaDescription = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByMediaComments = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByMediaAuthor = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByMediaRating = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByLocationName = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByLocationRegionState = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByLocationCity = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSortByLocationCountry = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.copyFileNamesToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -137,10 +152,6 @@ namespace PhotoTagsSynchronizer
             this.rotate180ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ratateCCW270ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortMediaFileByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByFilename = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByFileCreatedDate = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByFileModifiedDate = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControlToolbox = new System.Windows.Forms.TabControl();
             this.tabPageTags = new System.Windows.Forms.TabPage();
@@ -384,17 +395,6 @@ namespace PhotoTagsSynchronizer
             this.timerFindGoogleCast = new System.Windows.Forms.Timer(this.components);
             this.timerPreviewNextTimer = new System.Windows.Forms.Timer(this.components);
             this.timerSaveProgessRemoveProgress = new System.Windows.Forms.Timer(this.components);
-            this.ToolStripMenuItemSortByMediaAlbum = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByMediaTitle = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByMediaDescription = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByMediaComments = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByMediaAuthor = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByMediaRating = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByLocationName = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByLocationRegionState = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByLocationCity = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByLocationCountry = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSortByMediaDateTaken = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -1406,6 +1406,7 @@ namespace PhotoTagsSynchronizer
             this.imageListView1.Name = "imageListView1";
             this.imageListView1.RetryOnError = false;
             this.imageListView1.Size = new System.Drawing.Size(333, 892);
+            this.imageListView1.SortColumn = Manina.Windows.Forms.ColumnType.FileName;
             this.imageListView1.TabIndex = 1;
             this.imageListView1.Text = "";
             this.imageListView1.ItemHover += new Manina.Windows.Forms.ItemHoverEventHandler(this.imageListView1_ItemHover);
@@ -1442,7 +1443,126 @@ namespace PhotoTagsSynchronizer
             this.ratateCCW270ToolStripMenuItem,
             this.mediaPreviewToolStripMenuItem});
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
-            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 578);
+            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 550);
+            // 
+            // sortMediaFileByToolStripMenuItem
+            // 
+            this.sortMediaFileByToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemSortByFilename,
+            this.ToolStripMenuItemSortByFileCreatedDate,
+            this.ToolStripMenuItemSortByFileModifiedDate,
+            this.ToolStripMenuItemSortByMediaDateTaken,
+            this.ToolStripMenuItemSortByMediaAlbum,
+            this.ToolStripMenuItemSortByMediaTitle,
+            this.ToolStripMenuItemSortByMediaDescription,
+            this.ToolStripMenuItemSortByMediaComments,
+            this.ToolStripMenuItemSortByMediaAuthor,
+            this.ToolStripMenuItemSortByMediaRating,
+            this.ToolStripMenuItemSortByLocationName,
+            this.ToolStripMenuItemSortByLocationRegionState,
+            this.ToolStripMenuItemSortByLocationCity,
+            this.ToolStripMenuItemSortByLocationCountry});
+            this.sortMediaFileByToolStripMenuItem.Name = "sortMediaFileByToolStripMenuItem";
+            this.sortMediaFileByToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
+            this.sortMediaFileByToolStripMenuItem.Text = "Sort media files by...";
+            // 
+            // ToolStripMenuItemSortByFilename
+            // 
+            this.ToolStripMenuItemSortByFilename.Name = "ToolStripMenuItemSortByFilename";
+            this.ToolStripMenuItemSortByFilename.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByFilename.Text = "File name";
+            this.ToolStripMenuItemSortByFilename.Click += new System.EventHandler(this.ToolStripMenuItemSortByFilename_Click);
+            // 
+            // ToolStripMenuItemSortByFileCreatedDate
+            // 
+            this.ToolStripMenuItemSortByFileCreatedDate.Name = "ToolStripMenuItemSortByFileCreatedDate";
+            this.ToolStripMenuItemSortByFileCreatedDate.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByFileCreatedDate.Text = "File created date";
+            this.ToolStripMenuItemSortByFileCreatedDate.Click += new System.EventHandler(this.ToolStripMenuItemSortByFileCreatedDate_Click);
+            // 
+            // ToolStripMenuItemSortByFileModifiedDate
+            // 
+            this.ToolStripMenuItemSortByFileModifiedDate.Name = "ToolStripMenuItemSortByFileModifiedDate";
+            this.ToolStripMenuItemSortByFileModifiedDate.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByFileModifiedDate.Text = "File modified date";
+            this.ToolStripMenuItemSortByFileModifiedDate.Click += new System.EventHandler(this.ToolStripMenuItemSortByFileModifiedDate_Click);
+            // 
+            // ToolStripMenuItemSortByMediaDateTaken
+            // 
+            this.ToolStripMenuItemSortByMediaDateTaken.Name = "ToolStripMenuItemSortByMediaDateTaken";
+            this.ToolStripMenuItemSortByMediaDateTaken.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByMediaDateTaken.Text = "Media Date Taken";
+            this.ToolStripMenuItemSortByMediaDateTaken.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaDateTaken_Click);
+            // 
+            // ToolStripMenuItemSortByMediaAlbum
+            // 
+            this.ToolStripMenuItemSortByMediaAlbum.Name = "ToolStripMenuItemSortByMediaAlbum";
+            this.ToolStripMenuItemSortByMediaAlbum.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByMediaAlbum.Text = "Media Album";
+            this.ToolStripMenuItemSortByMediaAlbum.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaAlbum_Click);
+            // 
+            // ToolStripMenuItemSortByMediaTitle
+            // 
+            this.ToolStripMenuItemSortByMediaTitle.Name = "ToolStripMenuItemSortByMediaTitle";
+            this.ToolStripMenuItemSortByMediaTitle.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByMediaTitle.Text = "Media Title";
+            this.ToolStripMenuItemSortByMediaTitle.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaTitle_Click);
+            // 
+            // ToolStripMenuItemSortByMediaDescription
+            // 
+            this.ToolStripMenuItemSortByMediaDescription.Name = "ToolStripMenuItemSortByMediaDescription";
+            this.ToolStripMenuItemSortByMediaDescription.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByMediaDescription.Text = "Media Description";
+            this.ToolStripMenuItemSortByMediaDescription.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaDescription_Click);
+            // 
+            // ToolStripMenuItemSortByMediaComments
+            // 
+            this.ToolStripMenuItemSortByMediaComments.Name = "ToolStripMenuItemSortByMediaComments";
+            this.ToolStripMenuItemSortByMediaComments.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByMediaComments.Text = "Media Comments";
+            this.ToolStripMenuItemSortByMediaComments.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaComments_Click);
+            // 
+            // ToolStripMenuItemSortByMediaAuthor
+            // 
+            this.ToolStripMenuItemSortByMediaAuthor.Name = "ToolStripMenuItemSortByMediaAuthor";
+            this.ToolStripMenuItemSortByMediaAuthor.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByMediaAuthor.Text = "Media Author";
+            this.ToolStripMenuItemSortByMediaAuthor.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaAuthor_Click);
+            // 
+            // ToolStripMenuItemSortByMediaRating
+            // 
+            this.ToolStripMenuItemSortByMediaRating.Name = "ToolStripMenuItemSortByMediaRating";
+            this.ToolStripMenuItemSortByMediaRating.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByMediaRating.Text = "Media Rating";
+            this.ToolStripMenuItemSortByMediaRating.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaRating_Click);
+            // 
+            // ToolStripMenuItemSortByLocationName
+            // 
+            this.ToolStripMenuItemSortByLocationName.Name = "ToolStripMenuItemSortByLocationName";
+            this.ToolStripMenuItemSortByLocationName.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByLocationName.Text = "Location Name";
+            this.ToolStripMenuItemSortByLocationName.Click += new System.EventHandler(this.ToolStripMenuItemSortByLocationName_Click);
+            // 
+            // ToolStripMenuItemSortByLocationRegionState
+            // 
+            this.ToolStripMenuItemSortByLocationRegionState.Name = "ToolStripMenuItemSortByLocationRegionState";
+            this.ToolStripMenuItemSortByLocationRegionState.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByLocationRegionState.Text = "Location Region/State";
+            this.ToolStripMenuItemSortByLocationRegionState.Click += new System.EventHandler(this.ToolStripMenuItemSortByLocationRegionState_Click);
+            // 
+            // ToolStripMenuItemSortByLocationCity
+            // 
+            this.ToolStripMenuItemSortByLocationCity.Name = "ToolStripMenuItemSortByLocationCity";
+            this.ToolStripMenuItemSortByLocationCity.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByLocationCity.Text = "Location City";
+            this.ToolStripMenuItemSortByLocationCity.Click += new System.EventHandler(this.ToolStripMenuItemSortByLocationCity_Click);
+            // 
+            // ToolStripMenuItemSortByLocationCountry
+            // 
+            this.ToolStripMenuItemSortByLocationCountry.Name = "ToolStripMenuItemSortByLocationCountry";
+            this.ToolStripMenuItemSortByLocationCountry.Size = new System.Drawing.Size(240, 26);
+            this.ToolStripMenuItemSortByLocationCountry.Text = "Location Country";
+            this.ToolStripMenuItemSortByLocationCountry.Click += new System.EventHandler(this.ToolStripMenuItemSortByLocationCountry_Click);
             // 
             // toolStripMenuItemImageListViewCut
             // 
@@ -1556,7 +1676,7 @@ namespace PhotoTagsSynchronizer
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(118, 26);
             this.testToolStripMenuItem.Text = "Test";
             // 
             // editFileWithAssociatedApplicationToolStripMenuItem
@@ -1633,48 +1753,6 @@ namespace PhotoTagsSynchronizer
             this.mediaPreviewToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
             this.mediaPreviewToolStripMenuItem.Text = "Media preview";
             this.mediaPreviewToolStripMenuItem.Click += new System.EventHandler(this.mediaPreviewToolStripMenuItem_Click);
-            // 
-            // sortMediaFileByToolStripMenuItem
-            // 
-            this.sortMediaFileByToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItemSortByFilename,
-            this.ToolStripMenuItemSortByFileCreatedDate,
-            this.ToolStripMenuItemSortByFileModifiedDate,
-            this.ToolStripMenuItemSortByMediaDateTaken,
-            this.ToolStripMenuItemSortByMediaAlbum,
-            this.ToolStripMenuItemSortByMediaTitle,
-            this.ToolStripMenuItemSortByMediaDescription,
-            this.ToolStripMenuItemSortByMediaComments,
-            this.ToolStripMenuItemSortByMediaAuthor,
-            this.ToolStripMenuItemSortByMediaRating,
-            this.ToolStripMenuItemSortByLocationName,
-            this.ToolStripMenuItemSortByLocationRegionState,
-            this.ToolStripMenuItemSortByLocationCity,
-            this.ToolStripMenuItemSortByLocationCountry});
-            this.sortMediaFileByToolStripMenuItem.Name = "sortMediaFileByToolStripMenuItem";
-            this.sortMediaFileByToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
-            this.sortMediaFileByToolStripMenuItem.Text = "Sort media files by...";
-            // 
-            // ToolStripMenuItemSortByFilename
-            // 
-            this.ToolStripMenuItemSortByFilename.Name = "ToolStripMenuItemSortByFilename";
-            this.ToolStripMenuItemSortByFilename.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByFilename.Text = "File name";
-            this.ToolStripMenuItemSortByFilename.Click += new System.EventHandler(this.ToolStripMenuItemSortByFilename_Click);
-            // 
-            // ToolStripMenuItemSortByFileCreatedDate
-            // 
-            this.ToolStripMenuItemSortByFileCreatedDate.Name = "ToolStripMenuItemSortByFileCreatedDate";
-            this.ToolStripMenuItemSortByFileCreatedDate.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByFileCreatedDate.Text = "File created date";
-            this.ToolStripMenuItemSortByFileCreatedDate.Click += new System.EventHandler(this.ToolStripMenuItemSortByFileCreatedDate_Click);
-            // 
-            // ToolStripMenuItemSortByFileModifiedDate
-            // 
-            this.ToolStripMenuItemSortByFileModifiedDate.Name = "ToolStripMenuItemSortByFileModifiedDate";
-            this.ToolStripMenuItemSortByFileModifiedDate.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByFileModifiedDate.Text = "File modified date";
-            this.ToolStripMenuItemSortByFileModifiedDate.Click += new System.EventHandler(this.ToolStripMenuItemSortByFileModifiedDate_Click);
             // 
             // panel1
             // 
@@ -2487,9 +2565,9 @@ namespace PhotoTagsSynchronizer
             // tabPageMap
             // 
             this.tabPageMap.Controls.Add(this.splitContainerMap);
-            this.tabPageMap.Location = new System.Drawing.Point(4, 25);
+            this.tabPageMap.Location = new System.Drawing.Point(4, 26);
             this.tabPageMap.Name = "tabPageMap";
-            this.tabPageMap.Size = new System.Drawing.Size(706, 863);
+            this.tabPageMap.Size = new System.Drawing.Size(706, 862);
             this.tabPageMap.TabIndex = 3;
             this.tabPageMap.Tag = "Map";
             this.tabPageMap.Text = "Map";
@@ -2517,8 +2595,8 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerMap.Panel2.Controls.Add(this.panel3);
             this.splitContainerMap.Panel2.Controls.Add(this.panelBrowser);
-            this.splitContainerMap.Size = new System.Drawing.Size(706, 863);
-            this.splitContainerMap.SplitterDistance = 389;
+            this.splitContainerMap.Size = new System.Drawing.Size(706, 862);
+            this.splitContainerMap.SplitterDistance = 703;
             this.splitContainerMap.SplitterWidth = 10;
             this.splitContainerMap.TabIndex = 5;
             this.splitContainerMap.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerMap_SplitterMoved);
@@ -2604,7 +2682,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.ShowCellToolTips = false;
             this.dataGridViewMap.ShowEditingIcon = false;
             this.dataGridViewMap.ShowRowErrors = false;
-            this.dataGridViewMap.Size = new System.Drawing.Size(702, 352);
+            this.dataGridViewMap.Size = new System.Drawing.Size(702, 666);
             this.dataGridViewMap.TabIndex = 10;
             this.dataGridViewMap.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewMap_CellBeginEdit);
             this.dataGridViewMap.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewMap_CellMouseDoubleClick);
@@ -2818,7 +2896,7 @@ namespace PhotoTagsSynchronizer
             this.panel3.Controls.Add(this.pictureBox1);
             this.panel3.Controls.Add(this.comboBoxMapZoomLevel);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 434);
+            this.panel3.Location = new System.Drawing.Point(0, 119);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(706, 30);
             this.panel3.TabIndex = 17;
@@ -2879,7 +2957,7 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBrowser.Location = new System.Drawing.Point(0, 0);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(706, 464);
+            this.panelBrowser.Size = new System.Drawing.Size(706, 149);
             this.panelBrowser.TabIndex = 1;
             // 
             // tabPageDate
@@ -4296,83 +4374,6 @@ namespace PhotoTagsSynchronizer
             this.timerSaveProgessRemoveProgress.Enabled = true;
             this.timerSaveProgessRemoveProgress.Interval = 500;
             this.timerSaveProgessRemoveProgress.Tick += new System.EventHandler(this.timerSaveProgessRemoveProgress_Tick);
-            // 
-            // ToolStripMenuItemSortByMediaAlbum
-            // 
-            this.ToolStripMenuItemSortByMediaAlbum.Name = "ToolStripMenuItemSortByMediaAlbum";
-            this.ToolStripMenuItemSortByMediaAlbum.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByMediaAlbum.Text = "Media Album";
-            this.ToolStripMenuItemSortByMediaAlbum.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaAlbum_Click);
-            // 
-            // ToolStripMenuItemSortByMediaTitle
-            // 
-            this.ToolStripMenuItemSortByMediaTitle.Name = "ToolStripMenuItemSortByMediaTitle";
-            this.ToolStripMenuItemSortByMediaTitle.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByMediaTitle.Text = "Media Title";
-            this.ToolStripMenuItemSortByMediaTitle.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaTitle_Click);
-            // 
-            // ToolStripMenuItemSortByMediaDescription
-            // 
-            this.ToolStripMenuItemSortByMediaDescription.Name = "ToolStripMenuItemSortByMediaDescription";
-            this.ToolStripMenuItemSortByMediaDescription.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByMediaDescription.Text = "Media Description";
-            this.ToolStripMenuItemSortByMediaDescription.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaDescription_Click);
-            // 
-            // ToolStripMenuItemSortByMediaComments
-            // 
-            this.ToolStripMenuItemSortByMediaComments.Name = "ToolStripMenuItemSortByMediaComments";
-            this.ToolStripMenuItemSortByMediaComments.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByMediaComments.Text = "Media Comments";
-            this.ToolStripMenuItemSortByMediaComments.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaComments_Click);
-            // 
-            // ToolStripMenuItemSortByMediaAuthor
-            // 
-            this.ToolStripMenuItemSortByMediaAuthor.Name = "ToolStripMenuItemSortByMediaAuthor";
-            this.ToolStripMenuItemSortByMediaAuthor.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByMediaAuthor.Text = "Media Author";
-            this.ToolStripMenuItemSortByMediaAuthor.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaAuthor_Click);
-            // 
-            // ToolStripMenuItemSortByMediaRating
-            // 
-            this.ToolStripMenuItemSortByMediaRating.Name = "ToolStripMenuItemSortByMediaRating";
-            this.ToolStripMenuItemSortByMediaRating.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByMediaRating.Text = "Media Rating";
-            this.ToolStripMenuItemSortByMediaRating.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaRating_Click);
-            // 
-            // ToolStripMenuItemSortByLocationName
-            // 
-            this.ToolStripMenuItemSortByLocationName.Name = "ToolStripMenuItemSortByLocationName";
-            this.ToolStripMenuItemSortByLocationName.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByLocationName.Text = "Location Name";
-            this.ToolStripMenuItemSortByLocationName.Click += new System.EventHandler(this.ToolStripMenuItemSortByLocationName_Click);
-            // 
-            // ToolStripMenuItemSortByLocationRegionState
-            // 
-            this.ToolStripMenuItemSortByLocationRegionState.Name = "ToolStripMenuItemSortByLocationRegionState";
-            this.ToolStripMenuItemSortByLocationRegionState.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByLocationRegionState.Text = "Location Region/State";
-            this.ToolStripMenuItemSortByLocationRegionState.Click += new System.EventHandler(this.ToolStripMenuItemSortByLocationRegionState_Click);
-            // 
-            // ToolStripMenuItemSortByLocationCity
-            // 
-            this.ToolStripMenuItemSortByLocationCity.Name = "ToolStripMenuItemSortByLocationCity";
-            this.ToolStripMenuItemSortByLocationCity.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByLocationCity.Text = "Location City";
-            this.ToolStripMenuItemSortByLocationCity.Click += new System.EventHandler(this.ToolStripMenuItemSortByLocationCity_Click);
-            // 
-            // ToolStripMenuItemSortByLocationCountry
-            // 
-            this.ToolStripMenuItemSortByLocationCountry.Name = "ToolStripMenuItemSortByLocationCountry";
-            this.ToolStripMenuItemSortByLocationCountry.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByLocationCountry.Text = "Location Country";
-            this.ToolStripMenuItemSortByLocationCountry.Click += new System.EventHandler(this.ToolStripMenuItemSortByLocationCountry_Click);
-            // 
-            // ToolStripMenuItemSortByMediaDateTaken
-            // 
-            this.ToolStripMenuItemSortByMediaDateTaken.Name = "ToolStripMenuItemSortByMediaDateTaken";
-            this.ToolStripMenuItemSortByMediaDateTaken.Size = new System.Drawing.Size(240, 26);
-            this.ToolStripMenuItemSortByMediaDateTaken.Text = "Media Date Taken";
-            this.ToolStripMenuItemSortByMediaDateTaken.Click += new System.EventHandler(this.ToolStripMenuItemSortByMediaDateTaken_Click);
             // 
             // MainForm
             // 

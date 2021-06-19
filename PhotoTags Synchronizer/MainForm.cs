@@ -342,21 +342,17 @@ namespace PhotoTagsSynchronizer
         private void splitContainerMap_SplitterMoved(object sender, SplitterEventArgs e)
         {
             if (isTabControlToolboxChanging) return;
-            if (WindowState == FormWindowState.Minimized) return;
-            if (WindowState == FormWindowState.Maximized) return;
             if (_previousWindowsState == FormWindowState.Minimized) return;
 
             if (!isFormLoading)
             {
                 Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;
-                Properties.Settings.Default.Save();
+                Properties.Settings.Default.Save(); 
             }
         }
 
         private void splitContainerImages_SplitterMoved(object sender, SplitterEventArgs e)
         {
-            if (WindowState == FormWindowState.Minimized) return;
-            if (WindowState == FormWindowState.Maximized) return;
             if (!isFormLoading)
             {
                 Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
@@ -366,8 +362,6 @@ namespace PhotoTagsSynchronizer
 
         private void splitContainerFolder_SplitterMoved(object sender, SplitterEventArgs e)
         {
-            if (WindowState == FormWindowState.Minimized) return;
-            if (WindowState == FormWindowState.Maximized) return;
             if (!isFormLoading)
             {
                 Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
