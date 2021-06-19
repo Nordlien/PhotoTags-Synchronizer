@@ -31,7 +31,8 @@ namespace PhotoTagsSynchronizer
         public const string headerMicrosoftPhotos = "Microsoft Photos";
         public const string headerWindowsLivePhotoGallery = "Windows Live Photo Gallery";
         public const string headerGoogleLocations = "Google Locations";
-        public const string headerNominatim = "Nominatim";
+        public const string headerWebScraping = "WebScraper";
+        public const string headerNominatim = "Nominatim";        
         public const string headerBrowser = "Browser map";
 
         public const string tagCoordinates = "Coordinates";
@@ -257,6 +258,15 @@ namespace PhotoTagsSynchronizer
                 //Nominatim.API
                 AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerNominatim));
                 PopulateGrivViewMapNomnatatim(dataGridView, columnIndex, metadata?.LocationCoordinate);
+
+                //WebScraper
+                //headerWebScraping = "WebScraper";
+                // WebScarping
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping));
+                Metadata metadataWebScraping = null;
+                if (metadata != null) metadataWebScraping = DatabaseAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntryBrokerReadVersion, MetadataBrokerType.WebScraping));
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping, tagLocationName), metadataWebScraping?.LocationName, true);
+                AddRow(dataGridView, columnIndex, new DataGridViewGenericRow(headerWebScraping, tagCountry), metadataWebScraping?.LocationCountry, true);
 
                 //Microsoft Photos Locations
                 Metadata metadataMicrosoftPhotos = null;
