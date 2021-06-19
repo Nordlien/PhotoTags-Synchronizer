@@ -280,8 +280,9 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FilesCutCopyPasteDrag - MoveFile
-        public void MoveFile(string sourceFullFilename, string targetFullFilename)
+        public bool MoveFile(string sourceFullFilename, string targetFullFilename)
         {
+            bool directoryCreated = false;
             if (File.Exists(sourceFullFilename))
             {    
                 
@@ -291,10 +292,15 @@ namespace PhotoTagsSynchronizer
                 string newFilename = Path.GetFileName(targetFullFilename);
                 string newDirectory = Path.GetDirectoryName(targetFullFilename);
 
-                Directory.CreateDirectory(newDirectory);
+                if (!Directory.Exists(newDirectory))
+                {
+                    Directory.CreateDirectory(newDirectory);
+                    directoryCreated = true;
+                }
                 File.Move(sourceFullFilename, targetFullFilename);
                 databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
             }
+            return directoryCreated;
         }
         #endregion
 

@@ -75,7 +75,21 @@ namespace PhotoTagsSynchronizer
             try
             {
                 ExiftoolWriter.WaitLockedFileToBecomeUnlocked(sourceFullFilename);
-                filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+
+                bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+
+                if (directoryCreated)
+                {
+                    GlobalData.DoNotRefreshImageListView = true;
+
+                    string newDirectory = Path.GetDirectoryName(targetFullFilename);
+                    TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
+
+                    if (newDirectory.StartsWith(folderTreeViewFolder.GetSelectedNodePath())) filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
+                    
+                    GlobalData.DoNotRefreshImageListView = false;
+                    
+                }
 
                 ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, sourceFullFilename);
                 if (foundItem != null) imageListView.Items.Remove(foundItem);
@@ -134,7 +148,20 @@ namespace PhotoTagsSynchronizer
                     string targetFullFilename = Path.Combine(targetNodeDirectory, filename);
                     try
                     {
-                        filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+                        bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
+
+                        if (directoryCreated)
+                        {
+                            GlobalData.DoNotRefreshImageListView = true;
+
+                            string newDirectory = Path.GetDirectoryName(targetFullFilename);
+                            TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
+
+                            if (newDirectory.StartsWith(folderTreeViewFolder.GetSelectedNodePath())) filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
+
+                            GlobalData.DoNotRefreshImageListView = false;
+
+                        }
 
                         ImageListViewItem foundItem = FindItemInImageListView(imageListView.Items, sourceFullFilename);
                         if (foundItem != null) imageListView.Items.Remove(foundItem);
