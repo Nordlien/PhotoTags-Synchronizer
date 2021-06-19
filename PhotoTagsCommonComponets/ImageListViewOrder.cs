@@ -10,6 +10,14 @@ using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
+    public sealed class MyListBox : CheckedListBox
+    {
+        public MyListBox()
+        {
+            ItemHeight = 26;
+        }
+        public override int ItemHeight { get; set; }
+    }
 
     public partial class ImageListViewOrder: UserControl
     {

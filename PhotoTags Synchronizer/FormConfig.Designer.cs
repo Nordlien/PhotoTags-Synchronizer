@@ -51,6 +51,7 @@ namespace PhotoTagsSynchronizer
             this.numericUpDownLocationAccuracyLongitude = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownLocationAccuracyLatitude = new System.Windows.Forms.NumericUpDown();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.checkBoxApplicationAvoidReadExifFromCloud = new System.Windows.Forms.CheckBox();
             this.checkBoxApplicationImageListViewCacheModeOnDemand = new System.Windows.Forms.CheckBox();
             this.checkBoxApplicationAvoidReadMediaFromCloud = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -348,7 +349,6 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
-            this.checkBoxApplicationAvoidReadExifFromCloud = new System.Windows.Forms.CheckBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
@@ -510,7 +510,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox12.Controls.Add(this.numericUpDownCacheNumberOfPosters);
             this.groupBox12.Location = new System.Drawing.Point(0, 806);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(717, 227);
+            this.groupBox12.Size = new System.Drawing.Size(696, 227);
             this.groupBox12.TabIndex = 13;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Cache logic";
@@ -612,7 +612,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxLocationAccuracy.Controls.Add(this.numericUpDownLocationAccuracyLatitude);
             this.groupBoxLocationAccuracy.Location = new System.Drawing.Point(0, 696);
             this.groupBoxLocationAccuracy.Name = "groupBoxLocationAccuracy";
-            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(716, 104);
+            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(695, 104);
             this.groupBoxLocationAccuracy.TabIndex = 12;
             this.groupBoxLocationAccuracy.TabStop = false;
             this.groupBoxLocationAccuracy.Text = "GPS Location Accuracy";
@@ -710,10 +710,20 @@ namespace PhotoTagsSynchronizer
             this.groupBox6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud);
             this.groupBox6.Location = new System.Drawing.Point(3, 574);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(717, 116);
+            this.groupBox6.Size = new System.Drawing.Size(696, 116);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Read media and listview";
+            // 
+            // checkBoxApplicationAvoidReadExifFromCloud
+            // 
+            this.checkBoxApplicationAvoidReadExifFromCloud.AutoSize = true;
+            this.checkBoxApplicationAvoidReadExifFromCloud.Location = new System.Drawing.Point(8, 57);
+            this.checkBoxApplicationAvoidReadExifFromCloud.Name = "checkBoxApplicationAvoidReadExifFromCloud";
+            this.checkBoxApplicationAvoidReadExifFromCloud.Size = new System.Drawing.Size(261, 21);
+            this.checkBoxApplicationAvoidReadExifFromCloud.TabIndex = 3;
+            this.checkBoxApplicationAvoidReadExifFromCloud.Text = "Avoid use exiftool on files from Cloud";
+            this.checkBoxApplicationAvoidReadExifFromCloud.UseVisualStyleBackColor = true;
             // 
             // checkBoxApplicationImageListViewCacheModeOnDemand
             // 
@@ -746,7 +756,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox5.Controls.Add(this.numericUpDownRegionMissmatchProcent);
             this.groupBox5.Location = new System.Drawing.Point(3, 483);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(717, 85);
+            this.groupBox5.Size = new System.Drawing.Size(696, 85);
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Region";
@@ -819,7 +829,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
             this.groupBox4.Location = new System.Drawing.Point(3, 392);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(716, 85);
+            this.groupBox4.Size = new System.Drawing.Size(695, 85);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Region Name suggestions (People Face names)";
@@ -907,7 +917,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox3.Controls.Add(this.label38);
             this.groupBox3.Location = new System.Drawing.Point(3, 321);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(716, 65);
+            this.groupBox3.Size = new System.Drawing.Size(695, 65);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Search result";
@@ -955,7 +965,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
             this.groupBox2.Location = new System.Drawing.Point(3, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(716, 156);
+            this.groupBox2.Size = new System.Drawing.Size(695, 156);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nominatim look-up";
@@ -1002,7 +1012,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(183, 68);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(528, 22);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(507, 22);
             this.textBoxApplicationPreferredLanguages.TabIndex = 3;
             // 
             // comboBoxApplicationLanguages
@@ -1213,7 +1223,7 @@ namespace PhotoTagsSynchronizer
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(183, 38);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(528, 24);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(507, 24);
             this.comboBoxApplicationLanguages.TabIndex = 4;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
             // 
@@ -1231,7 +1241,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(716, 150);
+            this.groupBox1.Size = new System.Drawing.Size(695, 150);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thumbnail size";
@@ -1981,7 +1991,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(6, 168);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -2015,7 +2024,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(6, 57);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
@@ -2421,7 +2429,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(5, 51);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -2502,7 +2509,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConfigFilenameDateFormats.CharWidth = 10;
             this.fastColoredTextBoxConfigFilenameDateFormats.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConfigFilenameDateFormats.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConfigFilenameDateFormats.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConfigFilenameDateFormats.IsReplaceMode = false;
             this.fastColoredTextBoxConfigFilenameDateFormats.Location = new System.Drawing.Point(2, 46);
             this.fastColoredTextBoxConfigFilenameDateFormats.Name = "fastColoredTextBoxConfigFilenameDateFormats";
@@ -2570,7 +2576,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxRename.Controls.Add(this.label9);
             this.groupBoxRename.Controls.Add(this.comboBoxRenameVariables);
             this.groupBoxRename.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxRename.Location = new System.Drawing.Point(0, 1785);
+            this.groupBoxRename.Location = new System.Drawing.Point(0, 1833);
             this.groupBoxRename.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxRename.Name = "groupBoxRename";
             this.groupBoxRename.Padding = new System.Windows.Forms.Padding(2);
@@ -2675,7 +2681,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddMicrosoftPhotos);
             this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddWindowsMediaPhotoGallery);
             this.groupBoxFaceRegion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxFaceRegion.Location = new System.Drawing.Point(0, 1670);
+            this.groupBoxFaceRegion.Location = new System.Drawing.Point(0, 1718);
             this.groupBoxFaceRegion.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxFaceRegion.Name = "groupBoxFaceRegion";
             this.groupBoxFaceRegion.Padding = new System.Windows.Forms.Padding(2);
@@ -2752,7 +2758,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddMicrosoftPhotos);
             this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddWindowsMediaPhotoGallery);
             this.groupBoxKaywordTags.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxKaywordTags.Location = new System.Drawing.Point(0, 1213);
+            this.groupBoxKaywordTags.Location = new System.Drawing.Point(0, 1261);
             this.groupBoxKaywordTags.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxKaywordTags.Name = "groupBoxKaywordTags";
             this.groupBoxKaywordTags.Padding = new System.Windows.Forms.Padding(2);
@@ -2944,7 +2950,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxAuthor.Controls.Add(this.radioButtonAuthorChangeWhenEmpty);
             this.groupBoxAuthor.Controls.Add(this.radioButtonAuthorDoNotChange);
             this.groupBoxAuthor.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxAuthor.Location = new System.Drawing.Point(0, 1065);
+            this.groupBoxAuthor.Location = new System.Drawing.Point(0, 1113);
             this.groupBoxAuthor.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxAuthor.Name = "groupBoxAuthor";
             this.groupBoxAuthor.Padding = new System.Windows.Forms.Padding(2);
@@ -3006,11 +3012,11 @@ namespace PhotoTagsSynchronizer
             this.groupBoxAlbum.Controls.Add(this.radioButtonAlbumChangeWhenEmpty);
             this.groupBoxAlbum.Controls.Add(this.radioButtonAlbumDoNotChange);
             this.groupBoxAlbum.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxAlbum.Location = new System.Drawing.Point(0, 924);
+            this.groupBoxAlbum.Location = new System.Drawing.Point(0, 948);
             this.groupBoxAlbum.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxAlbum.Name = "groupBoxAlbum";
             this.groupBoxAlbum.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxAlbum.Size = new System.Drawing.Size(740, 141);
+            this.groupBoxAlbum.Size = new System.Drawing.Size(740, 165);
             this.groupBoxAlbum.TabIndex = 10;
             this.groupBoxAlbum.TabStop = false;
             this.groupBoxAlbum.Text = "Album";
@@ -3031,7 +3037,7 @@ namespace PhotoTagsSynchronizer
             this.imageListViewOrderAlbum.Location = new System.Drawing.Point(453, 34);
             this.imageListViewOrderAlbum.Margin = new System.Windows.Forms.Padding(2);
             this.imageListViewOrderAlbum.Name = "imageListViewOrderAlbum";
-            this.imageListViewOrderAlbum.Size = new System.Drawing.Size(222, 94);
+            this.imageListViewOrderAlbum.Size = new System.Drawing.Size(222, 127);
             this.imageListViewOrderAlbum.TabIndex = 5;
             // 
             // radioButtonAlbumUseFirst
@@ -3082,7 +3088,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxTitle.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxTitle.Name = "groupBoxTitle";
             this.groupBoxTitle.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxTitle.Size = new System.Drawing.Size(740, 130);
+            this.groupBoxTitle.Size = new System.Drawing.Size(740, 154);
             this.groupBoxTitle.TabIndex = 6;
             this.groupBoxTitle.TabStop = false;
             this.groupBoxTitle.Text = "Title";
@@ -3103,7 +3109,7 @@ namespace PhotoTagsSynchronizer
             this.imageListViewOrderTitle.Location = new System.Drawing.Point(453, 34);
             this.imageListViewOrderTitle.Margin = new System.Windows.Forms.Padding(2);
             this.imageListViewOrderTitle.Name = "imageListViewOrderTitle";
-            this.imageListViewOrderTitle.Size = new System.Drawing.Size(222, 92);
+            this.imageListViewOrderTitle.Size = new System.Drawing.Size(222, 116);
             this.imageListViewOrderTitle.TabIndex = 5;
             // 
             // radioButtonTitleUseFirst
@@ -3983,7 +3989,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Multiline = false;
@@ -4071,7 +4076,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Location = new System.Drawing.Point(6, 143);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatVideoArguFile";
@@ -4109,7 +4113,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Location = new System.Drawing.Point(6, 46);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Multiline = false;
@@ -4375,7 +4378,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Multiline = false;
@@ -4435,7 +4437,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Location = new System.Drawing.Point(6, 167);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile";
@@ -4787,7 +4788,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowLog.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowLog.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxShowLog.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowLog.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowLog.IsReplaceMode = false;
             this.fastColoredTextBoxShowLog.Location = new System.Drawing.Point(3, 3);
@@ -4835,7 +4835,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowPipe32Log.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowPipe32Log.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowPipe32Log.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxShowPipe32Log.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowPipe32Log.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowPipe32Log.IsReplaceMode = false;
             this.fastColoredTextBoxShowPipe32Log.Location = new System.Drawing.Point(0, 0);
@@ -4889,16 +4888,6 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Name = "panelAvoidResizeIssues";
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(778, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
-            // 
-            // checkBoxApplicationAvoidReadExifFromCloud
-            // 
-            this.checkBoxApplicationAvoidReadExifFromCloud.AutoSize = true;
-            this.checkBoxApplicationAvoidReadExifFromCloud.Location = new System.Drawing.Point(8, 57);
-            this.checkBoxApplicationAvoidReadExifFromCloud.Name = "checkBoxApplicationAvoidReadExifFromCloud";
-            this.checkBoxApplicationAvoidReadExifFromCloud.Size = new System.Drawing.Size(261, 21);
-            this.checkBoxApplicationAvoidReadExifFromCloud.TabIndex = 3;
-            this.checkBoxApplicationAvoidReadExifFromCloud.Text = "Avoid use exiftool on files from Cloud";
-            this.checkBoxApplicationAvoidReadExifFromCloud.UseVisualStyleBackColor = true;
             // 
             // Config
             // 

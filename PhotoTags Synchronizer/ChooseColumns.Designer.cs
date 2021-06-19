@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChooseColumns));
             this.btnClose = new System.Windows.Forms.Button();
-            this.checkedListBox = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBox = new PhotoTagsSynchronizer.MyListBox();
             this.SuspendLayout();
             // 
             // btnClose
@@ -51,13 +51,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedListBox.CheckOnClick = true;
-            this.checkedListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)), true);
             this.checkedListBox.FormattingEnabled = true;
-            this.checkedListBox.IntegralHeight = false;
-            this.checkedListBox.Location = new System.Drawing.Point(13, 13);
+            this.checkedListBox.Location = new System.Drawing.Point(12, 12);
             this.checkedListBox.Name = "checkedListBox";
-            this.checkedListBox.Size = new System.Drawing.Size(366, 265);
-            this.checkedListBox.TabIndex = 0;
+            this.checkedListBox.Size = new System.Drawing.Size(367, 264);
+            this.checkedListBox.TabIndex = 2;
             this.checkedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox_ItemCheck);
             // 
             // ChooseColumns
@@ -83,6 +81,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.CheckedListBox checkedListBox;
+        private MyListBox checkedListBox;
     }
 }
