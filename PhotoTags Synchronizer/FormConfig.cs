@@ -592,13 +592,12 @@ namespace PhotoTagsSynchronizer
         private void PopulateAutoCorrectPoperties()
         {
             #region Date Taken
-            if (autoCorrect.DateTakenPriority == null || autoCorrect.DateTakenPriority.Count == 0)
-            {
-                autoCorrect.DateTakenPriority.Add(DateTimeSources.DateTaken);
-                autoCorrect.DateTakenPriority.Add(DateTimeSources.GPSDateAndTime);
-                autoCorrect.DateTakenPriority.Add(DateTimeSources.FirstDateFoundInFilename);
-                autoCorrect.DateTakenPriority.Add(DateTimeSources.LastDateFoundInFilename);
-            }
+            if (autoCorrect.DateTakenPriority == null) autoCorrect.DateTakenPriority = new List<DateTimeSources>();
+            if (!autoCorrect.DateTakenPriority.Contains(DateTimeSources.DateTaken)) autoCorrect.DateTakenPriority.Add(DateTimeSources.DateTaken);
+            if (!autoCorrect.DateTakenPriority.Contains(DateTimeSources.GPSDateAndTime)) autoCorrect.DateTakenPriority.Add(DateTimeSources.GPSDateAndTime);
+            if (!autoCorrect.DateTakenPriority.Contains(DateTimeSources.FirstDateFoundInFilename)) autoCorrect.DateTakenPriority.Add(DateTimeSources.FirstDateFoundInFilename);
+            if (!autoCorrect.DateTakenPriority.Contains(DateTimeSources.LastDateFoundInFilename)) autoCorrect.DateTakenPriority.Add(DateTimeSources.LastDateFoundInFilename);
+            
 
             PopulateAutoCorrectDateTakenPriority(imageListViewOrderDateTaken, autoCorrect.DateTakenPriority);
 
@@ -614,13 +613,13 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Title            
-            if (autoCorrect.TitlePriority == null || autoCorrect.TitlePriority.Count == 0)
-            {
-                autoCorrect.TitlePriority.Add(MetadataBrokerType.ExifTool);
-                autoCorrect.TitlePriority.Add(MetadataBrokerType.MicrosoftPhotos);
-                autoCorrect.TitlePriority.Add(MetadataBrokerType.WindowsLivePhotoGallery);
-                autoCorrect.TitlePriority.Add(MetadataBrokerType.WebScraping);
-            }
+            if (autoCorrect.TitlePriority == null) autoCorrect.TitlePriority = new List<MetadataBrokerType>();
+
+            if (!autoCorrect.TitlePriority.Contains(MetadataBrokerType.ExifTool)) autoCorrect.TitlePriority.Add(MetadataBrokerType.ExifTool);
+            if (!autoCorrect.TitlePriority.Contains(MetadataBrokerType.MicrosoftPhotos)) autoCorrect.TitlePriority.Add(MetadataBrokerType.MicrosoftPhotos);
+            if (!autoCorrect.TitlePriority.Contains(MetadataBrokerType.WindowsLivePhotoGallery)) autoCorrect.TitlePriority.Add(MetadataBrokerType.WindowsLivePhotoGallery);
+            if (!autoCorrect.TitlePriority.Contains(MetadataBrokerType.WebScraping)) autoCorrect.TitlePriority.Add(MetadataBrokerType.WebScraping);
+            
 
             PopulateAutoCorrectListOrder(imageListViewOrderTitle, autoCorrect.TitlePriority);
 
@@ -636,13 +635,13 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Album
-            if (autoCorrect.AlbumPriority == null || autoCorrect.AlbumPriority.Count == 0)
-            {
-                autoCorrect.AlbumPriority.Add(MetadataBrokerType.ExifTool);
-                autoCorrect.AlbumPriority.Add(MetadataBrokerType.MicrosoftPhotos);
-                autoCorrect.AlbumPriority.Add(MetadataBrokerType.WebScraping);
-                autoCorrect.AlbumPriority.Add(MetadataBrokerType.FileSystem);
-            }
+            if (autoCorrect.AlbumPriority == null) autoCorrect.AlbumPriority = new List<MetadataBrokerType>();
+
+            if (!autoCorrect.AlbumPriority.Contains(MetadataBrokerType.ExifTool)) autoCorrect.AlbumPriority.Add(MetadataBrokerType.ExifTool);
+            if (!autoCorrect.AlbumPriority.Contains(MetadataBrokerType.MicrosoftPhotos)) autoCorrect.AlbumPriority.Add(MetadataBrokerType.MicrosoftPhotos);
+            if (!autoCorrect.AlbumPriority.Contains(MetadataBrokerType.WebScraping)) autoCorrect.AlbumPriority.Add(MetadataBrokerType.WebScraping);
+            if (!autoCorrect.AlbumPriority.Contains(MetadataBrokerType.FileSystem)) autoCorrect.AlbumPriority.Add(MetadataBrokerType.FileSystem);
+            
             PopulateAutoCorrectListOrder(imageListViewOrderAlbum, autoCorrect.AlbumPriority);
 
             if (autoCorrect.UpdateAlbum)
