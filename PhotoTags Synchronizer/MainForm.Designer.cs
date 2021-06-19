@@ -173,8 +173,8 @@ namespace PhotoTagsSynchronizer
             this.markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showFavoriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideEqualRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemKeywordsShowFavoriteRows = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemKeywordsHideEqualRows = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTagsBrokerCopyText = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleTagsAndKeywordsSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -395,6 +395,22 @@ namespace PhotoTagsSynchronizer
             this.timerFindGoogleCast = new System.Windows.Forms.Timer(this.components);
             this.timerPreviewNextTimer = new System.Windows.Forms.Timer(this.components);
             this.timerSaveProgessRemoveProgress = new System.Windows.Forms.Timer(this.components);
+            this.contextMenuStripDate = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemDateCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDatePaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateRedo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateFind = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateMarkFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateToggleFavourite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateHideEqualRows = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDateMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -463,6 +479,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            this.contextMenuStripDate.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -1900,8 +1917,8 @@ namespace PhotoTagsSynchronizer
             this.markAsFavoriteToolStripMenuItem,
             this.removeAsFavoriteToolStripMenuItem,
             this.toggleFavoriteToolStripMenuItem,
-            this.showFavoriteRowsToolStripMenuItem,
-            this.hideEqualRowsToolStripMenuItem,
+            this.toolStripMenuItemKeywordsShowFavoriteRows,
+            this.toolStripMenuItemKeywordsHideEqualRows,
             this.toolStripMenuItemTagsBrokerCopyText,
             this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText,
             this.toggleTagsAndKeywordsSelectionToolStripMenuItem,
@@ -2021,23 +2038,23 @@ namespace PhotoTagsSynchronizer
             this.toggleFavoriteToolStripMenuItem.Text = "Toggle favorite";
             this.toggleFavoriteToolStripMenuItem.Click += new System.EventHandler(this.toggleFavoriteToolStripMenuItem_Click);
             // 
-            // showFavoriteRowsToolStripMenuItem
+            // toolStripMenuItemKeywordsShowFavoriteRows
             // 
-            this.showFavoriteRowsToolStripMenuItem.Name = "showFavoriteRowsToolStripMenuItem";
-            this.showFavoriteRowsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemKeywordsShowFavoriteRows.Name = "toolStripMenuItemKeywordsShowFavoriteRows";
+            this.toolStripMenuItemKeywordsShowFavoriteRows.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.B)));
-            this.showFavoriteRowsToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.showFavoriteRowsToolStripMenuItem.Text = "Show favorite rows";
-            this.showFavoriteRowsToolStripMenuItem.Click += new System.EventHandler(this.showFavoriteRowsToolStripMenuItem_Click);
+            this.toolStripMenuItemKeywordsShowFavoriteRows.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemKeywordsShowFavoriteRows.Text = "Show favorite rows";
+            this.toolStripMenuItemKeywordsShowFavoriteRows.Click += new System.EventHandler(this.showFavoriteRowsToolStripMenuItem_Click);
             // 
-            // hideEqualRowsToolStripMenuItem
+            // toolStripMenuItemKeywordsHideEqualRows
             // 
-            this.hideEqualRowsToolStripMenuItem.Name = "hideEqualRowsToolStripMenuItem";
-            this.hideEqualRowsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemKeywordsHideEqualRows.Name = "toolStripMenuItemKeywordsHideEqualRows";
+            this.toolStripMenuItemKeywordsHideEqualRows.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.B)));
-            this.hideEqualRowsToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
-            this.hideEqualRowsToolStripMenuItem.Text = "Hide equal rows";
-            this.hideEqualRowsToolStripMenuItem.Click += new System.EventHandler(this.hideEqualRowsToolStripMenuItem_Click);
+            this.toolStripMenuItemKeywordsHideEqualRows.Size = new System.Drawing.Size(520, 26);
+            this.toolStripMenuItemKeywordsHideEqualRows.Text = "Hide equal rows";
+            this.toolStripMenuItemKeywordsHideEqualRows.Click += new System.EventHandler(this.hideEqualRowsToolStripMenuItem_Click);
             // 
             // toolStripMenuItemTagsBrokerCopyText
             // 
@@ -2565,9 +2582,9 @@ namespace PhotoTagsSynchronizer
             // tabPageMap
             // 
             this.tabPageMap.Controls.Add(this.splitContainerMap);
-            this.tabPageMap.Location = new System.Drawing.Point(4, 26);
+            this.tabPageMap.Location = new System.Drawing.Point(4, 25);
             this.tabPageMap.Name = "tabPageMap";
-            this.tabPageMap.Size = new System.Drawing.Size(706, 862);
+            this.tabPageMap.Size = new System.Drawing.Size(706, 863);
             this.tabPageMap.TabIndex = 3;
             this.tabPageMap.Tag = "Map";
             this.tabPageMap.Text = "Map";
@@ -2595,7 +2612,7 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerMap.Panel2.Controls.Add(this.panel3);
             this.splitContainerMap.Panel2.Controls.Add(this.panelBrowser);
-            this.splitContainerMap.Size = new System.Drawing.Size(706, 862);
+            this.splitContainerMap.Size = new System.Drawing.Size(706, 863);
             this.splitContainerMap.SplitterDistance = 703;
             this.splitContainerMap.SplitterWidth = 10;
             this.splitContainerMap.TabIndex = 5;
@@ -2889,6 +2906,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapMediaPreview.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.toolStripMenuItemMapMediaPreview.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemMapMediaPreview.Text = "Media Preview";
+            this.toolStripMenuItemMapMediaPreview.Click += new System.EventHandler(this.toolStripMenuItemMapMediaPreview_Click);
             // 
             // panel3
             // 
@@ -2896,7 +2914,7 @@ namespace PhotoTagsSynchronizer
             this.panel3.Controls.Add(this.pictureBox1);
             this.panel3.Controls.Add(this.comboBoxMapZoomLevel);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 119);
+            this.panel3.Location = new System.Drawing.Point(0, 120);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(706, 30);
             this.panel3.TabIndex = 17;
@@ -2957,7 +2975,7 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBrowser.Location = new System.Drawing.Point(0, 0);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(706, 149);
+            this.panelBrowser.Size = new System.Drawing.Size(706, 150);
             this.panelBrowser.TabIndex = 1;
             // 
             // tabPageDate
@@ -4375,6 +4393,160 @@ namespace PhotoTagsSynchronizer
             this.timerSaveProgessRemoveProgress.Interval = 500;
             this.timerSaveProgessRemoveProgress.Tick += new System.EventHandler(this.timerSaveProgessRemoveProgress_Tick);
             // 
+            // contextMenuStripDate
+            // 
+            this.contextMenuStripDate.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripDate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemDateCut,
+            this.toolStripMenuItemDateCopy,
+            this.toolStripMenuItemDatePaste,
+            this.toolStripMenuItemDateDelete,
+            this.toolStripMenuItemDateUndo,
+            this.toolStripMenuItemDateRedo,
+            this.toolStripMenuItemDateFind,
+            this.toolStripMenuItemDateReplace,
+            this.toolStripMenuItemDateSave,
+            this.toolStripMenuItemDateMarkFavorite,
+            this.toolStripMenuItemDateRemoveFavorite,
+            this.toolStripMenuItemDateToggleFavourite,
+            this.toolStripMenuItemDateShowFavorite,
+            this.toolStripMenuItemDateHideEqualRows,
+            this.toolStripMenuItemDateMediaPreview});
+            this.contextMenuStripDate.Name = "contextMenuStripMap";
+            this.contextMenuStripDate.Size = new System.Drawing.Size(241, 394);
+            // 
+            // toolStripMenuItemDateCut
+            // 
+            this.toolStripMenuItemDateCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
+            this.toolStripMenuItemDateCut.Name = "toolStripMenuItemDateCut";
+            this.toolStripMenuItemDateCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.toolStripMenuItemDateCut.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateCut.Text = "Cut";
+            this.toolStripMenuItemDateCut.Click += new System.EventHandler(this.toolStripMenuItemDateCut_Click);
+            // 
+            // toolStripMenuItemDateCopy
+            // 
+            this.toolStripMenuItemDateCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemDateCopy.Name = "toolStripMenuItemDateCopy";
+            this.toolStripMenuItemDateCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemDateCopy.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateCopy.Text = "Copy";
+            this.toolStripMenuItemDateCopy.Click += new System.EventHandler(this.toolStripMenuItemDateCopy_Click);
+            // 
+            // toolStripMenuItemDatePaste
+            // 
+            this.toolStripMenuItemDatePaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
+            this.toolStripMenuItemDatePaste.Name = "toolStripMenuItemDatePaste";
+            this.toolStripMenuItemDatePaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.toolStripMenuItemDatePaste.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDatePaste.Text = "Paste";
+            this.toolStripMenuItemDatePaste.Click += new System.EventHandler(this.toolStripMenuItemDatePaste_Click);
+            // 
+            // toolStripMenuItemDateDelete
+            // 
+            this.toolStripMenuItemDateDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
+            this.toolStripMenuItemDateDelete.Name = "toolStripMenuItemDateDelete";
+            this.toolStripMenuItemDateDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.toolStripMenuItemDateDelete.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateDelete.Text = "Delete";
+            this.toolStripMenuItemDateDelete.Click += new System.EventHandler(this.toolStripMenuItemDateDelete_Click);
+            // 
+            // toolStripMenuItemDateUndo
+            // 
+            this.toolStripMenuItemDateUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Undo;
+            this.toolStripMenuItemDateUndo.Name = "toolStripMenuItemDateUndo";
+            this.toolStripMenuItemDateUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.toolStripMenuItemDateUndo.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateUndo.Text = "Undo";
+            this.toolStripMenuItemDateUndo.Click += new System.EventHandler(this.toolStripMenuItemDateUndo_Click);
+            // 
+            // toolStripMenuItemDateRedo
+            // 
+            this.toolStripMenuItemDateRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Redo;
+            this.toolStripMenuItemDateRedo.Name = "toolStripMenuItemDateRedo";
+            this.toolStripMenuItemDateRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.toolStripMenuItemDateRedo.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateRedo.Text = "Redo";
+            this.toolStripMenuItemDateRedo.Click += new System.EventHandler(this.toolStripMenuItemDateRedo_Click);
+            // 
+            // toolStripMenuItemDateFind
+            // 
+            this.toolStripMenuItemDateFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
+            this.toolStripMenuItemDateFind.Name = "toolStripMenuItemDateFind";
+            this.toolStripMenuItemDateFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.toolStripMenuItemDateFind.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateFind.Text = "Find";
+            this.toolStripMenuItemDateFind.Click += new System.EventHandler(this.toolStripMenuItemDateFind_Click);
+            // 
+            // toolStripMenuItemDateReplace
+            // 
+            this.toolStripMenuItemDateReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
+            this.toolStripMenuItemDateReplace.Name = "toolStripMenuItemDateReplace";
+            this.toolStripMenuItemDateReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.toolStripMenuItemDateReplace.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateReplace.Text = "Replace";
+            this.toolStripMenuItemDateReplace.Click += new System.EventHandler(this.toolStripMenuItemDateReplace_Click);
+            // 
+            // toolStripMenuItemDateSave
+            // 
+            this.toolStripMenuItemDateSave.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
+            this.toolStripMenuItemDateSave.Name = "toolStripMenuItemDateSave";
+            this.toolStripMenuItemDateSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemDateSave.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateSave.Text = "Save";
+            this.toolStripMenuItemDateSave.Click += new System.EventHandler(this.toolStripMenuItemDateSave_Click);
+            // 
+            // toolStripMenuItemDateMarkFavorite
+            // 
+            this.toolStripMenuItemDateMarkFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteSelect;
+            this.toolStripMenuItemDateMarkFavorite.Name = "toolStripMenuItemDateMarkFavorite";
+            this.toolStripMenuItemDateMarkFavorite.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateMarkFavorite.Text = "Mark as favorite";
+            this.toolStripMenuItemDateMarkFavorite.Click += new System.EventHandler(this.toolStripMenuItemDateMarkFavorite_Click);
+            // 
+            // toolStripMenuItemDateRemoveFavorite
+            // 
+            this.toolStripMenuItemDateRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
+            this.toolStripMenuItemDateRemoveFavorite.Name = "toolStripMenuItemDateRemoveFavorite";
+            this.toolStripMenuItemDateRemoveFavorite.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateRemoveFavorite.Text = "Remove as favorite";
+            this.toolStripMenuItemDateRemoveFavorite.Click += new System.EventHandler(this.toolStripMenuItemDateRemoveFavorite_Click);
+            // 
+            // toolStripMenuItemDateToggleFavourite
+            // 
+            this.toolStripMenuItemDateToggleFavourite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
+            this.toolStripMenuItemDateToggleFavourite.Name = "toolStripMenuItemDateToggleFavourite";
+            this.toolStripMenuItemDateToggleFavourite.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateToggleFavourite.Text = "Toggle favorite";
+            this.toolStripMenuItemDateToggleFavourite.Click += new System.EventHandler(this.toolStripMenuItemDateToggleFavourite_Click);
+            // 
+            // toolStripMenuItemDateShowFavorite
+            // 
+            this.toolStripMenuItemDateShowFavorite.Checked = true;
+            this.toolStripMenuItemDateShowFavorite.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.toolStripMenuItemDateShowFavorite.Name = "toolStripMenuItemDateShowFavorite";
+            this.toolStripMenuItemDateShowFavorite.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateShowFavorite.Text = "Show only favorite rows";
+            this.toolStripMenuItemDateShowFavorite.Click += new System.EventHandler(this.toolStripMenuItemShowFavorite_Click);
+            // 
+            // toolStripMenuItemDateHideEqualRows
+            // 
+            this.toolStripMenuItemDateHideEqualRows.Checked = true;
+            this.toolStripMenuItemDateHideEqualRows.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.toolStripMenuItemDateHideEqualRows.Name = "toolStripMenuItemDateHideEqualRows";
+            this.toolStripMenuItemDateHideEqualRows.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateHideEqualRows.Text = "Hide equal rows";
+            this.toolStripMenuItemDateHideEqualRows.Click += new System.EventHandler(this.toolStripMenuItemDateHideEqualRows_Click);
+            // 
+            // toolStripMenuItemDateMediaPreview
+            // 
+            this.toolStripMenuItemDateMediaPreview.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Preview;
+            this.toolStripMenuItemDateMediaPreview.Name = "toolStripMenuItemDateMediaPreview";
+            this.toolStripMenuItemDateMediaPreview.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.toolStripMenuItemDateMediaPreview.Size = new System.Drawing.Size(240, 26);
+            this.toolStripMenuItemDateMediaPreview.Text = "Media Preview";
+            this.toolStripMenuItemDateMediaPreview.Click += new System.EventHandler(this.toolStripMenuItemDateMediaPreview_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4480,6 +4652,7 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.videoView1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.contextMenuStripDate.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -4587,8 +4760,8 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem markAsFavoriteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeAsFavoriteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toggleFavoriteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showFavoriteRowsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hideEqualRowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemKeywordsShowFavoriteRows;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemKeywordsHideEqualRows;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripMap;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapCut;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapCopy;
@@ -4846,6 +5019,22 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemSortByLocationCity;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemSortByLocationCountry;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemSortByMediaDateTaken;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripDate;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateCut;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateCopy;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDatePaste;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateDelete;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateUndo;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateRedo;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateFind;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateReplace;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateSave;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateMarkFavorite;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateRemoveFavorite;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateToggleFavourite;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateShowFavorite;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateHideEqualRows;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateMediaPreview;
     }
 }
 

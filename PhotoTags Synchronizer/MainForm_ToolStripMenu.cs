@@ -283,6 +283,16 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #region ToolStrip - Save Date - Click
+        private void toolStripMenuItemDateSave_Click(object sender, EventArgs e)
+        {
+            this.Activate();
+            this.Validate(); //Get the latest changes, that are text in edit mode
+            SaveActiveTabData();
+            this.Enabled = true;
+        }
+        #endregion 
+
         #region ToolStrip - Save Map - Click
         private void toolStripMenuItemMapSave_Click(object sender, EventArgs e)
         {
@@ -602,7 +612,17 @@ namespace PhotoTagsSynchronizer
             MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
         }
 
-        private void toolStripMenuItemExiftoolWarningMediaPreview_Click(object sender, EventArgs e)
+        private void toolStripMenuItemDateMediaPreview_Click(object sender, EventArgs e)
+        {
+            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+        }
+
+        private void toolStripMenuItemPeopleMediaPreview_Click(object sender, EventArgs e)
+        {
+            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+        }
+
+        private void toolStripMenuItemMapMediaPreview_Click(object sender, EventArgs e)
         {
             MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
         }
@@ -612,11 +632,101 @@ namespace PhotoTagsSynchronizer
             MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
         }
 
-        private void toolStripMenuItemPeopleMediaPreview_Click(object sender, EventArgs e)
+        private void toolStripMenuItemExiftoolWarningMediaPreview_Click(object sender, EventArgs e)
         {
             MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
         }
-        #endregion 
+
+
+
+
+        #endregion
+
+        #region ImageListView Sort
+        private void ImageListViewSortColumn(ImageListView imageListView, ColumnType columnToSort)
+        {
+            if (imageListView.SortColumn == columnToSort)
+            {
+                if (imageListView.SortOrder == SortOrder.Descending) imageListView.SortOrder = SortOrder.Ascending;
+                else imageListView.SortOrder = SortOrder.Descending;
+            }
+            else
+            {
+                imageListView.SortColumn = columnToSort;
+                imageListView.SortOrder = SortOrder.Ascending;
+            }
+        }
+
+        private void ToolStripMenuItemSortByFilename_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.FileName);
+        }
+
+        private void ToolStripMenuItemSortByFileCreatedDate_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
+        }
+
+        private void ToolStripMenuItemSortByFileModifiedDate_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.FileDateModified);
+        }
+
+        private void ToolStripMenuItemSortByMediaDateTaken_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaDateTaken);
+        }
+
+        private void ToolStripMenuItemSortByMediaAlbum_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaAlbum);
+        }
+
+        private void ToolStripMenuItemSortByMediaTitle_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaTitle);
+        }
+
+        private void ToolStripMenuItemSortByMediaDescription_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaDescription);
+        }
+
+        private void ToolStripMenuItemSortByMediaComments_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaComment);
+        }
+
+        private void ToolStripMenuItemSortByMediaAuthor_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaAuthor);
+        }
+
+        private void ToolStripMenuItemSortByMediaRating_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.MediaRating);
+        }
+
+        private void ToolStripMenuItemSortByLocationName_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationName);
+        }
+
+        private void ToolStripMenuItemSortByLocationRegionState_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationRegionState);
+        }
+
+        private void ToolStripMenuItemSortByLocationCity_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationCity);
+        }
+
+        private void ToolStripMenuItemSortByLocationCountry_Click(object sender, EventArgs e)
+        {
+            ImageListViewSortColumn(imageListView1, ColumnType.LocationCountry);
+        }
+        #endregion
 
         #region ToolStrip - SetGridViewSize Small Medium Big - Click
         private void SetGridViewSize(DataGridViewSize size)

@@ -28,6 +28,7 @@ namespace DataGridViewGeneric
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindAndReplaceForm));
             this.tabControlFindAndReplace = new System.Windows.Forms.TabControl();
             this.FindPage = new System.Windows.Forms.TabPage();
@@ -59,7 +60,7 @@ namespace DataGridViewGeneric
             this.ReplaceLabel = new System.Windows.Forms.Label();
             this.FindWhatTextBox2 = new System.Windows.Forms.TextBox();
             this.FindLabel2 = new System.Windows.Forms.Label();
-            this.contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -484,7 +485,7 @@ namespace DataGridViewGeneric
             this.toggleShowFavouriteRowsToolStripMenuItem,
             this.toggleHideEqualRowsValuesToolStripMenuItem});
             this.contextMenuStripDataGridViewGeneric.Name = "contextMenuStripMap";
-            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(241, 368);
+            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(241, 396);
             // 
             // cutToolStripMenuItem
             // 
