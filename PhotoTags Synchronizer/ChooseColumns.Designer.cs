@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChooseColumns));
             this.btnClose = new System.Windows.Forms.Button();
-            this.checkedListBox = new PhotoTagsSynchronizer.MyListBox();
+            this.checkedListBox = new PhotoTagsSynchronizer.CheckedListBoxHigherRows();
             this.SuspendLayout();
             // 
             // btnClose
@@ -81,6 +81,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnClose;
-        private MyListBox checkedListBox;
+        private CheckedListBoxHigherRows checkedListBox;
     }
 }
