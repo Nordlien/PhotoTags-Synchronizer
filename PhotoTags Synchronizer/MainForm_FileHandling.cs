@@ -83,9 +83,9 @@ namespace PhotoTagsSynchronizer
                     GlobalData.DoNotRefreshImageListView = true;
 
                     string newDirectory = Path.GetDirectoryName(targetFullFilename);
-                    TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
+                    TreeNode selectedNode = folderTreeView.SelectedNode;
 
-                    if (newDirectory.StartsWith(folderTreeViewFolder.GetSelectedNodePath())) filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
+                    if (newDirectory.StartsWith(folderTreeView.GetSelectedNodePath())) filesCutCopyPasteDrag.RefeshFolderTree(folderTreeView, selectedNode);
                     
                     GlobalData.DoNotRefreshImageListView = false;
                     
@@ -155,9 +155,9 @@ namespace PhotoTagsSynchronizer
                             GlobalData.DoNotRefreshImageListView = true;
 
                             string newDirectory = Path.GetDirectoryName(targetFullFilename);
-                            TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
+                            TreeNode selectedNode = folderTreeView.SelectedNode;
 
-                            if (newDirectory.StartsWith(folderTreeViewFolder.GetSelectedNodePath())) filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
+                            if (newDirectory.StartsWith(folderTreeView.GetSelectedNodePath())) filesCutCopyPasteDrag.RefeshFolderTree(folderTreeView, selectedNode);
 
                             GlobalData.DoNotRefreshImageListView = false;
 
