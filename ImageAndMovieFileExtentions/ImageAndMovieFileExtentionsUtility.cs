@@ -634,6 +634,11 @@ namespace ImageAndMovieFileExtentions
         public static List<FileEntry> ListAllMediaFileEntries(string directory, bool recursive)
         {
             FileInfo[] filesFoundInDirectory = GetFilesByExtensions(directory, GetAllMediaExtentions(), recursive);
+            Array.Sort(filesFoundInDirectory, delegate (FileInfo fileInfo1, FileInfo fileInfo2) 
+            {
+                return fileInfo2.CreationTimeUtc.CompareTo(fileInfo1.CreationTimeUtc);
+            });
+
             List<FileEntry> fileEntries = new List<FileEntry>();
             foreach (FileInfo fileInfo in filesFoundInDirectory) fileEntries.Add(new FileEntry(fileInfo.DirectoryName, fileInfo.Name, fileInfo.LastWriteTime));
             return fileEntries;

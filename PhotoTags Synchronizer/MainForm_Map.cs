@@ -420,10 +420,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        
-
-
-       
         #endregion
 
         private void toolStripMenuItemMapReloadLocationUsingNominatim_Click(object sender, EventArgs e)
