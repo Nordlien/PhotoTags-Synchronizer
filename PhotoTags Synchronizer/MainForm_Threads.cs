@@ -214,17 +214,6 @@ namespace PhotoTagsSynchronizer
             return commonQueueSaveMetadataUpdatedByUser.Count;
         }
 
-        //commonQueueSubsetMetadataToSave
-        private int CommonQueueSubsetMetadataToSaveCountLock()
-        {
-            lock (commonQueueSubsetMetadataToSaveLock) return commonQueueSubsetMetadataToSave.Count;
-        }
-
-        private int CommonQueueSubsetMetadataToSaveCountDirty()
-        {
-            return commonQueueSubsetMetadataToSave.Count;
-        }
-
         /// <summary>
         /// Get Count of items in Queue 
         /// </summary>
@@ -1063,6 +1052,8 @@ namespace PhotoTagsSynchronizer
                             bool writeXtraAtomArtistVideo = Properties.Settings.Default.XtraAtomArtistVideo;
 
                             bool writeCreatedDateAndTimeAttribute = Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute;
+                            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
 
                             List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
                             #endregion
@@ -1107,26 +1098,29 @@ namespace PhotoTagsSynchronizer
                                 #region File Create date and Time attribute
                                 if (!GlobalData.IsApplicationClosing)
                                 {
-                                    lock (commonQueueSubsetMetadataToSaveLock) foreach (Metadata metadata in commonQueueSubsetMetadataToSave)
-                                        {
-                                            if (metadata.TryParseDateTakenToUtc(out DateTime? dateTakenWithOffset))
+                                    if (writeCreatedDateAndTimeAttribute)
+                                    {
+                                        lock (commonQueueSubsetMetadataToSaveLock) foreach (Metadata metadata in commonQueueSubsetMetadataToSave)
                                             {
-                                                if (metadata?.FileDateCreated != null &&
-                                                    metadata?.MediaDateTaken != null &&
-                                                    metadata?.MediaDateTaken < DateTime.Now &&
-                                                    Math.Abs(((DateTime)dateTakenWithOffset - (DateTime)metadata?.FileDateCreated).TotalSeconds) > 10) //No need to change
+                                                if (metadata.TryParseDateTakenToUtc(out DateTime? dateTakenWithOffset))
                                                 {
-                                                    try
+                                                    if (metadata?.FileDateCreated != null &&
+                                                        metadata?.MediaDateTaken != null &&
+                                                        metadata?.MediaDateTaken < DateTime.Now &&
+                                                        Math.Abs(((DateTime)dateTakenWithOffset.Value.ToUniversalTime() - (DateTime)metadata?.FileDateCreated.Value.ToUniversalTime()).TotalSeconds) > writeCreatedDateAndTimeAttributeTimeIntervalAccepted) //No need to change
                                                     {
-                                                        File.SetCreationTime(metadata.FileFullPath, (DateTime)dateTakenWithOffset);
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        Logger.Error("File.SetCreationTime failed...\r\n\r\n" + ex.Message);
+                                                        try
+                                                        {
+                                                            File.SetCreationTime(metadata.FileFullPath, (DateTime)dateTakenWithOffset);
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            Logger.Error("File.SetCreationTime failed...\r\n\r\n" + ex.Message);
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
+                                    }
                                 }
                                 #endregion
 

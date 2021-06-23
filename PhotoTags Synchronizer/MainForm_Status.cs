@@ -188,7 +188,7 @@ namespace PhotoTagsSynchronizer
                     string.Format("Exiftool:{0}", MediaFilesNotInDatabaseCountDirty());
                 threadQueuCount += MediaFilesNotInDatabaseCountDirty();
 
-            if (CountSaveQueueLock())
+            if (CountSaveQueueLock() > 0)
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
                      string.Format("Saving: {0}", CountSaveQueueLock());
             threadQueuCount += CountSaveQueueLock();
