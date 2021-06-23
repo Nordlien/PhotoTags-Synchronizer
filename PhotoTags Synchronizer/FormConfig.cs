@@ -668,8 +668,11 @@ namespace PhotoTagsSynchronizer
             #region GPS Location and Date&Time
             checkBoxGPSUpdateLocation.Checked = autoCorrect.UpdateGPSLocation;
             checkBoxGPSUpdateDateTime.Checked = autoCorrect.UpdateGPSDateTime;
+            checkBoxGPSUpdateLocationNearByMedia.Checked = autoCorrect.UpdateGPSLocationNearByMedia;
+
             numericUpDownLocationGuessInterval.Value = autoCorrect.LocationTimeZoneGuessHours;
             numericUpDownLocationAccurateInterval.Value = autoCorrect.LocationFindMinutes;
+            numericUpDownLocationAccurateIntervalNearByMediaFile.Value = autoCorrect.LocationFindMinutesNearByMedia;
             #endregion
 
             #region Location Name, State, City, Country
@@ -804,8 +807,10 @@ namespace PhotoTagsSynchronizer
             #region GPS Location and Date&Time
             autoCorrect.UpdateGPSLocation = checkBoxGPSUpdateLocation.Checked;
             autoCorrect.UpdateGPSDateTime = checkBoxGPSUpdateDateTime.Checked;
+            autoCorrect.UpdateGPSLocationNearByMedia = checkBoxGPSUpdateLocationNearByMedia.Checked;
             autoCorrect.LocationTimeZoneGuessHours = (int)numericUpDownLocationGuessInterval.Value;
             autoCorrect.LocationFindMinutes = (int)numericUpDownLocationAccurateInterval.Value;
+            autoCorrect.LocationFindMinutesNearByMedia = (int)numericUpDownLocationAccurateIntervalNearByMediaFile.Value;
             #endregion
 
             #region Location            

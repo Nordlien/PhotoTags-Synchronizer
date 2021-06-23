@@ -188,7 +188,7 @@ namespace PhotoTagsSynchronizer
                     string.Format("Exiftool:{0}", MediaFilesNotInDatabaseCountDirty());
                 threadQueuCount += MediaFilesNotInDatabaseCountDirty();
 
-            if (CountSaveQueueLock() > 0)
+            if (CountSaveQueueLock())
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
                      string.Format("Saving: {0}", CountSaveQueueLock());
             threadQueuCount += CountSaveQueueLock();
@@ -218,23 +218,29 @@ namespace PhotoTagsSynchronizer
                 LazyLoadingDataGridViewProgressEndReached();
 
             toolStripStatusThreadQueueCount.Text = "(" + threadQueuCount + ") " + toolStripStatusThreadQueueCount.Text;
-            
+
             #region Updated progressbar
-            int queueRemainding = threadQueuCount;
-            if (queueRemainding > toolStripProgressBarThreadQueue.Maximum) toolStripProgressBarThreadQueue.Maximum = queueRemainding;
-            toolStripProgressBarThreadQueue.Value = toolStripProgressBarThreadQueue.Maximum - queueRemainding;
-            if (queueRemainding != 0)
+            try
             {
-                toolStripStatusThreadQueueCount.Visible = true;
-                toolStripProgressBarThreadQueue.Visible = true;
-                toolStripLabelThreadQueue.Visible = true;
-            }
-            else
+                int queueRemainding = threadQueuCount;
+                if (queueRemainding > toolStripProgressBarThreadQueue.Maximum) toolStripProgressBarThreadQueue.Maximum = queueRemainding;
+                toolStripProgressBarThreadQueue.Value = toolStripProgressBarThreadQueue.Maximum - queueRemainding;
+                if (queueRemainding != 0)
+                {
+                    toolStripStatusThreadQueueCount.Visible = true;
+                    toolStripProgressBarThreadQueue.Visible = true;
+                    toolStripLabelThreadQueue.Visible = true;
+                }
+                else
+                {
+                    toolStripStatusThreadQueueCount.Visible = false;
+                    toolStripLabelThreadQueue.Visible = false;
+                    toolStripProgressBarThreadQueue.Maximum = 1;
+                    toolStripProgressBarThreadQueue.Visible = false;
+                }
+            } catch (Exception ex)
             {
-                toolStripStatusThreadQueueCount.Visible = false;
-                toolStripLabelThreadQueue.Visible = false;
-                toolStripProgressBarThreadQueue.Maximum = 1;
-                toolStripProgressBarThreadQueue.Visible = false;
+                Logger.Error(ex.Message);
             }
             #endregion 
 

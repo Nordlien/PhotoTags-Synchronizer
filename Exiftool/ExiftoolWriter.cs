@@ -64,6 +64,8 @@ namespace Exiftool
 
         public static bool IsFileLockedByProcess(string fullFilePath)
         {
+            if (!File.Exists(fullFilePath)) return true;
+
             FileStream fs = null;
             try
             {
@@ -163,7 +165,7 @@ namespace Exiftool
 
         public static void WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck)
         {
-            int maxRetry = 30;
+            int maxRetry = 15;            
             bool areAnyFileLocked;
             do
             {
@@ -203,8 +205,14 @@ namespace Exiftool
 
                 #region Is Video or Image format?
                 bool isVideoFormat = false;
-                bool isImageFormat = true;
-                if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(metadataToWrite.FileFullPath))
+                bool isImageFormat = false;
+
+                if (ImageAndMovieFileExtentionsUtility.IsImageFormat(metadataToWrite.FileFullPath))
+                {
+                    isVideoFormat = false;
+                    isImageFormat = true;
+                }
+                else if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(metadataToWrite.FileFullPath))
                 {
                     isVideoFormat = true;
                     isImageFormat = false;
@@ -268,8 +276,9 @@ namespace Exiftool
                     { //File readonly or locked
 
                         string error = "Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n";
-                        if (IsFileReadOnly(metadataToWrite.FileFullPath)) error += "File is Read Only.\r\n";
-                        if (IsFileLockedByProcess(metadataToWrite.FileFullPath)) error += "File is locked by another process.\r\n";
+                        if (!File.Exists(metadataToWrite.FileFullPath)) error += "File not found.\r\n";
+                        else if (IsFileReadOnly(metadataToWrite.FileFullPath)) error += "File is Read Only.\r\n";
+                        else if (IsFileLockedByProcess(metadataToWrite.FileFullPath)) error += "File is locked by another process.\r\n";
                         Logger.Error(error);
                         writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, error);
                     }
@@ -283,7 +292,8 @@ namespace Exiftool
 
         #region CreateExiftoolArguFileText
         public static List<FileEntry> CreateExiftoolArguFileText(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
-            string writeMetadataTagsVariable, string writeMetadataKeywordDeleteVariable, string writeMetadataKeywordAddVariable, bool alwaysWrite, out string exiftoolArguFileText)
+            string writeMetadataTagsVariable, string writeMetadataKeywordDeleteVariable, string writeMetadataKeywordAddVariable, bool alwaysWrite, 
+            out string exiftoolArguFileText)
         {
             exiftoolArguFileText = "";
             List<FileEntry> filesNeedToBeUpadted = new List<FileEntry>();
@@ -328,14 +338,15 @@ namespace Exiftool
         #endregion 
 
         #region WriteMetadata
-        public static List<FileEntry> WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
-            string writeMetadataTagsVariable, string writeMetadataKeywordDeleteVariable, string writeMetadataKeywordAddVariable)
+        public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
+            string writeMetadataTagsVariable, string writeMetadataKeywordDeleteVariable, string writeMetadataKeywordAddVariable, 
+            out List<FileEntry> mediaFilesWithChangesWillBeUpdated)
         {
-            List<FileEntry> filesNeedToBeUpadted = CreateExiftoolArguFileText(
+            mediaFilesWithChangesWillBeUpdated = CreateExiftoolArguFileText(
                 metadataListToWrite, metadataListOriginal, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, 
                 false, out string resultReplaceVariables);
 
-            if (filesNeedToBeUpadted.Count > 0) //Save if has anything to save
+            if (mediaFilesWithChangesWillBeUpdated.Count > 0) //Save if has anything to save
             {
                 //Create directory, filename and remove old arg file
                 string exiftoolArgFileFullpath = GetTempArguFileFullPath("exiftool_arg.txt");
@@ -400,7 +411,6 @@ namespace Exiftool
                 if (hasExiftoolErrorMessage) throw new Exception(exiftoolOutput);
                 #endregion
             }
-            return filesNeedToBeUpadted;
         }
         #endregion
 

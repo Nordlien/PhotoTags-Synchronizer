@@ -258,7 +258,7 @@ namespace PhotoTagsSynchronizer
                 this.DeleteFileAndHistory(imageListViewItem.FileFullPath);
                 GlobalData.ProcessCounterDelete--;
             }
-            GlobalData.ProcessCounterDelete--;
+            GlobalData.ProcessCounterDelete = 0;
 
             GlobalData.ProcessCounterRefresh = imageListView.SelectedItems.Count;
             foreach (ImageListViewItem item in imageListView.SelectedItems)

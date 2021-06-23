@@ -71,6 +71,77 @@ namespace GoogleLocationHistory
         }
         #endregion
 
+        public Metadata FindLocationBasedOtherMediaFiles(DateTime? locationDateTime, DateTime? mediaDateTaken, DateTime? fileDateCreated, int acceptDiffrentSecound)
+        {
+            if (locationDateTime == null && mediaDateTaken == null && fileDateCreated == null) return null;
+
+            string sqlCommand =
+                "SELECT * FROM ";
+
+            if (locationDateTime != null)
+                sqlCommand +=
+                "(SELECT ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE LocationDateTime > @LocationDateTime AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
+                "ORDER BY LocationDateTime LIMIT 1) "+
+                "UNION SELECT * FROM " +
+                "(SELECT ABS(LocationDateTime - @LocationDateTime) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE LocationDateTime < @LocationDateTime AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
+                "ORDER BY LocationDateTime DESC LIMIT 1) ";
+            
+            if (mediaDateTaken != null) sqlCommand +=
+                "UNION SELECT * FROM " +
+                "(SELECT ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE MediaDateTaken > @MediaDateTaken AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
+                "ORDER BY MediaDateTaken LIMIT 1 ) " +
+                "UNION SELECT * FROM " +
+                "(SELECT ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE MediaDateTaken < @MediaDateTaken AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
+                "ORDER BY MediaDateTaken DESC LIMIT 1) ";
+
+            if (mediaDateTaken != null) sqlCommand +=
+                "UNION SELECT * FROM " +
+                "(SELECT ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE FileDateCreated > @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
+                "ORDER BY FileDateCreated LIMIT 1) " +
+                "UNION SELECT * FROM " +
+                "(SELECT ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
+                "WHERE FileDateCreated < @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
+                "ORDER BY FileDateCreated DESC LIMIT 1) ";
+            
+            sqlCommand +=
+                "ORDER BY TimeDistance " +
+                "LIMIT 1";
+
+            Metadata metadata = null;
+            using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
+            {
+                //commandDatabase.Prepare();
+                commandDatabase.Parameters.AddWithValue("@LocationDateTime", dbTools.ConvertFromDateTimeToDBVal(locationDateTime));
+                commandDatabase.Parameters.AddWithValue("@MediaDateTaken", dbTools.ConvertFromDateTimeToDBVal(mediaDateTaken));
+                commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(fileDateCreated));
+
+                using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
+                {
+                    
+                    if (reader.Read())
+                    {
+                        long? timeDistance = dbTools.ConvertFromDBValLong(reader["TimeDistance"]);
+                        float? locationLatitude = dbTools.ConvertFromDBValFloat(reader["LocationLatitude"]);
+                        float? locationLongitude = dbTools.ConvertFromDBValFloat(reader["LocationLongitude"]);
+
+                        if (timeDistance / 100 < acceptDiffrentSecound * 1000)
+                        {
+                            metadata = new Metadata(MetadataBrokerType.GoogleLocationHistory);
+                            metadata.LocationLatitude = locationLatitude;
+                            metadata.LocationLongitude = locationLongitude;
+                        }
+                    }
+
+                }
+            }
+            return metadata;
+        }
+
         public Metadata FindLocationBasedOnTime(String userAccount, DateTime? datetime, int acceptDiffrentSecound)
         {
             //I could use pythagoras to get excact distance, but I don't see the point of doing that

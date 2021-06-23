@@ -1585,15 +1585,24 @@ namespace MetadataLibrary
             string keywordCategories = "<Categories>";
             foreach (KeywordTag tagHierarchy in this.PersonalKeywordTags)
             {
-                string[] tagHierarchyList = tagHierarchy.Keyword.Split('/');
-                for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++)
+                try
                 {
-                    if (tagNumber == tagHierarchyList.Length - 1) keywordCategories += "<Category Assigned=\"1\">";
-                    else keywordCategories += "<Category Assigned=\"0\">";
+                    if (tagHierarchy != null && tagHierarchy.Keyword != null)
+                    {
+                        string[] tagHierarchyList = tagHierarchy.Keyword.Split('/');
+                        for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++)
+                        {
+                            if (tagNumber == tagHierarchyList.Length - 1) keywordCategories += "<Category Assigned=\"1\">";
+                            else keywordCategories += "<Category Assigned=\"0\">";
 
-                    keywordCategories += tagHierarchyList[tagNumber];
+                            keywordCategories += tagHierarchyList[tagNumber];
+                        }
+                        for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++) keywordCategories += "</Category>";
+                    }
+                } catch (Exception ex)
+                {
+                    Logger.Error(ex.Message);
                 }
-                for (int tagNumber = 0; tagNumber < tagHierarchyList.Length; tagNumber++) keywordCategories += "</Category>";
             }
             keywordCategories += "</Categories>";
             return keywordCategories;
