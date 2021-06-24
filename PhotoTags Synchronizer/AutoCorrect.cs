@@ -338,30 +338,35 @@ namespace PhotoTagsSynchronizer
                         }
                         #endregion
 
-                        #region
-                        if (metadataCopy?.LocationLatitude == null || metadataCopy?.LocationLongitude == null)
+                        #region UpdateGPSLocationNearByMedia
+                        if (UpdateGPSLocationNearByMedia)
                         {
-                            Metadata metadataLocationBasedOnBestGuess = databaseGoogleLocationHistory.FindLocationBasedOtherMediaFiles(
-                                dateTimeUTC, metadataCopy?.MediaDateTaken, metadataCopy?.FileDateCreated, 60 * LocationFindMinutes);
-
-                            //If allow update location, then updated metadata with found location
-                            //metadataCopy.LocationDateTime = dateTimeUTC;
-                            metadataCopy.LocationLatitude = metadataLocationBasedOnBestGuess.LocationLatitude;
-                            metadataCopy.LocationLongitude = metadataLocationBasedOnBestGuess.LocationLongitude;
-
-                            //Found timezone if missing 
-                            if (metadataCopy != null && metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null && metadataCopy?.LocationDateTime != null)
+                            if (metadataCopy?.LocationLatitude == null || metadataCopy?.LocationLongitude == null)
                             {
-                                TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
-                                DateTime mediaDateTimeUnspecified;
-                                if (metadataCopy?.MediaDateTaken != null)                                
-                                    mediaDateTimeUnspecified = new DateTime(((DateTime)metadataCopy.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
-                                else
-                                    mediaDateTimeUnspecified = new DateTime(((DateTime)metadataCopy.FileDateCreated).Ticks, DateTimeKind.Unspecified);
+                                Metadata metadataLocationBasedOnBestGuess = databaseGoogleLocationHistory.FindLocationBasedOtherMediaFiles(
+                                    dateTimeUTC, metadataCopy?.MediaDateTaken, metadataCopy?.FileDateCreated, 60 * LocationFindMinutes);
 
-                                metadataCopy.LocationDateTime = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
+                                if (metadataLocationBasedOnBestGuess != null && metadataLocationBasedOnBestGuess.LocationLatitude != null && metadataLocationBasedOnBestGuess.LocationLongitude != null)
+                                {
+                                    //If allow update location, then updated metadata with found location
+                                    //metadataCopy.LocationDateTime = dateTimeUTC;
+                                    metadataCopy.LocationLatitude = metadataLocationBasedOnBestGuess.LocationLatitude;
+                                    metadataCopy.LocationLongitude = metadataLocationBasedOnBestGuess.LocationLongitude;
+
+                                    //Found timezone if missing 
+                                    if (metadataCopy != null && metadataCopy?.LocationLatitude != null && metadataCopy?.LocationLongitude != null && metadataCopy?.LocationDateTime == null)
+                                    {
+                                        TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)metadataCopy?.LocationLatitude, (double)metadataCopy?.LocationLongitude);
+                                        DateTime mediaDateTimeUnspecified;
+                                        if (metadataCopy?.MediaDateTaken != null)
+                                            mediaDateTimeUnspecified = new DateTime(((DateTime)metadataCopy.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
+                                        else
+                                            mediaDateTimeUnspecified = new DateTime(((DateTime)metadataCopy.FileDateCreated).Ticks, DateTimeKind.Unspecified);
+
+                                        metadataCopy.LocationDateTime = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
+                                    }
+                                }
                             }
-                            
                         }
                         #endregion
                     }

@@ -75,8 +75,7 @@ namespace GoogleLocationHistory
         {
             if (locationDateTime == null && mediaDateTaken == null && fileDateCreated == null) return null;
 
-            string sqlCommand =
-                "SELECT * FROM ";
+            string sqlCommand = "";
 
             if (locationDateTime != null)
                 sqlCommand +=
@@ -88,8 +87,8 @@ namespace GoogleLocationHistory
                 "WHERE LocationDateTime < @LocationDateTime AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY LocationDateTime DESC LIMIT 1) ";
             
-            if (mediaDateTaken != null) sqlCommand +=
-                "UNION SELECT * FROM " +
+            if (mediaDateTaken != null) sqlCommand += 
+                (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
                 "(SELECT ABS(MediaDateTaken - @MediaDateTaken) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
                 "WHERE MediaDateTaken > @MediaDateTaken AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY MediaDateTaken LIMIT 1 ) " +
@@ -98,8 +97,8 @@ namespace GoogleLocationHistory
                 "WHERE MediaDateTaken < @MediaDateTaken AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY MediaDateTaken DESC LIMIT 1) ";
 
-            if (mediaDateTaken != null) sqlCommand +=
-                "UNION SELECT * FROM " +
+            if (fileDateCreated != null) sqlCommand +=
+                (sqlCommand == "" ? "" : "UNION SELECT * FROM ") +
                 "(SELECT ABS(FileDateCreated - @FileDateCreated) AS TimeDistance, LocationLatitude, LocationLongitude FROM MediaMetadata " +
                 "WHERE FileDateCreated > @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY FileDateCreated LIMIT 1) " +
@@ -108,7 +107,7 @@ namespace GoogleLocationHistory
                 "WHERE FileDateCreated < @FileDateCreated AND LocationLatitude IS NOT NULL AND LocationLongitude IS NOT NULL " +
                 "ORDER BY FileDateCreated DESC LIMIT 1) ";
             
-            sqlCommand +=
+            sqlCommand = "SELECT * FROM " + sqlCommand +
                 "ORDER BY TimeDistance " +
                 "LIMIT 1";
 
@@ -116,9 +115,9 @@ namespace GoogleLocationHistory
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@LocationDateTime", dbTools.ConvertFromDateTimeToDBVal(locationDateTime));
-                commandDatabase.Parameters.AddWithValue("@MediaDateTaken", dbTools.ConvertFromDateTimeToDBVal(mediaDateTaken));
-                commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(fileDateCreated));
+                if (locationDateTime != null) commandDatabase.Parameters.AddWithValue("@LocationDateTime", dbTools.ConvertFromDateTimeToDBVal(locationDateTime));
+                if (mediaDateTaken != null) commandDatabase.Parameters.AddWithValue("@MediaDateTaken", dbTools.ConvertFromDateTimeToDBVal(mediaDateTaken));
+                if (fileDateCreated != null) commandDatabase.Parameters.AddWithValue("@FileDateCreated", dbTools.ConvertFromDateTimeToDBVal(fileDateCreated));
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
