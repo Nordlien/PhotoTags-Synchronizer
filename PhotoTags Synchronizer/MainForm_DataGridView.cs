@@ -305,13 +305,16 @@ namespace PhotoTagsSynchronizer
             lock (GlobalData.populateSelectedLock)
             {
                 DataGridView dataGridView = GetActiveTabDataGridView();
-                List<FileEntryAttribute> lazyLoading;
 
+                if (DataGridViewHandler.GetIsAgregated(dataGridView)) return;
+                
+                List<FileEntryAttribute> lazyLoading;
                 DataGridViewHandler.SuspendLayout(dataGridView, true);
 
+                
                 switch (GetActiveTabTag())
                 {
-                    case "Tags":
+                    case "Tags":                        
                         ClearDetailViewTagsAndKeywords();
                         DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
@@ -320,6 +323,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
                         DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns);
                         LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                        
                         break;
                     case "Map":
                         splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
