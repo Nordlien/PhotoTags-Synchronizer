@@ -508,7 +508,7 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (KeywordTag keywordTag in metadataMicrosoftPhotosCopy.PersonalKeywordTags)
                 {
-                    if (keywordTag.Confidence >= KeywordTagConfidenceLevel) 
+                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword) && keywordTag.Confidence >= KeywordTagConfidenceLevel) 
                         metadataCopy.PersonalKeywordTagsAddIfNotExists(keywordTag);
                 }
             }
@@ -517,17 +517,17 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (KeywordTag keywordTag in metadataWindowsLivePhotoGalleryCopy.PersonalKeywordTags)
                 {
-                    //if (keywordTag.Confidence >= KeywordTagConfidenceLevel) 
-                    metadataCopy.PersonalKeywordTagsAddIfNotExists(keywordTag);
+                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword)) // && keywordTag.Confidence >= KeywordTagConfidenceLevel)
+                        metadataCopy.PersonalKeywordTagsAddIfNotExists(keywordTag);
                 }
             }
 
             if (UseKeywordsFromWebScraping && metadataWebScrapingCopy != null)
             {
-                 foreach (KeywordTag keywordTag in metadataWebScrapingCopy.PersonalKeywordTags)
+                foreach (KeywordTag keywordTag in metadataWebScrapingCopy.PersonalKeywordTags)
                 {
-                    //if (keywordTag.Confidence >= KeywordTagConfidenceLevel) 
-                    metadataCopy.PersonalKeywordTagsAddIfNotExists(keywordTag);
+                    if (!string.IsNullOrWhiteSpace(keywordTag.Keyword)) // && keywordTag.Confidence >= KeywordTagConfidenceLevel)
+                        metadataCopy.PersonalKeywordTagsAddIfNotExists(keywordTag);
                 }
             }
 
@@ -539,7 +539,7 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (RegionStructure regionStructure in metadataCopy?.PersonalRegionList)
                 {
-                    metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(regionStructure.Name));
+                    if (!string.IsNullOrWhiteSpace(regionStructure.Name)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(regionStructure.Name));
                 }
             }
             if (BackupLocationName && !string.IsNullOrEmpty(metadataCopy?.LocationName)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadataCopy?.LocationName));
