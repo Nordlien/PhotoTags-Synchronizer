@@ -1460,7 +1460,7 @@ namespace PhotoTagsSynchronizer
             this.ratateCCW270ToolStripMenuItem,
             this.mediaPreviewToolStripMenuItem});
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
-            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 550);
+            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 578);
             // 
             // sortMediaFileByToolStripMenuItem
             // 
@@ -3691,7 +3691,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonAbout});
             this.toolStrip.Location = new System.Drawing.Point(4, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(1157, 28);
+            this.toolStrip.Size = new System.Drawing.Size(1118, 28);
             this.toolStrip.TabIndex = 0;
             // 
             // thumbnailsToolStripButton

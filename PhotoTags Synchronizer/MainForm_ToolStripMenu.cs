@@ -1211,20 +1211,26 @@ namespace PhotoTagsSynchronizer
             folderTreeViewFolder.Enabled = false;
             imageListView1.Enabled = false;
 
-            if (IsFileInThreadQueueLock(imageListView1))
+            try
             {
-                MessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.");
-                return;
-            }
-
-            if (MessageBox.Show("Are you sure you will delete the files", "Files will be deleted!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                using (new WaitCursor())
+                if (IsFileInThreadQueueLock(imageListView1))
                 {
-                    UpdateStatusAction("Deleing files and all record about files in database....");
-                    filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1);
-                    FilesSelected();
+                    MessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.");
+                    return;
                 }
+
+                if (MessageBox.Show("Are you sure you will delete the files", "Files will be deleted!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    using (new WaitCursor())
+                    {
+                        UpdateStatusAction("Deleing files and all record about files in database....");
+                        filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1);
+                        FilesSelected();
+                    }
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
 
             folderTreeViewFolder.Enabled = true;
