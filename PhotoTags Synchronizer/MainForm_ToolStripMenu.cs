@@ -1795,8 +1795,6 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.SelectGroupSameCity,
                 Properties.Settings.Default.SelectGroupSameDistrict,
                 Properties.Settings.Default.SelectGroupSameCountry);
-
-
         }
         #endregion 
 
@@ -1814,7 +1812,6 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.SelectGroupSameCity,
                 Properties.Settings.Default.SelectGroupSameDistrict,
                 Properties.Settings.Default.SelectGroupSameCountry);
-
         }
         #endregion
 
