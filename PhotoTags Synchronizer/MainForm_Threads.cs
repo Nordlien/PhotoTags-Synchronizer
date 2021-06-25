@@ -1988,6 +1988,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
+                                //ThreadRename
                                 #region Do the renameing process
                                 if (!fileInUse)
                                 {

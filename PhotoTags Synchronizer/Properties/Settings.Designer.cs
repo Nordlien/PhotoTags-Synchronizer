@@ -2004,5 +2004,125 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["WriteFileAttributeCreatedDateTimeIntervalAccepted"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AutoCorrectFormAlbum {
+            get {
+                return ((string)(this["AutoCorrectFormAlbum"]));
+            }
+            set {
+                this["AutoCorrectFormAlbum"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AutoCorrectFormAuthor {
+            get {
+                return ((string)(this["AutoCorrectFormAuthor"]));
+            }
+            set {
+                this["AutoCorrectFormAuthor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AutoCorrectFormComments {
+            get {
+                return ((string)(this["AutoCorrectFormComments"]));
+            }
+            set {
+                this["AutoCorrectFormComments"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AutoCorrectFormDescription {
+            get {
+                return ((string)(this["AutoCorrectFormDescription"]));
+            }
+            set {
+                this["AutoCorrectFormDescription"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AutoCorrectFormTitle {
+            get {
+                return ((string)(this["AutoCorrectFormTitle"]));
+            }
+            set {
+                this["AutoCorrectFormTitle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseAutoCorrectFormAlbum {
+            get {
+                return ((bool)(this["UseAutoCorrectFormAlbum"]));
+            }
+            set {
+                this["UseAutoCorrectFormAlbum"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseAutoCorrectFormAuthor {
+            get {
+                return ((bool)(this["UseAutoCorrectFormAuthor"]));
+            }
+            set {
+                this["UseAutoCorrectFormAuthor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseAutoCorrectFormComments {
+            get {
+                return ((bool)(this["UseAutoCorrectFormComments"]));
+            }
+            set {
+                this["UseAutoCorrectFormComments"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseAutoCorrectFormDescription {
+            get {
+                return ((bool)(this["UseAutoCorrectFormDescription"]));
+            }
+            set {
+                this["UseAutoCorrectFormDescription"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseAutoCorrectFormTitle {
+            get {
+                return ((bool)(this["UseAutoCorrectFormTitle"]));
+            }
+            set {
+                this["UseAutoCorrectFormTitle"] = value;
+            }
+        }
     }
 }

@@ -853,6 +853,8 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+       
+
         #region ToolStrip - AutoCorrect - Folder - Click
         private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
         {
@@ -881,9 +883,59 @@ namespace PhotoTagsSynchronizer
             }
             StartThreads();
         }
-        #endregion 
+        #endregion
 
         #region ToolStrip - AutoCorrect - Selected files - Click
+        private void toolStripMenuItemImageListViewAutoCorrectForm_Click(object sender, EventArgs e)
+        {
+            Form_AutoCorrect form_AutoCorrect = new Form_AutoCorrect();
+            if (form_AutoCorrect.ShowDialog() == DialogResult.OK)
+            {
+
+                string album = form_AutoCorrect.Album;
+                string author = form_AutoCorrect.Author;
+                string comments = form_AutoCorrect.Comments;
+                string description = form_AutoCorrect.Description;
+                string title = form_AutoCorrect.Title;
+
+                bool useAlbum = form_AutoCorrect.UseAlbum;
+                bool useAuthor = form_AutoCorrect.UseAuthor;
+                bool useComments = form_AutoCorrect.UseComments;
+                bool uselDescription = form_AutoCorrect.UseDescription;
+                bool useTitle = form_AutoCorrect.UseTitle;
+
+                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+
+                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                {
+                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
+                    Metadata metadataToSave = autoCorrect.FixAndSave(
+                        new FileEntry(item.FileFullPath, item.DateModified),
+                        databaseAndCacheMetadataExiftool,
+                        databaseAndCacheMetadataMicrosoftPhotos,
+                        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        databaseAndCahceCameraOwner,
+                        databaseLocationAddress,
+                        databaseGoogleLocationHistory,
+                        locationAccuracyLatitude, locationAccuracyLongitude);
+                    if (metadataToSave != null)
+                    {
+                        if (useAlbum) metadataToSave.PersonalAlbum = album;
+                        if (useAuthor) metadataToSave.PersonalAuthor = author;
+                        if (useComments) metadataToSave.PersonalComments = comments;
+                        if (uselDescription) metadataToSave.PersonalDescription = description;
+                        if (useTitle) metadataToSave.PersonalTitle = title;
+                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
+                        AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); 
+                    }
+                }
+
+                StartThreads();
+            }
+        }
+
         private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
         {
             AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);

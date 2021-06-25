@@ -48,6 +48,37 @@ namespace PhotoTagsSynchronizer
             return resultListString;
         }
         #endregion
+
+        #region ComboBox - Settings - Convert String add to List
+        public static void ComboBoxPopulate(ComboBox comboBox, string valueListString, string defaultValue)
+        {
+            comboBox.Items.Clear();
+
+            string[] valueList = valueListString.Replace("\r\n", "\n").Split('\n');
+            if (valueList != null)
+            {
+                foreach (string valueItem in valueList)
+                {
+                    comboBox.Items.Add(valueItem);
+                }
+            }
+            comboBox.Text = defaultValue == null ? "" : defaultValue;
+        }
+        #endregion
+
+        #region ComboBox - Remeber last text and Add Text to list
+        public static void ComboBoxAddTextToList(ComboBox comboBox)
+        {
+            string text = comboBox.Text;
+            int indexOfText = comboBox.Items.IndexOf(text); //Does it exist from before, remove to put first
+            if (indexOfText > -1) comboBox.Items.RemoveAt(indexOfText); //Remove if exist, in not already first
+            comboBox.Items.Insert(0, text); //Add first
+
+            int maxCount = 15;
+            while (comboBox.Items.Count > maxCount) comboBox.Items.RemoveAt(maxCount);
+            comboBox.Text = text;
+        }
+        #endregion 
     }
 
     #region ComboBox - Text Selction Hack - Remember ComboBoxSelection

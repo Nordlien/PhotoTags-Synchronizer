@@ -52,8 +52,8 @@ namespace PhotoTagsSynchronizer
             #region Tab - Run batch - Command
             comboBoxBatchRunImageVariables.Items.AddRange(Metadata.ListOfProperties(false));
             comboBoxBatchRunVideoVariables.Items.AddRange(Metadata.ListOfProperties(false));
-            ComboBoxPopulate(comboBoxBatchRunImageCommand, Properties.Settings.Default.RunBatchImageCommandList, Properties.Settings.Default.RunBatchImageCommand);
-            ComboBoxPopulate(comboBoxBatchRunVideoCommand, Properties.Settings.Default.RunBatchVideoCommandList, Properties.Settings.Default.RunBatchVideoCommand);
+            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunImageCommand, Properties.Settings.Default.RunBatchImageCommandList, Properties.Settings.Default.RunBatchImageCommand);
+            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunVideoCommand, Properties.Settings.Default.RunBatchVideoCommandList, Properties.Settings.Default.RunBatchVideoCommand);
             checkBoxBatchRunImageWaitForCommandExit.Checked = Properties.Settings.Default.RunBatchImageWaitForCommand;
             checkBoxBatchRunVideoWaitForCommandExit.Checked = Properties.Settings.Default.RunBatchVideoWaitForCommand;
             #endregion
@@ -67,10 +67,10 @@ namespace PhotoTagsSynchronizer
                 comboBoxBatchRunImageAppExample.Items.Add(applicationDatas.Values[index].FriendlyAppName);
                 comboBoxBatchRunVideoAppExample.Items.Add(applicationDatas.Values[index].FriendlyAppName);
             }
-            ComboBoxPopulate(comboBoxBatchRunImageAppId, Properties.Settings.Default.RunBatchImageAppIdList, Properties.Settings.Default.RunBatchImageAppId);
-            ComboBoxPopulate(comboBoxBatchRunVideoAppId, Properties.Settings.Default.RunBatchVideoAppIdList, Properties.Settings.Default.RunBatchVideoAppId);
-            ComboBoxPopulate(comboBoxBatchRunImageVerb, Properties.Settings.Default.RunBatchImageVerbList, Properties.Settings.Default.RunBatchImageVerb);
-            ComboBoxPopulate(comboBoxBatchRunVideoVerb, Properties.Settings.Default.RunBatchVideoVerbList, Properties.Settings.Default.RunBatchVideoVerb);
+            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunImageAppId, Properties.Settings.Default.RunBatchImageAppIdList, Properties.Settings.Default.RunBatchImageAppId);
+            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunVideoAppId, Properties.Settings.Default.RunBatchVideoAppIdList, Properties.Settings.Default.RunBatchVideoAppId);
+            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunImageVerb, Properties.Settings.Default.RunBatchImageVerbList, Properties.Settings.Default.RunBatchImageVerb);
+            ComboBoxHandler.ComboBoxPopulate(comboBoxBatchRunVideoVerb, Properties.Settings.Default.RunBatchVideoVerbList, Properties.Settings.Default.RunBatchVideoVerb);
             checkBoxBatchRunImageWaitForAppExit.Checked = Properties.Settings.Default.RunBatchImageWaitForApp;
             checkBoxBatchRunVideoWaitForAppExit.Checked = Properties.Settings.Default.RunBatchVideoWaitForApp;
             checkBoxRunBatchRedirectToTerminalWindows.Checked = Properties.Settings.Default.RunBatchInTerminalWindow;
@@ -100,7 +100,7 @@ namespace PhotoTagsSynchronizer
             fastColoredTextBoxHandlerRunArgumentFileAutoCorrect = new FastColoredTextBoxHandler(fastColoredTextBoxArgumentFileArgumentFileAutoCorrect, false, MetadataPrioity.MetadataPrioityDictionary);
 
             comboBoxArgumentFileCommandVariables.Items.Add("{TempFileArgumentFullPath}");
-            ComboBoxPopulate(comboBoxArgumentFileCommand, Properties.Settings.Default.RunArgumentCommandList, Properties.Settings.Default.RunArgumentCommand);
+            ComboBoxHandler.ComboBoxPopulate(comboBoxArgumentFileCommand, Properties.Settings.Default.RunArgumentCommandList, Properties.Settings.Default.RunArgumentCommand);
             fastColoredTextBoxArgumentFileArgumentFile.Text = ArguFile;
             fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Text = ArguFileAutoCorrect;
 
@@ -113,7 +113,7 @@ namespace PhotoTagsSynchronizer
             fastColoredTextBoxHandlerBuildResult = new FastColoredTextBoxHandler(fastColoredTextBoxBuildResult, false, MetadataPrioity.MetadataPrioityDictionary);
 
             comboBoxArgumentFileCommandVariables.Items.Add("{TempFileArgumentFullPath}");
-            ComboBoxPopulate(comboBoxArgumentFileBuilderCommand, Properties.Settings.Default.RunArgumentBuildCommandList, Properties.Settings.Default.RunArgumentBuildCommand);
+            ComboBoxHandler.ComboBoxPopulate(comboBoxArgumentFileBuilderCommand, Properties.Settings.Default.RunArgumentBuildCommandList, Properties.Settings.Default.RunArgumentBuildCommand);
 
             comboBoxMetadataWriteStandardTags.Items.AddRange(Metadata.ListOfProperties(false));
             comboBoxMetadataWriteKeywordDelete.Items.AddRange(Metadata.ListOfProperties(true));
@@ -467,15 +467,14 @@ namespace PhotoTagsSynchronizer
         #region Batch run - Click
         private void buttonBatchCommandBatchRun_Click(object sender, EventArgs e)
         {
-            ComboBoxAddTextToList(comboBoxBatchRunImageCommand);
-            ComboBoxAddTextToList(comboBoxBatchRunVideoCommand);
+            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunImageCommand);
+            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunVideoCommand);
 
-            ComboBoxAddTextToList(comboBoxBatchRunImageAppId);
-            ComboBoxAddTextToList(comboBoxBatchRunVideoAppId);
+            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunImageAppId);
+            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunVideoAppId);
 
-            ComboBoxAddTextToList(comboBoxBatchRunImageVerb);
-            ComboBoxAddTextToList(comboBoxBatchRunVideoVerb);
-
+            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunImageVerb);
+            ComboBoxHandler.ComboBoxAddTextToList(comboBoxBatchRunVideoVerb);
 
             PhotoTagsCommonComponets.FormTerminalWindow formTerminalWindow = null;
             if (checkBoxRunBatchRedirectToTerminalWindows.Checked)
@@ -603,7 +602,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                ComboBoxAddTextToList(comboBoxArgumentFileCommand);
+                ComboBoxHandler.ComboBoxAddTextToList(comboBoxArgumentFileCommand);
 
                 string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath("exiftool_arg_run.txt");
                 string commandWithArguments = comboBoxArgumentFileCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
@@ -635,23 +634,7 @@ namespace PhotoTagsSynchronizer
             SelectionChangeCommitted(comboBoxArgumentFileCommand, comboBoxArgumentFileCommandVariables.Text);
         }
         #endregion
-
-        #region ComboBox - Settings - Convert String add to List
-        private void ComboBoxPopulate(ComboBox comboBox, string valueListString, string defaultValue)
-        {
-            comboBox.Items.Clear();
-
-            string[] valueList = valueListString.Replace("\r\n", "\n").Split('\n');
-            if (valueList != null)
-            {
-                foreach (string valueItem in valueList)
-                {
-                    comboBox.Items.Add(valueItem);
-                }
-            }
-            comboBox.Text = defaultValue == null ? "" : defaultValue;
-        }
-        #endregion
+        
 
         #region ComboBox - Insert selected and cmomitted selection to Textbox
         private void SelectionChangeCommitted(ComboBox textBox, string insertText)
@@ -664,20 +647,6 @@ namespace PhotoTagsSynchronizer
                 textBox.Text = textBox.Text.Insert(selectionIndex, insertText);
                 textBox.SelectionStart = selectionIndex + insertText.Length;
             }
-        }
-        #endregion 
-
-        #region ComboBox - Remeber last text and Add Text to list
-        private void ComboBoxAddTextToList(ComboBox comboBox)
-        {
-            string text = comboBox.Text;
-            int indexOfText = comboBox.Items.IndexOf(text); //Does it exist from before, remove to put first
-            if (indexOfText > -1) comboBox.Items.RemoveAt(indexOfText); //Remove if exist, in not already first
-            comboBox.Items.Insert(0, text); //Add first
-
-            int maxCount = 15;
-            while (comboBox.Items.Count > maxCount) comboBox.Items.RemoveAt(maxCount);
-            comboBox.Text = text;
         }
         #endregion 
 
@@ -1097,7 +1066,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                ComboBoxAddTextToList(comboBoxArgumentFileBuilderCommand);
+                ComboBoxHandler.ComboBoxAddTextToList(comboBoxArgumentFileBuilderCommand);
 
                 string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath("exiftool_arg_run.txt");
                 string commandWithArguments = comboBoxArgumentFileBuilderCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
