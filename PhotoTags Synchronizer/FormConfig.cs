@@ -635,6 +635,7 @@ namespace PhotoTagsSynchronizer
             }
             else radioButtonAlbumDoNotChange.Checked = true;
 
+            checkBoxDublicateAlbumAsDescription.Checked = autoCorrect.UpdateDescription;
             #endregion
 
             #region Keywords
@@ -764,6 +765,8 @@ namespace PhotoTagsSynchronizer
             }
 
             autoCorrect.KeywordTagConfidenceLevel = (90 - comboBoxKeywordsAiConfidence.SelectedIndex * 10) / 100.0;
+
+            autoCorrect.UpdateDescription = checkBoxDublicateAlbumAsDescription.Checked;
             #endregion
 
             #region Keywords

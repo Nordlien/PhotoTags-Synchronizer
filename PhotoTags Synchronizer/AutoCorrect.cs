@@ -114,6 +114,11 @@ namespace PhotoTagsSynchronizer
         public bool UpdateAlbumWithFirstInPrioity { get; set; } = false;
         [JsonProperty("AlbumPriority")]
         public List<MetadataBrokerType> AlbumPriority { get; set; } = new List<MetadataBrokerType>();
+        #endregion
+
+        #region 
+        [JsonProperty("UpdateDescription")]
+        public bool UpdateDescription { get; set; } = true;
         #endregion 
 
         #region Author
@@ -611,6 +616,14 @@ namespace PhotoTagsSynchronizer
                     if (!string.IsNullOrWhiteSpace(newAlbum)) break;
                 }
                 metadataCopy.PersonalAlbum = newAlbum;
+            }
+            #endregion
+
+            #region Description
+            if (UpdateDescription)
+            {
+                
+                metadataCopy.PersonalDescription = metadataCopy.PersonalAlbum;
             }
             #endregion
 
