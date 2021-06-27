@@ -83,9 +83,16 @@ namespace PhotoTagsSynchronizer
 
             toolStripStatusThreadQueueCount.Text = "";
             
-
+             
 
             int threadQueuCount = 0;
+
+            if (!string.IsNullOrWhiteSpace(Exiftool.ExiftoolWriter.FileLockedByProcess)) {
+                threadQueuCount++;
+                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                    "Locked file: " + Path.GetFileName(Exiftool.ExiftoolWriter.FileLockedByProcess));
+            }
+
             if (GetFileEntriesRotateMediaCountDirty() > 0) 
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + 
                     string.Format("Rotate: {0}", GetFileEntriesRotateMediaCountDirty());

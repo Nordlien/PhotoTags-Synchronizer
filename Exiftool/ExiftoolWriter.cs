@@ -9,6 +9,7 @@ using NLog;
 using System.Threading;
 using WindowsProperty;
 using ApplicationAssociations;
+using System.Windows.Forms;
 
 namespace Exiftool
 {
@@ -36,7 +37,10 @@ namespace Exiftool
         }
         #endregion
 
+
         #region Files locked, wait unlock, in cloud
+
+        #region IsFileInCloud
         public static bool IsFileInCloud(string fullFileName)
         {
             //FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS - 0x400000 - When this attribute is set, it means that the file or directory is not fully present locally. For a file that means that not all of its data is on local storage (e.g. it may be sparse with some data still in remote storage). For a directory it means that some of the directory contents are being virtualized from another location. Reading the file / enumerating the directory will be more expensive than normal, e.g. it will cause at least some of the file/directory content to be fetched from a remote store. Only kernel-mode callers can set this bit.
@@ -49,7 +53,9 @@ namespace Exiftool
             catch { return true; }
             return false;
         }
+        #endregion 
 
+        #region IsFileVirual
         public static bool IsFileVirual(string fullFileName)
         {
             //FILE_ATTRIBUTE_VIRTUAL - 500000 - This value is reserved for system use.
@@ -61,7 +67,27 @@ namespace Exiftool
             catch { return true; }
             return false;
         }
+        #endregion 
 
+        #region IsFileReadOnly
+        public static bool IsFileReadOnly(string fileFullPath)
+        {
+            bool isReadOnly; 
+            try
+            {
+                isReadOnly = new FileInfo(fileFullPath).IsReadOnly; 
+            } catch (Exception ex)
+            {
+                isReadOnly = true;
+                Logger.Warn(ex.Message);
+            }
+            return isReadOnly;
+        }
+        #endregion
+
+        public static string FileLockedByProcess { get; set; }
+
+        #region IsFileLockedByProcess
         public static bool IsFileLockedByProcess(string fullFilePath)
         {
             if (!File.Exists(fullFilePath)) return true;
@@ -81,37 +107,62 @@ namespace Exiftool
                 }
                 catch (Exception)
                 {
+                    FileLockedByProcess = fullFilePath;
                     return true; // This file has been locked, we can't even open it to read
                 }
             }
             catch (Exception)
             {
+                FileLockedByProcess = fullFilePath;
                 return true; // This file has been locked
             }
             finally
             {
                 if (fs != null) fs.Close();
             }
+            FileLockedByProcess = "";
             return false;
         }
+        #endregion
 
-
-        public static bool IsFileReadOnly(string fileFullPath)
+        #region IsFileThatNeedUpdatedLockedByProcess
+        public static bool IsFileThatNeedUpdatedLockedByProcess(List<Metadata> fileEntriesToCheck)
         {
-            bool isReadOnly; 
-            try
-            {
-                isReadOnly = new FileInfo(fileFullPath).IsReadOnly; 
-            } catch (Exception ex)
-            {
-                isReadOnly = true;
-                Logger.Warn(ex.Message);
-            }
-            return isReadOnly;
-        }
+            if (fileEntriesToCheck.Count == 0) return false;
 
+            foreach (Metadata fileEntryToCheck in fileEntriesToCheck)
+            {
+                if (!File.Exists(fileEntryToCheck.FileFullPath)) return true; //In process rename
+                if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
+                if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath)) return true; //In process OneDrive backup / update
+            }
+            return false;
+        }
+        #endregion 
+
+        #region WaitLockedFilesToBecomeUnlocked
+        public static void WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck)
+        {
+            int maxRetry = 30;
+            bool areAnyFileLocked;
+            do
+            {
+                areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck);
+                if (areAnyFileLocked) Thread.Sleep(500);
+                if (maxRetry-- < 0) {
+                    if (MessageBox.Show("File(s) are locked by another applications",
+                        "Other applications can lock your files temporary e.g. OneDrive.\r\nWill you retray wating for file to be unlocked?\r\n" + FileLockedByProcess, 
+                        MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
+                    else areAnyFileLocked = false;
+                }
+            } while (areAnyFileLocked);
+        }
+        #endregion
+
+        #region WaitLockedFileToBecomeUnlocked
         public static void WaitLockedFileToBecomeUnlocked(string fileFullPath)
         {
+
             int maxRetry = 30;
             bool areAnyFileLocked;
             do
@@ -119,61 +170,21 @@ namespace Exiftool
                 if (File.Exists(fileFullPath)) areAnyFileLocked = IsFileLockedByProcess(fileFullPath);
                 else areAnyFileLocked = false;
                 if (areAnyFileLocked) Thread.Sleep(500);
-                if (maxRetry-- < 0) areAnyFileLocked = false;
+                if (maxRetry-- < 0)
+                {
+                    if (MessageBox.Show("File(s) are locked by another applications",
+                        "Other applications can lock your files temporary e.g. OneDrive.\r\nWill you retray wating for file to be unlocked?\r\n" + FileLockedByProcess,
+                        MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
+                    else areAnyFileLocked = false;
+                }
             } while (areAnyFileLocked);
         }
+        #endregion 
 
-        public static bool IsFileThatNeedUpdatedLockedByProcess(List<FileEntry> fileEntriesToCheck)
-        {
-            if (fileEntriesToCheck.Count == 0) return false;
+        
 
-            foreach (FileEntry fileEntryToCheck in fileEntriesToCheck)
-            {
+         
 
-                if (!File.Exists(fileEntryToCheck.FileFullPath)) return true; //In process rename
-                if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
-                if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath)) return true; //In process OneDrive backup / update
-            }
-            return false;
-        }
-
-        public static bool IsFileThatNeedUpdatedLockedByProcess(List<Metadata> fileEntriesToCheck)
-        {
-            if (fileEntriesToCheck.Count == 0) return false;
-
-            foreach (Metadata fileEntryToCheck in fileEntriesToCheck)
-            {
-
-                if (!File.Exists(fileEntryToCheck.FileFullPath)) return true; //In process rename
-                if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
-                if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath)) return true; //In process OneDrive backup / update
-            }
-            return false;
-        }
-
-        public static void WaitLockedFilesToBecomeUnlocked(List<FileEntry> fileEntriesToCheck)
-        {
-            int maxRetry = 30;
-            bool areAnyFileLocked;
-            do
-            {
-                areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck);
-                if (areAnyFileLocked) Thread.Sleep(1000);
-                if (maxRetry-- < 0) areAnyFileLocked = false;
-            } while (areAnyFileLocked);
-        }
-
-        public static void WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck)
-        {
-            int maxRetry = 15;            
-            bool areAnyFileLocked;
-            do
-            {
-                areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck);
-                if (areAnyFileLocked) Thread.Sleep(1000);
-                if (maxRetry-- < 0) areAnyFileLocked = false;
-            } while (areAnyFileLocked);
-        }
         #endregion
 
         #region WriteXtraAtom
