@@ -291,7 +291,7 @@
             this.groupBox8.Location = new System.Drawing.Point(0, 0);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(412, 405);
-            this.groupBox8.TabIndex = 29;
+            this.groupBox8.TabIndex = 0;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Open image files with:";
             // 
@@ -303,7 +303,7 @@
             this.label9.Location = new System.Drawing.Point(0, 353);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(50, 17);
-            this.label9.TabIndex = 31;
+            this.label9.TabIndex = 9;
             this.label9.Text = "AppID:";
             // 
             // textBoxOpenImageWithAppId
@@ -314,7 +314,7 @@
             this.textBoxOpenImageWithAppId.Name = "textBoxOpenImageWithAppId";
             this.textBoxOpenImageWithAppId.ReadOnly = true;
             this.textBoxOpenImageWithAppId.Size = new System.Drawing.Size(315, 22);
-            this.textBoxOpenImageWithAppId.TabIndex = 30;
+            this.textBoxOpenImageWithAppId.TabIndex = 4;
             // 
             // comboBoxOpenImageWithVerbs
             // 
@@ -324,7 +324,7 @@
             this.comboBoxOpenImageWithVerbs.Location = new System.Drawing.Point(91, 292);
             this.comboBoxOpenImageWithVerbs.Name = "comboBoxOpenImageWithVerbs";
             this.comboBoxOpenImageWithVerbs.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxOpenImageWithVerbs.TabIndex = 29;
+            this.comboBoxOpenImageWithVerbs.TabIndex = 2;
             this.comboBoxOpenImageWithVerbs.SelectionChangeCommitted += new System.EventHandler(this.comboBoxOpenImageWithVerbs_SelectionChangeCommitted);
             // 
             // label5
@@ -335,7 +335,7 @@
             this.label5.Location = new System.Drawing.Point(0, 295);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(42, 17);
-            this.label5.TabIndex = 28;
+            this.label5.TabIndex = 7;
             this.label5.Text = "Verb:";
             // 
             // label1
@@ -346,7 +346,7 @@
             this.label1.Location = new System.Drawing.Point(0, 267);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(81, 17);
-            this.label1.TabIndex = 25;
+            this.label1.TabIndex = 6;
             this.label1.Text = "Application:";
             // 
             // textBoxOpenImageWithApplication
@@ -357,7 +357,7 @@
             this.textBoxOpenImageWithApplication.Name = "textBoxOpenImageWithApplication";
             this.textBoxOpenImageWithApplication.ReadOnly = true;
             this.textBoxOpenImageWithApplication.Size = new System.Drawing.Size(315, 22);
-            this.textBoxOpenImageWithApplication.TabIndex = 26;
+            this.textBoxOpenImageWithApplication.TabIndex = 1;
             // 
             // dataGridViewImages
             // 
@@ -382,7 +382,7 @@
             this.dataGridViewImages.ShowCellToolTips = false;
             this.dataGridViewImages.ShowEditingIcon = false;
             this.dataGridViewImages.Size = new System.Drawing.Size(403, 237);
-            this.dataGridViewImages.TabIndex = 14;
+            this.dataGridViewImages.TabIndex = 0;
             this.dataGridViewImages.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewImages_CellEnter);
             this.dataGridViewImages.SelectionChanged += new System.EventHandler(this.dataGridViewImages_SelectionChanged);
             // 
@@ -393,7 +393,7 @@
             this.checkBoxOpenImageWithWaitForExit.Location = new System.Drawing.Point(91, 378);
             this.checkBoxOpenImageWithWaitForExit.Name = "checkBoxOpenImageWithWaitForExit";
             this.checkBoxOpenImageWithWaitForExit.Size = new System.Drawing.Size(273, 21);
-            this.checkBoxOpenImageWithWaitForExit.TabIndex = 20;
+            this.checkBoxOpenImageWithWaitForExit.TabIndex = 5;
             this.checkBoxOpenImageWithWaitForExit.Text = "Wait for exit before run next command.";
             this.checkBoxOpenImageWithWaitForExit.UseVisualStyleBackColor = true;
             // 
@@ -405,7 +405,7 @@
             this.label11.Location = new System.Drawing.Point(0, 325);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(75, 17);
-            this.label11.TabIndex = 23;
+            this.label11.TabIndex = 8;
             this.label11.Text = "Command:";
             // 
             // textBoxOpenImageWithCommand
@@ -416,7 +416,7 @@
             this.textBoxOpenImageWithCommand.Name = "textBoxOpenImageWithCommand";
             this.textBoxOpenImageWithCommand.ReadOnly = true;
             this.textBoxOpenImageWithCommand.Size = new System.Drawing.Size(315, 22);
-            this.textBoxOpenImageWithCommand.TabIndex = 24;
+            this.textBoxOpenImageWithCommand.TabIndex = 3;
             // 
             // groupBox9
             // 
@@ -434,7 +434,7 @@
             this.groupBox9.Location = new System.Drawing.Point(0, 0);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(409, 405);
-            this.groupBox9.TabIndex = 30;
+            this.groupBox9.TabIndex = 0;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Open video files with:";
             // 
@@ -446,7 +446,7 @@
             this.textBoxOpenVideoWithAppId.Name = "textBoxOpenVideoWithAppId";
             this.textBoxOpenVideoWithAppId.ReadOnly = true;
             this.textBoxOpenVideoWithAppId.Size = new System.Drawing.Size(312, 22);
-            this.textBoxOpenVideoWithAppId.TabIndex = 34;
+            this.textBoxOpenVideoWithAppId.TabIndex = 4;
             // 
             // label10
             // 
@@ -456,7 +456,7 @@
             this.label10.Location = new System.Drawing.Point(6, 353);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 17);
-            this.label10.TabIndex = 33;
+            this.label10.TabIndex = 9;
             this.label10.Text = "AppID:";
             // 
             // label8
@@ -467,7 +467,7 @@
             this.label8.Location = new System.Drawing.Point(6, 295);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(42, 17);
-            this.label8.TabIndex = 32;
+            this.label8.TabIndex = 7;
             this.label8.Text = "Verb:";
             // 
             // comboBoxOpenVideoWithVerbs
@@ -478,7 +478,7 @@
             this.comboBoxOpenVideoWithVerbs.Location = new System.Drawing.Point(89, 292);
             this.comboBoxOpenVideoWithVerbs.Name = "comboBoxOpenVideoWithVerbs";
             this.comboBoxOpenVideoWithVerbs.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxOpenVideoWithVerbs.TabIndex = 31;
+            this.comboBoxOpenVideoWithVerbs.TabIndex = 2;
             this.comboBoxOpenVideoWithVerbs.SelectionChangeCommitted += new System.EventHandler(this.comboBoxOpenVideoWithVerbs_SelectionChangeCommitted);
             // 
             // label2
@@ -489,7 +489,7 @@
             this.label2.Location = new System.Drawing.Point(3, 267);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 17);
-            this.label2.TabIndex = 28;
+            this.label2.TabIndex = 6;
             this.label2.Text = "Application:";
             // 
             // textBoxOpenVideoWithApplication
@@ -500,7 +500,7 @@
             this.textBoxOpenVideoWithApplication.Name = "textBoxOpenVideoWithApplication";
             this.textBoxOpenVideoWithApplication.ReadOnly = true;
             this.textBoxOpenVideoWithApplication.Size = new System.Drawing.Size(312, 22);
-            this.textBoxOpenVideoWithApplication.TabIndex = 29;
+            this.textBoxOpenVideoWithApplication.TabIndex = 1;
             // 
             // dataGridViewVideos
             // 
@@ -525,7 +525,7 @@
             this.dataGridViewVideos.ShowCellToolTips = false;
             this.dataGridViewVideos.ShowEditingIcon = false;
             this.dataGridViewVideos.Size = new System.Drawing.Size(400, 237);
-            this.dataGridViewVideos.TabIndex = 15;
+            this.dataGridViewVideos.TabIndex = 0;
             this.dataGridViewVideos.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewVideos_CellEnter);
             this.dataGridViewVideos.SelectionChanged += new System.EventHandler(this.dataGridViewVideos_SelectionChanged);
             // 
@@ -537,7 +537,7 @@
             this.label12.Location = new System.Drawing.Point(6, 325);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(75, 17);
-            this.label12.TabIndex = 25;
+            this.label12.TabIndex = 8;
             this.label12.Text = "Command:";
             // 
             // textBoxOpenVideoWithCommand
@@ -548,7 +548,7 @@
             this.textBoxOpenVideoWithCommand.Name = "textBoxOpenVideoWithCommand";
             this.textBoxOpenVideoWithCommand.ReadOnly = true;
             this.textBoxOpenVideoWithCommand.Size = new System.Drawing.Size(312, 22);
-            this.textBoxOpenVideoWithCommand.TabIndex = 26;
+            this.textBoxOpenVideoWithCommand.TabIndex = 3;
             // 
             // checkBoxOpenVideoWithWaitForExit
             // 
@@ -557,7 +557,7 @@
             this.checkBoxOpenVideoWithWaitForExit.Location = new System.Drawing.Point(89, 378);
             this.checkBoxOpenVideoWithWaitForExit.Name = "checkBoxOpenVideoWithWaitForExit";
             this.checkBoxOpenVideoWithWaitForExit.Size = new System.Drawing.Size(273, 21);
-            this.checkBoxOpenVideoWithWaitForExit.TabIndex = 27;
+            this.checkBoxOpenVideoWithWaitForExit.TabIndex = 5;
             this.checkBoxOpenVideoWithWaitForExit.Text = "Wait for exit before run next command.";
             this.checkBoxOpenVideoWithWaitForExit.UseVisualStyleBackColor = true;
             // 
@@ -569,7 +569,7 @@
             this.groupBox7.Location = new System.Drawing.Point(3, 6);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(814, 117);
-            this.groupBox7.TabIndex = 28;
+            this.groupBox7.TabIndex = 0;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Selected files:";
             // 
@@ -583,7 +583,7 @@
             this.textBoxOpenWithSelectedFiles.ReadOnly = true;
             this.textBoxOpenWithSelectedFiles.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxOpenWithSelectedFiles.Size = new System.Drawing.Size(805, 90);
-            this.textBoxOpenWithSelectedFiles.TabIndex = 1;
+            this.textBoxOpenWithSelectedFiles.TabIndex = 0;
             // 
             // buttonOpenWithOpenWith
             // 
@@ -591,7 +591,7 @@
             this.buttonOpenWithOpenWith.Location = new System.Drawing.Point(676, 540);
             this.buttonOpenWithOpenWith.Name = "buttonOpenWithOpenWith";
             this.buttonOpenWithOpenWith.Size = new System.Drawing.Size(139, 30);
-            this.buttonOpenWithOpenWith.TabIndex = 13;
+            this.buttonOpenWithOpenWith.TabIndex = 1;
             this.buttonOpenWithOpenWith.Text = "Open with";
             this.buttonOpenWithOpenWith.UseVisualStyleBackColor = true;
             this.buttonOpenWithOpenWith.Click += new System.EventHandler(this.buttonOpenWithOpenWith_Click);
@@ -617,7 +617,7 @@
             this.checkBoxRunBatchRedirectToTerminalWindows.Location = new System.Drawing.Point(345, 546);
             this.checkBoxRunBatchRedirectToTerminalWindows.Name = "checkBoxRunBatchRedirectToTerminalWindows";
             this.checkBoxRunBatchRedirectToTerminalWindows.Size = new System.Drawing.Size(311, 21);
-            this.checkBoxRunBatchRedirectToTerminalWindows.TabIndex = 33;
+            this.checkBoxRunBatchRedirectToTerminalWindows.TabIndex = 1;
             this.checkBoxRunBatchRedirectToTerminalWindows.Text = "Redirect command output to terminal window";
             this.checkBoxRunBatchRedirectToTerminalWindows.UseVisualStyleBackColor = true;
             // 
@@ -650,7 +650,7 @@
             this.groupBox4.Location = new System.Drawing.Point(5, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(401, 399);
-            this.groupBox4.TabIndex = 21;
+            this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Run app or command for Image files:";
             // 
@@ -664,7 +664,7 @@
             this.tabControlBatchRunImage.Name = "tabControlBatchRunImage";
             this.tabControlBatchRunImage.SelectedIndex = 0;
             this.tabControlBatchRunImage.Size = new System.Drawing.Size(389, 157);
-            this.tabControlBatchRunImage.TabIndex = 32;
+            this.tabControlBatchRunImage.TabIndex = 0;
             this.tabControlBatchRunImage.SelectedIndexChanged += new System.EventHandler(this.tabControlBatchRunImage_SelectedIndexChanged);
             // 
             // tabPageImageCommand
@@ -692,7 +692,7 @@
             this.comboBoxBatchRunImageCommand.Location = new System.Drawing.Point(86, 65);
             this.comboBoxBatchRunImageCommand.Name = "comboBoxBatchRunImageCommand";
             this.comboBoxBatchRunImageCommand.Size = new System.Drawing.Size(290, 24);
-            this.comboBoxBatchRunImageCommand.TabIndex = 29;
+            this.comboBoxBatchRunImageCommand.TabIndex = 2;
             this.comboBoxBatchRunImageCommand.TextChanged += new System.EventHandler(this.comboBoxBatchRunImageCommand_TextChanged);
             this.comboBoxBatchRunImageCommand.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBox_KeyUp);
             this.comboBoxBatchRunImageCommand.Leave += new System.EventHandler(this.comboBox_Leave);
@@ -703,7 +703,7 @@
             this.buttonBatchRunImageBrowser.Location = new System.Drawing.Point(86, 3);
             this.buttonBatchRunImageBrowser.Name = "buttonBatchRunImageBrowser";
             this.buttonBatchRunImageBrowser.Size = new System.Drawing.Size(122, 26);
-            this.buttonBatchRunImageBrowser.TabIndex = 28;
+            this.buttonBatchRunImageBrowser.TabIndex = 0;
             this.buttonBatchRunImageBrowser.Text = "Browse...";
             this.buttonBatchRunImageBrowser.UseVisualStyleBackColor = true;
             this.buttonBatchRunImageBrowser.Click += new System.EventHandler(this.buttonBatchRunImageBrowser_Click);
@@ -714,7 +714,7 @@
             this.checkBoxBatchRunImageWaitForCommandExit.Location = new System.Drawing.Point(86, 95);
             this.checkBoxBatchRunImageWaitForCommandExit.Name = "checkBoxBatchRunImageWaitForCommandExit";
             this.checkBoxBatchRunImageWaitForCommandExit.Size = new System.Drawing.Size(273, 21);
-            this.checkBoxBatchRunImageWaitForCommandExit.TabIndex = 19;
+            this.checkBoxBatchRunImageWaitForCommandExit.TabIndex = 3;
             this.checkBoxBatchRunImageWaitForCommandExit.Text = "Wait for exit before run next command.";
             this.checkBoxBatchRunImageWaitForCommandExit.UseVisualStyleBackColor = true;
             // 
@@ -727,7 +727,7 @@
             this.comboBoxBatchRunImageVariables.Location = new System.Drawing.Point(86, 35);
             this.comboBoxBatchRunImageVariables.Name = "comboBoxBatchRunImageVariables";
             this.comboBoxBatchRunImageVariables.Size = new System.Drawing.Size(290, 24);
-            this.comboBoxBatchRunImageVariables.TabIndex = 5;
+            this.comboBoxBatchRunImageVariables.TabIndex = 1;
             this.comboBoxBatchRunImageVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunImageVariables_SelectionChangeCommitted);
             // 
             // label3
@@ -745,7 +745,7 @@
             this.label7.Location = new System.Drawing.Point(6, 68);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(75, 17);
-            this.label7.TabIndex = 14;
+            this.label7.TabIndex = 5;
             this.label7.Text = "Command:";
             // 
             // tabPageImageApp
@@ -846,7 +846,7 @@
             this.groupBox5.Location = new System.Drawing.Point(6, 200);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(385, 193);
-            this.groupBox5.TabIndex = 22;
+            this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Batch run:";
             // 
@@ -860,7 +860,7 @@
             this.textBoxRunBatchImageExample.Name = "textBoxRunBatchImageExample";
             this.textBoxRunBatchImageExample.ReadOnly = true;
             this.textBoxRunBatchImageExample.Size = new System.Drawing.Size(373, 166);
-            this.textBoxRunBatchImageExample.TabIndex = 17;
+            this.textBoxRunBatchImageExample.TabIndex = 0;
             // 
             // groupBox10
             // 
@@ -872,7 +872,7 @@
             this.groupBox10.Location = new System.Drawing.Point(3, 3);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(403, 399);
-            this.groupBox10.TabIndex = 22;
+            this.groupBox10.TabIndex = 0;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Run app or command for Video files:";
             // 
@@ -886,7 +886,7 @@
             this.tabControlBatchRunVideo.Name = "tabControlBatchRunVideo";
             this.tabControlBatchRunVideo.SelectedIndex = 0;
             this.tabControlBatchRunVideo.Size = new System.Drawing.Size(389, 157);
-            this.tabControlBatchRunVideo.TabIndex = 32;
+            this.tabControlBatchRunVideo.TabIndex = 0;
             this.tabControlBatchRunVideo.SelectedIndexChanged += new System.EventHandler(this.tabControlBatchRunVideo_SelectedIndexChanged);
             // 
             // tabPageVideoCommand
@@ -914,7 +914,7 @@
             this.comboBoxBatchRunVideoCommand.Location = new System.Drawing.Point(86, 65);
             this.comboBoxBatchRunVideoCommand.Name = "comboBoxBatchRunVideoCommand";
             this.comboBoxBatchRunVideoCommand.Size = new System.Drawing.Size(290, 24);
-            this.comboBoxBatchRunVideoCommand.TabIndex = 29;
+            this.comboBoxBatchRunVideoCommand.TabIndex = 2;
             this.comboBoxBatchRunVideoCommand.TextChanged += new System.EventHandler(this.comboBoxBatchRunVideoCommand_TextChanged);
             this.comboBoxBatchRunVideoCommand.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBox_KeyUp);
             this.comboBoxBatchRunVideoCommand.Leave += new System.EventHandler(this.comboBox_Leave);
@@ -925,7 +925,7 @@
             this.buttonBatchRunVideoBrowser.Location = new System.Drawing.Point(86, 3);
             this.buttonBatchRunVideoBrowser.Name = "buttonBatchRunVideoBrowser";
             this.buttonBatchRunVideoBrowser.Size = new System.Drawing.Size(122, 26);
-            this.buttonBatchRunVideoBrowser.TabIndex = 28;
+            this.buttonBatchRunVideoBrowser.TabIndex = 0;
             this.buttonBatchRunVideoBrowser.Text = "Browse...";
             this.buttonBatchRunVideoBrowser.UseVisualStyleBackColor = true;
             this.buttonBatchRunVideoBrowser.Click += new System.EventHandler(this.buttonBatchRunVideoBrowser_Click);
@@ -936,7 +936,7 @@
             this.checkBoxBatchRunVideoWaitForCommandExit.Location = new System.Drawing.Point(86, 95);
             this.checkBoxBatchRunVideoWaitForCommandExit.Name = "checkBoxBatchRunVideoWaitForCommandExit";
             this.checkBoxBatchRunVideoWaitForCommandExit.Size = new System.Drawing.Size(273, 21);
-            this.checkBoxBatchRunVideoWaitForCommandExit.TabIndex = 19;
+            this.checkBoxBatchRunVideoWaitForCommandExit.TabIndex = 3;
             this.checkBoxBatchRunVideoWaitForCommandExit.Text = "Wait for exit before run next command.";
             this.checkBoxBatchRunVideoWaitForCommandExit.UseVisualStyleBackColor = true;
             // 
@@ -949,7 +949,7 @@
             this.comboBoxBatchRunVideoVariables.Location = new System.Drawing.Point(86, 35);
             this.comboBoxBatchRunVideoVariables.Name = "comboBoxBatchRunVideoVariables";
             this.comboBoxBatchRunVideoVariables.Size = new System.Drawing.Size(290, 24);
-            this.comboBoxBatchRunVideoVariables.TabIndex = 5;
+            this.comboBoxBatchRunVideoVariables.TabIndex = 1;
             this.comboBoxBatchRunVideoVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunVideoVariables_SelectionChangeCommitted);
             // 
             // label16
@@ -967,7 +967,7 @@
             this.label17.Location = new System.Drawing.Point(6, 68);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(75, 17);
-            this.label17.TabIndex = 14;
+            this.label17.TabIndex = 5;
             this.label17.Text = "Command:";
             // 
             // tabPageVideoApp
@@ -1068,7 +1068,7 @@
             this.groupBox11.Location = new System.Drawing.Point(6, 200);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(387, 193);
-            this.groupBox11.TabIndex = 22;
+            this.groupBox11.TabIndex = 1;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Batch run:";
             // 
@@ -1082,7 +1082,7 @@
             this.textBoxRunBatchVideoExample.Name = "textBoxRunBatchVideoExample";
             this.textBoxRunBatchVideoExample.ReadOnly = true;
             this.textBoxRunBatchVideoExample.Size = new System.Drawing.Size(375, 166);
-            this.textBoxRunBatchVideoExample.TabIndex = 17;
+            this.textBoxRunBatchVideoExample.TabIndex = 0;
             // 
             // groupBox3
             // 
@@ -1092,7 +1092,7 @@
             this.groupBox3.Location = new System.Drawing.Point(3, 6);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(814, 117);
-            this.groupBox3.TabIndex = 20;
+            this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Selected files:";
             // 
@@ -1106,7 +1106,7 @@
             this.textBoxBatchCommandSelectedFiles.ReadOnly = true;
             this.textBoxBatchCommandSelectedFiles.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxBatchCommandSelectedFiles.Size = new System.Drawing.Size(805, 90);
-            this.textBoxBatchCommandSelectedFiles.TabIndex = 3;
+            this.textBoxBatchCommandSelectedFiles.TabIndex = 0;
             // 
             // buttonBatchCommandBatchRun
             // 
@@ -1114,7 +1114,7 @@
             this.buttonBatchCommandBatchRun.Location = new System.Drawing.Point(676, 540);
             this.buttonBatchCommandBatchRun.Name = "buttonBatchCommandBatchRun";
             this.buttonBatchCommandBatchRun.Size = new System.Drawing.Size(139, 30);
-            this.buttonBatchCommandBatchRun.TabIndex = 13;
+            this.buttonBatchCommandBatchRun.TabIndex = 2;
             this.buttonBatchCommandBatchRun.Text = "Batch run";
             this.buttonBatchCommandBatchRun.UseVisualStyleBackColor = true;
             this.buttonBatchCommandBatchRun.Click += new System.EventHandler(this.buttonBatchCommandBatchRun_Click);
@@ -1141,7 +1141,7 @@
             this.buttonArgumentFileCompare.Location = new System.Drawing.Point(298, 540);
             this.buttonArgumentFileCompare.Name = "buttonArgumentFileCompare";
             this.buttonArgumentFileCompare.Size = new System.Drawing.Size(139, 30);
-            this.buttonArgumentFileCompare.TabIndex = 17;
+            this.buttonArgumentFileCompare.TabIndex = 4;
             this.buttonArgumentFileCompare.Text = "Compare...";
             this.buttonArgumentFileCompare.UseVisualStyleBackColor = true;
             this.buttonArgumentFileCompare.Click += new System.EventHandler(this.buttonArgumentFileCompare_Click);
@@ -1152,7 +1152,7 @@
             this.buttonArgumentFileLoad.Location = new System.Drawing.Point(153, 540);
             this.buttonArgumentFileLoad.Name = "buttonArgumentFileLoad";
             this.buttonArgumentFileLoad.Size = new System.Drawing.Size(139, 30);
-            this.buttonArgumentFileLoad.TabIndex = 16;
+            this.buttonArgumentFileLoad.TabIndex = 3;
             this.buttonArgumentFileLoad.Text = "Load";
             this.buttonArgumentFileLoad.UseVisualStyleBackColor = true;
             this.buttonArgumentFileLoad.Click += new System.EventHandler(this.buttonArgumentFileLoad_Click);
@@ -1163,7 +1163,7 @@
             this.buttonArgumentFileSave.Location = new System.Drawing.Point(8, 540);
             this.buttonArgumentFileSave.Name = "buttonArgumentFileSave";
             this.buttonArgumentFileSave.Size = new System.Drawing.Size(139, 30);
-            this.buttonArgumentFileSave.TabIndex = 15;
+            this.buttonArgumentFileSave.TabIndex = 2;
             this.buttonArgumentFileSave.Text = "Save";
             this.buttonArgumentFileSave.UseVisualStyleBackColor = true;
             this.buttonArgumentFileSave.Click += new System.EventHandler(this.buttonArgumentFileSave_Click);
@@ -1177,7 +1177,7 @@
             this.groupBox2.Location = new System.Drawing.Point(0, 101);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(822, 433);
-            this.groupBox2.TabIndex = 14;
+            this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Argument file to be run:";
             // 
@@ -1192,7 +1192,7 @@
             this.tabControlArgumentFile.Name = "tabControlArgumentFile";
             this.tabControlArgumentFile.SelectedIndex = 0;
             this.tabControlArgumentFile.Size = new System.Drawing.Size(813, 406);
-            this.tabControlArgumentFile.TabIndex = 28;
+            this.tabControlArgumentFile.TabIndex = 0;
             // 
             // tabPageArgumentFileEditFields
             // 
@@ -1217,7 +1217,7 @@
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxArgumentFileArgumentFile.AutoScrollMinSize = new System.Drawing.Size(2, 18);
+            this.fastColoredTextBoxArgumentFileArgumentFile.AutoScrollMinSize = new System.Drawing.Size(31, 18);
             this.fastColoredTextBoxArgumentFileArgumentFile.BackBrush = null;
             this.fastColoredTextBoxArgumentFileArgumentFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxArgumentFileArgumentFile.CharHeight = 18;
@@ -1225,7 +1225,6 @@
             this.fastColoredTextBoxArgumentFileArgumentFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileArgumentFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileArgumentFile.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxArgumentFileArgumentFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileArgumentFile.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileArgumentFile.Location = new System.Drawing.Point(3, 3);
             this.fastColoredTextBoxArgumentFileArgumentFile.Name = "fastColoredTextBoxArgumentFileArgumentFile";
@@ -1233,7 +1232,7 @@
             this.fastColoredTextBoxArgumentFileArgumentFile.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxArgumentFileArgumentFile.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxArgumentFileArgumentFile.ServiceColors")));
             this.fastColoredTextBoxArgumentFileArgumentFile.Size = new System.Drawing.Size(799, 371);
-            this.fastColoredTextBoxArgumentFileArgumentFile.TabIndex = 27;
+            this.fastColoredTextBoxArgumentFileArgumentFile.TabIndex = 0;
             this.fastColoredTextBoxArgumentFileArgumentFile.Zoom = 100;
             this.fastColoredTextBoxArgumentFileArgumentFile.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxArgumentFileArgumentFile_TextChanged);
             this.fastColoredTextBoxArgumentFileArgumentFile.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fastColoredTextBoxArgumentFileArgumentFile_KeyDown);
@@ -1269,6 +1268,7 @@
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Location = new System.Drawing.Point(3, 3);
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Name = "fastColoredTextBoxArgumentFileArgumentFileAutoCorrect";
@@ -1292,7 +1292,7 @@
             this.groupBox1.Location = new System.Drawing.Point(3, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(819, 89);
-            this.groupBox1.TabIndex = 13;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Run command with argument file";
             // 
@@ -1304,7 +1304,7 @@
             this.comboBoxArgumentFileCommand.Location = new System.Drawing.Point(83, 53);
             this.comboBoxArgumentFileCommand.Name = "comboBoxArgumentFileCommand";
             this.comboBoxArgumentFileCommand.Size = new System.Drawing.Size(730, 24);
-            this.comboBoxArgumentFileCommand.TabIndex = 12;
+            this.comboBoxArgumentFileCommand.TabIndex = 3;
             this.comboBoxArgumentFileCommand.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBox_KeyUp);
             this.comboBoxArgumentFileCommand.Leave += new System.EventHandler(this.comboBox_Leave);
             this.comboBoxArgumentFileCommand.MouseMove += new System.Windows.Forms.MouseEventHandler(this.comboBox_MouseMove);
@@ -1315,7 +1315,7 @@
             this.label4.Location = new System.Drawing.Point(6, 27);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 17);
-            this.label4.TabIndex = 8;
+            this.label4.TabIndex = 0;
             this.label4.Text = "Variables:";
             // 
             // comboBoxArgumentFileCommandVariables
@@ -1327,7 +1327,7 @@
             this.comboBoxArgumentFileCommandVariables.Location = new System.Drawing.Point(83, 24);
             this.comboBoxArgumentFileCommandVariables.Name = "comboBoxArgumentFileCommandVariables";
             this.comboBoxArgumentFileCommandVariables.Size = new System.Drawing.Size(730, 24);
-            this.comboBoxArgumentFileCommandVariables.TabIndex = 9;
+            this.comboBoxArgumentFileCommandVariables.TabIndex = 1;
             this.comboBoxArgumentFileCommandVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxArgumentFileCommandVariables_SelectionChangeCommitted);
             // 
             // label6
@@ -1336,7 +1336,7 @@
             this.label6.Location = new System.Drawing.Point(6, 56);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(75, 17);
-            this.label6.TabIndex = 10;
+            this.label6.TabIndex = 2;
             this.label6.Text = "Command:";
             // 
             // buttonArgumentFileRun
@@ -1345,7 +1345,7 @@
             this.buttonArgumentFileRun.Location = new System.Drawing.Point(678, 540);
             this.buttonArgumentFileRun.Name = "buttonArgumentFileRun";
             this.buttonArgumentFileRun.Size = new System.Drawing.Size(139, 30);
-            this.buttonArgumentFileRun.TabIndex = 12;
+            this.buttonArgumentFileRun.TabIndex = 5;
             this.buttonArgumentFileRun.Text = "Run";
             this.buttonArgumentFileRun.UseVisualStyleBackColor = true;
             this.buttonArgumentFileRun.Click += new System.EventHandler(this.buttonArgumentFileRun_Click);
@@ -1371,7 +1371,7 @@
             this.buttonArgumentFileBuilderBuild.Location = new System.Drawing.Point(16, 540);
             this.buttonArgumentFileBuilderBuild.Name = "buttonArgumentFileBuilderBuild";
             this.buttonArgumentFileBuilderBuild.Size = new System.Drawing.Size(139, 30);
-            this.buttonArgumentFileBuilderBuild.TabIndex = 22;
+            this.buttonArgumentFileBuilderBuild.TabIndex = 1;
             this.buttonArgumentFileBuilderBuild.Text = "Update result";
             this.buttonArgumentFileBuilderBuild.UseVisualStyleBackColor = true;
             this.buttonArgumentFileBuilderBuild.Click += new System.EventHandler(this.buttonArgumentFileBuilderBuild_Click);
@@ -1382,7 +1382,7 @@
             this.buttonArgumentFileBuilderSave.Location = new System.Drawing.Point(161, 540);
             this.buttonArgumentFileBuilderSave.Name = "buttonArgumentFileBuilderSave";
             this.buttonArgumentFileBuilderSave.Size = new System.Drawing.Size(139, 30);
-            this.buttonArgumentFileBuilderSave.TabIndex = 18;
+            this.buttonArgumentFileBuilderSave.TabIndex = 2;
             this.buttonArgumentFileBuilderSave.Text = "Save result";
             this.buttonArgumentFileBuilderSave.UseVisualStyleBackColor = true;
             this.buttonArgumentFileBuilderSave.Click += new System.EventHandler(this.buttonArgumentFileBuilderSave_Click);
@@ -1416,7 +1416,7 @@
             this.groupBox12.Location = new System.Drawing.Point(3, 3);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(813, 304);
-            this.groupBox12.TabIndex = 15;
+            this.groupBox12.TabIndex = 0;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Argument file builder:";
             // 
@@ -1488,7 +1488,7 @@
             this.buttonMetadataWriteKeywordAddLoad.Location = new System.Drawing.Point(317, 110);
             this.buttonMetadataWriteKeywordAddLoad.Name = "buttonMetadataWriteKeywordAddLoad";
             this.buttonMetadataWriteKeywordAddLoad.Size = new System.Drawing.Size(74, 26);
-            this.buttonMetadataWriteKeywordAddLoad.TabIndex = 38;
+            this.buttonMetadataWriteKeywordAddLoad.TabIndex = 6;
             this.buttonMetadataWriteKeywordAddLoad.Text = "Load";
             this.buttonMetadataWriteKeywordAddLoad.UseVisualStyleBackColor = true;
             this.buttonMetadataWriteKeywordAddLoad.Click += new System.EventHandler(this.buttonMetadataWriteKeywordAddLoad_Click);
@@ -1498,7 +1498,7 @@
             this.buttonMetadataWriteKeywordDeleteLoad.Location = new System.Drawing.Point(317, 2);
             this.buttonMetadataWriteKeywordDeleteLoad.Name = "buttonMetadataWriteKeywordDeleteLoad";
             this.buttonMetadataWriteKeywordDeleteLoad.Size = new System.Drawing.Size(74, 26);
-            this.buttonMetadataWriteKeywordDeleteLoad.TabIndex = 37;
+            this.buttonMetadataWriteKeywordDeleteLoad.TabIndex = 1;
             this.buttonMetadataWriteKeywordDeleteLoad.Text = "Load";
             this.buttonMetadataWriteKeywordDeleteLoad.UseVisualStyleBackColor = true;
             this.buttonMetadataWriteKeywordDeleteLoad.Click += new System.EventHandler(this.buttonMetadataWriteKeywordDeleteLoad_Click);
@@ -1508,7 +1508,7 @@
             this.buttonMetadataWriteKeywordAddSave.Location = new System.Drawing.Point(392, 110);
             this.buttonMetadataWriteKeywordAddSave.Name = "buttonMetadataWriteKeywordAddSave";
             this.buttonMetadataWriteKeywordAddSave.Size = new System.Drawing.Size(74, 26);
-            this.buttonMetadataWriteKeywordAddSave.TabIndex = 36;
+            this.buttonMetadataWriteKeywordAddSave.TabIndex = 7;
             this.buttonMetadataWriteKeywordAddSave.Text = "Save";
             this.buttonMetadataWriteKeywordAddSave.UseVisualStyleBackColor = true;
             this.buttonMetadataWriteKeywordAddSave.Click += new System.EventHandler(this.buttonMetadataWriteKeywordAddSave_Click);
@@ -1518,7 +1518,7 @@
             this.buttonMetadataWriteKeywordDeleteSave.Location = new System.Drawing.Point(393, 2);
             this.buttonMetadataWriteKeywordDeleteSave.Name = "buttonMetadataWriteKeywordDeleteSave";
             this.buttonMetadataWriteKeywordDeleteSave.Size = new System.Drawing.Size(74, 26);
-            this.buttonMetadataWriteKeywordDeleteSave.TabIndex = 35;
+            this.buttonMetadataWriteKeywordDeleteSave.TabIndex = 2;
             this.buttonMetadataWriteKeywordDeleteSave.Text = "Save";
             this.buttonMetadataWriteKeywordDeleteSave.UseVisualStyleBackColor = true;
             this.buttonMetadataWriteKeywordDeleteSave.Click += new System.EventHandler(this.buttonMetadataWriteKeywordDeleteSave_Click);
@@ -1532,7 +1532,7 @@
             this.comboBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(474, 110);
             this.comboBoxMetadataWriteKeywordAdd.Name = "comboBoxMetadataWriteKeywordAdd";
             this.comboBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(279, 24);
-            this.comboBoxMetadataWriteKeywordAdd.TabIndex = 34;
+            this.comboBoxMetadataWriteKeywordAdd.TabIndex = 8;
             this.comboBoxMetadataWriteKeywordAdd.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteKeywordAdd_SelectionChangeCommitted);
             // 
             // fastColoredTextBoxMetadataWriteKeywordAdd
@@ -1555,6 +1555,7 @@
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(3, 138);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -1562,7 +1563,7 @@
             this.fastColoredTextBoxMetadataWriteKeywordAdd.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxMetadataWriteKeywordAdd.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxMetadataWriteKeywordAdd.ServiceColors")));
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(750, 83);
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.TabIndex = 33;
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.TabIndex = 9;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Text = "fastColoredTextBox1";
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Zoom = 100;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxMetadataWriteKeywordAdd_TextChanged);
@@ -1574,7 +1575,7 @@
             this.label26.Location = new System.Drawing.Point(4, 5);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(299, 17);
-            this.label26.TabIndex = 29;
+            this.label26.TabIndex = 0;
             this.label26.Text = "For every keyword deleted and before adding:";
             // 
             // fastColoredTextBoxMetadataWriteKeywordDelete
@@ -1590,13 +1591,14 @@
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharHeight = 18;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(3, 31);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
@@ -1604,7 +1606,7 @@
             this.fastColoredTextBoxMetadataWriteKeywordDelete.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxMetadataWriteKeywordDelete.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxMetadataWriteKeywordDelete.ServiceColors")));
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(750, 75);
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.TabIndex = 32;
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.TabIndex = 4;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Text = "fastColoredTextBox1";
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Zoom = 100;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxMetadataWriteKeywordDelete_TextChanged);
@@ -1616,7 +1618,7 @@
             this.label27.Location = new System.Drawing.Point(4, 115);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(164, 17);
-            this.label27.TabIndex = 30;
+            this.label27.TabIndex = 5;
             this.label27.Text = "For every new keywords:";
             // 
             // comboBoxMetadataWriteKeywordDelete
@@ -1628,7 +1630,7 @@
             this.comboBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(474, 2);
             this.comboBoxMetadataWriteKeywordDelete.Name = "comboBoxMetadataWriteKeywordDelete";
             this.comboBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(279, 24);
-            this.comboBoxMetadataWriteKeywordDelete.TabIndex = 31;
+            this.comboBoxMetadataWriteKeywordDelete.TabIndex = 3;
             this.comboBoxMetadataWriteKeywordDelete.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteKeywordDelete_SelectionChangeCommitted);
             // 
             // groupBoxMetadataWriteTags
@@ -1644,7 +1646,7 @@
             this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(3, 3);
             this.groupBoxMetadataWriteTags.Name = "groupBoxMetadataWriteTags";
             this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(796, 139);
-            this.groupBoxMetadataWriteTags.TabIndex = 15;
+            this.groupBoxMetadataWriteTags.TabIndex = 0;
             this.groupBoxMetadataWriteTags.TabStop = false;
             this.groupBoxMetadataWriteTags.Text = "Exiftool Write tags configuration ";
             // 
@@ -1653,7 +1655,7 @@
             this.buttonMetadataWriteKeywordsSave.Location = new System.Drawing.Point(400, 21);
             this.buttonMetadataWriteKeywordsSave.Name = "buttonMetadataWriteKeywordsSave";
             this.buttonMetadataWriteKeywordsSave.Size = new System.Drawing.Size(74, 26);
-            this.buttonMetadataWriteKeywordsSave.TabIndex = 20;
+            this.buttonMetadataWriteKeywordsSave.TabIndex = 1;
             this.buttonMetadataWriteKeywordsSave.Text = "Save";
             this.buttonMetadataWriteKeywordsSave.UseVisualStyleBackColor = true;
             this.buttonMetadataWriteKeywordsSave.Click += new System.EventHandler(this.buttonMetadataWriteKeywordsSave_Click);
@@ -1675,13 +1677,14 @@
             this.fastColoredTextBoxMetadataWriteTags.AutoIndent = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentChars = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentExistingLines = false;
-            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteTags.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteTags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteTags.CharHeight = 18;
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(5, 51);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -1689,7 +1692,7 @@
             this.fastColoredTextBoxMetadataWriteTags.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxMetadataWriteTags.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxMetadataWriteTags.ServiceColors")));
             this.fastColoredTextBoxMetadataWriteTags.Size = new System.Drawing.Size(782, 82);
-            this.fastColoredTextBoxMetadataWriteTags.TabIndex = 8;
+            this.fastColoredTextBoxMetadataWriteTags.TabIndex = 3;
             this.fastColoredTextBoxMetadataWriteTags.Text = "fastColoredTextBox1";
             this.fastColoredTextBoxMetadataWriteTags.Zoom = 100;
             this.fastColoredTextBoxMetadataWriteTags.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxMetadataWriteTags_TextChanged);
@@ -1704,7 +1707,7 @@
             this.comboBoxMetadataWriteStandardTags.Location = new System.Drawing.Point(480, 21);
             this.comboBoxMetadataWriteStandardTags.Name = "comboBoxMetadataWriteStandardTags";
             this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(307, 24);
-            this.comboBoxMetadataWriteStandardTags.TabIndex = 6;
+            this.comboBoxMetadataWriteStandardTags.TabIndex = 2;
             this.comboBoxMetadataWriteStandardTags.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteStandardTags_SelectionChangeCommitted);
             // 
             // buttonMetadataWriteKeywordsLoad
@@ -1712,7 +1715,7 @@
             this.buttonMetadataWriteKeywordsLoad.Location = new System.Drawing.Point(324, 21);
             this.buttonMetadataWriteKeywordsLoad.Name = "buttonMetadataWriteKeywordsLoad";
             this.buttonMetadataWriteKeywordsLoad.Size = new System.Drawing.Size(74, 26);
-            this.buttonMetadataWriteKeywordsLoad.TabIndex = 19;
+            this.buttonMetadataWriteKeywordsLoad.TabIndex = 0;
             this.buttonMetadataWriteKeywordsLoad.Text = "Load";
             this.buttonMetadataWriteKeywordsLoad.UseVisualStyleBackColor = true;
             this.buttonMetadataWriteKeywordsLoad.Click += new System.EventHandler(this.buttonMetadataWriteKeywordsLoad_Click);
@@ -1756,13 +1759,14 @@
             this.fastColoredTextBoxBuildResult.AutoIndent = false;
             this.fastColoredTextBoxBuildResult.AutoIndentChars = false;
             this.fastColoredTextBoxBuildResult.AutoIndentExistingLines = false;
-            this.fastColoredTextBoxBuildResult.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxBuildResult.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxBuildResult.BackBrush = null;
             this.fastColoredTextBoxBuildResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxBuildResult.CharHeight = 18;
             this.fastColoredTextBoxBuildResult.CharWidth = 10;
             this.fastColoredTextBoxBuildResult.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxBuildResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxBuildResult.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxBuildResult.IsReplaceMode = false;
             this.fastColoredTextBoxBuildResult.Location = new System.Drawing.Point(14, 26);
             this.fastColoredTextBoxBuildResult.Name = "fastColoredTextBoxBuildResult";
@@ -1770,7 +1774,7 @@
             this.fastColoredTextBoxBuildResult.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxBuildResult.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxBuildResult.ServiceColors")));
             this.fastColoredTextBoxBuildResult.Size = new System.Drawing.Size(781, 82);
-            this.fastColoredTextBoxBuildResult.TabIndex = 9;
+            this.fastColoredTextBoxBuildResult.TabIndex = 0;
             this.fastColoredTextBoxBuildResult.Text = "fastColoredTextBox1";
             this.fastColoredTextBoxBuildResult.Zoom = 100;
             this.fastColoredTextBoxBuildResult.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxBuildResult_TextChanged);
@@ -1787,7 +1791,7 @@
             this.groupBox6.Location = new System.Drawing.Point(3, 3);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(813, 89);
-            this.groupBox6.TabIndex = 14;
+            this.groupBox6.TabIndex = 0;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Run command with argument file";
             // 
@@ -1799,7 +1803,7 @@
             this.comboBoxArgumentFileBuilderCommand.Location = new System.Drawing.Point(83, 53);
             this.comboBoxArgumentFileBuilderCommand.Name = "comboBoxArgumentFileBuilderCommand";
             this.comboBoxArgumentFileBuilderCommand.Size = new System.Drawing.Size(724, 24);
-            this.comboBoxArgumentFileBuilderCommand.TabIndex = 12;
+            this.comboBoxArgumentFileBuilderCommand.TabIndex = 3;
             // 
             // label21
             // 
@@ -1807,7 +1811,7 @@
             this.label21.Location = new System.Drawing.Point(6, 27);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(71, 17);
-            this.label21.TabIndex = 8;
+            this.label21.TabIndex = 0;
             this.label21.Text = "Variables:";
             // 
             // comboBoxArgumentFileBuilderCommandVariables
@@ -1819,7 +1823,7 @@
             this.comboBoxArgumentFileBuilderCommandVariables.Location = new System.Drawing.Point(83, 24);
             this.comboBoxArgumentFileBuilderCommandVariables.Name = "comboBoxArgumentFileBuilderCommandVariables";
             this.comboBoxArgumentFileBuilderCommandVariables.Size = new System.Drawing.Size(724, 24);
-            this.comboBoxArgumentFileBuilderCommandVariables.TabIndex = 9;
+            this.comboBoxArgumentFileBuilderCommandVariables.TabIndex = 1;
             // 
             // label22
             // 
@@ -1827,7 +1831,7 @@
             this.label22.Location = new System.Drawing.Point(6, 56);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(75, 17);
-            this.label22.TabIndex = 10;
+            this.label22.TabIndex = 2;
             this.label22.Text = "Command:";
             // 
             // buttonArgumentFileBuilderCompare
@@ -1836,7 +1840,7 @@
             this.buttonArgumentFileBuilderCompare.Location = new System.Drawing.Point(306, 540);
             this.buttonArgumentFileBuilderCompare.Name = "buttonArgumentFileBuilderCompare";
             this.buttonArgumentFileBuilderCompare.Size = new System.Drawing.Size(139, 30);
-            this.buttonArgumentFileBuilderCompare.TabIndex = 20;
+            this.buttonArgumentFileBuilderCompare.TabIndex = 3;
             this.buttonArgumentFileBuilderCompare.Text = "Compare";
             this.buttonArgumentFileBuilderCompare.UseVisualStyleBackColor = true;
             this.buttonArgumentFileBuilderCompare.Click += new System.EventHandler(this.buttonArgumentFileBuilderCompare_Click);
@@ -1847,7 +1851,7 @@
             this.buttonArgumentFileBuilderRun.Location = new System.Drawing.Point(678, 540);
             this.buttonArgumentFileBuilderRun.Name = "buttonArgumentFileBuilderRun";
             this.buttonArgumentFileBuilderRun.Size = new System.Drawing.Size(139, 30);
-            this.buttonArgumentFileBuilderRun.TabIndex = 13;
+            this.buttonArgumentFileBuilderRun.TabIndex = 4;
             this.buttonArgumentFileBuilderRun.Text = "Run";
             this.buttonArgumentFileBuilderRun.UseVisualStyleBackColor = true;
             this.buttonArgumentFileBuilderRun.Click += new System.EventHandler(this.buttonArgumentFileBuilderRun_Click);
@@ -1873,6 +1877,7 @@
             this.fastColoredTextBoxArgumentFileBuilderSource.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderSource.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileBuilderSource.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderSource.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderSource.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderSource.Name = "fastColoredTextBoxArgumentFileBuilderSource";
@@ -1905,6 +1910,7 @@
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Name = "fastColoredTextBoxArgumentFileBuilderResultOrginal";
@@ -1955,6 +1961,7 @@
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileBuilderResultGrid.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Name = "fastColoredTextBoxArgumentFileBuilderResultGrid";

@@ -141,6 +141,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemImageListViewAutoCorrect = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemImageListViewAutoCorrectForm = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileWithAssociatedApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openMediaFilesWithToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -411,7 +412,6 @@ namespace PhotoTagsSynchronizer
             this.timerFindGoogleCast = new System.Windows.Forms.Timer(this.components);
             this.timerPreviewNextTimer = new System.Windows.Forms.Timer(this.components);
             this.timerSaveProgessRemoveProgress = new System.Windows.Forms.Timer(this.components);
-            this.toolStripMenuItemImageListViewAutoCorrectForm = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -1462,7 +1462,7 @@ namespace PhotoTagsSynchronizer
             this.ratateCCW270ToolStripMenuItem,
             this.mediaPreviewToolStripMenuItem});
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
-            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 604);
+            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 576);
             // 
             // sortMediaFileByToolStripMenuItem
             // 
@@ -1675,6 +1675,16 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemImageListViewAutoCorrect.Text = "AutoCorrect metadata";
             this.toolStripMenuItemImageListViewAutoCorrect.Click += new System.EventHandler(this.toolStripMenuItemImageListViewAutoCorrect_Click);
             // 
+            // toolStripMenuItemImageListViewAutoCorrectForm
+            // 
+            this.toolStripMenuItemImageListViewAutoCorrectForm.Image = global::PhotoTagsSynchronizer.Properties.Resources.AutoCorrect;
+            this.toolStripMenuItemImageListViewAutoCorrectForm.Name = "toolStripMenuItemImageListViewAutoCorrectForm";
+            this.toolStripMenuItemImageListViewAutoCorrectForm.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.T)));
+            this.toolStripMenuItemImageListViewAutoCorrectForm.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemImageListViewAutoCorrectForm.Text = "AutoCorrect metadata form...";
+            this.toolStripMenuItemImageListViewAutoCorrectForm.Click += new System.EventHandler(this.toolStripMenuItemImageListViewAutoCorrectForm_Click);
+            // 
             // openFileWithAssociatedApplicationToolStripMenuItem
             // 
             this.openFileWithAssociatedApplicationToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Image_Open;
@@ -1836,7 +1846,7 @@ namespace PhotoTagsSynchronizer
             this.labelTagsInformation.Location = new System.Drawing.Point(292, 152);
             this.labelTagsInformation.Name = "labelTagsInformation";
             this.labelTagsInformation.Size = new System.Drawing.Size(493, 17);
-            this.labelTagsInformation.TabIndex = 15;
+            this.labelTagsInformation.TabIndex = 6;
             this.labelTagsInformation.Text = "Use right mouse button, Context Menu key or Shift-F10 to open context menu";
             // 
             // labelAuthor
@@ -1845,7 +1855,7 @@ namespace PhotoTagsSynchronizer
             this.labelAuthor.Location = new System.Drawing.Point(6, 118);
             this.labelAuthor.Name = "labelAuthor";
             this.labelAuthor.Size = new System.Drawing.Size(50, 17);
-            this.labelAuthor.TabIndex = 13;
+            this.labelAuthor.TabIndex = 14;
             this.labelAuthor.Text = "Author";
             // 
             // comboBoxAuthor
@@ -1858,7 +1868,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAuthor.Location = new System.Drawing.Point(88, 115);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
             this.comboBoxAuthor.Size = new System.Drawing.Size(609, 25);
-            this.comboBoxAuthor.TabIndex = 12;
+            this.comboBoxAuthor.TabIndex = 4;
             this.comboBoxAuthor.TextChanged += new System.EventHandler(this.comboBoxAuthor_TextChanged);
             // 
             // comboBoxMediaAiConfidence
@@ -1877,7 +1887,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMediaAiConfidence.Location = new System.Drawing.Point(88, 182);
             this.comboBoxMediaAiConfidence.Name = "comboBoxMediaAiConfidence";
             this.comboBoxMediaAiConfidence.Size = new System.Drawing.Size(198, 25);
-            this.comboBoxMediaAiConfidence.TabIndex = 11;
+            this.comboBoxMediaAiConfidence.TabIndex = 8;
             this.comboBoxMediaAiConfidence.SelectedIndexChanged += new System.EventHandler(this.comboBoxMediaAiConfidence_SelectedIndexChanged);
             // 
             // dataGridViewTagsAndKeywords
@@ -1895,7 +1905,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewTagsAndKeywords.ShowCellErrors = false;
             this.dataGridViewTagsAndKeywords.ShowRowErrors = false;
             this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(694, 642);
-            this.dataGridViewTagsAndKeywords.TabIndex = 10;
+            this.dataGridViewTagsAndKeywords.TabIndex = 9;
             this.dataGridViewTagsAndKeywords.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTagsAndKeywords_CellBeginEdit);
             this.dataGridViewTagsAndKeywords.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewTagsAndKeywords_CellMouseClick);
             this.dataGridViewTagsAndKeywords.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewTagsAndKeywords_CellPainting);
@@ -2121,7 +2131,7 @@ namespace PhotoTagsSynchronizer
             this.label5.Location = new System.Drawing.Point(6, 185);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(37, 17);
-            this.label5.TabIndex = 9;
+            this.label5.TabIndex = 7;
             this.label5.Text = "Tags";
             // 
             // groupBoxRating
@@ -2134,7 +2144,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxRating.Location = new System.Drawing.Point(9, 142);
             this.groupBoxRating.Name = "groupBoxRating";
             this.groupBoxRating.Size = new System.Drawing.Size(277, 38);
-            this.groupBoxRating.TabIndex = 8;
+            this.groupBoxRating.TabIndex = 5;
             this.groupBoxRating.TabStop = false;
             this.groupBoxRating.Text = "Rating";
             // 
@@ -2208,7 +2218,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAlbum.Location = new System.Drawing.Point(88, 7);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
             this.comboBoxAlbum.Size = new System.Drawing.Size(609, 25);
-            this.comboBoxAlbum.TabIndex = 7;
+            this.comboBoxAlbum.TabIndex = 0;
             this.comboBoxAlbum.TextChanged += new System.EventHandler(this.comboBoxAlbum_TextChanged);
             // 
             // label4
@@ -2217,7 +2227,7 @@ namespace PhotoTagsSynchronizer
             this.label4.Location = new System.Drawing.Point(6, 10);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 17);
-            this.label4.TabIndex = 6;
+            this.label4.TabIndex = 10;
             this.label4.Text = "Album";
             // 
             // comboBoxComments
@@ -2230,7 +2240,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments.Location = new System.Drawing.Point(88, 88);
             this.comboBoxComments.Name = "comboBoxComments";
             this.comboBoxComments.Size = new System.Drawing.Size(609, 25);
-            this.comboBoxComments.TabIndex = 5;
+            this.comboBoxComments.TabIndex = 3;
             this.comboBoxComments.TextChanged += new System.EventHandler(this.comboBoxComments_TextChanged);
             // 
             // labelComments
@@ -2239,7 +2249,7 @@ namespace PhotoTagsSynchronizer
             this.labelComments.Location = new System.Drawing.Point(6, 91);
             this.labelComments.Name = "labelComments";
             this.labelComments.Size = new System.Drawing.Size(75, 17);
-            this.labelComments.TabIndex = 4;
+            this.labelComments.TabIndex = 13;
             this.labelComments.Text = "Comments";
             // 
             // labelDescription
@@ -2248,7 +2258,7 @@ namespace PhotoTagsSynchronizer
             this.labelDescription.Location = new System.Drawing.Point(6, 64);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(76, 17);
-            this.labelDescription.TabIndex = 3;
+            this.labelDescription.TabIndex = 12;
             this.labelDescription.Text = "Description";
             // 
             // labelTitle
@@ -2257,7 +2267,7 @@ namespace PhotoTagsSynchronizer
             this.labelTitle.Location = new System.Drawing.Point(6, 37);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(32, 17);
-            this.labelTitle.TabIndex = 2;
+            this.labelTitle.TabIndex = 11;
             this.labelTitle.Text = "Title";
             // 
             // comboBoxDescription
@@ -2270,7 +2280,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxDescription.Location = new System.Drawing.Point(88, 61);
             this.comboBoxDescription.Name = "comboBoxDescription";
             this.comboBoxDescription.Size = new System.Drawing.Size(609, 25);
-            this.comboBoxDescription.TabIndex = 1;
+            this.comboBoxDescription.TabIndex = 2;
             this.comboBoxDescription.TextChanged += new System.EventHandler(this.comboBoxDescription_TextChanged);
             // 
             // comboBoxTitle
@@ -2283,15 +2293,15 @@ namespace PhotoTagsSynchronizer
             this.comboBoxTitle.Location = new System.Drawing.Point(88, 34);
             this.comboBoxTitle.Name = "comboBoxTitle";
             this.comboBoxTitle.Size = new System.Drawing.Size(609, 25);
-            this.comboBoxTitle.TabIndex = 0;
+            this.comboBoxTitle.TabIndex = 1;
             this.comboBoxTitle.TextChanged += new System.EventHandler(this.comboBoxTitle_TextChanged);
             // 
             // tabPagePeople
             // 
             this.tabPagePeople.Controls.Add(this.dataGridViewPeople);
-            this.tabPagePeople.Location = new System.Drawing.Point(4, 25);
+            this.tabPagePeople.Location = new System.Drawing.Point(4, 26);
             this.tabPagePeople.Name = "tabPagePeople";
-            this.tabPagePeople.Size = new System.Drawing.Size(706, 863);
+            this.tabPagePeople.Size = new System.Drawing.Size(706, 862);
             this.tabPagePeople.TabIndex = 2;
             this.tabPagePeople.Tag = "People";
             this.tabPagePeople.Text = "People";
@@ -2309,7 +2319,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewPeople.Name = "dataGridViewPeople";
             this.dataGridViewPeople.RowHeadersWidth = 51;
             this.dataGridViewPeople.RowTemplate.Height = 24;
-            this.dataGridViewPeople.Size = new System.Drawing.Size(700, 857);
+            this.dataGridViewPeople.Size = new System.Drawing.Size(700, 856);
             this.dataGridViewPeople.TabIndex = 0;
             this.dataGridViewPeople.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPeople_CellBeginEdit);
             this.dataGridViewPeople.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPeople_CellEndEdit);
@@ -2584,9 +2594,9 @@ namespace PhotoTagsSynchronizer
             // tabPageMap
             // 
             this.tabPageMap.Controls.Add(this.splitContainerMap);
-            this.tabPageMap.Location = new System.Drawing.Point(4, 25);
+            this.tabPageMap.Location = new System.Drawing.Point(4, 26);
             this.tabPageMap.Name = "tabPageMap";
-            this.tabPageMap.Size = new System.Drawing.Size(706, 863);
+            this.tabPageMap.Size = new System.Drawing.Size(706, 862);
             this.tabPageMap.TabIndex = 3;
             this.tabPageMap.Tag = "Map";
             this.tabPageMap.Text = "Map";
@@ -2614,8 +2624,8 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerMap.Panel2.Controls.Add(this.panel3);
             this.splitContainerMap.Panel2.Controls.Add(this.panelBrowser);
-            this.splitContainerMap.Size = new System.Drawing.Size(706, 863);
-            this.splitContainerMap.SplitterDistance = 702;
+            this.splitContainerMap.Size = new System.Drawing.Size(706, 862);
+            this.splitContainerMap.SplitterDistance = 701;
             this.splitContainerMap.SplitterWidth = 10;
             this.splitContainerMap.TabIndex = 5;
             this.splitContainerMap.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerMap_SplitterMoved);
@@ -2701,7 +2711,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.ShowCellToolTips = false;
             this.dataGridViewMap.ShowEditingIcon = false;
             this.dataGridViewMap.ShowRowErrors = false;
-            this.dataGridViewMap.Size = new System.Drawing.Size(702, 665);
+            this.dataGridViewMap.Size = new System.Drawing.Size(702, 664);
             this.dataGridViewMap.TabIndex = 10;
             this.dataGridViewMap.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewMap_CellBeginEdit);
             this.dataGridViewMap.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewMap_CellMouseDoubleClick);
@@ -2984,9 +2994,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.tabPageDate.Controls.Add(this.textBox1);
             this.tabPageDate.Controls.Add(this.dataGridViewDate);
-            this.tabPageDate.Location = new System.Drawing.Point(4, 25);
+            this.tabPageDate.Location = new System.Drawing.Point(4, 26);
             this.tabPageDate.Name = "tabPageDate";
-            this.tabPageDate.Size = new System.Drawing.Size(706, 863);
+            this.tabPageDate.Size = new System.Drawing.Size(706, 862);
             this.tabPageDate.TabIndex = 6;
             this.tabPageDate.Tag = "Date";
             this.tabPageDate.Text = "Date";
@@ -3017,7 +3027,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewDate.Name = "dataGridViewDate";
             this.dataGridViewDate.RowHeadersWidth = 51;
             this.dataGridViewDate.RowTemplate.Height = 24;
-            this.dataGridViewDate.Size = new System.Drawing.Size(703, 778);
+            this.dataGridViewDate.Size = new System.Drawing.Size(703, 777);
             this.dataGridViewDate.TabIndex = 0;
             this.dataGridViewDate.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewDate_CellBeginEdit);
             this.dataGridViewDate.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDate_CellEndEdit);
@@ -3182,9 +3192,9 @@ namespace PhotoTagsSynchronizer
             // tabPageExifTool
             // 
             this.tabPageExifTool.Controls.Add(this.dataGridViewExifTool);
-            this.tabPageExifTool.Location = new System.Drawing.Point(4, 25);
+            this.tabPageExifTool.Location = new System.Drawing.Point(4, 26);
             this.tabPageExifTool.Name = "tabPageExifTool";
-            this.tabPageExifTool.Size = new System.Drawing.Size(706, 863);
+            this.tabPageExifTool.Size = new System.Drawing.Size(706, 862);
             this.tabPageExifTool.TabIndex = 4;
             this.tabPageExifTool.Tag = "ExifTool";
             this.tabPageExifTool.Text = "ExifTool";
@@ -3201,7 +3211,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifTool.Name = "dataGridViewExifTool";
             this.dataGridViewExifTool.RowHeadersWidth = 51;
             this.dataGridViewExifTool.RowTemplate.Height = 24;
-            this.dataGridViewExifTool.Size = new System.Drawing.Size(706, 863);
+            this.dataGridViewExifTool.Size = new System.Drawing.Size(706, 862);
             this.dataGridViewExifTool.TabIndex = 0;
             this.dataGridViewExifTool.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifTool_CellBeginEdit);
             this.dataGridViewExifTool.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifTool_CellPainting);
@@ -3306,10 +3316,10 @@ namespace PhotoTagsSynchronizer
             // tabPageExifToolWarning
             // 
             this.tabPageExifToolWarning.Controls.Add(this.dataGridViewExifToolWarning);
-            this.tabPageExifToolWarning.Location = new System.Drawing.Point(4, 25);
+            this.tabPageExifToolWarning.Location = new System.Drawing.Point(4, 26);
             this.tabPageExifToolWarning.Name = "tabPageExifToolWarning";
             this.tabPageExifToolWarning.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageExifToolWarning.Size = new System.Drawing.Size(706, 863);
+            this.tabPageExifToolWarning.Size = new System.Drawing.Size(706, 862);
             this.tabPageExifToolWarning.TabIndex = 5;
             this.tabPageExifToolWarning.Tag = "Warning";
             this.tabPageExifToolWarning.Text = "Warnings";
@@ -3335,7 +3345,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.ReadOnly = true;
             this.dataGridViewExifToolWarning.RowHeadersWidth = 51;
             this.dataGridViewExifToolWarning.RowTemplate.Height = 24;
-            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(700, 857);
+            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(700, 856);
             this.dataGridViewExifToolWarning.TabIndex = 0;
             this.dataGridViewExifToolWarning.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifToolWarning_CellBeginEdit);
             this.dataGridViewExifToolWarning.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewExifToolWarning_CellPainting);
@@ -3440,10 +3450,10 @@ namespace PhotoTagsSynchronizer
             // tabPageFileProperties
             // 
             this.tabPageFileProperties.Controls.Add(this.dataGridViewProperties);
-            this.tabPageFileProperties.Location = new System.Drawing.Point(4, 25);
+            this.tabPageFileProperties.Location = new System.Drawing.Point(4, 26);
             this.tabPageFileProperties.Name = "tabPageFileProperties";
             this.tabPageFileProperties.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFileProperties.Size = new System.Drawing.Size(706, 863);
+            this.tabPageFileProperties.Size = new System.Drawing.Size(706, 862);
             this.tabPageFileProperties.TabIndex = 7;
             this.tabPageFileProperties.Tag = "Properties";
             this.tabPageFileProperties.Text = "Properties";
@@ -3461,7 +3471,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewProperties.Name = "dataGridViewProperties";
             this.dataGridViewProperties.RowHeadersWidth = 51;
             this.dataGridViewProperties.RowTemplate.Height = 24;
-            this.dataGridViewProperties.Size = new System.Drawing.Size(700, 857);
+            this.dataGridViewProperties.Size = new System.Drawing.Size(700, 856);
             this.dataGridViewProperties.TabIndex = 0;
             this.dataGridViewProperties.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewProperties_CellBeginEdit);
             this.dataGridViewProperties.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewProperties_CellPainting);
@@ -3476,9 +3486,9 @@ namespace PhotoTagsSynchronizer
             this.tabPageFileRename.Controls.Add(this.label1);
             this.tabPageFileRename.Controls.Add(this.textBoxRenameNewName);
             this.tabPageFileRename.Controls.Add(this.dataGridViewRename);
-            this.tabPageFileRename.Location = new System.Drawing.Point(4, 25);
+            this.tabPageFileRename.Location = new System.Drawing.Point(4, 26);
             this.tabPageFileRename.Name = "tabPageFileRename";
-            this.tabPageFileRename.Size = new System.Drawing.Size(706, 863);
+            this.tabPageFileRename.Size = new System.Drawing.Size(706, 862);
             this.tabPageFileRename.TabIndex = 8;
             this.tabPageFileRename.Tag = "Rename";
             this.tabPageFileRename.Text = "Rename";
@@ -3490,7 +3500,7 @@ namespace PhotoTagsSynchronizer
             this.buttonRenameUpdate.Location = new System.Drawing.Point(122, 75);
             this.buttonRenameUpdate.Name = "buttonRenameUpdate";
             this.buttonRenameUpdate.Size = new System.Drawing.Size(75, 23);
-            this.buttonRenameUpdate.TabIndex = 7;
+            this.buttonRenameUpdate.TabIndex = 2;
             this.buttonRenameUpdate.Text = "Update";
             this.buttonRenameUpdate.UseVisualStyleBackColor = true;
             this.buttonRenameUpdate.Click += new System.EventHandler(this.buttonRenameUpdate_Click);
@@ -3500,7 +3510,7 @@ namespace PhotoTagsSynchronizer
             this.buttonRenameSave.Location = new System.Drawing.Point(203, 75);
             this.buttonRenameSave.Name = "buttonRenameSave";
             this.buttonRenameSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonRenameSave.TabIndex = 6;
+            this.buttonRenameSave.TabIndex = 3;
             this.buttonRenameSave.Text = "Rename";
             this.buttonRenameSave.UseVisualStyleBackColor = true;
             this.buttonRenameSave.Click += new System.EventHandler(this.buttonRenameSave_Click);
@@ -3550,7 +3560,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxRenameVariableList.Location = new System.Drawing.Point(122, 14);
             this.comboBoxRenameVariableList.Name = "comboBoxRenameVariableList";
             this.comboBoxRenameVariableList.Size = new System.Drawing.Size(581, 25);
-            this.comboBoxRenameVariableList.TabIndex = 4;
+            this.comboBoxRenameVariableList.TabIndex = 0;
             this.comboBoxRenameVariableList.SelectionChangeCommitted += new System.EventHandler(this.comboBoxRenameVariableList_SelectionChangeCommitted);
             // 
             // label2
@@ -3593,8 +3603,8 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.Name = "dataGridViewRename";
             this.dataGridViewRename.RowHeadersWidth = 51;
             this.dataGridViewRename.RowTemplate.Height = 24;
-            this.dataGridViewRename.Size = new System.Drawing.Size(703, 759);
-            this.dataGridViewRename.TabIndex = 0;
+            this.dataGridViewRename.Size = new System.Drawing.Size(703, 758);
+            this.dataGridViewRename.TabIndex = 4;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewRename_CellPainting);
             this.dataGridViewRename.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewRename_KeyDown);
@@ -3602,10 +3612,10 @@ namespace PhotoTagsSynchronizer
             // tabPageMediaConverter
             // 
             this.tabPageMediaConverter.Controls.Add(this.panelConvertAndMerge);
-            this.tabPageMediaConverter.Location = new System.Drawing.Point(4, 25);
+            this.tabPageMediaConverter.Location = new System.Drawing.Point(4, 26);
             this.tabPageMediaConverter.Name = "tabPageMediaConverter";
             this.tabPageMediaConverter.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMediaConverter.Size = new System.Drawing.Size(706, 863);
+            this.tabPageMediaConverter.Size = new System.Drawing.Size(706, 862);
             this.tabPageMediaConverter.TabIndex = 9;
             this.tabPageMediaConverter.Tag = "ConvertAndMerge";
             this.tabPageMediaConverter.Text = "Convert & Merge";
@@ -3617,7 +3627,7 @@ namespace PhotoTagsSynchronizer
             this.panelConvertAndMerge.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelConvertAndMerge.Location = new System.Drawing.Point(3, 3);
             this.panelConvertAndMerge.Name = "panelConvertAndMerge";
-            this.panelConvertAndMerge.Size = new System.Drawing.Size(700, 857);
+            this.panelConvertAndMerge.Size = new System.Drawing.Size(700, 856);
             this.panelConvertAndMerge.TabIndex = 0;
             // 
             // dataGridViewConvertAndMerge
@@ -3631,7 +3641,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewConvertAndMerge.Name = "dataGridViewConvertAndMerge";
             this.dataGridViewConvertAndMerge.RowHeadersWidth = 51;
             this.dataGridViewConvertAndMerge.RowTemplate.Height = 24;
-            this.dataGridViewConvertAndMerge.Size = new System.Drawing.Size(700, 857);
+            this.dataGridViewConvertAndMerge.Size = new System.Drawing.Size(700, 856);
             this.dataGridViewConvertAndMerge.TabIndex = 1;
             this.dataGridViewConvertAndMerge.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewConvertAndMerge_CellPainting);
             this.dataGridViewConvertAndMerge.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridViewConvertAndMerge_DragDrop);
@@ -4549,16 +4559,6 @@ namespace PhotoTagsSynchronizer
             this.timerSaveProgessRemoveProgress.Enabled = true;
             this.timerSaveProgessRemoveProgress.Interval = 500;
             this.timerSaveProgessRemoveProgress.Tick += new System.EventHandler(this.timerSaveProgessRemoveProgress_Tick);
-            // 
-            // toolStripMenuItemImageListViewAutoCorrectForm
-            // 
-            this.toolStripMenuItemImageListViewAutoCorrectForm.Image = global::PhotoTagsSynchronizer.Properties.Resources.AutoCorrect;
-            this.toolStripMenuItemImageListViewAutoCorrectForm.Name = "toolStripMenuItemImageListViewAutoCorrectForm";
-            this.toolStripMenuItemImageListViewAutoCorrectForm.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.T)));
-            this.toolStripMenuItemImageListViewAutoCorrectForm.Size = new System.Drawing.Size(389, 26);
-            this.toolStripMenuItemImageListViewAutoCorrectForm.Text = "AutoCorrect metadata form...";
-            this.toolStripMenuItemImageListViewAutoCorrectForm.Click += new System.EventHandler(this.toolStripMenuItemImageListViewAutoCorrectForm_Click);
             // 
             // MainForm
             // 

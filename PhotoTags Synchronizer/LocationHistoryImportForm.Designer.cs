@@ -44,7 +44,7 @@
             this.buttonImportLocationHistory.Location = new System.Drawing.Point(81, 60);
             this.buttonImportLocationHistory.Name = "buttonImportLocationHistory";
             this.buttonImportLocationHistory.Size = new System.Drawing.Size(244, 28);
-            this.buttonImportLocationHistory.TabIndex = 0;
+            this.buttonImportLocationHistory.TabIndex = 1;
             this.buttonImportLocationHistory.Text = "Select file and Import";
             this.buttonImportLocationHistory.UseVisualStyleBackColor = true;
             this.buttonImportLocationHistory.Click += new System.EventHandler(this.buttonImportLocationHistory_Click);
@@ -55,7 +55,7 @@
             this.label1.Location = new System.Drawing.Point(21, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 17);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 3;
             this.label1.Text = "Name:";
             // 
             // comboBoxUserAccount
@@ -64,7 +64,7 @@
             this.comboBoxUserAccount.Location = new System.Drawing.Point(81, 33);
             this.comboBoxUserAccount.Name = "comboBoxUserAccount";
             this.comboBoxUserAccount.Size = new System.Drawing.Size(244, 24);
-            this.comboBoxUserAccount.TabIndex = 2;
+            this.comboBoxUserAccount.TabIndex = 0;
             this.comboBoxUserAccount.SelectionChangeCommitted += new System.EventHandler(this.comboBoxUserAccount_SelectionChangeCommitted);
             // 
             // label2
@@ -73,7 +73,7 @@
             this.label2.Location = new System.Drawing.Point(342, 41);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(397, 17);
-            this.label2.TabIndex = 3;
+            this.label2.TabIndex = 2;
             this.label2.Text = "Enter name for the user you want to import location history for";
             // 
             // statusStripStatus

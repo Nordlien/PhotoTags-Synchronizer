@@ -177,7 +177,7 @@ namespace PhotoTagsSynchronizer
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(979, 508);
-            this.panel2.TabIndex = 2;
+            this.panel2.TabIndex = 0;
             // 
             // panelBrowser
             // 
@@ -255,6 +255,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript.CharWidth = 10;
             this.fastColoredTextBoxJavaScript.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScript.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxJavaScript.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxJavaScript.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScript.Language = FastColoredTextBoxNS.Language.JS;
             this.fastColoredTextBoxJavaScript.LeftBracket = '(';
@@ -267,7 +268,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScript.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxJavaScript.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxJavaScript.ServiceColors")));
             this.fastColoredTextBoxJavaScript.Size = new System.Drawing.Size(974, 93);
-            this.fastColoredTextBoxJavaScript.TabIndex = 27;
+            this.fastColoredTextBoxJavaScript.TabIndex = 0;
             this.fastColoredTextBoxJavaScript.WordWrap = true;
             this.fastColoredTextBoxJavaScript.Zoom = 100;
             // 
@@ -295,6 +296,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScriptResult.CommentPrefix = null;
             this.fastColoredTextBoxJavaScriptResult.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxJavaScriptResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxJavaScriptResult.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxJavaScriptResult.IsReplaceMode = false;
             this.fastColoredTextBoxJavaScriptResult.Language = FastColoredTextBoxNS.Language.XML;
             this.fastColoredTextBoxJavaScriptResult.LeftBracket = '<';
@@ -307,7 +309,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxJavaScriptResult.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxJavaScriptResult.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxJavaScriptResult.ServiceColors")));
             this.fastColoredTextBoxJavaScriptResult.Size = new System.Drawing.Size(974, 86);
-            this.fastColoredTextBoxJavaScriptResult.TabIndex = 28;
+            this.fastColoredTextBoxJavaScriptResult.TabIndex = 0;
             this.fastColoredTextBoxJavaScriptResult.WordWrap = true;
             this.fastColoredTextBoxJavaScriptResult.Zoom = 100;
             // 
@@ -341,7 +343,7 @@ namespace PhotoTagsSynchronizer
             this.splitContainer4.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer4.Size = new System.Drawing.Size(424, 610);
             this.splitContainer4.SplitterDistance = 263;
-            this.splitContainer4.TabIndex = 31;
+            this.splitContainer4.TabIndex = 1;
             // 
             // groupBox1
             // 
@@ -360,7 +362,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox1.Location = new System.Drawing.Point(3, 8);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(417, 252);
-            this.groupBox1.TabIndex = 25;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "WebScraping - DataSet";
             // 
@@ -369,7 +371,7 @@ namespace PhotoTagsSynchronizer
             this.buttonWebScrapingClearDataSet.Location = new System.Drawing.Point(4, 52);
             this.buttonWebScrapingClearDataSet.Name = "buttonWebScrapingClearDataSet";
             this.buttonWebScrapingClearDataSet.Size = new System.Drawing.Size(203, 25);
-            this.buttonWebScrapingClearDataSet.TabIndex = 30;
+            this.buttonWebScrapingClearDataSet.TabIndex = 2;
             this.buttonWebScrapingClearDataSet.Text = "Clear DataSet";
             this.buttonWebScrapingClearDataSet.UseVisualStyleBackColor = true;
             this.buttonWebScrapingClearDataSet.Click += new System.EventHandler(this.buttonWebScrapingClearDataSet_Click);
@@ -383,7 +385,7 @@ namespace PhotoTagsSynchronizer
             this.buttonWebScrapingDataSetDelete.Location = new System.Drawing.Point(293, 84);
             this.buttonWebScrapingDataSetDelete.Name = "buttonWebScrapingDataSetDelete";
             this.buttonWebScrapingDataSetDelete.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingDataSetDelete.TabIndex = 29;
+            this.buttonWebScrapingDataSetDelete.TabIndex = 3;
             this.buttonWebScrapingDataSetDelete.UseVisualStyleBackColor = true;
             this.buttonWebScrapingDataSetDelete.Click += new System.EventHandler(this.buttonWebScrapingDataSetDelete_Click);
             // 
@@ -393,7 +395,7 @@ namespace PhotoTagsSynchronizer
             this.label3.Location = new System.Drawing.Point(213, 25);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(209, 17);
-            this.label3.TabIndex = 28;
+            this.label3.TabIndex = 1;
             this.label3.Text = "Load/merge dataset to continue";
             // 
             // label2
@@ -402,7 +404,7 @@ namespace PhotoTagsSynchronizer
             this.label2.Location = new System.Drawing.Point(6, 92);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(259, 17);
-            this.label2.TabIndex = 27;
+            this.label2.TabIndex = 5;
             this.label2.Text = "Last dataset will be use for AutoCorrect.";
             // 
             // buttonWebScrapingDataSetSelectNone
@@ -412,7 +414,7 @@ namespace PhotoTagsSynchronizer
             this.buttonWebScrapingDataSetSelectNone.Location = new System.Drawing.Point(386, 84);
             this.buttonWebScrapingDataSetSelectNone.Name = "buttonWebScrapingDataSetSelectNone";
             this.buttonWebScrapingDataSetSelectNone.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingDataSetSelectNone.TabIndex = 26;
+            this.buttonWebScrapingDataSetSelectNone.TabIndex = 4;
             this.buttonWebScrapingDataSetSelectNone.UseVisualStyleBackColor = true;
             this.buttonWebScrapingDataSetSelectNone.Click += new System.EventHandler(this.buttonWebScrapingCategoryGroupSelectNone_Click);
             // 
@@ -457,7 +459,7 @@ namespace PhotoTagsSynchronizer
             this.listViewDataSetDates.Location = new System.Drawing.Point(6, 115);
             this.listViewDataSetDates.Name = "listViewDataSetDates";
             this.listViewDataSetDates.Size = new System.Drawing.Size(407, 131);
-            this.listViewDataSetDates.TabIndex = 23;
+            this.listViewDataSetDates.TabIndex = 6;
             this.listViewDataSetDates.UseCompatibleStateImageBehavior = false;
             this.listViewDataSetDates.View = System.Windows.Forms.View.Details;
             this.listViewDataSetDates.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewDataSet_ColumnClick);
@@ -507,7 +509,7 @@ namespace PhotoTagsSynchronizer
             this.buttonWebScrapingLoadPackage.Location = new System.Drawing.Point(4, 21);
             this.buttonWebScrapingLoadPackage.Name = "buttonWebScrapingLoadPackage";
             this.buttonWebScrapingLoadPackage.Size = new System.Drawing.Size(203, 25);
-            this.buttonWebScrapingLoadPackage.TabIndex = 21;
+            this.buttonWebScrapingLoadPackage.TabIndex = 0;
             this.buttonWebScrapingLoadPackage.Text = "Load/Merge DataSet";
             this.buttonWebScrapingLoadPackage.UseVisualStyleBackColor = true;
             this.buttonWebScrapingLoadPackage.Click += new System.EventHandler(this.buttonWebScrapingLoadPackage_Click);
@@ -530,7 +532,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox2.Location = new System.Drawing.Point(4, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(416, 333);
-            this.groupBox2.TabIndex = 26;
+            this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "WebScraping";
             // 
@@ -539,7 +541,7 @@ namespace PhotoTagsSynchronizer
             this.buttonWebScrapingStop.Location = new System.Drawing.Point(4, 52);
             this.buttonWebScrapingStop.Name = "buttonWebScrapingStop";
             this.buttonWebScrapingStop.Size = new System.Drawing.Size(203, 25);
-            this.buttonWebScrapingStop.TabIndex = 19;
+            this.buttonWebScrapingStop.TabIndex = 2;
             this.buttonWebScrapingStop.Text = "Stop Scraping";
             this.buttonWebScrapingStop.UseVisualStyleBackColor = true;
             this.buttonWebScrapingStop.Click += new System.EventHandler(this.buttonWebScrapingStop_Click);
@@ -549,7 +551,7 @@ namespace PhotoTagsSynchronizer
             this.buttonWebScrapingStart.Location = new System.Drawing.Point(4, 21);
             this.buttonWebScrapingStart.Name = "buttonWebScrapingStart";
             this.buttonWebScrapingStart.Size = new System.Drawing.Size(203, 25);
-            this.buttonWebScrapingStart.TabIndex = 12;
+            this.buttonWebScrapingStart.TabIndex = 0;
             this.buttonWebScrapingStart.Text = "Start Scraping";
             this.buttonWebScrapingStart.UseVisualStyleBackColor = true;
             this.buttonWebScrapingStart.Click += new System.EventHandler(this.buttonWebScrapingStart_Click);
@@ -559,7 +561,7 @@ namespace PhotoTagsSynchronizer
             this.buttonWebScrapingSave.Location = new System.Drawing.Point(213, 52);
             this.buttonWebScrapingSave.Name = "buttonWebScrapingSave";
             this.buttonWebScrapingSave.Size = new System.Drawing.Size(203, 25);
-            this.buttonWebScrapingSave.TabIndex = 18;
+            this.buttonWebScrapingSave.TabIndex = 3;
             this.buttonWebScrapingSave.Text = "Save Scraping dataset";
             this.buttonWebScrapingSave.UseVisualStyleBackColor = true;
             this.buttonWebScrapingSave.Click += new System.EventHandler(this.buttonWebScrapingSave_Click);
@@ -585,7 +587,7 @@ namespace PhotoTagsSynchronizer
             this.listViewLinks.Location = new System.Drawing.Point(6, 119);
             this.listViewLinks.Name = "listViewLinks";
             this.listViewLinks.Size = new System.Drawing.Size(404, 208);
-            this.listViewLinks.TabIndex = 5;
+            this.listViewLinks.TabIndex = 6;
             this.listViewLinks.UseCompatibleStateImageBehavior = false;
             this.listViewLinks.View = System.Windows.Forms.View.Details;
             this.listViewLinks.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewLinks_ColumnClick);
@@ -640,7 +642,7 @@ namespace PhotoTagsSynchronizer
             this.buttonWebScrapingCategories.Location = new System.Drawing.Point(211, 21);
             this.buttonWebScrapingCategories.Name = "buttonWebScrapingCategories";
             this.buttonWebScrapingCategories.Size = new System.Drawing.Size(203, 25);
-            this.buttonWebScrapingCategories.TabIndex = 13;
+            this.buttonWebScrapingCategories.TabIndex = 1;
             this.buttonWebScrapingCategories.Text = "Fetch categories";
             this.buttonWebScrapingCategories.UseVisualStyleBackColor = true;
             this.buttonWebScrapingCategories.Click += new System.EventHandler(this.WebScrapingCategoryLinks_Click);
@@ -652,7 +654,7 @@ namespace PhotoTagsSynchronizer
             this.buttonWebScrapingSelectNotRead.Location = new System.Drawing.Point(292, 88);
             this.buttonWebScrapingSelectNotRead.Name = "buttonWebScrapingSelectNotRead";
             this.buttonWebScrapingSelectNotRead.Size = new System.Drawing.Size(25, 25);
-            this.buttonWebScrapingSelectNotRead.TabIndex = 23;
+            this.buttonWebScrapingSelectNotRead.TabIndex = 5;
             this.buttonWebScrapingSelectNotRead.UseVisualStyleBackColor = true;
             this.buttonWebScrapingSelectNotRead.Click += new System.EventHandler(this.buttonWebScrapingSelectNotRead_Click);
             // 
@@ -664,7 +666,7 @@ namespace PhotoTagsSynchronizer
             this.label1.Location = new System.Drawing.Point(3, 92);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(240, 17);
-            this.label1.TabIndex = 6;
+            this.label1.TabIndex = 4;
             this.label1.Text = "What categories to do WebScraping:";
             // 
             // buttonWebScrapingSelectNone
@@ -710,7 +712,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxDevTools.Location = new System.Drawing.Point(2, 3);
             this.groupBoxDevTools.Name = "groupBoxDevTools";
             this.groupBoxDevTools.Size = new System.Drawing.Size(420, 88);
-            this.groupBoxDevTools.TabIndex = 24;
+            this.groupBoxDevTools.TabIndex = 0;
             this.groupBoxDevTools.TabStop = false;
             this.groupBoxDevTools.Text = "DevTools";
             // 
@@ -719,7 +721,7 @@ namespace PhotoTagsSynchronizer
             this.buttonRunJavaScript.Location = new System.Drawing.Point(4, 50);
             this.buttonRunJavaScript.Name = "buttonRunJavaScript";
             this.buttonRunJavaScript.Size = new System.Drawing.Size(203, 25);
-            this.buttonRunJavaScript.TabIndex = 2;
+            this.buttonRunJavaScript.TabIndex = 1;
             this.buttonRunJavaScript.Text = "Run JavaScript";
             this.buttonRunJavaScript.UseVisualStyleBackColor = true;
             this.buttonRunJavaScript.Click += new System.EventHandler(this.buttonRunJavaScript_Click);
@@ -729,7 +731,7 @@ namespace PhotoTagsSynchronizer
             this.buttonBrowserShowDevTool.Location = new System.Drawing.Point(4, 21);
             this.buttonBrowserShowDevTool.Name = "buttonBrowserShowDevTool";
             this.buttonBrowserShowDevTool.Size = new System.Drawing.Size(203, 25);
-            this.buttonBrowserShowDevTool.TabIndex = 1;
+            this.buttonBrowserShowDevTool.TabIndex = 0;
             this.buttonBrowserShowDevTool.Text = "Show DevTools";
             this.buttonBrowserShowDevTool.UseVisualStyleBackColor = true;
             this.buttonBrowserShowDevTool.Click += new System.EventHandler(this.buttonBrowserShowDevTool_Click);
@@ -739,7 +741,7 @@ namespace PhotoTagsSynchronizer
             this.buttonSaveJavaScript.Location = new System.Drawing.Point(213, 50);
             this.buttonSaveJavaScript.Name = "buttonSaveJavaScript";
             this.buttonSaveJavaScript.Size = new System.Drawing.Size(203, 25);
-            this.buttonSaveJavaScript.TabIndex = 14;
+            this.buttonSaveJavaScript.TabIndex = 2;
             this.buttonSaveJavaScript.Text = "Save JavaScript";
             this.buttonSaveJavaScript.UseVisualStyleBackColor = true;
             this.buttonSaveJavaScript.Click += new System.EventHandler(this.buttonSaveJavaScript_Click);
