@@ -51,10 +51,10 @@ namespace PhotoTagsSynchronizer
 
             LocationCoordinate.TryParse(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagCoordinates), out LocationCoordinate locationCoordinate);
             metadata.LocationCoordinate = locationCoordinate;
-            metadata.LocationName = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagLocationName);
-            metadata.LocationCity= (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCity);
-            metadata.LocationState = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagProvince);
-            metadata.LocationCountry = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCountry);            
+            metadata.LocationName = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagLocationName)).Trim();
+            metadata.LocationCity= ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCity)).Trim();
+            metadata.LocationState = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagProvince)).Trim();
+            metadata.LocationCountry = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCountry)).Trim();            
         }
         #endregion 
 

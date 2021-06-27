@@ -46,11 +46,11 @@ namespace PhotoTagsSynchronizer
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, fileEntryColumn);
             //DataGridViewHandler.ClearFileBeenUpdated(dataGridView, columnIndex);
 
-            metadata.PersonalAlbum = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagAlbum); 
-            metadata.PersonalTitle = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagTitle);
-            metadata.PersonalDescription = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagDescription);
-            metadata.PersonalComments = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagComments);
-            metadata.PersonalAuthor = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagAuthor);
+            metadata.PersonalAlbum = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagAlbum)).Trim(); 
+            metadata.PersonalTitle = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagTitle)).Trim();
+            metadata.PersonalDescription = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagDescription)).Trim();
+            metadata.PersonalComments = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagComments)).Trim();
+            metadata.PersonalAuthor = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagAuthor)).Trim();
 
             byte rating = 255; //empty
             var ratingValue = DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagRating);
