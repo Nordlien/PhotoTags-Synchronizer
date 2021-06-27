@@ -74,7 +74,7 @@ namespace PhotoTagsSynchronizer
             this.buttonClose.Location = new System.Drawing.Point(610, 189);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(125, 40);
-            this.buttonClose.TabIndex = 26;
+            this.buttonClose.TabIndex = 11;
             this.buttonClose.Text = "Close";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
@@ -85,7 +85,7 @@ namespace PhotoTagsSynchronizer
             this.buttonAutoCorrect.Location = new System.Drawing.Point(479, 189);
             this.buttonAutoCorrect.Name = "buttonAutoCorrect";
             this.buttonAutoCorrect.Size = new System.Drawing.Size(125, 40);
-            this.buttonAutoCorrect.TabIndex = 25;
+            this.buttonAutoCorrect.TabIndex = 10;
             this.buttonAutoCorrect.Text = "Run AutoCorrect";
             this.buttonAutoCorrect.UseVisualStyleBackColor = true;
             this.buttonAutoCorrect.Click += new System.EventHandler(this.buttonAutoCorrect_Click);
@@ -100,7 +100,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAuthor.Location = new System.Drawing.Point(166, 142);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
             this.comboBoxAuthor.Size = new System.Drawing.Size(569, 24);
-            this.comboBoxAuthor.TabIndex = 23;
+            this.comboBoxAuthor.TabIndex = 4;
             this.comboBoxAuthor.SelectionChangeCommitted += new System.EventHandler(this.comboBoxAuthor_SelectionChangeCommitted);
             // 
             // comboBoxAlbum
@@ -113,7 +113,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAlbum.Location = new System.Drawing.Point(166, 34);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
             this.comboBoxAlbum.Size = new System.Drawing.Size(569, 24);
-            this.comboBoxAlbum.TabIndex = 21;
+            this.comboBoxAlbum.TabIndex = 0;
             this.comboBoxAlbum.SelectionChangeCommitted += new System.EventHandler(this.comboBoxAlbum_SelectionChangeCommitted);
             // 
             // comboBoxComments
@@ -126,7 +126,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments.Location = new System.Drawing.Point(166, 115);
             this.comboBoxComments.Name = "comboBoxComments";
             this.comboBoxComments.Size = new System.Drawing.Size(569, 24);
-            this.comboBoxComments.TabIndex = 19;
+            this.comboBoxComments.TabIndex = 3;
             this.comboBoxComments.SelectionChangeCommitted += new System.EventHandler(this.comboBoxComments_SelectionChangeCommitted);
             // 
             // comboBoxDescription
@@ -139,7 +139,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxDescription.Location = new System.Drawing.Point(166, 88);
             this.comboBoxDescription.Name = "comboBoxDescription";
             this.comboBoxDescription.Size = new System.Drawing.Size(569, 24);
-            this.comboBoxDescription.TabIndex = 15;
+            this.comboBoxDescription.TabIndex = 2;
             this.comboBoxDescription.SelectionChangeCommitted += new System.EventHandler(this.comboBoxDescription_SelectionChangeCommitted);
             // 
             // comboBoxTitle
@@ -152,7 +152,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxTitle.Location = new System.Drawing.Point(166, 61);
             this.comboBoxTitle.Name = "comboBoxTitle";
             this.comboBoxTitle.Size = new System.Drawing.Size(569, 24);
-            this.comboBoxTitle.TabIndex = 14;
+            this.comboBoxTitle.TabIndex = 1;
             this.comboBoxTitle.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitle_SelectionChangeCommitted);
             // 
             // checkBoxAlbum
@@ -163,7 +163,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxAlbum.Location = new System.Drawing.Point(25, 36);
             this.checkBoxAlbum.Name = "checkBoxAlbum";
             this.checkBoxAlbum.Size = new System.Drawing.Size(69, 21);
-            this.checkBoxAlbum.TabIndex = 27;
+            this.checkBoxAlbum.TabIndex = 5;
             this.checkBoxAlbum.Text = "Album";
             this.checkBoxAlbum.UseVisualStyleBackColor = true;
             // 
@@ -175,7 +175,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxTitle.Location = new System.Drawing.Point(25, 63);
             this.checkBoxTitle.Name = "checkBoxTitle";
             this.checkBoxTitle.Size = new System.Drawing.Size(57, 21);
-            this.checkBoxTitle.TabIndex = 28;
+            this.checkBoxTitle.TabIndex = 6;
             this.checkBoxTitle.Text = "Title";
             this.checkBoxTitle.UseVisualStyleBackColor = true;
             // 
@@ -187,7 +187,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxDescription.Location = new System.Drawing.Point(25, 90);
             this.checkBoxDescription.Name = "checkBoxDescription";
             this.checkBoxDescription.Size = new System.Drawing.Size(101, 21);
-            this.checkBoxDescription.TabIndex = 29;
+            this.checkBoxDescription.TabIndex = 7;
             this.checkBoxDescription.Text = "Description";
             this.checkBoxDescription.UseVisualStyleBackColor = true;
             // 
@@ -199,7 +199,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxComments.Location = new System.Drawing.Point(25, 118);
             this.checkBoxComments.Name = "checkBoxComments";
             this.checkBoxComments.Size = new System.Drawing.Size(96, 21);
-            this.checkBoxComments.TabIndex = 30;
+            this.checkBoxComments.TabIndex = 8;
             this.checkBoxComments.Text = "Comments";
             this.checkBoxComments.UseVisualStyleBackColor = true;
             // 
@@ -211,7 +211,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxAuthor.Location = new System.Drawing.Point(25, 144);
             this.checkBoxAuthor.Name = "checkBoxAuthor";
             this.checkBoxAuthor.Size = new System.Drawing.Size(72, 21);
-            this.checkBoxAuthor.TabIndex = 31;
+            this.checkBoxAuthor.TabIndex = 9;
             this.checkBoxAuthor.Text = "Author";
             this.checkBoxAuthor.UseVisualStyleBackColor = true;
             // 
