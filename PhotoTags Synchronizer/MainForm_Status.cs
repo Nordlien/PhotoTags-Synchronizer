@@ -90,7 +90,7 @@ namespace PhotoTagsSynchronizer
             if (!string.IsNullOrWhiteSpace(Exiftool.ExiftoolWriter.FileLockedByProcess)) {
                 threadQueuCount++;
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    "Locked file: " + Path.GetFileName(Exiftool.ExiftoolWriter.FileLockedByProcess));
+                    "Locked file: " + Path.GetFileName(Exiftool.ExiftoolWriter.FileLockedByProcess);
             }
 
             if (GetFileEntriesRotateMediaCountDirty() > 0) 

@@ -51,10 +51,22 @@ namespace PhotoTagsSynchronizer
 
             LocationCoordinate.TryParse(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, headerMedia, tagCoordinates), out LocationCoordinate locationCoordinate);
             metadata.LocationCoordinate = locationCoordinate;
-            metadata.LocationName = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagLocationName)).Trim();
-            metadata.LocationCity= ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCity)).Trim();
-            metadata.LocationState = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagProvince)).Trim();
-            metadata.LocationCountry = ((string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCountry)).Trim();            
+
+            metadata.LocationName = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagLocationName);
+            if (metadata.LocationName != null) metadata.LocationName = metadata.LocationName.Trim();
+            if (string.IsNullOrWhiteSpace(metadata.LocationName)) metadata.LocationName = null;
+
+            metadata.LocationCity = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCity);
+            if (metadata.LocationCity != null) metadata.LocationCity = metadata.LocationCity.Trim();
+            if (string.IsNullOrWhiteSpace(metadata.LocationCity)) metadata.LocationCity = null;
+
+            metadata.LocationState = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagProvince);
+            if (metadata.LocationState != null) metadata.LocationState = metadata.LocationState.Trim();
+            if (string.IsNullOrWhiteSpace(metadata.LocationState)) metadata.LocationState = null;
+
+            metadata.LocationCountry = (string)DataGridViewHandler.GetCellValue(dataGridView, columnIndex, headerMedia, tagCountry);
+            if (metadata.LocationCountry != null) metadata.LocationCountry = metadata.LocationCountry.Trim();
+            if (string.IsNullOrWhiteSpace(metadata.LocationCountry)) metadata.LocationCountry = null;
         }
         #endregion 
 

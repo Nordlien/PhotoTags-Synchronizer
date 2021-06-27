@@ -923,10 +923,20 @@ namespace PhotoTagsSynchronizer
                     if (metadataToSave != null)
                     {
                         if (useAlbum) metadataToSave.PersonalAlbum = album;
+                        if (!useAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
+
                         if (useAuthor) metadataToSave.PersonalAuthor = author;
+                        if (!useAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
+
                         if (useComments) metadataToSave.PersonalComments = comments;
+                        if (!useComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
+
                         if (uselDescription) metadataToSave.PersonalDescription = description;
+                        if (!uselDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
+
                         if (useTitle) metadataToSave.PersonalTitle = title;
+                        if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
+
                         AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
                         AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); 
                     }
