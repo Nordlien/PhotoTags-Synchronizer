@@ -236,6 +236,7 @@ namespace DataGridViewGeneric
         #region PasteDataGridViewSelectedCellsFromClipboard
         public static void PasteDataGridViewSelectedCellsFromClipboard(DataGridView dataGridView, int leftColumnOverwrite, int rightColumnOverwrite, int topRowOverwrite, int buttomRowOverwrite, bool removeTag)
         {
+             
             #region HtmlFormat
             // Try to process as html format (data from excel) since it keeps the row information intact, instead of assuming
             // a new row for every new line if we just process it as text
@@ -243,41 +244,52 @@ namespace DataGridViewGeneric
             List<List<string>> rowContents = new List<List<string>>();
             if (HtmlFormat != null)
             {
-                // Remove html tags to just extract row information and store it in rowContents
-                System.Text.RegularExpressions.Regex TRregex = new System.Text.RegularExpressions.Regex(@"<( )*tr([^>])*>", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                System.Text.RegularExpressions.Regex TDregex = new System.Text.RegularExpressions.Regex(@"<( )*td([^>])*>", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                System.Text.RegularExpressions.Match trMatch = TRregex.Match(HtmlFormat);
-                while (!String.IsNullOrWhiteSpace(trMatch.Value))
+                try
                 {
-                    int rowStart = trMatch.Index + trMatch.Length;
-                    int rowEnd = HtmlFormat.IndexOf("</tr>", rowStart, StringComparison.InvariantCultureIgnoreCase);
-                    System.Text.RegularExpressions.Match tdMatch = TDregex.Match(HtmlFormat, rowStart, rowEnd - rowStart);
-                    List<string> rowContent = new List<string>();
-                    while (!String.IsNullOrWhiteSpace(tdMatch.Value))
+                    // Remove html tags to just extract row information and store it in rowContents
+                    System.Text.RegularExpressions.Regex TRregex = new System.Text.RegularExpressions.Regex(@"<( )*tr([^>])*>", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                    System.Text.RegularExpressions.Regex TDregex = new System.Text.RegularExpressions.Regex(@"<( )*td([^>])*>", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                    System.Text.RegularExpressions.Match trMatch = TRregex.Match(HtmlFormat);
+
+                    bool anyCellFound = false;
+                    while (!String.IsNullOrWhiteSpace(trMatch.Value))
                     {
-                        int cellStart = tdMatch.Index + tdMatch.Length;
-                        int cellEnd = HtmlFormat.IndexOf("</td>", cellStart, StringComparison.InvariantCultureIgnoreCase);
-                        String cellContent = HtmlFormat.Substring(cellStart, cellEnd - cellStart);
-                        cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*br( )*>", "\r\n", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                        cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*li( )*>", "\r\n", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                        cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*div([^>])*>", "\r\n\r\n", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                        cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*p([^>])*>", "\r\n\r\n", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                        if (!cellContent.StartsWith("<B>")) //Don't paste Row Header
+                        anyCellFound = true;
+                        int rowStart = trMatch.Index + trMatch.Length;
+                        int rowEnd = HtmlFormat.IndexOf("</tr>", rowStart, StringComparison.InvariantCultureIgnoreCase);
+                        System.Text.RegularExpressions.Match tdMatch = TDregex.Match(HtmlFormat, rowStart, rowEnd - rowStart);
+                        List<string> rowContent = new List<string>();
+                        while (!String.IsNullOrWhiteSpace(tdMatch.Value))
                         {
-                            //cellContent = cellContent.Replace("&nbsp;", " ");
-                            cellContent = System.Net.WebUtility.HtmlDecode(cellContent);
-                            rowContent.Add(cellContent);
+                            int cellStart = tdMatch.Index + tdMatch.Length;
+                            int cellEnd = HtmlFormat.IndexOf("</td>", cellStart, StringComparison.InvariantCultureIgnoreCase);
+                            String cellContent = HtmlFormat.Substring(cellStart, cellEnd - cellStart);
+                            cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*br( )*>", "\r\n", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                            cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*li( )*>", "\r\n - ", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                            cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*div([^>])*>", "", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                            cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*code([^>])*>", "", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                            cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*/code([^>])*>", "", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                            cellContent = System.Text.RegularExpressions.Regex.Replace(cellContent, @"<( )*p([^>])*>", "\r\n\r\n", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                            if (!cellContent.StartsWith("<B>")) //Don't paste Row Header
+                            {
+                                //cellContent = cellContent.Replace("&nbsp;", " ");
+                                cellContent = System.Net.WebUtility.HtmlDecode(cellContent);
+                                rowContent.Add(cellContent);
+                            }
+                            tdMatch = tdMatch.NextMatch();
                         }
-                        tdMatch = tdMatch.NextMatch();
+                        if (rowContent.Count > 0)
+                        {
+                            rowContents.Add(rowContent);
+                        }
+                        trMatch = trMatch.NextMatch();
                     }
-                    if (rowContent.Count > 0)
-                    {
-                        rowContents.Add(rowContent);
-                    }
-                    trMatch = trMatch.NextMatch();
+                } catch (Exception ex)
+                {
+                    rowContents.Clear();
                 }
             }
-            else
+            if (rowContents.Count == 0)
             {
                 // Clipboard is not in html format, read as text
                 String CopiedText = Clipboard.GetText();
@@ -386,10 +398,15 @@ namespace DataGridViewGeneric
             }
             #endregion 
 
-            int columnConentsCount = rowContents[0].Count;
-    
+            int columnConentsCount = 0;
+            if (rowContents.Count > 0) columnConentsCount = rowContents[0].Count;
+
             //Paste one clipboard "cell/text" to all selected (Only one text to more than one selected cell)
-            if (rowContents.Count == 1 && columnConentsCount == 1) 
+            if (rowContents.Count == 0 && columnConentsCount == 0)
+            { 
+                //Nothing found
+            }
+            else if (rowContents.Count == 1 && columnConentsCount == 1) 
             {
                 NuberOfItemsToEdit = dataGridView.SelectedCells.Count;
                 IsClipboardActive = true;
