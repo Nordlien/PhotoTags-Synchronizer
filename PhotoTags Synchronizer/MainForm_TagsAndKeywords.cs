@@ -78,6 +78,7 @@ namespace PhotoTagsSynchronizer
                 //If is Keywords rows
                 if (dataGridViewGenericRow == null || DataGridViewHandler.GetRowHeader(dataGridView, rowIndex).Equals(header))
                 {
+
                     for (int column = 0; column < dataGridView.Columns.Count; column++)
                     {
                         if (dataGridViewGenericRow == null)
@@ -85,9 +86,11 @@ namespace PhotoTagsSynchronizer
                             if (!DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, column, rowIndex))
                             {
                                 //Set a valid header tag to using current cell as base
+                                
                                 DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex, header,
                                     ValidateAndReturnTag(dataGridView, header, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, column, rowIndex)),
                                     ReadWriteAccess.AllowCellReadAndWrite);
+                                dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
                             }
                         }
 
@@ -102,7 +105,6 @@ namespace PhotoTagsSynchronizer
                                 new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, 
                                 DataGridViewHandler.IsCellNullOrWhiteSpace(dataGridView, column, rowIndex) ? SwitchStates.Off : SwitchStates.On, false));
                         } 
-
                     }
 
                     if (dataGridViewGenericRow == null)
