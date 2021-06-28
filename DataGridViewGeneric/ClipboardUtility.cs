@@ -237,7 +237,7 @@ namespace DataGridViewGeneric
         public static void PasteDataGridViewSelectedCellsFromClipboard(DataGridView dataGridView, int leftColumnOverwrite, int rightColumnOverwrite, int topRowOverwrite, int buttomRowOverwrite, bool removeTag)
         {
              
-            #region HtmlFormat
+            #region Html Format
             // Try to process as html format (data from excel) since it keeps the row information intact, instead of assuming
             // a new row for every new line if we just process it as text
             String HtmlFormat = Clipboard.GetData("HTML Format") as String;
@@ -284,11 +284,14 @@ namespace DataGridViewGeneric
                         }
                         trMatch = trMatch.NextMatch();
                     }
-                } catch (Exception ex)
+                } catch
                 {
                     rowContents.Clear();
                 }
             }
+            #endregion
+
+            #region Text format
             if (rowContents.Count == 0)
             {
                 // Clipboard is not in html format, read as text
