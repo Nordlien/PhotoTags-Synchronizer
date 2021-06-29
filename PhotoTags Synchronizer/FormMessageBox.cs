@@ -12,15 +12,21 @@ namespace PhotoTagsSynchronizer
 {
     public partial class FormMessageBox : Form
     {
-        public FormMessageBox(string message)
+        public FormMessageBox(string title, string message)
         {
             InitializeComponent();
+            this.Text = title;
             textBoxMessage.Text = message;
         }
 
         public void AppendMessage (string message)
         {
             textBoxMessage.Text += "\r\n" + message;
+        }
+
+        public void UpdateMessage(string message)
+        {
+            textBoxMessage.Text = message;
         }
     }
 }

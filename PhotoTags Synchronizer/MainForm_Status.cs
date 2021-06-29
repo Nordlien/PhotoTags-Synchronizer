@@ -296,8 +296,8 @@ namespace PhotoTagsSynchronizer
             threadQueuCount += CommonQueueLazyLoadingThumbnailCountDirty();
             */
 
-            if (formMessageBoxThread == null || formMessageBoxThread.IsDisposed) formMessageBoxThread = new FormMessageBox(messageBoxQueuesInfo);
-            //else formMessageBoxWarnings.AppendMessage(errors);
+            if (formMessageBoxThread == null || formMessageBoxThread.IsDisposed) formMessageBoxThread = new FormMessageBox("Task list", messageBoxQueuesInfo);
+            else formMessageBoxWarnings.UpdateMessage(messageBoxQueuesInfo);
             formMessageBoxThread.Owner = this;
             formMessageBoxThread.Show();
         }

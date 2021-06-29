@@ -1071,15 +1071,10 @@ namespace PhotoTagsSynchronizer
                                     Metadata metadataWrite;
                                     Metadata metadataOrginal;
 
-                                    lock (commonQueueSaveMetadataUpdatedByUserLock)
+                                    lock (commonQueueSaveMetadataUpdatedByUserLock) 
                                     {
                                         metadataWrite = commonQueueSaveMetadataUpdatedByUser[0];
                                         lock (commonOrigialMetadataBeforeUserUpdateLock) metadataOrginal = commonOrigialMetadataBeforeUserUpdate[0];
-
-                                        //Remove
-                                        //lock (commonQueueSaveMetadataUpdatedByUserLock) 
-                                        commonQueueSaveMetadataUpdatedByUser.RemoveAt(0);
-                                        lock (commonOrigialMetadataBeforeUserUpdateLock) commonOrigialMetadataBeforeUserUpdate.RemoveAt(0);
 
                                         lock (commonQueueReadMetadataFromExiftoolLock)
                                         {
@@ -1092,6 +1087,12 @@ namespace PhotoTagsSynchronizer
                                                 queueSubsetMetadataOrginalBeforeUserEdit.Add(metadataOrginal);
                                             }
                                         }
+
+                                        //Remove
+                                        //lock (commonQueueSaveMetadataUpdatedByUserLock) 
+                                        commonQueueSaveMetadataUpdatedByUser.RemoveAt(0);
+                                        lock (commonOrigialMetadataBeforeUserUpdateLock) commonOrigialMetadataBeforeUserUpdate.RemoveAt(0);
+
                                     }
                                 }
                                 #endregion
@@ -2152,7 +2153,7 @@ namespace PhotoTagsSynchronizer
                 hasWriteAndVerifyMetadataErrors = false;
 
                 //MessageBox.Show(errors, "Warning or Errors has occured!", MessageBoxButtons.OK);
-                if (formMessageBoxWarnings == null || formMessageBoxWarnings.IsDisposed) formMessageBoxWarnings = new FormMessageBox(errors);
+                if (formMessageBoxWarnings == null || formMessageBoxWarnings.IsDisposed) formMessageBoxWarnings = new FormMessageBox("Warning", errors);
                 else formMessageBoxWarnings.AppendMessage(errors);
                 formMessageBoxWarnings.Owner = this;
                 formMessageBoxWarnings.Show();

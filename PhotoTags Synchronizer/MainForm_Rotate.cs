@@ -204,7 +204,7 @@ namespace PhotoTagsSynchronizer
 
                         if (errors != "")
                         {
-                            FormMessageBox formMessageBox = new FormMessageBox(errors);
+                            FormMessageBox formMessageBox = new FormMessageBox("Warning", errors);
                             formMessageBox.ShowDialog();
                         }
                     }
