@@ -1071,22 +1071,26 @@ namespace PhotoTagsSynchronizer
                                     Metadata metadataWrite;
                                     Metadata metadataOrginal;
 
-                                    lock (commonQueueSaveMetadataUpdatedByUserLock) metadataWrite = commonQueueSaveMetadataUpdatedByUser[0];
-                                    lock (commonOrigialMetadataBeforeUserUpdateLock) metadataOrginal = commonOrigialMetadataBeforeUserUpdate[0];
-
-                                    //Remove
-                                    lock (commonQueueSaveMetadataUpdatedByUserLock) commonQueueSaveMetadataUpdatedByUser.RemoveAt(0);
-                                    lock (commonOrigialMetadataBeforeUserUpdateLock) commonOrigialMetadataBeforeUserUpdate.RemoveAt(0);
-
-                                    lock (commonQueueReadMetadataFromExiftoolLock)
+                                    lock (commonQueueSaveMetadataUpdatedByUserLock)
                                     {
-                                        if (!GlobalData.IsApplicationClosing)
-                                        {
-                                            //Also include Metadata ToBeSaved that are Equal with OrgianalBeforeUserEdit 
-                                            if (metadataOrginal != metadataWrite) AddWatcherShowExiftoolSaveProcessQueue(metadataWrite.FileEntryBroker.FileFullPath);
+                                        metadataWrite = commonQueueSaveMetadataUpdatedByUser[0];
+                                        lock (commonOrigialMetadataBeforeUserUpdateLock) metadataOrginal = commonOrigialMetadataBeforeUserUpdate[0];
 
-                                            lock (commonQueueSubsetMetadataToSaveLock) commonQueueSubsetMetadataToSave.Add(metadataWrite);
-                                            queueSubsetMetadataOrginalBeforeUserEdit.Add(metadataOrginal);
+                                        //Remove
+                                        //lock (commonQueueSaveMetadataUpdatedByUserLock) 
+                                        commonQueueSaveMetadataUpdatedByUser.RemoveAt(0);
+                                        lock (commonOrigialMetadataBeforeUserUpdateLock) commonOrigialMetadataBeforeUserUpdate.RemoveAt(0);
+
+                                        lock (commonQueueReadMetadataFromExiftoolLock)
+                                        {
+                                            if (!GlobalData.IsApplicationClosing)
+                                            {
+                                                //Also include Metadata ToBeSaved that are Equal with OrgianalBeforeUserEdit 
+                                                if (metadataOrginal != metadataWrite) AddWatcherShowExiftoolSaveProcessQueue(metadataWrite.FileEntryBroker.FileFullPath);
+
+                                                lock (commonQueueSubsetMetadataToSaveLock) commonQueueSubsetMetadataToSave.Add(metadataWrite);
+                                                queueSubsetMetadataOrginalBeforeUserEdit.Add(metadataOrginal);
+                                            }
                                         }
                                     }
                                 }
@@ -2137,7 +2141,7 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private static FormMessageBox formMessageBox = null;
+        private static FormMessageBox formMessageBoxWarnings = null;
         private void timerShowErrorMessage_Tick(object sender, EventArgs e)
         {
             timerShowErrorMessage.Stop();
@@ -2148,10 +2152,10 @@ namespace PhotoTagsSynchronizer
                 hasWriteAndVerifyMetadataErrors = false;
 
                 //MessageBox.Show(errors, "Warning or Errors has occured!", MessageBoxButtons.OK);
-                if (formMessageBox == null || formMessageBox.IsDisposed) formMessageBox = new FormMessageBox(errors);
-                else formMessageBox.AppendMessage(errors);
-                formMessageBox.Owner = this;
-                formMessageBox.Show();
+                if (formMessageBoxWarnings == null || formMessageBoxWarnings.IsDisposed) formMessageBoxWarnings = new FormMessageBox(errors);
+                else formMessageBoxWarnings.AppendMessage(errors);
+                formMessageBoxWarnings.Owner = this;
+                formMessageBoxWarnings.Show();
             }
             try
             {

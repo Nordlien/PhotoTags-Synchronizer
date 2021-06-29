@@ -64,6 +64,244 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        private static FormMessageBox formMessageBoxThread = null;
+       
+        
+
+        private void toolStripProgressBarThreadQueue_Click(object sender, EventArgs e)
+        {
+            string messageBoxQueuesInfo = "";
+            /*
+            messageBoxQueuesInfo += string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count) + "\r\n";
+            try
+            {
+                foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
+                    messageBoxQueuesInfo += "Selected: " + imageListViewItem.Selected.ToString() + " Name: " + imageListViewItem.FileFullPath + "\r\n";
+            } catch { }
+            */
+
+            try
+            {
+                messageBoxQueuesInfo += "Last file Locked by process: " + Exiftool.ExiftoolWriter.FileLockedByProcess + "\r\n";
+            }
+            catch { }
+
+            /*
+            try
+            {
+
+                lock (fileEntriesRotateMediaLock)
+                    foreach (FileEntry fileEntry in fileEntriesRotateMedia)
+                        messageBoxQueuesInfo += "File wait to be rotated: " + fileEntry.FileFullPath + "\r\n";
+            }
+            catch { }
+            */
+
+
+
+            /*if (GlobalData.ProcessCounterDelete > 0)
+                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                    string.Format("Delete: {0}", GlobalData.ProcessCounterDelete);
+            threadQueuCount += GlobalData.ProcessCounterDelete;*/
+
+            /*if (GlobalData.ProcessCounterRefresh > 0)
+                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                    string.Format("Reload: {0}", GlobalData.ProcessCounterRefresh);
+            threadQueuCount += GlobalData.ProcessCounterRefresh;*/
+
+
+            try
+            {
+
+                lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) 
+                foreach (FileEntry fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
+                        messageBoxQueuesInfo += "WLPG: " +
+                            fileEntry.LastWriteDateTime.ToString() + " " +
+                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
+                            fileEntry.FileFullPath + "\r\n";
+            }
+            catch { }
+
+            try
+            {
+
+                lock (commonQueueReadMetadataFromMicrosoftPhotosLock)
+                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
+                        messageBoxQueuesInfo += "MS Photos: " +
+                            fileEntry.LastWriteDateTime.ToString() + " " +
+                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
+                            fileEntry.FileFullPath + "\r\n";
+            }
+            catch { }
+
+            try
+            {
+
+                lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
+                    foreach (Metadata fileEntry in commonQueueReadPosterAndSaveFaceThumbnails)
+                        messageBoxQueuesInfo += "Thumbnails: " +
+                            fileEntry.PersonalRegionList.Count.ToString() + " " +
+                            fileEntry.FileDateModified.ToString() + " " +
+                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
+                            fileEntry.FileFullPath + "\r\n";
+            }
+            catch { }
+
+            try
+            {
+
+                lock (commonQueueReadMetadataFromExiftoolLock) 
+                foreach (FileEntry fileEntry in commonQueueReadMetadataFromExiftool)
+                        messageBoxQueuesInfo += "Wait verify: " +
+                            fileEntry.LastWriteDateTime.ToString() + " " +
+                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
+                            fileEntry.FileFullPath + "\r\n";
+            }
+            catch { }
+
+
+            /*
+            try
+            {
+                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                    string.Format("Read:");
+
+                lock (_readToCacheQueuesLock)
+                {
+                    foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues)
+                    {
+                        toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                            //"#" + keyValuePair.Key.ToString() + " " +
+                            keyValuePair.Value;
+                        threadQueuCount += keyValuePair.Value;
+                    }
+                }
+            }
+            catch { }
+            
+            if (deleteRecordQueues.Count > 0)
+            {
+                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + "Delete: ";
+                try
+                {
+                    lock (_deleteRecordQueuesLock)
+                    {
+                        foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues)
+                        {
+                            toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + keyValuePair.Value;
+                            threadQueuCount += keyValuePair.Value;
+                        }
+                    }
+                }
+                catch
+                {
+                }
+            }
+            */
+
+            
+            try
+            {
+
+                lock (mediaFilesNotInDatabaseLock)
+                    foreach (string fileEntry in mediaFilesNotInDatabase)
+                        messageBoxQueuesInfo += "File not in database: " +
+                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry) == true ? "ReadOnly" : "Writeable") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry) == true ? "Locked" : "Open") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry) == true ? "In cloud" : "Local") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry) == true ? "Virtual" : "Real") + " " +
+                            fileEntry + "\r\n";
+            }
+            catch { }
+
+            try
+            {
+                lock (commonQueueSaveMetadataUpdatedByUserLock)
+                    foreach (Metadata fileEntry in commonQueueSaveMetadataUpdatedByUser)
+                        messageBoxQueuesInfo += "To be saved: " +
+                            fileEntry.PersonalRegionList.Count.ToString() + " " +
+                            fileEntry.FileDateModified.ToString() + " " +
+                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
+                            fileEntry.FileFullPath + "\r\n";
+            }
+            catch { }
+
+            try
+            {
+                lock (commonQueueSubsetMetadataToSaveLock)
+                    foreach (Metadata fileEntry in commonQueueSubsetMetadataToSave)
+                        messageBoxQueuesInfo += "Saving: " +
+                            fileEntry.PersonalRegionList.Count.ToString() + " " +
+                            fileEntry.FileDateModified.ToString() + " " +
+                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
+                            fileEntry.FileFullPath + "\r\n";
+            }
+            catch { }
+
+            try
+            {
+
+                lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock)
+                    foreach (Metadata fileEntry in commonQueueMetadataWrittenByExiftoolReadyToVerify)
+                        messageBoxQueuesInfo += "To be verified: " +
+                            fileEntry.PersonalRegionList.Count.ToString() + " " +
+                            fileEntry.FileDateModified.ToString() + " " +
+                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
+                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
+                            fileEntry.FileFullPath + "\r\n";
+            }
+            catch { }
+
+            //lock (commonQueueRenameLock) return commonQueueRename.Count;
+            try
+            {
+
+                lock (commonQueueRenameLock)
+                    foreach (KeyValuePair<string, string> keyValuePair in commonQueueRename)
+                        messageBoxQueuesInfo += "To be renamed: " +
+                            keyValuePair.Key + " " +
+                            keyValuePair.Value + "\r\n";
+            }
+            catch { }
+
+            /*
+            if (CommonQueueLazyLoadingMetadataCountDirty() > 0)
+                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                    string.Format("Metadata: {0}", CommonQueueLazyLoadingMetadataCountDirty());
+            threadQueuCount += CommonQueueLazyLoadingMetadataCountDirty();
+
+            if (CommonQueueLazyLoadingThumbnailCountDirty() > 0)
+                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                    string.Format("Thumbnail: {0}", CommonQueueLazyLoadingThumbnailCountDirty());
+            threadQueuCount += CommonQueueLazyLoadingThumbnailCountDirty();
+            */
+
+            if (formMessageBoxThread == null || formMessageBoxThread.IsDisposed) formMessageBoxThread = new FormMessageBox(messageBoxQueuesInfo);
+            //else formMessageBoxWarnings.AppendMessage(errors);
+            formMessageBoxThread.Owner = this;
+            formMessageBoxThread.Show();
+        }
+
         #region DisplayAllQueueStatus - Updated display
         private Stopwatch stopwatchLastDisplayed = new Stopwatch();
         private void DisplayAllQueueStatus()
@@ -83,8 +321,6 @@ namespace PhotoTagsSynchronizer
 
             toolStripStatusThreadQueueCount.Text = "";
             
-             
-
             int threadQueuCount = 0;
 
             if (!string.IsNullOrWhiteSpace(Exiftool.ExiftoolWriter.FileLockedByProcess)) {
