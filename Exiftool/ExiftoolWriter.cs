@@ -179,11 +179,7 @@ namespace Exiftool
                 }
             } while (areAnyFileLocked);
         }
-        #endregion 
-
-        
-
-         
+        #endregion  
 
         #endregion
 
@@ -437,6 +433,22 @@ namespace Exiftool
             bool foundErrors = false;
 
             int verifyPosition = Metadata.FindFileEntryInList(metadataWrittenByExiftoolWaitVerify, metadataRead.FileEntryBroker);
+            if (verifyPosition == -1)
+            {
+                verifyPosition = Metadata.FindFullFilenameInList(metadataWrittenByExiftoolWaitVerify, metadataRead.FileEntryBroker.FileFullPath);
+                if (verifyPosition != -1)
+                {
+                    //Debug way was not date updated, metadate read FileDateCreate date is Older Than Metadata acctual file.
+                    //Remove from list and add back to Read Exif once more
+                    if (metadataRead.FileEntryBroker.LastWriteDateTime > metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateCreated)
+                    {
+                        //metadataWrittenByExiftoolWaitVerify.RemoveAt(verifyPosition);
+                        Logger.Warn("File been updated between read exiftool was run and verify: " + metadataRead.FileEntryBroker.FileFullPath + " " +
+                            "File created: " + metadataRead.FileEntryBroker.LastWriteDateTime.ToString() + " " +
+                            "Metadata file created: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateCreated.ToString());
+                    }
+                }
+            }
             if (verifyPosition == -1) return false; //No need for verify, the metadata was only read, most likly first time read (without save, read and verify)
 
             metadataUpdatedByUserCopy = new Metadata(metadataWrittenByExiftoolWaitVerify[verifyPosition]); //Copy data to verify

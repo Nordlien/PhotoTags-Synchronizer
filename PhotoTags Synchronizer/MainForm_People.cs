@@ -387,6 +387,47 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region People rename
+        
+        private bool PeopleRenameCell(DataGridView dataGridView, DataGridViewCell cell, string nameSelected, Dictionary<CellLocation, DataGridViewGenericCell> updatedCells)
+        {
+            bool cellUpdated = false;
+
+            DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
+            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
+
+            if (dataGridViewGenericColumn != null && dataGridViewGenericRow != null &&
+                dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
+                dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
+                !dataGridViewGenericRow.IsHeader)
+            {
+                DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, cell.ColumnIndex, cell.RowIndex);
+                if (!dataGridViewGenericCell.CellStatus.CellReadOnly)
+                {
+                    CellLocation cellLocation = new CellLocation(cell.ColumnIndex, cell.RowIndex);
+                    if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, new DataGridViewGenericCell(dataGridViewGenericCell));
+                    cellUpdated = true;
+                    
+                    if (dataGridViewGenericCell.Value is RegionStructure)
+                    {
+                        RegionStructure region = (RegionStructure)dataGridViewGenericCell.Value;
+                        if (region != null)
+                        {
+                            region.Name = nameSelected;
+                            PeopleAddNewLastUseName(nameSelected);
+                            DataGridViewHandler.SetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex, region);
+                        }
+                    }
+                    DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerType.Empty, cell.ColumnIndex, cell.RowIndex);
+                }
+
+            }
+            else if (dataGridViewGenericRow == null) //new row
+            {
+                DataGridViewHandlerPeople.AddRowPeople(dataGridView, nameSelected);
+            }
+            return cellUpdated;
+        }
+
         #region People rename - PeopleRenameSelected
         private void PeopleRenameSelected(DataGridView dataGridView, string nameSelected)
         {
@@ -394,44 +435,9 @@ namespace PhotoTagsSynchronizer
 
             foreach (DataGridViewCell cell in dataGridView.SelectedCells)
             {
-                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, cell.ColumnIndex);
-                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, cell.RowIndex);
-
-                if (dataGridViewGenericColumn != null && dataGridViewGenericRow != null &&
-                    dataGridViewGenericColumn.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
-                    dataGridViewGenericRow.ReadWriteAccess == ReadWriteAccess.AllowCellReadAndWrite &&
-                    !dataGridViewGenericRow.IsHeader)
-                {
-                    DataGridViewGenericCell dataGridViewGenericCell = DataGridViewHandler.GetCellDataGridViewGenericCellCopy(dataGridView, cell.ColumnIndex, cell.RowIndex);
-                    if (!dataGridViewGenericCell.CellStatus.CellReadOnly)
-                    {
-                        CellLocation cellLocation = new CellLocation(cell.ColumnIndex, cell.RowIndex);
-                        if (!updatedCells.ContainsKey(cellLocation)) updatedCells.Add(cellLocation, new DataGridViewGenericCell(dataGridViewGenericCell));
-
-                        if (dataGridViewGenericCell.Value is RegionStructure)
-                        {
-                            RegionStructure region = (RegionStructure)dataGridViewGenericCell.Value;
-                            if (region != null)
-                            {
-                                region.Name = nameSelected;
-                                PeopleAddNewLastUseName(nameSelected);
-                                DataGridViewHandler.SetCellValue(dataGridView, cell.ColumnIndex, cell.RowIndex, region);
-                            }
-                        }
-                        DataGridViewHandlerPeople.SetCellDefault(dataGridView, MetadataBrokerType.Empty, cell.ColumnIndex, cell.RowIndex);
-                    }
-                    
-                } else if (dataGridViewGenericRow == null) //new row
-                {
-                    
-                    DataGridViewHandlerPeople.AddRowPeople(dataGridView, nameSelected);
-                    //EndEditProcess(cell.ColumnIndex, cell.RowIndex);
-                    
-                    //Change the cell and trigger edit and behivour                     
-                }
+                PeopleRenameCell(dataGridView, cell, nameSelected, updatedCells);                
             }
-            //DataGridViewHandler.AddRow(dataGridView);
-
+            
             if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
         }
         #endregion
@@ -476,30 +482,34 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
+        #region CheckRowAndSetDefaults
+        private void CheckRowAndSetDefaults(DataGridView dataGridView, int columnIndex, int rowIndex)
+        {
+            for (int columnIndexCheck = 0; columnIndexCheck < DataGridViewHandler.GetColumnCount(dataGridView); columnIndexCheck++)
+            {
+                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndexCheck, rowIndex);
+                if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
+
+                DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndexCheck, rowIndex);
+            }
+
+            #region Set Row defaults
+            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
+            string dataGridViewGenericRowHeaderName = (dataGridViewGenericRow != null ? dataGridViewGenericRow.HeaderName : DataGridViewHandlerPeople.headerPeopleAdded);
+            DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, rowIndex,
+                new DataGridViewGenericRow(dataGridViewGenericRowHeaderName,
+                dataGridView[columnIndex, rowIndex].Value == null ? "" : dataGridView[columnIndex, rowIndex].Value.ToString(), ReadWriteAccess.AllowCellReadAndWrite));
+            #endregion
+        }
         #endregion 
 
         #region CellEndEdit        
         private void dataGridViewPeople_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dataGridView = dataGridViewPeople;
-
-            //RegionStructure regionStructure = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, e.RowIndex);
-
-            for (int columnIndexCheck = 0; columnIndexCheck < DataGridViewHandler.GetColumnCount(dataGridView); columnIndexCheck++)
-            {
-                DataGridViewGenericCellStatus dataGridViewGenericCellStatus = DataGridViewHandler.GetCellStatus(dataGridView, columnIndexCheck, e.RowIndex);
-                if (dataGridViewGenericCellStatus == null) dataGridViewGenericCellStatus = new DataGridViewGenericCellStatus(MetadataBrokerType.Empty, SwitchStates.Disabled, true);
-
-                DataGridViewHandler.SetCellDefaultAfterUpdated(dataGridView, dataGridViewGenericCellStatus, columnIndexCheck, e.RowIndex);
-            }
-
-            #region Set Row defaults
-            DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
-            string dataGridViewGenericRowHeaderName = (dataGridViewGenericRow != null ? dataGridViewGenericRow.HeaderName : DataGridViewHandlerPeople.headerPeopleAdded); 
-            DataGridViewHandler.SetRowHeaderNameAndFontStyle(dataGridView, e.RowIndex,
-                new DataGridViewGenericRow(dataGridViewGenericRowHeaderName,
-                dataGridView[e.ColumnIndex, e.RowIndex].Value == null ? "" : dataGridView[e.ColumnIndex, e.RowIndex].Value.ToString(), ReadWriteAccess.AllowCellReadAndWrite));
-            #endregion 
+            CheckRowAndSetDefaults(dataGridView, e.ColumnIndex, e.RowIndex);
         }
         #endregion
 
@@ -606,6 +616,36 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+        #endregion
+
+        #region ValitedatePastePeople
+        private void ValitedatePastePeople(DataGridView dataGridView, string header)
+        {
+            Dictionary<CellLocation, DataGridViewGenericCell> updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
+            DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = DataGridViewHandler.GetCellSelected(dataGridView);
+            foreach (DataGridViewCell dataGridViewCell in dataGridViewSelectedCellCollection)
+            {
+                //
+
+                DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, dataGridViewCell.ColumnIndex);
+                DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, dataGridViewCell.RowIndex);
+
+                if (dataGridViewGenericColumn == null)
+                {
+                    //CheckRowAndSetDefaults(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+                }
+                else if (dataGridViewGenericRow == null)
+                {
+                    CheckRowAndSetDefaults(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex);
+                }
+                else 
+                {
+                    if (dataGridViewCell.Value != null) PeopleRenameCell(dataGridView, dataGridViewCell, dataGridViewCell.Value.ToString(), updatedCells);
+                }
+            }
+            
+            DataGridViewHandler.Refresh(dataGridView);
+        }
         #endregion
     }
 }

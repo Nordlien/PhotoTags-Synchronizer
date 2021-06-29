@@ -947,7 +947,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region Column handling - IstColumnSelected
+        #region Column handling - IsColumnSelected
         public static bool IsColumnSelected(DataGridView dataGridView, int columnIndex)
         {
             foreach (DataGridViewColumn dataGridViewColumn in dataGridView.SelectedColumns)
@@ -1988,7 +1988,11 @@ namespace DataGridViewGeneric
                     cell.Items.Insert(0, value);
                     if (dataGridView.IsCurrentCellDirty) dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);                    
                 }
-                dataGridViewCell.Value = value;
+                if (dataGridViewCell.Value is RegionStructure cellRegionStructure)
+                {
+                    cellRegionStructure.Name = value.ToString();
+                }
+                else dataGridViewCell.Value = value;
             }
             catch
             {
