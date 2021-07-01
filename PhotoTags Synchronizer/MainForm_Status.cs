@@ -65,194 +65,66 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         private static FormMessageBox formMessageBoxThread = null;
-       
-        
+
+
+        private void AddTaskToFileTasks(Dictionary<string, List<string>> fileTasks, string fullFileName, DateTime? modifiedDate, string task)
+        {
+            if (!fileTasks.ContainsKey(fullFileName))
+            {
+                fileTasks.Add(fullFileName, new List<string>());
+                if (Exiftool.ExiftoolWriter.IsFileReadOnly(fullFileName)) fileTasks[fullFileName].Add("ReadOnly");
+                if (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fullFileName)) fileTasks[fullFileName].Add("Locked");
+                if (Exiftool.ExiftoolWriter.IsFileInCloud(fullFileName)) fileTasks[fullFileName].Add( "In cloud");
+                if (Exiftool.ExiftoolWriter.IsFileVirtual(fullFileName)) fileTasks[fullFileName].Add( "Virtual file");
+            }
+            fileTasks[fullFileName].Add(task);
+            if (modifiedDate != null) 
+            {
+                DateTime? lastAccessTime = null;
+                try
+                {
+                    lastAccessTime = File.GetLastAccessTime(fullFileName);
+                } catch { }                
+                fileTasks[fullFileName].Add("  " + modifiedDate.ToString() + " vs. " + (lastAccessTime == modifiedDate ? "" : (lastAccessTime == null ? "null" : lastAccessTime.ToString())));                
+            } 
+        }
 
         private void toolStripProgressBarThreadQueue_Click(object sender, EventArgs e)
         {
-            string messageBoxQueuesInfo = "";
-            /*
-            messageBoxQueuesInfo += string.Format("Files: {0} Selected {1} ", imageListView1.Items.Count, imageListView1.SelectedItems.Count) + "\r\n";
-            try
-            {
-                foreach (ImageListViewItem imageListViewItem in imageListView1.Items)
-                    messageBoxQueuesInfo += "Selected: " + imageListViewItem.Selected.ToString() + " Name: " + imageListViewItem.FileFullPath + "\r\n";
-            } catch { }
-            */
-
-            try
-            {
-                messageBoxQueuesInfo += "Last file Locked by process: " + Exiftool.ExiftoolWriter.FileLockedByProcess + "\r\n";
-            }
-            catch { }
-
-            /*
-            try
-            {
-
-                lock (fileEntriesRotateMediaLock)
-                    foreach (FileEntry fileEntry in fileEntriesRotateMedia)
-                        messageBoxQueuesInfo += "File wait to be rotated: " + fileEntry.FileFullPath + "\r\n";
-            }
-            catch { }
-            */
-
-
-
-            /*if (GlobalData.ProcessCounterDelete > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("Delete: {0}", GlobalData.ProcessCounterDelete);
-            threadQueuCount += GlobalData.ProcessCounterDelete;*/
-
-            /*if (GlobalData.ProcessCounterRefresh > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("Reload: {0}", GlobalData.ProcessCounterRefresh);
-            threadQueuCount += GlobalData.ProcessCounterRefresh;*/
-
-
-            try
-            {
-
-                lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) 
-                foreach (FileEntry fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
-                        messageBoxQueuesInfo += "WLPG: " +
-                            fileEntry.LastWriteDateTime.ToString() + " " +
-                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
-                            fileEntry.FileFullPath + "\r\n";
-            }
-            catch { }
-
-            try
-            {
-
-                lock (commonQueueReadMetadataFromMicrosoftPhotosLock)
-                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
-                        messageBoxQueuesInfo += "MS Photos: " +
-                            fileEntry.LastWriteDateTime.ToString() + " " +
-                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
-                            fileEntry.FileFullPath + "\r\n";
-            }
-            catch { }
-
-            try
-            {
-
-                lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
-                    foreach (Metadata fileEntry in commonQueueReadPosterAndSaveFaceThumbnails)
-                        messageBoxQueuesInfo += "Thumbnails: " +
-                            fileEntry.PersonalRegionList.Count.ToString() + " " +
-                            fileEntry.FileDateModified.ToString() + " " +
-                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
-                            fileEntry.FileFullPath + "\r\n";
-            }
-            catch { }
-
-            try
-            {
-
-                lock (commonQueueReadMetadataFromExiftoolLock) 
-                foreach (FileEntry fileEntry in commonQueueReadMetadataFromExiftool)
-                        messageBoxQueuesInfo += "Wait verify: " +
-                            fileEntry.LastWriteDateTime.ToString() + " " +
-                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
-                            fileEntry.FileFullPath + "\r\n";
-            }
-            catch { }
-
-
-            /*
-            try
-            {
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("Read:");
-
-                lock (_readToCacheQueuesLock)
-                {
-                    foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues)
-                    {
-                        toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                            //"#" + keyValuePair.Key.ToString() + " " +
-                            keyValuePair.Value;
-                        threadQueuCount += keyValuePair.Value;
-                    }
-                }
-            }
-            catch { }
+            Dictionary<string, List<string>> fileTasks = new Dictionary<string, List<string>>();
+            string messageBoxQueuesInfo = "List of all process queues...\r\n\r\n";
             
-            if (deleteRecordQueues.Count > 0)
+            try
             {
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + "Delete: ";
-                try
+                if (!string.IsNullOrEmpty(Exiftool.ExiftoolWriter.FileLockedByProcess)) messageBoxQueuesInfo += "Last file Locked by process: " + Exiftool.ExiftoolWriter.FileLockedByProcess + "\r\n";
+            }
+            catch { }
+
+            try
+            {
+                lock (_fileSaveSizeLock)
                 {
-                    lock (_deleteRecordQueuesLock)
-                    {
-                        foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues)
-                        {
-                            toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + keyValuePair.Value;
-                            threadQueuCount += keyValuePair.Value;
-                        }
-                    }
-                }
-                catch
-                {
+                    foreach (KeyValuePair<string, long> keyValuePair in fileSaveSizeWatcher)
+                        AddTaskToFileTasks(fileTasks, keyValuePair.Key, null, "Written: " + keyValuePair.Value);                    
                 }
             }
-            */
+            catch { }
 
-            
+            try
+            {
+
+                lock (commonQueueReadMetadataFromExiftoolLock)
+                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromExiftool)
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Exiftool read: in queue, wait on turn");
+            }
+            catch { }
+
             try
             {
 
                 lock (mediaFilesNotInDatabaseLock)
                     foreach (string fileEntry in mediaFilesNotInDatabase)
-                        messageBoxQueuesInfo += "File not in database: " +
-                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry) == true ? "ReadOnly" : "Writeable") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry) == true ? "Locked" : "Open") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry) == true ? "In cloud" : "Local") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry) == true ? "Virtual" : "Real") + " " +
-                            fileEntry + "\r\n";
-            }
-            catch { }
-
-            try
-            {
-                lock (commonQueueSaveMetadataUpdatedByUserLock)
-                    foreach (Metadata fileEntry in commonQueueSaveMetadataUpdatedByUser)
-                        messageBoxQueuesInfo += "To be saved: " +
-                            fileEntry.PersonalRegionList.Count.ToString() + " " +
-                            fileEntry.FileDateModified.ToString() + " " +
-                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
-                            fileEntry.FileFullPath + "\r\n";
-            }
-            catch { }
-
-            try
-            {
-                lock (commonQueueSubsetMetadataToSaveLock)
-                    foreach (Metadata fileEntry in commonQueueSubsetMetadataToSave)
-                        messageBoxQueuesInfo += "Saving: " +
-                            fileEntry.PersonalRegionList.Count.ToString() + " " +
-                            fileEntry.FileDateModified.ToString() + " " +
-                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
-                            fileEntry.FileFullPath + "\r\n";
+                        AddTaskToFileTasks(fileTasks, fileEntry, null, "Exiftool read, in process");
             }
             catch { }
 
@@ -261,45 +133,74 @@ namespace PhotoTagsSynchronizer
 
                 lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock)
                     foreach (Metadata fileEntry in commonQueueMetadataWrittenByExiftoolReadyToVerify)
-                        messageBoxQueuesInfo += "To be verified: " +
-                            fileEntry.PersonalRegionList.Count.ToString() + " " +
-                            fileEntry.FileDateModified.ToString() + " " +
-                            (Exiftool.ExiftoolWriter.IsFileReadOnly(fileEntry.FileFullPath) == true ? "ReadOnly" : "Writeable") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fileEntry.FileFullPath) == true ? "Locked" : "Open") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath) == true ? "In cloud" : "Local") + " " +
-                            (Exiftool.ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath) == true ? "Virtual" : "Real") + " " +
-                            fileEntry.FileFullPath + "\r\n";
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Will be verified after Exiftool readback");
             }
             catch { }
 
-            //lock (commonQueueRenameLock) return commonQueueRename.Count;
+            try
+            {
+                lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock) 
+                foreach (FileEntry fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Read meta information from Windows Live Photo Gallery");
+            }
+            catch { }
+
+            try
+            {
+                lock (commonQueueReadMetadataFromMicrosoftPhotosLock)
+                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Read meta information from Microsoft Photos");
+            }
+            catch { }
+
             try
             {
 
-                lock (commonQueueRenameLock)
-                    foreach (KeyValuePair<string, string> keyValuePair in commonQueueRename)
-                        messageBoxQueuesInfo += "To be renamed: " +
-                            keyValuePair.Key + " " +
-                            keyValuePair.Value + "\r\n";
+                lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
+                    foreach (Metadata fileEntry in commonQueueReadPosterAndSaveFaceThumbnails)
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Read " + fileEntry.PersonalRegionList.Count.ToString() + "thumbnail");
             }
             catch { }
 
-            /*
-            if (CommonQueueLazyLoadingMetadataCountDirty() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("Metadata: {0}", CommonQueueLazyLoadingMetadataCountDirty());
-            threadQueuCount += CommonQueueLazyLoadingMetadataCountDirty();
+            try
+            {
+                lock (commonQueueSaveMetadataUpdatedByUserLock)
+                    foreach (Metadata fileEntry in commonQueueSaveMetadataUpdatedByUser)
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Wait to be saved with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");
+            }
+            catch { }
 
-            if (CommonQueueLazyLoadingThumbnailCountDirty() > 0)
-                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("Thumbnail: {0}", CommonQueueLazyLoadingThumbnailCountDirty());
-            threadQueuCount += CommonQueueLazyLoadingThumbnailCountDirty();
-            */
+            try
+            {
+                lock (commonQueueSubsetMetadataToSaveLock)
+                    foreach (Metadata fileEntry in commonQueueSubsetMetadataToSave)
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Saving bulk using exiftool with " + fileEntry.PersonalRegionList.Count.ToString() + " regions");                
+            }
+            catch { }
 
-            if (formMessageBoxThread == null || formMessageBoxThread.IsDisposed) formMessageBoxThread = new FormMessageBox("Task list", messageBoxQueuesInfo);
-            else formMessageBoxWarnings.UpdateMessage(messageBoxQueuesInfo);
-            formMessageBoxThread.Owner = this;
-            formMessageBoxThread.Show();
+            try
+            {
+                lock (commonQueueRenameLock)
+                    foreach (KeyValuePair<string, string> keyValuePair in commonQueueRename)
+                        AddTaskToFileTasks(fileTasks, keyValuePair.Key, null, "Wait rename to " + keyValuePair.Value);
+            }
+            catch { }
+
+            foreach (KeyValuePair<string, List<string>> keyValuePair in fileTasks)
+            {
+                messageBoxQueuesInfo += keyValuePair.Key + "\r\n"; //filename
+                foreach (string task in keyValuePair.Value) messageBoxQueuesInfo += "  " + task + "\r\n"; //tasks
+            }
+
+            try
+            {
+                if (formMessageBoxThread == null || formMessageBoxThread.IsDisposed) formMessageBoxThread = new FormMessageBox("Task list", messageBoxQueuesInfo);
+                else formMessageBoxThread.UpdateMessage(messageBoxQueuesInfo);
+                formMessageBoxThread.Owner = this;
+                formMessageBoxThread.Show();
+            }
+            catch { }
+            
         }
 
         #region DisplayAllQueueStatus - Updated display
@@ -403,8 +304,6 @@ namespace PhotoTagsSynchronizer
                 {
                 }
             }
-
-
 
             if (deleteRecordQueues.Count > 0)
             {

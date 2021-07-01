@@ -56,7 +56,7 @@ namespace Exiftool
         #endregion 
 
         #region IsFileVirual
-        public static bool IsFileVirual(string fullFileName)
+        public static bool IsFileVirtual(string fullFileName)
         {
             //FILE_ATTRIBUTE_VIRTUAL - 500000 - This value is reserved for system use.
             try

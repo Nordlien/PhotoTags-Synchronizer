@@ -128,7 +128,7 @@ namespace PhotoTagsSynchronizer
                         }
                         else
                         {
-                            if (ExiftoolWriter.IsFileVirual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.load_image_error_onedrive;
+                            if (ExiftoolWriter.IsFileVirtual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.load_image_error_onedrive;
                             else if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.load_image_error_in_cloud;
                             else e.Thumbnail = (Image)Properties.Resources.load_image_error_thumbnail;
                         }
