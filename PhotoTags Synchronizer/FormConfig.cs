@@ -1298,7 +1298,7 @@ namespace PhotoTagsSynchronizer
 
             DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, e.RowIndex);
             locationCoordinateRememberForZooming = dataGridViewGenericRow?.LocationCoordinate;
-            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel()); //Use last valid coordinates clicked
+            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
         }
         #endregion 
 
@@ -1309,12 +1309,18 @@ namespace PhotoTagsSynchronizer
             if (isSettingDefaultComboxValuesZoomLevel) return;
             if (GlobalData.IsPopulatingMap) return;
             Properties.Settings.Default.SettingLocationZoomLevel = (byte)comboBoxMapZoomLevel.SelectedIndex;
-            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel()); //Use last valid coordinates clicked
+            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
         }
         #endregion 
 
+        private MapProvider GetMapProvider()
+        {
+            return ShowMediaOnMap.GetMapProvider(textBoxBrowserURL.Text);
+        }
+
         #region Location names - ShowCoordinateOnMap_Click
-        private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
+
+        private void GetLocationAndShow(MapProvider mapProvider)
         {
             DataGridView dataGridView = dataGridViewLocationNames;
             List<int> rowsSelected = DataGridViewHandler.GetRowSelected(dataGridView);
@@ -1324,10 +1330,20 @@ namespace PhotoTagsSynchronizer
                 DataGridViewGenericRow dataGridViewGenericRow = DataGridViewHandler.GetRowDataGridViewGenericRow(dataGridView, rowIndex);
                 if (dataGridViewGenericRow != null && !dataGridViewGenericRow.IsHeader && dataGridViewGenericRow?.LocationCoordinate != null)
                 {
-                    locationCoordinates.Add(dataGridViewGenericRow.LocationCoordinate);
+                    if (!locationCoordinates.Contains((LocationCoordinate)dataGridViewGenericRow?.LocationCoordinate)) locationCoordinates.Add(dataGridViewGenericRow.LocationCoordinate);
                 }
             }
-            ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel());
+            ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
+        }
+
+        private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
+        {
+            GetLocationAndShow(MapProvider.OpenStreetMap);
+        }
+
+        private void toolStripMenuItemShowCoordinateOnGoogleMap_Click(object sender, EventArgs e)
+        {
+            GetLocationAndShow(MapProvider.GoogleMap);
         }
         #endregion
 
@@ -2290,6 +2306,7 @@ namespace PhotoTagsSynchronizer
                 //threadReloadLocationUsingNominatim.Abort();
             }
         }
+
         #endregion
 
         

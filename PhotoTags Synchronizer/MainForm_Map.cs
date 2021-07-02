@@ -25,55 +25,77 @@ namespace PhotoTagsSynchronizer
             */
             LocationCoordinate locationCoordinate = null;
 
-            string url = text;
-            string string_lon;
-            string string_lat;
-            int index_sperator;
-            int index_lat = url.IndexOf("lat=");
-            if (index_lat >= 0)
+            if (text.ToLower().StartsWith("https://www.openstreetmap.org/"))
             {
-                index_sperator = url.IndexOf("&", index_lat);
-                if (index_sperator <= index_lat) index_sperator = url.IndexOf("%2C", index_lat);
-                if (index_sperator <= index_lat) return locationCoordinate; //Not found, can't find values
-
-                string_lat = url.Substring(index_lat + 4, index_sperator - index_lat - 4);
-
-                int index_lon = url.IndexOf("lon=");
-                if (index_lon <= index_lat) return locationCoordinate;
-                index_sperator = url.IndexOf("#map", index_lon);
-                if (index_sperator == -1) index_sperator = url.Length; //Not found, can't find values
-                string_lon = url.Substring(index_lon + 4, index_sperator - index_lon - 4);
-            }
-            else
-            {
-                const int coordLength = 11;
-                index_lat = url.IndexOf("query=") + 6;
-                if (index_lat >= 0 && index_lat + coordLength <= url.Length)
+                string url = text;
+                string string_lon;
+                string string_lat;
+                int index_sperator;
+                int index_lat = url.IndexOf("lat=");
+                if (index_lat >= 0)
                 {
-                    index_sperator = url.IndexOf("%2C", index_lat, coordLength);
-                    if (index_sperator == -1) index_sperator = url.IndexOf("&", index_lat, 9);
-                    if (index_sperator == -1) return locationCoordinate; //Not found, can't find seperator
-                    string_lat = url.Substring(index_lat, index_sperator - index_lat);
+                    index_sperator = url.IndexOf("&", index_lat);
+                    if (index_sperator <= index_lat) index_sperator = url.IndexOf("%2C", index_lat);
+                    if (index_sperator <= index_lat) return locationCoordinate; //Not found, can't find values
 
-                    int index_lon = -1;
-                    if (url.IndexOf("%2C", index_lat, 11) != -1) index_lon = index_sperator + 3;
-                    if (url.IndexOf("&", index_lat, 9) != -1) index_lon = index_sperator + 1;
-                    if (index_lon == -1) return locationCoordinate;
+                    string_lat = url.Substring(index_lat + 4, index_sperator - index_lat - 4);
 
+                    int index_lon = url.IndexOf("lon=");
+                    if (index_lon <= index_lat) return locationCoordinate;
                     index_sperator = url.IndexOf("#map", index_lon);
-                    if (index_sperator == -1) index_sperator = url.Length;
-
-                    string_lon = url.Substring(index_lon, index_sperator - index_lon);
+                    if (index_sperator == -1) index_sperator = url.Length; //Not found, can't find values
+                    string_lon = url.Substring(index_lon + 4, index_sperator - index_lon - 4);
                 }
-                else return locationCoordinate;
+                else
+                {
+                    const int coordLength = 11;
+                    index_lat = url.IndexOf("query=") + 6;
+                    if (index_lat >= 0 && index_lat + coordLength <= url.Length)
+                    {
+                        index_sperator = url.IndexOf("%2C", index_lat, coordLength);
+                        if (index_sperator == -1) index_sperator = url.IndexOf("&", index_lat, 9);
+                        if (index_sperator == -1) return locationCoordinate; //Not found, can't find seperator
+                        string_lat = url.Substring(index_lat, index_sperator - index_lat);
+
+                        int index_lon = -1;
+                        if (url.IndexOf("%2C", index_lat, 11) != -1) index_lon = index_sperator + 3;
+                        if (url.IndexOf("&", index_lat, 9) != -1) index_lon = index_sperator + 1;
+                        if (index_lon == -1) return locationCoordinate;
+
+                        index_sperator = url.IndexOf("#map", index_lon);
+                        if (index_sperator == -1) index_sperator = url.Length;
+
+                        string_lon = url.Substring(index_lon, index_sperator - index_lon);
+                    }
+                    else return locationCoordinate;
+                }
+
+                float lat;
+                float lon;
+                if (float.TryParse(string_lon, NumberStyles.Float, CultureInfo.InvariantCulture, out lon) &&
+                    float.TryParse(string_lat, NumberStyles.Float, CultureInfo.InvariantCulture, out lat))
+                {
+                    locationCoordinate = new LocationCoordinate(lat, lon);
+                }
             }
 
-            float lat;
-            float lon;
-            if (float.TryParse(string_lon, NumberStyles.Float, CultureInfo.InvariantCulture, out lon) &&
-                float.TryParse(string_lat, NumberStyles.Float, CultureInfo.InvariantCulture, out lat))
+            if (text.ToLower().StartsWith("https://www.google.com/maps/"))
             {
-                locationCoordinate = new LocationCoordinate(lat, lon);
+                string[] split = text.Split('@');
+                if (split.Length >= 2)
+                {
+                    string[] coordinates = split[1].Split(',');
+                    if (coordinates.Length >= 2)
+                    {
+                        float lat;
+                        float lon;
+                        if (float.TryParse(coordinates[1], NumberStyles.Float, CultureInfo.InvariantCulture, out lon) &&
+                            float.TryParse(coordinates[0], NumberStyles.Float, CultureInfo.InvariantCulture, out lat))
+                        {
+                            locationCoordinate = new LocationCoordinate(lat, lon);
+                        }
+                    }
+                }
             }
             return locationCoordinate;
         }
@@ -150,7 +172,7 @@ namespace PhotoTagsSynchronizer
 
         LocationCoordinate locationCoordinateRememberForZooming = null;
         #region UpdateBrowserMap - Only when one cell selected
-        private void UpdateBrowserMap(string combinedCorordinateString)
+        private void UpdateBrowserMap(string combinedCorordinateString, MapProvider mapProvider)
         {
             if (ClipboardUtility.IsClipboardActive && ClipboardUtility.NuberOfItemsToEdit>1) return;
             DataGridView dataGridView = dataGridViewMap;
@@ -162,14 +184,21 @@ namespace PhotoTagsSynchronizer
                 {
                     locationCoordinateRememberForZooming = new LocationCoordinate(locationCoordinate.Latitude, locationCoordinate.Longitude);
 
-                    ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinate, GetZoomLevel());
+                    ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinate, GetZoomLevel(), mapProvider);
                 }
             }
         }
         #endregion
 
-        #region ShowCoordinateOnMap_Click
-        private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
+        #region MapProvider GetMapProvider
+        private MapProvider GetMapProvider()
+        {
+            return ShowMediaOnMap.GetMapProvider(textBoxBrowserURL.Text);
+        }
+        #endregion
+
+        #region GetLocationAndShow
+        private void GetLocationAndShow(MapProvider mapProvider)
         {
             List<LocationCoordinate> locationCoordinates = new List<LocationCoordinate>();
 
@@ -179,16 +208,27 @@ namespace PhotoTagsSynchronizer
 
                 if (LocationCoordinate.TryParse(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex), out LocationCoordinate locationCoordinate))
                 {
-                    locationCoordinates.Add(locationCoordinate);
+                    if (!locationCoordinates.Contains(locationCoordinate)) locationCoordinates.Add(locationCoordinate);
                 }
             }
-            ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel());
+            ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
+        }
+        #endregion
+
+        #region ShowCoordinateOnMap_Click
+        private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
+        {
+            GetLocationAndShow(MapProvider.OpenStreetMap);
         }
         #endregion 
 
-        
+        #region ShowCoordinateOnGoogleMap_Click
+        private void toolStripMenuItemShowCoordinateOnGoogleMap_Click(object sender, EventArgs e)
+        {
+            GetLocationAndShow(MapProvider.GoogleMap);
+        }
+        #endregion 
 
-        
         #endregion
 
         #region UpdateGoodleHistoryCoordinate after Select new TimeZoneShift or AccepedIntervalSecound
@@ -245,9 +285,11 @@ namespace PhotoTagsSynchronizer
             }
             
         }
-        #endregion 
+        #endregion
 
         #region User control handling
+
+        #region comboBoxGoogleTimeZoneShift_SelectedIndexChanged
         private void comboBoxGoogleTimeZoneShift_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
@@ -258,10 +300,12 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.Save();
             UpdateGoodleHistoryCoordinate();
 
-            if (dataGridViewMap.CurrentCell != null && dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString());
+            if (dataGridViewMap.CurrentCell != null && dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString(), GetMapProvider());
 
         }
+        #endregion 
 
+        #region comboBoxGoogleLocationInterval_SelectedIndexChanged
         private void comboBoxGoogleLocationInterval_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
@@ -272,9 +316,11 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.Save();
             UpdateGoodleHistoryCoordinate();
 
-            if (dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString());
+            if (dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString(), GetMapProvider());
         }
+        #endregion
 
+        #region comboBoxMapZoomLevel_SelectedIndexChanged
         private void comboBoxMapZoomLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (GlobalData.IsApplicationClosing) return;
@@ -284,9 +330,9 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.ComboBoxMapZoomLevel = comboBoxMapZoomLevel.SelectedIndex;
             Properties.Settings.Default.Save();
 
-            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel()); //Use last valid coordinates clicked
-
+            if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
         }
+        #endregion 
 
         #endregion
 
@@ -304,7 +350,7 @@ namespace PhotoTagsSynchronizer
 
             if (dataGridViewMap[e.ColumnIndex, e.RowIndex].Value != null)
             {
-                UpdateBrowserMap(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex));
+                UpdateBrowserMap(DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, e.ColumnIndex, e.RowIndex), GetMapProvider());
             }
         }
         #endregion
@@ -332,7 +378,7 @@ namespace PhotoTagsSynchronizer
                 gridViewGenericRow.RowName.Equals(DataGridViewHandlerMap.tagCoordinates))
             {
                 string coordinate = DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridViewMap, e.ColumnIndex, e.RowIndex);
-                UpdateBrowserMap(coordinate);
+                UpdateBrowserMap(coordinate, GetMapProvider());
                 DataGridViewHandlerMap.PopulateGrivViewMapNomnatatim(dataGridView, e.ColumnIndex, LocationCoordinate.Parse(coordinate));                
             }
 
@@ -418,10 +464,11 @@ namespace PhotoTagsSynchronizer
 
             isDataGridViewMaps_CellValueChanging = false;
         }
-        #endregion 
+        #endregion
 
         #endregion
 
+        #region toolStripMenuItemMapReloadLocationUsingNominatim_Click
         private void toolStripMenuItemMapReloadLocationUsingNominatim_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMap;
@@ -446,5 +493,6 @@ namespace PhotoTagsSynchronizer
             }
             isDataGridViewMaps_CellValueChanging = false;
         }
+        #endregion 
     }
 }
