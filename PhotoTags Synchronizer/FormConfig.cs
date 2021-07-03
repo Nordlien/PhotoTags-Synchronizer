@@ -622,8 +622,6 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Album
-            
-            
             PopulateAutoCorrectListOrder(imageListViewOrderAlbum, autoCorrect.AlbumPriority);
 
             if (autoCorrect.UpdateAlbum)
@@ -1002,8 +1000,6 @@ namespace PhotoTagsSynchronizer
         private int columnIndexRegion = 2;
         private int columnIndexCountry = 3;
 
-        
-
         #region Location names - PopulateMetadataLocationNames
         private void PopulateMetadataLocationNames(DataGridView dataGridView, Dictionary<LocationCoordinate, LocationDescription> locationNames)
         {
@@ -1104,8 +1100,9 @@ namespace PhotoTagsSynchronizer
             }
             PopulateMetadataLocationNames(dataGridView, locationNotFound);
         }
-        #endregion 
+        #endregion
 
+        #region Location names - LocationRecord
         private class LocationRecord
         {
             public LocationRecord(LocationCoordinate locationCoordinate, LocationDescription locationDescription)
@@ -1117,7 +1114,9 @@ namespace PhotoTagsSynchronizer
             public LocationCoordinate LocationCoordinate { get; set; } = new LocationCoordinate();
             public LocationDescription LocationDescription { get; set; } = new LocationDescription();
         }
+        #endregion
 
+        #region Location names - LocationExport Click
         private void buttonLocationExport_Click(object sender, EventArgs e)
         {
             try
@@ -1164,7 +1163,9 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show("Error saving JSON file!\r\n\r\n" + ex.Message, "Was not able to save JSON file");
             }
         }
+        #endregion
 
+        #region Location names - LocationImport_Click
         private void buttonLocationImport_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewLocationNames;
@@ -1199,6 +1200,7 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show("Error loading JSON file!\r\n\r\n" + ex.Message, "Was not able to load JSON file");
             }
         }
+        #endregion
 
         #region Location names - SaveMetadataLocation
         private void SaveMetadataLocation(DataGridView dataGridView)
@@ -1311,15 +1313,18 @@ namespace PhotoTagsSynchronizer
             Properties.Settings.Default.SettingLocationZoomLevel = (byte)comboBoxMapZoomLevel.SelectedIndex;
             if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
         }
-        #endregion 
+        #endregion
 
+        #region Location names - ShowCoordinateOnMap_Click
+
+        #region MapProvider GetMapProvider
         private MapProvider GetMapProvider()
         {
             return ShowMediaOnMap.GetMapProvider(textBoxBrowserURL.Text);
         }
+        #endregion
 
-        #region Location names - ShowCoordinateOnMap_Click
-
+        #region GetLocationAndShow(MapProvider mapProvider)
         private void GetLocationAndShow(MapProvider mapProvider)
         {
             DataGridView dataGridView = dataGridViewLocationNames;
@@ -1335,16 +1340,22 @@ namespace PhotoTagsSynchronizer
             }
             ShowMediaOnMap.UpdatedBroswerMap(browser, locationCoordinates, GetZoomLevel(), mapProvider);
         }
+        #endregion
 
+        #region toolStripMenuItemShowCoordinateOnMap_Click
         private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
         {
             GetLocationAndShow(MapProvider.OpenStreetMap);
         }
+        #endregion
 
+        #region toolStripMenuItemShowCoordinateOnGoogleMap_Click
         private void toolStripMenuItemShowCoordinateOnGoogleMap_Click(object sender, EventArgs e)
         {
             GetLocationAndShow(MapProvider.GoogleMap);
         }
+        #endregion
+
         #endregion
 
         #region Location names - ReloadLocationUsingNominatim_Click 
