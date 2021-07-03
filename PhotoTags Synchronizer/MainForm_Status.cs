@@ -66,16 +66,19 @@ namespace PhotoTagsSynchronizer
 
         private static FormMessageBox formMessageBoxThread = null;
 
-
         private void AddTaskToFileTasks(Dictionary<string, List<string>> fileTasks, string fullFileName, DateTime? modifiedDate, string task)
         {
             if (!fileTasks.ContainsKey(fullFileName))
             {
                 fileTasks.Add(fullFileName, new List<string>());
-                if (Exiftool.ExiftoolWriter.IsFileReadOnly(fullFileName)) fileTasks[fullFileName].Add("ReadOnly");
-                if (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fullFileName)) fileTasks[fullFileName].Add("Locked");
-                if (Exiftool.ExiftoolWriter.IsFileInCloud(fullFileName)) fileTasks[fullFileName].Add( "In cloud");
-                if (Exiftool.ExiftoolWriter.IsFileVirtual(fullFileName)) fileTasks[fullFileName].Add( "Virtual file");
+                if (!File.Exists(fullFileName)) fileTasks[fullFileName].Add("File not exists");
+                else
+                {
+                    if (Exiftool.ExiftoolWriter.IsFileReadOnly(fullFileName)) fileTasks[fullFileName].Add("ReadOnly");
+                    if (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fullFileName)) fileTasks[fullFileName].Add("Locked");
+                    if (Exiftool.ExiftoolWriter.IsFileInCloud(fullFileName)) fileTasks[fullFileName].Add("In cloud");
+                    if (Exiftool.ExiftoolWriter.IsFileVirtual(fullFileName)) fileTasks[fullFileName].Add("Virtual file");
+                }
             }
             fileTasks[fullFileName].Add(task);
             if (modifiedDate != null) 
@@ -83,17 +86,61 @@ namespace PhotoTagsSynchronizer
                 DateTime? lastAccessTime = null;
                 try
                 {
-                    lastAccessTime = File.GetLastAccessTime(fullFileName);
+                    if (File.Exists(fullFileName)) lastAccessTime = File.GetLastAccessTime(fullFileName);
                 } catch { }                
-                fileTasks[fullFileName].Add("  " + modifiedDate.ToString() + " vs. " + (lastAccessTime == modifiedDate ? "" : (lastAccessTime == null ? "null" : lastAccessTime.ToString())));                
+                fileTasks[fullFileName].Add("  " + modifiedDate.ToString() + " vs. " + (lastAccessTime == modifiedDate ? "" : (lastAccessTime == null ? "File not exists or can't readlast access time" : lastAccessTime.ToString())));                
             } 
         }
 
         private void toolStripProgressBarThreadQueue_Click(object sender, EventArgs e)
         {
             Dictionary<string, List<string>> fileTasks = new Dictionary<string, List<string>>();
-            string messageBoxQueuesInfo = "List of all process queues...\r\n\r\n";
+            string messageBoxQueuesInfo = "List of all process queues...\r\n";
+
+            try
+            {
+                messageBoxQueuesInfo += string.Format("Files: {0} Selected {1}\r\n", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
+                if (CommonQueueLazyLoadingMetadataCountDirty() > 0)
+                    messageBoxQueuesInfo += string.Format("Lazy loading queue: {0}\r\n", CommonQueueLazyLoadingMetadataCountDirty());
+                if (!string.IsNullOrWhiteSpace(Exiftool.ExiftoolWriter.FileLockedByProcess))                
+                    messageBoxQueuesInfo += "Locked file: " + Exiftool.ExiftoolWriter.FileLockedByProcess;                
+            }
+            catch { }
+
+
+            if (readToCacheQueues.Count > 0)
+            {
+                try
+                {
+                    messageBoxQueuesInfo += "Read to cache:";
+                    lock (_readToCacheQueuesLock)
+                        foreach (KeyValuePair<int, int> keyValuePair in readToCacheQueues) toolStripStatusThreadQueueCount.Text += " " + keyValuePair.Value;
+                    messageBoxQueuesInfo += "\r\n";
+                }
+                catch
+                {
+                }
+            }
+
+            if (deleteRecordQueues.Count > 0)
+            {
+                try
+                {
+                    messageBoxQueuesInfo += "Delete records:";
+                    lock (_deleteRecordQueuesLock)
+                    {
+                        foreach (KeyValuePair<int, int> keyValuePair in deleteRecordQueues) messageBoxQueuesInfo += " " + keyValuePair.Value;
+                        messageBoxQueuesInfo += "\r\n";
+                    }
+                }
+                catch
+                {
+                }
+            }
             
+
+            messageBoxQueuesInfo = "\r\n";
+
             try
             {
                 if (!string.IsNullOrEmpty(Exiftool.ExiftoolWriter.FileLockedByProcess)) messageBoxQueuesInfo += "Last file Locked by process: " + Exiftool.ExiftoolWriter.FileLockedByProcess + "\r\n";
@@ -194,6 +241,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
+                Logger.Warn(messageBoxQueuesInfo);
                 if (formMessageBoxThread == null || formMessageBoxThread.IsDisposed) formMessageBoxThread = new FormMessageBox("Task list", messageBoxQueuesInfo);
                 else formMessageBoxThread.UpdateMessage(messageBoxQueuesInfo);
                 formMessageBoxThread.Owner = this;

@@ -37,7 +37,6 @@ namespace Exiftool
         }
         #endregion
 
-
         #region Files locked, wait unlock, in cloud
 
         #region IsFileInCloud
@@ -150,9 +149,9 @@ namespace Exiftool
                 areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck);
                 if (areAnyFileLocked) Thread.Sleep(500);
                 if (maxRetry-- < 0) {
-                    if (MessageBox.Show("File(s) are locked by another applications",
-                        "Other applications can lock your files temporary e.g. OneDrive.\r\nWill you retray wating for file to be unlocked?\r\n" + FileLockedByProcess, 
-                        MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
+                    if (MessageBox.Show(
+                        "Other applications can lock your files temporary e.g. OneDrive.\r\nWill you retray wating for file to be unlocked?\r\n" + FileLockedByProcess,
+                        "File(s) are locked by another applications", MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
                     else areAnyFileLocked = false;
                 }
             } while (areAnyFileLocked);
@@ -172,9 +171,9 @@ namespace Exiftool
                 if (areAnyFileLocked) Thread.Sleep(500);
                 if (maxRetry-- < 0)
                 {
-                    if (MessageBox.Show("File(s) are locked by another applications",
+                    if (MessageBox.Show(
                         "Other applications can lock your files temporary e.g. OneDrive.\r\nWill you retray wating for file to be unlocked?\r\n" + FileLockedByProcess,
-                        MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
+                        "File(s) are locked by another applications", MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
                     else areAnyFileLocked = false;
                 }
             } while (areAnyFileLocked);
