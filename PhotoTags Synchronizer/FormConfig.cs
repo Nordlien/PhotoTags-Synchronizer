@@ -642,6 +642,9 @@ namespace PhotoTagsSynchronizer
             comboBoxKeywordsAiConfidence.SelectedIndex = 9 - (int)(autoCorrect.KeywordTagConfidenceLevel * 10);
             checkBoxKeywordsAddWebScraping.Checked = autoCorrect.UseKeywordsFromWebScraping;
 
+            checkBoxAutoCorrectTrackChanges.Checked = autoCorrect.TrackChangesInComments;
+            checkBoxKeywordBackupFileCreatedAfter.Checked = autoCorrect.BackupFileCreatedAfterUpdate;
+            checkBoxKeywordBackupFileCreatedBefore.Checked = autoCorrect.BackupFileCreatedBeforeUpdate;
             checkBoxKeywordBackupDateTakenAfter.Checked = autoCorrect.BackupDateTakenAfterUpdate;
             checkBoxKeywordBackupDateTakenBefore.Checked = autoCorrect.BackupDateTakenBeforeUpdate;
             checkBoxKeywordBackupGPSDateTimeUTCAfter.Checked = autoCorrect.BackupGPGDateTimeUTCAfterUpdate;
@@ -772,6 +775,9 @@ namespace PhotoTagsSynchronizer
             autoCorrect.UseKeywordsFromWindowsLivePhotoGallery = checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked;
             autoCorrect.UseKeywordsFromWebScraping = checkBoxKeywordsAddWebScraping.Checked;
 
+            autoCorrect.TrackChangesInComments = checkBoxAutoCorrectTrackChanges.Checked;
+            autoCorrect.BackupFileCreatedAfterUpdate = checkBoxKeywordBackupFileCreatedAfter.Checked;
+            autoCorrect.BackupFileCreatedBeforeUpdate = checkBoxKeywordBackupFileCreatedBefore.Checked;
             autoCorrect.BackupDateTakenAfterUpdate = checkBoxKeywordBackupDateTakenAfter.Checked;
             autoCorrect.BackupDateTakenBeforeUpdate = checkBoxKeywordBackupDateTakenBefore.Checked;
             autoCorrect.BackupGPGDateTimeUTCAfterUpdate = checkBoxKeywordBackupGPSDateTimeUTCAfter.Checked;

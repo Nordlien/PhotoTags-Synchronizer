@@ -194,19 +194,23 @@ namespace PhotoTagsSynchronizer
             this.label5 = new System.Windows.Forms.Label();
             this.checkBoxFaceRegionAddMicrosoftPhotos = new System.Windows.Forms.CheckBox();
             this.checkBoxFaceRegionAddWindowsMediaPhotoGallery = new System.Windows.Forms.CheckBox();
+            this.groupBoxAutoCorrectBackup = new System.Windows.Forms.GroupBox();
+            this.checkBoxAutoCorrectTrackChanges = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupFileCreatedBefore = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupFileCreatedAfter = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupDateTakenBefore = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupLocationCountry = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupGPSDateTimeUTCBefore = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupLocationState = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupDateTakenAfter = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupLocationCity = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordBackupGPSDateTimeUTCAfter = new System.Windows.Forms.CheckBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.checkBoxKeywordBackupLocationName = new System.Windows.Forms.CheckBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.checkBoxKeywordBackupRegionFaceNames = new System.Windows.Forms.CheckBox();
             this.groupBoxKaywordTags = new System.Windows.Forms.GroupBox();
             this.checkBoxKeywordsAddWebScraping = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupLocationCountry = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupLocationState = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupLocationCity = new System.Windows.Forms.CheckBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.checkBoxKeywordBackupLocationName = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupRegionFaceNames = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupGPSDateTimeUTCAfter = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupDateTakenAfter = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupGPSDateTimeUTCBefore = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupDateTakenBefore = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxKeywordsAiConfidence = new System.Windows.Forms.ComboBox();
             this.checkBoxKeywordsAddMicrosoftPhotos = new System.Windows.Forms.CheckBox();
@@ -285,6 +289,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapHideEqual = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemShowCoordinateOnMap = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemShowCoordinateOnGoogleMap = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapReloadLocationUsingNominatim = new System.Windows.Forms.ToolStripMenuItem();
             this.searchForNewLocationsInMediaFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxBrowserURL = new System.Windows.Forms.TextBox();
@@ -356,7 +361,6 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
-            this.toolStripMenuItemShowCoordinateOnGoogleMap = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
@@ -405,6 +409,7 @@ namespace PhotoTagsSynchronizer
             this.panelAutoCorrect.SuspendLayout();
             this.groupBoxRename.SuspendLayout();
             this.groupBoxFaceRegion.SuspendLayout();
+            this.groupBoxAutoCorrectBackup.SuspendLayout();
             this.groupBoxKaywordTags.SuspendLayout();
             this.groupBoxAuthor.SuspendLayout();
             this.groupBoxAlbum.SuspendLayout();
@@ -520,7 +525,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox12.Controls.Add(this.numericUpDownCacheNumberOfPosters);
             this.groupBox12.Location = new System.Drawing.Point(0, 806);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(721, 227);
+            this.groupBox12.Size = new System.Drawing.Size(637, 227);
             this.groupBox12.TabIndex = 13;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Cache logic";
@@ -622,7 +627,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxLocationAccuracy.Controls.Add(this.numericUpDownLocationAccuracyLatitude);
             this.groupBoxLocationAccuracy.Location = new System.Drawing.Point(0, 696);
             this.groupBoxLocationAccuracy.Name = "groupBoxLocationAccuracy";
-            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(721, 104);
+            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(637, 104);
             this.groupBoxLocationAccuracy.TabIndex = 12;
             this.groupBoxLocationAccuracy.TabStop = false;
             this.groupBoxLocationAccuracy.Text = "GPS Location Accuracy";
@@ -720,7 +725,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud);
             this.groupBox6.Location = new System.Drawing.Point(3, 574);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(718, 116);
+            this.groupBox6.Size = new System.Drawing.Size(634, 116);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Read media and listview";
@@ -766,7 +771,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox5.Controls.Add(this.numericUpDownRegionMissmatchProcent);
             this.groupBox5.Location = new System.Drawing.Point(3, 483);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(718, 85);
+            this.groupBox5.Size = new System.Drawing.Size(634, 85);
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Region";
@@ -839,7 +844,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
             this.groupBox4.Location = new System.Drawing.Point(3, 392);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(718, 85);
+            this.groupBox4.Size = new System.Drawing.Size(634, 85);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Region Name suggestions (People Face names)";
@@ -927,7 +932,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox3.Controls.Add(this.label38);
             this.groupBox3.Location = new System.Drawing.Point(3, 321);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(718, 65);
+            this.groupBox3.Size = new System.Drawing.Size(634, 65);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Search result";
@@ -975,7 +980,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
             this.groupBox2.Location = new System.Drawing.Point(3, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(718, 156);
+            this.groupBox2.Size = new System.Drawing.Size(634, 156);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nominatim look-up";
@@ -1022,7 +1027,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(183, 68);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(530, 22);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(446, 22);
             this.textBoxApplicationPreferredLanguages.TabIndex = 1;
             // 
             // comboBoxApplicationLanguages
@@ -1233,7 +1238,7 @@ namespace PhotoTagsSynchronizer
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(183, 38);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(530, 24);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(446, 24);
             this.comboBoxApplicationLanguages.TabIndex = 0;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
             // 
@@ -1251,7 +1256,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(718, 150);
+            this.groupBox1.Size = new System.Drawing.Size(634, 150);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thumbnail size";
@@ -2607,6 +2612,7 @@ namespace PhotoTagsSynchronizer
             this.panelAutoCorrect.AutoScroll = true;
             this.panelAutoCorrect.Controls.Add(this.groupBoxRename);
             this.panelAutoCorrect.Controls.Add(this.groupBoxFaceRegion);
+            this.panelAutoCorrect.Controls.Add(this.groupBoxAutoCorrectBackup);
             this.panelAutoCorrect.Controls.Add(this.groupBoxKaywordTags);
             this.panelAutoCorrect.Controls.Add(this.groupBoxAuthor);
             this.panelAutoCorrect.Controls.Add(this.groupBoxAlbum);
@@ -2629,7 +2635,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxRename.Controls.Add(this.label9);
             this.groupBoxRename.Controls.Add(this.comboBoxRenameVariables);
             this.groupBoxRename.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxRename.Location = new System.Drawing.Point(0, 1850);
+            this.groupBoxRename.Location = new System.Drawing.Point(0, 1945);
             this.groupBoxRename.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxRename.Name = "groupBoxRename";
             this.groupBoxRename.Padding = new System.Windows.Forms.Padding(2);
@@ -2734,7 +2740,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddMicrosoftPhotos);
             this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddWindowsMediaPhotoGallery);
             this.groupBoxFaceRegion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxFaceRegion.Location = new System.Drawing.Point(0, 1735);
+            this.groupBoxFaceRegion.Location = new System.Drawing.Point(0, 1830);
             this.groupBoxFaceRegion.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxFaceRegion.Name = "groupBoxFaceRegion";
             this.groupBoxFaceRegion.Padding = new System.Windows.Forms.Padding(2);
@@ -2792,20 +2798,171 @@ namespace PhotoTagsSynchronizer
             this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.Text = "Add none existing names from Windows Media Photo Gallery";
             this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.UseVisualStyleBackColor = true;
             // 
+            // groupBoxAutoCorrectBackup
+            // 
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxAutoCorrectTrackChanges);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupFileCreatedBefore);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupFileCreatedAfter);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupDateTakenBefore);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupLocationCountry);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupGPSDateTimeUTCBefore);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupLocationState);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupDateTakenAfter);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupLocationCity);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupGPSDateTimeUTCAfter);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.label18);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupLocationName);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.label17);
+            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupRegionFaceNames);
+            this.groupBoxAutoCorrectBackup.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBoxAutoCorrectBackup.Location = new System.Drawing.Point(0, 1417);
+            this.groupBoxAutoCorrectBackup.Name = "groupBoxAutoCorrectBackup";
+            this.groupBoxAutoCorrectBackup.Size = new System.Drawing.Size(740, 413);
+            this.groupBoxAutoCorrectBackup.TabIndex = 0;
+            this.groupBoxAutoCorrectBackup.TabStop = false;
+            this.groupBoxAutoCorrectBackup.Text = "Backup diffrent tags";
+            // 
+            // checkBoxAutoCorrectTrackChanges
+            // 
+            this.checkBoxAutoCorrectTrackChanges.AutoSize = true;
+            this.checkBoxAutoCorrectTrackChanges.Location = new System.Drawing.Point(10, 205);
+            this.checkBoxAutoCorrectTrackChanges.Name = "checkBoxAutoCorrectTrackChanges";
+            this.checkBoxAutoCorrectTrackChanges.Size = new System.Drawing.Size(396, 21);
+            this.checkBoxAutoCorrectTrackChanges.TabIndex = 7;
+            this.checkBoxAutoCorrectTrackChanges.Text = "Append text that keep track of date changes in comments.";
+            this.checkBoxAutoCorrectTrackChanges.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupFileCreatedBefore
+            // 
+            this.checkBoxKeywordBackupFileCreatedBefore.AutoSize = true;
+            this.checkBoxKeywordBackupFileCreatedBefore.Location = new System.Drawing.Point(10, 43);
+            this.checkBoxKeywordBackupFileCreatedBefore.Name = "checkBoxKeywordBackupFileCreatedBefore";
+            this.checkBoxKeywordBackupFileCreatedBefore.Size = new System.Drawing.Size(270, 21);
+            this.checkBoxKeywordBackupFileCreatedBefore.TabIndex = 1;
+            this.checkBoxKeywordBackupFileCreatedBefore.Text = "Store original FileCreated in Keywords";
+            this.checkBoxKeywordBackupFileCreatedBefore.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupFileCreatedAfter
+            // 
+            this.checkBoxKeywordBackupFileCreatedAfter.AutoSize = true;
+            this.checkBoxKeywordBackupFileCreatedAfter.Location = new System.Drawing.Point(10, 70);
+            this.checkBoxKeywordBackupFileCreatedAfter.Name = "checkBoxKeywordBackupFileCreatedAfter";
+            this.checkBoxKeywordBackupFileCreatedAfter.Size = new System.Drawing.Size(276, 21);
+            this.checkBoxKeywordBackupFileCreatedAfter.TabIndex = 2;
+            this.checkBoxKeywordBackupFileCreatedAfter.Text = "Store updated FileCreated in Keywords";
+            this.checkBoxKeywordBackupFileCreatedAfter.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupDateTakenBefore
+            // 
+            this.checkBoxKeywordBackupDateTakenBefore.AutoSize = true;
+            this.checkBoxKeywordBackupDateTakenBefore.Location = new System.Drawing.Point(10, 97);
+            this.checkBoxKeywordBackupDateTakenBefore.Name = "checkBoxKeywordBackupDateTakenBefore";
+            this.checkBoxKeywordBackupDateTakenBefore.Size = new System.Drawing.Size(268, 21);
+            this.checkBoxKeywordBackupDateTakenBefore.TabIndex = 3;
+            this.checkBoxKeywordBackupDateTakenBefore.Text = "Store original DateTaken in Keywords";
+            this.checkBoxKeywordBackupDateTakenBefore.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupLocationCountry
+            // 
+            this.checkBoxKeywordBackupLocationCountry.AutoSize = true;
+            this.checkBoxKeywordBackupLocationCountry.Location = new System.Drawing.Point(10, 373);
+            this.checkBoxKeywordBackupLocationCountry.Name = "checkBoxKeywordBackupLocationCountry";
+            this.checkBoxKeywordBackupLocationCountry.Size = new System.Drawing.Size(135, 21);
+            this.checkBoxKeywordBackupLocationCountry.TabIndex = 13;
+            this.checkBoxKeywordBackupLocationCountry.Text = "Location country";
+            this.checkBoxKeywordBackupLocationCountry.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupGPSDateTimeUTCBefore
+            // 
+            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.AutoSize = true;
+            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.Location = new System.Drawing.Point(10, 178);
+            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.Name = "checkBoxKeywordBackupGPSDateTimeUTCBefore";
+            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.Size = new System.Drawing.Size(362, 21);
+            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.TabIndex = 6;
+            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.Text = "Store updated GPS UTC Date and Time in Keywords";
+            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupLocationState
+            // 
+            this.checkBoxKeywordBackupLocationState.AutoSize = true;
+            this.checkBoxKeywordBackupLocationState.Location = new System.Drawing.Point(10, 347);
+            this.checkBoxKeywordBackupLocationState.Name = "checkBoxKeywordBackupLocationState";
+            this.checkBoxKeywordBackupLocationState.Size = new System.Drawing.Size(119, 21);
+            this.checkBoxKeywordBackupLocationState.TabIndex = 12;
+            this.checkBoxKeywordBackupLocationState.Text = "Location state";
+            this.checkBoxKeywordBackupLocationState.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupDateTakenAfter
+            // 
+            this.checkBoxKeywordBackupDateTakenAfter.AutoSize = true;
+            this.checkBoxKeywordBackupDateTakenAfter.Location = new System.Drawing.Point(10, 124);
+            this.checkBoxKeywordBackupDateTakenAfter.Name = "checkBoxKeywordBackupDateTakenAfter";
+            this.checkBoxKeywordBackupDateTakenAfter.Size = new System.Drawing.Size(274, 21);
+            this.checkBoxKeywordBackupDateTakenAfter.TabIndex = 4;
+            this.checkBoxKeywordBackupDateTakenAfter.Text = "Store updated DateTaken in Keywords";
+            this.checkBoxKeywordBackupDateTakenAfter.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupLocationCity
+            // 
+            this.checkBoxKeywordBackupLocationCity.AutoSize = true;
+            this.checkBoxKeywordBackupLocationCity.Location = new System.Drawing.Point(10, 320);
+            this.checkBoxKeywordBackupLocationCity.Name = "checkBoxKeywordBackupLocationCity";
+            this.checkBoxKeywordBackupLocationCity.Size = new System.Drawing.Size(109, 21);
+            this.checkBoxKeywordBackupLocationCity.TabIndex = 11;
+            this.checkBoxKeywordBackupLocationCity.Text = "Location city";
+            this.checkBoxKeywordBackupLocationCity.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxKeywordBackupGPSDateTimeUTCAfter
+            // 
+            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.AutoSize = true;
+            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.Location = new System.Drawing.Point(10, 151);
+            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.Name = "checkBoxKeywordBackupGPSDateTimeUTCAfter";
+            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.Size = new System.Drawing.Size(356, 21);
+            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.TabIndex = 5;
+            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.Text = "Store original GPS UTC Date and Time in Keywords";
+            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.UseVisualStyleBackColor = true;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(31, 246);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(485, 17);
+            this.label18.TabIndex = 8;
+            this.label18.Text = "Backup data and make fields more easier to for search in some applications";
+            // 
+            // checkBoxKeywordBackupLocationName
+            // 
+            this.checkBoxKeywordBackupLocationName.AutoSize = true;
+            this.checkBoxKeywordBackupLocationName.Location = new System.Drawing.Point(10, 293);
+            this.checkBoxKeywordBackupLocationName.Name = "checkBoxKeywordBackupLocationName";
+            this.checkBoxKeywordBackupLocationName.Size = new System.Drawing.Size(123, 21);
+            this.checkBoxKeywordBackupLocationName.TabIndex = 10;
+            this.checkBoxKeywordBackupLocationName.Text = "Location name";
+            this.checkBoxKeywordBackupLocationName.UseVisualStyleBackColor = true;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(30, 23);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(245, 17);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "Keey track for dates and date history:";
+            // 
+            // checkBoxKeywordBackupRegionFaceNames
+            // 
+            this.checkBoxKeywordBackupRegionFaceNames.AutoSize = true;
+            this.checkBoxKeywordBackupRegionFaceNames.Location = new System.Drawing.Point(10, 266);
+            this.checkBoxKeywordBackupRegionFaceNames.Name = "checkBoxKeywordBackupRegionFaceNames";
+            this.checkBoxKeywordBackupRegionFaceNames.Size = new System.Drawing.Size(171, 21);
+            this.checkBoxKeywordBackupRegionFaceNames.TabIndex = 9;
+            this.checkBoxKeywordBackupRegionFaceNames.Text = "All Region face names";
+            this.checkBoxKeywordBackupRegionFaceNames.UseVisualStyleBackColor = true;
+            // 
             // groupBoxKaywordTags
             // 
             this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddWebScraping);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordBackupLocationCountry);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordBackupLocationState);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordBackupLocationCity);
-            this.groupBoxKaywordTags.Controls.Add(this.label18);
-            this.groupBoxKaywordTags.Controls.Add(this.label17);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordBackupLocationName);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordBackupRegionFaceNames);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordBackupGPSDateTimeUTCAfter);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordBackupDateTakenAfter);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordBackupGPSDateTimeUTCBefore);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordBackupDateTakenBefore);
             this.groupBoxKaywordTags.Controls.Add(this.label4);
             this.groupBoxKaywordTags.Controls.Add(this.comboBoxKeywordsAiConfidence);
             this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddMicrosoftPhotos);
@@ -2815,7 +2972,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxKaywordTags.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxKaywordTags.Name = "groupBoxKaywordTags";
             this.groupBoxKaywordTags.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxKaywordTags.Size = new System.Drawing.Size(740, 457);
+            this.groupBoxKaywordTags.Size = new System.Drawing.Size(740, 139);
             this.groupBoxKaywordTags.TabIndex = 3;
             this.groupBoxKaywordTags.TabStop = false;
             this.groupBoxKaywordTags.Text = "Keyword tags";
@@ -2832,114 +2989,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordsAddWebScraping.TabIndex = 4;
             this.checkBoxKeywordsAddWebScraping.Text = "Add none existing keywords from WebScraping";
             this.checkBoxKeywordsAddWebScraping.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxKeywordBackupLocationCountry
-            // 
-            this.checkBoxKeywordBackupLocationCountry.AutoSize = true;
-            this.checkBoxKeywordBackupLocationCountry.Location = new System.Drawing.Point(10, 431);
-            this.checkBoxKeywordBackupLocationCountry.Name = "checkBoxKeywordBackupLocationCountry";
-            this.checkBoxKeywordBackupLocationCountry.Size = new System.Drawing.Size(135, 21);
-            this.checkBoxKeywordBackupLocationCountry.TabIndex = 15;
-            this.checkBoxKeywordBackupLocationCountry.Text = "Location country";
-            this.checkBoxKeywordBackupLocationCountry.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxKeywordBackupLocationState
-            // 
-            this.checkBoxKeywordBackupLocationState.AutoSize = true;
-            this.checkBoxKeywordBackupLocationState.Location = new System.Drawing.Point(10, 405);
-            this.checkBoxKeywordBackupLocationState.Name = "checkBoxKeywordBackupLocationState";
-            this.checkBoxKeywordBackupLocationState.Size = new System.Drawing.Size(119, 21);
-            this.checkBoxKeywordBackupLocationState.TabIndex = 14;
-            this.checkBoxKeywordBackupLocationState.Text = "Location state";
-            this.checkBoxKeywordBackupLocationState.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxKeywordBackupLocationCity
-            // 
-            this.checkBoxKeywordBackupLocationCity.AutoSize = true;
-            this.checkBoxKeywordBackupLocationCity.Location = new System.Drawing.Point(10, 378);
-            this.checkBoxKeywordBackupLocationCity.Name = "checkBoxKeywordBackupLocationCity";
-            this.checkBoxKeywordBackupLocationCity.Size = new System.Drawing.Size(109, 21);
-            this.checkBoxKeywordBackupLocationCity.TabIndex = 13;
-            this.checkBoxKeywordBackupLocationCity.Text = "Location city";
-            this.checkBoxKeywordBackupLocationCity.UseVisualStyleBackColor = true;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(31, 304);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(485, 17);
-            this.label18.TabIndex = 10;
-            this.label18.Text = "Backup data and make fields more easier to for search in some applications";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(31, 162);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(87, 17);
-            this.label17.TabIndex = 5;
-            this.label17.Text = "Backup data";
-            // 
-            // checkBoxKeywordBackupLocationName
-            // 
-            this.checkBoxKeywordBackupLocationName.AutoSize = true;
-            this.checkBoxKeywordBackupLocationName.Location = new System.Drawing.Point(10, 351);
-            this.checkBoxKeywordBackupLocationName.Name = "checkBoxKeywordBackupLocationName";
-            this.checkBoxKeywordBackupLocationName.Size = new System.Drawing.Size(123, 21);
-            this.checkBoxKeywordBackupLocationName.TabIndex = 12;
-            this.checkBoxKeywordBackupLocationName.Text = "Location name";
-            this.checkBoxKeywordBackupLocationName.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxKeywordBackupRegionFaceNames
-            // 
-            this.checkBoxKeywordBackupRegionFaceNames.AutoSize = true;
-            this.checkBoxKeywordBackupRegionFaceNames.Location = new System.Drawing.Point(10, 324);
-            this.checkBoxKeywordBackupRegionFaceNames.Name = "checkBoxKeywordBackupRegionFaceNames";
-            this.checkBoxKeywordBackupRegionFaceNames.Size = new System.Drawing.Size(171, 21);
-            this.checkBoxKeywordBackupRegionFaceNames.TabIndex = 11;
-            this.checkBoxKeywordBackupRegionFaceNames.Text = "All Region face names";
-            this.checkBoxKeywordBackupRegionFaceNames.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxKeywordBackupGPSDateTimeUTCAfter
-            // 
-            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.AutoSize = true;
-            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.Location = new System.Drawing.Point(10, 263);
-            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.Name = "checkBoxKeywordBackupGPSDateTimeUTCAfter";
-            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.Size = new System.Drawing.Size(423, 21);
-            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.TabIndex = 9;
-            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.Text = "Store GPS UTC Date and Time in Keywords after or if updated";
-            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxKeywordBackupDateTakenAfter
-            // 
-            this.checkBoxKeywordBackupDateTakenAfter.AutoSize = true;
-            this.checkBoxKeywordBackupDateTakenAfter.Location = new System.Drawing.Point(10, 236);
-            this.checkBoxKeywordBackupDateTakenAfter.Name = "checkBoxKeywordBackupDateTakenAfter";
-            this.checkBoxKeywordBackupDateTakenAfter.Size = new System.Drawing.Size(335, 21);
-            this.checkBoxKeywordBackupDateTakenAfter.TabIndex = 8;
-            this.checkBoxKeywordBackupDateTakenAfter.Text = "Store DateTaken in Keywords after or if updated";
-            this.checkBoxKeywordBackupDateTakenAfter.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxKeywordBackupGPSDateTimeUTCBefore
-            // 
-            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.AutoSize = true;
-            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.Location = new System.Drawing.Point(10, 209);
-            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.Name = "checkBoxKeywordBackupGPSDateTimeUTCBefore";
-            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.Size = new System.Drawing.Size(435, 21);
-            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.TabIndex = 7;
-            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.Text = "Store GPS UTC Date and Time in Keywords before or if updated";
-            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxKeywordBackupDateTakenBefore
-            // 
-            this.checkBoxKeywordBackupDateTakenBefore.AutoSize = true;
-            this.checkBoxKeywordBackupDateTakenBefore.Location = new System.Drawing.Point(10, 182);
-            this.checkBoxKeywordBackupDateTakenBefore.Name = "checkBoxKeywordBackupDateTakenBefore";
-            this.checkBoxKeywordBackupDateTakenBefore.Size = new System.Drawing.Size(347, 21);
-            this.checkBoxKeywordBackupDateTakenBefore.TabIndex = 6;
-            this.checkBoxKeywordBackupDateTakenBefore.Text = "Store DateTaken in Keywords before or if updated";
-            this.checkBoxKeywordBackupDateTakenBefore.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -3764,7 +3813,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapReloadLocationUsingNominatim,
             this.searchForNewLocationsInMediaFilesToolStripMenuItem});
             this.contextMenuStripLocationNames.Name = "contextMenuStripMap";
-            this.contextMenuStripLocationNames.Size = new System.Drawing.Size(440, 474);
+            this.contextMenuStripLocationNames.Size = new System.Drawing.Size(440, 446);
             // 
             // toolStripMenuItemMapCut
             // 
@@ -3893,6 +3942,16 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowCoordinateOnMap.Size = new System.Drawing.Size(439, 26);
             this.toolStripMenuItemShowCoordinateOnMap.Text = "Show Coordinate on OpenStreetMap";
             this.toolStripMenuItemShowCoordinateOnMap.Click += new System.EventHandler(this.toolStripMenuItemShowCoordinateOnMap_Click);
+            // 
+            // toolStripMenuItemShowCoordinateOnGoogleMap
+            // 
+            this.toolStripMenuItemShowCoordinateOnGoogleMap.Image = global::PhotoTagsSynchronizer.Properties.Resources.ShowLocation;
+            this.toolStripMenuItemShowCoordinateOnGoogleMap.Name = "toolStripMenuItemShowCoordinateOnGoogleMap";
+            this.toolStripMenuItemShowCoordinateOnGoogleMap.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.M)));
+            this.toolStripMenuItemShowCoordinateOnGoogleMap.Size = new System.Drawing.Size(439, 26);
+            this.toolStripMenuItemShowCoordinateOnGoogleMap.Text = "Show Coordinate on Google Map";
+            this.toolStripMenuItemShowCoordinateOnGoogleMap.Click += new System.EventHandler(this.toolStripMenuItemShowCoordinateOnGoogleMap_Click);
             // 
             // toolStripMenuItemMapReloadLocationUsingNominatim
             // 
@@ -4998,16 +5057,6 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(778, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
             // 
-            // toolStripMenuItemShowCoordinateOnGoogleMap
-            // 
-            this.toolStripMenuItemShowCoordinateOnGoogleMap.Image = global::PhotoTagsSynchronizer.Properties.Resources.ShowLocation;
-            this.toolStripMenuItemShowCoordinateOnGoogleMap.Name = "toolStripMenuItemShowCoordinateOnGoogleMap";
-            this.toolStripMenuItemShowCoordinateOnGoogleMap.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.M)));
-            this.toolStripMenuItemShowCoordinateOnGoogleMap.Size = new System.Drawing.Size(439, 26);
-            this.toolStripMenuItemShowCoordinateOnGoogleMap.Text = "Show Coordinate on Google Map";
-            this.toolStripMenuItemShowCoordinateOnGoogleMap.Click += new System.EventHandler(this.toolStripMenuItemShowCoordinateOnGoogleMap_Click);
-            // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -5089,6 +5138,8 @@ namespace PhotoTagsSynchronizer
             this.groupBoxRename.PerformLayout();
             this.groupBoxFaceRegion.ResumeLayout(false);
             this.groupBoxFaceRegion.PerformLayout();
+            this.groupBoxAutoCorrectBackup.ResumeLayout(false);
+            this.groupBoxAutoCorrectBackup.PerformLayout();
             this.groupBoxKaywordTags.ResumeLayout(false);
             this.groupBoxKaywordTags.PerformLayout();
             this.groupBoxAuthor.ResumeLayout(false);
@@ -5481,5 +5532,9 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.NumericUpDown numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted;
         private System.Windows.Forms.CheckBox checkBoxDublicateAlbumAsDescription;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowCoordinateOnGoogleMap;
+        private System.Windows.Forms.GroupBox groupBoxAutoCorrectBackup;
+        private System.Windows.Forms.CheckBox checkBoxAutoCorrectTrackChanges;
+        private System.Windows.Forms.CheckBox checkBoxKeywordBackupFileCreatedBefore;
+        private System.Windows.Forms.CheckBox checkBoxKeywordBackupFileCreatedAfter;
     }
 }

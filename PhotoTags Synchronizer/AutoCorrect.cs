@@ -66,6 +66,11 @@ namespace PhotoTagsSynchronizer
         [JsonProperty("UseKeywordsFromWebScraping")]
         public bool UseKeywordsFromWebScraping { get; set; } = true;
 
+        [JsonProperty("BackupFileCreatedBeforeUpdate")]
+        public bool BackupFileCreatedBeforeUpdate { get; set; } = true;
+        [JsonProperty("BackupFileCreatedAfterUpdate")]
+        public bool BackupFileCreatedAfterUpdate { get; set; } = true;
+
         [JsonProperty("BackupDateTakenBeforeUpdate")]
         public bool BackupDateTakenBeforeUpdate { get; set; } = true;
         [JsonProperty("BackupDateTakenAfterUpdate")]
@@ -116,9 +121,14 @@ namespace PhotoTagsSynchronizer
         public List<MetadataBrokerType> AlbumPriority { get; set; } = new List<MetadataBrokerType>();
         #endregion
 
-        #region 
+        #region Description 
         [JsonProperty("UpdateDescription")]
         public bool UpdateDescription { get; set; } = true;
+        #endregion 
+
+        #region Comments 
+        [JsonProperty("TrackChangesInComments")]
+        public bool TrackChangesInComments { get; set; } = true;
         #endregion 
 
         #region Author
@@ -250,13 +260,6 @@ namespace PhotoTagsSynchronizer
             FileEntryBroker fileEntryBrokerWebScraping = new FileEntryBroker(fileEntry, MetadataBrokerType.WebScraping);
             Metadata metadataWebScraping = metadataAndCacheMetadataExiftool.ReadWebScraperMetadataFromCacheOrDatabase(fileEntryBrokerWebScraping);
             Metadata metadataWebScrapingCopy = metadataWebScraping == null ? null : new Metadata(metadataWebScraping);
-
-            #region Keywords backup
-            if (BackupDateTakenBeforeUpdate && metadataCopy?.MediaDateTaken != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringSortable(metadataCopy?.MediaDateTaken)));            
-            if (BackupGPGDateTimeUTCBeforeUpdate && metadataCopy?.LocationDateTime != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime)));
-            #endregion
 
             #region GPS Location Latitude Longitude, Check if Exist in other sources first 
             if (UpdateGPSLocation && metadataCopy != null) 
@@ -398,9 +401,6 @@ namespace PhotoTagsSynchronizer
             }
             #endregion
 
-            
-
-
             #region DateAndTime Digitized
             if (UpdateDateTaken)
             {
@@ -535,11 +535,69 @@ namespace PhotoTagsSynchronizer
                         metadataCopy.PersonalKeywordTagsAddIfNotExists(keywordTag);
                 }
             }
+            #endregion
+
+            #region TrackChangesInComments
+            DateTime? newDateTimeFileCreated = metadata.FileDateCreated;
+            if (metadata.TryParseDateTakenToUtc(out DateTime? dateTakenWithOffset))
+            {
+                if (metadata?.FileDateCreated != null &&
+                    metadata?.MediaDateTaken != null &&
+                    metadata?.MediaDateTaken < DateTime.Now &&
+                    Math.Abs(((DateTime)dateTakenWithOffset.Value.ToUniversalTime() - (DateTime)metadata?.FileDateCreated.Value.ToUniversalTime()).TotalSeconds) > writeCreatedDateAndTimeAttributeTimeIntervalAccepted) //No need to change
+                {
+                    newDateTimeFileCreated = (DateTime)dateTakenWithOffset;
+                }
+            }
+
+            if (TrackChangesInComments)
+            {
+                if (newDateTimeFileCreated != metadataCopy?.FileDateCreated)
+                {
+                    metadataCopy.PersonalComments += "\r\nFileCreated: " +
+                        "Old: " + (metadata?.FileDateCreated == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.FileDateCreated)) + " " +
+                        "New: " + (newDateTimeFileCreated == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(newDateTimeFileCreated));
+                }
+
+                if (metadata?.MediaDateTaken != metadataCopy?.MediaDateTaken)
+                {
+                    metadataCopy.PersonalComments += "\r\nMediaDateTaken: " +
+                        "Old: " + (metadata?.MediaDateTaken == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.MediaDateTaken)) + " " +
+                        "New: " + (metadataCopy?.MediaDateTaken == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.MediaDateTaken));
+                }
+
+                if (metadata?.LocationDateTime != metadataCopy?.LocationDateTime)
+                {
+                    metadataCopy.PersonalComments += "\r\nLocationDateTime: " +
+                        "Old: " + (metadata?.LocationDateTime == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)) + " " +
+                        "New: " + (metadataCopy?.LocationDateTime == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime));
+                }
+            }
+            #endregion
+
+            #region Backup dates after changes in keywords
+            if (BackupFileCreatedBeforeUpdate && metadata?.FileDateCreated != null)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(("File created: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.FileDateCreated)));
+
+            if (BackupDateTakenBeforeUpdate && metadata?.MediaDateTaken != null)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(("Media taken: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken)));
+
+            if (BackupGPGDateTimeUTCBeforeUpdate && metadata?.LocationDateTime != null)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("UTC time: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)));
+            #endregion
+
+            #region Backup dates after changes in keywords
+            if (BackupFileCreatedAfterUpdate && metadataCopy?.FileDateCreated != null)
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("File created: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadataCopy?.FileDateCreated)));
 
             if (BackupDateTakenAfterUpdate && metadataCopy?.MediaDateTaken != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringSortable(metadataCopy?.MediaDateTaken)));
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("Media taken: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadataCopy?.MediaDateTaken)));
+
             if (BackupGPGDateTimeUTCAfterUpdate && metadataCopy?.LocationDateTime != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime)));
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("UTC time: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime)));
+            #endregion
+
+            #region Backup Region Face Names
             if (BackupRegionFaceNames)
             {
                 foreach (RegionStructure regionStructure in metadataCopy?.PersonalRegionList)
@@ -547,11 +605,13 @@ namespace PhotoTagsSynchronizer
                     if (!string.IsNullOrWhiteSpace(regionStructure.Name)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(regionStructure.Name));
                 }
             }
+            #endregion
+
+            #region Backup location Name, City, State/Region, Country
             if (BackupLocationName && !string.IsNullOrEmpty(metadataCopy?.LocationName)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadataCopy?.LocationName));
             if (BackupLocationCity && !string.IsNullOrEmpty(metadataCopy?.LocationCity)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadataCopy?.LocationCity));
             if (BackupLocationState && !string.IsNullOrEmpty(metadataCopy?.LocationState)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadataCopy?.LocationState));
             if (BackupLocationCountry && !string.IsNullOrEmpty(metadataCopy?.LocationCountry)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(metadataCopy?.LocationCountry));
-
             #endregion
 
             #region Title
@@ -621,8 +681,7 @@ namespace PhotoTagsSynchronizer
 
             #region Description
             if (UpdateDescription)
-            {
-                
+            {  
                 metadataCopy.PersonalDescription = metadataCopy.PersonalAlbum;
             }
             #endregion
