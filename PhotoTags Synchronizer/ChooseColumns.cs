@@ -9,8 +9,6 @@ using Manina.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
-    
-
     public partial class ChooseColumns : Form
     {
         public ImageListView imageListView;
@@ -22,6 +20,7 @@ namespace PhotoTagsSynchronizer
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.ImageListViewSelectedColumns = ImageListViewHandler.ImageListViewStringCollection(imageListView);
             Close();
         }
 

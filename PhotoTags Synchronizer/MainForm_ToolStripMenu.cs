@@ -399,6 +399,7 @@ namespace PhotoTagsSynchronizer
                 MessageBox.Show(ex.Message, "Can't change render");
             }
         }
+
         private void renderertoolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (isFormLoading) return;
@@ -905,8 +906,6 @@ namespace PhotoTagsSynchronizer
             LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
         }
         #endregion
-
-       
 
         #region ToolStrip - AutoCorrect - Folder - Click
         private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)

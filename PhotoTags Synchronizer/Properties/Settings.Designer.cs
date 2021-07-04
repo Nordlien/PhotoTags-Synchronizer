@@ -2124,5 +2124,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["UseAutoCorrectFormTitle"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Name\r\nCreated\r\nModified\r\nDate Taken")]
+        public string ImageListViewSelectedColumns {
+            get {
+                return ((string)(this["ImageListViewSelectedColumns"]));
+            }
+            set {
+                this["ImageListViewSelectedColumns"] = value;
+            }
+        }
     }
 }

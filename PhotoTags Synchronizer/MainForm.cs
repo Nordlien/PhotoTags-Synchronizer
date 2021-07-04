@@ -160,6 +160,8 @@ namespace PhotoTagsSynchronizer
             renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
             SetImageListViewRender();
 
+            ImageListViewHandler.SetImageListViewCheckedValues(imageListView1, Properties.Settings.Default.ImageListViewSelectedColumns);
+
             SplashForm.UpdateStatus("Initialize database: metadata cache...");
             databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 10000, 5000);
 

@@ -1111,5 +1111,11 @@ https://photos.google.com/people</Value>
     <Setting Name="UseAutoCorrectFormTitle" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ImageListViewSelectedColumns" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Name
+Created
+Modified
+Date Taken</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
