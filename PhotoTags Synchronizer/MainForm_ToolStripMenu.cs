@@ -908,6 +908,7 @@ namespace PhotoTagsSynchronizer
             AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
             string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
             string[] files = Directory.GetFiles(selectedFolder, "*.*");
@@ -921,7 +922,7 @@ namespace PhotoTagsSynchronizer
                     databaseAndCacheMetadataWindowsLivePhotoGallery,
                     databaseAndCahceCameraOwner,
                     databaseLocationAddress,
-                    databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude);
+                    databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
                 if (metadataToSave != null)
                 {
                     AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
@@ -954,6 +955,7 @@ namespace PhotoTagsSynchronizer
                 AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
                 float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                 float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
                 foreach (ImageListViewItem item in imageListView1.SelectedItems)
                 {
@@ -966,7 +968,7 @@ namespace PhotoTagsSynchronizer
                         databaseAndCahceCameraOwner,
                         databaseLocationAddress,
                         databaseGoogleLocationHistory,
-                        locationAccuracyLatitude, locationAccuracyLongitude);
+                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
                     if (metadataToSave != null)
                     {
                         if (useAlbum) metadataToSave.PersonalAlbum = album;
@@ -998,6 +1000,7 @@ namespace PhotoTagsSynchronizer
             AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
             float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
             float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
             foreach (ImageListViewItem item in imageListView1.SelectedItems)
             {
@@ -1010,7 +1013,7 @@ namespace PhotoTagsSynchronizer
                     databaseAndCahceCameraOwner,
                     databaseLocationAddress,
                     databaseGoogleLocationHistory,
-                    locationAccuracyLatitude, locationAccuracyLongitude);
+                    locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
                 if (metadataToSave != null)
                 {
                     AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
@@ -1140,6 +1143,7 @@ namespace PhotoTagsSynchronizer
                 if (autoCorrect == null) MessageBox.Show("AutoCorrect: " + Properties.Settings.Default.AutoCorrect);
                 float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                 float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
                 List<Metadata> metadataListEmpty = new List<Metadata>();
                 List<Metadata> metadataListFromDataGridViewAutoCorrect = new List<Metadata>();
@@ -1153,9 +1157,9 @@ namespace PhotoTagsSynchronizer
                         databaseAndCacheMetadataMicrosoftPhotos,
                         databaseAndCacheMetadataWindowsLivePhotoGallery,
                         databaseAndCahceCameraOwner,
-                        databaseLocationAddress,
+                        databaseLocationAddress, 
                         databaseGoogleLocationHistory, 
-                        locationAccuracyLatitude, locationAccuracyLongitude);
+                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
 
                     if (metadataToSave != null) metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
                     else

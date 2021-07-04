@@ -237,7 +237,8 @@ namespace PhotoTagsSynchronizer
             LocationNameLookUpCache locationNameLookUpCache,
             GoogleLocationHistoryDatabaseCache databaseGoogleLocationHistory,
             float locationAccuracyLatitude,
-            float locationAccuracyLongitude
+            float locationAccuracyLongitude,
+            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted
             )
         {
             FileEntryBroker fileEntryBrokerExiftool = new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool);
@@ -539,6 +540,7 @@ namespace PhotoTagsSynchronizer
 
             #region TrackChangesInComments
             DateTime? newDateTimeFileCreated = metadata.FileDateCreated;
+            
             if (metadata.TryParseDateTakenToUtc(out DateTime? dateTakenWithOffset))
             {
                 if (metadata?.FileDateCreated != null &&
@@ -577,10 +579,10 @@ namespace PhotoTagsSynchronizer
 
             #region Backup dates after changes in keywords
             if (BackupFileCreatedBeforeUpdate && metadata?.FileDateCreated != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(("File created: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.FileDateCreated)));
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("File created: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.FileDateCreated)));
 
             if (BackupDateTakenBeforeUpdate && metadata?.MediaDateTaken != null)
-                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(("Media taken: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken)));
+                metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("Media taken: " + TimeZone.TimeZoneLibrary.ToStringSortable(metadata?.MediaDateTaken)));
 
             if (BackupGPGDateTimeUTCBeforeUpdate && metadata?.LocationDateTime != null)
                 metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag("UTC time: " + TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)));
