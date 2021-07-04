@@ -139,6 +139,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, "Convert and Merge", "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
 
             SplashForm.UpdateStatus("Populate renderer dropdown...");
+
             // Populate renderer dropdown
             Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
             int i = 0;
@@ -155,6 +156,9 @@ namespace PhotoTagsSynchronizer
                     i++;
                 }
             }
+
+            renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
+            SetImageListViewRender();
 
             SplashForm.UpdateStatus("Initialize database: metadata cache...");
             databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 10000, 5000);
@@ -281,7 +285,7 @@ namespace PhotoTagsSynchronizer
             splitContainerFolder.SplitterDistance = Properties.Settings.Default.SplitContainerFolder;
             splitContainerImages.SplitterDistance = Properties.Settings.Default.SplitContainerImages;
             splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
-            renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
+            
             toolStripButtonHistortyColumns.Checked = Properties.Settings.Default.ShowHistortyColumns;
             toolStripButtonErrorColumns.Checked = Properties.Settings.Default.ShowErrorColumns;
 

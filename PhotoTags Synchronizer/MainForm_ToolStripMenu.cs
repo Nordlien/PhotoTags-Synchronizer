@@ -383,6 +383,22 @@ namespace PhotoTagsSynchronizer
             }
         }
 
+        private void SetImageListViewRender()
+        {
+            // Change the renderer
+            try
+            {
+                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+                RendererItem item = (RendererItem)renderertoolStripComboBox.SelectedItem;
+                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(item.Type.FullName) as ImageListView.ImageListViewRenderer;
+                imageListView1.SetRenderer(renderer);
+                imageListView1.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't change render");
+            }
+        }
         private void renderertoolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (isFormLoading) return;
@@ -395,18 +411,8 @@ namespace PhotoTagsSynchronizer
             {
                 MessageBox.Show(ex.Message, "Can't save settings");
             }
-            // Change the renderer
-            try
-            {
-                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-                RendererItem item = (RendererItem)renderertoolStripComboBox.SelectedItem;
-                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(item.Type.FullName) as ImageListView.ImageListViewRenderer;
-                imageListView1.SetRenderer(renderer);
-                imageListView1.Focus();
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Can't change render");
-            }
+
+            SetImageListViewRender();
         }
         #endregion
 
