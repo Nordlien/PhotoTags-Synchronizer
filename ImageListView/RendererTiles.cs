@@ -156,27 +156,46 @@ namespace Manina.Windows.Forms
                             sf.FormatFlags = StringFormatFlags.NoWrap;
                             sf.LineAlignment = StringAlignment.Center;
                             sf.Trimming = StringTrimming.EllipsisCharacter;
+                            
                             using (Brush bItemFore = new SolidBrush(item.ForeColor))
                             {
+                                //Line 1 : Filename
                                 g.DrawString(item.Text, CaptionFont, bItemFore, rt, sf);
                             }
+
                             using (Brush bItemDetails = new SolidBrush(Color.Gray))
                             {
+                                //Line 2 : 
                                 rt.Offset(0, 1.5f * lineHeight);
-                                if (!string.IsNullOrWhiteSpace(item.FileType))
+                                string line;
+
+                                line =
+                                    (!string.IsNullOrWhiteSpace(item.FileType) ? item.FileType + " " : "") +
+                                    (item.FileSize != 0 ? item.GetSubItemText(ColumnType.FileSize) + " " : "");
+
+                                if (!string.IsNullOrWhiteSpace(line))
                                 {
-                                    g.DrawString(item.GetSubItemText(ColumnType.FileType),
-                                        ImageListView.Font, bItemDetails, rt, sf);
-                                    rt.Offset(0, 1.1f * lineHeight);
-                                }
-                                
-                                if (item.FileSize != 0)
-                                {
-                                    g.DrawString(item.GetSubItemText(ColumnType.FileSize),
-                                        ImageListView.Font, bItemDetails, rt, sf);
+                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
                                     rt.Offset(0, 1.1f * lineHeight);
                                 }
 
+                                line =
+                                    (item.DateCreated != null ? item.GetSubItemText(ColumnType.FileDateCreated) + " " : "") +
+                                    (item.DateTaken != null ? item.GetSubItemText(ColumnType.MediaDateTaken) + " " : "");
+                                if (!string.IsNullOrWhiteSpace(line))
+                                {
+                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                    rt.Offset(0, 1.1f * lineHeight);
+                                }
+
+                                line =
+                                    (item.MediaAlbum != null ? item.GetSubItemText(ColumnType.MediaAlbum) + " " : "") +
+                                    (item.MediaTitle != null ? item.GetSubItemText(ColumnType.MediaTitle) + " " : "");
+                                if (!string.IsNullOrWhiteSpace(line))
+                                {
+                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                    rt.Offset(0, 1.1f * lineHeight);
+                                }
                             }
                         }
                     }

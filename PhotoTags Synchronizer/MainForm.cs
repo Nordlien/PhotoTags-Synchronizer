@@ -347,7 +347,6 @@ namespace PhotoTagsSynchronizer
             if (!isFormLoading)
             {
                 Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;
-                Properties.Settings.Default.Save(); 
             }
         }
 
@@ -356,7 +355,6 @@ namespace PhotoTagsSynchronizer
             if (!isFormLoading)
             {
                 Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
-                Properties.Settings.Default.Save();
             }
         }
 
@@ -365,7 +363,6 @@ namespace PhotoTagsSynchronizer
             if (!isFormLoading)
             {
                 Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
-                Properties.Settings.Default.Save();
             }
         }
 
@@ -400,78 +397,92 @@ namespace PhotoTagsSynchronizer
                     return;
                 }
             }
-
-            browser.Dispose();
-
-            GlobalData.IsApplicationClosing = true;
-            GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
-            MetadataDatabaseCache.StopCaching = true;
-            ThumbnailDatabaseCache.StopCaching = true;
-
-            WaitApplicationClosing.Set();
-
-            SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
-
-            SplashForm.UpdateStatus("Saving layout...");
-
-            //---------------------------------------------------------
-            if (this.WindowState == FormWindowState.Normal)
+            try
             {
-                Properties.Settings.Default.IsMainFormMaximized = false;
-                Properties.Settings.Default.MainFormSize = this.Size;
-                Properties.Settings.Default.MainFormLocation = this.Location;
+                browser.Dispose();
 
-                Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
-                Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
-                //Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance; //Don't read this (it's wrong size when openened)
-            }
-            else
-            {
-                Properties.Settings.Default.IsMainFormMaximized = true;
-                Properties.Settings.Default.MainFormSize = this.RestoreBounds.Size;
-                Properties.Settings.Default.MainFormLocation = this.RestoreBounds.Location;
-            }
-            Properties.Settings.Default.Save();
-            //---------------------------------------------------------
+                GlobalData.IsApplicationClosing = true;
+                GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
+                MetadataDatabaseCache.StopCaching = true;
+                ThumbnailDatabaseCache.StopCaching = true;
 
-            SplashForm.UpdateStatus("Closing Exiftool read...");
-            if (exiftoolReader != null) exiftoolReader.Close();
+                WaitApplicationClosing.Set();
 
-            //---------------------------------------------------------
+                SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
 
-            ImageListViewClearAll(imageListView1);
+                SplashForm.UpdateStatus("Saving layout...");
 
-            imageListView1.Dispose();
-            imageListView1.StoppBackgroundThreads();
+                //---------------------------------------------------------
+                if (this.WindowState == FormWindowState.Normal)
+                {
+                    Properties.Settings.Default.IsMainFormMaximized = false;
+                    Properties.Settings.Default.MainFormSize = this.Size;
+                    Properties.Settings.Default.MainFormLocation = this.Location;
 
-            //---------------------------------------------------------
-            Application.DoEvents();
-            Thread.Sleep(200);
+                    Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
+                    Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
+                    //Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance; //Don't read this (it's wrong size when openened)
+                }
+                else
+                {
+                    Properties.Settings.Default.IsMainFormMaximized = true;
+                    Properties.Settings.Default.MainFormSize = this.RestoreBounds.Size;
+                    Properties.Settings.Default.MainFormLocation = this.RestoreBounds.Location;
+                }
 
-            int waitForProcessEndRetray = 30;
-            
-            SplashForm.UpdateStatus("Stopping ImageView background threads...");
-            waitForProcessEndRetray = 30;
-            while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
-            {
+                try
+                {
+                    Properties.Settings.Default.Save();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Can't save settings");
+                }
+                //---------------------------------------------------------
+
+                SplashForm.UpdateStatus("Closing Exiftool read...");
+                if (exiftoolReader != null) exiftoolReader.Close();
+
+                //---------------------------------------------------------
+
+                ImageListViewClearAll(imageListView1);
+
+                imageListView1.Dispose();
+                imageListView1.StoppBackgroundThreads();
+
+                //---------------------------------------------------------
                 Application.DoEvents();
-                Thread.Sleep(100);
-            }
+                Thread.Sleep(200);
 
-            SplashForm.UpdateStatus("Stopping fetch metadata background threads...");
-            waitForProcessEndRetray = 30;
-            while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
+                int waitForProcessEndRetray = 30;
+
+                SplashForm.UpdateStatus("Stopping ImageView background threads...");
+                waitForProcessEndRetray = 30;
+                while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
+                {
+                    Application.DoEvents();
+                    Thread.Sleep(100);
+                }
+
+                SplashForm.UpdateStatus("Stopping fetch metadata background threads...");
+                waitForProcessEndRetray = 30;
+                while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
+                {
+                    Application.DoEvents();
+                    Thread.Sleep(100);
+                }
+
+                SplashForm.UpdateStatus("Disconnecting databases...");
+                databaseUtilitiesSqliteMetadata.DatabaseClose(); //Close database after all background threads stopped
+
+                SplashForm.UpdateStatus("Disposing...");
+                imageListView1.Dispose();
+                SplashForm.CloseForm();
+            }
+            catch (Exception ex)
             {
-                Application.DoEvents();
-                Thread.Sleep(100);
+                MessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application");
             }
-
-            SplashForm.UpdateStatus("Disconnecting databases...");
-            databaseUtilitiesSqliteMetadata.DatabaseClose(); //Close database after all background threads stopped
-
-            SplashForm.UpdateStatus("Disposing...");
-            imageListView1.Dispose();
-            SplashForm.CloseForm();
 
         }
         #endregion

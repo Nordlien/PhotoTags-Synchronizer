@@ -297,7 +297,14 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingMap) return;
 
             Properties.Settings.Default.ComboBoxGoogleTimeZoneShift = comboBoxGoogleTimeZoneShift.SelectedIndex;
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
             UpdateGoodleHistoryCoordinate();
 
             if (dataGridViewMap.CurrentCell != null && dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString(), GetMapProvider());
@@ -313,7 +320,14 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingMap) return;
 
             Properties.Settings.Default.ComboBoxGoogleLocationInterval = comboBoxGoogleLocationInterval.SelectedIndex;    //30 minutes Index 2
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
             UpdateGoodleHistoryCoordinate();
 
             if (dataGridViewMap.CurrentCell.Value != null) UpdateBrowserMap(dataGridViewMap.CurrentCell.Value.ToString(), GetMapProvider());
@@ -328,7 +342,14 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsPopulatingMap) return;
 
             Properties.Settings.Default.ComboBoxMapZoomLevel = comboBoxMapZoomLevel.SelectedIndex;
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
 
             if (locationCoordinateRememberForZooming != null) ShowMediaOnMap.UpdateBrowserMap(browser, locationCoordinateRememberForZooming, GetZoomLevel(), GetMapProvider()); //Use last valid coordinates clicked
         }

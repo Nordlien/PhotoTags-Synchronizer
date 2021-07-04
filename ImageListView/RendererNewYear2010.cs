@@ -15,6 +15,7 @@
 //
 // Ozgur Ozcitak (ozcitak@yahoo.com)
 
+#define BONUSPACK
 #if BONUSPACK
 using System;
 using System.Collections.Generic;

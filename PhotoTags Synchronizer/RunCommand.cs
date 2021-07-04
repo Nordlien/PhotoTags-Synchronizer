@@ -134,64 +134,71 @@ namespace PhotoTagsSynchronizer
         #region Common - FormClosing - Save Config
         private void RunCommand_FormClosing(object sender, FormClosingEventArgs e)
         {
-            #region Tab - Argument file
-            Properties.Settings.Default.RunArgumentCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxArgumentFileCommand);
-            Properties.Settings.Default.RunArgumentCommand = comboBoxArgumentFileCommand.Text;
-            #endregion
+            try
+            {
+                #region Tab - Argument file
+                Properties.Settings.Default.RunArgumentCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxArgumentFileCommand);
+                Properties.Settings.Default.RunArgumentCommand = comboBoxArgumentFileCommand.Text;
+                #endregion
 
-            #region Tab - Run batch - Command
-            Properties.Settings.Default.RunBatchImageCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunImageCommand);
-            Properties.Settings.Default.RunBatchImageCommand = comboBoxBatchRunImageCommand.Text;
+                #region Tab - Run batch - Command
+                Properties.Settings.Default.RunBatchImageCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunImageCommand);
+                Properties.Settings.Default.RunBatchImageCommand = comboBoxBatchRunImageCommand.Text;
 
-            Properties.Settings.Default.RunBatchVideoCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunVideoCommand);
-            Properties.Settings.Default.RunBatchVideoCommand = comboBoxBatchRunVideoCommand.Text;
+                Properties.Settings.Default.RunBatchVideoCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunVideoCommand);
+                Properties.Settings.Default.RunBatchVideoCommand = comboBoxBatchRunVideoCommand.Text;
 
 
-            Properties.Settings.Default.RunBatchImageWaitForCommand = checkBoxBatchRunImageWaitForCommandExit.Checked;
-            Properties.Settings.Default.RunBatchVideoWaitForCommand = checkBoxBatchRunVideoWaitForCommandExit.Checked;
+                Properties.Settings.Default.RunBatchImageWaitForCommand = checkBoxBatchRunImageWaitForCommandExit.Checked;
+                Properties.Settings.Default.RunBatchVideoWaitForCommand = checkBoxBatchRunVideoWaitForCommandExit.Checked;
 
-            Properties.Settings.Default.RunBatchInTerminalWindow = checkBoxRunBatchRedirectToTerminalWindows.Checked;
-            #endregion
+                Properties.Settings.Default.RunBatchInTerminalWindow = checkBoxRunBatchRedirectToTerminalWindows.Checked;
+                #endregion
 
-            #region Tab - Run batch - App
+                #region Tab - Run batch - App
 
-            Properties.Settings.Default.RunBatchImageAppIdList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunImageAppId);
-            Properties.Settings.Default.RunBatchImageAppId = comboBoxBatchRunImageAppId.Text;
+                Properties.Settings.Default.RunBatchImageAppIdList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunImageAppId);
+                Properties.Settings.Default.RunBatchImageAppId = comboBoxBatchRunImageAppId.Text;
 
-            Properties.Settings.Default.RunBatchVideoAppIdList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunVideoAppId);
-            Properties.Settings.Default.RunBatchVideoAppId = comboBoxBatchRunVideoAppId.Text;
+                Properties.Settings.Default.RunBatchVideoAppIdList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunVideoAppId);
+                Properties.Settings.Default.RunBatchVideoAppId = comboBoxBatchRunVideoAppId.Text;
 
-            Properties.Settings.Default.RunBatchImageVerbList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunImageVerb);
-            Properties.Settings.Default.RunBatchImageVerb = comboBoxBatchRunImageVerb.Text;
+                Properties.Settings.Default.RunBatchImageVerbList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunImageVerb);
+                Properties.Settings.Default.RunBatchImageVerb = comboBoxBatchRunImageVerb.Text;
 
-            Properties.Settings.Default.RunBatchVideoVerbList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunVideoVerb);
-            Properties.Settings.Default.RunBatchVideoVerb = comboBoxBatchRunVideoVerb.Text;
+                Properties.Settings.Default.RunBatchVideoVerbList = ComboBoxHandler.ComboBoxStringCollection(comboBoxBatchRunVideoVerb);
+                Properties.Settings.Default.RunBatchVideoVerb = comboBoxBatchRunVideoVerb.Text;
 
-            checkBoxBatchRunImageWaitForAppExit.Checked = Properties.Settings.Default.RunBatchImageWaitForApp;
-            checkBoxBatchRunVideoWaitForAppExit.Checked = Properties.Settings.Default.RunBatchVideoWaitForApp;
-            #endregion
+                checkBoxBatchRunImageWaitForAppExit.Checked = Properties.Settings.Default.RunBatchImageWaitForApp;
+                checkBoxBatchRunVideoWaitForAppExit.Checked = Properties.Settings.Default.RunBatchVideoWaitForApp;
+                #endregion
 
-            #region Tab - Open with
-            Properties.Settings.Default.OpenWithImageProgId = GetSelectProgId(dataGridViewImages); 
-            Properties.Settings.Default.OpenWithVideoProgId = GetSelectProgId(dataGridViewVideos);
+                #region Tab - Open with
+                Properties.Settings.Default.OpenWithImageProgId = GetSelectProgId(dataGridViewImages);
+                Properties.Settings.Default.OpenWithVideoProgId = GetSelectProgId(dataGridViewVideos);
 
-            Properties.Settings.Default.OpenWithImageVerb = comboBoxBatchRunImageVerb.Text;
-            Properties.Settings.Default.OpenWithVideoVerb = comboBoxBatchRunVideoVerb.Text;
+                Properties.Settings.Default.OpenWithImageVerb = comboBoxBatchRunImageVerb.Text;
+                Properties.Settings.Default.OpenWithVideoVerb = comboBoxBatchRunVideoVerb.Text;
 
-            Properties.Settings.Default.OpenWithImageWaitForExit = checkBoxOpenImageWithWaitForExit.Checked;
-            Properties.Settings.Default.OpenWithVideoWaitForExit = checkBoxOpenVideoWithWaitForExit.Checked;
-            #endregion
+                Properties.Settings.Default.OpenWithImageWaitForExit = checkBoxOpenImageWithWaitForExit.Checked;
+                Properties.Settings.Default.OpenWithVideoWaitForExit = checkBoxOpenVideoWithWaitForExit.Checked;
+                #endregion
 
-            #region Tab - Builder
-            Properties.Settings.Default.RunArgumentBuildCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxArgumentFileBuilderCommand);
-            Properties.Settings.Default.RunArgumentBuildCommand = comboBoxArgumentFileBuilderCommand.Text;
+                #region Tab - Builder
+                Properties.Settings.Default.RunArgumentBuildCommandList = ComboBoxHandler.ComboBoxStringCollection(comboBoxArgumentFileBuilderCommand);
+                Properties.Settings.Default.RunArgumentBuildCommand = comboBoxArgumentFileBuilderCommand.Text;
 
-            Properties.Settings.Default.RunArgumentBuildKeywordAdd = fastColoredTextBoxMetadataWriteKeywordAdd.Text;
-            Properties.Settings.Default.RunArgumentBuildKeywordDelete = fastColoredTextBoxMetadataWriteKeywordDelete.Text;
-            Properties.Settings.Default.RunArgumentBuildKeywordTags = fastColoredTextBoxMetadataWriteTags.Text;
-            #endregion
+                Properties.Settings.Default.RunArgumentBuildKeywordAdd = fastColoredTextBoxMetadataWriteKeywordAdd.Text;
+                Properties.Settings.Default.RunArgumentBuildKeywordDelete = fastColoredTextBoxMetadataWriteKeywordDelete.Text;
+                Properties.Settings.Default.RunArgumentBuildKeywordTags = fastColoredTextBoxMetadataWriteTags.Text;
+                #endregion
 
-            Properties.Settings.Default.Save();
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
         }
         #endregion
 

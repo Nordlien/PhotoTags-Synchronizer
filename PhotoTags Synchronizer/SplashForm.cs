@@ -215,8 +215,14 @@ namespace PhotoTagsSynchronizer
 
         private void checkBoxCloseWarning_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.CloseWarningWindowsAutomatically = this.checkBoxCloseWarning.Checked;
-            Properties.Settings.Default.Save();
+            try { 
+                Properties.Settings.Default.CloseWarningWindowsAutomatically = this.checkBoxCloseWarning.Checked;
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
         }
 
         

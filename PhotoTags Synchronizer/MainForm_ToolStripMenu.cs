@@ -387,13 +387,26 @@ namespace PhotoTagsSynchronizer
         {
             if (isFormLoading) return;
             Properties.Settings.Default.RenderertoolStripComboBox = renderertoolStripComboBox.SelectedIndex;
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
             // Change the renderer
-            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            RendererItem item = (RendererItem)renderertoolStripComboBox.SelectedItem;
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(item.Type.FullName) as ImageListView.ImageListViewRenderer;
-            imageListView1.SetRenderer(renderer);
-            imageListView1.Focus();
+            try
+            {
+                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+                RendererItem item = (RendererItem)renderertoolStripComboBox.SelectedItem;
+                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(item.Type.FullName) as ImageListView.ImageListViewRenderer;
+                imageListView1.SetRenderer(renderer);
+                imageListView1.Focus();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't change render");
+            }
         }
         #endregion
 
@@ -464,35 +477,69 @@ namespace PhotoTagsSynchronizer
         {
             imageListView1.ThumbnailSize = thumbnailSizes[4];
             Properties.Settings.Default.ThumbmailViewSizeIndex = 4;
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
         }
 
         private void toolStripButtonThumbnailSize2_Click(object sender, EventArgs e)
         {
             imageListView1.ThumbnailSize = thumbnailSizes[3];
             Properties.Settings.Default.ThumbmailViewSizeIndex = 3;
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
         }
 
         private void toolStripButtonThumbnailSize3_Click(object sender, EventArgs e)
         {
             imageListView1.ThumbnailSize = thumbnailSizes[2];
             Properties.Settings.Default.ThumbmailViewSizeIndex = 2;
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
         }
 
         private void toolStripButtonThumbnailSize4_Click(object sender, EventArgs e)
         {
             imageListView1.ThumbnailSize = thumbnailSizes[1];
             Properties.Settings.Default.ThumbmailViewSizeIndex = 1;
-            Properties.Settings.Default.Save();
+            try {
+                Properties.Settings.Default.Save();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
+    
         }
 
         private void toolStripButtonThumbnailSize5_Click(object sender, EventArgs e)
         {
             imageListView1.ThumbnailSize = thumbnailSizes[0];
             Properties.Settings.Default.ThumbmailViewSizeIndex = 0;
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
         }
         #endregion
 

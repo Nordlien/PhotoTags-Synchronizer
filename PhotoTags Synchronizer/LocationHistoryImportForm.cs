@@ -74,8 +74,12 @@ namespace PhotoTagsSynchronizer
                 {
                     Properties.Settings.Default.LastGoogleLocationFolder = Path.GetDirectoryName(openFileDialog1.FileName);
                     Properties.Settings.Default.Save();
-                } catch { }
-                
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Can't save settings");
+                }
+
                 string jsonFilename = openFileDialog1.FileName;
                 string userAccount = comboBoxUserAccount.Text.Trim();
 
@@ -86,8 +90,12 @@ namespace PhotoTagsSynchronizer
                 {
                     Properties.Settings.Default.LocationUser = comboBoxUserAccount.Text;
                     Properties.Settings.Default.Save();
-                } catch { }
-                
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Can't save settings");
+                }
+
                 this.Enabled = false;
 
                 

@@ -639,8 +639,14 @@ namespace PhotoTagsSynchronizer
         private void buttonSaveJavaScript_Click(object sender, EventArgs e)
         {
             IsProcessRunning = true;
-            Properties.Settings.Default.WebScraperScript = fastColoredTextBoxJavaScript.Text;
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.WebScraperScript = fastColoredTextBoxJavaScript.Text;
+                Properties.Settings.Default.Save();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
             IsProcessRunning = false;
         }
         #endregion

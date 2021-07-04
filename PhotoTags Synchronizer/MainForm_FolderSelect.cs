@@ -59,7 +59,14 @@ namespace PhotoTagsSynchronizer
 
             string selectedFolder = this.folderTreeViewFolder.GetSelectedNodePath();
             Properties.Settings.Default.LastFolder = selectedFolder;
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings");
+            }
 
             UpdateStatusAction("Read files in folder: " + selectedFolder);
             List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
