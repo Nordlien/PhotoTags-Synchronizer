@@ -156,22 +156,21 @@ namespace Manina.Windows.Forms
                             sf.FormatFlags = StringFormatFlags.NoWrap;
                             sf.LineAlignment = StringAlignment.Center;
                             sf.Trimming = StringTrimming.EllipsisCharacter;
-                            
+
+                             
                             using (Brush bItemFore = new SolidBrush(item.ForeColor))
                             {
-                                //Line 1 : Filename
-                                g.DrawString(item.Text, CaptionFont, bItemFore, rt, sf);
+                                g.DrawString(item.GetSubItemText(ImageListView.TitleLine1), CaptionFont, bItemFore, rt, sf);
                             }
 
                             using (Brush bItemDetails = new SolidBrush(Color.Gray))
                             {
                                 //Line 2 : 
                                 rt.Offset(0, 1.5f * lineHeight);
+
                                 string line;
 
-                                line =
-                                    (!string.IsNullOrWhiteSpace(item.FileType) ? item.FileType + " " : "") +
-                                    (item.FileSize != 0 ? item.GetSubItemText(ColumnType.FileSize) + " " : "");
+                                line = item.GetSubItemText(ImageListView.TitleLine2);
 
                                 if (!string.IsNullOrWhiteSpace(line))
                                 {
@@ -179,18 +178,24 @@ namespace Manina.Windows.Forms
                                     rt.Offset(0, 1.1f * lineHeight);
                                 }
 
-                                line =
-                                    (item.DateCreated != null ? item.GetSubItemText(ColumnType.FileDateCreated) + " " : "") +
-                                    (item.DateTaken != null ? item.GetSubItemText(ColumnType.MediaDateTaken) + " " : "");
+                                line = item.GetSubItemText(ImageListView.TitleLine3);
+
                                 if (!string.IsNullOrWhiteSpace(line))
                                 {
                                     g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
                                     rt.Offset(0, 1.1f * lineHeight);
                                 }
 
-                                line =
-                                    (item.MediaAlbum != null ? item.GetSubItemText(ColumnType.MediaAlbum) + " " : "") +
-                                    (item.MediaTitle != null ? item.GetSubItemText(ColumnType.MediaTitle) + " " : "");
+                                line = item.GetSubItemText(ImageListView.TitleLine4);
+
+                                if (!string.IsNullOrWhiteSpace(line))
+                                {
+                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                    rt.Offset(0, 1.1f * lineHeight);
+                                }
+
+                                line = item.GetSubItemText(ImageListView.TitleLine5);
+
                                 if (!string.IsNullOrWhiteSpace(line))
                                 {
                                     g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);

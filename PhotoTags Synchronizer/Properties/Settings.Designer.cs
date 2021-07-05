@@ -2136,5 +2136,65 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ImageListViewSelectedColumns"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("FileName")]
+        public string ImageListViewTitleLine1 {
+            get {
+                return ((string)(this["ImageListViewTitleLine1"]));
+            }
+            set {
+                this["ImageListViewTitleLine1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("FileDateCreated")]
+        public string ImageListViewTitleLine2 {
+            get {
+                return ((string)(this["ImageListViewTitleLine2"]));
+            }
+            set {
+                this["ImageListViewTitleLine2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("FileType")]
+        public string ImageListViewTitleLine3 {
+            get {
+                return ((string)(this["ImageListViewTitleLine3"]));
+            }
+            set {
+                this["ImageListViewTitleLine3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("FileSize")]
+        public string ImageListViewTitleLine4 {
+            get {
+                return ((string)(this["ImageListViewTitleLine4"]));
+            }
+            set {
+                this["ImageListViewTitleLine4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MediaDimensions")]
+        public string ImageListViewTitleLine5 {
+            get {
+                return ((string)(this["ImageListViewTitleLine5"]));
+            }
+            set {
+                this["ImageListViewTitleLine5"] = value;
+            }
+        }
     }
 }

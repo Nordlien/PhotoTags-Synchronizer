@@ -774,6 +774,7 @@ namespace Manina.Windows.Forms
                 case ColumnType.FileDateCreated:
                     if (DateCreated == DateTime.MinValue) return "";
                     else return DateCreated.ToString("g");
+                //TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(newDateTimeFileCreated)
 
                 case ColumnType.FileDateModified:
                     if (DateModified == DateTime.MinValue) return "";

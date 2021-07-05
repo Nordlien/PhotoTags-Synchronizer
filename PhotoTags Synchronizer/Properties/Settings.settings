@@ -1117,5 +1117,20 @@ Created
 Modified
 Date Taken</Value>
     </Setting>
+    <Setting Name="ImageListViewTitleLine1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FileName</Value>
+    </Setting>
+    <Setting Name="ImageListViewTitleLine2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FileDateCreated</Value>
+    </Setting>
+    <Setting Name="ImageListViewTitleLine3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FileType</Value>
+    </Setting>
+    <Setting Name="ImageListViewTitleLine4" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FileSize</Value>
+    </Setting>
+    <Setting Name="ImageListViewTitleLine5" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MediaDimensions</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

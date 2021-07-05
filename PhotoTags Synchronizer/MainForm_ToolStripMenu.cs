@@ -474,6 +474,7 @@ namespace PhotoTagsSynchronizer
         {
             ChooseColumns form = new ChooseColumns();
             form.imageListView = imageListView1;
+            form.Populate();
             form.ShowDialog();
         }
         #endregion

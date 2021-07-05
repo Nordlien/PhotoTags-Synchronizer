@@ -91,6 +91,12 @@ namespace Manina.Windows.Forms
         private bool mRetryOnError;
         internal ImageListViewSelectedItemCollection mSelectedItems;
         private ColumnType mSortColumn;
+        private ColumnType mColumnTypeTitleLine1;
+        private ColumnType mColumnTypeTitleLine2;
+        private ColumnType mColumnTypeTitleLine3;
+        private ColumnType mColumnTypeTitleLine4;
+        private ColumnType mColumnTypeTitleLine5;
+
         private SortOrder mSortOrder;
         private Size mThumbnailSize;
         private UseEmbeddedThumbnails mUseEmbeddedThumbnails;
@@ -318,6 +324,96 @@ namespace Manina.Windows.Forms
                 }
             }
         }
+
+
+        /// <summary>
+        /// Gets or sets the sort column.
+        /// </summary>
+        [Category("Appearance"), DefaultValue(typeof(ColumnType), "FileName"), Description("Gets or sets the title line 1.")]
+        public ColumnType TitleLine1
+        {
+            get
+            {
+                return mColumnTypeTitleLine1;
+            }
+            set
+            {
+                if (value != mColumnTypeTitleLine1)
+                {
+                    mColumnTypeTitleLine1 = value;
+                    Refresh();
+                }
+            }
+        }
+        
+        [Category("Appearance"), DefaultValue(typeof(ColumnType), "FileDateCreated"), Description("Gets or sets the title line 2.")]
+        public ColumnType TitleLine2
+        {
+            get
+            {
+                return mColumnTypeTitleLine2;
+            }
+            set
+            {
+                if (value != mColumnTypeTitleLine2)
+                {
+                    mColumnTypeTitleLine2 = value;
+                    Refresh();
+                }
+            }
+        }
+
+        [Category("Appearance"), DefaultValue(typeof(ColumnType), "FileType"), Description("Gets or sets the title line 3.")]
+        public ColumnType TitleLine3
+        {
+            get
+            {
+                return mColumnTypeTitleLine3;
+            }
+            set
+            {
+                if (value != mColumnTypeTitleLine3)
+                {
+                    mColumnTypeTitleLine3 = value;
+                    Refresh();
+                }
+            }
+        }
+
+        [Category("Appearance"), DefaultValue(typeof(ColumnType), "FileSize"), Description("Gets or sets the title line 4.")]
+        public ColumnType TitleLine4
+        {
+            get
+            {
+                return mColumnTypeTitleLine4;
+            }
+            set
+            {
+                if (value != mColumnTypeTitleLine4)
+                {
+                    mColumnTypeTitleLine4 = value;
+                    Refresh();
+                }
+            }
+        }
+
+        [Category("Appearance"), DefaultValue(typeof(ColumnType), "MediaDimensions"), Description("Gets or sets the title line 5.")]
+        public ColumnType TitleLine5
+        {
+            get
+            {
+                return mColumnTypeTitleLine5;
+            }
+            set
+            {
+                if (value != mColumnTypeTitleLine5)
+                {
+                    mColumnTypeTitleLine5 = value;
+                    Refresh();
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets the sort order.
         /// </summary>
