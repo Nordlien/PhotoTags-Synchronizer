@@ -548,6 +548,12 @@ namespace Manina.Windows.Forms
                             long mediaRatingY = y.MediaRating;
                             result = (mediaRatingX < mediaRatingY ? -1 : (mediaRatingX > mediaRatingY ? 1 : 0));
                             break;
+                        case ColumnType.LocationDateTime:
+                            result = DateTime.Compare(x.LocationDateTime, y.LocationDateTime);
+                            break;
+                        case ColumnType.LocationTimeZone:
+                            result = string.Compare(x.LocationTimeZone, y.LocationTimeZone, StringComparison.InvariantCultureIgnoreCase);
+                            break;
                         case ColumnType.LocationName:
                             result = string.Compare(x.LocationName, y.LocationName, StringComparison.InvariantCultureIgnoreCase);
                             break;

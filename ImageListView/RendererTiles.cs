@@ -171,36 +171,21 @@ namespace Manina.Windows.Forms
                                 string line;
 
                                 line = item.GetSubItemText(ImageListView.TitleLine2);
-
-                                if (!string.IsNullOrWhiteSpace(line))
-                                {
-                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
-                                    rt.Offset(0, 1.1f * lineHeight);
-                                }
-
+                                g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                rt.Offset(0, 1.1f * lineHeight);
+                                
                                 line = item.GetSubItemText(ImageListView.TitleLine3);
-
-                                if (!string.IsNullOrWhiteSpace(line))
-                                {
-                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
-                                    rt.Offset(0, 1.1f * lineHeight);
-                                }
+                                g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                rt.Offset(0, 1.1f * lineHeight);
+                                
 
                                 line = item.GetSubItemText(ImageListView.TitleLine4);
-
-                                if (!string.IsNullOrWhiteSpace(line))
-                                {
-                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
-                                    rt.Offset(0, 1.1f * lineHeight);
-                                }
+                                g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                rt.Offset(0, 1.1f * lineHeight);
 
                                 line = item.GetSubItemText(ImageListView.TitleLine5);
-
-                                if (!string.IsNullOrWhiteSpace(line))
-                                {
-                                    g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
-                                    rt.Offset(0, 1.1f * lineHeight);
-                                }
+                                g.DrawString(line, ImageListView.Font, bItemDetails, rt, sf);
+                                rt.Offset(0, 1.1f * lineHeight);
                             }
                         }
                     }

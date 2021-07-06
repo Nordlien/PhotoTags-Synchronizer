@@ -1123,6 +1123,9 @@ namespace PhotoTagsSynchronizer
                                                             Logger.Error("File.SetCreationTime failed...\r\n\r\n" + ex.Message);
                                                         }
                                                     }
+                                                } else
+                                                {
+                                                    //Was not able to convert time
                                                 }
                                             }
                                     }

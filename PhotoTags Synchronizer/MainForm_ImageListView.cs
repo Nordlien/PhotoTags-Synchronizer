@@ -69,6 +69,10 @@ namespace PhotoTagsSynchronizer
 
                     #region Provided by Exiftool
                     e.FileMetadata.MediaAlbum = metadata.PersonalAlbum;
+                    if (metadata.LocationDateTime != null) 
+                        e.FileMetadata.LocationDateTime = (DateTime)metadata.LocationDateTime;
+                    e.FileMetadata.LocationTimeZone = metadata.LocationTimeZoneDescription;
+
                     e.FileMetadata.LocationName = metadata.LocationName;
                     e.FileMetadata.LocationRegionState = metadata.LocationState;
                     e.FileMetadata.LocationCity = metadata.LocationCity;

@@ -870,7 +870,43 @@ namespace MetadataLibrary
 
             return true;
         }
+        #endregion
 
+        #region #region Properties Helper - LocationTimeZone 
+        public string LocationTimeZoneDescription
+        {
+            get
+            {
+                TimeSpan? timeSpan = TimeZoneLibrary.CalulateTimeDiffrentWithoutTimeZone(MediaDateTaken, LocationDateTime);
+
+                string prefredTimeZoneName = "";
+
+                string timeZoneName = TimeZoneLibrary.GetTimeZoneName(timeSpan, LocationDateTime, prefredTimeZoneName, out string timeZoneAlternatives);
+                string timeSpanString = "(±??:??)";
+                if (timeSpan != null) timeSpanString = TimeZoneLibrary.ToStringOffset((TimeSpan)timeSpan);
+
+
+                string timeZone = timeSpanString + " " + timeZoneName;
+
+                //Fine time zone using GPS Location
+                if (LocationLatitude != null && LocationLongitude != null)
+                {
+                    TimeZoneInfo timeZoneInfoGPSLocation = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation((double)LocationLatitude, (double)LocationLongitude);
+
+                    DateTime findOffsettDateTime;
+                    if (LocationDateTime != null) findOffsettDateTime = (DateTime)LocationDateTime;
+                    else if (LocationDateTime != null) findOffsettDateTime = (DateTime)MediaDateTaken;
+                    else findOffsettDateTime = DateTime.Now;
+
+                    DateTime findOffsettDateTimeUTC = findOffsettDateTime.ToUniversalTime();
+                    DateTimeOffset locationOffset = new DateTimeOffset(findOffsettDateTimeUTC.Ticks, timeZoneInfoGPSLocation.GetUtcOffset(findOffsettDateTimeUTC));
+
+                    return TimeZoneLibrary.ToStringOffset(locationOffset.Offset) + " " + TimeZoneLibrary.TimeZoneNameStandarOrDaylight(timeZoneInfoGPSLocation, findOffsettDateTimeUTC);
+                }
+
+                return timeZone;
+            }
+        }
         #endregion 
 
         #region Properties Media

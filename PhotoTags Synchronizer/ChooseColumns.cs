@@ -78,6 +78,8 @@ namespace PhotoTagsSynchronizer
             comboBox.Items.Add("FileDateModified");
 
             comboBox.Items.Add("MediaDateTaken");
+            comboBox.Items.Add("LocationDateTime");
+            comboBox.Items.Add("LocationTimeZone");
 
             comboBox.Items.Add("FileType");
             comboBox.Items.Add("FileFullPath");
@@ -119,6 +121,8 @@ namespace PhotoTagsSynchronizer
                 case "MediaComment": return ColumnType.MediaComment;
                 case "MediaAuthor": return ColumnType.MediaAuthor;
                 case "MediaRating": return ColumnType.MediaRating;
+                case "LocationDateTime": return ColumnType.LocationDateTime;
+                case "LocationTimeZone": return ColumnType.LocationTimeZone;
                 case "LocationName": return ColumnType.LocationName;
                 case "LocationRegionState": return ColumnType.LocationRegionState;
                 case "LocationCity": return ColumnType.LocationCity;
@@ -147,6 +151,8 @@ namespace PhotoTagsSynchronizer
                 case ColumnType.MediaComment: return "MediaComment";
                 case ColumnType.MediaAuthor: return "MediaAuthor";
                 case ColumnType.MediaRating: return "MediaRating";
+                case ColumnType.LocationDateTime: return "LocationDateTime";
+                case ColumnType.LocationTimeZone: return "LocationTimeZone";
                 case ColumnType.LocationName: return "LocationName";
                 case ColumnType.LocationRegionState: return "LocationRegionState";
                 case ColumnType.LocationCity: return "LocationCity";

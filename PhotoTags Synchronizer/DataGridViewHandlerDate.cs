@@ -18,7 +18,7 @@ namespace PhotoTagsSynchronizer
     {
         public const string headerMedia = "Date&Time digitized";
         public const string tagMediaDateTaken = "Local time";
-        public const string tagGPSLocationDateTime = "UCT media take";
+        public const string tagGPSLocationDateTime = "UTC media take";
         public const string tagLocationOffsetTimeZone = "GPS Time Zone";
         public const string tagCalulatedOffsetZimeZone = "Estimated Time Zone";
 
@@ -76,7 +76,6 @@ namespace PhotoTagsSynchronizer
             DateTime? metadataMediaDateTaken = TimeZoneLibrary.ParseDateTimeAsLocal(dateTimeStringMediaTaken); 
             DateTime? metadataLocationDateTime = TimeZoneLibrary.ParseDateTimeAsUTC(dateTimeStringLocation);
             #endregion
-
 
 
             #region Get GPS Coorindates - 1. DataGridViewMap user input, 2. Metadata record 3. null 

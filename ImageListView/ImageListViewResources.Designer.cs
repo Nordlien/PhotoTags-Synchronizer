@@ -180,6 +180,15 @@ namespace Manina.Windows.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to UTC time.
+        /// </summary>
+        internal static string LocationDateTime {
+            get {
+                return ResourceManager.GetString("LocationDateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LocationName.
         /// </summary>
         internal static string LocationName {
@@ -194,6 +203,15 @@ namespace Manina.Windows.Forms {
         internal static string LocationRegionState {
             get {
                 return ResourceManager.GetString("LocationRegionState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TimeZone.
+        /// </summary>
+        internal static string LocationTimeZone {
+            get {
+                return ResourceManager.GetString("LocationTimeZone", resourceCulture);
             }
         }
         

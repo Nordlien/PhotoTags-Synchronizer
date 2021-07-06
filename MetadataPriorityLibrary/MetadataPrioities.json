@@ -1415,7 +1415,7 @@
       "Tag": "DateCreated"
     },
     "MetadataPriorityValues": {
-      "Composite": "Not defined",
+      "Composite": "Date Time Digitized",
       "Priority": 100
     }
   },
@@ -6142,6 +6142,126 @@
   {
     "MetadataPriorityKey": {
       "Region": "XMP:XMP-prefix4",
+      "Tag": "ModificationDate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-acdsee",
+      "Tag": "Caption"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "EXIF:ExifIFD",
+      "Tag": "SubjectDistance"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Keys",
+      "Tag": "AndroidManufacturer"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Keys",
+      "Tag": "AndroidModel"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "QuickTime:Keys",
+      "Tag": "AndroidCaptureFps"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix1",
+      "Tag": "DateTimeOriginal"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Date Time Digitized",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix1",
+      "Tag": "DateUTC"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix1",
+      "Tag": "ModificationDate"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "ExifTool",
+      "Tag": "Error"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix3",
+      "Tag": "DateTimeOriginal"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Date Time Digitized",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix3",
+      "Tag": "DateUTC"
+    },
+    "MetadataPriorityValues": {
+      "Composite": "Not defined",
+      "Priority": 100
+    }
+  },
+  {
+    "MetadataPriorityKey": {
+      "Region": "XMP:XMP-prefix3",
       "Tag": "ModificationDate"
     },
     "MetadataPriorityValues": {

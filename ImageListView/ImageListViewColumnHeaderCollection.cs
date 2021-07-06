@@ -92,8 +92,9 @@ namespace Manina.Windows.Forms
                     new ImageListViewColumnHeader(ColumnType.FileName),
                     new ImageListViewColumnHeader(ColumnType.FileDateCreated),
                     new ImageListViewColumnHeader(ColumnType.FileDateModified),
-
                     new ImageListViewColumnHeader(ColumnType.MediaDateTaken),
+                    new ImageListViewColumnHeader(ColumnType.LocationDateTime),
+                    new ImageListViewColumnHeader(ColumnType.LocationTimeZone),
 
                     new ImageListViewColumnHeader(ColumnType.FileType),
                     new ImageListViewColumnHeader(ColumnType.FileFullPath),

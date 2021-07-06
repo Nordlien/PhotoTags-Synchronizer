@@ -156,6 +156,14 @@ namespace Manina.Windows.Forms
         /// </summary>
         MediaRating,
         /// <summary>
+        /// Location DateTime (Exif tag).
+        /// </summary>
+        LocationDateTime,
+        /// <summary>
+        /// Location TimeZone (Exif tag).
+        /// </summary>
+        LocationTimeZone,
+        /// <summary>
         /// Location Name (Exif tag).
         /// </summary>
         LocationName,

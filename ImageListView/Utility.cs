@@ -422,7 +422,29 @@ namespace Manina.Windows.Forms
             }
             private string locationName;
             public bool IsLocationNameSet { get; set; } = false;
-            
+
+            /// <summary>
+            /// LocationDateTIme supported by Exiftool
+            /// </summary>
+            public DateTime LocationDateTime
+            {
+                get { return locationDateTime; }
+                set { locationDateTime = value; IsLocationDateTimeSet = true; }
+            }
+            private DateTime locationDateTime;
+            public bool IsLocationDateTimeSet { get; set; } = false;
+
+            /// <summary>
+            /// LocationTimeZone supported by Exiftool
+            /// </summary>
+            public string LocationTimeZone
+            {
+                get { return locationTimeZone; }
+                set { locationTimeZone = value; IsLocationTimeZoneSet = true; }
+            }
+            private string locationTimeZone;
+            public bool IsLocationTimeZoneSet { get; set; } = false;
+
             /// <summary>
             /// LocationRegionState supported by Exiftool
             /// </summary>

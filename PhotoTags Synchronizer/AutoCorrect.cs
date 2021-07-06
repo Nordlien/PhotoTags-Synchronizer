@@ -556,21 +556,21 @@ namespace PhotoTagsSynchronizer
             {
                 if (newDateTimeFileCreated != metadataCopy?.FileDateCreated)
                 {
-                    metadataCopy.PersonalComments += "\r\nFileCreated: " +
+                    metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") + "File Created: " +
                         "Old: " + (metadata?.FileDateCreated == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.FileDateCreated)) + " " +
                         "New: " + (newDateTimeFileCreated == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(newDateTimeFileCreated));
                 }
 
                 if (metadata?.MediaDateTaken != metadataCopy?.MediaDateTaken)
                 {
-                    metadataCopy.PersonalComments += "\r\nMediaDateTaken: " +
+                    metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") + "DateTaken: " +
                         "Old: " + (metadata?.MediaDateTaken == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.MediaDateTaken)) + " " +
                         "New: " + (metadataCopy?.MediaDateTaken == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.MediaDateTaken));
                 }
 
                 if (metadata?.LocationDateTime != metadataCopy?.LocationDateTime)
                 {
-                    metadataCopy.PersonalComments += "\r\nLocationDateTime: " +
+                    metadataCopy.PersonalComments += (string.IsNullOrEmpty(metadataCopy.PersonalComments) ? "" : " ") + "UTC date and time: " +
                         "Old: " + (metadata?.LocationDateTime == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadata?.LocationDateTime)) + " " +
                         "New: " + (metadataCopy?.LocationDateTime == null ? "(empty)" : TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(metadataCopy?.LocationDateTime));
                 }

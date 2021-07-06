@@ -170,6 +170,22 @@ namespace Manina.Windows.Forms
         }
         private bool isDirtyMediaRating = true;
 
+        private DateTime mmLocationDateTime;
+        private DateTime mLocationDateTime
+        {
+            get { return mmLocationDateTime; }
+            set { isDirtyLocationDateTime = false; mmLocationDateTime = value; }
+        }
+        private bool isDirtyLocationDateTime = true;
+
+        private string mmLocationTimeZone;
+        private string mLocationTimeZone
+        {
+            get { return mmLocationTimeZone; }
+            set { isDirtyLocationTimeZone = false; mmLocationTimeZone = value; }
+        }
+        private bool isDirtyLocationTimeZone = true;
+
         private string mmLocationName;
         private string mLocationName
         {
@@ -227,6 +243,8 @@ namespace Manina.Windows.Forms
                 isDirtyMediaComment ||
                 isDirtyMediaAuthor ||
                 isDirtyMediaRating ||
+                isDirtyLocationDateTime ||
+                isDirtyLocationTimeZone ||
                 isDirtyLocationName ||
                 isDirtyLocationRegionState ||
                 isDirtyLocationCity ||
@@ -253,6 +271,8 @@ namespace Manina.Windows.Forms
                     isDirtyMediaComment = value;
                     isDirtyMediaAuthor = value;
                     isDirtyMediaRating = value;
+                    isDirtyLocationDateTime = value;
+                    isDirtyLocationTimeZone = value;
                     isDirtyLocationName = value;
                     isDirtyLocationRegionState = value;
                     isDirtyLocationCity = value;
@@ -538,7 +558,7 @@ namespace Manina.Windows.Forms
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the date and time the image was taken.")]
         public DateTime DateTaken { get { UpdateFileInfo(isDirtyMediaDateTaken); return mMediaDateTaken; } }
-        
+
         //JTN: Added more column types
         
         /// <summary>
@@ -576,6 +596,18 @@ namespace Manina.Windows.Forms
         /// </summary>
         [Category("Data"), Browsable(false), Description("Gets the media rating.")]
         public byte MediaRating { get { UpdateFileInfo(isDirtyMediaRating); return mMediaRating; } }
+
+        /// <summary>
+        /// Gets the date and time the image was taken.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets the UTC date and time the image was taken.")]
+        public DateTime LocationDateTime { get { UpdateFileInfo(isDirtyLocationDateTime); return mLocationDateTime; } }
+
+        /// <summary>
+        /// Gets the media location time zone.
+        /// </summary>
+        [Category("Data"), Browsable(false), Description("Gets the name of the media location time zone.")]
+        public string LocationTimeZone { get { UpdateFileInfo(isDirtyLocationTimeZone); return mLocationTimeZone; } }
 
         /// <summary>
         /// Gets the media location name.
@@ -773,13 +805,22 @@ namespace Manina.Windows.Forms
             {
                 case ColumnType.FileDateCreated:
                     if (DateCreated == DateTime.MinValue) return "";
-                    else return DateCreated.ToString("g");
+                    else return //TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(DateCreated);
+                                DateCreated.ToString("yyyy-MM-dd HH:mm:ss");
                 //TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(newDateTimeFileCreated)
+
 
                 case ColumnType.FileDateModified:
                     if (DateModified == DateTime.MinValue) return "";
                     else return DateModified.ToString("g");
-                
+
+                case ColumnType.MediaDateTaken:
+                    if (DateTaken == DateTime.MinValue) return "";
+                    else return ((DateTimeOffset)DateTaken).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss"); //DateTaken.ToString("g"); 
+                case ColumnType.LocationDateTime:
+                    if (LocationDateTime == DateTime.MinValue) return "";
+                    else return ((DateTimeOffset)LocationDateTime).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "Z"; //DateTaken.ToString("g");
+
                 case ColumnType.FileFullPath:
                     return FileFullPath;
                 case ColumnType.FileName:
@@ -794,15 +835,15 @@ namespace Manina.Windows.Forms
                 case ColumnType.MediaDimensions:
                     if (Dimensions == Size.Empty) return "";
                     else return string.Format("{0} x {1}", Dimensions.Width, Dimensions.Height);
-                    
+                case ColumnType.LocationTimeZone:
+                    return LocationTimeZone;
                 case ColumnType.CameraMake:
                     return CameraMake;
                 case ColumnType.CameraModel:
                     return CameraModel;
-                case ColumnType.MediaDateTaken:
-                    if (DateTaken == DateTime.MinValue) return "";
-                    else return DateTaken.ToString("g");                
-                
+                               
+
+
                 case ColumnType.MediaTitle:
                     return MediaTitle;
                 case ColumnType.MediaDescription:
@@ -819,6 +860,7 @@ namespace Manina.Windows.Forms
                     return MediaAlbum;
                 case ColumnType.LocationName:
                     return LocationName;
+                
                 case ColumnType.LocationRegionState:
                     return LocationRegionState;
                 case ColumnType.LocationCity:
@@ -903,6 +945,8 @@ namespace Manina.Windows.Forms
 
                 #region Provided by Exiftool
                 if (info.IsMediaAlbumSet) mMediaAlbum = info.MediaAlbum;
+                if (info.IsLocationDateTimeSet) mLocationDateTime = info.LocationDateTime;
+                if (info.IsLocationTimeZoneSet) mLocationTimeZone = info.LocationTimeZone;
                 if (info.IsLocationNameSet) mLocationName = info.LocationName;
                 if (info.IsLocationRegionStateSet) mLocationRegionState = info.LocationRegionState;
                 if (info.IsLocationCitySet) mLocationCity = info.LocationCity;

@@ -187,6 +187,12 @@
       <Version>4.7.10</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TimeZone\TimeZone.csproj">
+      <Project>{d76d9728-d687-43fa-af77-a724b4818944}</Project>
+      <Name>TimeZone</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
