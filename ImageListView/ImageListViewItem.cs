@@ -805,21 +805,16 @@ namespace Manina.Windows.Forms
             {
                 case ColumnType.FileDateCreated:
                     if (DateCreated == DateTime.MinValue) return "";
-                    else return //TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(DateCreated);
-                                DateCreated.ToString("yyyy-MM-dd HH:mm:ss");
-                //TimeZone.TimeZoneLibrary.ToStringW3CDTF_UTC(newDateTimeFileCreated)
-
-
+                    else return DateCreated.ToString("yyyy-MM-dd HH:mm:ss");
                 case ColumnType.FileDateModified:
                     if (DateModified == DateTime.MinValue) return "";
-                    else return DateModified.ToString("g");
-
+                    else return DateModified.ToString("yyyy-MM-dd HH:mm:ss");
                 case ColumnType.MediaDateTaken:
                     if (DateTaken == DateTime.MinValue) return "";
-                    else return ((DateTimeOffset)DateTaken).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss"); //DateTaken.ToString("g"); 
+                    else return DateTaken.ToString("yyyy-MM-dd HH:mm:ss"); //DateTaken.ToString("g"); 
                 case ColumnType.LocationDateTime:
                     if (LocationDateTime == DateTime.MinValue) return "";
-                    else return ((DateTimeOffset)LocationDateTime).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + "Z"; //DateTaken.ToString("g");
+                    else return LocationDateTime.ToString("yyyy-MM-dd HH:mm:ss") + "Z"; 
 
                 case ColumnType.FileFullPath:
                     return FileFullPath;
@@ -841,8 +836,6 @@ namespace Manina.Windows.Forms
                     return CameraMake;
                 case ColumnType.CameraModel:
                     return CameraModel;
-                               
-
 
                 case ColumnType.MediaTitle:
                     return MediaTitle;
