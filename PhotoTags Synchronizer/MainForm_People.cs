@@ -186,7 +186,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "UpdateRegionThumbnail");
                 MessageBox.Show("Was not able to updated the region thumbnail.\r\n\r\n" + ex.Message);
             }
             DataGridViewHandler.Refresh(dataGridView);
@@ -568,7 +568,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "RegionSelectorLoadAndSelect");
                 MessageBox.Show("Region selector was not able to start.\r\n\r\n" + ex.Message);
             }
         }

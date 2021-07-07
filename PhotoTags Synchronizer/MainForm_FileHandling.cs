@@ -46,7 +46,7 @@ namespace PhotoTagsSynchronizer
                             "Error copy file from: " + sourceFullFilename + "\r\n\r\n" +
                             "To file: " + targetFullFilename + "\r\n\r\n" +
                             "Error message: " + ex.Message + "\r\n");
-                        Logger.Error("Error when copy file." + ex.Message);
+                        Logger.Error(ex, "Error when copy file.");
                     }
                 }
             }
@@ -112,7 +112,7 @@ namespace PhotoTagsSynchronizer
                     "From:" + sourceFullFilename + "\r\n\r\n" +
                     "To: " + targetFullFilename + "\r\n\r\n" +
                     "Error message: " + ex.Message + "\r\n");
-                Logger.Error("Error when move file." + ex.Message);
+                Logger.Error(ex, "Error when move file.");
             }
 
             imageListView.ResumeLayout();
@@ -184,7 +184,7 @@ namespace PhotoTagsSynchronizer
                             "From:" + sourceFullFilename + "\r\n\r\n" +
                             "To: " + targetFullFilename + "\r\n\r\n" +
                             "Error message: " + ex.Message + "\r\n");
-                        Logger.Error("Error when move file." + ex.Message);
+                        Logger.Error(ex, "Error when move file.");
                     }
                 }
                 imageListView.ResumeLayout();
@@ -238,7 +238,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("Error when move folder." + ex.Message);
+                Logger.Error(ex, "Error when move folder.");
 
                 AddError(
                     sourceDirectory,
@@ -268,7 +268,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (SystemException ex)
                 {
-                    Logger.Error("Error when create directory when copy all files from folder:" + ex.Message);
+                    Logger.Error(ex, "Error when create directory when copy all files from folder");
                     AddError(dirPath,
                         AddErrorFileSystemRegion, AddErrorFileSystemCreateFolder, dirPath.Replace(sourceDirectory, tagretDirectory), dirPath.Replace(sourceDirectory, tagretDirectory),
                         "Failed create directory\r\n\r\n" +

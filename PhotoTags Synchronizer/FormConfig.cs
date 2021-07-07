@@ -453,7 +453,7 @@ namespace PhotoTagsSynchronizer
                 MetadataReadPrioity.WriteAlways();
             } catch (Exception ex)
             {
-                Logger.Warn("buttonConfigSave_Click failed saving config. " + ex.Message);
+                Logger.Error(ex, "buttonConfigSave_Click failed saving config. ");
                 MessageBox.Show("Failed to save config.\r\n\r\n" + ex.Message);
             }
 

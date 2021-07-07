@@ -136,7 +136,7 @@ namespace PhotoTagsSynchronizer
                 string errorMsg = "An application error occurred. Please contact the adminstrator with the following information:\n\n";
 
                 // Since we can't prevent the app from terminating, log this to the event log.
-                Logger.Error(errorMsg + ex.Message + "\n\nStack Trace:\n" + ex.StackTrace);
+                Logger.Error(ex, errorMsg + "\n\nStack Trace:\n" + ex.StackTrace);
 
             }
             catch (Exception exc)

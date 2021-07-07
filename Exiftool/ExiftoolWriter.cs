@@ -75,10 +75,9 @@ namespace Exiftool
             try
             {
                 isReadOnly = new FileInfo(fileFullPath).IsReadOnly; 
-            } catch (Exception ex)
+            } catch
             {
                 isReadOnly = true;
-                Logger.Warn(ex.Message);
             }
             return isReadOnly;
         }
@@ -150,7 +149,9 @@ namespace Exiftool
                 if (areAnyFileLocked) Thread.Sleep(500);
                 if (maxRetry-- < 0) {
                     if (MessageBox.Show(
-                        "Other applications can lock your files temporary e.g. OneDrive.\r\nWill you retray wating for file to be unlocked?\r\n" + FileLockedByProcess,
+                        "Other applications can lock files temporary e.g.Google Drive and OneDrive.\r\n" + 
+                        "Please turn of file sync temporary to avoid this issue, and to avoid duplicate sync files\r\n" + 
+                        "Will you retry waiting for file to be unlocked\r\n" + FileLockedByProcess,
                         "File(s) are locked by another applications", MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
                     else areAnyFileLocked = false;
                 }
@@ -172,7 +173,9 @@ namespace Exiftool
                 if (maxRetry-- < 0)
                 {
                     if (MessageBox.Show(
-                        "Other applications can lock your files temporary e.g. OneDrive.\r\nWill you retray wating for file to be unlocked?\r\n" + FileLockedByProcess,
+                        "Other applications can lock files temporary e.g.Google Drive and OneDrive.\r\n" +
+                        "Please turn of file sync temporary to avoid this issue, and to avoid duplicate sync files\r\n" +
+                        "Will you retry waiting for file to be unlocked\r\n" + FileLockedByProcess,
                         "File(s) are locked by another applications", MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
                     else areAnyFileLocked = false;
                 }
@@ -275,7 +278,7 @@ namespace Exiftool
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n" + ex.Message);
+                            Logger.Error(ex, "Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n");
                             writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, ex.Message);
                         }
                     } else

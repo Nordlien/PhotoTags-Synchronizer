@@ -790,7 +790,7 @@ namespace PhotoTagsSynchronizer
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("Task<ScrapingResult> Scraping: " + ex.Message);
+                    Logger.Error(ex, "Task<ScrapingResult> Scraping: ");
                     newFound = false;
                     retryWhenVerifyFails = 0;
                 }

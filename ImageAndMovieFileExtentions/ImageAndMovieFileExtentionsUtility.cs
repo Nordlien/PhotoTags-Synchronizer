@@ -72,7 +72,7 @@ namespace ImageAndMovieFileExtentions
             }
             catch (Exception ex)
             {
-                Logger.Warn("Failed to convert image." + ex.Message);
+                Logger.Error(ex, "Failed to convert image.");
             }
             return jpegImage;
         }
@@ -90,7 +90,7 @@ namespace ImageAndMovieFileExtentions
                 }
             } catch (Exception ex)
             {
-                Logger.Warn("MagickImage was not eable to load image " + fullFilename + " " + ex.Message);
+                Logger.Error(ex, "MagickImage was not eable to load image " + fullFilename);
             }
             return imageReturn;
         }
@@ -143,7 +143,7 @@ namespace ImageAndMovieFileExtentions
                 }
             } catch (Exception ex)
             {
-                Logger.Warn("MagickImage ThumbnailFromFile failed load " + fullFilename + " " + ex.Message);
+                Logger.Error(ex, "MagickImage ThumbnailFromFile failed load " + fullFilename );
             }
             return thumbnailReturn;
         }
@@ -663,7 +663,7 @@ namespace ImageAndMovieFileExtentions
                 }
             } catch (Exception ex)
             {
-                Logger.Warn("GetFilesByExtensions: " + ex.Message);
+                Logger.Error(ex, "GetFilesByExtensions: ");
             }
             return files;
         }

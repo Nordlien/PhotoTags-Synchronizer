@@ -160,7 +160,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Warn("PopulateGrivViewMapMediaFile." + ex.Message);
+                Logger.Error(ex, "PopulateGrivViewMapMediaFile.");
                 //throw; Windows closing, this will cause error. But ok...
             }
         }

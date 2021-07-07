@@ -754,7 +754,7 @@ namespace MetadataLibrary
                 //commandDatabase.ExecuteNonQuery();
                 if (commandDatabase.ExecuteNonQuery() == -1)
                 {
-                    Logger.Error("Delete MediaMetadata and sub data due to previous application crash for file: " + metadata.FileFullPath);
+                    Logger.Warn("Delete MediaMetadata and sub data due to previous application crash for file: " + metadata.FileFullPath);
                     //Delete all extries due to crash.
                     DeleteFileEntryFromMediaMetadata(metadata.FileEntryBroker);
                     DeleteFileEntryFromMediaPersonalKeywords(metadata.FileEntryBroker);
@@ -783,7 +783,7 @@ namespace MetadataLibrary
                     
                     if (commandDatabase.ExecuteNonQuery() == -1)
                     {
-                        Logger.Error("Delete MediaPersonalKeywords data due to previous application crash for file: " + metadata.FileFullPath);
+                        Logger.Warn("Delete MediaPersonalKeywords data due to previous application crash for file: " + metadata.FileFullPath);
                         //Delete all extries due to crash.
                         //DeleteFileEntryFromMediaPersonalKeywords(metadata.FileEntryBroker);
                         commandDatabase.ExecuteNonQuery();
@@ -821,7 +821,7 @@ namespace MetadataLibrary
                     
                     if (commandDatabase.ExecuteNonQuery() == -1)
                     {
-                        Logger.Error("Delete MediaPersonalRegions data due to previous application crash for file: " + metadata.FileFullPath);
+                        Logger.Warn("Delete MediaPersonalRegions data due to previous application crash for file: " + metadata.FileFullPath);
                         //Delete all extries due to crash.
                         //DeleteFileEntryFromMediaPersonalRegions(metadata.FileEntryBroker);
                         commandDatabase.ExecuteNonQuery();
@@ -1545,7 +1545,7 @@ namespace MetadataLibrary
                 
             } catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "ListFileEntryAttributesCache");
             }
 
             return fileEntryAttributes;
@@ -2324,7 +2324,8 @@ namespace MetadataLibrary
         #region Cache Metadata - Read 
         public Metadata ReadMetadataFromCacheOrDatabase(FileEntryBroker fileEntryBroker)
         {
-            if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
+            //if (fileEntryBroker.GetType() != typeof(FileEntryBroker)) //Sometimes getting 'MetadataLibrary.FileEntryBroker' to type 'MetadataLibrary.FileEntryImage'
+            fileEntryBroker = new FileEntryBroker(fileEntryBroker); //When NOT FileEntryBroker it Will give wrong hash value, and not fint the correct result
             lock (metadataCacheLock) if (metadataCache.ContainsKey(fileEntryBroker)) return metadataCache[fileEntryBroker]; //Also return null
             
             Metadata metadata = Read(fileEntryBroker);
@@ -2413,7 +2414,7 @@ namespace MetadataLibrary
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "MetadataRegionCacheUpdate");
             }
         }
         #endregion 
@@ -2432,7 +2433,7 @@ namespace MetadataLibrary
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "MetadataCacheRemoveMetadataCacheRemove");
             }
         }
         #endregion 
@@ -2448,7 +2449,7 @@ namespace MetadataLibrary
                 }
             } catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "ListFileEntryAttributesCacheRemove");
             }
         }
         #endregion
@@ -2509,7 +2510,7 @@ namespace MetadataLibrary
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "MetadataCacheRemove");
             }
         }
         #endregion 
@@ -2541,7 +2542,7 @@ namespace MetadataLibrary
                 } while (found);
             } catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "MetadataCacheRemove");
             }
         }
         #endregion 
@@ -2566,7 +2567,7 @@ namespace MetadataLibrary
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "MetadataCacheRemove");
             }
         }
         #endregion 

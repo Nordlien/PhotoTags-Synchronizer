@@ -418,7 +418,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("CacheFileEntries failed: " + ex.Message);
+                            Logger.Error(ex, "CacheFileEntries failed");
                         }
                         finally
                         {
@@ -571,7 +571,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("ThreadLazyLoadningMetadata" + ex.Message);
+                            Logger.Error(ex, "ThreadLazyLoadningMetadata");
                         }
                         finally
                         {
@@ -587,7 +587,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("ThreadLazyLoadningMetadata.Start failed. " + ex.Message);
+                Logger.Error(ex, "ThreadLazyLoadningMetadata.Start failed. ");
                 //_ThreadLazyLoadingMetadata = null;
             }
 
@@ -655,7 +655,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("ThreadLazyLoadningThumbnail thread failed. " + ex.Message);
+                            Logger.Error(ex, "ThreadLazyLoadningThumbnail thread failed. ");
                         }
                         finally
                         {
@@ -671,7 +671,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("ThreadLazyLoadningThumbnail.Start failed. " + ex.Message);
+                Logger.Error(ex, "ThreadLazyLoadningThumbnail.Start failed. ");
             }
         }
         #endregion
@@ -753,7 +753,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 catch (Exception ex)
                                 {
-                                    Logger.Error("ThreadSaveThumbnail: " + ex.Message);
+                                    Logger.Error(ex, "ThreadSaveThumbnail");
                                 }
                             }
 
@@ -761,7 +761,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("" + ex.Message);
+                            Logger.Error(ex, "ThreadSaveThumbnail");
                         }
                         finally
                         {
@@ -777,7 +777,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("_ThreadThumbnailMedia failed to start. " + ex.Message);
+                Logger.Error(ex, "_ThreadThumbnailMedia failed to start.");
                 //_ThreadSaveThumbnail = null;
             }
         }
@@ -902,7 +902,7 @@ namespace PhotoTagsSynchronizer
                                     catch (Exception ex)
                                     {
                                         lastKnownExiftoolError = ex.Message;
-                                        Logger.Error("Running Exiftool failed." + ex.Message);
+                                        Logger.Error(ex, "Running Exiftool failed.");
                                     }
                                     #endregion
 
@@ -968,7 +968,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("ThreadCollectMetadataExiftool" + ex.Message);
+                            Logger.Error(ex, "ThreadCollectMetadataExiftool");
                         }
                         finally
                         {
@@ -984,7 +984,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("_ThreadExiftool.Start failed. " + ex.Message);
+                Logger.Error(ex, "_ThreadExiftool.Start failed. ");
                 //_ThreadCollectMetadataExiftool = null;
             }            
         }
@@ -1120,7 +1120,7 @@ namespace PhotoTagsSynchronizer
                                                         }
                                                         catch (Exception ex)
                                                         {
-                                                            Logger.Error("File.SetCreationTime failed...\r\n\r\n" + ex.Message);
+                                                            Logger.Error(ex, "File.SetCreationTime failed...");
                                                         }
                                                     }
                                                 } else
@@ -1154,7 +1154,7 @@ namespace PhotoTagsSynchronizer
                                     catch (Exception ex)
                                     {
                                         exiftoolErrorMessage = ex.Message;
-                                        Logger.Error("EXIFTOOL.EXE error...\r\n\r\n" + ex.Message);
+                                        Logger.Error(ex, "EXIFTOOL.EXE error...");
                                     }
                                 }
                                 #endregion
@@ -1258,7 +1258,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("ThreadSaveMetadata: " + ex.Message);
+                            Logger.Error(ex, "ThreadSaveMetadata: ");
                         }
                         finally
                         {
@@ -1275,7 +1275,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("_ThreadSaveMetadata.Start failed. " + ex.Message);
+                Logger.Error(ex, "_ThreadSaveMetadata.Start failed. ");
             }
         }
         #endregion
@@ -1367,7 +1367,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("ThreadCollectMetadataMicrosoftPhotos failed: " + ex.Message);
+                            Logger.Error(ex, "ThreadCollectMetadataMicrosoftPhotos failed");
                         }
                         finally
                         {
@@ -1382,7 +1382,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("_ThreadMicrosoftPhotos.Start failed. " + ex.Message);
+                Logger.Error(ex, "_ThreadMicrosoftPhotos.Start failed. ");
                 //_ThreadMicrosoftPhotos = null;
             }
             
@@ -1476,7 +1476,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("ThreadCollectMetadataWindowsLiveGallery failed:" + ex.Message);
+                            Logger.Error(ex, "ThreadCollectMetadataWindowsLiveGallery failed");
                         }
                         finally
                         {
@@ -1491,7 +1491,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("_ThreadWindowsLiveGallery.Start failed. " + ex.Message);
+                Logger.Error(ex, "_ThreadWindowsLiveGallery.Start failed.");
             }
             
         }
@@ -1659,9 +1659,9 @@ namespace PhotoTagsSynchronizer
                                         Logger.Error(writeErrorDesciption);
                                     }
                                 }
-                                catch (Exception e)
+                                catch (Exception ex)
                                 {
-                                    Logger.Error("ThreadReadMediaPosterSaveRegions crashed" + e.Message);
+                                    Logger.Error(ex, "ThreadReadMediaPosterSaveRegions crashed");
                                 }
                             } //while (indexSource < curentCommonQueueReadPosterAndSaveFaceThumbnailsCount);
 
@@ -1671,7 +1671,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("ThreadReadMediaPosterSaveRegions: " + ex.Message);
+                            Logger.Error(ex, "ThreadReadMediaPosterSaveRegions");
                         } finally
                         {
                             _ThreadThumbnailRegion = null;
@@ -1685,7 +1685,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("_ThreadThumbnailRegion.Start failed. " + ex.Message);
+                Logger.Error(ex, "_ThreadThumbnailRegion.Start failed.");
             }
 
         }
@@ -1962,7 +1962,7 @@ namespace PhotoTagsSynchronizer
                     {
                         try
                         {
-                            #region
+                            #region Rename
                             Logger.Trace("ThreadRename - started");
                             while (CommonQueueRenameCountLock() > 0 && !GlobalData.IsApplicationClosing)
                             {
@@ -2036,7 +2036,7 @@ namespace PhotoTagsSynchronizer
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error("ThreadRename" + ex.Message);
+                            Logger.Error(ex, "ThreadRename");
                         } finally
                         {
                             _ThreadRenameMedafiles = null;
@@ -2050,7 +2050,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("_ThreadRenameMedafiles.Start failed. " + ex.Message);
+                Logger.Error(ex, "_ThreadRenameMedafiles.Start failed. ");
             }
             
             
@@ -2167,7 +2167,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("timerShowErrorMessage.Start failed. " + ex.Message);
+                Logger.Error(ex, "timerShowErrorMessage.Start failed.");
             }
         }
         #endregion

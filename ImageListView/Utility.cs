@@ -636,7 +636,7 @@ namespace Manina.Windows.Forms
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("ReadShellImageFileInfo (" + path + ") Error: " + ex.Message);
+                    Logger.Error(ex, "ReadShellImageFileInfo (" + path + ")");
                     Error = true;
                 }
             }
@@ -709,13 +709,13 @@ namespace Manina.Windows.Forms
                     }
 
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Logger.Error("Can load media file. " + fullFileName + " Error: " + e.Message);
+                    Logger.Error(ex, "Can load media file. " + fullFileName);
                 }
             } else
             {
-                Logger.Error("File doesn't exist anymore. " + fullFileName);
+                Logger.Warn("File doesn't exist anymore. " + fullFileName);
             }
 
             return image;

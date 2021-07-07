@@ -983,12 +983,12 @@ namespace Manina.Windows.Forms
                     }
                     catch (ObjectDisposedException ex)
                     {
-                        Logger.Warn("Clean up invisible items: " + ex.Message);
+                        Logger.Trace("Clean up invisible items: " + ex.Message);
                         if (!Stopping) throw;
                     }
                     catch (InvalidOperationException ex)
                     {
-                        Logger.Warn("Clean up invisible items: " + ex.Message);
+                        Logger.Trace("Clean up invisible items: " + ex.Message);
                         if (!Stopping) throw;
                     }
 
@@ -1030,12 +1030,12 @@ namespace Manina.Windows.Forms
                     }
                     catch (ObjectDisposedException ex)
                     {
-                        Logger.Warn("DoWork 2/thumbnailCreated: " + ex.Message);
+                        Logger.Error(ex, "DoWork 2/thumbnailCreated");
                         if (!Stopping) throw;
                     }
                     catch (InvalidOperationException ex)
                     {
-                        Logger.Warn("DoWork 2/thumbnailCreated: " + ex.Message);
+                        Logger.Error(ex, "DoWork 2/thumbnailCreated");
                         if (!Stopping) throw;
                     }
                 }

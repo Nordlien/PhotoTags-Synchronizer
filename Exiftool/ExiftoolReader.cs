@@ -330,9 +330,9 @@ namespace Exiftool
                     }
                     else return null;
                 }
-            } catch (Exception e)
+            } catch (Exception ex)
             {
-                Logger.Warn(dateTimeToConvert + " " + e.Message); //TODO: Need to fix problems with date formats
+                Logger.Error(ex, "Failed convert date: " + dateTimeToConvert); //TODO: Need to fix problems with date formats
                 return null; 
             }
         }

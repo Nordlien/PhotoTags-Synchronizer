@@ -430,7 +430,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "DisplayAllQueueStatus");
             }
             #endregion 
 
@@ -505,7 +505,6 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #endregion 
-
 
         #region UpdateExiftoolSaveStatus - Show Exiftool write progress, find Exiftool tmp file and show filesize on screen
 

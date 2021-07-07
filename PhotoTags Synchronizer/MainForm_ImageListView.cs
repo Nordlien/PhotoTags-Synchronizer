@@ -81,7 +81,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "imageListView1_RetrieveItemMetadataDetails");
                 e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
                 e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
             }
@@ -139,12 +139,12 @@ namespace PhotoTagsSynchronizer
                     }
                     catch (IOException ioe)
                     {
-                        Logger.Warn("Load image error, OneDrive issues" + ioe.Message);
+                        Logger.Error(ioe, "Load image error, OneDrive issues");
                         e.Thumbnail = (Image)Properties.Resources.load_image_error_onedrive;
                     }
                     catch (Exception ex)
                     {
-                        Logger.Warn("Load image error: " + ex.Message);
+                        Logger.Warn(ex, "Load image error");
                         e.Thumbnail = (Image)Properties.Resources.load_image_error_general;
                     }
                 }
@@ -155,7 +155,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                Logger.Warn("imageListView1_RetrieveItemThumbnail failed on: " + e.FileName + " " + ex.Message);
+                Logger.Warn(ex, "imageListView1_RetrieveItemThumbnail failed on: " + e.FileName);
                 e.Thumbnail = (Image)Properties.Resources.load_image_error_general;
             }
         }
@@ -243,7 +243,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                Logger.Warn("imageListView1_RetrieveImage failed on: " + e.FullFilePath + " " + ex.Message);
+                Logger.Error(ex, "imageListView1_RetrieveImage failed on: " + e.FullFilePath);
             }
 
         }
@@ -313,7 +313,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.Message);
+                Logger.Error(ex, "ImageListViewReloadThumbnailAndMetadataInvoke");
                 //DID ImageListe update failed, because of thread???
             }
             GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;

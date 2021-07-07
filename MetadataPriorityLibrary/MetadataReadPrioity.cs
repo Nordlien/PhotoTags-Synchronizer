@@ -59,7 +59,7 @@ namespace MetadataPriorityLibrary
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("Can't read " + filename + " file" + ex.Message);
+                    Logger.Error(ex, "Can't read " + filename + " file");
                 }
                 if (metadataGroupPriorityList == null) metadataGroupPriorityList = new List<MetadataPriorityGroup>();
                 foreach (MetadataPriorityGroup metadataGroupPriority in metadataGroupPriorityList)
@@ -90,7 +90,7 @@ namespace MetadataPriorityLibrary
                 File.WriteAllText(filename, JsonConvert.SerializeObject(metadataGroupPriorityList, Newtonsoft.Json.Formatting.Indented));
             } catch (Exception ex)
             {
-                Logger.Error("metadataGroupPriorityList write to file failed:" + ex.Message);
+                Logger.Error(ex, "metadataGroupPriorityList write to file failed:");
             }
         }
 

@@ -59,7 +59,7 @@ namespace WindowsLivePhotoGallery
                 pipeClientProcessErrorOccurred = true;
                 globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "[Windows Live Photo Gallery | Pipe Client] Error: " + exception.Message;
             }
-            Logger.Error(globalErrorMessageHandler);
+            Logger.Error(exception, globalErrorMessageHandler);
             pipeClientEventWaitPipeCommandReturn.Set();
         }
         #endregion
@@ -113,7 +113,7 @@ namespace WindowsLivePhotoGallery
                     pipeClientDiconnected = false; 
                     globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "[Windows Live Photo Gallery | Pipe Client] Reconnect error: " + ex.Message;
                 }
-                Logger.Error(globalErrorMessageHandler);
+                Logger.Error(ex, globalErrorMessageHandler);
             }
         }
         #endregion
@@ -312,15 +312,15 @@ namespace WindowsLivePhotoGallery
                         }
                         #endregion 
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
                         #region Error handling
                         lock (_ErrorHandlingLock)
                         {
                             consoleProcessErrorOccurred = true;
-                            globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "Faild starting the process " + windowsLiveGalleryServerfileName + ", with exception message: " + e.Message;
+                            globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "Faild starting the process " + windowsLiveGalleryServerfileName + ", with exception message: " + ex.Message;
                         }
-                        Logger.Error(globalErrorMessageHandler);
+                        Logger.Error(ex, globalErrorMessageHandler);
                         #endregion 
                     }
                 }
@@ -409,7 +409,7 @@ namespace WindowsLivePhotoGallery
                         }
                         catch (Exception ex)
                         {
-                            Logger.Warn("[Windows Live Photo Gallery | Console Process] Close process was not preformed. " + ex.Message);
+                            Logger.Error(ex, "[Windows Live Photo Gallery | Console Process] Close process was not preformed. ");
                         }
                     }
 
@@ -422,7 +422,7 @@ namespace WindowsLivePhotoGallery
                         }
                         catch (Exception ex)
                         {
-                            Logger.Warn("[Windows Live Photo Gallery | Console Process] Kill process was not preformed. " + ex.Message);
+                            Logger.Error(ex, "[Windows Live Photo Gallery | Console Process] Kill process was not preformed. ");
                         }
                     }
 
@@ -451,7 +451,7 @@ namespace WindowsLivePhotoGallery
                             pipeClient.PushMessage(pipeMessageCommand);
                         } catch (Exception ex)
                         {
-                            Logger.Error(ex.Message);
+                            Logger.Error(ex, "Metadata Read - Pipe Client");
                         }
                     }
                     Logger.Trace("[Windows Live Photo Gallery | Pipe Client] Push message: Request File {0}ms...", stopWatch.ElapsedMilliseconds);

@@ -44,10 +44,10 @@ namespace PhotoTagsSynchronizer
                         return null;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 //Why do this been called from another thread
-                Logger.Error("GetActiveDataGridView: " + e.Message);
+                Logger.Error(ex, "GetActiveDataGridView");
             }
             return null;
         }

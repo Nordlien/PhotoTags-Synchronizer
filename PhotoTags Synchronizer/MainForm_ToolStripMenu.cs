@@ -145,7 +145,7 @@ namespace PhotoTagsSynchronizer
                                 dataGridViewGenericColumn.FileEntryAttribute.LastWriteDateTime,
                                 AddErrorPropertiesRegion, AddErrorPropertiesCommandWrite, AddErrorPropertiesParameterWrite, AddErrorPropertiesParameterWrite,
                                 writeErrorDesciption);
-                            Logger.Error(ex.Message);
+                            Logger.Error(ex, "SaveProperties");
                         }
                     }
                 }
@@ -1498,7 +1498,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("Error when delete folder." + ex.Message);
+                Logger.Error(ex, "Error when delete folder.");
 
                 AddError(
                     folder,
@@ -1607,7 +1607,7 @@ namespace PhotoTagsSynchronizer
 
             } catch (Exception ex)
             {
-                Logger.Error("Clipboard failed: " + ex.Message);
+                Logger.Error(ex, "Clipboard failed: ");
             }
             return DragDropEffects.None;
         }
@@ -1801,7 +1801,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Error("Failed create drag and drop tarnsfer data. Error: " + ex.Message);
+                Logger.Error(ex, "folderTreeViewFolder_ItemDrag, Failed create drag and drop tarnsfer data.");
                 MessageBox.Show("Failed create drag and drop tarnsfer data. Error: " + ex.Message);
                 folderTreeViewFolder.Focus();
             }
@@ -1835,7 +1835,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex.Message);
+                Logger.Error(ex, "folderTreeViewFolder_DragEnter");
             }
         }
         #endregion
@@ -1865,7 +1865,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex.Message);
+                Logger.Warn(ex, "folderTreeViewFolder_DragOver");
             }
         }
         #endregion

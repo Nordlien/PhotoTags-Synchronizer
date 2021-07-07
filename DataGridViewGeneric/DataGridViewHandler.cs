@@ -2995,7 +2995,7 @@ namespace DataGridViewGeneric
                 catch (Exception ex)
                 {
                     //Thumbnail was occupied in other thread
-                    Logger.Warn("DrawImageAndSubText: " + ex.Message);
+                    Logger.Error(ex, "DrawImageAndSubText - Thumbnail was occupied in other thread. Text: " + text);
                 }
             }
 

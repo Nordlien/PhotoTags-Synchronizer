@@ -93,7 +93,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex.Message);
+                Logger.Error(ex, "PosterCacheRead");
             }
             return image;
         }
@@ -113,7 +113,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex.Message);
+                Logger.Error(ex, "PosterCacheAdd");
             }
         }
         #endregion
@@ -148,7 +148,7 @@ namespace PhotoTagsSynchronizer
                 }
             } catch (Exception ex)
             {
-                Logger.Warn("LoadMediaCoverArtPoster was not able to create poster of the file " + fullFilePath + " " + ex.Message);
+                Logger.Warn(ex, "LoadMediaCoverArtPoster was not able to create poster of the file " + fullFilePath);
             }
             if (image != null) PosterCacheAdd(fullFilePath, image);
             return image;
@@ -201,7 +201,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception ex) 
             {
-                Logger.Warn(ex.Message);
+                Logger.Error(ex, "LoadMediaCoverArtThumbnail");
             }
 
             if (image != null) image = Utility.ThumbnailFromImage(image, maxSize, Color.White, false);
