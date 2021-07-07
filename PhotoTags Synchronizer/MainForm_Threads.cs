@@ -25,9 +25,6 @@ namespace PhotoTagsSynchronizer
         private static readonly Object _ThreadCacheSelectedFastReadLock = new Object();
         private static Thread _ThreadCacheSelectedFastRead = null; //
 
-        private static readonly Object _ThreadPreloadingMetadataLock = new Object();
-        private static Thread _ThreadPreloadingMetadata = null; //
-
         private static readonly Object _ThreadLazyLoadingMetadataLock = new Object();
         private static Thread _ThreadLazyLoadingMetadata = null; //
 
@@ -386,7 +383,11 @@ namespace PhotoTagsSynchronizer
                 do
                 {
                     lock (_ThreadCacheSelectedFastReadLock) isThreadRunning = (_ThreadCacheSelectedFastRead != null);
-                    if (isThreadRunning) Thread.Sleep(100); //Wait thread stopping
+                    if (isThreadRunning)
+                    {
+                        Thread.Sleep(100); //Wait thread stopping
+                        Logger.Debug("CacheFileEntries - sleep(100) - ThreadRunning is running");
+                    }
                 } while (isThreadRunning && retry-- > 0);
 
                 lock (_ThreadCacheSelectedFastReadLock) isThreadRunning = (_ThreadCacheSelectedFastRead != null);
@@ -514,8 +515,10 @@ namespace PhotoTagsSynchronizer
                         try
                         {
                             Logger.Trace("ThreadLazyLoadningMetadata - started");
-                            while (CommonQueueLazyLoadingMetadataCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                            int count = CommonQueueLazyLoadingMetadataCountLock();
+                            while (count > 0 && CommonQueueLazyLoadingMetadataCountLock()  > 0 && !GlobalData.IsApplicationClosing)
                             {
+                                count--;
                                 FileEntryAttribute fileEntryAttribute = new FileEntryAttribute(commonQueueLazyLoadingMetadata[0]);
 
                                 bool readColumn = false;
@@ -630,8 +633,10 @@ namespace PhotoTagsSynchronizer
                         #region
                         try
                         {
-                            while (!GlobalData.IsStopAndEmptyThumbnailQueueRequest && CommonQueueLazyLoadingThumbnailCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                            int count = CommonQueueLazyLoadingThumbnailCountLock();
+                            while (count > 0 && CommonQueueLazyLoadingThumbnailCountLock()  > 0 && !GlobalData.IsStopAndEmptyThumbnailQueueRequest && !GlobalData.IsApplicationClosing)
                             {
+                                count--;
 
                                 if (!GlobalData.IsStopAndEmptyThumbnailQueueRequest && commonQueueLazyLoadingThumbnail.Count > 0) //In case clear, due to user screen interaction
                                 {
@@ -710,8 +715,11 @@ namespace PhotoTagsSynchronizer
                         try
                         {
                             Logger.Trace("ThreadSaveThumbnail - started");
-                            while (CommonQueueSaveThumbnailToDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue or App will close
+                            int count = CommonQueueSaveThumbnailToDatabaseCountLock();
+                            while (count > 0 && CommonQueueSaveThumbnailToDatabaseCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue or App will close
                             {
+                                count--;
+
                                 if (CommonQueueReadMetadataFromExiftoolCountLock() > 0) break; //Wait all metadata readfirst
                                 if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
 
@@ -824,8 +832,10 @@ namespace PhotoTagsSynchronizer
                         try
                         {
                             Logger.Trace("ThreadCollectMetadataExiftool - started");
-                            while (!GlobalData.IsStopAndEmptyExiftoolReadQueueRequest && CommonQueueReadMetadataFromExiftoolCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
+                            int count = CommonQueueReadMetadataFromExiftoolCountLock();
+                            while (count > 0 && !GlobalData.IsStopAndEmptyExiftoolReadQueueRequest && CommonQueueReadMetadataFromExiftoolCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                             {
+                                count--;
                                 if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
 
                                 int rangeToRemove; //Remember how many in queue now
@@ -1019,47 +1029,48 @@ namespace PhotoTagsSynchronizer
                         #region
                         try
                         {
-                            Logger.Trace("ThreadSaveMetadata - started");
-                            #region Init Write Variables and Parameters
-                            string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
-                            string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
-                            string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
-
-                            string writeXtraAtomAlbumVariable = Properties.Settings.Default.XtraAtomAlbumVariable;
-                            bool writeXtraAtomAlbumVideo = Properties.Settings.Default.XtraAtomAlbumVideo;
-
-                            string writeXtraAtomCategoriesVariable = Properties.Settings.Default.XtraAtomCategoriesVariable;
-                            bool writeXtraAtomCategoriesVideo = Properties.Settings.Default.XtraAtomCategoriesVideo;
-
-                            string writeXtraAtomCommentVariable = Properties.Settings.Default.XtraAtomCommentVariable;
-                            bool writeXtraAtomCommentPicture = Properties.Settings.Default.XtraAtomCommentPicture;
-                            bool writeXtraAtomCommentVideo = Properties.Settings.Default.XtraAtomCommentVideo;
-
-                            string writeXtraAtomKeywordsVariable = Properties.Settings.Default.XtraAtomKeywordsVariable;
-                            bool writeXtraAtomKeywordsVideo = Properties.Settings.Default.XtraAtomKeywordsVideo;
-
-                            bool writeXtraAtomRatingPicture = Properties.Settings.Default.XtraAtomRatingPicture;
-                            bool writeXtraAtomRatingVideo = Properties.Settings.Default.XtraAtomRatingVideo;
-
-                            string writeXtraAtomSubjectVariable = Properties.Settings.Default.XtraAtomSubjectVariable;
-                            bool writeXtraAtomSubjectPicture = Properties.Settings.Default.XtraAtomSubjectPicture;
-                            bool wtraAtomSubjectVideo = Properties.Settings.Default.XtraAtomSubjectVideo;
-
-                            string writeXtraAtomSubtitleVariable = Properties.Settings.Default.XtraAtomSubtitleVariable;
-                            bool writeXtraAtomSubtitleVideo = Properties.Settings.Default.XtraAtomSubtitleVideo;
-
-                            string writeXtraAtomArtistVariable = Properties.Settings.Default.XtraAtomArtistVariable;
-                            bool writeXtraAtomArtistVideo = Properties.Settings.Default.XtraAtomArtistVideo;
-
-                            bool writeCreatedDateAndTimeAttribute = Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute;
-                            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-
-                            List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
-                            #endregion
-
-                            while (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                            if (!GlobalData.IsApplicationClosing)
                             {
+                                Logger.Trace("ThreadSaveMetadata - started");
+                                #region Init Write Variables and Parameters
+                                string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
+                                string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
+                                string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
+
+                                string writeXtraAtomAlbumVariable = Properties.Settings.Default.XtraAtomAlbumVariable;
+                                bool writeXtraAtomAlbumVideo = Properties.Settings.Default.XtraAtomAlbumVideo;
+
+                                string writeXtraAtomCategoriesVariable = Properties.Settings.Default.XtraAtomCategoriesVariable;
+                                bool writeXtraAtomCategoriesVideo = Properties.Settings.Default.XtraAtomCategoriesVideo;
+
+                                string writeXtraAtomCommentVariable = Properties.Settings.Default.XtraAtomCommentVariable;
+                                bool writeXtraAtomCommentPicture = Properties.Settings.Default.XtraAtomCommentPicture;
+                                bool writeXtraAtomCommentVideo = Properties.Settings.Default.XtraAtomCommentVideo;
+
+                                string writeXtraAtomKeywordsVariable = Properties.Settings.Default.XtraAtomKeywordsVariable;
+                                bool writeXtraAtomKeywordsVideo = Properties.Settings.Default.XtraAtomKeywordsVideo;
+
+                                bool writeXtraAtomRatingPicture = Properties.Settings.Default.XtraAtomRatingPicture;
+                                bool writeXtraAtomRatingVideo = Properties.Settings.Default.XtraAtomRatingVideo;
+
+                                string writeXtraAtomSubjectVariable = Properties.Settings.Default.XtraAtomSubjectVariable;
+                                bool writeXtraAtomSubjectPicture = Properties.Settings.Default.XtraAtomSubjectPicture;
+                                bool wtraAtomSubjectVideo = Properties.Settings.Default.XtraAtomSubjectVideo;
+
+                                string writeXtraAtomSubtitleVariable = Properties.Settings.Default.XtraAtomSubtitleVariable;
+                                bool writeXtraAtomSubtitleVideo = Properties.Settings.Default.XtraAtomSubtitleVideo;
+
+                                string writeXtraAtomArtistVariable = Properties.Settings.Default.XtraAtomArtistVariable;
+                                bool writeXtraAtomArtistVideo = Properties.Settings.Default.XtraAtomArtistVideo;
+
+                                bool writeCreatedDateAndTimeAttribute = Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute;
+                                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+
+                                List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
+                                #endregion
+
+                            
                                 int writeCount = CommonQueueSaveMetadataUpdatedByUserCountLock();
                                 lock(commonQueueSubsetMetadataToSaveLock) commonQueueSubsetMetadataToSave = new List<Metadata>();    //This new values for saving (changes done by user)
                                 List<Metadata> queueSubsetMetadataOrginalBeforeUserEdit = new List<Metadata>(); //Before updated by user, need this to check if any updates
@@ -1239,6 +1250,8 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
+                                if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+
                                 //Clean up
                                 lock (commonQueueSubsetMetadataToSaveLock) commonQueueSubsetMetadataToSave.Clear();
                                 queueSubsetMetadataOrginalBeforeUserEdit.Clear();
@@ -1319,8 +1332,11 @@ namespace PhotoTagsSynchronizer
                         try
                         {
                             Logger.Trace("ThreadCollectMetadataMicrosoftPhotos - started");
+                            int count = CommonQueueReadMetadataFromMicrosoftPhotosCountLock();
                             while (CommonQueueReadMetadataFromMicrosoftPhotosCountLock() > 0 && !GlobalData.IsApplicationClosing)
                             {
+                                count--;
+
                                 #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
                                 MetadataDatabaseCache database = databaseAndCacheMetadataMicrosoftPhotos;
                                 ImetadataReader databaseSourceReader = databaseMicrosoftPhotos;
@@ -1428,8 +1444,11 @@ namespace PhotoTagsSynchronizer
                         try
                         {
                             Logger.Trace("ThreadCollectMetadataWindowsLiveGallery - started");
-                            while (CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                            int count = CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock();
+                            while (count > 0 && CommonQueueReadMetadataFromWindowsLivePhotoGalleryCountLock() > 0 && !GlobalData.IsApplicationClosing)
                             {
+                                count--;
+
                                 #region Common for ThreadCollectMetadataWindowsLiveGallery and ThreadCollectMetadataMicrosoftPhotos
                                 MetadataDatabaseCache database = databaseAndCacheMetadataWindowsLivePhotoGallery;
                                 ImetadataReader databaseSourceReader = databaseWindowsLivePhotGallery;
@@ -1964,8 +1983,10 @@ namespace PhotoTagsSynchronizer
                         {
                             #region Rename
                             Logger.Trace("ThreadRename - started");
-                            while (CommonQueueRenameCountLock() > 0 && !GlobalData.IsApplicationClosing)
+                            int count = CommonQueueRenameCountLock();
+                            while (count > 0 && CommonQueueRenameCountLock() > 0 && !GlobalData.IsApplicationClosing)
                             {
+                                count--;
                                 string fullFilename = "";
                                 string renameVaiable = "";
                                 bool fileInUse = false;
