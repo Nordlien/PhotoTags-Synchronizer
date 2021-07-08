@@ -1132,5 +1132,11 @@ Date Taken</Value>
     <Setting Name="ImageListViewTitleLine5" Type="System.String" Scope="User">
       <Value Profile="(Default)">MediaDimensions</Value>
     </Setting>
+    <Setting Name="ApplicationDebugExiftoolShowCliWindow" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ApplicationDebugExiftoolLowPrioity" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

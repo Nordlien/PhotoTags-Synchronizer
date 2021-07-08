@@ -2196,5 +2196,29 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ImageListViewTitleLine5"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ApplicationDebugExiftoolShowCliWindow {
+            get {
+                return ((bool)(this["ApplicationDebugExiftoolShowCliWindow"]));
+            }
+            set {
+                this["ApplicationDebugExiftoolShowCliWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ApplicationDebugExiftoolLowPrioity {
+            get {
+                return ((bool)(this["ApplicationDebugExiftoolLowPrioity"]));
+            }
+            set {
+                this["ApplicationDebugExiftoolLowPrioity"] = value;
+            }
+        }
     }
 }

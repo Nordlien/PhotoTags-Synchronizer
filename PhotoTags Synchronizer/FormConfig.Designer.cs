@@ -35,6 +35,9 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig = new System.Windows.Forms.TabControl();
             this.tabPageApplication = new System.Windows.Forms.TabPage();
             this.panelApplication = new System.Windows.Forms.Panel();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.checkBoxApplicationExiftoolLowPrioity = new System.Windows.Forms.CheckBox();
+            this.checkBoxApplicationExiftoolShowCliWindow = new System.Windows.Forms.CheckBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.checkBoxCacheFolderWebScraperDataSets = new System.Windows.Forms.CheckBox();
             this.checkBoxCacheFolderThumbnails = new System.Windows.Forms.CheckBox();
@@ -364,6 +367,7 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
+            this.groupBox13.SuspendLayout();
             this.groupBox12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCacheNumberOfPosters)).BeginInit();
             this.groupBoxLocationAccuracy.SuspendLayout();
@@ -498,6 +502,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelApplication.AutoScroll = true;
             this.panelApplication.BackColor = System.Drawing.Color.Transparent;
+            this.panelApplication.Controls.Add(this.groupBox13);
             this.panelApplication.Controls.Add(this.groupBox12);
             this.panelApplication.Controls.Add(this.groupBoxLocationAccuracy);
             this.panelApplication.Controls.Add(this.groupBox6);
@@ -510,6 +515,37 @@ namespace PhotoTagsSynchronizer
             this.panelApplication.Name = "panelApplication";
             this.panelApplication.Size = new System.Drawing.Size(766, 748);
             this.panelApplication.TabIndex = 0;
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.checkBoxApplicationExiftoolLowPrioity);
+            this.groupBox13.Controls.Add(this.checkBoxApplicationExiftoolShowCliWindow);
+            this.groupBox13.Location = new System.Drawing.Point(0, 1033);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(742, 85);
+            this.groupBox13.TabIndex = 7;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "Application debug:";
+            // 
+            // checkBoxApplicationExiftoolLowPrioity
+            // 
+            this.checkBoxApplicationExiftoolLowPrioity.AutoSize = true;
+            this.checkBoxApplicationExiftoolLowPrioity.Location = new System.Drawing.Point(183, 48);
+            this.checkBoxApplicationExiftoolLowPrioity.Name = "checkBoxApplicationExiftoolLowPrioity";
+            this.checkBoxApplicationExiftoolLowPrioity.Size = new System.Drawing.Size(321, 21);
+            this.checkBoxApplicationExiftoolLowPrioity.TabIndex = 1;
+            this.checkBoxApplicationExiftoolLowPrioity.Text = "Run Exiftool process with prioirty below normal";
+            this.checkBoxApplicationExiftoolLowPrioity.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxApplicationExiftoolShowCliWindow
+            // 
+            this.checkBoxApplicationExiftoolShowCliWindow.AutoSize = true;
+            this.checkBoxApplicationExiftoolShowCliWindow.Location = new System.Drawing.Point(183, 21);
+            this.checkBoxApplicationExiftoolShowCliWindow.Name = "checkBoxApplicationExiftoolShowCliWindow";
+            this.checkBoxApplicationExiftoolShowCliWindow.Size = new System.Drawing.Size(313, 21);
+            this.checkBoxApplicationExiftoolShowCliWindow.TabIndex = 0;
+            this.checkBoxApplicationExiftoolShowCliWindow.Text = "Show Exiftool in own window CLI (Not hidden)";
+            this.checkBoxApplicationExiftoolShowCliWindow.UseVisualStyleBackColor = true;
             // 
             // groupBox12
             // 
@@ -525,7 +561,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox12.Controls.Add(this.numericUpDownCacheNumberOfPosters);
             this.groupBox12.Location = new System.Drawing.Point(0, 806);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(637, 227);
+            this.groupBox12.Size = new System.Drawing.Size(721, 221);
             this.groupBox12.TabIndex = 13;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Cache logic";
@@ -627,7 +663,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxLocationAccuracy.Controls.Add(this.numericUpDownLocationAccuracyLatitude);
             this.groupBoxLocationAccuracy.Location = new System.Drawing.Point(0, 696);
             this.groupBoxLocationAccuracy.Name = "groupBoxLocationAccuracy";
-            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(637, 104);
+            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(721, 104);
             this.groupBoxLocationAccuracy.TabIndex = 12;
             this.groupBoxLocationAccuracy.TabStop = false;
             this.groupBoxLocationAccuracy.Text = "GPS Location Accuracy";
@@ -725,7 +761,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud);
             this.groupBox6.Location = new System.Drawing.Point(3, 574);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(634, 116);
+            this.groupBox6.Size = new System.Drawing.Size(718, 116);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Read media and listview";
@@ -771,7 +807,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox5.Controls.Add(this.numericUpDownRegionMissmatchProcent);
             this.groupBox5.Location = new System.Drawing.Point(3, 483);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(634, 85);
+            this.groupBox5.Size = new System.Drawing.Size(718, 85);
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Region";
@@ -844,7 +880,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
             this.groupBox4.Location = new System.Drawing.Point(3, 392);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(634, 85);
+            this.groupBox4.Size = new System.Drawing.Size(718, 85);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Region Name suggestions (People Face names)";
@@ -932,7 +968,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox3.Controls.Add(this.label38);
             this.groupBox3.Location = new System.Drawing.Point(3, 321);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(634, 65);
+            this.groupBox3.Size = new System.Drawing.Size(718, 65);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Search result";
@@ -980,7 +1016,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
             this.groupBox2.Location = new System.Drawing.Point(3, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(634, 156);
+            this.groupBox2.Size = new System.Drawing.Size(718, 156);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nominatim look-up";
@@ -1027,7 +1063,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(183, 68);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(446, 22);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(530, 22);
             this.textBoxApplicationPreferredLanguages.TabIndex = 1;
             // 
             // comboBoxApplicationLanguages
@@ -1238,7 +1274,7 @@ namespace PhotoTagsSynchronizer
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(183, 38);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(446, 24);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(530, 24);
             this.comboBoxApplicationLanguages.TabIndex = 0;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
             // 
@@ -1256,7 +1292,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(634, 150);
+            this.groupBox1.Size = new System.Drawing.Size(718, 150);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thumbnail size";
@@ -5073,6 +5109,8 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.ResumeLayout(false);
             this.tabPageApplication.ResumeLayout(false);
             this.panelApplication.ResumeLayout(false);
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCacheNumberOfPosters)).EndInit();
@@ -5536,5 +5574,8 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.CheckBox checkBoxAutoCorrectTrackChanges;
         private System.Windows.Forms.CheckBox checkBoxKeywordBackupFileCreatedBefore;
         private System.Windows.Forms.CheckBox checkBoxKeywordBackupFileCreatedAfter;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.CheckBox checkBoxApplicationExiftoolShowCliWindow;
+        private System.Windows.Forms.CheckBox checkBoxApplicationExiftoolLowPrioity;
     }
 }

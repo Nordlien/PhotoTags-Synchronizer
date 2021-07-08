@@ -579,59 +579,6 @@ namespace Manina.Windows.Forms
                     Extension = info.Extension.Trim().ToUpper();
                     FileMimeType = GetFileType(path, Extension);
 
-                    /* NO NEED
-                    if (Extension == ".JPG" || Extension == ".GIF" || Extension == ".JPEG" || Extension == ".BMP")
-                    {
-
-
-                        using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-                        {
-                            using (Image img = Image.FromStream(stream, false, false)) //System.IO.IOException: 'The cloud sync provider failed to validate the downloaded data.
-                            {
-                                MediaDimensions = img.Size;
-                                // Read exif properties
-                                foreach (PropertyItem prop in img.PropertyItems)
-                                {
-                                    switch (prop.Id)
-                                    {
-                                        case PropertyTagImageDescription:
-                                            //MediaDescription = ReadExifAscii(prop.Value);
-                                            break;
-                                        case PropertyTagEquipmentModel:
-                                            //CameraModel = ReadExifAscii(prop.Value);
-                                            break;
-                                        case PropertyTagDateTime:
-                                            MediaDateTaken = ReadExifDateTime(prop.Value);
-                                            break;
-                                        case PropertyTagArtist:
-                                            MediaAuthor = ReadExifAscii(prop.Value);
-                                            break;
-                                        case PropertyTagCopyright:
-                                            //MediaCopyright = ReadExifAscii(prop.Value);
-                                            break;
-                                        case PropertyTagExposureTime:
-                                            //CameraExposureTime = ReadExifURational(prop.Value);
-                                            break;
-                                        case PropertyTagFNumber:
-                                            //CameraFNumber = ReadExifFloat(prop.Value);
-                                            break;
-                                        case PropertyTagISOSpeed:
-                                            //CameraISOSpeed = ReadExifUShort(prop.Value);
-                                            break;
-                                        case PropertyTagShutterSpeed:
-                                            //CameraShutterSpeed = ReadExifRational(prop.Value);
-                                            break;
-                                        case PropertyTagAperture:
-                                            //CameraAperture = ReadExifURational(prop.Value);
-                                            break;
-                                        case PropertyTagUserComment:
-                                            MediaComment = ReadExifAscii(prop.Value);
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-                    }*/
                     Error = false;
                 }
                 catch (Exception ex)

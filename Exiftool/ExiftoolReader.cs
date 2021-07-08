@@ -541,7 +541,7 @@ namespace Exiftool
 
         #region Read
 
-        public List<Metadata> Read(MetadataBrokerType broker, List<String> files, bool useArguFile = false)
+        public List<Metadata> Read(MetadataBrokerType broker, List<String> files, bool useArguFile = false, bool showCliWindow, bool runLowPriority)
         {
             List<Metadata> metaDataCollections = new List<Metadata>();
             if (files == null) return metaDataCollections;
@@ -603,13 +603,13 @@ namespace Exiftool
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
-                        CreateNoWindow = true,
+                        CreateNoWindow = !showCliWindow,
 
                         //Extra 
                         RedirectStandardInput = true,
                         StandardOutputEncoding = Encoding.UTF8
                     };
-
+                    if (runLowPriority) process.PriorityClass = ProcessPriorityClass.BelowNormal;
                     process.Start();
                     #endregion
 

@@ -357,6 +357,9 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.CacheFolderThumbnails = checkBoxCacheFolderThumbnails.Checked;
                 Properties.Settings.Default.CacheFolderWebScraperDataSets = checkBoxCacheFolderWebScraperDataSets.Checked;
 
+                Properties.Settings.Default.ApplicationDebugExiftoolShowCliWindow = checkBoxApplicationExiftoolShowCliWindow.Checked;
+                Properties.Settings.Default.ApplicationDebugExiftoolLowPrioity = checkBoxApplicationExiftoolLowPrioity.Checked;
+
                 //AutoCorrect
                 GetAutoCorrectPoperties();
                 Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
@@ -504,6 +507,8 @@ namespace PhotoTagsSynchronizer
             checkBoxCacheFolderMetadatas.Checked = Properties.Settings.Default.CacheFolderMetadatas;
             checkBoxCacheFolderThumbnails.Checked = Properties.Settings.Default.CacheFolderThumbnails;
             checkBoxCacheFolderWebScraperDataSets.Checked = Properties.Settings.Default.CacheFolderWebScraperDataSets;
+            checkBoxApplicationExiftoolShowCliWindow.Checked = Properties.Settings.Default.ApplicationDebugExiftoolShowCliWindow;
+            checkBoxApplicationExiftoolLowPrioity.Checked = Properties.Settings.Default.ApplicationDebugExiftoolLowPrioity;
         }
         #endregion 
 
