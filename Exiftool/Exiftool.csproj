@@ -103,7 +103,7 @@
       <Version>1.0.114</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.114.2</Version>
+      <Version>1.0.114.3</Version>
     </PackageReference>
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation">
       <Version>4.3.0</Version>
