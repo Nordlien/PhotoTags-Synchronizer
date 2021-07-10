@@ -107,7 +107,7 @@ namespace PhotoTagsSynchronizer
                 {
                     FileEntryImage fileEntryImage = new FileEntryImage(fullFilePath, File.GetLastWriteTime(fullFilePath), new Bitmap(image));
                     //new new Bitmap to make it thraadsafe https://stackoverflow.com/questions/49679693/c-sharp-crashes-with-parameter-is-not-valid-when-setting-picturebox-image-to
-                    posterCache.Add(new Bitmap(fileEntryImage)); //Add last
+                    posterCache.Add(fileEntryImage); //Add last
                     if (posterCache.Count > 10) posterCache.RemoveAt(0); //Only remember last x images
                 }
             }
