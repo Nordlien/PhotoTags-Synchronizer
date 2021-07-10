@@ -463,7 +463,9 @@ namespace WindowsLivePhotoGallery
                     do
                     {
                         retryWait = false;
-                        //Application.DoEvents();
+                        
+                        Application.DoEvents();
+
                         if (pipeClientEventWaitPipeCommandReturn.WaitOne(20000))
                         {
                             Logger.Trace("[Windows Live Photo Gallery | Console Process] Push message: Wait answer {0}ms...", stopWatch.ElapsedMilliseconds);
