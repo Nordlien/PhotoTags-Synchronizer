@@ -1984,7 +1984,7 @@ namespace PhotoTagsSynchronizer
             if (!fileInUse)
                 lock (commonQueueReadMetadataFromMicrosoftPhotosLock)
                 {
-                    foreach (FileEntryBroker fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
+                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromMicrosoftPhotos)
                     {
                         if (fileEntry.FileFullPath == fullFilename)
                         {
@@ -1998,7 +1998,7 @@ namespace PhotoTagsSynchronizer
             #region commonQueueReadMetadataFromWindowsLivePhotoGallery
             if (!fileInUse)
                 lock (commonQueueReadMetadataFromWindowsLivePhotoGalleryLock)
-                    foreach (FileEntryBroker fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
+                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromWindowsLivePhotoGallery)
                     {
                         if (fileEntry.FileFullPath == fullFilename)
                         {
@@ -2011,7 +2011,7 @@ namespace PhotoTagsSynchronizer
             #region commonQueueReadMetadataFromExiftool
             if (!fileInUse)
                 lock (commonQueueReadMetadataFromExiftoolLock)
-                    foreach (FileEntryImage fileEntry in commonQueueReadMetadataFromExiftool)
+                    foreach (FileEntry fileEntry in commonQueueReadMetadataFromExiftool)
                     {
                         if (fileEntry.FileFullPath == fullFilename)
                         {
