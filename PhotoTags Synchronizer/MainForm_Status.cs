@@ -5,6 +5,7 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -74,10 +75,10 @@ namespace PhotoTagsSynchronizer
                 if (!File.Exists(fullFileName)) fileTasks[fullFileName].Add("File not exists");
                 else
                 {
-                    if (Exiftool.ExiftoolWriter.IsFileReadOnly(fullFileName)) fileTasks[fullFileName].Add("ReadOnly");
-                    if (Exiftool.ExiftoolWriter.IsFileLockedByProcess(fullFileName)) fileTasks[fullFileName].Add("Locked");
-                    if (Exiftool.ExiftoolWriter.IsFileInCloud(fullFileName)) fileTasks[fullFileName].Add("In cloud");
-                    if (Exiftool.ExiftoolWriter.IsFileVirtual(fullFileName)) fileTasks[fullFileName].Add("Virtual file");
+                    if (FileHandler.IsFileReadOnly(fullFileName)) fileTasks[fullFileName].Add("ReadOnly");
+                    if (FileHandler.IsFileLockedByProcess(fullFileName)) fileTasks[fullFileName].Add("Locked");
+                    if (FileHandler.IsFileInCloud(fullFileName)) fileTasks[fullFileName].Add("In cloud");
+                    if (FileHandler.IsFileVirtual(fullFileName)) fileTasks[fullFileName].Add("Virtual file");
                 }
             }
             fileTasks[fullFileName].Add(task);
@@ -102,8 +103,8 @@ namespace PhotoTagsSynchronizer
                 messageBoxQueuesInfo += string.Format("Files: {0} Selected {1}\r\n", imageListView1.Items.Count, imageListView1.SelectedItems.Count);
                 if (CommonQueueLazyLoadingMetadataCountDirty() > 0)
                     messageBoxQueuesInfo += string.Format("Lazy loading queue: {0}\r\n", CommonQueueLazyLoadingMetadataCountDirty());
-                if (!string.IsNullOrWhiteSpace(Exiftool.ExiftoolWriter.FileLockedByProcess))                
-                    messageBoxQueuesInfo += "Locked file: " + Exiftool.ExiftoolWriter.FileLockedByProcess;                
+                if (!string.IsNullOrWhiteSpace(FileHandler.FileLockedByProcess))                
+                    messageBoxQueuesInfo += "Locked file: " + FileHandler.FileLockedByProcess;                
             }
             catch { }
 
@@ -143,7 +144,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                if (!string.IsNullOrEmpty(Exiftool.ExiftoolWriter.FileLockedByProcess)) messageBoxQueuesInfo += "Last file Locked by process: " + Exiftool.ExiftoolWriter.FileLockedByProcess + "\r\n";
+                if (!string.IsNullOrEmpty(FileHandler.FileLockedByProcess)) messageBoxQueuesInfo += "Last file Locked by process: " + FileHandler.FileLockedByProcess + "\r\n";
             }
             catch { }
 
@@ -272,10 +273,10 @@ namespace PhotoTagsSynchronizer
             
             int threadQueuCount = 0;
 
-            if (!string.IsNullOrWhiteSpace(Exiftool.ExiftoolWriter.FileLockedByProcess)) {
+            if (!string.IsNullOrWhiteSpace(FileHandler.FileLockedByProcess)) {
                 threadQueuCount++;
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    "Locked file: " + Path.GetFileName(Exiftool.ExiftoolWriter.FileLockedByProcess);
+                    "Locked file: " + Path.GetFileName(FileHandler.FileLockedByProcess);
             }
 
             if (GetFileEntriesRotateMediaCountDirty() > 0) 

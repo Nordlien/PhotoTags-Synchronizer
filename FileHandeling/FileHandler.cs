@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FileHandeling
@@ -114,6 +115,7 @@ namespace FileHandeling
         #endregion 
 
         #region WaitLockedFilesToBecomeUnlocked
+
         public static void WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck)
         {
             int maxRetry = 30;
@@ -121,7 +123,7 @@ namespace FileHandeling
             do
             {
                 areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck);
-                if (areAnyFileLocked) Thread.Sleep(500);
+                if (areAnyFileLocked) Task.Delay(3000).Wait();
                 if (maxRetry-- < 0)
                 {
                     if (MessageBox.Show(
@@ -135,7 +137,7 @@ namespace FileHandeling
         }
         #endregion
 
-        #region WaitLockedFileToBecomeUnlocked
+        #region WaitLockedFilesToBecomeUnlocked
         /// <summary>
         /// Check if file is unlocked, if not wait. On timeout ask if wait more
         /// </summary>
@@ -145,13 +147,19 @@ namespace FileHandeling
         {
             if (!File.Exists(fileFullPath)) return false; //Not locked, file doesn't exist
 
+            /*List<Metadata> fileEntriesToCheck = new List<Metadata>();
+            Metadata metadata = new Metadata(MetadataBrokerType.Empty);
+            metadata.FileDirectory = Path.GetDirectoryName(fileFullPath);
+            metadata.FileName = Path.GetFileName(fileFullPath);
+            fileEntriesToCheck.Add(metadata);*/
+
             int maxRetry = 30;
             bool areAnyFileLocked;
             do
             {
                 areAnyFileLocked = IsFileLockedByProcess(fileFullPath);
 
-                if (areAnyFileLocked) Thread.Sleep(500);
+                if (areAnyFileLocked) Task.Delay(3000).Wait(); 
                 if (maxRetry-- < 0)
                 {
                     if (MessageBox.Show(

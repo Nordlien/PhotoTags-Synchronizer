@@ -237,9 +237,9 @@ namespace Exiftool
                         
                     }
                 })
-                {
-                    if (runLowPriority) process.PriorityClass = ProcessPriorityClass.BelowNormal;
+                {                    
                     bool result = process.Start();
+                    if (runLowPriority) process.PriorityClass = ProcessPriorityClass.BelowNormal;
                     string line;
 
                     while (!process.StandardError.EndOfStream)

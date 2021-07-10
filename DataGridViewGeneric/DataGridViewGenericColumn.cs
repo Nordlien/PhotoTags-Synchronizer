@@ -1,4 +1,5 @@
 ﻿using MetadataLibrary;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -26,7 +27,20 @@ namespace DataGridViewGeneric
     public class DataGridViewGenericColumn
     {
         public FileEntryAttribute FileEntryAttribute { get; set; } = null;
-        public Image Thumbnail { get; set; } = null;
+        public Image thumbnailUnlock = null;
+        public Image Thumbnail 
+        {
+            get 
+            {
+                lock (_ThumbnailLock) return thumbnailUnlock;
+            }
+            set 
+            {
+                lock (_ThumbnailLock) thumbnailUnlock = value;
+            } 
+        } 
+        public readonly Object _ThumbnailLock = new Object();
+
         public Metadata Metadata { get; set; } = null;
         public ReadWriteAccess ReadWriteAccess { get; set; } = ReadWriteAccess.DefaultReadOnly;
         public bool IsDirty { get; set; } = false;

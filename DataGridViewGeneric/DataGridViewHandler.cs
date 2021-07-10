@@ -1183,7 +1183,7 @@ namespace DataGridViewGeneric
                 if (currentDataGridViewGenericColumn.FileEntryAttribute != fileEntryAttribute) 
                     currentDataGridViewGenericColumn.FileEntryAttribute = fileEntryAttribute;
                                                                                                
-                currentDataGridViewGenericColumn.Thumbnail = thumbnail;
+                currentDataGridViewGenericColumn.Thumbnail = (thumbnail == null ? null : new Bitmap(thumbnail)); //Avoid thread issues
                 currentDataGridViewGenericColumn.ReadWriteAccess = readWriteAccessForColumn;
                 dataGridView.Columns[columnIndex].Tag = currentDataGridViewGenericColumn;
 
@@ -2951,7 +2951,7 @@ namespace DataGridViewGeneric
             {
                 if (dataGridView.Columns[columnIndex].Tag is DataGridViewGenericColumn column && column.FileEntryAttribute == fileEntryAttribute)
                 {
-                    column.Thumbnail = image;
+                    column.Thumbnail = new Bitmap(image);
                     dataGridView.InvalidateCell(columnIndex, -1);
                 }
             }            
@@ -3212,19 +3212,21 @@ namespace DataGridViewGeneric
             if (dataGridViewGenericColumn == null) return updated;
             if (dataGridViewGenericColumn.ReadWriteAccess != ReadWriteAccess.AllowCellReadAndWrite) return updated;
 
-            Image image = dataGridViewGenericColumn.Thumbnail;
+            lock (dataGridViewGenericColumn._ThumbnailLock)
+            {
+                Image image = dataGridViewGenericColumn.thumbnailUnlock;
 
-            Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(
-                new Rectangle (0, 0, dataGridView.Columns[columnIndex].Width, dataGridView.ColumnHeadersHeight));
-            Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
-            Rectangle rectangleCenterThumbnail = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
+                Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(
+                    new Rectangle(0, 0, dataGridView.Columns[columnIndex].Width, dataGridView.ColumnHeadersHeight));
+                Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
+                Rectangle rectangleCenterThumbnail = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
 
-            Rectangle rectangleMouse = GetRectangleFromMouseCoorinate(x1, y1, x2, y2);
-            Rectangle rectangleMouseThumb = new Rectangle(rectangleMouse.X - rectangleCenterThumbnail.X, rectangleMouse.Y - rectangleCenterThumbnail.Y, rectangleMouse.Width, rectangleMouse.Height);
-            RectangleF region = RegionStructure.CalculateImageRegionAbstarctRectangle(thumbnailSize, rectangleMouseThumb, RegionStructureTypes.WindowsLivePhotoGallery);
+                Rectangle rectangleMouse = GetRectangleFromMouseCoorinate(x1, y1, x2, y2);
+                Rectangle rectangleMouseThumb = new Rectangle(rectangleMouse.X - rectangleCenterThumbnail.X, rectangleMouse.Y - rectangleCenterThumbnail.Y, rectangleMouse.Width, rectangleMouse.Height);
+                RectangleF region = RegionStructure.CalculateImageRegionAbstarctRectangle(thumbnailSize, rectangleMouseThumb, RegionStructureTypes.WindowsLivePhotoGallery);
 
-            updated = UpdateSelectedCellsWithNewRegion(dataGridView, columnIndex, region);
-
+                updated = UpdateSelectedCellsWithNewRegion(dataGridView, columnIndex, region);
+            }
             return updated;
         }
         #endregion
@@ -3239,30 +3241,34 @@ namespace DataGridViewGeneric
             {
                 DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, e.ColumnIndex);
                 if (dataGridViewGenericColumn == null) return;
-                Image image = dataGridViewGenericColumn.Thumbnail;
-                if (image != null)
+
+                lock (dataGridViewGenericColumn._ThumbnailLock)
                 {
-
-                    Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
-                    Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
-
-                    for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
+                    Image image = dataGridViewGenericColumn.thumbnailUnlock;
+                    if (image != null)
                     {
-                        MetadataLibrary.RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, rowIndex);
-                        if (region != null)
+
+                        Rectangle rectangleRoundedCellBounds = CalulateCellRoundedRectangleCellBounds(e.CellBounds);
+                        Size thumbnailSize = CalulateCellImageSizeInRectagleWithUpScale(rectangleRoundedCellBounds, image.Size);
+
+                        for (int rowIndex = 0; rowIndex < DataGridViewHandler.GetRowCountWithoutEditRow(dataGridView); rowIndex++)
                         {
-                            Rectangle rectangleCenterThumbnail = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
-                            e.Graphics.DrawRectangle(new Pen(Color.Black, 1), rectangleCenterThumbnail.X, rectangleCenterThumbnail.Y, rectangleCenterThumbnail.Width, rectangleCenterThumbnail.Height);
+                            MetadataLibrary.RegionStructure region = DataGridViewHandler.GetCellRegionStructure(dataGridView, e.ColumnIndex, rowIndex);
+                            if (region != null)
+                            {
+                                Rectangle rectangleCenterThumbnail = CalulateCellImageCenterInRectagle(rectangleRoundedCellBounds, thumbnailSize);
+                                e.Graphics.DrawRectangle(new Pen(Color.Black, 1), rectangleCenterThumbnail.X, rectangleCenterThumbnail.Y, rectangleCenterThumbnail.Width, rectangleCenterThumbnail.Height);
 
-                            Rectangle rectangleRegion = region.GetImageRegionPixelRectangle(thumbnailSize);
+                                Rectangle rectangleRegion = region.GetImageRegionPixelRectangle(thumbnailSize);
 
-                            e.Graphics.DrawRectangle(new Pen(Color.White, 1), rectangleCenterThumbnail.X + rectangleRegion.X, rectangleCenterThumbnail.Y + rectangleRegion.Y, rectangleRegion.Width, rectangleRegion.Height);
+                                e.Graphics.DrawRectangle(new Pen(Color.White, 1), rectangleCenterThumbnail.X + rectangleRegion.X, rectangleCenterThumbnail.Y + rectangleRegion.Y, rectangleRegion.Width, rectangleRegion.Height);
 
-                            if (dataGridView[e.ColumnIndex, rowIndex].Selected) e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.White)),
-                                rectangleCenterThumbnail.X + rectangleRegion.X, rectangleCenterThumbnail.Y + rectangleRegion.Y, rectangleRegion.Width, rectangleRegion.Height);
+                                if (dataGridView[e.ColumnIndex, rowIndex].Selected) e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, Color.White)),
+                                    rectangleCenterThumbnail.X + rectangleRegion.X, rectangleCenterThumbnail.Y + rectangleRegion.Y, rectangleRegion.Width, rectangleRegion.Height);
+
+                            }
 
                         }
-
                     }
                 }
             }
@@ -3352,12 +3358,14 @@ namespace DataGridViewGeneric
                     }
                 }
 
-                Image image = dataGridViewGenericColumn.Thumbnail;
-                if (image == null) image = (Image)Properties.Resources.load_image;
-                if (hasFileKnownErrors) DrawImageAndSubText(sender, e, image, cellText, ColorHeaderError);
-                else if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) DrawImageAndSubText(sender, e, image, cellText, ColorHeaderWarning);
-                else DrawImageAndSubText(sender, e, image, cellText, ColorHeaderImage);
-
+                lock (dataGridViewGenericColumn._ThumbnailLock)
+                {
+                    Image image = dataGridViewGenericColumn.thumbnailUnlock;
+                    if (image == null) image = (Image)Properties.Resources.load_image;
+                    if (hasFileKnownErrors) DrawImageAndSubText(sender, e, image, cellText, ColorHeaderError);
+                    else if (dataGridViewGenericColumn.HasFileBeenUpdatedGiveUserAwarning) DrawImageAndSubText(sender, e, image, cellText, ColorHeaderWarning);
+                    else DrawImageAndSubText(sender, e, image, cellText, ColorHeaderImage);
+                }
             }
             
         }

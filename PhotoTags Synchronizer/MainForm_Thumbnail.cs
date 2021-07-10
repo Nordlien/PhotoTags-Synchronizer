@@ -83,7 +83,7 @@ namespace PhotoTagsSynchronizer
                     if (indexFound > -1)
                     {
                         //new new Bitmap to make it thraadsafe https://stackoverflow.com/questions/49679693/c-sharp-crashes-with-parameter-is-not-valid-when-setting-picturebox-image-to
-                        FileEntryImage fileEntryImage = new FileEntryImage(posterCache[indexFound].FileEntry, new Bitmap(posterCache[indexFound].Image));
+                        FileEntryImage fileEntryImage = new FileEntryImage(posterCache[indexFound].FileEntry, posterCache[indexFound].Image /*new Bitmap(posterCache[indexFound].Image)*/);
                         posterCache.Add(fileEntryImage); //Add last
                         posterCache.RemoveAt(indexFound);
                         image = posterCache[posterCache.Count - 1].Image;
@@ -105,7 +105,8 @@ namespace PhotoTagsSynchronizer
             {                
                 lock (posterCacheLock)
                 {
-                    FileEntryImage fileEntryImage = new FileEntryImage(fullFilePath, File.GetLastWriteTime(fullFilePath), image);
+                    FileEntryImage fileEntryImage = new FileEntryImage(fullFilePath, File.GetLastWriteTime(fullFilePath), new Bitmap(image));
+                    //new new Bitmap to make it thraadsafe https://stackoverflow.com/questions/49679693/c-sharp-crashes-with-parameter-is-not-valid-when-setting-picturebox-image-to
                     posterCache.Add(fileEntryImage); //Add last
                     if (posterCache.Count > 10) posterCache.RemoveAt(0); //Only remember last x images
                 }
