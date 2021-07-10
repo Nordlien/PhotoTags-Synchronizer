@@ -209,6 +209,7 @@ namespace Exiftool
 
             if (mediaFilesWithChangesWillBeUpdated.Count > 0) //Save if has anything to save
             {
+                Logger.Debug("WriteMetadata: started");
                 //Create directory, filename and remove old arg file
                 string exiftoolArgFileFullpath = GetTempArguFileFullPath("exiftool_arg.txt");
 
@@ -235,7 +236,6 @@ namespace Exiftool
                         CreateNoWindow = !showCliWindow,
                         RedirectStandardInput = true,
                         StandardOutputEncoding = Encoding.UTF8
-                        
                     }
                 })
                 {                    
@@ -271,6 +271,7 @@ namespace Exiftool
                     process.Close();
                     process.Dispose();
                 }
+                Logger.Debug("WriteMetadata: ended");
                 if (hasExiftoolErrorMessage) throw new Exception(exiftoolOutput);
                 #endregion
             }
