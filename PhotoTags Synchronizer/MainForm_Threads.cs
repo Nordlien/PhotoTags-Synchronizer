@@ -810,7 +810,8 @@ namespace PhotoTagsSynchronizer
             lock (commonQueueReadMetadataFromExiftoolLock)
             {
                 //Need to add to the end, due due read queue read potion [0] end delete after, not thread safe
-                if (!commonQueueReadMetadataFromExiftool.Contains(fileEntry)) commonQueueReadMetadataFromExiftool.Add(fileEntry);
+                lock (mediaFilesNotInDatabaseLock)            
+                    if (!commonQueueReadMetadataFromExiftool.Contains(fileEntry) && !mediaFilesNotInDatabase.Contains(fileEntry.FileFullPath)) commonQueueReadMetadataFromExiftool.Add(fileEntry);
             }    
             RemoveError(fileEntry.FileFullPath);
             
@@ -832,6 +833,10 @@ namespace PhotoTagsSynchronizer
                         try
                         {
                             Logger.Trace("ThreadCollectMetadataExiftool - started");
+
+                            bool showCliWindow = Properties.Settings.Default.ApplicationDebugExiftoolShowCliWindow;
+                            bool runLowPriority = Properties.Settings.Default.ApplicationDebugExiftoolLowPrioity;
+
                             int count = CommonQueueReadMetadataFromExiftoolCountLock();
                             while (count > 0 && !GlobalData.IsStopAndEmptyExiftoolReadQueueRequest && CommonQueueReadMetadataFromExiftoolCountLock() > 0 && !GlobalData.IsApplicationClosing) //In case some more added to the queue
                             {
@@ -907,7 +912,8 @@ namespace PhotoTagsSynchronizer
                                     try
                                     {
                                         if (argumnetLength < maxParameterCommandLength) useArgFile = false;
-                                        metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles, useArgFile);
+                                        metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerType.ExifTool, 
+                                            useExiftoolOnThisSubsetOfFiles, useArgFile, showCliWindow, runLowPriority);
                                     }
                                     catch (Exception ex)
                                     {
@@ -922,10 +928,19 @@ namespace PhotoTagsSynchronizer
                                     {
                                         if (!Metadata.IsFullFilenameInList(metadataReadbackExiftoolAfterSaved, fullFilePath))
                                         {
+                                            string errorMesssage = lastKnownExiftoolError;
+                                            if (!File.Exists(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File doesn't exist. ";
+                                            else
+                                            {
+                                                if (ExiftoolWriter.IsFileLockedByProcess(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is Locked. ";
+                                                if (ExiftoolWriter.IsFileInCloud(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is in clound only. ";
+                                                if (ExiftoolWriter.IsFileVirtual(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is in virtual only. ";
+                                            }
+                                            errorMesssage += (errorMesssage == "" ? "" : "\r\n") + lastKnownExiftoolError;
                                             AddError(Path.GetDirectoryName(fullFilePath), Path.GetFileName(fullFilePath), DateTime.Now,
                                                 AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
                                                 AddErrorExiftooRegion, AddErrorExiftooCommandRead, AddErrorExiftooParameterRead,
-                                                "Exiftool failed reading data from file, got an error " + lastKnownExiftoolError + ": " + fullFilePath, false);
+                                                "Exiftool failed reading data from file, got an error: " + errorMesssage + ": " + fullFilePath, false);
                                             filesNotRead += (filesNotRead == "" ? "" : ";") + filesNotRead;
                                         }
                                     }
@@ -957,6 +972,7 @@ namespace PhotoTagsSynchronizer
                                         }
                                         AddQueueCreateRegionFromPosterLock(metadataRead);
 
+                                        ImageListViewSetItemDirty(metadataRead.FileFullPath);
                                         PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Current));
                                         PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Historical));
                                         //RefreshHeaderImageAndRegionsOnActiveDataGridView(fileEntryAttribute);
@@ -1066,6 +1082,8 @@ namespace PhotoTagsSynchronizer
                                 bool writeCreatedDateAndTimeAttribute = Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute;
                                 int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
+                                bool showCliWindow = Properties.Settings.Default.ApplicationDebugExiftoolShowCliWindow;
+                                bool runLowPriority = Properties.Settings.Default.ApplicationDebugExiftoolLowPrioity;
 
                                 List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
                                 #endregion
@@ -1108,7 +1126,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
-                                //Wait file to be unloacked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
+                                //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
                                 lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 #region File Create date and Time attribute
@@ -1144,7 +1162,7 @@ namespace PhotoTagsSynchronizer
                                 #endregion
 
                                 //Wait file to be unloacked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
-                                if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 #region Save Metadatas using Exiftool   
                                 List<FileEntry> mediaFilesWithChangesWillBeUpdated = new List<FileEntry>();
@@ -1159,7 +1177,8 @@ namespace PhotoTagsSynchronizer
                                             UpdateStatusAction("Batch update a subset of " + commonQueueSubsetMetadataToSave.Count + " media files...");
                                             ExiftoolWriter.WriteMetadata(
                                             commonQueueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,
-                                            writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, out mediaFilesWithChangesWillBeUpdated);
+                                            writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, out mediaFilesWithChangesWillBeUpdated, 
+                                            showCliWindow, runLowPriority);
                                         }
                                     }
                                     catch (Exception ex)
@@ -1171,7 +1190,7 @@ namespace PhotoTagsSynchronizer
                                 #endregion
 
                                 //Wait file to be unloacked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
-                                if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 #region Write Xtra Atom properites
                                 Dictionary<string, string> writeXtraAtomErrorMessageForFile = new Dictionary<string, string>();
@@ -1195,7 +1214,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
-                                if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 #region Check if all files was updated, if updated, add to verify queue
                                 if (!GlobalData.IsApplicationClosing)
@@ -1250,7 +1269,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
-                                if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 //Clean up
                                 lock (commonQueueSubsetMetadataToSaveLock) commonQueueSubsetMetadataToSave.Clear();
@@ -1617,10 +1636,10 @@ namespace PhotoTagsSynchronizer
                                                     else
                                                     {
                                                         fileFoundRemoveFromList = true;
-                                                        ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
+                                                        bool isFileUnLockedAndExist = ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
 
                                                         //Check if the current Metadata are same as newst file... If not file exist anymore, date will become {01.01.1601 01:00:00}
-                                                        if (File.Exists(fileEntryRegion.FileFullPath) && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
+                                                        if (isFileUnLockedAndExist && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
                                                         {
                                                             bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntryRegion.FileFullPath);
 

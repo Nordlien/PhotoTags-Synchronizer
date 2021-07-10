@@ -137,7 +137,7 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = GetDataGridViewForTag(tag);
                 PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
             }
-            
+
         }
         #endregion
 

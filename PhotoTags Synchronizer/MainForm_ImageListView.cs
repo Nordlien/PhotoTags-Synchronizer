@@ -22,25 +22,82 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Event - Retrieve Metadata
         private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
         {
-            Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool));
-
+            FileEntryBroker fileEntryBroker = new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
+            //bool isMetadataInCache = databaseAndCacheMetadataExiftool.IsMetadataInCache(fileEntryBroker);
+            Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
+            
             try
             {
                 if (metadata == null || metadata.FileName == null)
                 {
-                    ExiftoolWriter.WaitLockedFileToBecomeUnlocked(e.FileName);
-                    //Utility.ShellImageFileInfo shellImageFileInfo = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
-                    //e.FileMetadata = shellImageFileInfo;
+                    Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata not found. Added to LazyLoading: " + e.FileName);
+                    AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(fileEntryBroker);
+
+                    e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
+
+                    // Exif tags, Utility.ShellImageFileInfo()
+                    e.FileMetadata.MediaDescription = null;
+                    e.FileMetadata.MediaDateTaken = DateTime.MinValue; //Null
+                    e.FileMetadata.MediaAuthor = null;
+                    e.FileMetadata.MediaComment = null;
+
+                    #region Provided by FileInfo
+                    e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
+                    //e.FileMetadata.Name= e.FileName;
+                    e.FileMetadata.Extension = Path.GetExtension(e.FileName);
+                    e.FileMetadata.FileAttributes = FileAttributes.Normal;
+
+                    e.FileMetadata.FileDateCreated = DateTime.MinValue; //Null
+                    e.FileMetadata.FileDateModified = fileEntryBroker.LastWriteDateTime; //Null
+                    e.FileMetadata.FileSize = -1;
+                    e.FileMetadata.FileMimeType = null;
+                    e.FileMetadata.FileDirectory = null;
+                    #endregion
+                    
+                    #region Provided by ShellImageFileInfo, MagickImage                                
+                    e.FileMetadata.CameraMake = null;
+                    e.FileMetadata.CameraModel = null;
+                    e.FileMetadata.MediaDimensions = new Size(0,0);
+                    #endregion
+
+                    #region Provided by MagickImage, Exiftool
+                    e.FileMetadata.MediaTitle = null;
+                    e.FileMetadata.MediaDescription = null;
+                    e.FileMetadata.MediaComment = null;
+                    e.FileMetadata.MediaAuthor = null;
+                    e.FileMetadata.MediaRating = 0;
+                    #endregion
+                    
+                    #region Provided by Exiftool
+                    e.FileMetadata.MediaAlbum = null;
+                    e.FileMetadata.LocationDateTime = DateTime.MinValue; //Null
+                    e.FileMetadata.LocationTimeZone = null;
+
+                    e.FileMetadata.LocationName = null;
+                    e.FileMetadata.LocationRegionState = null;
+                    e.FileMetadata.LocationCity = null;
+                    e.FileMetadata.LocationCountry = null;
+                    #endregion
+                    
+                    /*bool isFileUnLockedAndExist = ExiftoolWriter.WaitLockedFileToBecomeUnlocked(e.FileName);
+
+                    if (isFileUnLockedAndExist)
+                    {
+                        Utility.ShellImageFileInfo shellImageFileInfo = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
+                        e.FileMetadata = shellImageFileInfo; //This will removed flags for is metadata set
+                    }
+                    */
                 }
                 else
                 {
+                    Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata found " + e.FileName);
                     //e.FileMetadata = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
                     //if (e.FileMetadata == null) 
                     e.FileMetadata = new Utility.ShellImageFileInfo();
-                    
+
                     // Exif tags, Utility.ShellImageFileInfo()
                     e.FileMetadata.MediaDescription = metadata.PersonalDescription;
-                    
+
                     if (metadata.MediaDateTaken != null) e.FileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
                     e.FileMetadata.MediaAuthor = metadata.PersonalAuthor;
                     e.FileMetadata.MediaComment = metadata.PersonalComments;
@@ -69,7 +126,7 @@ namespace PhotoTagsSynchronizer
 
                     #region Provided by Exiftool
                     e.FileMetadata.MediaAlbum = metadata.PersonalAlbum;
-                    if (metadata.LocationDateTime != null) 
+                    if (metadata.LocationDateTime != null)
                         e.FileMetadata.LocationDateTime = (DateTime)metadata.LocationDateTime;
                     e.FileMetadata.LocationTimeZone = metadata.LocationTimeZoneDescription;
 
@@ -85,6 +142,7 @@ namespace PhotoTagsSynchronizer
                 e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
                 e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
             }
+            ((ImageListView)sender).Refresh();
         }
         #endregion
 
@@ -295,6 +353,18 @@ namespace PhotoTagsSynchronizer
             return foundItem;
         }
         #endregion
+
+        public void ImageListViewSetItemDirty(string fullfilename)
+        {
+            ImageListViewItem imageListViewItem = FindItemInImageListView(imageListView1.Items, fullfilename);
+            if (imageListViewItem != null)
+            {
+                imageListViewItem.Dirty();
+                
+            }
+            
+            //if (RetrieveItemMetadataDetails != null) RetrieveItemMetadataDetails(this, e);
+        }
 
         #region ImageListView - ReloadThumbnail - Filename - Invoke
         private void ImageListViewReloadThumbnailAndMetadataInvoke(ImageListView imageListView, string fullFileName)

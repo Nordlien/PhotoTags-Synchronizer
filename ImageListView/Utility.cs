@@ -493,6 +493,13 @@ namespace Manina.Windows.Forms
             #region Files locked, wait unlock
             public static bool IsFileLockedByProcess(string fullFilePath)
             {
+                try
+                {
+                    if (!File.Exists(fullFilePath)) 
+                        return false;
+                }
+                catch { }
+
                 FileStream fs = null;
                 try
                 {
@@ -569,16 +576,29 @@ namespace Manina.Windows.Forms
                 try
                 {
                     WaitFileRenameAndUnlocked(path);
+
                     FileInfo info = new FileInfo(path);
                     FileAttributes = info.Attributes;
-                    FileDateCreated = info.CreationTime;                    
+                    FileDateCreated = info.CreationTime;
                     FileDateModified = info.LastWriteTime;
-                    FileSize = info.Length;
-                    FileDirectory = info.DirectoryName;
-                    DisplayName = info.Name;
-                    Extension = info.Extension.Trim().ToUpper();
-                    FileMimeType = GetFileType(path, Extension);
 
+                    if (File.Exists(path))
+                    {
+                        FileSize = info.Length;
+                        FileDirectory = info.DirectoryName;
+                        DisplayName = info.Name;
+                        Extension = info.Extension.Trim().ToUpper();
+                        FileMimeType = GetFileType(path, Extension);
+                    } else
+                    {
+                        FileSize = -1;
+                        FileDirectory = Path.GetDirectoryName(path);
+                        DisplayName = Path.GetFileName(path);
+                        Extension = Path.GetExtension(path);
+                        FileMimeType = "none";
+                        Error = true;
+                        Logger.Debug("ReadShellImageFileInfo, files don't exist (" + path + ")");
+                    }
                     Error = false;
                 }
                 catch (Exception ex)

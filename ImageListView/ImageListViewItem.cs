@@ -253,12 +253,12 @@ namespace Manina.Windows.Forms
             set
             {
                 mIsDirty = value;
-                if (mIsDirty)
+                //if (mIsDirty)
                 {
                     isDirtyFileDateCreated = value;
                     isDirtyFileDateModified = value;
                     isDirtyFileType = value;
-                    isDirtyFileName = value;
+                    isDirtyFileName = false; //This can't become dirty
                     isDirtyFileDirectory = value;
                     isDirtyFileSize = value;
                     isDirtyMediaDimensions = value;
@@ -794,6 +794,15 @@ namespace Manina.Windows.Forms
         }
 
         /// <summary>
+        /// Updates item thumbnail and item details.
+        /// </summary>
+        public void Dirty()
+        {
+            isDirty = true;
+            
+        }
+
+        /// <summary>
         /// Returns the sub item item text corresponding to the specified column type.
         /// </summary>
         /// <param name="type">The type of information to return.</param>
@@ -910,10 +919,11 @@ namespace Manina.Windows.Forms
         /// </summary>
         internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
         {
-            if (!isDirty && !isFileInfoDirty) return;
+            //if (!isDirty) return;
+            if (!isFileInfoDirty) return;
             if (info != null)
             {
-                #region Provided by FileInfo
+                #region Provided by FileInfo                
                 if (info.IsFileDateCreatedSet) mFileDateCreated = info.FileDateCreated;
                 if (info.IsFileDateModifiedSet) mFileDateModified = info.FileDateModified;
                 if (info.IsFileSizeSet) mFileSize = info.FileSize;
@@ -947,7 +957,7 @@ namespace Manina.Windows.Forms
                 #endregion
 
                 //isFileInfoDirty = false;
-                //isDirty = false;
+                isDirty = false;
             }            
         }
         

@@ -527,7 +527,7 @@ namespace Exiftool
             List<String> files = new List<String>();
             files.Add(fullFilePath);
 
-            List<Metadata> metaDataCollections = Read(broker, files);
+            List<Metadata> metaDataCollections = Read(broker, files, false, false, true);
             if (metaDataCollections.Count == 1)
             {
                 return metaDataCollections[0];
@@ -541,16 +541,20 @@ namespace Exiftool
 
         #region Read
 
-        public List<Metadata> Read(MetadataBrokerType broker, List<String> files, bool useArguFile = false, bool showCliWindow, bool runLowPriority)
+        public List<Metadata> Read(MetadataBrokerType broker, List<String> files, bool useArguFile = false, bool showCliWindow = false, bool runLowPriority = false)
         {
+            Logger.Debug("Exiftool read: start");
             List<Metadata> metaDataCollections = new List<Metadata>();
             if (files == null) return metaDataCollections;
             if (files.Count == 0) return metaDataCollections;
+
+            Dictionary<string, string> shortfilesNames = new Dictionary<string, string>();
 
             #region Find path to exiftool
             String path = NativeMethods.GetFullPathOfFile("exiftool.exe");
             if (path == null)
             {
+                Logger.Debug("Exiftool read: exiftool.exe not found");
                 String path2 = NativeMethods.GetFullPathOfFile("exiftool(-k).exe");
                 if (path2 != null)
                 {
@@ -575,7 +579,7 @@ namespace Exiftool
                     sw.WriteLine("filename=UTF8");
                     foreach (string file in files)
                     {
-                        sw.WriteLine(file);                        
+                        sw.WriteLine(file);
                     }
                     sw.WriteLine("-execute");
                 }
@@ -585,17 +589,28 @@ namespace Exiftool
             {
                 foreach (string file in files)
                 {
-                    Logger.Info("ReadMetadata: " + file + " " + File.GetLastWriteTime(file).ToString());
-                    arguments += "\"" + NativeMethods.ShortFileName(file) + "\" ";  //DOS Workaround for with UTF-8 filenames, like æøåÆØÅ
+                    if (File.Exists(file))
+                    {
+                        string shortFileName = NativeMethods.ShortFileName(file);
+                        Logger.Info("ReadMetadata: " + file + " " + shortFileName + " " + File.GetLastWriteTime(file).ToString());
+                        if (!string.IsNullOrWhiteSpace(shortFileName))
+                        {
+                            shortfilesNames.Add(shortFileName, file);
+                            arguments += "\"" + NativeMethods.ShortFileName(file) + "\" ";  //DOS Workaround for with UTF-8 filenames, like æøåÆØÅ
+                        }
+                    }
                 }
             }
             #endregion 
 
+            Process process = null;
             try
             {
-                using (var process = new Process())
+                process = new Process();
+                using (process = new Process())
                 {
                     #region Start Exiftool process
+                    Logger.Debug("Exiftool read: " + path + " " + arguments);
                     process.StartInfo = new ProcessStartInfo
                     {
                         FileName = path,
@@ -609,8 +624,13 @@ namespace Exiftool
                         RedirectStandardInput = true,
                         StandardOutputEncoding = Encoding.UTF8
                     };
-                    if (runLowPriority) process.PriorityClass = ProcessPriorityClass.BelowNormal;
+
                     process.Start();
+                    try
+                    {
+                        if (runLowPriority) process.PriorityClass = ProcessPriorityClass.BelowNormal;
+                    }
+                    catch { }
                     #endregion
 
                     #region Init all data for start "first/each file"
@@ -620,33 +640,49 @@ namespace Exiftool
                     #endregion
 
                     int fileNumber = 0;
+                    string shortFilename = "";
 
                     #region while (!process.StandardOutput.EndOfStream)
+                    string debugReadFromExiftool = "";
                     while (!process.StandardOutput.EndOfStream)
                     {
-                        if (isClosing) 
+                        if (isClosing)
+                        {
+                            Logger.Debug("Exiftool read: appliaction closing, stopping process");
+                            process.StandardOutput.ReadToEnd();
                             break; //If user closeing the application, stop continue reading
+                        }
 
                         String readedLineFromExiftool = process.StandardOutput.ReadLine();
                         Int32 foundToSeperatorInLine = readedLineFromExiftool.IndexOf("\t");
                         ExiftoolData exifToolData;
 
-                        //Logger.Trace(readedLineFromExiftool);
-                        if (readedLineFromExiftool.Substring(0, 9) == "======== ") //This occures only when multiple files found
+                        debugReadFromExiftool += readedLineFromExiftool + "\r\n";
+                        if (readedLineFromExiftool.Length <= 9)
+                        {
+                            //Debug Break, why does this happen? 
+                        }
+                        if (readedLineFromExiftool.Length >= 9 && readedLineFromExiftool.Substring(0, 9) == "======== ") //This occures only when multiple files found
                         {
                             if (metadata != null) //New file found, save all metadata found. 
                             {
 
-                                CheckTimeZone(metadata, ref metadata.errors);
-
                                 #region Write Metadata and trigger Event afterNewMediaFoundEvent
-                                metadataDatabaseCache.TransactionBeginBatch();
-                                metadataDatabaseCache.Write(metadata);
-                                metadataDatabaseCache.TransactionCommitBatch();
-                                if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                                Logger.Debug("Exiftool read: add to metadata to database: " + metadata.FileFullPath);
+                                if (metadata.Broker != MetadataBrokerType.Empty) //It's empty when rename long filenames and 8.3 filenames still equal
+                                {
+                                    CheckTimeZone(metadata, ref metadata.errors);
+                                    metaDataCollections.Add(metadata); //Add list of metadatas read
+
+                                    metadataDatabaseCache.TransactionBeginBatch();
+                                    metadataDatabaseCache.Write(metadata);
+                                    metadataDatabaseCache.TransactionCommitBatch();
+
+                                    if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                                }
                                 #endregion
 
-                                metaDataCollections.Add(metadata); //Add list of metadatas read
+
 
                                 #region Clean up temporary data - get ready for new media file
                                 CleanAllOldExiftoolDataForReadNewFile();
@@ -654,6 +690,7 @@ namespace Exiftool
                                 exiftoolDatas = new List<ExiftoolData>();
                                 #endregion
                             }
+                            shortFilename = readedLineFromExiftool.Substring(9, readedLineFromExiftool.Length - 9).Replace("/", "\\");
                         }
 
                         #region Init metadata with Init known data as directory, filename and last modyfied time
@@ -662,52 +699,63 @@ namespace Exiftool
                             fileNumber++;
                             metadata = new Metadata(MetadataBrokerType.ExifTool); //Get ready to read a meta data
 
-                            //Don't use exif file name, problem with UTF8 filenames therefor short windows 8 short names used instead                        
-                            metadata.FileName = Path.GetFileName(files[fileNumber - 1]);
-                            metadata.FileDirectory = Path.GetDirectoryName(files[fileNumber - 1]);
+                            //When files gien as argument, sysyetm will short windows 8 names used to avoid  UTF8 filenames problems, like ÆØÅ not converted
+                            string longFilename;
+
+                            if (shortfilesNames.ContainsKey(shortFilename)) longFilename = shortfilesNames[shortFilename];
+                            else longFilename = files[fileNumber - 1];
+
+                            if (!File.Exists(longFilename)) 
+                                metadata.Broker = MetadataBrokerType.Empty;
+
+                            metadata.FileName = Path.GetFileName(longFilename);
+                            metadata.FileDirectory = Path.GetDirectoryName(longFilename);
                             metadata.FileDateModified = File.GetLastWriteTime(Path.Combine(metadata.FileDirectory, metadata.FileName));
                             metadata.FileDateCreated = File.GetCreationTime(Path.Combine(metadata.FileDirectory, metadata.FileName));
 
-                            //For debugging
-                            exifToolData = new ExiftoolData();
-                            exifToolData.FileName = metadata.FileName;
-                            exifToolData.FileDirectory = metadata.FileDirectory;
-                            exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
-                            exifToolData.Region = "FileSystem";
-                            exifToolData.Command = "FileName";
-                            exifToolData.Parameter = metadata.FileName;
-                            ConvertAndCheckStringFromString(metadata.FileName, exifToolData, oldExifToolFileName,
-                                        CompositeTags.FileName, ref metadata.errors);
-                            oldExifToolFileName = new ExiftoolData(exifToolData);
+                            if (metadata.Broker == MetadataBrokerType.Empty)
+                            {
+                                Logger.Debug("Exiftool read: File been removed or renamed. " + longFilename);
+                            }
+                            else
+                            {
+                                //For debugging
+                                exifToolData = new ExiftoolData();
+                                exifToolData.FileName = metadata.FileName;
+                                exifToolData.FileDirectory = metadata.FileDirectory;
+                                exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
+                                exifToolData.Region = "FileSystem";
+                                exifToolData.Command = "FileName";
+                                exifToolData.Parameter = metadata.FileName;
+                                ConvertAndCheckStringFromString(metadata.FileName, exifToolData, oldExifToolFileName, CompositeTags.FileName, ref metadata.errors);
+                                oldExifToolFileName = new ExiftoolData(exifToolData);
 
-                            exifToolData = new ExiftoolData();
-                            exifToolData.FileName = metadata.FileName;
-                            exifToolData.FileDirectory = metadata.FileDirectory;
-                            exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
-                            exifToolData.Region = "FileSystem";
-                            exifToolData.Command = "Directory";
-                            exifToolData.Parameter = metadata.FileDirectory;
-                            ConvertAndCheckStringFromString(metadata.FileDirectory, exifToolData, oldExifToolFilePath,
-                                        CompositeTags.Directory, ref metadata.errors);
-                            oldExifToolFilePath = new ExiftoolData(exifToolData);
+                                exifToolData = new ExiftoolData();
+                                exifToolData.FileName = metadata.FileName;
+                                exifToolData.FileDirectory = metadata.FileDirectory;
+                                exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
+                                exifToolData.Region = "FileSystem";
+                                exifToolData.Command = "Directory";
+                                exifToolData.Parameter = metadata.FileDirectory;
+                                ConvertAndCheckStringFromString(metadata.FileDirectory, exifToolData, oldExifToolFilePath, CompositeTags.Directory, ref metadata.errors);
+                                oldExifToolFilePath = new ExiftoolData(exifToolData);
 
-                            exifToolData = new ExiftoolData();
-                            exifToolData.FileName = metadata.FileName;
-                            exifToolData.FileDirectory = metadata.FileDirectory;
-                            exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
-                            exifToolData.Region = "FileSystem";
-                            exifToolData.Command = "FileModifyDate";
-                            exifToolData.Parameter = ((DateTime)metadata.FileDateModified).ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture);
-                            ConvertAndCheckDateFromString(metadata.FileDateModified, exifToolData, oldExifToolFileName,
-                                CompositeTags.FileModificationDateTime, ref metadata.errors);
-                            oldExifToolFilePath = new ExiftoolData(exifToolData);
-
+                                exifToolData = new ExiftoolData();
+                                exifToolData.FileName = metadata.FileName;
+                                exifToolData.FileDirectory = metadata.FileDirectory;
+                                exifToolData.FileDateModified = (DateTime)metadata.FileDateModified;
+                                exifToolData.Region = "FileSystem";
+                                exifToolData.Command = "FileModifyDate";
+                                exifToolData.Parameter = ((DateTime)metadata.FileDateModified).ToString("yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture);
+                                ConvertAndCheckDateFromString(metadata.FileDateModified, exifToolData, oldExifToolFileName, CompositeTags.FileModificationDateTime, ref metadata.errors);
+                                oldExifToolFilePath = new ExiftoolData(exifToolData);
+                            }
                             //In case of crash, delete old data
                             if (metadataDatabaseCache.ReadMetadataFromCacheOnly(metadata.FileEntryBroker) != null) metadataDatabaseCache.DeleteFileEntry(metadata.FileEntryBroker);
                         }
                         #endregion
 
-                        if (foundToSeperatorInLine >= 0)
+                        if (metadata.Broker != MetadataBrokerType.Empty && foundToSeperatorInLine >= 0)
                         {
                             #region Fill in exifToolData struct/class
                             //String[] parameters = readedLineFromExiftool.Split('\t'); //If tab in variable text, this will not work
@@ -757,11 +805,17 @@ namespace Exiftool
                                 case CompositeTags.FileName:
                                 case "FileName":
                                 case "File Name":
+                                    string longFilename;
+                                    if (shortfilesNames.ContainsKey(shortFilename)) longFilename = shortfilesNames[shortFilename];
                                     if (metadata.FileName != parameter) //Convert short windows 8 filename to windows NT long filename
                                     {
                                         exifToolData.Parameter = Path.GetFileName(NativeMethods.LongFileName(Path.Combine(metadata.FileDirectory, parameter)));
-                                        if (metadata.FileName != exifToolData.Parameter)
-                                            throw new Exception("Filename doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");
+                                        if (metadata.FileName != exifToolData.Parameter) //Check if shortname been renamed during process and point to difffent long name
+                                        {
+                                            metadata.Broker = MetadataBrokerType.Empty;
+                                            //throw new Exception("Filename doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");
+
+                                        }
                                     }
                                     ConvertAndCheckStringFromString(metadata.FileName, exifToolData, oldExifToolFileName,
                                         CompositeTags.FileName, ref metadata.errors);
@@ -771,7 +825,11 @@ namespace Exiftool
                                     if (metadata.FileDirectory != parameter) //Convert short windows 8 directory name to windows NT long filename
                                     {
                                         exifToolData.Parameter = Path.GetDirectoryName(NativeMethods.LongFileName(Path.Combine(parameter, metadata.FileName)));
-                                        if (metadata.FileDirectory != exifToolData.Parameter) throw new Exception("Directory doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");
+                                        if (metadata.FileDirectory != exifToolData.Parameter) //Check if shortname been renamed during process and point to difffent long name
+                                        {
+                                            metadata.Broker = MetadataBrokerType.Empty;
+                                            //throw new Exception("Filename doesn't match between Exiftool and reading of file, that means something went wrong with using exif tool and therefor crash");
+                                        }
                                     }
                                     ConvertAndCheckStringFromString(metadata.FileDirectory, exifToolData, oldExifToolFileName,
                                         CompositeTags.Directory, ref metadata.errors);
@@ -1410,24 +1468,26 @@ namespace Exiftool
                                     #endregion
                             }
                             MetadataReadPrioity.Add(exifToolData.Region, exifToolData.Command, CompositeTags.NotDefined);
-
-                        }                        
+                        }
                     }
                     #endregion
-                    
+
                     process.WaitForExit(1500);
 
                     #region Write last Metadata and trigger Event afterNewMediaFoundEvent
                     if (metadata != null && metadata.FileDateAccessed != null) //Save the last one, remover we save everytime, when new file found
                     {
-                        CheckTimeZone(metadata, ref metadata.errors);
-                        metaDataCollections.Add(metadata);
+                        if (metadata.Broker != MetadataBrokerType.Empty) //It's empty when rename long filenames and 8.3 filenames still equal
+                        {
+                            CheckTimeZone(metadata, ref metadata.errors);
+                            metaDataCollections.Add(metadata);
 
-                        metadataDatabaseCache.TransactionBeginBatch();
-                        metadataDatabaseCache.Write(metadata);
-                        metadataDatabaseCache.TransactionCommitBatch();
+                            metadataDatabaseCache.TransactionBeginBatch();
+                            metadataDatabaseCache.Write(metadata);
+                            metadataDatabaseCache.TransactionCommitBatch();
 
-                        if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                            if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
+                        }
                     }
                     else
                     {
@@ -1447,12 +1507,29 @@ namespace Exiftool
                     #endregion
 
                 } //Using process
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
+                try
+                {
+                    if (process != null) process.Kill();
+                }
+                catch { }
+
                 Logger.Error("Exiftool.Read(): " + ex.ToString() + "\r\n" + files.ToString());
                 if (useArguFile) if (File.Exists(exiftoolArgFileFullpath)) File.Delete(exiftoolArgFileFullpath);
                 throw ex;
             }
+
+            if (isClosing)
+            {
+                try
+                {
+                    if (process != null) process.Kill();
+                }
+                catch { }
+            }
+
             if (useArguFile) if (File.Exists(exiftoolArgFileFullpath)) File.Delete(exiftoolArgFileFullpath);
 
             return metaDataCollections;

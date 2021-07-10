@@ -88,7 +88,7 @@ namespace Exiftool
         #region IsFileLockedByProcess
         public static bool IsFileLockedByProcess(string fullFilePath)
         {
-            if (!File.Exists(fullFilePath)) return true;
+            if (!File.Exists(fullFilePath)) return false;
 
             FileStream fs = null;
             try
@@ -130,7 +130,7 @@ namespace Exiftool
 
             foreach (Metadata fileEntryToCheck in fileEntriesToCheck)
             {
-                if (!File.Exists(fileEntryToCheck.FileFullPath)) return true; //In process rename
+                if (!File.Exists(fileEntryToCheck.FileFullPath)) return false; //In process rename
                 if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
                 if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath)) return true; //In process OneDrive backup / update
             }
@@ -160,15 +160,21 @@ namespace Exiftool
         #endregion
 
         #region WaitLockedFileToBecomeUnlocked
-        public static void WaitLockedFileToBecomeUnlocked(string fileFullPath)
+        /// <summary>
+        /// Check if file is unlocked, if not wait. On timeout ask if wait more
+        /// </summary>
+        /// <param name="fileFullPath"></param>
+        /// <returns>true - if unlocked and exist</returns>
+        public static bool WaitLockedFileToBecomeUnlocked(string fileFullPath)
         {
+            if (!File.Exists(fileFullPath)) return false; //Not locked, file doesn't exist
 
             int maxRetry = 30;
             bool areAnyFileLocked;
             do
             {
-                if (File.Exists(fileFullPath)) areAnyFileLocked = IsFileLockedByProcess(fileFullPath);
-                else areAnyFileLocked = false;
+                areAnyFileLocked = IsFileLockedByProcess(fileFullPath);
+                
                 if (areAnyFileLocked) Thread.Sleep(500);
                 if (maxRetry-- < 0)
                 {
@@ -177,9 +183,14 @@ namespace Exiftool
                         "Please turn of file sync temporary to avoid this issue, and to avoid duplicate sync files\r\n" +
                         "Will you retry waiting for file to be unlocked\r\n" + FileLockedByProcess,
                         "File(s) are locked by another applications", MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
-                    else areAnyFileLocked = false;
+                    else
+                    {
+                        areAnyFileLocked = false;
+                        return false; //False, file still locked 
+                    }
                 }
             } while (areAnyFileLocked);
+            return true; //True, file exist and unlocked 
         }
         #endregion  
 
@@ -243,8 +254,9 @@ namespace Exiftool
                     writeXtraAtomArtistVideo || wtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
                     writeXtraAtomSubjectPicture || writeXtraAtomCommentPicture || writeXtraAtomRatingPicture)
                 {
-                    WaitLockedFileToBecomeUnlocked(metadataToWrite.FileFullPath);
-                    if (!IsFileReadOnly(metadataToWrite.FileFullPath) || !IsFileLockedByProcess(metadataToWrite.FileFullPath))
+                    bool isFileUnLockedAndExist = ExiftoolWriter.WaitLockedFileToBecomeUnlocked(metadataToWrite.FileFullPath);
+
+                    if (isFileUnLockedAndExist)
                     {
                         try
                         {

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace NHttp
 {
+    /*
     internal static class LogManager
     {
         private static readonly MethodInfo _getLoggerMethod;
@@ -180,4 +181,5 @@ namespace NHttp
             }
         }
     }
+    */
 }

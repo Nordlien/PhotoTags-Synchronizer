@@ -74,7 +74,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                ExiftoolWriter.WaitLockedFileToBecomeUnlocked(sourceFullFilename);
+                bool isFileUnLockedAndExist = ExiftoolWriter.WaitLockedFileToBecomeUnlocked(sourceFullFilename);
 
                 bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
 

@@ -12,7 +12,8 @@ namespace NHttp
 {
     internal class HttpClient : IDisposable
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(HttpClient));
+        //private static readonly ILog Log = LogManager.GetLogger(typeof(HttpClient));
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private static readonly Regex PrologRegex = new Regex("^([A-Z]+) ([^ ]+) (HTTP/[^ ]+)$", RegexOptions.Compiled);
 
@@ -125,7 +126,7 @@ namespace NHttp
             }
             catch (Exception ex)
             {
-                Log.Info("BeginRead failed", ex);
+                Logger.Error(ex, "BeginRead failed");
 
                 Dispose();
             }
@@ -159,13 +160,13 @@ namespace NHttp
             }
             catch (ObjectDisposedException ex)
             {
-                Log.Info("Failed to read", ex);
+                Logger.Info(ex, "Failed to read");
 
                 Dispose();
             }
             catch (Exception ex)
             {
-                Log.Info("Failed to read from the HTTP connection", ex);
+                Logger.Error(ex, "Failed to read from the HTTP connection");
 
                 ProcessException(ex);
             }
@@ -411,7 +412,7 @@ namespace NHttp
             }
             catch (Exception ex)
             {
-                Log.Info("BeginWrite failed", ex);
+                Logger.Error(ex, "BeginWrite failed");
 
                 Dispose();
             }
@@ -474,7 +475,7 @@ namespace NHttp
             }
             catch (Exception ex)
             {
-                Log.Info("Failed to write", ex);
+                Logger.Error(ex, "Failed to write");
 
                 Dispose();
             }
@@ -484,7 +485,7 @@ namespace NHttp
         {
             _context = new HttpContext(this);
 
-            Log.Debug(String.Format("Accepted request '{0}'", _context.Request.RawUrl));
+            Logger.Debug(String.Format("Accepted request '{0}'", _context.Request.RawUrl));
 
             Server.RaiseRequest(_context);
 
@@ -687,7 +688,7 @@ namespace NHttp
             }
             catch (Exception ex)
             {
-                Log.Info("Failed to process internal server error response", ex);
+                Logger.Error(ex, "Failed to process internal server error response");
 
                 Dispose();
             }

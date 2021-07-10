@@ -8,7 +8,8 @@ namespace NHttp
 {
     internal class HttpMultiPartRequestParser : HttpRequestParser
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(HttpMultiPartRequestParser));
+        //private static readonly ILog Log = LogManager.GetLogger(typeof(HttpMultiPartRequestParser));
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private static readonly byte[] MoreBoundary = Encoding.ASCII.GetBytes("\r\n");
         private static readonly byte[] EndBoundary = Encoding.ASCII.GetBytes("--");
 

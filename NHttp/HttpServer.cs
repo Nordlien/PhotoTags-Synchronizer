@@ -10,7 +10,8 @@ namespace NHttp
 {
     public class HttpServer : IDisposable
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(HttpServer));
+        //private static readonly ILog Log = LogManager.GetLogger(typeof(HttpServer));
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private bool _disposed;
         private TcpListener _listener;
@@ -100,7 +101,7 @@ namespace NHttp
 
             State = HttpServerState.Starting;
 
-            Log.Debug(String.Format("Starting HTTP server at {0}", EndPoint));
+            Logger.Debug(String.Format("Starting HTTP server at {0}", EndPoint));
 
             TimeoutManager = new HttpTimeoutManager(this);
 
@@ -118,13 +119,13 @@ namespace NHttp
 
                 ServerUtility = new HttpServerUtility();
 
-                Log.Info(String.Format("HTTP server running at {0}", EndPoint));
+                Logger.Info(String.Format("HTTP server running at {0}", EndPoint));
             }
             catch (Exception ex)
             {
                 State = HttpServerState.Stopped;
 
-                Log.Error("Failed to start HTTP server", ex);
+                Logger.Error(ex, "Failed to start HTTP server");
 
                 throw new NHttpException("Failed to start HTTP server", ex);
             }
@@ -138,7 +139,7 @@ namespace NHttp
         {
             VerifyState(HttpServerState.Started);
 
-            Log.Debug("Stopping HTTP server");
+            Logger.Debug("Stopping HTTP server");
 
             State = HttpServerState.Stopping;
 
@@ -154,7 +155,7 @@ namespace NHttp
             }
             catch (Exception ex)
             {
-                Log.Error("Failed to stop HTTP server", ex);
+                Logger.Error(ex, "Failed to stop HTTP server");
 
                 throw new NHttpException("Failed to stop HTTP server", ex);
             }
@@ -164,7 +165,7 @@ namespace NHttp
 
                 State = HttpServerState.Stopped;
 
-                Log.Info("Stopped HTTP server");
+                Logger.Info("Stopped HTTP server");
             }
         }
 
@@ -279,7 +280,7 @@ namespace NHttp
             }
             catch (Exception ex)
             {
-                Log.Info("Failed to accept TCP client", ex);
+                Logger.Error(ex, "Failed to accept TCP client");
             }
         }
 

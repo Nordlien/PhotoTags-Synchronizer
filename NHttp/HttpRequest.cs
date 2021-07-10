@@ -10,7 +10,8 @@ namespace NHttp
 {
     public class HttpRequest
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(HttpRequest));
+        //private static readonly ILog Log = LogManager.GetLogger(typeof(HttpRequest));
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private static readonly string[] EmptyStringArray = new string[0];
 
@@ -212,7 +213,7 @@ namespace NHttp
 
                 if (name == null)
                 {
-                    Log.Info("Received multipart item without name");
+                    Logger.Info("Received multipart item without name");
                     continue;
                 }
 
