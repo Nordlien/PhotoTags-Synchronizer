@@ -219,11 +219,11 @@ namespace Manina.Windows.Forms
         /// <summary>
         /// Determines whether the cache thread is being stopped.
         /// </summary>
-        private bool Stopping { get { lock (lockObject) { return stopping; } } }
+        private bool Stopping { get { /*lock (lockObject)*/ { return stopping; } } }
         /// <summary>
         /// Determines whether the cache thread is stopped.
         /// </summary>
-        public bool Stopped { get { lock (lockObject) { return stopped; } } }
+        public bool Stopped { get { /*lock (lockObject)*/ { return stopped; } } }
         /// <summary>
         /// Gets or sets the cache mode.
         /// </summary>
@@ -232,7 +232,7 @@ namespace Manina.Windows.Forms
             get { return mCacheMode; }
             set
             {
-                lock (lockObject)
+                //lock (lockObject)
                 {
                     mCacheMode = value;
                     if (mCacheMode == CacheMode.Continuous)
@@ -249,7 +249,7 @@ namespace Manina.Windows.Forms
         public int CacheLimitAsItemCount
         {
             get { return mCacheLimitAsItemCount; }
-            set { lock (lockObject) { mCacheLimitAsItemCount = value; mCacheLimitAsMemory = 0; mCacheMode = CacheMode.OnDemand; } }
+            set { /*lock (lockObject)*/ { mCacheLimitAsItemCount = value; mCacheLimitAsMemory = 0; mCacheMode = CacheMode.OnDemand; } }
         }
         /// <summary>
         /// Gets or sets the cache limit as allocated memory in MB.
@@ -257,16 +257,16 @@ namespace Manina.Windows.Forms
         public long CacheLimitAsMemory
         {
             get { return mCacheLimitAsMemory; }
-            set { lock (lockObject) { mCacheLimitAsMemory = value; mCacheLimitAsItemCount = 0; mCacheMode = CacheMode.OnDemand; } }
+            set { /*lock (lockObject)*/ { mCacheLimitAsMemory = value; mCacheLimitAsItemCount = 0; mCacheMode = CacheMode.OnDemand; } }
         }
         /// <summary>
         /// Gets the approximate amount of memory used by the cache.
         /// </summary>
-        public long MemoryUsed { get { lock (lockObject) { return memoryUsed; } } }
+        public long MemoryUsed { get { /*lock (lockObject)*/ { return memoryUsed; } } }
         /// <summary>
         /// Returns the count of items in the cache.
         /// </summary>
-        public long CacheSize { get { lock (lockObject) { return thumbCache.Count; } } }
+        public long CacheSize { get { /*lock (lockObject)*/ { return thumbCache.Count; } } }
         #endregion
 
         #region Constructor
@@ -381,7 +381,7 @@ namespace Manina.Windows.Forms
         /// <param name="guid">The guid representing the item.</param>
         public CacheState GetCacheState(Guid guid)
         {
-            lock (lockObject) //JTN: Debug - A deadlock oocured on this
+            //lock (lockObject) //JTN: Debug - A deadlock oocured on this
             {
                 CacheItem item = null;
                 if (thumbCache.TryGetValue(guid, out item))
@@ -418,7 +418,7 @@ namespace Manina.Windows.Forms
                 thumbCache.Clear();
 
                 //Added by JTN
-                foreach (CacheItem item in toCache) item.Dispose();
+                //foreach (CacheItem item in toCache) item.Dispose();
                 toCache.Clear();
 
 
@@ -868,15 +868,19 @@ namespace Manina.Windows.Forms
                             if (!stoppingBackgroundThreads)
                             {
                                 //Create an event and get Thumb from database, then image thumbnail, then read full image 
-                                lock (lockObject)
+                                try
                                 {
+                                    //lock (lockObject) 
+                                    //{
                                     if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed)
                                     {
                                         Image image;
                                         image = ThumbnailFromFile(request.FileName, request.Size, request.UseEmbeddedThumbnails, out wasThumbnailReadFromFile, out didThumbnailReadErrorOccur);
-                                        if (image != null) thumb = image; 
+                                        if (image != null) thumb = image;
                                     }
+                                    //}
                                 }
+                                catch { }
                             }
                         }
 
