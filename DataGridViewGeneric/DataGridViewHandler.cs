@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DataGridViewGeneric
@@ -697,7 +698,7 @@ namespace DataGridViewGeneric
                     {
                         _ThreadResumeDataGrid = new Thread(() =>
                         {
-                            Thread.Sleep(750);
+                            Task.Delay(750).Wait();
                             if (suspendCount == 0) dataGridView.BeginInvoke(new Action<DataGridView>(ResumeLayoutInvoke), dataGridView); //ResumeLayoutInvoke(dataGridView);
                             _ThreadResumeDataGrid = null;
                         });

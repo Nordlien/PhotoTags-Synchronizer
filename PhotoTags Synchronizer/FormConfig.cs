@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
@@ -2324,7 +2325,7 @@ namespace PhotoTagsSynchronizer
             {
                 while (
                     threadReloadLocationUsingNominatim.ThreadState != ThreadState.Stopped &&
-                    threadReloadLocationUsingNominatim.ThreadState != ThreadState.Aborted) Thread.Sleep(50);
+                    threadReloadLocationUsingNominatim.ThreadState != ThreadState.Aborted) Task.Delay(50).Wait(); 
                 //threadReloadLocationUsingNominatim.Abort();
             }
         }

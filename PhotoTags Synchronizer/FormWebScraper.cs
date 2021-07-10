@@ -551,7 +551,7 @@ namespace PhotoTagsSynchronizer
         {
             bool result = autoResetEventWaitPageLoaded.WaitOne(waitEventPageLoadedTimeout);
             Application.DoEvents();
-            if (sleep) Thread.Sleep(webScrapingDelayInPageScriptToRun);
+            if (sleep) Task.Delay(webScrapingDelayInPageScriptToRun).Wait();
             return result;
         }
         #endregion
@@ -758,7 +758,7 @@ namespace PhotoTagsSynchronizer
             do
             {
                 Debug.WriteLine("Scraping, retry left: " + retryWhenVerifyFails);
-                Thread.Sleep(webScrapingDelayOurScriptToRun); //Give script some time to run
+                Task.Delay(webScrapingDelayOurScriptToRun).Wait(); //Give script some time to run
 
                 try
                 {
@@ -830,7 +830,7 @@ namespace PhotoTagsSynchronizer
                     if (scrapingResult != null && scrapingResult.PictureInfoScreenHidden)
                     {
                         SendKeyBrowser(Keys.I);
-                        Thread.Sleep(webScrapingDelayInPageScriptToRun);
+                        Task.Delay(webScrapingDelayInPageScriptToRun).Wait();
                         scrapingResult = await EvaluateScriptWithScraping(script, retryWhenVerifyFails, true, false, true);
                     }
 

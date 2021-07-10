@@ -14,6 +14,7 @@ using FileDateTime;
 using Thumbnails;
 using System.Collections.Specialized;
 using FileHandeling;
+using System.Threading.Tasks;
 
 namespace PhotoTagsSynchronizer
 {
@@ -386,7 +387,7 @@ namespace PhotoTagsSynchronizer
                     lock (_ThreadCacheSelectedFastReadLock) isThreadRunning = (_ThreadCacheSelectedFastRead != null);
                     if (isThreadRunning)
                     {
-                        Thread.Sleep(100); //Wait thread stopping
+                        Task.Delay(100).Wait(); //Wait thread stopping
                         Logger.Debug("CacheFileEntries - sleep(100) - ThreadRunning is running");
                     }
                 } while (isThreadRunning && retry-- > 0);

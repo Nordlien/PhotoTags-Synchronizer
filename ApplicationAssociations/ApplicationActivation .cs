@@ -9,6 +9,7 @@ using PhotoTagsCommonComponets;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ApplicationAssociations
 {
@@ -344,8 +345,9 @@ namespace ApplicationAssociations
             runProcess.BeginOutputReadLine();
             runProcess.BeginErrorReadLine();
             runProcess.WaitForExit();
-            while (!runProcess.HasExited) Thread.Sleep(100);
-            
+            int count = 100;
+            while (!runProcess.HasExited && count-- > 0) Task.Delay(100).Wait();
+
             formTerminalWindow2 = formTerminalWindow;
         }
 

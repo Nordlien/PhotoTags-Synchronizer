@@ -21,6 +21,7 @@ using LibVLCSharp.Shared;
 using NHttp;
 using System.Net;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace PhotoTagsSynchronizer
 {
@@ -512,7 +513,7 @@ namespace PhotoTagsSynchronizer
 
                 //---------------------------------------------------------
                 Application.DoEvents();
-                Thread.Sleep(200);
+                Task.Delay(200).Wait(); 
 
                 int waitForProcessEndRetray = 30;
 
@@ -521,7 +522,7 @@ namespace PhotoTagsSynchronizer
                 while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
                 {
                     Application.DoEvents();
-                    Thread.Sleep(100);
+                    Task.Delay(200).Wait();
                 }
 
                 SplashForm.UpdateStatus("Stopping fetch metadata background threads...");
@@ -529,7 +530,7 @@ namespace PhotoTagsSynchronizer
                 while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
                 {
                     Application.DoEvents();
-                    Thread.Sleep(100);
+                    Task.Delay(100).Wait();
                 }
 
                 SplashForm.UpdateStatus("Disconnecting databases...");

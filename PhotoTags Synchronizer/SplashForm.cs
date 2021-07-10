@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
@@ -129,8 +130,8 @@ namespace PhotoTagsSynchronizer
         static public void CloseFormAndWait()
         {
             if (_waitForUserCloseSplash != null) throw new Exception("Should be null");
-            while (splashForm == null) Thread.Sleep(3);
-            while (!splashForm.IsHandleCreated) Thread.Sleep(3);
+            while (splashForm == null) Task.Delay(3).Wait();
+            while (!splashForm.IsHandleCreated) Task.Delay(3).Wait();
 
             if (splashForm == null) throw new Exception("Can't close when not open");
             if (splashForm == null && !splashForm.IsHandleCreated) new Exception("Missing handler");

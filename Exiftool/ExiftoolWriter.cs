@@ -10,6 +10,7 @@ using System.Threading;
 using WindowsProperty;
 using ApplicationAssociations;
 using FileHandeling;
+using System.Threading.Tasks;
 
 namespace Exiftool
 {
@@ -265,7 +266,7 @@ namespace Exiftool
                         Logger.Info("process.WaitForExit() " + process.ExitCode);
                     }
 
-                    while (!process.HasExited) Thread.Sleep(100);
+                    while (!process.HasExited) Task.Delay(100).Wait();
 
                     process.Close();
                     process.Dispose();

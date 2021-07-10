@@ -89,7 +89,7 @@ namespace WindowsLivePhotoGalleryServer
             stopwatchLastCommand.Start();
             while (KeepRunning)
             {
-                Thread.Sleep(10);                
+                Task.Delay(10).Wait();
                 if (stopwatchLastCommand.ElapsedMilliseconds > 3600000) 
                 {
                     WriteResponseLine("Server didn't get any request, quiting...");

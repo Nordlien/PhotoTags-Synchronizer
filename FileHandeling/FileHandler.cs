@@ -123,7 +123,7 @@ namespace FileHandeling
             do
             {
                 areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck);
-                if (areAnyFileLocked) Task.Delay(3000).Wait();
+                if (areAnyFileLocked) Task.Delay(500).Wait();
                 if (maxRetry-- < 0)
                 {
                     if (MessageBox.Show(
@@ -159,7 +159,7 @@ namespace FileHandeling
             {
                 areAnyFileLocked = IsFileLockedByProcess(fileFullPath);
 
-                if (areAnyFileLocked) Task.Delay(3000).Wait(); 
+                if (areAnyFileLocked) Task.Delay(500).Wait(); 
                 if (maxRetry-- < 0)
                 {
                     if (MessageBox.Show(

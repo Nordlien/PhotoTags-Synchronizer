@@ -555,7 +555,7 @@ namespace PhotoTagsSynchronizer
                         googleCast_LastKnownErrorMessage = ex.Message;
                     }
                     googleCast_CurrentMediaUrlPlaying = "";
-                    Thread.Sleep(600);
+                    Task.Delay(600).Wait();
                 }
                 #endregion
 
@@ -579,7 +579,7 @@ namespace PhotoTagsSynchronizer
                             }
                             finally
                             {
-                                Thread.Sleep(400);
+                                Task.Delay(400).Wait();
                                 googleCast_CurrentMediaUrlPlaying = "";
                                 googleCast_sender = null;
                                 googleCast_ConnectedReceiver = null;

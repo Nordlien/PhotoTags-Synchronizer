@@ -12,6 +12,7 @@ using ApplicationAssociations;
 using System.Threading;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PhotoTagsSynchronizer
 {
@@ -1652,7 +1653,8 @@ namespace PhotoTagsSynchronizer
                         Logger.Info("process.WaitForExit() " + exitCode);
                     }
 
-                    while (!process.HasExited) Thread.Sleep(100);
+                    int count = 100;
+                    while (!process.HasExited && count-- > 0) Task.Delay(100).Wait();
 
                     formTerminalWindow.SetProcssToFollow(null);
                     process.Close();
@@ -1738,7 +1740,8 @@ namespace PhotoTagsSynchronizer
                         Logger.Info("process.WaitForExit() " + exitCode);
                     }
 
-                    while (!process.HasExited) Thread.Sleep(100);
+                    int count = 100;
+                    while (!process.HasExited && count-- > 0) Task.Delay(100).Wait();
 
                     formTerminalWindow.SetProcssToFollow(null);
                     process.Close();
@@ -1807,7 +1810,8 @@ namespace PhotoTagsSynchronizer
                     Logger.Info("process.WaitForExit() " + exitCode);
                 }
 
-                while (!process.HasExited) Thread.Sleep(100);
+                int count = 100;
+                while (!process.HasExited && count-- > 0) Task.Delay(100).Wait();
 
                 formTerminalWindow.SetProcssToFollow(null);
                 process.Close();
