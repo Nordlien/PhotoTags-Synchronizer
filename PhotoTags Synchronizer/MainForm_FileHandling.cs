@@ -7,6 +7,7 @@ using Exiftool;
 using Furty.Windows.Forms;
 using Manina.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -74,7 +75,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                bool isFileUnLockedAndExist = ExiftoolWriter.WaitLockedFileToBecomeUnlocked(sourceFullFilename);
+                bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(sourceFullFilename);
 
                 bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
 

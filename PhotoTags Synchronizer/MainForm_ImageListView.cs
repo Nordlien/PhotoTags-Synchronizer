@@ -4,12 +4,12 @@ using System.Windows.Forms;
 using System.IO;
 using Manina.Windows.Forms;
 using MetadataLibrary;
-using ImageAndMovieFileExtentions;
 using System.Threading;
 using ApplicationAssociations;
 using Exiftool;
 using System.Collections.Generic;
 using static Manina.Windows.Forms.ImageListView;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -163,7 +163,7 @@ namespace PhotoTagsSynchronizer
                 if (File.Exists(e.FileName))
                 {
                     FileEntry fileEntry = new FileEntry(e.FileName, File.GetLastWriteTime(e.FileName));
-                    bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntry.FileFullPath); 
+                    bool isFileInCloud = FileHandler.IsFileInCloud(fileEntry.FileFullPath); 
                     bool dontReadFileFromCloud = Properties.Settings.Default.AvoidOfflineMediaFiles;
 
                     lock (GlobalData.ReloadAllowedFromCloudLock)
@@ -190,7 +190,7 @@ namespace PhotoTagsSynchronizer
                         }
                         else
                         {
-                            if (ExiftoolWriter.IsFileVirtual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.load_image_error_onedrive;
+                            if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) e.Thumbnail = (Image)Properties.Resources.load_image_error_onedrive;
                             else if (isFileInCloud) e.Thumbnail = (Image)Properties.Resources.load_image_error_in_cloud;
                             else e.Thumbnail = (Image)Properties.Resources.load_image_error_thumbnail;
                         }
@@ -279,7 +279,7 @@ namespace PhotoTagsSynchronizer
                     e.WasImageReadFromFile = false;
                     e.DidErrorOccourLoadMedia = true;
                 }
-                if (e.LoadedImage == null && ExiftoolWriter.IsFileInCloud(e.FullFilePath))
+                if (e.LoadedImage == null && FileHandler.IsFileInCloud(e.FullFilePath))
                 {
                     e.LoadedImage = (Image)Properties.Resources.load_image_error_onedrive;
                     e.WasImageReadFromFile = false;

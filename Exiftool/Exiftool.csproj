@@ -64,6 +64,10 @@
       <Project>{6E91F9E5-A3FA-4029-8FFF-51C82F19EAD1}</Project>
       <Name>ApplicationAssociations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FileHandeling\FileHandeling.csproj">
+      <Project>{42B86C05-95B0-4277-9A77-A830504DC624}</Project>
+      <Name>FileHandeling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImageAndMovieFileExtentions\ImageAndMovieFileExtentions.csproj">
       <Project>{569C3820-EAFD-425C-A493-981A65AA9F4C}</Project>
       <Name>ImageAndMovieFileExtentions</Name>

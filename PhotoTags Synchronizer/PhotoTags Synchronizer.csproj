@@ -545,6 +545,10 @@
       <Project>{83CA452E-ABE2-43BA-A7C3-F47954279F85}</Project>
       <Name>FileDateTime</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FileHandeling\FileHandeling.csproj">
+      <Project>{42b86c05-95b0-4277-9a77-a830504dc624}</Project>
+      <Name>FileHandeling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FolderView\FolderView.csproj">
       <Project>{cd7c35bc-38bd-458d-8440-5b51bd35d4f7}</Project>
       <Name>FolderView</Name>

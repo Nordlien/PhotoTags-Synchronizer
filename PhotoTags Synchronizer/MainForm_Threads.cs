@@ -13,6 +13,7 @@ using System.Diagnostics;
 using FileDateTime;
 using Thumbnails;
 using System.Collections.Specialized;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -869,7 +870,7 @@ namespace PhotoTagsSynchronizer
                                     foreach (string fullFileName in mediaFilesNotInDatabaseCheckInCloud)
                                     {
                                         //Don't add files from cloud in queue
-                                        if (!ExiftoolWriter.IsFileInCloud(fullFileName)) mediaFilesNotInDatabase.Add(fullFileName);
+                                        if (!FileHandler.IsFileInCloud(fullFileName)) mediaFilesNotInDatabase.Add(fullFileName);
                                     }
                                 }
                                 else
@@ -932,9 +933,9 @@ namespace PhotoTagsSynchronizer
                                             if (!File.Exists(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File doesn't exist. ";
                                             else
                                             {
-                                                if (ExiftoolWriter.IsFileLockedByProcess(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is Locked. ";
-                                                if (ExiftoolWriter.IsFileInCloud(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is in clound only. ";
-                                                if (ExiftoolWriter.IsFileVirtual(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is in virtual only. ";
+                                                if (FileHandler.IsFileLockedByProcess(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is Locked. ";
+                                                if (FileHandler.IsFileInCloud(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is in clound only. ";
+                                                if (FileHandler.IsFileVirtual(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is in virtual only. ";
                                             }
                                             errorMesssage += (errorMesssage == "" ? "" : "\r\n") + lastKnownExiftoolError;
                                             AddError(Path.GetDirectoryName(fullFilePath), Path.GetFileName(fullFilePath), DateTime.Now,
@@ -1127,7 +1128,7 @@ namespace PhotoTagsSynchronizer
                                 #endregion
 
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
-                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 #region File Create date and Time attribute
                                 if (!GlobalData.IsApplicationClosing)
@@ -1162,7 +1163,7 @@ namespace PhotoTagsSynchronizer
                                 #endregion
 
                                 //Wait file to be unloacked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
-                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 #region Save Metadatas using Exiftool   
                                 List<FileEntry> mediaFilesWithChangesWillBeUpdated = new List<FileEntry>();
@@ -1190,7 +1191,7 @@ namespace PhotoTagsSynchronizer
                                 #endregion
 
                                 //Wait file to be unloacked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
-                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 #region Write Xtra Atom properites
                                 Dictionary<string, string> writeXtraAtomErrorMessageForFile = new Dictionary<string, string>();
@@ -1214,7 +1215,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
-                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 #region Check if all files was updated, if updated, add to verify queue
                                 if (!GlobalData.IsApplicationClosing)
@@ -1269,7 +1270,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
-                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) ExiftoolWriter.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 //Clean up
                                 lock (commonQueueSubsetMetadataToSaveLock) commonQueueSubsetMetadataToSave.Clear();
@@ -1636,18 +1637,18 @@ namespace PhotoTagsSynchronizer
                                                     else
                                                     {
                                                         fileFoundRemoveFromList = true;
-                                                        bool isFileUnLockedAndExist = ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
+                                                        bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
 
                                                         //Check if the current Metadata are same as newst file... If not file exist anymore, date will become {01.01.1601 01:00:00}
                                                         if (isFileUnLockedAndExist && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)
                                                         {
-                                                            bool isFileInCloud = ExiftoolWriter.IsFileInCloud(fileEntryRegion.FileFullPath);
+                                                            bool isFileInCloud = FileHandler.IsFileInCloud(fileEntryRegion.FileFullPath);
 
                                                             if (!isFileInCloud || (isFileInCloud && !dontReadFilesInCloud)) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath);
 
                                                             if (image == null) //If failed load cover art, often occur after filed is moved or deleted
                                                             {
-                                                                if (!(ExiftoolWriter.IsFileInCloud(fileEntryRegion.FileFullPath) && dontReadFilesInCloud))
+                                                                if (!(FileHandler.IsFileInCloud(fileEntryRegion.FileFullPath) && dontReadFilesInCloud))
                                                                 {                                                                
                                                                     string writeErrorDesciption = "Failed loading mediafile. Was not able to update thumbnail for region for the file:" + fileEntryRegion.FileFullPath;
                                                                     Logger.Error(writeErrorDesciption);

@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 using System.Text;
 using System.Threading;
+using FileHandeling;
 
 namespace Manina.Windows.Forms
 {
@@ -490,68 +491,6 @@ namespace Manina.Windows.Forms
                 ReadShellImageFileInfo(path);
             }
 
-            #region Files locked, wait unlock
-            public static bool IsFileLockedByProcess(string fullFilePath)
-            {
-                try
-                {
-                    if (!File.Exists(fullFilePath)) 
-                        return false;
-                }
-                catch { }
-
-                FileStream fs = null;
-                try
-                {
-                    // NOTE: This doesn't handle situations where file is opened for writing by another process but put into write shared mode, it will not throw an exception and won't show it as write locked
-                    fs = File.Open(fullFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None); // If we can't open file for reading and writing then it's locked by another process for writing
-                }
-                catch (UnauthorizedAccessException) // https://msdn.microsoft.com/en-us/library/y973b725(v=vs.110).aspx
-                {
-                    // This is because the file is Read-Only and we tried to open in ReadWrite mode, now try to open in Read only mode
-                    try
-                    {
-                        fs = File.Open(fullFilePath, FileMode.Open, FileAccess.Read, FileShare.None);
-                    }
-                    catch (Exception)
-                    {
-                        return true; // This file has been locked, we can't even open it to read
-                    }
-                }
-                catch (Exception)
-                {
-                    return true; // This file has been locked
-                }
-                finally
-                {
-                    if (fs != null) fs.Close();
-                }
-                return false;
-            }
-
-
-            public static void WaitLockedFilesToBecomeUnlocked(string fullFileName)
-            {
-                int maxRetry = 30;
-                bool areAnyFileLocked;
-                do
-                {
-                    
-                    areAnyFileLocked = IsFileLockedByProcess(fullFileName);
-                    if (areAnyFileLocked) Thread.Sleep(1000);
-                    if (maxRetry-- < 0)
-                        areAnyFileLocked = false;
-                } while (areAnyFileLocked);
-            }
-
-            public static void WaitFileRenameAndUnlocked(string fullFileName)
-            {
-                int count = 100;
-                while (!File.Exists(fullFileName) && count-- > 0) Thread.Sleep(10); //Exiftool delete and rename files after updates, when delete and rename file are gone for few ms.
-                WaitLockedFilesToBecomeUnlocked(fullFileName);
-            }
-            #endregion 
-
             public string GetFileType(string path, string Extension)
             {
                 if (cachedFileTypes == null) cachedFileTypes = new Dictionary<string, string>();
@@ -574,9 +513,7 @@ namespace Manina.Windows.Forms
                     cachedFileTypes = new Dictionary<string, string>();
 
                 try
-                {
-                    WaitFileRenameAndUnlocked(path);
-
+                {                    
                     FileInfo info = new FileInfo(path);
                     FileAttributes = info.Attributes;
                     FileDateCreated = info.CreationTime;

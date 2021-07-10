@@ -187,6 +187,12 @@
       <Version>4.7.10</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileHandeling\FileHandeling.csproj">
+      <Project>{42b86c05-95b0-4277-9a77-a830504dc624}</Project>
+      <Name>FileHandeling</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

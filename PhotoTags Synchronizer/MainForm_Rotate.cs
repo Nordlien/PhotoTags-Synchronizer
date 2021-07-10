@@ -5,16 +5,15 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
+using FileHandeling;
+
 namespace PhotoTagsSynchronizer
 {
 
@@ -36,7 +35,7 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
-                    bool isFileUnLockedAndExist = ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath);
+                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath);
                     ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.RoateImage(fileEntry.FileFullPath, rotateDegrees);
                     coverted = true;
                 }
@@ -54,7 +53,7 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
-                    bool isFileUnLockedAndExist = ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath);
+                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath);
                     timerSaveProgessRemoveProgress.Start();
 
                     var ffMpeg = new NReco.VideoConverter.FFMpegConverter();

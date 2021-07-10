@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -8,7 +7,7 @@ using Exiftool;
 using ImageAndMovieFileExtentions;
 using Manina.Windows.Forms;
 using MetadataLibrary;
-using NReco.VideoConverter;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -128,7 +127,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath);
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
                     var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
@@ -176,7 +175,7 @@ namespace PhotoTagsSynchronizer
                     //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
                     if (image == null && !doNotReadFullFileItsInCloud)
                     {                        
-                        ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath);
                         image = LoadMediaCoverArtPoster(fullFilePath);
                     }
                 }
@@ -187,14 +186,14 @@ namespace PhotoTagsSynchronizer
 
                     if (image == null && !doNotReadFullFileItsInCloud)
                     {
-                        ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath);
                         image = ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath);
                     }
 
                     //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
                     if (image == null && !doNotReadFullFileItsInCloud)
                     {
-                        ExiftoolWriter.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath);
                         image = LoadMediaCoverArtPoster(fullFilePath); 
                     }
                 }
