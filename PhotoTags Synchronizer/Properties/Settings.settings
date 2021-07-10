@@ -1114,8 +1114,8 @@ https://photos.google.com/people</Value>
     <Setting Name="ImageListViewSelectedColumns" Type="System.String" Scope="User">
       <Value Profile="(Default)">Name
 Created
-Modified
-Date Taken</Value>
+Type
+Dimensions</Value>
     </Setting>
     <Setting Name="ImageListViewTitleLine1" Type="System.String" Scope="User">
       <Value Profile="(Default)">FileName</Value>
