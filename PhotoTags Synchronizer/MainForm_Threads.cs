@@ -1714,6 +1714,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 catch (Exception ex)
                                 {
+                                    MessageBox.Show("Saving Region Thumbnail crashed. The 'save region queue' was cleared. Nothing was saved.", "Saving Region Thumbnail failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) { commonQueueReadPosterAndSaveFaceThumbnails.Clear(); } //Avoid loop, due to unknown error
                                     Logger.Error(ex, "ThreadReadMediaPosterSaveRegions crashed");
                                 }
