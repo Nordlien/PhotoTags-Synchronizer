@@ -1645,7 +1645,14 @@ namespace PhotoTagsSynchronizer
                                                         {
                                                             bool isFileInCloud = FileHandler.IsFileInCloud(fileEntryRegion.FileFullPath);
 
-                                                            if (!isFileInCloud || (isFileInCloud && !dontReadFilesInCloud)) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath);
+                                                            try
+                                                            {
+                                                                if (!isFileInCloud || (isFileInCloud && !dontReadFilesInCloud)) image = LoadMediaCoverArtPoster(fileEntryRegion.FileFullPath);
+                                                            }
+                                                            catch (Exception ex)
+                                                            {
+                                                                Logger.Error(ex, "ThreadReadMediaPosterSaveRegions - LoadMediaCoverArtPoster");
+                                                            }
 
                                                             if (image == null) //If failed load cover art, often occur after filed is moved or deleted
                                                             {
@@ -1668,9 +1675,15 @@ namespace PhotoTagsSynchronizer
 
                                                     if (image != null) //Save regions when have image poster 
                                                     {
-                                                        databaseAndCacheThumbnail.TransactionBeginBatch();
-                                                        RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, metadataActiveAlreadyCopy, image);
-                                                        databaseAndCacheThumbnail.TransactionCommitBatch();
+                                                        try
+                                                        {
+                                                            databaseAndCacheThumbnail.TransactionBeginBatch();
+                                                            RegionThumbnailHandler.SaveThumbnailsForRegioList(databaseAndCacheMetadataExiftool, metadataActiveAlreadyCopy, image);
+                                                            databaseAndCacheThumbnail.TransactionCommitBatch();
+                                                        } catch (Exception ex)
+                                                        {
+                                                            Logger.Error(ex, "ThreadReadMediaPosterSaveRegions - SaveThumbnailsForRegioList");
+                                                        }
                                                         PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(fileEntryRegion, FileEntryVersion.Current)); //Updated Gridview
                                                     }
                                                 }
@@ -1701,6 +1714,7 @@ namespace PhotoTagsSynchronizer
                                 }
                                 catch (Exception ex)
                                 {
+                                    lock (commonQueueReadPosterAndSaveFaceThumbnailsLock) { commonQueueReadPosterAndSaveFaceThumbnails.Clear(); } //Avoid loop, due to unknown error
                                     Logger.Error(ex, "ThreadReadMediaPosterSaveRegions crashed");
                                 }
                             } //while (indexSource < curentCommonQueueReadPosterAndSaveFaceThumbnailsCount);
