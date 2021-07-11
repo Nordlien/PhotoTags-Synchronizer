@@ -433,6 +433,7 @@ namespace PhotoTagsSynchronizer
                     });
 
                     _ThreadCacheSelectedFastRead.Start();
+                    _ThreadCacheSelectedFastRead.Priority = ThreadPriority.BelowNormal;
                 }
 
             }
@@ -589,6 +590,7 @@ namespace PhotoTagsSynchronizer
                     });
 
                     _ThreadLazyLoadingMetadata.Start();
+                    _ThreadLazyLoadingMetadata.Priority = ThreadPriority.BelowNormal;
                 }
 
             }
@@ -678,7 +680,7 @@ namespace PhotoTagsSynchronizer
                 }
 
                 _ThreadLazyLoadingThumbnail.Start();
-
+                _ThreadLazyLoadingThumbnail.Priority = ThreadPriority.BelowNormal;
             }
             catch (Exception ex)
             {
@@ -798,6 +800,7 @@ namespace PhotoTagsSynchronizer
                     });
 
                     _ThreadSaveThumbnail.Start();
+                    _ThreadSaveThumbnail.Priority = ThreadPriority.BelowNormal;
                 }
 
             }
@@ -1049,6 +1052,7 @@ namespace PhotoTagsSynchronizer
                     });
 
                     _ThreadCollectMetadataExiftool.Start();
+                    _ThreadCollectMetadataExiftool.Priority = ThreadPriority.BelowNormal;
                 }
             }
             catch (Exception ex)
@@ -1372,6 +1376,7 @@ namespace PhotoTagsSynchronizer
                     });
 
                     _ThreadSaveMetadata.Start();
+                    _ThreadSaveMetadata.Priority = ThreadPriority.BelowNormal;
                 }
             }
             catch (Exception ex)
@@ -1483,6 +1488,7 @@ namespace PhotoTagsSynchronizer
 
                     });
                     _ThreadMicrosoftPhotos.Start();
+                    _ThreadMicrosoftPhotos.Priority = ThreadPriority.BelowNormal;
                 }
             }
             catch (Exception ex)
@@ -1597,6 +1603,7 @@ namespace PhotoTagsSynchronizer
                     });
 
                     _ThreadWindowsLiveGallery.Start();
+                    _ThreadWindowsLiveGallery.Priority = ThreadPriority.BelowNormal;
                 }
             }
             catch (Exception ex)
@@ -1806,6 +1813,7 @@ namespace PhotoTagsSynchronizer
                     });
 
                     _ThreadThumbnailRegion.Start();
+                    _ThreadThumbnailRegion.Priority = ThreadPriority.BelowNormal;
                 }
             }
             catch (Exception ex)
@@ -2153,12 +2161,19 @@ namespace PhotoTagsSynchronizer
                                         else
                                         {
                                             Logger.Error("Was not able to read metadata after rename ");
+                                            AddError(
+                                                Path.GetDirectoryName(fullFilename),
+                                                Path.GetFileName(fullFilename),
+                                                File.GetLastWriteTime(fullFilename),
+                                                AddErrorFileSystemRegion, AddErrorFileSystemMove, fullFilename, "New name is unknown (missing metadata)",
+                                                "Failed rename " + fullFilename + " to : New name is unknown(missing metadata)");
                                         }
 
                                     }
                                 } catch (Exception ex)
                                 {
                                     Logger.Trace(ex, "ThreadRename - Do the renameing process");
+
                                 }
                                 #endregion
 
@@ -2180,6 +2195,7 @@ namespace PhotoTagsSynchronizer
                     });
 
                     _ThreadRenameMedafiles.Start();
+                    _ThreadRenameMedafiles.Priority = ThreadPriority.BelowNormal;
                 }
 
             }
