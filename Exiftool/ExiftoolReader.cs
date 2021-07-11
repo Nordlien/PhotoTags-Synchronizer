@@ -123,7 +123,7 @@ namespace Exiftool
         #endregion 
 
         #region MetadataGroupPrioity
-        public void MetadataGroupPrioityWrite()
+        public void MetadataGroupPrioritiesWrite()
         {
             MetadataReadPrioity.Write();
         }

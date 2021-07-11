@@ -446,8 +446,6 @@ namespace PhotoTagsSynchronizer
         #region MainForm_FormClosing
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            exiftoolReader.MetadataGroupPrioityWrite(); //Updated json config file if new tags found
-
             if (commonQueueSaveMetadataUpdatedByUser.Count > 0)
             {
                 if (MessageBox.Show(
@@ -458,9 +456,22 @@ namespace PhotoTagsSynchronizer
                     return;
                 }
             }
+
             try
             {
-                browser.Dispose();
+                exiftoolReader.MetadataGroupPrioritiesWrite(); //Updated json config file if new tags found
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities");
+            }
+
+            try
+            {
+                try
+                {
+                    browser.Dispose();
+                } catch { }
 
                 GlobalData.IsApplicationClosing = true;
                 GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
@@ -479,23 +490,25 @@ namespace PhotoTagsSynchronizer
                 } catch { }
 
                 //---------------------------------------------------------
-                if (this.WindowState == FormWindowState.Normal)
+                try
                 {
-                    Properties.Settings.Default.IsMainFormMaximized = false;
-                    Properties.Settings.Default.MainFormSize = this.Size;
-                    Properties.Settings.Default.MainFormLocation = this.Location;
-                }
-                else
-                {
-                    Properties.Settings.Default.IsMainFormMaximized = true;
-                    Properties.Settings.Default.MainFormSize = this.RestoreBounds.Size;
-                    Properties.Settings.Default.MainFormLocation = this.RestoreBounds.Location;
-                }
+                    if (this.WindowState == FormWindowState.Normal)
+                    {
+                        Properties.Settings.Default.IsMainFormMaximized = false;
+                        Properties.Settings.Default.MainFormSize = this.Size;
+                        Properties.Settings.Default.MainFormLocation = this.Location;
+                    }
+                    else
+                    {
+                        Properties.Settings.Default.IsMainFormMaximized = true;
+                        Properties.Settings.Default.MainFormSize = this.RestoreBounds.Size;
+                        Properties.Settings.Default.MainFormLocation = this.RestoreBounds.Location;
+                    }
 
-                Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
-                Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
-                Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;
-                
+                    Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
+                    Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
+                    Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;
+                } catch { }
 
                 try
                 {
@@ -508,14 +521,22 @@ namespace PhotoTagsSynchronizer
                 //---------------------------------------------------------
 
                 SplashForm.UpdateStatus("Closing Exiftool read...");
-                if (exiftoolReader != null) exiftoolReader.Close();
+                try
+                {
+                    if (exiftoolReader != null) exiftoolReader.Close();
+                }
+                catch { }
 
                 //---------------------------------------------------------
 
-                ImageListViewClearAll(imageListView1);
+                try
+                {
+                    ImageListViewClearAll(imageListView1);
 
-                imageListView1.Dispose();
-                imageListView1.StoppBackgroundThreads();
+                    imageListView1.Dispose();
+                    imageListView1.StoppBackgroundThreads();
+                }
+                catch { }
 
                 //---------------------------------------------------------
                 Application.DoEvents();
@@ -524,26 +545,42 @@ namespace PhotoTagsSynchronizer
                 int waitForProcessEndRetray = 30;
 
                 SplashForm.UpdateStatus("Stopping ImageView background threads...");
-                waitForProcessEndRetray = 30;
-                while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
+                try
                 {
-                    Application.DoEvents();
-                    Task.Delay(200).Wait();
-                }
+                    waitForProcessEndRetray = 30;
+                    while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
+                    {
+                        Application.DoEvents();
+                        Task.Delay(200).Wait();
+                    }
+                } catch { }
 
                 SplashForm.UpdateStatus("Stopping fetch metadata background threads...");
-                waitForProcessEndRetray = 30;
-                while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
+                try
                 {
-                    Application.DoEvents();
-                    Task.Delay(100).Wait();
+                    waitForProcessEndRetray = 30;
+                    while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
+                    {
+                        Application.DoEvents();
+                        Task.Delay(100).Wait();
+                    }
                 }
+                catch { }
 
                 SplashForm.UpdateStatus("Disconnecting databases...");
-                databaseUtilitiesSqliteMetadata.DatabaseClose(); //Close database after all background threads stopped
+                try
+                {
+                    databaseUtilitiesSqliteMetadata.DatabaseClose(); //Close database after all background threads stopped
+                }
+                catch { }
 
                 SplashForm.UpdateStatus("Disposing...");
-                imageListView1.Dispose();
+                try
+                {
+                    imageListView1.Dispose();
+                }
+                catch { }
+
                 SplashForm.CloseForm();
             }
             catch (Exception ex)
