@@ -27,12 +27,12 @@ namespace MetadataLibrary
             FileEntryVersion = FileEntryVersion.NotAvailable;
         }
 
-        public FileEntryAttribute(string fullFilePath, DateTime lastAccesDateTime, FileEntryVersion fileEntryVersion) : base(fullFilePath, lastAccesDateTime)
+        public FileEntryAttribute(string fullFilePath, DateTime lastWriteDateTime, FileEntryVersion fileEntryVersion) : base(fullFilePath, lastWriteDateTime)
         {
             FileEntryVersion = fileEntryVersion;
         }
 
-        public FileEntryAttribute(string directory, string filename, DateTime lastAccesDateTime, FileEntryVersion fileEntryVersion) : base(directory, filename, lastAccesDateTime)
+        public FileEntryAttribute(string directory, string filename, DateTime lastWriteDateTime, FileEntryVersion fileEntryVersion) : base(directory, filename, lastWriteDateTime)
         {
             FileEntryVersion = fileEntryVersion;
         }
@@ -111,17 +111,17 @@ namespace MetadataLibrary
 
         }
 
-        public FileEntryImage(string fullFilePath, DateTime lastAccesDateTime) : base(fullFilePath, lastAccesDateTime)
+        public FileEntryImage(string fullFilePath, DateTime lastWriteDateTime) : base(fullFilePath, lastWriteDateTime)
         {
 
         }
 
-        public FileEntryImage(string directory, string filename, DateTime lastAccesDateTime, Image image ) 
-            : this(Path.Combine(directory, filename), lastAccesDateTime, image)
+        public FileEntryImage(string directory, string filename, DateTime lastWriteDateTime, Image image ) 
+            : this(Path.Combine(directory, filename), lastWriteDateTime, image)
         {
         }
 
-        public FileEntryImage(string fullFilePath, DateTime lastAccesDateTime, Image image ) : base(fullFilePath, lastAccesDateTime)
+        public FileEntryImage(string fullFilePath, DateTime lastWriteDateTime, Image image ) : base(fullFilePath, lastWriteDateTime)
         {
             this.image = image;
         }

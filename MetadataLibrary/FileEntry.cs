@@ -21,10 +21,10 @@ namespace MetadataLibrary
             lastWriteDateTime = fileEntry.lastWriteDateTime;
         }
 
-        public FileEntry(string fullFilePath, DateTime lastAccesDateTime)
+        public FileEntry(string fullFilePath, DateTime lastWriteDateTime)
         {
             this.fullFilePath = fullFilePath;
-            this.lastWriteDateTime = lastAccesDateTime;
+            this.lastWriteDateTime = lastWriteDateTime;
         }
 
         public FileEntry(string directory, string filename, DateTime lastAccesDateTime)
