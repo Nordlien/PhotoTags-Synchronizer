@@ -20,12 +20,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.ComponentModel.Design.Serialization;
 using System.Resources;
 using System.Reflection;
-
-
 
 namespace Manina.Windows.Forms
 {
@@ -41,6 +38,8 @@ namespace Manina.Windows.Forms
     [Docking(DockingBehavior.Ask)]
     public partial class ImageListView : Control
     {
+        
+
         public void StoppBackgroundThreads()
         {
             cacheManager.StoppBackgroundThreads();

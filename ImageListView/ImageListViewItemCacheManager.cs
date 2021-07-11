@@ -15,10 +15,11 @@
 //
 // Ozgur Ozcitak (ozcitak@yahoo.com)
 
+#define TraceLock_RemoveThisYes
+
 using System.Collections.Generic;
 using System.Threading;
 using System;
-using System.Diagnostics;
 
 namespace Manina.Windows.Forms
 {
@@ -101,11 +102,29 @@ namespace Manina.Windows.Forms
         /// <summary>
         /// Determines whether the cache thread is being stopped.
         /// </summary>
-        private bool Stopping { get { lock (lockObject) { return stopping; } } }
+        private bool Stopping
+        {
+            get
+            {
+                #if TraceLock
+                Logger.Trace("(lockObject start and stop) - Stopping");
+                #endif 
+                lock (lockObject) { return stopping; }
+
+            }
+        }
         /// <summary>
         /// Determines whether the cache thread is stopped.
         /// </summary>
-        public bool Stopped { get { lock (lockObject) { return stopped; } } }
+        public bool Stopped { 
+            get {
+                #if TraceLock
+                Logger.Trace("(lockObject start and stopp) - Stopped");
+                #endif
+                lock (lockObject) 
+                { return stopped; } 
+            } 
+        }
         #endregion
 
         #region Constructor
@@ -144,11 +163,20 @@ namespace Manina.Windows.Forms
         /// <param name="guid">The GUID of the item</param>
         public void BeginItemEdit(Guid guid)
         {
+            #if TraceLock
+            Logger.Trace("(lockObject start) - BeginItemEdit");
+            #endif
+
             lock (lockObject)
             {
                 if (!editCache.ContainsKey(guid))
                     editCache.Add(guid, false);
             }
+            
+            #if TraceLock
+            Logger.Trace("(lockObject stop) - BeginItemEdit");
+            #endif
+
         }
         /// <summary>
         /// Ends editing an item. After this call, item
@@ -158,6 +186,10 @@ namespace Manina.Windows.Forms
         /// <param name="guid"></param>
         public void EndItemEdit(Guid guid)
         {
+            #if TraceLock
+            Logger.Trace("(lockObject start) - EndItemEdit");
+            #endif
+            
             lock (lockObject)
             {
                 if (editCache.ContainsKey(guid))
@@ -165,31 +197,53 @@ namespace Manina.Windows.Forms
                     editCache.Remove(guid);
                 }
             }
+
+            #if TraceLock
+            Logger.Trace("(lockObject stop) - EndItemEdit");
+            #endif
         }
         /// <summary>
         /// Adds the item to the cache queue.
         /// </summary>
         public void Add(ImageListViewItem item)
         {
+            #if TraceLock
+            Logger.Trace("(lockObject Start) - Adds the item to the cache queue.");
+            #endif
             lock (lockObject)
             {
                 toCache.Enqueue(new CacheItem(item));
+                #if TraceLock
+                Logger.Trace("(lockObject Pulse) - Adds the item to the cache queue.");
+                #endif
                 Monitor.Pulse(lockObject);
             }
+            #if TraceLock
+            Logger.Trace("(lockObject Stop) - Adds the item to the cache queue.");
+            #endif
         }
         /// <summary>
         /// Stops the cache manager.
         /// </summary>
         public void Stop()
         {
+            #if TraceLock
+            Logger.Trace("(lockObject Start) - Stop()");
+            #endif
             lock (lockObject)
             {
                 if (!stopping)
                 {
                     stopping = true;
                     Monitor.Pulse(lockObject);
+                    #if TraceLock
+                    Logger.Trace("(lockObject Pulse) - Stop()");
+                    #endif
                 }
             }
+            #if TraceLock
+            Logger.Trace("(lockObject Stop) - Stop()");
+            #endif
         }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -214,11 +268,16 @@ namespace Manina.Windows.Forms
             {
 
                 CacheItem item = null;
+                #if TraceLock
+                Logger.Trace("(lockObject Start) - DoWork()");
+                #endif
                 lock (lockObject)
                 {
                     // Wait until we have items waiting to be cached
-                    if (toCache.Count == 0)
-                        Monitor.Wait(lockObject);
+                    #if TraceLock
+                    Logger.Trace("(lockObject Wait) - DoWork() - Wait until we have items waiting to be cached");
+                    #endif
+                    if (toCache.Count == 0) Monitor.Wait(lockObject);
 
                     // Get an item from the queue
                     if (toCache.Count != 0)
@@ -226,11 +285,12 @@ namespace Manina.Windows.Forms
                         item = toCache.Dequeue();
 
                         // Is it being edited?
-                        if (editCache.ContainsKey(item.Item.Guid))
-                            item = null;
+                        if (editCache.ContainsKey(item.Item.Guid)) item = null;
                     }
                 }
-
+                #if TraceLock
+                Logger.Trace("(lockObject started) - DoWork() - Wait until we have items waiting to be cached");
+                #endif
 
                 // Read file info
                 if (item != null && !stoppingBackgroundThreads)
@@ -253,20 +313,16 @@ namespace Manina.Windows.Forms
                         info = new Utility.ShellImageFileInfo(item.FileName);
                     }
 
-
-
                     // Update file info
                     if (!Stopping)
                     {
-
                         try
                         {
                             if (mImageListView != null && mImageListView.IsHandleCreated && !mImageListView.IsDisposed && mImageListView.Enabled)
                             {
                                 if (!stoppingBackgroundThreads)
                                 {
-                                    mImageListView.Invoke(new UpdateItemDetailsDelegateInternal(
-                                            mImageListView.UpdateItemDetailsInternal), item.Item, info);
+                                    mImageListView.Invoke(new UpdateItemDetailsDelegateInternal(mImageListView.UpdateItemDetailsInternal), item.Item, info);
                                 }
                             }
                         }
@@ -284,10 +340,16 @@ namespace Manina.Windows.Forms
                 }
             }
 
+            #if TraceLock
+            Logger.Trace("(lockObject started) - DoWork() - stopped = true;");
+            #endif
             lock (lockObject)
             {
                 stopped = true;
             }
+            #if TraceLock
+            Logger.Trace("(lockObject started) - DoWork() - stopped = true;");
+            #endif
         }
         #endregion
     }
