@@ -6,7 +6,6 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using System.Threading;
 using ApplicationAssociations;
-using Exiftool;
 using System.Collections.Generic;
 using static Manina.Windows.Forms.ImageListView;
 using FileHandeling;

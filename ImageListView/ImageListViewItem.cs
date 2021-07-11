@@ -799,7 +799,6 @@ namespace Manina.Windows.Forms
         public void Dirty()
         {
             isDirty = true;
-            
         }
 
         /// <summary>

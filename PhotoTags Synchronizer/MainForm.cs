@@ -473,16 +473,17 @@ namespace PhotoTagsSynchronizer
 
                 SplashForm.UpdateStatus("Saving layout...");
 
+                try
+                {
+                    if (nHttpServer != null) nHttpServer.Stop();
+                } catch { }
+
                 //---------------------------------------------------------
                 if (this.WindowState == FormWindowState.Normal)
                 {
                     Properties.Settings.Default.IsMainFormMaximized = false;
                     Properties.Settings.Default.MainFormSize = this.Size;
                     Properties.Settings.Default.MainFormLocation = this.Location;
-
-                    Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
-                    Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
-                    //Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance; //Don't read this (it's wrong size when openened)
                 }
                 else
                 {
@@ -490,6 +491,11 @@ namespace PhotoTagsSynchronizer
                     Properties.Settings.Default.MainFormSize = this.RestoreBounds.Size;
                     Properties.Settings.Default.MainFormLocation = this.RestoreBounds.Location;
                 }
+
+                Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
+                Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
+                Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;
+                
 
                 try
                 {
