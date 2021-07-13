@@ -581,7 +581,14 @@ namespace Manina.Windows.Forms
             itemCacheManager = new ImageListViewItemCacheManager(this);
 
             disposed = false;
+
+            //timer.Tick -= new EventHandler(delayRefreshTimer_Tick); // Remove old event handling
+            //timer.Tick += new EventHandler(delayRefreshTimer_Tick); // Every Time timer ticks, timer_Tick will be called
+            timer.Elapsed += delayRefreshTimer_Tick;
+            timer.Interval = 100;                                   // Timer will tick every second
         }
+
+        
         #endregion
 
         #region Instance Methods
@@ -904,12 +911,18 @@ namespace Manina.Windows.Forms
         #endregion
 
         #region Event Handlers
-        private Timer timer = new Timer();
+        private System.Timers.Timer timer = new System.Timers.Timer();
         private bool isTimerStarted = false;
         private DateTime startTime = DateTime.Now;
 
-        void delayRefreshTimer_Tick(object sender, EventArgs e)
-        {
+        private void delayRefreshTimer_Tick(object sender, System.Timers.ElapsedEventArgs e)
+        {        
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, System.Timers.ElapsedEventArgs>(delayRefreshTimer_Tick), sender, e);
+                return;
+            }
+
             if (((TimeSpan)(DateTime.Now - startTime)).TotalMilliseconds > 100)
             {
                 timer.Stop();
@@ -923,9 +936,7 @@ namespace Manina.Windows.Forms
             {
                 startTime = DateTime.Now;
                 isTimerStarted = true;
-                timer.Tick -= new EventHandler(delayRefreshTimer_Tick); // Remove old event handling
-                timer.Tick += new EventHandler(delayRefreshTimer_Tick); // Every Time timer ticks, timer_Tick will be called
-                timer.Interval = 100;                                   // Timer will tick every second
+                
                 timer.Enabled = true;                                   // Enable the timer
                 timer.Start();
             }

@@ -361,8 +361,7 @@ namespace PhotoTagsSynchronizer
                 imageListViewItem.Dirty();
                 
             }
-            
-            //if (RetrieveItemMetadataDetails != null) RetrieveItemMetadataDetails(this, e);
+            imageListView1.Refresh();
         }
 
         #region ImageListView - ReloadThumbnail - Filename - Invoke

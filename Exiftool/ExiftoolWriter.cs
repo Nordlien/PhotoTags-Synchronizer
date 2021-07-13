@@ -49,11 +49,12 @@ namespace Exiftool
             string writeXtraAtomArtistVariable, bool writeXtraAtomArtistVideo,
             out Dictionary<string, string> writeXtraAtomErrorMessageForFile)
         {
+            Logger.Debug("WriteXtraAtom - started");
             writeXtraAtomErrorMessageForFile = new Dictionary<string, string>(); //Clear out values
-            List<FileEntry> filesUpdatedByWritePropertiesAndLastWriteTime = new List<FileEntry>();
+            List<FileEntry> filesUpdatedByXtraAtom = new List<FileEntry>();
             
-            if (metadataListToWrite.Count <= 0) return filesUpdatedByWritePropertiesAndLastWriteTime;
-            if (metadataListToWrite.Count != metadataListOriginal.Count) return filesUpdatedByWritePropertiesAndLastWriteTime;
+            if (metadataListToWrite.Count <= 0) return filesUpdatedByXtraAtom;
+            if (metadataListToWrite.Count != metadataListOriginal.Count) return filesUpdatedByXtraAtom;
             int writeCount = metadataListToWrite.Count;
 
             for (int updatedRecord = 0; updatedRecord < writeCount; updatedRecord++)
@@ -61,6 +62,7 @@ namespace Exiftool
                 Metadata metadataToWrite = metadataListToWrite[updatedRecord];
                 Metadata metadataOriginal = metadataListOriginal[updatedRecord];
 
+                Logger.Debug("WriteXtraAtom - " + metadataToWrite.FileFullPath);
                 if (metadataToWrite == metadataOriginal) continue; //No changes found in data, No data to write
 
                 #region Is Video or Image format?
@@ -100,6 +102,7 @@ namespace Exiftool
                     {
                         try
                         {
+                            Logger.Debug("WriteXtraAtom - Start write XtraAtom: " + metadataToWrite.FileFullPath);
                             using (WindowsPropertyWriter windowsPropertyWriter = new WindowsPropertyWriter(metadataToWrite.FileFullPath))
                             {
                                 if (isVideoFormat)
@@ -125,12 +128,12 @@ namespace Exiftool
 
                                 windowsPropertyWriter.Close();
 
-                                filesUpdatedByWritePropertiesAndLastWriteTime.Add(new FileEntry(metadataToWrite.FileFullPath, File.GetLastWriteTime(metadataToWrite.FileFullPath)));
+                                filesUpdatedByXtraAtom.Add(new FileEntry(metadataToWrite.FileFullPath, File.GetLastWriteTime(metadataToWrite.FileFullPath)));
                             }
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error(ex, "Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath + "\r\n");
+                            Logger.Error(ex, "Failed write Xtra Atom Propery on file: " + metadataToWrite.FileFullPath);
                             writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, ex.Message);
                         }
                     } else
@@ -143,11 +146,14 @@ namespace Exiftool
                         Logger.Error(error);
                         writeXtraAtomErrorMessageForFile.Add(metadataToWrite.FileFullPath, error);
                     }
+                } else
+                {
+                    Logger.Debug("WriteXtraAtom - nothing to updated: " + metadataToWrite.FileFullPath);
                 }
                 #endregion
 
             }
-            return filesUpdatedByWritePropertiesAndLastWriteTime;
+            return filesUpdatedByXtraAtom;
         }
         #endregion
 
@@ -297,12 +303,12 @@ namespace Exiftool
                 {
                     //Debug way was not date updated, metadate read FileDateCreate date is Older Than Metadata acctual file.
                     //Remove from list and add back to Read Exif once more
-                    if (metadataRead.FileEntryBroker.LastWriteDateTime > metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateCreated)
+                    if (metadataRead.FileEntryBroker.LastWriteDateTime > metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified)
                     {
                         //metadataWrittenByExiftoolWaitVerify.RemoveAt(verifyPosition);
                         Logger.Warn("File been updated between read exiftool was run and verify: " + metadataRead.FileEntryBroker.FileFullPath + " " +
                             "File created: " + metadataRead.FileEntryBroker.LastWriteDateTime.ToString() + " " +
-                            "Metadata file created: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateCreated.ToString());
+                            "Metadata file created: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified.ToString());
                     }
                 }
             }
@@ -323,7 +329,7 @@ namespace Exiftool
                 }
             } while (foundOldVersionToVerify);
 
-            metadataUpdatedByUserCopy.FileDateModified = metadataRead.FileDateModified;   //After save, this was updated
+            //metadataUpdatedByUserCopy.FileDateModified = metadataRead.FileDateModified;   //After save, this was updated
             metadataUpdatedByUserCopy.FileDateAccessed = metadataRead.FileDateAccessed;   //This has changed, do not care
             metadataUpdatedByUserCopy.FileSize = metadataRead.FileSize;                   //This has changed, do not care
             metadataUpdatedByUserCopy.Errors = metadataRead.Errors;                       //This has changed, do not care, Hopefully this is gone

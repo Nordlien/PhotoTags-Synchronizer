@@ -572,25 +572,39 @@ namespace Exiftool
             string exiftoolArgFileFullpath = "";
             if (useArguFile)
             {
+                bool filesFound = false;
                 exiftoolArgFileFullpath = ExiftoolWriter.GetTempArguFileFullPath("exiftool_" + Guid.NewGuid() + ".txt");
                 using (StreamWriter sw = new StreamWriter(exiftoolArgFileFullpath, false, Encoding.UTF8))
                 {
+                    
                     sw.WriteLine("-charset");
                     sw.WriteLine("filename=UTF8");
                     foreach (string file in files)
                     {
-                        sw.WriteLine(file);
+                        if (File.Exists(file))
+                        {
+                            filesFound = true;
+                            sw.WriteLine(file);
+                        }
                     }
                     sw.WriteLine("-execute");
                 }
                 arguments += "-@ \"" + exiftoolArgFileFullpath + "\"";
+                if (!filesFound)
+                {
+                    //if (useArguFile)
+                    if (File.Exists(exiftoolArgFileFullpath)) File.Delete(exiftoolArgFileFullpath);
+                    return metaDataCollections;
+                }
             }
             else
             {
+                bool filesFound = false;
                 foreach (string file in files)
                 {
                     if (File.Exists(file))
                     {
+                        filesFound = true;
                         string shortFileName = NativeMethods.ShortFileName(file);
                         Logger.Info("ReadMetadata: " + file + " " + shortFileName + " " + File.GetLastWriteTime(file).ToString());
                         if (!string.IsNullOrWhiteSpace(shortFileName))
@@ -600,6 +614,7 @@ namespace Exiftool
                         }
                     }
                 }
+                if (!filesFound) return metaDataCollections;
             }
             #endregion 
 
