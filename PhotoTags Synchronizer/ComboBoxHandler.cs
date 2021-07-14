@@ -60,7 +60,7 @@ namespace PhotoTagsSynchronizer
         #region CheckedListBox - Settings - Convert String add to CheckedListBox
         public static void SetImageListViewCheckedValues(ImageListView imageListView, string valueListString)
         {
-            if (!string.IsNullOrWhiteSpace(valueListString)) valueListString = "";
+            if (string.IsNullOrWhiteSpace(valueListString)) valueListString = "";
 
             string[] valueList = valueListString.Replace("\r\n", "\n").Split('\n');
 

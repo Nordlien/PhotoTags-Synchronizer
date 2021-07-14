@@ -1429,6 +1429,10 @@ namespace PhotoTagsSynchronizer
             this.imageListView1.SortColumn = Manina.Windows.Forms.ColumnType.FileName;
             this.imageListView1.TabIndex = 1;
             this.imageListView1.Text = "";
+            this.imageListView1.TitleLine2 = Manina.Windows.Forms.ColumnType.FileName;
+            this.imageListView1.TitleLine3 = Manina.Windows.Forms.ColumnType.FileName;
+            this.imageListView1.TitleLine4 = Manina.Windows.Forms.ColumnType.FileName;
+            this.imageListView1.TitleLine5 = Manina.Windows.Forms.ColumnType.FileName;
             this.imageListView1.ItemHover += new Manina.Windows.Forms.ItemHoverEventHandler(this.imageListView1_ItemHover);
             this.imageListView1.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView1_ItemDoubleClick);
             this.imageListView1.SelectionChanged += new System.EventHandler(this.imageListView1_SelectionChanged);
