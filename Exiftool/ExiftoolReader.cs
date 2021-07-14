@@ -634,6 +634,7 @@ namespace Exiftool
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
                         CreateNoWindow = !showCliWindow,
+                        WindowStyle = ProcessWindowStyle.Minimized,
 
                         //Extra 
                         RedirectStandardInput = true,

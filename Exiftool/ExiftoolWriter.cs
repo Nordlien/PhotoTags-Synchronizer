@@ -305,10 +305,15 @@ namespace Exiftool
                     //Remove from list and add back to Read Exif once more
                     if (metadataRead.FileEntryBroker.LastWriteDateTime > metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified)
                     {
-                        //metadataWrittenByExiftoolWaitVerify.RemoveAt(verifyPosition);
+                        message += "File been updated between read exiftool was run and verify: " + metadataRead.FileEntryBroker.FileFullPath + " " +
+                            "File created: " + metadataRead.FileEntryBroker.LastWriteDateTime.ToString() + " " +
+                            "Metadata file created: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified.ToString();
+
                         Logger.Warn("File been updated between read exiftool was run and verify: " + metadataRead.FileEntryBroker.FileFullPath + " " +
                             "File created: " + metadataRead.FileEntryBroker.LastWriteDateTime.ToString() + " " +
                             "Metadata file created: " + metadataWrittenByExiftoolWaitVerify[verifyPosition].FileDateModified.ToString());
+                        
+                        foundErrors = true;
                     }
                 }
             }
