@@ -298,7 +298,18 @@ namespace PhotoTagsSynchronizer
                     directoryCreated = true;
                 }
                 File.Move(sourceFullFilename, targetFullFilename);
-                databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
+                if (!databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename))
+                {
+                    if (MessageBox.Show(
+                        "Already exist a file with same name: " + Path.Combine(newDirectory, newFilename) + "\r\n" +
+                        "Do you want do delete the old histoty and replace with new file?", 
+                        "Can move content in database!", 
+                        MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    {
+                        DeleteFileAndHistory(Path.Combine(newDirectory, newFilename));
+                        databaseAndCacheMetadataExiftool.Move(oldDirectory, oldFilename, newDirectory, newFilename);
+                    } 
+                }
             }
             return directoryCreated;
         }

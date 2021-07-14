@@ -831,7 +831,7 @@ namespace Manina.Windows.Forms
                 case ColumnType.FileDirectory:
                     return FileDirectory;
                 case ColumnType.FileSize:
-                    if (FileSize == 0) return "";
+                    if (FileSize <= 0) return "";
                     else return Utility.FormatSize(FileSize);
                 case ColumnType.FileType:
                     return FileType;
@@ -956,7 +956,7 @@ namespace Manina.Windows.Forms
                 #endregion
 
                 //isFileInfoDirty = false;
-                isDirty = false;
+                //if (info.FileSize == 0) isDirty = true;
             }            
         }
         

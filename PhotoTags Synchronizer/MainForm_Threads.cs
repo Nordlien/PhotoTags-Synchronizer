@@ -476,8 +476,11 @@ namespace PhotoTagsSynchronizer
                 {
 
                 }
+                
                 Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
                 if (metadata == null) AddQueueExiftoolLock(fileEntry); //If Metadata don't exisit in database, put it in read queue
+                else ImageListViewSetItemDirty(fileEntry.FileFullPath); //Refresh ImageListView with metadata
+
                 //if (!databaseAndCacheMetadataExiftool.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool)) AddQueueExiftoolLock(fileEntry);
                 if (!databaseAndCacheMetadataMicrosoftPhotos.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.MicrosoftPhotos))) AddQueueMicrosoftPhotosLock(fileEntry);
                 if (!databaseAndCacheMetadataWindowsLivePhotoGallery.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.WindowsLivePhotoGallery))) AddQueueWindowsLivePhotoGalleryLock(fileEntry);
@@ -628,9 +631,9 @@ namespace PhotoTagsSynchronizer
             {
                 if (WaitThumbnailReadCacheThread != null && CommonQueueLazyLoadingThumbnailCountDirty() == 0) WaitThumbnailReadCacheThread.Set();
 
-                lock (_ThreadLazyLoadingThumbnailLock) 
+                lock (_ThreadLazyLoadingThumbnailLock)
                     if (GlobalData.IsStopAndEmptyThumbnailQueueRequest || _ThreadLazyLoadingThumbnail != null || CommonQueueLazyLoadingThumbnailCountDirty() <= 0) return;
-                    
+
                 lock (_ThreadLazyLoadingThumbnailLock)
                 {
                     _ThreadLazyLoadingThumbnail = new Thread(() =>
@@ -639,7 +642,7 @@ namespace PhotoTagsSynchronizer
                         try
                         {
                             int count = CommonQueueLazyLoadingThumbnailCountLock();
-                            while (count > 0 && CommonQueueLazyLoadingThumbnailCountLock()  > 0 && !GlobalData.IsStopAndEmptyThumbnailQueueRequest && !GlobalData.IsApplicationClosing)
+                            while (count > 0 && CommonQueueLazyLoadingThumbnailCountLock() > 0 && !GlobalData.IsStopAndEmptyThumbnailQueueRequest && !GlobalData.IsApplicationClosing)
                             {
                                 count--;
 
@@ -675,11 +678,14 @@ namespace PhotoTagsSynchronizer
                         }
                         #endregion
                     });
-                    
+
                 }
 
-                _ThreadLazyLoadingThumbnail.Start();
-                _ThreadLazyLoadingThumbnail.Priority = ThreadPriority.BelowNormal;
+                if (_ThreadLazyLoadingThumbnail != null)
+                {
+                    _ThreadLazyLoadingThumbnail.Start();
+                    _ThreadLazyLoadingThumbnail.Priority = ThreadPriority.BelowNormal;
+                }
             }
             catch (Exception ex)
             {
@@ -1858,24 +1864,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        public bool ExistInExiftoolReadQueue(FileEntry fileEntry)
-        {
-            bool existInQueue = false;
-
-            if (commonQueueReadMetadataFromExiftool.Contains(fileEntry)) existInQueue = true;
-            lock (mediaFilesNotInDatabaseLock) if (mediaFilesNotInDatabase.Contains(fileEntry.FileFullPath)) existInQueue = true;
-            return existInQueue;
-        }
-
-        public bool ExistInExiftoolWriteQueue(FileEntry fileEntry)
-        {
-            bool existInQueue = false;
-
-            if (commonQueueReadMetadataFromExiftool.Contains(fileEntry)) existInQueue = true;
-            lock (mediaFilesNotInDatabaseLock) if (mediaFilesNotInDatabase.Contains(fileEntry.FileFullPath)) existInQueue = true;
-            return existInQueue;
-        }
-
         #region ExistFolderInReadPosterAndSaveFaceThumbnailsQueue
         public bool ExistFolderInReadPosterAndSaveFaceThumbnailsQueue (string folder)
         {
@@ -2169,7 +2157,6 @@ namespace PhotoTagsSynchronizer
             return fileInUse;
         }
         #endregion 
-
 
         #region IsFileInThreadQueue
         /// <summary>

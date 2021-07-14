@@ -1002,8 +1002,9 @@ namespace MetadataLibrary
         #endregion
 
         #region Move Metadata
-        public void Move(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
+        public bool Move(string oldDirectory, string oldFilename, string newDirectory, string newFilename)
         {
+            bool movedOk = true;
             MetadataCacheRemove(oldDirectory, oldFilename);
 
             dbTools.TransactionBeginBatch();
@@ -1020,7 +1021,7 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.ExecuteNonQuery();
+                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;                
             }
 
             sqlCommand =
@@ -1035,7 +1036,7 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.ExecuteNonQuery();
+                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
             }
 
             sqlCommand =
@@ -1049,7 +1050,7 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.ExecuteNonQuery();
+                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
             }
 
             sqlCommand =
@@ -1063,7 +1064,7 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.ExecuteNonQuery();
+                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
             }
 
             sqlCommand =
@@ -1077,7 +1078,7 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.ExecuteNonQuery();
+                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
             }
             dbTools.TransactionCommitBatch(false);
 
@@ -1092,9 +1093,11 @@ namespace MetadataLibrary
                 commandDatabase.Parameters.AddWithValue("@OldFileDirectory", oldDirectory);
                 commandDatabase.Parameters.AddWithValue("@NewFileName", newFilename);
                 commandDatabase.Parameters.AddWithValue("@NewFileDirectory", newDirectory);
-                commandDatabase.ExecuteNonQuery();
+                if (commandDatabase.ExecuteNonQuery() == -1) movedOk = false;
             }
             dbTools.TransactionCommitBatch(false);
+
+            return movedOk;
         }
         #endregion
 
@@ -1368,6 +1371,8 @@ namespace MetadataLibrary
             MetadataCacheRemove(fileEntryBrokers);
         }
         #endregion
+
+        
 
         #region WebScraping
         public const string WebScapingFolderName = "WebScraper";
