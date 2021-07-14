@@ -2200,24 +2200,60 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ApplicationDebugExiftoolShowCliWindow {
+        public bool ApplicationDebugExiftoolReadShowCliWindow {
             get {
-                return ((bool)(this["ApplicationDebugExiftoolShowCliWindow"]));
+                return ((bool)(this["ApplicationDebugExiftoolReadShowCliWindow"]));
             }
             set {
-                this["ApplicationDebugExiftoolShowCliWindow"] = value;
+                this["ApplicationDebugExiftoolReadShowCliWindow"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ApplicationDebugExiftoolLowPrioity {
+        public bool ApplicationDebugExiftoolWriteShowCliWindow {
             get {
-                return ((bool)(this["ApplicationDebugExiftoolLowPrioity"]));
+                return ((bool)(this["ApplicationDebugExiftoolWriteShowCliWindow"]));
             }
             set {
-                this["ApplicationDebugExiftoolLowPrioity"] = value;
+                this["ApplicationDebugExiftoolWriteShowCliWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16384")]
+        public int ApplicationDebugExiftoolReadThreadPrioity {
+            get {
+                return ((int)(this["ApplicationDebugExiftoolReadThreadPrioity"]));
+            }
+            set {
+                this["ApplicationDebugExiftoolReadThreadPrioity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16384")]
+        public int ApplicationDebugExiftoolWriteThreadPrioity {
+            get {
+                return ((int)(this["ApplicationDebugExiftoolWriteThreadPrioity"]));
+            }
+            set {
+                this["ApplicationDebugExiftoolWriteThreadPrioity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int ApplicationDebugBackgroundThreadPrioity {
+            get {
+                return ((int)(this["ApplicationDebugBackgroundThreadPrioity"]));
+            }
+            set {
+                this["ApplicationDebugBackgroundThreadPrioity"] = value;
             }
         }
     }

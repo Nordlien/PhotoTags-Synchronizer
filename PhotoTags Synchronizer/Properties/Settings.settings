@@ -1132,11 +1132,20 @@ Dimensions</Value>
     <Setting Name="ImageListViewTitleLine5" Type="System.String" Scope="User">
       <Value Profile="(Default)">MediaDimensions</Value>
     </Setting>
-    <Setting Name="ApplicationDebugExiftoolShowCliWindow" Type="System.Boolean" Scope="User">
+    <Setting Name="ApplicationDebugExiftoolReadShowCliWindow" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="ApplicationDebugExiftoolLowPrioity" Type="System.Boolean" Scope="User">
+    <Setting Name="ApplicationDebugExiftoolWriteShowCliWindow" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ApplicationDebugExiftoolReadThreadPrioity" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">16384</Value>
+    </Setting>
+    <Setting Name="ApplicationDebugExiftoolWriteThreadPrioity" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">16384</Value>
+    </Setting>
+    <Setting Name="ApplicationDebugBackgroundThreadPrioity" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

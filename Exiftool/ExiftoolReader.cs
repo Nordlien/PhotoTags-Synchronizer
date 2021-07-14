@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Xml;
 using ApplicationAssociations;
 using MetadataLibrary;
@@ -527,7 +528,7 @@ namespace Exiftool
             List<String> files = new List<String>();
             files.Add(fullFilePath);
 
-            List<Metadata> metaDataCollections = Read(broker, files, false, false, true);
+            List<Metadata> metaDataCollections = Read(broker, files, false, false, ProcessPriorityClass.BelowNormal);
             if (metaDataCollections.Count == 1)
             {
                 return metaDataCollections[0];
@@ -541,7 +542,7 @@ namespace Exiftool
 
         #region Read
 
-        public List<Metadata> Read(MetadataBrokerType broker, List<String> files, bool useArguFile = false, bool showCliWindow = false, bool runLowPriority = false)
+        public List<Metadata> Read(MetadataBrokerType broker, List<String> files, bool useArguFile = false, bool showCliWindow = false, ProcessPriorityClass processPriorityClass = ProcessPriorityClass.BelowNormal)
         {
             Logger.Debug("Exiftool read: start");
             List<Metadata> metaDataCollections = new List<Metadata>();
@@ -644,7 +645,7 @@ namespace Exiftool
                     process.Start();
                     try
                     {
-                        if (runLowPriority) process.PriorityClass = ProcessPriorityClass.BelowNormal;
+                        process.PriorityClass = processPriorityClass;
                     }
                     catch { }
                     #endregion

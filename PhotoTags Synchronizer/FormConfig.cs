@@ -13,6 +13,7 @@ using NLog.Targets.Wrappers;
 using SqliteDatabase;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -358,8 +359,12 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.CacheFolderThumbnails = checkBoxCacheFolderThumbnails.Checked;
                 Properties.Settings.Default.CacheFolderWebScraperDataSets = checkBoxCacheFolderWebScraperDataSets.Checked;
 
-                Properties.Settings.Default.ApplicationDebugExiftoolShowCliWindow = checkBoxApplicationExiftoolShowCliWindow.Checked;
-                Properties.Settings.Default.ApplicationDebugExiftoolLowPrioity = checkBoxApplicationExiftoolLowPrioity.Checked;
+                //Debug
+                Properties.Settings.Default.ApplicationDebugExiftoolReadShowCliWindow = checkBoxApplicationExiftoolReadShowCliWindow.Checked;
+                Properties.Settings.Default.ApplicationDebugExiftoolWriteShowCliWindow = checkBoxApplicationExiftoolWriteShowCliWindow.Checked;
+                Properties.Settings.Default.ApplicationDebugExiftoolReadThreadPrioity = ConvertIndexToProcessPriorityClass(comboBoxApplicationDebugExiftoolReadThreadPrioity.SelectedIndex);
+                Properties.Settings.Default.ApplicationDebugExiftoolWriteThreadPrioity = ConvertIndexToProcessPriorityClass(comboBoxApplicationDebugExiftoolWriteThreadPrioity.SelectedIndex);
+                Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity = comboBoxApplicationDebugBackgroundThreadPrioity.SelectedIndex;
 
                 //AutoCorrect
                 GetAutoCorrectPoperties();
@@ -476,6 +481,50 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        private int ConvertPriorityClassToIndex(ProcessPriorityClass processPriorityClass)
+        {
+            switch (processPriorityClass)
+            {
+                case ProcessPriorityClass.Idle: return 0;
+                case ProcessPriorityClass.BelowNormal: return 1;
+                case ProcessPriorityClass.Normal: return 2;
+                case ProcessPriorityClass.AboveNormal: return 3;
+                case ProcessPriorityClass.High: return 4;
+                case ProcessPriorityClass.RealTime: return 5;
+            }
+            return 1;
+            
+        }
+        /*
+        private int ConvertPriorityClassToIndex(ProcessPriorityClass processPriorityClass)
+        {
+            switch (processPriorityClass)
+            {
+                case ProcessPriorityClass.Idle: return 0;
+                case ProcessPriorityClass.BelowNormal: return 1;
+                case ProcessPriorityClass.Normal: return 2;
+                case ProcessPriorityClass.AboveNormal: return 3;
+                case ProcessPriorityClass.High: return 4;
+                case ProcessPriorityClass.RealTime: return 5;
+            }
+            return 1;
+
+        }*/
+
+        private int ConvertIndexToProcessPriorityClass(int index)
+        {
+            switch (index)
+            {
+                case 0: return 64; //Idle = 64,
+                case 1: return 16384; // BelowNormal = 16384,        
+                case 2: return 32; // Normal = 32,
+                case 3: return 32768; // AboveNormal = 32768
+                case 4: return 128; //High = 128,
+                case 5: return 256; //RealTime = 256 
+            }
+            return 16384; // BelowNormal = 16384
+        }
+
         #region PopulateApplication()
         public void PopulateApplication()
         {
@@ -508,8 +557,14 @@ namespace PhotoTagsSynchronizer
             checkBoxCacheFolderMetadatas.Checked = Properties.Settings.Default.CacheFolderMetadatas;
             checkBoxCacheFolderThumbnails.Checked = Properties.Settings.Default.CacheFolderThumbnails;
             checkBoxCacheFolderWebScraperDataSets.Checked = Properties.Settings.Default.CacheFolderWebScraperDataSets;
-            checkBoxApplicationExiftoolShowCliWindow.Checked = Properties.Settings.Default.ApplicationDebugExiftoolShowCliWindow;
-            checkBoxApplicationExiftoolLowPrioity.Checked = Properties.Settings.Default.ApplicationDebugExiftoolLowPrioity;
+
+            //Debug
+            checkBoxApplicationExiftoolReadShowCliWindow.Checked = Properties.Settings.Default.ApplicationDebugExiftoolReadShowCliWindow;
+            checkBoxApplicationExiftoolWriteShowCliWindow.Checked = Properties.Settings.Default.ApplicationDebugExiftoolWriteShowCliWindow;
+            comboBoxApplicationDebugExiftoolReadThreadPrioity.SelectedIndex = ConvertPriorityClassToIndex((ProcessPriorityClass)Properties.Settings.Default.ApplicationDebugExiftoolReadThreadPrioity);
+            comboBoxApplicationDebugExiftoolWriteThreadPrioity.SelectedIndex = ConvertPriorityClassToIndex((ProcessPriorityClass)Properties.Settings.Default.ApplicationDebugExiftoolWriteThreadPrioity);
+            comboBoxApplicationDebugBackgroundThreadPrioity.SelectedIndex = Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
+
         }
         #endregion 
 
@@ -2324,8 +2379,8 @@ namespace PhotoTagsSynchronizer
             if (threadReloadLocationUsingNominatim != null && threadReloadLocationUsingNominatim.IsAlive) 
             {
                 while (
-                    threadReloadLocationUsingNominatim.ThreadState != ThreadState.Stopped &&
-                    threadReloadLocationUsingNominatim.ThreadState != ThreadState.Aborted) Task.Delay(50).Wait(); 
+                    threadReloadLocationUsingNominatim.ThreadState != System.Threading.ThreadState.Stopped &&
+                    threadReloadLocationUsingNominatim.ThreadState != System.Threading.ThreadState.Aborted) Task.Delay(50).Wait(); 
                 //threadReloadLocationUsingNominatim.Abort();
             }
         }

@@ -207,7 +207,7 @@ namespace Exiftool
         #region WriteMetadata
         public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
             string writeMetadataTagsVariable, string writeMetadataKeywordDeleteVariable, string writeMetadataKeywordAddVariable, 
-            out List<FileEntry> mediaFilesWithChangesWillBeUpdated, bool showCliWindow, bool runLowPriority)
+            out List<FileEntry> mediaFilesWithChangesWillBeUpdated, bool showCliWindow, ProcessPriorityClass processPriorityClass)
         {
             mediaFilesWithChangesWillBeUpdated = CreateExiftoolArguFileText(
                 metadataListToWrite, metadataListOriginal, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable, 
@@ -240,13 +240,15 @@ namespace Exiftool
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
                         CreateNoWindow = !showCliWindow,
+                        WindowStyle = ProcessWindowStyle.Minimized,
                         RedirectStandardInput = true,
                         StandardOutputEncoding = Encoding.UTF8
                     }
                 })
                 {                    
                     bool result = process.Start();
-                    if (runLowPriority) process.PriorityClass = ProcessPriorityClass.BelowNormal;
+                    process.PriorityClass = processPriorityClass;
+                    
                     string line;
 
                     while (!process.StandardError.EndOfStream)
