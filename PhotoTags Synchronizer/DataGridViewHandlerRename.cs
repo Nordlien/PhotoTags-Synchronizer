@@ -185,7 +185,7 @@ namespace PhotoTagsSynchronizer
                     if (showFullPath)
                     {
                         string oldDirectory = dataGridViewGenericRow.HeaderName;
-                        string newRelativeFilename = Path.Combine(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
+                        string newRelativeFilename = CreateNewFilename(newFilenameVariable, dataGridViewGenericRow.RowName, dataGridViewGenericRow.Metadata); 
                         newShortOrFullFilename = Path.GetFullPath(newRelativeFilename);
                     } else
                     {
@@ -228,6 +228,7 @@ namespace PhotoTagsSynchronizer
                     FilesCutCopyPasteDrag.RenameFile(oldFullFilename, newFullFilename, ref renameSuccess, ref renameFailed);                 
                 }
             }
+
         }
         #endregion
 

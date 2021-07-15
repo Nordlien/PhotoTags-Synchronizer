@@ -2117,7 +2117,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region 
+        #region FolderTree - Copy - FolderNameToClipboard_Click
         private void toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard_Click(object sender, EventArgs e)
         {
             try
