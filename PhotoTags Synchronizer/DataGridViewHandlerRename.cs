@@ -17,7 +17,7 @@ namespace PhotoTagsSynchronizer
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private static string headerNewFilename = "new filename";
+        private static string headerNewFilename = "New filename";
         public static MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         public static FileDateTimeReader FileDateTimeFormats { get; set; }
 
@@ -152,19 +152,24 @@ namespace PhotoTagsSynchronizer
                 .Replace("\u001F", "")
                 .Replace("<", "")
                 .Replace(">", "")
-                .Replace(":", "")
+                //.Replace(":", "")
                 .Replace("|", "")
                 .Replace("?", "")
                 .Replace("*", "")
                 .Replace("/", "")
                 //.Replace("\\", "")
                 .Replace("\"", "");
+            if (newFilename.Length >= 3 && Char.IsLetter(newFilename[0]) && newFilename[2] == '\\') //x:\
+            {
+                newFilename = newFilename.Substring(0,3) + newFilename.Substring(3).Replace(":", "");
+            }
+            else newFilename = newFilename.Replace(":", "");
             return newFilename;
         }
         #endregion
 
         #region UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
-        public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable)
+        public static void UpdateFilenames(DataGridView dataGridView, string newFilenameVariable, bool showFullPath)
         {
             int columnIndex = DataGridViewHandler.GetColumnIndex(dataGridView, headerNewFilename);
             if (columnIndex == -1) return;
@@ -176,14 +181,24 @@ namespace PhotoTagsSynchronizer
                 
                 if (!cellGridViewGenericCell.CellStatus.CellReadOnly)
                 {
-                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, CreateNewFilename(newFilenameVariable, dataGridViewGenericRow.RowName, dataGridViewGenericRow.Metadata));
+                    string newShortOrFullFilename;
+                    if (showFullPath)
+                    {
+                        string oldDirectory = dataGridViewGenericRow.HeaderName;
+                        string newRelativeFilename = Path.Combine(oldDirectory, DataGridViewHandler.GetCellValueNullOrStringTrim(dataGridView, columnIndex, rowIndex));
+                        newShortOrFullFilename = Path.GetFullPath(newRelativeFilename);
+                    } else
+                    {
+                        newShortOrFullFilename = CreateNewFilename(newFilenameVariable, dataGridViewGenericRow.RowName, dataGridViewGenericRow.Metadata);
+                    }
+                    DataGridViewHandler.SetCellValue(dataGridView, columnIndex, rowIndex, newShortOrFullFilename);
                 }
             }
         }
         #endregion
 
         #region Write
-        public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, string> renameFailed)
+        public static void Write(DataGridView dataGridView, out Dictionary<string, string> renameSuccess, out Dictionary<string, string> renameFailed, bool showFullPathIsUsed)
         {
             renameSuccess = new Dictionary<string, string>();
             renameFailed = new Dictionary<string, string>();

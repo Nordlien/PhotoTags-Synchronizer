@@ -1570,7 +1570,9 @@ namespace PhotoTagsSynchronizer
         #region FolderTree - Folder - Click
         private void folderTreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            if (GlobalData.IsPopulatingFolderTree) return;
             if (GlobalData.IsDragAndDropActive) return;
+
             if (GlobalData.DoNotRefreshImageListView) return;
             PopulateImageListView_FromFolderSelected(false, true);
         }

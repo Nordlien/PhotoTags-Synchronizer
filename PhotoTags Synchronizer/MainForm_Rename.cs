@@ -33,18 +33,53 @@ namespace PhotoTagsSynchronizer
 
         private void buttonRenameUpdate_Click(object sender, EventArgs e)
         {
-            DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, Properties.Settings.Default.RenameVariable);
+            try
+            {
+                DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, Properties.Settings.Default.RenameVariable, checkBoxRenameShowFullPath.Checked);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Was not able to updated name on files");
+                MessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.");
+            }
         }
 
+        private void checkBoxRenameShowFullPath_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                DataGridViewHandlerRename.UpdateFilenames(dataGridViewRename, Properties.Settings.Default.RenameVariable, checkBoxRenameShowFullPath.Checked);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Was not able to updated name on files");
+                MessageBox.Show("Was not able to updated name on files.\r\n" + ex.Message, "Update name on files failed.");
+            }
+        }
         private void buttonRenameSave_Click(object sender, EventArgs e)
         {
-            Dictionary<string, string> renameSuccess;
-            Dictionary<string, string> renameFailed;
-            DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed);
+            try
+            {
+                if (IsFileInThreadQueueLock(imageListView1.SelectedItems))
+                {
+                    MessageBox.Show("Can't start rename process, files being updated, need wait files finished with updating.", "Can't start rename");
+                }
+                else
+                {
+                    Dictionary<string, string> renameSuccess;
+                    Dictionary<string, string> renameFailed;
 
-            UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
+                    DataGridViewHandlerRename.Write(dataGridViewRename, out renameSuccess, out renameFailed, checkBoxRenameShowFullPath.Checked);
 
-            FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
+                    UpdateImageViewListeAfterRename(imageListView1, renameSuccess, renameFailed, true);
+
+                    FilesSelected(); //PopulateSelectedImageListViewItemsAndClearAllDataGridViewsInvoke(imageListView1.SelectedItems);
+                }
+            } catch (Exception ex)
+            {
+                Logger.Error(ex, "Was not able to rename files");
+                MessageBox.Show("Was not able to rename files.\r\n" + ex.Message, "Rename files failed.");
+            }
         }
 
         #region Painting

@@ -14,6 +14,8 @@ using Thumbnails;
 using System.Collections.Specialized;
 using FileHandeling;
 using System.Threading.Tasks;
+using Manina.Windows.Forms;
+using static Manina.Windows.Forms.ImageListView;
 
 namespace PhotoTagsSynchronizer
 {
@@ -1900,6 +1902,24 @@ namespace PhotoTagsSynchronizer
             foreach (string fullFilename in fileList)
             {
                 fileInUse = IsFileInThreadQueueLock(fullFilename);
+                if (fileInUse) break;
+            }
+            return fileInUse;
+        }
+        #endregion
+
+        #region IsFileInThreadQueue
+        /// <summary>
+        /// Check if given files is in one of queue and wait to be processed
+        /// </summary>
+        /// <param name="fileList">ImageListViewSelectedItemCollection : IList<ImageListViewItem> fileList to check</param>
+        /// <returns>True, one of file waiting to be process in one of queues</returns>
+        public bool IsFileInThreadQueueLock(ImageListViewSelectedItemCollection imageListViewItems)
+        {
+            bool fileInUse = false;
+            foreach (ImageListViewItem imageListViewItem in imageListViewItems)
+            {
+                fileInUse = IsFileInThreadQueueLock(imageListViewItem.FileFullPath);
                 if (fileInUse) break;
             }
             return fileInUse;

@@ -303,6 +303,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageFileProperties = new System.Windows.Forms.TabPage();
             this.dataGridViewProperties = new System.Windows.Forms.DataGridView();
             this.tabPageFileRename = new System.Windows.Forms.TabPage();
+            this.checkBoxRenameShowFullPath = new System.Windows.Forms.CheckBox();
             this.buttonRenameUpdate = new System.Windows.Forms.Button();
             this.buttonRenameSave = new System.Windows.Forms.Button();
             this.comboBoxRenameVariableList = new System.Windows.Forms.ComboBox();
@@ -3496,6 +3497,7 @@ namespace PhotoTagsSynchronizer
             // 
             // tabPageFileRename
             // 
+            this.tabPageFileRename.Controls.Add(this.checkBoxRenameShowFullPath);
             this.tabPageFileRename.Controls.Add(this.buttonRenameUpdate);
             this.tabPageFileRename.Controls.Add(this.buttonRenameSave);
             this.tabPageFileRename.Controls.Add(this.comboBoxRenameVariableList);
@@ -3503,14 +3505,25 @@ namespace PhotoTagsSynchronizer
             this.tabPageFileRename.Controls.Add(this.label1);
             this.tabPageFileRename.Controls.Add(this.textBoxRenameNewName);
             this.tabPageFileRename.Controls.Add(this.dataGridViewRename);
-            this.tabPageFileRename.Location = new System.Drawing.Point(4, 25);
+            this.tabPageFileRename.Location = new System.Drawing.Point(4, 26);
             this.tabPageFileRename.Name = "tabPageFileRename";
-            this.tabPageFileRename.Size = new System.Drawing.Size(706, 863);
+            this.tabPageFileRename.Size = new System.Drawing.Size(706, 862);
             this.tabPageFileRename.TabIndex = 8;
             this.tabPageFileRename.Tag = "Rename";
             this.tabPageFileRename.Text = "Rename";
             this.tabPageFileRename.ToolTipText = "Rename files";
             this.tabPageFileRename.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRenameShowFullPath
+            // 
+            this.checkBoxRenameShowFullPath.AutoSize = true;
+            this.checkBoxRenameShowFullPath.Location = new System.Drawing.Point(287, 77);
+            this.checkBoxRenameShowFullPath.Name = "checkBoxRenameShowFullPath";
+            this.checkBoxRenameShowFullPath.Size = new System.Drawing.Size(116, 21);
+            this.checkBoxRenameShowFullPath.TabIndex = 5;
+            this.checkBoxRenameShowFullPath.Text = "Show full path";
+            this.checkBoxRenameShowFullPath.UseVisualStyleBackColor = true;
+            this.checkBoxRenameShowFullPath.CheckedChanged += new System.EventHandler(this.checkBoxRenameShowFullPath_CheckedChanged);
             // 
             // buttonRenameUpdate
             // 
@@ -3620,7 +3633,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.Name = "dataGridViewRename";
             this.dataGridViewRename.RowHeadersWidth = 51;
             this.dataGridViewRename.RowTemplate.Height = 24;
-            this.dataGridViewRename.Size = new System.Drawing.Size(703, 759);
+            this.dataGridViewRename.Size = new System.Drawing.Size(703, 758);
             this.dataGridViewRename.TabIndex = 4;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewRename_CellPainting);
@@ -5067,6 +5080,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDateMediaPreview;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewAutoCorrectForm;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowCoordinateOnGoogleMap;
+        private System.Windows.Forms.CheckBox checkBoxRenameShowFullPath;
     }
 }
 
