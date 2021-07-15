@@ -1742,6 +1742,9 @@ namespace PhotoTagsSynchronizer
             if (e.Button == MouseButtons.Right)
             {
                 folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
+            } else if (e.Button == MouseButtons.Left)
+            {
+                PopulateImageListView_FromFolderSelected(false, true);
             }
         }
         #endregion
