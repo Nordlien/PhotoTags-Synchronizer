@@ -256,50 +256,90 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Save All Metadata - Click 
         private void toolStripButtonSaveAllMetadata_Click(object sender, EventArgs e)
         {
-            this.Activate();
-            this.Validate(); //Get the latest changes, that are text in edit mode
-            SaveActiveTabData();
-            this.Enabled = true;
+            try
+            {
+                this.Activate();
+                this.Validate(); //Get the latest changes, that are text in edit mode
+                SaveActiveTabData();
+                this.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Save People - Click
         private void toolStripMenuItemPeopleSave_Click(object sender, EventArgs e)
         {
-            this.Activate();
-            this.Validate(); //Get the latest changes, that are text in edit mode
-            SaveActiveTabData();
-            this.Enabled = true;
+            try
+            {
+                this.Activate();
+                this.Validate(); //Get the latest changes, that are text in edit mode
+                SaveActiveTabData();
+                this.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Save Tags - Click
         private void toolStripMenuTagsBrokerSave_Click(object sender, EventArgs e)
         {
-            this.Activate();
-            this.Validate(); //Get the latest changes, that are text in edit mode
-            SaveActiveTabData();
-            this.Enabled = true;
+            try
+            {
+                this.Activate();
+                this.Validate(); //Get the latest changes, that are text in edit mode
+                SaveActiveTabData();
+                this.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Save Date - Click
         private void toolStripMenuItemDateSave_Click(object sender, EventArgs e)
         {
-            this.Activate();
-            this.Validate(); //Get the latest changes, that are text in edit mode
-            SaveActiveTabData();
-            this.Enabled = true;
+            try
+            {
+                this.Activate();
+                this.Validate(); //Get the latest changes, that are text in edit mode
+                SaveActiveTabData();
+                this.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region ToolStrip - Save Map - Click
         private void toolStripMenuItemMapSave_Click(object sender, EventArgs e)
         {
-            this.Activate();
-            this.Validate(); //Get the latest changes, that are text in edit mode
-            SaveActiveTabData();
-            this.Enabled = true;
+            try
+            {
+                this.Activate();
+                this.Validate(); //Get the latest changes, that are text in edit mode
+                SaveActiveTabData();
+                this.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
@@ -308,39 +348,54 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - About - Click
         private void toolStripButtonAbout_Click(object sender, EventArgs e)
         {
-
-            FormAbout form = new FormAbout();
-            form.ShowDialog();
-            form.Dispose();
+            try
+            {
+                FormAbout form = new FormAbout();
+                form.ShowDialog();
+                form.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Import Google Locations - Click
         private void toolStripButtonImportGoogleLocation_Click(object sender, EventArgs e)
         {
-            bool showLocationForm = true;
-            if (IsAnyDataUnsaved())
+            try
             {
-                if (MessageBox.Show("Will you continue, all unsaved data will be lost?", "You have unsaved data", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-                    showLocationForm = false;
-            }
+                bool showLocationForm = true;
+                if (IsAnyDataUnsaved())
+                {
+                    if (MessageBox.Show("Will you continue, all unsaved data will be lost?", "You have unsaved data", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                        showLocationForm = false;
+                }
 
-            if (showLocationForm)
+                if (showLocationForm)
+                {
+                    LocationHistoryImportForm form = new LocationHistoryImportForm();
+                    using (new WaitCursor())
+                    {
+                        form.databaseTools = databaseUtilitiesSqliteMetadata;
+                        form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
+                        form.Init();
+                    }
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
+                        databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
+                        //Update DataGridViews
+                        FilesSelected();
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                LocationHistoryImportForm form = new LocationHistoryImportForm();
-                using (new WaitCursor())
-                {
-                    form.databaseTools = databaseUtilitiesSqliteMetadata;
-                    form.databaseAndCahceCameraOwner = databaseAndCahceCameraOwner;
-                    form.Init();
-                }
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    databaseAndCahceCameraOwner.CameraMakeModelAndOwnerMakeDirty();
-                    databaseAndCahceCameraOwner.MakeCameraOwnersDirty();
-                    //Update DataGridViews
-                    FilesSelected();
-                }
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -348,22 +403,37 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Refreh Folder - Click
         private void toolStripMenuItemRefreshFolder_Click(object sender, EventArgs e)
         {
-            PopulateImageListView_FromFolderSelected(false, true);
-            folderTreeViewFolder.Focus();
-
+            try
+            {
+                PopulateImageListView_FromFolderSelected(false, true);
+                folderTreeViewFolder.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Select all Items - Click
         private void toolStripMenuItemSelectAll_Click(object sender, EventArgs e)
         {
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-            using (new WaitCursor())
+            try
             {
-                imageListView1.SelectAll();
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                using (new WaitCursor())
+                {
+                    imageListView1.SelectAll();
+                }
+                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+                FilesSelected();
             }
-            GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-            FilesSelected();
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
@@ -371,7 +441,6 @@ namespace PhotoTagsSynchronizer
         private struct RendererItem
         {
             public Type Type;
-
             public override string ToString()
             {
                 return Type.Name;
@@ -403,79 +472,130 @@ namespace PhotoTagsSynchronizer
         private void renderertoolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (isFormLoading) return;
-            Properties.Settings.Default.RenderertoolStripComboBox = renderertoolStripComboBox.SelectedIndex;
+            
             try
             {
+                Properties.Settings.Default.RenderertoolStripComboBox = renderertoolStripComboBox.SelectedIndex;
                 Properties.Settings.Default.Save();
             }
             catch (Exception ex)
             {
+                Logger.Error(ex, "Can't save settings");
                 MessageBox.Show(ex.Message, "Can't save settings");
             }
 
-            SetImageListViewRender();
+            try
+            {
+                SetImageListViewRender();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Switch View Modes - Click
         private void thumbnailsToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView1.View = Manina.Windows.Forms.View.Thumbnails;
-            rendererToolStripLabel.Visible = true;
-            renderertoolStripComboBox.Visible = true;
-            toolStripSeparatorRenderer.Visible = true;
+            try
+            {
+                imageListView1.View = Manina.Windows.Forms.View.Thumbnails;
+                rendererToolStripLabel.Visible = true;
+                renderertoolStripComboBox.Visible = true;
+                toolStripSeparatorRenderer.Visible = true;
 
-            renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
-            renderertoolStripComboBox_SelectedIndexChanged(null, null);
+                renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
+                renderertoolStripComboBox_SelectedIndexChanged(null, null);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void galleryToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView1.View = Manina.Windows.Forms.View.Gallery;
-            rendererToolStripLabel.Visible = false;
-            renderertoolStripComboBox.Visible = false;
-            toolStripSeparatorRenderer.Visible = false;
+            try
+            {
+                imageListView1.View = Manina.Windows.Forms.View.Gallery;
+                rendererToolStripLabel.Visible = false;
+                renderertoolStripComboBox.Visible = false;
+                toolStripSeparatorRenderer.Visible = false;
 
-            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
-            imageListView1.SetRenderer(renderer);
-            imageListView1.Focus();
+                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
+                imageListView1.SetRenderer(renderer);
+                imageListView1.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void paneToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView1.View = Manina.Windows.Forms.View.Pane;
-            rendererToolStripLabel.Visible = false;
-            renderertoolStripComboBox.Visible = false;
-            toolStripSeparatorRenderer.Visible = false;
 
-            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
-            imageListView1.SetRenderer(renderer);
-            imageListView1.Focus();
+            try
+            {
+                imageListView1.View = Manina.Windows.Forms.View.Pane;
+                rendererToolStripLabel.Visible = false;
+                renderertoolStripComboBox.Visible = false;
+                toolStripSeparatorRenderer.Visible = false;
+
+                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
+                imageListView1.SetRenderer(renderer);
+                imageListView1.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void detailsToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView1.View = Manina.Windows.Forms.View.Details;
-            rendererToolStripLabel.Visible = false;
-            renderertoolStripComboBox.Visible = false;
-            toolStripSeparatorRenderer.Visible = false;
+            try
+            {
+                imageListView1.View = Manina.Windows.Forms.View.Details;
+                rendererToolStripLabel.Visible = false;
+                renderertoolStripComboBox.Visible = false;
+                toolStripSeparatorRenderer.Visible = false;
 
-            Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
-            ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
-            imageListView1.SetRenderer(renderer);
-            imageListView1.Focus();
+                Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
+                ImageListView.ImageListViewRenderer renderer = assembly.CreateInstance(defaultImageListViewRenderer.Type.FullName) as ImageListView.ImageListViewRenderer;
+                imageListView1.SetRenderer(renderer);
+                imageListView1.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Modify Column Headers - Click
         private void columnsToolStripButton_Click(object sender, EventArgs e)
         {
-            ChooseColumns form = new ChooseColumns();
-            form.imageListView = imageListView1;
-            form.Populate();
-            form.ShowDialog();
+            try
+            {
+                ChooseColumns form = new ChooseColumns();
+                form.imageListView = imageListView1;
+                form.Populate();
+                form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
@@ -554,7 +674,15 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Rotate Selected Images - 90 degrees - Click
         private void rotateCWToolStripButton_Click(object sender, EventArgs e)
         {
-            RotateInit(imageListView1, 90);
+            try
+            {
+                RotateInit(imageListView1, 90);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void rotateCW90ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -567,24 +695,56 @@ namespace PhotoTagsSynchronizer
 
         private void rotate180ToolStripButton_Click(object sender, EventArgs e)
         {
-            RotateInit(imageListView1, 180);
+            try
+            {
+                RotateInit(imageListView1, 180);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void rotate180ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RotateInit(imageListView1, 180);
+            try
+            {
+                RotateInit(imageListView1, 180);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Rotate Selected Images - 270 degrees - Click
         private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
         {
-            RotateInit(imageListView1, 270);
+            try
+            {
+                RotateInit(imageListView1, 270);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ratateCCW270ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RotateInit(imageListView1, 270);
+            try
+            {
+                RotateInit(imageListView1, 270);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         #endregion
@@ -592,9 +752,17 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - WebScraper_Click
         private void toolStripButtonWebScraper_Click(object sender, EventArgs e)
         {
-            FormWebScraper formWebScraper = new FormWebScraper();
-            formWebScraper.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-            formWebScraper.ShowDialog();
+            try
+            {
+                FormWebScraper formWebScraper = new FormWebScraper();
+                formWebScraper.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                formWebScraper.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
@@ -602,7 +770,15 @@ namespace PhotoTagsSynchronizer
         private static string imageListViewHoverItem = "";
         private void imageListView1_ItemHover(object sender, ItemHoverEventArgs e)
         {
-            if (e.Item != null) imageListViewHoverItem = e.Item.FileFullPath;
+            try
+            {
+                if (e.Item != null) imageListViewHoverItem = e.Item.FileFullPath;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void MediaPreviewFoldeOrFilterResult(string selectedMediaFilePullPath)
@@ -614,20 +790,36 @@ namespace PhotoTagsSynchronizer
 
         private void toolStripButtonPreview_Click(object sender, EventArgs e)
         {
-            if (imageListView1.SelectedItems.Count > 1) MediaPreviewFoldeOrFilterResult("");
-            else 
+            try
             {
-                List<string> listOfMediaFiles = new List<string>();
-                for (int itemIndex = 0; itemIndex < imageListView1.Items.Count; itemIndex++) listOfMediaFiles.Add(imageListView1.Items[itemIndex].FileFullPath);
-                string selectedMediaFilePullPath = "";
-                if (imageListView1.SelectedItems.Count == 1) selectedMediaFilePullPath = imageListView1.SelectedItems[0].FileFullPath;
-                MediaPreviewInit(listOfMediaFiles, selectedMediaFilePullPath);
+                if (imageListView1.SelectedItems.Count > 1) MediaPreviewFoldeOrFilterResult("");
+                else
+                {
+                    List<string> listOfMediaFiles = new List<string>();
+                    for (int itemIndex = 0; itemIndex < imageListView1.Items.Count; itemIndex++) listOfMediaFiles.Add(imageListView1.Items[itemIndex].FileFullPath);
+                    string selectedMediaFilePullPath = "";
+                    if (imageListView1.SelectedItems.Count == 1) selectedMediaFilePullPath = imageListView1.SelectedItems[0].FileFullPath;
+                    MediaPreviewInit(listOfMediaFiles, selectedMediaFilePullPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MediaPreviewFoldeOrFilterResult(imageListViewHoverItem);
+            try
+            {
+                MediaPreviewFoldeOrFilterResult(imageListViewHoverItem);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void MediaPreviewSelectedInDataGridView(DataGridView dataGridView)
@@ -664,32 +856,80 @@ namespace PhotoTagsSynchronizer
 
         private void toolStripMenuItemTagsAndKeywordMediaPreview_Click(object sender, EventArgs e)
         {
-            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            try
+            {
+                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void toolStripMenuItemDateMediaPreview_Click(object sender, EventArgs e)
         {
-            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            try
+            {
+                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void toolStripMenuItemPeopleMediaPreview_Click(object sender, EventArgs e)
         {
-            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            try
+            {
+                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void toolStripMenuItemMapMediaPreview_Click(object sender, EventArgs e)
         {
-            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            try
+            {
+                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void toolStripMenuItemMediaPreview_Click(object sender, EventArgs e)
         {
-            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            try
+            {
+                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void toolStripMenuItemExiftoolWarningMediaPreview_Click(object sender, EventArgs e)
         {
-            MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            try
+            {
+                MediaPreviewSelectedInDataGridView(GetActiveTabDataGridView());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 
@@ -714,72 +954,184 @@ namespace PhotoTagsSynchronizer
 
         private void ToolStripMenuItemSortByFilename_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.FileName);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.FileName);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByFileCreatedDate_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.FileDateCreated);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByFileModifiedDate_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.FileDateModified);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.FileDateModified);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByMediaDateTaken_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaDateTaken);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.MediaDateTaken);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByMediaAlbum_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaAlbum);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.MediaAlbum);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByMediaTitle_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaTitle);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.MediaTitle);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByMediaDescription_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaDescription);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.MediaDescription);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByMediaComments_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaComment);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.MediaComment);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByMediaAuthor_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaAuthor);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.MediaAuthor);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByMediaRating_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.MediaRating);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.MediaRating);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByLocationName_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.LocationName);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.LocationName);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByLocationRegionState_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.LocationRegionState);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.LocationRegionState);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByLocationCity_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.LocationCity);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.LocationCity);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ToolStripMenuItemSortByLocationCountry_Click(object sender, EventArgs e)
         {
-            ImageListViewSortColumn(imageListView1, ColumnType.LocationCountry);
+            try
+            {
+                ImageListViewSortColumn(imageListView1, ColumnType.LocationCountry);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
@@ -827,65 +1179,97 @@ namespace PhotoTagsSynchronizer
 
         private void toolStripButtonGridBig_Click(object sender, EventArgs e)
         {
-            SetGridViewSize(DataGridViewSize.Large);
+            try
+            {
+                SetGridViewSize(DataGridViewSize.Large);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void toolStripButtonGridNormal_Click(object sender, EventArgs e)
         {
-            SetGridViewSize(DataGridViewSize.Medium);
+            try
+            {
+                SetGridViewSize(DataGridViewSize.Medium);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void toolStripButtonGridSmall_Click(object sender, EventArgs e)
         {
-            SetGridViewSize(DataGridViewSize.Small);
+            try
+            {
+                SetGridViewSize(DataGridViewSize.Small);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Show Config Window - Click
         private void toolStripButtonConfig_Click(object sender, EventArgs e)
         {
-            using (Config config = new Config())
+            try
             {
-                using (new WaitCursor())
+                using (Config config = new Config())
                 {
-                    LocationNameLookUpCache databaseLocationNames = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
+                    using (new WaitCursor())
+                    {
+                        LocationNameLookUpCache databaseLocationNames = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
 
-                    exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
-                    config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
-                    config.ThumbnailSizes = thumbnailSizes;
-                    config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
-                    config.DatabaseLocationNames = databaseLocationNames;
-                    config.DatabaseAndCacheLocationAddress = databaseLocationAddress;
-                    config.DatabaseUtilitiesSqliteMetadata = databaseUtilitiesSqliteMetadata;
-                    config.Init();
+                        exiftoolReader.MetadataReadPrioity.ReadOnlyOnce();
+                        config.MetadataReadPrioity = exiftoolReader.MetadataReadPrioity;
+                        config.ThumbnailSizes = thumbnailSizes;
+                        config.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
+                        config.DatabaseLocationNames = databaseLocationNames;
+                        config.DatabaseAndCacheLocationAddress = databaseLocationAddress;
+                        config.DatabaseUtilitiesSqliteMetadata = databaseUtilitiesSqliteMetadata;
+                        config.Init();
+                    }
+                    if (config.ShowDialog() != DialogResult.Cancel)
+                    {
+                        ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
+                        RegionThumbnailHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
+
+                        databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
+                        RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
+
+                        //Cache config
+                        cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
+                        cacheAllMetadatas = Properties.Settings.Default.CacheAllMetadatas;
+                        cacheAllThumbnails = Properties.Settings.Default.CacheAllThumbnails;
+                        cacheAllWebScraperDataSets = Properties.Settings.Default.CacheAllWebScraperDataSets;
+                        cacheFolderMetadatas = Properties.Settings.Default.CacheFolderMetadatas;
+                        cacheFolderThumbnails = Properties.Settings.Default.CacheFolderThumbnails;
+                        cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
+
+                        //
+                        folderTreeViewFolder.Enabled = false;
+                        imageListView1.Enabled = false;
+                        FilesSelected();
+                        folderTreeViewFolder.Enabled = true;
+                        imageListView1.Enabled = true;
+                        imageListView1.Focus();
+
+
+                    }
                 }
-                if (config.ShowDialog() != DialogResult.Cancel)
-                {
-                    ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
-                    RegionThumbnailHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
-
-                    databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
-                    RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
-
-                    //Cache config
-                    cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
-                    cacheAllMetadatas = Properties.Settings.Default.CacheAllMetadatas;
-                    cacheAllThumbnails = Properties.Settings.Default.CacheAllThumbnails;
-                    cacheAllWebScraperDataSets = Properties.Settings.Default.CacheAllWebScraperDataSets;
-                    cacheFolderMetadatas = Properties.Settings.Default.CacheFolderMetadatas;
-                    cacheFolderThumbnails = Properties.Settings.Default.CacheFolderThumbnails;
-                    cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
-
-                    //
-                    folderTreeViewFolder.Enabled = false;
-                    imageListView1.Enabled = false;
-                    FilesSelected();
-                    folderTreeViewFolder.Enabled = true;
-                    imageListView1.Enabled = true;
-                    imageListView1.Focus();
-
-                    
-                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -893,71 +1277,150 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Show/Hide Historiy Columns - Click
         private void toolStripButtonHistortyColumns_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.ShowHistortyColumns = toolStripButtonHistortyColumns.Checked;
-            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+            try
+            {
+                Properties.Settings.Default.ShowHistortyColumns = toolStripButtonHistortyColumns.Checked;
+                showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
+                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Show/Hide Error Columns - Click
         private void toolStripButtonErrorColumns_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
-            showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
-            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+            try
+            {
+                Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
+                showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
+                LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - AutoCorrect - Folder - Click
         private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
         {
-            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-            string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
-            string[] files = Directory.GetFiles(selectedFolder, "*.*");
-            foreach (string file in files)
+            try
             {
-                Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
-                Metadata metadataToSave = autoCorrect.FixAndSave(
-                    new FileEntry(file, File.GetLastWriteTime(file)),
-                    databaseAndCacheMetadataExiftool,
-                    databaseAndCacheMetadataMicrosoftPhotos,
-                    databaseAndCacheMetadataWindowsLivePhotoGallery,
-                    databaseAndCahceCameraOwner,
-                    databaseLocationAddress,
-                    databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
-                if (metadataToSave != null)
+                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
+                string[] files = Directory.GetFiles(selectedFolder, "*.*");
+                foreach (string file in files)
                 {
-                    AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
-                    AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
+                    Metadata metadataToSave = autoCorrect.FixAndSave(
+                        new FileEntry(file, File.GetLastWriteTime(file)),
+                        databaseAndCacheMetadataExiftool,
+                        databaseAndCacheMetadataMicrosoftPhotos,
+                        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        databaseAndCahceCameraOwner,
+                        databaseLocationAddress,
+                        databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
+                    if (metadataToSave != null)
+                    {
+                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
+                        AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                    }
                 }
+                StartThreads();
             }
-            StartThreads();
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - AutoCorrect - Selected files - Click
         private void toolStripMenuItemImageListViewAutoCorrectForm_Click(object sender, EventArgs e)
         {
-            Form_AutoCorrect form_AutoCorrect = new Form_AutoCorrect();
-            if (form_AutoCorrect.ShowDialog() == DialogResult.OK)
+            try
             {
+                Form_AutoCorrect form_AutoCorrect = new Form_AutoCorrect();
+                if (form_AutoCorrect.ShowDialog() == DialogResult.OK)
+                {
 
-                string album = form_AutoCorrect.Album;
-                string author = form_AutoCorrect.Author;
-                string comments = form_AutoCorrect.Comments;
-                string description = form_AutoCorrect.Description;
-                string title = form_AutoCorrect.Title;
+                    string album = form_AutoCorrect.Album;
+                    string author = form_AutoCorrect.Author;
+                    string comments = form_AutoCorrect.Comments;
+                    string description = form_AutoCorrect.Description;
+                    string title = form_AutoCorrect.Title;
 
-                bool useAlbum = form_AutoCorrect.UseAlbum;
-                bool useAuthor = form_AutoCorrect.UseAuthor;
-                bool useComments = form_AutoCorrect.UseComments;
-                bool uselDescription = form_AutoCorrect.UseDescription;
-                bool useTitle = form_AutoCorrect.UseTitle;
+                    bool useAlbum = form_AutoCorrect.UseAlbum;
+                    bool useAuthor = form_AutoCorrect.UseAuthor;
+                    bool useComments = form_AutoCorrect.UseComments;
+                    bool uselDescription = form_AutoCorrect.UseDescription;
+                    bool useTitle = form_AutoCorrect.UseTitle;
 
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                    {
+                        Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
+                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                            new FileEntry(item.FileFullPath, item.DateModified),
+                            databaseAndCacheMetadataExiftool,
+                            databaseAndCacheMetadataMicrosoftPhotos,
+                            databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            databaseAndCahceCameraOwner,
+                            databaseLocationAddress,
+                            databaseGoogleLocationHistory,
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
+                        if (metadataToSave != null)
+                        {
+                            if (useAlbum) metadataToSave.PersonalAlbum = album;
+                            if (!useAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
+
+                            if (useAuthor) metadataToSave.PersonalAuthor = author;
+                            if (!useAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
+
+                            if (useComments) metadataToSave.PersonalComments = comments;
+                            if (!useComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
+
+                            if (uselDescription) metadataToSave.PersonalDescription = description;
+                            if (!uselDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
+
+                            if (useTitle) metadataToSave.PersonalTitle = title;
+                            if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
+
+                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
+                            AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
+                        }
+                    }
+
+                    StartThreads();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
+        {
+            try
+            {
                 AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
                 float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                 float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
@@ -977,57 +1440,18 @@ namespace PhotoTagsSynchronizer
                         locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
                     if (metadataToSave != null)
                     {
-                        if (useAlbum) metadataToSave.PersonalAlbum = album;
-                        if (!useAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
-
-                        if (useAuthor) metadataToSave.PersonalAuthor = author;
-                        if (!useAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
-
-                        if (useComments) metadataToSave.PersonalComments = comments;
-                        if (!useComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
-
-                        if (uselDescription) metadataToSave.PersonalDescription = description;
-                        if (!uselDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
-
-                        if (useTitle) metadataToSave.PersonalTitle = title;
-                        if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
-
                         AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
-                        AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); 
+                        AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                     }
                 }
 
                 StartThreads();
             }
-        }
-
-        private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
-        {
-            AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-            float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-            float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-            foreach (ImageListViewItem item in imageListView1.SelectedItems)
+            catch (Exception ex)
             {
-                Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
-                Metadata metadataToSave = autoCorrect.FixAndSave(
-                    new FileEntry(item.FileFullPath, item.DateModified),
-                    databaseAndCacheMetadataExiftool,
-                    databaseAndCacheMetadataMicrosoftPhotos,
-                    databaseAndCacheMetadataWindowsLivePhotoGallery,
-                    databaseAndCahceCameraOwner,
-                    databaseLocationAddress,
-                    databaseGoogleLocationHistory,
-                    locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
-                if (metadataToSave != null)
-                {
-                    AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
-                    AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
-                }
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            StartThreads();
         }
         #endregion
 
@@ -1035,9 +1459,17 @@ namespace PhotoTagsSynchronizer
         private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+            try
             {
-                ApplicationActivation.ShowOpenWithDialog(imageListViewItem.FileFullPath);
+                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                {
+                    ApplicationActivation.ShowOpenWithDialog(imageListViewItem.FileFullPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -1111,16 +1543,24 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Copy Filenames to Clipboard - Click
         private void copyFileNamesToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (imageListView1.SelectedItems.Count > 0)
+            try
             {
-                string text = "";
-
-                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                if (imageListView1.SelectedItems.Count > 0)
                 {
-                    text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FileFullPath;
-                }
+                    string text = "";
 
-                Clipboard.SetText(text);
+                    foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                    {
+                        text = text + (text == "" ? "" : "\r\n") + imageListViewItem.FileFullPath;
+                    }
+
+                    Clipboard.SetText(text);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -1128,75 +1568,83 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - OpenWith / Run - Advance Dialog - Click
         private void runSelectedLocationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (imageListView1.SelectedItems.Count > 0)
+            try
             {
-                string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
-                string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
-                string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
-
-                List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
-
-                #region Create ArgumentFile file
-                GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
-
-                ExiftoolWriter.CreateExiftoolArguFileText(
-                    metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
-                    true, out string exiftoolAgruFileText);
-                #endregion 
-
-                #region AutoCorrect
-                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                if (autoCorrect == null) MessageBox.Show("AutoCorrect: " + Properties.Settings.Default.AutoCorrect);
-                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                List<Metadata> metadataListEmpty = new List<Metadata>();
-                List<Metadata> metadataListFromDataGridViewAutoCorrect = new List<Metadata>();
-
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                if (imageListView1.SelectedItems.Count > 0)
                 {
-                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
-                    Metadata metadataToSave = autoCorrect.FixAndSave(
-                        new FileEntry(item.FileFullPath, item.DateModified),
-                        databaseAndCacheMetadataExiftool,
-                        databaseAndCacheMetadataMicrosoftPhotos,
-                        databaseAndCacheMetadataWindowsLivePhotoGallery,
-                        databaseAndCahceCameraOwner,
-                        databaseLocationAddress, 
-                        databaseGoogleLocationHistory, 
-                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
+                    string writeMetadataTagsVariable = Properties.Settings.Default.WriteMetadataTags;
+                    string writeMetadataKeywordDeleteVariable = Properties.Settings.Default.WriteMetadataKeywordDelete;
+                    string writeMetadataKeywordAddVariable = Properties.Settings.Default.WriteMetadataKeywordAdd;
 
-                    if (metadataToSave != null) metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
-                    else
+                    List<string> allowedFileNameDateTimeFormats = FileDateTime.FileDateTimeReader.ConvertStringOfDatesToList(Properties.Settings.Default.RenameDateFormats);
+
+                    #region Create ArgumentFile file
+                    GetDataGridViewData(out List<Metadata> metadataListOriginalExiftool, out List<Metadata> metadataListFromDataGridView);
+
+                    ExiftoolWriter.CreateExiftoolArguFileText(
+                        metadataListFromDataGridView, metadataListOriginalExiftool, allowedFileNameDateTimeFormats, writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
+                        true, out string exiftoolAgruFileText);
+                    #endregion
+
+                    #region AutoCorrect
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    if (autoCorrect == null) MessageBox.Show("AutoCorrect: " + Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                    List<Metadata> metadataListEmpty = new List<Metadata>();
+                    List<Metadata> metadataListFromDataGridViewAutoCorrect = new List<Metadata>();
+
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
-                        Logger.Warn("Metadata was not loaded for file, check if file is only in cloud:" + item.FileFullPath);
+                        Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
+                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                            new FileEntry(item.FileFullPath, item.DateModified),
+                            databaseAndCacheMetadataExiftool,
+                            databaseAndCacheMetadataMicrosoftPhotos,
+                            databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            databaseAndCahceCameraOwner,
+                            databaseLocationAddress,
+                            databaseGoogleLocationHistory,
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
+
+                        if (metadataToSave != null) metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
+                        else
+                        {
+                            Logger.Warn("Metadata was not loaded for file, check if file is only in cloud:" + item.FileFullPath);
+                        }
+                        metadataListEmpty.Add(new Metadata(metadataOriginal));
                     }
-                    metadataListEmpty.Add(new Metadata(metadataOriginal));
+
+
+                    ExiftoolWriter.CreateExiftoolArguFileText(
+                        metadataListFromDataGridViewAutoCorrect, metadataListEmpty, allowedFileNameDateTimeFormats,
+                        writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
+                        true, out string exiftoolAutoCorrectFileText);
+                    #endregion
+
+                    using (RunCommand runCommand = new RunCommand())
+                    {
+                        runCommand.ArguFile = exiftoolAgruFileText;
+                        runCommand.ArguFileAutoCorrect = exiftoolAutoCorrectFileText;
+                        runCommand.MetadatasGridView = metadataListFromDataGridView;
+                        runCommand.MetadatasOriginal = metadataListOriginalExiftool;
+                        runCommand.MetadatasEmpty = metadataListEmpty;
+                        runCommand.AllowedFileNameDateTimeFormats = allowedFileNameDateTimeFormats;
+                        runCommand.MetadataPrioity = exiftoolReader.MetadataReadPrioity;
+
+                        runCommand.Init();
+                        runCommand.ShowDialog();
+                    }
+
+
                 }
-
-
-                ExiftoolWriter.CreateExiftoolArguFileText(
-                    metadataListFromDataGridViewAutoCorrect, metadataListEmpty, allowedFileNameDateTimeFormats,
-                    writeMetadataTagsVariable, writeMetadataKeywordDeleteVariable, writeMetadataKeywordAddVariable,
-                    true, out string exiftoolAutoCorrectFileText);
-                #endregion 
-
-                using (RunCommand runCommand = new RunCommand())
-                {
-                    runCommand.ArguFile = exiftoolAgruFileText;
-                    runCommand.ArguFileAutoCorrect = exiftoolAutoCorrectFileText;
-                    runCommand.MetadatasGridView = metadataListFromDataGridView;
-                    runCommand.MetadatasOriginal = metadataListOriginalExiftool;
-                    runCommand.MetadatasEmpty = metadataListEmpty;
-                    runCommand.AllowedFileNameDateTimeFormats = allowedFileNameDateTimeFormats;
-                    runCommand.MetadataPrioity = exiftoolReader.MetadataReadPrioity;
-
-                    runCommand.Init();
-                    runCommand.ShowDialog();
-                }
-
-
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -1204,55 +1652,79 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Refresh - Folder tree - Click
         private void toolStripMenuItemTreeViewFolderRefreshFolder_Click(object sender, EventArgs e)
         {
-            GlobalData.DoNotRefreshImageListView = true;
-            TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
-            filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
-            GlobalData.DoNotRefreshImageListView = false;
-            PopulateImageListView_FromFolderSelected(false, true);
-            folderTreeViewFolder.Focus();
+            try
+            {
+                GlobalData.DoNotRefreshImageListView = true;
+                TreeNode selectedNode = folderTreeViewFolder.SelectedNode;
+                filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, selectedNode);
+                GlobalData.DoNotRefreshImageListView = false;
+                PopulateImageListView_FromFolderSelected(false, true);
+                folderTreeViewFolder.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Refresh - Items in listview 
         private void toolStripMenuItemTreeViewFolderReadSubfolders_Click(object sender, EventArgs e)
         {
-            PopulateImageListView_FromFolderSelected(true, true);
-            folderTreeViewFolder.Focus();
+            try
+            {
+                PopulateImageListView_FromFolderSelected(true, true);
+                folderTreeViewFolder.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Reload Metadata - Delete Last Mediadata And Reload
         void DeleteLastMediadataAndReload(ImageListView imageListView, bool updatedOnlySelected)
         {
-            if (GlobalData.IsPopulatingAnything()) return;
-            
-            using (new WaitCursor())
+            try
             {
-                GlobalData.IsPopulatingButtonAction = true;
-                GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
-                folderTreeViewFolder.Enabled = false;
-                ImageListViewSuspendLayoutInvoke(imageListView);
+                if (GlobalData.IsPopulatingAnything()) return;
 
-                //Clean up ImageListView and other queues
-                ImageListViewClearThumbnailCache(imageListView1);
-                //imageListView1.Refresh();
-                ClearAllQueues();
-
-                UpdateStatusAction("Delete all data and files...");
-                lock (GlobalData.ReloadAllowedFromCloudLock)
+                using (new WaitCursor())
                 {
-                    GlobalData.ReloadAllowedFromCloud = filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
+                    GlobalData.IsPopulatingButtonAction = true;
+                    GlobalData.IsPopulatingImageListView = true; //Avoid one and one select item getting refreshed
+                    GlobalData.DoNotRefreshDataGridViewWhileFileSelect = true;
+                    folderTreeViewFolder.Enabled = false;
+                    ImageListViewSuspendLayoutInvoke(imageListView);
+
+                    //Clean up ImageListView and other queues
+                    ImageListViewClearThumbnailCache(imageListView1);
+                    //imageListView1.Refresh();
+                    ClearAllQueues();
+
+                    UpdateStatusAction("Delete all data and files...");
+                    lock (GlobalData.ReloadAllowedFromCloudLock)
+                    {
+                        GlobalData.ReloadAllowedFromCloud = filesCutCopyPasteDrag.DeleteFileEntriesBeforeReload(imageListView.Items, updatedOnlySelected);
+                    }
+                    filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
+
+                    folderTreeViewFolder.Enabled = true;
+                    ImageListViewResumeLayoutInvoke(imageListView);
+                    GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
+                    GlobalData.IsPopulatingButtonAction = false;
+                    GlobalData.IsPopulatingImageListView = false;
+
+                    FilesSelected();
                 }
-                filesCutCopyPasteDrag.ImageListViewReload(imageListView.Items, updatedOnlySelected);
-
-                folderTreeViewFolder.Enabled = true;
-                ImageListViewResumeLayoutInvoke(imageListView);
-                GlobalData.DoNotRefreshDataGridViewWhileFileSelect = false;
-                GlobalData.IsPopulatingButtonAction = false;
-                GlobalData.IsPopulatingImageListView = false;
-
-                FilesSelected();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion 
@@ -1260,102 +1732,143 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - Reload Metadata - Selected items - Click
         private void toolStripMenuItemReloadThumbnailAndMetadata_Click(object sender, EventArgs e)
         {
-            DeleteLastMediadataAndReload(imageListView1, true);
+            try
+            {
+                DeleteLastMediadataAndReload(imageListView1, true);
 
-            DataGridView dataGridView = GetActiveTabDataGridView();
-            if (dataGridView != null) DataGridViewHandler.Focus(dataGridView);
+                DataGridView dataGridView = GetActiveTabDataGridView();
+                if (dataGridView != null) DataGridViewHandler.Focus(dataGridView);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region ToolStrip - Reload Metadata - Folder - Click
         private void toolStripMenuItemTreeViewFolderReload_Click(object sender, EventArgs e)
         {
-            DeleteLastMediadataAndReload(imageListView1, false);
-            folderTreeViewFolder.Focus();
+            try
+            {
+                DeleteLastMediadataAndReload(imageListView1, false);
+                folderTreeViewFolder.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region ToolStrip - Delete Metadata Hirstory - Selected Items - Click
         private void toolStripMenuItemReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory_Click(object sender, EventArgs e)
         {
-            using (new WaitCursor())
+            try
             {
-                filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(this, folderTreeViewFolder, imageListView1);
-                FilesSelected();
-                DisplayAllQueueStatus();
+                using (new WaitCursor())
+                {
+                    filesCutCopyPasteDrag.ReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory(this, folderTreeViewFolder, imageListView1);
+                    FilesSelected();
+                    DisplayAllQueueStatus();
+                }
+                imageListView1.Focus();
             }
-            imageListView1.Focus();
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Delete Metadata Hirstory - Directory - Click
         private void toolStripMenuItemTreeViewFolderClearCache_Click(object sender, EventArgs e)
         {
-            string folder = this.folderTreeViewFolder.GetSelectedNodePath();
-            string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly).Take(51).ToArray();
-            if (MessageBox.Show("Are you sure you will delete **ALL** metadata history in database store for " +
-                (fileAndFolderEntriesCount.Length == 51 ? " over 50 + " : fileAndFolderEntriesCount.Length.ToString()) +
-                "  number of files.\r\n\r\n" +
-                "In the folder: " + folder,
-                "You are going to delete all metadata in folder",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            try
             {
-                using (new WaitCursor())
+                string folder = this.folderTreeViewFolder.GetSelectedNodePath();
+                string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly).Take(51).ToArray();
+                if (MessageBox.Show("Are you sure you will delete **ALL** metadata history in database store for " +
+                    (fileAndFolderEntriesCount.Length == 51 ? " over 50 + " : fileAndFolderEntriesCount.Length.ToString()) +
+                    "  number of files.\r\n\r\n" +
+                    "In the folder: " + folder,
+                    "You are going to delete all metadata in folder",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    //Clean up ImageListView and other queues
-                    ImageListViewClearThumbnailCache(imageListView1);
-                    imageListView1.Refresh();
-                    ClearAllQueues();
+                    using (new WaitCursor())
+                    {
+                        //Clean up ImageListView and other queues
+                        ImageListViewClearThumbnailCache(imageListView1);
+                        imageListView1.Refresh();
+                        ClearAllQueues();
 
-                    UpdateStatusAction("Delete all record about files in database....");
-                    GlobalData.ProcessCounterDelete = FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
-                    int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(ref FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize, folder);
-                    GlobalData.ProcessCounterDelete = 0;
-                    UpdateStatusAction(recordAffected + " records was delete from database....");
+                        UpdateStatusAction("Delete all record about files in database....");
+                        GlobalData.ProcessCounterDelete = FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize;
+                        int recordAffected = filesCutCopyPasteDrag.DeleteDirectoryAndHistory(ref FilesCutCopyPasteDrag.DeleteDirectoryAndHistorySize, folder);
+                        GlobalData.ProcessCounterDelete = 0;
+                        UpdateStatusAction(recordAffected + " records was delete from database....");
 
-                    string selectedFolder = this.folderTreeViewFolder.GetSelectedNodePath();
-                    List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, false);
-                    PopulateImageListView(fileEntries, selectedFolder, false); 
+                        string selectedFolder = this.folderTreeViewFolder.GetSelectedNodePath();
+                        List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, false);
+                        PopulateImageListView(fileEntries, selectedFolder, false);
+                    }
                 }
+                DisplayAllQueueStatus();
+                folderTreeViewFolder.Focus();
             }
-            DisplayAllQueueStatus();
-            folderTreeViewFolder.Focus();
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region ToolStrip - Delete Files - Items - Click
         private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
-            if (GlobalData.IsPopulatingAnything()) return;
-            folderTreeViewFolder.Enabled = false;
-            imageListView1.Enabled = false;
-
             try
             {
-                if (IsFileInThreadQueueLock(imageListView1))
-                {
-                    MessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.");
-                    return;
-                }
+                if (GlobalData.IsPopulatingAnything()) return;
+                folderTreeViewFolder.Enabled = false;
+                imageListView1.Enabled = false;
 
-                if (MessageBox.Show("Are you sure you will delete the files", "Files will be deleted!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                try
                 {
-                    using (new WaitCursor())
+                    if (IsFileInThreadQueueLock(imageListView1))
                     {
-                        UpdateStatusAction("Deleing files and all record about files in database....");
-                        filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1);
-                        FilesSelected();
+                        MessageBox.Show("Can't delete files. Files are being used, you need wait until process is finished.");
+                        return;
+                    }
+
+                    if (MessageBox.Show("Are you sure you will delete the files", "Files will be deleted!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        using (new WaitCursor())
+                        {
+                            UpdateStatusAction("Deleing files and all record about files in database....");
+                            filesCutCopyPasteDrag.DeleteSelectedFiles(this, imageListView1);
+                            FilesSelected();
+                        }
                     }
                 }
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
 
-            folderTreeViewFolder.Enabled = true;
-            imageListView1.Enabled = true;
-            imageListView1.Focus();
-            DisplayAllQueueStatus();
+                folderTreeViewFolder.Enabled = true;
+                imageListView1.Enabled = true;
+                imageListView1.Focus();
+                DisplayAllQueueStatus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
         #endregion
@@ -1363,22 +1876,30 @@ namespace PhotoTagsSynchronizer
         #region ToolStrip - OpenWith - Click
         private void ToolStripMenuItemOpenWith_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
-            if (toolStripMenuItem.Tag is ApplicationData applicationData)
+            try
             {
-
-                foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
+                if (toolStripMenuItem.Tag is ApplicationData applicationData)
                 {
-                    try
-                    {
-                        if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Can execute file. Error: " + ex.Message, "Can execute file", MessageBoxButtons.OK);
-                    }
-                }
 
+                    foreach (ImageListViewItem imageListViewItem in imageListView1.SelectedItems)
+                    {
+                        try
+                        {
+                            if (applicationData.VerbLinks.Count >= 1) ApplicationActivation.ProcessRun(applicationData.VerbLinks[0].Command, applicationData.ApplicationId, imageListViewItem.FileFullPath, applicationData.VerbLinks[0].Verb, false);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Can execute file. Error: " + ex.Message, "Can execute file", MessageBoxButtons.OK);
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -1389,65 +1910,89 @@ namespace PhotoTagsSynchronizer
         #region ImageListView - Cut - Click
         private void toolStripMenuItemImageListViewCut_Click(object sender, EventArgs e)
         {
-            var droplist = new StringCollection();
-            using (new WaitCursor())
+            try
             {
-                foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
+                var droplist = new StringCollection();
+                using (new WaitCursor())
+                {
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
 
-                DataObject data = new DataObject();
-                data.SetFileDropList(droplist);
-                data.SetData("Preferred DropEffect", DragDropEffects.Move);
+                    DataObject data = new DataObject();
+                    data.SetFileDropList(droplist);
+                    data.SetData("Preferred DropEffect", DragDropEffects.Move);
 
-                Clipboard.Clear();
-                Clipboard.SetDataObject(data, true);
+                    Clipboard.Clear();
+                    Clipboard.SetDataObject(data, true);
+                }
+                imageListView1.Focus();
             }
-            imageListView1.Focus();
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region ImageListView - Copy - Click
         private void toolStripMenuItemImageListViewCopy_Click(object sender, EventArgs e)
         {
-            StringCollection droplist = new StringCollection();
-            using (new WaitCursor())
+            try
             {
-                foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
+                StringCollection droplist = new StringCollection();
+                using (new WaitCursor())
+                {
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems) droplist.Add(item.FileFullPath);
 
-                DataObject data = new DataObject();
-                data.SetFileDropList(droplist);
-                data.SetData("Preferred DropEffect", DragDropEffects.Copy);
+                    DataObject data = new DataObject();
+                    data.SetFileDropList(droplist);
+                    data.SetData("Preferred DropEffect", DragDropEffects.Copy);
 
-                Clipboard.Clear();
-                Clipboard.SetDataObject(data, true);
+                    Clipboard.Clear();
+                    Clipboard.SetDataObject(data, true);
+                }
+                imageListView1.Focus();
             }
-            imageListView1.Focus();
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region ImageListView - Paste - Click
         private void toolStripMenuItemImageListViewPaste_Click(object sender, EventArgs e)
         {
-            StringCollection files = Clipboard.GetFileDropList();
-            using (new WaitCursor())
+            try
             {
-                foreach (string fullFilename in files)
+                StringCollection files = Clipboard.GetFileDropList();
+                using (new WaitCursor())
                 {
-                    bool fileFound = false;
-
-
-                    foreach (ImageListViewItem item in imageListView1.Items)
+                    foreach (string fullFilename in files)
                     {
-                        if (item.FileFullPath == fullFilename)
-                        {
-                            fileFound = true;
-                            break;
-                        }
-                    }
+                        bool fileFound = false;
 
-                    if (!fileFound) imageListView1.Items.Add(fullFilename);
+
+                        foreach (ImageListViewItem item in imageListView1.Items)
+                        {
+                            if (item.FileFullPath == fullFilename)
+                            {
+                                fileFound = true;
+                                break;
+                            }
+                        }
+
+                        if (!fileFound) imageListView1.Items.Add(fullFilename);
+                    }
                 }
+                imageListView1.Focus();
             }
-            imageListView1.Focus();
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
@@ -1472,46 +2017,54 @@ namespace PhotoTagsSynchronizer
         #region FolderTreeView - Delete Files - Directory - Click
         private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
         {
-            string folder = folderTreeViewFolder.GetSelectedNodePath();
-
-            if (IsFolderInThreadQueueLock(folder))
-            {
-                MessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.");
-                return;
-            }
             try
             {
-                string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories).Take(51).ToArray();
-                if (MessageBox.Show("You are about to delete the folder:\r\n\r\n" +
-                    folder + "\r\n\r\n" +
-                    "There are " + (fileAndFolderEntriesCount.Length == 51 ? " over 50+" : fileAndFolderEntriesCount.Length.ToString()) + " files found.\r\n\r\n" +
-                    "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                string folder = folderTreeViewFolder.GetSelectedNodePath();
+
+                if (IsFolderInThreadQueueLock(folder))
                 {
-                    using (new WaitCursor())
+                    MessageBox.Show("Can't delete folder. Files in folder is been used, you need wait until process is finished.");
+                    return;
+                }
+                try
+                {
+                    string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories).Take(51).ToArray();
+                    if (MessageBox.Show("You are about to delete the folder:\r\n\r\n" +
+                        folder + "\r\n\r\n" +
+                        "There are " + (fileAndFolderEntriesCount.Length == 51 ? " over 50+" : fileAndFolderEntriesCount.Length.ToString()) + " files found.\r\n\r\n" +
+                        "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        UpdateStatusAction("Delete all record about files in database....");
-                        int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, folderTreeViewFolder, folder);
-                        UpdateStatusAction(recordAffected + " records was delete from database....");
-                        PopulateImageListView_FromFolderSelected(false, true);
+                        using (new WaitCursor())
+                        {
+                            UpdateStatusAction("Delete all record about files in database....");
+                            int recordAffected = filesCutCopyPasteDrag.DeleteFilesInFolder(this, folderTreeViewFolder, folder);
+                            UpdateStatusAction(recordAffected + " records was delete from database....");
+                            PopulateImageListView_FromFolderSelected(false, true);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Error when delete folder.");
+
+                    AddError(
+                        folder,
+                        AddErrorFileSystemRegion, AddErrorFileSystemDeleteFolder, folder, folder,
+                        "Was not able to delete folder with files and subfolder!\r\n\r\n" +
+                        "From: " + folder + "\r\n\r\n" +
+                        "Error message:\r\n" + ex.Message + "\r\n");
+                }
+                finally
+                {
+                    GlobalData.DoNotRefreshImageListView = false;
+                }
+                folderTreeViewFolder.Focus();
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Error when delete folder.");
-
-                AddError(
-                    folder,
-                    AddErrorFileSystemRegion, AddErrorFileSystemDeleteFolder, folder, folder,
-                    "Was not able to delete folder with files and subfolder!\r\n\r\n" +
-                    "From: " + folder + "\r\n\r\n" +
-                    "Error message:\r\n" + ex.Message + "\r\n");
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally
-            {
-                GlobalData.DoNotRefreshImageListView = false;
-            }
-            folderTreeViewFolder.Focus();
         }
         #endregion
 
@@ -1538,31 +2091,63 @@ namespace PhotoTagsSynchronizer
         #region FolderTree - Copy - Click
         private void toolStripMenuItemTreeViewFolderCopy_Click(object sender, EventArgs e)
         {
-            string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
-            StringCollection droplist = new StringCollection();
-            using (new WaitCursor())
+            try
             {
-                droplist.Add(folder);
+                string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
+                StringCollection droplist = new StringCollection();
+                using (new WaitCursor())
+                {
+                    droplist.Add(folder);
 
-                DataObject data = new DataObject();
-                data.SetFileDropList(droplist);
-                data.SetData("Preferred DropEffect", DragDropEffects.Copy);
+                    DataObject data = new DataObject();
+                    data.SetFileDropList(droplist);
+                    data.SetData("Preferred DropEffect", DragDropEffects.Copy);
 
-                Clipboard.Clear();
-                Clipboard.SetDataObject(data, true);
+                    Clipboard.Clear();
+                    Clipboard.SetDataObject(data, true);
+                }
+                folderTreeViewFolder.Focus();
             }
-            folderTreeViewFolder.Focus();
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
+        #endregion
+
+        #region 
+        private void toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string folder = Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging); // folderTreeViewFolder.GetSelectedNodePath();
+                Clipboard.SetText(folder);
+            } catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region FolderTree - Paste - Click
         private void toolStripMenuItemTreeViewFolderPaste_Click(object sender, EventArgs e)
         {
-            DragDropEffects dragDropEffects = DetectCopyOrMove();
-            using (new WaitCursor())
+            try
             {
-                CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
-                folderTreeViewFolder.Focus();
+                DragDropEffects dragDropEffects = DetectCopyOrMove();
+                using (new WaitCursor())
+                {
+                    CopyOrMove(dragDropEffects, currentNodeWhenStartDragging, Clipboard.GetFileDropList(), Furty.Windows.Forms.ShellOperations.GetFileDirectory(currentNodeWhenStartDragging));
+                    folderTreeViewFolder.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -1570,11 +2155,19 @@ namespace PhotoTagsSynchronizer
         #region FolderTree - Folder - Click
         private void folderTreeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (GlobalData.IsPopulatingFolderTree) return;
-            if (GlobalData.IsDragAndDropActive) return;
+            try
+            {
+                if (GlobalData.IsPopulatingFolderTree) return;
+                if (GlobalData.IsDragAndDropActive) return;
 
-            if (GlobalData.DoNotRefreshImageListView) return;
-            PopulateImageListView_FromFolderSelected(false, true);
+                if (GlobalData.DoNotRefreshImageListView) return;
+                PopulateImageListView_FromFolderSelected(false, true);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
@@ -1618,105 +2211,121 @@ namespace PhotoTagsSynchronizer
         #region FolderTree - Drag and Drop - Files or Folders - ** Check if File is in ThreadQueue before accept move **
         private void CopyOrMove(DragDropEffects dragDropEffects, TreeNode targetNode, StringCollection fileDropList, string targetDirectory)
         {
-            if (dragDropEffects == DragDropEffects.None)
+            try
             {
-                MessageBox.Show("Was not able to detect if you select copy or cut object that was pasted or dropped");
-                return;
-            }
-
-            if (dragDropEffects == DragDropEffects.None)
-            {
-                if (IsFileInThreadQueueLock(fileDropList))
+                if (dragDropEffects == DragDropEffects.None)
                 {
-                    MessageBox.Show("Can't move files. Files are being used, you need wait until process is finished.");
+                    MessageBox.Show("Was not able to detect if you select copy or cut object that was pasted or dropped");
                     return;
                 }
-            }
 
-            StringCollection files = new StringCollection();
-            StringCollection directories = new StringCollection();
-
-            int numberOfFilesAndFolders = 0;
-            string copyFromFolders = "";
-            int countFoldersSelected = 0;
-
-            foreach (string clipbordSourceFileOrDirectory in fileDropList)
-            {
-                if (File.Exists(clipbordSourceFileOrDirectory))
+                if (dragDropEffects == DragDropEffects.None)
                 {
-                    files.Add(clipbordSourceFileOrDirectory);
-                    numberOfFilesAndFolders++;
-                }
-                else if (Directory.Exists(clipbordSourceFileOrDirectory))
-                {
-                    directories.Add(clipbordSourceFileOrDirectory);
-                    if (numberOfFilesAndFolders <= 51)
+                    if (IsFileInThreadQueueLock(fileDropList))
                     {
-                        string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(clipbordSourceFileOrDirectory, "*", SearchOption.AllDirectories).Take(51).ToArray();
-                        numberOfFilesAndFolders += fileAndFolderEntriesCount.Length;
+                        MessageBox.Show("Can't move files. Files are being used, you need wait until process is finished.");
+                        return;
                     }
-
-                    countFoldersSelected++;
-                    if (countFoldersSelected < 3)
-                    {
-                        copyFromFolders += clipbordSourceFileOrDirectory + "\r\n";
-
-                    }
-                    else if (countFoldersSelected == 4) copyFromFolders += "and more directories...\r\n";
                 }
-            }
 
-            if (numberOfFilesAndFolders <= 50 ||
-                (MessageBox.Show("You are about to " + dragDropEffects.ToString() + " " + (numberOfFilesAndFolders > 50 ? "over 50+" : numberOfFilesAndFolders.ToString()) + " files and/or folders.\r\n\r\n" +
-                "From:\r\n" + copyFromFolders + "\r\n\r\n" +
-                "To folder:\r\n" + targetDirectory + "\r\n\r\n" +
-                "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK))
-            {
+                StringCollection files = new StringCollection();
+                StringCollection directories = new StringCollection();
 
-                if (dragDropEffects == DragDropEffects.Move)
-                    MoveFiles(folderTreeViewFolder, imageListView1, files, targetDirectory);
-                else
-                    CopyFiles(folderTreeViewFolder, files, targetDirectory);
+                int numberOfFilesAndFolders = 0;
+                string copyFromFolders = "";
+                int countFoldersSelected = 0;
 
-                foreach (string sourceDirectory in directories)
+                foreach (string clipbordSourceFileOrDirectory in fileDropList)
                 {
-                    string newTagretDirectory = Path.Combine(targetDirectory, new DirectoryInfo(sourceDirectory).Name); //Target directory + dragged (drag&drop) direcotry
-                                                                                                                        //TreeNode targetNode = folderTreeViewFolder.SelectedNode;
-                    TreeNode sourceNode = folderTreeViewFolder.FindFolder(sourceDirectory);
+                    if (File.Exists(clipbordSourceFileOrDirectory))
+                    {
+                        files.Add(clipbordSourceFileOrDirectory);
+                        numberOfFilesAndFolders++;
+                    }
+                    else if (Directory.Exists(clipbordSourceFileOrDirectory))
+                    {
+                        directories.Add(clipbordSourceFileOrDirectory);
+                        if (numberOfFilesAndFolders <= 51)
+                        {
+                            string[] fileAndFolderEntriesCount = Directory.EnumerateFiles(clipbordSourceFileOrDirectory, "*", SearchOption.AllDirectories).Take(51).ToArray();
+                            numberOfFilesAndFolders += fileAndFolderEntriesCount.Length;
+                        }
+
+                        countFoldersSelected++;
+                        if (countFoldersSelected < 3)
+                        {
+                            copyFromFolders += clipbordSourceFileOrDirectory + "\r\n";
+
+                        }
+                        else if (countFoldersSelected == 4) copyFromFolders += "and more directories...\r\n";
+                    }
+                }
+
+                if (numberOfFilesAndFolders <= 50 ||
+                    (MessageBox.Show("You are about to " + dragDropEffects.ToString() + " " + (numberOfFilesAndFolders > 50 ? "over 50+" : numberOfFilesAndFolders.ToString()) + " files and/or folders.\r\n\r\n" +
+                    "From:\r\n" + copyFromFolders + "\r\n\r\n" +
+                    "To folder:\r\n" + targetDirectory + "\r\n\r\n" +
+                    "Procced?", "Are you sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK))
+                {
 
                     if (dragDropEffects == DragDropEffects.Move)
-                        MoveFolder(folderTreeViewFolder, sourceNode, targetNode, sourceDirectory, newTagretDirectory);
+                        MoveFiles(folderTreeViewFolder, imageListView1, files, targetDirectory);
                     else
-                        CopyFolder(folderTreeViewFolder, targetNode, sourceDirectory, newTagretDirectory);
+                        CopyFiles(folderTreeViewFolder, files, targetDirectory);
+
+                    foreach (string sourceDirectory in directories)
+                    {
+                        string newTagretDirectory = Path.Combine(targetDirectory, new DirectoryInfo(sourceDirectory).Name); //Target directory + dragged (drag&drop) direcotry
+                                                                                                                            //TreeNode targetNode = folderTreeViewFolder.SelectedNode;
+                        TreeNode sourceNode = folderTreeViewFolder.FindFolder(sourceDirectory);
+
+                        if (dragDropEffects == DragDropEffects.Move)
+                            MoveFolder(folderTreeViewFolder, sourceNode, targetNode, sourceDirectory, newTagretDirectory);
+                        else
+                            CopyFolder(folderTreeViewFolder, targetNode, sourceDirectory, newTagretDirectory);
+                    }
                 }
+
+                folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
+                filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, currentNodeWhenStartDragging);
+                folderTreeViewFolder.Focus();
+
             }
-
-            folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
-            filesCutCopyPasteDrag.RefeshFolderTree(folderTreeViewFolder, currentNodeWhenStartDragging);
-            folderTreeViewFolder.Focus();
-
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region FolderTree - Drag and Drop - Drop - Move/Copy Files - Move/Copy Folders
         private void folderTreeViewFolder_DragDrop(object sender, DragEventArgs e)
         {
-            Point targetPoint = folderTreeViewFolder.PointToClient(new Point(e.X, e.Y)); // Retrieve the client coordinates of the drop location.                          
-            TreeNode targetNode = folderTreeViewFolder.GetNodeAt(targetPoint); // Retrieve the node at the drop location.
-            string targetDirectory = Furty.Windows.Forms.ShellOperations.GetFileDirectory(targetNode);
-
-            #region Move media files dropped to new folder from external source
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop); //Check if files been dropped
-            if (files != null)
+            try
             {
-                StringCollection fileCollection = new StringCollection();
-                fileCollection.AddRange(files);
-                CopyOrMove(e.Effect, targetNode, fileCollection, targetDirectory);
-            }
-            #endregion
+                Point targetPoint = folderTreeViewFolder.PointToClient(new Point(e.X, e.Y)); // Retrieve the client coordinates of the drop location.                          
+                TreeNode targetNode = folderTreeViewFolder.GetNodeAt(targetPoint); // Retrieve the node at the drop location.
+                string targetDirectory = Furty.Windows.Forms.ShellOperations.GetFileDirectory(targetNode);
 
-            GlobalData.IsDragAndDropActive = false;
-            folderTreeViewFolder.Focus();
+                #region Move media files dropped to new folder from external source
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop); //Check if files been dropped
+                if (files != null)
+                {
+                    StringCollection fileCollection = new StringCollection();
+                    fileCollection.AddRange(files);
+                    CopyOrMove(e.Effect, targetNode, fileCollection, targetDirectory);
+                }
+                #endregion
+
+                GlobalData.IsDragAndDropActive = false;
+                folderTreeViewFolder.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
         #endregion
@@ -1738,15 +2347,24 @@ namespace PhotoTagsSynchronizer
         #region FolderTree - Drag and Drop - Node Mouse Click - Set clickedNode
         private void folderTreeViewFolder_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            //clickedNode = e.Node;
-            currentNodeWhenStartDragging = e.Node;
+            try
+            {
+                //clickedNode = e.Node;
+                currentNodeWhenStartDragging = e.Node;
 
-            if (e.Button == MouseButtons.Right)
+                if (e.Button == MouseButtons.Right)
+                {
+                    folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
+                }
+                else if (e.Button == MouseButtons.Left)
+                {
+                    PopulateImageListView_FromFolderSelected(false, true);
+                }
+            }
+            catch (Exception ex)
             {
-                folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
-            } else if (e.Button == MouseButtons.Left)
-            {
-                PopulateImageListView_FromFolderSelected(false, true);
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion
@@ -1816,15 +2434,23 @@ namespace PhotoTagsSynchronizer
         #region FolderTree - Drag and Drop - Drag Leave - Set Clipboard data to ** FileDropList ** | Link |
         private void folderTreeViewFolder_DragLeave(object sender, EventArgs e)
         {
-            isInternalDrop = false;
+            try
+            {
+                isInternalDrop = false;
 
-            GlobalData.IsDragAndDropActive = false;
+                GlobalData.IsDragAndDropActive = false;
 
-            GlobalData.DoNotRefreshImageListView = true;
-            folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
-            GlobalData.DoNotRefreshImageListView = false;
+                GlobalData.DoNotRefreshImageListView = true;
+                folderTreeViewFolder.SelectedNode = currentNodeWhenStartDragging;
+                GlobalData.DoNotRefreshImageListView = false;
 
-            folderTreeViewFolder.Focus();
+                folderTreeViewFolder.Focus();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
@@ -1914,34 +2540,50 @@ namespace PhotoTagsSynchronizer
         #region Select Group - Previous
         private void toolStripButtonSelectPrevious_Click(object sender, EventArgs e)
         {
-            lastGroupDirection = -1;
-            int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, lastGroupDirection);
+            try
+            {
+                lastGroupDirection = -1;
+                int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, lastGroupDirection);
 
-            SelectedGroupBySelections(imageListView1, baseItemIndex, lastGroupDirection,
-                Properties.Settings.Default.SelectGroupMaxCount,
-                Properties.Settings.Default.SelectGroupNumberOfDays,
-                Properties.Settings.Default.SelectGroupFileCreatedFallback,
-                Properties.Settings.Default.SelectGroupSameLocationName,
-                Properties.Settings.Default.SelectGroupSameCity,
-                Properties.Settings.Default.SelectGroupSameDistrict,
-                Properties.Settings.Default.SelectGroupSameCountry);
+                SelectedGroupBySelections(imageListView1, baseItemIndex, lastGroupDirection,
+                    Properties.Settings.Default.SelectGroupMaxCount,
+                    Properties.Settings.Default.SelectGroupNumberOfDays,
+                    Properties.Settings.Default.SelectGroupFileCreatedFallback,
+                    Properties.Settings.Default.SelectGroupSameLocationName,
+                    Properties.Settings.Default.SelectGroupSameCity,
+                    Properties.Settings.Default.SelectGroupSameDistrict,
+                    Properties.Settings.Default.SelectGroupSameCountry);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - Next
         private void toolStripButtonSelectNext_Click(object sender, EventArgs e)
         {
-            lastGroupDirection = 1;
-            int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, lastGroupDirection);
+            try
+            {
+                lastGroupDirection = 1;
+                int baseItemIndex = SelectedGroupFindBaseItemIndex(imageListView1, lastGroupDirection);
 
-            SelectedGroupBySelections(imageListView1, baseItemIndex, lastGroupDirection,
-                Properties.Settings.Default.SelectGroupMaxCount,
-                Properties.Settings.Default.SelectGroupNumberOfDays,
-                Properties.Settings.Default.SelectGroupFileCreatedFallback,
-                Properties.Settings.Default.SelectGroupSameLocationName,
-                Properties.Settings.Default.SelectGroupSameCity,
-                Properties.Settings.Default.SelectGroupSameDistrict,
-                Properties.Settings.Default.SelectGroupSameCountry);
+                SelectedGroupBySelections(imageListView1, baseItemIndex, lastGroupDirection,
+                    Properties.Settings.Default.SelectGroupMaxCount,
+                    Properties.Settings.Default.SelectGroupNumberOfDays,
+                    Properties.Settings.Default.SelectGroupFileCreatedFallback,
+                    Properties.Settings.Default.SelectGroupSameLocationName,
+                    Properties.Settings.Default.SelectGroupSameCity,
+                    Properties.Settings.Default.SelectGroupSameDistrict,
+                    Properties.Settings.Default.SelectGroupSameCountry);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
@@ -1964,116 +2606,212 @@ namespace PhotoTagsSynchronizer
         #region Select Group - Fallback on File Created
         private void toolStripMenuItemSelectFallbackOnFileCreated_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
-            Properties.Settings.Default.SelectGroupFileCreatedFallback = !toolStripMenuItem.Checked;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
+                Properties.Settings.Default.SelectGroupFileCreatedFallback = !toolStripMenuItem.Checked;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - Same day
         private void toolStripMenuItemSelectSameDay_Click(object sender, EventArgs e)
         {
-            if (toolStripMenuItemSelectSameDay.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
-            else Properties.Settings.Default.SelectGroupNumberOfDays = 1;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                if (toolStripMenuItemSelectSameDay.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
+                else Properties.Settings.Default.SelectGroupNumberOfDays = 1;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - Same 3 days
         private void toolStripMenuItemSelectSame3Day_Click(object sender, EventArgs e)
         {
-            if (toolStripMenuItemSelectSame3Day.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
-            else Properties.Settings.Default.SelectGroupNumberOfDays = 3;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                if (toolStripMenuItemSelectSame3Day.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
+                else Properties.Settings.Default.SelectGroupNumberOfDays = 3;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - Same week
         private void toolStripMenuItemSelectSameWeek_Click(object sender, EventArgs e)
         {
-            if (toolStripMenuItemSelectSameWeek.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
-            else Properties.Settings.Default.SelectGroupNumberOfDays = 7;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                if (toolStripMenuItemSelectSameWeek.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
+                else Properties.Settings.Default.SelectGroupNumberOfDays = 7;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - Same 2 weeks
         private void toolStripMenuItemSelectSame2week_Click(object sender, EventArgs e)
         {
-            if (toolStripMenuItemSelectSame2week.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
-            else Properties.Settings.Default.SelectGroupNumberOfDays = 14;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                if (toolStripMenuItemSelectSame2week.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
+                else Properties.Settings.Default.SelectGroupNumberOfDays = 14;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
         #region Select Group - Same month
         private void toolStripMenuItemSelectSameMonth_Click(object sender, EventArgs e)
         {
-            if (toolStripMenuItemSelectSameMonth.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
-            else Properties.Settings.Default.SelectGroupNumberOfDays = 30;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                if (toolStripMenuItemSelectSameMonth.Checked) Properties.Settings.Default.SelectGroupNumberOfDays = -1;
+                else Properties.Settings.Default.SelectGroupNumberOfDays = 30;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - Max 10 items
         private void toolStripMenuItemSelectMax10items_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.SelectGroupMaxCount = 10;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                Properties.Settings.Default.SelectGroupMaxCount = 10;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - Max 30 items
         private void toolStripMenuItemSelectMax30items_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.SelectGroupMaxCount = 30;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                Properties.Settings.Default.SelectGroupMaxCount = 30;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - 50 items
         private void toolStripMenuItemSelectMax50items_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.SelectGroupMaxCount = 50;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                Properties.Settings.Default.SelectGroupMaxCount = 50;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - 100 items
         private void toolStripMenuItemSelectMax100items_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.SelectGroupMaxCount = 100;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                Properties.Settings.Default.SelectGroupMaxCount = 100;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - Same Location Name
         private void toolStripMenuItemSelectSameLocationName_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
-            Properties.Settings.Default.SelectGroupSameLocationName = !toolStripMenuItem.Checked;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
+                Properties.Settings.Default.SelectGroupSameLocationName = !toolStripMenuItem.Checked;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 
         #region Select Group - Same City
         private void toolStripMenuItemSelectSameCity_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
-            Properties.Settings.Default.SelectGroupSameCity = !toolStripMenuItem.Checked;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
+                Properties.Settings.Default.SelectGroupSameCity = !toolStripMenuItem.Checked;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
@@ -2090,10 +2828,18 @@ namespace PhotoTagsSynchronizer
         #region Select Group - Same Country
         private void toolStripMenuItemSelectSameCountry_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
-            Properties.Settings.Default.SelectGroupSameCountry = !toolStripMenuItem.Checked;
-            PopulateSelectGroupToolStripMenuItems();
-            GroupSelectLast();
+            try
+            {
+                ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)(sender);
+                Properties.Settings.Default.SelectGroupSameCountry = !toolStripMenuItem.Checked;
+                PopulateSelectGroupToolStripMenuItems();
+                GroupSelectLast();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion 
 

@@ -53,6 +53,7 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripTreeViewFolder = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemTreeViewFolderCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderRefreshFolder = new System.Windows.Forms.ToolStripMenuItem();
@@ -679,6 +680,7 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripTreeViewFolder.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemTreeViewFolderCut,
             this.toolStripMenuItemTreeViewFolderCopy,
+            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard,
             this.toolStripMenuItemTreeViewFolderPaste,
             this.toolStripMenuItemTreeViewFolderDelete,
             this.toolStripMenuItemTreeViewFolderRefreshFolder,
@@ -688,7 +690,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata,
             this.openFolderLocationToolStripMenuItem});
             this.contextMenuStripTreeViewFolder.Name = "contextMenuStripImageListView";
-            this.contextMenuStripTreeViewFolder.Size = new System.Drawing.Size(390, 264);
+            this.contextMenuStripTreeViewFolder.Size = new System.Drawing.Size(390, 290);
             // 
             // toolStripMenuItemTreeViewFolderCut
             // 
@@ -707,6 +709,16 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderCopy.Size = new System.Drawing.Size(389, 26);
             this.toolStripMenuItemTreeViewFolderCopy.Text = "Copy";
             this.toolStripMenuItemTreeViewFolderCopy.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderCopy_Click);
+            // 
+            // toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard
+            // 
+            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Name = "toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard";
+            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Size = new System.Drawing.Size(389, 26);
+            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Text = "Copy folder name to Clipboard";
+            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Click += new System.EventHandler(this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard_Click);
             // 
             // toolStripMenuItemTreeViewFolderPaste
             // 
@@ -1469,7 +1481,7 @@ namespace PhotoTagsSynchronizer
             this.ratateCCW270ToolStripMenuItem,
             this.mediaPreviewToolStripMenuItem});
             this.contextMenuStripImageListView.Name = "contextMenuStripImageListView";
-            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 576);
+            this.contextMenuStripImageListView.Size = new System.Drawing.Size(390, 604);
             // 
             // sortMediaFileByToolStripMenuItem
             // 
@@ -3505,9 +3517,9 @@ namespace PhotoTagsSynchronizer
             this.tabPageFileRename.Controls.Add(this.label1);
             this.tabPageFileRename.Controls.Add(this.textBoxRenameNewName);
             this.tabPageFileRename.Controls.Add(this.dataGridViewRename);
-            this.tabPageFileRename.Location = new System.Drawing.Point(4, 26);
+            this.tabPageFileRename.Location = new System.Drawing.Point(4, 25);
             this.tabPageFileRename.Name = "tabPageFileRename";
-            this.tabPageFileRename.Size = new System.Drawing.Size(706, 862);
+            this.tabPageFileRename.Size = new System.Drawing.Size(706, 863);
             this.tabPageFileRename.TabIndex = 8;
             this.tabPageFileRename.Tag = "Rename";
             this.tabPageFileRename.Text = "Rename";
@@ -3633,7 +3645,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.Name = "dataGridViewRename";
             this.dataGridViewRename.RowHeadersWidth = 51;
             this.dataGridViewRename.RowTemplate.Height = 24;
-            this.dataGridViewRename.Size = new System.Drawing.Size(703, 758);
+            this.dataGridViewRename.Size = new System.Drawing.Size(703, 759);
             this.dataGridViewRename.TabIndex = 4;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewRename_CellPainting);
@@ -5081,6 +5093,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewAutoCorrectForm;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowCoordinateOnGoogleMap;
         private System.Windows.Forms.CheckBox checkBoxRenameShowFullPath;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard;
     }
 }
 
