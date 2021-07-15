@@ -22,23 +22,23 @@ namespace PhotoTagsSynchronizer
             {
                 switch (tag)
                 {
-                    case "Tags":
+                    case LinkTabAndDataGridViewNameTags:
                         return dataGridViewTagsAndKeywords;
-                    case "Map":
+                    case LinkTabAndDataGridViewNameMap:
                         return dataGridViewMap;
-                    case "People":
+                    case LinkTabAndDataGridViewNamePeople:
                         return dataGridViewPeople;
-                    case "Date":
+                    case LinkTabAndDataGridViewNameDates:
                         return dataGridViewDate;
-                    case "ExifTool":
+                    case LinkTabAndDataGridViewNameExiftool:
                         return dataGridViewExifTool;
-                    case "Warning":
+                    case LinkTabAndDataGridViewNameWarnings:
                         return dataGridViewExifToolWarning;
-                    case "Properties":
+                    case LinkTabAndDataGridViewNameProperties:
                         return dataGridViewProperties;
-                    case "Rename":
+                    case LinkTabAndDataGridViewNameRename:
                         return dataGridViewRename;
-                    case "ConvertAndMerge":
+                    case LinkTabAndDataGridViewNameConvertAndMerge:
                         return dataGridViewConvertAndMerge; 
                     default:
                         return null;
@@ -89,31 +89,31 @@ namespace PhotoTagsSynchronizer
             bool isAgregated = false;
             switch (tag)
             {
-                case "Tags":
+                case LinkTabAndDataGridViewNameTags:
                     isAgregated = GlobalData.IsAgregatedTags;
                     break;
-                case "People":
+                case LinkTabAndDataGridViewNamePeople:
                     isAgregated = GlobalData.IsAgregatedPeople;
                     break;
-                case "Map":
+                case LinkTabAndDataGridViewNameMap:
                     isAgregated = GlobalData.IsAgregatedMap;
                     break;
-                case "Date":
+                case LinkTabAndDataGridViewNameDates:
                     isAgregated = GlobalData.IsAgregatedDate;
                     break;
-                case "ExifTool":
+                case LinkTabAndDataGridViewNameExiftool:
                     isAgregated = GlobalData.IsAgregatedExiftoolTags;
                     break;
-                case "Warning":
+                case LinkTabAndDataGridViewNameWarnings:
                     isAgregated = GlobalData.IsAgregatedExiftoolWarning;
                     break;
-                case "Properties":
+                case LinkTabAndDataGridViewNameProperties:
                     isAgregated = GlobalData.IsAgregatedProperties;
                     break;
-                case "Rename":
+                case LinkTabAndDataGridViewNameRename:
                     isAgregated = GlobalData.IsAgregatedRename;
                     break;
-                case "ConvertAndMerge":
+                case LinkTabAndDataGridViewNameConvertAndMerge:
                     isAgregated = GlobalData.IsAgregatedConvertAndMerge;
                     break;
             }
@@ -154,30 +154,30 @@ namespace PhotoTagsSynchronizer
                 {
                     switch (tag)
                     {
-                        case "Tags":
+                        case LinkTabAndDataGridViewNameTags:
                             DataGridViewHandlerTagsAndKeywords.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
-                        case "People":
+                        case LinkTabAndDataGridViewNamePeople:
                             DataGridViewHandlerPeople.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
-                        case "Map":
+                        case LinkTabAndDataGridViewNameMap:
                             DataGridViewHandlerMap.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
-                        case "Date":
+                        case LinkTabAndDataGridViewNameDates:
                             DataGridViewHandlerDate.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
-                        case "ExifTool":
+                        case LinkTabAndDataGridViewNameExiftool:
                             DataGridViewHandlerExiftool.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
-                        case "Warning":
+                        case LinkTabAndDataGridViewNameWarnings:
                             DataGridViewHandlerExiftoolWarnings.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
-                        case "Properties":
+                        case LinkTabAndDataGridViewNameProperties:
                             DataGridViewHandlerProperties.PopulateFile(dataGridView, fileEntryAttribute, showWhatColumns);
                             break;
-                        case "Rename":
+                        case LinkTabAndDataGridViewNameRename:
                             break;
-                        case "ConvertAndMerge":
+                        case LinkTabAndDataGridViewNameConvertAndMerge:
                             break;
                         default:
                             throw new NotImplementedException();
@@ -246,27 +246,27 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = GetActiveTabDataGridView();
                 switch (GetActiveTabTag())
                 {
-                    case "Tags":
+                    case LinkTabAndDataGridViewNameTags:
                         PopulateDetailViewTagsAndKeywords(dataGridView);
                         break;
-                    case "Map":
+                    case LinkTabAndDataGridViewNameMap:
                         break;
-                    case "People":
+                    case LinkTabAndDataGridViewNamePeople:
                         break;
-                    case "Date":
+                    case LinkTabAndDataGridViewNameDates:
                         break;
-                    case "ExifTool":
+                    case LinkTabAndDataGridViewNameExiftool:
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridViewQueueSizeDirty());
                         break;
-                    case "Warning":
+                    case LinkTabAndDataGridViewNameWarnings:
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridViewQueueSizeDirty());
                         break;
-                    case "Properties":
+                    case LinkTabAndDataGridViewNameProperties:
                         DataGridViewHandler.FastAutoSizeRowsHeight(dataGridView, ThreadLazyLoadingDataGridViewQueueSizeDirty());
                         break;
-                    case "Rename":
+                    case LinkTabAndDataGridViewNameRename:
                         break;
-                    case "ConvertAndMerge":
+                    case LinkTabAndDataGridViewNameConvertAndMerge:
                         break;
                     default:
                         throw new NotImplementedException();
@@ -314,7 +314,7 @@ namespace PhotoTagsSynchronizer
                 
                 switch (GetActiveTabTag())
                 {
-                    case "Tags":                        
+                    case LinkTabAndDataGridViewNameTags:                        
                         ClearDetailViewTagsAndKeywords();
                         DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
                         DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
@@ -325,7 +325,7 @@ namespace PhotoTagsSynchronizer
                         LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                         
                         break;
-                    case "Map":
+                    case LinkTabAndDataGridViewNameMap:
                         splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
                         DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
                         DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
@@ -339,7 +339,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeMap, showWhatColumns);
                         LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                         break;
-                    case "People":
+                    case LinkTabAndDataGridViewNamePeople:
                         PopulatePeopleToolStripMenuItems();
                         DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerPeople.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
@@ -350,7 +350,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, showWhatColumns);
                         LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                         break;
-                    case "Date":
+                    case LinkTabAndDataGridViewNameDates:
                         DataGridViewHandlerDate.DatabaseExiftoolData = databaseExiftoolData;
                         DataGridViewHandlerDate.DataGridViewMap = dataGridViewMap;
                         DataGridViewHandlerDate.DataGridViewMapHeaderMedia = DataGridViewHandlerMap.headerMedia;
@@ -362,7 +362,7 @@ namespace PhotoTagsSynchronizer
                         DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeDates, showWhatColumns);
                         LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
                         break;
-                    case "ExifTool":
+                    case LinkTabAndDataGridViewNameExiftool:
                         DataGridViewHandlerExiftool.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerExiftool.DatabaseExiftoolData = databaseExiftoolData;
                         DataGridViewHandlerExiftool.exiftoolReader = exiftoolReader;
@@ -370,7 +370,7 @@ namespace PhotoTagsSynchronizer
                         AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoading);
                         AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoading);
                         break;
-                    case "Warning":
+                    case LinkTabAndDataGridViewNameWarnings:
                         DataGridViewHandlerExiftoolWarnings.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
                         DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
                         DataGridViewHandlerExiftoolWarnings.exiftoolReader = exiftoolReader;
@@ -378,19 +378,19 @@ namespace PhotoTagsSynchronizer
                         AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoading);
                         AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoading);
                         break;
-                    case "Properties":
+                    case LinkTabAndDataGridViewNameProperties:
                         DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
                         DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
                         PopulateDataGridViewForSelectedItemsExtrasInvoke();
                         break;
-                    case "Rename":
+                    case LinkTabAndDataGridViewNameRename:
                         DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
                         DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
                         DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
                         DataGridViewHandlerRename.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
                         DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);                        
                         break;
-                    case "ConvertAndMerge":
+                    case LinkTabAndDataGridViewNameConvertAndMerge:
                         DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
                         DataGridViewHandlerConvertAndMerge.RenameVaribale = Properties.Settings.Default.RenameVariable;
                         DataGridViewHandlerConvertAndMerge.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;

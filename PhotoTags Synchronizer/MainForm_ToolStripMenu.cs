@@ -1140,35 +1140,35 @@ namespace PhotoTagsSynchronizer
         {
             switch (GetActiveTabTag())
             {
-                case "Tags":
+                case LinkTabAndDataGridViewNameTags:
                     DataGridViewHandler.SetCellSize(dataGridViewTagsAndKeywords, size, false);
                     Properties.Settings.Default.CellSizeKeywords = (int)size;
                     break;
-                case "Map":
+                case LinkTabAndDataGridViewNameMap:
                     DataGridViewHandler.SetCellSize(dataGridViewMap, size, false);
                     Properties.Settings.Default.CellSizeMap = (int)size;
                     break;
-                case "People":
+                case LinkTabAndDataGridViewNamePeople:
                     DataGridViewHandler.SetCellSize(dataGridViewPeople, size, true);
                     Properties.Settings.Default.CellSizePeoples = (int)size;
                     break;
-                case "Date":
+                case LinkTabAndDataGridViewNameDates:
                     DataGridViewHandler.SetCellSize(dataGridViewDate, size, false);
                     Properties.Settings.Default.CellSizeDates = (int)size;
                     break;
-                case "ExifTool":
+                case LinkTabAndDataGridViewNameExiftool:
                     DataGridViewHandler.SetCellSize(dataGridViewExifTool, size, false);
                     Properties.Settings.Default.CellSizeExiftool = (int)size;
                     break;
-                case "Warning":
+                case LinkTabAndDataGridViewNameWarnings:
                     DataGridViewHandler.SetCellSize(dataGridViewExifToolWarning, size, false);
                     Properties.Settings.Default.CellSizeWarnings = (int)size;
                     break;
-                case "Properties":
+                case LinkTabAndDataGridViewNameProperties:
                     DataGridViewHandler.SetCellSize(dataGridViewProperties, size, false);
                     Properties.Settings.Default.CellSizeProperties = (int)size;
                     break;
-                case "Rename":
+                case LinkTabAndDataGridViewNameRename:
                     DataGridViewHandler.SetCellSize(dataGridViewRename, (size | DataGridViewSize.RenameConvertAndMergeSize), false);
                     Properties.Settings.Default.CellSizeRename = (int)size;
                     break;

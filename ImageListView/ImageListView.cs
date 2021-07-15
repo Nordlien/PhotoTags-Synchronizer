@@ -923,11 +923,17 @@ namespace Manina.Windows.Forms
                 return;
             }
 
-            if (((TimeSpan)(DateTime.Now - startTime)).TotalMilliseconds > 100)
+            try
             {
-                timer.Stop();
-                isTimerStarted = false;
-                base.Refresh();
+                if (((TimeSpan)(DateTime.Now - startTime)).TotalMilliseconds > 100)
+                {
+                    timer.Stop();
+                    isTimerStarted = false;
+                    base.Refresh();
+                }
+            } catch
+            {
+                //Debug
             }
         }
         public override void Refresh()

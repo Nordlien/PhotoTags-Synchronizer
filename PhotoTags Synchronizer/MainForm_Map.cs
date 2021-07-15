@@ -359,6 +359,24 @@ namespace PhotoTagsSynchronizer
 
         #region DataGridMap Enter Cell with GPS location, update map
 
+        private void dataGridViewMap_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewMap;
+            RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
+
+        private void toolStripMenuItemShowPosterWindowMap_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewMap;
+            OpenRegionSelector();
+            RegionSelectorLoadAndSelect(dataGridView);
+        }
+
+        private void dataGridViewMap_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
 
         #region DataGridView - Map - Cell Mouse *Double* Click
         private void dataGridViewMap_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)

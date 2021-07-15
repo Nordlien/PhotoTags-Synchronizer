@@ -114,5 +114,24 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewDate_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
         }
+
+        private void dataGridViewDate_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewDate;
+            RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
+
+        private void toolStripMenuItemShowPosterWindowDate_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewDate;
+            OpenRegionSelector();
+            RegionSelectorLoadAndSelect(dataGridView);
+        }
+
+        private void dataGridViewDate_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
     }   
 }

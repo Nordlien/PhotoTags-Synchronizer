@@ -82,6 +82,18 @@ namespace PhotoTagsSynchronizer
             }
         }
 
+        private void dataGridViewRename_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewRename;
+            RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
+
+        private void dataGridViewRename_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
+
         #region Painting
         #endregion
     }

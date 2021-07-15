@@ -28,52 +28,62 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
+        public const string LinkTabAndDataGridViewNameTags = "Tags";
+        public const string LinkTabAndDataGridViewNameMap = "Map";
+        public const string LinkTabAndDataGridViewNamePeople = "People";
+        public const string LinkTabAndDataGridViewNameDates = "Dates";
+        public const string LinkTabAndDataGridViewNameExiftool = "Exiftool";
+        public const string LinkTabAndDataGridViewNameWarnings = "MetadataWarning";
+        public const string LinkTabAndDataGridViewNameProperties = "Properties";
+        public const string LinkTabAndDataGridViewNameRename = "Rename";
+        public const string LinkTabAndDataGridViewNameConvertAndMerge = "Convert and Merge";
+
         /*
-        public void ChangeTheme(ColorScheme scheme, Control.ControlCollection container)
-        {
-            foreach (Control component in container)
-            {
-                if (component is Panel)
-                {
-                    ChangeTheme(scheme, component.Controls);
-                    component.BackColor = scheme.PanelBG;
-                    component.ForeColor = scheme.PanelFG;
-                }
-                else if (component is Button)
-                {
-                    component.BackColor = scheme.ButtonBG;
-                    component.ForeColor = scheme.ButtonFG;
-                }
-                else if (component is TextBox)
-                {
-                    component.BackColor = scheme.TextBoxBG;
-                    component.ForeColor = scheme.TextBoxFG;
-                }
-            }
-        }
+public void ChangeTheme(ColorScheme scheme, Control.ControlCollection container)
+{
+foreach (Control component in container)
+{
+if (component is Panel)
+{
+ChangeTheme(scheme, component.Controls);
+component.BackColor = scheme.PanelBG;
+component.ForeColor = scheme.PanelFG;
+}
+else if (component is Button)
+{
+component.BackColor = scheme.ButtonBG;
+component.ForeColor = scheme.ButtonFG;
+}
+else if (component is TextBox)
+{
+component.BackColor = scheme.TextBoxBG;
+component.ForeColor = scheme.TextBoxFG;
+}
+}
+}
 
-        public void UpdateColorControls(Control myControl)
-        {
-           if (myControl is TextBox)
-           {
-               myControl.BackColor = Colors.Black;
-               myControl.ForeColor = Colors.White;
-           }
-           if (myControl is DataGridView)
-           {
-              DataGridView MyDgv = (DataGridView)myControl;
-              MyDgv.ColumnHeadersDefaultCellStyle.BackColor = Colors.Black;
-              MyDgv.ColumnHeadersDefaultCellStyle.ForeColor = Colors.White;
-           }
+public void UpdateColorControls(Control myControl)
+{
+if (myControl is TextBox)
+{
+myControl.BackColor = Colors.Black;
+myControl.ForeColor = Colors.White;
+}
+if (myControl is DataGridView)
+{
+DataGridView MyDgv = (DataGridView)myControl;
+MyDgv.ColumnHeadersDefaultCellStyle.BackColor = Colors.Black;
+MyDgv.ColumnHeadersDefaultCellStyle.ForeColor = Colors.White;
+}
 
-           // Any other non-standard controls should be implemented here aswell...
+// Any other non-standard controls should be implemented here aswell...
 
-           foreach (Control subC in myControl.Controls) 
-           {
-               UpdateColorControls(subC);
-           } 
-        }
-        */
+foreach (Control subC in myControl.Controls) 
+{
+UpdateColorControls(subC);
+} 
+}
+*/
 
         private ShowWhatColumns showWhatColumns;
 
@@ -176,15 +186,33 @@ namespace PhotoTagsSynchronizer
 
 
             SplashForm.UpdateStatus("Initialize load layout...");
-            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, "Tags", "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
-            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, "Location", "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
-            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, "People", "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
-            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, "Dates", "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
-            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExifTool, "Exiftool", "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
-            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExifToolWarning, "MetadataWarning", "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
-            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, "Properties", "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
-            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, "Rename", "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
-            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, "Convert and Merge", "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
+
+            tabPageTags.Tag = LinkTabAndDataGridViewNameTags;
+            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
+
+            tabPageMap.Tag = LinkTabAndDataGridViewNameMap;
+            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
+            
+            tabPagePeople.Tag = LinkTabAndDataGridViewNamePeople;
+            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
+            
+            tabPageDates.Tag = LinkTabAndDataGridViewNameDates;
+            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
+
+            tabPageExifTool.Tag = LinkTabAndDataGridViewNameExiftool;
+            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExifTool, LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
+            
+            tabPageExifToolWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
+            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExifToolWarning, LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
+            
+            tabPageProperties.Tag = LinkTabAndDataGridViewNameProperties;
+            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
+            
+            tabPageRename.Tag = LinkTabAndDataGridViewNameRename;
+            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
+            
+            tabPageConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
+            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
 
             SplashForm.UpdateStatus("Populate renderer dropdown...");
 
@@ -650,6 +678,7 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
+
 
 
 

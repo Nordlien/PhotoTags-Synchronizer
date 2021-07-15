@@ -23,8 +23,9 @@ namespace PhotoTagsSynchronizer
             InitializeComponent();
         }
 
-        public void SetImage(Image image, int columnIndex, int rowIndex)
+        public void SetImage(Image image, string title, int columnIndex = -1, int rowIndex = -1)
         {
+            this.Text = title;
             ColumnIndex = columnIndex;
             RowIndex = rowIndex;
             imageBox1.Image = image;

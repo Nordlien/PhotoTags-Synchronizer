@@ -119,5 +119,17 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+
+        private void dataGridViewConvertAndMerge_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
+
+        private void dataGridViewConvertAndMerge_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
     }
 }

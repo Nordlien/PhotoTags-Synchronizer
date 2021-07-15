@@ -121,7 +121,23 @@ namespace PhotoTagsSynchronizer
             exiftoolReader.MetadataReadPrioity.WriteAlways();
         }
 
+        private void dataGridViewExifTool_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewExifTool;
+            RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
+        private void toolStripMenuItemShowPosterWindowExiftool_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewExifTool;
+            OpenRegionSelector();
+            RegionSelectorLoadAndSelect(dataGridView);
+        }
 
+        private void dataGridViewExifTool_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
 
     }
 }

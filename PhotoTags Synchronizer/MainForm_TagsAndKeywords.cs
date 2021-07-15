@@ -119,10 +119,24 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
+        private void dataGridViewTagsAndKeywords_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
+        }
+
+        private void toolStripMenuItemShowPosterWindowKeywords_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewTagsAndKeywords;
+            OpenRegionSelector();
+            RegionSelectorLoadAndSelect(dataGridView);
+        }
+
         #region TriState Click / Begin Edit / End Edit
         private void dataGridViewTagsAndKeywords_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
+            if (e.RowIndex == -1) RegionSelectorLoadAndSelect(dataGridView, e.RowIndex, e.ColumnIndex);
 
             Rectangle cellRectangle = dataGridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
             if (e.X >= cellRectangle.Width - tristateButtonWidth && e.Y <= tristateBittonHight) triStateButtomClick = true;
