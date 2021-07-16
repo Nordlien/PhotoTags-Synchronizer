@@ -61,6 +61,8 @@ namespace DataGridViewGeneric
             this.FindWhatTextBox2 = new System.Windows.Forms.TextBox();
             this.FindLabel2 = new System.Windows.Forms.Label();
             this.contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,8 +75,7 @@ namespace DataGridViewGeneric
             this.markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleRowsAsFavouriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showMediaPosterWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlFindAndReplace.SuspendLayout();
             this.FindPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -483,121 +484,17 @@ namespace DataGridViewGeneric
             this.removeAsFavoriteToolStripMenuItem,
             this.toggleRowsAsFavouriteToolStripMenuItem,
             this.toggleShowFavouriteRowsToolStripMenuItem,
-            this.toggleHideEqualRowsValuesToolStripMenuItem});
+            this.toggleHideEqualRowsValuesToolStripMenuItem,
+            this.showMediaPosterWindowToolStripMenuItem});
             this.contextMenuStripDataGridViewGeneric.Name = "contextMenuStripMap";
-            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(241, 396);
-            // 
-            // cutToolStripMenuItem
-            // 
-            this.cutToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Cut;
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.cutToolStripMenuItem.Text = "Cut";
-            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
-            // 
-            // copyToolStripMenuItem
-            // 
-            this.copyToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Copy;
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.copyToolStripMenuItem.Text = "Copy";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
-            // 
-            // pasteToolStripMenuItem
-            // 
-            this.pasteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Paste;
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.pasteToolStripMenuItem.Text = "Paste";
-            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Delete;
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
-            // undoToolStripMenuItem
-            // 
-            this.undoToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Undo;
-            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.undoToolStripMenuItem.Text = "Undo";
-            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
-            // 
-            // redoToolStripMenuItem
-            // 
-            this.redoToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Redo;
-            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.redoToolStripMenuItem.Text = "Redo";
-            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
-            // 
-            // findToolStripMenuItem
-            // 
-            this.findToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Find;
-            this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.findToolStripMenuItem.Text = "Find";
-            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
-            // 
-            // replaceToolStripMenuItem
-            // 
-            this.replaceToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Replace;
-            this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
-            this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.replaceToolStripMenuItem.Text = "Replace";
-            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItemMapSave
-            // 
-            this.toolStripMenuItemMapSave.Image = global::DataGridViewGeneric.Properties.Resources.Save;
-            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
-            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(240, 26);
-            this.toolStripMenuItemMapSave.Text = "Save";
-            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
-            // 
-            // markAsFavoriteToolStripMenuItem
-            // 
-            this.markAsFavoriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteSelect;
-            this.markAsFavoriteToolStripMenuItem.Name = "markAsFavoriteToolStripMenuItem";
-            this.markAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.markAsFavoriteToolStripMenuItem.Text = "Mark as favorite";
-            this.markAsFavoriteToolStripMenuItem.Click += new System.EventHandler(this.markAsFavoriteToolStripMenuItem_Click);
-            // 
-            // removeAsFavoriteToolStripMenuItem
-            // 
-            this.removeAsFavoriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteRemove;
-            this.removeAsFavoriteToolStripMenuItem.Name = "removeAsFavoriteToolStripMenuItem";
-            this.removeAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.removeAsFavoriteToolStripMenuItem.Text = "Remove as favorite";
-            this.removeAsFavoriteToolStripMenuItem.Click += new System.EventHandler(this.removeAsFavoriteToolStripMenuItem_Click);
-            // 
-            // toggleRowsAsFavouriteToolStripMenuItem
-            // 
-            this.toggleRowsAsFavouriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteToggle;
-            this.toggleRowsAsFavouriteToolStripMenuItem.Name = "toggleRowsAsFavouriteToolStripMenuItem";
-            this.toggleRowsAsFavouriteToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
-            this.toggleRowsAsFavouriteToolStripMenuItem.Text = "Toggle favorite";
-            this.toggleRowsAsFavouriteToolStripMenuItem.Click += new System.EventHandler(this.toggleRowsAsFavouriteToolStripMenuItem_Click);
+            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(319, 394);
             // 
             // toggleShowFavouriteRowsToolStripMenuItem
             // 
             this.toggleShowFavouriteRowsToolStripMenuItem.Checked = true;
             this.toggleShowFavouriteRowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.toggleShowFavouriteRowsToolStripMenuItem.Name = "toggleShowFavouriteRowsToolStripMenuItem";
-            this.toggleShowFavouriteRowsToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
+            this.toggleShowFavouriteRowsToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
             this.toggleShowFavouriteRowsToolStripMenuItem.Text = "Show only favorite rows";
             this.toggleShowFavouriteRowsToolStripMenuItem.Click += new System.EventHandler(this.toggleShowFavouriteRowsToolStripMenuItem_Click);
             // 
@@ -606,9 +503,123 @@ namespace DataGridViewGeneric
             this.toggleHideEqualRowsValuesToolStripMenuItem.Checked = true;
             this.toggleHideEqualRowsValuesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.toggleHideEqualRowsValuesToolStripMenuItem.Name = "toggleHideEqualRowsValuesToolStripMenuItem";
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Size = new System.Drawing.Size(240, 26);
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
             this.toggleHideEqualRowsValuesToolStripMenuItem.Text = "Hide equal rows";
             this.toggleHideEqualRowsValuesToolStripMenuItem.Click += new System.EventHandler(this.toggleHideEqualRowsValuesToolStripMenuItem_Click);
+            // 
+            // cutToolStripMenuItem
+            // 
+            this.cutToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Cut;
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.cutToolStripMenuItem.Text = "Cut";
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Copy;
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Paste;
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.pasteToolStripMenuItem.Text = "Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Delete;
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // undoToolStripMenuItem
+            // 
+            this.undoToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Undo;
+            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.undoToolStripMenuItem.Text = "Undo";
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
+            // 
+            // redoToolStripMenuItem
+            // 
+            this.redoToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Redo;
+            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.redoToolStripMenuItem.Text = "Redo";
+            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
+            // 
+            // findToolStripMenuItem
+            // 
+            this.findToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Find;
+            this.findToolStripMenuItem.Name = "findToolStripMenuItem";
+            this.findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.findToolStripMenuItem.Text = "Find";
+            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
+            // 
+            // replaceToolStripMenuItem
+            // 
+            this.replaceToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.Replace;
+            this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
+            this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.replaceToolStripMenuItem.Text = "Replace";
+            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemMapSave
+            // 
+            this.toolStripMenuItemMapSave.Image = global::DataGridViewGeneric.Properties.Resources.Save;
+            this.toolStripMenuItemMapSave.Name = "toolStripMenuItemMapSave";
+            this.toolStripMenuItemMapSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemMapSave.Size = new System.Drawing.Size(318, 26);
+            this.toolStripMenuItemMapSave.Text = "Save";
+            this.toolStripMenuItemMapSave.Click += new System.EventHandler(this.toolStripMenuItemMapSave_Click);
+            // 
+            // markAsFavoriteToolStripMenuItem
+            // 
+            this.markAsFavoriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteSelect;
+            this.markAsFavoriteToolStripMenuItem.Name = "markAsFavoriteToolStripMenuItem";
+            this.markAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.markAsFavoriteToolStripMenuItem.Text = "Mark as favorite";
+            this.markAsFavoriteToolStripMenuItem.Click += new System.EventHandler(this.markAsFavoriteToolStripMenuItem_Click);
+            // 
+            // removeAsFavoriteToolStripMenuItem
+            // 
+            this.removeAsFavoriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteRemove;
+            this.removeAsFavoriteToolStripMenuItem.Name = "removeAsFavoriteToolStripMenuItem";
+            this.removeAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.removeAsFavoriteToolStripMenuItem.Text = "Remove as favorite";
+            this.removeAsFavoriteToolStripMenuItem.Click += new System.EventHandler(this.removeAsFavoriteToolStripMenuItem_Click);
+            // 
+            // toggleRowsAsFavouriteToolStripMenuItem
+            // 
+            this.toggleRowsAsFavouriteToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.FavoriteToggle;
+            this.toggleRowsAsFavouriteToolStripMenuItem.Name = "toggleRowsAsFavouriteToolStripMenuItem";
+            this.toggleRowsAsFavouriteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.toggleRowsAsFavouriteToolStripMenuItem.Text = "Toggle favorite";
+            this.toggleRowsAsFavouriteToolStripMenuItem.Click += new System.EventHandler(this.toggleRowsAsFavouriteToolStripMenuItem_Click);
+            // 
+            // showMediaPosterWindowToolStripMenuItem
+            // 
+            this.showMediaPosterWindowToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.RegionSelector;
+            this.showMediaPosterWindowToolStripMenuItem.Name = "showMediaPosterWindowToolStripMenuItem";
+            this.showMediaPosterWindowToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.showMediaPosterWindowToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.showMediaPosterWindowToolStripMenuItem.Text = "Show Media Poster Window";
+            this.showMediaPosterWindowToolStripMenuItem.Click += new System.EventHandler(this.showMediaPosterWindowToolStripMenuItem_Click);
             // 
             // FindAndReplaceForm
             // 
@@ -687,5 +698,6 @@ namespace DataGridViewGeneric
         private System.Windows.Forms.ToolStripMenuItem removeAsFavoriteToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxSearchAlsoRowHeaders;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapSave;
+        private System.Windows.Forms.ToolStripMenuItem showMediaPosterWindowToolStripMenuItem;
     }
 }

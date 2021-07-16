@@ -625,5 +625,10 @@ namespace DataGridViewGeneric
                     break;
             }
         }
+
+        private void showMediaPosterWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

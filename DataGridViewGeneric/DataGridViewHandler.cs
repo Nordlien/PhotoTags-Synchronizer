@@ -56,7 +56,10 @@ namespace DataGridViewGeneric
         private ToolStripMenuItem toggleHideEqualRowsValuesToolStripMenuItem;
         private ToolStripMenuItem markAsFavoriteToolStripMenuItem;
         private ToolStripMenuItem removeAsFavoriteToolStripMenuItem;
+        private ToolStripMenuItem showMediaPosterWindowToolStripMenuItem;
 
+        public delegate void ShowMediaPosterWindowToolStripMenuItemSelected(object sender, EventArgs e);
+        public event ShowMediaPosterWindowToolStripMenuItemSelected ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
 
         #region DataGridView events handling
 
@@ -313,6 +316,7 @@ namespace DataGridViewGeneric
             toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            showMediaPosterWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 
             contextMenuStripDataGridViewGeneric.SuspendLayout();
             // 
@@ -333,7 +337,9 @@ namespace DataGridViewGeneric
             removeAsFavoriteToolStripMenuItem,
             toggleRowsAsFavouriteToolStripMenuItem,
             toggleShowFavouriteRowsToolStripMenuItem,
-            toggleHideEqualRowsValuesToolStripMenuItem});
+            toggleHideEqualRowsValuesToolStripMenuItem,
+            showMediaPosterWindowToolStripMenuItem
+            });
             contextMenuStripDataGridViewGeneric.Name = "contextMenuStripMap";
             contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(215, 370);
             // 
@@ -459,11 +465,26 @@ namespace DataGridViewGeneric
             removeAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             removeAsFavoriteToolStripMenuItem.Text = "Remove as favorite";
             removeAsFavoriteToolStripMenuItem.Click += new System.EventHandler(removeAsFavoriteToolStripMenuItem_Click);
+            // 
+            // showMediaPosterWindowToolStripMenuItem
+            // 
+            showMediaPosterWindowToolStripMenuItem.Image = global::DataGridViewGeneric.Properties.Resources.RegionSelector;
+            showMediaPosterWindowToolStripMenuItem.Name = "showMediaPosterWindowToolStripMenuItem";
+            showMediaPosterWindowToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            showMediaPosterWindowToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            showMediaPosterWindowToolStripMenuItem.Text = "Show Media Poster Window";
+            showMediaPosterWindowToolStripMenuItem.Click += new System.EventHandler(showMediaPosterWindowToolStripMenuItem_Click);
 
             contextMenuStripDataGridViewGeneric.ResumeLayout();
 
         }
         #endregion
+
+        private void showMediaPosterWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            if (ShowMediaPosterWindowToolStripMenuItemSelectedEvent != null) ShowMediaPosterWindowToolStripMenuItemSelectedEvent.Invoke(dataGridView, e);
+        }
 
         #region DataGridView Handling - GetTopColumnHeaderHeigth
         //DataGridView Size for Column and Row Header, Row / Column size and resize 

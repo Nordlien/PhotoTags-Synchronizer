@@ -187,5 +187,8 @@
   <ItemGroup>
     <None Include="Resources\tag_source_webscraping.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RegionSelector.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

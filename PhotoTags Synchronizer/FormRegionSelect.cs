@@ -28,6 +28,7 @@ namespace PhotoTagsSynchronizer
             this.Text = title;
             ColumnIndex = columnIndex;
             RowIndex = rowIndex;
+            imageBox1.Text = "";
             imageBox1.Image = image;
             imageBox1.ZoomToFit();
         }
@@ -44,6 +45,14 @@ namespace PhotoTagsSynchronizer
 
         public void SetImageNone()
         {
+            this.Text = "No valid media file is selected.";
+            imageBox1.Image = null;
+            imageBox1.Text = this.Text;
+        }
+
+        public void SetImageText(string text)
+        {
+            imageBox1.Text = text;
             imageBox1.Image = null;
         }
 

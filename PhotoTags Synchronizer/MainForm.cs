@@ -346,12 +346,15 @@ UpdateColorControls(subC);
 
             tabPageProperties.Tag = LinkTabAndDataGridViewNameProperties;
             GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
+            GlobalData.dataGridViewHandlerProperties.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
 
             tabPageRename.Tag = LinkTabAndDataGridViewNameRename;
             GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
+            GlobalData.dataGridViewHandlerRename.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
 
             tabPageConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
             GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
+            GlobalData.dataGridViewHandlerConvertAndMerge.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
             #endregion
 
             #region Setup Global Variables -  Map
@@ -441,6 +444,19 @@ UpdateColorControls(subC);
             });
             _ThreadHttp.Start();
             #endregion 
+        }
+
+        private void DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent(object sender, EventArgs e)
+        {
+            try {
+                DataGridView dataGridView = ((DataGridView)sender);
+                
+                OpenRegionSelector();
+                RegionSelectorLoadAndSelect(dataGridView, dataGridView.CurrentCell.RowIndex, dataGridView.CurrentCell.ColumnIndex);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         #endregion
 

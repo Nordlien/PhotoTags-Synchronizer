@@ -540,6 +540,7 @@ namespace PhotoTagsSynchronizer
         #region FormRegionSelect - RegionSelectorLoadAndSelect
         private void RegionSelectorLoadAndSelect(DataGridView dataGridView, int rowSelected = -1, int columnSelected = -1)
         {
+            if (dataGridView == null) return;
             if (formRegionSelect == null) return;
             if (formRegionSelect.Visible == false) return;
             try
@@ -562,6 +563,7 @@ namespace PhotoTagsSynchronizer
                     if (dataGridViewGenericRow == null) { formRegionSelect.SetImageNone(); return; }
                     if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(); return; }
 
+                    formRegionSelect.SetImageText(Path.Combine(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName));
                     Image image = LoadMediaCoverArtPoster(Path.Combine(dataGridViewGenericRow.HeaderName, dataGridViewGenericRow.RowName));
                     formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericRow.RowName);
                 }
@@ -579,6 +581,7 @@ namespace PhotoTagsSynchronizer
                     if (dataGridViewGenericRow == null) { formRegionSelect.SetImageNone(); return; }
                     if (dataGridViewGenericRow.IsHeader) { formRegionSelect.SetImageNone(); return; }
 
+                    formRegionSelect.SetImageText(dataGridViewGenericRow.RowName);
                     Image image = LoadMediaCoverArtPoster(dataGridViewGenericRow.RowName);
                     formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericRow.RowName);
                 }
@@ -597,6 +600,7 @@ namespace PhotoTagsSynchronizer
                     if (DataGridViewHandler.GetCellSelectedCount(dataGridView) != 1 || dataGridViewName != LinkTabAndDataGridViewNamePeople)
                     {
                         DataGridViewGenericColumn dataGridViewGenericColumn = DataGridViewHandler.GetColumnDataGridViewGenericColumn(dataGridView, columnSelected);
+                        formRegionSelect.SetImageText(dataGridViewGenericColumn.FileEntryAttribute.FileName);
                         Image image = LoadMediaCoverArtPoster(dataGridViewGenericColumn.FileEntryAttribute.FileFullPath);
                         formRegionSelect.SetImage(image, "Showing: " + dataGridViewGenericColumn.FileEntryAttribute.FileName);
                     }
@@ -621,6 +625,7 @@ namespace PhotoTagsSynchronizer
                         //MessageBox.Show("The selected cell can't be changed, need select another cell.", "Wrong cell selected", MessageBoxButtons.OK);
                         if (dataGridViewGenericColumn.Metadata == null) { formRegionSelect.SetImageNone(); return; }
 
+                        formRegionSelect.SetImageText(dataGridViewGenericColumn.Metadata.FileFullPath);
                         Image image = LoadMediaCoverArtPoster(dataGridViewGenericColumn.Metadata.FileFullPath);
                         if (image != null)
                         {
