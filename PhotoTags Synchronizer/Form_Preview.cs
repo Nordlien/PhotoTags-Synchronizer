@@ -749,7 +749,7 @@ namespace PhotoTagsSynchronizer
         #region nHttpServer
         HttpServer nHttpServer = null;
         private Thread _ThreadHttp = null;
-        private AutoResetEvent WaitApplicationClosing = null;
+        private AutoResetEvent nHttpServerThreadWaitApplicationClosing = null;
 
         #region nHttpServer - GetLocalIp 
         public string GetLocalIp()

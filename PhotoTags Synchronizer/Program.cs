@@ -53,7 +53,7 @@ namespace PhotoTagsSynchronizer
 
             //Monitor parent process exit and close subprocesses if parent process exits first
             //This will at some point in the future becomes the default
-            SplashForm.UpdateStatus("Initialize broswer..."); //2 
+            SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - settings 1/2..."); //2 
 
             CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
 
@@ -66,19 +66,19 @@ namespace PhotoTagsSynchronizer
                 CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer\\BrowserCache"),
                 UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0"
             };
-        
-            SplashForm.UpdateStatus("Initialize browser.."); //3 
+
+            SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - settings 2/2..."); //3 
             //Example of setting a command line argument
             //Enables WebRTC
             settings.CefCommandLineArgs.Add("enable-media-stream", "1");
 
-            SplashForm.UpdateStatus("Initialize broswer..."); //4 
-            
+            SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - starting process..."); //4 
+
             //Perform dependency check to make sure all relevant resources are in our output directory.
             Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
 
-            SplashForm.UpdateStatus("Initialize broswer...."); //5 
-            
+            SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - process started..."); //5 
+
             mainForm = new MainForm(); //this takes ages
             Application.Run(mainForm);
         }

@@ -152,7 +152,7 @@ UpdateColorControls(subC);
 
             if (!DesignMode) Core.Initialize();
 
-            SplashForm.UpdateStatus("Initialize component...");
+            SplashForm.UpdateStatus("Initialize components...");
             InitializeComponent();
 
             //Cache config
@@ -245,7 +245,7 @@ UpdateColorControls(subC);
 
             ImageListViewHandler.SetImageListViewCheckedValues(imageListView1, Properties.Settings.Default.ImageListViewSelectedColumns);
 
-            SplashForm.UpdateStatus("Initialize database: metadata cache...");
+            SplashForm.UpdateStatus("Initialize database: read metadata to cache...");
             databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 10000, 5000);
 
             databaseGoogleLocationHistory = new GoogleLocationHistoryDatabaseCache(databaseUtilitiesSqliteMetadata);
@@ -294,7 +294,7 @@ UpdateColorControls(subC);
             filesCutCopyPasteDrag = new FilesCutCopyPasteDrag(databaseAndCacheMetadataExiftool, databaseAndCacheMetadataWindowsLivePhotoGallery,
                 databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnail, databaseExiftoolData, databaseExiftoolWarning);
 
-            SplashForm.UpdateStatus("Initialize database: Microsoft Photos...");
+            SplashForm.UpdateStatus("Initialize database: Connect to Microsoft Photos...");
             try
             {
                 databaseMicrosoftPhotos = new MicrosoftPhotosReader();
@@ -306,7 +306,7 @@ UpdateColorControls(subC);
                 databaseMicrosoftPhotos = null;
             }
 
-            SplashForm.UpdateStatus("Initialize database: Windows Live Photo Gallery...");
+            SplashForm.UpdateStatus("Initialize database: Connect to Windows Live Photo Gallery...");
             try
             {
                 databaseWindowsLivePhotGallery = new WindowsLivePhotoGalleryDatabasePipe();
@@ -318,7 +318,7 @@ UpdateColorControls(subC);
                 databaseWindowsLivePhotGallery = null;
             }
 
-            SplashForm.UpdateStatus("Initialize ChromiumWebBrowser...");
+            SplashForm.UpdateStatus("Configure ChromiumWebBrowser...");
             //Cef Browser
             browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
             {
@@ -404,8 +404,8 @@ UpdateColorControls(subC);
                     nHttpServer.EndPoint = new IPEndPoint(IPAddress.Parse(GetLocalIp()), GetOpenPort());
                     Logger.Info("nHTTP server started: " + DateTime.Now.ToString() + " ip: " + nHttpServer.EndPoint.ToString());
                     nHttpServer.Start();
-                    WaitApplicationClosing = new AutoResetEvent(false);
-                    WaitApplicationClosing.WaitOne();
+                    nHttpServerThreadWaitApplicationClosing = new AutoResetEvent(false);
+                    nHttpServerThreadWaitApplicationClosing.WaitOne();
                     Application.DoEvents();
                 }
             });
@@ -506,16 +506,14 @@ UpdateColorControls(subC);
                 MetadataDatabaseCache.StopCaching = true;
                 ThumbnailDatabaseCache.StopCaching = true;
 
-                WaitApplicationClosing.Set();
+                //Close down nHTTP server;
+                nHttpServerThreadWaitApplicationClosing.Set();
 
                 SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
 
                 SplashForm.UpdateStatus("Saving layout...");
 
-                try
-                {
-                    if (nHttpServer != null) nHttpServer.Stop();
-                } catch { }
+                
 
                 //---------------------------------------------------------
                 try
