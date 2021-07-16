@@ -524,7 +524,7 @@ namespace PhotoTagsSynchronizer
         #region FormRegionSelect
         FormRegionSelect formRegionSelect = new FormRegionSelect();
 
-        #region
+        #region FormRegionSelect - OpenRegionSelector
         private void OpenRegionSelector()
         {
             if (formRegionSelect == null || formRegionSelect.IsDisposed) formRegionSelect = new FormRegionSelect();

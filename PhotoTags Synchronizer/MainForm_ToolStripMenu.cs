@@ -20,6 +20,23 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
+        #region DataGridViewHandler - ShowMediaPosterWindowToolStripMenuItemSelectedEvent
+        private void DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent(object sender, EventArgs e)
+        {
+            try
+            {
+                DataGridView dataGridView = ((DataGridView)sender);
+
+                OpenRegionSelector();
+                RegionSelectorLoadAndSelect(dataGridView, dataGridView.CurrentCell.RowIndex, dataGridView.CurrentCell.ColumnIndex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion 
+
         #region Save
 
         #region Save - IsAnyDataUnsaved

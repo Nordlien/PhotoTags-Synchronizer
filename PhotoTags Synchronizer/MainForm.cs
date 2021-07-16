@@ -445,19 +445,6 @@ UpdateColorControls(subC);
             _ThreadHttp.Start();
             #endregion 
         }
-
-        private void DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent(object sender, EventArgs e)
-        {
-            try {
-                DataGridView dataGridView = ((DataGridView)sender);
-                
-                OpenRegionSelector();
-                RegionSelectorLoadAndSelect(dataGridView, dataGridView.CurrentCell.RowIndex, dataGridView.CurrentCell.ColumnIndex);
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
         #endregion
 
         #region Resize and restore windows size when reopen application        

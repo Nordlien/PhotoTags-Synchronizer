@@ -480,11 +480,13 @@ namespace DataGridViewGeneric
         }
         #endregion
 
+        #region Event Handling
         private void showMediaPosterWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
             if (ShowMediaPosterWindowToolStripMenuItemSelectedEvent != null) ShowMediaPosterWindowToolStripMenuItemSelectedEvent.Invoke(dataGridView, e);
         }
+        #endregion 
 
         #region DataGridView Handling - GetTopColumnHeaderHeigth
         //DataGridView Size for Column and Row Header, Row / Column size and resize 
