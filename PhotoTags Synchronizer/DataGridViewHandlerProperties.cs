@@ -65,10 +65,15 @@ namespace PhotoTagsSynchronizer
             //Tell data default columns and rows are agregated
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
             //-----------------------------------------------------------------
-
-            foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
+            using (new WaitCursor())
             {
-                PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current), showWhatColumns);
+                GlobalData.ProcessCounterReadProperties = imageListViewSelectItems.Count;
+                foreach (ImageListViewItem imageListViewItem in imageListViewSelectItems)
+                {
+                    GlobalData.ProcessCounterReadProperties--;
+                    PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current), showWhatColumns);
+                }
+                GlobalData.ProcessCounterReadProperties = 0;
             }
 
             //-----------------------------------------------------------------

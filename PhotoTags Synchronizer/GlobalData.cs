@@ -30,6 +30,8 @@ namespace PhotoTagsSynchronizer
         public static int ProcessCounterDelete = 0;
         public static int ProcessCounterRefresh { get; set; } = 0;
 
+        public static int ProcessCounterReadProperties = 0;
+
         //
         public static bool IsApplicationClosing { get; set; } = false;
         public static bool IsStopAndEmptyExiftoolReadQueueRequest { get; set; } = false;

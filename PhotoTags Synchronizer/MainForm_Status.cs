@@ -289,6 +289,11 @@ namespace PhotoTagsSynchronizer
                     string.Format("Delete: {0}", GlobalData.ProcessCounterDelete);
             threadQueuCount += GlobalData.ProcessCounterDelete;
 
+            if (GlobalData.ProcessCounterReadProperties > 0)
+                toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                    string.Format("Properties: {0}", GlobalData.ProcessCounterReadProperties);
+            threadQueuCount += GlobalData.ProcessCounterReadProperties;
+
             if (GlobalData.ProcessCounterRefresh > 0)
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") + 
                     string.Format("Reload: {0}", GlobalData.ProcessCounterRefresh);

@@ -307,101 +307,104 @@ namespace PhotoTagsSynchronizer
                 DataGridView dataGridView = GetActiveTabDataGridView();
 
                 if (DataGridViewHandler.GetIsAgregated(dataGridView)) return;
-                
-                List<FileEntryAttribute> lazyLoading;
-                DataGridViewHandler.SuspendLayout(dataGridView, true);
 
-                
-                switch (GetActiveTabTag())
+                using (new WaitCursor())
                 {
-                    case LinkTabAndDataGridViewNameTags:                        
-                        ClearDetailViewTagsAndKeywords();
-                        DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
-                        DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
-                        DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-                        DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
-                        DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                        DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns);
-                        LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
-                        
-                        break;
-                    case LinkTabAndDataGridViewNameMap:
-                        splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
-                        DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
-                        DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
-                        DataGridViewHandlerMap.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
-                        DataGridViewHandlerMap.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-                        DataGridViewHandlerMap.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
-                        DataGridViewHandlerMap.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                        DataGridViewHandlerMap.DatabaseGoogleLocationHistory = databaseGoogleLocationHistory;
-                        DataGridViewHandlerMap.DatabaseAndCacheLocationAddress = databaseLocationAddress;
-                        DataGridViewHandlerMap.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
-                        DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeMap, showWhatColumns);
-                        LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
-                        break;
-                    case LinkTabAndDataGridViewNamePeople:
-                        PopulatePeopleToolStripMenuItems();
-                        DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
-                        DataGridViewHandlerPeople.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-                        DataGridViewHandlerPeople.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
-                        DataGridViewHandlerPeople.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                        DataGridViewHandlerPeople.SuggestRegionNameNearbyDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
-                        DataGridViewHandlerPeople.SuggestRegionNameTopMostCount = Properties.Settings.Default.SuggestRegionNameTopMostCount;
-                        DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, showWhatColumns);
-                        LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
-                        break;
-                    case LinkTabAndDataGridViewNameDates:
-                        DataGridViewHandlerDate.DatabaseExiftoolData = databaseExiftoolData;
-                        DataGridViewHandlerDate.DataGridViewMap = dataGridViewMap;
-                        DataGridViewHandlerDate.DataGridViewMapHeaderMedia = DataGridViewHandlerMap.headerMedia;
-                        DataGridViewHandlerDate.DataGridViewMapTagCoordinates = DataGridViewHandlerMap.tagCoordinates;
-                        DataGridViewHandlerDate.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
-                        DataGridViewHandlerDate.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-                        DataGridViewHandlerDate.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
-                        DataGridViewHandlerDate.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
-                        DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeDates, showWhatColumns);
-                        LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
-                        break;
-                    case LinkTabAndDataGridViewNameExiftool:
-                        DataGridViewHandlerExiftool.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
-                        DataGridViewHandlerExiftool.DatabaseExiftoolData = databaseExiftoolData;
-                        DataGridViewHandlerExiftool.exiftoolReader = exiftoolReader;
-                        lazyLoading = DataGridViewHandlerExiftool.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, showWhatColumns);
-                        AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoading);
-                        AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoading);
-                        break;
-                    case LinkTabAndDataGridViewNameWarnings:
-                        DataGridViewHandlerExiftoolWarnings.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
-                        DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
-                        DataGridViewHandlerExiftoolWarnings.exiftoolReader = exiftoolReader;
-                        lazyLoading = DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, showWhatColumns);
-                        AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoading);
-                        AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoading);
-                        break;
-                    case LinkTabAndDataGridViewNameProperties:
-                        DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
-                        DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
-                        PopulateDataGridViewForSelectedItemsExtrasInvoke();
-                        break;
-                    case LinkTabAndDataGridViewNameRename:
-                        DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-                        DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
-                        DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-                        DataGridViewHandlerRename.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
-                        DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);                        
-                        break;
-                    case LinkTabAndDataGridViewNameConvertAndMerge:
-                        DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
-                        DataGridViewHandlerConvertAndMerge.RenameVaribale = Properties.Settings.Default.RenameVariable;
-                        DataGridViewHandlerConvertAndMerge.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
-                        DataGridViewHandlerConvertAndMerge.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
-                        DataGridViewHandlerConvertAndMerge.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
-                        break;
-                    default:
-                        throw new NotImplementedException();
+                    List<FileEntryAttribute> lazyLoading;
+                    DataGridViewHandler.SuspendLayout(dataGridView, true);
 
+
+                    switch (GetActiveTabTag())
+                    {
+                        case LinkTabAndDataGridViewNameTags:
+                            ClearDetailViewTagsAndKeywords();
+                            DataGridViewHandlerTagsAndKeywords.MediaAiTagConfidence = GetAiConfidence();
+                            DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                            DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
+                            DataGridViewHandlerTagsAndKeywords.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
+                            DataGridViewHandlerTagsAndKeywords.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords, showWhatColumns);
+                            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+
+                            break;
+                        case LinkTabAndDataGridViewNameMap:
+                            splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
+                            DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
+                            DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
+                            DataGridViewHandlerMap.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerMap.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                            DataGridViewHandlerMap.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
+                            DataGridViewHandlerMap.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
+                            DataGridViewHandlerMap.DatabaseGoogleLocationHistory = databaseGoogleLocationHistory;
+                            DataGridViewHandlerMap.DatabaseAndCacheLocationAddress = databaseLocationAddress;
+                            DataGridViewHandlerMap.DatabaseAndCacheCameraOwner = databaseAndCahceCameraOwner;
+                            DataGridViewHandlerMap.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeMap, showWhatColumns);
+                            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                            break;
+                        case LinkTabAndDataGridViewNamePeople:
+                            PopulatePeopleToolStripMenuItems();
+                            DataGridViewHandlerPeople.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerPeople.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                            DataGridViewHandlerPeople.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
+                            DataGridViewHandlerPeople.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
+                            DataGridViewHandlerPeople.SuggestRegionNameNearbyDays = Properties.Settings.Default.SuggestRegionNameNearbyDays;
+                            DataGridViewHandlerPeople.SuggestRegionNameTopMostCount = Properties.Settings.Default.SuggestRegionNameTopMostCount;
+                            DataGridViewHandlerPeople.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizePeoples, showWhatColumns);
+                            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                            break;
+                        case LinkTabAndDataGridViewNameDates:
+                            DataGridViewHandlerDate.DatabaseExiftoolData = databaseExiftoolData;
+                            DataGridViewHandlerDate.DataGridViewMap = dataGridViewMap;
+                            DataGridViewHandlerDate.DataGridViewMapHeaderMedia = DataGridViewHandlerMap.headerMedia;
+                            DataGridViewHandlerDate.DataGridViewMapTagCoordinates = DataGridViewHandlerMap.tagCoordinates;
+                            DataGridViewHandlerDate.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerDate.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                            DataGridViewHandlerDate.DatabaseAndCacheMetadataWindowsLivePhotoGallery = databaseAndCacheMetadataWindowsLivePhotoGallery;
+                            DataGridViewHandlerDate.DatabaseAndCacheMetadataMicrosoftPhotos = databaseAndCacheMetadataMicrosoftPhotos;
+                            DataGridViewHandlerDate.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeDates, showWhatColumns);
+                            LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListViewSelectItems);
+                            break;
+                        case LinkTabAndDataGridViewNameExiftool:
+                            DataGridViewHandlerExiftool.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerExiftool.DatabaseExiftoolData = databaseExiftoolData;
+                            DataGridViewHandlerExiftool.exiftoolReader = exiftoolReader;
+                            lazyLoading = DataGridViewHandlerExiftool.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool, showWhatColumns);
+                            AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoading);
+                            AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoading);
+                            break;
+                        case LinkTabAndDataGridViewNameWarnings:
+                            DataGridViewHandlerExiftoolWarnings.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
+                            DataGridViewHandlerExiftoolWarnings.DatabaseExiftoolWarning = databaseExiftoolWarning;
+                            DataGridViewHandlerExiftoolWarnings.exiftoolReader = exiftoolReader;
+                            lazyLoading = DataGridViewHandlerExiftoolWarnings.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings, showWhatColumns);
+                            AddQueueLazyLoadningDataGridViewMetadataLock(lazyLoading);
+                            AddQueueLazyLoadningDataGridViewThumbnailLock(lazyLoading);
+                            break;
+                        case LinkTabAndDataGridViewNameProperties:
+                            DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
+                            DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
+                            PopulateDataGridViewForSelectedItemsExtrasInvoke();
+                            break;
+                        case LinkTabAndDataGridViewNameRename:
+                            DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                            DataGridViewHandlerRename.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                            DataGridViewHandlerRename.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                            DataGridViewHandlerRename.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
+                            DataGridViewHandlerRename.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
+                            break;
+                        case LinkTabAndDataGridViewNameConvertAndMerge:
+                            DataGridViewHandlerConvertAndMerge.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
+                            DataGridViewHandlerConvertAndMerge.RenameVaribale = Properties.Settings.Default.RenameVariable;
+                            DataGridViewHandlerConvertAndMerge.DatabaseAndCacheMetadataExiftool = databaseAndCacheMetadataExiftool;
+                            DataGridViewHandlerConvertAndMerge.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
+                            DataGridViewHandlerConvertAndMerge.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
+                            break;
+                        default:
+                            throw new NotImplementedException();
+
+                    }
+                    DataGridViewHandler.ResumeLayout(dataGridView);
                 }
-                DataGridViewHandler.ResumeLayout(dataGridView);                
             }
             StartThreads();
         }

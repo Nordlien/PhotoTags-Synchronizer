@@ -317,6 +317,7 @@ namespace PhotoTagsSynchronizer
                 PopulateFile(dataGridView, new FileEntryAttribute(imageListViewItem.FileFullPath, imageListViewItem.DateModified, FileEntryVersion.Current));
             }
 
+
             //-----------------------------------------------------------------
             //Unlock
             DataGridViewHandler.SetIsAgregated(dataGridView, true);
