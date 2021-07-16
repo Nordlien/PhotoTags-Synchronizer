@@ -147,76 +147,27 @@ UpdateColorControls(subC);
         #region Constructor - MainForm()
         public MainForm()
         {
-
+            #region Initialize VLC player
             SplashForm.UpdateStatus("Initialize VLC player...");
 
             if (!DesignMode) Core.Initialize();
+            #endregion
 
+            #region Initialize components
             SplashForm.UpdateStatus("Initialize components...");
+
             InitializeComponent();
+            #endregion
 
-            //Cache config
-            cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
-            cacheAllMetadatas = Properties.Settings.Default.CacheAllMetadatas;
-            cacheAllThumbnails = Properties.Settings.Default.CacheAllThumbnails;
-            cacheAllWebScraperDataSets = Properties.Settings.Default.CacheAllWebScraperDataSets;
-
-            cacheFolderMetadatas = Properties.Settings.Default.CacheFolderMetadatas;
-            cacheFolderThumbnails = Properties.Settings.Default.CacheFolderThumbnails;
-            cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
+            #region Initialize VLC player
+            SplashForm.UpdateStatus("Staring VLC player...");
             
-            //VLC
             _libVLC = new LibVLC();
             videoView1.MediaPlayer = new MediaPlayer(_libVLC);
+            #endregion 
 
-            //treeViewFilter = new TreeWithoutDoubleClick();
-
-            imageListView1.ThumbnailSize = thumbnailSizes[Properties.Settings.Default.ThumbmailViewSizeIndex];
-            toolStripButtonThumbnailSize1.Text = "Thumbnail size " + thumbnailSizes[4].Width + "x" + thumbnailSizes[4].Height;
-            toolStripButtonThumbnailSize1.ToolTipText = toolStripButtonThumbnailSize1.Text;
-            toolStripButtonThumbnailSize2.Text = "Thumbnail size " + thumbnailSizes[3].Width + "x" + thumbnailSizes[3].Height;
-            toolStripButtonThumbnailSize2.ToolTipText = toolStripButtonThumbnailSize2.Text;
-            toolStripButtonThumbnailSize3.Text = "Thumbnail size " + thumbnailSizes[2].Width + "x" + thumbnailSizes[2].Height;
-            toolStripButtonThumbnailSize3.ToolTipText = toolStripButtonThumbnailSize3.Text;
-            toolStripButtonThumbnailSize4.Text = "Thumbnail size " + thumbnailSizes[1].Width + "x" + thumbnailSizes[1].Height;
-            toolStripButtonThumbnailSize4.ToolTipText = toolStripButtonThumbnailSize4.Text;
-            toolStripButtonThumbnailSize5.Text = "Thumbnail size " + thumbnailSizes[0].Width + "x" + thumbnailSizes[0].Height;
-            toolStripButtonThumbnailSize5.ToolTipText = toolStripButtonThumbnailSize5.Text;
-
-
-
-            SplashForm.UpdateStatus("Initialize load layout...");
-
-            tabPageTags.Tag = LinkTabAndDataGridViewNameTags;
-            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
-
-            tabPageMap.Tag = LinkTabAndDataGridViewNameMap;
-            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
-            
-            tabPagePeople.Tag = LinkTabAndDataGridViewNamePeople;
-            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
-            
-            tabPageDates.Tag = LinkTabAndDataGridViewNameDates;
-            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
-
-            tabPageExifTool.Tag = LinkTabAndDataGridViewNameExiftool;
-            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExifTool, LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
-            
-            tabPageExifToolWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
-            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExifToolWarning, LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
-            
-            tabPageProperties.Tag = LinkTabAndDataGridViewNameProperties;
-            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
-            
-            tabPageRename.Tag = LinkTabAndDataGridViewNameRename;
-            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
-            
-            tabPageConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
-            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
-
-            SplashForm.UpdateStatus("Populate renderer dropdown...");
-
-            // Populate renderer dropdown
+            #region Loading ImageListView renderers
+            SplashForm.UpdateStatus("Loading ImageListView renderers...");
             Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
             int i = 0;
             foreach (Type t in assembly.GetTypes())
@@ -232,7 +183,7 @@ UpdateColorControls(subC);
                     i++;
                 }
             }
-
+            
             renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
             SetImageListViewRender();
 
@@ -241,11 +192,11 @@ UpdateColorControls(subC);
             imageListView1.TitleLine3 = ChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine3);
             imageListView1.TitleLine4 = ChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine4);
             imageListView1.TitleLine5 = ChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine5);
-
-
             ImageListViewHandler.SetImageListViewCheckedValues(imageListView1, Properties.Settings.Default.ImageListViewSelectedColumns);
+            #endregion
 
-            SplashForm.UpdateStatus("Initialize database: read metadata to cache...");
+            #region Initialize database connect
+            SplashForm.UpdateStatus("Initialize database: connect...");
             databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 10000, 5000);
 
             databaseGoogleLocationHistory = new GoogleLocationHistoryDatabaseCache(databaseUtilitiesSqliteMetadata);
@@ -262,7 +213,6 @@ UpdateColorControls(subC);
             databaseAndCahceCameraOwner = new CameraOwnersDatabaseCache(databaseUtilitiesSqliteMetadata);
             databaseLocationAddress = new LocationNameLookUpCache(databaseUtilitiesSqliteMetadata, Properties.Settings.Default.ApplicationPreferredLanguages);
 
-            
             //databaseUtilitiesSqliteWindowsLivePhotoGallery = new SqliteDatabaseUtilities(DatabaseType.SqliteWindowsLivePhotoGallaryCache);
             //databaseAndCacheMetadataWindowsLivePhotoGallery = new MetadataDatabaseCache(databaseUtilitiesSqliteWindowsLivePhotoGallery);
             databaseAndCacheMetadataWindowsLivePhotoGallery = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
@@ -278,7 +228,10 @@ UpdateColorControls(subC);
             exiftoolReader = new ExiftoolReader(databaseAndCacheMetadataExiftool, databaseExiftoolData, databaseExiftoolWarning);
             exiftoolReader.MetadataGroupPrioityRead();
             exiftoolReader.afterNewMediaFoundEvent += ExiftoolReader_afterNewMediaFoundEvent;
+            #endregion
 
+            #region Initialize database: read metadata to cache
+            SplashForm.UpdateStatus("Initialize database: read metadata to cache...");
             try
             {
                 Thread threadCache = new Thread(() =>
@@ -290,10 +243,12 @@ UpdateColorControls(subC);
                 threadCache.Start();
             }
             catch { }
+            #endregion 
 
             filesCutCopyPasteDrag = new FilesCutCopyPasteDrag(databaseAndCacheMetadataExiftool, databaseAndCacheMetadataWindowsLivePhotoGallery,
                 databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnail, databaseExiftoolData, databaseExiftoolWarning);
 
+            #region Connect to Microsoft Photos
             SplashForm.UpdateStatus("Initialize database: Connect to Microsoft Photos...");
             try
             {
@@ -305,7 +260,9 @@ UpdateColorControls(subC);
                 SplashForm.AddWarning("Windows photo warning:\r\n" + e.Message + "\r\n");
                 databaseMicrosoftPhotos = null;
             }
+            #endregion 
 
+            #region Connect to Windows Live Photo Gallery
             SplashForm.UpdateStatus("Initialize database: Connect to Windows Live Photo Gallery...");
             try
             {
@@ -317,43 +274,109 @@ UpdateColorControls(subC);
                 SplashForm.AddWarning("Windows Live Photo Gallery warning:\r\n" + e.Message + "\r\n");
                 databaseWindowsLivePhotGallery = null;
             }
+            #endregion 
 
-            SplashForm.UpdateStatus("Configure ChromiumWebBrowser...");
-            //Cef Browser
-            browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
+            #region Configure ChromiumWebBrowser
+            try
             {
-                Dock = DockStyle.Fill,
-            };
-            browser.BrowserSettings.Javascript = CefState.Enabled;
-            //browser.BrowserSettings.WebSecurity = CefState.Enabled;
-            browser.BrowserSettings.WebGl = CefState.Enabled;
-            browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
-            browser.BrowserSettings.Plugins = CefState.Enabled;
-            this.panelBrowser.Controls.Add(this.browser);
+                SplashForm.UpdateStatus("Configure ChromiumWebBrowser...");
+                browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
+                {
+                    Dock = DockStyle.Fill,
+                };
+                browser.BrowserSettings.Javascript = CefState.Enabled;
+                //browser.BrowserSettings.WebSecurity = CefState.Enabled;
+                browser.BrowserSettings.WebGl = CefState.Enabled;
+                browser.BrowserSettings.UniversalAccessFromFileUrls = CefState.Disabled;
+                browser.BrowserSettings.Plugins = CefState.Enabled;
+                this.panelBrowser.Controls.Add(this.browser);
+                browser.AddressChanged += this.OnBrowserAddressChanged;
+            } catch (Exception ex)
+            {
+                Logger.Error(ex, "Cef Browser");
+            }
+            #endregion 
 
+            #region Initialize global data
+            SplashForm.UpdateStatus("Initialize global data...");
 
-            //toolStripContainer.ContentPanel.Controls.Add(browser);
-            //browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
-            //browser.LoadingStateChanged += OnLoadingStateChanged;
-            //browser.ConsoleMessage += OnBrowserConsoleMessage;
-            //browser.StatusMessage += OnBrowserStatusMessage;
-            //browser.TitleChanged += OnBrowserTitleChanged;
-            //browser.AddressChanged += new System.EventHandler(this.OnBrowserAddressChanged);
-            browser.AddressChanged += this.OnBrowserAddressChanged;
+            #region Setup Global Variables - Cache config
+            cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
+            cacheAllMetadatas = Properties.Settings.Default.CacheAllMetadatas;
+            cacheAllThumbnails = Properties.Settings.Default.CacheAllThumbnails;
+            cacheAllWebScraperDataSets = Properties.Settings.Default.CacheAllWebScraperDataSets;
 
+            cacheFolderMetadatas = Properties.Settings.Default.CacheFolderMetadatas;
+            cacheFolderThumbnails = Properties.Settings.Default.CacheFolderThumbnails;
+            cacheFolderWebScraperDataSets = Properties.Settings.Default.CacheFolderWebScraperDataSets;
+            #endregion
+
+            #region Setup Global Variables - ThumbnailSize
+            imageListView1.ThumbnailSize = thumbnailSizes[Properties.Settings.Default.ThumbmailViewSizeIndex];
+            toolStripButtonThumbnailSize1.Text = "Thumbnail size " + thumbnailSizes[4].Width + "x" + thumbnailSizes[4].Height;
+            toolStripButtonThumbnailSize1.ToolTipText = toolStripButtonThumbnailSize1.Text;
+            toolStripButtonThumbnailSize2.Text = "Thumbnail size " + thumbnailSizes[3].Width + "x" + thumbnailSizes[3].Height;
+            toolStripButtonThumbnailSize2.ToolTipText = toolStripButtonThumbnailSize2.Text;
+            toolStripButtonThumbnailSize3.Text = "Thumbnail size " + thumbnailSizes[2].Width + "x" + thumbnailSizes[2].Height;
+            toolStripButtonThumbnailSize3.ToolTipText = toolStripButtonThumbnailSize3.Text;
+            toolStripButtonThumbnailSize4.Text = "Thumbnail size " + thumbnailSizes[1].Width + "x" + thumbnailSizes[1].Height;
+            toolStripButtonThumbnailSize4.ToolTipText = toolStripButtonThumbnailSize4.Text;
+            toolStripButtonThumbnailSize5.Text = "Thumbnail size " + thumbnailSizes[0].Width + "x" + thumbnailSizes[0].Height;
+            toolStripButtonThumbnailSize5.ToolTipText = toolStripButtonThumbnailSize5.Text;
+            #endregion
+
+            #region Setup Global Variables - Link Tab and DataGridView
+            tabPageTags.Tag = LinkTabAndDataGridViewNameTags;
+            GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
+
+            tabPageMap.Tag = LinkTabAndDataGridViewNameMap;
+            GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
+
+            tabPagePeople.Tag = LinkTabAndDataGridViewNamePeople;
+            GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
+
+            tabPageDates.Tag = LinkTabAndDataGridViewNameDates;
+            GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
+
+            tabPageExifTool.Tag = LinkTabAndDataGridViewNameExiftool;
+            GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExifTool, LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
+
+            tabPageExifToolWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
+            GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExifToolWarning, LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
+
+            tabPageProperties.Tag = LinkTabAndDataGridViewNameProperties;
+            GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
+
+            tabPageRename.Tag = LinkTabAndDataGridViewNameRename;
+            GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
+
+            tabPageConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
+            GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
+            #endregion
+
+            #region Setup Global Variables -  Map
             isSettingDefaultComboxValues = true;
-            //Map
             comboBoxGoogleTimeZoneShift.SelectedIndex = Properties.Settings.Default.ComboBoxGoogleTimeZoneShift;    //0 time shift = 12
             comboBoxGoogleLocationInterval.SelectedIndex = Properties.Settings.Default.ComboBoxGoogleLocationInterval;    //30 minutes Index 2
             comboBoxMapZoomLevel.SelectedIndex = Properties.Settings.Default.ComboBoxMapZoomLevel;     //13 map zoom level 14
-            //Rename
+            #endregion 
+
+            #region Setup Global Variables - Rename
             textBoxRenameNewName.Text = Properties.Settings.Default.RenameVariable;
             isSettingDefaultComboxValues = false;
-            //Application
+            #endregion 
+
+            #region Setup Global Variables - Thumbnail
             ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
             RegionThumbnailHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
+            #endregion
+            #endregion
 
-            isFormLoading = true;
+            #region Initialize layout setup
+
+            #region Initialize layout setup - Windows Size and Splitters
+            SplashForm.UpdateStatus("Initialize layout setup: Sizes...");
+            isFormLoading = true; //MainForm_Shown(object sender, EventArgs e) -> isFormLoading = false;
 
             this.Size = Properties.Settings.Default.MainFormSize;
             this.Location = Properties.Settings.Default.MainFormLocation;
@@ -377,20 +400,27 @@ UpdateColorControls(subC);
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
 
             timerShowErrorMessage.Enabled = true;
+            #endregion 
 
+            #region Initialize layout setup - Initialize layout toolstrip: Exiftool
+            SplashForm.UpdateStatus("Initialize layout toolstrip: Exiftool...");
             PopulateExiftoolToolStripMenuItems();
+            #endregion 
+
+            #region Initialize layout setup - Initialize layout toolstrip: Warnings
+            SplashForm.UpdateStatus("Initialize layout toolstrip: Warnings...");
             PopulateExiftoolWarningToolStripMenuItems();
+            #endregion 
+
+            #region Initialize layout setup - Initialize layout toolstrip: People
+            SplashForm.UpdateStatus("Initialize layout toolstrip: People...");
             PopulatePeopleToolStripMenuItems();
+            #endregion 
 
-            // Add event handlers for file system watcher.
-            /*
-            fileSystemWatcher.EnableRaisingEvents = false;
-            fileSystemWatcher.Changed += new FileSystemEventHandler(FileSystemWatcherOnChanged);
-            fileSystemWatcher.Created += new FileSystemEventHandler(FileSystemWatcherOnCreated);
-            fileSystemWatcher.Deleted += new FileSystemEventHandler(FileSystemWatcherOnDeleted);
-            fileSystemWatcher.Renamed += new RenamedEventHandler(FileSystemWatcherOnRenamed);
-            */
+            #endregion
 
+            #region Initialize nHTTP server
+            SplashForm.UpdateStatus("Initialize nHTTP server...");
             _ThreadHttp = new Thread(() =>
             {
                 using (nHttpServer = new HttpServer())
@@ -410,10 +440,8 @@ UpdateColorControls(subC);
                 }
             });
             _ThreadHttp.Start();
+            #endregion 
         }
-
-        
-
         #endregion
 
         #region Resize and restore windows size when reopen application        

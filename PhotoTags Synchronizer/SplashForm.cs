@@ -10,6 +10,7 @@ namespace PhotoTagsSynchronizer
 {
     public partial class SplashForm : Form
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         //Delegate for cross thread call to close
         private delegate void CloseDelegate();
@@ -160,6 +161,8 @@ namespace PhotoTagsSynchronizer
        
         static public void UpdateStatus(string status)
         {
+            Logger.Debug(status);
+
             _status = status;
             _taskWhere++;
             try

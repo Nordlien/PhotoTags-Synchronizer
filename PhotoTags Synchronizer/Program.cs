@@ -33,7 +33,7 @@ namespace PhotoTagsSynchronizer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Loading...", 15, Properties.Settings.Default.CloseWarningWindowsAutomatically, true);
+            SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Loading...", 22, Properties.Settings.Default.CloseWarningWindowsAutomatically, true);
             SplashForm.UpdateStatus("Initialize DLL files..."); //1 
 
             if (Environment.Is64BitProcess)
