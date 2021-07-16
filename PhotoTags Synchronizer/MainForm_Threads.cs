@@ -599,6 +599,7 @@ namespace PhotoTagsSynchronizer
                         #endregion
                     });
 
+                    lock (_ThreadLazyLoadingMetadataLock)
                     if (_ThreadLazyLoadingMetadata != null)
                     {
                         _ThreadLazyLoadingMetadata.Start();

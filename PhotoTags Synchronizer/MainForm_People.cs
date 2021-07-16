@@ -12,11 +12,7 @@ namespace PhotoTagsSynchronizer
 
     public partial class MainForm : Form
     {
-        #region Cell TriState Click
-        bool triStateButtomClick = false;
-        int tristateButtonWidth = 32;
-        int tristateBittonHight = 20;
-
+        #region CellMouseClick
         private void dataGridViewPeople_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             Rectangle cellRectangle = ((DataGridView)sender).GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
@@ -36,7 +32,12 @@ namespace PhotoTagsSynchronizer
             DataGridViewHandler.Refresh(dataGridView);
             if (updatedCells != null && updatedCells.Count > 0) ClipboardUtility.PushToUndoStack(dataGridView, updatedCells);
         }
+        #endregion 
 
+        #region Cell TriState Click
+        bool triStateButtomClick = false;
+        int tristateButtonWidth = 32;
+        int tristateBittonHight = 20;
         #endregion
 
         #region Cell Updated name
