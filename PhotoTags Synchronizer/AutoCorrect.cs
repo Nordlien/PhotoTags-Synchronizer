@@ -297,7 +297,7 @@ namespace PhotoTagsSynchronizer
                     metadataCopy.LocationLongitude = metadataWebScrapingCopy?.LocationLongitude;
                 }
             }
-            Logger.Debug("FixAndSave: GPS coordinates:" + metadataCopy.LocationCoordinate.ToString());
+            Logger.Debug("FixAndSave: GPS coordinates:" + (metadataCopy.LocationCoordinate == null ? "null" : metadataCopy.LocationCoordinate.ToString()));
             #endregion
 
             #region Find best guess on GPS Location Latitude Longitude
