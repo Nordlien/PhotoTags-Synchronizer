@@ -638,6 +638,9 @@ namespace PhotoTagsSynchronizer
                                 Rectangle rectangleInImage = region.GetImageRegionPixelRectangle(image.Size);
                                 RectangleF rectangleFInImage = new RectangleF((float)rectangleInImage.X, (float)rectangleInImage.Y, (float)rectangleInImage.Width, (float)rectangleInImage.Height);
                                 formRegionSelect.SetSelection(rectangleFInImage);
+                            } else
+                            {
+                                formRegionSelect.SetImage(image, "Select region: create a new region", columnIndex, rowIndex);
                             }
                         }
                         else

@@ -73,6 +73,7 @@ namespace PhotoTagsSynchronizer
 
         private void imageBox1_Selected(object sender, EventArgs e)
         {
+            if (imageBox1.Image == null) return;
             RegionSelectedEventArgs regionSelectedEventArgs = new RegionSelectedEventArgs();
             regionSelectedEventArgs.ImageSize = imageBox1.Image.Size;
             regionSelectedEventArgs.Selection = imageBox1.SelectionRegion;
