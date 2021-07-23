@@ -381,7 +381,7 @@ namespace PhotoTagsSynchronizer
                         if (metadataCopy?.LocationLatitude == null || metadataCopy?.LocationLongitude == null)
                         {
                             Metadata metadataLocationBasedOnBestGuess = databaseGoogleLocationHistory.FindLocationBasedOtherMediaFiles(
-                                dateTimeUTC, metadataCopy?.MediaDateTaken, metadataCopy?.FileDateCreated, 60 * LocationFindMinutes);
+                                dateTimeUTC, metadataCopy?.MediaDateTaken, metadataCopy?.FileDateCreated, 60 * LocationFindMinutesNearByMedia);
 
                             if (metadataLocationBasedOnBestGuess != null && metadataLocationBasedOnBestGuess.LocationLatitude != null && metadataLocationBasedOnBestGuess.LocationLongitude != null)
                             {

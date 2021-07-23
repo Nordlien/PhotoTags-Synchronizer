@@ -101,7 +101,6 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAuthor.Name = "comboBoxAuthor";
             this.comboBoxAuthor.Size = new System.Drawing.Size(569, 24);
             this.comboBoxAuthor.TabIndex = 4;
-            this.comboBoxAuthor.SelectionChangeCommitted += new System.EventHandler(this.comboBoxAuthor_SelectionChangeCommitted);
             // 
             // comboBoxAlbum
             // 
@@ -114,7 +113,6 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAlbum.Name = "comboBoxAlbum";
             this.comboBoxAlbum.Size = new System.Drawing.Size(569, 24);
             this.comboBoxAlbum.TabIndex = 0;
-            this.comboBoxAlbum.SelectionChangeCommitted += new System.EventHandler(this.comboBoxAlbum_SelectionChangeCommitted);
             // 
             // comboBoxComments
             // 
@@ -127,7 +125,6 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments.Name = "comboBoxComments";
             this.comboBoxComments.Size = new System.Drawing.Size(569, 24);
             this.comboBoxComments.TabIndex = 3;
-            this.comboBoxComments.SelectionChangeCommitted += new System.EventHandler(this.comboBoxComments_SelectionChangeCommitted);
             // 
             // comboBoxDescription
             // 
@@ -140,7 +137,6 @@ namespace PhotoTagsSynchronizer
             this.comboBoxDescription.Name = "comboBoxDescription";
             this.comboBoxDescription.Size = new System.Drawing.Size(569, 24);
             this.comboBoxDescription.TabIndex = 2;
-            this.comboBoxDescription.SelectionChangeCommitted += new System.EventHandler(this.comboBoxDescription_SelectionChangeCommitted);
             // 
             // comboBoxTitle
             // 
@@ -153,7 +149,6 @@ namespace PhotoTagsSynchronizer
             this.comboBoxTitle.Name = "comboBoxTitle";
             this.comboBoxTitle.Size = new System.Drawing.Size(569, 24);
             this.comboBoxTitle.TabIndex = 1;
-            this.comboBoxTitle.SelectionChangeCommitted += new System.EventHandler(this.comboBoxTitle_SelectionChangeCommitted);
             // 
             // checkBoxAlbum
             // 

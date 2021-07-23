@@ -89,7 +89,7 @@ namespace PhotoTagsSynchronizer
                 {
                     if (File.Exists(fullFileName)) lastAccessTime = File.GetLastAccessTime(fullFileName);
                 } catch { }                
-                fileTasks[fullFileName].Add("  " + modifiedDate.ToString() + " vs. " + (lastAccessTime == modifiedDate ? "" : (lastAccessTime == null ? "File not exists or can't readlast access time" : lastAccessTime.ToString())));                
+                fileTasks[fullFileName].Add("  " + modifiedDate.ToString() + " vs. " + (lastAccessTime == modifiedDate ? "" : (lastAccessTime == null ? "File not exists or can't read last access time" : lastAccessTime.ToString())));                
             } 
         }
 

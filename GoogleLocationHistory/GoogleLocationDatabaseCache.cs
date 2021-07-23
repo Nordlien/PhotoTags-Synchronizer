@@ -128,7 +128,7 @@ namespace GoogleLocationHistory
                         float? locationLatitude = dbTools.ConvertFromDBValFloat(reader["LocationLatitude"]);
                         float? locationLongitude = dbTools.ConvertFromDBValFloat(reader["LocationLongitude"]);
 
-                        if (timeDistance / 100 < acceptDiffrentSecound * 1000)
+                        if (timeDistance / 100000 < acceptDiffrentSecound)
                         {
                             metadata = new Metadata(MetadataBrokerType.GoogleLocationHistory);
                             metadata.LocationLatitude = locationLatitude;

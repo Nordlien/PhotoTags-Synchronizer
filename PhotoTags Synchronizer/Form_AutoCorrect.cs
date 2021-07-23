@@ -75,31 +75,5 @@ namespace PhotoTagsSynchronizer
             this.DialogResult = DialogResult.OK;
         }
 
-        private void comboBoxAlbum_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void comboBoxTitle_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBoxDescription_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBoxComments_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBoxAuthor_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-
-        }
-
-        
     }
 }

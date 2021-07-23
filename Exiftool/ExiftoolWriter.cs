@@ -174,7 +174,9 @@ namespace Exiftool
                 Metadata metadataToWrite = metadataListToWrite[updatedRecord];
                 Metadata metadataOriginal = metadataListOriginal[updatedRecord];
 
+                if (metadataOriginal.Broker == MetadataBrokerType.Empty) alwaysWrite = true;
                 if (!alwaysWrite && metadataToWrite == metadataOriginal) continue; //No changes found in data, No data to write
+                
                 filesNeedToBeUpadted.Add(metadataToWrite.FileEntryBroker);
 
                 string tagsToWrite = metadataToWrite.RemoveLines(writeMetadataTagsVariable, metadataOriginal, alwaysWrite);

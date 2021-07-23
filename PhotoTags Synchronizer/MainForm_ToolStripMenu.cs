@@ -1339,7 +1339,6 @@ namespace PhotoTagsSynchronizer
                 string[] files = Directory.GetFiles(selectedFolder, "*.*");
                 foreach (string file in files)
                 {
-                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
                     Metadata metadataToSave = autoCorrect.FixAndSave(
                         new FileEntry(file, File.GetLastWriteTime(file)),
                         databaseAndCacheMetadataExiftool,
@@ -1350,7 +1349,7 @@ namespace PhotoTagsSynchronizer
                         databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
                     if (metadataToSave != null)
                     {
-                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
+                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                         AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                     }
                 }
@@ -1392,7 +1391,6 @@ namespace PhotoTagsSynchronizer
 
                     foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
-                        Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
                         Metadata metadataToSave = autoCorrect.FixAndSave(
                             new FileEntry(item.FileFullPath, item.DateModified),
                             databaseAndCacheMetadataExiftool,
@@ -1419,7 +1417,7 @@ namespace PhotoTagsSynchronizer
                             if (useTitle) metadataToSave.PersonalTitle = title;
                             if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
 
-                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
+                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                             AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
                         }
                     }
@@ -1445,7 +1443,6 @@ namespace PhotoTagsSynchronizer
 
                 foreach (ImageListViewItem item in imageListView1.SelectedItems)
                 {
-                    Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
                     Metadata metadataToSave = autoCorrect.FixAndSave(
                         new FileEntry(item.FileFullPath, item.DateModified),
                         databaseAndCacheMetadataExiftool,
@@ -1457,7 +1454,7 @@ namespace PhotoTagsSynchronizer
                         locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
                     if (metadataToSave != null)
                     {
-                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, metadataOriginal);
+                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                         AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
                     }
                 }
@@ -1615,7 +1612,6 @@ namespace PhotoTagsSynchronizer
 
                     foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
-                        Metadata metadataOriginal = new Metadata(MetadataBrokerType.Empty);
                         Metadata metadataToSave = autoCorrect.FixAndSave(
                             new FileEntry(item.FileFullPath, item.DateModified),
                             databaseAndCacheMetadataExiftool,
@@ -1631,7 +1627,7 @@ namespace PhotoTagsSynchronizer
                         {
                             Logger.Warn("Metadata was not loaded for file, check if file is only in cloud:" + item.FileFullPath);
                         }
-                        metadataListEmpty.Add(new Metadata(metadataOriginal));
+                        metadataListEmpty.Add(new Metadata(MetadataBrokerType.Empty));
                     }
 
 
