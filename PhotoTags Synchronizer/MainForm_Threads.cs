@@ -35,7 +35,7 @@ namespace PhotoTagsSynchronizer
         private static readonly Object _ThreadLazyLoadingThumbnailLock = new Object();
         private static Thread _ThreadLazyLoadingThumbnail = null; //
 
-        private static readonly Object _ThreadExiftoolLock = new Object();
+        private static readonly Object __ThreadCollectMetadataExiftoolLock = new Object();
         private static Thread _ThreadCollectMetadataExiftool = null; 
         
         private static readonly Object _ThreadSaveThumbnailLock = new Object();
@@ -436,7 +436,7 @@ namespace PhotoTagsSynchronizer
                         #endregion
                     });
 
-                    if (_ThreadCacheSelectedFastRead != null)
+                    lock (_ThreadCacheSelectedFastReadLock) if (_ThreadCacheSelectedFastRead != null)
                     {
                         _ThreadCacheSelectedFastRead.Start();
                         _ThreadCacheSelectedFastRead.Priority = threadPriority;
@@ -593,14 +593,13 @@ namespace PhotoTagsSynchronizer
                         }
                         finally
                         {
-                            _ThreadLazyLoadingMetadata = null;
+                            lock (_ThreadLazyLoadingMetadataLock) _ThreadLazyLoadingMetadata = null;
                             Logger.Trace("ThreadLazyLoadningMetadata - ended");
                         }
                         #endregion
                     });
 
-                    lock (_ThreadLazyLoadingMetadataLock)
-                    if (_ThreadLazyLoadingMetadata != null)
+                    lock (_ThreadLazyLoadingMetadataLock) if (_ThreadLazyLoadingMetadata != null)
                     {
                         _ThreadLazyLoadingMetadata.Start();
                         _ThreadLazyLoadingMetadata.Priority = threadPriority;
@@ -687,14 +686,14 @@ namespace PhotoTagsSynchronizer
                         }
                         finally
                         {
-                            _ThreadLazyLoadingThumbnail = null;
+                            lock (_ThreadLazyLoadingThumbnailLock) _ThreadLazyLoadingThumbnail = null;
                         }
                         #endregion
                     });
 
                 }
 
-                if (_ThreadLazyLoadingThumbnail != null)
+                lock (_ThreadLazyLoadingThumbnailLock) if (_ThreadLazyLoadingThumbnail != null)
                 {
                     _ThreadLazyLoadingThumbnail.Start();
                     _ThreadLazyLoadingThumbnail.Priority = threadPriority;
@@ -812,13 +811,13 @@ namespace PhotoTagsSynchronizer
                         }
                         finally
                         {
-                            _ThreadSaveThumbnail = null;
+                            lock (_ThreadSaveThumbnailLock) _ThreadSaveThumbnail = null;
                             Logger.Trace("ThreadSaveThumbnail - ended");
                         }
                         #endregion
                     });
 
-                    if (_ThreadSaveThumbnail != null)
+                    lock (_ThreadSaveThumbnailLock) if (_ThreadSaveThumbnail != null)
                     {
                         _ThreadSaveThumbnail.Start();
                         _ThreadSaveThumbnail.Priority = threadPriority;
@@ -873,7 +872,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (WaitExittoolReadCacheThread != null && CommonQueueReadMetadataFromExiftoolCountDirty() <= 0) WaitExittoolReadCacheThread.Set();
                 if (GlobalData.IsStopAndEmptyExiftoolReadQueueRequest || _ThreadCollectMetadataExiftool != null || CommonQueueReadMetadataFromExiftoolCountDirty() <= 0) return;
-                lock (_ThreadExiftoolLock)
+                lock (__ThreadCollectMetadataExiftoolLock)
                 {
                     _ThreadCollectMetadataExiftool = new Thread(() =>
                     {
@@ -1072,13 +1071,15 @@ namespace PhotoTagsSynchronizer
                         finally
                         {
                             GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = false;
-                            _ThreadCollectMetadataExiftool = null;
+                            //lock(_ThreadCollectMetadataExiftoolLock)
+                            lock (__ThreadCollectMetadataExiftoolLock) _ThreadCollectMetadataExiftool = null;
                             Logger.Trace("ThreadCollectMetadataExiftool - ended");
                         }
                         #endregion
                     });
 
-                    if (_ThreadCollectMetadataExiftool != null)
+                    //(_ThreadCollectMetadataExiftoolLock) 
+                    lock(__ThreadCollectMetadataExiftoolLock) if (_ThreadCollectMetadataExiftool != null)
                     {
                         _ThreadCollectMetadataExiftool.Start();
                         _ThreadCollectMetadataExiftool.Priority = threadPriority;
@@ -1411,7 +1412,7 @@ namespace PhotoTagsSynchronizer
                         }
                         finally
                         {
-                            _ThreadSaveMetadata = null;
+                            lock(_ThreadSaveMetadataLock) _ThreadSaveMetadata = null;
                             Logger.Trace("ThreadSaveMetadata - ended");
                         }
 
@@ -1419,7 +1420,7 @@ namespace PhotoTagsSynchronizer
 
                     });
 
-                    if (_ThreadSaveMetadata != null)
+                    lock (_ThreadSaveMetadataLock) if (_ThreadSaveMetadata != null)
                     {
                         _ThreadSaveMetadata.Start();
                         _ThreadSaveMetadata.Priority = threadPriority;
@@ -1529,14 +1530,14 @@ namespace PhotoTagsSynchronizer
                         }
                         finally
                         {
-                            _ThreadMicrosoftPhotos = null;
+                            lock (_ThreadMicrosoftPhotosLock) _ThreadMicrosoftPhotos = null;
                             Logger.Trace("ThreadCollectMetadataMicrosoftPhotos - ended");
                         }
                         #endregion
 
                     });
 
-                    if (_ThreadMicrosoftPhotos != null)
+                    lock (_ThreadMicrosoftPhotosLock) if (_ThreadMicrosoftPhotos != null)
                     {
                         _ThreadMicrosoftPhotos.Start();
                         _ThreadMicrosoftPhotos.Priority = threadPriority;
@@ -1649,13 +1650,13 @@ namespace PhotoTagsSynchronizer
                         }
                         finally
                         {
-                            _ThreadWindowsLiveGallery = null;
+                            lock(_ThreadWindowsLiveGalleryLock) _ThreadWindowsLiveGallery = null;
                             Logger.Trace("ThreadCollectMetadataWindowsLiveGallery - ended");
                         }
                         #endregion
                     });
 
-                    if (_ThreadWindowsLiveGallery != null)
+                    lock (_ThreadWindowsLiveGalleryLock) if (_ThreadWindowsLiveGallery != null)
                     {
                         _ThreadWindowsLiveGallery.Start();
                         _ThreadWindowsLiveGallery.Priority = threadPriority;
@@ -1865,13 +1866,13 @@ namespace PhotoTagsSynchronizer
                         }
                         finally
                         {
-                            _ThreadThumbnailRegion = null;
+                            lock(_ThreadThumbnailRegionLock) _ThreadThumbnailRegion = null;
                             Logger.Trace("ThreadReadMediaPosterSaveRegions - ended");
                         }
                         #endregion
                     });
 
-                    if (_ThreadThumbnailRegion != null)
+                    lock (_ThreadThumbnailRegionLock) if (_ThreadThumbnailRegion != null)
                     {
                         _ThreadThumbnailRegion.Start();
                         _ThreadThumbnailRegion.Priority = threadPriority;
@@ -2406,12 +2407,12 @@ namespace PhotoTagsSynchronizer
                             Logger.Error(ex, "ThreadRename");
                         } finally
                         {
-                            _ThreadRenameMedafiles = null;
+                            lock (_ThreadRenameMedafilesLock) _ThreadRenameMedafiles = null;
                             Logger.Trace("ThreadRename - ended");
                         }
                     });
 
-                    if (_ThreadRenameMedafiles != null)
+                    lock (_ThreadRenameMedafilesLock) if (_ThreadRenameMedafiles != null)
                     {
                         _ThreadRenameMedafiles.Start();
                         _ThreadRenameMedafiles.Priority = threadPriority;
