@@ -15,6 +15,9 @@ namespace PhotoTagsSynchronizer
         #region CellMouseClick
         private void dataGridViewPeople_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left) 
+                return;
+
             Rectangle cellRectangle = ((DataGridView)sender).GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
             if (e.X >= cellRectangle.Width - tristateButtonWidth && e.Y <= tristateBittonHight) triStateButtomClick = true;
             else triStateButtomClick = false;
@@ -69,6 +72,7 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewPeople_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             drawingRegion = false;
+            if (e.Button != MouseButtons.Left) return;
 
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
@@ -199,6 +203,7 @@ namespace PhotoTagsSynchronizer
         private void dataGridViewPeople_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             drawingRegion = false;
+            if (e.Button != MouseButtons.Left) return;
 
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
@@ -245,6 +250,8 @@ namespace PhotoTagsSynchronizer
         #region Cell header - Face region - CellMouseMove
         private void dataGridViewPeople_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left) return;
+
             DataGridView dataGridView = ((DataGridView)sender);
             if (!dataGridView.Enabled) return;
 
@@ -280,7 +287,8 @@ namespace PhotoTagsSynchronizer
         #region AutoComplete - ClientListDropDown
         public AutoCompleteStringCollection ClientListDropDown()
         {
-            List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerType.ExifTool, DateTime.Now.AddDays(-365), DateTime.Now);
+            //List<string> regionName1 = databaseAndCacheMetadataExiftool.ListAllRegionNamesCache(MetadataBrokerType.Empty, null, null);
+            List<string> regionNames = databaseAndCacheMetadataExiftool.ListAllPersonalRegionsCache();
             AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
             foreach (string regionName in regionNames)
             {

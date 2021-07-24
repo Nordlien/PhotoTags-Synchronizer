@@ -2229,8 +2229,9 @@ namespace MetadataLibrary
 
             joinAddRegions = ListAllPersonalRegionNameTopCountCache(MetadataBrokerType.MicrosoftPhotos, int.MaxValue);
             foreach (string addRegion in joinAddRegions) if (!joinAllRegions.Contains(addRegion)) joinAllRegions.Add(addRegion);
-            
-            return joinAddRegions;
+
+            joinAllRegions.Sort();
+            return joinAllRegions;
         }
         #endregion
 
@@ -2252,9 +2253,12 @@ namespace MetadataLibrary
         #endregion
 
         #region MetadataRegionNamesCache - ListAllRegionNamesCache
-        public List<string> ListAllRegionNamesCache(MetadataBrokerType metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
+        public List<string> ListAllRegionNamesCache(MetadataBrokerType metadataBrokerType, DateTime? dateTimeFrom, DateTime? dateTimeTo)
         {
-            MetadataRegionNameKey metadataRegionNameKey = new MetadataRegionNameKey(metadataBrokerType, dateTimeFrom, dateTimeTo);
+            MetadataRegionNameKey metadataRegionNameKey = new MetadataRegionNameKey(metadataBrokerType, 
+                (dateTimeFrom == null ? DateTime.MinValue : (DateTime)dateTimeFrom), 
+                (dateTimeTo == null ? DateTime.MaxValue : (DateTime)dateTimeTo)
+                );
             
             if (MetadataRegionNamesCacheContainsKey(metadataRegionNameKey)) return MetadataRegionNamesCacheGet(metadataRegionNameKey);
 
@@ -2269,20 +2273,23 @@ namespace MetadataLibrary
         #endregion
 
         #region MetadataRegionNamesCache - ListAllRegionNames
-        public List<string> ListAllRegionNames(MetadataBrokerType metadataBrokerType, DateTime dateTimeFrom, DateTime dateTimeTo)
+        public List<string> ListAllRegionNames(MetadataBrokerType metadataBrokerType, DateTime? dateTimeFrom, DateTime? dateTimeTo)
         {
             List<string> listing = new List<string>();
 
-            string sqlCommand =
-                "SELECT DISTINCT Name FROM MediaPersonalRegions " +
-                "WHERE Broker = @Broker AND FileDateModified >= @FileDateModifiedFrom AND FileDateModified <= @FileDateModifiedTo";
+            string sqlCommand = "";
+            if (metadataBrokerType != MetadataBrokerType.Empty) sqlCommand += (string.IsNullOrEmpty(sqlCommand) ? "" : "AND ") + "Broker = @Broker ";
+            if (dateTimeFrom != null) sqlCommand += (string.IsNullOrEmpty(sqlCommand) ? "" : "AND ") + "FileDateModified >= @FileDateModifiedFrom ";
+            if (dateTimeTo != null) sqlCommand += (string.IsNullOrEmpty(sqlCommand) ? "" : "AND ") + "FileDateModified <= @FileDateModifiedTo ";
 
+            sqlCommand = "SELECT DISTINCT Name FROM MediaPersonalRegions " + (string.IsNullOrEmpty(sqlCommand) ? "" : "WHERE ") + sqlCommand;
+            
             using (CommonSqliteCommand commandDatabase = new CommonSqliteCommand(sqlCommand, dbTools.ConnectionDatabase))
             {
                 //commandDatabase.Prepare();
-                commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
-                commandDatabase.Parameters.AddWithValue("@FileDateModifiedFrom", dbTools.ConvertFromDateTimeToDBVal(dateTimeFrom));
-                commandDatabase.Parameters.AddWithValue("@FileDateModifiedTo", dbTools.ConvertFromDateTimeToDBVal(dateTimeTo));
+                if (metadataBrokerType != MetadataBrokerType.Empty) commandDatabase.Parameters.AddWithValue("@Broker", (int)metadataBrokerType);
+                if (dateTimeFrom != null) commandDatabase.Parameters.AddWithValue("@FileDateModifiedFrom", dbTools.ConvertFromDateTimeToDBVal(dateTimeFrom));
+                if (dateTimeTo != null) commandDatabase.Parameters.AddWithValue("@FileDateModifiedTo", dbTools.ConvertFromDateTimeToDBVal(dateTimeTo));
 
                 using (CommonSqliteDataReader reader = commandDatabase.ExecuteReader())
                 {
