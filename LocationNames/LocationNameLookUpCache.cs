@@ -2,12 +2,14 @@
 using Nominatim.API.Geocoders;
 using Nominatim.API.Models;
 using SqliteDatabase;
+using System;
 using System.Collections.Generic;
 
 namespace LocationNames
 {
     public class LocationNameLookUpCache
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private SqliteDatabaseUtilities dbTools;
         public string PreferredLanguagesString { get; set; } = "en"; //"en;q=0.5,no;q=0.3,ru;q=0.2,*;q=0.1";
@@ -35,48 +37,54 @@ namespace LocationNames
 
             LocationCoordinateAndDescription locationCoordinateAndDescription = locationNameCache.ReadLocationName(locationCoordinate, locationAccuracyLatitude, locationAccuracyLongitude);
             if (locationCoordinateAndDescription != null) return locationCoordinateAndDescription;
-      
-            var y = new ReverseGeocoder();
-            var r2 = y.ReverseGeocode(new ReverseGeocodeRequest
+
+            try
             {
-                Longitude = locationCoordinate.Longitude, 
-                Latitude = locationCoordinate.Latitude,  
+                var y = new ReverseGeocoder();
+                var r2 = y.ReverseGeocode(new ReverseGeocodeRequest
+                {
+                    Longitude = locationCoordinate.Longitude,
+                    Latitude = locationCoordinate.Latitude,
 
-                BreakdownAddressElements = true,
-                ShowExtraTags = true,
-                ShowAlternativeNames = true,
-                ShowGeoJSON = true,
-                PreferredLanguages = PreferredLanguagesString
-            }); 
-            r2.Wait();
+                    BreakdownAddressElements = true,
+                    ShowExtraTags = true,
+                    ShowAlternativeNames = true,
+                    ShowGeoJSON = true,
+                    PreferredLanguages = PreferredLanguagesString
+                });
+                r2.Wait();
 
-            if (r2.IsCompleted && !r2.IsFaulted && r2.Result != null && r2.Result.Address != null)
+                if (r2.IsCompleted && !r2.IsFaulted && r2.Result != null && r2.Result.Address != null)
+                {
+                    locationCoordinateAndDescription = new LocationCoordinateAndDescription();
+
+                    locationCoordinateAndDescription.Coordinate.Latitude = locationCoordinate.Latitude;
+                    locationCoordinateAndDescription.Coordinate.Longitude = locationCoordinate.Longitude;
+                    locationCoordinateAndDescription.Description.City = (r2.Result.Address.City + " " + r2.Result.Address.Town + " " + r2.Result.Address.Village).Trim().Replace("  ", " ");
+                    locationCoordinateAndDescription.Description.Country = r2.Result.Address.Country;
+                    locationCoordinateAndDescription.Description.Name = (r2.Result.Address.Road + " " + r2.Result.Address.HouseNumber).Trim();
+                    locationCoordinateAndDescription.Description.Region = (r2.Result.Address.State + " " + r2.Result.Address.County + " " + r2.Result.Address.Suburb + " " + r2.Result.Address.District + " " + r2.Result.Address.Hamlet).Trim().Replace("  ", " ");
+
+                    locationCoordinateAndDescription.Description.Name = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Name) ? null : locationCoordinateAndDescription.Description.Name;
+                    locationCoordinateAndDescription.Description.Region = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Region) ? null : locationCoordinateAndDescription.Description.Region;
+                    locationCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.City) ? null : locationCoordinateAndDescription.Description.City;
+                    locationCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Country) ? null : locationCoordinateAndDescription.Description.Country;
+
+                    locationNameCache.TransactionBeginBatch();
+                    locationNameCache.WriteLocationName(locationCoordinateAndDescription);
+                    locationNameCache.TransactionCommitBatch();
+                    return locationCoordinateAndDescription;
+
+                }
+                else
+                {
+                    return null;
+                }
+            } catch (Exception ex)
             {
-                locationCoordinateAndDescription = new LocationCoordinateAndDescription();
-
-                locationCoordinateAndDescription.Coordinate.Latitude = locationCoordinate.Latitude;
-                locationCoordinateAndDescription.Coordinate.Longitude = locationCoordinate.Longitude;
-                locationCoordinateAndDescription.Description.City = (r2.Result.Address.City + " " + r2.Result.Address.Town + " " + r2.Result.Address.Village).Trim().Replace("  ", " ");
-                locationCoordinateAndDescription.Description.Country = r2.Result.Address.Country;
-                locationCoordinateAndDescription.Description.Name = (r2.Result.Address.Road + " " + r2.Result.Address.HouseNumber).Trim();
-                locationCoordinateAndDescription.Description.Region = (r2.Result.Address.State + " " + r2.Result.Address.County + " " + r2.Result.Address.Suburb + " " + r2.Result.Address.District + " " + r2.Result.Address.Hamlet).Trim().Replace("  ", " ");
-
-                locationCoordinateAndDescription.Description.Name = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Name) ? null : locationCoordinateAndDescription.Description.Name;
-                locationCoordinateAndDescription.Description.Region = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Region) ? null : locationCoordinateAndDescription.Description.Region;
-                locationCoordinateAndDescription.Description.City = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.City) ? null : locationCoordinateAndDescription.Description.City;
-                locationCoordinateAndDescription.Description.Country = string.IsNullOrEmpty(locationCoordinateAndDescription.Description.Country) ? null : locationCoordinateAndDescription.Description.Country;
-
-                locationNameCache.TransactionBeginBatch();
-                locationNameCache.WriteLocationName(locationCoordinateAndDescription);
-                locationNameCache.TransactionCommitBatch();
-                return locationCoordinateAndDescription;
-
+                Logger.Error(ex, "AddressLookup");
             }
-            else
-            {
-                return null;
-            }
-
+            return null;
             
         }
 
