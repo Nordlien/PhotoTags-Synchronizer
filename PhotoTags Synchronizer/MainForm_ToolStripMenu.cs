@@ -839,6 +839,13 @@ namespace PhotoTagsSynchronizer
             }
         }
 
+        private void showMediaPosterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = GetActiveTabDataGridView();
+            OpenRegionSelector();
+            RegionSelectorLoadAndSelect(dataGridView);
+        }
+
         private void MediaPreviewSelectedInDataGridView(DataGridView dataGridView)
         {
             List<string> listOfMediaFiles = new List<string>();
