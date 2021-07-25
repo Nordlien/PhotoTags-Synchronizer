@@ -663,11 +663,29 @@ namespace MetadataLibrary
                             {
                                 RegionStructure region = new RegionStructure();
                                 region.Type = dbTools.ConvertFromDBValString(reader["Type"]);
-                                region.Name = dbTools.ConvertFromDBValString(reader["Name"]);
-                                region.AreaX = (float)dbTools.ConvertFromDBValFloat(reader["AreaX"]);
-                                region.AreaY = (float)dbTools.ConvertFromDBValFloat(reader["AreaY"]);
-                                region.AreaWidth = (float)dbTools.ConvertFromDBValFloat(reader["AreaWidth"]);
-                                region.AreaHeight = (float)dbTools.ConvertFromDBValFloat(reader["AreaHeight"]);
+                                string name = dbTools.ConvertFromDBValString(reader["Name"]);
+                                region.Name = (string.IsNullOrWhiteSpace(name) ? "Face", name);
+                                float? floatNull;
+                                floatNull = dbTools.ConvertFromDBValFloat(reader["AreaX"]);
+                                region.AreaX = (floatNull == null ? 0 : (float)floatNull);
+                                if (floatNull == null)
+                                    Logger.Error("AreaX is NULL, set to 0"); //This somehow got NULL, maybe after crash, need to debug, problem was gone after re-read metadata, need to find why occure
+
+                                floatNull = dbTools.ConvertFromDBValFloat(reader["AreaY"]);
+                                region.AreaY = (floatNull == null ? 0 : (float)floatNull);
+                                if (floatNull == null)
+                                    Logger.Error("AreaX is NULL, set to 0"); //This somehow got NULL, maybe after crash, need to debug, problem was gone after re-read metadata, need to find why occure
+
+                                floatNull = dbTools.ConvertFromDBValFloat(reader["AreaWidth"]);
+                                region.AreaWidth = (floatNull == null ? 0 : (float)floatNull);
+                                if (floatNull == null)
+                                    Logger.Error("AreaX is NULL, set to 0"); //This somehow got NULL, maybe after crash, need to debug, problem was gone after re-read metadata, need to find why occure
+
+                                floatNull = dbTools.ConvertFromDBValFloat(reader["AreaHeight"]);
+                                region.AreaHeight = (floatNull == null ? 0 : (float)floatNull);
+                                if (floatNull == null)
+                                    Logger.Error("AreaX is NULL, set to 0"); //This somehow got NULL, maybe after crash, need to debug, problem was gone after re-read metadata, need to find why occure
+
                                 region.RegionStructureType = (RegionStructureTypes)(int)dbTools.ConvertFromDBValInt(reader["RegionStructureType"]);
                                 region.Thumbnail = dbTools.ByteArrayToImage(dbTools.ConvertFromDBValByteArray(reader["Thumbnail"]));
                                 metadata.PersonalRegionListAddIfNotExists(region);

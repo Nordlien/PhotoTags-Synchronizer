@@ -15,8 +15,7 @@ namespace PhotoTagsSynchronizer
         #region CellMouseClick
         private void dataGridViewPeople_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left) 
-                return;
+            if (e.Button != MouseButtons.Left) return;
 
             Rectangle cellRectangle = ((DataGridView)sender).GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
             if (e.X >= cellRectangle.Width - tristateButtonWidth && e.Y <= tristateBittonHight) triStateButtomClick = true;
