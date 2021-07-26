@@ -128,7 +128,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, this);
                 if (ImageAndMovieFileExtentionsUtility.IsVideoFormat(fullFilePath))
                 {
                     var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
@@ -176,7 +176,7 @@ namespace PhotoTagsSynchronizer
                     //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
                     if (image == null && !doNotReadFullFileItsInCloud)
                     {                        
-                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, this);
                         image = LoadMediaCoverArtPoster(fullFilePath);
                     }
                 }
@@ -187,14 +187,14 @@ namespace PhotoTagsSynchronizer
 
                     if (image == null && !doNotReadFullFileItsInCloud)
                     {
-                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, this);
                         image = ImageAndMovieFileExtentionsUtility.ThumbnailFromFile(fullFilePath);
                     }
 
                     //DO NOT READ FROM FILE - IF NOT ALLOWED READ CLOUD FILES
                     if (image == null && !doNotReadFullFileItsInCloud)
                     {
-                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath);
+                        FileHandler.WaitLockedFileToBecomeUnlocked(fullFilePath, this);
                         image = LoadMediaCoverArtPoster(fullFilePath); 
                     }
                 }

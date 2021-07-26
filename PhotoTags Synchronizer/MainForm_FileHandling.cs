@@ -75,7 +75,7 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-                bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(sourceFullFilename);
+                bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(sourceFullFilename, this);
 
                 bool directoryCreated = filesCutCopyPasteDrag.MoveFile(sourceFullFilename, targetFullFilename);
 

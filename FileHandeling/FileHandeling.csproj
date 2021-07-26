@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,13 +44,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileHandler.cs" />
+    <Compile Include="FormWaitLockedFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWaitLockedFile.Designer.cs">
+      <DependentUpon>FormWaitLockedFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MetadataLibrary\MetadataLibrary.csproj">
       <Project>{257D2461-60B4-4072-9A19-723A5E3239A7}</Project>
       <Name>MetadataLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FormWaitLockedFile.resx">
+      <DependentUpon>FormWaitLockedFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GoogleBackup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OneDrive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackupAndSyncFromGoogle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

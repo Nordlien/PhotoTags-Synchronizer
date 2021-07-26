@@ -115,25 +115,51 @@ namespace FileHandeling
         #endregion 
 
         #region WaitLockedFilesToBecomeUnlocked
-
-        public static void WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck)
+        static FormWaitLockedFile formWaitLockedFile = new FormWaitLockedFile();
+        public static bool WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck, Form form)
         {
-            int maxRetry = 30;
+            int waitBeforeShowRefreshMessage = 30;
             bool areAnyFileLocked;
             do
             {
                 areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck);
                 if (areAnyFileLocked) Task.Delay(500).Wait();
-                if (maxRetry-- < 0)
+                if (areAnyFileLocked && waitBeforeShowRefreshMessage-- < 0)
                 {
-                    if (MessageBox.Show(
-                        "Other applications can lock files temporary e.g.Google Drive and OneDrive.\r\n" +
-                        "Please turn of file sync temporary to avoid this issue, and to avoid duplicate sync files\r\n" +
-                        "Will you retry waiting for file to be unlocked\r\n" + FileLockedByProcess,
-                        "File(s) are locked by another applications", MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
-                    else areAnyFileLocked = false;
+                    try
+                    {
+                        if (formWaitLockedFile == null) formWaitLockedFile = new FormWaitLockedFile();
+                        formWaitLockedFile.IgnoredClicked = false;
+                        formWaitLockedFile.RetryIsClicked = false;
+                        if (form != null) formWaitLockedFile.Owner = form;
+                        string files = "";
+                        foreach (Metadata metadata in fileEntriesToCheck)
+                        {
+                            files += metadata.FileFullPath + "\r\n";
+                            try
+                            {
+                                if (!File.Exists(metadata.FileFullPath)) files += "- File doesn't exist\r\n";
+                            }
+                            catch { }
+                            if (IsFileLockedByProcess(metadata.FileFullPath)) files += "- File is Locked by an other application\r\n";
+                            if (IsFileReadOnly(metadata.FileFullPath)) files += "- File is read only\r\n";
+                            if (IsFileVirtual(metadata.FileFullPath)) files += "- File is virtual\r\n";
+                            if (IsFileInCloud(metadata.FileFullPath)) files += "- File is in cloud\r\n";
+                        }
+                        formWaitLockedFile.TextBoxFiles = files;
+                        formWaitLockedFile.Show();
+                        if (formWaitLockedFile.IgnoredClicked) return false; //False, file still locked 
+                        if (formWaitLockedFile.RetryIsClicked) waitBeforeShowRefreshMessage = 30; else waitBeforeShowRefreshMessage = 2;
+                    }
+                    catch { }
                 }
             } while (areAnyFileLocked);
+            try
+            {
+                if (formWaitLockedFile != null) formWaitLockedFile.Close();
+            }
+            catch { }
+            return true; //True, file exist and unlocked, or ignored 
         }
         #endregion
 
@@ -143,38 +169,18 @@ namespace FileHandeling
         /// </summary>
         /// <param name="fileFullPath"></param>
         /// <returns>true - if unlocked and exist</returns>
-        public static bool WaitLockedFileToBecomeUnlocked(string fileFullPath)
+        public static bool WaitLockedFileToBecomeUnlocked(string fileFullPath, Form form)
         {
             if (!File.Exists(fileFullPath)) return false; //Not locked, file doesn't exist
 
-            /*List<Metadata> fileEntriesToCheck = new List<Metadata>();
+            List<Metadata> fileEntriesToCheck = new List<Metadata>();
             Metadata metadata = new Metadata(MetadataBrokerType.Empty);
             metadata.FileDirectory = Path.GetDirectoryName(fileFullPath);
             metadata.FileName = Path.GetFileName(fileFullPath);
-            fileEntriesToCheck.Add(metadata);*/
+            fileEntriesToCheck.Add(metadata);
 
-            int maxRetry = 30;
-            bool areAnyFileLocked;
-            do
-            {
-                areAnyFileLocked = IsFileLockedByProcess(fileFullPath);
+            return WaitLockedFilesToBecomeUnlocked(fileEntriesToCheck, form);
 
-                if (areAnyFileLocked) Task.Delay(500).Wait(); 
-                if (maxRetry-- < 0)
-                {
-                    if (MessageBox.Show(
-                        "Other applications can lock files temporary e.g.Google Drive and OneDrive.\r\n" +
-                        "Please turn of file sync temporary to avoid this issue, and to avoid duplicate sync files\r\n" +
-                        "Will you retry waiting for file to be unlocked\r\n" + FileLockedByProcess,
-                        "File(s) are locked by another applications", MessageBoxButtons.RetryCancel) == DialogResult.Retry) maxRetry = 15;
-                    else
-                    {
-                        areAnyFileLocked = false;
-                        return false; //False, file still locked 
-                    }
-                }
-            } while (areAnyFileLocked);
-            return true; //True, file exist and unlocked 
         }
         #endregion  
 

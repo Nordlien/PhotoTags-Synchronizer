@@ -1214,7 +1214,7 @@ namespace PhotoTagsSynchronizer
                                 #region Save Metadatas using Exiftool  
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
                                 //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock) 
-                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave, this);
 
                                 List<FileEntry> mediaFilesUpdatedByExiftool = new List<FileEntry>();
                                 string exiftoolErrorMessage = "";
@@ -1250,7 +1250,7 @@ namespace PhotoTagsSynchronizer
                                 #region Write Xtra Atom properites
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
                                 //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock)
-                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave, this);
 
                                 Dictionary<string, string> writeXtraAtomErrorMessageForFile = new Dictionary<string, string>();
                                 List<FileEntry> filesUpdatedByWriteXtraAtom = new List<FileEntry>();
@@ -1271,7 +1271,7 @@ namespace PhotoTagsSynchronizer
                                             writeXtraAtomSubjectVariable, writeXtraAtomSubjectPicture, wtraAtomSubjectVideo,
                                             writeXtraAtomSubtitleVariable, writeXtraAtomSubtitleVideo,
                                             writeXtraAtomArtistVariable, writeXtraAtomArtistVideo,
-                                            out writeXtraAtomErrorMessageForFile);
+                                            out writeXtraAtomErrorMessageForFile, this);
                                     }
                                 }
                                 catch (Exception ex)
@@ -1283,7 +1283,7 @@ namespace PhotoTagsSynchronizer
                                 #region File Create date and Time attribute
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
                                 //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock)
-                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave, this);
 
                                 try
                                 {
@@ -1328,7 +1328,7 @@ namespace PhotoTagsSynchronizer
                                 #region Check if all files was updated, if updated, add to verify queue
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
                                 //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock)
-                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave, this);
 
                                 if (!GlobalData.IsApplicationClosing)
                                 {
@@ -1390,7 +1390,7 @@ namespace PhotoTagsSynchronizer
 
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
                                 //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock)
-                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave, this);
 
                                 //Clean up
                                 lock (commonQueueSubsetMetadataToSaveLock) commonQueueSubsetMetadataToSave.Clear();
@@ -1778,7 +1778,7 @@ namespace PhotoTagsSynchronizer
                                                     else
                                                     {
                                                         fileFoundRemoveFromList = true;
-                                                        bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath);
+                                                        bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntryRegion.FileFullPath, this);
 
                                                         //Check if the current Metadata are same as newst file... If not file exist anymore, date will become {01.01.1601 01:00:00}
                                                         if (isFileUnLockedAndExist && File.GetLastWriteTime(fileEntryRegion.FileFullPath) == fileEntryRegion.LastWriteDateTime)

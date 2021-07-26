@@ -35,7 +35,7 @@ namespace PhotoTagsSynchronizer
             {
                 try
                 {
-                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath);
+                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath, this);
                     ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.RoateImage(fileEntry.FileFullPath, rotateDegrees);
                     coverted = true;
                 }
@@ -53,7 +53,7 @@ namespace PhotoTagsSynchronizer
 
                 try
                 {
-                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath);
+                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(fileEntry.FileFullPath, this);
                     timerSaveProgessRemoveProgress.Start();
 
                     var ffMpeg = new NReco.VideoConverter.FFMpegConverter();

@@ -11,6 +11,7 @@ using WindowsProperty;
 using ApplicationAssociations;
 using FileHandeling;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Exiftool
 {
@@ -47,7 +48,7 @@ namespace Exiftool
             string writeXtraAtomSubjectVariable, bool writeXtraAtomSubjectPicture, bool wtraAtomSubjectVideo,
             string writeXtraAtomSubtitleVariable, bool writeXtraAtomSubtitleVideo,
             string writeXtraAtomArtistVariable, bool writeXtraAtomArtistVideo,
-            out Dictionary<string, string> writeXtraAtomErrorMessageForFile)
+            out Dictionary<string, string> writeXtraAtomErrorMessageForFile, Form form)
         {
             Logger.Debug("WriteXtraAtom - started");
             writeXtraAtomErrorMessageForFile = new Dictionary<string, string>(); //Clear out values
@@ -96,7 +97,7 @@ namespace Exiftool
                     writeXtraAtomArtistVideo || wtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
                     writeXtraAtomSubjectPicture || writeXtraAtomCommentPicture || writeXtraAtomRatingPicture)
                 {
-                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(metadataToWrite.FileFullPath);
+                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(metadataToWrite.FileFullPath, form);
 
                     if (isFileUnLockedAndExist)
                     {
