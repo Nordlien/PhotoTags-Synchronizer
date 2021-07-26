@@ -664,7 +664,7 @@ namespace MetadataLibrary
                                 RegionStructure region = new RegionStructure();
                                 region.Type = dbTools.ConvertFromDBValString(reader["Type"]);
                                 string name = dbTools.ConvertFromDBValString(reader["Name"]);
-                                region.Name = (string.IsNullOrWhiteSpace(name) ? "Face", name);
+                                region.Name = (string.IsNullOrWhiteSpace(name) ? "Face" : name);
                                 float? floatNull;
                                 floatNull = dbTools.ConvertFromDBValFloat(reader["AreaX"]);
                                 region.AreaX = (floatNull == null ? 0 : (float)floatNull);
