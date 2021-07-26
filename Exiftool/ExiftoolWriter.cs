@@ -326,6 +326,7 @@ namespace Exiftool
             metadataUpdatedByUserCopy = new Metadata(metadataWrittenByExiftoolWaitVerify[verifyPosition]); //Copy data to verify
             metadataWrittenByExiftoolWaitVerify.RemoveAt(verifyPosition);
 
+            //Remove old versions of "Need to be veriyfied"
             bool foundOldVersionToVerify; //Happens when multiple save are done and save faild, and veridify was not done for each media file
             do
             {

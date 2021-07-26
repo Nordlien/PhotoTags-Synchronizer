@@ -1240,6 +1240,13 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
+                                #region Remove from verify queue
+                                //private static List<Metadata> commonOrigialMetadataBeforeUserUpdate = new List<Metadata>();
+                                //private static readonly Object commonOrigialMetadataBeforeUserUpdateLock = new Object();
+                                //private static List<Metadata> commonQueueMetadataWrittenByExiftoolReadyToVerify = new List<Metadata>();
+                                //private static readonly Object commonQueueMetadataWrittenByExiftoolReadyToVerifyLock = new Object();
+                                #endregion
+
                                 #region Write Xtra Atom properites
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
                                 //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock)
@@ -1330,11 +1337,9 @@ namespace PhotoTagsSynchronizer
                                         try
                                         {
                                             #region Write to Xtra Atom failed?
-                                            bool failToSaveXtraAtom = false;
                                             //Check if writing Xtra Atom properties failed
                                             if (writeXtraAtomErrorMessageForFile.ContainsKey(fileSuposeToBeUpdated.FileFullPath))
                                             {
-                                                failToSaveXtraAtom = true;
                                                 AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
                                                     AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
                                                     "Failed write Xtra Atom property to file: " + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
@@ -1343,7 +1348,6 @@ namespace PhotoTagsSynchronizer
                                             #endregion
 
                                             #region Write using Exiftool failed?
-                                            bool failToSaveUsingExiftool = false;
                                             DateTime currentLastWrittenDateTime = File.GetLastWriteTime(fileSuposeToBeUpdated.FileFullPath);
                                             DateTime previousLastWrittenDateTime = (DateTime)fileSuposeToBeUpdated.LastWriteDateTime;
 
@@ -1353,7 +1357,6 @@ namespace PhotoTagsSynchronizer
                                             //Check if file is updated, if file LastWrittenDateTime has changed, file is updated
                                             if (currentLastWrittenDateTime <= previousLastWrittenDateTime)
                                             {
-                                                failToSaveUsingExiftool = true;
                                                 AddError(fileSuposeToBeUpdated.Directory, fileSuposeToBeUpdated.FileName, fileSuposeToBeUpdated.LastWriteDateTime,
                                                         AddErrorExiftooRegion, AddErrorExiftooCommandWrite, AddErrorExiftooParameterWrite, AddErrorExiftooParameterWrite,
                                                         "EXIFTOOL.EXE failed write to file:" + fileSuposeToBeUpdated.FileFullPath + "\r\n" +
@@ -1363,15 +1366,11 @@ namespace PhotoTagsSynchronizer
 
                                             int indexInVerifyQueue = Metadata.FindFileEntryInList(commonQueueSubsetMetadataToSave, fileSuposeToBeUpdated);
                                             if (indexInVerifyQueue > -1 && indexInVerifyQueue < commonQueueSubsetMetadataToSave.Count)
-                                            //if (!failToSaveXtraAtom && !failToSaveUsingExiftool && indexInVerifyQueue > -1 && indexInVerifyQueue < commonQueueSubsetMetadataToSave.Count)
                                             {
                                                 Metadata currentMetadata;
-                                                lock (commonQueueSubsetMetadataToSaveLock)
-                                                {
-                                                    currentMetadata = new Metadata(commonQueueSubsetMetadataToSave[indexInVerifyQueue]);
-                                                }
+                                                lock (commonQueueSubsetMetadataToSaveLock) currentMetadata = new Metadata(commonQueueSubsetMetadataToSave[indexInVerifyQueue]);
                                                 currentMetadata.FileDateModified = currentLastWrittenDateTime;
-                                                AddQueueVerifyMetadataLock(currentMetadata);
+                                                if (File.Exists(currentMetadata.FileFullPath) && currentLastWrittenDateTime != previousLastWrittenDateTime) AddQueueVerifyMetadataLock(currentMetadata);
                                                 AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(currentMetadata.FileEntryBroker);
                                                 ImageListViewReloadThumbnailAndMetadataInvoke(imageListView1, fileSuposeToBeUpdated.FileFullPath);
 
