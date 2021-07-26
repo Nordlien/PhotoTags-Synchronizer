@@ -1213,7 +1213,8 @@ namespace PhotoTagsSynchronizer
 
                                 #region Save Metadatas using Exiftool  
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
-                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock) 
+                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 List<FileEntry> mediaFilesUpdatedByExiftool = new List<FileEntry>();
                                 string exiftoolErrorMessage = "";
@@ -1241,7 +1242,8 @@ namespace PhotoTagsSynchronizer
 
                                 #region Write Xtra Atom properites
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
-                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock)
+                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 Dictionary<string, string> writeXtraAtomErrorMessageForFile = new Dictionary<string, string>();
                                 List<FileEntry> filesUpdatedByWriteXtraAtom = new List<FileEntry>();
@@ -1273,7 +1275,8 @@ namespace PhotoTagsSynchronizer
 
                                 #region File Create date and Time attribute
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
-                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock)
+                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 try
                                 {
@@ -1317,7 +1320,8 @@ namespace PhotoTagsSynchronizer
 
                                 #region Check if all files was updated, if updated, add to verify queue
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
-                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock)
+                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 if (!GlobalData.IsApplicationClosing)
                                 {
@@ -1385,7 +1389,9 @@ namespace PhotoTagsSynchronizer
                                 }
                                 #endregion
 
-                                lock (commonQueueSubsetMetadataToSaveLock) if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
+                                //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
+                                //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock)
+                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave);
 
                                 //Clean up
                                 lock (commonQueueSubsetMetadataToSaveLock) commonQueueSubsetMetadataToSave.Clear();
