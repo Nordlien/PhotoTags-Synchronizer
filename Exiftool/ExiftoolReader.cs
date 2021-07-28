@@ -528,7 +528,7 @@ namespace Exiftool
             List<String> files = new List<String>();
             files.Add(fullFilePath);
 
-            List<Metadata> metaDataCollections = Read(broker, files, false, false, ProcessPriorityClass.BelowNormal);
+            Read(broker, files, out List<Metadata> metaDataCollections, false, false, ProcessPriorityClass.BelowNormal);
             if (metaDataCollections.Count == 1)
             {
                 return metaDataCollections[0];
@@ -541,13 +541,13 @@ namespace Exiftool
         #endregion
 
         #region Read
-
-        public List<Metadata> Read(MetadataBrokerType broker, List<String> files, bool useArguFile = false, bool showCliWindow = false, ProcessPriorityClass processPriorityClass = ProcessPriorityClass.BelowNormal)
+        public void Read(MetadataBrokerType broker, List<String> files, out List<Metadata> metaDataCollections, bool useArguFile = false, bool showCliWindow = false, ProcessPriorityClass processPriorityClass = ProcessPriorityClass.BelowNormal)
         {
             Logger.Debug("Exiftool read: start");
-            List<Metadata> metaDataCollections = new List<Metadata>();
-            if (files == null) return metaDataCollections;
-            if (files.Count == 0) return metaDataCollections;
+            metaDataCollections = new List<Metadata>();
+
+            if (files == null) return;
+            if (files.Count == 0) return; 
 
             Dictionary<string, string> shortfilesNames = new Dictionary<string, string>();
 
@@ -595,7 +595,7 @@ namespace Exiftool
                 {
                     //if (useArguFile)
                     if (File.Exists(exiftoolArgFileFullpath)) File.Delete(exiftoolArgFileFullpath);
-                    return metaDataCollections;
+                    return; // metaDataCollections;
                 }
             }
             else
@@ -615,7 +615,7 @@ namespace Exiftool
                         }
                     }
                 }
-                if (!filesFound) return metaDataCollections;
+                if (!filesFound) return; // metaDataCollections;
             }
             #endregion 
 
@@ -683,7 +683,6 @@ namespace Exiftool
                         {
                             if (metadata != null) //New file found, save all metadata found. 
                             {
-
                                 #region Write Metadata and trigger Event afterNewMediaFoundEvent
                                 Logger.Debug("Exiftool read: add to metadata to database: " + metadata.FileFullPath);
                                 if (metadata.Broker != MetadataBrokerType.Empty) //It's empty when rename long filenames and 8.3 filenames still equal
@@ -698,8 +697,6 @@ namespace Exiftool
                                     if (afterNewMediaFoundEvent != null) afterNewMediaFoundEvent.Invoke(new FileEntry(Path.Combine(metadata.FileDirectory, metadata.FileName), (DateTime)metadata.FileDateModified));
                                 }
                                 #endregion
-
-
 
                                 #region Clean up temporary data - get ready for new media file
                                 CleanAllOldExiftoolDataForReadNewFile();
@@ -1549,7 +1546,7 @@ namespace Exiftool
 
             if (useArguFile) if (File.Exists(exiftoolArgFileFullpath)) File.Delete(exiftoolArgFileFullpath);
 
-            return metaDataCollections;
+            return; // metaDataCollections;
         }
         #endregion
 

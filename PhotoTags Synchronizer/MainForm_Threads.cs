@@ -960,8 +960,7 @@ namespace PhotoTagsSynchronizer
                                     try
                                     {
                                         if (argumnetLength < maxParameterCommandLength) useArgFile = false;
-                                        metadataReadbackExiftoolAfterSaved = exiftoolReader.Read(MetadataBrokerType.ExifTool,
-                                            useExiftoolOnThisSubsetOfFiles, useArgFile, showCliWindow, processPriorityClass);
+                                        exiftoolReader.Read(MetadataBrokerType.ExifTool, useExiftoolOnThisSubsetOfFiles, out metadataReadbackExiftoolAfterSaved, useArgFile, showCliWindow, processPriorityClass);
                                     }
                                     catch (Exception ex)
                                     {
@@ -982,7 +981,7 @@ namespace PhotoTagsSynchronizer
                                                 if (!File.Exists(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File doesn't exist. ";
                                                 else
                                                 {
-                                                    if (FileHandler.IsFileLockedByProcess(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is Locked. ";
+                                                    if (FileHandler.IsFileLockedByProcess(fullFilePath, FileHandler.GetFileLockedStatusTimeout)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is Locked. ";
                                                     if (FileHandler.IsFileInCloud(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is in clound only. ";
                                                     if (FileHandler.IsFileVirtual(fullFilePath)) errorMesssage += (errorMesssage == "" ? "" : "\r\n") + "File is in virtual only. ";
                                                 }

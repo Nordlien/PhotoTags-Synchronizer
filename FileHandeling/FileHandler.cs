@@ -150,7 +150,10 @@ namespace FileHandeling
     public static class FileHandler
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
+        public static int GetFileLockedStatusTimeout { get; set; } = 500;
+        public static int WaitFileGetUnlockedTimeout { get; set; } = 1000;
+        public static int WaitTimeBetweenCheckFileIsUnlocked { get; set; } = 500;
+        public static int RetryCheckFileIsUnlocked { get; set; } = 30;
 
         #region IsFileInCloud
         public static bool IsFileInCloud(string fullFileName)
@@ -200,14 +203,38 @@ namespace FileHandeling
         public static string FileLockedByProcess { get; set; }
 
         #region IsFileLockedForRead
+        private static List<string> inProcessIsFileLockedForRead = new List<string>();
         public static bool IsFileLockedForRead(string fullFilePath, int millisecondsTimeout)
         {
             bool result = false;
+            try
+            {
+                if (inProcessIsFileLockedForRead.Contains(fullFilePath)) return true;
+            }
+            catch
+            {                
+                try
+                {
+                    inProcessIsFileLockedForRead.Clear();
+                }
+                catch { }
+            }
             Task task = Task.Run(() =>
             {
                 result = IsFileLockedForRead(fullFilePath);
             });
             if (!task.Wait(millisecondsTimeout)) result = false;
+            try
+            {
+                inProcessIsFileLockedForRead.Remove(fullFilePath);
+            }
+            catch {
+                try
+                {
+                    inProcessIsFileLockedForRead.Clear();
+                }
+                catch { }
+            }
             return result;
         }
 
@@ -233,14 +260,40 @@ namespace FileHandeling
         #endregion  
 
         #region IsFileLockedByProcess
+        private static List<string> inProcessIsFileLockedByProcess = new List<string>();
         public static bool IsFileLockedByProcess(string fullFilePath, int millisecondsTimeout)
         {   
             bool result = false;
+            try
+            {
+                if (inProcessIsFileLockedByProcess.Contains(fullFilePath)) return true;
+            }
+            catch
+            {
+                try
+                {
+                    inProcessIsFileLockedByProcess.Clear();
+                }
+                catch { }
+            }
+
             Task task = Task.Run(() =>
             {
                 result = IsFileLockedByProcess(fullFilePath);
             });
             if (!task.Wait(millisecondsTimeout)) result = false;
+            try
+            {
+                inProcessIsFileLockedByProcess.Remove(fullFilePath);
+            }
+            catch
+            {
+                try
+                {
+                    inProcessIsFileLockedByProcess.Clear();
+                }
+                catch { }
+            }
             return result;
         }
 
@@ -298,10 +351,10 @@ namespace FileHandeling
                 if (needWriteAccess)
                 {
                     if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
-                    if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath, 1000)) return true; //In process OneDrive backup / update
+                    if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true; //In process OneDrive backup / update
                 } else
                 {
-                    if (IsFileLockedForRead(fileEntryToCheck.FileFullPath, 1000)) return true;
+                    if (IsFileLockedForRead(fileEntryToCheck.FileFullPath, WaitFileGetUnlockedTimeout)) return true;
                 }
             }
             return false;
@@ -310,25 +363,17 @@ namespace FileHandeling
 
         #region WaitLockedFilesToBecomeUnlocked
         static FormWaitLockedFile formWaitLockedFile = new FormWaitLockedFile();
-        
-        private static void ShowForm()
-        {
-            /*if (form.InvokeRequired)
-            {
-                form.BeginInvoke(new Action<Form>(ShowForm), form);
-                return;
-            }*/
-            formWaitLockedFile.Show();
-        }
+       
 
         public static bool WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck, bool needWriteAccess, Form form)
         {
-            int waitBeforeShowRefreshMessage = 30;
+            int waitBeforeShowRefreshMessage = RetryCheckFileIsUnlocked;
             bool areAnyFileLocked;
             do
             {
                 areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck, needWriteAccess);
-                if (areAnyFileLocked) Task.Delay(500).Wait();
+                areAnyFileLocked = true;
+                if (areAnyFileLocked) Task.Delay(WaitTimeBetweenCheckFileIsUnlocked).Wait();
                 if (areAnyFileLocked && waitBeforeShowRefreshMessage-- < 0)
                 {
                     try
@@ -346,16 +391,17 @@ namespace FileHandeling
                                 if (!File.Exists(metadata.FileFullPath)) files += "- File doesn't exist\r\n";
                             }
                             catch { }
-                            if (IsFileLockedByProcess(metadata.FileFullPath)) files += "- File is Locked by an other application\r\n";
+                            if (IsFileLockedByProcess(metadata.FileFullPath, FileHandler.GetFileLockedStatusTimeout)) files += "- File is Locked by an other application\r\n";
                             if (IsFileReadOnly(metadata.FileFullPath)) files += "- File is read only\r\n";
                             if (IsFileVirtual(metadata.FileFullPath)) files += "- File is virtual\r\n";
                             if (IsFileInCloud(metadata.FileFullPath)) files += "- File is in cloud\r\n";
                         }
                         formWaitLockedFile.TextBoxFiles = files;                        
-                        _ = form.BeginInvoke(new Action(ShowForm)); //formWaitLockedFile.Show();
+                        _ = form.BeginInvoke(new Action(formWaitLockedFile.Show)); //formWaitLockedFile.Show();
 
                         if (formWaitLockedFile.IgnoredClicked) return false; //False, file still locked 
-                        if (formWaitLockedFile.RetryIsClicked) waitBeforeShowRefreshMessage = 30; else waitBeforeShowRefreshMessage = 2;
+                        //if (formWaitLockedFile.RetryIsClicked) waitBeforeShowRefreshMessage = RetryCheckFileIsUnlocked; else waitBeforeShowRefreshMessage = 2;
+                        waitBeforeShowRefreshMessage = RetryCheckFileIsUnlocked;
                     }
                     catch { }
                 }
