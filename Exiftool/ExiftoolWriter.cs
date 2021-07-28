@@ -97,7 +97,7 @@ namespace Exiftool
                     writeXtraAtomArtistVideo || wtraAtomSubjectVideo || writeXtraAtomCommentVideo || writeXtraAtomRatingVideo ||
                     writeXtraAtomSubjectPicture || writeXtraAtomCommentPicture || writeXtraAtomRatingPicture)
                 {
-                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(metadataToWrite.FileFullPath, form);
+                    bool isFileUnLockedAndExist = FileHandler.WaitLockedFileToBecomeUnlocked(metadataToWrite.FileFullPath, true, form);
 
                     if (isFileUnLockedAndExist)
                     {

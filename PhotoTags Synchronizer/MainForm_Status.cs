@@ -67,6 +67,7 @@ namespace PhotoTagsSynchronizer
 
         private static FormMessageBox formMessageBoxThread = null;
 
+        #region Show Status Form / Window
         private void AddTaskToFileTasks(Dictionary<string, List<string>> fileTasks, string fullFileName, DateTime? modifiedDate, string task)
         {
             if (!fileTasks.ContainsKey(fullFileName))
@@ -76,7 +77,7 @@ namespace PhotoTagsSynchronizer
                 else
                 {
                     if (FileHandler.IsFileReadOnly(fullFileName)) fileTasks[fullFileName].Add("ReadOnly");
-                    if (FileHandler.IsFileLockedByProcess(fullFileName)) fileTasks[fullFileName].Add("Locked");
+                    if (FileHandler.IsFileLockedByProcess(fullFileName, 500)) fileTasks[fullFileName].Add("**Locked** or timeout when open file");                                            
                     if (FileHandler.IsFileInCloud(fullFileName)) fileTasks[fullFileName].Add("In cloud");
                     if (FileHandler.IsFileVirtual(fullFileName)) fileTasks[fullFileName].Add("Virtual file");
                 }
@@ -104,7 +105,7 @@ namespace PhotoTagsSynchronizer
                 if (CommonQueueLazyLoadingMetadataCountDirty() > 0)
                     messageBoxQueuesInfo += string.Format("Lazy loading queue: {0}\r\n", CommonQueueLazyLoadingMetadataCountDirty());
                 if (!string.IsNullOrWhiteSpace(FileHandler.FileLockedByProcess))                
-                    messageBoxQueuesInfo += "Locked file: " + FileHandler.FileLockedByProcess;                
+                    messageBoxQueuesInfo += "**Locked file: " + FileHandler.FileLockedByProcess;                
             }
             catch { }
 
@@ -160,7 +161,6 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-
                 lock (commonQueueReadMetadataFromExiftoolLock)
                     foreach (FileEntry fileEntry in commonQueueReadMetadataFromExiftool)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.LastWriteDateTime, "Exiftool read: in queue, wait on turn");
@@ -169,7 +169,6 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-
                 lock (mediaFilesNotInDatabaseLock)
                     foreach (string fileEntry in mediaFilesNotInDatabase)
                         AddTaskToFileTasks(fileTasks, fileEntry, null, "Exiftool read, in process");
@@ -178,7 +177,6 @@ namespace PhotoTagsSynchronizer
 
             try
             {
-
                 lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock)
                     foreach (Metadata fileEntry in commonQueueMetadataWrittenByExiftoolReadyToVerify)
                         AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Will be verified after Exiftool readback");
@@ -206,7 +204,8 @@ namespace PhotoTagsSynchronizer
 
                 lock (commonQueueReadPosterAndSaveFaceThumbnailsLock)
                     foreach (Metadata fileEntry in commonQueueReadPosterAndSaveFaceThumbnails)
-                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Read " + fileEntry.PersonalRegionList.Count.ToString() + "thumbnail");
+                        if (fileEntry.PersonalRegionList.Count > 0)
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, fileEntry.FileDateModified, "Create thumbnail for region: " + fileEntry.PersonalRegionList.Count.ToString());
             }
             catch { }
 
@@ -251,9 +250,11 @@ namespace PhotoTagsSynchronizer
             catch { }
             
         }
+        #endregion 
 
         #region DisplayAllQueueStatus - Updated display
         private Stopwatch stopwatchLastDisplayed = new Stopwatch();
+        private Stopwatch stopwatchLastDisplayedExiftoolWaitCloud = new Stopwatch();
         private void DisplayAllQueueStatus()
         {
             if (!stopwatchLastDisplayed.IsRunning) stopwatchLastDisplayed.Start();
@@ -329,11 +330,33 @@ namespace PhotoTagsSynchronizer
                     string.Format("Save Regions: {0}", regionCount); 
             threadQueuCount += regionCount;
 
-            if (CommonQueueReadMetadataFromExiftoolCountDirty() > 0)
+            if (CommonQueueReadMetadataFromExiftoolCountDirty() + MediaFilesNotInDatabaseCountDirty() > 0)
             {
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("ExifCheck:{0}", CommonQueueReadMetadataFromExiftoolCountDirty());
+                    string.Format("Exiftool: {0} in process: {1}", CommonQueueReadMetadataFromExiftoolCountDirty(), MediaFilesNotInDatabaseCountDirty());
                 threadQueuCount += CommonQueueReadMetadataFromExiftoolCountDirty();
+                if (!stopwatchLastDisplayedExiftoolWaitCloud.IsRunning) stopwatchLastDisplayedExiftoolWaitCloud.Start();
+                if (stopwatchLastDisplayedExiftoolWaitCloud.ElapsedMilliseconds > 10000)
+                {
+                    try
+                    {
+                        int countWaitFileInCloud = 0;
+                        int countWaitFileIsVirtual = 0;
+                        foreach (string fullFilename in mediaFilesNotInDatabase)
+                        {
+                            if (FileHandler.IsFileInCloud(fullFilename)) countWaitFileInCloud++;
+                            if (FileHandler.IsFileVirtual(fullFilename)) countWaitFileIsVirtual++;
+                        }
+                        if (countWaitFileInCloud + countWaitFileIsVirtual > 0) 
+                            toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
+                                string.Format("wait cloud:{0} virtual: {1}", countWaitFileInCloud, countWaitFileIsVirtual);
+                    }
+                    catch
+                    {
+
+                    }
+                    stopwatchLastDisplayedExiftoolWaitCloud.Restart();
+                }
             }
 
             if (readToCacheQueues.Count > 0)
@@ -341,7 +364,7 @@ namespace PhotoTagsSynchronizer
                 try
                 {
                     toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                        string.Format("Read:");
+                        string.Format("Caching: ");
 
                     lock (_readToCacheQueuesLock)
                     {
@@ -378,11 +401,12 @@ namespace PhotoTagsSynchronizer
                 }
             }
 
-
+            /*
             if (MediaFilesNotInDatabaseCountDirty() > 0)
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +
-                    string.Format("Exiftool:{0}", MediaFilesNotInDatabaseCountDirty());
+                    string.Format("Exiftool in process:{0}", MediaFilesNotInDatabaseCountDirty());
                 threadQueuCount += MediaFilesNotInDatabaseCountDirty();
+            */
 
             if (CountSaveQueueLock() > 0)
                 toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +

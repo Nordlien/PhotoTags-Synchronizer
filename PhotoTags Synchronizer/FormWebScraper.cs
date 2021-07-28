@@ -664,7 +664,7 @@ namespace PhotoTagsSynchronizer
                         if (!res.IsFaulted)
                         {
                             var response = res.Result;
-                            result = response.Success ? (response.Result ?? "null") : response.Message;
+                            result = response.Success ? (response?.Result ?? "null") : response.Message;
                         }
                     }).ConfigureAwait(false); // <-- This makes the task to synchronize on a different context
                 }

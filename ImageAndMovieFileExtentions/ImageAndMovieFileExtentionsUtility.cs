@@ -79,9 +79,10 @@ namespace ImageAndMovieFileExtentions
         #endregion
 
         #region Image LoadImage
-        public static Image LoadImage(string fullFilename)
+        public static Image LoadImage(string fullFilename, out bool wasFileLocked)
         {
             Bitmap imageReturn = null;
+            wasFileLocked = false;
             try
             {
                 using (var image = new MagickImage(fullFilename))
@@ -90,7 +91,9 @@ namespace ImageAndMovieFileExtentions
                 }
             } catch (Exception ex)
             {
-                Logger.Error(ex, "MagickImage was not eable to load image " + fullFilename);
+                if (ex.Message.Contains("Permission denied")) wasFileLocked = true;
+                //{"unable to open image 'name.jpg': Permission denied @ error/blob.c/OpenBlob/3537"}
+                else Logger.Error(ex, "MagickImage was not eable to load image " + fullFilename);
             }
             return imageReturn;
         }

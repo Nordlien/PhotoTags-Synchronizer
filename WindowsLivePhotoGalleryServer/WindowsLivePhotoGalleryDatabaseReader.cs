@@ -193,6 +193,7 @@ namespace WindowsLivePhotoGalleryServer
 
             if (metadata == null) return metadata;
 
+            #region Region Name and Size
             sql = "SELECT tblVolume.Label, tblPath.Path, tblObject.Filename, tblPerson.Name,  tblRegion.\"Top\", tblRegion.\"Left\"," +
                 "tblRegion.Width, tblRegion.Height " +
                 "FROM tblObject " +
@@ -228,7 +229,9 @@ namespace WindowsLivePhotoGalleryServer
                     }
                 }
             }
+            #endregion
 
+            #region Keywrods tags
             sql = "SELECT tblVolume.Label, tblPath.Path, tblObject.Filename, LabelName " +
                 "FROM tblObject " +
                 "INNER JOIN tblPath ON tblObject.FilePathId = tblPath.PathId " +
@@ -252,6 +255,8 @@ namespace WindowsLivePhotoGalleryServer
                     }
                 }
             }
+            #endregion 
+
             return metadata;
         }
 

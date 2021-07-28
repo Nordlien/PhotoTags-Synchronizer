@@ -1,18 +1,156 @@
 ﻿using MetadataLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FileHandeling
 {
+    #region LockFinder
+    public class LockFinder
+    {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        #region LockFinder - FindLockProcesses
+        public List<Process> FindLockProcesses(string path)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            uint handle;
+            string key = Guid.NewGuid().ToString();
+            List<Process> processes = new List<Process>();
+            
+            int res = RmStartSession(out handle, 0, key);
+            Logger.Debug("RmStartSession: " + stopwatch.ElapsedMilliseconds);
+            if (res != 0) throw new Exception("Could not begin restart session. Unable to determine file locker.");
+
+
+            try
+            {
+                const int ERROR_MORE_DATA = 234;
+                uint pnProcInfoNeeded = 0, pnProcInfo = 0,
+                    lpdwRebootReasons = RmRebootReasonNone;
+                string[] resources = new string[] { path };
+
+                res = RmRegisterResources(handle, (uint)resources.Length, resources, 0, null, 0, null);
+                Logger.Debug("RmRegisterResources: " + stopwatch.ElapsedMilliseconds);
+                if (res != 0) throw new Exception("Could not register resource.");
+
+                res = RmGetList(handle, out pnProcInfoNeeded, ref pnProcInfo, null, ref lpdwRebootReasons);
+                Logger.Debug("RmGetList: " + stopwatch.ElapsedMilliseconds);
+                if (res == ERROR_MORE_DATA)
+                {
+                    RM_PROCESS_INFO[] processInfo = new RM_PROCESS_INFO[pnProcInfoNeeded];
+                    pnProcInfo = pnProcInfoNeeded;
+                    // Get the list.
+                    res = RmGetList(handle, out pnProcInfoNeeded, ref pnProcInfo, processInfo, ref lpdwRebootReasons);
+                    if (res == 0)
+                    {
+                        processes = new List<Process>((int)pnProcInfo);
+                        for (int i = 0; i < pnProcInfo; i++)
+                        {
+                            try
+                            {
+                                processes.Add(Process.GetProcessById(processInfo[i].
+                                    Process.dwProcessId));
+                            }
+                            catch (ArgumentException) { }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Could not list processes locking resource");
+                    }
+                }
+                else if (res != 0)
+                {
+                    throw new Exception("Could not list processes locking resource. Failed to get size of result.");
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+            finally
+            {
+                RmEndSession(handle);
+            }
+
+            if (stopwatch.ElapsedMilliseconds > 1000)
+                Logger.Debug("FindLockProcesses: " + stopwatch.ElapsedMilliseconds);
+            return processes;
+        }
+        #endregion 
+
+        #region LockFinder - Const
+        private const int RmRebootReasonNone = 0;
+        private const int CCH_RM_MAX_APP_NAME = 255;
+        private const int CCH_RM_MAX_SVC_NAME = 63;
+        
+        [StructLayout(LayoutKind.Sequential)]
+        struct RM_UNIQUE_PROCESS
+        {
+            public int dwProcessId;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ProcessStartTime;
+        }
+
+        [DllImport("rstrtmgr.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern int RmGetList(uint dwSessionHandle, out uint pnProcInfoNeeded,
+                                    ref uint pnProcInfo, [In, Out] RM_PROCESS_INFO[] rgAffectedApps,
+                                    ref uint lpdwRebootReasons);
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        struct RM_PROCESS_INFO
+        {
+            public RM_UNIQUE_PROCESS Process;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCH_RM_MAX_APP_NAME + 1)]
+            public string strAppName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCH_RM_MAX_SVC_NAME + 1)]
+            public string strServiceShortName;
+            public RM_APP_TYPE ApplicationType;
+            public uint AppStatus;
+            public uint TSSessionId;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool bRestartable;
+        }
+
+        enum RM_APP_TYPE
+        {
+            RmUnknownApp = 0,
+            RmMainWindow = 1,
+            RmOtherWindow = 2,
+            RmService = 3,
+            RmExplorer = 4,
+            RmConsole = 5,
+            RmCritical = 1000
+        }
+
+        [DllImport("rstrtmgr.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern int RmRegisterResources(uint pSessionHandle,
+                                            UInt32 nFiles, string[] rgsFilenames,
+                                            UInt32 nApplications,
+                                            [In] RM_UNIQUE_PROCESS[] rgApplications,
+                                            UInt32 nServices, string[] rgsServiceNames);
+
+        [DllImport("rstrtmgr.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern int RmStartSession(out uint pSessionHandle, int dwSessionFlags,
+                                        string strSessionKey);
+
+        [DllImport("rstrtmgr.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern int RmEndSession(uint pSessionHandle);
+        #endregion 
+
+    }
+    #endregion
+
     public static class FileHandler
     {
-        //private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        #region Files locked, wait unlock, in cloud
 
         #region IsFileInCloud
         public static bool IsFileInCloud(string fullFileName)
@@ -61,10 +199,57 @@ namespace FileHandeling
 
         public static string FileLockedByProcess { get; set; }
 
+        #region IsFileLockedForRead
+        public static bool IsFileLockedForRead(string fullFilePath, int millisecondsTimeout)
+        {
+            bool result = false;
+            Task task = Task.Run(() =>
+            {
+                result = IsFileLockedForRead(fullFilePath);
+            });
+            if (!task.Wait(millisecondsTimeout)) result = false;
+            return result;
+        }
+
+        public static bool IsFileLockedForRead(string fullFilePath)
+        {
+            if (!File.Exists(fullFilePath)) return false;
+
+            bool isLockedForRead = true;
+            try
+            {
+                using (var fs = File.Open(fullFilePath, FileMode.Open))
+                {
+                    isLockedForRead = !fs.CanRead;
+                    var canWrite = fs.CanWrite;
+                }
+            } catch (Exception ex)
+            {
+                Logger.Debug(ex, "IsFileLockedForRead");
+                isLockedForRead = true;
+            }
+            return isLockedForRead;
+        }
+        #endregion  
+
         #region IsFileLockedByProcess
+        public static bool IsFileLockedByProcess(string fullFilePath, int millisecondsTimeout)
+        {   
+            bool result = false;
+            Task task = Task.Run(() =>
+            {
+                result = IsFileLockedByProcess(fullFilePath);
+            });
+            if (!task.Wait(millisecondsTimeout)) result = false;
+            return result;
+        }
+
         public static bool IsFileLockedByProcess(string fullFilePath)
         {
             if (!File.Exists(fullFilePath)) return false;
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             FileStream fs = null;
             try
@@ -95,20 +280,29 @@ namespace FileHandeling
                 if (fs != null) fs.Close();
             }
             FileLockedByProcess = "";
+
+            if (stopwatch.ElapsedMilliseconds > 1000)
+                Logger.Debug("IsFileLockedByProcess: " + stopwatch.ElapsedMilliseconds);
             return false;
         }
         #endregion
 
         #region IsFileThatNeedUpdatedLockedByProcess
-        public static bool IsFileThatNeedUpdatedLockedByProcess(List<Metadata> fileEntriesToCheck)
+        public static bool IsFileThatNeedUpdatedLockedByProcess(List<Metadata> fileEntriesToCheck, bool needWriteAccess)
         {
             if (fileEntriesToCheck.Count == 0) return false;
 
             foreach (Metadata fileEntryToCheck in fileEntriesToCheck)
             {
                 if (!File.Exists(fileEntryToCheck.FileFullPath)) return false; //In process rename
-                if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
-                if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath)) return true; //In process OneDrive backup / update
+                if (needWriteAccess)
+                {
+                    if (IsFileReadOnly(fileEntryToCheck.FileFullPath)) return false; //No need to wait, Attribute is set to read only
+                    if (IsFileLockedByProcess(fileEntryToCheck.FileFullPath, 1000)) return true; //In process OneDrive backup / update
+                } else
+                {
+                    if (IsFileLockedForRead(fileEntryToCheck.FileFullPath, 1000)) return true;
+                }
             }
             return false;
         }
@@ -116,19 +310,30 @@ namespace FileHandeling
 
         #region WaitLockedFilesToBecomeUnlocked
         static FormWaitLockedFile formWaitLockedFile = new FormWaitLockedFile();
-        public static bool WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck, Form form)
+        
+        private static void ShowForm()
+        {
+            /*if (form.InvokeRequired)
+            {
+                form.BeginInvoke(new Action<Form>(ShowForm), form);
+                return;
+            }*/
+            formWaitLockedFile.Show();
+        }
+
+        public static bool WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck, bool needWriteAccess, Form form)
         {
             int waitBeforeShowRefreshMessage = 30;
             bool areAnyFileLocked;
             do
             {
-                areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck);
+                areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck, needWriteAccess);
                 if (areAnyFileLocked) Task.Delay(500).Wait();
                 if (areAnyFileLocked && waitBeforeShowRefreshMessage-- < 0)
                 {
                     try
                     {
-                        if (formWaitLockedFile == null) formWaitLockedFile = new FormWaitLockedFile();
+                        if (formWaitLockedFile == null || formWaitLockedFile.IsDisposed) formWaitLockedFile = new FormWaitLockedFile();
                         formWaitLockedFile.IgnoredClicked = false;
                         formWaitLockedFile.RetryIsClicked = false;
                         if (form != null) formWaitLockedFile.Owner = form;
@@ -146,8 +351,9 @@ namespace FileHandeling
                             if (IsFileVirtual(metadata.FileFullPath)) files += "- File is virtual\r\n";
                             if (IsFileInCloud(metadata.FileFullPath)) files += "- File is in cloud\r\n";
                         }
-                        formWaitLockedFile.TextBoxFiles = files;
-                        formWaitLockedFile.Show();
+                        formWaitLockedFile.TextBoxFiles = files;                        
+                        _ = form.BeginInvoke(new Action(ShowForm)); //formWaitLockedFile.Show();
+
                         if (formWaitLockedFile.IgnoredClicked) return false; //False, file still locked 
                         if (formWaitLockedFile.RetryIsClicked) waitBeforeShowRefreshMessage = 30; else waitBeforeShowRefreshMessage = 2;
                     }
@@ -169,7 +375,7 @@ namespace FileHandeling
         /// </summary>
         /// <param name="fileFullPath"></param>
         /// <returns>true - if unlocked and exist</returns>
-        public static bool WaitLockedFileToBecomeUnlocked(string fileFullPath, Form form)
+        public static bool WaitLockedFileToBecomeUnlocked(string fileFullPath, bool needWriteAccess, Form form)
         {
             if (!File.Exists(fileFullPath)) return false; //Not locked, file doesn't exist
 
@@ -179,11 +385,17 @@ namespace FileHandeling
             metadata.FileName = Path.GetFileName(fileFullPath);
             fileEntriesToCheck.Add(metadata);
 
-            return WaitLockedFilesToBecomeUnlocked(fileEntriesToCheck, form);
+            return WaitLockedFilesToBecomeUnlocked(fileEntriesToCheck, needWriteAccess, form);
 
         }
-        #endregion  
+        #endregion
 
+        #region FindLockProcesses
+        public static List<Process> FindLockProcesses(string path)
+        {
+            LockFinder lockFinder = new LockFinder();
+            return lockFinder.FindLockProcesses(path);
+        }
         #endregion
 
     }
