@@ -84,7 +84,7 @@ namespace PhotoTagsSynchronizer
         private static List<FileEntry> commonQueueReadMetadataFromExiftool = new List<FileEntry>();
         private static readonly Object commonQueueReadMetadataFromExiftoolLock = new Object();
 
-        private static List<string> mediaFilesNotInDatabase = new List<string>(); //It's globale, just to manage to show count status
+        private static List<FileEntry> mediaFilesNotInDatabase = new List<FileEntry>(); //It's globale, just to manage to show count status
         private static readonly Object mediaFilesNotInDatabaseLock = new Object();
 
         private static List<Metadata> commonQueueSaveMetadataUpdatedByUser = new List<Metadata>();
@@ -872,6 +872,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (WaitExittoolReadCacheThread != null && CommonQueueReadMetadataFromExiftoolCountDirty() <= 0) WaitExittoolReadCacheThread.Set();
                 if (GlobalData.IsStopAndEmptyExiftoolReadQueueRequest || _ThreadCollectMetadataExiftool != null || CommonQueueReadMetadataFromExiftoolCountDirty() <= 0) return;
+                if (MediaFilesNotInDatabaseCountLock() > 0) return; //Don't start double read of exiftool
 
                 lock (__ThreadCollectMetadataExiftoolLock)
                 {
@@ -892,7 +893,7 @@ namespace PhotoTagsSynchronizer
                                 if (CommonQueueSaveMetadataUpdatedByUserCountLock() > 0) break; //Write first, read later on...
 
                                 int rangeToRemove; //Remember how many in queue now
-                                List<string> mediaFilesNotInDatabaseCheckInCloud = new List<string>();
+                                List<FileEntry> mediaFilesNotInDatabaseCheckInCloud = new List<FileEntry>();
 
                                 #region From the Read Queue - Find files not alread in database
                                 List<FileEntry> mediaFilesNotInDatabaseCheckInCloudCopy;
@@ -902,7 +903,8 @@ namespace PhotoTagsSynchronizer
                                     rangeToRemove = mediaFilesNotInDatabaseCheckInCloudCopy.Count;
                                 }
                                 //Avoid look for long time
-                                mediaFilesNotInDatabaseCheckInCloud.AddRange(databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerType.ExifTool, mediaFilesNotInDatabaseCheckInCloudCopy.GetRange(0, rangeToRemove)));
+                                mediaFilesNotInDatabaseCheckInCloud.AddRange(
+                                    databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerType.ExifTool, mediaFilesNotInDatabaseCheckInCloudCopy.GetRange(0, rangeToRemove)));
 
                                 lock (commonQueueReadMetadataFromExiftoolLock)
                                 {
@@ -914,10 +916,10 @@ namespace PhotoTagsSynchronizer
                                 #region Check if need avoid files in cloud, if yes, don't read files in cloud
                                 if (Properties.Settings.Default.AvoidReadExifFromCloud)
                                 {
-                                    foreach (string fullFileName in mediaFilesNotInDatabaseCheckInCloud)
+                                    foreach (FileEntry fileEntry in mediaFilesNotInDatabaseCheckInCloud)
                                     {
                                         //Don't add files from cloud in queue
-                                        if (!FileHandler.IsFileInCloud(fullFileName)) mediaFilesNotInDatabase.Add(fullFileName);
+                                        if (!FileHandler.IsFileInCloud(fileEntry.FileFullPath)) mediaFilesNotInDatabase.Add(fileEntry);
                                     }
                                 }
                                 else
@@ -945,12 +947,13 @@ namespace PhotoTagsSynchronizer
                                     {
                                         while (argumnetLength < maxParameterCommandLength && range < mediaFilesNotInDatabase.Count)
                                         {
-                                            argumnetLength += mediaFilesNotInDatabase[range].Length + 3; //+3 = space and 2x"
+                                            argumnetLength += mediaFilesNotInDatabase[range].FileFullPath.Length + 3; //+3 = space and 2x"
                                             range++;
                                         }
 
                                         if (argumnetLength > maxParameterCommandLength) range--;
-                                        useExiftoolOnThisSubsetOfFiles = mediaFilesNotInDatabase.GetRange(0, range);
+                                        useExiftoolOnThisSubsetOfFiles = new List<string>();
+                                        for (int index = 0; index < range; index++) useExiftoolOnThisSubsetOfFiles.Add(mediaFilesNotInDatabase[index].FileFullPath);
                                     }
                                     #endregion
 
@@ -993,18 +996,18 @@ namespace PhotoTagsSynchronizer
                                                 filesNotRead += (filesNotRead == "" ? "" : ";") + filesNotRead;
                                             }
                                         }
-                                        if (!string.IsNullOrEmpty(filesNotRead)) Logger.Error("Exiftool fail with read all files. Files not read: " + filesNotRead);
+                                        if (!string.IsNullOrEmpty(filesNotRead)) Logger.Error("Exiftool failed read all files. Files not read: " + filesNotRead);
                                     }
                                     catch (Exception ex)
                                     {
                                         Logger.Error(ex, "ThreadCollectMetadataExiftool - Check if all files are read by Exiftool failed.");
                                     }
-
                                     #endregion
 
                                     #region Verify readback after saved. (Saved data is in "to be verified" queue)
                                     try
                                     {
+
                                         foreach (Metadata metadataRead in metadataReadbackExiftoolAfterSaved)
                                         {
                                             lock (commonQueueMetadataWrittenByExiftoolReadyToVerifyLock)
@@ -1025,14 +1028,18 @@ namespace PhotoTagsSynchronizer
                                                     AddQueueSaveThumbnailMediaLock(new FileEntryImage(metadataError.FileEntryBroker, null));
                                                     PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error));
                                                 }
-                                            }
-                                            AddQueueCreateRegionFromPosterLock(metadataRead);
+                                                else
+                                                {
+                                                    AddQueueCreateRegionFromPosterLock(metadataRead);
 
-                                            ImageListViewSetItemDirty(metadataRead.FileFullPath);
-                                            PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Current));
-                                            PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Historical));
-                                            //RefreshHeaderImageAndRegionsOnActiveDataGridView(fileEntryAttribute);
+                                                    ImageListViewSetItemDirty(metadataRead.FileFullPath);
+                                                    PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Current));
+                                                    PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Historical));
+                                                    //RefreshHeaderImageAndRegionsOnActiveDataGridView(fileEntryAttribute);
+                                                }
+                                            }
                                         }
+
                                     }
                                     catch (Exception ex)
                                     {
@@ -1040,6 +1047,63 @@ namespace PhotoTagsSynchronizer
                                     }
                                     #endregion
 
+                                    #region Write dummy record for when Exiftool failed due to corrupt files
+                                    try
+                                    {
+                                        if (!string.IsNullOrWhiteSpace(lastKnownExiftoolError)) //Exiftool crached, don't read again
+                                        {
+                                            lock (mediaFilesNotInDatabaseLock)
+                                            {
+                                                for (int index = 0; index < range; index++)
+                                                {
+                                                    if (!Metadata.IsFullFilenameInList(metadataReadbackExiftoolAfterSaved, mediaFilesNotInDatabase[index].FileFullPath))
+                                                    {
+                                                        try
+                                                        {
+                                                            Metadata metadataDummy = new Metadata(MetadataBrokerType.ExifTool);
+                                                            metadataDummy.FileDateModified = mediaFilesNotInDatabase[index].LastWriteDateTime;
+                                                            metadataDummy.FileName = mediaFilesNotInDatabase[index].FileName;
+                                                            metadataDummy.FileDirectory = mediaFilesNotInDatabase[index].Directory;
+
+                                                            try
+                                                            {
+                                                                FileInfo fileInfo = new FileInfo(mediaFilesNotInDatabase[index].FileFullPath);
+                                                                metadataDummy.FileDateCreated = fileInfo.CreationTime;
+                                                                metadataDummy.FileDateAccessed = fileInfo.LastAccessTime;
+                                                                metadataDummy.FileSize = fileInfo.Length;
+                                                            } catch
+                                                            {
+                                                                metadataDummy.FileDateCreated = mediaFilesNotInDatabase[index].LastWriteDateTime;
+                                                                metadataDummy.FileDateAccessed = DateTime.Now;
+                                                                metadataDummy.FileSize = 0;
+                                                            }
+                                                            databaseAndCacheMetadataExiftool.TransactionBeginBatch();
+                                                            databaseAndCacheMetadataExiftool.Write(metadataDummy);
+                                                            databaseAndCacheMetadataExiftool.TransactionCommitBatch();
+
+                                                            Metadata metadataError = new Metadata(metadataDummy);
+                                                            metadataError.FileDateModified = DateTime.Now;
+                                                            metadataError.Broker |= MetadataBrokerType.ExifToolWriteError;
+                                                            databaseAndCacheMetadataExiftool.TransactionBeginBatch();
+                                                            databaseAndCacheMetadataExiftool.Write(metadataError);
+                                                            databaseAndCacheMetadataExiftool.TransactionCommitBatch();
+
+                                                            PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error));
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            Logger.Error(ex, "ThreadCollectMetadataExiftool - Write dummy record for when Exiftool failed due to corrupt files.");
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } catch (Exception ex)
+                                    {
+                                        Logger.Error(ex, "ThreadCollectMetadataExiftool - Write dummy record for when Exiftool failed due to corrupt files.");
+                                    }
+                                    #endregion
+                                    
                                     #region mediaFilesNotInDatabase.RemoveRange(0, range)
                                     try
                                     {
@@ -2101,9 +2165,9 @@ namespace PhotoTagsSynchronizer
 
             if (!folderInUse)
                 lock (mediaFilesNotInDatabaseLock)
-                    foreach (string fileFullPath in mediaFilesNotInDatabase)
+                    foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                     {
-                        if (fileFullPath.StartsWith(folder))
+                        if (fileEntry.FileFullPath.StartsWith(folder))
                         {
                             folderInUse = true;
                             break;
@@ -2131,9 +2195,9 @@ namespace PhotoTagsSynchronizer
 
             if (!fileInUse)
                 lock (mediaFilesNotInDatabaseLock)
-                    foreach (string fileFullPath in mediaFilesNotInDatabase)
+                    foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                     {
-                        if (fileFullPath == fullFilename)
+                        if (fileEntry.FileFullPath == fullFilename)
                         {
                             fileInUse = true;
                             break;
@@ -2173,9 +2237,9 @@ namespace PhotoTagsSynchronizer
 
             if (!folderInUse)
                 lock (mediaFilesNotInDatabaseLock)
-                    foreach (string fileFullPath in mediaFilesNotInDatabase)
+                    foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                     {
-                        if (fileFullPath.StartsWith(folder))
+                        if (fileEntry.FileFullPath.StartsWith(folder))
                         {
                             folderInUse = true;
                             break;
@@ -2214,9 +2278,9 @@ namespace PhotoTagsSynchronizer
             
             if (!fileInUse)
                 lock (mediaFilesNotInDatabaseLock)
-                    foreach (string fileFullPath in mediaFilesNotInDatabase)
+                    foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                     {
-                        if (fileFullPath == fullFilename)
+                        if (fileEntry.FileFullPath == fullFilename)
                         {
                             fileInUse = true;
                             break;

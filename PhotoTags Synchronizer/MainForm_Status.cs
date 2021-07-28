@@ -170,8 +170,8 @@ namespace PhotoTagsSynchronizer
             try
             {
                 lock (mediaFilesNotInDatabaseLock)
-                    foreach (string fileEntry in mediaFilesNotInDatabase)
-                        AddTaskToFileTasks(fileTasks, fileEntry, null, "Exiftool read, in process");
+                    foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
+                        AddTaskToFileTasks(fileTasks, fileEntry.FileFullPath, null, "Exiftool read, in process");
             }
             catch { }
 
@@ -342,10 +342,10 @@ namespace PhotoTagsSynchronizer
                     {
                         int countWaitFileInCloud = 0;
                         int countWaitFileIsVirtual = 0;
-                        foreach (string fullFilename in mediaFilesNotInDatabase)
+                        foreach (FileEntry fileEntry in mediaFilesNotInDatabase)
                         {
-                            if (FileHandler.IsFileInCloud(fullFilename)) countWaitFileInCloud++;
-                            if (FileHandler.IsFileVirtual(fullFilename)) countWaitFileIsVirtual++;
+                            if (FileHandler.IsFileInCloud(fileEntry.FileFullPath)) countWaitFileInCloud++;
+                            if (FileHandler.IsFileVirtual(fileEntry.FileFullPath)) countWaitFileIsVirtual++;
                         }
                         if (countWaitFileInCloud + countWaitFileIsVirtual > 0) 
                             toolStripStatusThreadQueueCount.Text += (toolStripStatusThreadQueueCount.Text == "" ? "" : " ") +

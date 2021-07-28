@@ -19,6 +19,7 @@ namespace FileHandeling
 
         public bool IgnoredClicked { get; set; } = false;
         public bool RetryIsClicked { get; set; } = false;
+        public bool IsFormVisible { get; set; } = false;
 
         public string TextBoxFiles
         {
@@ -26,6 +27,11 @@ namespace FileHandeling
             {
                 textBoxFiles.Text = value;
             }
+        }
+
+        public void SetTextboxFiles(string text)
+        {
+            TextBoxFiles = text;
         }
 
         private void buttonIgnor_Click(object sender, EventArgs e)
@@ -40,6 +46,16 @@ namespace FileHandeling
             IgnoredClicked = false;
             RetryIsClicked = true;
             this.Close();
+        }
+
+        private void FormWaitLockedFile_Shown(object sender, EventArgs e)
+        {
+            IsFormVisible = true;
+        }
+
+        private void FormWaitLockedFile_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            IsFormVisible = false;
         }
     }
 }

@@ -1638,11 +1638,11 @@ namespace MetadataLibrary
         /// <param name="broker"></param>
         /// <param name="files"></param>
         /// <returns>List all files not in Database, When StopCaching is set, process stops, due to user cancelled.</returns>
-        public List<String> ListAllMissingFileEntries(MetadataBrokerType broker, List<FileEntry> files)
+        public List<FileEntry> ListAllMissingFileEntries(MetadataBrokerType broker, List<FileEntry> files)
         {
             if (files == null) return null;
 
-            List<String> mediaFilesNoInDatabase = new List<String>();
+            List<FileEntry> mediaFilesNoInDatabase = new List<FileEntry>();
 
             ReadToCache(files, broker); // Faster read
 
@@ -1650,7 +1650,7 @@ namespace MetadataLibrary
             {
                 FileEntryBroker fileEntryBroker = new FileEntryBroker(file.FileFullPath, file.LastWriteDateTime, broker);
                 Metadata metadata = ReadMetadataFromCacheOnly(fileEntryBroker);
-                if (metadata == null) mediaFilesNoInDatabase.Add(fileEntryBroker.FileFullPath);
+                if (metadata == null) mediaFilesNoInDatabase.Add(new FileEntry(fileEntryBroker));
             }
             
             return mediaFilesNoInDatabase;
