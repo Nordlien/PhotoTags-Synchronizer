@@ -375,7 +375,7 @@ namespace FileHandeling
             do
             {
                 areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck, needWriteAccess);
-                areAnyFileLocked = true;
+                
                 if (areAnyFileLocked) Task.Delay(WaitTimeBetweenCheckFileIsUnlocked).Wait();
 
                 if (formWaitLockedFile != null && !formWaitLockedFile.IsFormVisible)
@@ -394,22 +394,25 @@ namespace FileHandeling
                         if (formWaitLockedFile == null || formWaitLockedFile.IsDisposed) formWaitLockedFile = new FormWaitLockedFile();
                         if (form != null) formWaitLockedFile.Owner = form;
 
-                        string files = "";
+                        List<string> listOfFiles = new List<string>();
+                        string statusOnFiles = "";
                         foreach (Metadata metadata in fileEntriesToCheck)
                         {
-                            files += metadata.FileFullPath + "\r\n";
+                            listOfFiles.Add(metadata.FileFullPath);
+                            statusOnFiles += metadata.FileFullPath + "\r\n";
                             try
                             {
-                                if (!File.Exists(metadata.FileFullPath)) files += "- File doesn't exist\r\n";
+                                if (!File.Exists(metadata.FileFullPath)) statusOnFiles += "- File doesn't exist\r\n";
                             }
                             catch { }
-                            if (IsFileLockedByProcess(metadata.FileFullPath, FileHandler.GetFileLockedStatusTimeout)) files += "- File is Locked by an other application\r\n";
-                            if (IsFileReadOnly(metadata.FileFullPath)) files += "- File is read only\r\n";
-                            if (IsFileVirtual(metadata.FileFullPath)) files += "- File is virtual\r\n";
-                            if (IsFileInCloud(metadata.FileFullPath)) files += "- File is in cloud\r\n";
+                            if (IsFileLockedByProcess(metadata.FileFullPath, FileHandler.GetFileLockedStatusTimeout)) statusOnFiles += "- File is Locked by an other application\r\n";
+                            if (IsFileReadOnly(metadata.FileFullPath)) statusOnFiles += "- File is read only\r\n";
+                            if (IsFileVirtual(metadata.FileFullPath)) statusOnFiles += "- File is virtual\r\n";
+                            if (IsFileInCloud(metadata.FileFullPath)) statusOnFiles += "- File is in cloud\r\n";
                         }
-                        //formWaitLockedFile.TextBoxFiles = files;
-                        _ = form.BeginInvoke(new Action<string>(formWaitLockedFile.SetTextboxFiles), files);
+                        formWaitLockedFile.AddFiles(listOfFiles);
+
+                        _ = form.BeginInvoke(new Action<string>(formWaitLockedFile.SetTextboxFiles), statusOnFiles);
                         if (!formWaitLockedFile.IsFormVisible) _ = form.BeginInvoke(new Action(formWaitLockedFile.Show)); 
 
                         if (formWaitLockedFile.IgnoredClicked) return false; //False, file still locked 
@@ -421,7 +424,7 @@ namespace FileHandeling
             } while (areAnyFileLocked);
             try
             {
-                if (formWaitLockedFile != null) formWaitLockedFile.Close();
+                if (formWaitLockedFile != null) if (formWaitLockedFile.IsFormVisible) _ = form.BeginInvoke(new Action(formWaitLockedFile.Close));
             }
             catch { }
             return true; //True, file exist and unlocked, or ignored 
