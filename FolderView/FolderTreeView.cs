@@ -47,10 +47,11 @@ namespace Furty.Windows.Forms
 	{
 		private System.Windows.Forms.ImageList folderTreeViewImageList;
 		private System.Globalization.CultureInfo cultureInfo = System.Globalization.CultureInfo.CurrentCulture;
+        public static string DummyNodeTag = "DUMMYNODE";
 
-		#region Constructors
+        #region Constructors
 
-		public FolderTreeView()
+        public FolderTreeView()
 		{
 			this.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeViewBeforeExpand);
 		}
@@ -169,7 +170,7 @@ namespace Furty.Windows.Forms
 		{
 			foreach (TreeNode tn in tnc)
 			{
-				if (tn.Tag.ToString() == "DUMMYNODE") continue;
+				if (tn.Tag.ToString() == DummyNodeTag) continue;
 				
 				if (folderNodeFound == null)
 				{
@@ -426,6 +427,8 @@ namespace Furty.Windows.Forms
 		{
 			try
 			{
+                if (tn.Tag is string) 
+                    return "";
 				Shell32.FolderItem folderItem = (Shell32.FolderItem)tn.Tag;
 				string folderPath = folderItem.Path;
 
@@ -552,7 +555,7 @@ namespace Furty.Windows.Forms
 					if(hasFolders)
 					{
 						TreeNode ntn = new TreeNode();
-						ntn.Tag = "DUMMYNODE";
+						ntn.Tag = FolderTreeView.DummyNodeTag;
 						tn.Nodes.Add(ntn);
 					}
 				}
@@ -565,7 +568,7 @@ namespace Furty.Windows.Forms
 		public static void ExpandBranch(TreeNode tn, ImageList imageList)
 		{
 			// if there's a dummy node present, clear it and replace with actual contents
-			if(tn.Nodes.Count == 1 && tn.Nodes[0].Tag.ToString() == "DUMMYNODE")
+			if(tn.Nodes.Count == 1 && tn.Nodes[0].Tag.ToString() == FolderTreeView.DummyNodeTag)
 			{
 				tn.Nodes.Clear();
 				Shell32.FolderItem folderItem = (Shell32.FolderItem)tn.Tag;
@@ -596,14 +599,24 @@ namespace Furty.Windows.Forms
 			{
 				try
 				{
-					imageCount++;
-					tn.ImageIndex = imageCount;
+                    Bitmap bitmapIcon = ExtractIcons.GetIcon(item, false);
+                    Bitmap bitmapIconSelected = null;
+                    if (bitmapIcon != null) bitmapIconSelected = ExtractIcons.GetIcon(item, true); //To save time
 
-                    imageList.Images.Add(ExtractIcons.GetIcon(item, true));
+                    if (bitmapIcon != null && bitmapIconSelected != null)
+                    {
+                        imageCount++;
+                        tn.ImageIndex = imageCount;
+                        imageList.Images.Add(bitmapIcon);
 
-                    imageCount++;
-                    tn.SelectedImageIndex = imageCount;
-                    imageList.Images.Add(ExtractIcons.GetIcon(item, true));
+                        imageCount++;
+                        tn.SelectedImageIndex = imageCount;
+                        imageList.Images.Add(bitmapIconSelected);
+                    } else
+                    {
+                        tn.ImageIndex = 1;
+                        tn.SelectedImageIndex = 2;
+                    }
                 }
                 catch // use default 
 				{
@@ -693,32 +706,24 @@ namespace Furty.Windows.Forms
 		//Change to from string strPath to Shell32.FolderItem item, need folder information
 		public static Bitmap GetIcon(Shell32.FolderItem item, bool selected)
 		{
+            
 			SHFILEINFO info = new SHFILEINFO(true);
 			int cbFileInfo = Marshal.SizeOf(info);
 
             SHGFI flags;
 			if (!selected)
 				flags = SHGFI.ICON | SHGFI.SMALLICON;
-			else
-				flags = SHGFI.ICON | SHGFI.SMALLICON | SHGFI.OPENICON;
+			else 
+                flags = SHGFI.ICON | SHGFI.SMALLICON | SHGFI.OPENICON;
 
 			//Set coorect flags for Files or Folder
 			if (item.IsFolder && !item.IsFileSystem) flags |= SHGFI.USEFILEATTRIBUTES;
 
-			/*
-			if (item.Path == "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}" && Directory.Exists ("c:\\")) //Fake cooler icon
-			{
-				//Added correct folder attribute or get error
-				flags |= SHGFI.USEFILEATTRIBUTES;
-				SHGetFileInfo("C:\\", FILE_ATTRIBUTE_NORMAL | FILE_ATTRIBUTE_DIRECTORY, out info, (uint)cbFileInfo, flags);
-			}
-			else
-			{*/
-				//Added correct folder attribute or get error
-				SHGetFileInfo(item.Path, FILE_ATTRIBUTE_NORMAL | FILE_ATTRIBUTE_DIRECTORY, out info, (uint)cbFileInfo, flags);
-            //}
-
-            //Retrn bitmap instead of Icon as workaround for black background
+			
+			//Added correct folder attribute or get error
+			SHGetFileInfo(item.Path, FILE_ATTRIBUTE_NORMAL | FILE_ATTRIBUTE_DIRECTORY, out info, (uint)cbFileInfo, flags);
+            
+            //Return bitmap instead of Icon as workaround for black background
             Bitmap bitmap = null;
 
 			//Avoid memory leak, release icon again after copied
@@ -731,10 +736,7 @@ namespace Furty.Windows.Forms
                 g.DrawImage(Icon.FromHandle(info.hIcon).ToBitmap(), 0, 0);
                 DestroyIcon(info.hIcon);
             } 
-                
-			//return Icon.FromHandle(info.hIcon).ToBitmap();
             return bitmap;
-
         }
 
 		#endregion

@@ -159,6 +159,7 @@ UpdateColorControls(subC);
             InitializeComponent();
             #endregion
 
+            this.SuspendLayout();
             #region Initialize VLC player
             SplashForm.UpdateStatus("Staring VLC player...");
             
@@ -443,7 +444,10 @@ UpdateColorControls(subC);
                 }
             });
             _ThreadHttp.Start();
-            #endregion 
+            #endregion
+
+            
+            this.ResumeLayout();
         }
         #endregion
 
@@ -488,7 +492,13 @@ UpdateColorControls(subC);
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            if (isFormLoading) return;
+            if (isFormLoading)
+            {
+                splitContainerFolder.SplitterDistance = Properties.Settings.Default.SplitContainerFolder;
+                splitContainerImages.SplitterDistance = Properties.Settings.Default.SplitContainerImages;
+                splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
+                return;
+            }
 
             _previousWindowsState = this.WindowState;
         }
@@ -648,43 +658,10 @@ UpdateColorControls(subC);
         }
         #endregion
 
-        #region MainForm_Load / Shown
+        #region MainForm_Load
         private void MainForm_Load(object sender, EventArgs e)
         {
-
-            try
-            {
-                SplashForm.UpdateStatus("Initialize folder tree...");
-                GlobalData.IsPopulatingFolderTree = true;
-
-                this.folderTreeViewFolder.InitFolderTreeView();
-
-                string folder = Properties.Settings.Default.LastFolder;
-                if (Directory.Exists(folder))
-                    folderTreeViewFolder.DrillToFolder(folder);
-                else
-                    folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
-                GlobalData.IsPopulatingFolderTree = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            try
-            {
-                SplashForm.UpdateStatus("Populate search filters...");
-                PopulateDatabaseFilter();
-
-                PopulateSelectGroupToolStripMenuItems();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
             
-
-
             SplashForm.CloseForm();
 
             Properties.Settings.Default.Reload();
@@ -696,26 +673,54 @@ UpdateColorControls(subC);
             this.Activate();
 
             imageListView1.Focus();
-
         }
+        #endregion
 
-
+        #region MainForm_Shown
         private void MainForm_Shown(object sender, EventArgs e)
         {
             isFormLoading = false;
 
+            #region Initialize folder tree...
+            //If in Form_Load
+            //System.InvalidOperationException: 'Cross-thread operation not valid: Control 'toolStrip1' accessed from a thread other than the thread it was created on.'
+            try
+            {
+                SplashForm.UpdateStatus("Initialize folder tree...");
+                GlobalData.IsPopulatingFolderTree = true;
+
+                this.folderTreeViewFolder.InitFolderTreeView();
+                folderTreeViewFolder.SuspendLayout();
+                string folder = Properties.Settings.Default.LastFolder;
+                if (Directory.Exists(folder))
+                    folderTreeViewFolder.DrillToFolder(folder);
+                else
+                    folderTreeViewFolder.SelectedNode = folderTreeViewFolder.Nodes[0];
+                folderTreeViewFolder.ResumeLayout();
+                GlobalData.IsPopulatingFolderTree = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            #endregion
+
+            #region Populate search filters...
+            try
+            {
+                SplashForm.UpdateStatus("Populate search filters...");
+                PopulateDatabaseFilter();
+                PopulateSelectGroupToolStripMenuItems();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            #endregion 
+            
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
-
-
-
-
-
-
-
-
-
         #endregion
 
         
