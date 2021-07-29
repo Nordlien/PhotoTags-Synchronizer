@@ -47,10 +47,11 @@ namespace Furty.Windows.Forms
 	{
 		private System.Windows.Forms.ImageList folderTreeViewImageList;
 		private System.Globalization.CultureInfo cultureInfo = System.Globalization.CultureInfo.CurrentCulture;
+        public static string DummyNodeTag = "DUMMYNODE";
 
-		#region Constructors
+        #region Constructors
 
-		public FolderTreeView()
+        public FolderTreeView()
 		{
 			this.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.TreeViewBeforeExpand);
 		}
@@ -169,7 +170,7 @@ namespace Furty.Windows.Forms
 		{
 			foreach (TreeNode tn in tnc)
 			{
-				if (tn.Tag.ToString() == "DUMMYNODE") continue;
+				if (tn.Tag.ToString() == DummyNodeTag) continue;
 				
 				if (folderNodeFound == null)
 				{
@@ -426,6 +427,8 @@ namespace Furty.Windows.Forms
 		{
 			try
 			{
+                if (tn.Tag is string) 
+                    return "";
 				Shell32.FolderItem folderItem = (Shell32.FolderItem)tn.Tag;
 				string folderPath = folderItem.Path;
 
@@ -552,7 +555,7 @@ namespace Furty.Windows.Forms
 					if(hasFolders)
 					{
 						TreeNode ntn = new TreeNode();
-						ntn.Tag = "DUMMYNODE";
+						ntn.Tag = FolderTreeView.DummyNodeTag;
 						tn.Nodes.Add(ntn);
 					}
 				}
@@ -565,7 +568,7 @@ namespace Furty.Windows.Forms
 		public static void ExpandBranch(TreeNode tn, ImageList imageList)
 		{
 			// if there's a dummy node present, clear it and replace with actual contents
-			if(tn.Nodes.Count == 1 && tn.Nodes[0].Tag.ToString() == "DUMMYNODE")
+			if(tn.Nodes.Count == 1 && tn.Nodes[0].Tag.ToString() == FolderTreeView.DummyNodeTag)
 			{
 				tn.Nodes.Clear();
 				Shell32.FolderItem folderItem = (Shell32.FolderItem)tn.Tag;

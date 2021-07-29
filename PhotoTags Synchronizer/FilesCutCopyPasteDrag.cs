@@ -170,7 +170,7 @@ namespace PhotoTagsSynchronizer
                 targetNode.Nodes.Clear();
 
                 TreeNode ntn = new TreeNode();
-                ntn.Tag = "DUMMYNODE";
+                ntn.Tag = FolderTreeView.DummyNodeTag;
                 targetNode.Nodes.Add(ntn); //Internal use of TreeView as sign that subfolders exists
 
                 folderTreeViewFolder.SelectedNode = targetNode;
