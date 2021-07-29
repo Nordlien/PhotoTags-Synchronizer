@@ -375,7 +375,7 @@ namespace FileHandeling
             do
             {
                 areAnyFileLocked = IsFileThatNeedUpdatedLockedByProcess(fileEntriesToCheck, needWriteAccess);
-                areAnyFileLocked = true;
+                
                 if (areAnyFileLocked) Task.Delay(WaitTimeBetweenCheckFileIsUnlocked).Wait();
 
                 if (formWaitLockedFile != null && !formWaitLockedFile.IsFormVisible)
@@ -421,7 +421,7 @@ namespace FileHandeling
             } while (areAnyFileLocked);
             try
             {
-                if (formWaitLockedFile != null) formWaitLockedFile.Close();
+                if (formWaitLockedFile != null) if (formWaitLockedFile.IsFormVisible) _ = form.BeginInvoke(new Action(formWaitLockedFile.Close)); 
             }
             catch { }
             return true; //True, file exist and unlocked, or ignored 
