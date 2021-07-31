@@ -1,17 +1,229 @@
 ﻿using CameraOwners;
 using Exiftool;
 using FileDateTime;
+using FileHandeling;
 using GoogleLocationHistory;
 using LocationNames;
 using MetadataLibrary;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using TimeZone;
 
 namespace PhotoTagsSynchronizer
 {
+    class AutoKeywordConvertion
+    {
+        public List<string> LocationNames = new List<string>();
+        public List<string> Titles = new List<string>();
+        public List<string> Descriptions = new List<string>();
+        public List<string> Comments = new List<string>();
+        public List<string> Albums = new List<string>();
+        public List<string> Keywords = new List<string>();
+        public List<string> NewKeywords = new List<string>();
+
+        #region DoesWordExistInList
+        private bool DoesWordExistInList(List<string> list, string word)
+        {
+            if (string.IsNullOrWhiteSpace(word)) return false;
+            string pattern = @"\b" + Regex.Escape(word) + @"\b";
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+
+            foreach (string line in list)
+            {
+                if (regex.IsMatch(line)) return true;
+            }
+            return false;
+        }
+        #endregion
+
+        #region DoesWordExistInAnyList
+        public bool DoesWordExistInAnyList(string locationName, string title, string album, string description, string comment, List<KeywordTag> keywordTags)
+        {
+            if (DoesWordExistInList(LocationNames, locationName)) return true;
+            if (DoesWordExistInList(Titles, title)) return true;
+            if (DoesWordExistInList(Albums, album)) return true;
+            if (DoesWordExistInList(Descriptions, description)) return true;
+            if (DoesWordExistInList(Comments, comment)) return true;
+            foreach (KeywordTag keywordTag in keywordTags) if (DoesWordExistInList(Keywords, keywordTag.Keyword)) return true;
+            return false;
+        }
+        #endregion 
+    }
+    class AutoKeywordHandler
+    {
+        
+
+        #region Const
+        const string Filename = "AutoKeywords.xml";
+        const string DataSetName = "AutoKeywordsDataSet";
+        const string TableName = "AutoKeywords";
+        #endregion
+
+        #region ReadDataSetFromXML
+        public static DataSet ReadDataSetFromXML(string path)
+        {
+            DataSet dataSet = new DataSet();
+            try
+            {
+                if (File.Exists(path)) dataSet.ReadXml(path);
+            }
+            catch { }
+            return dataSet;
+        }
+        public static DataSet ReadDataSetFromXML()
+        {
+            string path = FileHandler.GetLocalApplicationDataPath(Filename, false);
+            return ReadDataSetFromXML(path);
+        }
+        #endregion
+
+        #region PopulateDataGridView
+        public static void PopulateDataGridView(DataGridView dataGridView, DataSet dataSet)
+        {
+            dataGridView.Rows.Clear();
+            
+            if (dataSet.Tables.Count >= 1)
+            {
+                
+
+                int index = dataSet.Tables.IndexOf(TableName);
+                if (index >= 0) {
+
+                    DataTable dataTable = dataSet.Tables[index];
+                    dataGridView.Rows.Add(dataTable.Rows.Count);
+
+                    for (int rowIndex = 0; rowIndex < dataTable.Rows.Count; rowIndex++)
+                    {
+                        for (int columnIndex = 0; columnIndex < dataTable.Columns.Count; columnIndex++)
+                        {
+                            object[] dataItems = dataTable.Rows[rowIndex].ItemArray;
+                            dataGridView[columnIndex, rowIndex].Value = dataItems[columnIndex];
+                        }
+                    }
+                    
+                }
+            }
+        }
+        #endregion
+
+        #region ReadDataGridView
+        public static DataSet ReadDataGridView(DataGridView dataGridView, bool IgnoreHideColumns = false)
+        {
+            try
+            {
+                if (dataGridView.ColumnCount == 0) return null;
+                DataSet dataSet = new DataSet();
+
+                DataTable dataTableSource = new DataTable();
+                foreach (DataGridViewColumn dataGridViewColumn in dataGridView.Columns)
+                {
+                    if (IgnoreHideColumns & !dataGridViewColumn.Visible) continue;
+                    if (dataGridViewColumn.Name == string.Empty) continue;
+                    if (dataGridViewColumn.ValueType == null) dataGridViewColumn.ValueType = typeof(string);
+                    dataTableSource.Columns.Add(dataGridViewColumn.Name, dataGridViewColumn.ValueType);
+                    dataTableSource.Columns[dataGridViewColumn.Name].Caption = dataGridViewColumn.HeaderText;
+                }
+                if (dataTableSource.Columns.Count == 0) return null;
+                foreach (DataGridViewRow row in dataGridView.Rows)
+                {
+                    if (!row.IsNewRow)
+                    {
+                        DataRow drNewRow = dataTableSource.NewRow();
+                        foreach (DataColumn col in dataTableSource.Columns)
+                        {
+                            drNewRow[col.ColumnName] = (row.Cells[col.ColumnName].Value == null ? "" : row.Cells[col.ColumnName].Value);
+                        }
+                        dataTableSource.Rows.Add(drNewRow);
+                    }
+                }
+                dataSet.DataSetName = DataSetName;
+                dataSet.Tables.Add(dataTableSource);
+                dataSet.Tables[0].TableName = TableName;
+                return dataSet;
+            }
+            catch { return null; }
+        }
+        #endregion
+
+        #region PopulateList
+        public static List<AutoKeywordConvertion> PopulateList(DataSet dataSet)
+        {
+            List<AutoKeywordConvertion> autoKeywordConvertions = new List<AutoKeywordConvertion>();
+
+            if (dataSet.Tables.Count >= 1)
+            {
+                int index = dataSet.Tables.IndexOf(TableName);
+                if (index >= 0)
+                {
+                    DataTable dataTable = dataSet.Tables[index];
+                    for (int rowIndex = 0; rowIndex < dataTable.Rows.Count; rowIndex++)
+                    {
+                        AutoKeywordConvertion autoKeywordConvertion = new AutoKeywordConvertion();
+
+                        object[] dataItems = dataTable.Rows[rowIndex].ItemArray;
+                        
+                        for (int columnIndex = 0; columnIndex < dataTable.Columns.Count; columnIndex++)
+                        {
+                            if (dataItems[columnIndex] is string)
+                            {
+                                string[] items = ((string)dataItems[columnIndex]).Replace("\r\n","\n").Split('\n');
+                                switch (columnIndex)
+                                {
+                                    case 0:
+                                        autoKeywordConvertion.LocationNames.AddRange(items);
+                                        break;
+                                    case 1:
+                                        autoKeywordConvertion.Titles.AddRange(items);
+                                        break;
+                                    case 2:
+                                        autoKeywordConvertion.Albums.AddRange(items);
+                                        break;
+                                    case 3:
+                                        autoKeywordConvertion.Descriptions.AddRange(items);
+                                        break;
+                                    case 4:
+                                        autoKeywordConvertion.Titles.AddRange(items);
+                                        break;
+                                    case 5:
+                                        autoKeywordConvertion.Keywords.AddRange(items);
+                                        break;
+                                    case 6:
+                                        autoKeywordConvertion.NewKeywords.AddRange(items);
+                                        break;
+                                }
+                            }
+                        }
+
+                        autoKeywordConvertions.Add(autoKeywordConvertion);
+                    }
+                    
+                }
+            }
+            return autoKeywordConvertions;
+        }
+        #endregion
+
+        #region NewKeywords
+        public static List<string> NewKeywords(List<AutoKeywordConvertion> autoKeywordConvertions, string locationName, string title, string album, string description, string comment, List<KeywordTag> keywordTags)
+        {
+            List<string> newKeywords = new List<string>();
+            foreach (AutoKeywordConvertion autoKeywordConvertion in autoKeywordConvertions)
+            {
+                if (autoKeywordConvertion.DoesWordExistInAnyList(locationName, title, album, description, comment, keywordTags))
+                {
+                    foreach (string newKeyword in autoKeywordConvertion.NewKeywords) if (!string.IsNullOrWhiteSpace(newKeyword) && !newKeywords.Contains(newKeyword)) newKeywords.Add(newKeyword);
+                }
+            }
+            return newKeywords;
+        }
+        #endregion 
+    }
+
     enum DateTimeSources
     {
         DateTaken,
@@ -65,8 +277,12 @@ namespace PhotoTagsSynchronizer
         public bool UseKeywordsFromMicrosoftPhotos { get; set; } = true;
         [JsonProperty("KeywordTagConfidenceLevel")]
         public double KeywordTagConfidenceLevel { get; set; } = 0.9;
+
         [JsonProperty("UseKeywordsFromWebScraping")]
         public bool UseKeywordsFromWebScraping { get; set; } = true;
+
+        [JsonProperty("UseAutoKeywords")]
+        public bool UseAutoKeywords { get; set; } = true;
 
         [JsonProperty("BackupFileCreatedBeforeUpdate")]
         public bool BackupFileCreatedBeforeUpdate { get; set; } = true;
@@ -199,37 +415,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        public DateTime? FindBestTimeZone(GoogleLocationHistoryDatabaseCache databaseGoogleLocationHistory, Metadata metadataCopy, string cameraOwner)
-        {
-            #region Find or Guess UTC time
-            DateTime? dateTimeUTC = null;
-
-            if (metadataCopy?.LocationDateTime != null) //If has UTC time
-            {
-                dateTimeUTC = new DateTime(((DateTime)metadataCopy?.LocationDateTime).Ticks, DateTimeKind.Utc);
-            }
-            else if (metadataCopy?.MediaDateTaken != null) //Don't have UTC time, need try to Guess
-            {
-                DateTime mediaDateTimeUnspecified = new DateTime(((DateTime)metadataCopy?.MediaDateTaken).Ticks, DateTimeKind.Unspecified);
-
-                //Try find a location nearby
-                Metadata metadataLocationTimeZone = databaseGoogleLocationHistory.FindLocationBasedOnTime(
-                    cameraOwner, mediaDateTimeUnspecified, LocationTimeZoneGuessHours * 60 * 60);
-
-                //Found a location for time zone, however it's up to ±24 hours wrong
-                if (metadataLocationTimeZone != null && metadataLocationTimeZone?.LocationLatitude != null && metadataLocationTimeZone?.LocationLongitude != null)
-                {
-                    TimeZoneInfo timeZoneInfo = TimeZoneLibrary.GetTimeZoneInfoOnGeoLocation(
-                        (double)metadataLocationTimeZone?.LocationLatitude, (double)metadataLocationTimeZone?.LocationLongitude);
-
-                    dateTimeUTC = TimeZoneInfo.ConvertTimeToUtc(mediaDateTimeUnspecified, timeZoneInfo);
-                }
-            }
-            #endregion
-            return dateTimeUTC;
-        }
-
-
         #region FixAndSave
         public Metadata FixAndSave(FileEntry fileEntry,
             MetadataDatabaseCache metadataAndCacheMetadataExiftool,
@@ -240,7 +425,8 @@ namespace PhotoTagsSynchronizer
             GoogleLocationHistoryDatabaseCache databaseGoogleLocationHistory,
             float locationAccuracyLatitude,
             float locationAccuracyLongitude,
-            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted
+            int writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+            List<AutoKeywordConvertion> autoKeywordConvertions
             )
         {
             Logger.Debug("FixAndSave started:" + fileEntry.FileFullPath);
@@ -748,6 +934,18 @@ namespace PhotoTagsSynchronizer
                 {
                     string author = cameraOwnersDatabaseCache.GetOwenerForCameraMakeModel(metadataCopy?.CameraMake, metadataCopy?.CameraModel);
                     if (!string.IsNullOrWhiteSpace(author)) metadataCopy.PersonalAuthor = author;
+                }
+            }
+            #endregion
+
+            #region AutoKeywords
+            if (UseAutoKeywords && metadataCopy != null)
+            {
+                List<string> newKeywords = AutoKeywordHandler.NewKeywords(autoKeywordConvertions, metadataCopy.LocationName, metadataCopy.PersonalTitle, 
+                    metadataCopy.PersonalAlbum, metadataCopy.PersonalDescription, metadataCopy.PersonalComments, metadataCopy.PersonalKeywordTags);
+                foreach (string keyword in newKeywords)
+                {
+                    metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
                 }
             }
             #endregion

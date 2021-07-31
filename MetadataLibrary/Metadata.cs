@@ -803,9 +803,20 @@ namespace MetadataLibrary
             //set => personalTagList = value; 
         }
 
-        public void PersonalKeywordTagsAddIfNotExists(KeywordTag keywordTag)
+        public void PersonalKeywordTagsAddIfNotExists(KeywordTag keywordTag, bool caseSencetive = false)
         {
-            if (!personalTagList.Contains(keywordTag)) personalTagList.Add(keywordTag);
+            if (caseSencetive)
+            {
+                foreach (KeywordTag keywordTagToCkeck in personalTagList)
+                {
+                    if (string.Equals(keywordTagToCkeck.Keyword, keywordTag.Keyword, StringComparison.OrdinalIgnoreCase)) return;
+                }
+                personalTagList.Add(keywordTag);
+            }
+            else
+            {
+                if (!personalTagList.Contains(keywordTag)) personalTagList.Add(keywordTag);
+            }
         }
 
         public void PersonalTagListUpdateImage(RegionStructure updateRegion, Image thumbnail)

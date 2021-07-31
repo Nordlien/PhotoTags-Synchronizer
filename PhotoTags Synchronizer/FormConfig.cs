@@ -21,6 +21,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FileHandeling;
+using System.Data;
 
 namespace PhotoTagsSynchronizer
 {
@@ -49,7 +51,7 @@ namespace PhotoTagsSynchronizer
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConcatVideoArgument = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConcatVideoArguFile = null;
         private FastColoredTextBoxHandler fastColoredTextBoxHandlerConvertAndMergeConvertVideoArgument = null;
-        
+
         private bool isPopulation = false;
 
         public Config()
@@ -163,14 +165,14 @@ namespace PhotoTagsSynchronizer
                     break;
             }
         }
-        #endregion 
+        #endregion
 
         #endregion
 
         #region All tabs - Init - Save - Close
 
         #region Init
-        
+
         public void Init()
         {
             DialogResult = DialogResult.Cancel;
@@ -199,7 +201,7 @@ namespace PhotoTagsSynchronizer
 
             //Camera Owner 
             PopulateMetadataCameraOwner(dataGridViewCameraOwner);
-            
+
             //Location Names
             PopulateMetadataLocationNames(dataGridViewLocationNames);
             isSettingDefaultComboxValuesZoomLevel = true;
@@ -208,8 +210,10 @@ namespace PhotoTagsSynchronizer
 
             //AutoCorrect
             autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-            
             PopulateAutoCorrectPoperties();
+
+            //AutoKeywords
+            LoadAutoKeywords();
 
             //Metadata Write
             fastColoredTextBoxHandlerKeywordAdd = new FastColoredTextBoxHandler(fastColoredTextBoxMetadataWriteKeywordAdd, true, MetadataReadPrioity.MetadataPrioityDictionary);
@@ -218,16 +222,16 @@ namespace PhotoTagsSynchronizer
 
             //Convert and Merge
             PopulateConvertAndMerge();
-            
+
             PopulateMetadataWritePoperties();
             isPopulation = false;
 
             //Chromecast
-            
+
             SelectBestMatchCombobox(comboBoxChromecastImageFormat, Properties.Settings.Default.ChromecastImageOutputFormat); //E.g. .JPEG
             SelectBestMatchComboboxReselution(comboBoxChromecastImageResolution, Properties.Settings.Default.ChromecastImageOutputResolutionWidth, Properties.Settings.Default.ChromecastImageOutputResolutionHeight);
 
-            SelectBestMatchCombobox(comboBoxChromecastVideoTransporter, Properties.Settings.Default.ChromecastTransporter); 
+            SelectBestMatchCombobox(comboBoxChromecastVideoTransporter, Properties.Settings.Default.ChromecastTransporter);
 
             comboBoxChromecastAgruments.Text = Properties.Settings.Default.ChromecastAgruments;
             comboBoxChromecastUrl.Text = Properties.Settings.Default.ChromecastUrl;
@@ -249,7 +253,7 @@ namespace PhotoTagsSynchronizer
                     GC.Collect();
                     GC.GetTotalMemory(true);
                 }
-            }catch (Exception ex)
+            } catch (Exception ex)
             {
                 MessageBox.Show("Was not able top open the log file.\r\n\r\n" + ex.Message);
             }
@@ -370,6 +374,9 @@ namespace PhotoTagsSynchronizer
                 GetAutoCorrectPoperties();
                 Properties.Settings.Default.AutoCorrect = autoCorrect.SerializeThis();
 
+                //AutoKeywords
+                SaveAutoKeywords();
+
                 //WebScraping
                 Properties.Settings.Default.WaitEventPageLoadedTimeout = (int)numericUpDownWaitEventPageLoadedTimeout.Value;
                 Properties.Settings.Default.WaitEventPageStartLoadingTimeout = (int)numericUpDownWaitEventPageStartLoadingTimeout.Value;
@@ -462,8 +469,8 @@ namespace PhotoTagsSynchronizer
                 MetadataReadPrioity.WriteAlways();
             } catch (Exception ex)
             {
-                Logger.Error(ex, "buttonConfigSave_Click failed saving config. ");
                 MessageBox.Show("Failed to save config.\r\n\r\n" + ex.Message);
+                _ = this.BeginInvoke(new Action<Exception, string>(Logger.Error), ex, "buttonConfigSave_Click failed saving config.");
             }
 
             DialogResult = DialogResult.OK;
@@ -477,10 +484,11 @@ namespace PhotoTagsSynchronizer
             DialogResult = DialogResult.Cancel;
             this.Close();
         }
-        #endregion 
+        #endregion
 
         #endregion
 
+        #region ConvertPriorityClassToIndex
         private int ConvertPriorityClassToIndex(ProcessPriorityClass processPriorityClass)
         {
             switch (processPriorityClass)
@@ -493,24 +501,11 @@ namespace PhotoTagsSynchronizer
                 case ProcessPriorityClass.RealTime: return 5;
             }
             return 1;
-            
+
         }
-        /*
-        private int ConvertPriorityClassToIndex(ProcessPriorityClass processPriorityClass)
-        {
-            switch (processPriorityClass)
-            {
-                case ProcessPriorityClass.Idle: return 0;
-                case ProcessPriorityClass.BelowNormal: return 1;
-                case ProcessPriorityClass.Normal: return 2;
-                case ProcessPriorityClass.AboveNormal: return 3;
-                case ProcessPriorityClass.High: return 4;
-                case ProcessPriorityClass.RealTime: return 5;
-            }
-            return 1;
+        #endregion
 
-        }*/
-
+        #region ConvertIndexToProcessPriorityClass
         private int ConvertIndexToProcessPriorityClass(int index)
         {
             switch (index)
@@ -524,6 +519,8 @@ namespace PhotoTagsSynchronizer
             }
             return 16384; // BelowNormal = 16384
         }
+        #endregion 
+
 
         #region PopulateApplication()
         public void PopulateApplication()
@@ -533,7 +530,7 @@ namespace PhotoTagsSynchronizer
                 comboBoxApplicationThumbnailSizes.Items.Add(ThumbnailSizes[i].ToString());
                 comboBoxApplicationRegionThumbnailSizes.Items.Add(ThumbnailSizes[i].ToString());
             }
-            
+
             comboBoxApplicationThumbnailSizes.Text = Properties.Settings.Default.ApplicationThumbnail.ToString();
             comboBoxApplicationRegionThumbnailSizes.Text = Properties.Settings.Default.ApplicationRegionThumbnail.ToString();
 
@@ -668,7 +665,7 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Title            
-            
+
             PopulateAutoCorrectListOrder(imageListViewOrderTitle, autoCorrect.TitlePriority);
 
             if (autoCorrect.UpdateTitle)
@@ -702,6 +699,7 @@ namespace PhotoTagsSynchronizer
             checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked = autoCorrect.UseKeywordsFromWindowsLivePhotoGallery;
             comboBoxKeywordsAiConfidence.SelectedIndex = 9 - (int)(autoCorrect.KeywordTagConfidenceLevel * 10);
             checkBoxKeywordsAddWebScraping.Checked = autoCorrect.UseKeywordsFromWebScraping;
+            checkBoxKeywordsAddAutoKeywords.Checked = autoCorrect.UseAutoKeywords;
 
             checkBoxAutoCorrectTrackChanges.Checked = autoCorrect.TrackChangesInComments;
             checkBoxKeywordBackupFileCreatedAfter.Checked = autoCorrect.BackupFileCreatedAfterUpdate;
@@ -835,6 +833,7 @@ namespace PhotoTagsSynchronizer
             autoCorrect.UseKeywordsFromMicrosoftPhotos = checkBoxKeywordsAddMicrosoftPhotos.Checked;
             autoCorrect.UseKeywordsFromWindowsLivePhotoGallery = checkBoxKeywordsAddWindowsMediaPhotoGallery.Checked;
             autoCorrect.UseKeywordsFromWebScraping = checkBoxKeywordsAddWebScraping.Checked;
+            autoCorrect.UseAutoKeywords = checkBoxKeywordsAddAutoKeywords.Checked;
 
             autoCorrect.TrackChangesInComments = checkBoxAutoCorrectTrackChanges.Checked;
             autoCorrect.BackupFileCreatedAfterUpdate = checkBoxKeywordBackupFileCreatedAfter.Checked;
@@ -910,11 +909,46 @@ namespace PhotoTagsSynchronizer
             #endregion
         }
         #endregion
-        
+
         #region AutoCorrect - Rename
         private void comboBoxRenameVariables_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (!isPopulation) ComboBoxHandler.SelectionChangeCommitted(textBoxRenameTo, comboBoxRenameVariables.Text);
+        }
+        #endregion
+
+        #region AutoKeywords - Save        
+        private void SaveAutoKeywords()
+        {
+            try
+            {
+                //DataSet dataSet = (DataSet)dataGridViewAutoKeywords.DataSource;
+                if (dataGridViewAutoKeywords.Rows.Count > 1)
+                {
+                    DataSet dataSet = AutoKeywordHandler.ReadDataGridView(dataGridViewAutoKeywords);
+                    if (dataSet != null) dataSet.WriteXml(FileHandler.GetLocalApplicationDataPath("AutoKeywords.xml", false));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "AutoKeywords failed to saved");
+                _ = this.BeginInvoke(new Action<Exception>(Logger.Error), ex); 
+            }
+        }
+        #endregion
+
+        #region AutoKeyword - Load
+        void LoadAutoKeywords()
+        {
+            try
+            {
+                DataSet dataSet = AutoKeywordHandler.ReadDataSetFromXML();
+                AutoKeywordHandler.PopulateDataGridView(dataGridViewAutoKeywords, dataSet);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "AutoKeywords failed to saved");
+                _ = this.BeginInvoke(new Action<Exception, string>(Logger.Error), ex, "LoadAutoKeywords");
+            }
         }
         #endregion
 

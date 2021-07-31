@@ -32,6 +32,13 @@ namespace PhotoTagsSynchronizer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Config));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControlConfig = new System.Windows.Forms.TabControl();
             this.tabPageApplication = new System.Windows.Forms.TabPage();
             this.panelApplication = new System.Windows.Forms.Panel();
@@ -276,6 +283,15 @@ namespace PhotoTagsSynchronizer
             this.radioButtonDateTakenDoNotChange = new System.Windows.Forms.RadioButton();
             this.imageListViewOrderDateTaken = new PhotoTagsSynchronizer.ImageListViewOrder();
             this.textBoxHelpAutoCorrect = new System.Windows.Forms.TextBox();
+            this.tabPageAutoKeywords = new System.Windows.Forms.TabPage();
+            this.dataGridViewAutoKeywords = new System.Windows.Forms.DataGridView();
+            this.LocationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Comments = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Keywords = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AddKeywords = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPageCameraOwner = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -370,6 +386,7 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
+            this.checkBoxKeywordsAddAutoKeywords = new System.Windows.Forms.CheckBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
@@ -430,6 +447,8 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccurateInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationGuessInterval)).BeginInit();
             this.groupBoxDateTimeDigitized.SuspendLayout();
+            this.tabPageAutoKeywords.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAutoKeywords)).BeginInit();
             this.tabPageCameraOwner.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCameraOwner)).BeginInit();
@@ -477,6 +496,7 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.Controls.Add(this.tabPageMetadataWrite);
             this.tabControlConfig.Controls.Add(this.tabPageFileDateTimeFormats);
             this.tabControlConfig.Controls.Add(this.tabPageAutoCorrect);
+            this.tabControlConfig.Controls.Add(this.tabPageAutoKeywords);
             this.tabControlConfig.Controls.Add(this.tabPageCameraOwner);
             this.tabControlConfig.Controls.Add(this.tabPageLocationNames);
             this.tabControlConfig.Controls.Add(this.tabPageConvertAndMerge);
@@ -534,7 +554,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox13.Controls.Add(this.checkBoxApplicationExiftoolReadShowCliWindow);
             this.groupBox13.Location = new System.Drawing.Point(0, 1033);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(700, 169);
+            this.groupBox13.Size = new System.Drawing.Size(742, 169);
             this.groupBox13.TabIndex = 7;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Application debug:";
@@ -647,7 +667,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox12.Controls.Add(this.numericUpDownCacheNumberOfPosters);
             this.groupBox12.Location = new System.Drawing.Point(0, 806);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(658, 221);
+            this.groupBox12.Size = new System.Drawing.Size(742, 221);
             this.groupBox12.TabIndex = 13;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Cache logic";
@@ -749,7 +769,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxLocationAccuracy.Controls.Add(this.numericUpDownLocationAccuracyLatitude);
             this.groupBoxLocationAccuracy.Location = new System.Drawing.Point(0, 696);
             this.groupBoxLocationAccuracy.Name = "groupBoxLocationAccuracy";
-            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(658, 104);
+            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(742, 104);
             this.groupBoxLocationAccuracy.TabIndex = 12;
             this.groupBoxLocationAccuracy.TabStop = false;
             this.groupBoxLocationAccuracy.Text = "GPS Location Accuracy";
@@ -847,7 +867,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud);
             this.groupBox6.Location = new System.Drawing.Point(3, 574);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(655, 116);
+            this.groupBox6.Size = new System.Drawing.Size(739, 116);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Read media and listview";
@@ -893,7 +913,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox5.Controls.Add(this.numericUpDownRegionMissmatchProcent);
             this.groupBox5.Location = new System.Drawing.Point(3, 483);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(655, 85);
+            this.groupBox5.Size = new System.Drawing.Size(739, 85);
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Region";
@@ -966,7 +986,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
             this.groupBox4.Location = new System.Drawing.Point(3, 392);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(655, 85);
+            this.groupBox4.Size = new System.Drawing.Size(739, 85);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Region Name suggestions (People Face names)";
@@ -1054,7 +1074,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox3.Controls.Add(this.label38);
             this.groupBox3.Location = new System.Drawing.Point(3, 321);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(655, 65);
+            this.groupBox3.Size = new System.Drawing.Size(739, 65);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Search result";
@@ -1102,7 +1122,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
             this.groupBox2.Location = new System.Drawing.Point(3, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(655, 156);
+            this.groupBox2.Size = new System.Drawing.Size(739, 156);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nominatim look-up";
@@ -1149,7 +1169,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(183, 68);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(467, 22);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(551, 22);
             this.textBoxApplicationPreferredLanguages.TabIndex = 1;
             // 
             // comboBoxApplicationLanguages
@@ -1360,7 +1380,7 @@ namespace PhotoTagsSynchronizer
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(183, 38);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(467, 24);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(551, 24);
             this.comboBoxApplicationLanguages.TabIndex = 0;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
             // 
@@ -1378,7 +1398,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(655, 150);
+            this.groupBox1.Size = new System.Drawing.Size(739, 150);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thumbnail size";
@@ -2164,7 +2184,7 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharHeight = 18;
@@ -2198,7 +2218,7 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharHeight = 18;
@@ -2686,7 +2706,7 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxConfigFilenameDateFormats.AutoScrollMinSize = new System.Drawing.Size(2, 18);
+            this.fastColoredTextBoxConfigFilenameDateFormats.AutoScrollMinSize = new System.Drawing.Size(31, 18);
             this.fastColoredTextBoxConfigFilenameDateFormats.BackBrush = null;
             this.fastColoredTextBoxConfigFilenameDateFormats.CharHeight = 18;
             this.fastColoredTextBoxConfigFilenameDateFormats.CharWidth = 10;
@@ -2761,7 +2781,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxRename.Controls.Add(this.label9);
             this.groupBoxRename.Controls.Add(this.comboBoxRenameVariables);
             this.groupBoxRename.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxRename.Location = new System.Drawing.Point(0, 1945);
+            this.groupBoxRename.Location = new System.Drawing.Point(0, 1966);
             this.groupBoxRename.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxRename.Name = "groupBoxRename";
             this.groupBoxRename.Padding = new System.Windows.Forms.Padding(2);
@@ -2866,7 +2886,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddMicrosoftPhotos);
             this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddWindowsMediaPhotoGallery);
             this.groupBoxFaceRegion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxFaceRegion.Location = new System.Drawing.Point(0, 1830);
+            this.groupBoxFaceRegion.Location = new System.Drawing.Point(0, 1851);
             this.groupBoxFaceRegion.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxFaceRegion.Name = "groupBoxFaceRegion";
             this.groupBoxFaceRegion.Padding = new System.Windows.Forms.Padding(2);
@@ -2941,7 +2961,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxAutoCorrectBackup.Controls.Add(this.label17);
             this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupRegionFaceNames);
             this.groupBoxAutoCorrectBackup.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxAutoCorrectBackup.Location = new System.Drawing.Point(0, 1417);
+            this.groupBoxAutoCorrectBackup.Location = new System.Drawing.Point(0, 1438);
             this.groupBoxAutoCorrectBackup.Name = "groupBoxAutoCorrectBackup";
             this.groupBoxAutoCorrectBackup.Size = new System.Drawing.Size(740, 413);
             this.groupBoxAutoCorrectBackup.TabIndex = 0;
@@ -3088,6 +3108,7 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxKaywordTags
             // 
+            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddAutoKeywords);
             this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddWebScraping);
             this.groupBoxKaywordTags.Controls.Add(this.label4);
             this.groupBoxKaywordTags.Controls.Add(this.comboBoxKeywordsAiConfidence);
@@ -3098,7 +3119,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxKaywordTags.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxKaywordTags.Name = "groupBoxKaywordTags";
             this.groupBoxKaywordTags.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxKaywordTags.Size = new System.Drawing.Size(740, 139);
+            this.groupBoxKaywordTags.Size = new System.Drawing.Size(740, 160);
             this.groupBoxKaywordTags.TabIndex = 3;
             this.groupBoxKaywordTags.TabStop = false;
             this.groupBoxKaywordTags.Text = "Keyword tags";
@@ -3805,6 +3826,103 @@ namespace PhotoTagsSynchronizer
             this.textBoxHelpAutoCorrect.Size = new System.Drawing.Size(762, 57);
             this.textBoxHelpAutoCorrect.TabIndex = 0;
             this.textBoxHelpAutoCorrect.Text = resources.GetString("textBoxHelpAutoCorrect.Text");
+            // 
+            // tabPageAutoKeywords
+            // 
+            this.tabPageAutoKeywords.Controls.Add(this.dataGridViewAutoKeywords);
+            this.tabPageAutoKeywords.Location = new System.Drawing.Point(4, 25);
+            this.tabPageAutoKeywords.Name = "tabPageAutoKeywords";
+            this.tabPageAutoKeywords.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAutoKeywords.Size = new System.Drawing.Size(766, 748);
+            this.tabPageAutoKeywords.TabIndex = 12;
+            this.tabPageAutoKeywords.Text = "AutoKeywords";
+            this.tabPageAutoKeywords.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewAutoKeywords
+            // 
+            this.dataGridViewAutoKeywords.AllowUserToOrderColumns = true;
+            this.dataGridViewAutoKeywords.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dataGridViewAutoKeywords.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            this.dataGridViewAutoKeywords.CausesValidation = false;
+            this.dataGridViewAutoKeywords.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewAutoKeywords.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.LocationName,
+            this.Title,
+            this.Album,
+            this.Description,
+            this.Comments,
+            this.Keywords,
+            this.AddKeywords});
+            this.dataGridViewAutoKeywords.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewAutoKeywords.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewAutoKeywords.Name = "dataGridViewAutoKeywords";
+            this.dataGridViewAutoKeywords.RowHeadersWidth = 51;
+            this.dataGridViewAutoKeywords.RowTemplate.Height = 24;
+            this.dataGridViewAutoKeywords.Size = new System.Drawing.Size(760, 742);
+            this.dataGridViewAutoKeywords.TabIndex = 0;
+            // 
+            // LocationName
+            // 
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.LocationName.DefaultCellStyle = dataGridViewCellStyle8;
+            this.LocationName.HeaderText = "LocationName";
+            this.LocationName.MinimumWidth = 6;
+            this.LocationName.Name = "LocationName";
+            this.LocationName.Width = 128;
+            // 
+            // Title
+            // 
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Title.DefaultCellStyle = dataGridViewCellStyle9;
+            this.Title.HeaderText = "Title";
+            this.Title.MinimumWidth = 6;
+            this.Title.Name = "Title";
+            this.Title.Width = 64;
+            // 
+            // Album
+            // 
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Album.DefaultCellStyle = dataGridViewCellStyle10;
+            this.Album.HeaderText = "Album";
+            this.Album.MinimumWidth = 6;
+            this.Album.Name = "Album";
+            this.Album.Width = 76;
+            // 
+            // Description
+            // 
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Description.DefaultCellStyle = dataGridViewCellStyle11;
+            this.Description.HeaderText = "Description";
+            this.Description.MinimumWidth = 6;
+            this.Description.Name = "Description";
+            this.Description.Width = 108;
+            // 
+            // Comments
+            // 
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Comments.DefaultCellStyle = dataGridViewCellStyle12;
+            this.Comments.HeaderText = "Comments";
+            this.Comments.MinimumWidth = 6;
+            this.Comments.Name = "Comments";
+            this.Comments.Width = 103;
+            // 
+            // Keywords
+            // 
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Keywords.DefaultCellStyle = dataGridViewCellStyle13;
+            this.Keywords.HeaderText = "Keywords";
+            this.Keywords.MinimumWidth = 6;
+            this.Keywords.Name = "Keywords";
+            this.Keywords.Width = 98;
+            // 
+            // AddKeywords
+            // 
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.AddKeywords.DefaultCellStyle = dataGridViewCellStyle14;
+            this.AddKeywords.HeaderText = "AddKeywords";
+            this.AddKeywords.MinimumWidth = 6;
+            this.AddKeywords.Name = "AddKeywords";
+            this.AddKeywords.Width = 123;
             // 
             // tabPageCameraOwner
             // 
@@ -5190,6 +5308,17 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(778, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
             // 
+            // checkBoxKeywordsAddAutoKeywords
+            // 
+            this.checkBoxKeywordsAddAutoKeywords.AutoSize = true;
+            this.checkBoxKeywordsAddAutoKeywords.Location = new System.Drawing.Point(10, 132);
+            this.checkBoxKeywordsAddAutoKeywords.Name = "checkBoxKeywordsAddAutoKeywords";
+            this.checkBoxKeywordsAddAutoKeywords.Size = new System.Drawing.Size(631, 21);
+            this.checkBoxKeywordsAddAutoKeywords.TabIndex = 5;
+            this.checkBoxKeywordsAddAutoKeywords.Text = "Use AutoKeywords, when one more word exist in metadata, then add NewKeywords syno" +
+    "nym(s)";
+            this.checkBoxKeywordsAddAutoKeywords.UseVisualStyleBackColor = true;
+            // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -5292,6 +5421,8 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationGuessInterval)).EndInit();
             this.groupBoxDateTimeDigitized.ResumeLayout(false);
             this.groupBoxDateTimeDigitized.PerformLayout();
+            this.tabPageAutoKeywords.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAutoKeywords)).EndInit();
             this.tabPageCameraOwner.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -5680,5 +5811,15 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.Label label90;
         private System.Windows.Forms.ComboBox comboBoxApplicationDebugBackgroundThreadPrioity;
         private System.Windows.Forms.ComboBox comboBoxApplicationDebugExiftoolWriteThreadPrioity;
+        private System.Windows.Forms.TabPage tabPageAutoKeywords;
+        private System.Windows.Forms.DataGridView dataGridViewAutoKeywords;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LocationName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Album;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Comments;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Keywords;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AddKeywords;
+        private System.Windows.Forms.CheckBox checkBoxKeywordsAddAutoKeywords;
     }
 }

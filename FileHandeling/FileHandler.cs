@@ -365,8 +365,6 @@ namespace FileHandeling
 
         #region WaitLockedFilesToBecomeUnlocked
         static FormWaitLockedFile formWaitLockedFile = new FormWaitLockedFile();
-       
-        
 
         public static bool WaitLockedFilesToBecomeUnlocked(List<Metadata> fileEntriesToCheck, bool needWriteAccess, Form form)
         {
@@ -460,5 +458,17 @@ namespace FileHandeling
         }
         #endregion
 
+        
+        #region GetLocalApplicationDataPath
+        public static string GetLocalApplicationDataPath(string tempfilename, bool deleteOldTempFile)
+        {
+            //Create directory, filename and remove old arg file
+            string exiftoolArgFileDirecory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
+            if (!Directory.Exists(exiftoolArgFileDirecory)) Directory.CreateDirectory(exiftoolArgFileDirecory);
+            string exiftoolArgFileFullPath = Path.Combine(exiftoolArgFileDirecory, tempfilename);
+            if (deleteOldTempFile && File.Exists(exiftoolArgFileFullPath)) File.Delete(exiftoolArgFileFullPath);
+            return exiftoolArgFileFullPath;
+        }
+        #endregion 
     }
 }

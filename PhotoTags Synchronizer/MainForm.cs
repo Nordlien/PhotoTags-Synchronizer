@@ -22,6 +22,7 @@ using NHttp;
 using System.Net;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace PhotoTagsSynchronizer
 {
@@ -125,6 +126,8 @@ UpdateColorControls(subC);
         private WindowsLivePhotoGalleryDatabasePipe databaseWindowsLivePhotGallery;
 
         private FilesCutCopyPasteDrag filesCutCopyPasteDrag;
+
+        private List<AutoKeywordConvertion> autoKeywordConvertions = new List<AutoKeywordConvertion>();
 
         //Cache level
         private int  cacheNumberOfPosters = 10;
@@ -375,6 +378,8 @@ UpdateColorControls(subC);
             RegionThumbnailHandler.FaceThumbnailSize = Properties.Settings.Default.ApplicationRegionThumbnail;
             #endregion
             #endregion
+
+            autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());
 
             #region Initialize layout setup
 

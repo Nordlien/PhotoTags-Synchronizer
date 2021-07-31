@@ -12,6 +12,7 @@ using ApplicationAssociations;
 using MetadataLibrary;
 using MetadataPriorityLibrary;
 using TimeZone;
+using FileHandeling;
 
 namespace Exiftool
 {
@@ -574,7 +575,7 @@ namespace Exiftool
             if (useArguFile)
             {
                 bool filesFound = false;
-                exiftoolArgFileFullpath = ExiftoolWriter.GetTempArguFileFullPath("exiftool_" + Guid.NewGuid() + ".txt");
+                exiftoolArgFileFullpath = FileHandler.GetLocalApplicationDataPath("exiftool_" + Guid.NewGuid() + ".txt", true);
                 using (StreamWriter sw = new StreamWriter(exiftoolArgFileFullpath, false, Encoding.UTF8))
                 {
                     

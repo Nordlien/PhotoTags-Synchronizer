@@ -9,10 +9,10 @@ using FileDateTime;
 using System.Collections.Generic;
 using NLog;
 using ApplicationAssociations;
-using System.Threading;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -1832,7 +1832,7 @@ namespace PhotoTagsSynchronizer
             string videoCovertArgument, string outputFile)
         {
 
-            string arguFilename = Exiftool.ExiftoolWriter.GetTempArguFileFullPath("ffmpeg_arg.txt");
+            string arguFilename = FileHandler.GetLocalApplicationDataPath("ffmpeg_arg.txt", true);
             string musicFileFullPath = NativeMethods.GetFullPathOfFile(musicFile);
             string outputFolder = Path.GetDirectoryName(outputFile);
 

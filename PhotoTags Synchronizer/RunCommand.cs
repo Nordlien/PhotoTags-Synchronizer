@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -611,7 +612,7 @@ namespace PhotoTagsSynchronizer
             {
                 ComboBoxHandler.ComboBoxAddTextToList(comboBoxArgumentFileCommand);
 
-                string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath("exiftool_arg_run.txt");
+                string tempArguFileFullPath = FileHandler.GetLocalApplicationDataPath("exiftool_arg_run.txt", true);
                 string commandWithArguments = comboBoxArgumentFileCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
 
                 switch (tabControlArgumentFile.SelectedTab.Tag.ToString())
@@ -1075,7 +1076,7 @@ namespace PhotoTagsSynchronizer
             {
                 ComboBoxHandler.ComboBoxAddTextToList(comboBoxArgumentFileBuilderCommand);
 
-                string tempArguFileFullPath = ExiftoolWriter.GetTempArguFileFullPath("exiftool_arg_run.txt");
+                string tempArguFileFullPath = FileHandler.GetLocalApplicationDataPath("exiftool_arg_run.txt", true);
                 string commandWithArguments = comboBoxArgumentFileBuilderCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
 
                 System.IO.File.WriteAllText(tempArguFileFullPath, fastColoredTextBoxBuildResult.Text);

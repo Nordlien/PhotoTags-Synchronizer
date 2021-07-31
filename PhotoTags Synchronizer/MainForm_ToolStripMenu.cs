@@ -1269,6 +1269,7 @@ namespace PhotoTagsSynchronizer
                         databaseLocationAddress.PreferredLanguagesString = Properties.Settings.Default.ApplicationPreferredLanguages;
                         RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
 
+                        autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());
                         //Cache config
                         cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
                         cacheAllMetadatas = Properties.Settings.Default.CacheAllMetadatas;
@@ -1353,7 +1354,8 @@ namespace PhotoTagsSynchronizer
                         databaseAndCacheMetadataWindowsLivePhotoGallery,
                         databaseAndCahceCameraOwner,
                         databaseLocationAddress,
-                        databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
+                        databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                        autoKeywordConvertions);
                     if (metadataToSave != null)
                     {
                         AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
@@ -1406,7 +1408,7 @@ namespace PhotoTagsSynchronizer
                             databaseAndCahceCameraOwner,
                             databaseLocationAddress,
                             databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
                         if (metadataToSave != null)
                         {
                             if (useAlbum) metadataToSave.PersonalAlbum = album;
@@ -1458,7 +1460,7 @@ namespace PhotoTagsSynchronizer
                         databaseAndCahceCameraOwner,
                         databaseLocationAddress,
                         databaseGoogleLocationHistory,
-                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
+                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
                     if (metadataToSave != null)
                     {
                         AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
@@ -1627,7 +1629,7 @@ namespace PhotoTagsSynchronizer
                             databaseAndCahceCameraOwner,
                             databaseLocationAddress,
                             databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted);
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
 
                         if (metadataToSave != null) metadataListFromDataGridViewAutoCorrect.Add(new Metadata(metadataToSave));
                         else

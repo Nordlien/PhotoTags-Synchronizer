@@ -6,7 +6,6 @@ using System.Diagnostics;
 using MetadataLibrary;
 using ImageAndMovieFileExtentions;
 using NLog;
-using System.Threading;
 using WindowsProperty;
 using ApplicationAssociations;
 using FileHandeling;
@@ -193,19 +192,7 @@ namespace Exiftool
             }
             return filesNeedToBeUpadted;
         }
-        #endregion 
-
-        #region GetTempArguFileFullPath
-        public static string GetTempArguFileFullPath(string tempfilename)
-        {
-            //Create directory, filename and remove old arg file
-            string exiftoolArgFileDirecory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer");
-            if (!Directory.Exists(exiftoolArgFileDirecory)) Directory.CreateDirectory(exiftoolArgFileDirecory);
-            string exiftoolArgFileFullPath = Path.Combine(exiftoolArgFileDirecory, tempfilename);
-            if (File.Exists(exiftoolArgFileFullPath)) File.Delete(exiftoolArgFileFullPath);
-            return exiftoolArgFileFullPath;
-        }
-        #endregion 
+        #endregion  
 
         #region WriteMetadata
         public static void WriteMetadata(List<Metadata> metadataListToWrite, List<Metadata> metadataListOriginal, List<string> allowedFileNameDateTimeFormats,
@@ -220,7 +207,7 @@ namespace Exiftool
             {
                 Logger.Debug("WriteMetadata: started");
                 //Create directory, filename and remove old arg file
-                string exiftoolArgFileFullpath = GetTempArguFileFullPath("exiftool_arg.txt");
+                string exiftoolArgFileFullpath = FileHandler.GetLocalApplicationDataPath("exiftool_arg.txt", true);
 
                 using (StreamWriter sw = new StreamWriter(exiftoolArgFileFullpath, false, Encoding.UTF8))
                 {
