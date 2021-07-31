@@ -162,7 +162,7 @@ UpdateColorControls(subC);
             InitializeComponent();
             #endregion
 
-            this.SuspendLayout();
+            
             #region Initialize VLC player
             SplashForm.UpdateStatus("Staring VLC player...");
             
@@ -410,6 +410,8 @@ UpdateColorControls(subC);
 
             timerShowErrorMessage.Enabled = true;
             #endregion 
+
+            this.SuspendLayout();
 
             #region Initialize layout setup - Initialize layout toolstrip: Exiftool
             SplashForm.UpdateStatus("Initialize layout toolstrip: Exiftool...");
