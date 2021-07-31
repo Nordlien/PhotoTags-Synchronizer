@@ -89,8 +89,6 @@ namespace PhotoTagsSynchronizer
             
             if (dataSet.Tables.Count >= 1)
             {
-                
-
                 int index = dataSet.Tables.IndexOf(TableName);
                 if (index >= 0) {
 
@@ -99,13 +97,15 @@ namespace PhotoTagsSynchronizer
 
                     for (int rowIndex = 0; rowIndex < dataTable.Rows.Count; rowIndex++)
                     {
+                        dataGridView.Rows[rowIndex].HeaderCell.Value = (dataGridView.Rows[rowIndex].Index + 1).ToString();
+                        
                         for (int columnIndex = 0; columnIndex < dataTable.Columns.Count; columnIndex++)
                         {
                             object[] dataItems = dataTable.Rows[rowIndex].ItemArray;
                             dataGridView[columnIndex, rowIndex].Value = dataItems[columnIndex];
                         }
                     }
-                    
+                    dataGridView.Rows[dataGridView.Rows.Count - 1].HeaderCell.Value = "*" + (dataGridView.Rows[dataGridView.Rows.Count - 1].Index + 1).ToString();
                 }
             }
         }

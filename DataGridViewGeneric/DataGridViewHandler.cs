@@ -1806,7 +1806,6 @@ namespace DataGridViewGeneric
         #endregion
 
 
-
         #region Clipboard - Get and Set Cell location
         #region Refresh - GetCurrentCellLocation
         public static CellLocation GetCurrentCellLocation(DataGridViewCell cell)
@@ -1848,8 +1847,6 @@ namespace DataGridViewGeneric
             if (controlInFocus != null) controlInFocus.Focus();
         }
         #endregion
-
-
 
         #region Cell Handling
         #region Cell Handling - Deep Copy

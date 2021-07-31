@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FileHandeling;
 using System.Data;
+using System.Reflection;
 
 namespace PhotoTagsSynchronizer
 {
@@ -69,6 +70,13 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Controls.Add(this.browser);
 
             browser.AddressChanged += Browser_AddressChanged;
+
+            typeof(DataGridView).InvokeMember(
+                   "DoubleBuffered",
+                   BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+                   null,
+                   dataGridViewAutoKeywords,
+                   new object[] { true });
 
             isConfigClosing = false;
         }
@@ -1649,8 +1657,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        
-
         #endregion 
 
         #region Metadata Read - Populate
@@ -1890,49 +1896,154 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Metadata Read - Keydown and Item Click, Clipboard
-        private void dataGridViewMetadataReadPriority_KeyDown(object sender, KeyEventArgs e)
+        #region AutoKeywords
+
+        private void dataGridViewAutoKeywords_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            DataGridView dataGridView = (DataGridView)sender;
+            dataGridView.Rows[e.RowIndex].HeaderCell.Value = "*" + (dataGridView.Rows[e.RowIndex].Index + 1).ToString();
+        }
+
+        #region AutoKeywords - Cut
+        private void toolStripMenuItemAutoKeywordCut_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewAutoKeywords;
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+        }
+        #endregion
+
+        #region AutoKeywords - Copy
+        private void toolStripMenuItemAutoKeywordCopy_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewAutoKeywords;
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
+        }
+        #endregion
+
+        #region AutoKeywords - Paste
+        private void toolStripMenuItemAutoKeywordPaste_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewAutoKeywords;
+            ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
+        }
+        #endregion
+
+        #region AutoKeywords - Delete
+        private void toolStripMenuItemAutoKeywordDelete_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewAutoKeywords;
+            ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
+        }
+        #endregion
+
+        #region AutoKeywords - Undo
+        private void toolStripMenuItemAutoKeywordUndo_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewAutoKeywords;
+            ClipboardUtility.UndoDataGridView(dataGridView);
+        }
+        #endregion
+
+        #region AutoKeywords - Redo
+        private void toolStripMenuItemRedo_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewAutoKeywords;
+            ClipboardUtility.RedoDataGridView(dataGridView);
+        }
+        #endregion
+
+        #region AutoKeywords - Find
+        private void toolStripMenuItemFind_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewAutoKeywords;
+            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+            //ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+        #endregion
+
+        #region AutoKeywords - Replace
+        private void toolStripMenuItemReplace_Click(object sender, EventArgs e)
+        {
+            DataGridView dataGridView = dataGridViewAutoKeywords;
+            //string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
+            DataGridViewHandler.ActionFindAndReplace(dataGridView, false);
+            //ValitedatePaste(dataGridView, header);
+            DataGridViewHandler.Refresh(dataGridView);
+        }
+        #endregion
+
+        #region AutoKeywords - KeyDown
+        private void dataGridViewAutoKeywords_KeyDown(object sender, KeyEventArgs e)
         {
             DataGridViewHandler.KeyDownEventHandler(sender, e);
         }
+        #endregion
 
+        #region AutoKeywords - CellBeginEdit
+        private void dataGridViewAutoKeywords_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridView dataGridView = ((DataGridView)sender);
+            if (!dataGridView.Enabled) return;
+
+            ClipboardUtility.PushToUndoStack(dataGridView);
+        }
+        #endregion
+
+        #endregion
+
+        #region Metadata Read - Keydown and Item Click, Clipboard
+        #region Metadata Read - Cut
         private void toolStripMenuItemMetadataReadCut_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
         }
+        #endregion
 
+        #region Metadata Read - Copy
         private void toolStripMenuItemMetadataReadCopy_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
         }
+        #endregion
 
+        #region Metadata Read - Paste
         private void toolStripMenuItemMetadataReadPaste_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.PasteDataGridViewSelectedCellsFromClipboard(dataGridView);
         }
+        #endregion
 
+        #region Metadata Read - Delete
         private void toolStripMenuItemMetadataReadDelete_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
         }
+        #endregion
 
+        #region Metadata Read - Undo
         private void toolStripMenuItemMetadataReadUndo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.UndoDataGridView(dataGridView);
         }
+        #endregion
 
+        #region Metadata Read - Redo
         private void toolStripMenuItemMetadataReadRedo_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             ClipboardUtility.RedoDataGridView(dataGridView);
         }
+        #endregion
 
+        #region Metadata Read - Find
         private void toolStripMenuItemMetadataReadFind_Click(object sender, EventArgs e)
         {
             //string header = DataGridViewHandlerX.headerKeywords;
@@ -1941,7 +2052,9 @@ namespace PhotoTagsSynchronizer
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
         }
+        #endregion
 
+        #region Metadata Read - Replace
         private void toolStripMenuItemMetadataReadReplace_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
@@ -1950,35 +2063,52 @@ namespace PhotoTagsSynchronizer
             //ValitedatePaste(dataGridView, header);
             DataGridViewHandler.Refresh(dataGridView);
         }
+        #endregion
 
+        #region Metadata Read - MarkFavorite
         private void toolStripMenuItemMetadataReadMarkFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Set);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        #endregion
 
+        #region Metadata Read - RemoveFavorite
         private void toolStripMenuItemMetadataReadRemoveFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Remove);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        #endregion
 
+        #region Metadata Read - ToggleFavorite
         private void toolStripMenuItemMetadataReadToggleFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             DataGridViewHandler.ActionSetRowsFavouriteState(dataGridView, NewState.Toggle);
             DataGridViewHandler.FavouriteWrite(dataGridView, DataGridViewHandler.GetFavoriteList(dataGridView));
         }
+        #endregion
 
+        #region Metadata Read - ShowFavorite
         private void toolStripMenuItemMetadataReadShowFavorite_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
             DataGridViewHandler.ActionToggleStripMenuItem(dataGridView, toolStripMenuItemMetadataReadShowFavorite);
             DataGridViewHandler.SetRowsVisbleStatus(dataGridView, false, toolStripMenuItemMetadataReadShowFavorite.Checked);
         }
+        #endregion
 
+        #region Metadata Read - KeyDown
+        private void dataGridViewMetadataReadPriority_KeyDown(object sender, KeyEventArgs e)
+        {
+            DataGridViewHandler.KeyDownEventHandler(sender, e);
+        }
+        #endregion
+
+        #region Metadata Read - CellBeginEdit
         private void dataGridViewMetadataReadPriority_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             DataGridView dataGridView = ((DataGridView)sender);
@@ -1986,6 +2116,8 @@ namespace PhotoTagsSynchronizer
 
             ClipboardUtility.PushToUndoStack(dataGridView);
         }
+        #endregion
+
         #endregion
 
         #region Metadata Read - CellPaining 
@@ -2418,6 +2550,10 @@ namespace PhotoTagsSynchronizer
                 //threadReloadLocationUsingNominatim.Abort();
             }
         }
+
+
+
+
 
         #endregion
 

@@ -61,8 +61,6 @@ namespace DataGridViewGeneric
             this.FindWhatTextBox2 = new System.Windows.Forms.TextBox();
             this.FindLabel2 = new System.Windows.Forms.Label();
             this.contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,6 +73,8 @@ namespace DataGridViewGeneric
             this.markAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAsFavoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleRowsAsFavouriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleShowFavouriteRowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleHideEqualRowsValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMediaPosterWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlFindAndReplace.SuspendLayout();
             this.FindPage.SuspendLayout();
@@ -487,25 +487,7 @@ namespace DataGridViewGeneric
             this.toggleHideEqualRowsValuesToolStripMenuItem,
             this.showMediaPosterWindowToolStripMenuItem});
             this.contextMenuStripDataGridViewGeneric.Name = "contextMenuStripMap";
-            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(319, 394);
-            // 
-            // toggleShowFavouriteRowsToolStripMenuItem
-            // 
-            this.toggleShowFavouriteRowsToolStripMenuItem.Checked = true;
-            this.toggleShowFavouriteRowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.toggleShowFavouriteRowsToolStripMenuItem.Name = "toggleShowFavouriteRowsToolStripMenuItem";
-            this.toggleShowFavouriteRowsToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.toggleShowFavouriteRowsToolStripMenuItem.Text = "Show only favorite rows";
-            this.toggleShowFavouriteRowsToolStripMenuItem.Click += new System.EventHandler(this.toggleShowFavouriteRowsToolStripMenuItem_Click);
-            // 
-            // toggleHideEqualRowsValuesToolStripMenuItem
-            // 
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Checked = true;
-            this.toggleHideEqualRowsValuesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Name = "toggleHideEqualRowsValuesToolStripMenuItem";
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Text = "Hide equal rows";
-            this.toggleHideEqualRowsValuesToolStripMenuItem.Click += new System.EventHandler(this.toggleHideEqualRowsValuesToolStripMenuItem_Click);
+            this.contextMenuStripDataGridViewGeneric.Size = new System.Drawing.Size(319, 422);
             // 
             // cutToolStripMenuItem
             // 
@@ -611,6 +593,24 @@ namespace DataGridViewGeneric
             this.toggleRowsAsFavouriteToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
             this.toggleRowsAsFavouriteToolStripMenuItem.Text = "Toggle favorite";
             this.toggleRowsAsFavouriteToolStripMenuItem.Click += new System.EventHandler(this.toggleRowsAsFavouriteToolStripMenuItem_Click);
+            // 
+            // toggleShowFavouriteRowsToolStripMenuItem
+            // 
+            this.toggleShowFavouriteRowsToolStripMenuItem.Checked = true;
+            this.toggleShowFavouriteRowsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.toggleShowFavouriteRowsToolStripMenuItem.Name = "toggleShowFavouriteRowsToolStripMenuItem";
+            this.toggleShowFavouriteRowsToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.toggleShowFavouriteRowsToolStripMenuItem.Text = "Show only favorite rows";
+            this.toggleShowFavouriteRowsToolStripMenuItem.Click += new System.EventHandler(this.toggleShowFavouriteRowsToolStripMenuItem_Click);
+            // 
+            // toggleHideEqualRowsValuesToolStripMenuItem
+            // 
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Checked = true;
+            this.toggleHideEqualRowsValuesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Name = "toggleHideEqualRowsValuesToolStripMenuItem";
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Size = new System.Drawing.Size(318, 26);
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Text = "Hide equal rows";
+            this.toggleHideEqualRowsValuesToolStripMenuItem.Click += new System.EventHandler(this.toggleHideEqualRowsValuesToolStripMenuItem_Click);
             // 
             // showMediaPosterWindowToolStripMenuItem
             // 
