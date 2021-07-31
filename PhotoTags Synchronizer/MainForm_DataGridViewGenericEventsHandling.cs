@@ -30,7 +30,7 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
@@ -45,7 +45,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
@@ -59,7 +59,7 @@ namespace PhotoTagsSynchronizer
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
             ValitedatePastePeople(dataGridView, DataGridViewHandlerPeople.headerPeople);
             DataGridViewHandler.Refresh(dataGridView);
@@ -75,11 +75,13 @@ namespace PhotoTagsSynchronizer
         {
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
+
+            if (dataGridView.CurrentCell.IsInEditMode)  
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
 
             string header = DataGridViewHandlerTagsAndKeywords.headerKeywords;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView, 0, dataGridView.Columns.Count - 1,
                 DataGridViewHandler.GetRowHeadingIndex(dataGridView, header),
                 DataGridViewHandler.GetRowHeaderItemsEnds(dataGridView, header), true);
@@ -100,7 +102,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewDate;
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
         }
         #endregion
 
@@ -110,7 +112,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewExifTool;
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
             DataGridViewHandler.Refresh(dataGridView);
         }
         #endregion
@@ -121,7 +123,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewExifToolWarning;
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
             DataGridViewHandler.Refresh(dataGridView);
         }
         #endregion
@@ -132,7 +134,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewMap;
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
             DataGridViewHandler.Refresh(dataGridView);
         }
         #endregion
@@ -143,7 +145,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewPeople;
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
             DataGridViewHandler.Refresh(dataGridView);
         }
         #endregion
@@ -157,7 +159,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
         }
         #endregion
 

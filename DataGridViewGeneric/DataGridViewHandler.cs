@@ -849,7 +849,7 @@ namespace DataGridViewGeneric
         #region Action Handling - Cut
         public static void ActionCut(DataGridView dataGridView)
         {
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
         }
         #endregion
@@ -857,7 +857,7 @@ namespace DataGridViewGeneric
         #region Action Handling - Copy
         public static void ActionCopy(DataGridView dataGridView)
         {
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
         }
         #endregion
 

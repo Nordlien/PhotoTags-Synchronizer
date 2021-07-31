@@ -162,8 +162,7 @@ namespace DataGridViewGeneric
         }
         #endregion
 
-        #region CopyDataGridViewSelectedCellsToClipboard
-        public static void CopyDataGridViewSelectedCellsToClipboard(DataGridView dataGridView)
+        private static bool IsCurrentCellTaxtBoxAndInEditMode(DataGridView dataGridView)
         {
             try
             {
@@ -172,19 +171,34 @@ namespace DataGridViewGeneric
                 {
                     if (cell is DataGridViewTextBoxCell || cell is DataGridViewComboBoxCell)
                     {
-                        if (cell.IsInEditMode)
-                        {
-                            TextBox txt = dataGridView.EditingControl as TextBox;
-                            if (txt != null) Clipboard.SetText(txt.SelectedText);
-                        }
-                        else
-                        { 
-                            dataGridView.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-                            DataObject dataObj = dataGridView.GetClipboardContent();
-                            if (dataObj != null) Clipboard.SetDataObject(dataObj, true);
-                        }
+                        if (cell.IsInEditMode) return true;
                     }
-                }           
+                }
+            }
+            catch { }
+            return false;
+        }
+
+        #region CopyDataGridViewSelectedCellsToClipboard
+        public static void CopyDataGridViewSelectedCellsToClipboard(DataGridView dataGridView, bool doCut)
+        {
+            try
+            {
+                if (IsCurrentCellTaxtBoxAndInEditMode(dataGridView))
+                {
+                    TextBox textBox = dataGridView.EditingControl as TextBox;
+                    if (textBox != null)
+                    {
+                        //Clipboard.SetText(txt.SelectedText);
+                        if (doCut) textBox.Cut(); else textBox.Copy();
+                    }                   
+                }                
+                else
+                {
+                    dataGridView.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+                    DataObject dataObj = dataGridView.GetClipboardContent();
+                    if (dataObj != null) Clipboard.SetDataObject(dataObj, true);
+                }
             }
             catch
             {
@@ -205,6 +219,7 @@ namespace DataGridViewGeneric
         {
             DataGridViewSelectedCellCollection dataGridViewSelectedCellCollection = dataGridView.SelectedCells;
             if (dataGridViewSelectedCellCollection.Count < 1) return;
+            if (dataGridView.CurrentCell.IsInEditMode) return;
 
             PushToUndoStack(dataGridView);
 
@@ -236,7 +251,13 @@ namespace DataGridViewGeneric
         #region PasteDataGridViewSelectedCellsFromClipboard
         public static void PasteDataGridViewSelectedCellsFromClipboard(DataGridView dataGridView, int leftColumnOverwrite, int rightColumnOverwrite, int topRowOverwrite, int buttomRowOverwrite, bool removeTag)
         {
-             
+            if (IsCurrentCellTaxtBoxAndInEditMode(dataGridView))
+            {
+                TextBox textBox = dataGridView.EditingControl as TextBox;
+                if (textBox != null) textBox.Paste();
+                return;
+            }
+
             #region Html Format
             // Try to process as html format (data from excel) since it keeps the row information intact, instead of assuming
             // a new row for every new line if we just process it as text

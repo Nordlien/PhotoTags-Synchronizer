@@ -1509,7 +1509,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewLocationNames;
             if (!dataGridView.Enabled) return;
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = true;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
             DataGridViewHandler.Refresh(dataGridView);
             GlobalData.IsDataGridViewCutPasteDeleteFindReplaceInProgress = false;
@@ -1522,7 +1522,7 @@ namespace PhotoTagsSynchronizer
             DataGridView dataGridView = dataGridViewLocationNames;
             if (!dataGridView.Enabled) return;
 
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
             DataGridViewHandler.Refresh(dataGridView);
         }
         #endregion
@@ -1899,14 +1899,14 @@ namespace PhotoTagsSynchronizer
         private void toolStripMenuItemMetadataReadCut_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, true);
             ClipboardUtility.DeleteDataGridViewSelectedCells(dataGridView);
         }
 
         private void toolStripMenuItemMetadataReadCopy_Click(object sender, EventArgs e)
         {
             DataGridView dataGridView = dataGridViewMetadataReadPriority;
-            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView);
+            ClipboardUtility.CopyDataGridViewSelectedCellsToClipboard(dataGridView, false);
         }
 
         private void toolStripMenuItemMetadataReadPaste_Click(object sender, EventArgs e)
