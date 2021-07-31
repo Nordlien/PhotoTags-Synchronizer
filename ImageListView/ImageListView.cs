@@ -945,19 +945,21 @@ namespace Manina.Windows.Forms
                 
                 timer.Enabled = true;                                   // Enable the timer
                 timer.Start();
+            } else
+            {
+                if (((TimeSpan)(DateTime.Now - startTime)).TotalMilliseconds < 0) startTime = DateTime.Now;
             }
         }
 
-        private DateTime refreshDelayStartTime = DateTime.Now;
         public void RefreshDelay()
         {
-            if (((TimeSpan)(DateTime.Now - refreshDelayStartTime)).TotalMilliseconds < 1500)
+            if (!isTimerStarted)
             {
-                refreshDelayStartTime = DateTime.Now;
-                return;
+                startTime = DateTime.Now.AddMilliseconds(1500);
+                isTimerStarted = true;
+                timer.Enabled = true;                                   // Enable the timer
+                timer.Start();
             }
-            refreshDelayStartTime = DateTime.Now;
-            Refresh();
         }
 
         /// <summary>
