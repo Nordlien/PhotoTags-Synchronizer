@@ -925,7 +925,7 @@ namespace Manina.Windows.Forms
 
             try
             {
-                if (((TimeSpan)(DateTime.Now - startTime)).TotalMilliseconds > 100)
+                if (((TimeSpan)(DateTime.Now - startTime)).TotalMilliseconds > 200)
                 {
                     timer.Stop();
                     isTimerStarted = false;
@@ -946,6 +946,18 @@ namespace Manina.Windows.Forms
                 timer.Enabled = true;                                   // Enable the timer
                 timer.Start();
             }
+        }
+
+        private DateTime refreshDelayStartTime = DateTime.Now;
+        public void RefreshDelay()
+        {
+            if (((TimeSpan)(DateTime.Now - refreshDelayStartTime)).TotalMilliseconds < 1500)
+            {
+                refreshDelayStartTime = DateTime.Now;
+                return;
+            }
+            refreshDelayStartTime = DateTime.Now;
+            Refresh();
         }
 
         /// <summary>

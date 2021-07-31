@@ -148,7 +148,7 @@ namespace PhotoTagsSynchronizer
                 e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
                 e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
             }
-            ((ImageListView)sender).Refresh();
+            ((ImageListView)sender).RefreshDelay();
         }
         #endregion
 

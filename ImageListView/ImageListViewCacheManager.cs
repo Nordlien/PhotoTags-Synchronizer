@@ -377,7 +377,7 @@ namespace Manina.Windows.Forms
             removedItems = new List<Guid>();
 
             mThread = new Thread(new ThreadStart(DoWork));
-            mThread.Priority = ThreadPriority.BelowNormal; //JTN Added
+            mThread.Priority = ThreadPriority.Lowest; //JTN Added
             mThread.IsBackground = true;
 
             stopping = false;
