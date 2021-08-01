@@ -235,7 +235,9 @@ namespace Exiftool
                         StandardOutputEncoding = Encoding.UTF8
                     }
                 })
-                {                    
+                {
+                    Logger.Debug("WriteMetadata: process.Start arguments: " + arguments);
+                    Logger.Debug("WriteMetadata: process.Start file content:\r\n" + resultReplaceVariables);
                     bool result = process.Start();
                     process.PriorityClass = processPriorityClass;
                     
