@@ -189,11 +189,11 @@
     <Compile Include="FormWebScraper.Designer.cs">
       <DependentUpon>FormWebScraper.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form_AutoCorrect.cs">
+    <Compile Include="FormAutoCorrect.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form_AutoCorrect.Designer.cs">
-      <DependentUpon>Form_AutoCorrect.cs</DependentUpon>
+    <Compile Include="FormAutoCorrect.Designer.cs">
+      <DependentUpon>FormAutoCorrect.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalData.cs" />
     <Compile Include="LocationHistoryImportForm.cs">
@@ -351,8 +351,8 @@
     <EmbeddedResource Include="FormWebScraper.resx">
       <DependentUpon>FormWebScraper.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form_AutoCorrect.resx">
-      <DependentUpon>Form_AutoCorrect.cs</DependentUpon>
+    <EmbeddedResource Include="FormAutoCorrect.resx">
+      <DependentUpon>FormAutoCorrect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LocationHistoryImportForm.resx">
       <DependentUpon>LocationHistoryImportForm.cs</DependentUpon>

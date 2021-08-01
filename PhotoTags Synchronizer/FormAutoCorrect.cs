@@ -10,13 +10,26 @@ using System.Windows.Forms;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class Form_AutoCorrect : Form
+    public partial class FormAutoCorrect : Form
     {
         public string Album { get { return comboBoxAlbum.Text; } }
         public string Author { get { return comboBoxAuthor.Text; } }
         public string Comments { get { return comboBoxComments.Text; } }
         public string Description { get { return comboBoxDescription.Text; } }
         public string Title { get { return comboBoxTitle.Text; } }
+        public List<string> Keywords 
+        { 
+            get 
+            {
+                List<string> keywords = new List<string>();
+                string[] keywordArray = textBoxKeywords.Text.Replace("\r\n", "\n").Split('\n');
+                foreach (string keyword in keywordArray)
+                {
+                    if (!string.IsNullOrWhiteSpace(keyword) && !keywords.Contains(keyword)) keywords.Add(keyword);
+                }
+                return keywords;
+            }
+        }
 
         public bool UseAlbum { get { return checkBoxAlbum.Checked; } }
         public bool UseAuthor { get { return checkBoxAuthor.Checked; } }
@@ -28,7 +41,7 @@ namespace PhotoTagsSynchronizer
         
 
 
-        public Form_AutoCorrect()
+        public FormAutoCorrect()
         {
             InitializeComponent();
             this.DialogResult = DialogResult.None;
@@ -43,7 +56,7 @@ namespace PhotoTagsSynchronizer
             checkBoxComments.Checked = Properties.Settings.Default.UseAutoCorrectFormComments;
             checkBoxDescription.Checked = Properties.Settings.Default.UseAutoCorrectFormDescription;
             checkBoxTitle.Checked = Properties.Settings.Default.UseAutoCorrectFormTitle;
-            
+            textBoxKeywords.Text = "";
             isPopulation = false;
         }
 

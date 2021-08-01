@@ -1377,21 +1377,22 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                Form_AutoCorrect form_AutoCorrect = new Form_AutoCorrect();
-                if (form_AutoCorrect.ShowDialog() == DialogResult.OK)
+                FormAutoCorrect formAutoCorrect = new FormAutoCorrect();
+                if (formAutoCorrect.ShowDialog() == DialogResult.OK)
                 {
 
-                    string album = form_AutoCorrect.Album;
-                    string author = form_AutoCorrect.Author;
-                    string comments = form_AutoCorrect.Comments;
-                    string description = form_AutoCorrect.Description;
-                    string title = form_AutoCorrect.Title;
+                    string album = formAutoCorrect.Album;
+                    string author = formAutoCorrect.Author;
+                    string comments = formAutoCorrect.Comments;
+                    string description = formAutoCorrect.Description;
+                    string title = formAutoCorrect.Title;
+                    List<string> keywords = formAutoCorrect.Keywords;
 
-                    bool useAlbum = form_AutoCorrect.UseAlbum;
-                    bool useAuthor = form_AutoCorrect.UseAuthor;
-                    bool useComments = form_AutoCorrect.UseComments;
-                    bool uselDescription = form_AutoCorrect.UseDescription;
-                    bool useTitle = form_AutoCorrect.UseTitle;
+                    bool useAlbum = formAutoCorrect.UseAlbum;
+                    bool useAuthor = formAutoCorrect.UseAuthor;
+                    bool useComments = formAutoCorrect.UseComments;
+                    bool uselDescription = formAutoCorrect.UseDescription;
+                    bool useTitle = formAutoCorrect.UseTitle;
 
                     AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
                     float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
@@ -1409,6 +1410,7 @@ namespace PhotoTagsSynchronizer
                             databaseLocationAddress,
                             databaseGoogleLocationHistory,
                             locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
+
                         if (metadataToSave != null)
                         {
                             if (useAlbum) metadataToSave.PersonalAlbum = album;
@@ -1425,6 +1427,11 @@ namespace PhotoTagsSynchronizer
 
                             if (useTitle) metadataToSave.PersonalTitle = title;
                             if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
+
+                            foreach (string keyword in keywords)
+                            {
+                                metadataToSave.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
+                            }
 
                             AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
                             AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);

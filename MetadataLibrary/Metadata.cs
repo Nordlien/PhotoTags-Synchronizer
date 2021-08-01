@@ -803,7 +803,7 @@ namespace MetadataLibrary
             //set => personalTagList = value; 
         }
 
-        public void PersonalKeywordTagsAddIfNotExists(KeywordTag keywordTag, bool caseSencetive = false)
+        public void PersonalKeywordTagsAddIfNotExists(KeywordTag keywordTag, bool caseSencetive = true)
         {
             if (caseSencetive)
             {
