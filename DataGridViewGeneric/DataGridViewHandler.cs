@@ -657,7 +657,7 @@ namespace DataGridViewGeneric
         #region Suspend and Resume layout - SuspendLayout
         private static int suspendCount = 0;
         private static bool isSuspended = false;
-        public static void SuspendLayout(DataGridView dataGridView, bool doesColumnFilenameExist)
+        public static void SuspendLayoutSetDelay(DataGridView dataGridView, bool doesColumnFilenameExist)
         {
             suspendCount++;
             if (suspendCount > 1) return; //Already suspended
@@ -708,7 +708,7 @@ namespace DataGridViewGeneric
             isSuspended = false;
         }
 
-        public static bool ResumeLayout(DataGridView dataGridView)
+        public static bool ResumeLayoutDelayed(DataGridView dataGridView)
         {
             bool didResume = false;
             suspendCount--;

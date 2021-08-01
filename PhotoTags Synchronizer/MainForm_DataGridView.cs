@@ -148,7 +148,7 @@ namespace PhotoTagsSynchronizer
             {
                 bool isFileInDataGridView = DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath);
                     
-                DataGridViewHandler.SuspendLayout(dataGridView, isFileInDataGridView);
+                DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView);
 
                 if (isFileInDataGridView)
                 {
@@ -195,12 +195,12 @@ namespace PhotoTagsSynchronizer
                 int queueCount = ThreadLazyLoadingDataGridViewQueueSizeDirty();
                 if (isFileInDataGridView) LazyLoadingDataGridViewProgressUpdateStatus(queueCount); //Update progressbar when File In DataGridView
 
-                DataGridViewHandler.ResumeLayout(dataGridView);
+                DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                 
                 if (queueCount == 0)
                 {
                     //LazyLoadMissingLock();
-                    if (isFileInDataGridView) PopulateDataGridViewForSelectedItemsExtrasInvoke();
+                    if (isFileInDataGridView) PopulateDataGridViewForSelectedItemsExtrasDelayed();
                     LazyLoadingDataGridViewProgressEndReached();
                 }
             }
@@ -230,7 +230,56 @@ namespace PhotoTagsSynchronizer
         }
         #endregion 
 
-        #region DataGridView - PopulateDataGridViewForSelectedItemsExtrasInvoke
+        #region DataGridView - PopulateDataGridViewForSelectedItemsExtrasInvoke (Populate DataGridView Extras)
+        private System.Timers.Timer timerDelayPopulateDataGridViewExtrasRefresh = new System.Timers.Timer();
+        private bool isTimerDelayPopulateDataGridViewExtrasStarted = false;
+        private DateTime startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
+
+        private void InitializeDataGridViewHandler()
+        {
+            timerDelayPopulateDataGridViewExtrasRefresh.Elapsed += TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed;
+            timerDelayPopulateDataGridViewExtrasRefresh.Interval = 100;
+        }
+
+        private void TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<object, System.Timers.ElapsedEventArgs>(TimerDelayPopulateDataGridViewExtrasRefresh_Elapsed), sender, e);
+                return;
+            }
+
+            try
+            {
+                if (((TimeSpan)(DateTime.Now - startTimeDelayPopulateDataGridViewExtras)).TotalMilliseconds > 200)
+                {
+                    timerDelayPopulateDataGridViewExtrasRefresh.Stop();
+                    isTimerDelayPopulateDataGridViewExtrasStarted = false;
+                    PopulateDataGridViewForSelectedItemsExtrasInvoke();
+                }
+            }
+            catch
+            {
+                //Debug
+            }
+        }
+
+        private void PopulateDataGridViewForSelectedItemsExtrasDelayed()
+        {
+            if (!isTimerDelayPopulateDataGridViewExtrasStarted)
+            {
+                startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
+                isTimerDelayPopulateDataGridViewExtrasStarted = true;
+
+                timerDelayPopulateDataGridViewExtrasRefresh.Enabled = true;                                   // Enable the timer
+                timerDelayPopulateDataGridViewExtrasRefresh.Start();
+            }
+            else
+            {
+                if (((TimeSpan)(DateTime.Now - startTimeDelayPopulateDataGridViewExtras)).TotalMilliseconds < 0) startTimeDelayPopulateDataGridViewExtras = DateTime.Now;
+            }
+        }
+
         private void PopulateDataGridViewForSelectedItemsExtrasInvoke()
         {
             if (this.InvokeRequired)
@@ -286,7 +335,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke
+        #region DataGridView - Populate Selected Files - OnActiveDataGridView - Invoke -> PopulateDataGridViewForSelectedItemsExtrasDelayed();
         /// <summary>
         /// Populate Active DataGridView with Seleted Files from ImageListView
         /// PS. When selected new files, all DataGridViews are maked as dirty.
@@ -311,7 +360,7 @@ namespace PhotoTagsSynchronizer
                 using (new WaitCursor())
                 {
                     List<FileEntryAttribute> lazyLoading;
-                    DataGridViewHandler.SuspendLayout(dataGridView, true);
+                    DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
 
 
                     switch (GetActiveTabTag())
@@ -383,7 +432,7 @@ namespace PhotoTagsSynchronizer
                         case LinkTabAndDataGridViewNameProperties:
                             DataGridViewHandlerProperties.WindowsPropertyReader = new WindowsPropertyReader();
                             DataGridViewHandlerProperties.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, (DataGridViewSize)Properties.Settings.Default.CellSizeProperties, showWhatColumns);
-                            PopulateDataGridViewForSelectedItemsExtrasInvoke();
+                            PopulateDataGridViewForSelectedItemsExtrasDelayed();
                             break;
                         case LinkTabAndDataGridViewNameRename:
                             DataGridViewHandlerRename.FileDateTimeFormats = new FileDateTimeReader(Properties.Settings.Default.RenameDateFormats);
@@ -403,7 +452,7 @@ namespace PhotoTagsSynchronizer
                             throw new NotImplementedException();
 
                     }
-                    DataGridViewHandler.ResumeLayout(dataGridView);
+                    DataGridViewHandler.ResumeLayoutDelayed(dataGridView);
                 }
             }
             StartThreads();

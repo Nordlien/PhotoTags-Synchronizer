@@ -1117,7 +1117,7 @@ namespace PhotoTagsSynchronizer
                             if (GlobalData.IsApplicationClosing || GlobalData.IsStopAndEmptyExiftoolReadQueueRequest)
                                 lock (commonQueueReadMetadataFromExiftoolLock) commonQueueReadMetadataFromExiftool.Clear();
 
-                            PopulateDataGridViewForSelectedItemsExtrasInvoke();
+                            PopulateDataGridViewForSelectedItemsExtrasDelayed();
 
                             if (WaitExittoolReadCacheThread != null) WaitExittoolReadCacheThread.Set();
 

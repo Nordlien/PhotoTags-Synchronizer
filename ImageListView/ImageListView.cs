@@ -39,6 +39,7 @@ namespace Manina.Windows.Forms
     public partial class ImageListView : Control
     {
         
+        
 
         public void StoppBackgroundThreads()
         {
@@ -582,10 +583,8 @@ namespace Manina.Windows.Forms
 
             disposed = false;
 
-            //timer.Tick -= new EventHandler(delayRefreshTimer_Tick); // Remove old event handling
-            //timer.Tick += new EventHandler(delayRefreshTimer_Tick); // Every Time timer ticks, timer_Tick will be called
-            timer.Elapsed += delayRefreshTimer_Tick;
-            timer.Interval = 100;                                   // Timer will tick every second
+            timerDelayRefresh.Elapsed += delayRefreshTimer_Tick;
+            timerDelayRefresh.Interval = 100;
         }
 
         
@@ -911,9 +910,9 @@ namespace Manina.Windows.Forms
         #endregion
 
         #region Event Handlers
-        private System.Timers.Timer timer = new System.Timers.Timer();
-        private bool isTimerStarted = false;
-        private DateTime startTime = DateTime.Now;
+        private System.Timers.Timer timerDelayRefresh = new System.Timers.Timer();
+        private bool isTimerDelayRefreshStarted = false;
+        private DateTime startTimeDelayRefresh = DateTime.Now;
 
         private void delayRefreshTimer_Tick(object sender, System.Timers.ElapsedEventArgs e)
         {        
@@ -925,10 +924,10 @@ namespace Manina.Windows.Forms
 
             try
             {
-                if (((TimeSpan)(DateTime.Now - startTime)).TotalMilliseconds > 200)
+                if (((TimeSpan)(DateTime.Now - startTimeDelayRefresh)).TotalMilliseconds > 200)
                 {
-                    timer.Stop();
-                    isTimerStarted = false;
+                    timerDelayRefresh.Stop();
+                    isTimerDelayRefreshStarted = false;
                     base.Refresh();
                 }
             } catch
@@ -938,27 +937,27 @@ namespace Manina.Windows.Forms
         }
         public override void Refresh()
         {            
-            if (!isTimerStarted)
+            if (!isTimerDelayRefreshStarted)
             {
-                startTime = DateTime.Now;
-                isTimerStarted = true;
+                startTimeDelayRefresh = DateTime.Now;
+                isTimerDelayRefreshStarted = true;
                 
-                timer.Enabled = true;                                   // Enable the timer
-                timer.Start();
+                timerDelayRefresh.Enabled = true;                                   // Enable the timer
+                timerDelayRefresh.Start();
             } else
             {
-                if (((TimeSpan)(DateTime.Now - startTime)).TotalMilliseconds < 0) startTime = DateTime.Now;
+                if (((TimeSpan)(DateTime.Now - startTimeDelayRefresh)).TotalMilliseconds < 0) startTimeDelayRefresh = DateTime.Now;
             }
         }
 
         public void RefreshDelay()
         {
-            if (!isTimerStarted)
+            if (!isTimerDelayRefreshStarted)
             {
-                startTime = DateTime.Now.AddMilliseconds(1500);
-                isTimerStarted = true;
-                timer.Enabled = true;                                   // Enable the timer
-                timer.Start();
+                startTimeDelayRefresh = DateTime.Now.AddMilliseconds(1500);
+                isTimerDelayRefreshStarted = true;
+                timerDelayRefresh.Enabled = true;                                   // Enable the timer
+                timerDelayRefresh.Start();
             }
         }
 

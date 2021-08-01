@@ -162,7 +162,6 @@ UpdateColorControls(subC);
             InitializeComponent();
             #endregion
 
-            
             #region Initialize VLC player
             SplashForm.UpdateStatus("Staring VLC player...");
             
@@ -723,8 +722,10 @@ UpdateColorControls(subC);
             {
                 MessageBox.Show(ex.Message);
             }
-            #endregion 
-            
+            #endregion
+
+            InitializeDataGridViewHandler();
+
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
