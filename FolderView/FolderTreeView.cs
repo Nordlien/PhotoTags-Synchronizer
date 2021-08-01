@@ -427,8 +427,7 @@ namespace Furty.Windows.Forms
 		{
 			try
 			{
-                if (tn.Tag is string) 
-                    return "";
+                if (tn == null || tn.Tag is string) return "";
 				Shell32.FolderItem folderItem = (Shell32.FolderItem)tn.Tag;
 				string folderPath = folderItem.Path;
 
