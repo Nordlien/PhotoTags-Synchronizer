@@ -560,12 +560,18 @@ namespace PhotoTagsSynchronizer
                     {
                         try
                         {
-                            string tempFile = keyValuePair.Key + "_exiftool_tmp";
+                            string tempFile = keyValuePair.Key + "_exiftool_tmp";                            
                             if (File.Exists(tempFile))
                             {
-                                long tempFileSize = new FileInfo(tempFile).Length;
-                                if (keyValuePair.Value != tempFileSize) UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
-                                fileSaveSizeWatcher[keyValuePair.Key] = tempFileSize;
+                                long tempFileSize = 0;
+                                try
+                                {
+                                    tempFileSize = new FileInfo(tempFile).Length; //In case file already gone
+                                    if (keyValuePair.Value != tempFileSize) UpdateStatusAction("Exiftool written " + tempFileSize + " bytes on " + Path.GetFileName(keyValuePair.Key));
+                                    fileSaveSizeWatcher[keyValuePair.Key] = tempFileSize;
+                                }
+                                catch { }
+                                
                                 break;
                             }
                         } catch { }
