@@ -1028,15 +1028,12 @@ namespace PhotoTagsSynchronizer
                                                     AddQueueSaveThumbnailMediaLock(new FileEntryImage(metadataError.FileEntryBroker, null));
                                                     PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataError.FileFullPath, (DateTime)metadataError.FileDateModified, FileEntryVersion.Error));
                                                 }
-                                                else
-                                                {
-                                                    AddQueueCreateRegionFromPosterLock(metadataRead);
 
-                                                    ImageListViewSetItemDirty(metadataRead.FileFullPath);
-                                                    PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Current));
-                                                    PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Historical));
-                                                    //RefreshHeaderImageAndRegionsOnActiveDataGridView(fileEntryAttribute);
-                                                }
+                                                //Data was read, (even with errors), need to updated datagrid
+                                                AddQueueCreateRegionFromPosterLock(metadataRead);
+                                                ImageListViewSetItemDirty(metadataRead.FileFullPath);
+                                                PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Current));
+                                                PopulateDataGridViewForFileEntryAttributeInvoke(new FileEntryAttribute(metadataRead.FileFullPath, (DateTime)metadataRead.FileDateModified, FileEntryVersion.Historical));
                                             }
                                         }
 
