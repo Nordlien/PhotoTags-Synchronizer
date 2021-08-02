@@ -384,13 +384,13 @@ namespace PhotoTagsSynchronizer
             try
             {
                 bool isThreadRunning;
-                int retry = 20;
+                int retry = 200;
                 do
                 {
                     lock (_ThreadCacheSelectedFastReadLock) isThreadRunning = (_ThreadCacheSelectedFastRead != null);
                     if (isThreadRunning)
                     {
-                        Task.Delay(100).Wait(); //Wait thread stopping
+                        Task.Delay(10).Wait(); //Wait thread stopping
                         Logger.Debug("CacheFileEntries - sleep(100) - ThreadRunning is running");
                     }
                 } while (isThreadRunning && retry-- > 0);
