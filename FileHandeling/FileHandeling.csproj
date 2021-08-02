@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FastDirectoryEnumerator.cs" />
     <Compile Include="FileHandler.cs" />
     <Compile Include="FormWaitLockedFile.cs">
       <SubType>Form</SubType>
