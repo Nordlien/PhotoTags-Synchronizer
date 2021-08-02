@@ -116,5 +116,11 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileHandeling\FileHandeling.csproj">
+      <Project>{42b86c05-95b0-4277-9a77-a830504dc624}</Project>
+      <Name>FileHandeling</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

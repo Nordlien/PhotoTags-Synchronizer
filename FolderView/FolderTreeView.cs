@@ -38,6 +38,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 using System.Threading;
+using FileHandeling;
 
 namespace Furty.Windows.Forms
 {
@@ -538,11 +539,12 @@ namespace Furty.Windows.Forms
 			{
 				try
 				{
+                    /*
 					// create dummy nodes for any subfolders that have further subfolders
 					Shell32.FolderItem folderItem = (Shell32.FolderItem)tn.Tag;
 					Shell32.Folder folder = (Shell32.Folder)folderItem.GetFolder;
-
-					bool hasFolders = false;
+                    
+                    bool hasFolders = false;
 					foreach(Shell32.FolderItem item in folder.Items())
 					{
 						if(item.IsFileSystem && item.IsFolder && !item.IsBrowsable)
@@ -551,7 +553,26 @@ namespace Furty.Windows.Forms
 							break;
 						}
 					}
-					if(hasFolders)
+                    */
+
+                    bool hasFolders = false;
+                    string directory = GetFileDirectory(tn);
+                    if (!string.IsNullOrWhiteSpace(directory))
+                    {
+                        foreach (FileData f in FastDirectoryEnumerator.EnumerateFiles(directory, "*", SearchOption.TopDirectoryOnly))
+                        {
+                            if ((f.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
+                            {
+                                if (f.Name != "." && f.Name != "..")
+                                {
+                                    hasFolders = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (hasFolders)
 					{
 						TreeNode ntn = new TreeNode();
 						ntn.Tag = FolderTreeView.DummyNodeTag;

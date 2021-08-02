@@ -20,27 +20,41 @@ namespace PhotoTagsSynchronizer
         {
             using (new WaitCursor())
             {
-                UpdateStatusAction("Adding files to image list: " + fileEntries.Count);
+                
 
                 GlobalData.IsPopulatingFolderSelected = true; //Don't start twice
                 GlobalData.SearchFolder = true;
                 folderTreeViewFolder.Enabled = false;
 
+                UpdateStatusAction("Clear all old queues");
                 ClearAllQueues();
 
+                UpdateStatusAction("Init cache process");
                 if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFileEntries(fileEntries, selectedFolder);
-                if (runPopulateFilter) FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
+                
+                
+                if (runPopulateFilter)
+                {
+                    UpdateStatusAction("ClearTreeViewNodes");
+                    FilterVerifyer.ClearTreeViewNodes(treeViewFilter);
+                }
 
+                UpdateStatusAction("Adding files to image list: " + fileEntries.Count);
                 ImageListViewAggregateWithMediaFiles(fileEntries);
                 
                 folderTreeViewFolder.Enabled = true;
 
-                if (runPopulateFilter) PopulateTreeViewFolderFilterThread(fileEntries);
-
+                if (runPopulateFilter)
+                {
+                    UpdateStatusAction("Populate Filters");
+                    PopulateTreeViewFolderFilterThread(fileEntries);
+                }
                 GlobalData.IsPopulatingFolderSelected = false;
             }
 
+            UpdateStatusAction("Populate DataGridView: " + fileEntries.Count);
             FilesSelected(); //Even when 0 selected files, allocate data and flags, etc...
+            UpdateStatusAction("Done added files to imagelistview: " + fileEntries.Count);
             folderTreeViewFolder.Focus();
         }
         #endregion 
@@ -48,6 +62,8 @@ namespace PhotoTagsSynchronizer
         #region FolderSelected - Populate DataGridView, ImageListView 
         private void PopulateImageListView_FromFolderSelected(bool recursive, bool runPopulateFilter)
         {
+            //Stopwatch stopwatch = new Stopwatch();
+            //Logger.Debug("PopulateImageListView_FromFolderSelected 0" )
             #region Read folder files
             if (GlobalData.IsPopulatingFolderSelected) //If in progress, then stop and reselect new
             {
@@ -59,17 +75,10 @@ namespace PhotoTagsSynchronizer
 
             string selectedFolder = this.folderTreeViewFolder.GetSelectedNodePath();
             Properties.Settings.Default.LastFolder = selectedFolder;
-            try
-            {
-                Properties.Settings.Default.Save();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Can't save settings");
-            }
-
+            
             UpdateStatusAction("Read files in folder: " + selectedFolder);
             HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
+            UpdateStatusAction("Checking files in folder: " + selectedFolder);
             if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, false))
             {
                 switch (MessageBox.Show("OneDrive duplicated files found.\r\n" +
