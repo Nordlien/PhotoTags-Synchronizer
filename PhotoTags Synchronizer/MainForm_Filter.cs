@@ -534,7 +534,7 @@ namespace PhotoTagsSynchronizer
         #region PopulateTreeViewFolderFilter - Thread
         private bool IsPopulateTreeViewFolderFilterThreadRunning { get; set; }
         Thread threadPopulateFilter = null;
-        private void PopulateTreeViewFolderFilterThread(List<FileEntry> imageListViewFileEntryItems)
+        private void PopulateTreeViewFolderFilterThread(HashSet<FileEntry> imageListViewFileEntryItems)
         {
             if (imageListViewFileEntryItems == null) return;
             GlobalData.IsImageListViewForEachInProgressRequestStop = true;
@@ -704,11 +704,11 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region PopulateTreeViewFolderFilterInvoke     
-        private void PopulateTreeViewFolderFilterInvoke(List<FileEntry> imageListViewFileEntryItems)
+        private void PopulateTreeViewFolderFilterInvoke(HashSet<FileEntry> imageListViewFileEntryItems)
         {
             if (InvokeRequired)
             {
-                this.BeginInvoke(new Action<List<FileEntry>>(PopulateTreeViewFolderFilterInvoke), imageListViewFileEntryItems);
+                this.BeginInvoke(new Action<HashSet<FileEntry>>(PopulateTreeViewFolderFilterInvoke), imageListViewFileEntryItems);
                 return;
             }
 

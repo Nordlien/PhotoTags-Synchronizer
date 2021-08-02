@@ -1841,7 +1841,7 @@ namespace PhotoTagsSynchronizer
                         UpdateStatusAction(recordAffected + " records was delete from database....");
 
                         string selectedFolder = this.folderTreeViewFolder.GetSelectedNodePath();
-                        List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, false);
+                        HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, false);
                         PopulateImageListView(fileEntries, selectedFolder, false);
                     }
                 }
@@ -2387,7 +2387,7 @@ namespace PhotoTagsSynchronizer
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
-                    PopulateImageListView_FromFolderSelected(false, true);
+                    if (((Furty.Windows.Forms.FolderTreeView)sender).SelectedNode == e.Node) PopulateImageListView_FromFolderSelected(false, true);
                 }
             }
             catch (Exception ex)

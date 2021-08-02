@@ -127,7 +127,7 @@ namespace MetadataLibrary
         #endregion
 
         #region ReadToCacheWebScraperDataSet
-        public void ReadToCacheWebScraperDataSet(List<FileEntry> filesFoundInDirectory)
+        public void ReadToCacheWebScraperDataSet(HashSet<FileEntry> filesFoundInDirectory)
         {
             DateTime? dataSetDateTime = GetWebScraperLastPackageDate();
             if (dataSetDateTime != null)
@@ -144,6 +144,19 @@ namespace MetadataLibrary
 
         #region ReadToCache - List<FileEntry>, MetadataBrokerType
         public void ReadToCache(List<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
+        {
+            List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
+            foreach (FileEntry fileEntry in filesFoundInDirectory)
+            {
+                if (StopCaching) { StopCaching = false; return; }
+                fileEntryBrokers.Add(new FileEntryBroker(fileEntry, metadataBrokerType));
+            }
+            ReadToCache(fileEntryBrokers);
+        }
+        #endregion
+
+        #region ReadToCache - List<FileEntry>, MetadataBrokerType
+        public void ReadToCache(HashSet<FileEntry> filesFoundInDirectory, MetadataBrokerType metadataBrokerType)
         {
             List<FileEntryBroker> fileEntryBrokers = new List<FileEntryBroker>();
             foreach (FileEntry fileEntry in filesFoundInDirectory)
@@ -1703,7 +1716,7 @@ namespace MetadataLibrary
         /// <param name="checkIfHasExifWarning">When true, check if has warning</param>
         /// <param name="maxRowsInResult">Maximum rows in result set</param>
         /// <returns></returns>
-        public List<FileEntry> ListAllSearch(MetadataBrokerType broker, bool useAndBetweenGrups,
+        public HashSet<FileEntry> ListAllSearch(MetadataBrokerType broker, bool useAndBetweenGrups,
             bool useMediaTakenFrom, DateTime mediaTakenFrom, bool useMediaTakenTo, DateTime mediaTakenTo, bool isMediaTakenNull,
             bool useAndBetweenTextTags,
             bool usePersonalAlbum, string personalAlbum,
@@ -1721,7 +1734,7 @@ namespace MetadataLibrary
             )
         {
 
-            List<FileEntry> listing = new List<FileEntry>();
+            HashSet<FileEntry> listing = new HashSet<FileEntry>();
 
             string sqlCommandBasicSelect = "SELECT DISTINCT MediaMetadata.Broker, MediaMetadata.FileDirectory, MediaMetadata.FileName, MediaMetadata.FileDateModified FROM MediaMetadata ";
 

@@ -9,7 +9,7 @@ namespace PhotoTagsSynchronizer
         public static readonly object populateSelectedLock = new object(); //Avoid gridview to update while updateing
         public static readonly object metadataUpdateLock = new object();
 
-        public static List<FileEntry> SerachFilterResult { get; set; }
+        public static HashSet<FileEntry> SerachFilterResult { get; set; }
         public static List<FileEntry> ReloadAllowedFromCloud { get; set; } = new List<FileEntry>();
         public static readonly object ReloadAllowedFromCloudLock = new object();
 

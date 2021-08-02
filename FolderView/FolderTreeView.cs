@@ -766,8 +766,7 @@ namespace Furty.Windows.Forms
 		{
 			IntPtr[] handlesIconLarge = new IntPtr[1];
 			IntPtr[] handlesIconSmall = new IntPtr[1];
-			uint i = ExtractIconEx(Environment.SystemDirectory + "\\shell32.dll", 34, 
-				handlesIconLarge, handlesIconSmall, 1);
+			uint i = ExtractIconEx(Environment.SystemDirectory + "\\shell32.dll", 34, handlesIconLarge, handlesIconSmall, 1);
 
 			//Retrn bitmap instead of Icon as workaround for black background
 			Bitmap bitmap = Icon.FromHandle(handlesIconSmall[0]).ToBitmap();

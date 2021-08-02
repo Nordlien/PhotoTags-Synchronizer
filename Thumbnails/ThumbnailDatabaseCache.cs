@@ -62,7 +62,7 @@ namespace Thumbnails
         #region Thumbnail - Read 
         public Image Read(FileEntry fileEntry)
         {
-            List<FileEntry> fileEntriesPutInCache = new List<FileEntry>();
+            HashSet<FileEntry> fileEntriesPutInCache = new HashSet<FileEntry>();
             fileEntriesPutInCache.Add(fileEntry);
             ReadToCache(fileEntriesPutInCache);
             return ReadThumbnailFromCacheOnlyClone(fileEntry);
@@ -71,7 +71,7 @@ namespace Thumbnails
         #endregion
 
         #region ReadToCache(List<FileEntry> fileEntries)
-        public void ReadToCache(List<FileEntry> fileEntries)
+        public void ReadToCache(HashSet<FileEntry> fileEntries)
         {        
             List<FileEntry> fileEntriesPutInCache = new List<FileEntry>();
             foreach (FileEntry fileEntryToCheckInCache in fileEntries)
@@ -211,7 +211,7 @@ namespace Thumbnails
                     }
                 }
 
-                fileEntries.Sort();
+                //fileEntries.Sort();
             }
             return fileEntries;
         }

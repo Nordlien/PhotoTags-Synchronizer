@@ -527,7 +527,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ImageListView - Aggregate - FromSearchFilter
-        private void ImageListViewAggregateWithMediaFiles(List<FileEntry> fileEntries)
+        private void ImageListViewAggregateWithMediaFiles(HashSet<FileEntry> fileEntries)
         {
             //if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFolder(selectedFolder, filesFoundInDirectory, recursive);
             if (Properties.Settings.Default.ImageViewLoadThumbnailOnDemandMode) imageListView1.CacheMode = CacheMode.OnDemand;

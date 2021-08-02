@@ -644,20 +644,15 @@ namespace ImageAndMovieFileExtentions
             return allFiles;
         }
 
-        public static FileInfo[] ListAllMediaFiles(string directory, bool recursive)
-        {
-            return GetFilesByExtensions(directory, GetAllMediaExtentions(), recursive);
-        }
-
-        public static List<FileEntry> ListAllMediaFileEntries(string directory, bool recursive)
+        public static HashSet<FileEntry> ListAllMediaFileEntries(string directory, bool recursive)
         {
             FileInfo[] filesFoundInDirectory = GetFilesByExtensions(directory, GetAllMediaExtentions(), recursive);
             Array.Sort(filesFoundInDirectory, delegate (FileInfo fileInfo1, FileInfo fileInfo2) 
             {
-                return fileInfo2.CreationTimeUtc.CompareTo(fileInfo1.CreationTimeUtc);
+                return fileInfo2.CreationTime.CompareTo(fileInfo1.CreationTime);
             });
 
-            List<FileEntry> fileEntries = new List<FileEntry>();
+            HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
             foreach (FileInfo fileInfo in filesFoundInDirectory) fileEntries.Add(new FileEntry(fileInfo.DirectoryName, fileInfo.Name, fileInfo.LastWriteTime));
             return fileEntries;
         }

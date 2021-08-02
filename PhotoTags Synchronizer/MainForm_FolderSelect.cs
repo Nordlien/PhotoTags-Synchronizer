@@ -16,7 +16,7 @@ namespace PhotoTagsSynchronizer
         #region FolderSelected or FilterSearch clicked
 
         #region PopulateImageListView
-        private void PopulateImageListView(List<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
+        private void PopulateImageListView(HashSet<FileEntry> fileEntries, string selectedFolder, bool runPopulateFilter = true)
         {
             using (new WaitCursor())
             {
@@ -69,7 +69,26 @@ namespace PhotoTagsSynchronizer
             }
 
             UpdateStatusAction("Read files in folder: " + selectedFolder);
-            List<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
+            HashSet<FileEntry> fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
+            if (FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, false))
+            {
+                switch (MessageBox.Show("OneDrive duplicated files found.\r\n" +
+                    "\r\n"+
+                    "Will you replace older files with newest files\r\n" +
+                    "Yes - keep the newest files\r\n" +
+                    "No - delete OneDrive marked files regardless who is newest\r\n" + 
+                    "Cancel - Cancel the operation, Leave the files intact", "OneDrive duplicated files found.", MessageBoxButtons.YesNoCancel))
+                {
+                    case DialogResult.Yes:
+                        FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, true, true);
+                        fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
+                        break;
+                    case DialogResult.No:
+                        FileHandeling.FileHandler.FixOneDriveIssues(fileEntries, this, true, false);
+                        fileEntries = ImageAndMovieFileExtentionsUtility.ListAllMediaFileEntries(selectedFolder, recursive);
+                        break;
+                }
+            }
             #endregion
 
             PopulateImageListView(fileEntries, selectedFolder, runPopulateFilter);
@@ -77,7 +96,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region FolderSearchFilter - Populate DataGridView, ImageListView 
-        private void PopulateImageListView_FromSearchTab(List<FileEntry> searchFilterResult, bool runPopulateFilter = true)
+        private void PopulateImageListView_FromSearchTab(HashSet<FileEntry> searchFilterResult, bool runPopulateFilter = true)
         {
             if (GlobalData.IsPopulatingAnything()) return;
 

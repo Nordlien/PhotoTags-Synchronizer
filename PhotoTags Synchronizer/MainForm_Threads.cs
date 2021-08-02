@@ -379,7 +379,7 @@ namespace PhotoTagsSynchronizer
         /// Faster read of metadata and put into the cache
         /// </summary>
         /// <param name="fileEntries">List of FileEntires to put in cache</param>
-        public void CacheFileEntries(List<FileEntry> fileEntries, string selectedFolder)
+        public void CacheFileEntries(HashSet<FileEntry> fileEntries, string selectedFolder)
         {            
             try
             {
@@ -902,6 +902,7 @@ namespace PhotoTagsSynchronizer
                                     mediaFilesNotInDatabaseCheckInCloudCopy = new List<FileEntry>(commonQueueReadMetadataFromExiftool);
                                     rangeToRemove = mediaFilesNotInDatabaseCheckInCloudCopy.Count;
                                 }
+
                                 //Avoid look for long time
                                 mediaFilesNotInDatabaseCheckInCloud.AddRange(
                                     databaseAndCacheMetadataExiftool.ListAllMissingFileEntries(MetadataBrokerType.ExifTool, mediaFilesNotInDatabaseCheckInCloudCopy.GetRange(0, rangeToRemove)));

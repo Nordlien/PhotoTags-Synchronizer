@@ -10,6 +10,8 @@ using System.Windows.Forms;
 
 namespace FileHandeling
 {
+
+
     #region LockFinder
     public class LockFinder
     {
@@ -458,7 +460,6 @@ namespace FileHandeling
         }
         #endregion
 
-        
         #region GetLocalApplicationDataPath
         public static string GetLocalApplicationDataPath(string tempfilename, bool deleteOldTempFile)
         {
@@ -468,6 +469,216 @@ namespace FileHandeling
             string exiftoolArgFileFullPath = Path.Combine(exiftoolArgFileDirecory, tempfilename);
             if (deleteOldTempFile && File.Exists(exiftoolArgFileFullPath)) File.Delete(exiftoolArgFileFullPath);
             return exiftoolArgFileFullPath;
+        }
+        #endregion
+
+        #region FixOneDriveIssues 
+        public static bool FixOneDriveIssues(HashSet<FileEntry> fileEntries, Form form, bool fixError = false, bool letNewstFileWin = true)
+        {
+            string machineName = "-" + Environment.MachineName;
+            int machineNameLength = machineName.Length;
+
+            foreach (FileEntry fileEntryMaybeHasMachineName in fileEntries)
+            {
+                bool machineNameFound = false;
+
+                int indexOfMachineName = fileEntryMaybeHasMachineName.FileFullPath.IndexOf(machineName, StringComparison.OrdinalIgnoreCase);
+                if (indexOfMachineName >= 0)
+                {
+                    //2021-07-22 10-31-11 IMG_-NUC5-2
+                    //------------------------12345
+                    //-NUC5-1 = Length 5
+                    //0
+                    //a-NUC5-1 = Length 5
+                    // 1
+
+                    int charsBehindMachineName = fileEntryMaybeHasMachineName.FileFullPath.Length - indexOfMachineName + machineNameLength;
+
+                    
+                    switch (charsBehindMachineName) //Validate position and extras chars behind machinename
+                    {
+                        case 0: //Ok
+                            machineNameFound = true;
+                            break;
+                        case 1: //
+                            machineNameFound = false;
+                            break;
+                        case 2: //Somthing more behine -MachineName-x
+                            if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
+                            char.IsDigit(fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength + 1])) machineNameFound = true; //numberExtraCharBehind = 2;
+                            break;
+                        case 3: //Somthing more behine -MachineName-xx
+                            if (fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength] == '-' &&
+                            char.IsDigit(fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength + 1]) &&
+                            char.IsDigit(fileEntryMaybeHasMachineName.FileFullPath[indexOfMachineName + machineNameLength + 2])) machineNameFound = true; //numberExtraCharBehind = 3;
+                            break;
+                        default: //not ok
+                            machineNameFound = false;
+                            break;
+                    }
+
+                    if (machineNameFound && !fixError) return true;
+                    string pathWithoutMachineName = fileEntryMaybeHasMachineName.FileFullPath.Substring(0, indexOfMachineName);
+                    FileEntry fileEntryWithoutMachineName = new FileEntry(fileEntryMaybeHasMachineName.FileFullPath, fileEntryMaybeHasMachineName.LastWriteDateTime);
+
+                    if (fileEntries.Contains(fileEntryWithoutMachineName))
+                    {
+                        if (letNewstFileWin)
+                        {
+                            try
+                            {
+                                DateTime dateTimeWithoutMachineName = fileEntryWithoutMachineName.LastWriteDateTime;
+                                DateTime dateTimeHasMachineName = fileEntryMaybeHasMachineName.LastWriteDateTime;
+
+
+                                WaitLockedFileToBecomeUnlocked(fileEntryMaybeHasMachineName.FileFullPath, true, form);
+                                if (dateTimeHasMachineName > dateTimeWithoutMachineName)
+                                {
+                                    try
+                                    {
+                                        WaitLockedFileToBecomeUnlocked(fileEntryWithoutMachineName.FileFullPath, true, form);
+                                        File.Delete(fileEntryWithoutMachineName.FileFullPath);
+                                        File.Move(fileEntryMaybeHasMachineName.FileFullPath, fileEntryWithoutMachineName.FileFullPath);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.Error(ex);
+                                        MessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n with\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove dubpliacted file.");
+                                    }
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        File.Delete(fileEntryMaybeHasMachineName.FileFullPath);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.Error(ex);
+                                        MessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove dubpliacted file.");
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex);
+                                MessageBox.Show(ex.Message + "\r\n" + fileEntryWithoutMachineName.FileFullPath + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove the oldest of dubpliacted file.");
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                WaitLockedFileToBecomeUnlocked(fileEntryMaybeHasMachineName.FileFullPath, true, form);
+                                File.Delete(fileEntryMaybeHasMachineName.FileFullPath);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex);
+                                MessageBox.Show(ex.Message + "\r\n" + fileEntryMaybeHasMachineName.FileFullPath, "Was not able to remove dubpliacted file.");
+                            }
+                        }
+                    }
+                }
+                
+            }
+
+            return false;
+            //Environment.MachineName
+            /*
+            for (int outerIndex = 0; outerIndex < fileEntries.Count; outerIndex++)
+            {
+                for (int indexInner = 0; indexInner < fileEntries.Count; indexInner++)
+                {
+                    if (outerIndex == indexInner) continue;
+
+                    //string nameOuterWithoutMachineName = fileEntries[outerIndex].FileName;
+                    string outerPathMaybeWithMachineName = fileEntries[outerIndex].FileFullPath;
+
+                    string innerDirectory = fileEntries[indexInner].Directory;
+                    string innerNameWithoutExtension = Path.GetFileNameWithoutExtension(fileEntries[indexInner].FileFullPath);
+                    string innerExtension = Path.GetExtension(fileEntries[indexInner].FileFullPath);
+
+                    string innerPathAddedMachineName = Path.Combine(innerDirectory, innerNameWithoutExtension + "-" + Environment.MachineName + innerExtension);
+                    string innerPathWithoutMachineName = fileEntries[indexInner].FileFullPath;
+
+
+                    //2021-07-22 10-31-11 IMG_-MachineName-2
+
+                    int foundDuplicateAt = -1;
+                    if (string.Equals(outerPathMaybeWithMachineName, innerPathAddedMachineName, StringComparison.InvariantCultureIgnoreCase)) foundDuplicateAt = 0;
+                    if (foundDuplicateAt == -1)
+                    {
+                        for (int i = 2; i < 20; i++)
+                        {
+                            innerPathAddedMachineName = Path.Combine(innerDirectory, innerNameWithoutExtension + "-" + Environment.MachineName + "-" + i.ToString() + innerExtension);
+                            if (string.Equals(outerPathMaybeWithMachineName, innerPathAddedMachineName, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                foundDuplicateAt = i - 1;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!fixError && foundDuplicateAt != -1) return true; 
+                    if (foundDuplicateAt != -1)
+                    {
+                        if (letNewstFileWin)
+                        {
+                            try
+                            {
+                                DateTime dateTimeInnerWithoutMachineName = File.GetLastWriteTime(innerPathWithoutMachineName);
+                                DateTime dateTimeOuterHasMachineName = File.GetLastWriteTime(outerPathMaybeWithMachineName);   
+                                
+                                
+                                WaitLockedFileToBecomeUnlocked(outerPathMaybeWithMachineName, true, form);
+                                if (dateTimeOuterHasMachineName > dateTimeInnerWithoutMachineName)
+                                {
+                                    try
+                                    {
+                                        WaitLockedFileToBecomeUnlocked(innerPathWithoutMachineName, true, form);
+                                        File.Delete(innerPathWithoutMachineName);
+                                        File.Move(outerPathMaybeWithMachineName, innerPathWithoutMachineName);
+                                    } catch (Exception ex)
+                                    {
+                                        Logger.Error(ex);
+                                        MessageBox.Show(ex.Message + "\r\nWas trying to replace\r\n" + innerPathAddedMachineName + "\r\n with\r\n" + outerPathMaybeWithMachineName, "Was not able to remove dubpliacted file.");
+                                    }
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        File.Delete(outerPathMaybeWithMachineName);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.Error(ex);
+                                        MessageBox.Show(ex.Message + "\r\n" + innerPathAddedMachineName, "Was not able to remove dubpliacted file.");
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex);
+                                MessageBox.Show(ex.Message + "\r\n" + innerPathAddedMachineName + "\r\n" + outerPathMaybeWithMachineName, "Was not able to remove the oldest of dubpliacted file.");
+                            }
+                        } else
+                        {
+                            try
+                            {
+                                WaitLockedFileToBecomeUnlocked(outerPathMaybeWithMachineName, true, form);
+                                File.Delete(outerPathMaybeWithMachineName);
+                            } catch (Exception ex)
+                            {
+                                Logger.Error(ex);
+                                MessageBox.Show(ex.Message + "\r\n" + outerPathMaybeWithMachineName, "Was not able to remove dubpliacted file." );
+                            }
+                        }
+                    }
+                }
+            }
+            return false;*/
         }
         #endregion 
     }

@@ -110,7 +110,7 @@ namespace PhotoTagsSynchronizer
             fileEntryBrokers = databaseAndCacheMetadataWindowsLivePhotoGallery.ListFileEntryBrokerDateVersions(MetadataBrokerType.WindowsLivePhotoGallery, fullFilePath);
             databaseAndCacheMetadataWindowsLivePhotoGallery.MetadataCacheRemove(fileEntryBrokers);
             databaseAndCacheMetadataWindowsLivePhotoGallery.DeleteFileEntries(fileEntryBrokers);
-            
+
             List<FileEntryAttribute> fileEntryAttributes;
             List<FileEntry> fileEntrys = new List<FileEntry>();
 
@@ -123,7 +123,7 @@ namespace PhotoTagsSynchronizer
             fileEntrys.Clear();
             foreach (FileEntryAttribute fileEntryAttribute in fileEntryAttributes) fileEntrys.Add(fileEntryAttribute);
             databaseExiftoolWarning.DeleteFileEntriesFromMediaExiftoolTagsWarning(fileEntrys);
-            
+
             List<FileEntry> fileEntries = databaseAndCacheThumbnail.ListFileEntryDateVersions(fullFilePath);
             databaseAndCacheThumbnail.DeleteThumbnails(fileEntries);
             
