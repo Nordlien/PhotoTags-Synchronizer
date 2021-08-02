@@ -88,6 +88,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FileHandeling\FileHandeling.csproj">
+      <Project>{42b86c05-95b0-4277-9a77-a830504dc624}</Project>
+      <Name>FileHandeling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImageListView\ImageListView.csproj">
       <Project>{0c295fb8-c6c6-4a40-9f19-05a43f353a04}</Project>
       <Name>ImageListView</Name>
