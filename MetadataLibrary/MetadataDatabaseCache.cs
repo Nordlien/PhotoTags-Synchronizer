@@ -175,7 +175,11 @@ namespace MetadataLibrary
             List<FileEntryBroker> fileEntryBrokersToPutInCache = new List<FileEntryBroker>();
             foreach (FileEntryBroker fileEntryBrokerToCheckInCache in fileEntriesBroker)
             {
-                if (StopCaching) { StopCaching = false; return; }
+                if (StopCaching) 
+                { 
+                    StopCaching = false; 
+                    return; 
+                }
                 if (!IsMetadataInCache(fileEntryBrokerToCheckInCache)) fileEntryBrokersToPutInCache.Add(fileEntryBrokerToCheckInCache);
             }
 
@@ -533,10 +537,16 @@ namespace MetadataLibrary
                 {
                     while (reader.Read())
                     {
-                        if (StopCaching) { 
+                        if (StopCaching) {
+                            try
+                            {
+                                if (readDataIntoCache && readToCacheParamtersCached.Contains(readToCacheParamters)) readToCacheParamtersCached.Remove(readToCacheParamters);
+                            }
+                            catch { }
                             readRecordEventArgs.Aborted = true;
                             if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs); 
-                            StopCaching = false; return; 
+                            StopCaching = false; 
+                            return; 
                         }
                         readRecordEventArgs.MetadataCount++;
                         if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
@@ -602,9 +612,15 @@ namespace MetadataLibrary
                     {
                         if (StopCaching)
                         {
+                            try
+                            {
+                                if (readDataIntoCache && readToCacheParamtersCached.Contains(readToCacheParamters)) readToCacheParamtersCached.Remove(readToCacheParamters);
+                            }
+                            catch { }
                             readRecordEventArgs.Aborted = true;
                             if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
-                            StopCaching = false; return;
+                            StopCaching = false; 
+                            return;
                         }
                         readRecordEventArgs.KeywordCount++;
                         if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
@@ -654,9 +670,15 @@ namespace MetadataLibrary
                     {
                         if (StopCaching)
                         {
+                            try
+                            {
+                                if (readDataIntoCache && readToCacheParamtersCached.Contains(readToCacheParamters)) readToCacheParamtersCached.Remove(readToCacheParamters);
+                            }
+                            catch { }
                             readRecordEventArgs.Aborted = true;
                             if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);
-                            StopCaching = false; return;
+                            StopCaching = false; 
+                            return;
                         }
                         readRecordEventArgs.RegionCount++;
                         if (OnRecordReadToCacheParameter != null) OnRecordReadToCacheParameter(this, readRecordEventArgs);

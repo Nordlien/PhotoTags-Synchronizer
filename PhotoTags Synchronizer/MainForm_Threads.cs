@@ -390,12 +390,15 @@ namespace PhotoTagsSynchronizer
                     lock (_ThreadCacheSelectedFastReadLock) isThreadRunning = (_ThreadCacheSelectedFastRead != null);
                     if (isThreadRunning)
                     {
+                        MetadataDatabaseCache.StopCaching = true;
+                        ThumbnailDatabaseCache.StopCaching = true;
                         Task.Delay(10).Wait(); //Wait thread stopping
                         Logger.Debug("CacheFileEntries - sleep(100) - ThreadRunning is running");
                     }
                 } while (isThreadRunning && retry-- > 0);
 
                 lock (_ThreadCacheSelectedFastReadLock) isThreadRunning = (_ThreadCacheSelectedFastRead != null);
+
                 if (isThreadRunning) return; //Still running, give up
 
                 lock (_ThreadCacheSelectedFastReadLock)
@@ -435,14 +438,15 @@ namespace PhotoTagsSynchronizer
                         }
                         #endregion
                     });
-
-                    lock (_ThreadCacheSelectedFastReadLock) if (_ThreadCacheSelectedFastRead != null)
-                    {
-                        _ThreadCacheSelectedFastRead.Start();
-                        _ThreadCacheSelectedFastRead.Priority = threadPriority;
-                    }
-                    else Logger.Error("_ThreadCacheSelectedFastRead was not able to start");
                 }
+
+                lock (_ThreadCacheSelectedFastReadLock) if (_ThreadCacheSelectedFastRead != null)
+                {
+                    _ThreadCacheSelectedFastRead.Start();
+                    _ThreadCacheSelectedFastRead.Priority = threadPriority;
+                }
+                else Logger.Error("_ThreadCacheSelectedFastRead was not able to start");
+                
 
             }
             catch
