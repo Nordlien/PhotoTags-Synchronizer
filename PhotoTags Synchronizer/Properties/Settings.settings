@@ -1147,5 +1147,8 @@ Dimensions</Value>
     <Setting Name="ApplicationDebugBackgroundThreadPrioity" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="WriteMetadataAddAutoKeywords" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -2256,5 +2256,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ApplicationDebugBackgroundThreadPrioity"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WriteMetadataAddAutoKeywords {
+            get {
+                return ((bool)(this["WriteMetadataAddAutoKeywords"]));
+            }
+            set {
+                this["WriteMetadataAddAutoKeywords"] = value;
+            }
+        }
     }
 }

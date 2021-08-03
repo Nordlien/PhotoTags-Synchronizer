@@ -409,6 +409,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.XtraAtomRatingPicture = checkBoxWriteXtraAtomRatingPicture.Checked;
                 Properties.Settings.Default.XtraAtomRatingVideo = checkBoxWriteXtraAtomRatingVideo.Checked;
                 Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute = checkBoxWriteFileAttributeCreatedDate.Checked;
+                Properties.Settings.Default.WriteMetadataAddAutoKeywords = checkBoxWriteMetadataAddAutoKeywords.Checked;
                 Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted = (int)numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted.Value;
                 Properties.Settings.Default.XtraAtomSubjectPicture = checkBoxWriteXtraAtomSubjectPicture.Checked;
                 Properties.Settings.Default.XtraAtomSubjectVideo = checkBoxWriteXtraAtomSubjectVideo.Checked;
@@ -2170,6 +2171,7 @@ namespace PhotoTagsSynchronizer
             checkBoxWriteXtraAtomRatingPicture.Checked = Properties.Settings.Default.XtraAtomRatingPicture;
             checkBoxWriteXtraAtomRatingVideo.Checked = Properties.Settings.Default.XtraAtomRatingVideo;
             checkBoxWriteFileAttributeCreatedDate.Checked = Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute;
+            checkBoxWriteMetadataAddAutoKeywords.Checked = Properties.Settings.Default.WriteMetadataAddAutoKeywords;
             numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted.Value = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
             checkBoxWriteXtraAtomSubjectPicture.Checked = Properties.Settings.Default.XtraAtomSubjectPicture;
             checkBoxWriteXtraAtomSubjectVideo.Checked = Properties.Settings.Default.XtraAtomSubjectVideo;

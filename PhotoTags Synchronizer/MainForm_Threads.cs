@@ -1222,6 +1222,7 @@ namespace PhotoTagsSynchronizer
                                 bool writeXtraAtomArtistVideo = Properties.Settings.Default.XtraAtomArtistVideo;
 
                                 bool writeCreatedDateAndTimeAttribute = Properties.Settings.Default.WriteMetadataCreatedDateFileAttribute;
+                                bool writeAddAutokeywords = Properties.Settings.Default.WriteMetadataAddAutoKeywords;
                                 int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
 
                                 bool showCliWindow = Properties.Settings.Default.ApplicationDebugExiftoolWriteShowCliWindow;
@@ -1287,6 +1288,21 @@ namespace PhotoTagsSynchronizer
                                     {
                                         lock (commonQueueSubsetMetadataToSaveLock)
                                         {
+                                            #region AutoKeywords
+                                            foreach (Metadata metadataCopy in commonQueueSubsetMetadataToSave)
+                                            {
+                                                if (writeAddAutokeywords && metadataCopy != null)
+                                                {
+                                                    List<string> newKeywords = AutoKeywordHandler.NewKeywords(autoKeywordConvertions, metadataCopy.LocationName, metadataCopy.PersonalTitle,
+                                                        metadataCopy.PersonalAlbum, metadataCopy.PersonalDescription, metadataCopy.PersonalComments, metadataCopy.PersonalKeywordTags);
+                                                    foreach (string keyword in newKeywords)
+                                                    {
+                                                        metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
+                                                    }
+                                                }
+                                            }
+                                            #endregion
+                                            
                                             UpdateStatusAction("Batch update a subset of " + commonQueueSubsetMetadataToSave.Count + " media files...");
                                             ExiftoolWriter.WriteMetadata(
                                             commonQueueSubsetMetadataToSave, queueSubsetMetadataOrginalBeforeUserEdit, allowedFileNameDateTimeFormats,

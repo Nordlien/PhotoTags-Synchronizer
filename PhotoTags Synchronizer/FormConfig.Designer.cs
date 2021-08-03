@@ -287,6 +287,22 @@ namespace PhotoTagsSynchronizer
             this.textBoxHelpAutoCorrect = new System.Windows.Forms.TextBox();
             this.tabPageAutoKeywords = new System.Windows.Forms.TabPage();
             this.dataGridViewAutoKeywords = new System.Windows.Forms.DataGridView();
+            this.LocationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Comments = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Keywords = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AddKeywords = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStripAutoKeyword = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemAutoKeywordCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAutoKeywordCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAutoKeywordPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAutoKeywordDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAutoKeywordUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemRedo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemFind = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemReplace = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageCameraOwner = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -381,22 +397,7 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
-            this.contextMenuStripAutoKeyword = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemAutoKeywordCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemAutoKeywordCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemAutoKeywordPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemAutoKeywordDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemAutoKeywordUndo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemRedo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemReplace = new System.Windows.Forms.ToolStripMenuItem();
-            this.LocationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Comments = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Keywords = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AddKeywords = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkBoxWriteMetadataAddAutoKeywords = new System.Windows.Forms.CheckBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
@@ -459,6 +460,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxDateTimeDigitized.SuspendLayout();
             this.tabPageAutoKeywords.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAutoKeywords)).BeginInit();
+            this.contextMenuStripAutoKeyword.SuspendLayout();
             this.tabPageCameraOwner.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCameraOwner)).BeginInit();
@@ -493,7 +495,6 @@ namespace PhotoTagsSynchronizer
             this.tabPageShowPipe32Log.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowPipe32Log)).BeginInit();
             this.panelAvoidResizeIssues.SuspendLayout();
-            this.contextMenuStripAutoKeyword.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlConfig
@@ -678,7 +679,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox12.Controls.Add(this.numericUpDownCacheNumberOfPosters);
             this.groupBox12.Location = new System.Drawing.Point(0, 806);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(658, 221);
+            this.groupBox12.Size = new System.Drawing.Size(637, 221);
             this.groupBox12.TabIndex = 13;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Cache logic";
@@ -780,7 +781,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxLocationAccuracy.Controls.Add(this.numericUpDownLocationAccuracyLatitude);
             this.groupBoxLocationAccuracy.Location = new System.Drawing.Point(0, 696);
             this.groupBoxLocationAccuracy.Name = "groupBoxLocationAccuracy";
-            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(658, 104);
+            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(637, 104);
             this.groupBoxLocationAccuracy.TabIndex = 12;
             this.groupBoxLocationAccuracy.TabStop = false;
             this.groupBoxLocationAccuracy.Text = "GPS Location Accuracy";
@@ -878,7 +879,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud);
             this.groupBox6.Location = new System.Drawing.Point(3, 574);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(655, 116);
+            this.groupBox6.Size = new System.Drawing.Size(634, 116);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Read media and listview";
@@ -924,7 +925,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox5.Controls.Add(this.numericUpDownRegionMissmatchProcent);
             this.groupBox5.Location = new System.Drawing.Point(3, 483);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(655, 85);
+            this.groupBox5.Size = new System.Drawing.Size(634, 85);
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Region";
@@ -997,7 +998,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
             this.groupBox4.Location = new System.Drawing.Point(3, 392);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(655, 85);
+            this.groupBox4.Size = new System.Drawing.Size(634, 85);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Region Name suggestions (People Face names)";
@@ -1085,7 +1086,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox3.Controls.Add(this.label38);
             this.groupBox3.Location = new System.Drawing.Point(3, 321);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(655, 65);
+            this.groupBox3.Size = new System.Drawing.Size(634, 65);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Search result";
@@ -1133,7 +1134,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
             this.groupBox2.Location = new System.Drawing.Point(3, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(655, 156);
+            this.groupBox2.Size = new System.Drawing.Size(634, 156);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Nominatim look-up";
@@ -1180,7 +1181,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(183, 68);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(467, 22);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(446, 22);
             this.textBoxApplicationPreferredLanguages.TabIndex = 1;
             // 
             // comboBoxApplicationLanguages
@@ -1391,7 +1392,7 @@ namespace PhotoTagsSynchronizer
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(183, 38);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(467, 24);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(446, 24);
             this.comboBoxApplicationLanguages.TabIndex = 0;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
             // 
@@ -1409,7 +1410,7 @@ namespace PhotoTagsSynchronizer
             this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(655, 150);
+            this.groupBox1.Size = new System.Drawing.Size(634, 150);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thumbnail size";
@@ -2157,6 +2158,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxMetadataWriteKeywordItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.checkBoxWriteMetadataAddAutoKeywords);
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.comboBoxMetadataWriteKeywordAdd);
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.fastColoredTextBoxMetadataWriteKeywordAdd);
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.fastColoredTextBoxMetadataWriteKeywordDelete);
@@ -2165,10 +2167,10 @@ namespace PhotoTagsSynchronizer
             this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.label26);
             this.groupBoxMetadataWriteKeywordItems.Location = new System.Drawing.Point(0, 398);
             this.groupBoxMetadataWriteKeywordItems.Name = "groupBoxMetadataWriteKeywordItems";
-            this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(731, 257);
+            this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(731, 308);
             this.groupBoxMetadataWriteKeywordItems.TabIndex = 16;
             this.groupBoxMetadataWriteKeywordItems.TabStop = false;
-            this.groupBoxMetadataWriteKeywordItems.Text = "Keyword tag items";
+            this.groupBoxMetadataWriteKeywordItems.Text = "Keywords";
             // 
             // comboBoxMetadataWriteKeywordAdd
             // 
@@ -2176,7 +2178,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxMetadataWriteKeywordAdd.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMetadataWriteKeywordAdd.FormattingEnabled = true;
-            this.comboBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(370, 138);
+            this.comboBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(370, 189);
             this.comboBoxMetadataWriteKeywordAdd.Name = "comboBoxMetadataWriteKeywordAdd";
             this.comboBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(352, 24);
             this.comboBoxMetadataWriteKeywordAdd.TabIndex = 3;
@@ -2195,16 +2197,15 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharHeight = 18;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(6, 168);
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(6, 219);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Paddings = new System.Windows.Forms.Padding(0);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
@@ -2229,16 +2230,15 @@ namespace PhotoTagsSynchronizer
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharHeight = 18;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(6, 57);
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(6, 108);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Paddings = new System.Windows.Forms.Padding(0);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
@@ -2256,7 +2256,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxMetadataWriteKeywordDelete.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMetadataWriteKeywordDelete.FormattingEnabled = true;
-            this.comboBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(370, 30);
+            this.comboBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(370, 81);
             this.comboBoxMetadataWriteKeywordDelete.Name = "comboBoxMetadataWriteKeywordDelete";
             this.comboBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(352, 24);
             this.comboBoxMetadataWriteKeywordDelete.TabIndex = 1;
@@ -2265,7 +2265,7 @@ namespace PhotoTagsSynchronizer
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(8, 141);
+            this.label27.Location = new System.Drawing.Point(8, 192);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(164, 17);
             this.label27.TabIndex = 5;
@@ -2274,7 +2274,7 @@ namespace PhotoTagsSynchronizer
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(8, 33);
+            this.label26.Location = new System.Drawing.Point(8, 84);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(299, 17);
             this.label26.TabIndex = 4;
@@ -2610,7 +2610,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxMetadataWriteTags.Controls.Add(this.fastColoredTextBoxMetadataWriteTags);
             this.groupBoxMetadataWriteTags.Controls.Add(this.comboBoxMetadataWriteStandardTags);
             this.groupBoxMetadataWriteTags.Controls.Add(this.label6);
-            this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(1, 661);
+            this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(1, 712);
             this.groupBoxMetadataWriteTags.MinimumSize = new System.Drawing.Size(703, 145);
             this.groupBoxMetadataWriteTags.Name = "groupBoxMetadataWriteTags";
             this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(730, 355);
@@ -2635,14 +2635,13 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteTags.AutoIndent = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentChars = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentExistingLines = false;
-            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(192, 18);
+            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(221, 18);
             this.fastColoredTextBoxMetadataWriteTags.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteTags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteTags.CharHeight = 18;
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(5, 51);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -2723,7 +2722,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConfigFilenameDateFormats.CharWidth = 10;
             this.fastColoredTextBoxConfigFilenameDateFormats.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConfigFilenameDateFormats.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConfigFilenameDateFormats.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConfigFilenameDateFormats.IsReplaceMode = false;
             this.fastColoredTextBoxConfigFilenameDateFormats.Location = new System.Drawing.Point(2, 46);
             this.fastColoredTextBoxConfigFilenameDateFormats.Name = "fastColoredTextBoxConfigFilenameDateFormats";
@@ -3140,10 +3138,9 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordsAddAutoKeywords.AutoSize = true;
             this.checkBoxKeywordsAddAutoKeywords.Location = new System.Drawing.Point(10, 132);
             this.checkBoxKeywordsAddAutoKeywords.Name = "checkBoxKeywordsAddAutoKeywords";
-            this.checkBoxKeywordsAddAutoKeywords.Size = new System.Drawing.Size(631, 21);
+            this.checkBoxKeywordsAddAutoKeywords.Size = new System.Drawing.Size(522, 21);
             this.checkBoxKeywordsAddAutoKeywords.TabIndex = 5;
-            this.checkBoxKeywordsAddAutoKeywords.Text = "Use AutoKeywords, when one more word exist in metadata, then add NewKeywords syno" +
-    "nym(s)";
+            this.checkBoxKeywordsAddAutoKeywords.Text = "Add AutoKeyword synonym(s), when found trigger keysin AutoKeywords table ";
             this.checkBoxKeywordsAddAutoKeywords.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordsAddWebScraping
@@ -3895,6 +3892,163 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewAutoKeywords.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewAutoKeywords_RowsAdded);
             this.dataGridViewAutoKeywords.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewAutoKeywords_KeyDown);
             // 
+            // LocationName
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.LocationName.DefaultCellStyle = dataGridViewCellStyle1;
+            this.LocationName.HeaderText = "LocationName";
+            this.LocationName.MinimumWidth = 6;
+            this.LocationName.Name = "LocationName";
+            this.LocationName.Width = 128;
+            // 
+            // Title
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Title.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Title.HeaderText = "Title";
+            this.Title.MinimumWidth = 6;
+            this.Title.Name = "Title";
+            this.Title.Width = 64;
+            // 
+            // Album
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Album.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Album.HeaderText = "Album";
+            this.Album.MinimumWidth = 6;
+            this.Album.Name = "Album";
+            this.Album.Width = 76;
+            // 
+            // Description
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Description.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Description.HeaderText = "Description";
+            this.Description.MinimumWidth = 6;
+            this.Description.Name = "Description";
+            this.Description.Width = 108;
+            // 
+            // Comments
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Comments.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Comments.HeaderText = "Comments";
+            this.Comments.MinimumWidth = 6;
+            this.Comments.Name = "Comments";
+            this.Comments.Width = 103;
+            // 
+            // Keywords
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Keywords.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Keywords.HeaderText = "Keywords";
+            this.Keywords.MinimumWidth = 6;
+            this.Keywords.Name = "Keywords";
+            this.Keywords.Width = 98;
+            // 
+            // AddKeywords
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.AddKeywords.DefaultCellStyle = dataGridViewCellStyle7;
+            this.AddKeywords.HeaderText = "AddKeywords";
+            this.AddKeywords.MinimumWidth = 6;
+            this.AddKeywords.Name = "AddKeywords";
+            this.AddKeywords.Width = 123;
+            // 
+            // contextMenuStripAutoKeyword
+            // 
+            this.contextMenuStripAutoKeyword.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripAutoKeyword.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemAutoKeywordCut,
+            this.toolStripMenuItemAutoKeywordCopy,
+            this.toolStripMenuItemAutoKeywordPaste,
+            this.toolStripMenuItemAutoKeywordDelete,
+            this.toolStripMenuItemAutoKeywordUndo,
+            this.toolStripMenuItemRedo,
+            this.toolStripMenuItemFind,
+            this.toolStripMenuItemReplace});
+            this.contextMenuStripAutoKeyword.Name = "contextMenuStripMap";
+            this.contextMenuStripAutoKeyword.Size = new System.Drawing.Size(189, 212);
+            // 
+            // toolStripMenuItemAutoKeywordCut
+            // 
+            this.toolStripMenuItemAutoKeywordCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
+            this.toolStripMenuItemAutoKeywordCut.Name = "toolStripMenuItemAutoKeywordCut";
+            this.toolStripMenuItemAutoKeywordCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.toolStripMenuItemAutoKeywordCut.Size = new System.Drawing.Size(188, 26);
+            this.toolStripMenuItemAutoKeywordCut.Text = "Cut";
+            this.toolStripMenuItemAutoKeywordCut.Click += new System.EventHandler(this.toolStripMenuItemAutoKeywordCut_Click);
+            // 
+            // toolStripMenuItemAutoKeywordCopy
+            // 
+            this.toolStripMenuItemAutoKeywordCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
+            this.toolStripMenuItemAutoKeywordCopy.Name = "toolStripMenuItemAutoKeywordCopy";
+            this.toolStripMenuItemAutoKeywordCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemAutoKeywordCopy.Size = new System.Drawing.Size(188, 26);
+            this.toolStripMenuItemAutoKeywordCopy.Text = "Copy";
+            this.toolStripMenuItemAutoKeywordCopy.Click += new System.EventHandler(this.toolStripMenuItemAutoKeywordCopy_Click);
+            // 
+            // toolStripMenuItemAutoKeywordPaste
+            // 
+            this.toolStripMenuItemAutoKeywordPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
+            this.toolStripMenuItemAutoKeywordPaste.Name = "toolStripMenuItemAutoKeywordPaste";
+            this.toolStripMenuItemAutoKeywordPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.toolStripMenuItemAutoKeywordPaste.Size = new System.Drawing.Size(188, 26);
+            this.toolStripMenuItemAutoKeywordPaste.Text = "Paste";
+            this.toolStripMenuItemAutoKeywordPaste.Click += new System.EventHandler(this.toolStripMenuItemAutoKeywordPaste_Click);
+            // 
+            // toolStripMenuItemAutoKeywordDelete
+            // 
+            this.toolStripMenuItemAutoKeywordDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
+            this.toolStripMenuItemAutoKeywordDelete.Name = "toolStripMenuItemAutoKeywordDelete";
+            this.toolStripMenuItemAutoKeywordDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.toolStripMenuItemAutoKeywordDelete.Size = new System.Drawing.Size(188, 26);
+            this.toolStripMenuItemAutoKeywordDelete.Text = "Delete";
+            this.toolStripMenuItemAutoKeywordDelete.Click += new System.EventHandler(this.toolStripMenuItemAutoKeywordDelete_Click);
+            // 
+            // toolStripMenuItemAutoKeywordUndo
+            // 
+            this.toolStripMenuItemAutoKeywordUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Undo;
+            this.toolStripMenuItemAutoKeywordUndo.Name = "toolStripMenuItemAutoKeywordUndo";
+            this.toolStripMenuItemAutoKeywordUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.toolStripMenuItemAutoKeywordUndo.Size = new System.Drawing.Size(188, 26);
+            this.toolStripMenuItemAutoKeywordUndo.Text = "Undo";
+            this.toolStripMenuItemAutoKeywordUndo.Click += new System.EventHandler(this.toolStripMenuItemAutoKeywordUndo_Click);
+            // 
+            // toolStripMenuItemRedo
+            // 
+            this.toolStripMenuItemRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Redo;
+            this.toolStripMenuItemRedo.Name = "toolStripMenuItemRedo";
+            this.toolStripMenuItemRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.toolStripMenuItemRedo.Size = new System.Drawing.Size(188, 26);
+            this.toolStripMenuItemRedo.Text = "Redo";
+            this.toolStripMenuItemRedo.Click += new System.EventHandler(this.toolStripMenuItemRedo_Click);
+            // 
+            // toolStripMenuItemFind
+            // 
+            this.toolStripMenuItemFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
+            this.toolStripMenuItemFind.Name = "toolStripMenuItemFind";
+            this.toolStripMenuItemFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.toolStripMenuItemFind.Size = new System.Drawing.Size(188, 26);
+            this.toolStripMenuItemFind.Text = "Find";
+            this.toolStripMenuItemFind.Click += new System.EventHandler(this.toolStripMenuItemFind_Click);
+            // 
+            // toolStripMenuItemReplace
+            // 
+            this.toolStripMenuItemReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
+            this.toolStripMenuItemReplace.Name = "toolStripMenuItemReplace";
+            this.toolStripMenuItemReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.toolStripMenuItemReplace.Size = new System.Drawing.Size(188, 26);
+            this.toolStripMenuItemReplace.Text = "Replace";
+            this.toolStripMenuItemReplace.Click += new System.EventHandler(this.toolStripMenuItemReplace_Click);
+            // 
             // tabPageCameraOwner
             // 
             this.tabPageCameraOwner.Controls.Add(this.panel2);
@@ -4372,7 +4526,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Multiline = false;
@@ -4460,7 +4613,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Location = new System.Drawing.Point(6, 143);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatVideoArguFile";
@@ -4498,7 +4650,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Location = new System.Drawing.Point(6, 46);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Multiline = false;
@@ -4764,7 +4915,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Multiline = false;
@@ -4824,7 +4974,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Location = new System.Drawing.Point(6, 167);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile";
@@ -5176,7 +5325,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowLog.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowLog.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxShowLog.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowLog.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowLog.IsReplaceMode = false;
             this.fastColoredTextBoxShowLog.Location = new System.Drawing.Point(3, 3);
@@ -5224,7 +5372,6 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowPipe32Log.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowPipe32Log.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowPipe32Log.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxShowPipe32Log.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowPipe32Log.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowPipe32Log.IsReplaceMode = false;
             this.fastColoredTextBoxShowPipe32Log.Location = new System.Drawing.Point(0, 0);
@@ -5279,162 +5426,15 @@ namespace PhotoTagsSynchronizer
             this.panelAvoidResizeIssues.Size = new System.Drawing.Size(778, 845);
             this.panelAvoidResizeIssues.TabIndex = 3;
             // 
-            // contextMenuStripAutoKeyword
+            // checkBoxWriteMetadataAddAutoKeywords
             // 
-            this.contextMenuStripAutoKeyword.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripAutoKeyword.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemAutoKeywordCut,
-            this.toolStripMenuItemAutoKeywordCopy,
-            this.toolStripMenuItemAutoKeywordPaste,
-            this.toolStripMenuItemAutoKeywordDelete,
-            this.toolStripMenuItemAutoKeywordUndo,
-            this.toolStripMenuItemRedo,
-            this.toolStripMenuItemFind,
-            this.toolStripMenuItemReplace});
-            this.contextMenuStripAutoKeyword.Name = "contextMenuStripMap";
-            this.contextMenuStripAutoKeyword.Size = new System.Drawing.Size(189, 212);
-            // 
-            // toolStripMenuItemAutoKeywordCut
-            // 
-            this.toolStripMenuItemAutoKeywordCut.Image = global::PhotoTagsSynchronizer.Properties.Resources.Cut;
-            this.toolStripMenuItemAutoKeywordCut.Name = "toolStripMenuItemAutoKeywordCut";
-            this.toolStripMenuItemAutoKeywordCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.toolStripMenuItemAutoKeywordCut.Size = new System.Drawing.Size(188, 26);
-            this.toolStripMenuItemAutoKeywordCut.Text = "Cut";
-            this.toolStripMenuItemAutoKeywordCut.Click += new System.EventHandler(this.toolStripMenuItemAutoKeywordCut_Click);
-            // 
-            // toolStripMenuItemAutoKeywordCopy
-            // 
-            this.toolStripMenuItemAutoKeywordCopy.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
-            this.toolStripMenuItemAutoKeywordCopy.Name = "toolStripMenuItemAutoKeywordCopy";
-            this.toolStripMenuItemAutoKeywordCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemAutoKeywordCopy.Size = new System.Drawing.Size(188, 26);
-            this.toolStripMenuItemAutoKeywordCopy.Text = "Copy";
-            this.toolStripMenuItemAutoKeywordCopy.Click += new System.EventHandler(this.toolStripMenuItemAutoKeywordCopy_Click);
-            // 
-            // toolStripMenuItemAutoKeywordPaste
-            // 
-            this.toolStripMenuItemAutoKeywordPaste.Image = global::PhotoTagsSynchronizer.Properties.Resources.Paste;
-            this.toolStripMenuItemAutoKeywordPaste.Name = "toolStripMenuItemAutoKeywordPaste";
-            this.toolStripMenuItemAutoKeywordPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.toolStripMenuItemAutoKeywordPaste.Size = new System.Drawing.Size(188, 26);
-            this.toolStripMenuItemAutoKeywordPaste.Text = "Paste";
-            this.toolStripMenuItemAutoKeywordPaste.Click += new System.EventHandler(this.toolStripMenuItemAutoKeywordPaste_Click);
-            // 
-            // toolStripMenuItemAutoKeywordDelete
-            // 
-            this.toolStripMenuItemAutoKeywordDelete.Image = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
-            this.toolStripMenuItemAutoKeywordDelete.Name = "toolStripMenuItemAutoKeywordDelete";
-            this.toolStripMenuItemAutoKeywordDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.toolStripMenuItemAutoKeywordDelete.Size = new System.Drawing.Size(188, 26);
-            this.toolStripMenuItemAutoKeywordDelete.Text = "Delete";
-            this.toolStripMenuItemAutoKeywordDelete.Click += new System.EventHandler(this.toolStripMenuItemAutoKeywordDelete_Click);
-            // 
-            // toolStripMenuItemAutoKeywordUndo
-            // 
-            this.toolStripMenuItemAutoKeywordUndo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Undo;
-            this.toolStripMenuItemAutoKeywordUndo.Name = "toolStripMenuItemAutoKeywordUndo";
-            this.toolStripMenuItemAutoKeywordUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.toolStripMenuItemAutoKeywordUndo.Size = new System.Drawing.Size(188, 26);
-            this.toolStripMenuItemAutoKeywordUndo.Text = "Undo";
-            this.toolStripMenuItemAutoKeywordUndo.Click += new System.EventHandler(this.toolStripMenuItemAutoKeywordUndo_Click);
-            // 
-            // toolStripMenuItemRedo
-            // 
-            this.toolStripMenuItemRedo.Image = global::PhotoTagsSynchronizer.Properties.Resources.Redo;
-            this.toolStripMenuItemRedo.Name = "toolStripMenuItemRedo";
-            this.toolStripMenuItemRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.toolStripMenuItemRedo.Size = new System.Drawing.Size(188, 26);
-            this.toolStripMenuItemRedo.Text = "Redo";
-            this.toolStripMenuItemRedo.Click += new System.EventHandler(this.toolStripMenuItemRedo_Click);
-            // 
-            // toolStripMenuItemFind
-            // 
-            this.toolStripMenuItemFind.Image = global::PhotoTagsSynchronizer.Properties.Resources.Find;
-            this.toolStripMenuItemFind.Name = "toolStripMenuItemFind";
-            this.toolStripMenuItemFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.toolStripMenuItemFind.Size = new System.Drawing.Size(188, 26);
-            this.toolStripMenuItemFind.Text = "Find";
-            this.toolStripMenuItemFind.Click += new System.EventHandler(this.toolStripMenuItemFind_Click);
-            // 
-            // toolStripMenuItemReplace
-            // 
-            this.toolStripMenuItemReplace.Image = global::PhotoTagsSynchronizer.Properties.Resources.Replace;
-            this.toolStripMenuItemReplace.Name = "toolStripMenuItemReplace";
-            this.toolStripMenuItemReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.toolStripMenuItemReplace.Size = new System.Drawing.Size(188, 26);
-            this.toolStripMenuItemReplace.Text = "Replace";
-            this.toolStripMenuItemReplace.Click += new System.EventHandler(this.toolStripMenuItemReplace_Click);
-            // 
-            // LocationName
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.LocationName.DefaultCellStyle = dataGridViewCellStyle1;
-            this.LocationName.HeaderText = "LocationName";
-            this.LocationName.MinimumWidth = 6;
-            this.LocationName.Name = "LocationName";
-            this.LocationName.Width = 128;
-            // 
-            // Title
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Title.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Title.HeaderText = "Title";
-            this.Title.MinimumWidth = 6;
-            this.Title.Name = "Title";
-            this.Title.Width = 64;
-            // 
-            // Album
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Album.DefaultCellStyle = dataGridViewCellStyle3;
-            this.Album.HeaderText = "Album";
-            this.Album.MinimumWidth = 6;
-            this.Album.Name = "Album";
-            this.Album.Width = 76;
-            // 
-            // Description
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Description.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Description.HeaderText = "Description";
-            this.Description.MinimumWidth = 6;
-            this.Description.Name = "Description";
-            this.Description.Width = 108;
-            // 
-            // Comments
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Comments.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Comments.HeaderText = "Comments";
-            this.Comments.MinimumWidth = 6;
-            this.Comments.Name = "Comments";
-            this.Comments.Width = 103;
-            // 
-            // Keywords
-            // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Keywords.DefaultCellStyle = dataGridViewCellStyle6;
-            this.Keywords.HeaderText = "Keywords";
-            this.Keywords.MinimumWidth = 6;
-            this.Keywords.Name = "Keywords";
-            this.Keywords.Width = 98;
-            // 
-            // AddKeywords
-            // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.AddKeywords.DefaultCellStyle = dataGridViewCellStyle7;
-            this.AddKeywords.HeaderText = "AddKeywords";
-            this.AddKeywords.MinimumWidth = 6;
-            this.AddKeywords.Name = "AddKeywords";
-            this.AddKeywords.Width = 123;
+            this.checkBoxWriteMetadataAddAutoKeywords.AutoSize = true;
+            this.checkBoxWriteMetadataAddAutoKeywords.Location = new System.Drawing.Point(13, 34);
+            this.checkBoxWriteMetadataAddAutoKeywords.Name = "checkBoxWriteMetadataAddAutoKeywords";
+            this.checkBoxWriteMetadataAddAutoKeywords.Size = new System.Drawing.Size(519, 21);
+            this.checkBoxWriteMetadataAddAutoKeywords.TabIndex = 6;
+            this.checkBoxWriteMetadataAddAutoKeywords.Text = "Add AutoKeyword synonym(s), when found trigger key in AutoKeywords table ";
+            this.checkBoxWriteMetadataAddAutoKeywords.UseVisualStyleBackColor = true;
             // 
             // Config
             // 
@@ -5540,6 +5540,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxDateTimeDigitized.PerformLayout();
             this.tabPageAutoKeywords.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAutoKeywords)).EndInit();
+            this.contextMenuStripAutoKeyword.ResumeLayout(false);
             this.tabPageCameraOwner.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -5584,7 +5585,6 @@ namespace PhotoTagsSynchronizer
             this.tabPageShowPipe32Log.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowPipe32Log)).EndInit();
             this.panelAvoidResizeIssues.ResumeLayout(false);
-            this.contextMenuStripAutoKeyword.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -5948,5 +5948,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.DataGridViewTextBoxColumn Comments;
         private System.Windows.Forms.DataGridViewTextBoxColumn Keywords;
         private System.Windows.Forms.DataGridViewTextBoxColumn AddKeywords;
+        private System.Windows.Forms.CheckBox checkBoxWriteMetadataAddAutoKeywords;
     }
 }
