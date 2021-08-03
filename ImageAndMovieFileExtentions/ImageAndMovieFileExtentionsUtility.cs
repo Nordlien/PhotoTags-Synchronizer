@@ -9,6 +9,7 @@ using System.Text;
 using System.Globalization;
 using Manina.Windows.Forms;
 using LibVLCSharp.Shared;
+using FileHandeling;
 
 namespace ImageAndMovieFileExtentions
 {
@@ -370,7 +371,7 @@ namespace ImageAndMovieFileExtentions
 
 
         #region Video and Image Formats
-        private static List<string> imageFormats = new List<string> {
+        private static HashSet<string> imageFormats = new HashSet<string> {
             //Tag	        Mode	Description	Notes
             ".AAI", //	    RW	AAI Dune image	
             ".APNG", //		RW	Animated Portable Network Graphics	Note, you must use an explicit image format specifier to read an APNG (apng:myImage.apng) image sequence, otherwise it assumes a PNG image and only reads the first frame.
@@ -554,7 +555,7 @@ namespace ImageAndMovieFileExtentions
 
         //3GP, ASF, AVCHD, AVI,*.mkv, mov, .mpeg, .mpg, .mpe, mp4, WMV  
         //Video file formats by file extension 
-        public static List<string> videoFormats = new List<string>
+        public static HashSet<string> videoFormats = new HashSet<string>
         {
             //VLC Supported video extetions
             ".ASX", //	Advanced Stream Redirector
@@ -635,30 +636,54 @@ namespace ImageAndMovieFileExtentions
             ".WebM" // – video file format for web video using HTML5*/
                     };
 
-
-        private static List<string> GetAllMediaExtentions()
+        private static HashSet<string> allFiles = new HashSet<string>();
+        private static HashSet<string> GetAllMediaExtentions()
         {
-            List<string> allFiles = new List<string>();
-            allFiles.AddRange(imageFormats);
-            allFiles.AddRange(videoFormats);
+            if (allFiles.Count == 0)
+            {
+                foreach (string format in imageFormats) allFiles.Add(format);
+                foreach (string format in videoFormats) allFiles.Add(format);
+            }
             return allFiles;
         }
 
         public static HashSet<FileEntry> ListAllMediaFileEntries(string directory, bool recursive)
         {
+            /*
             FileInfo[] filesFoundInDirectory = GetFilesByExtensions(directory, GetAllMediaExtentions(), recursive);
             Array.Sort(filesFoundInDirectory, delegate (FileInfo fileInfo1, FileInfo fileInfo2) 
             {
                 return fileInfo2.CreationTime.CompareTo(fileInfo1.CreationTime);
             });
-
-            HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
+            List<FileEntry> fileEntries = new List<FileEntry>();
             foreach (FileInfo fileInfo in filesFoundInDirectory) fileEntries.Add(new FileEntry(fileInfo.DirectoryName, fileInfo.Name, fileInfo.LastWriteTime));
             return fileEntries;
+            */
+            return GetFilesByExtensionsFast(directory, GetAllMediaExtentions(), recursive);
+            
         }
 
-
-        public static FileInfo[] GetFilesByExtensions(string folder, List<string> extensions, bool recursive)
+        public static HashSet<FileEntry> GetFilesByExtensionsFast(string folder, HashSet<string> extensions, bool recursive)
+        {
+            HashSet<FileEntry> fileEntries = new HashSet<FileEntry>();
+            try
+            {
+                FileData[] files = FastDirectoryEnumerator.GetFiles(folder, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+                for (int i = 0; i < files.Length; i++)
+                {
+                    if ((files[i].Attributes & FileAttributes.Directory) == 0)
+                    {
+                        if (extensions.Contains(Path.GetExtension(files[i].Path).ToUpper())) fileEntries.Add(new FileEntry(files[i].Path, files[i].LastWriteTime));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "GetFilesByExtensionsFast");
+            }
+            return fileEntries;
+        }
+        public static FileInfo[] GetFilesByExtensions(string folder, HashSet<string> extensions, bool recursive)
         {
             FileInfo[] files = new FileInfo[0];
             

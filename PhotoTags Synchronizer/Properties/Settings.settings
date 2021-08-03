@@ -492,10 +492,10 @@ filename=UTF8
 -execute</Value>
     </Setting>
     <Setting Name="WriteMetadataKeywordAdd" Type="System.String" Scope="User">
-      <Value Profile="(Default)">-Keywords+={KeywordItem}
--Subject+={KeywordItem}
--TagsList+={KeywordItem}
--CatalogSets+={KeywordItem}</Value>
+      <Value Profile="(Default)">-Keywords={KeywordItem}
+-Subject={KeywordItem}
+-TagsList={KeywordItem}
+-CatalogSets={KeywordItem}</Value>
     </Setting>
     <Setting Name="ApplicationThumbnail" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">192, 192</Value>
@@ -507,10 +507,7 @@ filename=UTF8
       <Value Profile="(Default)">en;q=0.5,no;q=0.3,ru;q=0.2,*;q=0.1</Value>
     </Setting>
     <Setting Name="WriteMetadataKeywordDelete" Type="System.String" Scope="User">
-      <Value Profile="(Default)">-Keywords-={KeywordItem}
--Subject-={KeywordItem}
--TagsList-={KeywordItem}
--CatalogSets-={KeywordItem}</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="XtraAtomKeywordsVariable" Type="System.String" Scope="User">
       <Value Profile="(Default)">{PersonalKeywordsList}</Value>

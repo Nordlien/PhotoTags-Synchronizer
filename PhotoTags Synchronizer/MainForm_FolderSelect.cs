@@ -29,9 +29,12 @@ namespace PhotoTagsSynchronizer
                 UpdateStatusAction("Clear all old queues");
                 ClearAllQueues();
 
-                UpdateStatusAction("Init cache process");
-                if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets) CacheFileEntries(fileEntries, selectedFolder);
-                
+
+                if (cacheFolderThumbnails || cacheFolderMetadatas || cacheFolderWebScraperDataSets)
+                {
+                    UpdateStatusAction("Init cache process");
+                    CacheFileEntries(fileEntries, selectedFolder);
+                }
                 
                 if (runPopulateFilter)
                 {
