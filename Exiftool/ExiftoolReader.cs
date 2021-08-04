@@ -1100,6 +1100,7 @@ namespace Exiftool
                                             case StructTypes.ClosingSquareBrackets:
                                                 break;
                                             case StructTypes.FieldName:
+                                                Logger.Debug("Region: " + exifToolData.Region + " " + exifToolData.Command + " " + structObject.Value);
                                                 lastKnownFieldName = structObject.Value;
                                                 break;
                                             case StructTypes.OpeningCurlyBracket:
@@ -1118,8 +1119,10 @@ namespace Exiftool
                                                 {
                                                     #region WindowsLivePhotoGallery
                                                     case "Regions":
+                                                        Logger.Debug("Region, Regions: " + exifToolData.Region + " " + exifToolData.Command + " " + structObject.Value);
                                                         break;
                                                     case "PersonDisplayName": //WindowsLivePhotoGallery
+                                                        Logger.Debug("Region, PersonDisplayName: " + exifToolData.Region + " " + exifToolData.Command + " " + structObject.Value);
                                                         region.Name = structObject.Value;
                                                         break;
 
@@ -1139,6 +1142,7 @@ namespace Exiftool
                                                             region.AreaWidth = 1;
                                                             region.AreaHeight = 1;
                                                         }
+                                                        Logger.Debug("Region, Area: " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToString());
                                                         break;
                                                     #endregion
 
@@ -1175,8 +1179,10 @@ namespace Exiftool
                                                         break;
                                                     case "Type":
                                                         region.Type = structObject.Value;
+                                                        Logger.Debug("Region, Type: " + exifToolData.Region + " " + exifToolData.Command + " " + structObject.Value);
                                                         break;
                                                     case "Name":
+                                                        Logger.Debug("Region, Name: " + exifToolData.Region + " " + exifToolData.Command + " " + structObject.Value);
                                                         region.Name = structObject.Value;
                                                         break;
                                                     #endregion
@@ -1196,7 +1202,12 @@ namespace Exiftool
                                                             {
                                                                 if (String.IsNullOrWhiteSpace(region.Type)) region.Type = "Face";
 
-                                                                if (!readRegionList.Contains(region)) readRegionList.Add(region);
+                                                                if (!readRegionList.Contains(region))
+                                                                {
+                                                                    readRegionList.Add(region);
+                                                                    Logger.Debug("Region, WindowsLivePhotoGallery (Added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToolTipText());
+                                                                }
+                                                                else Logger.Debug("Region, WindowsLivePhotoGallery (Not added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToolTipText());
                                                                 metadata.PersonalRegionListAddIfNotExists(region);
                                                                 region = null;
                                                             }
@@ -1211,7 +1222,13 @@ namespace Exiftool
                                                             if (region != null)
                                                             {
                                                                 if (String.IsNullOrWhiteSpace(region.Type)) region.Type = "Face";
-                                                                if (!readRegionList.Contains(region)) readRegionList.Add(region);
+
+                                                                if (!readRegionList.Contains(region))
+                                                                {
+                                                                    readRegionList.Add(region);
+                                                                    Logger.Debug("Region, MetadataWorkingGroup (Added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToolTipText());
+                                                                } 
+                                                                else Logger.Debug("Region, MetadataWorkingGroup (Not added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToolTipText());
                                                                 metadata.PersonalRegionListAddIfNotExists(region);
                                                                 region = null;
                                                             }
@@ -1299,6 +1316,7 @@ namespace Exiftool
 
                                     foreach (String tag in keywordListStruct)
                                     {
+                                        Logger.Debug("Keywords: " + exifToolData.Region + " " + exifToolData.Command + " " + tag);
                                         KeywordTag keywordTag = new KeywordTag(tag);
                                         metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
                                     }
@@ -1315,6 +1333,7 @@ namespace Exiftool
 
                                     foreach (String tag in keywordListXP)
                                     {
+                                        Logger.Debug("Keywords: " + exifToolData.Region + " " + exifToolData.Command + " " + tag);
                                         KeywordTag keywordTag = new KeywordTag(tag);
                                         metadata.PersonalKeywordTagsAddIfNotExists(keywordTag);
                                     }
