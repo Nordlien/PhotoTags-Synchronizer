@@ -1205,9 +1205,9 @@ namespace Exiftool
                                                                 if (!readRegionList.Contains(region))
                                                                 {
                                                                     readRegionList.Add(region);
-                                                                    Logger.Debug("Region, WindowsLivePhotoGallery (Added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToolTipText());
+                                                                    Logger.Debug("Region, WindowsLivePhotoGallery (Added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToStringDebug());
                                                                 }
-                                                                else Logger.Debug("Region, WindowsLivePhotoGallery (Not added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToolTipText());
+                                                                else Logger.Debug("Region, WindowsLivePhotoGallery (Not added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToStringDebug());
                                                                 metadata.PersonalRegionListAddIfNotExists(region);
                                                                 region = null;
                                                             }
@@ -1226,9 +1226,9 @@ namespace Exiftool
                                                                 if (!readRegionList.Contains(region))
                                                                 {
                                                                     readRegionList.Add(region);
-                                                                    Logger.Debug("Region, MetadataWorkingGroup (Added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToolTipText());
+                                                                    Logger.Debug("Region, MetadataWorkingGroup (Added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToStringDebug());
                                                                 } 
-                                                                else Logger.Debug("Region, MetadataWorkingGroup (Not added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToolTipText());
+                                                                else Logger.Debug("Region, MetadataWorkingGroup (Not added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToStringDebug());
                                                                 metadata.PersonalRegionListAddIfNotExists(region);
                                                                 region = null;
                                                             }

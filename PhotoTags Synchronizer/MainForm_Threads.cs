@@ -479,18 +479,14 @@ namespace PhotoTagsSynchronizer
         #endregion 
 
         #region LazyLoadingDataGridView - Metadata - AddQueue - Read from Cache, then Database, then Source and Save
+        private static Dictionary<string, DateTime> dontCheckAndReadOfflineFilesTwice = new Dictionary<string, DateTime>();
         public void AddQueueLazyLoadingDataGridViewMetadataReadToCacheOrUpdateFromSoruce(FileEntry fileEntry)
         {
             //When file is DELETE, LastWriteDateTime become null
             if (fileEntry.LastWriteDateTime != null)
             {
-                if (File.GetLastWriteTime(fileEntry.FileFullPath) != fileEntry.LastWriteDateTime) //Don't add old files in queue
-                {
-
-                }
-                
                 Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOrDatabase(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool));
-                if (metadata == null) AddQueueExiftoolLock(fileEntry); //If Metadata don't exisit in database, put it in read queue
+                if (metadata == null) AddQueueExiftoolLock(fileEntry); //If Metadata don't exist in database, put it in read queue
                 else ImageListViewSetItemDirty(fileEntry.FileFullPath); //Refresh ImageListView with metadata
 
                 //if (!databaseAndCacheMetadataExiftool.IsMetadataInCache(new FileEntryBroker(fileEntry, MetadataBrokerType.ExifTool)) AddQueueExiftoolLock(fileEntry);

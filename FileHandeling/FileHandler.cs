@@ -167,7 +167,10 @@ namespace FileHandeling
                 FileAttributes fileAttributes = File.GetAttributes(fullFileName);
                 if ((((int)fileAttributes) & 0x000400000) == 0x000400000) return true;
             }
-            catch { return true; }
+            catch 
+            { 
+                return false; 
+            }
             return false;
         }
         #endregion 

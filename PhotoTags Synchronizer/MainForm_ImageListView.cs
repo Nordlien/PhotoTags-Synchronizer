@@ -24,7 +24,7 @@ namespace PhotoTagsSynchronizer
             FileEntryBroker fileEntryBroker = new FileEntryBroker(e.FileName, File.GetLastWriteTime(e.FileName), MetadataBrokerType.ExifTool);
             //bool isMetadataInCache = databaseAndCacheMetadataExiftool.IsMetadataInCache(fileEntryBroker);
             Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(fileEntryBroker);
-            
+
             try
             {
                 if (metadata == null || metadata.FileName == null)
@@ -34,13 +34,52 @@ namespace PhotoTagsSynchronizer
 
                     e.FileMetadata = new Utility.ShellImageFileInfo(); //Tell that data is create, all is good for internal void UpdateDetailsInternal(Utility.ShellImageFileInfo info)
 
-                    // Exif tags, Utility.ShellImageFileInfo()
-                    /*
-                    e.FileMetadata.MediaDescription = null;
-                    e.FileMetadata.MediaDateTaken = DateTime.MinValue; //Null
-                    e.FileMetadata.MediaAuthor = null;
-                    e.FileMetadata.MediaComment = null;
-                    */
+                    
+                    if (!File.Exists(e.FileName) || FileHandler.IsFileInCloud(e.FileName))
+                    {
+                        #region Provided by FileInfo                        
+                        try
+                        {
+                            e.FileMetadata.FileDateCreated = File.GetCreationTime(e.FileName);
+                            e.FileMetadata.FileDateModified = File.GetLastWriteTime(e.FileName);
+                            e.FileMetadata.FileSize = new FileInfo(e.FileName).Length;
+                        } catch
+                        {
+                            e.FileMetadata.FileSize = 0;
+                        }
+                        e.FileMetadata.FileMimeType = Path.GetExtension(e.FileName);
+                        e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
+                        #endregion
+
+                        string inCloud;
+                        if (!File.Exists(e.FileName)) inCloud = "Not read, file not exists";
+                        else inCloud = "Not read, file in cloud";
+                        
+                        #region Provided by ShellImageFileInfo, MagickImage                                
+                        e.FileMetadata.CameraMake = inCloud;
+                        e.FileMetadata.CameraModel = inCloud;
+                        e.FileMetadata.MediaDimensions = new Size(0, 0);
+                        #endregion
+
+                        #region Provided by MagickImage, Exiftool
+                        e.FileMetadata.MediaDateTaken = DateTime.MinValue;
+                        e.FileMetadata.MediaTitle = inCloud;
+                        e.FileMetadata.MediaDescription = inCloud;
+                        e.FileMetadata.MediaComment = inCloud;
+                        e.FileMetadata.MediaAuthor = inCloud;
+                        e.FileMetadata.MediaRating = 0;
+                        #endregion
+
+                        #region Provided by Exiftool
+                        e.FileMetadata.MediaAlbum = inCloud;
+                        e.FileMetadata.LocationDateTime = DateTime.MinValue;
+                        e.FileMetadata.LocationTimeZone = inCloud;
+                        e.FileMetadata.LocationName = inCloud;
+                        e.FileMetadata.LocationRegionState = inCloud;
+                        e.FileMetadata.LocationCity = inCloud;
+                        e.FileMetadata.LocationCountry = inCloud;
+                        #endregion
+                    }
 
                     #region Provided by FileInfo
                     e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
@@ -48,65 +87,15 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata.Extension = Path.GetExtension(e.FileName);
                     e.FileMetadata.FileAttributes = FileAttributes.Normal;
 
-                    /*
-                    e.FileMetadata.FileDateCreated = DateTime.MinValue; //Null
-                    e.FileMetadata.FileDateModified = fileEntryBroker.LastWriteDateTime; //Null
-                    e.FileMetadata.FileSize = 0;
-                    e.FileMetadata.FileMimeType = null;
-                    e.FileMetadata.FileDirectory = null;
-                    */
                     #endregion
                     
-                    #region Provided by ShellImageFileInfo, MagickImage   
-                    /*
-                    e.FileMetadata.CameraMake = null;
-                    e.FileMetadata.CameraModel = null;
-                    e.FileMetadata.MediaDimensions = new Size(0,0);
-                    */
-                    #endregion
-
-                    #region Provided by MagickImage, Exiftool
-                    /*e.FileMetadata.MediaTitle = null;
-                    e.FileMetadata.MediaDescription = null;
-                    e.FileMetadata.MediaComment = null;
-                    e.FileMetadata.MediaAuthor = null;
-                    e.FileMetadata.MediaRating = 0;*/
-                    #endregion
-                    
-                    #region Provided by Exiftool
-                    /*
-                    e.FileMetadata.MediaAlbum = null;
-                    e.FileMetadata.LocationDateTime = DateTime.MinValue; //Null
-                    e.FileMetadata.LocationTimeZone = null;
-
-                    e.FileMetadata.LocationName = null;
-                    e.FileMetadata.LocationRegionState = null;
-                    e.FileMetadata.LocationCity = null;
-                    e.FileMetadata.LocationCountry = null;*/
-                    #endregion
-                    
-                    /*bool isFileUnLockedAndExist = ExiftoolWriter.WaitLockedFileToBecomeUnlocked(e.FileName);
-
-                    if (isFileUnLockedAndExist)
-                    {
-                        Utility.ShellImageFileInfo shellImageFileInfo = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
-                        e.FileMetadata = shellImageFileInfo; //This will removed flags for is metadata set
-                    }
-                    */
                 }
                 else
                 {
-                    Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata found " + e.FileName);
-                    //e.FileMetadata = ImageAndMovieFileExtentionsUtility.GetExif(e.FileName);
-                    //if (e.FileMetadata == null) 
+                    Logger.Debug("imageListView1_RetrieveItemMetadataDetails: Metadata found " + e.FileName); 
                     e.FileMetadata = new Utility.ShellImageFileInfo();
 
-                    // Exif tags, Utility.ShellImageFileInfo()
-                    e.FileMetadata.MediaDescription = metadata.PersonalDescription;
-
-                    if (metadata.MediaDateTaken != null) e.FileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
-                    e.FileMetadata.MediaAuthor = metadata.PersonalAuthor;
-                    e.FileMetadata.MediaComment = metadata.PersonalComments;
+                    
 
                     #region Provided by FileInfo
                     e.FileMetadata.FileDateCreated = (DateTime)metadata.FileDateCreated;
@@ -120,9 +109,12 @@ namespace PhotoTagsSynchronizer
                     e.FileMetadata.CameraMake = metadata.CameraMake;
                     e.FileMetadata.CameraModel = metadata.CameraModel;
                     if (metadata.MediaWidth != null && metadata.MediaHeight != null) e.FileMetadata.MediaDimensions = new Size((int)metadata.MediaWidth, (int)metadata.MediaHeight);
+                    else e.FileMetadata.MediaDimensions = new Size(0, 0);
                     #endregion
 
                     #region Provided by MagickImage, Exiftool
+                    if (metadata.MediaDateTaken != null) e.FileMetadata.MediaDateTaken = (DateTime)metadata.MediaDateTaken;
+                    else e.FileMetadata.MediaDateTaken = DateTime.MinValue;
                     e.FileMetadata.MediaTitle = metadata.PersonalTitle;
                     e.FileMetadata.MediaDescription = metadata.PersonalDescription;
                     e.FileMetadata.MediaComment = metadata.PersonalComments;
@@ -132,10 +124,9 @@ namespace PhotoTagsSynchronizer
 
                     #region Provided by Exiftool
                     e.FileMetadata.MediaAlbum = metadata.PersonalAlbum;
-                    if (metadata.LocationDateTime != null)
-                        e.FileMetadata.LocationDateTime = (DateTime)metadata.LocationDateTime;
+                    if (metadata.LocationDateTime != null) e.FileMetadata.LocationDateTime = (DateTime)metadata.LocationDateTime;
+                    else e.FileMetadata.LocationDateTime = DateTime.MinValue;
                     e.FileMetadata.LocationTimeZone = metadata.LocationTimeZoneDescription;
-
                     e.FileMetadata.LocationName = metadata.LocationName;
                     e.FileMetadata.LocationRegionState = metadata.LocationState;
                     e.FileMetadata.LocationCity = metadata.LocationCity;

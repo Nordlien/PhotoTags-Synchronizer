@@ -188,7 +188,7 @@ namespace Exiftool
                 string personalKeywordAddItems = metadataToWrite.VariablePersonalKeywords(personalKeywordAdd, allowedFileNameDateTimeFormats);
 
                 tagsToWrite = metadataToWrite.ReplaceVariables(tagsToWrite, allowedFileNameDateTimeFormats, personalKeywordDeleteItems, personalKeywordAddItems);
-                exiftoolArguFileText += (exiftoolArguFileText == "" ? "" : "\r\n") + tagsToWrite;
+                if (!string.IsNullOrWhiteSpace(tagsToWrite)) exiftoolArguFileText += (string.IsNullOrWhiteSpace(exiftoolArguFileText) ? "" : "\r\n") + tagsToWrite;
             }
             return filesNeedToBeUpadted;
         }
