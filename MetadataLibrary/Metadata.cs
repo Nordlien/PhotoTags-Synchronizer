@@ -805,7 +805,7 @@ namespace MetadataLibrary
 
         public void PersonalKeywordTagsAddIfNotExists(KeywordTag keywordTag, bool caseSencetive = true)
         {
-            if (caseSencetive)
+            if (!caseSencetive)
             {
                 foreach (KeywordTag keywordTagToCkeck in personalTagList)
                 {

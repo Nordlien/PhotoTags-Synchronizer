@@ -362,6 +362,158 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
+        #region ToolStrip - AutoCorrect - Folder - Click
+        private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
+                string[] files = Directory.GetFiles(selectedFolder, "*.*");
+                foreach (string file in files)
+                {
+                    Metadata metadataToSave = autoCorrect.FixAndSave(
+                        new FileEntry(file, File.GetLastWriteTime(file)),
+                        databaseAndCacheMetadataExiftool,
+                        databaseAndCacheMetadataMicrosoftPhotos,
+                        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        databaseAndCahceCameraOwner,
+                        databaseLocationAddress,
+                        databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
+                        autoKeywordConvertions);
+                    if (metadataToSave != null)
+                    {
+                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                        AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                    }
+                }
+                StartThreads();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region ToolStrip - AutoCorrect - Selected files - Click
+        private void toolStripMenuItemImageListViewAutoCorrectForm_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FormAutoCorrect formAutoCorrect = new FormAutoCorrect();
+                if (formAutoCorrect.ShowDialog() == DialogResult.OK)
+                {
+
+                    string album = formAutoCorrect.Album;
+                    string author = formAutoCorrect.Author;
+                    string comments = formAutoCorrect.Comments;
+                    string description = formAutoCorrect.Description;
+                    string title = formAutoCorrect.Title;
+                    List<string> keywords = formAutoCorrect.Keywords;
+
+                    bool useAlbum = formAutoCorrect.UseAlbum;
+                    bool useAuthor = formAutoCorrect.UseAuthor;
+                    bool useComments = formAutoCorrect.UseComments;
+                    bool uselDescription = formAutoCorrect.UseDescription;
+                    bool useTitle = formAutoCorrect.UseTitle;
+
+                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                    {
+                        Metadata metadataToSave = autoCorrect.FixAndSave(
+                            new FileEntry(item.FileFullPath, item.DateModified),
+                            databaseAndCacheMetadataExiftool,
+                            databaseAndCacheMetadataMicrosoftPhotos,
+                            databaseAndCacheMetadataWindowsLivePhotoGallery,
+                            databaseAndCahceCameraOwner,
+                            databaseLocationAddress,
+                            databaseGoogleLocationHistory,
+                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
+
+                        if (metadataToSave != null)
+                        {
+                            if (useAlbum) metadataToSave.PersonalAlbum = album;
+                            if (!useAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
+
+                            if (useAuthor) metadataToSave.PersonalAuthor = author;
+                            if (!useAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
+
+                            if (useComments) metadataToSave.PersonalComments = comments;
+                            if (!useComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
+
+                            if (uselDescription) metadataToSave.PersonalDescription = description;
+                            if (!uselDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
+
+                            if (useTitle) metadataToSave.PersonalTitle = title;
+                            if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
+
+                            foreach (string keyword in keywords)
+                            {
+                                metadataToSave.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
+                            }
+
+                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                            AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
+                        }
+                    }
+
+                    StartThreads();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
+                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
+                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
+                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                foreach (ImageListViewItem item in imageListView1.SelectedItems)
+                {
+                    Metadata metadataToSave = autoCorrect.FixAndSave(
+                        new FileEntry(item.FileFullPath, item.DateModified),
+                        databaseAndCacheMetadataExiftool,
+                        databaseAndCacheMetadataMicrosoftPhotos,
+                        databaseAndCacheMetadataWindowsLivePhotoGallery,
+                        databaseAndCahceCameraOwner,
+                        databaseLocationAddress,
+                        databaseGoogleLocationHistory,
+                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
+                    if (metadataToSave != null)
+                    {
+                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
+                        AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
+                    }
+                }
+
+                StartThreads();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "");
+                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
         #region ToolStrip - About - Click
         private void toolStripButtonAbout_Click(object sender, EventArgs e)
         {
@@ -1324,158 +1476,6 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.ShowErrorColumns = toolStripButtonErrorColumns.Checked;
                 showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
                 LazyLoadPopulateDataGridViewSelectedItemsWithMediaFileVersions(imageListView1.SelectedItems);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
-
-        #region ToolStrip - AutoCorrect - Folder - Click
-        private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                string selectedFolder = folderTreeViewFolder.GetSelectedNodePath();
-                string[] files = Directory.GetFiles(selectedFolder, "*.*");
-                foreach (string file in files)
-                {
-                    Metadata metadataToSave = autoCorrect.FixAndSave(
-                        new FileEntry(file, File.GetLastWriteTime(file)),
-                        databaseAndCacheMetadataExiftool,
-                        databaseAndCacheMetadataMicrosoftPhotos,
-                        databaseAndCacheMetadataWindowsLivePhotoGallery,
-                        databaseAndCahceCameraOwner,
-                        databaseLocationAddress,
-                        databaseGoogleLocationHistory, locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted,
-                        autoKeywordConvertions);
-                    if (metadataToSave != null)
-                    {
-                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                        AddQueueRenameLock(file, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
-                    }
-                }
-                StartThreads();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        #endregion
-
-        #region ToolStrip - AutoCorrect - Selected files - Click
-        private void toolStripMenuItemImageListViewAutoCorrectForm_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                FormAutoCorrect formAutoCorrect = new FormAutoCorrect();
-                if (formAutoCorrect.ShowDialog() == DialogResult.OK)
-                {
-
-                    string album = formAutoCorrect.Album;
-                    string author = formAutoCorrect.Author;
-                    string comments = formAutoCorrect.Comments;
-                    string description = formAutoCorrect.Description;
-                    string title = formAutoCorrect.Title;
-                    List<string> keywords = formAutoCorrect.Keywords;
-
-                    bool useAlbum = formAutoCorrect.UseAlbum;
-                    bool useAuthor = formAutoCorrect.UseAuthor;
-                    bool useComments = formAutoCorrect.UseComments;
-                    bool uselDescription = formAutoCorrect.UseDescription;
-                    bool useTitle = formAutoCorrect.UseTitle;
-
-                    AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                    float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                    float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                    int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                    foreach (ImageListViewItem item in imageListView1.SelectedItems)
-                    {
-                        Metadata metadataToSave = autoCorrect.FixAndSave(
-                            new FileEntry(item.FileFullPath, item.DateModified),
-                            databaseAndCacheMetadataExiftool,
-                            databaseAndCacheMetadataMicrosoftPhotos,
-                            databaseAndCacheMetadataWindowsLivePhotoGallery,
-                            databaseAndCahceCameraOwner,
-                            databaseLocationAddress,
-                            databaseGoogleLocationHistory,
-                            locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
-
-                        if (metadataToSave != null)
-                        {
-                            if (useAlbum) metadataToSave.PersonalAlbum = album;
-                            if (!useAlbum || string.IsNullOrWhiteSpace(metadataToSave.PersonalAlbum)) metadataToSave.PersonalAlbum = null;
-
-                            if (useAuthor) metadataToSave.PersonalAuthor = author;
-                            if (!useAuthor || string.IsNullOrWhiteSpace(metadataToSave.PersonalAuthor)) metadataToSave.PersonalAuthor = null;
-
-                            if (useComments) metadataToSave.PersonalComments = comments;
-                            if (!useComments || string.IsNullOrWhiteSpace(metadataToSave.PersonalComments)) metadataToSave.PersonalComments = null;
-
-                            if (uselDescription) metadataToSave.PersonalDescription = description;
-                            if (!uselDescription || string.IsNullOrWhiteSpace(metadataToSave.PersonalDescription)) metadataToSave.PersonalDescription = null;
-
-                            if (useTitle) metadataToSave.PersonalTitle = title;
-                            if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
-
-                            foreach (string keyword in keywords)
-                            {
-                                metadataToSave.PersonalKeywordTagsAddIfNotExists(new KeywordTag(keyword), false);
-                            }
-
-                            AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                            AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable);
-                        }
-                    }
-
-                    StartThreads();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "");
-                MessageBox.Show("Following error occured: \r\n" + ex.Message, "Was not able to complete operation", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
-                float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
-                float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
-                int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
-
-                foreach (ImageListViewItem item in imageListView1.SelectedItems)
-                {
-                    Metadata metadataToSave = autoCorrect.FixAndSave(
-                        new FileEntry(item.FileFullPath, item.DateModified),
-                        databaseAndCacheMetadataExiftool,
-                        databaseAndCacheMetadataMicrosoftPhotos,
-                        databaseAndCacheMetadataWindowsLivePhotoGallery,
-                        databaseAndCahceCameraOwner,
-                        databaseLocationAddress,
-                        databaseGoogleLocationHistory,
-                        locationAccuracyLatitude, locationAccuracyLongitude, writeCreatedDateAndTimeAttributeTimeIntervalAccepted, autoKeywordConvertions);
-                    if (metadataToSave != null)
-                    {
-                        AddQueueSaveMetadataUpdatedByUserLock(metadataToSave, new Metadata(MetadataBrokerType.Empty));
-                        AddQueueRenameLock(item.FileFullPath, autoCorrect.RenameVariable); //Properties.Settings.Default.AutoCorrect.)
-                    }
-                }
-
-                StartThreads();
             }
             catch (Exception ex)
             {

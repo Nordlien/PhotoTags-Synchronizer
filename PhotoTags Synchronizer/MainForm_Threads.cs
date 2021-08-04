@@ -1332,7 +1332,8 @@ namespace PhotoTagsSynchronizer
                                 #region Write Xtra Atom properites
                                 //Wait file to be unlocked, if used by a process. E.g. some application writing to file, or OneDrive doing backup
                                 //Will create DEADLOCK lock (commonQueueSubsetMetadataToSaveLock)
-                                if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave, true, this);
+                                //if (!GlobalData.IsApplicationClosing) FileHandler.WaitLockedFilesToBecomeUnlocked(commonQueueSubsetMetadataToSave, true, this);
+                                //No need to wait, will wait for each file inside ExiftoolWriter.WriteXtraAtom
 
                                 Dictionary<string, string> writeXtraAtomErrorMessageForFile = new Dictionary<string, string>();
                                 List<FileEntry> filesUpdatedByWriteXtraAtom = new List<FileEntry>();

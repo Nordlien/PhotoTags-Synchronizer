@@ -843,7 +843,7 @@ namespace PhotoTagsSynchronizer
             {
                 foreach (RegionStructure regionStructure in metadataCopy?.PersonalRegionList)
                 {
-                    if (!string.IsNullOrWhiteSpace(regionStructure.Name)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(regionStructure.Name));
+                    if (!string.IsNullOrWhiteSpace(regionStructure.Name)) metadataCopy.PersonalKeywordTagsAddIfNotExists(new KeywordTag(regionStructure.Name), false);
                 }
             }
             #endregion
