@@ -1059,6 +1059,7 @@ namespace Exiftool
                                 case "RegionInfoMP":    //Microsoft RegionInfoMP
                                                         //De-Serialization 
 
+                                    Logger.Debug("Face Region: " + exifToolData.Region + " " + exifToolData.Command + " " + parameter);
                                     List<RegionStructure> readRegionList = new List<RegionStructure>();
 
                                     if (parameter == "{Regions=}") break; //Empty list, skip
@@ -1142,7 +1143,7 @@ namespace Exiftool
                                                             region.AreaWidth = 1;
                                                             region.AreaHeight = 1;
                                                         }
-                                                        Logger.Debug("Region, Area: " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToString());
+                                                        Logger.Debug("Region, Area: " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToStringDebug());
                                                         break;
                                                     #endregion
 
@@ -1176,6 +1177,7 @@ namespace Exiftool
                                                                     break;
                                                             }
                                                         }
+                                                        Logger.Debug("Region, " + lastKnownFieldName + ": " + exifToolData.Region + " " + exifToolData.Command + " " + structObject.Value);
                                                         break;
                                                     case "Type":
                                                         region.Type = structObject.Value;
@@ -1207,7 +1209,8 @@ namespace Exiftool
                                                                     readRegionList.Add(region);
                                                                     Logger.Debug("Region, WindowsLivePhotoGallery (Added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToStringDebug());
                                                                 }
-                                                                else Logger.Debug("Region, WindowsLivePhotoGallery (Not added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToStringDebug());
+                                                                else 
+                                                                    Logger.Debug("Region, WindowsLivePhotoGallery (Not added): " + exifToolData.Region + " " + exifToolData.Command + " " + region.ToStringDebug());
                                                                 metadata.PersonalRegionListAddIfNotExists(region);
                                                                 region = null;
                                                             }
