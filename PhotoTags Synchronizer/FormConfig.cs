@@ -611,7 +611,7 @@ namespace PhotoTagsSynchronizer
                     case MetadataBrokerType.WebScraping:
                         listViewItem = new ListViewItem();
                         listViewItem.Text = "WebScraping";
-                        listViewItem.Tag = MetadataBrokerType.FileSystem;
+                        listViewItem.Tag = MetadataBrokerType.WebScraping;
                         imageListViewOrder.Items.Add(listViewItem);
                         break;
                 }
@@ -794,10 +794,6 @@ namespace PhotoTagsSynchronizer
             for (int index = 0; index < imageListViewOrderTitle.Items.Count; index++)
             {
                 if (!autoCorrect.TitlePriority.Contains((MetadataBrokerType)imageListViewOrderTitle.Items[index].Tag)) autoCorrect.TitlePriority.Add((MetadataBrokerType)imageListViewOrderTitle.Items[index].Tag);
-                else
-                {
-
-                }
             }
 
             if (radioButtonTitleDoNotChange.Checked)
@@ -822,10 +818,6 @@ namespace PhotoTagsSynchronizer
             for (int index = 0; index < imageListViewOrderAlbum.Items.Count; index++)
             {
                 if (!autoCorrect.AlbumPriority.Contains((MetadataBrokerType)imageListViewOrderAlbum.Items[index].Tag)) autoCorrect.AlbumPriority.Add((MetadataBrokerType)imageListViewOrderAlbum.Items[index].Tag);
-                else
-                {
-
-                }
             }
 
             if (radioButtonAlbumDoNotChange.Checked)

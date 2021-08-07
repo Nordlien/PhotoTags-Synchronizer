@@ -62,13 +62,10 @@ namespace PhotoTagsSynchronizer
         {
 			if (imageListViewDragAndDrop1.SelectedItems.Count == 1)
             {
-                //if (_itemDnD != itemOver)
-                //ListViewItem newItem = (ListViewItem)data.DragItems[i];
                 int itemIndex = imageListViewDragAndDrop1.SelectedItems[0].Index;
                 if (itemIndex > 0)
                 {
                     ListViewItem item = imageListViewDragAndDrop1.SelectedItems[0]; //.Clone();
-
                     imageListViewDragAndDrop1.Items.Remove(item);
                     imageListViewDragAndDrop1.Items.Insert(itemIndex - 1, item);
                 }
