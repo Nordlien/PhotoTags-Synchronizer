@@ -926,7 +926,8 @@ namespace PhotoTagsSynchronizer
 
             #region Description
             if (UpdateDescription)
-            {  
+            {
+                Logger.Debug("FixAndSave: Set Description as Album: " + (metadataCopy?.PersonalAlbum == null ? "null" : metadataCopy?.PersonalAlbum));
                 metadataCopy.PersonalDescription = metadataCopy.PersonalAlbum;
             }
             #endregion
