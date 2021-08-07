@@ -790,9 +790,14 @@ namespace PhotoTagsSynchronizer
 
             #region Title
             autoCorrect.TitlePriority.Clear();
-            foreach (ListViewItem item in imageListViewOrderTitle.Items)
+
+            for (int index = 0; index < imageListViewOrderTitle.Items.Count; index++)
             {
-                autoCorrect.TitlePriority.Add((MetadataBrokerType)item.Tag);
+                if (!autoCorrect.TitlePriority.Contains((MetadataBrokerType)imageListViewOrderTitle.Items[index].Tag)) autoCorrect.TitlePriority.Add((MetadataBrokerType)imageListViewOrderTitle.Items[index].Tag);
+                else
+                {
+
+                }
             }
 
             if (radioButtonTitleDoNotChange.Checked)
@@ -813,9 +818,14 @@ namespace PhotoTagsSynchronizer
 
             #region Album
             autoCorrect.AlbumPriority.Clear();
-            foreach (ListViewItem item in imageListViewOrderAlbum.Items)
+            //foreach (ListViewItem item in imageListViewOrderAlbum.Items)
+            for (int index = 0; index < imageListViewOrderAlbum.Items.Count; index++)
             {
-                autoCorrect.AlbumPriority.Add((MetadataBrokerType)item.Tag);
+                if (!autoCorrect.AlbumPriority.Contains((MetadataBrokerType)imageListViewOrderAlbum.Items[index].Tag)) autoCorrect.AlbumPriority.Add((MetadataBrokerType)imageListViewOrderAlbum.Items[index].Tag);
+                else
+                {
+
+                }
             }
 
             if (radioButtonAlbumDoNotChange.Checked)

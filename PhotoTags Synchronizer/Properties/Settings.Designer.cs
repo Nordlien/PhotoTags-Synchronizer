@@ -508,13 +508,10 @@ namespace PhotoTagsSynchronizer.Properties {
             "tionCountryChanged}-XMP:Country={LocationCountry}\r\n{IfLocationCountryChanged}-Co" +
             "untry={LocationCountry}\r\n{IfPersonalRegionChanged}-ImageRegion=\r\n{IfPersonalRegi" +
             "onChanged}-RegionInfoMP={PersonalRegionInfoMP}\r\n{IfPersonalRegionChanged}-Region" +
-            "Info={PersonalRegionInfo}\r\n{IfPersonalKeywordsChanged}-Subject=\r\n{IfPersonalKeyw" +
-            "ordsChanged}-Keyword=\r\n{IfPersonalKeywordsChanged}-Keywords=\r\n{IfPersonalKeyword" +
-            "sChanged}-XPKeywords=\r\n{IfPersonalKeywordsChanged}-Category=\r\n{IfPersonalKeyword" +
-            "sChanged}-Categories=\r\n{IfPersonalKeywordsChanged}-CatalogSets=\r\n{IfPersonalKeyw" +
-            "ordsChanged}-HierarchicalKeywords=\r\n{IfPersonalKeywordsChanged}-HierarchicalSubj" +
-            "ect=\r\n{IfPersonalKeywordsChanged}-LastKeywordXMP=\r\n{IfPersonalKeywordsChanged}-L" +
-            "astKeywordIPTC=\r\n{IfPersonalKeywordsChanged}-TagsList=\r\n{IfPersonalKeywordsChang" +
+            "Info={PersonalRegionInfo}\r\n{IfPersonalKeywordsChanged}-Keyword=\r\n{IfPersonalKeyw" +
+            "ordsChanged}-Category=\r\n{IfPersonalKeywordsChanged}-HierarchicalKeywords=\r\n{IfPe" +
+            "rsonalKeywordsChanged}-HierarchicalSubject=\r\n{IfPersonalKeywordsChanged}-LastKey" +
+            "wordXMP=\r\n{IfPersonalKeywordsChanged}-LastKeywordIPTC=\r\n{IfPersonalKeywordsChang" +
             "ed}{PersonalKeywordItemsDelete}\r\n{IfPersonalKeywordsChanged}{PersonalKeywordItem" +
             "sAdd}\r\n{IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}\r\n{IfPersonal" +
             "KeywordsChanged}-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
@@ -1153,8 +1150,8 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-Keywords+={KeywordItem}\r\n-Subject+={KeywordItem}\r\n-TagsList+={KeywordItem}\r\n-Cat" +
-            "alogSets+={KeywordItem}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-Keywords={KeywordItem}\r\n-Subject={KeywordItem}\r\n-TagsList={KeywordItem}\r\n-Catalo" +
+            "gSets={KeywordItem}")]
         public string RunArgumentBuildKeywordAdd {
             get {
                 return ((string)(this["RunArgumentBuildKeywordAdd"]));
@@ -1166,8 +1163,7 @@ explorer ms-photos?filename=""{FileFullPath}""")]
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-Keywords-={KeywordItem}\r\n-Subject-={KeywordItem}\r\n-TagsList-={KeywordItem}\r\n-Cat" +
-            "alogSets-={KeywordItem}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string RunArgumentBuildKeywordDelete {
             get {
                 return ((string)(this["RunArgumentBuildKeywordDelete"]));
@@ -1254,16 +1250,13 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             "tionCountryChanged}-XMP:Country={LocationCountry}\r\n{IfLocationCountryChanged}-Co" +
             "untry={LocationCountry}\r\n{IfPersonalRegionChanged}-ImageRegion=\r\n{IfPersonalRegi" +
             "onChanged}-RegionInfoMP={PersonalRegionInfoMP}\r\n{IfPersonalRegionChanged}-Region" +
-            "Info={PersonalRegionInfo}\r\n{IfPersonalKeywordsChanged}-Subject=\r\n{IfPersonalKeyw" +
-            "ordsChanged}-Keyword=\r\n{IfPersonalKeywordsChanged}-Keywords=\r\n{IfPersonalKeyword" +
-            "sChanged}-XPKeywords=\r\n{IfPersonalKeywordsChanged}-Category=\r\n{IfPersonalKeyword" +
-            "sChanged}-Categories=\r\n{IfPersonalKeywordsChanged}-CatalogSets=\r\n{IfPersonalKeyw" +
-            "ordsChanged}-HierarchicalKeywords=\r\n{IfPersonalKeywordsChanged}-HierarchicalSubj" +
-            "ect=\r\n{IfPersonalKeywordsChanged}-LastKeywordXMP=\r\n{IfPersonalKeywordsChanged}-L" +
-            "astKeywordIPTC=\r\n{IfPersonalKeywordsChanged}-TagsList=\r\n{IfPersonalKeywordsChang" +
+            "Info={PersonalRegionInfo}\r\n{IfPersonalKeywordsChanged}-Keyword=\r\n{IfPersonalKeyw" +
+            "ordsChanged}-Category=\r\n{IfPersonalKeywordsChanged}-HierarchicalKeywords=\r\n{IfPe" +
+            "rsonalKeywordsChanged}-HierarchicalSubject=\r\n{IfPersonalKeywordsChanged}-LastKey" +
+            "wordXMP=\r\n{IfPersonalKeywordsChanged}-LastKeywordIPTC=\r\n{IfPersonalKeywordsChang" +
             "ed}{PersonalKeywordItemsDelete}\r\n{IfPersonalKeywordsChanged}{PersonalKeywordItem" +
             "sAdd}\r\n{IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}\r\n{IfPersonal" +
-            "KeywordsChanged}-XPKeywords={PersonalKeywordsList}\r\n{FileFullPath}\r\n-execute")]
+            "KeywordsChanged}-XPKeywords={PersonalKeywordsList}{FileFullPath}\r\n-execute")]
         public string RunArgumentBuildKeywordTags {
             get {
                 return ((string)(this["RunArgumentBuildKeywordTags"]));

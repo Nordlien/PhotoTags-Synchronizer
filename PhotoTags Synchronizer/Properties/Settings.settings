@@ -472,18 +472,12 @@ filename=UTF8
 {IfPersonalRegionChanged}-ImageRegion=
 {IfPersonalRegionChanged}-RegionInfoMP={PersonalRegionInfoMP}
 {IfPersonalRegionChanged}-RegionInfo={PersonalRegionInfo}
-{IfPersonalKeywordsChanged}-Subject=
 {IfPersonalKeywordsChanged}-Keyword=
-{IfPersonalKeywordsChanged}-Keywords=
-{IfPersonalKeywordsChanged}-XPKeywords=
 {IfPersonalKeywordsChanged}-Category=
-{IfPersonalKeywordsChanged}-Categories=
-{IfPersonalKeywordsChanged}-CatalogSets=
 {IfPersonalKeywordsChanged}-HierarchicalKeywords=
 {IfPersonalKeywordsChanged}-HierarchicalSubject=
 {IfPersonalKeywordsChanged}-LastKeywordXMP=
 {IfPersonalKeywordsChanged}-LastKeywordIPTC=
-{IfPersonalKeywordsChanged}-TagsList=
 {IfPersonalKeywordsChanged}{PersonalKeywordItemsDelete}
 {IfPersonalKeywordsChanged}{PersonalKeywordItemsAdd}
 {IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}
@@ -660,16 +654,13 @@ edit</Value>
       <Value Profile="(Default)">cmd /K exiftool -charset utf8 -charset iptc=utf8 -codedcharacterset=utf8 -m -@ "{TempFileArgumentFullPath}"</Value>
     </Setting>
     <Setting Name="RunArgumentBuildKeywordAdd" Type="System.String" Scope="User">
-      <Value Profile="(Default)">-Keywords+={KeywordItem}
--Subject+={KeywordItem}
--TagsList+={KeywordItem}
--CatalogSets+={KeywordItem}</Value>
+      <Value Profile="(Default)">-Keywords={KeywordItem}
+-Subject={KeywordItem}
+-TagsList={KeywordItem}
+-CatalogSets={KeywordItem}</Value>
     </Setting>
     <Setting Name="RunArgumentBuildKeywordDelete" Type="System.String" Scope="User">
-      <Value Profile="(Default)">-Keywords-={KeywordItem}
--Subject-={KeywordItem}
--TagsList-={KeywordItem}
--CatalogSets-={KeywordItem}</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="RunArgumentBuildKeywordTags" Type="System.String" Scope="User">
       <Value Profile="(Default)">-charset
@@ -771,23 +762,16 @@ filename=UTF8
 {IfPersonalRegionChanged}-ImageRegion=
 {IfPersonalRegionChanged}-RegionInfoMP={PersonalRegionInfoMP}
 {IfPersonalRegionChanged}-RegionInfo={PersonalRegionInfo}
-{IfPersonalKeywordsChanged}-Subject=
 {IfPersonalKeywordsChanged}-Keyword=
-{IfPersonalKeywordsChanged}-Keywords=
-{IfPersonalKeywordsChanged}-XPKeywords=
 {IfPersonalKeywordsChanged}-Category=
-{IfPersonalKeywordsChanged}-Categories=
-{IfPersonalKeywordsChanged}-CatalogSets=
 {IfPersonalKeywordsChanged}-HierarchicalKeywords=
 {IfPersonalKeywordsChanged}-HierarchicalSubject=
 {IfPersonalKeywordsChanged}-LastKeywordXMP=
 {IfPersonalKeywordsChanged}-LastKeywordIPTC=
-{IfPersonalKeywordsChanged}-TagsList=
 {IfPersonalKeywordsChanged}{PersonalKeywordItemsDelete}
 {IfPersonalKeywordsChanged}{PersonalKeywordItemsAdd}
 {IfPersonalKeywordsChanged}-Categories={PersonalKeywordsXML}
-{IfPersonalKeywordsChanged}-XPKeywords={PersonalKeywordsList}
-{FileFullPath}
+{IfPersonalKeywordsChanged}-XPKeywords={PersonalKeywordsList}{FileFullPath}
 -execute</Value>
     </Setting>
     <Setting Name="SuggestRegionNameTopMostCount" Type="System.Int32" Scope="User">
