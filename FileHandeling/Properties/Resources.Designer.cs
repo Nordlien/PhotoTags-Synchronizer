@@ -63,29 +63,9 @@ namespace FileHandeling.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Backup_And_Sync_From_Google {
-            get {
-                object obj = ResourceManager.GetObject("Backup-And-Sync-From-Google", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Backup_And_Sync_From_Google_Pause {
             get {
                 object obj = ResourceManager.GetObject("Backup-And-Sync-From-Google-Pause", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap OneDrive {
-            get {
-                object obj = ResourceManager.GetObject("OneDrive", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
