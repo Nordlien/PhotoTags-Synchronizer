@@ -124,4 +124,10 @@
   <data name="Backup-And-Sync-From-Google" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Backup-And-Sync-From-Google.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="OneDrive-Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OneDrive-Pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Backup-And-Sync-From-Google-Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Backup-And-Sync-From-Google-Pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

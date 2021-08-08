@@ -85,13 +85,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\OneDrive.png" />
+    <None Include="Resources\OneDrive-Pause.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BackupAndSyncFromGoogle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Backup-And-Sync-From-Google.png" />
+    <None Include="Resources\Backup-And-Sync-From-Google-Pause.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

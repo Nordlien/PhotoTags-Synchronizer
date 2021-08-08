@@ -34,7 +34,7 @@ namespace PhotoTagsSynchronizer
                     string city = null;
                     string district = null;
                     string country = null;
-                    DateTime? dateTaken = null;
+                    DateTime? mediaDateTime = null;
 
                     ImageListViewItem imageListViewItem = imageListViewItems[baseItemIndex];
                     Metadata metadata = databaseAndCacheMetadataExiftool.ReadMetadataFromCacheOnly(new FileEntryBroker(imageListViewItem.FileFullPath, imageListViewItem.DateModified, MetadataBrokerType.ExifTool));
@@ -44,10 +44,9 @@ namespace PhotoTagsSynchronizer
                         city = metadata.LocationCity;
                         district = metadata.LocationState;
                         country = metadata.LocationCountry;
-                        dateTaken = metadata.MediaDateTaken;
+                        mediaDateTime = imageListViewItem.DateCreated;;
                         isMetadataNull = false;
-
-                        if (dateTaken == null && fallbackOnFileCreated) dateTaken = imageListViewItem.DateCreated;
+                        if (metadata.MediaDateTaken != null && fallbackOnFileCreated) mediaDateTime = metadata.MediaDateTaken;
                     }
                     else isMetadataNull = true;
 
@@ -93,13 +92,13 @@ namespace PhotoTagsSynchronizer
                             if (checkDistrict && district == metadata.LocationState) isItemsEqual = false;
                             if (checkCountry && country == metadata.LocationCountry) isItemsEqual = false;
 
-                            DateTime? metadataMediaDateTaken = metadata.MediaDateTaken;
-                            if (metadataMediaDateTaken == null && fallbackOnFileCreated) metadataMediaDateTaken = imageListViewItem.DateCreated;
+                            DateTime? metadataMediaDateTime = metadata.FileDateCreated;
+                            if (metadata.MediaDateTaken != null && fallbackOnFileCreated) metadataMediaDateTime = metadata.MediaDateTaken;
 
-                            if (checkDayRange && dateTaken != null && metadataMediaDateTaken == null) isItemsEqual = false;
-                            else if (checkDayRange && dateTaken == null && metadataMediaDateTaken != null) isItemsEqual = false;
-                            else if (dateTaken != null && metadataMediaDateTaken != null &&
-                                checkDayRange && Math.Abs(((DateTime)metadataMediaDateTaken - (DateTime)dateTaken).TotalDays) > maxDayRange) isItemsEqual = false;
+                            if (checkDayRange && mediaDateTime != null && metadataMediaDateTime == null) isItemsEqual = false;
+                            else if (checkDayRange && mediaDateTime == null && metadataMediaDateTime != null) isItemsEqual = false;
+                            else if (mediaDateTime != null && metadataMediaDateTime != null &&
+                                checkDayRange && Math.Abs(((DateTime)metadataMediaDateTime - (DateTime)mediaDateTime).TotalDays) > maxDayRange) isItemsEqual = false;
 
                             if (isItemsEqual)
                             {
