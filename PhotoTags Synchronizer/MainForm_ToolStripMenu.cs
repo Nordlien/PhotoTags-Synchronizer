@@ -422,11 +422,14 @@ namespace PhotoTagsSynchronizer
                     bool useComments = formAutoCorrect.UseComments;
                     bool uselDescription = formAutoCorrect.UseDescription;
                     bool useTitle = formAutoCorrect.UseTitle;
+                    
 
                     AutoCorrect autoCorrect = AutoCorrect.ConvertConfigValue(Properties.Settings.Default.AutoCorrect);
                     float locationAccuracyLatitude = Properties.Settings.Default.LocationAccuracyLatitude;
                     float locationAccuracyLongitude = Properties.Settings.Default.LocationAccuracyLongitude;
                     int writeCreatedDateAndTimeAttributeTimeIntervalAccepted = Properties.Settings.Default.WriteFileAttributeCreatedDateTimeIntervalAccepted;
+
+                    bool writeAlbumOnDescription = autoCorrect.UpdateDescription;
 
                     foreach (ImageListViewItem item in imageListView1.SelectedItems)
                     {
@@ -456,6 +459,14 @@ namespace PhotoTagsSynchronizer
 
                             if (useTitle) metadataToSave.PersonalTitle = title;
                             if (!useTitle || string.IsNullOrWhiteSpace(metadataToSave.PersonalTitle)) metadataToSave.PersonalTitle = null;
+
+                            #region Description
+                            if (writeAlbumOnDescription)
+                            {
+                                Logger.Debug("AutoCorrectForm: Set Description as Album: " + (metadataToSave?.PersonalAlbum == null ? "null" : metadataToSave?.PersonalAlbum));
+                                metadataToSave.PersonalDescription = metadataToSave.PersonalAlbum;
+                            }
+                            #endregion
 
                             foreach (string keyword in keywords)
                             {

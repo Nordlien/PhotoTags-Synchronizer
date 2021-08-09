@@ -480,8 +480,8 @@ namespace PhotoTagsSynchronizer
                     locationAddress.AddressLookupNearestAndUpdate(
                         new LocationCoordinateAndDescription(
                             new LocationCoordinate( 
-                                (float)gridViewGenericColumn.Metadata.LocationLatitude,
-                                (float)gridViewGenericColumn.Metadata.LocationLongitude),
+                                (float)locationCoordinateNomnatatim.Latitude,
+                                (float)locationCoordinateNomnatatim.Longitude),
                             new LocationDescription(
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagLocationName), //Name
                                 (string)DataGridViewHandler.GetCellValue(dataGridView, e.ColumnIndex, DataGridViewHandlerMap.headerNominatim, DataGridViewHandlerMap.tagCity), //City
