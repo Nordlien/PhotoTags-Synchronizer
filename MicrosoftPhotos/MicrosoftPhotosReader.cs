@@ -95,11 +95,20 @@ namespace MicrosoftPhotos
                                 metadata.FileDateAccessed == null ||
                                 File.Exists(fullFilePath))
                             {
-                                //Due to sometimes NULL in Microsoft Database, I always use current file attributes.
-                                FileInfo fileInfo = new FileInfo(fullFilePath);
-                                metadata.FileDateCreated = fileInfo.CreationTime; //File.GetCreationTime(fullFilePath);
-                                metadata.FileDateModified = fileInfo.LastWriteTime; //File.GetLastWriteTime(fullFilePath);
-                                metadata.FileDateAccessed = fileInfo.LastAccessTime; //File.GetLastAccessTime(fullFilePath);
+                                try
+                                {
+                                    //Due to sometimes NULL in Microsoft Database, I always use current file attributes.
+                                    FileInfo fileInfo = new FileInfo(fullFilePath);
+                                    metadata.FileDateCreated = fileInfo.CreationTime; //File.GetCreationTime(fullFilePath);
+                                    metadata.FileDateModified = fileInfo.LastWriteTime; //File.GetLastWriteTime(fullFilePath);
+                                    metadata.FileDateAccessed = fileInfo.LastAccessTime; //File.GetLastAccessTime(fullFilePath);
+                                } catch (Exception ex)
+                                {
+                                    Logger.Error(ex);
+                                    metadata.FileDateCreated = DateTime.Now;
+                                    metadata.FileDateModified = metadata.FileDateCreated; //File.GetLastWriteTime(fullFilePath);
+                                    metadata.FileDateAccessed = metadata.FileDateCreated; //File.GetLastAccessTime(fullFilePath);
+                                }
                             }
 
                             //Personal
