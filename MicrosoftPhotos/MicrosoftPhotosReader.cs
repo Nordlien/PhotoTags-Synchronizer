@@ -90,12 +90,16 @@ namespace MicrosoftPhotos
                             metadata.FileDateCreated = dbTools.ConvertSecoundsSince1600ToDateTime(reader["Item_DateCreated"], DateTimeKind.Utc);
                             metadata.FileDateModified = dbTools.ConvertSecoundsSince1600ToDateTime(reader["Item_DateModified"], DateTimeKind.Utc);
 
-                            if (File.Exists(fullFilePath))
+                            if (metadata.FileDateCreated == null ||
+                                metadata.FileDateModified == null ||
+                                metadata.FileDateAccessed == null ||
+                                File.Exists(fullFilePath))
                             {
                                 //Due to sometimes NULL in Microsoft Database, I always use current file attributes.
-                                metadata.FileDateCreated = File.GetCreationTime(fullFilePath);
-                                metadata.FileDateModified = File.GetLastWriteTime(fullFilePath);
-                                metadata.FileDateAccessed = File.GetLastAccessTime(fullFilePath);
+                                FileInfo fileInfo = new FileInfo(fullFilePath);
+                                metadata.FileDateCreated = fileInfo.CreationTime; //File.GetCreationTime(fullFilePath);
+                                metadata.FileDateModified = fileInfo.LastWriteTime; //File.GetLastWriteTime(fullFilePath);
+                                metadata.FileDateAccessed = fileInfo.LastAccessTime; //File.GetLastAccessTime(fullFilePath);
                             }
 
                             //Personal
