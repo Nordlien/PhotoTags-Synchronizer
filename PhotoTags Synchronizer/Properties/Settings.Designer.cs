@@ -2260,5 +2260,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["WriteMetadataAddAutoKeywords"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ApplicationDarkMode {
+            get {
+                return ((bool)(this["ApplicationDarkMode"]));
+            }
+            set {
+                this["ApplicationDarkMode"] = value;
+            }
+        }
     }
 }

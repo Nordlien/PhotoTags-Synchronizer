@@ -1450,7 +1450,7 @@ namespace PhotoTagsSynchronizer
                         imageListView1.Enabled = true;
                         imageListView1.Focus();
 
-
+                        UpdateColorControls(this, Properties.Settings.Default.ApplicationDarkMode);
                     }
                 }
             }

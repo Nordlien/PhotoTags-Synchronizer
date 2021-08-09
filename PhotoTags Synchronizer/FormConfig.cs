@@ -377,6 +377,8 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.ApplicationDebugExiftoolReadThreadPrioity = ConvertIndexToProcessPriorityClass(comboBoxApplicationDebugExiftoolReadThreadPrioity.SelectedIndex);
                 Properties.Settings.Default.ApplicationDebugExiftoolWriteThreadPrioity = ConvertIndexToProcessPriorityClass(comboBoxApplicationDebugExiftoolWriteThreadPrioity.SelectedIndex);
                 Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity = comboBoxApplicationDebugBackgroundThreadPrioity.SelectedIndex;
+                //Layout
+                Properties.Settings.Default.ApplicationDarkMode = checkBoxApplicationDarkMode.Checked;
 
                 //AutoCorrect
                 GetAutoCorrectPoperties();
@@ -570,7 +572,8 @@ namespace PhotoTagsSynchronizer
             comboBoxApplicationDebugExiftoolReadThreadPrioity.SelectedIndex = ConvertPriorityClassToIndex((ProcessPriorityClass)Properties.Settings.Default.ApplicationDebugExiftoolReadThreadPrioity);
             comboBoxApplicationDebugExiftoolWriteThreadPrioity.SelectedIndex = ConvertPriorityClassToIndex((ProcessPriorityClass)Properties.Settings.Default.ApplicationDebugExiftoolWriteThreadPrioity);
             comboBoxApplicationDebugBackgroundThreadPrioity.SelectedIndex = Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
-
+            //Layout
+            checkBoxApplicationDarkMode.Checked = Properties.Settings.Default.ApplicationDarkMode;
         }
         #endregion 
 

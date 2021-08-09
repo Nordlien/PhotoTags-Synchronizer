@@ -23,6 +23,7 @@ using System.Net;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace PhotoTagsSynchronizer
 {
@@ -39,52 +40,114 @@ namespace PhotoTagsSynchronizer
         public const string LinkTabAndDataGridViewNameRename = "Rename";
         public const string LinkTabAndDataGridViewNameConvertAndMerge = "Convert and Merge";
 
-        /*
-public void ChangeTheme(ColorScheme scheme, Control.ControlCollection container)
-{
-foreach (Control component in container)
-{
-if (component is Panel)
-{
-ChangeTheme(scheme, component.Controls);
-component.BackColor = scheme.PanelBG;
-component.ForeColor = scheme.PanelFG;
-}
-else if (component is Button)
-{
-component.BackColor = scheme.ButtonBG;
-component.ForeColor = scheme.ButtonFG;
-}
-else if (component is TextBox)
-{
-component.BackColor = scheme.TextBoxBG;
-component.ForeColor = scheme.TextBoxFG;
-}
-}
-}
 
-public void UpdateColorControls(Control myControl)
-{
-if (myControl is TextBox)
-{
-myControl.BackColor = Colors.Black;
-myControl.ForeColor = Colors.White;
-}
-if (myControl is DataGridView)
-{
-DataGridView MyDgv = (DataGridView)myControl;
-MyDgv.ColumnHeadersDefaultCellStyle.BackColor = Colors.Black;
-MyDgv.ColumnHeadersDefaultCellStyle.ForeColor = Colors.White;
-}
+        /*public void ChangeTheme(ColorScheme scheme, Control.ControlCollection container)
+        {
+            foreach (Control component in container)
+            {
+                if (component is Panel)
+                {
+                    ChangeTheme(scheme, component.Controls);
+                    component.BackColor = scheme.PanelBG;
+                    component.ForeColor = scheme.PanelFG;
+                }
+                else if (component is Button)
+                {
+                    component.BackColor = scheme.ButtonBG;
+                    component.ForeColor = scheme.ButtonFG;
+                }
+                else if (component is TextBox)
+                {
+                    component.BackColor = scheme.TextBoxBG;
+                    component.ForeColor = scheme.TextBoxFG;
+                }
+            }
+        }*/
 
-// Any other non-standard controls should be implemented here aswell...
+        public void UpdateColorControls(Control control, bool useDarkMode)
+        {
+            if (control is Button ||
+                control is CheckBox ||
+                control is CheckedListBox ||
+                control is ComboBox ||
+                control is DateTimePicker ||
+                control is Form ||
+                control is GroupBox ||
+                control is HScrollBar || control is VScrollBar ||
+                control is Panel ||
+                control is ProgressBar ||
+                control is PictureBox ||
+                control is Label ||
+                control is MdiClient ||
+                control is RadioButton ||
+                control is TabControl ||
+                control is TabPage ||
+                control is TrackBar ||
+                control is TextBox ||
+                control is ToolStrip ||                
+                control is ToolStripContainer ||
+                control is ToolStripContentPanel ||
+                control is ToolStripPanel ||
+                control is SplitContainer ||
 
-foreach (Control subC in myControl.Controls) 
-{
-UpdateColorControls(subC);
-} 
-}
-*/
+                control is CefSharp.WinForms.ChromiumWebBrowser ||
+                control is Cyotek.Windows.Forms.ImageBox ||
+                control is DragNDrop.TreeViewWithoutDoubleClick ||
+                control is Furty.Windows.Forms.FolderTreeView ||
+                control is LibVLCSharp.WinForms.VideoView ||
+                control is Manina.Windows.Forms.ImageListView 
+                
+                )
+            {
+                if (useDarkMode)
+                {
+                    control.BackColor = Color.Black;
+                    control.ForeColor = Color.Gray;
+                } else
+                {
+                    control.BackColor = SystemColors.Control;
+                    control.ForeColor = SystemColors.ControlText;
+                }
+            }
+            else if (control is DataGridView)
+            {
+                if (useDarkMode)
+                {
+                    DataGridView MyDgv = (DataGridView)control;
+                    MyDgv.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
+                    MyDgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Gray;
+                    MyDgv.RowHeadersDefaultCellStyle.BackColor = Color.Black;
+                    MyDgv.RowHeadersDefaultCellStyle.ForeColor = Color.Gray;
+
+                    MyDgv.DefaultCellStyle.BackColor = Color.DarkGray;
+                    MyDgv.DefaultCellStyle.ForeColor = SystemColors.ControlText;
+                    MyDgv.DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
+                    MyDgv.DefaultCellStyle.SelectionForeColor = SystemColors.HighlightText;
+                }
+                else
+                {
+                    DataGridView MyDgv = (DataGridView)control;
+                    MyDgv.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
+                    MyDgv.ColumnHeadersDefaultCellStyle.ForeColor = SystemColors.WindowText;
+                    MyDgv.RowHeadersDefaultCellStyle.BackColor = SystemColors.Control;
+                    MyDgv.RowHeadersDefaultCellStyle.ForeColor = SystemColors.WindowText;
+
+                    MyDgv.DefaultCellStyle.BackColor = SystemColors.Window;
+                    MyDgv.DefaultCellStyle.ForeColor = SystemColors.ControlText;
+                    MyDgv.DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
+                    MyDgv.DefaultCellStyle.SelectionForeColor = SystemColors.HighlightText;
+                }
+            } else
+            {
+                // Any other non-standard controls should be implemented here aswell...
+            }
+
+            foreach (Control subControls in control.Controls)
+            {
+                UpdateColorControls(subControls, useDarkMode);
+            }
+        }
+
 
         private ShowWhatColumns showWhatColumns;
 
@@ -686,6 +749,7 @@ UpdateColorControls(subC);
         private void MainForm_Shown(object sender, EventArgs e)
         {
             isFormLoading = false;
+            if (Properties.Settings.Default.ApplicationDarkMode == true) UpdateColorControls(this, Properties.Settings.Default.ApplicationDarkMode);
 
             #region Initialize folder tree...
             //If in Form_Load
