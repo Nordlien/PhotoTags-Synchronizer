@@ -122,6 +122,12 @@ namespace MicrosoftPhotos
 
                             metadata.LocationLatitude = dbTools.ConvertFromDBValFloat(reader["Item_Latitude"]);
                             metadata.LocationLongitude = dbTools.ConvertFromDBValFloat(reader["Item_Longitude"]);
+
+                            if (metadata.LocationLatitude == 0 && metadata.LocationLongitude == 0) //Due to bug in Microsoft Photos Gallery
+                            {
+                                metadata.LocationLatitude = null;
+                                metadata.LocationLongitude = null;
+                            }
                             break;
                         }
                     }
