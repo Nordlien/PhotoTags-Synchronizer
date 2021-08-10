@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using SkinFramework;
 
 namespace PhotoTagsSynchronizer
 {
@@ -71,7 +72,7 @@ namespace PhotoTagsSynchronizer
                 control is CheckedListBox ||
                 control is ComboBox ||
                 control is DateTimePicker ||
-                control is Form ||
+                //control is Form ||
                 control is GroupBox ||
                 control is HScrollBar || control is VScrollBar ||
                 control is Panel ||
@@ -108,6 +109,23 @@ namespace PhotoTagsSynchronizer
                     control.BackColor = SystemColors.Control;
                     control.ForeColor = SystemColors.ControlText;
                 }
+            }
+            else if (control is Form)
+            {
+                DefaultSkin skin = DefaultSkin.Office2007Luna;
+                if (useDarkMode)
+                {
+                    skin = DefaultSkin.Office2007Obsidian;
+                    control.BackColor = Color.Black;
+                    control.ForeColor = Color.Gray;
+                }
+                else
+                {
+                    skin = DefaultSkin.Office2007Luna;
+                    control.BackColor = SystemColors.Control;
+                    control.ForeColor = SystemColors.ControlText;
+                }
+                skinningManager1.DefaultSkin = skin;
             }
             else if (control is DataGridView)
             {

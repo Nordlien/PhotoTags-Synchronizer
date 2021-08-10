@@ -596,6 +596,10 @@
       <Project>{e461bcc8-e354-45a4-bf24-2d68072b456f}</Project>
       <Name>PhotoTagsCommonComponets</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SkinFramework\SkinFramework.csproj">
+      <Project>{d80211dd-2ef6-44f0-b4f8-fa3a708528ce}</Project>
+      <Name>SkinFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj">
       <Project>{c14ac62e-7b1a-471b-8660-e9c28d89f316}</Project>
       <Name>SqliteDatabase</Name>

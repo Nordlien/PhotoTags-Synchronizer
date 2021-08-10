@@ -48,6 +48,9 @@
     <Compile Include="CheckedListBoxHigherRows.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TabControlCustom.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FormTerminalWindow.cs">
       <SubType>Form</SubType>
     </Compile>
