@@ -504,11 +504,17 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainerFolder);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.panel2);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1387, 892);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1387, 887);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripContainer1.Name = "toolStripContainer1";
+            // 
+            // toolStripContainer1.RightToolStripPanel
+            // 
+            this.toolStripContainer1.RightToolStripPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.toolStripContainer1.RightToolStripPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.toolStripContainer1.RightToolStripPanelVisible = false;
             this.toolStripContainer1.Size = new System.Drawing.Size(1387, 950);
             this.toolStripContainer1.TabIndex = 0;
@@ -516,6 +522,7 @@ namespace PhotoTagsSynchronizer
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
+            this.toolStripContainer1.TopToolStripPanel.BackColor = System.Drawing.SystemColors.Control;
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip);
             // 
             // statusStrip
@@ -633,7 +640,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.splitContainerFolder.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerFolder.Panel2.Controls.Add(this.splitContainerImages);
-            this.splitContainerFolder.Size = new System.Drawing.Size(1387, 892);
+            this.splitContainerFolder.Size = new System.Drawing.Size(1387, 887);
             this.splitContainerFolder.SplitterDistance = 320;
             this.splitContainerFolder.SplitterWidth = 10;
             this.splitContainerFolder.TabIndex = 0;
@@ -649,16 +656,16 @@ namespace PhotoTagsSynchronizer
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(320, 892);
+            this.tabControl1.Size = new System.Drawing.Size(320, 887);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageFilterFolder
             // 
             this.tabPageFilterFolder.Controls.Add(this.folderTreeViewFolder);
             this.tabPageFilterFolder.Location = new System.Drawing.Point(4, 28);
+            this.tabPageFilterFolder.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageFilterFolder.Name = "tabPageFilterFolder";
-            this.tabPageFilterFolder.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFilterFolder.Size = new System.Drawing.Size(310, 859);
+            this.tabPageFilterFolder.Size = new System.Drawing.Size(310, 854);
             this.tabPageFilterFolder.TabIndex = 0;
             this.tabPageFilterFolder.Text = "Folder";
             this.tabPageFilterFolder.UseVisualStyleBackColor = true;
@@ -666,13 +673,14 @@ namespace PhotoTagsSynchronizer
             // folderTreeViewFolder
             // 
             this.folderTreeViewFolder.AllowDrop = true;
+            this.folderTreeViewFolder.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.folderTreeViewFolder.ContextMenuStrip = this.contextMenuStripTreeViewFolder;
             this.folderTreeViewFolder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.folderTreeViewFolder.HideSelection = false;
             this.folderTreeViewFolder.ItemHeight = 16;
-            this.folderTreeViewFolder.Location = new System.Drawing.Point(3, 3);
+            this.folderTreeViewFolder.Location = new System.Drawing.Point(0, 0);
             this.folderTreeViewFolder.Name = "folderTreeViewFolder";
-            this.folderTreeViewFolder.Size = new System.Drawing.Size(304, 853);
+            this.folderTreeViewFolder.Size = new System.Drawing.Size(310, 854);
             this.folderTreeViewFolder.TabIndex = 0;
             this.folderTreeViewFolder.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.folderTreeViewFolder_ItemDrag);
             this.folderTreeViewFolder.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.folderTreeView1_AfterSelect);
@@ -803,10 +811,10 @@ namespace PhotoTagsSynchronizer
             // tabPageFilterSearch
             // 
             this.tabPageFilterSearch.Controls.Add(this.panel4);
-            this.tabPageFilterSearch.Location = new System.Drawing.Point(4, 28);
+            this.tabPageFilterSearch.Location = new System.Drawing.Point(4, 27);
+            this.tabPageFilterSearch.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageFilterSearch.Name = "tabPageFilterSearch";
-            this.tabPageFilterSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFilterSearch.Size = new System.Drawing.Size(310, 859);
+            this.tabPageFilterSearch.Size = new System.Drawing.Size(310, 855);
             this.tabPageFilterSearch.TabIndex = 2;
             this.tabPageFilterSearch.Text = "Search";
             this.tabPageFilterSearch.UseVisualStyleBackColor = true;
@@ -817,9 +825,10 @@ namespace PhotoTagsSynchronizer
             this.panel4.Controls.Add(this.panelSearchFilter);
             this.panel4.Controls.Add(this.buttonSearch);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Margin = new System.Windows.Forms.Padding(0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(304, 853);
+            this.panel4.Size = new System.Drawing.Size(310, 855);
             this.panel4.TabIndex = 18;
             // 
             // checkBoxSerachFitsAllValues
@@ -828,7 +837,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSerachFitsAllValues.AutoSize = true;
             this.checkBoxSerachFitsAllValues.Checked = true;
             this.checkBoxSerachFitsAllValues.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSerachFitsAllValues.Location = new System.Drawing.Point(3, 818);
+            this.checkBoxSerachFitsAllValues.Location = new System.Drawing.Point(3, 820);
             this.checkBoxSerachFitsAllValues.Name = "checkBoxSerachFitsAllValues";
             this.checkBoxSerachFitsAllValues.Size = new System.Drawing.Size(54, 21);
             this.checkBoxSerachFitsAllValues.TabIndex = 26;
@@ -849,8 +858,9 @@ namespace PhotoTagsSynchronizer
             this.panelSearchFilter.Controls.Add(this.groupBoxSearchMediaTaken);
             this.panelSearchFilter.Controls.Add(this.groupBoxSearchTags);
             this.panelSearchFilter.Location = new System.Drawing.Point(0, 0);
+            this.panelSearchFilter.Margin = new System.Windows.Forms.Padding(0);
             this.panelSearchFilter.Name = "panelSearchFilter";
-            this.panelSearchFilter.Size = new System.Drawing.Size(299, 803);
+            this.panelSearchFilter.Size = new System.Drawing.Size(305, 805);
             this.panelSearchFilter.TabIndex = 2;
             // 
             // groupBoxSearchKeywords
@@ -957,7 +967,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchRating5.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.checkBoxSearchRating5.Location = new System.Drawing.Point(200, 20);
             this.checkBoxSearchRating5.Name = "checkBoxSearchRating5";
-            this.checkBoxSearchRating5.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating5.Size = new System.Drawing.Size(34, 17);
             this.checkBoxSearchRating5.TabIndex = 4;
             this.checkBoxSearchRating5.UseVisualStyleBackColor = true;
             // 
@@ -967,7 +977,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchRating4.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.checkBoxSearchRating4.Location = new System.Drawing.Point(152, 20);
             this.checkBoxSearchRating4.Name = "checkBoxSearchRating4";
-            this.checkBoxSearchRating4.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating4.Size = new System.Drawing.Size(34, 17);
             this.checkBoxSearchRating4.TabIndex = 3;
             this.checkBoxSearchRating4.UseVisualStyleBackColor = true;
             // 
@@ -977,7 +987,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchRating3.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.checkBoxSearchRating3.Location = new System.Drawing.Point(104, 20);
             this.checkBoxSearchRating3.Name = "checkBoxSearchRating3";
-            this.checkBoxSearchRating3.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating3.Size = new System.Drawing.Size(34, 17);
             this.checkBoxSearchRating3.TabIndex = 2;
             this.checkBoxSearchRating3.UseVisualStyleBackColor = true;
             // 
@@ -987,7 +997,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchRating2.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.checkBoxSearchRating2.Location = new System.Drawing.Point(56, 20);
             this.checkBoxSearchRating2.Name = "checkBoxSearchRating2";
-            this.checkBoxSearchRating2.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating2.Size = new System.Drawing.Size(34, 17);
             this.checkBoxSearchRating2.TabIndex = 1;
             this.checkBoxSearchRating2.UseVisualStyleBackColor = true;
             // 
@@ -997,7 +1007,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSearchRating1.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.checkBoxSearchRating1.Location = new System.Drawing.Point(8, 20);
             this.checkBoxSearchRating1.Name = "checkBoxSearchRating1";
-            this.checkBoxSearchRating1.Size = new System.Drawing.Size(42, 24);
+            this.checkBoxSearchRating1.Size = new System.Drawing.Size(34, 17);
             this.checkBoxSearchRating1.TabIndex = 0;
             this.checkBoxSearchRating1.UseVisualStyleBackColor = true;
             // 
@@ -1032,6 +1042,7 @@ namespace PhotoTagsSynchronizer
             this.panel5.Controls.Add(this.checkBoxSearchNeedAllNames);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 20);
+            this.panel5.Margin = new System.Windows.Forms.Padding(0);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(307, 97);
             this.panel5.TabIndex = 16;
@@ -1374,7 +1385,7 @@ namespace PhotoTagsSynchronizer
             // buttonSearch
             // 
             this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSearch.Location = new System.Drawing.Point(98, 809);
+            this.buttonSearch.Location = new System.Drawing.Point(104, 811);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(202, 37);
             this.buttonSearch.TabIndex = 42;
@@ -1385,10 +1396,10 @@ namespace PhotoTagsSynchronizer
             // tabPageFilterTags
             // 
             this.tabPageFilterTags.Controls.Add(this.treeViewFilter);
-            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 28);
+            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 27);
+            this.tabPageFilterTags.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageFilterTags.Name = "tabPageFilterTags";
-            this.tabPageFilterTags.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFilterTags.Size = new System.Drawing.Size(310, 859);
+            this.tabPageFilterTags.Size = new System.Drawing.Size(310, 855);
             this.tabPageFilterTags.TabIndex = 1;
             this.tabPageFilterTags.Text = "Filter";
             this.tabPageFilterTags.UseVisualStyleBackColor = true;
@@ -1397,14 +1408,14 @@ namespace PhotoTagsSynchronizer
             // 
             this.treeViewFilter.CheckBoxes = true;
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewFilter.Location = new System.Drawing.Point(3, 3);
+            this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
             treeNode1.Name = "NodeFolder";
             treeNode1.Tag = "Filter";
             treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeViewFilter.Size = new System.Drawing.Size(304, 853);
+            this.treeViewFilter.Size = new System.Drawing.Size(310, 855);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -1425,7 +1436,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.splitContainerImages.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerImages.Panel2.Controls.Add(this.panel1);
-            this.splitContainerImages.Size = new System.Drawing.Size(1057, 892);
+            this.splitContainerImages.Size = new System.Drawing.Size(1057, 887);
             this.splitContainerImages.SplitterDistance = 333;
             this.splitContainerImages.SplitterWidth = 10;
             this.splitContainerImages.TabIndex = 0;
@@ -1435,6 +1446,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.imageListView1.AllowDrag = true;
             this.imageListView1.AllowDrop = true;
+            this.imageListView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView1.CacheLimit = "0";
             this.imageListView1.CacheMode = Manina.Windows.Forms.CacheMode.Continuous;
             this.imageListView1.ContextMenuStrip = this.contextMenuStripImageListView;
@@ -1446,7 +1458,7 @@ namespace PhotoTagsSynchronizer
             this.imageListView1.Location = new System.Drawing.Point(0, 0);
             this.imageListView1.Name = "imageListView1";
             this.imageListView1.RetryOnError = false;
-            this.imageListView1.Size = new System.Drawing.Size(333, 892);
+            this.imageListView1.Size = new System.Drawing.Size(333, 887);
             this.imageListView1.SortColumn = Manina.Windows.Forms.ColumnType.FileName;
             this.imageListView1.TabIndex = 1;
             this.imageListView1.Text = "";
@@ -1823,11 +1835,13 @@ namespace PhotoTagsSynchronizer
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
             this.panel1.Controls.Add(this.tabControlToolbox);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(714, 892);
+            this.panel1.Size = new System.Drawing.Size(714, 887);
             this.panel1.TabIndex = 0;
             // 
             // tabControlToolbox
@@ -1846,7 +1860,7 @@ namespace PhotoTagsSynchronizer
             this.tabControlToolbox.Margin = new System.Windows.Forms.Padding(0);
             this.tabControlToolbox.Name = "tabControlToolbox";
             this.tabControlToolbox.SelectedIndex = 0;
-            this.tabControlToolbox.Size = new System.Drawing.Size(714, 892);
+            this.tabControlToolbox.Size = new System.Drawing.Size(714, 887);
             this.tabControlToolbox.TabIndex = 0;
             this.tabControlToolbox.SelectedIndexChanged += new System.EventHandler(this.tabControlToolbox_SelectedIndexChanged);
             this.tabControlToolbox.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControlToolbox_Selecting);
@@ -1869,9 +1883,9 @@ namespace PhotoTagsSynchronizer
             this.tabPageTags.Controls.Add(this.comboBoxDescription);
             this.tabPageTags.Controls.Add(this.comboBoxTitle);
             this.tabPageTags.Location = new System.Drawing.Point(4, 28);
+            this.tabPageTags.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageTags.Name = "tabPageTags";
-            this.tabPageTags.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTags.Size = new System.Drawing.Size(704, 859);
+            this.tabPageTags.Size = new System.Drawing.Size(704, 854);
             this.tabPageTags.TabIndex = 1;
             this.tabPageTags.Tag = "Tags";
             this.tabPageTags.Text = "Tags";
@@ -1881,7 +1895,7 @@ namespace PhotoTagsSynchronizer
             // labelTagsInformation
             // 
             this.labelTagsInformation.AutoSize = true;
-            this.labelTagsInformation.Location = new System.Drawing.Point(292, 152);
+            this.labelTagsInformation.Location = new System.Drawing.Point(289, 149);
             this.labelTagsInformation.Name = "labelTagsInformation";
             this.labelTagsInformation.Size = new System.Drawing.Size(493, 17);
             this.labelTagsInformation.TabIndex = 6;
@@ -1890,7 +1904,7 @@ namespace PhotoTagsSynchronizer
             // labelAuthor
             // 
             this.labelAuthor.AutoSize = true;
-            this.labelAuthor.Location = new System.Drawing.Point(6, 118);
+            this.labelAuthor.Location = new System.Drawing.Point(3, 115);
             this.labelAuthor.Name = "labelAuthor";
             this.labelAuthor.Size = new System.Drawing.Size(50, 17);
             this.labelAuthor.TabIndex = 14;
@@ -1904,9 +1918,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAuthor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxAuthor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxAuthor.FormattingEnabled = true;
-            this.comboBoxAuthor.Location = new System.Drawing.Point(88, 115);
+            this.comboBoxAuthor.Location = new System.Drawing.Point(85, 112);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
-            this.comboBoxAuthor.Size = new System.Drawing.Size(607, 25);
+            this.comboBoxAuthor.Size = new System.Drawing.Size(613, 25);
             this.comboBoxAuthor.TabIndex = 4;
             this.comboBoxAuthor.TextChanged += new System.EventHandler(this.comboBoxAuthor_TextChanged);
             // 
@@ -1937,14 +1951,14 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewTagsAndKeywords.ColumnHeadersHeight = 200;
             this.dataGridViewTagsAndKeywords.ContextMenuStrip = this.contextMenuStripTagsAndKeywords;
-            this.dataGridViewTagsAndKeywords.Location = new System.Drawing.Point(9, 213);
+            this.dataGridViewTagsAndKeywords.Location = new System.Drawing.Point(0, 213);
             this.dataGridViewTagsAndKeywords.Name = "dataGridViewTagsAndKeywords";
             this.dataGridViewTagsAndKeywords.RowHeadersWidth = 51;
             this.dataGridViewTagsAndKeywords.RowTemplate.Height = 24;
             this.dataGridViewTagsAndKeywords.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTagsAndKeywords.ShowCellErrors = false;
             this.dataGridViewTagsAndKeywords.ShowRowErrors = false;
-            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(692, 639);
+            this.dataGridViewTagsAndKeywords.Size = new System.Drawing.Size(704, 629);
             this.dataGridViewTagsAndKeywords.TabIndex = 9;
             this.dataGridViewTagsAndKeywords.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewTagsAndKeywords_CellBeginEdit);
             this.dataGridViewTagsAndKeywords.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTagsAndKeywords_CellEnter);
@@ -2178,7 +2192,7 @@ namespace PhotoTagsSynchronizer
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 185);
+            this.label5.Location = new System.Drawing.Point(3, 182);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(37, 17);
             this.label5.TabIndex = 7;
@@ -2191,9 +2205,9 @@ namespace PhotoTagsSynchronizer
             this.groupBoxRating.Controls.Add(this.radioButtonRating3);
             this.groupBoxRating.Controls.Add(this.radioButtonRating2);
             this.groupBoxRating.Controls.Add(this.radioButtonRating1);
-            this.groupBoxRating.Location = new System.Drawing.Point(9, 142);
+            this.groupBoxRating.Location = new System.Drawing.Point(6, 135);
             this.groupBoxRating.Name = "groupBoxRating";
-            this.groupBoxRating.Size = new System.Drawing.Size(277, 38);
+            this.groupBoxRating.Size = new System.Drawing.Size(280, 45);
             this.groupBoxRating.TabIndex = 5;
             this.groupBoxRating.TabStop = false;
             this.groupBoxRating.Text = "Rating";
@@ -2204,7 +2218,7 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating5.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating5.Location = new System.Drawing.Point(233, 10);
             this.radioButtonRating5.Name = "radioButtonRating5";
-            this.radioButtonRating5.Size = new System.Drawing.Size(41, 24);
+            this.radioButtonRating5.Size = new System.Drawing.Size(33, 16);
             this.radioButtonRating5.TabIndex = 4;
             this.radioButtonRating5.TabStop = true;
             this.radioButtonRating5.UseVisualStyleBackColor = true;
@@ -2216,7 +2230,7 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating4.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating4.Location = new System.Drawing.Point(175, 10);
             this.radioButtonRating4.Name = "radioButtonRating4";
-            this.radioButtonRating4.Size = new System.Drawing.Size(41, 24);
+            this.radioButtonRating4.Size = new System.Drawing.Size(33, 16);
             this.radioButtonRating4.TabIndex = 3;
             this.radioButtonRating4.TabStop = true;
             this.radioButtonRating4.UseVisualStyleBackColor = true;
@@ -2228,7 +2242,7 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating3.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating3.Location = new System.Drawing.Point(121, 10);
             this.radioButtonRating3.Name = "radioButtonRating3";
-            this.radioButtonRating3.Size = new System.Drawing.Size(41, 24);
+            this.radioButtonRating3.Size = new System.Drawing.Size(33, 16);
             this.radioButtonRating3.TabIndex = 2;
             this.radioButtonRating3.TabStop = true;
             this.radioButtonRating3.UseVisualStyleBackColor = true;
@@ -2240,7 +2254,7 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating2.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating2.Location = new System.Drawing.Point(62, 10);
             this.radioButtonRating2.Name = "radioButtonRating2";
-            this.radioButtonRating2.Size = new System.Drawing.Size(41, 24);
+            this.radioButtonRating2.Size = new System.Drawing.Size(33, 16);
             this.radioButtonRating2.TabIndex = 1;
             this.radioButtonRating2.TabStop = true;
             this.radioButtonRating2.UseVisualStyleBackColor = true;
@@ -2252,7 +2266,7 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating1.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating1.Location = new System.Drawing.Point(6, 10);
             this.radioButtonRating1.Name = "radioButtonRating1";
-            this.radioButtonRating1.Size = new System.Drawing.Size(41, 24);
+            this.radioButtonRating1.Size = new System.Drawing.Size(33, 16);
             this.radioButtonRating1.TabIndex = 0;
             this.radioButtonRating1.TabStop = true;
             this.radioButtonRating1.UseVisualStyleBackColor = true;
@@ -2266,16 +2280,16 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxAlbum.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxAlbum.FormattingEnabled = true;
-            this.comboBoxAlbum.Location = new System.Drawing.Point(88, 7);
+            this.comboBoxAlbum.Location = new System.Drawing.Point(85, 4);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
-            this.comboBoxAlbum.Size = new System.Drawing.Size(607, 25);
+            this.comboBoxAlbum.Size = new System.Drawing.Size(613, 25);
             this.comboBoxAlbum.TabIndex = 0;
             this.comboBoxAlbum.TextChanged += new System.EventHandler(this.comboBoxAlbum_TextChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 10);
+            this.label4.Location = new System.Drawing.Point(3, 7);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 17);
             this.label4.TabIndex = 10;
@@ -2289,16 +2303,16 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxComments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxComments.FormattingEnabled = true;
-            this.comboBoxComments.Location = new System.Drawing.Point(88, 88);
+            this.comboBoxComments.Location = new System.Drawing.Point(85, 85);
             this.comboBoxComments.Name = "comboBoxComments";
-            this.comboBoxComments.Size = new System.Drawing.Size(607, 25);
+            this.comboBoxComments.Size = new System.Drawing.Size(613, 25);
             this.comboBoxComments.TabIndex = 3;
             this.comboBoxComments.TextChanged += new System.EventHandler(this.comboBoxComments_TextChanged);
             // 
             // labelComments
             // 
             this.labelComments.AutoSize = true;
-            this.labelComments.Location = new System.Drawing.Point(6, 91);
+            this.labelComments.Location = new System.Drawing.Point(3, 88);
             this.labelComments.Name = "labelComments";
             this.labelComments.Size = new System.Drawing.Size(75, 17);
             this.labelComments.TabIndex = 13;
@@ -2307,7 +2321,7 @@ namespace PhotoTagsSynchronizer
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
-            this.labelDescription.Location = new System.Drawing.Point(6, 64);
+            this.labelDescription.Location = new System.Drawing.Point(3, 61);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(76, 17);
             this.labelDescription.TabIndex = 12;
@@ -2316,7 +2330,7 @@ namespace PhotoTagsSynchronizer
             // labelTitle
             // 
             this.labelTitle.AutoSize = true;
-            this.labelTitle.Location = new System.Drawing.Point(6, 37);
+            this.labelTitle.Location = new System.Drawing.Point(3, 34);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(32, 17);
             this.labelTitle.TabIndex = 11;
@@ -2330,9 +2344,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxDescription.FormattingEnabled = true;
-            this.comboBoxDescription.Location = new System.Drawing.Point(88, 61);
+            this.comboBoxDescription.Location = new System.Drawing.Point(85, 58);
             this.comboBoxDescription.Name = "comboBoxDescription";
-            this.comboBoxDescription.Size = new System.Drawing.Size(607, 25);
+            this.comboBoxDescription.Size = new System.Drawing.Size(613, 25);
             this.comboBoxDescription.TabIndex = 2;
             this.comboBoxDescription.TextChanged += new System.EventHandler(this.comboBoxDescription_TextChanged);
             // 
@@ -2344,9 +2358,9 @@ namespace PhotoTagsSynchronizer
             this.comboBoxTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxTitle.FormattingEnabled = true;
-            this.comboBoxTitle.Location = new System.Drawing.Point(88, 34);
+            this.comboBoxTitle.Location = new System.Drawing.Point(85, 31);
             this.comboBoxTitle.Name = "comboBoxTitle";
-            this.comboBoxTitle.Size = new System.Drawing.Size(607, 25);
+            this.comboBoxTitle.Size = new System.Drawing.Size(613, 25);
             this.comboBoxTitle.TabIndex = 1;
             this.comboBoxTitle.TextChanged += new System.EventHandler(this.comboBoxTitle_TextChanged);
             // 
@@ -2354,8 +2368,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.tabPagePeople.Controls.Add(this.dataGridViewPeople);
             this.tabPagePeople.Location = new System.Drawing.Point(4, 27);
+            this.tabPagePeople.Margin = new System.Windows.Forms.Padding(0);
             this.tabPagePeople.Name = "tabPagePeople";
-            this.tabPagePeople.Size = new System.Drawing.Size(704, 860);
+            this.tabPagePeople.Size = new System.Drawing.Size(704, 855);
             this.tabPagePeople.TabIndex = 2;
             this.tabPagePeople.Tag = "People";
             this.tabPagePeople.Text = "People";
@@ -2364,16 +2379,14 @@ namespace PhotoTagsSynchronizer
             // 
             // dataGridViewPeople
             // 
-            this.dataGridViewPeople.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewPeople.ColumnHeadersHeight = 29;
             this.dataGridViewPeople.ContextMenuStrip = this.contextMenuStripPeople;
-            this.dataGridViewPeople.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewPeople.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewPeople.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewPeople.Name = "dataGridViewPeople";
             this.dataGridViewPeople.RowHeadersWidth = 51;
             this.dataGridViewPeople.RowTemplate.Height = 24;
-            this.dataGridViewPeople.Size = new System.Drawing.Size(698, 854);
+            this.dataGridViewPeople.Size = new System.Drawing.Size(704, 855);
             this.dataGridViewPeople.TabIndex = 0;
             this.dataGridViewPeople.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPeople_CellBeginEdit);
             this.dataGridViewPeople.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPeople_CellEndEdit);
@@ -2649,8 +2662,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.tabPageMap.Controls.Add(this.splitContainerMap);
             this.tabPageMap.Location = new System.Drawing.Point(4, 27);
+            this.tabPageMap.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageMap.Name = "tabPageMap";
-            this.tabPageMap.Size = new System.Drawing.Size(704, 860);
+            this.tabPageMap.Size = new System.Drawing.Size(704, 855);
             this.tabPageMap.TabIndex = 3;
             this.tabPageMap.Tag = "Map";
             this.tabPageMap.Text = "Map";
@@ -2678,8 +2692,8 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerMap.Panel2.Controls.Add(this.panel3);
             this.splitContainerMap.Panel2.Controls.Add(this.panelBrowser);
-            this.splitContainerMap.Size = new System.Drawing.Size(704, 860);
-            this.splitContainerMap.SplitterDistance = 692;
+            this.splitContainerMap.Size = new System.Drawing.Size(704, 855);
+            this.splitContainerMap.SplitterDistance = 687;
             this.splitContainerMap.SplitterWidth = 10;
             this.splitContainerMap.TabIndex = 5;
             this.splitContainerMap.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerMap_SplitterMoved);
@@ -2765,7 +2779,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.ShowCellToolTips = false;
             this.dataGridViewMap.ShowEditingIcon = false;
             this.dataGridViewMap.ShowRowErrors = false;
-            this.dataGridViewMap.Size = new System.Drawing.Size(700, 655);
+            this.dataGridViewMap.Size = new System.Drawing.Size(703, 653);
             this.dataGridViewMap.TabIndex = 10;
             this.dataGridViewMap.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewMap_CellBeginEdit);
             this.dataGridViewMap.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellEnter);
@@ -3004,6 +3018,7 @@ namespace PhotoTagsSynchronizer
             this.panel3.Controls.Add(this.comboBoxMapZoomLevel);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 128);
+            this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(704, 30);
             this.panel3.TabIndex = 17;
@@ -3063,6 +3078,7 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Cursor = System.Windows.Forms.Cursors.Default;
             this.panelBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBrowser.Location = new System.Drawing.Point(0, 0);
+            this.panelBrowser.Margin = new System.Windows.Forms.Padding(0);
             this.panelBrowser.Name = "panelBrowser";
             this.panelBrowser.Size = new System.Drawing.Size(704, 158);
             this.panelBrowser.TabIndex = 1;
@@ -3072,8 +3088,9 @@ namespace PhotoTagsSynchronizer
             this.tabPageDates.Controls.Add(this.textBox1);
             this.tabPageDates.Controls.Add(this.dataGridViewDate);
             this.tabPageDates.Location = new System.Drawing.Point(4, 27);
+            this.tabPageDates.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageDates.Name = "tabPageDates";
-            this.tabPageDates.Size = new System.Drawing.Size(704, 860);
+            this.tabPageDates.Size = new System.Drawing.Size(704, 855);
             this.tabPageDates.TabIndex = 6;
             this.tabPageDates.Tag = "Dates";
             this.tabPageDates.Text = "Date";
@@ -3104,7 +3121,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewDate.Name = "dataGridViewDate";
             this.dataGridViewDate.RowHeadersWidth = 51;
             this.dataGridViewDate.RowTemplate.Height = 24;
-            this.dataGridViewDate.Size = new System.Drawing.Size(701, 775);
+            this.dataGridViewDate.Size = new System.Drawing.Size(704, 768);
             this.dataGridViewDate.TabIndex = 0;
             this.dataGridViewDate.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewDate_CellBeginEdit);
             this.dataGridViewDate.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDate_CellEndEdit);
@@ -3282,8 +3299,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.tabPageExifTool.Controls.Add(this.dataGridViewExifTool);
             this.tabPageExifTool.Location = new System.Drawing.Point(4, 27);
+            this.tabPageExifTool.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageExifTool.Name = "tabPageExifTool";
-            this.tabPageExifTool.Size = new System.Drawing.Size(704, 860);
+            this.tabPageExifTool.Size = new System.Drawing.Size(704, 855);
             this.tabPageExifTool.TabIndex = 4;
             this.tabPageExifTool.Tag = "Exiftool";
             this.tabPageExifTool.Text = "ExifTool";
@@ -3300,7 +3318,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifTool.Name = "dataGridViewExifTool";
             this.dataGridViewExifTool.RowHeadersWidth = 51;
             this.dataGridViewExifTool.RowTemplate.Height = 24;
-            this.dataGridViewExifTool.Size = new System.Drawing.Size(704, 860);
+            this.dataGridViewExifTool.Size = new System.Drawing.Size(704, 855);
             this.dataGridViewExifTool.TabIndex = 0;
             this.dataGridViewExifTool.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifTool_CellBeginEdit);
             this.dataGridViewExifTool.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExifTool_CellEnter);
@@ -3418,9 +3436,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.tabPageExifToolWarnings.Controls.Add(this.dataGridViewExifToolWarning);
             this.tabPageExifToolWarnings.Location = new System.Drawing.Point(4, 27);
+            this.tabPageExifToolWarnings.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageExifToolWarnings.Name = "tabPageExifToolWarnings";
-            this.tabPageExifToolWarnings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageExifToolWarnings.Size = new System.Drawing.Size(704, 860);
+            this.tabPageExifToolWarnings.Size = new System.Drawing.Size(704, 855);
             this.tabPageExifToolWarnings.TabIndex = 5;
             this.tabPageExifToolWarnings.Tag = "MetadataWarning";
             this.tabPageExifToolWarnings.Text = "Warnings";
@@ -3441,12 +3459,12 @@ namespace PhotoTagsSynchronizer
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewExifToolWarning.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewExifToolWarning.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewExifToolWarning.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewExifToolWarning.Name = "dataGridViewExifToolWarning";
             this.dataGridViewExifToolWarning.ReadOnly = true;
             this.dataGridViewExifToolWarning.RowHeadersWidth = 51;
             this.dataGridViewExifToolWarning.RowTemplate.Height = 24;
-            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(698, 854);
+            this.dataGridViewExifToolWarning.Size = new System.Drawing.Size(704, 855);
             this.dataGridViewExifToolWarning.TabIndex = 0;
             this.dataGridViewExifToolWarning.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewExifToolWarning_CellBeginEdit);
             this.dataGridViewExifToolWarning.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewExifToolWarning_CellEnter);
@@ -3564,9 +3582,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.tabPageProperties.Controls.Add(this.dataGridViewProperties);
             this.tabPageProperties.Location = new System.Drawing.Point(4, 27);
+            this.tabPageProperties.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageProperties.Name = "tabPageProperties";
-            this.tabPageProperties.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProperties.Size = new System.Drawing.Size(704, 860);
+            this.tabPageProperties.Size = new System.Drawing.Size(704, 855);
             this.tabPageProperties.TabIndex = 7;
             this.tabPageProperties.Tag = "Properties";
             this.tabPageProperties.Text = "Properties";
@@ -3580,11 +3598,11 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewProperties.AllowUserToOrderColumns = true;
             this.dataGridViewProperties.ColumnHeadersHeight = 29;
             this.dataGridViewProperties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewProperties.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewProperties.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewProperties.Name = "dataGridViewProperties";
             this.dataGridViewProperties.RowHeadersWidth = 51;
             this.dataGridViewProperties.RowTemplate.Height = 24;
-            this.dataGridViewProperties.Size = new System.Drawing.Size(698, 854);
+            this.dataGridViewProperties.Size = new System.Drawing.Size(704, 855);
             this.dataGridViewProperties.TabIndex = 0;
             this.dataGridViewProperties.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewProperties_CellBeginEdit);
             this.dataGridViewProperties.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewProperties_CellEnter);
@@ -3603,8 +3621,9 @@ namespace PhotoTagsSynchronizer
             this.tabPageRename.Controls.Add(this.textBoxRenameNewName);
             this.tabPageRename.Controls.Add(this.dataGridViewRename);
             this.tabPageRename.Location = new System.Drawing.Point(4, 27);
+            this.tabPageRename.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageRename.Name = "tabPageRename";
-            this.tabPageRename.Size = new System.Drawing.Size(704, 860);
+            this.tabPageRename.Size = new System.Drawing.Size(704, 855);
             this.tabPageRename.TabIndex = 8;
             this.tabPageRename.Tag = "Rename";
             this.tabPageRename.Text = "Rename";
@@ -3712,6 +3731,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.textBoxRenameNewName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxRenameNewName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxRenameNewName.Location = new System.Drawing.Point(122, 45);
             this.textBoxRenameNewName.Name = "textBoxRenameNewName";
             this.textBoxRenameNewName.Size = new System.Drawing.Size(579, 24);
@@ -3730,7 +3750,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewRename.Name = "dataGridViewRename";
             this.dataGridViewRename.RowHeadersWidth = 51;
             this.dataGridViewRename.RowTemplate.Height = 24;
-            this.dataGridViewRename.Size = new System.Drawing.Size(701, 756);
+            this.dataGridViewRename.Size = new System.Drawing.Size(704, 749);
             this.dataGridViewRename.TabIndex = 4;
             this.dataGridViewRename.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewRename_CellBeginEdit);
             this.dataGridViewRename.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRename_CellEnter);
@@ -3742,9 +3762,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.tabPageConvertAndMerge.Controls.Add(this.panelConvertAndMerge);
             this.tabPageConvertAndMerge.Location = new System.Drawing.Point(4, 27);
+            this.tabPageConvertAndMerge.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageConvertAndMerge.Name = "tabPageConvertAndMerge";
-            this.tabPageConvertAndMerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageConvertAndMerge.Size = new System.Drawing.Size(704, 860);
+            this.tabPageConvertAndMerge.Size = new System.Drawing.Size(704, 855);
             this.tabPageConvertAndMerge.TabIndex = 9;
             this.tabPageConvertAndMerge.Tag = "Convert and Merge";
             this.tabPageConvertAndMerge.Text = "Convert & Merge";
@@ -3754,9 +3774,10 @@ namespace PhotoTagsSynchronizer
             // 
             this.panelConvertAndMerge.Controls.Add(this.dataGridViewConvertAndMerge);
             this.panelConvertAndMerge.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelConvertAndMerge.Location = new System.Drawing.Point(3, 3);
+            this.panelConvertAndMerge.Location = new System.Drawing.Point(0, 0);
+            this.panelConvertAndMerge.Margin = new System.Windows.Forms.Padding(0);
             this.panelConvertAndMerge.Name = "panelConvertAndMerge";
-            this.panelConvertAndMerge.Size = new System.Drawing.Size(698, 854);
+            this.panelConvertAndMerge.Size = new System.Drawing.Size(704, 855);
             this.panelConvertAndMerge.TabIndex = 0;
             // 
             // dataGridViewConvertAndMerge
@@ -3770,7 +3791,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewConvertAndMerge.Name = "dataGridViewConvertAndMerge";
             this.dataGridViewConvertAndMerge.RowHeadersWidth = 51;
             this.dataGridViewConvertAndMerge.RowTemplate.Height = 24;
-            this.dataGridViewConvertAndMerge.Size = new System.Drawing.Size(698, 854);
+            this.dataGridViewConvertAndMerge.Size = new System.Drawing.Size(704, 855);
             this.dataGridViewConvertAndMerge.TabIndex = 1;
             this.dataGridViewConvertAndMerge.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewConvertAndMerge_CellEnter);
             this.dataGridViewConvertAndMerge.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewConvertAndMerge_CellMouseClick);
@@ -3785,8 +3806,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1387, 892);
+            this.panel2.Size = new System.Drawing.Size(1387, 887);
             this.panel2.TabIndex = 2;
             // 
             // toolStrip
@@ -3834,7 +3856,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonAbout});
             this.toolStrip.Location = new System.Drawing.Point(4, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(1118, 28);
+            this.toolStrip.Size = new System.Drawing.Size(1127, 33);
             this.toolStrip.TabIndex = 0;
             // 
             // thumbnailsToolStripButton
@@ -3843,7 +3865,7 @@ namespace PhotoTagsSynchronizer
             this.thumbnailsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("thumbnailsToolStripButton.Image")));
             this.thumbnailsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.thumbnailsToolStripButton.Name = "thumbnailsToolStripButton";
-            this.thumbnailsToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.thumbnailsToolStripButton.Size = new System.Drawing.Size(29, 30);
             this.thumbnailsToolStripButton.Text = "Thumbnails";
             this.thumbnailsToolStripButton.Click += new System.EventHandler(this.thumbnailsToolStripButton_Click);
             // 
@@ -3853,7 +3875,7 @@ namespace PhotoTagsSynchronizer
             this.galleryToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("galleryToolStripButton.Image")));
             this.galleryToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.galleryToolStripButton.Name = "galleryToolStripButton";
-            this.galleryToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.galleryToolStripButton.Size = new System.Drawing.Size(29, 30);
             this.galleryToolStripButton.Text = "Gallery";
             this.galleryToolStripButton.Click += new System.EventHandler(this.galleryToolStripButton_Click);
             // 
@@ -3862,8 +3884,9 @@ namespace PhotoTagsSynchronizer
             this.paneToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.paneToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("paneToolStripButton.Image")));
             this.paneToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.paneToolStripButton.Margin = new System.Windows.Forms.Padding(0, 0, 9, 9);
             this.paneToolStripButton.Name = "paneToolStripButton";
-            this.paneToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.paneToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.paneToolStripButton.Text = "Pane";
             this.paneToolStripButton.Click += new System.EventHandler(this.paneToolStripButton_Click);
             // 
@@ -3873,19 +3896,19 @@ namespace PhotoTagsSynchronizer
             this.detailsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("detailsToolStripButton.Image")));
             this.detailsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.detailsToolStripButton.Name = "detailsToolStripButton";
-            this.detailsToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.detailsToolStripButton.Size = new System.Drawing.Size(29, 30);
             this.detailsToolStripButton.Text = "Details";
             this.detailsToolStripButton.Click += new System.EventHandler(this.detailsToolStripButton_Click);
             // 
             // toolStripSeparatorRenderer
             // 
             this.toolStripSeparatorRenderer.Name = "toolStripSeparatorRenderer";
-            this.toolStripSeparatorRenderer.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparatorRenderer.Size = new System.Drawing.Size(6, 33);
             // 
             // rendererToolStripLabel
             // 
             this.rendererToolStripLabel.Name = "rendererToolStripLabel";
-            this.rendererToolStripLabel.Size = new System.Drawing.Size(44, 25);
+            this.rendererToolStripLabel.Size = new System.Drawing.Size(44, 30);
             this.rendererToolStripLabel.Text = "View:";
             this.rendererToolStripLabel.ToolTipText = "View layout for Image Liste viewer";
             // 
@@ -3893,14 +3916,14 @@ namespace PhotoTagsSynchronizer
             // 
             this.renderertoolStripComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.renderertoolStripComboBox.Name = "renderertoolStripComboBox";
-            this.renderertoolStripComboBox.Size = new System.Drawing.Size(121, 28);
+            this.renderertoolStripComboBox.Size = new System.Drawing.Size(121, 33);
             this.renderertoolStripComboBox.ToolTipText = "Select view mode for Image List Viwer";
             this.renderertoolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.renderertoolStripComboBox_SelectedIndexChanged);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 33);
             // 
             // columnsToolStripButton
             // 
@@ -3908,14 +3931,14 @@ namespace PhotoTagsSynchronizer
             this.columnsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("columnsToolStripButton.Image")));
             this.columnsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.columnsToolStripButton.Name = "columnsToolStripButton";
-            this.columnsToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.columnsToolStripButton.Size = new System.Drawing.Size(29, 30);
             this.columnsToolStripButton.Text = "Choose Columns for the Image View...";
             this.columnsToolStripButton.Click += new System.EventHandler(this.columnsToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 33);
             // 
             // toolStripButtonThumbnailSize1
             // 
@@ -3923,7 +3946,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonThumbnailSize1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize1.Image")));
             this.toolStripButtonThumbnailSize1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonThumbnailSize1.Name = "toolStripButtonThumbnailSize1";
-            this.toolStripButtonThumbnailSize1.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonThumbnailSize1.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonThumbnailSize1.Text = "Thumbnail size 200x200";
             this.toolStripButtonThumbnailSize1.Click += new System.EventHandler(this.toolStripButtonThumbnailSize1_Click);
             // 
@@ -3933,7 +3956,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonThumbnailSize2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize2.Image")));
             this.toolStripButtonThumbnailSize2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonThumbnailSize2.Name = "toolStripButtonThumbnailSize2";
-            this.toolStripButtonThumbnailSize2.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonThumbnailSize2.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonThumbnailSize2.Text = "Thumbnail size 150x150";
             this.toolStripButtonThumbnailSize2.Click += new System.EventHandler(this.toolStripButtonThumbnailSize2_Click);
             // 
@@ -3943,7 +3966,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonThumbnailSize3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize3.Image")));
             this.toolStripButtonThumbnailSize3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonThumbnailSize3.Name = "toolStripButtonThumbnailSize3";
-            this.toolStripButtonThumbnailSize3.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonThumbnailSize3.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonThumbnailSize3.Text = "Thumbnail size 120x120";
             this.toolStripButtonThumbnailSize3.Click += new System.EventHandler(this.toolStripButtonThumbnailSize3_Click);
             // 
@@ -3953,7 +3976,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonThumbnailSize4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize4.Image")));
             this.toolStripButtonThumbnailSize4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonThumbnailSize4.Name = "toolStripButtonThumbnailSize4";
-            this.toolStripButtonThumbnailSize4.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonThumbnailSize4.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonThumbnailSize4.Text = "Thumbnail size 96x96";
             this.toolStripButtonThumbnailSize4.Click += new System.EventHandler(this.toolStripButtonThumbnailSize4_Click);
             // 
@@ -3963,14 +3986,14 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonThumbnailSize5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonThumbnailSize5.Image")));
             this.toolStripButtonThumbnailSize5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonThumbnailSize5.Name = "toolStripButtonThumbnailSize5";
-            this.toolStripButtonThumbnailSize5.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonThumbnailSize5.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonThumbnailSize5.Text = "Thumbnail size 48x48";
             this.toolStripButtonThumbnailSize5.Click += new System.EventHandler(this.toolStripButtonThumbnailSize5_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 33);
             // 
             // rotateCCWToolStripButton
             // 
@@ -3978,7 +4001,7 @@ namespace PhotoTagsSynchronizer
             this.rotateCCWToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CCW;
             this.rotateCCWToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.rotateCCWToolStripButton.Name = "rotateCCWToolStripButton";
-            this.rotateCCWToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.rotateCCWToolStripButton.Size = new System.Drawing.Size(29, 30);
             this.rotateCCWToolStripButton.Text = "Rotate Counter-clockwise";
             this.rotateCCWToolStripButton.Click += new System.EventHandler(this.rotateCCWToolStripButton_Click);
             // 
@@ -3988,7 +4011,7 @@ namespace PhotoTagsSynchronizer
             this.rotate180ToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate180;
             this.rotate180ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.rotate180ToolStripButton.Name = "rotate180ToolStripButton";
-            this.rotate180ToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.rotate180ToolStripButton.Size = new System.Drawing.Size(29, 30);
             this.rotate180ToolStripButton.Text = "Rotate 180°";
             this.rotate180ToolStripButton.Click += new System.EventHandler(this.rotate180ToolStripButton_Click);
             // 
@@ -3998,7 +4021,7 @@ namespace PhotoTagsSynchronizer
             this.rotateCWToolStripButton.Image = global::PhotoTagsSynchronizer.Properties.Resources.Rotate90CW;
             this.rotateCWToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.rotateCWToolStripButton.Name = "rotateCWToolStripButton";
-            this.rotateCWToolStripButton.Size = new System.Drawing.Size(29, 25);
+            this.rotateCWToolStripButton.Size = new System.Drawing.Size(29, 30);
             this.rotateCWToolStripButton.Text = "Rotate Clockwise";
             this.rotateCWToolStripButton.Click += new System.EventHandler(this.rotateCWToolStripButton_Click);
             // 
@@ -4008,7 +4031,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonPreview.Image = global::PhotoTagsSynchronizer.Properties.Resources.Media_Preview;
             this.toolStripButtonPreview.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPreview.Name = "toolStripButtonPreview";
-            this.toolStripButtonPreview.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonPreview.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonPreview.Text = "Preview media";
             this.toolStripButtonPreview.ToolTipText = "Preview media";
             this.toolStripButtonPreview.Click += new System.EventHandler(this.toolStripButtonPreview_Click);
@@ -4016,7 +4039,7 @@ namespace PhotoTagsSynchronizer
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 33);
             // 
             // toolStripButtonSelectPrevious
             // 
@@ -4024,7 +4047,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonSelectPrevious.Image = global::PhotoTagsSynchronizer.Properties.Resources.Select_Previous;
             this.toolStripButtonSelectPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSelectPrevious.Name = "toolStripButtonSelectPrevious";
-            this.toolStripButtonSelectPrevious.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonSelectPrevious.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonSelectPrevious.Text = "Select Previous Group";
             this.toolStripButtonSelectPrevious.Click += new System.EventHandler(this.toolStripButtonSelectPrevious_Click);
             // 
@@ -4051,7 +4074,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripDropDownButtonSelectGroupBy.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonSelectGroupBy.Image")));
             this.toolStripDropDownButtonSelectGroupBy.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonSelectGroupBy.Name = "toolStripDropDownButtonSelectGroupBy";
-            this.toolStripDropDownButtonSelectGroupBy.Size = new System.Drawing.Size(130, 25);
+            this.toolStripDropDownButtonSelectGroupBy.Size = new System.Drawing.Size(130, 30);
             this.toolStripDropDownButtonSelectGroupBy.Text = "Select group by:";
             // 
             // toolStripMenuItemSelectSameDay
@@ -4168,14 +4191,14 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonSelectNext.Image = global::PhotoTagsSynchronizer.Properties.Resources.Select_Next;
             this.toolStripButtonSelectNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSelectNext.Name = "toolStripButtonSelectNext";
-            this.toolStripButtonSelectNext.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonSelectNext.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonSelectNext.Text = "Select Next Group";
             this.toolStripButtonSelectNext.Click += new System.EventHandler(this.toolStripButtonSelectNext_Click);
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 33);
             // 
             // toolStripButtonGridBig
             // 
@@ -4183,7 +4206,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonGridBig.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridBig;
             this.toolStripButtonGridBig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonGridBig.Name = "toolStripButtonGridBig";
-            this.toolStripButtonGridBig.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonGridBig.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonGridBig.Text = "Big Grid";
             this.toolStripButtonGridBig.Click += new System.EventHandler(this.toolStripButtonGridBig_Click);
             // 
@@ -4193,7 +4216,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonGridNormal.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridNormal;
             this.toolStripButtonGridNormal.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonGridNormal.Name = "toolStripButtonGridNormal";
-            this.toolStripButtonGridNormal.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonGridNormal.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonGridNormal.Text = "Normal Grid";
             this.toolStripButtonGridNormal.Click += new System.EventHandler(this.toolStripButtonGridNormal_Click);
             // 
@@ -4203,14 +4226,14 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonGridSmall.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridSmall;
             this.toolStripButtonGridSmall.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonGridSmall.Name = "toolStripButtonGridSmall";
-            this.toolStripButtonGridSmall.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonGridSmall.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonGridSmall.Text = "Small Grid";
             this.toolStripButtonGridSmall.Click += new System.EventHandler(this.toolStripButtonGridSmall_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 33);
             // 
             // toolStripButtonHistortyColumns
             // 
@@ -4221,7 +4244,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonHistortyColumns.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridHistoryColumn;
             this.toolStripButtonHistortyColumns.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonHistortyColumns.Name = "toolStripButtonHistortyColumns";
-            this.toolStripButtonHistortyColumns.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonHistortyColumns.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonHistortyColumns.Text = "Show or Hide Historty Columns";
             this.toolStripButtonHistortyColumns.CheckedChanged += new System.EventHandler(this.toolStripButtonHistortyColumns_CheckedChanged);
             // 
@@ -4234,14 +4257,14 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonErrorColumns.Image = global::PhotoTagsSynchronizer.Properties.Resources.GridErrorColumn;
             this.toolStripButtonErrorColumns.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonErrorColumns.Name = "toolStripButtonErrorColumns";
-            this.toolStripButtonErrorColumns.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonErrorColumns.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonErrorColumns.Text = "Show or Hide Error Columns";
             this.toolStripButtonErrorColumns.CheckedChanged += new System.EventHandler(this.toolStripButtonErrorColumns_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 33);
             // 
             // toolStripButtonImportGoogleLocation
             // 
@@ -4249,7 +4272,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonImportGoogleLocation.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonImportGoogleLocation.Image")));
             this.toolStripButtonImportGoogleLocation.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonImportGoogleLocation.Name = "toolStripButtonImportGoogleLocation";
-            this.toolStripButtonImportGoogleLocation.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonImportGoogleLocation.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonImportGoogleLocation.Text = "Import Google Locations";
             this.toolStripButtonImportGoogleLocation.Click += new System.EventHandler(this.toolStripButtonImportGoogleLocation_Click);
             // 
@@ -4259,14 +4282,14 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonSaveAllMetadata.Image = global::PhotoTagsSynchronizer.Properties.Resources.save_32;
             this.toolStripButtonSaveAllMetadata.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSaveAllMetadata.Name = "toolStripButtonSaveAllMetadata";
-            this.toolStripButtonSaveAllMetadata.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonSaveAllMetadata.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonSaveAllMetadata.Text = "Save changes";
             this.toolStripButtonSaveAllMetadata.Click += new System.EventHandler(this.toolStripButtonSaveAllMetadata_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 33);
             // 
             // toolStripButtonConfig
             // 
@@ -4274,7 +4297,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonConfig.Image = global::PhotoTagsSynchronizer.Properties.Resources.Config;
             this.toolStripButtonConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonConfig.Name = "toolStripButtonConfig";
-            this.toolStripButtonConfig.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonConfig.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonConfig.Text = "Config";
             this.toolStripButtonConfig.Click += new System.EventHandler(this.toolStripButtonConfig_Click);
             // 
@@ -4284,7 +4307,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonWebScraper.Image = global::PhotoTagsSynchronizer.Properties.Resources.WebScraping;
             this.toolStripButtonWebScraper.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonWebScraper.Name = "toolStripButtonWebScraper";
-            this.toolStripButtonWebScraper.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonWebScraper.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonWebScraper.Text = "WebScraper";
             this.toolStripButtonWebScraper.Click += new System.EventHandler(this.toolStripButtonWebScraper_Click);
             // 
@@ -4294,7 +4317,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonAbout.Image = global::PhotoTagsSynchronizer.Properties.Resources.About;
             this.toolStripButtonAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonAbout.Name = "toolStripButtonAbout";
-            this.toolStripButtonAbout.Size = new System.Drawing.Size(29, 25);
+            this.toolStripButtonAbout.Size = new System.Drawing.Size(29, 30);
             this.toolStripButtonAbout.Text = "About";
             this.toolStripButtonAbout.Click += new System.EventHandler(this.toolStripButtonAbout_Click);
             // 
@@ -4350,6 +4373,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.panelMediaPreview.Controls.Add(this.toolStripContainer2);
             this.panelMediaPreview.Location = new System.Drawing.Point(0, 300);
+            this.panelMediaPreview.Margin = new System.Windows.Forms.Padding(0);
             this.panelMediaPreview.Name = "panelMediaPreview";
             this.panelMediaPreview.Size = new System.Drawing.Size(865, 200);
             this.panelMediaPreview.TabIndex = 7;
@@ -4365,6 +4389,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(865, 141);
             this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer2.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripContainer2.Name = "toolStripContainer2";
             this.toolStripContainer2.Size = new System.Drawing.Size(865, 200);
             this.toolStripContainer2.TabIndex = 3;
@@ -4699,6 +4724,7 @@ namespace PhotoTagsSynchronizer
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1387, 950);
             this.Controls.Add(this.panelMediaPreview);
             this.Controls.Add(this.toolStripContainer1);

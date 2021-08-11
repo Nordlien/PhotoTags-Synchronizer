@@ -351,14 +351,15 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="paneToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAGqSURBVDhPxZJtK0NhGMf3fXwDb3yGRUjyEElZnha1kZLW
-        lCzJaMKErDObIVpopnjhKSLKU14pYp7OtnO2nc3ffV9n9xuNwgu/+r+4/p3zu++ucwx/xtgsNfT7r2Md
-        nmtYZ1lmLmGZOkf75BnaJk5hHj9B6+gRml2HaBreh2loF9bh7Rh/jwQ2XzgzuHqPn6ZgIJwhAT/5N6nr
-        2wQJrDNXyAV/6Dtq7CFdYJm+oKI+DIRCIQSDQZqF4Cmq4uFFwd1jHLcPUdzcydRX2dayArawXAjBm6Lh
-        OZbAo8xEryruIwr1Fd1BXcC3zeE3CAQC8Hq9NAtBLKEhqmqQ4xpeoilE5AT15V0ruoB/qlwIgZrUEGfh
-        Ijkr4pR1LukC89gxFfkTgNvthsvlolkIEpkMkpoGNaVBYeEiTql1QRc0jRxQ8RkhSDGBiJpOQ2EyTlGb
-        Txc0Du1RkecAnE4n7HY7zUKQfn+npLJJMgmn0OzVBabBHSo+IwRfYWyVdIGxxSPVO7boz6rt3UC1bR2V
-        Patsy8u0qNKORZRY5lHc7mfXnmMnSzC28HgkEvwzBsMH9sCUAQnqWoEAAAAASUVORK5CYII=
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAG2SURBVDhPxZLtK0NhGMbP/+M/8MXfsAhJXiIp8ramNlLS
+        mhJJRhMmZJ0ZQ7TQTPHBW0SUt3xS5N3Zds62s7mc5372fDnxAR9cdXWu+36e5/ec7nOkP8vSJNf1zl3H
+        2nzXcMwYnr6EffIcrRNnsI2fwjp2gpaRIzR5DtE4tI/6wV04hrZj7BwBnIFIZmD1Hj91Xn8kQwB2829c
+        07MJAjimr3gwiW3Kxi9V5QrzdfvUBYXaCBAOhxEKhagWgOeohodXFXePcdw+RHFzp1C/wrmWBRgDo2CS
+        ALyrOl5iCTwqBuhNw/2TSv2yTn6RxKbNnuwNgsEg/H4/1QIQS+iIajqUuI7XaApPSoL6pR0rHMA+FQWT
+        BEBL6ogbZiAlC2L9kvYlfs46ekwhdxzwer3weDxUC0Aik0FS16GldKiGGYj1ix0LHNA4fMCDSQKQMgDC
+        WjoN1YCxfoEtwM81DO5RyOkD3G43XC4X1QKQ/vgAcyrrpAFh/Xwrn5VUP7DDg0kC8J0sLTJftzT75Nq+
+        Lfqzqrs3UOlcR3nXKko7lsEGVdy2iCL7PApb51Bgm0W+VYalmdknE+CfJUmfIvGg5tILUUAAAAAASUVO
+        RK5CYII=
 </value>
   </data>
   <data name="detailsToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -933,7 +934,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAs
-        CwAAAk1TRnQBSQFMAgEBBQEAARABCgEQAQoBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CwAAAk1TRnQBSQFMAgEBBQEAAZABCgGQAQoBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA

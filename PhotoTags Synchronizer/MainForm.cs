@@ -242,6 +242,9 @@ namespace PhotoTagsSynchronizer
 
             InitializeComponent();
             #endregion
+            //this.toolStripContainer1.TopToolStripPanel.RowMargin = new Padding(0);
+            if (Properties.Settings.Default.ApplicationDarkMode == true) UpdateColorControls(this, Properties.Settings.Default.ApplicationDarkMode);
+            this.Invalidate();
 
             #region Initialize VLC player
             SplashForm.UpdateStatus("Staring VLC player...");
@@ -320,11 +323,13 @@ namespace PhotoTagsSynchronizer
             {
                 Thread threadCache = new Thread(() =>
                 {
+                    
                     if (cacheAllThumbnails) databaseAndCacheThumbnail.ReadToCacheFolder(null);                    
                     if (cacheAllMetadatas) databaseAndCacheMetadataExiftool.ReadToCacheAllMetadatas();
                     if (cacheAllWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScarpingAllDataSets();
                 });
                 threadCache.Start();
+                threadCache.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
             }
             catch { }
             #endregion 
@@ -441,7 +446,7 @@ namespace PhotoTagsSynchronizer
             GlobalData.dataGridViewHandlerConvertAndMerge.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
             #endregion
 
-            #region Setup Global Variables -  Map
+            #region Setup Global Variables - Map
             isSettingDefaultComboxValues = true;
             comboBoxGoogleTimeZoneShift.SelectedIndex = Properties.Settings.Default.ComboBoxGoogleTimeZoneShift;    //0 time shift = 12
             comboBoxGoogleLocationInterval.SelectedIndex = Properties.Settings.Default.ComboBoxGoogleLocationInterval;    //30 minutes Index 2
@@ -512,28 +517,41 @@ namespace PhotoTagsSynchronizer
 
             #region Initialize nHTTP server
             SplashForm.UpdateStatus("Initialize nHTTP server...");
-            _ThreadHttp = new Thread(() =>
+            try
             {
-                using (nHttpServer = new HttpServer())
+                _ThreadHttp = new Thread(() =>
                 {
-                    nHttpServer.WriteBufferSize = 1024 * 1024 * 10;
-                    nHttpServer.RequestReceived -= NHttpServer_RequestReceived;
-                    nHttpServer.RequestReceived += NHttpServer_RequestReceived;
-                    nHttpServer.StateChanged -= NHttpServer_StateChanged;
-                    nHttpServer.StateChanged += NHttpServer_StateChanged;
-                    nHttpServer.UnhandledException += NHttpServer_UnhandledException;
-                    nHttpServer.EndPoint = new IPEndPoint(IPAddress.Parse(GetLocalIp()), GetOpenPort());
-                    Logger.Info("nHTTP server started: " + DateTime.Now.ToString() + " ip: " + nHttpServer.EndPoint.ToString());
-                    nHttpServer.Start();
-                    nHttpServerThreadWaitApplicationClosing = new AutoResetEvent(false);
-                    nHttpServerThreadWaitApplicationClosing.WaitOne();
-                    Application.DoEvents();
-                }
-            });
-            _ThreadHttp.Start();
+                    try
+                    {
+                        using (nHttpServer = new HttpServer())
+                        {
+                            nHttpServer.WriteBufferSize = 1024 * 1024 * 10;
+                            nHttpServer.RequestReceived -= NHttpServer_RequestReceived;
+                            nHttpServer.RequestReceived += NHttpServer_RequestReceived;
+                            nHttpServer.StateChanged -= NHttpServer_StateChanged;
+                            nHttpServer.StateChanged += NHttpServer_StateChanged;
+                            nHttpServer.UnhandledException += NHttpServer_UnhandledException;
+                            nHttpServer.EndPoint = new IPEndPoint(IPAddress.Parse(GetLocalIp()), GetOpenPort());
+                            Logger.Info("nHTTP server started: " + DateTime.Now.ToString() + " ip: " + nHttpServer.EndPoint.ToString());
+                            nHttpServer.Start();
+                            nHttpServerThreadWaitApplicationClosing = new AutoResetEvent(false);
+                            nHttpServerThreadWaitApplicationClosing.WaitOne();
+                            Application.DoEvents();
+                        }
+                    } catch(Exception ex)
+                    {
+                        Logger.Error(ex);
+                    }
+                });
+                _ThreadHttp.Start();
+                _ThreadHttp.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
+            } catch(Exception ex)
+            {
+                Logger.Error(ex);
+            }
             #endregion
 
-            
+
             this.ResumeLayout();
         }
         #endregion
@@ -546,12 +564,19 @@ namespace PhotoTagsSynchronizer
 
         private void tabControlToolbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            isTabControlToolboxChanging = false;
-            PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
+            try {
+                isTabControlToolboxChanging = false;
+                PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Was not able to to populate data grid view");
+                Logger.Error(ex);
+            }
         }
 
         private void splitContainerMap_SplitterMoved(object sender, SplitterEventArgs e)
         {
+            /*
             if (isTabControlToolboxChanging) return;
             if (_previousWindowsState == FormWindowState.Minimized) return;
 
@@ -559,38 +584,41 @@ namespace PhotoTagsSynchronizer
             {
                 Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;
             }
+            */
         }
 
         private void splitContainerImages_SplitterMoved(object sender, SplitterEventArgs e)
         {
+            /*
             if (!isFormLoading)
             {
                 Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
             }
+            */
         }
 
         private void splitContainerFolder_SplitterMoved(object sender, SplitterEventArgs e)
         {
+            /*
             if (!isFormLoading)
             {
                 Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
             }
+            */
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
             if (isFormLoading)
             {
-                splitContainerFolder.SplitterDistance = Properties.Settings.Default.SplitContainerFolder;
+                /*splitContainerFolder.SplitterDistance = Properties.Settings.Default.SplitContainerFolder;
                 splitContainerImages.SplitterDistance = Properties.Settings.Default.SplitContainerImages;
-                splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
+                splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;*/
                 return;
             }
-
+            
             _previousWindowsState = this.WindowState;
         }
-
-
 
         private void MainForm_Activated(object sender, EventArgs e)
         {
@@ -767,7 +795,7 @@ namespace PhotoTagsSynchronizer
         private void MainForm_Shown(object sender, EventArgs e)
         {
             isFormLoading = false;
-            if (Properties.Settings.Default.ApplicationDarkMode == true) UpdateColorControls(this, Properties.Settings.Default.ApplicationDarkMode);
+            
 
             #region Initialize folder tree...
             //If in Form_Load
