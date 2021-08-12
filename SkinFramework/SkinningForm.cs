@@ -333,15 +333,15 @@ namespace SkinFramework
             // update form styles on maximize/restore
             if (_parentForm.MdiParent != null)
             {
-                if ((int)m.WParam == 0)
-                    UpdateStyle();
-                if ((int)m.WParam == 2)
-                    _parentForm.Refresh();
+                if ((int)m.WParam == 0) UpdateStyle();
+                if ((int)m.WParam == 2) _parentForm.Refresh();
             }
 
             // update region if needed
             bool wasMaxMin = (_parentForm.WindowState == FormWindowState.Maximized ||
                 _parentForm.WindowState == FormWindowState.Minimized);
+
+           
 
             RECT rect1 = new RECT();
             Win32Api.GetWindowRect(_parentForm.Handle, ref rect1);
@@ -355,6 +355,7 @@ namespace SkinFramework
                 _manager.CurrentSkin.OnSetRegion(_parentForm, new Size(rect1.Right - rect1.Left, rect1.Bottom - rect1.Top));
                 NcPaint(true);
             }
+            
         }
 
         /// <summary>

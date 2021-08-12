@@ -817,9 +817,13 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
+
         #endregion
 
-        
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+
+        }
     }
 
 
