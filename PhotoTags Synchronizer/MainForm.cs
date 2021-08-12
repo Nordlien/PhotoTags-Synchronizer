@@ -41,30 +41,6 @@ namespace PhotoTagsSynchronizer
         public const string LinkTabAndDataGridViewNameRename = "Rename";
         public const string LinkTabAndDataGridViewNameConvertAndMerge = "Convert and Merge";
 
-
-        /*public void ChangeTheme(ColorScheme scheme, Control.ControlCollection container)
-        {
-            foreach (Control component in container)
-            {
-                if (component is Panel)
-                {
-                    ChangeTheme(scheme, component.Controls);
-                    component.BackColor = scheme.PanelBG;
-                    component.ForeColor = scheme.PanelFG;
-                }
-                else if (component is Button)
-                {
-                    component.BackColor = scheme.ButtonBG;
-                    component.ForeColor = scheme.ButtonFG;
-                }
-                else if (component is TextBox)
-                {
-                    component.BackColor = scheme.TextBoxBG;
-                    component.ForeColor = scheme.TextBoxFG;
-                }
-            }
-        }*/
-
         public void UpdateColorControls(Control control, bool useDarkMode)
         {
             if (control is Button ||
@@ -483,9 +459,11 @@ namespace PhotoTagsSynchronizer
             {
                 this.WindowState = FormWindowState.Normal;
             }
-
+            splitContainerFolder.BorderStyle = BorderStyle.None;
             splitContainerFolder.SplitterDistance = Properties.Settings.Default.SplitContainerFolder;
+            splitContainerImages.BorderStyle = BorderStyle.None;
             splitContainerImages.SplitterDistance = Properties.Settings.Default.SplitContainerImages;
+            splitContainerMap.BorderStyle = BorderStyle.None;
             splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
             
             toolStripButtonHistortyColumns.Checked = Properties.Settings.Default.ShowHistortyColumns;
