@@ -80,6 +80,8 @@ namespace SkinFramework
                         border = SystemInformation.FixedFrameBorderSize +
                             (caption ? SystemInformation.BorderSize + new Size(factor, factor)
                                 : new Size(factor, factor));
+                    border.Height = 10; //Work for me, with SystemInformation.FrameBorderSize lot of frame was not repainted
+                    border.Width = 10;
                     break;
                 case FormBorderStyle.Fixed3D:
                     border = SystemInformation.FixedFrameBorderSize + SystemInformation.Border3DSize;

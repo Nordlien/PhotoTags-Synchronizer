@@ -48,9 +48,7 @@
     <Compile Include="CheckedListBoxHigherRows.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TabControlCustom.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="TabControlCustom.cs" />
     <Compile Include="FormTerminalWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +70,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ToolStripProfessionalRendererWithoutLines.cs" />
     <Compile Include="TreeViewWithoutDoubleClick.cs">
       <SubType>Component</SubType>
     </Compile>

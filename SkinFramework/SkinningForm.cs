@@ -298,6 +298,10 @@ namespace SkinFramework
                             m.Result = (IntPtr)1;
                             supressOriginalMessage = true;
                         }
+                        else
+                        {
+                            //DEbug
+                        }
                         break;
                     // calculate the non client area size
                     case Win32Messages.NCCALCSIZE:

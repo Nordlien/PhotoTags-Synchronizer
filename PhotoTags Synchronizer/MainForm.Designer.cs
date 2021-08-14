@@ -70,7 +70,7 @@ namespace PhotoTagsSynchronizer
             this.label9 = new System.Windows.Forms.Label();
             this.checkBoxSearchNeedAllKeywords = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.comboBoxSearchKeyword = new System.Windows.Forms.ComboBox();
+            this.comboBoxSearchKeyword = new ComboBoxCustom();
             this.checkBoxSearchWithoutKeyword = new System.Windows.Forms.CheckBox();
             this.groupBoxSearchRating = new System.Windows.Forms.GroupBox();
             this.checkBoxSearchRatingEmpty = new System.Windows.Forms.CheckBox();
@@ -95,19 +95,19 @@ namespace PhotoTagsSynchronizer
             this.dateTimePickerSearchDateTo = new System.Windows.Forms.DateTimePicker();
             this.groupBoxSearchTags = new System.Windows.Forms.GroupBox();
             this.checkBoxSearchUseAndBetweenTextTagFields = new System.Windows.Forms.CheckBox();
-            this.comboBoxSearchComments = new System.Windows.Forms.ComboBox();
+            this.comboBoxSearchComments = new ComboBoxCustom();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBoxSearchAlbum = new System.Windows.Forms.ComboBox();
-            this.comboBoxSearchTitle = new System.Windows.Forms.ComboBox();
-            this.comboBoxSearchDescription = new System.Windows.Forms.ComboBox();
-            this.comboBoxSearchLocationCountry = new System.Windows.Forms.ComboBox();
-            this.comboBoxSearchLocationName = new System.Windows.Forms.ComboBox();
-            this.comboBoxSearchLocationState = new System.Windows.Forms.ComboBox();
+            this.comboBoxSearchAlbum = new ComboBoxCustom();
+            this.comboBoxSearchTitle = new ComboBoxCustom();
+            this.comboBoxSearchDescription = new ComboBoxCustom();
+            this.comboBoxSearchLocationCountry = new ComboBoxCustom();
+            this.comboBoxSearchLocationName = new ComboBoxCustom();
+            this.comboBoxSearchLocationState = new ComboBoxCustom();
             this.label13 = new System.Windows.Forms.Label();
-            this.comboBoxSearchLocationCity = new System.Windows.Forms.ComboBox();
+            this.comboBoxSearchLocationCity = new ComboBoxCustom();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -160,8 +160,8 @@ namespace PhotoTagsSynchronizer
             this.tabPageTags = new System.Windows.Forms.TabPage();
             this.labelTagsInformation = new System.Windows.Forms.Label();
             this.labelAuthor = new System.Windows.Forms.Label();
-            this.comboBoxAuthor = new System.Windows.Forms.ComboBox();
-            this.comboBoxMediaAiConfidence = new System.Windows.Forms.ComboBox();
+            this.comboBoxAuthor = new ComboBoxCustom();
+            this.comboBoxMediaAiConfidence = new ComboBoxCustom();
             this.dataGridViewTagsAndKeywords = new System.Windows.Forms.DataGridView();
             this.contextMenuStripTagsAndKeywords = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuTagsBrokerCut = new System.Windows.Forms.ToolStripMenuItem();
@@ -192,14 +192,14 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating3 = new System.Windows.Forms.RadioButton();
             this.radioButtonRating2 = new System.Windows.Forms.RadioButton();
             this.radioButtonRating1 = new System.Windows.Forms.RadioButton();
-            this.comboBoxAlbum = new System.Windows.Forms.ComboBox();
+            this.comboBoxAlbum = new ComboBoxCustom();
             this.label4 = new System.Windows.Forms.Label();
-            this.comboBoxComments = new System.Windows.Forms.ComboBox();
+            this.comboBoxComments = new ComboBoxCustom();
             this.labelComments = new System.Windows.Forms.Label();
             this.labelDescription = new System.Windows.Forms.Label();
             this.labelTitle = new System.Windows.Forms.Label();
-            this.comboBoxDescription = new System.Windows.Forms.ComboBox();
-            this.comboBoxTitle = new System.Windows.Forms.ComboBox();
+            this.comboBoxDescription = new ComboBoxCustom();
+            this.comboBoxTitle = new ComboBoxCustom();
             this.tabPagePeople = new System.Windows.Forms.TabPage();
             this.dataGridViewPeople = new System.Windows.Forms.DataGridView();
             this.contextMenuStripPeople = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -231,8 +231,8 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageMap = new System.Windows.Forms.TabPage();
             this.splitContainerMap = new System.Windows.Forms.SplitContainer();
-            this.comboBoxGoogleLocationInterval = new System.Windows.Forms.ComboBox();
-            this.comboBoxGoogleTimeZoneShift = new System.Windows.Forms.ComboBox();
+            this.comboBoxGoogleLocationInterval = new ComboBoxCustom();
+            this.comboBoxGoogleTimeZoneShift = new ComboBoxCustom();
             this.dataGridViewMap = new System.Windows.Forms.DataGridView();
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemMapCut = new System.Windows.Forms.ToolStripMenuItem();
@@ -313,7 +313,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxRenameShowFullPath = new System.Windows.Forms.CheckBox();
             this.buttonRenameUpdate = new System.Windows.Forms.Button();
             this.buttonRenameSave = new System.Windows.Forms.Button();
-            this.comboBoxRenameVariableList = new System.Windows.Forms.ComboBox();
+            this.comboBoxRenameVariableList = new ComboBoxCustom();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxRenameNewName = new System.Windows.Forms.TextBox();
@@ -910,8 +910,9 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxSearchKeyword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchKeyword.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxSearchKeyword.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;            
             this.comboBoxSearchKeyword.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchKeyword.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchKeyword.FormattingEnabled = true;
             this.comboBoxSearchKeyword.Location = new System.Drawing.Point(124, 24);
             this.comboBoxSearchKeyword.Name = "comboBoxSearchKeyword";
@@ -1911,8 +1912,10 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxAuthor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxAuthor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
             this.comboBoxAuthor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAuthor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            
             this.comboBoxAuthor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxAuthor.FormattingEnabled = true;
             this.comboBoxAuthor.Location = new System.Drawing.Point(85, 112);
@@ -1924,6 +1927,7 @@ namespace PhotoTagsSynchronizer
             // comboBoxMediaAiConfidence
             // 
             this.comboBoxMediaAiConfidence.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxMediaAiConfidence.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMediaAiConfidence.FormattingEnabled = true;
             this.comboBoxMediaAiConfidence.Items.AddRange(new object[] {
             "90% Confidence",
@@ -2273,8 +2277,10 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxAlbum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
             this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            
             this.comboBoxAlbum.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxAlbum.FormattingEnabled = true;
             this.comboBoxAlbum.Location = new System.Drawing.Point(85, 4);
@@ -2296,6 +2302,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxComments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
             this.comboBoxComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxComments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -2337,6 +2344,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxDescription.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
             this.comboBoxDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -2351,6 +2359,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.comboBoxTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxTitle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
             this.comboBoxTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

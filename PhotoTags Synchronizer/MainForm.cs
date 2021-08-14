@@ -43,10 +43,65 @@ namespace PhotoTagsSynchronizer
 
         public void UpdateColorControls(Control control, bool useDarkMode)
         {
+            Color LighterColor(Color color, float correctionfactory = 50f)
+            {
+                correctionfactory = correctionfactory / 100f;
+                const float rgb255 = 255f;
+                return Color.FromArgb(
+                    (int)((float)color.R + ((rgb255 - (float)color.R) * correctionfactory)), 
+                    (int)((float)color.G + ((rgb255 - (float)color.G) * correctionfactory)), 
+                    (int)((float)color.B + ((rgb255 - (float)color.B) * correctionfactory))
+                    );
+            }
+
+            Color DarkerColor(Color color, float correctionfactory = 50f)
+            {
+                const float hundredpercent = 100f;
+                return Color.FromArgb(
+                    (int)(((float)color.R / hundredpercent) * (hundredpercent - correctionfactory)),
+                    (int)(((float)color.G / hundredpercent) * (hundredpercent - correctionfactory)), 
+                    (int)(((float)color.B / hundredpercent) * (hundredpercent - correctionfactory))
+                    );
+            }
+            if (useDarkMode)
+            {
+                DataGridViewHandler.ColorCellEditable = SystemColors.ControlDarkDark;
+                DataGridViewHandler.ColorFavourite = LighterColor(SystemColors.ControlDarkDark, 20);
+                DataGridViewHandler.ColorReadOnly = DarkerColor(SystemColors.ControlDarkDark, 20);                
+                DataGridViewHandler.ColorReadOnlyFavourite = DarkerColor(SystemColors.ControlDarkDark, 10);
+                DataGridViewHandler.ColorError = Color.FromArgb(128, 32, 32);
+          
+                
+                DataGridViewHandler.ColorHeader = Color.Black;
+                
+                DataGridViewHandler.ColorHeaderImage = SystemColors.ControlDarkDark;
+                DataGridViewHandler.ColorHeaderError = Color.Red;
+                DataGridViewHandler.ColorHeaderWarning = Color.Yellow;
+                DataGridViewHandler.ColorRegionFace = Color.Black;
+            }
+            else
+            {
+                DataGridViewHandler.ColorReadOnly = SystemColors.GradientInactiveCaption;
+                DataGridViewHandler.ColorError = Color.FromArgb(255, 192, 192);
+                DataGridViewHandler.ColorFavourite = SystemColors.ControlLight;
+                DataGridViewHandler.ColorReadOnlyFavourite = SystemColors.MenuHighlight;
+                DataGridViewHandler.ColorHeader = SystemColors.Control;
+                DataGridViewHandler.ColorCellEditable = SystemColors.ControlLightLight;
+                DataGridViewHandler.ColorHeaderImage = Color.LightSteelBlue;
+                DataGridViewHandler.ColorHeaderError = Color.Red;
+                DataGridViewHandler.ColorHeaderWarning = Color.Yellow;
+                DataGridViewHandler.ColorRegionFace = Color.White;
+            }
+            UpdateColorControlsRecursive(control, useDarkMode);
+            this.Refresh();
+        }
+
+        public void UpdateColorControlsRecursive(Control control, bool useDarkMode)
+        {
             if (control is Button ||
                 control is CheckBox ||
                 control is CheckedListBox ||
-                control is ComboBox ||
+                
                 control is DateTimePicker ||
                 //control is Form ||
                 control is GroupBox ||
@@ -108,6 +163,9 @@ namespace PhotoTagsSynchronizer
                 if (useDarkMode)
                 {
                     DataGridView MyDgv = (DataGridView)control;
+                    MyDgv.BackgroundColor = SystemColors.ControlDarkDark;
+                    MyDgv.GridColor = SystemColors.ControlDark;
+
                     MyDgv.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
                     MyDgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Gray;
                     MyDgv.RowHeadersDefaultCellStyle.BackColor = Color.Black;
@@ -121,6 +179,9 @@ namespace PhotoTagsSynchronizer
                 else
                 {
                     DataGridView MyDgv = (DataGridView)control;
+                    MyDgv.BackgroundColor = SystemColors.AppWorkspace;
+                    MyDgv.GridColor = SystemColors.ControlDark;
+
                     MyDgv.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
                     MyDgv.ColumnHeadersDefaultCellStyle.ForeColor = SystemColors.WindowText;
                     MyDgv.RowHeadersDefaultCellStyle.BackColor = SystemColors.Control;
@@ -131,14 +192,30 @@ namespace PhotoTagsSynchronizer
                     MyDgv.DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
                     MyDgv.DefaultCellStyle.SelectionForeColor = SystemColors.HighlightText;
                 }
-            } else
+            }
+            else if (control is ComboBoxCustom)
+            {
+                if (useDarkMode)
+                {
+                    ((ComboBoxCustom)control).BorderColor = SystemColors.ControlDarkDark;
+                    ((ComboBoxCustom)control).BackColor = Color.Black;
+                    ((ComboBoxCustom)control).ForeColor = Color.Gray;
+                }
+                else
+                {
+                    ((ComboBoxCustom)control).BorderColor = SystemColors.Control;
+                    ((ComboBoxCustom)control).BackColor = SystemColors.ControlDarkDark; ;
+                    ((ComboBoxCustom)control).ForeColor = SystemColors.ControlText;
+                }
+            }
+            else
             {
                 // Any other non-standard controls should be implemented here aswell...
             }
 
             foreach (Control subControls in control.Controls)
             {
-                UpdateColorControls(subControls, useDarkMode);
+                UpdateColorControlsRecursive(subControls, useDarkMode);
             }
         }
 
@@ -218,9 +295,14 @@ namespace PhotoTagsSynchronizer
 
             InitializeComponent();
             #endregion
+
+            this.toolStripContainerStripMainForm.RenderMode = ToolStripRenderMode.Professional;
+            this.toolStripContainerStripMainForm.Renderer = new ToolStripProfessionalRendererWithoutLines();
+            this.toolStripContainerStripMediaPreview.RenderMode = ToolStripRenderMode.Professional;
+            this.toolStripContainerStripMediaPreview.Renderer = new ToolStripProfessionalRendererWithoutLines();
             //this.toolStripContainer1.TopToolStripPanel.RowMargin = new Padding(0);
             if (Properties.Settings.Default.ApplicationDarkMode == true) UpdateColorControls(this, Properties.Settings.Default.ApplicationDarkMode);
-            this.Invalidate();
+
 
             #region Initialize VLC player
             SplashForm.UpdateStatus("Staring VLC player...");
@@ -824,6 +906,8 @@ namespace PhotoTagsSynchronizer
         {
 
         }
+
+        
     }
 
 
