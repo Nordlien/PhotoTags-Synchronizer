@@ -6,7 +6,7 @@ using System;
 
 namespace PhotoTagsCommonComponets
 {
-    public partial class ComboBoxCustom : ComboBox
+    public partial class ComboBoxCustom2 : ComboBox
     {
         public enum PenStyles
         {
@@ -126,13 +126,13 @@ namespace PhotoTagsCommonComponets
             }
         }
 
-        public ComboBoxCustom()
+        public ComboBoxCustom2()
         {
-            InitializeComponent();
+            //InitializeComponent();
 
             // Timer to check when the dropdown is fully visible
-            _dropDownCheck.Interval = 100;
-            _dropDownCheck.Tick += new EventHandler(dropDownCheck_Tick);
+            //_dropDownCheck.Interval = 100;
+            //_dropDownCheck.Tick += new EventHandler(dropDownCheck_Tick);
         }
 
         /// <summary>
@@ -286,8 +286,9 @@ namespace PhotoTagsCommonComponets
             return GetComboBoxInfo(handle, ref info) ? info.hwndList : IntPtr.Zero;
         }
     }
-    public class ComboBoxCustom1 : ComboBox
+    public class ComboBoxCustom : ComboBox
     {
+        
         private System.ComponentModel.IContainer components = null;
 
         protected override void Dispose(bool disposing)
@@ -304,10 +305,10 @@ namespace PhotoTagsCommonComponets
             components = new System.ComponentModel.Container();
         }
 
-        public ComboBoxCustom1()
+        public ComboBoxCustom()
         {
             InitializeComponent();
-            SetStyle(ControlHandlerCommon.ControlStyleCommon, true);
+            //SetStyle(ControlHandlerCommon.ControlStyleCommon, true);
             //DrawMode = DrawMode.OwnerDrawFixed;
             //DropDownStyle = ComboBoxStyle.DropDown;
             //FlatStyle = FlatStyle.Flat;
@@ -343,7 +344,7 @@ namespace PhotoTagsCommonComponets
         }
         protected override void WndProc(ref Message m)
         {
-
+            /*
             if (m.Msg == WM_PAINT && DropDownStyle != ComboBoxStyle.Simple)
             {
                 var clientRect = ClientRectangle;
@@ -423,7 +424,7 @@ namespace PhotoTagsCommonComponets
                 m.Result = new IntPtr(1);
                 return;
             }
-            else
+            else*/
                 base.WndProc(ref m);
         }
 
@@ -522,7 +523,7 @@ namespace PhotoTagsCommonComponets
 
     #region ComboBoxCustom
     [ToolboxBitmap(typeof(ComboBox))]
-    public class ComboBoxCustom2 : ComboBox
+    public class ComboBoxCustom3 : ComboBox
     {
         [DefaultValue(50)]
         public int ColorFieldWidth { get; set; } = 50;
@@ -546,7 +547,7 @@ namespace PhotoTagsCommonComponets
             components = new System.ComponentModel.Container();
         }
 
-        public ComboBoxCustom2()
+        public ComboBoxCustom3()
         {
             InitializeComponent();
 

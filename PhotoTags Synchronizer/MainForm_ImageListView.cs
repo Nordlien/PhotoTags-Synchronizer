@@ -136,6 +136,7 @@ namespace PhotoTagsSynchronizer
             } catch (Exception ex)
             {
                 Logger.Error(ex, "imageListView1_RetrieveItemMetadataDetails");
+                if (e.FileMetadata == null) e.FileMetadata = new Utility.ShellImageFileInfo();
                 e.FileMetadata.DisplayName = Path.GetFileName(e.FileName);
                 e.FileMetadata.FileDirectory = Path.GetDirectoryName(e.FileName);
             }
