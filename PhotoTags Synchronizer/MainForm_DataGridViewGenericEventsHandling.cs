@@ -5,11 +5,12 @@ using DataGridViewGeneric;
 using System.Collections.Generic;
 using MetadataLibrary;
 using LocationNames;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         //Convert and Merge
         //Date

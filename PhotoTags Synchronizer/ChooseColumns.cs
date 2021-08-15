@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -70,7 +71,7 @@ namespace PhotoTagsSynchronizer
             }
         }
 
-        private void PopulateComboBox(ComboBox comboBox)
+        private void PopulateComboBox(KryptonComboBox comboBox)
         {
             comboBox.Items.Clear();
             comboBox.Items.Add("FileName");            

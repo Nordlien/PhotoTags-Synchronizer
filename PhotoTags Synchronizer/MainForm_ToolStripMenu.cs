@@ -14,11 +14,12 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Thumbnails;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         #region DataGridViewHandler - ShowMediaPosterWindowToolStripMenuItemSelectedEvent
         private void DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent(object sender, EventArgs e)

@@ -9,11 +9,12 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using WindowsProperty;
 using static Manina.Windows.Forms.ImageListView;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         #region DataGridView - GetDataGridViewForTag
         private DataGridView GetDataGridViewForTag(string tag)

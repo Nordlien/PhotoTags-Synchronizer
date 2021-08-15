@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class MainForm : Form
+
+    public partial class MainForm : KryptonForm
     {
         #region Validation of cells and Rows (keyword tag added/changed validation)
         private void dataGridViewTagsAndKeywords_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -451,7 +453,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region AddToListBox
-        private void AddToListBox(DataGridView dataGridView, ComboBox comboBox, int columnIndex, string sourceHeader, string rowTag)
+        private void AddToListBox(DataGridView dataGridView, KryptonComboBox comboBox, int columnIndex, string sourceHeader, string rowTag)
         {
             int rowIndex;
             object value;

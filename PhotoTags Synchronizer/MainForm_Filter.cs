@@ -3,10 +3,12 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using MetadataLibrary;
 using System.Threading;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
-{
-    
+{ 
+
+
     public class Filter
     {
         public bool IsAndBetweenValues { get; set; }
@@ -57,7 +59,7 @@ namespace PhotoTagsSynchronizer
         }
 
         #region Add filter
-        public void Add (Filter filter)
+        public void Add(Filter filter)
         {
             filters.Add(filter);
         }
@@ -84,10 +86,10 @@ namespace PhotoTagsSynchronizer
                 case FilterVerifyer.Countries:
                     return treeNodeName + (treeNodeChecked ? " - added" : "");
 
-                case FilterVerifyer.Peoples: 
+                case FilterVerifyer.Peoples:
                     return (treeNodeChecked ? "When contains all this " : "When has some of this ") + treeNodeName;
-                case FilterVerifyer.Keywords: 
-                    return (treeNodeChecked ? "When contains all this " : "When has some of this ") + treeNodeName;            
+                case FilterVerifyer.Keywords:
+                    return (treeNodeChecked ? "When contains all this " : "When has some of this ") + treeNodeName;
             }
             return treeNodeName;
         }
@@ -159,9 +161,9 @@ namespace PhotoTagsSynchronizer
 
             GlobalData.IsPopulatingFilter = false;
         }
-        #endregion 
+        #endregion
 
-        
+
 
         #region PopulateTreeViewWithValues
         public static void PopulateTreeViewWithValues(TreeView treeView, string keyRoot, string key, List<string> nodes)
@@ -191,7 +193,7 @@ namespace PhotoTagsSynchronizer
             int valuesCountAdded = 0;
             if (treeView.Nodes[rootNode] == null) return valuesCountAdded;
             if (treeView.Nodes[rootNode].Nodes[tagNode] == null) return valuesCountAdded;
-            
+
             bool isAndBetweenValues = treeView.Nodes[rootNode].Nodes[tagNode].Checked;
 
             Filter filter = new Filter(isAndBetweenValues, tagNode);
@@ -258,7 +260,7 @@ namespace PhotoTagsSynchronizer
 
             int indexTitle = IndexOfFilter(Titles);
             bool foundTitle;
-            bool hasValueTitle= (indexTitle == -1 ? false : filters[indexTitle].FilterValues.Count > 0);
+            bool hasValueTitle = (indexTitle == -1 ? false : filters[indexTitle].FilterValues.Count > 0);
             if (indexTitle == -1 || filters[indexTitle].FilterValues.Count == 0) foundTitle = IsAndBewteenFieldTags;
             else foundTitle = filters[indexTitle].FilterValues.Contains(metadata.PersonalTitle);
 
@@ -328,7 +330,7 @@ namespace PhotoTagsSynchronizer
                 {
                     if (RegionStructure.DoesThisNameExistInList(metadata.PersonalRegionList, name))
                         foundPeopleSome = true;
-                    else 
+                    else
                         foundPeopleAll = false;
                 }
 
@@ -355,18 +357,17 @@ namespace PhotoTagsSynchronizer
             }
             else foundKeyword = IsAndBewteenFieldTags;
 
-            if ( !(hasValueAlbum | hasValueComment | hasValueKeyword | hasValuePeople | hasValueTitle | hasValueDescriptions | hasValueAuthor | hasValueRating | hasValueDate | 
+            if (!(hasValueAlbum | hasValueComment | hasValueKeyword | hasValuePeople | hasValueTitle | hasValueDescriptions | hasValueAuthor | hasValueRating | hasValueDate |
                 hasValueLocation | hasValueCity | hasValueState | hasValueCountry)) return true;
-            if (IsAndBewteenFieldTags) return 
+            if (IsAndBewteenFieldTags) return
                     foundAlbum & foundTitle & foundComment & foundPeople & foundKeyword & foundDescriptions & foundAuthor & foundRating & foundDate & foundLocation & foundCity & foundState & foundCountry;
-            else return 
+            else return
                     foundAlbum | foundTitle | foundComment | foundPeople | foundKeyword | foundDescriptions | foundAuthor | foundRating | foundDate | foundLocation | foundCity | foundState | foundCountry;
         }
         #endregion 
     }
 
-
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         #region PopulateImageListViewUsingFilters(TreeView treeView)
         private void PopulateImageListViewFromFolderOrUsingFilters(TreeView treeView)

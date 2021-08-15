@@ -8,11 +8,12 @@ using ImageAndMovieFileExtentions;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using FileHandeling;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         #region Thumbnail - Get Thumbnail And WriteNewToDatabase - AddQueueAllUpadtedFileEntry
         /// <summary>

@@ -3,10 +3,12 @@ using Manina.Windows.Forms;
 using MetadataLibrary;
 using static Manina.Windows.Forms.ImageListView;
 using System;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class MainForm : Form
+
+    public partial class MainForm : KryptonForm
     {
 
         private int lastGroupBaseIndex = int.MaxValue;

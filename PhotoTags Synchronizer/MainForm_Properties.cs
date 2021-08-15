@@ -4,11 +4,12 @@ using System.Windows.Forms;
 using System.IO;
 using SqliteDatabase;
 using DataGridViewGeneric;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         private void dataGridViewProperties_CellEnter(object sender, DataGridViewCellEventArgs e)
         {

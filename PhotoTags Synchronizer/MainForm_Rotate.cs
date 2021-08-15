@@ -13,12 +13,13 @@ using System.Threading;
 using System.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
 using FileHandeling;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-	public partial class MainForm : Form
-	{
+    public partial class MainForm : KryptonForm
+    {
         #region Rotate
 
         #region Rotate - Rotate one media file

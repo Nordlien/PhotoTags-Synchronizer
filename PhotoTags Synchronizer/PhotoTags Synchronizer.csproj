@@ -164,8 +164,8 @@
       <DependentUpon>FormAbout.cs</DependentUpon>
     </Compile>
     <Compile Include="FormConfig.cs">
-      <SubType>Form</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormConfig.Designer.cs">
       <DependentUpon>FormConfig.cs</DependentUpon>
@@ -639,6 +639,9 @@
     </PackageReference>
     <PackageReference Include="FCTB">
       <Version>2.16.24</Version>
+    </PackageReference>
+    <PackageReference Include="Krypton.Components.Suite">
+      <Version>4.5.9</Version>
     </PackageReference>
     <PackageReference Include="LibVLCSharp">
       <Version>3.5.1</Version>

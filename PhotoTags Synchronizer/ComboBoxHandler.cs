@@ -3,6 +3,7 @@ using Manina.Windows.Forms;
 using System;
 using System.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -112,7 +113,7 @@ namespace PhotoTagsSynchronizer
         }
 
         #region ComboBox - Settings - Convert List to string
-        public static string ComboBoxStringCollection(ComboBox comboBox)
+        public static string ComboBoxStringCollection(KryptonComboBox comboBox)
         {
             string resultListString = "";
             foreach (object item in comboBox.Items)
@@ -124,7 +125,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ComboBox - Settings - Convert String add to List
-        public static void ComboBoxPopulate(ComboBox comboBox, string valueListString, string defaultValue)
+        public static void ComboBoxPopulate(KryptonComboBox comboBox, string valueListString, string defaultValue)
         {
             comboBox.Items.Clear();
 
@@ -141,7 +142,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region ComboBox - Remeber last text and Add Text to list
-        public static void ComboBoxAddTextToList(ComboBox comboBox)
+        public static void ComboBoxAddTextToList(KryptonComboBox comboBox)
         {
             string text = comboBox.Text;
             int indexOfText = comboBox.Items.IndexOf(text); //Does it exist from before, remove to put first

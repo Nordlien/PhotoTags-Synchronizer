@@ -9,11 +9,12 @@ using System.Collections.Generic;
 using Manina.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
 using System.Linq;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
 
         #region Convert and Merge - Drag and Drop

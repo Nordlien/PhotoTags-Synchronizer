@@ -9,11 +9,12 @@ using ApplicationAssociations;
 using System.Collections.Generic;
 using static Manina.Windows.Forms.ImageListView;
 using FileHandeling;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    
-    public partial class MainForm : Form
+
+    public partial class MainForm : KryptonForm
     {
         private AutoResetEvent ReadImageOutOfMemoryWillWaitCacheEmpty = null; //When out of memory, then wait for all data ready = new AutoResetEvent(false);
         private AutoResetEvent WaitThread_PopulateTreeViewFolderFilter_Stopped = null;

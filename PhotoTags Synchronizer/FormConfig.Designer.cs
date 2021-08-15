@@ -1,5 +1,6 @@
 ﻿using DataGridViewExtended;
 using PhotoTagsCommonComponets;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -45,64 +46,64 @@ namespace PhotoTagsSynchronizer
             this.tabPageApplication = new System.Windows.Forms.TabPage();
             this.panelApplication = new System.Windows.Forms.Panel();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.label92 = new System.Windows.Forms.Label();
-            this.label91 = new System.Windows.Forms.Label();
-            this.label90 = new System.Windows.Forms.Label();
-            this.comboBoxApplicationDebugBackgroundThreadPrioity = new System.Windows.Forms.ComboBox();
-            this.comboBoxApplicationDebugExiftoolWriteThreadPrioity = new System.Windows.Forms.ComboBox();
-            this.comboBoxApplicationDebugExiftoolReadThreadPrioity = new System.Windows.Forms.ComboBox();
-            this.checkBoxApplicationExiftoolWriteShowCliWindow = new System.Windows.Forms.CheckBox();
-            this.checkBoxApplicationExiftoolReadShowCliWindow = new System.Windows.Forms.CheckBox();
+            this.label92 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label91 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label90 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxApplicationDebugBackgroundThreadPrioity = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxApplicationDebugExiftoolWriteThreadPrioity = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxApplicationDebugExiftoolReadThreadPrioity = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.checkBoxApplicationExiftoolWriteShowCliWindow = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxApplicationExiftoolReadShowCliWindow = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.checkBoxCacheFolderWebScraperDataSets = new System.Windows.Forms.CheckBox();
-            this.checkBoxCacheFolderThumbnails = new System.Windows.Forms.CheckBox();
-            this.checkBoxCacheFolderMetadatas = new System.Windows.Forms.CheckBox();
-            this.checkBoxCacheAllWebScraperDataSets = new System.Windows.Forms.CheckBox();
-            this.checkBoxCacheAllThumbnails = new System.Windows.Forms.CheckBox();
-            this.checkBoxCacheAllMetadatas = new System.Windows.Forms.CheckBox();
-            this.label83 = new System.Windows.Forms.Label();
+            this.checkBoxCacheFolderWebScraperDataSets = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxCacheFolderThumbnails = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxCacheFolderMetadatas = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxCacheAllWebScraperDataSets = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxCacheAllThumbnails = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxCacheAllMetadatas = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label83 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.numericUpDownCacheNumberOfPosters = new System.Windows.Forms.NumericUpDown();
             this.groupBoxLocationAccuracy = new System.Windows.Forms.GroupBox();
-            this.label67 = new System.Windows.Forms.Label();
-            this.label65 = new System.Windows.Forms.Label();
-            this.label64 = new System.Windows.Forms.Label();
+            this.label67 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label65 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label64 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.numericUpDownLocationAccuracyLongitude = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownLocationAccuracyLatitude = new System.Windows.Forms.NumericUpDown();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.checkBoxApplicationAvoidReadExifFromCloud = new System.Windows.Forms.CheckBox();
-            this.checkBoxApplicationImageListViewCacheModeOnDemand = new System.Windows.Forms.CheckBox();
-            this.checkBoxApplicationAvoidReadMediaFromCloud = new System.Windows.Forms.CheckBox();
+            this.checkBoxApplicationAvoidReadExifFromCloud = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxApplicationImageListViewCacheModeOnDemand = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxApplicationAvoidReadMediaFromCloud = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label68 = new System.Windows.Forms.Label();
-            this.label44 = new System.Windows.Forms.Label();
-            this.label43 = new System.Windows.Forms.Label();
+            this.label68 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label44 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label43 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.numericUpDownRegionMissmatchProcent = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label42 = new System.Windows.Forms.Label();
-            this.label41 = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
-            this.label39 = new System.Windows.Forms.Label();
+            this.label42 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label41 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label40 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label39 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.numericUpDownPeopleSuggestNameTopMost = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownPeopleSuggestNameDaysInterval = new System.Windows.Forms.NumericUpDown();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.numericUpDownApplicationMaxRowsInSearchResult = new System.Windows.Forms.NumericUpDown();
-            this.label38 = new System.Windows.Forms.Label();
+            this.label38 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.labelApplicationPreferredLanguages = new System.Windows.Forms.Label();
+            this.label20 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.labelApplicationPreferredLanguages = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.textBoxApplicationPreferredLanguages = new System.Windows.Forms.TextBox();
-            this.comboBoxApplicationLanguages = new System.Windows.Forms.ComboBox();
+            this.comboBoxApplicationLanguages = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label86 = new System.Windows.Forms.Label();
-            this.label85 = new System.Windows.Forms.Label();
-            this.comboBoxApplicationRegionThumbnailSizes = new System.Windows.Forms.ComboBox();
-            this.label84 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.comboBoxApplicationThumbnailSizes = new System.Windows.Forms.ComboBox();
-            this.labelApplicationThumbnailSize = new System.Windows.Forms.Label();
+            this.label86 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label85 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxApplicationRegionThumbnailSizes = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label84 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label25 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label24 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxApplicationThumbnailSizes = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.labelApplicationThumbnailSize = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.tabPageMetadataRead = new System.Windows.Forms.TabPage();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.dataGridViewMetadataReadPriority = new System.Windows.Forms.DataGridView();
@@ -123,13 +124,13 @@ namespace PhotoTagsSynchronizer
             this.tabPageMetadataWebScraper = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.label82 = new System.Windows.Forms.Label();
-            this.label81 = new System.Windows.Forms.Label();
-            this.label80 = new System.Windows.Forms.Label();
-            this.label79 = new System.Windows.Forms.Label();
-            this.label78 = new System.Windows.Forms.Label();
-            this.label77 = new System.Windows.Forms.Label();
-            this.label76 = new System.Windows.Forms.Label();
+            this.label82 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label81 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label80 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label79 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label78 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label77 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label76 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.numericUpDownWebScrapingPageDownCount = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownWaitEventPageLoadedTimeout = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownWaitEventPageStartLoadingTimeout = new System.Windows.Forms.NumericUpDown();
@@ -137,65 +138,65 @@ namespace PhotoTagsSynchronizer
             this.numericUpDownWebScrapingDelayOurScriptToRun = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownWebScrapingRetry = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownJavaScriptExecuteTimeout = new System.Windows.Forms.NumericUpDown();
-            this.label75 = new System.Windows.Forms.Label();
-            this.label74 = new System.Windows.Forms.Label();
-            this.label73 = new System.Windows.Forms.Label();
-            this.label72 = new System.Windows.Forms.Label();
-            this.label71 = new System.Windows.Forms.Label();
-            this.label69 = new System.Windows.Forms.Label();
-            this.label70 = new System.Windows.Forms.Label();
+            this.label75 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label74 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label73 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label72 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label71 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label69 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label70 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.textBoxWebScrapingStartPages = new System.Windows.Forms.TextBox();
             this.tabPageMetadataWrite = new System.Windows.Forms.TabPage();
             this.panelMetadataWrite = new System.Windows.Forms.Panel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.label89 = new System.Windows.Forms.Label();
-            this.label88 = new System.Windows.Forms.Label();
+            this.label89 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label88 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted = new System.Windows.Forms.NumericUpDown();
-            this.label62 = new System.Windows.Forms.Label();
-            this.checkBoxWriteFileAttributeCreatedDate = new System.Windows.Forms.CheckBox();
+            this.label62 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxWriteFileAttributeCreatedDate = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.groupBoxMetadataWriteKeywordItems = new System.Windows.Forms.GroupBox();
-            this.checkBoxWriteMetadataAddAutoKeywords = new System.Windows.Forms.CheckBox();
-            this.comboBoxMetadataWriteKeywordAdd = new System.Windows.Forms.ComboBox();
+            this.checkBoxWriteMetadataAddAutoKeywords = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.comboBoxMetadataWriteKeywordAdd = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.fastColoredTextBoxMetadataWriteKeywordAdd = new FastColoredTextBoxNS.FastColoredTextBox();
             this.fastColoredTextBoxMetadataWriteKeywordDelete = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.comboBoxMetadataWriteKeywordDelete = new System.Windows.Forms.ComboBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
+            this.comboBoxMetadataWriteKeywordDelete = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label27 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label26 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.groupBoxMetadataWriteProperties = new System.Windows.Forms.GroupBox();
             this.textBoxWriteXtraAtomArtist = new System.Windows.Forms.TextBox();
-            this.checkBoxWriteXtraAtomArtistVideo = new System.Windows.Forms.CheckBox();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.comboBoxWriteXtraAtomVariables = new System.Windows.Forms.ComboBox();
+            this.checkBoxWriteXtraAtomArtistVideo = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label37 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label36 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxWriteXtraAtomVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.textBoxWriteXtraAtomComment = new System.Windows.Forms.TextBox();
             this.textBoxWriteXtraAtomSubject = new System.Windows.Forms.TextBox();
             this.textBoxWriteXtraAtomSubtitle = new System.Windows.Forms.TextBox();
             this.textBoxWriteXtraAtomAlbum = new System.Windows.Forms.TextBox();
             this.textBoxWriteXtraAtomCategories = new System.Windows.Forms.TextBox();
             this.textBoxWriteXtraAtomKeywords = new System.Windows.Forms.TextBox();
-            this.label35 = new System.Windows.Forms.Label();
-            this.checkBoxWriteXtraAtomRatingPicture = new System.Windows.Forms.CheckBox();
-            this.checkBoxWriteXtraAtomRatingVideo = new System.Windows.Forms.CheckBox();
-            this.label34 = new System.Windows.Forms.Label();
-            this.checkBoxWriteXtraAtomCommentPicture = new System.Windows.Forms.CheckBox();
-            this.checkBoxWriteXtraAtomSubjectPicture = new System.Windows.Forms.CheckBox();
-            this.checkBoxWriteXtraAtomCommentVideo = new System.Windows.Forms.CheckBox();
-            this.checkBoxWriteXtraAtomSubjectVideo = new System.Windows.Forms.CheckBox();
-            this.checkBoxWriteXtraAtomSubtitleVideo = new System.Windows.Forms.CheckBox();
-            this.checkBoxWriteXtraAtomAlbumVideo = new System.Windows.Forms.CheckBox();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.checkBoxWriteXtraAtomCategoriesVideo = new System.Windows.Forms.CheckBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.checkBoxWriteXtraAtomKeywordsVideo = new System.Windows.Forms.CheckBox();
+            this.label35 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxWriteXtraAtomRatingPicture = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxWriteXtraAtomRatingVideo = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label34 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxWriteXtraAtomCommentPicture = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxWriteXtraAtomSubjectPicture = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxWriteXtraAtomCommentVideo = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxWriteXtraAtomSubjectVideo = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxWriteXtraAtomSubtitleVideo = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxWriteXtraAtomAlbumVideo = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label33 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label32 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label31 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label30 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxWriteXtraAtomCategoriesVideo = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label29 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label28 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxWriteXtraAtomKeywordsVideo = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.groupBoxMetadataWriteTags = new System.Windows.Forms.GroupBox();
             this.fastColoredTextBoxMetadataWriteTags = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.comboBoxMetadataWriteStandardTags = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.comboBoxMetadataWriteStandardTags = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label6 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.tabPageFileDateTimeFormats = new System.Windows.Forms.TabPage();
             this.fastColoredTextBoxConfigFilenameDateFormats = new FastColoredTextBoxNS.FastColoredTextBox();
@@ -204,84 +205,84 @@ namespace PhotoTagsSynchronizer
             this.panelAutoCorrect = new System.Windows.Forms.Panel();
             this.groupBoxRename = new System.Windows.Forms.GroupBox();
             this.textBoxRenameTo = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.checkBoxRename = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.comboBoxRenameVariables = new System.Windows.Forms.ComboBox();
+            this.label10 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxRename = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label9 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxRenameVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.groupBoxFaceRegion = new System.Windows.Forms.GroupBox();
-            this.checkBoxFaceRegionAddWebScraping = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.checkBoxFaceRegionAddMicrosoftPhotos = new System.Windows.Forms.CheckBox();
-            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery = new System.Windows.Forms.CheckBox();
+            this.checkBoxFaceRegionAddWebScraping = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label5 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxFaceRegionAddMicrosoftPhotos = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.groupBoxAutoCorrectBackup = new System.Windows.Forms.GroupBox();
-            this.checkBoxAutoCorrectTrackChanges = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupFileCreatedBefore = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupFileCreatedAfter = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupDateTakenBefore = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupLocationCountry = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupGPSDateTimeUTCBefore = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupLocationState = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupDateTakenAfter = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupLocationCity = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordBackupGPSDateTimeUTCAfter = new System.Windows.Forms.CheckBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.checkBoxKeywordBackupLocationName = new System.Windows.Forms.CheckBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.checkBoxKeywordBackupRegionFaceNames = new System.Windows.Forms.CheckBox();
+            this.checkBoxAutoCorrectTrackChanges = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordBackupFileCreatedBefore = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordBackupFileCreatedAfter = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordBackupDateTakenBefore = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordBackupLocationCountry = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordBackupGPSDateTimeUTCBefore = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordBackupLocationState = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordBackupDateTakenAfter = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordBackupLocationCity = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordBackupGPSDateTimeUTCAfter = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label18 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxKeywordBackupLocationName = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label17 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxKeywordBackupRegionFaceNames = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.groupBoxKaywordTags = new System.Windows.Forms.GroupBox();
-            this.checkBoxKeywordsAddAutoKeywords = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordsAddWebScraping = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBoxKeywordsAiConfidence = new System.Windows.Forms.ComboBox();
-            this.checkBoxKeywordsAddMicrosoftPhotos = new System.Windows.Forms.CheckBox();
-            this.checkBoxKeywordsAddWindowsMediaPhotoGallery = new System.Windows.Forms.CheckBox();
+            this.checkBoxKeywordsAddAutoKeywords = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordsAddWebScraping = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label4 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxKeywordsAiConfidence = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.checkBoxKeywordsAddMicrosoftPhotos = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxKeywordsAddWindowsMediaPhotoGallery = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.groupBoxAuthor = new System.Windows.Forms.GroupBox();
             this.radioButtonAuthorAlwaysChange = new System.Windows.Forms.RadioButton();
-            this.label13 = new System.Windows.Forms.Label();
+            this.label13 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.radioButtonAuthorChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonAuthorDoNotChange = new System.Windows.Forms.RadioButton();
             this.groupBoxAlbum = new System.Windows.Forms.GroupBox();
-            this.checkBoxDublicateAlbumAsDescription = new System.Windows.Forms.CheckBox();
-            this.label19 = new System.Windows.Forms.Label();
+            this.checkBoxDublicateAlbumAsDescription = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label19 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.imageListViewOrderAlbum = new PhotoTagsCommonComponets.ImageListViewOrder();
             this.radioButtonAlbumUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonAlbumChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonAlbumDoNotChange = new System.Windows.Forms.RadioButton();
             this.groupBoxTitle = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.label11 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.imageListViewOrderTitle = new PhotoTagsCommonComponets.ImageListViewOrder();
             this.radioButtonTitleUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonTitleChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonTitleDoNotChange = new System.Windows.Forms.RadioButton();
             this.groupBoxLocationName = new System.Windows.Forms.GroupBox();
-            this.checkBoxUpdateLocationCountry = new System.Windows.Forms.CheckBox();
-            this.checkBoxUpdateLocationState = new System.Windows.Forms.CheckBox();
-            this.checkBoxUpdateLocationCity = new System.Windows.Forms.CheckBox();
-            this.checkBoxUpdateLocationName = new System.Windows.Forms.CheckBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.checkBoxUpdateLocationCountry = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxUpdateLocationState = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxUpdateLocationCity = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxUpdateLocationName = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label15 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label14 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.radioButtonLocationNameChangeAlways = new System.Windows.Forms.RadioButton();
             this.radioButtonLocationNameChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonLocationNameDoNotChange = new System.Windows.Forms.RadioButton();
             this.groupBoxGPSLocation = new System.Windows.Forms.GroupBox();
-            this.label87 = new System.Windows.Forms.Label();
+            this.label87 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.numericUpDownLocationAccurateIntervalNearByMediaFile = new System.Windows.Forms.NumericUpDown();
-            this.checkBoxGPSUpdateLocationNearByMedia = new System.Windows.Forms.CheckBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
+            this.checkBoxGPSUpdateLocationNearByMedia = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label23 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label22 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.numericUpDownLocationAccurateInterval = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownLocationGuessInterval = new System.Windows.Forms.NumericUpDown();
-            this.label21 = new System.Windows.Forms.Label();
-            this.labelLocationTimeZoneAccurate = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.labelLocationTimeZoneGuess = new System.Windows.Forms.Label();
-            this.checkBoxGPSUpdateDateTime = new System.Windows.Forms.CheckBox();
-            this.checkBoxGPSUpdateLocation = new System.Windows.Forms.CheckBox();
+            this.label21 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.labelLocationTimeZoneAccurate = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label16 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label12 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label8 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label7 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.labelLocationTimeZoneGuess = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxGPSUpdateDateTime = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxGPSUpdateLocation = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.groupBoxDateTimeDigitized = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.label3 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.radioButtonDateTakenUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonDateTakenChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonDateTakenDoNotChange = new System.Windows.Forms.RadioButton();
@@ -332,7 +333,7 @@ namespace PhotoTagsSynchronizer
             this.searchForNewLocationsInMediaFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxBrowserURL = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.comboBoxMapZoomLevel = new System.Windows.Forms.ComboBox();
+            this.comboBoxMapZoomLevel = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.panelBrowser = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.buttonLocationImport = new System.Windows.Forms.Button();
@@ -341,57 +342,57 @@ namespace PhotoTagsSynchronizer
             this.tabPageConvertAndMerge = new System.Windows.Forms.TabPage();
             this.panelConvertAndMerge = new System.Windows.Forms.Panel();
             this.groupBoxConvertAndMergeConvertVideo = new System.Windows.Forms.GroupBox();
-            this.label53 = new System.Windows.Forms.Label();
-            this.comboBoxConvertAndMergeConvertVideoFilesVariables = new System.Windows.Forms.ComboBox();
+            this.label53 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxConvertAndMergeConvertVideoFilesVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument = new FastColoredTextBoxNS.FastColoredTextBox();
             this.groupBoxConvertAndMergeMergeVideos = new System.Windows.Forms.GroupBox();
-            this.comboBoxConvertAndMergeConcatVideosArguFileVariables = new System.Windows.Forms.ComboBox();
-            this.comboBoxConvertAndMergeConcatVideoFilesVariables = new System.Windows.Forms.ComboBox();
-            this.label52 = new System.Windows.Forms.Label();
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label52 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile = new FastColoredTextBoxNS.FastColoredTextBox();
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.label50 = new System.Windows.Forms.Label();
+            this.label50 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.groupBoxConvertAndMergeCommand = new System.Windows.Forms.GroupBox();
-            this.label56 = new System.Windows.Forms.Label();
-            this.comboBoxConvertAndMergeTempfileExtension = new System.Windows.Forms.ComboBox();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label54 = new System.Windows.Forms.Label();
-            this.comboBoxConvertAndMergeOutputSize = new System.Windows.Forms.ComboBox();
+            this.label56 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxConvertAndMergeTempfileExtension = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label55 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label54 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxConvertAndMergeOutputSize = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.buttonConvertAndMergeBrowseBackgroundMusic = new System.Windows.Forms.Button();
             this.buttonConvertAndMergeBrowseFFmpeg = new System.Windows.Forms.Button();
-            this.label49 = new System.Windows.Forms.Label();
+            this.label49 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.numericUpDownConvertAndMergeImageDuration = new System.Windows.Forms.NumericUpDown();
-            this.label48 = new System.Windows.Forms.Label();
+            this.label48 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.textBoxConvertAndMergeBackgroundMusic = new System.Windows.Forms.TextBox();
-            this.label47 = new System.Windows.Forms.Label();
+            this.label47 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.textBoxConvertAndMergeFFmpeg = new System.Windows.Forms.TextBox();
-            this.label46 = new System.Windows.Forms.Label();
+            this.label46 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.groupBoxConvertAndMergeArgumentFileVariables = new System.Windows.Forms.GroupBox();
-            this.label51 = new System.Windows.Forms.Label();
-            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables = new System.Windows.Forms.ComboBox();
+            this.label51 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables = new System.Windows.Forms.ComboBox();
-            this.label45 = new System.Windows.Forms.Label();
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label45 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabPageChromecast = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.comboBoxChromecastUrl = new System.Windows.Forms.ComboBox();
-            this.label58 = new System.Windows.Forms.Label();
-            this.comboBoxChromecastVideoCodec = new System.Windows.Forms.ComboBox();
-            this.label59 = new System.Windows.Forms.Label();
-            this.label61 = new System.Windows.Forms.Label();
-            this.comboBoxChromecastAudioCodec = new System.Windows.Forms.ComboBox();
-            this.comboBoxChromecastAgruments = new System.Windows.Forms.ComboBox();
-            this.label60 = new System.Windows.Forms.Label();
+            this.comboBoxChromecastUrl = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label58 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxChromecastVideoCodec = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label59 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label61 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxChromecastAudioCodec = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxChromecastAgruments = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label60 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.label66 = new System.Windows.Forms.Label();
-            this.comboBoxChromecastVideoTransporter = new System.Windows.Forms.ComboBox();
+            this.label66 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxChromecastVideoTransporter = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.groupBoxChromecastImage = new System.Windows.Forms.GroupBox();
-            this.comboBoxChromecastImageFormat = new System.Windows.Forms.ComboBox();
-            this.label63 = new System.Windows.Forms.Label();
-            this.label57 = new System.Windows.Forms.Label();
-            this.comboBoxChromecastImageResolution = new System.Windows.Forms.ComboBox();
+            this.comboBoxChromecastImageFormat = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label63 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label57 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxChromecastImageResolution = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.tabPageShowAppLog = new System.Windows.Forms.TabPage();
             this.fastColoredTextBoxShowLog = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabPageShowPipe32Log = new System.Windows.Forms.TabPage();
@@ -399,7 +400,7 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave = new System.Windows.Forms.Button();
             this.buttonConfigCancel = new System.Windows.Forms.Button();
             this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
-            this.checkBoxApplicationDarkMode = new System.Windows.Forms.CheckBox();
+            this.checkBoxApplicationDarkMode = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
             this.panelApplication.SuspendLayout();
@@ -658,7 +659,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxApplicationExiftoolWriteShowCliWindow.Size = new System.Drawing.Size(350, 21);
             this.checkBoxApplicationExiftoolWriteShowCliWindow.TabIndex = 1;
             this.checkBoxApplicationExiftoolWriteShowCliWindow.Text = "Show Exiftool Write in own window CLI (Not hidden)";
-            this.checkBoxApplicationExiftoolWriteShowCliWindow.UseVisualStyleBackColor = true;
             // 
             // checkBoxApplicationExiftoolReadShowCliWindow
             // 
@@ -668,7 +668,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxApplicationExiftoolReadShowCliWindow.Size = new System.Drawing.Size(346, 21);
             this.checkBoxApplicationExiftoolReadShowCliWindow.TabIndex = 0;
             this.checkBoxApplicationExiftoolReadShowCliWindow.Text = "Show Exiftool read in own window CLI (Not hidden)";
-            this.checkBoxApplicationExiftoolReadShowCliWindow.UseVisualStyleBackColor = true;
             // 
             // groupBox12
             // 
@@ -697,7 +696,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxCacheFolderWebScraperDataSets.Size = new System.Drawing.Size(389, 21);
             this.checkBoxCacheFolderWebScraperDataSets.TabIndex = 6;
             this.checkBoxCacheFolderWebScraperDataSets.Text = "Cache Folder WebScraper DataSets after folder selected";
-            this.checkBoxCacheFolderWebScraperDataSets.UseVisualStyleBackColor = true;
             // 
             // checkBoxCacheFolderThumbnails
             // 
@@ -707,7 +705,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxCacheFolderThumbnails.Size = new System.Drawing.Size(321, 21);
             this.checkBoxCacheFolderThumbnails.TabIndex = 5;
             this.checkBoxCacheFolderThumbnails.Text = "Cache Folder Thumbnails after folder selected";
-            this.checkBoxCacheFolderThumbnails.UseVisualStyleBackColor = true;
             // 
             // checkBoxCacheFolderMetadatas
             // 
@@ -717,7 +714,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxCacheFolderMetadatas.Size = new System.Drawing.Size(314, 21);
             this.checkBoxCacheFolderMetadatas.TabIndex = 4;
             this.checkBoxCacheFolderMetadatas.Text = "Cache Folder Metadatas after folder selected";
-            this.checkBoxCacheFolderMetadatas.UseVisualStyleBackColor = true;
             // 
             // checkBoxCacheAllWebScraperDataSets
             // 
@@ -727,7 +723,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxCacheAllWebScraperDataSets.Size = new System.Drawing.Size(375, 21);
             this.checkBoxCacheAllWebScraperDataSets.TabIndex = 3;
             this.checkBoxCacheAllWebScraperDataSets.Text = "Cache All WebScraper DataSets on Application startup";
-            this.checkBoxCacheAllWebScraperDataSets.UseVisualStyleBackColor = true;
             // 
             // checkBoxCacheAllThumbnails
             // 
@@ -737,7 +732,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxCacheAllThumbnails.Size = new System.Drawing.Size(307, 21);
             this.checkBoxCacheAllThumbnails.TabIndex = 2;
             this.checkBoxCacheAllThumbnails.Text = "Cache All Thumbnails on Application startup";
-            this.checkBoxCacheAllThumbnails.UseVisualStyleBackColor = true;
             // 
             // checkBoxCacheAllMetadatas
             // 
@@ -747,7 +741,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxCacheAllMetadatas.Size = new System.Drawing.Size(300, 21);
             this.checkBoxCacheAllMetadatas.TabIndex = 1;
             this.checkBoxCacheAllMetadatas.Text = "Cache All Metadatas on Application startup";
-            this.checkBoxCacheAllMetadatas.UseVisualStyleBackColor = true;
             // 
             // label83
             // 
@@ -897,7 +890,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxApplicationAvoidReadExifFromCloud.Size = new System.Drawing.Size(261, 21);
             this.checkBoxApplicationAvoidReadExifFromCloud.TabIndex = 1;
             this.checkBoxApplicationAvoidReadExifFromCloud.Text = "Avoid use exiftool on files from Cloud";
-            this.checkBoxApplicationAvoidReadExifFromCloud.UseVisualStyleBackColor = true;
             // 
             // checkBoxApplicationImageListViewCacheModeOnDemand
             // 
@@ -908,7 +900,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxApplicationImageListViewCacheModeOnDemand.TabIndex = 2;
             this.checkBoxApplicationImageListViewCacheModeOnDemand.Text = "Load Image Thumbnails On Demand (what\'s visible on screen). Unchecked load all at" +
     " once.";
-            this.checkBoxApplicationImageListViewCacheModeOnDemand.UseVisualStyleBackColor = true;
             // 
             // checkBoxApplicationAvoidReadMediaFromCloud
             // 
@@ -918,7 +909,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxApplicationAvoidReadMediaFromCloud.Size = new System.Drawing.Size(241, 21);
             this.checkBoxApplicationAvoidReadMediaFromCloud.TabIndex = 0;
             this.checkBoxApplicationAvoidReadMediaFromCloud.Text = "Avoid read media files from Cloud";
-            this.checkBoxApplicationAvoidReadMediaFromCloud.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -2157,7 +2147,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteFileAttributeCreatedDate.TabIndex = 0;
             this.checkBoxWriteFileAttributeCreatedDate.Text = "Update File Created Date/Time when Media taken exists and time zone can be estima" +
     "ted";
-            this.checkBoxWriteFileAttributeCreatedDate.UseVisualStyleBackColor = true;
             // 
             // groupBoxMetadataWriteKeywordItems
             // 
@@ -2185,7 +2174,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteMetadataAddAutoKeywords.Size = new System.Drawing.Size(519, 21);
             this.checkBoxWriteMetadataAddAutoKeywords.TabIndex = 6;
             this.checkBoxWriteMetadataAddAutoKeywords.Text = "Add AutoKeyword synonym(s), when found trigger key in AutoKeywords table ";
-            this.checkBoxWriteMetadataAddAutoKeywords.UseVisualStyleBackColor = true;
             // 
             // comboBoxMetadataWriteKeywordAdd
             // 
@@ -2354,7 +2342,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomArtistVideo.Size = new System.Drawing.Size(66, 21);
             this.checkBoxWriteXtraAtomArtistVideo.TabIndex = 15;
             this.checkBoxWriteXtraAtomArtistVideo.Text = "Video";
-            this.checkBoxWriteXtraAtomArtistVideo.UseVisualStyleBackColor = true;
             // 
             // label37
             // 
@@ -2463,7 +2450,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomRatingPicture.Size = new System.Drawing.Size(74, 21);
             this.checkBoxWriteXtraAtomRatingPicture.TabIndex = 18;
             this.checkBoxWriteXtraAtomRatingPicture.Text = "Picture";
-            this.checkBoxWriteXtraAtomRatingPicture.UseVisualStyleBackColor = true;
             // 
             // checkBoxWriteXtraAtomRatingVideo
             // 
@@ -2473,7 +2459,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomRatingVideo.Size = new System.Drawing.Size(66, 21);
             this.checkBoxWriteXtraAtomRatingVideo.TabIndex = 17;
             this.checkBoxWriteXtraAtomRatingVideo.Text = "Video";
-            this.checkBoxWriteXtraAtomRatingVideo.UseVisualStyleBackColor = true;
             // 
             // label34
             // 
@@ -2492,7 +2477,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomCommentPicture.Size = new System.Drawing.Size(74, 21);
             this.checkBoxWriteXtraAtomCommentPicture.TabIndex = 13;
             this.checkBoxWriteXtraAtomCommentPicture.Text = "Picture";
-            this.checkBoxWriteXtraAtomCommentPicture.UseVisualStyleBackColor = true;
             // 
             // checkBoxWriteXtraAtomSubjectPicture
             // 
@@ -2502,7 +2486,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomSubjectPicture.Size = new System.Drawing.Size(74, 21);
             this.checkBoxWriteXtraAtomSubjectPicture.TabIndex = 10;
             this.checkBoxWriteXtraAtomSubjectPicture.Text = "Picture";
-            this.checkBoxWriteXtraAtomSubjectPicture.UseVisualStyleBackColor = true;
             // 
             // checkBoxWriteXtraAtomCommentVideo
             // 
@@ -2512,7 +2495,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomCommentVideo.Size = new System.Drawing.Size(66, 21);
             this.checkBoxWriteXtraAtomCommentVideo.TabIndex = 12;
             this.checkBoxWriteXtraAtomCommentVideo.Text = "Video";
-            this.checkBoxWriteXtraAtomCommentVideo.UseVisualStyleBackColor = true;
             // 
             // checkBoxWriteXtraAtomSubjectVideo
             // 
@@ -2522,7 +2504,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomSubjectVideo.Size = new System.Drawing.Size(66, 21);
             this.checkBoxWriteXtraAtomSubjectVideo.TabIndex = 9;
             this.checkBoxWriteXtraAtomSubjectVideo.Text = "Video";
-            this.checkBoxWriteXtraAtomSubjectVideo.UseVisualStyleBackColor = true;
             // 
             // checkBoxWriteXtraAtomSubtitleVideo
             // 
@@ -2532,7 +2513,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomSubtitleVideo.Size = new System.Drawing.Size(66, 21);
             this.checkBoxWriteXtraAtomSubtitleVideo.TabIndex = 7;
             this.checkBoxWriteXtraAtomSubtitleVideo.Text = "Video";
-            this.checkBoxWriteXtraAtomSubtitleVideo.UseVisualStyleBackColor = true;
             // 
             // checkBoxWriteXtraAtomAlbumVideo
             // 
@@ -2542,7 +2522,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomAlbumVideo.Size = new System.Drawing.Size(66, 21);
             this.checkBoxWriteXtraAtomAlbumVideo.TabIndex = 5;
             this.checkBoxWriteXtraAtomAlbumVideo.Text = "Video";
-            this.checkBoxWriteXtraAtomAlbumVideo.UseVisualStyleBackColor = true;
             // 
             // label33
             // 
@@ -2588,7 +2567,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomCategoriesVideo.Size = new System.Drawing.Size(66, 21);
             this.checkBoxWriteXtraAtomCategoriesVideo.TabIndex = 3;
             this.checkBoxWriteXtraAtomCategoriesVideo.Text = "Video";
-            this.checkBoxWriteXtraAtomCategoriesVideo.UseVisualStyleBackColor = true;
             // 
             // label29
             // 
@@ -2616,7 +2594,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxWriteXtraAtomKeywordsVideo.Size = new System.Drawing.Size(66, 21);
             this.checkBoxWriteXtraAtomKeywordsVideo.TabIndex = 1;
             this.checkBoxWriteXtraAtomKeywordsVideo.Text = "Video";
-            this.checkBoxWriteXtraAtomKeywordsVideo.UseVisualStyleBackColor = true;
             // 
             // groupBoxMetadataWriteTags
             // 
@@ -2843,7 +2820,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxRename.Size = new System.Drawing.Size(320, 21);
             this.checkBoxRename.TabIndex = 0;
             this.checkBoxRename.Text = "Rename media file(s) after/during AutoCorrect";
-            this.checkBoxRename.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -2930,7 +2906,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxFaceRegionAddWebScraping.Size = new System.Drawing.Size(309, 21);
             this.checkBoxFaceRegionAddWebScraping.TabIndex = 2;
             this.checkBoxFaceRegionAddWebScraping.Text = "Add none existing names from WebScraping";
-            this.checkBoxFaceRegionAddWebScraping.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -2953,7 +2928,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxFaceRegionAddMicrosoftPhotos.Size = new System.Drawing.Size(329, 21);
             this.checkBoxFaceRegionAddMicrosoftPhotos.TabIndex = 1;
             this.checkBoxFaceRegionAddMicrosoftPhotos.Text = "Add none existing names from Microsoft Photos";
-            this.checkBoxFaceRegionAddMicrosoftPhotos.UseVisualStyleBackColor = true;
             // 
             // checkBoxFaceRegionAddWindowsMediaPhotoGallery
             // 
@@ -2966,7 +2940,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.Size = new System.Drawing.Size(412, 21);
             this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.TabIndex = 0;
             this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.Text = "Add none existing names from Windows Media Photo Gallery";
-            this.checkBoxFaceRegionAddWindowsMediaPhotoGallery.UseVisualStyleBackColor = true;
             // 
             // groupBoxAutoCorrectBackup
             // 
@@ -3000,7 +2973,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxAutoCorrectTrackChanges.Size = new System.Drawing.Size(396, 21);
             this.checkBoxAutoCorrectTrackChanges.TabIndex = 7;
             this.checkBoxAutoCorrectTrackChanges.Text = "Append text that keep track of date changes in comments.";
-            this.checkBoxAutoCorrectTrackChanges.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordBackupFileCreatedBefore
             // 
@@ -3010,7 +2982,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupFileCreatedBefore.Size = new System.Drawing.Size(270, 21);
             this.checkBoxKeywordBackupFileCreatedBefore.TabIndex = 1;
             this.checkBoxKeywordBackupFileCreatedBefore.Text = "Store original FileCreated in Keywords";
-            this.checkBoxKeywordBackupFileCreatedBefore.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordBackupFileCreatedAfter
             // 
@@ -3020,7 +2991,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupFileCreatedAfter.Size = new System.Drawing.Size(276, 21);
             this.checkBoxKeywordBackupFileCreatedAfter.TabIndex = 2;
             this.checkBoxKeywordBackupFileCreatedAfter.Text = "Store updated FileCreated in Keywords";
-            this.checkBoxKeywordBackupFileCreatedAfter.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordBackupDateTakenBefore
             // 
@@ -3030,7 +3000,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupDateTakenBefore.Size = new System.Drawing.Size(268, 21);
             this.checkBoxKeywordBackupDateTakenBefore.TabIndex = 3;
             this.checkBoxKeywordBackupDateTakenBefore.Text = "Store original DateTaken in Keywords";
-            this.checkBoxKeywordBackupDateTakenBefore.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordBackupLocationCountry
             // 
@@ -3040,7 +3009,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupLocationCountry.Size = new System.Drawing.Size(135, 21);
             this.checkBoxKeywordBackupLocationCountry.TabIndex = 13;
             this.checkBoxKeywordBackupLocationCountry.Text = "Location country";
-            this.checkBoxKeywordBackupLocationCountry.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordBackupGPSDateTimeUTCBefore
             // 
@@ -3050,7 +3018,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupGPSDateTimeUTCBefore.Size = new System.Drawing.Size(362, 21);
             this.checkBoxKeywordBackupGPSDateTimeUTCBefore.TabIndex = 6;
             this.checkBoxKeywordBackupGPSDateTimeUTCBefore.Text = "Store updated GPS UTC Date and Time in Keywords";
-            this.checkBoxKeywordBackupGPSDateTimeUTCBefore.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordBackupLocationState
             // 
@@ -3060,7 +3027,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupLocationState.Size = new System.Drawing.Size(119, 21);
             this.checkBoxKeywordBackupLocationState.TabIndex = 12;
             this.checkBoxKeywordBackupLocationState.Text = "Location state";
-            this.checkBoxKeywordBackupLocationState.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordBackupDateTakenAfter
             // 
@@ -3070,7 +3036,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupDateTakenAfter.Size = new System.Drawing.Size(274, 21);
             this.checkBoxKeywordBackupDateTakenAfter.TabIndex = 4;
             this.checkBoxKeywordBackupDateTakenAfter.Text = "Store updated DateTaken in Keywords";
-            this.checkBoxKeywordBackupDateTakenAfter.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordBackupLocationCity
             // 
@@ -3080,7 +3045,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupLocationCity.Size = new System.Drawing.Size(109, 21);
             this.checkBoxKeywordBackupLocationCity.TabIndex = 11;
             this.checkBoxKeywordBackupLocationCity.Text = "Location city";
-            this.checkBoxKeywordBackupLocationCity.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordBackupGPSDateTimeUTCAfter
             // 
@@ -3090,7 +3054,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupGPSDateTimeUTCAfter.Size = new System.Drawing.Size(356, 21);
             this.checkBoxKeywordBackupGPSDateTimeUTCAfter.TabIndex = 5;
             this.checkBoxKeywordBackupGPSDateTimeUTCAfter.Text = "Store original GPS UTC Date and Time in Keywords";
-            this.checkBoxKeywordBackupGPSDateTimeUTCAfter.UseVisualStyleBackColor = true;
             // 
             // label18
             // 
@@ -3109,7 +3072,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupLocationName.Size = new System.Drawing.Size(123, 21);
             this.checkBoxKeywordBackupLocationName.TabIndex = 10;
             this.checkBoxKeywordBackupLocationName.Text = "Location name";
-            this.checkBoxKeywordBackupLocationName.UseVisualStyleBackColor = true;
             // 
             // label17
             // 
@@ -3128,7 +3090,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupRegionFaceNames.Size = new System.Drawing.Size(171, 21);
             this.checkBoxKeywordBackupRegionFaceNames.TabIndex = 9;
             this.checkBoxKeywordBackupRegionFaceNames.Text = "All Region face names";
-            this.checkBoxKeywordBackupRegionFaceNames.UseVisualStyleBackColor = true;
             // 
             // groupBoxKaywordTags
             // 
@@ -3156,7 +3117,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordsAddAutoKeywords.Size = new System.Drawing.Size(522, 21);
             this.checkBoxKeywordsAddAutoKeywords.TabIndex = 5;
             this.checkBoxKeywordsAddAutoKeywords.Text = "Add AutoKeyword synonym(s), when found trigger keysin AutoKeywords table ";
-            this.checkBoxKeywordsAddAutoKeywords.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordsAddWebScraping
             // 
@@ -3169,7 +3129,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordsAddWebScraping.Size = new System.Drawing.Size(326, 21);
             this.checkBoxKeywordsAddWebScraping.TabIndex = 4;
             this.checkBoxKeywordsAddWebScraping.Text = "Add none existing keywords from WebScraping";
-            this.checkBoxKeywordsAddWebScraping.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -3211,7 +3170,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordsAddMicrosoftPhotos.Size = new System.Drawing.Size(346, 21);
             this.checkBoxKeywordsAddMicrosoftPhotos.TabIndex = 1;
             this.checkBoxKeywordsAddMicrosoftPhotos.Text = "Add none existing keywords from Microsoft Photos";
-            this.checkBoxKeywordsAddMicrosoftPhotos.UseVisualStyleBackColor = true;
             // 
             // checkBoxKeywordsAddWindowsMediaPhotoGallery
             // 
@@ -3224,7 +3182,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordsAddWindowsMediaPhotoGallery.Size = new System.Drawing.Size(429, 21);
             this.checkBoxKeywordsAddWindowsMediaPhotoGallery.TabIndex = 0;
             this.checkBoxKeywordsAddWindowsMediaPhotoGallery.Text = "Add none existing keywords from Windows Media Photo Gallery";
-            this.checkBoxKeywordsAddWindowsMediaPhotoGallery.UseVisualStyleBackColor = true;
             // 
             // groupBoxAuthor
             // 
@@ -3313,7 +3270,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxDublicateAlbumAsDescription.Size = new System.Drawing.Size(226, 21);
             this.checkBoxDublicateAlbumAsDescription.TabIndex = 7;
             this.checkBoxDublicateAlbumAsDescription.Text = "Duplicate Album as Description";
-            this.checkBoxDublicateAlbumAsDescription.UseVisualStyleBackColor = true;
             // 
             // label19
             // 
@@ -3469,7 +3425,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxUpdateLocationCountry.Size = new System.Drawing.Size(352, 21);
             this.checkBoxUpdateLocationCountry.TabIndex = 8;
             this.checkBoxUpdateLocationCountry.Text = "Updated Location Country when updates are found";
-            this.checkBoxUpdateLocationCountry.UseVisualStyleBackColor = true;
             // 
             // checkBoxUpdateLocationState
             // 
@@ -3479,7 +3434,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxUpdateLocationState.Size = new System.Drawing.Size(336, 21);
             this.checkBoxUpdateLocationState.TabIndex = 7;
             this.checkBoxUpdateLocationState.Text = "Updated Location State when updates are found";
-            this.checkBoxUpdateLocationState.UseVisualStyleBackColor = true;
             // 
             // checkBoxUpdateLocationCity
             // 
@@ -3489,7 +3443,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxUpdateLocationCity.Size = new System.Drawing.Size(326, 21);
             this.checkBoxUpdateLocationCity.TabIndex = 6;
             this.checkBoxUpdateLocationCity.Text = "Updated Location City when updates are found";
-            this.checkBoxUpdateLocationCity.UseVisualStyleBackColor = true;
             // 
             // checkBoxUpdateLocationName
             // 
@@ -3499,7 +3452,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxUpdateLocationName.Size = new System.Drawing.Size(340, 21);
             this.checkBoxUpdateLocationName.TabIndex = 5;
             this.checkBoxUpdateLocationName.Text = "Updated Location Name when updates are found";
-            this.checkBoxUpdateLocationName.UseVisualStyleBackColor = true;
             // 
             // label15
             // 
@@ -3619,7 +3571,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxGPSUpdateLocationNearByMedia.Size = new System.Drawing.Size(395, 21);
             this.checkBoxGPSUpdateLocationNearByMedia.TabIndex = 11;
             this.checkBoxGPSUpdateLocationNearByMedia.Text = "Use GPS location from other media files, if have locations.";
-            this.checkBoxGPSUpdateLocationNearByMedia.UseVisualStyleBackColor = true;
             // 
             // label23
             // 
@@ -3762,7 +3713,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxGPSUpdateDateTime.Size = new System.Drawing.Size(590, 21);
             this.checkBoxGPSUpdateDateTime.TabIndex = 15;
             this.checkBoxGPSUpdateDateTime.Text = "Update GPS DateTime when missing using DateTaken and Time Zone for GPS Location ";
-            this.checkBoxGPSUpdateDateTime.UseVisualStyleBackColor = true;
             // 
             // checkBoxGPSUpdateLocation
             // 
@@ -3773,7 +3723,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxGPSUpdateLocation.Size = new System.Drawing.Size(468, 21);
             this.checkBoxGPSUpdateLocation.TabIndex = 10;
             this.checkBoxGPSUpdateLocation.Text = "Update GPS Location when missing using algorithm described above.";
-            this.checkBoxGPSUpdateLocation.UseVisualStyleBackColor = true;
             // 
             // groupBoxDateTimeDigitized
             // 
@@ -5449,7 +5398,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxApplicationDarkMode.Size = new System.Drawing.Size(193, 21);
             this.checkBoxApplicationDarkMode.TabIndex = 8;
             this.checkBoxApplicationDarkMode.Text = "Dark mode - Experimental";
-            this.checkBoxApplicationDarkMode.UseVisualStyleBackColor = true;
             // 
             // Config
             // 
@@ -5635,214 +5583,214 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.TextBox textBoxHelpAutoCorrect;
         private System.Windows.Forms.Panel panelAutoCorrect;
         private System.Windows.Forms.GroupBox groupBoxKaywordTags;
-        private System.Windows.Forms.CheckBox checkBoxKeywordsAddMicrosoftPhotos;
-        private System.Windows.Forms.CheckBox checkBoxKeywordsAddWindowsMediaPhotoGallery;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordsAddMicrosoftPhotos;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordsAddWindowsMediaPhotoGallery;
         private System.Windows.Forms.GroupBox groupBoxFaceRegion;
-        private System.Windows.Forms.CheckBox checkBoxFaceRegionAddMicrosoftPhotos;
-        private System.Windows.Forms.CheckBox checkBoxFaceRegionAddWindowsMediaPhotoGallery;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxFaceRegionAddMicrosoftPhotos;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxFaceRegionAddWindowsMediaPhotoGallery;
         private System.Windows.Forms.GroupBox groupBoxDateTimeDigitized;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBoxKeywordsAiConfidence;
-        private System.Windows.Forms.Label label5;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label4;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxKeywordsAiConfidence;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label5;
         private System.Windows.Forms.TabPage tabPageCameraOwner;
         private System.Windows.Forms.GroupBox groupBoxRename;
         private System.Windows.Forms.TextBox textBoxRenameTo;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.CheckBox checkBoxRename;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox comboBoxRenameVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label10;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxRename;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label9;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxRenameVariables;
         private System.Windows.Forms.GroupBox groupBoxGPSLocation;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label labelLocationTimeZoneGuess;
-        private System.Windows.Forms.CheckBox checkBoxGPSUpdateDateTime;
-        private System.Windows.Forms.CheckBox checkBoxGPSUpdateLocation;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label8;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label7;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel labelLocationTimeZoneGuess;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxGPSUpdateDateTime;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxGPSUpdateLocation;
         private System.Windows.Forms.GroupBox groupBoxAuthor;
         private System.Windows.Forms.RadioButton radioButtonAuthorChangeWhenEmpty;
         private System.Windows.Forms.RadioButton radioButtonAuthorDoNotChange;
         private System.Windows.Forms.RadioButton radioButtonAuthorAlwaysChange;
-        private System.Windows.Forms.Label label13;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label13;
         private System.Windows.Forms.GroupBox groupBoxLocationName;
-        private System.Windows.Forms.Label label14;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label14;
         private System.Windows.Forms.RadioButton radioButtonLocationNameChangeAlways;
         private System.Windows.Forms.RadioButton radioButtonLocationNameChangeWhenEmpty;
         private System.Windows.Forms.RadioButton radioButtonLocationNameDoNotChange;
-        private System.Windows.Forms.Label label15;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label15;
         private System.Windows.Forms.GroupBox groupBoxAlbum;
-        private System.Windows.Forms.Label label19;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label19;
         private ImageListViewOrder imageListViewOrderAlbum;
         private System.Windows.Forms.RadioButton radioButtonAlbumUseFirst;
         private System.Windows.Forms.RadioButton radioButtonAlbumChangeWhenEmpty;
         private System.Windows.Forms.RadioButton radioButtonAlbumDoNotChange;
         private System.Windows.Forms.GroupBox groupBoxTitle;
-        private System.Windows.Forms.Label label11;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label11;
         private ImageListViewOrder imageListViewOrderTitle;
         private System.Windows.Forms.RadioButton radioButtonTitleUseFirst;
         private System.Windows.Forms.RadioButton radioButtonTitleChangeWhenEmpty;
         private System.Windows.Forms.RadioButton radioButtonTitleDoNotChange;
-        private System.Windows.Forms.Label label3;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label3;
         private System.Windows.Forms.RadioButton radioButtonDateTakenUseFirst;
         private System.Windows.Forms.RadioButton radioButtonDateTakenChangeWhenEmpty;
         private System.Windows.Forms.RadioButton radioButtonDateTakenDoNotChange;
         private ImageListViewOrder imageListViewOrderDateTaken;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.CheckBox checkBoxUpdateLocationCountry;
-        private System.Windows.Forms.CheckBox checkBoxUpdateLocationState;
-        private System.Windows.Forms.CheckBox checkBoxUpdateLocationCity;
-        private System.Windows.Forms.CheckBox checkBoxUpdateLocationName;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupLocationName;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupRegionFaceNames;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupGPSDateTimeUTCAfter;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupDateTakenAfter;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupGPSDateTimeUTCBefore;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupDateTakenBefore;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupLocationCountry;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupLocationState;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupLocationCity;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label labelLocationTimeZoneAccurate;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label22;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label16;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label12;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxUpdateLocationCountry;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxUpdateLocationState;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxUpdateLocationCity;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxUpdateLocationName;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupLocationName;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupRegionFaceNames;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupGPSDateTimeUTCAfter;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupDateTakenAfter;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupGPSDateTimeUTCBefore;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupDateTakenBefore;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupLocationCountry;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupLocationState;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupLocationCity;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label18;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label17;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel labelLocationTimeZoneAccurate;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label21;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label23;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label22;
         private System.Windows.Forms.NumericUpDown numericUpDownLocationAccurateInterval;
         private System.Windows.Forms.NumericUpDown numericUpDownLocationGuessInterval;
-        private System.Windows.Forms.ComboBox comboBoxMetadataWriteStandardTags;
-        private System.Windows.Forms.Label label6;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxMetadataWriteStandardTags;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label6;
         private System.Windows.Forms.GroupBox groupBoxMetadataWriteProperties;
         private System.Windows.Forms.GroupBox groupBoxMetadataWriteTags;
         private System.Windows.Forms.GroupBox groupBoxMetadataWriteKeywordItems;
         private System.Windows.Forms.TabPage tabPageApplication;
         private System.Windows.Forms.Panel panelApplication;
-        private System.Windows.Forms.ComboBox comboBoxApplicationThumbnailSizes;
-        private System.Windows.Forms.Label labelApplicationThumbnailSize;
-        private System.Windows.Forms.Label labelApplicationPreferredLanguages;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxApplicationThumbnailSizes;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel labelApplicationThumbnailSize;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel labelApplicationPreferredLanguages;
         private System.Windows.Forms.TextBox textBoxApplicationPreferredLanguages;
-        private System.Windows.Forms.ComboBox comboBoxApplicationLanguages;
-        private System.Windows.Forms.Label label1;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxApplicationLanguages;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label2;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label20;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomKeywordsVideo;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomCategoriesVideo;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomCommentVideo;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomSubjectVideo;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomSubtitleVideo;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomAlbumVideo;
-        private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomCommentPicture;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomSubjectPicture;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomRatingVideo;
-        private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.ComboBox comboBoxWriteXtraAtomVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label25;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label24;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label27;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label26;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomKeywordsVideo;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomCategoriesVideo;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label29;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label28;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label30;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label32;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label31;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomCommentVideo;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomSubjectVideo;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomSubtitleVideo;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomAlbumVideo;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label33;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomCommentPicture;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomSubjectPicture;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomRatingVideo;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label34;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label36;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxWriteXtraAtomVariables;
         private System.Windows.Forms.TextBox textBoxWriteXtraAtomComment;
         private System.Windows.Forms.TextBox textBoxWriteXtraAtomSubject;
         private System.Windows.Forms.TextBox textBoxWriteXtraAtomSubtitle;
         private System.Windows.Forms.TextBox textBoxWriteXtraAtomAlbum;
         private System.Windows.Forms.TextBox textBoxWriteXtraAtomCategories;
         private System.Windows.Forms.TextBox textBoxWriteXtraAtomKeywords;
-        private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomRatingPicture;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label35;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomRatingPicture;
         private System.Windows.Forms.TextBox textBoxWriteXtraAtomArtist;
-        private System.Windows.Forms.CheckBox checkBoxWriteXtraAtomArtistVideo;
-        private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.ComboBox comboBoxMetadataWriteKeywordDelete;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomArtistVideo;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label37;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxMetadataWriteKeywordDelete;
         private System.Windows.Forms.Panel panelAvoidResizeIssues;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.NumericUpDown numericUpDownApplicationMaxRowsInSearchResult;
-        private System.Windows.Forms.Label label38;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label38;
         private System.Windows.Forms.TabPage tabPageShowAppLog;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxShowLog;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConfigFilenameDateFormats;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxMetadataWriteKeywordDelete;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxMetadataWriteKeywordAdd;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxMetadataWriteTags;
-        private System.Windows.Forms.ComboBox comboBoxMetadataWriteKeywordAdd;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxMetadataWriteKeywordAdd;
         private System.Windows.Forms.TabPage tabPageShowPipe32Log;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxShowPipe32Log;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.Label label41;
-        private System.Windows.Forms.Label label40;
-        private System.Windows.Forms.Label label39;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label42;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label41;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label40;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label39;
         private System.Windows.Forms.NumericUpDown numericUpDownPeopleSuggestNameTopMost;
         private System.Windows.Forms.NumericUpDown numericUpDownPeopleSuggestNameDaysInterval;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Label label44;
-        private System.Windows.Forms.Label label43;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label44;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label43;
         private System.Windows.Forms.NumericUpDown numericUpDownRegionMissmatchProcent;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.CheckBox checkBoxApplicationAvoidReadMediaFromCloud;
-        private System.Windows.Forms.CheckBox checkBoxApplicationImageListViewCacheModeOnDemand;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxApplicationAvoidReadMediaFromCloud;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxApplicationImageListViewCacheModeOnDemand;
         private System.Windows.Forms.TabPage tabPageConvertAndMerge;
         private System.Windows.Forms.Panel panelConvertAndMerge;
         private System.Windows.Forms.GroupBox groupBoxConvertAndMergeArgumentFileVariables;
-        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables;
-        private System.Windows.Forms.Label label45;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label45;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile;
         private System.Windows.Forms.GroupBox groupBoxConvertAndMergeCommand;
         private System.Windows.Forms.TextBox textBoxConvertAndMergeBackgroundMusic;
-        private System.Windows.Forms.Label label47;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label47;
         private System.Windows.Forms.TextBox textBoxConvertAndMergeFFmpeg;
-        private System.Windows.Forms.Label label46;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label46;
         private System.Windows.Forms.GroupBox groupBoxConvertAndMergeMergeVideos;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument;
-        private System.Windows.Forms.Label label49;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label49;
         private System.Windows.Forms.NumericUpDown numericUpDownConvertAndMergeImageDuration;
-        private System.Windows.Forms.Label label48;
-        private System.Windows.Forms.Label label52;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label48;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label52;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatVideoArguFile;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatVideoArgument;
-        private System.Windows.Forms.Label label50;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label50;
         private System.Windows.Forms.Button buttonConvertAndMergeBrowseBackgroundMusic;
         private System.Windows.Forms.Button buttonConvertAndMergeBrowseFFmpeg;
-        private System.Windows.Forms.Label label51;
-        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables;
-        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeConcatVideosArguFileVariables;
-        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeConcatVideoFilesVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label51;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeConcatVideosArguFileVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeConcatVideoFilesVariables;
         private System.Windows.Forms.GroupBox groupBoxConvertAndMergeConvertVideo;
-        private System.Windows.Forms.Label label53;
-        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeConvertVideoFilesVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label53;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeConvertVideoFilesVariables;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument;
-        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeOutputSize;
-        private System.Windows.Forms.Label label54;
-        private System.Windows.Forms.ComboBox comboBoxConvertAndMergeTempfileExtension;
-        private System.Windows.Forms.Label label55;
-        private System.Windows.Forms.Label label56;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeOutputSize;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label54;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeTempfileExtension;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label55;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label56;
         private System.Windows.Forms.TabPage tabPageChromecast;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.ComboBox comboBoxChromecastVideoCodec;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxChromecastVideoCodec;
         private System.Windows.Forms.GroupBox groupBoxChromecastImage;
-        private System.Windows.Forms.Label label57;
-        private System.Windows.Forms.ComboBox comboBoxChromecastImageResolution;
-        private System.Windows.Forms.Label label60;
-        private System.Windows.Forms.ComboBox comboBoxChromecastAudioCodec;
-        private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.Label label61;
-        private System.Windows.Forms.ComboBox comboBoxChromecastAgruments;
-        private System.Windows.Forms.ComboBox comboBoxChromecastImageFormat;
-        private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.Label label66;
-        private System.Windows.Forms.ComboBox comboBoxChromecastVideoTransporter;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label57;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxChromecastImageResolution;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label60;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxChromecastAudioCodec;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label59;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label61;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxChromecastAgruments;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxChromecastImageFormat;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label63;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label66;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxChromecastVideoTransporter;
         private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.ComboBox comboBoxChromecastUrl;
-        private System.Windows.Forms.Label label58;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxChromecastUrl;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label58;
         private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.CheckBox checkBoxWriteFileAttributeCreatedDate;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label62;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteFileAttributeCreatedDate;
         private System.Windows.Forms.DataGridView dataGridViewCameraOwner;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox textBox3;
@@ -5854,14 +5802,14 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TextBox textBoxBrowserURL;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ComboBox comboBoxMapZoomLevel;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxMapZoomLevel;
         private System.Windows.Forms.GroupBox groupBoxLocationAccuracy;
-        private System.Windows.Forms.Label label67;
-        private System.Windows.Forms.Label label65;
-        private System.Windows.Forms.Label label64;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label67;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label65;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label64;
         private System.Windows.Forms.NumericUpDown numericUpDownLocationAccuracyLongitude;
         private System.Windows.Forms.NumericUpDown numericUpDownLocationAccuracyLatitude;
-        private System.Windows.Forms.Label label68;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label68;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripLocationNames;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapCut;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapCopy;
@@ -5879,13 +5827,13 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowCoordinateOnMap;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapReloadLocationUsingNominatim;
         private System.Windows.Forms.ToolStripMenuItem searchForNewLocationsInMediaFilesToolStripMenuItem;
-        private System.Windows.Forms.CheckBox checkBoxFaceRegionAddWebScraping;
-        private System.Windows.Forms.CheckBox checkBoxKeywordsAddWebScraping;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxFaceRegionAddWebScraping;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordsAddWebScraping;
         private System.Windows.Forms.TabPage tabPageMetadataWebScraper;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.Label label69;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label69;
         private System.Windows.Forms.TextBox textBoxWebScrapingStartPages;
         private System.Windows.Forms.NumericUpDown numericUpDownWebScrapingPageDownCount;
         private System.Windows.Forms.NumericUpDown numericUpDownWaitEventPageLoadedTimeout;
@@ -5894,59 +5842,59 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.NumericUpDown numericUpDownWebScrapingDelayOurScriptToRun;
         private System.Windows.Forms.NumericUpDown numericUpDownWebScrapingRetry;
         private System.Windows.Forms.NumericUpDown numericUpDownJavaScriptExecuteTimeout;
-        private System.Windows.Forms.Label label75;
-        private System.Windows.Forms.Label label74;
-        private System.Windows.Forms.Label label73;
-        private System.Windows.Forms.Label label72;
-        private System.Windows.Forms.Label label71;
-        private System.Windows.Forms.Label label70;
-        private System.Windows.Forms.Label label82;
-        private System.Windows.Forms.Label label81;
-        private System.Windows.Forms.Label label80;
-        private System.Windows.Forms.Label label79;
-        private System.Windows.Forms.Label label78;
-        private System.Windows.Forms.Label label77;
-        private System.Windows.Forms.Label label76;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label75;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label74;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label73;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label72;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label71;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label70;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label82;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label81;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label80;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label79;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label78;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label77;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label76;
         private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.CheckBox checkBoxCacheFolderWebScraperDataSets;
-        private System.Windows.Forms.CheckBox checkBoxCacheFolderThumbnails;
-        private System.Windows.Forms.CheckBox checkBoxCacheFolderMetadatas;
-        private System.Windows.Forms.CheckBox checkBoxCacheAllWebScraperDataSets;
-        private System.Windows.Forms.CheckBox checkBoxCacheAllThumbnails;
-        private System.Windows.Forms.CheckBox checkBoxCacheAllMetadatas;
-        private System.Windows.Forms.Label label83;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxCacheFolderWebScraperDataSets;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxCacheFolderThumbnails;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxCacheFolderMetadatas;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxCacheAllWebScraperDataSets;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxCacheAllThumbnails;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxCacheAllMetadatas;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label83;
         private System.Windows.Forms.NumericUpDown numericUpDownCacheNumberOfPosters;
-        private System.Windows.Forms.Label label86;
-        private System.Windows.Forms.Label label85;
-        private System.Windows.Forms.ComboBox comboBoxApplicationRegionThumbnailSizes;
-        private System.Windows.Forms.Label label84;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label86;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label85;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxApplicationRegionThumbnailSizes;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label84;
         private System.Windows.Forms.Button buttonLocationImport;
         private System.Windows.Forms.Button buttonLocationExport;
-        private System.Windows.Forms.CheckBox checkBoxApplicationAvoidReadExifFromCloud;
-        private System.Windows.Forms.Label label87;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxApplicationAvoidReadExifFromCloud;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label87;
         private System.Windows.Forms.NumericUpDown numericUpDownLocationAccurateIntervalNearByMediaFile;
-        private System.Windows.Forms.CheckBox checkBoxGPSUpdateLocationNearByMedia;
-        private System.Windows.Forms.Label label89;
-        private System.Windows.Forms.Label label88;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxGPSUpdateLocationNearByMedia;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label89;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label88;
         private System.Windows.Forms.NumericUpDown numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted;
-        private System.Windows.Forms.CheckBox checkBoxDublicateAlbumAsDescription;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxDublicateAlbumAsDescription;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowCoordinateOnGoogleMap;
         private System.Windows.Forms.GroupBox groupBoxAutoCorrectBackup;
-        private System.Windows.Forms.CheckBox checkBoxAutoCorrectTrackChanges;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupFileCreatedBefore;
-        private System.Windows.Forms.CheckBox checkBoxKeywordBackupFileCreatedAfter;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxAutoCorrectTrackChanges;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupFileCreatedBefore;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupFileCreatedAfter;
         private System.Windows.Forms.GroupBox groupBox13;
-        private System.Windows.Forms.CheckBox checkBoxApplicationExiftoolReadShowCliWindow;
-        private System.Windows.Forms.CheckBox checkBoxApplicationExiftoolWriteShowCliWindow;
-        private System.Windows.Forms.ComboBox comboBoxApplicationDebugExiftoolReadThreadPrioity;
-        private System.Windows.Forms.Label label92;
-        private System.Windows.Forms.Label label91;
-        private System.Windows.Forms.Label label90;
-        private System.Windows.Forms.ComboBox comboBoxApplicationDebugBackgroundThreadPrioity;
-        private System.Windows.Forms.ComboBox comboBoxApplicationDebugExiftoolWriteThreadPrioity;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxApplicationExiftoolReadShowCliWindow;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxApplicationExiftoolWriteShowCliWindow;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxApplicationDebugExiftoolReadThreadPrioity;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label92;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label91;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label90;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxApplicationDebugBackgroundThreadPrioity;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxApplicationDebugExiftoolWriteThreadPrioity;
         private System.Windows.Forms.TabPage tabPageAutoKeywords;
         private System.Windows.Forms.DataGridView dataGridViewAutoKeywords;
-        private System.Windows.Forms.CheckBox checkBoxKeywordsAddAutoKeywords;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxKeywordsAddAutoKeywords;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripAutoKeyword;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAutoKeywordCut;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAutoKeywordCopy;
@@ -5963,7 +5911,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.DataGridViewTextBoxColumn Comments;
         private System.Windows.Forms.DataGridViewTextBoxColumn Keywords;
         private System.Windows.Forms.DataGridViewTextBoxColumn AddKeywords;
-        private System.Windows.Forms.CheckBox checkBoxWriteMetadataAddAutoKeywords;
-        private System.Windows.Forms.CheckBox checkBoxApplicationDarkMode;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxWriteMetadataAddAutoKeywords;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxApplicationDarkMode;
     }
 }

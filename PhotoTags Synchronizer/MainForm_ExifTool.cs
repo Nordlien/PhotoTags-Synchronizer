@@ -4,11 +4,12 @@ using System.Linq;
 using System.Windows.Forms;
 using DataGridViewGeneric;
 using MetadataPriorityLibrary;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         
         public void PopulateExiftoolToolStripMenuItems()

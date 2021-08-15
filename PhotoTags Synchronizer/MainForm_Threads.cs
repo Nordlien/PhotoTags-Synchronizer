@@ -16,10 +16,12 @@ using FileHandeling;
 using System.Threading.Tasks;
 using Manina.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class MainForm : Form
+
+    public partial class MainForm : KryptonForm
     {
         private AutoResetEvent WaitExittoolReadCacheThread = null;
         private AutoResetEvent WaitThumbnailReadCacheThread = null;

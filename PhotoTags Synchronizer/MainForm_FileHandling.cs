@@ -8,11 +8,12 @@ using Furty.Windows.Forms;
 using Manina.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
 using FileHandeling;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         #region Copy files
         private void CopyFiles(FolderTreeView folderTreeView, StringCollection files, string targetNodeDirectory)

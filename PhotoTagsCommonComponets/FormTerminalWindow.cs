@@ -9,10 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsCommonComponets
 {
-    public partial class FormTerminalWindow : Form
+    public partial class FormTerminalWindow : KryptonForm
     {
         public FormTerminalWindow()
         {

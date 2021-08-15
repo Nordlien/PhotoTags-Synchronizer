@@ -7,11 +7,12 @@ using SqliteDatabase;
 using LocationNames;
 using DataGridViewGeneric;
 using System.Collections.Generic;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {        
         #region LocationCoordinate ParseCoordinateFromURL(string text)
         private LocationCoordinate ParseCoordinateFromURL(string text)

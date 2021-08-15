@@ -2,11 +2,12 @@
 using System.Windows.Forms;
 using DataGridViewGeneric;
 using TimeZone;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
 
 

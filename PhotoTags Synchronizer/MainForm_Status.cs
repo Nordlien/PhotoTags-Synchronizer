@@ -6,11 +6,12 @@ using MetadataLibrary;
 using System.Collections.Generic;
 using System.Diagnostics;
 using FileHandeling;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
 
         #region UpdateStatus - Show what's going on text for x ms.

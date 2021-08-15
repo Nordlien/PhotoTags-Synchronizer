@@ -35,69 +35,69 @@
             this.tabPageOpenWith = new System.Windows.Forms.TabPage();
             this.splitContainerOpenWith = new System.Windows.Forms.SplitContainer();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.label9 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.textBoxOpenImageWithAppId = new System.Windows.Forms.TextBox();
-            this.comboBoxOpenImageWithVerbs = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.comboBoxOpenImageWithVerbs = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label5 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.textBoxOpenImageWithApplication = new System.Windows.Forms.TextBox();
             this.dataGridViewImages = new System.Windows.Forms.DataGridView();
-            this.checkBoxOpenImageWithWaitForExit = new System.Windows.Forms.CheckBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.checkBoxOpenImageWithWaitForExit = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.label11 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.textBoxOpenImageWithCommand = new System.Windows.Forms.TextBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.textBoxOpenVideoWithAppId = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.comboBoxOpenVideoWithVerbs = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.label10 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label8 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxOpenVideoWithVerbs = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.textBoxOpenVideoWithApplication = new System.Windows.Forms.TextBox();
             this.dataGridViewVideos = new System.Windows.Forms.DataGridView();
-            this.label12 = new System.Windows.Forms.Label();
+            this.label12 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.textBoxOpenVideoWithCommand = new System.Windows.Forms.TextBox();
-            this.checkBoxOpenVideoWithWaitForExit = new System.Windows.Forms.CheckBox();
+            this.checkBoxOpenVideoWithWaitForExit = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.textBoxOpenWithSelectedFiles = new System.Windows.Forms.TextBox();
             this.buttonOpenWithOpenWith = new System.Windows.Forms.Button();
             this.tabPageBatchCommand = new System.Windows.Forms.TabPage();
-            this.checkBoxRunBatchRedirectToTerminalWindows = new System.Windows.Forms.CheckBox();
+            this.checkBoxRunBatchRedirectToTerminalWindows = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.splitContainerRunBatch = new System.Windows.Forms.SplitContainer();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.tabControlBatchRunImage = new System.Windows.Forms.TabControl();
             this.tabPageImageCommand = new System.Windows.Forms.TabPage();
-            this.comboBoxBatchRunImageCommand = new System.Windows.Forms.ComboBox();
+            this.comboBoxBatchRunImageCommand = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.buttonBatchRunImageBrowser = new System.Windows.Forms.Button();
-            this.checkBoxBatchRunImageWaitForCommandExit = new System.Windows.Forms.CheckBox();
-            this.comboBoxBatchRunImageVariables = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.checkBoxBatchRunImageWaitForCommandExit = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.comboBoxBatchRunImageVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label3 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label7 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.tabPageImageApp = new System.Windows.Forms.TabPage();
-            this.checkBoxBatchRunImageWaitForAppExit = new System.Windows.Forms.CheckBox();
-            this.comboBoxBatchRunImageVerb = new System.Windows.Forms.ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.comboBoxBatchRunImageAppId = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.checkBoxBatchRunImageWaitForAppExit = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.comboBoxBatchRunImageVerb = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label15 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxBatchRunImageAppId = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label14 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.comboBoxBatchRunImageAppExample = new System.Windows.Forms.ComboBox();
-            this.label13 = new System.Windows.Forms.Label();
+            this.label13 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.textBoxRunBatchImageExample = new System.Windows.Forms.TextBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.tabControlBatchRunVideo = new System.Windows.Forms.TabControl();
             this.tabPageVideoCommand = new System.Windows.Forms.TabPage();
-            this.comboBoxBatchRunVideoCommand = new System.Windows.Forms.ComboBox();
+            this.comboBoxBatchRunVideoCommand = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.buttonBatchRunVideoBrowser = new System.Windows.Forms.Button();
-            this.checkBoxBatchRunVideoWaitForCommandExit = new System.Windows.Forms.CheckBox();
-            this.comboBoxBatchRunVideoVariables = new System.Windows.Forms.ComboBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
+            this.checkBoxBatchRunVideoWaitForCommandExit = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.comboBoxBatchRunVideoVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label16 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label17 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.tabPageVideoApp = new System.Windows.Forms.TabPage();
-            this.checkBoxBatchRunVideoWaitForAppExit = new System.Windows.Forms.CheckBox();
-            this.comboBoxBatchRunVideoVerb = new System.Windows.Forms.ComboBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.comboBoxBatchRunVideoAppId = new System.Windows.Forms.ComboBox();
-            this.label19 = new System.Windows.Forms.Label();
+            this.checkBoxBatchRunVideoWaitForAppExit = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.comboBoxBatchRunVideoVerb = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label18 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxBatchRunVideoAppId = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label19 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.comboBoxBatchRunVideoAppExample = new System.Windows.Forms.ComboBox();
-            this.label20 = new System.Windows.Forms.Label();
+            this.label20 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.textBoxRunBatchVideoExample = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -114,10 +114,10 @@
             this.tabPageArgumentFileAutoCorrect = new System.Windows.Forms.TabPage();
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect = new FastColoredTextBoxNS.FastColoredTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBoxArgumentFileCommand = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBoxArgumentFileCommandVariables = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.comboBoxArgumentFileCommand = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label4 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxArgumentFileCommandVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label6 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.buttonArgumentFileRun = new System.Windows.Forms.Button();
             this.tabPageArgumentFileBuilder = new System.Windows.Forms.TabPage();
             this.buttonArgumentFileBuilderBuild = new System.Windows.Forms.Button();
@@ -132,25 +132,25 @@
             this.buttonMetadataWriteKeywordDeleteLoad = new System.Windows.Forms.Button();
             this.buttonMetadataWriteKeywordAddSave = new System.Windows.Forms.Button();
             this.buttonMetadataWriteKeywordDeleteSave = new System.Windows.Forms.Button();
-            this.comboBoxMetadataWriteKeywordAdd = new System.Windows.Forms.ComboBox();
+            this.comboBoxMetadataWriteKeywordAdd = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.fastColoredTextBoxMetadataWriteKeywordAdd = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.label26 = new System.Windows.Forms.Label();
+            this.label26 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.fastColoredTextBoxMetadataWriteKeywordDelete = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.comboBoxMetadataWriteKeywordDelete = new System.Windows.Forms.ComboBox();
+            this.label27 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxMetadataWriteKeywordDelete = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.groupBoxMetadataWriteTags = new System.Windows.Forms.GroupBox();
             this.buttonMetadataWriteKeywordsSave = new System.Windows.Forms.Button();
             this.fastColoredTextBoxMetadataWriteTags = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.comboBoxMetadataWriteStandardTags = new System.Windows.Forms.ComboBox();
+            this.comboBoxMetadataWriteStandardTags = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.buttonMetadataWriteKeywordsLoad = new System.Windows.Forms.Button();
-            this.label23 = new System.Windows.Forms.Label();
+            this.label23 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.groupBoxBuilderResult = new System.Windows.Forms.GroupBox();
             this.fastColoredTextBoxBuildResult = new FastColoredTextBoxNS.FastColoredTextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.comboBoxArgumentFileBuilderCommand = new System.Windows.Forms.ComboBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.comboBoxArgumentFileBuilderCommandVariables = new System.Windows.Forms.ComboBox();
-            this.label22 = new System.Windows.Forms.Label();
+            this.comboBoxArgumentFileBuilderCommand = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label21 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxArgumentFileBuilderCommandVariables = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label22 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.buttonArgumentFileBuilderCompare = new System.Windows.Forms.Button();
             this.buttonArgumentFileBuilderRun = new System.Windows.Forms.Button();
             this.fastColoredTextBoxArgumentFileBuilderSource = new FastColoredTextBoxNS.FastColoredTextBox();
@@ -395,7 +395,6 @@
             this.checkBoxOpenImageWithWaitForExit.Size = new System.Drawing.Size(273, 21);
             this.checkBoxOpenImageWithWaitForExit.TabIndex = 5;
             this.checkBoxOpenImageWithWaitForExit.Text = "Wait for exit before run next command.";
-            this.checkBoxOpenImageWithWaitForExit.UseVisualStyleBackColor = true;
             // 
             // label11
             // 
@@ -559,7 +558,6 @@
             this.checkBoxOpenVideoWithWaitForExit.Size = new System.Drawing.Size(273, 21);
             this.checkBoxOpenVideoWithWaitForExit.TabIndex = 5;
             this.checkBoxOpenVideoWithWaitForExit.Text = "Wait for exit before run next command.";
-            this.checkBoxOpenVideoWithWaitForExit.UseVisualStyleBackColor = true;
             // 
             // groupBox7
             // 
@@ -593,7 +591,6 @@
             this.buttonOpenWithOpenWith.Size = new System.Drawing.Size(139, 30);
             this.buttonOpenWithOpenWith.TabIndex = 1;
             this.buttonOpenWithOpenWith.Text = "Open with";
-            this.buttonOpenWithOpenWith.UseVisualStyleBackColor = true;
             this.buttonOpenWithOpenWith.Click += new System.EventHandler(this.buttonOpenWithOpenWith_Click);
             // 
             // tabPageBatchCommand
@@ -608,7 +605,6 @@
             this.tabPageBatchCommand.Size = new System.Drawing.Size(825, 578);
             this.tabPageBatchCommand.TabIndex = 0;
             this.tabPageBatchCommand.Text = "Run batch..";
-            this.tabPageBatchCommand.UseVisualStyleBackColor = true;
             // 
             // checkBoxRunBatchRedirectToTerminalWindows
             // 
@@ -619,7 +615,6 @@
             this.checkBoxRunBatchRedirectToTerminalWindows.Size = new System.Drawing.Size(311, 21);
             this.checkBoxRunBatchRedirectToTerminalWindows.TabIndex = 1;
             this.checkBoxRunBatchRedirectToTerminalWindows.Text = "Redirect command output to terminal window";
-            this.checkBoxRunBatchRedirectToTerminalWindows.UseVisualStyleBackColor = true;
             // 
             // splitContainerRunBatch
             // 
@@ -716,7 +711,6 @@
             this.checkBoxBatchRunImageWaitForCommandExit.Size = new System.Drawing.Size(273, 21);
             this.checkBoxBatchRunImageWaitForCommandExit.TabIndex = 3;
             this.checkBoxBatchRunImageWaitForCommandExit.Text = "Wait for exit before run next command.";
-            this.checkBoxBatchRunImageWaitForCommandExit.UseVisualStyleBackColor = true;
             // 
             // comboBoxBatchRunImageVariables
             // 
@@ -774,7 +768,6 @@
             this.checkBoxBatchRunImageWaitForAppExit.Size = new System.Drawing.Size(273, 21);
             this.checkBoxBatchRunImageWaitForAppExit.TabIndex = 37;
             this.checkBoxBatchRunImageWaitForAppExit.Text = "Wait for exit before run next command.";
-            this.checkBoxBatchRunImageWaitForAppExit.UseVisualStyleBackColor = true;
             // 
             // comboBoxBatchRunImageVerb
             // 
@@ -938,7 +931,6 @@
             this.checkBoxBatchRunVideoWaitForCommandExit.Size = new System.Drawing.Size(273, 21);
             this.checkBoxBatchRunVideoWaitForCommandExit.TabIndex = 3;
             this.checkBoxBatchRunVideoWaitForCommandExit.Text = "Wait for exit before run next command.";
-            this.checkBoxBatchRunVideoWaitForCommandExit.UseVisualStyleBackColor = true;
             // 
             // comboBoxBatchRunVideoVariables
             // 
@@ -996,7 +988,6 @@
             this.checkBoxBatchRunVideoWaitForAppExit.Size = new System.Drawing.Size(273, 21);
             this.checkBoxBatchRunVideoWaitForAppExit.TabIndex = 37;
             this.checkBoxBatchRunVideoWaitForAppExit.Text = "Wait for exit before run next command.";
-            this.checkBoxBatchRunVideoWaitForAppExit.UseVisualStyleBackColor = true;
             // 
             // comboBoxBatchRunVideoVerb
             // 
@@ -2073,31 +2064,31 @@
         private System.Windows.Forms.Button buttonOpenWithOpenWith;
         private System.Windows.Forms.TextBox textBoxOpenWithSelectedFiles;
         private System.Windows.Forms.TabPage tabPageBatchCommand;
-        private System.Windows.Forms.Label label7;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label7;
         private System.Windows.Forms.Button buttonBatchCommandBatchRun;
-        private System.Windows.Forms.ComboBox comboBoxBatchRunImageVariables;
-        private System.Windows.Forms.Label label3;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxBatchRunImageVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label3;
         private System.Windows.Forms.TextBox textBoxBatchCommandSelectedFiles;
         private System.Windows.Forms.TabPage tabPageArgumentFile;
         private System.Windows.Forms.Button buttonArgumentFileRun;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox comboBoxArgumentFileCommandVariables;
-        private System.Windows.Forms.Label label4;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label6;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxArgumentFileCommandVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label4;
         private System.Windows.Forms.TextBox textBoxRunBatchImageExample;
         private System.Windows.Forms.DataGridView dataGridViewImages;
         private System.Windows.Forms.DataGridView dataGridViewVideos;
-        private System.Windows.Forms.CheckBox checkBoxOpenImageWithWaitForExit;
-        private System.Windows.Forms.CheckBox checkBoxBatchRunImageWaitForCommandExit;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxOpenImageWithWaitForExit;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxBatchRunImageWaitForCommandExit;
         private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Label label2;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label2;
         private System.Windows.Forms.TextBox textBoxOpenVideoWithApplication;
-        private System.Windows.Forms.Label label12;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label12;
         private System.Windows.Forms.TextBox textBoxOpenVideoWithCommand;
-        private System.Windows.Forms.CheckBox checkBoxOpenVideoWithWaitForExit;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxOpenVideoWithWaitForExit;
         private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.Label label1;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label1;
         private System.Windows.Forms.TextBox textBoxOpenImageWithApplication;
-        private System.Windows.Forms.Label label11;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label11;
         private System.Windows.Forms.TextBox textBoxOpenImageWithCommand;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.GroupBox groupBox5;
@@ -2106,45 +2097,45 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.SplitContainer splitContainerOpenWith;
-        private System.Windows.Forms.ComboBox comboBoxOpenImageWithVerbs;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox comboBoxOpenVideoWithVerbs;
-        private System.Windows.Forms.Label label9;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxOpenImageWithVerbs;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label5;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label8;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxOpenVideoWithVerbs;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label9;
         private System.Windows.Forms.TextBox textBoxOpenImageWithAppId;
         private System.Windows.Forms.TextBox textBoxOpenVideoWithAppId;
-        private System.Windows.Forms.Label label10;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label10;
         private System.Windows.Forms.Button buttonBatchRunImageBrowser;
         private System.Windows.Forms.SplitContainer splitContainerRunBatch;
         private System.Windows.Forms.TabControl tabControlBatchRunImage;
         private System.Windows.Forms.TabPage tabPageImageCommand;
         private System.Windows.Forms.TabPage tabPageImageApp;
-        private System.Windows.Forms.Label label13;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label13;
         private System.Windows.Forms.ComboBox comboBoxBatchRunImageAppExample;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.ComboBox comboBoxBatchRunImageCommand;
-        private System.Windows.Forms.ComboBox comboBoxBatchRunImageAppId;
-        private System.Windows.Forms.ComboBox comboBoxArgumentFileCommand;
-        private System.Windows.Forms.CheckBox checkBoxBatchRunImageWaitForAppExit;
-        private System.Windows.Forms.ComboBox comboBoxBatchRunImageVerb;
-        private System.Windows.Forms.Label label15;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label14;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxBatchRunImageCommand;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxBatchRunImageAppId;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxArgumentFileCommand;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxBatchRunImageWaitForAppExit;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxBatchRunImageVerb;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label15;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.TabControl tabControlBatchRunVideo;
         private System.Windows.Forms.TabPage tabPageVideoCommand;
-        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoCommand;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxBatchRunVideoCommand;
         private System.Windows.Forms.Button buttonBatchRunVideoBrowser;
-        private System.Windows.Forms.CheckBox checkBoxBatchRunVideoWaitForCommandExit;
-        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoVariables;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxBatchRunVideoWaitForCommandExit;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxBatchRunVideoVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label16;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label17;
         private System.Windows.Forms.TabPage tabPageVideoApp;
-        private System.Windows.Forms.CheckBox checkBoxBatchRunVideoWaitForAppExit;
-        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoVerb;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.ComboBox comboBoxBatchRunVideoAppId;
-        private System.Windows.Forms.Label label19;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxBatchRunVideoWaitForAppExit;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxBatchRunVideoVerb;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label18;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxBatchRunVideoAppId;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label19;
         private System.Windows.Forms.ComboBox comboBoxBatchRunVideoAppExample;
-        private System.Windows.Forms.Label label20;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label20;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.TextBox textBoxRunBatchVideoExample;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxArgumentFileArgumentFile;
@@ -2166,26 +2157,26 @@
         private System.Windows.Forms.Button buttonArgumentFileBuilderSave;
         private System.Windows.Forms.Button buttonArgumentFileBuilderRun;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.ComboBox comboBoxArgumentFileBuilderCommand;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.ComboBox comboBoxArgumentFileBuilderCommandVariables;
-        private System.Windows.Forms.Label label22;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxArgumentFileBuilderCommand;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label21;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxArgumentFileBuilderCommandVariables;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label22;
         private System.Windows.Forms.SplitContainer splitContainerAgrumnetFileBuilderMain;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxArgumentFileBuilderResultGrid;
         private System.Windows.Forms.GroupBox groupBoxBuildTagItems;
         private System.Windows.Forms.Panel panelBuildTags;
-        private System.Windows.Forms.ComboBox comboBoxMetadataWriteKeywordAdd;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxMetadataWriteKeywordAdd;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxMetadataWriteKeywordAdd;
-        private System.Windows.Forms.Label label26;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label26;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxMetadataWriteKeywordDelete;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.ComboBox comboBoxMetadataWriteKeywordDelete;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label27;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxMetadataWriteKeywordDelete;
         private System.Windows.Forms.SplitContainer splitContainerBuilderVsResult;
         private System.Windows.Forms.GroupBox groupBoxBuilderResult;
         private System.Windows.Forms.GroupBox groupBoxMetadataWriteTags;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxMetadataWriteTags;
-        private System.Windows.Forms.ComboBox comboBoxMetadataWriteStandardTags;
-        private System.Windows.Forms.Label label23;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxMetadataWriteStandardTags;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label23;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxBuildResult;
         private System.Windows.Forms.Panel panelBuildKeywordsAddDelete;
         private System.Windows.Forms.Button buttonMetadataWriteKeywordAddLoad;
@@ -2193,6 +2184,6 @@
         private System.Windows.Forms.Button buttonMetadataWriteKeywordAddSave;
         private System.Windows.Forms.Button buttonMetadataWriteKeywordDeleteSave;
         private System.Windows.Forms.Button buttonMetadataWriteKeywordsSave;
-        private System.Windows.Forms.CheckBox checkBoxRunBatchRedirectToTerminalWindows;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxRunBatchRedirectToTerminalWindows;
     }
 }

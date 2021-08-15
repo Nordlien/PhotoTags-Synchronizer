@@ -8,10 +8,12 @@ using Manina.Windows.Forms;
 using System.Threading;
 using Thumbnails;
 using System.Diagnostics;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class MainForm : Form
+
+    public partial class MainForm : KryptonForm
     {
         #region FolderSelected or FilterSearch clicked
 

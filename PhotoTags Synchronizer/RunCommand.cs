@@ -12,6 +12,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using FileHandeling;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -261,7 +262,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region OpenWith - Common - FillComboBoxWithVerbs
-        private void FillComboBoxWithVerbs(ComboBox comboBox, string progId)
+        private void FillComboBoxWithVerbs(KryptonComboBox comboBox, string progId)
         {
             comboBox.Items.Clear();
             comboBox.Text = "";
@@ -278,7 +279,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region OpenWith - Common - Select Verb
-        private void SelectVerb(ComboBox comboBox, string verb)
+        private void SelectVerb(KryptonComboBox comboBox, string verb)
         {
             int foundIndex = -1;
             for (int index = 0; index < comboBox.Items.Count; index++)
@@ -336,7 +337,7 @@ namespace PhotoTagsSynchronizer
                 textBoxOpenImageWithCommand.Text = dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["Command"].Value.ToString();
                 textBoxOpenImageWithAppId.Text = dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["AppId"].Value.ToString();
 
-                ComboBox comboBox = comboBoxOpenImageWithVerbs;
+                KryptonComboBox comboBox = comboBoxOpenImageWithVerbs;
                 FillComboBoxWithVerbs(comboBox, dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["ProgId"].Value.ToString());
                 SelectVerb(comboBox, "Open");
                 if (string.IsNullOrWhiteSpace(comboBox.Text)) SelectVerb(comboBox, "Edit");
@@ -356,7 +357,7 @@ namespace PhotoTagsSynchronizer
                 textBoxOpenVideoWithCommand.Text = dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["Command"].Value.ToString();
                 textBoxOpenVideoWithAppId.Text = dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["AppId"].Value.ToString();
                 FillComboBoxWithVerbs(comboBoxOpenVideoWithVerbs, dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["ProgId"].Value.ToString());
-                ComboBox comboBox = comboBoxOpenVideoWithVerbs;
+                KryptonComboBox comboBox = comboBoxOpenVideoWithVerbs;
                 FillComboBoxWithVerbs(comboBox, dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["ProgId"].Value.ToString());
                 SelectVerb(comboBox, "Open");
                 if (string.IsNullOrWhiteSpace(comboBox.Text)) SelectVerb(comboBox, "Edit");
@@ -645,7 +646,7 @@ namespace PhotoTagsSynchronizer
         
 
         #region ComboBox - Insert selected and cmomitted selection to Textbox
-        private void SelectionChangeCommitted(ComboBox textBox, string insertText)
+        private void SelectionChangeCommitted(KryptonComboBox textBox, string insertText)
         {
             if (!isPopulation)
             {

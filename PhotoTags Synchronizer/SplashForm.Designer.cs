@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelStatus = new System.Windows.Forms.Label();
+            this.labelStatus = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.textBoxWarning = new System.Windows.Forms.TextBox();
-            this.labelWarnings = new System.Windows.Forms.Label();
-            this.checkBoxCloseWarning = new System.Windows.Forms.CheckBox();
+            this.labelWarnings = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.checkBoxCloseWarning = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.SuspendLayout();
             // 
             // labelStatus
@@ -92,7 +92,6 @@
             this.checkBoxCloseWarning.Size = new System.Drawing.Size(253, 21);
             this.checkBoxCloseWarning.TabIndex = 4;
             this.checkBoxCloseWarning.Text = "Close warning window automatically";
-            this.checkBoxCloseWarning.UseVisualStyleBackColor = true;
             this.checkBoxCloseWarning.Visible = false;
             this.checkBoxCloseWarning.CheckedChanged += new System.EventHandler(this.checkBoxCloseWarning_CheckedChanged);
             // 
@@ -128,10 +127,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Label labelStatus;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel labelStatus;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.TextBox textBoxWarning;
-        private System.Windows.Forms.Label labelWarnings;
-        private System.Windows.Forms.CheckBox checkBoxCloseWarning;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel labelWarnings;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxCloseWarning;
     }
 }

@@ -25,14 +25,15 @@ using FileHandeling;
 using System.Data;
 using System.Reflection;
 using PhotoTagsCommonComponets;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class Config : Form
+    public partial class Config : KryptonForm
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public MetadataReadPrioity MetadataReadPrioity { get; set; } //= new MetadataReadPrioity();
+        public MetadataReadPrioity MetadataReadPrioity { get; set; } 
         public CameraOwnersDatabaseCache DatabaseAndCacheCameraOwner { get; set; }
         public LocationNameLookUpCache DatabaseLocationNames { get; set; }
         public LocationNameLookUpCache DatabaseAndCacheLocationAddress { get; set; }
@@ -86,7 +87,7 @@ namespace PhotoTagsSynchronizer
         #region Combobox Helper
 
         #region Combobox - Select Best Match Combobox
-        private void SelectBestMatchCombobox(ComboBox comboBox, string text)
+        private void SelectBestMatchCombobox(KryptonComboBox comboBox, string text)
         {
             int foundItemIndex = -1;
             for (int i = 0; i < comboBox.Items.Count; i++)
@@ -109,7 +110,7 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Combobox - Select Best Match Combobox Reselution
-        private void SelectBestMatchComboboxReselution(ComboBox comboBox, int width, int height)
+        private void SelectBestMatchComboboxReselution(KryptonComboBox comboBox, int width, int height)
         {
             if (width < 1 && height < 1)
                 SelectBestMatchCombobox(comboBox, "Original");
@@ -119,14 +120,14 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Combobox - Get Combobox String Value
-        private String GetComboboxValue(ComboBox comboBox)
+        private String GetComboboxValue(KryptonComboBox comboBox)
         {
             return comboBox.Text.Split(' ')[0];
         }
         #endregion
 
         #region Combobox - Get Combobox Int Value
-        private int GetComboboxIntValue(ComboBox comboBox)
+        private int GetComboboxIntValue(KryptonComboBox comboBox)
         {
             if (int.TryParse(comboBox.Text.Split(' ')[0], out int result))
                 return result;

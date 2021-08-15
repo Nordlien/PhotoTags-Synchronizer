@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -26,7 +27,7 @@ namespace PhotoTagsSynchronizer
 
         private AutocompleteMenu popupMenuMetadataProperties;
 
-        public FastColoredTextBoxHandler(FastColoredTextBox fastColoredTextBox, ComboBox comboBox, string[] arg2, string[] arg3)
+        public FastColoredTextBoxHandler(FastColoredTextBox fastColoredTextBox, KryptonComboBox comboBox, string[] arg2, string[] arg3)
         {
             //create autocomplete popup menu
             popupMenuMetadataProperties = new AutocompleteMenu(fastColoredTextBox);

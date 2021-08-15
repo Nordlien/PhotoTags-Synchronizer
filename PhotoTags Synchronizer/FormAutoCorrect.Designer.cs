@@ -31,21 +31,21 @@ namespace PhotoTagsSynchronizer
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAutoCorrect));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBoxAuthor = new System.Windows.Forms.CheckBox();
-            this.checkBoxComments = new System.Windows.Forms.CheckBox();
-            this.checkBoxDescription = new System.Windows.Forms.CheckBox();
-            this.checkBoxTitle = new System.Windows.Forms.CheckBox();
-            this.checkBoxAlbum = new System.Windows.Forms.CheckBox();
+            this.checkBoxAuthor = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxComments = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxDescription = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxTitle = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxAlbum = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonAutoCorrect = new System.Windows.Forms.Button();
-            this.comboBoxAuthor = new System.Windows.Forms.ComboBox();
-            this.comboBoxAlbum = new System.Windows.Forms.ComboBox();
-            this.comboBoxComments = new System.Windows.Forms.ComboBox();
-            this.comboBoxDescription = new System.Windows.Forms.ComboBox();
-            this.comboBoxTitle = new System.Windows.Forms.ComboBox();
+            this.comboBoxAuthor = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxAlbum = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxComments = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxDescription = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxTitle = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.textBoxKeywords = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,7 +86,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxAuthor.Size = new System.Drawing.Size(57, 17);
             this.checkBoxAuthor.TabIndex = 9;
             this.checkBoxAuthor.Text = "Author";
-            this.checkBoxAuthor.UseVisualStyleBackColor = true;
             // 
             // checkBoxComments
             // 
@@ -99,7 +98,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxComments.Size = new System.Drawing.Size(75, 17);
             this.checkBoxComments.TabIndex = 8;
             this.checkBoxComments.Text = "Comments";
-            this.checkBoxComments.UseVisualStyleBackColor = true;
             // 
             // checkBoxDescription
             // 
@@ -112,7 +110,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxDescription.Size = new System.Drawing.Size(79, 17);
             this.checkBoxDescription.TabIndex = 7;
             this.checkBoxDescription.Text = "Description";
-            this.checkBoxDescription.UseVisualStyleBackColor = true;
             // 
             // checkBoxTitle
             // 
@@ -125,7 +122,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxTitle.Size = new System.Drawing.Size(46, 17);
             this.checkBoxTitle.TabIndex = 6;
             this.checkBoxTitle.Text = "Title";
-            this.checkBoxTitle.UseVisualStyleBackColor = true;
             // 
             // checkBoxAlbum
             // 
@@ -138,7 +134,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxAlbum.Size = new System.Drawing.Size(55, 17);
             this.checkBoxAlbum.TabIndex = 5;
             this.checkBoxAlbum.Text = "Album";
-            this.checkBoxAlbum.UseVisualStyleBackColor = true;
             // 
             // buttonClose
             // 
@@ -279,20 +274,20 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ComboBox comboBoxAuthor;
-        private System.Windows.Forms.ComboBox comboBoxAlbum;
-        private System.Windows.Forms.ComboBox comboBoxComments;
-        private System.Windows.Forms.ComboBox comboBoxDescription;
-        private System.Windows.Forms.ComboBox comboBoxTitle;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxAuthor;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxAlbum;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxComments;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxDescription;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxTitle;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonAutoCorrect;
-        private System.Windows.Forms.CheckBox checkBoxAuthor;
-        private System.Windows.Forms.CheckBox checkBoxComments;
-        private System.Windows.Forms.CheckBox checkBoxDescription;
-        private System.Windows.Forms.CheckBox checkBoxTitle;
-        private System.Windows.Forms.CheckBox checkBoxAlbum;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxAuthor;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxComments;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxDescription;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxTitle;
+        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxAlbum;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label2;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label1;
         private System.Windows.Forms.TextBox textBoxKeywords;
     }
 }

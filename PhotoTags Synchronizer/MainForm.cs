@@ -24,13 +24,13 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using SkinFramework;
 using PhotoTagsCommonComponets;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         public const string LinkTabAndDataGridViewNameTags = "Tags";
         public const string LinkTabAndDataGridViewNameMap = "Map";
@@ -44,6 +44,15 @@ namespace PhotoTagsSynchronizer
 
         public void UpdateColorControls(Control control, bool useDarkMode)
         {
+            if (useDarkMode)
+            {
+                kryptonManager1.GlobalPaletteMode = PaletteModeManager.Office2010Black;
+            }
+            else
+            {
+                kryptonManager1.GlobalPaletteMode = PaletteModeManager.Office2007Silver;
+            }
+            /*
             Color LighterColor(Color color, float correctionfactory = 50f)
             {
                 correctionfactory = correctionfactory / 100f;
@@ -94,7 +103,8 @@ namespace PhotoTagsSynchronizer
                 DataGridViewHandler.ColorRegionFace = Color.White;
             }
             UpdateColorControlsRecursive(control, useDarkMode);
-            this.Refresh();
+            //this.Refresh();
+            */
         }
 
         public void UpdateColorControlsRecursive(Control control, bool useDarkMode)
@@ -144,20 +154,10 @@ namespace PhotoTagsSynchronizer
             }
             else if (control is Form)
             {
-                DefaultSkin skin = DefaultSkin.Office2007Luna;
-                if (useDarkMode)
-                {
-                    skin = DefaultSkin.Office2007Obsidian;
-                    control.BackColor = Color.Black;
-                    control.ForeColor = Color.Gray;
-                }
-                else
-                {
-                    skin = DefaultSkin.Office2007Luna;
-                    control.BackColor = SystemColors.Control;
-                    control.ForeColor = SystemColors.ControlText;
-                }
-                skinningManager1.DefaultSkin = skin;
+                
+                //DefaultSkin skin = DefaultSkin.Office2007Luna;
+                
+               
             }
             else if (control is DataGridView)
             {
@@ -388,7 +388,7 @@ namespace PhotoTagsSynchronizer
                     if (cacheAllWebScraperDataSets) databaseAndCacheMetadataExiftool.ReadToCacheWebScarpingAllDataSets();
                 });
                 threadCache.Start();
-                threadCache.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
+                if (threadCache.IsAlive) threadCache.Priority = (ThreadPriority)Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
             }
             catch { }
             #endregion 

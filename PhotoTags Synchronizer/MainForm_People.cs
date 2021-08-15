@@ -6,11 +6,12 @@ using System.Windows.Forms;
 using DataGridViewGeneric;
 using MetadataLibrary;
 using Thumbnails;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         #region CellMouseClick
         private void dataGridViewPeople_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)

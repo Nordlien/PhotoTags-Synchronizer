@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LocationHistoryImportForm));
             this.buttonImportLocationHistory = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBoxUserAccount = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.comboBoxUserAccount = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.label2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.statusStripStatus = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarprogressBarLoading = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
@@ -121,9 +121,9 @@
         #endregion
 
         private System.Windows.Forms.Button buttonImportLocationHistory;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBoxUserAccount;
-        private System.Windows.Forms.Label label2;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label1;
+        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxUserAccount;
+        private ComponentFactory.Krypton.Toolkit.KryptonLabel label2;
         private System.Windows.Forms.StatusStrip statusStripStatus;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarprogressBarLoading;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;

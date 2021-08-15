@@ -8,11 +8,12 @@ using System.Diagnostics;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using ImageAndMovieFileExtentions;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         /*
         private void FileSystemWatcherOnRenamed(object sender, RenamedEventArgs e)

@@ -1,12 +1,12 @@
 ﻿
 using System.Diagnostics;
 using System.Windows.Forms;
-
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
 
-    public partial class MainForm : Form
+    public partial class MainForm : KryptonForm
     {
         #region FilesSelected - Populate DataGridVIew, OpenWith...
         private void FilesSelected()
