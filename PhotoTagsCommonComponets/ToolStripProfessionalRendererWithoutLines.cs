@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace PhotoTagsSynchronizer
+namespace PhotoTagsCommonComponets
 {
     public class ToolStripProfessionalRendererWithoutLines : ToolStripProfessionalRenderer
     {

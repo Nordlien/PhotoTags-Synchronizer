@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Windows.Forms.Design;
 
-namespace DragNDrop
+namespace PhotoTagsCommonComponets
 {
 
 	[ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ToolStrip | ToolStripItemDesignerAvailability.StatusStrip)]

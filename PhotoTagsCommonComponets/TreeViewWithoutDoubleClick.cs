@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace DragNDrop
+namespace PhotoTagsCommonComponets
 {
     public class TreeViewWithoutDoubleClick : TreeView
 	{

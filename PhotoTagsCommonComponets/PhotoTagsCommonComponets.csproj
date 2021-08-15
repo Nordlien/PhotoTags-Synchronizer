@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E461BCC8-E354-45A4-BF24-2D68072B456F}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ImageListViewOrder</RootNamespace>
-    <AssemblyName>ImageListViewOrder</AssemblyName>
+    <RootNamespace>PhotoTagsCommonComponets</RootNamespace>
+    <AssemblyName>PhotoTagsCommonComponets</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -48,7 +48,16 @@
     <Compile Include="CheckedListBoxHigherRows.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TabControlCustom.cs" />
+    <Compile Include="ComboBoxCustom.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ControlHandlerCommon.cs" />
+    <Compile Include="DateTimePickerCustom.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TabControlCustom.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FormTerminalWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +78,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TextBoxCustom.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ToolStripProfessionalRendererWithoutLines.cs" />
     <Compile Include="TreeViewWithoutDoubleClick.cs">
@@ -97,6 +109,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Arrow-up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Calendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CalendarWhite.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

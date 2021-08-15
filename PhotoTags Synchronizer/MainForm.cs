@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using SkinFramework;
+using PhotoTagsCommonComponets;
 
 namespace PhotoTagsSynchronizer
 {
@@ -124,7 +125,7 @@ namespace PhotoTagsSynchronizer
 
                 control is CefSharp.WinForms.ChromiumWebBrowser ||
                 control is Cyotek.Windows.Forms.ImageBox ||
-                control is DragNDrop.TreeViewWithoutDoubleClick ||
+                control is PhotoTagsCommonComponets.TreeViewWithoutDoubleClick ||
                 control is Furty.Windows.Forms.FolderTreeView ||
                 control is LibVLCSharp.WinForms.VideoView ||
                 control is Manina.Windows.Forms.ImageListView 
@@ -193,7 +194,7 @@ namespace PhotoTagsSynchronizer
                     MyDgv.DefaultCellStyle.SelectionForeColor = SystemColors.HighlightText;
                 }
             }
-            else if (control is ComboBoxCustom)
+            else if (control is PhotoTagsCommonComponets.ComboBoxCustom)
             {
                 if (useDarkMode)
                 {
@@ -297,9 +298,9 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             this.toolStripContainerStripMainForm.RenderMode = ToolStripRenderMode.Professional;
-            this.toolStripContainerStripMainForm.Renderer = new ToolStripProfessionalRendererWithoutLines();
+            this.toolStripContainerStripMainForm.Renderer = new PhotoTagsCommonComponets.ToolStripProfessionalRendererWithoutLines();
             this.toolStripContainerStripMediaPreview.RenderMode = ToolStripRenderMode.Professional;
-            this.toolStripContainerStripMediaPreview.Renderer = new ToolStripProfessionalRendererWithoutLines();
+            this.toolStripContainerStripMediaPreview.Renderer = new PhotoTagsCommonComponets.ToolStripProfessionalRendererWithoutLines();
             //this.toolStripContainer1.TopToolStripPanel.RowMargin = new Padding(0);
             if (Properties.Settings.Default.ApplicationDarkMode == true) UpdateColorControls(this, Properties.Settings.Default.ApplicationDarkMode);
 

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PhotoTagsSynchronizer
+namespace PhotoTagsCommonComponets
 {
 
     public partial class ImageListViewOrder: UserControl

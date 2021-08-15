@@ -1,4 +1,4 @@
-﻿namespace PhotoTagsSynchronizer
+﻿namespace PhotoTagsCommonComponets
 {
     partial class ImageListViewOrder
     {
@@ -30,7 +30,7 @@
         {
             this.buttonMoveUp = new System.Windows.Forms.Button();
             this.buttonMoveDown = new System.Windows.Forms.Button();
-            this.imageListViewDragAndDrop1 = new DragNDrop.ImageListViewDragAndDrop();
+            this.imageListViewDragAndDrop1 = new PhotoTagsCommonComponets.ImageListViewDragAndDrop();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
@@ -103,7 +103,7 @@
 
         #endregion
 
-        private DragNDrop.ImageListViewDragAndDrop imageListViewDragAndDrop1;
+        private PhotoTagsCommonComponets.ImageListViewDragAndDrop imageListViewDragAndDrop1;
         private System.Windows.Forms.Button buttonMoveUp;
         private System.Windows.Forms.Button buttonMoveDown;
         private System.Windows.Forms.ColumnHeader columnHeader1;

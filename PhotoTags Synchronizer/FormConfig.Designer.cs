@@ -1,4 +1,5 @@
 ﻿using DataGridViewExtended;
+using PhotoTagsCommonComponets;
 
 namespace PhotoTagsSynchronizer
 {
@@ -242,13 +243,13 @@ namespace PhotoTagsSynchronizer
             this.groupBoxAlbum = new System.Windows.Forms.GroupBox();
             this.checkBoxDublicateAlbumAsDescription = new System.Windows.Forms.CheckBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.imageListViewOrderAlbum = new PhotoTagsSynchronizer.ImageListViewOrder();
+            this.imageListViewOrderAlbum = new PhotoTagsCommonComponets.ImageListViewOrder();
             this.radioButtonAlbumUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonAlbumChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonAlbumDoNotChange = new System.Windows.Forms.RadioButton();
             this.groupBoxTitle = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.imageListViewOrderTitle = new PhotoTagsSynchronizer.ImageListViewOrder();
+            this.imageListViewOrderTitle = new PhotoTagsCommonComponets.ImageListViewOrder();
             this.radioButtonTitleUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonTitleChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonTitleDoNotChange = new System.Windows.Forms.RadioButton();
@@ -284,7 +285,7 @@ namespace PhotoTagsSynchronizer
             this.radioButtonDateTakenUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonDateTakenChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonDateTakenDoNotChange = new System.Windows.Forms.RadioButton();
-            this.imageListViewOrderDateTaken = new PhotoTagsSynchronizer.ImageListViewOrder();
+            this.imageListViewOrderDateTaken = new PhotoTagsCommonComponets.ImageListViewOrder();
             this.textBoxHelpAutoCorrect = new System.Windows.Forms.TextBox();
             this.tabPageAutoKeywords = new System.Windows.Forms.TabPage();
             this.dataGridViewAutoKeywords = new System.Windows.Forms.DataGridView();

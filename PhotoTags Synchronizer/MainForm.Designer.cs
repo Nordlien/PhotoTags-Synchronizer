@@ -47,7 +47,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusThreadQueueCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusAction = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerFolder = new System.Windows.Forms.SplitContainer();
-            this.tabControl1 = new PhotoTagsSynchronizer.TabControlCustom();
+            this.tabControl1 = new PhotoTagsCommonComponets.TabControlCustom();
             this.tabPageFilterFolder = new System.Windows.Forms.TabPage();
             this.folderTreeViewFolder = new Furty.Windows.Forms.FolderTreeView();
             this.contextMenuStripTreeViewFolder = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -70,7 +70,7 @@ namespace PhotoTagsSynchronizer
             this.label9 = new System.Windows.Forms.Label();
             this.checkBoxSearchNeedAllKeywords = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.comboBoxSearchKeyword = new ComboBoxCustom();
+            this.comboBoxSearchKeyword = new PhotoTagsCommonComponets.ComboBoxCustom();
             this.checkBoxSearchWithoutKeyword = new System.Windows.Forms.CheckBox();
             this.groupBoxSearchRating = new System.Windows.Forms.GroupBox();
             this.checkBoxSearchRatingEmpty = new System.Windows.Forms.CheckBox();
@@ -95,25 +95,25 @@ namespace PhotoTagsSynchronizer
             this.dateTimePickerSearchDateTo = new System.Windows.Forms.DateTimePicker();
             this.groupBoxSearchTags = new System.Windows.Forms.GroupBox();
             this.checkBoxSearchUseAndBetweenTextTagFields = new System.Windows.Forms.CheckBox();
-            this.comboBoxSearchComments = new ComboBoxCustom();
+            this.comboBoxSearchComments = new PhotoTagsCommonComponets.ComboBoxCustom();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBoxSearchAlbum = new ComboBoxCustom();
-            this.comboBoxSearchTitle = new ComboBoxCustom();
-            this.comboBoxSearchDescription = new ComboBoxCustom();
-            this.comboBoxSearchLocationCountry = new ComboBoxCustom();
-            this.comboBoxSearchLocationName = new ComboBoxCustom();
-            this.comboBoxSearchLocationState = new ComboBoxCustom();
+            this.comboBoxSearchAlbum = new PhotoTagsCommonComponets.ComboBoxCustom();
+            this.comboBoxSearchTitle = new PhotoTagsCommonComponets.ComboBoxCustom();
+            this.comboBoxSearchDescription = new PhotoTagsCommonComponets.ComboBoxCustom();
+            this.comboBoxSearchLocationCountry = new PhotoTagsCommonComponets.ComboBoxCustom();
+            this.comboBoxSearchLocationName = new PhotoTagsCommonComponets.ComboBoxCustom();
+            this.comboBoxSearchLocationState = new PhotoTagsCommonComponets.ComboBoxCustom();
             this.label13 = new System.Windows.Forms.Label();
-            this.comboBoxSearchLocationCity = new ComboBoxCustom();
+            this.comboBoxSearchLocationCity = new PhotoTagsCommonComponets.ComboBoxCustom();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.tabPageFilterTags = new System.Windows.Forms.TabPage();
-            this.treeViewFilter = new DragNDrop.TreeViewWithoutDoubleClick();
+            this.treeViewFilter = new PhotoTagsCommonComponets.TreeViewWithoutDoubleClick();
             this.splitContainerImages = new System.Windows.Forms.SplitContainer();
             this.imageListView1 = new Manina.Windows.Forms.ImageListView();
             this.contextMenuStripImageListView = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -156,12 +156,12 @@ namespace PhotoTagsSynchronizer
             this.showMediaPosterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.tabControlToolbox = new PhotoTagsSynchronizer.TabControlCustom();
+            this.tabControlToolbox = new PhotoTagsCommonComponets.TabControlCustom();
             this.tabPageTags = new System.Windows.Forms.TabPage();
             this.labelTagsInformation = new System.Windows.Forms.Label();
             this.labelAuthor = new System.Windows.Forms.Label();
-            this.comboBoxAuthor = new ComboBoxCustom();
-            this.comboBoxMediaAiConfidence = new ComboBoxCustom();
+            this.comboBoxAuthor = new PhotoTagsCommonComponets.ComboBoxCustom();
+            this.comboBoxMediaAiConfidence = new PhotoTagsCommonComponets.ComboBoxCustom();
             this.dataGridViewTagsAndKeywords = new System.Windows.Forms.DataGridView();
             this.contextMenuStripTagsAndKeywords = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuTagsBrokerCut = new System.Windows.Forms.ToolStripMenuItem();
@@ -192,14 +192,14 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating3 = new System.Windows.Forms.RadioButton();
             this.radioButtonRating2 = new System.Windows.Forms.RadioButton();
             this.radioButtonRating1 = new System.Windows.Forms.RadioButton();
-            this.comboBoxAlbum = new ComboBoxCustom();
+            this.comboBoxAlbum = new PhotoTagsCommonComponets.ComboBoxCustom();
             this.label4 = new System.Windows.Forms.Label();
-            this.comboBoxComments = new ComboBoxCustom();
+            this.comboBoxComments = new PhotoTagsCommonComponets.ComboBoxCustom();
             this.labelComments = new System.Windows.Forms.Label();
             this.labelDescription = new System.Windows.Forms.Label();
             this.labelTitle = new System.Windows.Forms.Label();
-            this.comboBoxDescription = new ComboBoxCustom();
-            this.comboBoxTitle = new ComboBoxCustom();
+            this.comboBoxDescription = new PhotoTagsCommonComponets.ComboBoxCustom();
+            this.comboBoxTitle = new PhotoTagsCommonComponets.ComboBoxCustom();
             this.tabPagePeople = new System.Windows.Forms.TabPage();
             this.dataGridViewPeople = new System.Windows.Forms.DataGridView();
             this.contextMenuStripPeople = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -231,8 +231,8 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemPeopleMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageMap = new System.Windows.Forms.TabPage();
             this.splitContainerMap = new System.Windows.Forms.SplitContainer();
-            this.comboBoxGoogleLocationInterval = new ComboBoxCustom();
-            this.comboBoxGoogleTimeZoneShift = new ComboBoxCustom();
+            this.comboBoxGoogleLocationInterval = new PhotoTagsCommonComponets.ComboBoxCustom();
+            this.comboBoxGoogleTimeZoneShift = new PhotoTagsCommonComponets.ComboBoxCustom();
             this.dataGridViewMap = new System.Windows.Forms.DataGridView();
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemMapCut = new System.Windows.Forms.ToolStripMenuItem();
@@ -313,7 +313,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxRenameShowFullPath = new System.Windows.Forms.CheckBox();
             this.buttonRenameUpdate = new System.Windows.Forms.Button();
             this.buttonRenameSave = new System.Windows.Forms.Button();
-            this.comboBoxRenameVariableList = new ComboBoxCustom();
+            this.comboBoxRenameVariableList = new PhotoTagsCommonComponets.ComboBoxCustom();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxRenameNewName = new System.Windows.Forms.TextBox();
@@ -412,7 +412,7 @@ namespace PhotoTagsSynchronizer
             this.toolStripButtonMediaPreviewRotate180 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewRotateCW = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMediaPreviewClose = new System.Windows.Forms.ToolStripButton();
-            this.toolStripTraceBarItemMediaPreviewTimer = new DragNDrop.ToolStripTraceBarItem();
+            this.toolStripTraceBarItemMediaPreviewTimer = new PhotoTagsCommonComponets.ToolStripTraceBarItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabelMediaPreviewTimer = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
@@ -726,7 +726,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
             this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Name = "toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard";
-            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Size = new System.Drawing.Size(389, 26);
             this.toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard.Text = "Copy folder name to Clipboard";
@@ -842,8 +842,8 @@ namespace PhotoTagsSynchronizer
             // 
             // panelSearchFilter
             // 
-            this.panelSearchFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelSearchFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSearchFilter.AutoScroll = true;
             this.panelSearchFilter.AutoScrollMinSize = new System.Drawing.Size(319, 797);
@@ -861,7 +861,7 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxSearchKeywords
             // 
-            this.groupBoxSearchKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBoxSearchKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxSearchKeywords.Controls.Add(this.label9);
             this.groupBoxSearchKeywords.Controls.Add(this.checkBoxSearchNeedAllKeywords);
@@ -908,11 +908,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxSearchKeyword
             // 
-            this.comboBoxSearchKeyword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxSearchKeyword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxSearchKeyword.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;            
-            this.comboBoxSearchKeyword.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxSearchKeyword.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxSearchKeyword.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchKeyword.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxSearchKeyword.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxSearchKeyword.FormattingEnabled = true;
             this.comboBoxSearchKeyword.Location = new System.Drawing.Point(124, 24);
             this.comboBoxSearchKeyword.Name = "comboBoxSearchKeyword";
@@ -931,7 +932,7 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxSearchRating
             // 
-            this.groupBoxSearchRating.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBoxSearchRating.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxSearchRating.Controls.Add(this.checkBoxSearchRatingEmpty);
             this.groupBoxSearchRating.Controls.Add(this.checkBoxSearchRating5);
@@ -1020,8 +1021,8 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxSearchPeople
             // 
-            this.groupBoxSearchPeople.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBoxSearchPeople.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxSearchPeople.Controls.Add(this.panel5);
             this.groupBoxSearchPeople.Location = new System.Drawing.Point(3, 674);
@@ -1046,8 +1047,8 @@ namespace PhotoTagsSynchronizer
             // 
             // checkedListBoxSearchPeople
             // 
-            this.checkedListBoxSearchPeople.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.checkedListBoxSearchPeople.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedListBoxSearchPeople.FormattingEnabled = true;
             this.checkedListBoxSearchPeople.Location = new System.Drawing.Point(3, 62);
@@ -1079,7 +1080,7 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxSearchExtra
             // 
-            this.groupBoxSearchExtra.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBoxSearchExtra.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxSearchExtra.Controls.Add(this.checkBoxSearchHasWarning);
             this.groupBoxSearchExtra.Location = new System.Drawing.Point(3, 480);
@@ -1101,7 +1102,7 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxSearchMediaTaken
             // 
-            this.groupBoxSearchMediaTaken.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBoxSearchMediaTaken.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxSearchMediaTaken.Controls.Add(this.checkBoxSearchMediaTakenIsNull);
             this.groupBoxSearchMediaTaken.Controls.Add(this.dateTimePickerSearchDateFrom);
@@ -1128,7 +1129,7 @@ namespace PhotoTagsSynchronizer
             // 
             // dateTimePickerSearchDateFrom
             // 
-            this.dateTimePickerSearchDateFrom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dateTimePickerSearchDateFrom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePickerSearchDateFrom.Checked = false;
             this.dateTimePickerSearchDateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -1160,7 +1161,7 @@ namespace PhotoTagsSynchronizer
             // 
             // dateTimePickerSearchDateTo
             // 
-            this.dateTimePickerSearchDateTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dateTimePickerSearchDateTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePickerSearchDateTo.Checked = false;
             this.dateTimePickerSearchDateTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -1174,7 +1175,7 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxSearchTags
             // 
-            this.groupBoxSearchTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBoxSearchTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxSearchTags.Controls.Add(this.checkBoxSearchUseAndBetweenTextTagFields);
             this.groupBoxSearchTags.Controls.Add(this.comboBoxSearchComments);
@@ -1213,10 +1214,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxSearchComments
             // 
-            this.comboBoxSearchComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxSearchComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchComments.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxSearchComments.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxSearchComments.FormattingEnabled = true;
             this.comboBoxSearchComments.Location = new System.Drawing.Point(124, 114);
             this.comboBoxSearchComments.Name = "comboBoxSearchComments";
@@ -1261,10 +1264,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxSearchAlbum
             // 
-            this.comboBoxSearchAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxSearchAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchAlbum.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxSearchAlbum.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxSearchAlbum.FormattingEnabled = true;
             this.comboBoxSearchAlbum.Location = new System.Drawing.Point(124, 23);
             this.comboBoxSearchAlbum.Name = "comboBoxSearchAlbum";
@@ -1273,10 +1278,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxSearchTitle
             // 
-            this.comboBoxSearchTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxSearchTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchTitle.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxSearchTitle.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxSearchTitle.FormattingEnabled = true;
             this.comboBoxSearchTitle.Location = new System.Drawing.Point(124, 52);
             this.comboBoxSearchTitle.Name = "comboBoxSearchTitle";
@@ -1285,10 +1292,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxSearchDescription
             // 
-            this.comboBoxSearchDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxSearchDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchDescription.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxSearchDescription.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxSearchDescription.FormattingEnabled = true;
             this.comboBoxSearchDescription.Location = new System.Drawing.Point(124, 83);
             this.comboBoxSearchDescription.Name = "comboBoxSearchDescription";
@@ -1297,10 +1306,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxSearchLocationCountry
             // 
-            this.comboBoxSearchLocationCountry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxSearchLocationCountry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchLocationCountry.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchLocationCountry.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationCountry.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxSearchLocationCountry.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxSearchLocationCountry.FormattingEnabled = true;
             this.comboBoxSearchLocationCountry.Location = new System.Drawing.Point(124, 238);
             this.comboBoxSearchLocationCountry.Name = "comboBoxSearchLocationCountry";
@@ -1309,10 +1320,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxSearchLocationName
             // 
-            this.comboBoxSearchLocationName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxSearchLocationName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchLocationName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchLocationName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationName.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxSearchLocationName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxSearchLocationName.FormattingEnabled = true;
             this.comboBoxSearchLocationName.Location = new System.Drawing.Point(124, 145);
             this.comboBoxSearchLocationName.Name = "comboBoxSearchLocationName";
@@ -1321,10 +1334,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxSearchLocationState
             // 
-            this.comboBoxSearchLocationState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxSearchLocationState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchLocationState.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchLocationState.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationState.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxSearchLocationState.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxSearchLocationState.FormattingEnabled = true;
             this.comboBoxSearchLocationState.Location = new System.Drawing.Point(124, 207);
             this.comboBoxSearchLocationState.Name = "comboBoxSearchLocationState";
@@ -1342,10 +1357,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxSearchLocationCity
             // 
-            this.comboBoxSearchLocationCity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxSearchLocationCity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchLocationCity.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchLocationCity.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationCity.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxSearchLocationCity.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxSearchLocationCity.FormattingEnabled = true;
             this.comboBoxSearchLocationCity.Location = new System.Drawing.Point(124, 176);
             this.comboBoxSearchLocationCity.Name = "comboBoxSearchLocationCity";
@@ -1642,7 +1659,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.copyFileNamesToClipboardToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.Copy;
             this.copyFileNamesToClipboardToolStripMenuItem.Name = "copyFileNamesToClipboardToolStripMenuItem";
-            this.copyFileNamesToClipboardToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.copyFileNamesToClipboardToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.C)));
             this.copyFileNamesToClipboardToolStripMenuItem.Size = new System.Drawing.Size(389, 26);
             this.copyFileNamesToClipboardToolStripMenuItem.Text = "Copy file names to Clipboard";
@@ -1716,7 +1733,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemImageListViewAutoCorrectForm.Image = global::PhotoTagsSynchronizer.Properties.Resources.AutoCorrect;
             this.toolStripMenuItemImageListViewAutoCorrectForm.Name = "toolStripMenuItemImageListViewAutoCorrectForm";
-            this.toolStripMenuItemImageListViewAutoCorrectForm.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemImageListViewAutoCorrectForm.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.T)));
             this.toolStripMenuItemImageListViewAutoCorrectForm.Size = new System.Drawing.Size(389, 26);
             this.toolStripMenuItemImageListViewAutoCorrectForm.Text = "AutoCorrect metadata form...";
@@ -1910,13 +1927,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxAuthor
             // 
-            this.comboBoxAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxAuthor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
-            this.comboBoxAuthor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxAuthor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            
-            this.comboBoxAuthor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxAuthor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAuthor.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxAuthor.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxAuthor.FormattingEnabled = true;
             this.comboBoxAuthor.Location = new System.Drawing.Point(85, 112);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
@@ -1926,7 +1942,8 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxMediaAiConfidence
             // 
-            this.comboBoxMediaAiConfidence.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxMediaAiConfidence.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxMediaAiConfidence.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxMediaAiConfidence.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMediaAiConfidence.FormattingEnabled = true;
             this.comboBoxMediaAiConfidence.Items.AddRange(new object[] {
@@ -1947,8 +1964,8 @@ namespace PhotoTagsSynchronizer
             // 
             // dataGridViewTagsAndKeywords
             // 
-            this.dataGridViewTagsAndKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridViewTagsAndKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewTagsAndKeywords.ColumnHeadersHeight = 200;
             this.dataGridViewTagsAndKeywords.ContextMenuStrip = this.contextMenuStripTagsAndKeywords;
@@ -2091,7 +2108,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.removeAsFavoriteToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
             this.removeAsFavoriteToolStripMenuItem.Name = "removeAsFavoriteToolStripMenuItem";
-            this.removeAsFavoriteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.removeAsFavoriteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.D)));
             this.removeAsFavoriteToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
             this.removeAsFavoriteToolStripMenuItem.Text = "Remove as favorite";
@@ -2101,7 +2118,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toggleFavoriteToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
             this.toggleFavoriteToolStripMenuItem.Name = "toggleFavoriteToolStripMenuItem";
-            this.toggleFavoriteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toggleFavoriteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.D)));
             this.toggleFavoriteToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
             this.toggleFavoriteToolStripMenuItem.Text = "Toggle favorite";
@@ -2110,7 +2127,7 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemKeywordsShowFavoriteRows
             // 
             this.toolStripMenuItemKeywordsShowFavoriteRows.Name = "toolStripMenuItemKeywordsShowFavoriteRows";
-            this.toolStripMenuItemKeywordsShowFavoriteRows.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemKeywordsShowFavoriteRows.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.B)));
             this.toolStripMenuItemKeywordsShowFavoriteRows.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemKeywordsShowFavoriteRows.Text = "Show favorite rows";
@@ -2119,7 +2136,7 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemKeywordsHideEqualRows
             // 
             this.toolStripMenuItemKeywordsHideEqualRows.Name = "toolStripMenuItemKeywordsHideEqualRows";
-            this.toolStripMenuItemKeywordsHideEqualRows.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemKeywordsHideEqualRows.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.B)));
             this.toolStripMenuItemKeywordsHideEqualRows.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemKeywordsHideEqualRows.Text = "Hide equal rows";
@@ -2129,7 +2146,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemTagsBrokerCopyText.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemTagsBrokerCopyText.Image")));
             this.toolStripMenuItemTagsBrokerCopyText.Name = "toolStripMenuItemTagsBrokerCopyText";
-            this.toolStripMenuItemTagsBrokerCopyText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemTagsBrokerCopyText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemTagsBrokerCopyText.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemTagsBrokerCopyText.Text = "Copy selected values to media file without overwrite";
@@ -2139,7 +2156,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Image")));
             this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Name = "toolStripMenuItemTagsAndKeywordsBrokerOverwriteText";
-            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemTagsAndKeywordsBrokerOverwriteText.Text = "Copy selected values to media file and overwrite";
@@ -2158,7 +2175,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.selectTagsAndKeywordsToolStripMenuItem.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordSelect;
             this.selectTagsAndKeywordsToolStripMenuItem.Name = "selectTagsAndKeywordsToolStripMenuItem";
-            this.selectTagsAndKeywordsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.selectTagsAndKeywordsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.Space)));
             this.selectTagsAndKeywordsToolStripMenuItem.Size = new System.Drawing.Size(520, 26);
             this.selectTagsAndKeywordsToolStripMenuItem.Text = "Set selected keyword tags";
@@ -2275,13 +2292,13 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxAlbum
             // 
-            this.comboBoxAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxAlbum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
-            this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            
-            this.comboBoxAlbum.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAlbum.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBoxAlbum.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxAlbum.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxAlbum.FormattingEnabled = true;
             this.comboBoxAlbum.Location = new System.Drawing.Point(85, 4);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
@@ -2300,12 +2317,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxComments
             // 
-            this.comboBoxComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxComments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxComments.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
             this.comboBoxComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBoxComments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxComments.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxComments.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxComments.FormattingEnabled = true;
             this.comboBoxComments.Location = new System.Drawing.Point(85, 85);
             this.comboBoxComments.Name = "comboBoxComments";
@@ -2342,12 +2359,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxDescription
             // 
-            this.comboBoxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxDescription.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
             this.comboBoxDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBoxDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxDescription.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxDescription.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxDescription.FormattingEnabled = true;
             this.comboBoxDescription.Location = new System.Drawing.Point(85, 58);
             this.comboBoxDescription.Name = "comboBoxDescription";
@@ -2357,12 +2374,12 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxTitle
             // 
-            this.comboBoxTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxTitle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
             this.comboBoxTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBoxTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxTitle.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxTitle.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxTitle.FormattingEnabled = true;
             this.comboBoxTitle.Location = new System.Drawing.Point(85, 31);
             this.comboBoxTitle.Name = "comboBoxTitle";
@@ -2584,7 +2601,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemPeopleRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
             this.toolStripMenuItemPeopleRemoveFavorite.Name = "toolStripMenuItemPeopleRemoveFavorite";
-            this.toolStripMenuItemPeopleRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemPeopleRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.D)));
             this.toolStripMenuItemPeopleRemoveFavorite.Size = new System.Drawing.Size(367, 26);
             this.toolStripMenuItemPeopleRemoveFavorite.Text = "Remove as favorite";
@@ -2594,7 +2611,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemPeopleToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
             this.toolStripMenuItemPeopleToggleFavorite.Name = "toolStripMenuItemPeopleToggleFavorite";
-            this.toolStripMenuItemPeopleToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemPeopleToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.D)));
             this.toolStripMenuItemPeopleToggleFavorite.Size = new System.Drawing.Size(367, 26);
             this.toolStripMenuItemPeopleToggleFavorite.Text = "Toggle favorite";
@@ -2603,7 +2620,7 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemPeopleShowFavorite
             // 
             this.toolStripMenuItemPeopleShowFavorite.Name = "toolStripMenuItemPeopleShowFavorite";
-            this.toolStripMenuItemPeopleShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemPeopleShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.B)));
             this.toolStripMenuItemPeopleShowFavorite.Size = new System.Drawing.Size(367, 26);
             this.toolStripMenuItemPeopleShowFavorite.Text = "Show favorite rows";
@@ -2612,7 +2629,7 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemPeopleHideEqualRows
             // 
             this.toolStripMenuItemPeopleHideEqualRows.Name = "toolStripMenuItemPeopleHideEqualRows";
-            this.toolStripMenuItemPeopleHideEqualRows.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemPeopleHideEqualRows.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.B)));
             this.toolStripMenuItemPeopleHideEqualRows.Size = new System.Drawing.Size(367, 26);
             this.toolStripMenuItemPeopleHideEqualRows.Text = "Hide equal rows";
@@ -2631,7 +2648,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemPeopleSelectPeopleTag.Image = global::PhotoTagsSynchronizer.Properties.Resources.KeywordSelect;
             this.toolStripMenuItemPeopleSelectPeopleTag.Name = "toolStripMenuItemPeopleSelectPeopleTag";
-            this.toolStripMenuItemPeopleSelectPeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemPeopleSelectPeopleTag.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.Space)));
             this.toolStripMenuItemPeopleSelectPeopleTag.Size = new System.Drawing.Size(367, 26);
             this.toolStripMenuItemPeopleSelectPeopleTag.Text = "Set selected people tags";
@@ -2706,6 +2723,8 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxGoogleLocationInterval
             // 
+            this.comboBoxGoogleLocationInterval.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxGoogleLocationInterval.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxGoogleLocationInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxGoogleLocationInterval.FormattingEnabled = true;
             this.comboBoxGoogleLocationInterval.Items.AddRange(new object[] {
@@ -2724,6 +2743,8 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxGoogleTimeZoneShift
             // 
+            this.comboBoxGoogleTimeZoneShift.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxGoogleTimeZoneShift.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxGoogleTimeZoneShift.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxGoogleTimeZoneShift.FormattingEnabled = true;
             this.comboBoxGoogleTimeZoneShift.Items.AddRange(new object[] {
@@ -2763,8 +2784,8 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.AllowUserToAddRows = false;
             this.dataGridViewMap.AllowUserToDeleteRows = false;
             this.dataGridViewMap.AllowUserToResizeRows = false;
-            this.dataGridViewMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridViewMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
@@ -2917,7 +2938,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemMapRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
             this.toolStripMenuItemMapRemoveFavorite.Name = "toolStripMenuItemMapRemoveFavorite";
-            this.toolStripMenuItemMapRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemMapRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.D)));
             this.toolStripMenuItemMapRemoveFavorite.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemMapRemoveFavorite.Text = "Remove as favorite";
@@ -2927,7 +2948,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemMapToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
             this.toolStripMenuItemMapToggleFavorite.Name = "toolStripMenuItemMapToggleFavorite";
-            this.toolStripMenuItemMapToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemMapToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.D)));
             this.toolStripMenuItemMapToggleFavorite.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemMapToggleFavorite.Text = "Toggle favorite";
@@ -2936,7 +2957,7 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemMapShowFavorite
             // 
             this.toolStripMenuItemMapShowFavorite.Name = "toolStripMenuItemMapShowFavorite";
-            this.toolStripMenuItemMapShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemMapShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.B)));
             this.toolStripMenuItemMapShowFavorite.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemMapShowFavorite.Text = "Show favorite rows";
@@ -2945,7 +2966,7 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemMapHideEqual
             // 
             this.toolStripMenuItemMapHideEqual.Name = "toolStripMenuItemMapHideEqual";
-            this.toolStripMenuItemMapHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemMapHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.B)));
             this.toolStripMenuItemMapHideEqual.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemMapHideEqual.Text = "Hide equal rows";
@@ -2955,7 +2976,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemMapCopyNotOverwrite.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemMapCopyNotOverwrite.Image")));
             this.toolStripMenuItemMapCopyNotOverwrite.Name = "toolStripMenuItemMapCopyNotOverwrite";
-            this.toolStripMenuItemMapCopyNotOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemMapCopyNotOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemMapCopyNotOverwrite.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemMapCopyNotOverwrite.Text = "Copy selected values to media file without overwrite";
@@ -2965,7 +2986,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemMapCopyAndOverwrite.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemMapCopyAndOverwrite.Image")));
             this.toolStripMenuItemMapCopyAndOverwrite.Name = "toolStripMenuItemMapCopyAndOverwrite";
-            this.toolStripMenuItemMapCopyAndOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemMapCopyAndOverwrite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.C)));
             this.toolStripMenuItemMapCopyAndOverwrite.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemMapCopyAndOverwrite.Text = "Copy selected values to media file and overwrite";
@@ -2984,7 +3005,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemShowCoordinateOnGoogleMap.Image = global::PhotoTagsSynchronizer.Properties.Resources.ShowLocation;
             this.toolStripMenuItemShowCoordinateOnGoogleMap.Name = "toolStripMenuItemShowCoordinateOnGoogleMap";
-            this.toolStripMenuItemShowCoordinateOnGoogleMap.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemShowCoordinateOnGoogleMap.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.M)));
             this.toolStripMenuItemShowCoordinateOnGoogleMap.Size = new System.Drawing.Size(520, 26);
             this.toolStripMenuItemShowCoordinateOnGoogleMap.Text = "Show Coordinate on Google Map";
@@ -3031,7 +3052,7 @@ namespace PhotoTagsSynchronizer
             // 
             // textBoxBrowserURL
             // 
-            this.textBoxBrowserURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxBrowserURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBrowserURL.Location = new System.Drawing.Point(144, 3);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
@@ -3105,7 +3126,7 @@ namespace PhotoTagsSynchronizer
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(6, 3);
             this.textBox1.Multiline = true;
@@ -3118,8 +3139,8 @@ namespace PhotoTagsSynchronizer
             // 
             // dataGridViewDate
             // 
-            this.dataGridViewDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridViewDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewDate.ColumnHeadersHeight = 29;
             this.dataGridViewDate.ContextMenuStrip = this.contextMenuStripDate;
@@ -3386,7 +3407,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemExiftoolRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
             this.toolStripMenuItemExiftoolRemoveFavorite.Name = "toolStripMenuItemExiftoolRemoveFavorite";
-            this.toolStripMenuItemExiftoolRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemExiftoolRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.D)));
             this.toolStripMenuItemExiftoolRemoveFavorite.Size = new System.Drawing.Size(318, 26);
             this.toolStripMenuItemExiftoolRemoveFavorite.Text = "Remove as favorite";
@@ -3396,7 +3417,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemExiftoolToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
             this.toolStripMenuItemExiftoolToggleFavorite.Name = "toolStripMenuItemExiftoolToggleFavorite";
-            this.toolStripMenuItemExiftoolToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemExiftoolToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.D)));
             this.toolStripMenuItemExiftoolToggleFavorite.Size = new System.Drawing.Size(318, 26);
             this.toolStripMenuItemExiftoolToggleFavorite.Text = "Toggle favorite";
@@ -3405,7 +3426,7 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemExiftoolSHowFavorite
             // 
             this.toolStripMenuItemExiftoolSHowFavorite.Name = "toolStripMenuItemExiftoolSHowFavorite";
-            this.toolStripMenuItemExiftoolSHowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemExiftoolSHowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.B)));
             this.toolStripMenuItemExiftoolSHowFavorite.Size = new System.Drawing.Size(318, 26);
             this.toolStripMenuItemExiftoolSHowFavorite.Text = "Show favorite rows";
@@ -3414,7 +3435,7 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemExiftoolHideEqual
             // 
             this.toolStripMenuItemExiftoolHideEqual.Name = "toolStripMenuItemExiftoolHideEqual";
-            this.toolStripMenuItemExiftoolHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemExiftoolHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.B)));
             this.toolStripMenuItemExiftoolHideEqual.Size = new System.Drawing.Size(318, 26);
             this.toolStripMenuItemExiftoolHideEqual.Text = "Hide equal rows";
@@ -3532,7 +3553,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemExiftoolWarningRemoveFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteRemove;
             this.toolStripMenuItemExiftoolWarningRemoveFavorite.Name = "toolStripMenuItemExiftoolWarningRemoveFavorite";
-            this.toolStripMenuItemExiftoolWarningRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemExiftoolWarningRemoveFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.D)));
             this.toolStripMenuItemExiftoolWarningRemoveFavorite.Size = new System.Drawing.Size(318, 26);
             this.toolStripMenuItemExiftoolWarningRemoveFavorite.Text = "Remove as favorite";
@@ -3542,7 +3563,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.toolStripMenuItemExiftoolWarningToggleFavorite.Image = global::PhotoTagsSynchronizer.Properties.Resources.FavoriteToggle;
             this.toolStripMenuItemExiftoolWarningToggleFavorite.Name = "toolStripMenuItemExiftoolWarningToggleFavorite";
-            this.toolStripMenuItemExiftoolWarningToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemExiftoolWarningToggleFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.D)));
             this.toolStripMenuItemExiftoolWarningToggleFavorite.Size = new System.Drawing.Size(318, 26);
             this.toolStripMenuItemExiftoolWarningToggleFavorite.Text = "Toggle favorite";
@@ -3551,7 +3572,7 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemExiftoolWarningShowFavorite
             // 
             this.toolStripMenuItemExiftoolWarningShowFavorite.Name = "toolStripMenuItemExiftoolWarningShowFavorite";
-            this.toolStripMenuItemExiftoolWarningShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemExiftoolWarningShowFavorite.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.B)));
             this.toolStripMenuItemExiftoolWarningShowFavorite.Size = new System.Drawing.Size(318, 26);
             this.toolStripMenuItemExiftoolWarningShowFavorite.Text = "Show favorite rows";
@@ -3560,7 +3581,7 @@ namespace PhotoTagsSynchronizer
             // toolStripMenuItemExiftoolWarningHideEqual
             // 
             this.toolStripMenuItemExiftoolWarningHideEqual.Name = "toolStripMenuItemExiftoolWarningHideEqual";
-            this.toolStripMenuItemExiftoolWarningHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.toolStripMenuItemExiftoolWarningHideEqual.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
             | System.Windows.Forms.Keys.B)));
             this.toolStripMenuItemExiftoolWarningHideEqual.Size = new System.Drawing.Size(318, 26);
             this.toolStripMenuItemExiftoolWarningHideEqual.Text = "Hide equal rows";
@@ -3669,8 +3690,10 @@ namespace PhotoTagsSynchronizer
             // 
             // comboBoxRenameVariableList
             // 
-            this.comboBoxRenameVariableList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxRenameVariableList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxRenameVariableList.BorderColor = System.Drawing.Color.Blue;
+            this.comboBoxRenameVariableList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBoxRenameVariableList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRenameVariableList.FormattingEnabled = true;
             this.comboBoxRenameVariableList.Items.AddRange(new object[] {
@@ -3735,7 +3758,7 @@ namespace PhotoTagsSynchronizer
             // 
             // textBoxRenameNewName
             // 
-            this.textBoxRenameNewName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxRenameNewName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRenameNewName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxRenameNewName.Location = new System.Drawing.Point(122, 45);
@@ -3748,8 +3771,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.dataGridViewRename.AllowUserToAddRows = false;
             this.dataGridViewRename.AllowUserToDeleteRows = false;
-            this.dataGridViewRename.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridViewRename.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewRename.ColumnHeadersHeight = 29;
             this.dataGridViewRename.Location = new System.Drawing.Point(0, 108);
@@ -4880,8 +4903,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.TabPage tabPageExifTool;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusThreadQueueCount;
         private System.Windows.Forms.DataGridView dataGridViewExifTool;
-        private System.Windows.Forms.ComboBox comboBoxDescription;
-        private System.Windows.Forms.ComboBox comboBoxTitle;
         private System.Windows.Forms.DataGridView dataGridViewTagsAndKeywords;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBoxRating;
@@ -4890,9 +4911,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.RadioButton radioButtonRating3;
         private System.Windows.Forms.RadioButton radioButtonRating2;
         private System.Windows.Forms.RadioButton radioButtonRating1;
-        private System.Windows.Forms.ComboBox comboBoxAlbum;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBoxComments;
         private System.Windows.Forms.Label labelComments;
         private System.Windows.Forms.Label labelDescription;
         private System.Windows.Forms.Label labelTitle;
@@ -4902,8 +4921,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.DataGridView dataGridViewMap;
         private System.Windows.Forms.TextBox textBoxBrowserURL;
         private System.Windows.Forms.Panel panelBrowser;
-        private System.Windows.Forms.ComboBox comboBoxGoogleLocationInterval;
-        private System.Windows.Forms.ComboBox comboBoxGoogleTimeZoneShift;
         private System.Windows.Forms.ComboBox comboBoxMapZoomLevel;
         private System.Windows.Forms.ToolStripButton toolStripButtonThumbnailSize1;
         private System.Windows.Forms.ToolStripButton toolStripButtonThumbnailSize2;
@@ -4914,7 +4931,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripButton toolStripButtonImportGoogleLocation;
         private System.Windows.Forms.TabPage tabPageExifToolWarnings;
         private System.Windows.Forms.DataGridView dataGridViewExifToolWarning;
-        private System.Windows.Forms.ComboBox comboBoxMediaAiConfidence;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripTagsAndKeywords;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsBrokerCopyText;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTagsAndKeywordsBrokerOverwriteText;
@@ -4931,7 +4947,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.DataGridView dataGridViewDate;
         private System.Windows.Forms.ToolStripButton toolStripButtonAbout;
         private System.Windows.Forms.Label labelAuthor;
-        private System.Windows.Forms.ComboBox comboBoxAuthor;
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuTagsBrokerCut;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuTagsBrokerCopy;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuTagsBrokerPaste;
@@ -5001,7 +5016,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.TabPage tabPageRename;
         private System.Windows.Forms.DataGridView dataGridViewRename;
-        private System.Windows.Forms.ComboBox comboBoxRenameVariableList;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxRenameNewName;
@@ -5066,18 +5080,9 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.DateTimePicker dateTimePickerSearchDateTo;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox checkBoxSearchHasWarning;
-        private System.Windows.Forms.ComboBox comboBoxSearchKeyword;
         private System.Windows.Forms.GroupBox groupBoxSearchPeople;
         private System.Windows.Forms.CheckBox checkBoxSearchNeedAllNames;
         private System.Windows.Forms.CheckedListBox checkedListBoxSearchPeople;
-        private System.Windows.Forms.ComboBox comboBoxSearchLocationCountry;
-        private System.Windows.Forms.ComboBox comboBoxSearchLocationState;
-        private System.Windows.Forms.ComboBox comboBoxSearchLocationCity;
-        private System.Windows.Forms.ComboBox comboBoxSearchLocationName;
-        private System.Windows.Forms.ComboBox comboBoxSearchComments;
-        private System.Windows.Forms.ComboBox comboBoxSearchDescription;
-        private System.Windows.Forms.ComboBox comboBoxSearchTitle;
-        private System.Windows.Forms.ComboBox comboBoxSearchAlbum;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.DateTimePicker dateTimePickerSearchDateFrom;
         private System.Windows.Forms.Label label15;
@@ -5112,7 +5117,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromMostUsed;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromLast3;
-        private DragNDrop.TreeViewWithoutDoubleClick treeViewFilter;
+        private PhotoTagsCommonComponets.TreeViewWithoutDoubleClick treeViewFilter;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarLazyLoadingDataGridViewProgress;
         private System.Windows.Forms.Timer timerStatusThreadQueue;
         private System.Windows.Forms.Timer timerLazyLoadingDataGridViewProgressRemoveProgessbar;
@@ -5131,7 +5136,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripContainer toolStripContainerMediaPreview;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonMediaList;
         private Cyotek.Windows.Forms.ImageBox imageBoxPreview;
-        private DragNDrop.ToolStripTraceBarItem toolStripTraceBarItemMediaPreviewTimer;
+        private PhotoTagsCommonComponets.ToolStripTraceBarItem toolStripTraceBarItemMediaPreviewTimer;
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewFastBackward;
         private System.Windows.Forms.ToolStripButton toolStripButtonMediaPreviewFastForward;
         private System.Windows.Forms.ToolStripLabel toolStripLabelMediaPreviewTimer;
@@ -5235,8 +5240,26 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowPosterWindowDate;
         private System.Windows.Forms.ToolStripMenuItem showMediaPosterToolStripMenuItem;
         private SkinFramework.SkinningManager skinningManager1;
-        private TabControlCustom tabControlToolbox;
-        private TabControlCustom tabControl1;
+        private PhotoTagsCommonComponets.TabControlCustom tabControlToolbox;
+        private PhotoTagsCommonComponets.TabControlCustom tabControl1;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxDescription;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxTitle;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxAlbum;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxComments;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxGoogleLocationInterval;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxGoogleTimeZoneShift;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxMediaAiConfidence;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxAuthor;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxRenameVariableList;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxSearchKeyword;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxSearchLocationCountry;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxSearchLocationState;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxSearchLocationCity;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxSearchLocationName;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxSearchComments;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxSearchDescription;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxSearchTitle;
+        private PhotoTagsCommonComponets.ComboBoxCustom comboBoxSearchAlbum;
     }
 }
 

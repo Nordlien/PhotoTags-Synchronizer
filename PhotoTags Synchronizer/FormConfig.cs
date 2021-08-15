@@ -24,6 +24,7 @@ using System.Windows.Forms;
 using FileHandeling;
 using System.Data;
 using System.Reflection;
+using PhotoTagsCommonComponets;
 
 namespace PhotoTagsSynchronizer
 {

@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChooseColumns));
             this.btnClose = new System.Windows.Forms.Button();
-            this.checkedListBox = new PhotoTagsSynchronizer.CheckedListBoxHigherRows();
+            this.checkedListBox = new PhotoTagsCommonComponets.CheckedListBoxHigherRows();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -257,7 +257,7 @@
         #endregion
 
         private System.Windows.Forms.Button btnClose;
-        private CheckedListBoxHigherRows checkedListBox;
+        private PhotoTagsCommonComponets.CheckedListBoxHigherRows checkedListBox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox comboBoxTitleLine5;
