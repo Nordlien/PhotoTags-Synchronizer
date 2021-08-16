@@ -6,10 +6,11 @@ using System.Windows.Forms;
 using CameraOwners;
 using GoogleLocationHistory;
 using SqliteDatabase;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class LocationHistoryImportForm : Form
+    public partial class LocationHistoryImportForm : KryptonForm
     {
         public SqliteDatabaseUtilities databaseTools { get; set; }
         public CameraOwnersDatabaseCache databaseAndCahceCameraOwner { get; set; }

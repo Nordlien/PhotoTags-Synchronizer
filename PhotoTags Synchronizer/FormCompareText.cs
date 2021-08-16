@@ -7,10 +7,11 @@ using System.Text;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using PhotoTagsSynchronizer.DiffMergeStuffs;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class FormCompareText : Form
+    public partial class FormCompareText : KryptonForm
     {
         int updating;
         Style greenStyle;

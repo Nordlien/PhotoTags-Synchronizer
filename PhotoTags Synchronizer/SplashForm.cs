@@ -5,10 +5,11 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class SplashForm : Form
+    public partial class SplashForm : KryptonForm
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 

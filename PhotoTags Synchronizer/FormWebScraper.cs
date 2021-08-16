@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
-using FastColoredTextBoxNS;
 using MetadataLibrary;
 using Newtonsoft.Json;
-//using PhotoTagsSynchronizer.Properties;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class FormWebScraper : Form
+    public partial class FormWebScraper : KryptonForm
     {
         public MetadataDatabaseCache DatabaseAndCacheMetadataExiftool { get; set; }
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();

@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAbout));
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox1 = new ComponentFactory.Krypton.Toolkit.KryptonRichTextBox();
+            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -59,6 +61,7 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private ComponentFactory.Krypton.Toolkit.KryptonRichTextBox richTextBox1;
+        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

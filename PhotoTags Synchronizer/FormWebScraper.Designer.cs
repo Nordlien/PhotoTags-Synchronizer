@@ -88,6 +88,7 @@ namespace PhotoTagsSynchronizer
             this.buttonSaveJavaScript = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -391,21 +392,19 @@ namespace PhotoTagsSynchronizer
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(213, 25);
+            this.label3.Location = new System.Drawing.Point(213, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(209, 17);
+            this.label3.Size = new System.Drawing.Size(214, 24);
             this.label3.TabIndex = 1;
-            this.label3.Text = "Load/merge dataset to continue";
+            this.label3.Values.Text = "Load dataset to append more";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 92);
+            this.label2.Location = new System.Drawing.Point(6, 85);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(259, 17);
+            this.label2.Size = new System.Drawing.Size(282, 24);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Last dataset will be use for AutoCorrect.";
+            this.label2.Values.Text = "Last dataset will be use for AutoCorrect.";
             // 
             // buttonWebScrapingDataSetSelectNone
             // 
@@ -662,12 +661,11 @@ namespace PhotoTagsSynchronizer
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 92);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(240, 17);
+            this.label1.Size = new System.Drawing.Size(262, 24);
             this.label1.TabIndex = 4;
-            this.label1.Text = "What categories to do WebScraping:";
+            this.label1.Values.Text = "What categories to do WebScraping:";
             // 
             // buttonWebScrapingSelectNone
             // 
@@ -870,5 +868,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountKeywords;
         private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountRegions;
         private System.Windows.Forms.SplitContainer splitContainer4;
+        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

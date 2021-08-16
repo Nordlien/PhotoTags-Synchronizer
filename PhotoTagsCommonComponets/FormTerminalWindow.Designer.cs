@@ -33,6 +33,7 @@ namespace PhotoTagsCommonComponets
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTerminalWindow));
             this.fastColoredTextBox1 = new FastColoredTextBoxNS.FastColoredTextBox();
             this.buttonScrollToEnd = new System.Windows.Forms.Button();
+            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,7 +59,6 @@ namespace PhotoTagsCommonComponets
             this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBox1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBox1.ForeColor = System.Drawing.Color.Yellow;
             this.fastColoredTextBox1.IsReplaceMode = false;
             this.fastColoredTextBox1.Location = new System.Drawing.Point(0, 0);
@@ -83,6 +83,10 @@ namespace PhotoTagsCommonComponets
             this.buttonScrollToEnd.UseVisualStyleBackColor = true;
             this.buttonScrollToEnd.Click += new System.EventHandler(this.buttonScrollToEnd_Click);
             // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.GlobalPaletteMode = ComponentFactory.Krypton.Toolkit.PaletteModeManager.Office2010Blue;
+            // 
             // FormTerminalWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -103,5 +107,6 @@ namespace PhotoTagsCommonComponets
 
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBox1;
         private System.Windows.Forms.Button buttonScrollToEnd;
+        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

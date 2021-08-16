@@ -439,12 +439,21 @@ namespace PhotoTagsSynchronizer
             this.panel4.SuspendLayout();
             this.panelSearchFilter.SuspendLayout();
             this.groupBoxSearchKeywords.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchKeyword)).BeginInit();
             this.groupBoxSearchRating.SuspendLayout();
             this.groupBoxSearchPeople.SuspendLayout();
             this.panel5.SuspendLayout();
             this.groupBoxSearchExtra.SuspendLayout();
             this.groupBoxSearchMediaTaken.SuspendLayout();
             this.groupBoxSearchTags.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchComments)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchAlbum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchTitle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchDescription)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchLocationCountry)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchLocationName)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchLocationState)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchLocationCity)).BeginInit();
             this.tabPageFilterTags.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerImages)).BeginInit();
             this.splitContainerImages.Panel1.SuspendLayout();
@@ -455,9 +464,15 @@ namespace PhotoTagsSynchronizer
             this.tabControlToolbox.SuspendLayout();
             this.tabPageTags.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAuthor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxMediaAiConfidence)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTagsAndKeywords)).BeginInit();
             this.contextMenuStripTagsAndKeywords.SuspendLayout();
             this.groupBoxRating.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAlbum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxComments)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxDescription)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitle)).BeginInit();
             this.tabPagePeople.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPeople)).BeginInit();
             this.contextMenuStripPeople.SuspendLayout();
@@ -466,6 +481,8 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel1.SuspendLayout();
             this.splitContainerMap.Panel2.SuspendLayout();
             this.splitContainerMap.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxGoogleLocationInterval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxGoogleTimeZoneShift)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMap)).BeginInit();
             this.contextMenuStripMap.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -483,6 +500,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProperties)).BeginInit();
             this.tabPageRename.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxRenameVariableList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRename)).BeginInit();
             this.tabPageConvertAndMerge.SuspendLayout();
             this.panelConvertAndMerge.SuspendLayout();
@@ -909,6 +927,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchKeyword.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchKeyword.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchKeyword.DropDownWidth = 183;
             this.comboBoxSearchKeyword.FormattingEnabled = true;
             this.comboBoxSearchKeyword.Location = new System.Drawing.Point(124, 24);
             this.comboBoxSearchKeyword.Name = "comboBoxSearchKeyword";
@@ -1180,6 +1199,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchComments.DropDownWidth = 183;
             this.comboBoxSearchComments.FormattingEnabled = true;
             this.comboBoxSearchComments.Location = new System.Drawing.Point(124, 114);
             this.comboBoxSearchComments.Name = "comboBoxSearchComments";
@@ -1224,6 +1244,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchAlbum.DropDownWidth = 183;
             this.comboBoxSearchAlbum.FormattingEnabled = true;
             this.comboBoxSearchAlbum.Location = new System.Drawing.Point(124, 23);
             this.comboBoxSearchAlbum.Name = "comboBoxSearchAlbum";
@@ -1236,6 +1257,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchTitle.DropDownWidth = 183;
             this.comboBoxSearchTitle.FormattingEnabled = true;
             this.comboBoxSearchTitle.Location = new System.Drawing.Point(124, 52);
             this.comboBoxSearchTitle.Name = "comboBoxSearchTitle";
@@ -1248,6 +1270,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchDescription.DropDownWidth = 183;
             this.comboBoxSearchDescription.FormattingEnabled = true;
             this.comboBoxSearchDescription.Location = new System.Drawing.Point(124, 83);
             this.comboBoxSearchDescription.Name = "comboBoxSearchDescription";
@@ -1260,6 +1283,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchLocationCountry.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchLocationCountry.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationCountry.DropDownWidth = 183;
             this.comboBoxSearchLocationCountry.FormattingEnabled = true;
             this.comboBoxSearchLocationCountry.Location = new System.Drawing.Point(124, 238);
             this.comboBoxSearchLocationCountry.Name = "comboBoxSearchLocationCountry";
@@ -1272,6 +1296,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchLocationName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchLocationName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationName.DropDownWidth = 183;
             this.comboBoxSearchLocationName.FormattingEnabled = true;
             this.comboBoxSearchLocationName.Location = new System.Drawing.Point(124, 145);
             this.comboBoxSearchLocationName.Name = "comboBoxSearchLocationName";
@@ -1284,6 +1309,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchLocationState.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchLocationState.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationState.DropDownWidth = 183;
             this.comboBoxSearchLocationState.FormattingEnabled = true;
             this.comboBoxSearchLocationState.Location = new System.Drawing.Point(124, 207);
             this.comboBoxSearchLocationState.Name = "comboBoxSearchLocationState";
@@ -1304,6 +1330,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSearchLocationCity.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxSearchLocationCity.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxSearchLocationCity.DropDownWidth = 183;
             this.comboBoxSearchLocationCity.FormattingEnabled = true;
             this.comboBoxSearchLocationCity.Location = new System.Drawing.Point(124, 176);
             this.comboBoxSearchLocationCity.Name = "comboBoxSearchLocationCity";
@@ -1878,6 +1905,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxAuthor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxAuthor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAuthor.DropDownWidth = 588;
             this.comboBoxAuthor.FormattingEnabled = true;
             this.comboBoxAuthor.Location = new System.Drawing.Point(112, 112);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
@@ -1888,6 +1916,7 @@ namespace PhotoTagsSynchronizer
             // comboBoxMediaAiConfidence
             // 
             this.comboBoxMediaAiConfidence.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMediaAiConfidence.DropDownWidth = 198;
             this.comboBoxMediaAiConfidence.FormattingEnabled = true;
             this.comboBoxMediaAiConfidence.Items.AddRange(new object[] {
             "90% Confidence",
@@ -2239,6 +2268,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxAlbum.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBoxAlbum.DropDownWidth = 588;
             this.comboBoxAlbum.FormattingEnabled = true;
             this.comboBoxAlbum.Location = new System.Drawing.Point(112, 4);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
@@ -2260,6 +2290,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxComments.DropDownWidth = 588;
             this.comboBoxComments.FormattingEnabled = true;
             this.comboBoxComments.Location = new System.Drawing.Point(112, 85);
             this.comboBoxComments.Name = "comboBoxComments";
@@ -2297,6 +2328,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxDescription.DropDownWidth = 588;
             this.comboBoxDescription.FormattingEnabled = true;
             this.comboBoxDescription.Location = new System.Drawing.Point(112, 58);
             this.comboBoxDescription.Name = "comboBoxDescription";
@@ -2310,6 +2342,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxTitle.DropDownWidth = 588;
             this.comboBoxTitle.FormattingEnabled = true;
             this.comboBoxTitle.Location = new System.Drawing.Point(112, 31);
             this.comboBoxTitle.Name = "comboBoxTitle";
@@ -2654,6 +2687,7 @@ namespace PhotoTagsSynchronizer
             // comboBoxGoogleLocationInterval
             // 
             this.comboBoxGoogleLocationInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxGoogleLocationInterval.DropDownWidth = 178;
             this.comboBoxGoogleLocationInterval.FormattingEnabled = true;
             this.comboBoxGoogleLocationInterval.Items.AddRange(new object[] {
             "1 minute",
@@ -2672,6 +2706,7 @@ namespace PhotoTagsSynchronizer
             // comboBoxGoogleTimeZoneShift
             // 
             this.comboBoxGoogleTimeZoneShift.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxGoogleTimeZoneShift.DropDownWidth = 139;
             this.comboBoxGoogleTimeZoneShift.FormattingEnabled = true;
             this.comboBoxGoogleTimeZoneShift.Items.AddRange(new object[] {
             "Time zone -12",
@@ -3618,6 +3653,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxRenameVariableList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxRenameVariableList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRenameVariableList.DropDownWidth = 581;
             this.comboBoxRenameVariableList.FormattingEnabled = true;
             this.comboBoxRenameVariableList.Items.AddRange(new object[] {
             "%Trim%",
@@ -4716,6 +4752,7 @@ namespace PhotoTagsSynchronizer
             this.panelSearchFilter.ResumeLayout(false);
             this.groupBoxSearchKeywords.ResumeLayout(false);
             this.groupBoxSearchKeywords.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchKeyword)).EndInit();
             this.groupBoxSearchRating.ResumeLayout(false);
             this.groupBoxSearchRating.PerformLayout();
             this.groupBoxSearchPeople.ResumeLayout(false);
@@ -4727,6 +4764,14 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchMediaTaken.PerformLayout();
             this.groupBoxSearchTags.ResumeLayout(false);
             this.groupBoxSearchTags.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchComments)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchAlbum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchTitle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchDescription)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchLocationCountry)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchLocationName)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchLocationState)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxSearchLocationCity)).EndInit();
             this.tabPageFilterTags.ResumeLayout(false);
             this.splitContainerImages.Panel1.ResumeLayout(false);
             this.splitContainerImages.Panel2.ResumeLayout(false);
@@ -4738,10 +4783,16 @@ namespace PhotoTagsSynchronizer
             this.tabPageTags.ResumeLayout(false);
             this.tabPageTags.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAuthor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxMediaAiConfidence)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTagsAndKeywords)).EndInit();
             this.contextMenuStripTagsAndKeywords.ResumeLayout(false);
             this.groupBoxRating.ResumeLayout(false);
             this.groupBoxRating.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAlbum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxComments)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxDescription)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitle)).EndInit();
             this.tabPagePeople.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPeople)).EndInit();
             this.contextMenuStripPeople.ResumeLayout(false);
@@ -4750,6 +4801,8 @@ namespace PhotoTagsSynchronizer
             this.splitContainerMap.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMap)).EndInit();
             this.splitContainerMap.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxGoogleLocationInterval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxGoogleTimeZoneShift)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMap)).EndInit();
             this.contextMenuStripMap.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -4770,6 +4823,7 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProperties)).EndInit();
             this.tabPageRename.ResumeLayout(false);
             this.tabPageRename.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxRenameVariableList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRename)).EndInit();
             this.tabPageConvertAndMerge.ResumeLayout(false);
             this.panelConvertAndMerge.ResumeLayout(false);

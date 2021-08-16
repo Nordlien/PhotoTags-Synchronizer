@@ -40,6 +40,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.labelFirst = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
             this.labelSecond = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.fctb1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fctb2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -51,46 +52,44 @@
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(181, 511);
+            this.label6.Location = new System.Drawing.Point(181, 504);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(90, 17);
+            this.label6.Size = new System.Drawing.Size(100, 24);
             this.label6.TabIndex = 24;
-            this.label6.Text = "Deleted lines";
+            this.label6.Values.Text = "Deleted lines";
             // 
             // label7
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.BackColor = System.Drawing.Color.Pink;
-            this.label7.Location = new System.Drawing.Point(157, 511);
+            this.label7.Location = new System.Drawing.Point(157, 503);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(16, 16);
+            this.label7.Size = new System.Drawing.Size(11, 24);
             this.label7.TabIndex = 23;
-            this.label7.Text = " ";
+            this.label7.Values.Text = " ";
             // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(40, 511);
+            this.label5.Location = new System.Drawing.Point(40, 504);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(92, 17);
+            this.label5.Size = new System.Drawing.Size(102, 24);
             this.label5.TabIndex = 22;
-            this.label5.Text = "Inserted lines";
+            this.label5.Values.Text = "Inserted lines";
             // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.BackColor = System.Drawing.Color.PaleGreen;
-            this.label4.Location = new System.Drawing.Point(16, 511);
+            this.label4.Location = new System.Drawing.Point(16, 503);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(16, 16);
+            this.label4.Size = new System.Drawing.Size(11, 24);
             this.label4.TabIndex = 21;
-            this.label4.Text = " ";
+            this.label4.Values.Text = " ";
             // 
             // fctb1
             // 
@@ -114,7 +113,6 @@
             this.fctb1.CharWidth = 10;
             this.fctb1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fctb1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fctb1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fctb1.IsReplaceMode = false;
             this.fctb1.Location = new System.Drawing.Point(0, 21);
             this.fctb1.Margin = new System.Windows.Forms.Padding(4);
@@ -152,7 +150,6 @@
             this.fctb2.CharWidth = 10;
             this.fctb2.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fctb2.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fctb2.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fctb2.IsReplaceMode = false;
             this.fctb2.Location = new System.Drawing.Point(0, 21);
             this.fctb2.Margin = new System.Windows.Forms.Padding(4);
@@ -161,7 +158,7 @@
             this.fctb2.ReadOnly = true;
             this.fctb2.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fctb2.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fctb2.ServiceColors")));
-            this.fctb2.Size = new System.Drawing.Size(445, 463);
+            this.fctb2.Size = new System.Drawing.Size(444, 463);
             this.fctb2.TabIndex = 27;
             this.fctb2.Text = "fastColoredTextBox2";
             this.fctb2.Zoom = 100;
@@ -193,21 +190,19 @@
             // 
             // labelFirst
             // 
-            this.labelFirst.AutoSize = true;
             this.labelFirst.Location = new System.Drawing.Point(3, 0);
             this.labelFirst.Name = "labelFirst";
-            this.labelFirst.Size = new System.Drawing.Size(84, 17);
+            this.labelFirst.Size = new System.Drawing.Size(91, 24);
             this.labelFirst.TabIndex = 27;
-            this.labelFirst.Text = "Source: first";
+            this.labelFirst.Values.Text = "Source: first";
             // 
             // labelSecond
             // 
-            this.labelSecond.AutoSize = true;
             this.labelSecond.Location = new System.Drawing.Point(3, 0);
             this.labelSecond.Name = "labelSecond";
-            this.labelSecond.Size = new System.Drawing.Size(107, 17);
+            this.labelSecond.Size = new System.Drawing.Size(114, 24);
             this.labelSecond.TabIndex = 28;
-            this.labelSecond.Text = "Source: second";
+            this.labelSecond.Values.Text = "Source: second";
             // 
             // FormCompareText
             // 
@@ -248,5 +243,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private ComponentFactory.Krypton.Toolkit.KryptonLabel labelFirst;
         private ComponentFactory.Krypton.Toolkit.KryptonLabel labelSecond;
+        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

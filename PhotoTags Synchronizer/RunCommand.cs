@@ -16,7 +16,7 @@ using ComponentFactory.Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class RunCommand : Form
+    public partial class RunCommand : KryptonForm
     {
         public string ArguFile { get; set; } = "";
         public string ArguFileAutoCorrect { get; set; } = "";

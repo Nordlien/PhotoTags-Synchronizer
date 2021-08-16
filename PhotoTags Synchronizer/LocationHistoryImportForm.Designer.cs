@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LocationHistoryImportForm));
             this.buttonImportLocationHistory = new System.Windows.Forms.Button();
             this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
@@ -36,12 +37,14 @@
             this.statusStripStatus = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarprogressBarLoading = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxUserAccount)).BeginInit();
             this.statusStripStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonImportLocationHistory
             // 
-            this.buttonImportLocationHistory.Location = new System.Drawing.Point(81, 60);
+            this.buttonImportLocationHistory.Location = new System.Drawing.Point(81, 95);
             this.buttonImportLocationHistory.Name = "buttonImportLocationHistory";
             this.buttonImportLocationHistory.Size = new System.Drawing.Size(244, 28);
             this.buttonImportLocationHistory.TabIndex = 1;
@@ -51,30 +54,29 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 41);
+            this.label1.Location = new System.Drawing.Point(19, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 17);
+            this.label1.Size = new System.Drawing.Size(56, 24);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Name:";
+            this.label1.Values.Text = "Name:";
             // 
             // comboBoxUserAccount
             // 
+            this.comboBoxUserAccount.DropDownWidth = 244;
             this.comboBoxUserAccount.FormattingEnabled = true;
             this.comboBoxUserAccount.Location = new System.Drawing.Point(81, 33);
             this.comboBoxUserAccount.Name = "comboBoxUserAccount";
-            this.comboBoxUserAccount.Size = new System.Drawing.Size(244, 24);
+            this.comboBoxUserAccount.Size = new System.Drawing.Size(244, 25);
             this.comboBoxUserAccount.TabIndex = 0;
             this.comboBoxUserAccount.SelectionChangeCommitted += new System.EventHandler(this.comboBoxUserAccount_SelectionChangeCommitted);
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(342, 41);
+            this.label2.Location = new System.Drawing.Point(81, 3);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(397, 17);
+            this.label2.Size = new System.Drawing.Size(440, 24);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Enter name for the user you want to import location history for";
+            this.label2.Values.Text = "Enter name for the user you want to import location history for";
             // 
             // statusStripStatus
             // 
@@ -82,9 +84,9 @@
             this.statusStripStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBarprogressBarLoading,
             this.toolStripStatusLabelStatus});
-            this.statusStripStatus.Location = new System.Drawing.Point(0, 185);
+            this.statusStripStatus.Location = new System.Drawing.Point(0, 157);
             this.statusStripStatus.Name = "statusStripStatus";
-            this.statusStripStatus.Size = new System.Drawing.Size(771, 26);
+            this.statusStripStatus.Size = new System.Drawing.Size(579, 26);
             this.statusStripStatus.TabIndex = 5;
             this.statusStripStatus.Text = "statusStrip1";
             // 
@@ -102,7 +104,7 @@
             // LocationHistoryImportForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(771, 211);
+            this.ClientSize = new System.Drawing.Size(579, 183);
             this.Controls.Add(this.statusStripStatus);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBoxUserAccount);
@@ -111,6 +113,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LocationHistoryImportForm";
             this.Text = "Import Location Histotory";
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxUserAccount)).EndInit();
             this.statusStripStatus.ResumeLayout(false);
             this.statusStripStatus.PerformLayout();
             this.ResumeLayout(false);
@@ -127,6 +130,6 @@
         private System.Windows.Forms.StatusStrip statusStripStatus;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarprogressBarLoading;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;
-        
+        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

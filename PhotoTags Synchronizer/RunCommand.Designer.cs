@@ -157,6 +157,7 @@
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal = new FastColoredTextBoxNS.FastColoredTextBox();
             this.splitContainerAgrumnetFileBuilderMain = new System.Windows.Forms.SplitContainer();
             this.fastColoredTextBoxArgumentFileBuilderResultGrid = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
             this.panelMain.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageOpenWith.SuspendLayout();
@@ -165,8 +166,10 @@
             this.splitContainerOpenWith.Panel2.SuspendLayout();
             this.splitContainerOpenWith.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxOpenImageWithVerbs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewImages)).BeginInit();
             this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxOpenVideoWithVerbs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVideos)).BeginInit();
             this.groupBox7.SuspendLayout();
             this.tabPageBatchCommand.SuspendLayout();
@@ -177,12 +180,20 @@
             this.groupBox4.SuspendLayout();
             this.tabControlBatchRunImage.SuspendLayout();
             this.tabPageImageCommand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunImageCommand)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunImageVariables)).BeginInit();
             this.tabPageImageApp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunImageVerb)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunImageAppId)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.tabControlBatchRunVideo.SuspendLayout();
             this.tabPageVideoCommand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunVideoCommand)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunVideoVariables)).BeginInit();
             this.tabPageVideoApp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunVideoVerb)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunVideoAppId)).BeginInit();
             this.groupBox11.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabPageArgumentFile.SuspendLayout();
@@ -193,6 +204,8 @@
             this.tabPageArgumentFileAutoCorrect.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxArgumentFileCommand)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxArgumentFileCommandVariables)).BeginInit();
             this.tabPageArgumentFileBuilder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerBuilderVsResult)).BeginInit();
             this.splitContainerBuilderVsResult.Panel1.SuspendLayout();
@@ -206,13 +219,18 @@
             this.panelBuildKeywordsAddDelete.SuspendLayout();
             this.groupBoxBuildTagItems.SuspendLayout();
             this.panelBuildTags.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteKeywordAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordDelete)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteKeywordDelete)).BeginInit();
             this.groupBoxMetadataWriteTags.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteTags)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteStandardTags)).BeginInit();
             this.groupBoxBuilderResult.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxBuildResult)).BeginInit();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxArgumentFileBuilderCommand)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxArgumentFileBuilderCommandVariables)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileBuilderSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileBuilderResultOrginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerAgrumnetFileBuilderMain)).BeginInit();
@@ -299,12 +317,11 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(0, 353);
+            this.label9.Location = new System.Drawing.Point(0, 346);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(50, 17);
+            this.label9.Size = new System.Drawing.Size(58, 24);
             this.label9.TabIndex = 9;
-            this.label9.Text = "AppID:";
+            this.label9.Values.Text = "AppID:";
             // 
             // textBoxOpenImageWithAppId
             // 
@@ -320,10 +337,11 @@
             // 
             this.comboBoxOpenImageWithVerbs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.comboBoxOpenImageWithVerbs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxOpenImageWithVerbs.DropDownWidth = 121;
             this.comboBoxOpenImageWithVerbs.FormattingEnabled = true;
             this.comboBoxOpenImageWithVerbs.Location = new System.Drawing.Point(91, 292);
             this.comboBoxOpenImageWithVerbs.Name = "comboBoxOpenImageWithVerbs";
-            this.comboBoxOpenImageWithVerbs.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxOpenImageWithVerbs.Size = new System.Drawing.Size(121, 25);
             this.comboBoxOpenImageWithVerbs.TabIndex = 2;
             this.comboBoxOpenImageWithVerbs.SelectionChangeCommitted += new System.EventHandler(this.comboBoxOpenImageWithVerbs_SelectionChangeCommitted);
             // 
@@ -331,23 +349,21 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(0, 295);
+            this.label5.Location = new System.Drawing.Point(0, 288);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(42, 17);
+            this.label5.Size = new System.Drawing.Size(47, 24);
             this.label5.TabIndex = 7;
-            this.label5.Text = "Verb:";
+            this.label5.Values.Text = "Verb:";
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 267);
+            this.label1.Location = new System.Drawing.Point(0, 260);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 17);
+            this.label1.Size = new System.Drawing.Size(92, 24);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Application:";
+            this.label1.Values.Text = "Application:";
             // 
             // textBoxOpenImageWithApplication
             // 
@@ -389,23 +405,21 @@
             // checkBoxOpenImageWithWaitForExit
             // 
             this.checkBoxOpenImageWithWaitForExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxOpenImageWithWaitForExit.AutoSize = true;
-            this.checkBoxOpenImageWithWaitForExit.Location = new System.Drawing.Point(91, 378);
+            this.checkBoxOpenImageWithWaitForExit.Location = new System.Drawing.Point(91, 375);
             this.checkBoxOpenImageWithWaitForExit.Name = "checkBoxOpenImageWithWaitForExit";
-            this.checkBoxOpenImageWithWaitForExit.Size = new System.Drawing.Size(273, 21);
+            this.checkBoxOpenImageWithWaitForExit.Size = new System.Drawing.Size(293, 24);
             this.checkBoxOpenImageWithWaitForExit.TabIndex = 5;
-            this.checkBoxOpenImageWithWaitForExit.Text = "Wait for exit before run next command.";
+            this.checkBoxOpenImageWithWaitForExit.Values.Text = "Wait for exit before run next command.";
             // 
             // label11
             // 
             this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(0, 325);
+            this.label11.Location = new System.Drawing.Point(0, 318);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(75, 17);
+            this.label11.Size = new System.Drawing.Size(86, 24);
             this.label11.TabIndex = 8;
-            this.label11.Text = "Command:";
+            this.label11.Values.Text = "Command:";
             // 
             // textBoxOpenImageWithCommand
             // 
@@ -451,32 +465,31 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 353);
+            this.label10.Location = new System.Drawing.Point(6, 346);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(50, 17);
+            this.label10.Size = new System.Drawing.Size(58, 24);
             this.label10.TabIndex = 9;
-            this.label10.Text = "AppID:";
+            this.label10.Values.Text = "AppID:";
             // 
             // label8
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 295);
+            this.label8.Location = new System.Drawing.Point(6, 288);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(42, 17);
+            this.label8.Size = new System.Drawing.Size(47, 24);
             this.label8.TabIndex = 7;
-            this.label8.Text = "Verb:";
+            this.label8.Values.Text = "Verb:";
             // 
             // comboBoxOpenVideoWithVerbs
             // 
             this.comboBoxOpenVideoWithVerbs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.comboBoxOpenVideoWithVerbs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxOpenVideoWithVerbs.DropDownWidth = 121;
             this.comboBoxOpenVideoWithVerbs.FormattingEnabled = true;
             this.comboBoxOpenVideoWithVerbs.Location = new System.Drawing.Point(89, 292);
             this.comboBoxOpenVideoWithVerbs.Name = "comboBoxOpenVideoWithVerbs";
-            this.comboBoxOpenVideoWithVerbs.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxOpenVideoWithVerbs.Size = new System.Drawing.Size(121, 25);
             this.comboBoxOpenVideoWithVerbs.TabIndex = 2;
             this.comboBoxOpenVideoWithVerbs.SelectionChangeCommitted += new System.EventHandler(this.comboBoxOpenVideoWithVerbs_SelectionChangeCommitted);
             // 
@@ -484,12 +497,11 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 267);
+            this.label2.Location = new System.Drawing.Point(3, 260);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 17);
+            this.label2.Size = new System.Drawing.Size(92, 24);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Application:";
+            this.label2.Values.Text = "Application:";
             // 
             // textBoxOpenVideoWithApplication
             // 
@@ -532,12 +544,11 @@
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 325);
+            this.label12.Location = new System.Drawing.Point(6, 318);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(75, 17);
+            this.label12.Size = new System.Drawing.Size(86, 24);
             this.label12.TabIndex = 8;
-            this.label12.Text = "Command:";
+            this.label12.Values.Text = "Command:";
             // 
             // textBoxOpenVideoWithCommand
             // 
@@ -552,12 +563,11 @@
             // checkBoxOpenVideoWithWaitForExit
             // 
             this.checkBoxOpenVideoWithWaitForExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxOpenVideoWithWaitForExit.AutoSize = true;
-            this.checkBoxOpenVideoWithWaitForExit.Location = new System.Drawing.Point(89, 378);
+            this.checkBoxOpenVideoWithWaitForExit.Location = new System.Drawing.Point(89, 375);
             this.checkBoxOpenVideoWithWaitForExit.Name = "checkBoxOpenVideoWithWaitForExit";
-            this.checkBoxOpenVideoWithWaitForExit.Size = new System.Drawing.Size(273, 21);
+            this.checkBoxOpenVideoWithWaitForExit.Size = new System.Drawing.Size(293, 24);
             this.checkBoxOpenVideoWithWaitForExit.TabIndex = 5;
-            this.checkBoxOpenVideoWithWaitForExit.Text = "Wait for exit before run next command.";
+            this.checkBoxOpenVideoWithWaitForExit.Values.Text = "Wait for exit before run next command.";
             // 
             // groupBox7
             // 
@@ -609,12 +619,11 @@
             // checkBoxRunBatchRedirectToTerminalWindows
             // 
             this.checkBoxRunBatchRedirectToTerminalWindows.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxRunBatchRedirectToTerminalWindows.AutoSize = true;
-            this.checkBoxRunBatchRedirectToTerminalWindows.Location = new System.Drawing.Point(345, 546);
+            this.checkBoxRunBatchRedirectToTerminalWindows.Location = new System.Drawing.Point(316, 543);
             this.checkBoxRunBatchRedirectToTerminalWindows.Name = "checkBoxRunBatchRedirectToTerminalWindows";
-            this.checkBoxRunBatchRedirectToTerminalWindows.Size = new System.Drawing.Size(311, 21);
+            this.checkBoxRunBatchRedirectToTerminalWindows.Size = new System.Drawing.Size(340, 24);
             this.checkBoxRunBatchRedirectToTerminalWindows.TabIndex = 1;
-            this.checkBoxRunBatchRedirectToTerminalWindows.Text = "Redirect command output to terminal window";
+            this.checkBoxRunBatchRedirectToTerminalWindows.Values.Text = "Redirect command output to terminal window";
             // 
             // splitContainerRunBatch
             // 
@@ -683,10 +692,11 @@
             // 
             this.comboBoxBatchRunImageCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunImageCommand.DropDownWidth = 290;
             this.comboBoxBatchRunImageCommand.FormattingEnabled = true;
             this.comboBoxBatchRunImageCommand.Location = new System.Drawing.Point(86, 65);
             this.comboBoxBatchRunImageCommand.Name = "comboBoxBatchRunImageCommand";
-            this.comboBoxBatchRunImageCommand.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunImageCommand.Size = new System.Drawing.Size(290, 25);
             this.comboBoxBatchRunImageCommand.TabIndex = 2;
             this.comboBoxBatchRunImageCommand.TextChanged += new System.EventHandler(this.comboBoxBatchRunImageCommand_TextChanged);
             this.comboBoxBatchRunImageCommand.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBox_KeyUp);
@@ -705,42 +715,40 @@
             // 
             // checkBoxBatchRunImageWaitForCommandExit
             // 
-            this.checkBoxBatchRunImageWaitForCommandExit.AutoSize = true;
             this.checkBoxBatchRunImageWaitForCommandExit.Location = new System.Drawing.Point(86, 95);
             this.checkBoxBatchRunImageWaitForCommandExit.Name = "checkBoxBatchRunImageWaitForCommandExit";
-            this.checkBoxBatchRunImageWaitForCommandExit.Size = new System.Drawing.Size(273, 21);
+            this.checkBoxBatchRunImageWaitForCommandExit.Size = new System.Drawing.Size(293, 24);
             this.checkBoxBatchRunImageWaitForCommandExit.TabIndex = 3;
-            this.checkBoxBatchRunImageWaitForCommandExit.Text = "Wait for exit before run next command.";
+            this.checkBoxBatchRunImageWaitForCommandExit.Values.Text = "Wait for exit before run next command.";
             // 
             // comboBoxBatchRunImageVariables
             // 
             this.comboBoxBatchRunImageVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxBatchRunImageVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxBatchRunImageVariables.DropDownWidth = 290;
             this.comboBoxBatchRunImageVariables.FormattingEnabled = true;
             this.comboBoxBatchRunImageVariables.Location = new System.Drawing.Point(86, 35);
             this.comboBoxBatchRunImageVariables.Name = "comboBoxBatchRunImageVariables";
-            this.comboBoxBatchRunImageVariables.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunImageVariables.Size = new System.Drawing.Size(290, 25);
             this.comboBoxBatchRunImageVariables.TabIndex = 1;
             this.comboBoxBatchRunImageVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunImageVariables_SelectionChangeCommitted);
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 38);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 17);
+            this.label3.Size = new System.Drawing.Size(77, 24);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Variables:";
+            this.label3.Values.Text = "Variables:";
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(6, 68);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(75, 17);
+            this.label7.Size = new System.Drawing.Size(86, 24);
             this.label7.TabIndex = 5;
-            this.label7.Text = "Command:";
+            this.label7.Values.Text = "Command:";
             // 
             // tabPageImageApp
             // 
@@ -762,50 +770,49 @@
             // 
             // checkBoxBatchRunImageWaitForAppExit
             // 
-            this.checkBoxBatchRunImageWaitForAppExit.AutoSize = true;
             this.checkBoxBatchRunImageWaitForAppExit.Location = new System.Drawing.Point(86, 95);
             this.checkBoxBatchRunImageWaitForAppExit.Name = "checkBoxBatchRunImageWaitForAppExit";
-            this.checkBoxBatchRunImageWaitForAppExit.Size = new System.Drawing.Size(273, 21);
+            this.checkBoxBatchRunImageWaitForAppExit.Size = new System.Drawing.Size(293, 24);
             this.checkBoxBatchRunImageWaitForAppExit.TabIndex = 37;
-            this.checkBoxBatchRunImageWaitForAppExit.Text = "Wait for exit before run next command.";
+            this.checkBoxBatchRunImageWaitForAppExit.Values.Text = "Wait for exit before run next command.";
             // 
             // comboBoxBatchRunImageVerb
             // 
+            this.comboBoxBatchRunImageVerb.DropDownWidth = 121;
             this.comboBoxBatchRunImageVerb.FormattingEnabled = true;
             this.comboBoxBatchRunImageVerb.Location = new System.Drawing.Point(86, 65);
             this.comboBoxBatchRunImageVerb.Name = "comboBoxBatchRunImageVerb";
-            this.comboBoxBatchRunImageVerb.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxBatchRunImageVerb.Size = new System.Drawing.Size(121, 25);
             this.comboBoxBatchRunImageVerb.TabIndex = 36;
             this.comboBoxBatchRunImageVerb.TextChanged += new System.EventHandler(this.comboBoxBatchRunImageVerb_TextChanged);
             // 
             // label15
             // 
-            this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(6, 68);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(42, 17);
+            this.label15.Size = new System.Drawing.Size(47, 24);
             this.label15.TabIndex = 35;
-            this.label15.Text = "Verb:";
+            this.label15.Values.Text = "Verb:";
             // 
             // comboBoxBatchRunImageAppId
             // 
             this.comboBoxBatchRunImageAppId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunImageAppId.DropDownWidth = 290;
             this.comboBoxBatchRunImageAppId.FormattingEnabled = true;
             this.comboBoxBatchRunImageAppId.Location = new System.Drawing.Point(86, 35);
             this.comboBoxBatchRunImageAppId.Name = "comboBoxBatchRunImageAppId";
-            this.comboBoxBatchRunImageAppId.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunImageAppId.Size = new System.Drawing.Size(290, 25);
             this.comboBoxBatchRunImageAppId.TabIndex = 34;
             this.comboBoxBatchRunImageAppId.TextChanged += new System.EventHandler(this.comboBoxBatchRunImageAppId_TextChanged);
             // 
             // label14
             // 
-            this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(6, 9);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(72, 17);
+            this.label14.Size = new System.Drawing.Size(78, 24);
             this.label14.TabIndex = 33;
-            this.label14.Text = "Examples:";
+            this.label14.Values.Text = "Examples:";
             // 
             // comboBoxBatchRunImageAppExample
             // 
@@ -823,12 +830,11 @@
             // 
             // label13
             // 
-            this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(6, 38);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(48, 17);
+            this.label13.Size = new System.Drawing.Size(56, 24);
             this.label13.TabIndex = 1;
-            this.label13.Text = "AppId:";
+            this.label13.Values.Text = "AppId:";
             // 
             // groupBox5
             // 
@@ -903,10 +909,11 @@
             // 
             this.comboBoxBatchRunVideoCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunVideoCommand.DropDownWidth = 290;
             this.comboBoxBatchRunVideoCommand.FormattingEnabled = true;
             this.comboBoxBatchRunVideoCommand.Location = new System.Drawing.Point(86, 65);
             this.comboBoxBatchRunVideoCommand.Name = "comboBoxBatchRunVideoCommand";
-            this.comboBoxBatchRunVideoCommand.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunVideoCommand.Size = new System.Drawing.Size(290, 25);
             this.comboBoxBatchRunVideoCommand.TabIndex = 2;
             this.comboBoxBatchRunVideoCommand.TextChanged += new System.EventHandler(this.comboBoxBatchRunVideoCommand_TextChanged);
             this.comboBoxBatchRunVideoCommand.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBox_KeyUp);
@@ -925,42 +932,40 @@
             // 
             // checkBoxBatchRunVideoWaitForCommandExit
             // 
-            this.checkBoxBatchRunVideoWaitForCommandExit.AutoSize = true;
             this.checkBoxBatchRunVideoWaitForCommandExit.Location = new System.Drawing.Point(86, 95);
             this.checkBoxBatchRunVideoWaitForCommandExit.Name = "checkBoxBatchRunVideoWaitForCommandExit";
-            this.checkBoxBatchRunVideoWaitForCommandExit.Size = new System.Drawing.Size(273, 21);
+            this.checkBoxBatchRunVideoWaitForCommandExit.Size = new System.Drawing.Size(293, 24);
             this.checkBoxBatchRunVideoWaitForCommandExit.TabIndex = 3;
-            this.checkBoxBatchRunVideoWaitForCommandExit.Text = "Wait for exit before run next command.";
+            this.checkBoxBatchRunVideoWaitForCommandExit.Values.Text = "Wait for exit before run next command.";
             // 
             // comboBoxBatchRunVideoVariables
             // 
             this.comboBoxBatchRunVideoVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxBatchRunVideoVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxBatchRunVideoVariables.DropDownWidth = 290;
             this.comboBoxBatchRunVideoVariables.FormattingEnabled = true;
             this.comboBoxBatchRunVideoVariables.Location = new System.Drawing.Point(86, 35);
             this.comboBoxBatchRunVideoVariables.Name = "comboBoxBatchRunVideoVariables";
-            this.comboBoxBatchRunVideoVariables.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunVideoVariables.Size = new System.Drawing.Size(290, 25);
             this.comboBoxBatchRunVideoVariables.TabIndex = 1;
             this.comboBoxBatchRunVideoVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunVideoVariables_SelectionChangeCommitted);
             // 
             // label16
             // 
-            this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(6, 38);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(71, 17);
+            this.label16.Size = new System.Drawing.Size(77, 24);
             this.label16.TabIndex = 4;
-            this.label16.Text = "Variables:";
+            this.label16.Values.Text = "Variables:";
             // 
             // label17
             // 
-            this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(6, 68);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(75, 17);
+            this.label17.Size = new System.Drawing.Size(86, 24);
             this.label17.TabIndex = 5;
-            this.label17.Text = "Command:";
+            this.label17.Values.Text = "Command:";
             // 
             // tabPageVideoApp
             // 
@@ -982,50 +987,49 @@
             // 
             // checkBoxBatchRunVideoWaitForAppExit
             // 
-            this.checkBoxBatchRunVideoWaitForAppExit.AutoSize = true;
             this.checkBoxBatchRunVideoWaitForAppExit.Location = new System.Drawing.Point(86, 95);
             this.checkBoxBatchRunVideoWaitForAppExit.Name = "checkBoxBatchRunVideoWaitForAppExit";
-            this.checkBoxBatchRunVideoWaitForAppExit.Size = new System.Drawing.Size(273, 21);
+            this.checkBoxBatchRunVideoWaitForAppExit.Size = new System.Drawing.Size(293, 24);
             this.checkBoxBatchRunVideoWaitForAppExit.TabIndex = 37;
-            this.checkBoxBatchRunVideoWaitForAppExit.Text = "Wait for exit before run next command.";
+            this.checkBoxBatchRunVideoWaitForAppExit.Values.Text = "Wait for exit before run next command.";
             // 
             // comboBoxBatchRunVideoVerb
             // 
+            this.comboBoxBatchRunVideoVerb.DropDownWidth = 121;
             this.comboBoxBatchRunVideoVerb.FormattingEnabled = true;
             this.comboBoxBatchRunVideoVerb.Location = new System.Drawing.Point(86, 65);
             this.comboBoxBatchRunVideoVerb.Name = "comboBoxBatchRunVideoVerb";
-            this.comboBoxBatchRunVideoVerb.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxBatchRunVideoVerb.Size = new System.Drawing.Size(121, 25);
             this.comboBoxBatchRunVideoVerb.TabIndex = 36;
             this.comboBoxBatchRunVideoVerb.TextChanged += new System.EventHandler(this.comboBoxBatchRunVideoVerb_TextChanged);
             // 
             // label18
             // 
-            this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(6, 68);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(42, 17);
+            this.label18.Size = new System.Drawing.Size(47, 24);
             this.label18.TabIndex = 35;
-            this.label18.Text = "Verb:";
+            this.label18.Values.Text = "Verb:";
             // 
             // comboBoxBatchRunVideoAppId
             // 
             this.comboBoxBatchRunVideoAppId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxBatchRunVideoAppId.DropDownWidth = 290;
             this.comboBoxBatchRunVideoAppId.FormattingEnabled = true;
             this.comboBoxBatchRunVideoAppId.Location = new System.Drawing.Point(86, 35);
             this.comboBoxBatchRunVideoAppId.Name = "comboBoxBatchRunVideoAppId";
-            this.comboBoxBatchRunVideoAppId.Size = new System.Drawing.Size(290, 24);
+            this.comboBoxBatchRunVideoAppId.Size = new System.Drawing.Size(290, 25);
             this.comboBoxBatchRunVideoAppId.TabIndex = 34;
             this.comboBoxBatchRunVideoAppId.TextChanged += new System.EventHandler(this.comboBoxBatchRunVideoAppId_TextChanged);
             // 
             // label19
             // 
-            this.label19.AutoSize = true;
             this.label19.Location = new System.Drawing.Point(6, 9);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(72, 17);
+            this.label19.Size = new System.Drawing.Size(78, 24);
             this.label19.TabIndex = 33;
-            this.label19.Text = "Examples:";
+            this.label19.Values.Text = "Examples:";
             // 
             // comboBoxBatchRunVideoAppExample
             // 
@@ -1043,12 +1047,11 @@
             // 
             // label20
             // 
-            this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(6, 38);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(48, 17);
+            this.label20.Size = new System.Drawing.Size(56, 24);
             this.label20.TabIndex = 1;
-            this.label20.Text = "AppId:";
+            this.label20.Values.Text = "AppId:";
             // 
             // groupBox11
             // 
@@ -1208,7 +1211,7 @@
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxArgumentFileArgumentFile.AutoScrollMinSize = new System.Drawing.Size(31, 18);
+            this.fastColoredTextBoxArgumentFileArgumentFile.AutoScrollMinSize = new System.Drawing.Size(2, 18);
             this.fastColoredTextBoxArgumentFileArgumentFile.BackBrush = null;
             this.fastColoredTextBoxArgumentFileArgumentFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxArgumentFileArgumentFile.CharHeight = 18;
@@ -1216,6 +1219,7 @@
             this.fastColoredTextBoxArgumentFileArgumentFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileArgumentFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileArgumentFile.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxArgumentFileArgumentFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileArgumentFile.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileArgumentFile.Location = new System.Drawing.Point(3, 3);
             this.fastColoredTextBoxArgumentFileArgumentFile.Name = "fastColoredTextBoxArgumentFileArgumentFile";
@@ -1259,7 +1263,6 @@
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Location = new System.Drawing.Point(3, 3);
             this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect.Name = "fastColoredTextBoxArgumentFileArgumentFileAutoCorrect";
@@ -1291,10 +1294,11 @@
             // 
             this.comboBoxArgumentFileCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxArgumentFileCommand.DropDownWidth = 730;
             this.comboBoxArgumentFileCommand.FormattingEnabled = true;
             this.comboBoxArgumentFileCommand.Location = new System.Drawing.Point(83, 53);
             this.comboBoxArgumentFileCommand.Name = "comboBoxArgumentFileCommand";
-            this.comboBoxArgumentFileCommand.Size = new System.Drawing.Size(730, 24);
+            this.comboBoxArgumentFileCommand.Size = new System.Drawing.Size(730, 25);
             this.comboBoxArgumentFileCommand.TabIndex = 3;
             this.comboBoxArgumentFileCommand.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBox_KeyUp);
             this.comboBoxArgumentFileCommand.Leave += new System.EventHandler(this.comboBox_Leave);
@@ -1302,33 +1306,32 @@
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 27);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(71, 17);
+            this.label4.Size = new System.Drawing.Size(77, 24);
             this.label4.TabIndex = 0;
-            this.label4.Text = "Variables:";
+            this.label4.Values.Text = "Variables:";
             // 
             // comboBoxArgumentFileCommandVariables
             // 
             this.comboBoxArgumentFileCommandVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxArgumentFileCommandVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxArgumentFileCommandVariables.DropDownWidth = 730;
             this.comboBoxArgumentFileCommandVariables.FormattingEnabled = true;
             this.comboBoxArgumentFileCommandVariables.Location = new System.Drawing.Point(83, 24);
             this.comboBoxArgumentFileCommandVariables.Name = "comboBoxArgumentFileCommandVariables";
-            this.comboBoxArgumentFileCommandVariables.Size = new System.Drawing.Size(730, 24);
+            this.comboBoxArgumentFileCommandVariables.Size = new System.Drawing.Size(730, 25);
             this.comboBoxArgumentFileCommandVariables.TabIndex = 1;
             this.comboBoxArgumentFileCommandVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxArgumentFileCommandVariables_SelectionChangeCommitted);
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 56);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(75, 17);
+            this.label6.Size = new System.Drawing.Size(86, 24);
             this.label6.TabIndex = 2;
-            this.label6.Text = "Command:";
+            this.label6.Values.Text = "Command:";
             // 
             // buttonArgumentFileRun
             // 
@@ -1519,10 +1522,11 @@
             this.comboBoxMetadataWriteKeywordAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxMetadataWriteKeywordAdd.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMetadataWriteKeywordAdd.DropDownWidth = 279;
             this.comboBoxMetadataWriteKeywordAdd.FormattingEnabled = true;
             this.comboBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(474, 110);
             this.comboBoxMetadataWriteKeywordAdd.Name = "comboBoxMetadataWriteKeywordAdd";
-            this.comboBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(279, 24);
+            this.comboBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(279, 25);
             this.comboBoxMetadataWriteKeywordAdd.TabIndex = 8;
             this.comboBoxMetadataWriteKeywordAdd.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteKeywordAdd_SelectionChangeCommitted);
             // 
@@ -1546,7 +1550,6 @@
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(3, 138);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
@@ -1562,12 +1565,11 @@
             // 
             // label26
             // 
-            this.label26.AutoSize = true;
             this.label26.Location = new System.Drawing.Point(4, 5);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(299, 17);
+            this.label26.Size = new System.Drawing.Size(326, 24);
             this.label26.TabIndex = 0;
-            this.label26.Text = "For every keyword deleted and before adding:";
+            this.label26.Values.Text = "For every keyword deleted and before adding:";
             // 
             // fastColoredTextBoxMetadataWriteKeywordDelete
             // 
@@ -1582,14 +1584,13 @@
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.AutoScrollMinSize = new System.Drawing.Size(192, 18);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharHeight = 18;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(3, 31);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
@@ -1605,22 +1606,22 @@
             // 
             // label27
             // 
-            this.label27.AutoSize = true;
             this.label27.Location = new System.Drawing.Point(4, 115);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(164, 17);
+            this.label27.Size = new System.Drawing.Size(178, 24);
             this.label27.TabIndex = 5;
-            this.label27.Text = "For every new keywords:";
+            this.label27.Values.Text = "For every new keywords:";
             // 
             // comboBoxMetadataWriteKeywordDelete
             // 
             this.comboBoxMetadataWriteKeywordDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxMetadataWriteKeywordDelete.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMetadataWriteKeywordDelete.DropDownWidth = 279;
             this.comboBoxMetadataWriteKeywordDelete.FormattingEnabled = true;
             this.comboBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(474, 2);
             this.comboBoxMetadataWriteKeywordDelete.Name = "comboBoxMetadataWriteKeywordDelete";
-            this.comboBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(279, 24);
+            this.comboBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(279, 25);
             this.comboBoxMetadataWriteKeywordDelete.TabIndex = 3;
             this.comboBoxMetadataWriteKeywordDelete.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteKeywordDelete_SelectionChangeCommitted);
             // 
@@ -1668,14 +1669,13 @@
             this.fastColoredTextBoxMetadataWriteTags.AutoIndent = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentChars = false;
             this.fastColoredTextBoxMetadataWriteTags.AutoIndentExistingLines = false;
-            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fastColoredTextBoxMetadataWriteTags.AutoScrollMinSize = new System.Drawing.Size(192, 18);
             this.fastColoredTextBoxMetadataWriteTags.BackBrush = null;
             this.fastColoredTextBoxMetadataWriteTags.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxMetadataWriteTags.CharHeight = 18;
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(5, 51);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
@@ -1694,10 +1694,11 @@
             this.comboBoxMetadataWriteStandardTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxMetadataWriteStandardTags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMetadataWriteStandardTags.DropDownWidth = 307;
             this.comboBoxMetadataWriteStandardTags.FormattingEnabled = true;
             this.comboBoxMetadataWriteStandardTags.Location = new System.Drawing.Point(480, 21);
             this.comboBoxMetadataWriteStandardTags.Name = "comboBoxMetadataWriteStandardTags";
-            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(307, 24);
+            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(307, 25);
             this.comboBoxMetadataWriteStandardTags.TabIndex = 2;
             this.comboBoxMetadataWriteStandardTags.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteStandardTags_SelectionChangeCommitted);
             // 
@@ -1713,12 +1714,11 @@
             // 
             // label23
             // 
-            this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(7, 24);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(111, 17);
+            this.label23.Size = new System.Drawing.Size(120, 24);
             this.label23.TabIndex = 7;
-            this.label23.Text = "List of variables:";
+            this.label23.Values.Text = "List of variables:";
             // 
             // groupBoxBuilderResult
             // 
@@ -1750,14 +1750,13 @@
             this.fastColoredTextBoxBuildResult.AutoIndent = false;
             this.fastColoredTextBoxBuildResult.AutoIndentChars = false;
             this.fastColoredTextBoxBuildResult.AutoIndentExistingLines = false;
-            this.fastColoredTextBoxBuildResult.AutoScrollMinSize = new System.Drawing.Size(221, 18);
+            this.fastColoredTextBoxBuildResult.AutoScrollMinSize = new System.Drawing.Size(192, 18);
             this.fastColoredTextBoxBuildResult.BackBrush = null;
             this.fastColoredTextBoxBuildResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fastColoredTextBoxBuildResult.CharHeight = 18;
             this.fastColoredTextBoxBuildResult.CharWidth = 10;
             this.fastColoredTextBoxBuildResult.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxBuildResult.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.fastColoredTextBoxBuildResult.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxBuildResult.IsReplaceMode = false;
             this.fastColoredTextBoxBuildResult.Location = new System.Drawing.Point(14, 26);
             this.fastColoredTextBoxBuildResult.Name = "fastColoredTextBoxBuildResult";
@@ -1790,40 +1789,40 @@
             // 
             this.comboBoxArgumentFileBuilderCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxArgumentFileBuilderCommand.DropDownWidth = 724;
             this.comboBoxArgumentFileBuilderCommand.FormattingEnabled = true;
             this.comboBoxArgumentFileBuilderCommand.Location = new System.Drawing.Point(83, 53);
             this.comboBoxArgumentFileBuilderCommand.Name = "comboBoxArgumentFileBuilderCommand";
-            this.comboBoxArgumentFileBuilderCommand.Size = new System.Drawing.Size(724, 24);
+            this.comboBoxArgumentFileBuilderCommand.Size = new System.Drawing.Size(724, 25);
             this.comboBoxArgumentFileBuilderCommand.TabIndex = 3;
             // 
             // label21
             // 
-            this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(6, 27);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(71, 17);
+            this.label21.Size = new System.Drawing.Size(77, 24);
             this.label21.TabIndex = 0;
-            this.label21.Text = "Variables:";
+            this.label21.Values.Text = "Variables:";
             // 
             // comboBoxArgumentFileBuilderCommandVariables
             // 
             this.comboBoxArgumentFileBuilderCommandVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxArgumentFileBuilderCommandVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxArgumentFileBuilderCommandVariables.DropDownWidth = 724;
             this.comboBoxArgumentFileBuilderCommandVariables.FormattingEnabled = true;
             this.comboBoxArgumentFileBuilderCommandVariables.Location = new System.Drawing.Point(83, 24);
             this.comboBoxArgumentFileBuilderCommandVariables.Name = "comboBoxArgumentFileBuilderCommandVariables";
-            this.comboBoxArgumentFileBuilderCommandVariables.Size = new System.Drawing.Size(724, 24);
+            this.comboBoxArgumentFileBuilderCommandVariables.Size = new System.Drawing.Size(724, 25);
             this.comboBoxArgumentFileBuilderCommandVariables.TabIndex = 1;
             // 
             // label22
             // 
-            this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(6, 56);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(75, 17);
+            this.label22.Size = new System.Drawing.Size(86, 24);
             this.label22.TabIndex = 2;
-            this.label22.Text = "Command:";
+            this.label22.Values.Text = "Command:";
             // 
             // buttonArgumentFileBuilderCompare
             // 
@@ -1868,7 +1867,6 @@
             this.fastColoredTextBoxArgumentFileBuilderSource.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderSource.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderSource.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxArgumentFileBuilderSource.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderSource.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderSource.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderSource.Name = "fastColoredTextBoxArgumentFileBuilderSource";
@@ -1901,7 +1899,6 @@
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderResultOrginal.Name = "fastColoredTextBoxArgumentFileBuilderResultOrginal";
@@ -1952,7 +1949,6 @@
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBoxArgumentFileBuilderResultGrid.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.IsReplaceMode = false;
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Location = new System.Drawing.Point(0, 0);
             this.fastColoredTextBoxArgumentFileBuilderResultGrid.Name = "fastColoredTextBoxArgumentFileBuilderResultGrid";
@@ -1983,9 +1979,11 @@
             this.splitContainerOpenWith.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxOpenImageWithVerbs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewImages)).EndInit();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxOpenVideoWithVerbs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVideos)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
@@ -1999,16 +1997,24 @@
             this.tabControlBatchRunImage.ResumeLayout(false);
             this.tabPageImageCommand.ResumeLayout(false);
             this.tabPageImageCommand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunImageCommand)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunImageVariables)).EndInit();
             this.tabPageImageApp.ResumeLayout(false);
             this.tabPageImageApp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunImageVerb)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunImageAppId)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.tabControlBatchRunVideo.ResumeLayout(false);
             this.tabPageVideoCommand.ResumeLayout(false);
             this.tabPageVideoCommand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunVideoCommand)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunVideoVariables)).EndInit();
             this.tabPageVideoApp.ResumeLayout(false);
             this.tabPageVideoApp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunVideoVerb)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxBatchRunVideoAppId)).EndInit();
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -2022,6 +2028,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileArgumentFileAutoCorrect)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxArgumentFileCommand)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxArgumentFileCommandVariables)).EndInit();
             this.tabPageArgumentFileBuilder.ResumeLayout(false);
             this.splitContainerBuilderVsResult.Panel1.ResumeLayout(false);
             this.splitContainerBuilderVsResult.Panel2.ResumeLayout(false);
@@ -2036,15 +2044,20 @@
             this.groupBoxBuildTagItems.ResumeLayout(false);
             this.panelBuildTags.ResumeLayout(false);
             this.panelBuildTags.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteKeywordAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordDelete)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteKeywordDelete)).EndInit();
             this.groupBoxMetadataWriteTags.ResumeLayout(false);
             this.groupBoxMetadataWriteTags.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteTags)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteStandardTags)).EndInit();
             this.groupBoxBuilderResult.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxBuildResult)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxArgumentFileBuilderCommand)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxArgumentFileBuilderCommandVariables)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileBuilderSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxArgumentFileBuilderResultOrginal)).EndInit();
             this.splitContainerAgrumnetFileBuilderMain.Panel1.ResumeLayout(false);
@@ -2185,5 +2198,6 @@
         private System.Windows.Forms.Button buttonMetadataWriteKeywordDeleteSave;
         private System.Windows.Forms.Button buttonMetadataWriteKeywordsSave;
         private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxRunBatchRedirectToTerminalWindows;
+        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

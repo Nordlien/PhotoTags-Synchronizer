@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMessageBox));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.textBoxMessage = new System.Windows.Forms.TextBox();
+            this.panel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
+            this.textBoxMessage = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
+            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,7 +73,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBoxMessage;
+        private ComponentFactory.Krypton.Toolkit.KryptonPanel panel1;
+        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBoxMessage;
+        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

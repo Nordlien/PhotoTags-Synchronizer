@@ -29,8 +29,12 @@ namespace PhotoTagsSynchronizer
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAutoCorrect));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.textBoxKeywords = new System.Windows.Forms.TextBox();
             this.checkBoxAuthor = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxComments = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxDescription = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
@@ -43,10 +47,13 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.comboBoxDescription = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.comboBoxTitle = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.textBoxKeywords = new System.Windows.Forms.TextBox();
-            this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.label2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAuthor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAlbum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxComments)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxDescription)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitle)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -70,78 +77,104 @@ namespace PhotoTagsSynchronizer
             this.panel1.Controls.Add(this.comboBoxDescription);
             this.panel1.Controls.Add(this.comboBoxTitle);
             this.panel1.Location = new System.Drawing.Point(0, -2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(577, 286);
+            this.panel1.Size = new System.Drawing.Size(769, 352);
             this.panel1.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(16, 311);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(469, 24);
+            this.label2.TabIndex = 14;
+            this.label2.Values.Text = "AutoCorrect algorithm will be run fist, this value will override result.";
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(16, 188);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 24);
+            this.label1.TabIndex = 13;
+            this.label1.Values.Text = "Add keywords:";
+            // 
+            // textBoxKeywords
+            // 
+            this.textBoxKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxKeywords.Location = new System.Drawing.Point(165, 185);
+            this.textBoxKeywords.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxKeywords.Multiline = true;
+            this.textBoxKeywords.Name = "textBoxKeywords";
+            this.textBoxKeywords.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxKeywords.Size = new System.Drawing.Size(587, 98);
+            this.textBoxKeywords.TabIndex = 12;
             // 
             // checkBoxAuthor
             // 
-            this.checkBoxAuthor.AutoSize = true;
             this.checkBoxAuthor.Checked = true;
             this.checkBoxAuthor.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAuthor.Location = new System.Drawing.Point(11, 127);
-            this.checkBoxAuthor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBoxAuthor.Location = new System.Drawing.Point(15, 156);
+            this.checkBoxAuthor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxAuthor.Name = "checkBoxAuthor";
-            this.checkBoxAuthor.Size = new System.Drawing.Size(57, 17);
+            this.checkBoxAuthor.Size = new System.Drawing.Size(72, 24);
             this.checkBoxAuthor.TabIndex = 9;
-            this.checkBoxAuthor.Text = "Author";
+            this.checkBoxAuthor.Values.Text = "Author";
             // 
             // checkBoxComments
             // 
-            this.checkBoxComments.AutoSize = true;
             this.checkBoxComments.Checked = true;
             this.checkBoxComments.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxComments.Location = new System.Drawing.Point(11, 102);
-            this.checkBoxComments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBoxComments.Location = new System.Drawing.Point(15, 126);
+            this.checkBoxComments.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxComments.Name = "checkBoxComments";
-            this.checkBoxComments.Size = new System.Drawing.Size(75, 17);
+            this.checkBoxComments.Size = new System.Drawing.Size(98, 24);
             this.checkBoxComments.TabIndex = 8;
-            this.checkBoxComments.Text = "Comments";
+            this.checkBoxComments.Values.Text = "Comments";
             // 
             // checkBoxDescription
             // 
-            this.checkBoxDescription.AutoSize = true;
             this.checkBoxDescription.Checked = true;
             this.checkBoxDescription.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxDescription.Location = new System.Drawing.Point(11, 77);
-            this.checkBoxDescription.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBoxDescription.Location = new System.Drawing.Point(15, 95);
+            this.checkBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxDescription.Name = "checkBoxDescription";
-            this.checkBoxDescription.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxDescription.Size = new System.Drawing.Size(102, 24);
             this.checkBoxDescription.TabIndex = 7;
-            this.checkBoxDescription.Text = "Description";
+            this.checkBoxDescription.Values.Text = "Description";
             // 
             // checkBoxTitle
             // 
-            this.checkBoxTitle.AutoSize = true;
             this.checkBoxTitle.Checked = true;
             this.checkBoxTitle.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxTitle.Location = new System.Drawing.Point(11, 52);
-            this.checkBoxTitle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBoxTitle.Location = new System.Drawing.Point(15, 64);
+            this.checkBoxTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxTitle.Name = "checkBoxTitle";
-            this.checkBoxTitle.Size = new System.Drawing.Size(46, 17);
+            this.checkBoxTitle.Size = new System.Drawing.Size(53, 24);
             this.checkBoxTitle.TabIndex = 6;
-            this.checkBoxTitle.Text = "Title";
+            this.checkBoxTitle.Values.Text = "Title";
             // 
             // checkBoxAlbum
             // 
-            this.checkBoxAlbum.AutoSize = true;
             this.checkBoxAlbum.Checked = true;
             this.checkBoxAlbum.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAlbum.Location = new System.Drawing.Point(11, 27);
-            this.checkBoxAlbum.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBoxAlbum.Location = new System.Drawing.Point(15, 33);
+            this.checkBoxAlbum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxAlbum.Name = "checkBoxAlbum";
-            this.checkBoxAlbum.Size = new System.Drawing.Size(55, 17);
+            this.checkBoxAlbum.Size = new System.Drawing.Size(69, 24);
             this.checkBoxAlbum.TabIndex = 5;
-            this.checkBoxAlbum.Text = "Album";
+            this.checkBoxAlbum.Values.Text = "Album";
             // 
             // buttonClose
             // 
             this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClose.Location = new System.Drawing.Point(471, 243);
-            this.buttonClose.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonClose.Location = new System.Drawing.Point(628, 299);
+            this.buttonClose.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(94, 32);
+            this.buttonClose.Size = new System.Drawing.Size(125, 39);
             this.buttonClose.TabIndex = 11;
             this.buttonClose.Text = "Close";
             this.buttonClose.UseVisualStyleBackColor = true;
@@ -150,10 +183,10 @@ namespace PhotoTagsSynchronizer
             // buttonAutoCorrect
             // 
             this.buttonAutoCorrect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAutoCorrect.Location = new System.Drawing.Point(372, 243);
-            this.buttonAutoCorrect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonAutoCorrect.Location = new System.Drawing.Point(496, 299);
+            this.buttonAutoCorrect.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonAutoCorrect.Name = "buttonAutoCorrect";
-            this.buttonAutoCorrect.Size = new System.Drawing.Size(94, 32);
+            this.buttonAutoCorrect.Size = new System.Drawing.Size(125, 39);
             this.buttonAutoCorrect.TabIndex = 10;
             this.buttonAutoCorrect.Text = "Run AutoCorrect";
             this.buttonAutoCorrect.UseVisualStyleBackColor = true;
@@ -165,11 +198,12 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxAuthor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxAuthor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAuthor.DropDownWidth = 588;
             this.comboBoxAuthor.FormattingEnabled = true;
-            this.comboBoxAuthor.Location = new System.Drawing.Point(124, 125);
-            this.comboBoxAuthor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxAuthor.Location = new System.Drawing.Point(165, 154);
+            this.comboBoxAuthor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
-            this.comboBoxAuthor.Size = new System.Drawing.Size(441, 21);
+            this.comboBoxAuthor.Size = new System.Drawing.Size(588, 25);
             this.comboBoxAuthor.TabIndex = 4;
             // 
             // comboBoxAlbum
@@ -178,11 +212,12 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAlbum.DropDownWidth = 588;
             this.comboBoxAlbum.FormattingEnabled = true;
-            this.comboBoxAlbum.Location = new System.Drawing.Point(124, 25);
-            this.comboBoxAlbum.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxAlbum.Location = new System.Drawing.Point(165, 31);
+            this.comboBoxAlbum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
-            this.comboBoxAlbum.Size = new System.Drawing.Size(441, 21);
+            this.comboBoxAlbum.Size = new System.Drawing.Size(588, 25);
             this.comboBoxAlbum.TabIndex = 0;
             // 
             // comboBoxComments
@@ -191,11 +226,12 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxComments.DropDownWidth = 588;
             this.comboBoxComments.FormattingEnabled = true;
-            this.comboBoxComments.Location = new System.Drawing.Point(124, 100);
-            this.comboBoxComments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxComments.Location = new System.Drawing.Point(165, 123);
+            this.comboBoxComments.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxComments.Name = "comboBoxComments";
-            this.comboBoxComments.Size = new System.Drawing.Size(441, 21);
+            this.comboBoxComments.Size = new System.Drawing.Size(588, 25);
             this.comboBoxComments.TabIndex = 3;
             // 
             // comboBoxDescription
@@ -204,11 +240,12 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxDescription.DropDownWidth = 588;
             this.comboBoxDescription.FormattingEnabled = true;
-            this.comboBoxDescription.Location = new System.Drawing.Point(124, 75);
-            this.comboBoxDescription.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxDescription.Location = new System.Drawing.Point(165, 92);
+            this.comboBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxDescription.Name = "comboBoxDescription";
-            this.comboBoxDescription.Size = new System.Drawing.Size(441, 21);
+            this.comboBoxDescription.Size = new System.Drawing.Size(588, 25);
             this.comboBoxDescription.TabIndex = 2;
             // 
             // comboBoxTitle
@@ -217,56 +254,32 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxTitle.DropDownWidth = 588;
             this.comboBoxTitle.FormattingEnabled = true;
-            this.comboBoxTitle.Location = new System.Drawing.Point(124, 50);
-            this.comboBoxTitle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxTitle.Location = new System.Drawing.Point(165, 62);
+            this.comboBoxTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxTitle.Name = "comboBoxTitle";
-            this.comboBoxTitle.Size = new System.Drawing.Size(441, 21);
+            this.comboBoxTitle.Size = new System.Drawing.Size(588, 25);
             this.comboBoxTitle.TabIndex = 1;
-            // 
-            // textBoxKeywords
-            // 
-            this.textBoxKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxKeywords.Location = new System.Drawing.Point(124, 150);
-            this.textBoxKeywords.Multiline = true;
-            this.textBoxKeywords.Name = "textBoxKeywords";
-            this.textBoxKeywords.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxKeywords.Size = new System.Drawing.Size(441, 80);
-            this.textBoxKeywords.TabIndex = 12;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 153);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 13);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Add keywords:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 253);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(314, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "AutoCorrect algorithm will be run fist, this value will override result.";
             // 
             // FormAutoCorrect
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(577, 284);
+            this.ClientSize = new System.Drawing.Size(769, 350);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormAutoCorrect";
             this.Text = "AutoCorrect";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAuthor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAlbum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxComments)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxDescription)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitle)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -289,5 +302,6 @@ namespace PhotoTagsSynchronizer
         private ComponentFactory.Krypton.Toolkit.KryptonLabel label2;
         private ComponentFactory.Krypton.Toolkit.KryptonLabel label1;
         private System.Windows.Forms.TextBox textBoxKeywords;
+        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }
