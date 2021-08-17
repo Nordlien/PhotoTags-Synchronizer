@@ -180,6 +180,9 @@
     <None Include="Resources\load_image.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Krypton.Toolkit.Canary">
+      <Version>6.0.2108.1</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>

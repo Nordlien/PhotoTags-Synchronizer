@@ -14,7 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Thumbnails;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

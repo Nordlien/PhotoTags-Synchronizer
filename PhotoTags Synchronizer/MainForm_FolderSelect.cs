@@ -8,7 +8,7 @@ using Manina.Windows.Forms;
 using System.Threading;
 using Thumbnails;
 using System.Diagnostics;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

@@ -33,7 +33,7 @@ namespace PhotoTagsCommonComponets
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTerminalWindow));
             this.fastColoredTextBox1 = new FastColoredTextBoxNS.FastColoredTextBox();
             this.buttonScrollToEnd = new System.Windows.Forms.Button();
-            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -85,7 +85,7 @@ namespace PhotoTagsCommonComponets
             // 
             // kryptonManager1
             // 
-            this.kryptonManager1.GlobalPaletteMode = ComponentFactory.Krypton.Toolkit.PaletteModeManager.Office2010Blue;
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2010Blue;
             // 
             // FormTerminalWindow
             // 
@@ -107,6 +107,6 @@ namespace PhotoTagsCommonComponets
 
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBox1;
         private System.Windows.Forms.Button buttonScrollToEnd;
-        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
+        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

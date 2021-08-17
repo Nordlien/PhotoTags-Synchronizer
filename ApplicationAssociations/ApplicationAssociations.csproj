@@ -70,8 +70,8 @@
     <None Include="Resources\IconNoIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Krypton.Components.Suite">
-      <Version>4.5.9</Version>
+    <PackageReference Include="Krypton.Toolkit.Canary">
+      <Version>6.0.2108.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.WindowsAPICodePack-Core">
       <Version>1.1.0.2</Version>

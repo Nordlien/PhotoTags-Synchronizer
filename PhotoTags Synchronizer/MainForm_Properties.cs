@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using SqliteDatabase;
 using DataGridViewGeneric;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsCommonComponets
 {

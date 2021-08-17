@@ -46,8 +46,8 @@ namespace PhotoTagsSynchronizer
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonWebScrapingClearDataSet = new System.Windows.Forms.Button();
             this.buttonWebScrapingDataSetDelete = new System.Windows.Forms.Button();
-            this.label3 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.label2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label3 = new Krypton.Toolkit.KryptonLabel();
+            this.label2 = new Krypton.Toolkit.KryptonLabel();
             this.buttonWebScrapingDataSetSelectNone = new System.Windows.Forms.Button();
             this.buttonWebScrapingDataSetSelectToggle = new System.Windows.Forms.Button();
             this.buttonWebScrapingDataSetSelectAll = new System.Windows.Forms.Button();
@@ -78,7 +78,7 @@ namespace PhotoTagsSynchronizer
             this.columnHeaderCountRegions = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonWebScrapingCategories = new System.Windows.Forms.Button();
             this.buttonWebScrapingSelectNotRead = new System.Windows.Forms.Button();
-            this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label1 = new Krypton.Toolkit.KryptonLabel();
             this.buttonWebScrapingSelectNone = new System.Windows.Forms.Button();
             this.buttonWebScrapingSelectAll = new System.Windows.Forms.Button();
             this.buttonWebScrapingToggle = new System.Windows.Forms.Button();
@@ -88,7 +88,7 @@ namespace PhotoTagsSynchronizer
             this.buttonSaveJavaScript = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -828,7 +828,7 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ColumnHeader columnHeaderCategoryName;
         private System.Windows.Forms.ColumnHeader columnHeaderCategoryLink;
         private System.Windows.Forms.Button buttonWebScrapingStart;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label1;
+        private Krypton.Toolkit.KryptonLabel label1;
         private System.Windows.Forms.Button buttonWebScrapingCategories;
         private System.Windows.Forms.Button buttonSaveJavaScript;
         private System.Windows.Forms.ColumnHeader columnHeaderCategoryType;
@@ -850,8 +850,8 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ColumnHeader columnHeaderSavedDate;
         private System.Windows.Forms.GroupBox groupBoxDevTools;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label2;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label3;
+        private Krypton.Toolkit.KryptonLabel label2;
+        private Krypton.Toolkit.KryptonLabel label3;
         private System.Windows.Forms.Button buttonWebScrapingDataSetDelete;
         private System.Windows.Forms.Button buttonWebScrapingClearDataSet;
         private System.Windows.Forms.ColumnHeader columnHeaderCountMediaFiles;
@@ -868,6 +868,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountKeywords;
         private System.Windows.Forms.ColumnHeader columnHeaderDataSetCountRegions;
         private System.Windows.Forms.SplitContainer splitContainer4;
-        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
+        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

@@ -7,7 +7,7 @@ using SqliteDatabase;
 using LocationNames;
 using DataGridViewGeneric;
 using System.Collections.Generic;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

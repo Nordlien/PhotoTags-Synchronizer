@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.labelStatus = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.labelStatus = new Krypton.Toolkit.KryptonLabel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.textBoxWarning = new System.Windows.Forms.TextBox();
-            this.labelWarnings = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.checkBoxCloseWarning = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
+            this.labelWarnings = new Krypton.Toolkit.KryptonLabel();
+            this.checkBoxCloseWarning = new Krypton.Toolkit.KryptonCheckBox();
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.SuspendLayout();
             // 
             // labelStatus
@@ -125,11 +125,11 @@
 
         #endregion
 
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel labelStatus;
+        private Krypton.Toolkit.KryptonLabel labelStatus;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.TextBox textBoxWarning;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel labelWarnings;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxCloseWarning;
-        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
+        private Krypton.Toolkit.KryptonLabel labelWarnings;
+        private Krypton.Toolkit.KryptonCheckBox checkBoxCloseWarning;
+        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

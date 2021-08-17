@@ -25,7 +25,7 @@ using FileHandeling;
 using System.Data;
 using System.Reflection;
 using PhotoTagsCommonComponets;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
@@ -188,6 +188,10 @@ namespace PhotoTagsSynchronizer
             DialogResult = DialogResult.Cancel;
 
             isPopulation = true;
+
+            ThemeManager.PropagateThemeSelector(kryptonComboBoxThemes);
+
+
             PopulateApplication();
 
             //Metadata Filename Date formats
@@ -2564,9 +2568,16 @@ namespace PhotoTagsSynchronizer
 
 
 
+
         #endregion
 
-        
+        private void kryptonComboBoxThemes_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ThemeManager.SetTheme(kryptonComboBoxThemes.Text, kryptonManager1);
+            ThemeManager.ApplyGlobalTheme(kryptonManager1, ThemeManager.GetPaletteMode(kryptonManager1));
+
+
+        }
     }
 }
 

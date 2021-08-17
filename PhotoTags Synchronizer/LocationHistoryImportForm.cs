@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using CameraOwners;
 using GoogleLocationHistory;
 using SqliteDatabase;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

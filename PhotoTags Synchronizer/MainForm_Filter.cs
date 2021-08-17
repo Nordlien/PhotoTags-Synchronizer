@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using MetadataLibrary;
 using System.Threading;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 { 

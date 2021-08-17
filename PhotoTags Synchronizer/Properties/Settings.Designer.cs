@@ -2272,5 +2272,17 @@ explorer ms-photos?filename=""{FileFullPath}""")]
                 this["ApplicationDarkMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ApplicationThemes {
+            get {
+                return ((string)(this["ApplicationThemes"]));
+            }
+            set {
+                this["ApplicationThemes"] = value;
+            }
+        }
     }
 }

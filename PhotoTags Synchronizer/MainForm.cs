@@ -25,7 +25,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using PhotoTagsCommonComponets;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
+
 
 namespace PhotoTagsSynchronizer
 {
@@ -46,11 +47,11 @@ namespace PhotoTagsSynchronizer
         {
             if (useDarkMode)
             {
-                kryptonManager1.GlobalPaletteMode = PaletteModeManager.Office2010Black;
+                //kryptonManager1.GlobalPaletteMode = PaletteModeManager.Office2010Black;
             }
             else
             {
-                kryptonManager1.GlobalPaletteMode = PaletteModeManager.Office2007Silver;
+                //kryptonManager1.GlobalPaletteMode = PaletteModeManager.Office2007Silver;
             }
             /*
             Color LighterColor(Color color, float correctionfactory = 50f)
@@ -296,6 +297,8 @@ namespace PhotoTagsSynchronizer
 
             InitializeComponent();
             #endregion
+
+           
 
             this.toolStripContainerStripMainForm.RenderMode = ToolStripRenderMode.Professional;
             this.toolStripContainerStripMainForm.Renderer = new PhotoTagsCommonComponets.ToolStripProfessionalRendererWithoutLines();

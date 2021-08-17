@@ -10,7 +10,7 @@ using CefSharp;
 using CefSharp.WinForms;
 using MetadataLibrary;
 using Newtonsoft.Json;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

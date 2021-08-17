@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using MetadataPriorityLibrary;
 using System.Linq;
 using System;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

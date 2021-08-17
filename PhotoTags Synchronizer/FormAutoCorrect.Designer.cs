@@ -32,22 +32,22 @@ namespace PhotoTagsSynchronizer
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAutoCorrect));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label2 = new Krypton.Toolkit.KryptonLabel();
+            this.label1 = new Krypton.Toolkit.KryptonLabel();
             this.textBoxKeywords = new System.Windows.Forms.TextBox();
-            this.checkBoxAuthor = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
-            this.checkBoxComments = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
-            this.checkBoxDescription = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
-            this.checkBoxTitle = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
-            this.checkBoxAlbum = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxAuthor = new Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxComments = new Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxDescription = new Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxTitle = new Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxAlbum = new Krypton.Toolkit.KryptonCheckBox();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonAutoCorrect = new System.Windows.Forms.Button();
-            this.comboBoxAuthor = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.comboBoxAlbum = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.comboBoxComments = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.comboBoxDescription = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.comboBoxTitle = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
+            this.comboBoxAuthor = new Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxAlbum = new Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxComments = new Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxDescription = new Krypton.Toolkit.KryptonComboBox();
+            this.comboBoxTitle = new Krypton.Toolkit.KryptonComboBox();
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAuthor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAlbum)).BeginInit();
@@ -85,18 +85,18 @@ namespace PhotoTagsSynchronizer
             // label2
             // 
             this.label2.Location = new System.Drawing.Point(16, 311);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.label2.Margin = new System.Windows.Forms.Padding(4);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(469, 24);
+            this.label2.Size = new System.Drawing.Size(404, 21);
             this.label2.TabIndex = 14;
             this.label2.Values.Text = "AutoCorrect algorithm will be run fist, this value will override result.";
             // 
             // label1
             // 
             this.label1.Location = new System.Drawing.Point(16, 188);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.label1.Margin = new System.Windows.Forms.Padding(4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 24);
+            this.label1.Size = new System.Drawing.Size(98, 21);
             this.label1.TabIndex = 13;
             this.label1.Values.Text = "Add keywords:";
             // 
@@ -106,7 +106,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxKeywords.Location = new System.Drawing.Point(165, 185);
-            this.textBoxKeywords.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxKeywords.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxKeywords.Multiline = true;
             this.textBoxKeywords.Name = "textBoxKeywords";
             this.textBoxKeywords.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -120,7 +120,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxAuthor.Location = new System.Drawing.Point(15, 156);
             this.checkBoxAuthor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxAuthor.Name = "checkBoxAuthor";
-            this.checkBoxAuthor.Size = new System.Drawing.Size(72, 24);
+            this.checkBoxAuthor.Size = new System.Drawing.Size(66, 21);
             this.checkBoxAuthor.TabIndex = 9;
             this.checkBoxAuthor.Values.Text = "Author";
             // 
@@ -131,7 +131,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxComments.Location = new System.Drawing.Point(15, 126);
             this.checkBoxComments.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxComments.Name = "checkBoxComments";
-            this.checkBoxComments.Size = new System.Drawing.Size(98, 24);
+            this.checkBoxComments.Size = new System.Drawing.Size(92, 21);
             this.checkBoxComments.TabIndex = 8;
             this.checkBoxComments.Values.Text = "Comments";
             // 
@@ -142,7 +142,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxDescription.Location = new System.Drawing.Point(15, 95);
             this.checkBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxDescription.Name = "checkBoxDescription";
-            this.checkBoxDescription.Size = new System.Drawing.Size(102, 24);
+            this.checkBoxDescription.Size = new System.Drawing.Size(94, 21);
             this.checkBoxDescription.TabIndex = 7;
             this.checkBoxDescription.Values.Text = "Description";
             // 
@@ -153,7 +153,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxTitle.Location = new System.Drawing.Point(15, 64);
             this.checkBoxTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxTitle.Name = "checkBoxTitle";
-            this.checkBoxTitle.Size = new System.Drawing.Size(53, 24);
+            this.checkBoxTitle.Size = new System.Drawing.Size(52, 21);
             this.checkBoxTitle.TabIndex = 6;
             this.checkBoxTitle.Values.Text = "Title";
             // 
@@ -164,7 +164,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxAlbum.Location = new System.Drawing.Point(15, 33);
             this.checkBoxAlbum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxAlbum.Name = "checkBoxAlbum";
-            this.checkBoxAlbum.Size = new System.Drawing.Size(69, 24);
+            this.checkBoxAlbum.Size = new System.Drawing.Size(65, 21);
             this.checkBoxAlbum.TabIndex = 5;
             this.checkBoxAlbum.Values.Text = "Album";
             // 
@@ -198,12 +198,14 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxAuthor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxAuthor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAuthor.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxAuthor.DropDownWidth = 588;
             this.comboBoxAuthor.FormattingEnabled = true;
+            this.comboBoxAuthor.IntegralHeight = false;
             this.comboBoxAuthor.Location = new System.Drawing.Point(165, 154);
             this.comboBoxAuthor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
-            this.comboBoxAuthor.Size = new System.Drawing.Size(588, 25);
+            this.comboBoxAuthor.Size = new System.Drawing.Size(588, 20);
             this.comboBoxAuthor.TabIndex = 4;
             // 
             // comboBoxAlbum
@@ -212,12 +214,14 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAlbum.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxAlbum.DropDownWidth = 588;
             this.comboBoxAlbum.FormattingEnabled = true;
+            this.comboBoxAlbum.IntegralHeight = false;
             this.comboBoxAlbum.Location = new System.Drawing.Point(165, 31);
             this.comboBoxAlbum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
-            this.comboBoxAlbum.Size = new System.Drawing.Size(588, 25);
+            this.comboBoxAlbum.Size = new System.Drawing.Size(588, 20);
             this.comboBoxAlbum.TabIndex = 0;
             // 
             // comboBoxComments
@@ -226,12 +230,14 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxComments.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxComments.DropDownWidth = 588;
             this.comboBoxComments.FormattingEnabled = true;
+            this.comboBoxComments.IntegralHeight = false;
             this.comboBoxComments.Location = new System.Drawing.Point(165, 123);
             this.comboBoxComments.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxComments.Name = "comboBoxComments";
-            this.comboBoxComments.Size = new System.Drawing.Size(588, 25);
+            this.comboBoxComments.Size = new System.Drawing.Size(588, 20);
             this.comboBoxComments.TabIndex = 3;
             // 
             // comboBoxDescription
@@ -240,12 +246,14 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxDescription.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxDescription.DropDownWidth = 588;
             this.comboBoxDescription.FormattingEnabled = true;
+            this.comboBoxDescription.IntegralHeight = false;
             this.comboBoxDescription.Location = new System.Drawing.Point(165, 92);
             this.comboBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxDescription.Name = "comboBoxDescription";
-            this.comboBoxDescription.Size = new System.Drawing.Size(588, 25);
+            this.comboBoxDescription.Size = new System.Drawing.Size(588, 20);
             this.comboBoxDescription.TabIndex = 2;
             // 
             // comboBoxTitle
@@ -254,13 +262,19 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxTitle.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxTitle.DropDownWidth = 588;
             this.comboBoxTitle.FormattingEnabled = true;
+            this.comboBoxTitle.IntegralHeight = false;
             this.comboBoxTitle.Location = new System.Drawing.Point(165, 62);
             this.comboBoxTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxTitle.Name = "comboBoxTitle";
-            this.comboBoxTitle.Size = new System.Drawing.Size(588, 25);
+            this.comboBoxTitle.Size = new System.Drawing.Size(588, 20);
             this.comboBoxTitle.TabIndex = 1;
+            // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.ProfessionalSystem;
             // 
             // FormAutoCorrect
             // 
@@ -287,21 +301,21 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxAuthor;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxAlbum;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxComments;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxDescription;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxTitle;
+        private Krypton.Toolkit.KryptonComboBox comboBoxAuthor;
+        private Krypton.Toolkit.KryptonComboBox comboBoxAlbum;
+        private Krypton.Toolkit.KryptonComboBox comboBoxComments;
+        private Krypton.Toolkit.KryptonComboBox comboBoxDescription;
+        private Krypton.Toolkit.KryptonComboBox comboBoxTitle;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonAutoCorrect;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxAuthor;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxComments;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxDescription;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxTitle;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxAlbum;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label2;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label1;
+        private Krypton.Toolkit.KryptonCheckBox checkBoxAuthor;
+        private Krypton.Toolkit.KryptonCheckBox checkBoxComments;
+        private Krypton.Toolkit.KryptonCheckBox checkBoxDescription;
+        private Krypton.Toolkit.KryptonCheckBox checkBoxTitle;
+        private Krypton.Toolkit.KryptonCheckBox checkBoxAlbum;
+        private Krypton.Toolkit.KryptonLabel label2;
+        private Krypton.Toolkit.KryptonLabel label1;
         private System.Windows.Forms.TextBox textBoxKeywords;
-        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
+        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

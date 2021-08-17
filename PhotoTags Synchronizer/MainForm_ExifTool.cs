@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using DataGridViewGeneric;
 using MetadataPriorityLibrary;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

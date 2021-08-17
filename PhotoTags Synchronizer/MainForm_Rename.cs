@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Manina.Windows.Forms;
 using static Manina.Windows.Forms.ImageListView;
 using System.Linq;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

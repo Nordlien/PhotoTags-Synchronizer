@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCompareText));
-            this.label6 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.label7 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.label5 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.label4 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label6 = new Krypton.Toolkit.KryptonLabel();
+            this.label7 = new Krypton.Toolkit.KryptonLabel();
+            this.label5 = new Krypton.Toolkit.KryptonLabel();
+            this.label4 = new Krypton.Toolkit.KryptonLabel();
             this.ofdFile = new System.Windows.Forms.OpenFileDialog();
             this.fctb1 = new FastColoredTextBoxNS.FastColoredTextBox();
             this.fctb2 = new FastColoredTextBoxNS.FastColoredTextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.labelFirst = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.labelSecond = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
+            this.labelFirst = new Krypton.Toolkit.KryptonLabel();
+            this.labelSecond = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.fctb1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fctb2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -233,16 +233,16 @@
 
         #endregion
 
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label6;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label7;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label5;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label4;
+        private Krypton.Toolkit.KryptonLabel label6;
+        private Krypton.Toolkit.KryptonLabel label7;
+        private Krypton.Toolkit.KryptonLabel label5;
+        private Krypton.Toolkit.KryptonLabel label4;
         private System.Windows.Forms.OpenFileDialog ofdFile;
         private FastColoredTextBoxNS.FastColoredTextBox fctb1;
         private FastColoredTextBoxNS.FastColoredTextBox fctb2;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel labelFirst;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel labelSecond;
-        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
+        private Krypton.Toolkit.KryptonLabel labelFirst;
+        private Krypton.Toolkit.KryptonLabel labelSecond;
+        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

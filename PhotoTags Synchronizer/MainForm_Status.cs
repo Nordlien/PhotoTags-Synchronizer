@@ -6,7 +6,7 @@ using MetadataLibrary;
 using System.Collections.Generic;
 using System.Diagnostics;
 using FileHandeling;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

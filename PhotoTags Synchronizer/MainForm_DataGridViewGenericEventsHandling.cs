@@ -5,7 +5,7 @@ using DataGridViewGeneric;
 using System.Collections.Generic;
 using MetadataLibrary;
 using LocationNames;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

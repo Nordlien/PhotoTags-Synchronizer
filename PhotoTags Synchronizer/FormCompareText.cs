@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using PhotoTagsSynchronizer.DiffMergeStuffs;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

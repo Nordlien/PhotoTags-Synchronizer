@@ -8,7 +8,7 @@ using ImageAndMovieFileExtentions;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using FileHandeling;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {

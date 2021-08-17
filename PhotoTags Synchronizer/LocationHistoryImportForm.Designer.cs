@@ -31,13 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LocationHistoryImportForm));
             this.buttonImportLocationHistory = new System.Windows.Forms.Button();
-            this.label1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.comboBoxUserAccount = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.label2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.label1 = new Krypton.Toolkit.KryptonLabel();
+            this.comboBoxUserAccount = new Krypton.Toolkit.KryptonComboBox();
+            this.label2 = new Krypton.Toolkit.KryptonLabel();
             this.statusStripStatus = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBarprogressBarLoading = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.kryptonManager1 = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxUserAccount)).BeginInit();
             this.statusStripStatus.SuspendLayout();
             this.SuspendLayout();
@@ -124,12 +124,12 @@
         #endregion
 
         private System.Windows.Forms.Button buttonImportLocationHistory;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label1;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxUserAccount;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel label2;
+        private Krypton.Toolkit.KryptonLabel label1;
+        private Krypton.Toolkit.KryptonComboBox comboBoxUserAccount;
+        private Krypton.Toolkit.KryptonLabel label2;
         private System.Windows.Forms.StatusStrip statusStripStatus;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarprogressBarLoading;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;
-        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager1;
+        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }
