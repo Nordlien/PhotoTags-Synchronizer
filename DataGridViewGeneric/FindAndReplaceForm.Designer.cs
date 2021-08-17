@@ -33,33 +33,33 @@ namespace DataGridViewGeneric
             this.tabControlFindAndReplace = new System.Windows.Forms.TabControl();
             this.FindPage = new System.Windows.Forms.TabPage();
             this.checkBoxSearchAlsoRowHeaders = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.radioButtonSearchUp1 = new System.Windows.Forms.RadioButton();
             this.radioButtonSearchDown1 = new System.Windows.Forms.RadioButton();
-            this.buttonFindAll1 = new System.Windows.Forms.Button();
-            this.FindButton1 = new System.Windows.Forms.Button();
+            this.buttonFindAll1 = new Krypton.Toolkit.KryptonButton();
+            this.FindButton1 = new Krypton.Toolkit.KryptonButton();
             this.comboBoxFindMode = new System.Windows.Forms.ComboBox();
-            this.FindOptionGroupBox1 = new System.Windows.Forms.GroupBox();
+            this.FindOptionGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.MatchCellCheckBox1 = new System.Windows.Forms.CheckBox();
             this.MatchCaseCheckBox1 = new System.Windows.Forms.CheckBox();
-            this.FindWhatTextBox1 = new System.Windows.Forms.TextBox();
-            this.FindLabel1 = new System.Windows.Forms.Label();
+            this.FindWhatTextBox1 = new Krypton.Toolkit.KryptonTextBox();
+            this.FindLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.ReplacePage = new System.Windows.Forms.TabPage();
-            this.groupBoxFindDirection2 = new System.Windows.Forms.GroupBox();
+            this.groupBoxFindDirection2 = new Krypton.Toolkit.KryptonGroupBox();
             this.radioButtonSearchUp2 = new System.Windows.Forms.RadioButton();
             this.radioButtonSearchDown2 = new System.Windows.Forms.RadioButton();
-            this.buttonFindAll2 = new System.Windows.Forms.Button();
-            this.FindOptionGroup2 = new System.Windows.Forms.GroupBox();
+            this.buttonFindAll2 = new Krypton.Toolkit.KryptonButton();
+            this.FindOptionGroup2 = new Krypton.Toolkit.KryptonGroupBox();
             this.MatchCellCheckBox2 = new System.Windows.Forms.CheckBox();
             this.MatchCaseCheckBox2 = new System.Windows.Forms.CheckBox();
             this.UseComboBox2 = new System.Windows.Forms.ComboBox();
-            this.ReplaceAllButton = new System.Windows.Forms.Button();
-            this.ReplaceButton = new System.Windows.Forms.Button();
-            this.FindButton2 = new System.Windows.Forms.Button();
-            this.ReplaceWithTextBox = new System.Windows.Forms.TextBox();
-            this.ReplaceLabel = new System.Windows.Forms.Label();
-            this.FindWhatTextBox2 = new System.Windows.Forms.TextBox();
-            this.FindLabel2 = new System.Windows.Forms.Label();
+            this.ReplaceAllButton = new Krypton.Toolkit.KryptonButton();
+            this.ReplaceButton = new Krypton.Toolkit.KryptonButton();
+            this.FindButton2 = new Krypton.Toolkit.KryptonButton();
+            this.ReplaceWithTextBox = new Krypton.Toolkit.KryptonTextBox();
+            this.ReplaceLabel = new Krypton.Toolkit.KryptonLabel();
+            this.FindWhatTextBox2 = new Krypton.Toolkit.KryptonTextBox();
+            this.FindLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.contextMenuStripDataGridViewGeneric = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -172,7 +172,6 @@ namespace DataGridViewGeneric
             this.buttonFindAll1.Size = new System.Drawing.Size(119, 28);
             this.buttonFindAll1.TabIndex = 10;
             this.buttonFindAll1.Text = "Find All";
-            this.buttonFindAll1.UseVisualStyleBackColor = true;
             this.buttonFindAll1.Click += new System.EventHandler(this.buttonFindAll1_Click);
             // 
             // FindButton1
@@ -184,7 +183,6 @@ namespace DataGridViewGeneric
             this.FindButton1.Size = new System.Drawing.Size(119, 28);
             this.FindButton1.TabIndex = 9;
             this.FindButton1.Text = "Find Next";
-            this.FindButton1.UseVisualStyleBackColor = true;
             this.FindButton1.Click += new System.EventHandler(this.FindButton1_Click);
             // 
             // comboBoxFindMode
@@ -331,7 +329,6 @@ namespace DataGridViewGeneric
             this.buttonFindAll2.Size = new System.Drawing.Size(119, 28);
             this.buttonFindAll2.TabIndex = 11;
             this.buttonFindAll2.Text = "Find All";
-            this.buttonFindAll2.UseVisualStyleBackColor = true;
             this.buttonFindAll2.Click += new System.EventHandler(this.buttonFindAll2_Click);
             // 
             // FindOptionGroup2
@@ -399,7 +396,6 @@ namespace DataGridViewGeneric
             this.ReplaceAllButton.Size = new System.Drawing.Size(119, 28);
             this.ReplaceAllButton.TabIndex = 13;
             this.ReplaceAllButton.Text = "Replace All";
-            this.ReplaceAllButton.UseVisualStyleBackColor = true;
             this.ReplaceAllButton.Click += new System.EventHandler(this.ReplaceAllButton_Click);
             // 
             // ReplaceButton
@@ -411,7 +407,6 @@ namespace DataGridViewGeneric
             this.ReplaceButton.Size = new System.Drawing.Size(119, 28);
             this.ReplaceButton.TabIndex = 12;
             this.ReplaceButton.Text = "Replace";
-            this.ReplaceButton.UseVisualStyleBackColor = true;
             this.ReplaceButton.Click += new System.EventHandler(this.ReplaceButton_Click);
             // 
             // FindButton2
@@ -423,7 +418,6 @@ namespace DataGridViewGeneric
             this.FindButton2.Size = new System.Drawing.Size(119, 28);
             this.FindButton2.TabIndex = 10;
             this.FindButton2.Text = "Find Next";
-            this.FindButton2.UseVisualStyleBackColor = true;
             this.FindButton2.Click += new System.EventHandler(this.FindButton2_Click);
             // 
             // ReplaceWithTextBox
@@ -656,32 +650,32 @@ namespace DataGridViewGeneric
         private System.Windows.Forms.TabControl tabControlFindAndReplace;
         private System.Windows.Forms.TabPage FindPage;
         private System.Windows.Forms.TabPage ReplacePage;
-        private System.Windows.Forms.TextBox FindWhatTextBox1;
-        private System.Windows.Forms.Label FindLabel1;
-        private System.Windows.Forms.GroupBox FindOptionGroup2;
+        private Krypton.Toolkit.KryptonTextBox FindWhatTextBox1;
+        private Krypton.Toolkit.KryptonLabel FindLabel1;
+        private Krypton.Toolkit.KryptonGroupBox FindOptionGroup2;
         private System.Windows.Forms.CheckBox MatchCellCheckBox2;
         private System.Windows.Forms.CheckBox MatchCaseCheckBox2;
-        private System.Windows.Forms.TextBox ReplaceWithTextBox;
-        private System.Windows.Forms.Label ReplaceLabel;
-        private System.Windows.Forms.TextBox FindWhatTextBox2;
-        private System.Windows.Forms.Label FindLabel2;
+        private Krypton.Toolkit.KryptonTextBox ReplaceWithTextBox;
+        private Krypton.Toolkit.KryptonLabel ReplaceLabel;
+        private Krypton.Toolkit.KryptonTextBox FindWhatTextBox2;
+        private Krypton.Toolkit.KryptonLabel FindLabel2;
         private System.Windows.Forms.ComboBox UseComboBox2;
-        private System.Windows.Forms.GroupBox FindOptionGroupBox1;
+        private Krypton.Toolkit.KryptonGroupBox FindOptionGroupBox1;
         private System.Windows.Forms.ComboBox comboBoxFindMode;
         private System.Windows.Forms.CheckBox MatchCellCheckBox1;
         private System.Windows.Forms.CheckBox MatchCaseCheckBox1;
-        private System.Windows.Forms.Button FindButton1;
-        private System.Windows.Forms.Button FindButton2;
-        private System.Windows.Forms.Button ReplaceButton;
-        private System.Windows.Forms.Button ReplaceAllButton;
-        private System.Windows.Forms.Button buttonFindAll1;
-        private System.Windows.Forms.Button buttonFindAll2;
+        private Krypton.Toolkit.KryptonButton FindButton1;
+        private Krypton.Toolkit.KryptonButton FindButton2;
+        private Krypton.Toolkit.KryptonButton ReplaceButton;
+        private Krypton.Toolkit.KryptonButton ReplaceAllButton;
+        private Krypton.Toolkit.KryptonButton buttonFindAll1;
+        private Krypton.Toolkit.KryptonButton buttonFindAll2;
         private System.Windows.Forms.RadioButton radioButtonSearchUp2;
         private System.Windows.Forms.RadioButton radioButtonSearchDown2;
         private System.Windows.Forms.RadioButton radioButtonSearchUp1;
         private System.Windows.Forms.RadioButton radioButtonSearchDown1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBoxFindDirection2;
+        private Krypton.Toolkit.KryptonGroupBox groupBox1;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxFindDirection2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripDataGridViewGeneric;
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;

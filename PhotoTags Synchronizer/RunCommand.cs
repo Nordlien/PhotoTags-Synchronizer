@@ -705,17 +705,17 @@ namespace PhotoTagsSynchronizer
 
         private void comboBox_MouseMove(object sender, MouseEventArgs e)
         {
-            ComboBoxHandler.RemeberComboBoxSelection((ComboBox)sender);
+            ComboBoxHandler.RemeberComboBoxSelection((KryptonComboBox)sender);
         }
 
         private void comboBox_KeyUp(object sender, KeyEventArgs e)
         {
-            ComboBoxHandler.RemeberComboBoxSelection((ComboBox)sender);
+            ComboBoxHandler.RemeberComboBoxSelection((KryptonComboBox)sender);
         }
 
         private void comboBox_Leave(object sender, EventArgs e)
         {
-            ComboBoxHandler.SetComboBoxSelection((ComboBox)sender);            
+            ComboBoxHandler.SetComboBoxSelection((KryptonComboBox)sender);            
         }
 
         #endregion

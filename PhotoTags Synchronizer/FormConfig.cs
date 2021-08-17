@@ -2228,40 +2228,40 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Metadata Write - Set Active XtraAtom Textbox
-        TextBox activeXtraAtomTextbox = null;
+        KryptonTextBox activeXtraAtomTextbox = null;
         private void textBoxWriteXtraAtomKeywords_Enter(object sender, EventArgs e)
         {
-            activeXtraAtomTextbox = (TextBox)sender;
+            activeXtraAtomTextbox = (KryptonTextBox)sender;
         }
 
         private void textBoxWriteXtraAtomCategories_Enter(object sender, EventArgs e)
         {
-            activeXtraAtomTextbox = (TextBox)sender;
+            activeXtraAtomTextbox = (KryptonTextBox)sender;
         }
 
         private void textBoxWriteXtraAtomAlbum_Enter(object sender, EventArgs e)
         {
-            activeXtraAtomTextbox = (TextBox)sender;
+            activeXtraAtomTextbox = (KryptonTextBox)sender;
         }
 
         private void textBoxWriteXtraAtomSubtitle_Enter(object sender, EventArgs e)
         {
-            activeXtraAtomTextbox = (TextBox)sender;
+            activeXtraAtomTextbox = (KryptonTextBox)sender;
         }
 
         private void textBoxWriteXtraAtomSubject_Enter(object sender, EventArgs e)
         {
-            activeXtraAtomTextbox = (TextBox)sender;
+            activeXtraAtomTextbox = (KryptonTextBox)sender;
         }
 
         private void textBoxWriteXtraAtomComment_Enter(object sender, EventArgs e)
         {
-            activeXtraAtomTextbox = (TextBox)sender;
+            activeXtraAtomTextbox = (KryptonTextBox)sender;
         }
 
         private void textBoxWriteXtraAtomArtist_Enter(object sender, EventArgs e)
         {
-            activeXtraAtomTextbox = (TextBox)sender;
+            activeXtraAtomTextbox = (KryptonTextBox)sender;
         }
         #endregion
 

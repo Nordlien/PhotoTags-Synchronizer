@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.labelStatus = new Krypton.Toolkit.KryptonLabel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.textBoxWarning = new System.Windows.Forms.TextBox();
+            this.textBoxWarning = new Krypton.Toolkit.KryptonTextBox();
             this.labelWarnings = new Krypton.Toolkit.KryptonLabel();
             this.checkBoxCloseWarning = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
@@ -127,7 +127,7 @@
 
         private Krypton.Toolkit.KryptonLabel labelStatus;
         private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.TextBox textBoxWarning;
+        private Krypton.Toolkit.KryptonTextBox textBoxWarning;
         private Krypton.Toolkit.KryptonLabel labelWarnings;
         private Krypton.Toolkit.KryptonCheckBox checkBoxCloseWarning;
         private Krypton.Toolkit.KryptonManager kryptonManager1;

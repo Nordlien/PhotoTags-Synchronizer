@@ -44,9 +44,11 @@ namespace PhotoTagsSynchronizer
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControlConfig = new System.Windows.Forms.TabControl();
             this.tabPageApplication = new System.Windows.Forms.TabPage();
-            this.panelApplication = new System.Windows.Forms.Panel();
-            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.panelApplication = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonComboBoxThemes = new Krypton.Toolkit.KryptonComboBox();
             this.checkBoxApplicationDarkMode = new Krypton.Toolkit.KryptonCheckBox();
+            this.groupBox13 = new Krypton.Toolkit.KryptonGroupBox();
             this.label92 = new Krypton.Toolkit.KryptonLabel();
             this.label91 = new Krypton.Toolkit.KryptonLabel();
             this.label90 = new Krypton.Toolkit.KryptonLabel();
@@ -55,7 +57,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxApplicationDebugExiftoolReadThreadPrioity = new Krypton.Toolkit.KryptonComboBox();
             this.checkBoxApplicationExiftoolWriteShowCliWindow = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxApplicationExiftoolReadShowCliWindow = new Krypton.Toolkit.KryptonCheckBox();
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.groupBox12 = new Krypton.Toolkit.KryptonGroupBox();
             this.checkBoxCacheFolderWebScraperDataSets = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxCacheFolderThumbnails = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxCacheFolderMetadatas = new Krypton.Toolkit.KryptonCheckBox();
@@ -64,39 +66,39 @@ namespace PhotoTagsSynchronizer
             this.checkBoxCacheAllMetadatas = new Krypton.Toolkit.KryptonCheckBox();
             this.label83 = new Krypton.Toolkit.KryptonLabel();
             this.numericUpDownCacheNumberOfPosters = new System.Windows.Forms.NumericUpDown();
-            this.groupBoxLocationAccuracy = new System.Windows.Forms.GroupBox();
+            this.groupBoxLocationAccuracy = new Krypton.Toolkit.KryptonGroupBox();
             this.label67 = new Krypton.Toolkit.KryptonLabel();
             this.label65 = new Krypton.Toolkit.KryptonLabel();
             this.label64 = new Krypton.Toolkit.KryptonLabel();
             this.numericUpDownLocationAccuracyLongitude = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownLocationAccuracyLatitude = new System.Windows.Forms.NumericUpDown();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new Krypton.Toolkit.KryptonGroupBox();
             this.checkBoxApplicationAvoidReadExifFromCloud = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxApplicationImageListViewCacheModeOnDemand = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxApplicationAvoidReadMediaFromCloud = new Krypton.Toolkit.KryptonCheckBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new Krypton.Toolkit.KryptonGroupBox();
             this.label68 = new Krypton.Toolkit.KryptonLabel();
             this.label44 = new Krypton.Toolkit.KryptonLabel();
             this.label43 = new Krypton.Toolkit.KryptonLabel();
             this.numericUpDownRegionMissmatchProcent = new System.Windows.Forms.NumericUpDown();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new Krypton.Toolkit.KryptonGroupBox();
             this.label42 = new Krypton.Toolkit.KryptonLabel();
             this.label41 = new Krypton.Toolkit.KryptonLabel();
             this.label40 = new Krypton.Toolkit.KryptonLabel();
             this.label39 = new Krypton.Toolkit.KryptonLabel();
             this.numericUpDownPeopleSuggestNameTopMost = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownPeopleSuggestNameDaysInterval = new System.Windows.Forms.NumericUpDown();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new Krypton.Toolkit.KryptonGroupBox();
             this.numericUpDownApplicationMaxRowsInSearchResult = new System.Windows.Forms.NumericUpDown();
             this.label38 = new Krypton.Toolkit.KryptonLabel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new Krypton.Toolkit.KryptonGroupBox();
             this.label20 = new Krypton.Toolkit.KryptonLabel();
             this.label2 = new Krypton.Toolkit.KryptonLabel();
             this.label1 = new Krypton.Toolkit.KryptonLabel();
             this.labelApplicationPreferredLanguages = new Krypton.Toolkit.KryptonLabel();
-            this.textBoxApplicationPreferredLanguages = new System.Windows.Forms.TextBox();
+            this.textBoxApplicationPreferredLanguages = new Krypton.Toolkit.KryptonTextBox();
             this.comboBoxApplicationLanguages = new Krypton.Toolkit.KryptonComboBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.label86 = new Krypton.Toolkit.KryptonLabel();
             this.label85 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxApplicationRegionThumbnailSizes = new Krypton.Toolkit.KryptonComboBox();
@@ -106,7 +108,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxApplicationThumbnailSizes = new Krypton.Toolkit.KryptonComboBox();
             this.labelApplicationThumbnailSize = new Krypton.Toolkit.KryptonLabel();
             this.tabPageMetadataRead = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new Krypton.Toolkit.KryptonTextBox();
             this.dataGridViewMetadataReadPriority = new System.Windows.Forms.DataGridView();
             this.contextMenuStripMetadataRead = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemMetadataReadMove = new System.Windows.Forms.ToolStripMenuItem();
@@ -123,8 +125,8 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMetadataReadToggleFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMetadataReadShowFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageMetadataWebScraper = new System.Windows.Forms.TabPage();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.panel4 = new Krypton.Toolkit.KryptonPanel();
+            this.groupBox11 = new Krypton.Toolkit.KryptonGroupBox();
             this.label82 = new Krypton.Toolkit.KryptonLabel();
             this.label81 = new Krypton.Toolkit.KryptonLabel();
             this.label80 = new Krypton.Toolkit.KryptonLabel();
@@ -146,17 +148,17 @@ namespace PhotoTagsSynchronizer
             this.label71 = new Krypton.Toolkit.KryptonLabel();
             this.label69 = new Krypton.Toolkit.KryptonLabel();
             this.label70 = new Krypton.Toolkit.KryptonLabel();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.textBoxWebScrapingStartPages = new System.Windows.Forms.TextBox();
+            this.groupBox10 = new Krypton.Toolkit.KryptonGroupBox();
+            this.textBoxWebScrapingStartPages = new Krypton.Toolkit.KryptonTextBox();
             this.tabPageMetadataWrite = new System.Windows.Forms.TabPage();
-            this.panelMetadataWrite = new System.Windows.Forms.Panel();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.panelMetadataWrite = new Krypton.Toolkit.KryptonPanel();
+            this.groupBox9 = new Krypton.Toolkit.KryptonGroupBox();
             this.label89 = new Krypton.Toolkit.KryptonLabel();
             this.label88 = new Krypton.Toolkit.KryptonLabel();
             this.numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted = new System.Windows.Forms.NumericUpDown();
             this.label62 = new Krypton.Toolkit.KryptonLabel();
             this.checkBoxWriteFileAttributeCreatedDate = new Krypton.Toolkit.KryptonCheckBox();
-            this.groupBoxMetadataWriteKeywordItems = new System.Windows.Forms.GroupBox();
+            this.groupBoxMetadataWriteKeywordItems = new Krypton.Toolkit.KryptonGroupBox();
             this.checkBoxWriteMetadataAddAutoKeywords = new Krypton.Toolkit.KryptonCheckBox();
             this.comboBoxMetadataWriteKeywordAdd = new Krypton.Toolkit.KryptonComboBox();
             this.fastColoredTextBoxMetadataWriteKeywordAdd = new FastColoredTextBoxNS.FastColoredTextBox();
@@ -164,18 +166,18 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMetadataWriteKeywordDelete = new Krypton.Toolkit.KryptonComboBox();
             this.label27 = new Krypton.Toolkit.KryptonLabel();
             this.label26 = new Krypton.Toolkit.KryptonLabel();
-            this.groupBoxMetadataWriteProperties = new System.Windows.Forms.GroupBox();
-            this.textBoxWriteXtraAtomArtist = new System.Windows.Forms.TextBox();
+            this.groupBoxMetadataWriteProperties = new Krypton.Toolkit.KryptonGroupBox();
+            this.textBoxWriteXtraAtomArtist = new Krypton.Toolkit.KryptonTextBox();
             this.checkBoxWriteXtraAtomArtistVideo = new Krypton.Toolkit.KryptonCheckBox();
             this.label37 = new Krypton.Toolkit.KryptonLabel();
             this.label36 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxWriteXtraAtomVariables = new Krypton.Toolkit.KryptonComboBox();
-            this.textBoxWriteXtraAtomComment = new System.Windows.Forms.TextBox();
-            this.textBoxWriteXtraAtomSubject = new System.Windows.Forms.TextBox();
-            this.textBoxWriteXtraAtomSubtitle = new System.Windows.Forms.TextBox();
-            this.textBoxWriteXtraAtomAlbum = new System.Windows.Forms.TextBox();
-            this.textBoxWriteXtraAtomCategories = new System.Windows.Forms.TextBox();
-            this.textBoxWriteXtraAtomKeywords = new System.Windows.Forms.TextBox();
+            this.textBoxWriteXtraAtomComment = new Krypton.Toolkit.KryptonTextBox();
+            this.textBoxWriteXtraAtomSubject = new Krypton.Toolkit.KryptonTextBox();
+            this.textBoxWriteXtraAtomSubtitle = new Krypton.Toolkit.KryptonTextBox();
+            this.textBoxWriteXtraAtomAlbum = new Krypton.Toolkit.KryptonTextBox();
+            this.textBoxWriteXtraAtomCategories = new Krypton.Toolkit.KryptonTextBox();
+            this.textBoxWriteXtraAtomKeywords = new Krypton.Toolkit.KryptonTextBox();
             this.label35 = new Krypton.Toolkit.KryptonLabel();
             this.checkBoxWriteXtraAtomRatingPicture = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxWriteXtraAtomRatingVideo = new Krypton.Toolkit.KryptonCheckBox();
@@ -194,28 +196,28 @@ namespace PhotoTagsSynchronizer
             this.label29 = new Krypton.Toolkit.KryptonLabel();
             this.label28 = new Krypton.Toolkit.KryptonLabel();
             this.checkBoxWriteXtraAtomKeywordsVideo = new Krypton.Toolkit.KryptonCheckBox();
-            this.groupBoxMetadataWriteTags = new System.Windows.Forms.GroupBox();
+            this.groupBoxMetadataWriteTags = new Krypton.Toolkit.KryptonGroupBox();
             this.fastColoredTextBoxMetadataWriteTags = new FastColoredTextBoxNS.FastColoredTextBox();
             this.comboBoxMetadataWriteStandardTags = new Krypton.Toolkit.KryptonComboBox();
             this.label6 = new Krypton.Toolkit.KryptonLabel();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new Krypton.Toolkit.KryptonTextBox();
             this.tabPageFileDateTimeFormats = new System.Windows.Forms.TabPage();
             this.fastColoredTextBoxConfigFilenameDateFormats = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new Krypton.Toolkit.KryptonTextBox();
             this.tabPageAutoCorrect = new System.Windows.Forms.TabPage();
-            this.panelAutoCorrect = new System.Windows.Forms.Panel();
-            this.groupBoxRename = new System.Windows.Forms.GroupBox();
-            this.textBoxRenameTo = new System.Windows.Forms.TextBox();
+            this.panelAutoCorrect = new Krypton.Toolkit.KryptonPanel();
+            this.groupBoxRename = new Krypton.Toolkit.KryptonGroupBox();
+            this.textBoxRenameTo = new Krypton.Toolkit.KryptonTextBox();
             this.label10 = new Krypton.Toolkit.KryptonLabel();
             this.checkBoxRename = new Krypton.Toolkit.KryptonCheckBox();
             this.label9 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxRenameVariables = new Krypton.Toolkit.KryptonComboBox();
-            this.groupBoxFaceRegion = new System.Windows.Forms.GroupBox();
+            this.groupBoxFaceRegion = new Krypton.Toolkit.KryptonGroupBox();
             this.checkBoxFaceRegionAddWebScraping = new Krypton.Toolkit.KryptonCheckBox();
             this.label5 = new Krypton.Toolkit.KryptonLabel();
             this.checkBoxFaceRegionAddMicrosoftPhotos = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxFaceRegionAddWindowsMediaPhotoGallery = new Krypton.Toolkit.KryptonCheckBox();
-            this.groupBoxAutoCorrectBackup = new System.Windows.Forms.GroupBox();
+            this.groupBoxAutoCorrectBackup = new Krypton.Toolkit.KryptonGroupBox();
             this.checkBoxAutoCorrectTrackChanges = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxKeywordBackupFileCreatedBefore = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxKeywordBackupFileCreatedAfter = new Krypton.Toolkit.KryptonCheckBox();
@@ -230,32 +232,32 @@ namespace PhotoTagsSynchronizer
             this.checkBoxKeywordBackupLocationName = new Krypton.Toolkit.KryptonCheckBox();
             this.label17 = new Krypton.Toolkit.KryptonLabel();
             this.checkBoxKeywordBackupRegionFaceNames = new Krypton.Toolkit.KryptonCheckBox();
-            this.groupBoxKaywordTags = new System.Windows.Forms.GroupBox();
+            this.groupBoxKaywordTags = new Krypton.Toolkit.KryptonGroupBox();
             this.checkBoxKeywordsAddAutoKeywords = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxKeywordsAddWebScraping = new Krypton.Toolkit.KryptonCheckBox();
             this.label4 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxKeywordsAiConfidence = new Krypton.Toolkit.KryptonComboBox();
             this.checkBoxKeywordsAddMicrosoftPhotos = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxKeywordsAddWindowsMediaPhotoGallery = new Krypton.Toolkit.KryptonCheckBox();
-            this.groupBoxAuthor = new System.Windows.Forms.GroupBox();
+            this.groupBoxAuthor = new Krypton.Toolkit.KryptonGroupBox();
             this.radioButtonAuthorAlwaysChange = new System.Windows.Forms.RadioButton();
             this.label13 = new Krypton.Toolkit.KryptonLabel();
             this.radioButtonAuthorChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonAuthorDoNotChange = new System.Windows.Forms.RadioButton();
-            this.groupBoxAlbum = new System.Windows.Forms.GroupBox();
+            this.groupBoxAlbum = new Krypton.Toolkit.KryptonGroupBox();
             this.checkBoxDublicateAlbumAsDescription = new Krypton.Toolkit.KryptonCheckBox();
             this.label19 = new Krypton.Toolkit.KryptonLabel();
             this.imageListViewOrderAlbum = new PhotoTagsCommonComponets.ImageListViewOrder();
             this.radioButtonAlbumUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonAlbumChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonAlbumDoNotChange = new System.Windows.Forms.RadioButton();
-            this.groupBoxTitle = new System.Windows.Forms.GroupBox();
+            this.groupBoxTitle = new Krypton.Toolkit.KryptonGroupBox();
             this.label11 = new Krypton.Toolkit.KryptonLabel();
             this.imageListViewOrderTitle = new PhotoTagsCommonComponets.ImageListViewOrder();
             this.radioButtonTitleUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonTitleChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonTitleDoNotChange = new System.Windows.Forms.RadioButton();
-            this.groupBoxLocationName = new System.Windows.Forms.GroupBox();
+            this.groupBoxLocationName = new Krypton.Toolkit.KryptonGroupBox();
             this.checkBoxUpdateLocationCountry = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxUpdateLocationState = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxUpdateLocationCity = new Krypton.Toolkit.KryptonCheckBox();
@@ -265,7 +267,7 @@ namespace PhotoTagsSynchronizer
             this.radioButtonLocationNameChangeAlways = new System.Windows.Forms.RadioButton();
             this.radioButtonLocationNameChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonLocationNameDoNotChange = new System.Windows.Forms.RadioButton();
-            this.groupBoxGPSLocation = new System.Windows.Forms.GroupBox();
+            this.groupBoxGPSLocation = new Krypton.Toolkit.KryptonGroupBox();
             this.label87 = new Krypton.Toolkit.KryptonLabel();
             this.numericUpDownLocationAccurateIntervalNearByMediaFile = new System.Windows.Forms.NumericUpDown();
             this.checkBoxGPSUpdateLocationNearByMedia = new Krypton.Toolkit.KryptonCheckBox();
@@ -282,13 +284,13 @@ namespace PhotoTagsSynchronizer
             this.labelLocationTimeZoneGuess = new Krypton.Toolkit.KryptonLabel();
             this.checkBoxGPSUpdateDateTime = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxGPSUpdateLocation = new Krypton.Toolkit.KryptonCheckBox();
-            this.groupBoxDateTimeDigitized = new System.Windows.Forms.GroupBox();
+            this.groupBoxDateTimeDigitized = new Krypton.Toolkit.KryptonGroupBox();
             this.label3 = new Krypton.Toolkit.KryptonLabel();
             this.radioButtonDateTakenUseFirst = new System.Windows.Forms.RadioButton();
             this.radioButtonDateTakenChangeWhenEmpty = new System.Windows.Forms.RadioButton();
             this.radioButtonDateTakenDoNotChange = new System.Windows.Forms.RadioButton();
             this.imageListViewOrderDateTaken = new PhotoTagsCommonComponets.ImageListViewOrder();
-            this.textBoxHelpAutoCorrect = new System.Windows.Forms.TextBox();
+            this.textBoxHelpAutoCorrect = new Krypton.Toolkit.KryptonTextBox();
             this.tabPageAutoKeywords = new System.Windows.Forms.TabPage();
             this.dataGridViewAutoKeywords = new System.Windows.Forms.DataGridView();
             this.LocationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -308,8 +310,8 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemFind = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemReplace = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageCameraOwner = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.panel2 = new Krypton.Toolkit.KryptonPanel();
+            this.textBox3 = new Krypton.Toolkit.KryptonTextBox();
             this.dataGridViewCameraOwner = new System.Windows.Forms.DataGridView();
             this.tabPageLocationNames = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -332,43 +334,43 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemShowCoordinateOnGoogleMap = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapReloadLocationUsingNominatim = new System.Windows.Forms.ToolStripMenuItem();
             this.searchForNewLocationsInMediaFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBoxBrowserURL = new System.Windows.Forms.TextBox();
+            this.textBoxBrowserURL = new Krypton.Toolkit.KryptonTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.comboBoxMapZoomLevel = new Krypton.Toolkit.KryptonComboBox();
-            this.panelBrowser = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.buttonLocationImport = new System.Windows.Forms.Button();
-            this.buttonLocationExport = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.panelBrowser = new Krypton.Toolkit.KryptonPanel();
+            this.panel3 = new Krypton.Toolkit.KryptonPanel();
+            this.buttonLocationImport = new Krypton.Toolkit.KryptonButton();
+            this.buttonLocationExport = new Krypton.Toolkit.KryptonButton();
+            this.textBox4 = new Krypton.Toolkit.KryptonTextBox();
             this.tabPageConvertAndMerge = new System.Windows.Forms.TabPage();
-            this.panelConvertAndMerge = new System.Windows.Forms.Panel();
-            this.groupBoxConvertAndMergeConvertVideo = new System.Windows.Forms.GroupBox();
+            this.panelConvertAndMerge = new Krypton.Toolkit.KryptonPanel();
+            this.groupBoxConvertAndMergeConvertVideo = new Krypton.Toolkit.KryptonGroupBox();
             this.label53 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxConvertAndMergeConvertVideoFilesVariables = new Krypton.Toolkit.KryptonComboBox();
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.groupBoxConvertAndMergeMergeVideos = new System.Windows.Forms.GroupBox();
+            this.groupBoxConvertAndMergeMergeVideos = new Krypton.Toolkit.KryptonGroupBox();
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxConvertAndMergeConcatVideoFilesVariables = new Krypton.Toolkit.KryptonComboBox();
             this.label52 = new Krypton.Toolkit.KryptonLabel();
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile = new FastColoredTextBoxNS.FastColoredTextBox();
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument = new FastColoredTextBoxNS.FastColoredTextBox();
             this.label50 = new Krypton.Toolkit.KryptonLabel();
-            this.groupBoxConvertAndMergeCommand = new System.Windows.Forms.GroupBox();
+            this.groupBoxConvertAndMergeCommand = new Krypton.Toolkit.KryptonGroupBox();
             this.label56 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxConvertAndMergeTempfileExtension = new Krypton.Toolkit.KryptonComboBox();
             this.label55 = new Krypton.Toolkit.KryptonLabel();
             this.label54 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxConvertAndMergeOutputSize = new Krypton.Toolkit.KryptonComboBox();
-            this.buttonConvertAndMergeBrowseBackgroundMusic = new System.Windows.Forms.Button();
-            this.buttonConvertAndMergeBrowseFFmpeg = new System.Windows.Forms.Button();
+            this.buttonConvertAndMergeBrowseBackgroundMusic = new Krypton.Toolkit.KryptonButton();
+            this.buttonConvertAndMergeBrowseFFmpeg = new Krypton.Toolkit.KryptonButton();
             this.label49 = new Krypton.Toolkit.KryptonLabel();
             this.numericUpDownConvertAndMergeImageDuration = new System.Windows.Forms.NumericUpDown();
             this.label48 = new Krypton.Toolkit.KryptonLabel();
-            this.textBoxConvertAndMergeBackgroundMusic = new System.Windows.Forms.TextBox();
+            this.textBoxConvertAndMergeBackgroundMusic = new Krypton.Toolkit.KryptonTextBox();
             this.label47 = new Krypton.Toolkit.KryptonLabel();
-            this.textBoxConvertAndMergeFFmpeg = new System.Windows.Forms.TextBox();
+            this.textBoxConvertAndMergeFFmpeg = new Krypton.Toolkit.KryptonTextBox();
             this.label46 = new Krypton.Toolkit.KryptonLabel();
-            this.groupBoxConvertAndMergeArgumentFileVariables = new System.Windows.Forms.GroupBox();
+            this.groupBoxConvertAndMergeArgumentFileVariables = new Krypton.Toolkit.KryptonGroupBox();
             this.label51 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables = new Krypton.Toolkit.KryptonComboBox();
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument = new FastColoredTextBoxNS.FastColoredTextBox();
@@ -376,8 +378,8 @@ namespace PhotoTagsSynchronizer
             this.label45 = new Krypton.Toolkit.KryptonLabel();
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabPageChromecast = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new Krypton.Toolkit.KryptonPanel();
+            this.groupBox8 = new Krypton.Toolkit.KryptonGroupBox();
             this.comboBoxChromecastUrl = new Krypton.Toolkit.KryptonComboBox();
             this.label58 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxChromecastVideoCodec = new Krypton.Toolkit.KryptonComboBox();
@@ -386,10 +388,10 @@ namespace PhotoTagsSynchronizer
             this.comboBoxChromecastAudioCodec = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxChromecastAgruments = new Krypton.Toolkit.KryptonComboBox();
             this.label60 = new Krypton.Toolkit.KryptonLabel();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox7 = new Krypton.Toolkit.KryptonGroupBox();
             this.label66 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxChromecastVideoTransporter = new Krypton.Toolkit.KryptonComboBox();
-            this.groupBoxChromecastImage = new System.Windows.Forms.GroupBox();
+            this.groupBoxChromecastImage = new Krypton.Toolkit.KryptonGroupBox();
             this.comboBoxChromecastImageFormat = new Krypton.Toolkit.KryptonComboBox();
             this.label63 = new Krypton.Toolkit.KryptonLabel();
             this.label57 = new Krypton.Toolkit.KryptonLabel();
@@ -398,34 +400,65 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowLog = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabPageShowPipe32Log = new System.Windows.Forms.TabPage();
             this.fastColoredTextBoxShowPipe32Log = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.buttonConfigSave = new System.Windows.Forms.Button();
-            this.buttonConfigCancel = new System.Windows.Forms.Button();
-            this.panelAvoidResizeIssues = new System.Windows.Forms.Panel();
+            this.buttonConfigSave = new Krypton.Toolkit.KryptonButton();
+            this.buttonConfigCancel = new Krypton.Toolkit.KryptonButton();
+            this.panelAvoidResizeIssues = new Krypton.Toolkit.KryptonPanel();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonComboBoxThemes = new Krypton.Toolkit.KryptonComboBox();
             this.tabControlConfig.SuspendLayout();
             this.tabPageApplication.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelApplication)).BeginInit();
             this.panelApplication.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
+            this.kryptonGroupBox1.Panel.SuspendLayout();
+            this.kryptonGroupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBoxThemes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox13.Panel)).BeginInit();
+            this.groupBox13.Panel.SuspendLayout();
             this.groupBox13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugBackgroundThreadPrioity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugExiftoolWriteThreadPrioity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugExiftoolReadThreadPrioity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox12.Panel)).BeginInit();
+            this.groupBox12.Panel.SuspendLayout();
             this.groupBox12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCacheNumberOfPosters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxLocationAccuracy)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxLocationAccuracy.Panel)).BeginInit();
+            this.groupBoxLocationAccuracy.Panel.SuspendLayout();
             this.groupBoxLocationAccuracy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLongitude)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLatitude)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox6.Panel)).BeginInit();
+            this.groupBox6.Panel.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox5.Panel)).BeginInit();
+            this.groupBox5.Panel.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRegionMissmatchProcent)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox4.Panel)).BeginInit();
+            this.groupBox4.Panel.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameTopMost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameDaysInterval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox3.Panel)).BeginInit();
+            this.groupBox3.Panel.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownApplicationMaxRowsInSearchResult)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox2.Panel)).BeginInit();
+            this.groupBox2.Panel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationLanguages)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox1.Panel)).BeginInit();
+            this.groupBox1.Panel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationRegionThumbnailSizes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationThumbnailSizes)).BeginInit();
@@ -433,7 +466,11 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).BeginInit();
             this.contextMenuStripMetadataRead.SuspendLayout();
             this.tabPageMetadataWebScraper.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panel4)).BeginInit();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox11.Panel)).BeginInit();
+            this.groupBox11.Panel.SuspendLayout();
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingPageDownCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageLoadedTimeout)).BeginInit();
@@ -442,44 +479,92 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingDelayOurScriptToRun)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingRetry)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownJavaScriptExecuteTimeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox10.Panel)).BeginInit();
+            this.groupBox10.Panel.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.tabPageMetadataWrite.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelMetadataWrite)).BeginInit();
             this.panelMetadataWrite.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox9.Panel)).BeginInit();
+            this.groupBox9.Panel.SuspendLayout();
             this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteKeywordItems)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteKeywordItems.Panel)).BeginInit();
+            this.groupBoxMetadataWriteKeywordItems.Panel.SuspendLayout();
             this.groupBoxMetadataWriteKeywordItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteKeywordAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteKeywordDelete)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteProperties.Panel)).BeginInit();
+            this.groupBoxMetadataWriteProperties.Panel.SuspendLayout();
             this.groupBoxMetadataWriteProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxWriteXtraAtomVariables)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteTags)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteTags.Panel)).BeginInit();
+            this.groupBoxMetadataWriteTags.Panel.SuspendLayout();
             this.groupBoxMetadataWriteTags.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteTags)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteStandardTags)).BeginInit();
             this.tabPageFileDateTimeFormats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConfigFilenameDateFormats)).BeginInit();
             this.tabPageAutoCorrect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelAutoCorrect)).BeginInit();
             this.panelAutoCorrect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxRename)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxRename.Panel)).BeginInit();
+            this.groupBoxRename.Panel.SuspendLayout();
             this.groupBoxRename.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxRenameVariables)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxFaceRegion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxFaceRegion.Panel)).BeginInit();
+            this.groupBoxFaceRegion.Panel.SuspendLayout();
             this.groupBoxFaceRegion.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAutoCorrectBackup)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAutoCorrectBackup.Panel)).BeginInit();
+            this.groupBoxAutoCorrectBackup.Panel.SuspendLayout();
             this.groupBoxAutoCorrectBackup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxKaywordTags)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxKaywordTags.Panel)).BeginInit();
+            this.groupBoxKaywordTags.Panel.SuspendLayout();
             this.groupBoxKaywordTags.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxKeywordsAiConfidence)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAuthor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAuthor.Panel)).BeginInit();
+            this.groupBoxAuthor.Panel.SuspendLayout();
             this.groupBoxAuthor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAlbum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAlbum.Panel)).BeginInit();
+            this.groupBoxAlbum.Panel.SuspendLayout();
             this.groupBoxAlbum.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxTitle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxTitle.Panel)).BeginInit();
+            this.groupBoxTitle.Panel.SuspendLayout();
             this.groupBoxTitle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxLocationName)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxLocationName.Panel)).BeginInit();
+            this.groupBoxLocationName.Panel.SuspendLayout();
             this.groupBoxLocationName.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxGPSLocation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxGPSLocation.Panel)).BeginInit();
+            this.groupBoxGPSLocation.Panel.SuspendLayout();
             this.groupBoxGPSLocation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccurateIntervalNearByMediaFile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccurateInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationGuessInterval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxDateTimeDigitized)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxDateTimeDigitized.Panel)).BeginInit();
+            this.groupBoxDateTimeDigitized.Panel.SuspendLayout();
             this.groupBoxDateTimeDigitized.SuspendLayout();
             this.tabPageAutoKeywords.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAutoKeywords)).BeginInit();
             this.contextMenuStripAutoKeyword.SuspendLayout();
             this.tabPageCameraOwner.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panel2)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCameraOwner)).BeginInit();
             this.tabPageLocationNames.SuspendLayout();
@@ -491,35 +576,60 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripLocationNames.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMapZoomLevel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelBrowser)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panel3)).BeginInit();
             this.panel3.SuspendLayout();
             this.tabPageConvertAndMerge.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelConvertAndMerge)).BeginInit();
             this.panelConvertAndMerge.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeConvertVideo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeConvertVideo.Panel)).BeginInit();
+            this.groupBoxConvertAndMergeConvertVideo.Panel.SuspendLayout();
             this.groupBoxConvertAndMergeConvertVideo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeConvertVideoFilesVariables)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeMergeVideos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeMergeVideos.Panel)).BeginInit();
+            this.groupBoxConvertAndMergeMergeVideos.Panel.SuspendLayout();
             this.groupBoxConvertAndMergeMergeVideos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeConcatVideosArguFileVariables)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeConcatVideoFilesVariables)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatVideoArgument)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeCommand)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeCommand.Panel)).BeginInit();
+            this.groupBoxConvertAndMergeCommand.Panel.SuspendLayout();
             this.groupBoxConvertAndMergeCommand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeTempfileExtension)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeOutputSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownConvertAndMergeImageDuration)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeArgumentFileVariables)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeArgumentFileVariables.Panel)).BeginInit();
+            this.groupBoxConvertAndMergeArgumentFileVariables.Panel.SuspendLayout();
             this.groupBoxConvertAndMergeArgumentFileVariables.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile)).BeginInit();
             this.tabPageChromecast.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panel1)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox8.Panel)).BeginInit();
+            this.groupBox8.Panel.SuspendLayout();
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastUrl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastVideoCodec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastAudioCodec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastAgruments)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox7.Panel)).BeginInit();
+            this.groupBox7.Panel.SuspendLayout();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastVideoTransporter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxChromecastImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxChromecastImage.Panel)).BeginInit();
+            this.groupBoxChromecastImage.Panel.SuspendLayout();
             this.groupBoxChromecastImage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastImageFormat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastImageResolution)).BeginInit();
@@ -527,12 +637,8 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowLog)).BeginInit();
             this.tabPageShowPipe32Log.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowPipe32Log)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelAvoidResizeIssues)).BeginInit();
             this.panelAvoidResizeIssues.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
-            this.kryptonGroupBox1.Panel.SuspendLayout();
-            this.kryptonGroupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBoxThemes)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControlConfig
@@ -593,24 +699,30 @@ namespace PhotoTagsSynchronizer
             this.panelApplication.Size = new System.Drawing.Size(766, 748);
             this.panelApplication.TabIndex = 0;
             // 
-            // groupBox13
+            // kryptonGroupBox1
             // 
-            this.groupBox13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox13.Controls.Add(this.label92);
-            this.groupBox13.Controls.Add(this.label91);
-            this.groupBox13.Controls.Add(this.label90);
-            this.groupBox13.Controls.Add(this.comboBoxApplicationDebugBackgroundThreadPrioity);
-            this.groupBox13.Controls.Add(this.comboBoxApplicationDebugExiftoolWriteThreadPrioity);
-            this.groupBox13.Controls.Add(this.comboBoxApplicationDebugExiftoolReadThreadPrioity);
-            this.groupBox13.Controls.Add(this.checkBoxApplicationExiftoolWriteShowCliWindow);
-            this.groupBox13.Controls.Add(this.checkBoxApplicationExiftoolReadShowCliWindow);
-            this.groupBox13.Location = new System.Drawing.Point(0, 1033);
-            this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(674, 245);
-            this.groupBox13.TabIndex = 7;
-            this.groupBox13.TabStop = false;
-            this.groupBox13.Text = "Application debug:";
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(0, 1280);
+            this.kryptonGroupBox1.Name = "kryptonGroupBox1";
+            // 
+            // kryptonGroupBox1.Panel
+            // 
+            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonComboBoxThemes);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.checkBoxApplicationDarkMode);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(742, 127);
+            this.kryptonGroupBox1.TabIndex = 14;
+            // 
+            // kryptonComboBoxThemes
+            // 
+            this.kryptonComboBoxThemes.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.kryptonComboBoxThemes.DropDownWidth = 185;
+            this.kryptonComboBoxThemes.IntegralHeight = false;
+            this.kryptonComboBoxThemes.Location = new System.Drawing.Point(171, 22);
+            this.kryptonComboBoxThemes.Name = "kryptonComboBoxThemes";
+            this.kryptonComboBoxThemes.Size = new System.Drawing.Size(185, 21);
+            this.kryptonComboBoxThemes.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonComboBoxThemes.TabIndex = 9;
+            this.kryptonComboBoxThemes.Text = "kryptonComboBox1";
+            this.kryptonComboBoxThemes.SelectionChangeCommitted += new System.EventHandler(this.kryptonComboBoxThemes_SelectionChangeCommitted);
             // 
             // checkBoxApplicationDarkMode
             // 
@@ -620,9 +732,30 @@ namespace PhotoTagsSynchronizer
             this.checkBoxApplicationDarkMode.TabIndex = 8;
             this.checkBoxApplicationDarkMode.Values.Text = "Dark mode - Experimental";
             // 
+            // groupBox13
+            // 
+            this.groupBox13.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox13.Location = new System.Drawing.Point(0, 1033);
+            this.groupBox13.Name = "groupBox13";
+            // 
+            // groupBox13.Panel
+            // 
+            this.groupBox13.Panel.Controls.Add(this.label92);
+            this.groupBox13.Panel.Controls.Add(this.label91);
+            this.groupBox13.Panel.Controls.Add(this.label90);
+            this.groupBox13.Panel.Controls.Add(this.comboBoxApplicationDebugBackgroundThreadPrioity);
+            this.groupBox13.Panel.Controls.Add(this.comboBoxApplicationDebugExiftoolWriteThreadPrioity);
+            this.groupBox13.Panel.Controls.Add(this.comboBoxApplicationDebugExiftoolReadThreadPrioity);
+            this.groupBox13.Panel.Controls.Add(this.checkBoxApplicationExiftoolWriteShowCliWindow);
+            this.groupBox13.Panel.Controls.Add(this.checkBoxApplicationExiftoolReadShowCliWindow);
+            this.groupBox13.Size = new System.Drawing.Size(742, 245);
+            this.groupBox13.TabIndex = 7;
+            this.groupBox13.Values.Heading = "Application debug:";
+            // 
             // label92
             // 
-            this.label92.Location = new System.Drawing.Point(6, 138);
+            this.label92.Location = new System.Drawing.Point(6, 120);
             this.label92.Name = "label92";
             this.label92.Size = new System.Drawing.Size(130, 21);
             this.label92.TabIndex = 7;
@@ -630,7 +763,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label91
             // 
-            this.label91.Location = new System.Drawing.Point(6, 108);
+            this.label91.Location = new System.Drawing.Point(6, 90);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(137, 21);
             this.label91.TabIndex = 6;
@@ -638,7 +771,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label90
             // 
-            this.label90.Location = new System.Drawing.Point(6, 78);
+            this.label90.Location = new System.Drawing.Point(6, 60);
             this.label90.Name = "label90";
             this.label90.Size = new System.Drawing.Size(138, 21);
             this.label90.TabIndex = 5;
@@ -657,7 +790,7 @@ namespace PhotoTagsSynchronizer
             "Normal",
             "Above Normal",
             "Highest"});
-            this.comboBoxApplicationDebugBackgroundThreadPrioity.Location = new System.Drawing.Point(183, 135);
+            this.comboBoxApplicationDebugBackgroundThreadPrioity.Location = new System.Drawing.Point(183, 117);
             this.comboBoxApplicationDebugBackgroundThreadPrioity.Name = "comboBoxApplicationDebugBackgroundThreadPrioity";
             this.comboBoxApplicationDebugBackgroundThreadPrioity.Size = new System.Drawing.Size(175, 21);
             this.comboBoxApplicationDebugBackgroundThreadPrioity.TabIndex = 4;
@@ -676,7 +809,7 @@ namespace PhotoTagsSynchronizer
             "Above Normal",
             "High",
             "RealTime"});
-            this.comboBoxApplicationDebugExiftoolWriteThreadPrioity.Location = new System.Drawing.Point(183, 105);
+            this.comboBoxApplicationDebugExiftoolWriteThreadPrioity.Location = new System.Drawing.Point(183, 87);
             this.comboBoxApplicationDebugExiftoolWriteThreadPrioity.Name = "comboBoxApplicationDebugExiftoolWriteThreadPrioity";
             this.comboBoxApplicationDebugExiftoolWriteThreadPrioity.Size = new System.Drawing.Size(175, 21);
             this.comboBoxApplicationDebugExiftoolWriteThreadPrioity.TabIndex = 3;
@@ -695,14 +828,14 @@ namespace PhotoTagsSynchronizer
             "Above Normal",
             "High",
             "RealTime"});
-            this.comboBoxApplicationDebugExiftoolReadThreadPrioity.Location = new System.Drawing.Point(183, 75);
+            this.comboBoxApplicationDebugExiftoolReadThreadPrioity.Location = new System.Drawing.Point(183, 57);
             this.comboBoxApplicationDebugExiftoolReadThreadPrioity.Name = "comboBoxApplicationDebugExiftoolReadThreadPrioity";
             this.comboBoxApplicationDebugExiftoolReadThreadPrioity.Size = new System.Drawing.Size(175, 21);
             this.comboBoxApplicationDebugExiftoolReadThreadPrioity.TabIndex = 2;
             // 
             // checkBoxApplicationExiftoolWriteShowCliWindow
             // 
-            this.checkBoxApplicationExiftoolWriteShowCliWindow.Location = new System.Drawing.Point(183, 48);
+            this.checkBoxApplicationExiftoolWriteShowCliWindow.Location = new System.Drawing.Point(183, 30);
             this.checkBoxApplicationExiftoolWriteShowCliWindow.Name = "checkBoxApplicationExiftoolWriteShowCliWindow";
             this.checkBoxApplicationExiftoolWriteShowCliWindow.Size = new System.Drawing.Size(335, 21);
             this.checkBoxApplicationExiftoolWriteShowCliWindow.TabIndex = 1;
@@ -710,7 +843,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxApplicationExiftoolReadShowCliWindow
             // 
-            this.checkBoxApplicationExiftoolReadShowCliWindow.Location = new System.Drawing.Point(183, 21);
+            this.checkBoxApplicationExiftoolReadShowCliWindow.Location = new System.Drawing.Point(183, 3);
             this.checkBoxApplicationExiftoolReadShowCliWindow.Name = "checkBoxApplicationExiftoolReadShowCliWindow";
             this.checkBoxApplicationExiftoolReadShowCliWindow.Size = new System.Drawing.Size(330, 21);
             this.checkBoxApplicationExiftoolReadShowCliWindow.TabIndex = 0;
@@ -720,24 +853,26 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox12.Controls.Add(this.checkBoxCacheFolderWebScraperDataSets);
-            this.groupBox12.Controls.Add(this.checkBoxCacheFolderThumbnails);
-            this.groupBox12.Controls.Add(this.checkBoxCacheFolderMetadatas);
-            this.groupBox12.Controls.Add(this.checkBoxCacheAllWebScraperDataSets);
-            this.groupBox12.Controls.Add(this.checkBoxCacheAllThumbnails);
-            this.groupBox12.Controls.Add(this.checkBoxCacheAllMetadatas);
-            this.groupBox12.Controls.Add(this.label83);
-            this.groupBox12.Controls.Add(this.numericUpDownCacheNumberOfPosters);
             this.groupBox12.Location = new System.Drawing.Point(0, 806);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(674, 221);
+            // 
+            // groupBox12.Panel
+            // 
+            this.groupBox12.Panel.Controls.Add(this.checkBoxCacheFolderWebScraperDataSets);
+            this.groupBox12.Panel.Controls.Add(this.checkBoxCacheFolderThumbnails);
+            this.groupBox12.Panel.Controls.Add(this.checkBoxCacheFolderMetadatas);
+            this.groupBox12.Panel.Controls.Add(this.checkBoxCacheAllWebScraperDataSets);
+            this.groupBox12.Panel.Controls.Add(this.checkBoxCacheAllThumbnails);
+            this.groupBox12.Panel.Controls.Add(this.checkBoxCacheAllMetadatas);
+            this.groupBox12.Panel.Controls.Add(this.label83);
+            this.groupBox12.Panel.Controls.Add(this.numericUpDownCacheNumberOfPosters);
+            this.groupBox12.Size = new System.Drawing.Size(742, 221);
             this.groupBox12.TabIndex = 13;
-            this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Cache logic";
+            this.groupBox12.Values.Heading = "Cache logic";
             // 
             // checkBoxCacheFolderWebScraperDataSets
             // 
-            this.checkBoxCacheFolderWebScraperDataSets.Location = new System.Drawing.Point(183, 184);
+            this.checkBoxCacheFolderWebScraperDataSets.Location = new System.Drawing.Point(186, 161);
             this.checkBoxCacheFolderWebScraperDataSets.Name = "checkBoxCacheFolderWebScraperDataSets";
             this.checkBoxCacheFolderWebScraperDataSets.Size = new System.Drawing.Size(365, 21);
             this.checkBoxCacheFolderWebScraperDataSets.TabIndex = 6;
@@ -745,7 +880,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxCacheFolderThumbnails
             // 
-            this.checkBoxCacheFolderThumbnails.Location = new System.Drawing.Point(183, 160);
+            this.checkBoxCacheFolderThumbnails.Location = new System.Drawing.Point(186, 137);
             this.checkBoxCacheFolderThumbnails.Name = "checkBoxCacheFolderThumbnails";
             this.checkBoxCacheFolderThumbnails.Size = new System.Drawing.Size(301, 21);
             this.checkBoxCacheFolderThumbnails.TabIndex = 5;
@@ -753,7 +888,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxCacheFolderMetadatas
             // 
-            this.checkBoxCacheFolderMetadatas.Location = new System.Drawing.Point(183, 133);
+            this.checkBoxCacheFolderMetadatas.Location = new System.Drawing.Point(186, 110);
             this.checkBoxCacheFolderMetadatas.Name = "checkBoxCacheFolderMetadatas";
             this.checkBoxCacheFolderMetadatas.Size = new System.Drawing.Size(294, 21);
             this.checkBoxCacheFolderMetadatas.TabIndex = 4;
@@ -761,7 +896,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxCacheAllWebScraperDataSets
             // 
-            this.checkBoxCacheAllWebScraperDataSets.Location = new System.Drawing.Point(183, 106);
+            this.checkBoxCacheAllWebScraperDataSets.Location = new System.Drawing.Point(186, 83);
             this.checkBoxCacheAllWebScraperDataSets.Name = "checkBoxCacheAllWebScraperDataSets";
             this.checkBoxCacheAllWebScraperDataSets.Size = new System.Drawing.Size(353, 21);
             this.checkBoxCacheAllWebScraperDataSets.TabIndex = 3;
@@ -769,7 +904,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxCacheAllThumbnails
             // 
-            this.checkBoxCacheAllThumbnails.Location = new System.Drawing.Point(183, 79);
+            this.checkBoxCacheAllThumbnails.Location = new System.Drawing.Point(186, 56);
             this.checkBoxCacheAllThumbnails.Name = "checkBoxCacheAllThumbnails";
             this.checkBoxCacheAllThumbnails.Size = new System.Drawing.Size(289, 21);
             this.checkBoxCacheAllThumbnails.TabIndex = 2;
@@ -777,7 +912,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxCacheAllMetadatas
             // 
-            this.checkBoxCacheAllMetadatas.Location = new System.Drawing.Point(183, 52);
+            this.checkBoxCacheAllMetadatas.Location = new System.Drawing.Point(186, 29);
             this.checkBoxCacheAllMetadatas.Name = "checkBoxCacheAllMetadatas";
             this.checkBoxCacheAllMetadatas.Size = new System.Drawing.Size(282, 21);
             this.checkBoxCacheAllMetadatas.TabIndex = 1;
@@ -785,7 +920,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label83
             // 
-            this.label83.Location = new System.Drawing.Point(6, 26);
+            this.label83.Location = new System.Drawing.Point(9, 3);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(122, 21);
             this.label83.TabIndex = 1;
@@ -793,7 +928,7 @@ namespace PhotoTagsSynchronizer
             // 
             // numericUpDownCacheNumberOfPosters
             // 
-            this.numericUpDownCacheNumberOfPosters.Location = new System.Drawing.Point(183, 24);
+            this.numericUpDownCacheNumberOfPosters.Location = new System.Drawing.Point(186, 1);
             this.numericUpDownCacheNumberOfPosters.Minimum = new decimal(new int[] {
             1,
             0,
@@ -812,21 +947,23 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxLocationAccuracy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxLocationAccuracy.Controls.Add(this.label67);
-            this.groupBoxLocationAccuracy.Controls.Add(this.label65);
-            this.groupBoxLocationAccuracy.Controls.Add(this.label64);
-            this.groupBoxLocationAccuracy.Controls.Add(this.numericUpDownLocationAccuracyLongitude);
-            this.groupBoxLocationAccuracy.Controls.Add(this.numericUpDownLocationAccuracyLatitude);
             this.groupBoxLocationAccuracy.Location = new System.Drawing.Point(0, 696);
             this.groupBoxLocationAccuracy.Name = "groupBoxLocationAccuracy";
-            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(674, 104);
+            // 
+            // groupBoxLocationAccuracy.Panel
+            // 
+            this.groupBoxLocationAccuracy.Panel.Controls.Add(this.label67);
+            this.groupBoxLocationAccuracy.Panel.Controls.Add(this.label65);
+            this.groupBoxLocationAccuracy.Panel.Controls.Add(this.label64);
+            this.groupBoxLocationAccuracy.Panel.Controls.Add(this.numericUpDownLocationAccuracyLongitude);
+            this.groupBoxLocationAccuracy.Panel.Controls.Add(this.numericUpDownLocationAccuracyLatitude);
+            this.groupBoxLocationAccuracy.Size = new System.Drawing.Size(742, 104);
             this.groupBoxLocationAccuracy.TabIndex = 12;
-            this.groupBoxLocationAccuracy.TabStop = false;
-            this.groupBoxLocationAccuracy.Text = "GPS Location Accuracy";
+            this.groupBoxLocationAccuracy.Values.Heading = "GPS Location Accuracy";
             // 
             // label67
             // 
-            this.label67.Location = new System.Drawing.Point(6, 26);
+            this.label67.Location = new System.Drawing.Point(1, 3);
             this.label67.Name = "label67";
             this.label67.Size = new System.Drawing.Size(587, 21);
             this.label67.TabIndex = 4;
@@ -835,7 +972,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label65
             // 
-            this.label65.Location = new System.Drawing.Point(6, 76);
+            this.label65.Location = new System.Drawing.Point(6, 60);
             this.label65.Name = "label65";
             this.label65.Size = new System.Drawing.Size(70, 21);
             this.label65.TabIndex = 3;
@@ -843,7 +980,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label64
             // 
-            this.label64.Location = new System.Drawing.Point(6, 48);
+            this.label64.Location = new System.Drawing.Point(6, 32);
             this.label64.Name = "label64";
             this.label64.Size = new System.Drawing.Size(62, 21);
             this.label64.TabIndex = 2;
@@ -857,7 +994,7 @@ namespace PhotoTagsSynchronizer
             0,
             0,
             262144});
-            this.numericUpDownLocationAccuracyLongitude.Location = new System.Drawing.Point(183, 74);
+            this.numericUpDownLocationAccuracyLongitude.Location = new System.Drawing.Point(183, 58);
             this.numericUpDownLocationAccuracyLongitude.Maximum = new decimal(new int[] {
             5,
             0,
@@ -885,7 +1022,7 @@ namespace PhotoTagsSynchronizer
             0,
             0,
             262144});
-            this.numericUpDownLocationAccuracyLatitude.Location = new System.Drawing.Point(183, 46);
+            this.numericUpDownLocationAccuracyLatitude.Location = new System.Drawing.Point(183, 30);
             this.numericUpDownLocationAccuracyLatitude.Maximum = new decimal(new int[] {
             5,
             0,
@@ -909,19 +1046,21 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox6.Controls.Add(this.checkBoxApplicationAvoidReadExifFromCloud);
-            this.groupBox6.Controls.Add(this.checkBoxApplicationImageListViewCacheModeOnDemand);
-            this.groupBox6.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud);
             this.groupBox6.Location = new System.Drawing.Point(3, 574);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(671, 116);
+            // 
+            // groupBox6.Panel
+            // 
+            this.groupBox6.Panel.Controls.Add(this.checkBoxApplicationAvoidReadExifFromCloud);
+            this.groupBox6.Panel.Controls.Add(this.checkBoxApplicationImageListViewCacheModeOnDemand);
+            this.groupBox6.Panel.Controls.Add(this.checkBoxApplicationAvoidReadMediaFromCloud);
+            this.groupBox6.Size = new System.Drawing.Size(739, 116);
             this.groupBox6.TabIndex = 11;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Read media and listview";
+            this.groupBox6.Values.Heading = "Read media and listview";
             // 
             // checkBoxApplicationAvoidReadExifFromCloud
             // 
-            this.checkBoxApplicationAvoidReadExifFromCloud.Location = new System.Drawing.Point(8, 57);
+            this.checkBoxApplicationAvoidReadExifFromCloud.Location = new System.Drawing.Point(6, 40);
             this.checkBoxApplicationAvoidReadExifFromCloud.Name = "checkBoxApplicationAvoidReadExifFromCloud";
             this.checkBoxApplicationAvoidReadExifFromCloud.Size = new System.Drawing.Size(247, 21);
             this.checkBoxApplicationAvoidReadExifFromCloud.TabIndex = 1;
@@ -929,7 +1068,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxApplicationImageListViewCacheModeOnDemand
             // 
-            this.checkBoxApplicationImageListViewCacheModeOnDemand.Location = new System.Drawing.Point(8, 84);
+            this.checkBoxApplicationImageListViewCacheModeOnDemand.Location = new System.Drawing.Point(6, 67);
             this.checkBoxApplicationImageListViewCacheModeOnDemand.Name = "checkBoxApplicationImageListViewCacheModeOnDemand";
             this.checkBoxApplicationImageListViewCacheModeOnDemand.Size = new System.Drawing.Size(570, 21);
             this.checkBoxApplicationImageListViewCacheModeOnDemand.TabIndex = 2;
@@ -938,7 +1077,7 @@ namespace PhotoTagsSynchronizer
             // 
             // checkBoxApplicationAvoidReadMediaFromCloud
             // 
-            this.checkBoxApplicationAvoidReadMediaFromCloud.Location = new System.Drawing.Point(8, 30);
+            this.checkBoxApplicationAvoidReadMediaFromCloud.Location = new System.Drawing.Point(6, 13);
             this.checkBoxApplicationAvoidReadMediaFromCloud.Name = "checkBoxApplicationAvoidReadMediaFromCloud";
             this.checkBoxApplicationAvoidReadMediaFromCloud.Size = new System.Drawing.Size(227, 21);
             this.checkBoxApplicationAvoidReadMediaFromCloud.TabIndex = 0;
@@ -948,20 +1087,22 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox5.Controls.Add(this.label68);
-            this.groupBox5.Controls.Add(this.label44);
-            this.groupBox5.Controls.Add(this.label43);
-            this.groupBox5.Controls.Add(this.numericUpDownRegionMissmatchProcent);
             this.groupBox5.Location = new System.Drawing.Point(3, 483);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(671, 85);
+            // 
+            // groupBox5.Panel
+            // 
+            this.groupBox5.Panel.Controls.Add(this.label68);
+            this.groupBox5.Panel.Controls.Add(this.label44);
+            this.groupBox5.Panel.Controls.Add(this.label43);
+            this.groupBox5.Panel.Controls.Add(this.numericUpDownRegionMissmatchProcent);
+            this.groupBox5.Size = new System.Drawing.Size(739, 85);
             this.groupBox5.TabIndex = 10;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Region";
+            this.groupBox5.Values.Heading = "Region";
             // 
             // label68
             // 
-            this.label68.Location = new System.Drawing.Point(309, 52);
+            this.label68.Location = new System.Drawing.Point(309, 30);
             this.label68.Name = "label68";
             this.label68.Size = new System.Drawing.Size(178, 21);
             this.label68.TabIndex = 3;
@@ -969,7 +1110,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label44
             // 
-            this.label44.Location = new System.Drawing.Point(6, 25);
+            this.label44.Location = new System.Drawing.Point(6, 3);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(546, 21);
             this.label44.TabIndex = 2;
@@ -978,7 +1119,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label43
             // 
-            this.label43.Location = new System.Drawing.Point(6, 52);
+            this.label43.Location = new System.Drawing.Point(6, 30);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(148, 21);
             this.label43.TabIndex = 1;
@@ -992,7 +1133,7 @@ namespace PhotoTagsSynchronizer
             0,
             0,
             131072});
-            this.numericUpDownRegionMissmatchProcent.Location = new System.Drawing.Point(183, 50);
+            this.numericUpDownRegionMissmatchProcent.Location = new System.Drawing.Point(183, 28);
             this.numericUpDownRegionMissmatchProcent.Maximum = new decimal(new int[] {
             9,
             0,
@@ -1016,22 +1157,24 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Controls.Add(this.label42);
-            this.groupBox4.Controls.Add(this.label41);
-            this.groupBox4.Controls.Add(this.label40);
-            this.groupBox4.Controls.Add(this.label39);
-            this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameTopMost);
-            this.groupBox4.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
             this.groupBox4.Location = new System.Drawing.Point(3, 392);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(671, 85);
+            // 
+            // groupBox4.Panel
+            // 
+            this.groupBox4.Panel.Controls.Add(this.label42);
+            this.groupBox4.Panel.Controls.Add(this.label41);
+            this.groupBox4.Panel.Controls.Add(this.label40);
+            this.groupBox4.Panel.Controls.Add(this.label39);
+            this.groupBox4.Panel.Controls.Add(this.numericUpDownPeopleSuggestNameTopMost);
+            this.groupBox4.Panel.Controls.Add(this.numericUpDownPeopleSuggestNameDaysInterval);
+            this.groupBox4.Size = new System.Drawing.Size(739, 85);
             this.groupBox4.TabIndex = 9;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Region Name suggestions (People Face names)";
+            this.groupBox4.Values.Heading = "Region Name suggestions (People Face names)";
             // 
             // label42
             // 
-            this.label42.Location = new System.Drawing.Point(309, 51);
+            this.label42.Location = new System.Drawing.Point(309, 33);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(280, 21);
             this.label42.TabIndex = 11;
@@ -1039,7 +1182,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label41
             // 
-            this.label41.Location = new System.Drawing.Point(309, 23);
+            this.label41.Location = new System.Drawing.Point(309, 5);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(340, 21);
             this.label41.TabIndex = 10;
@@ -1047,7 +1190,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label40
             // 
-            this.label40.Location = new System.Drawing.Point(6, 51);
+            this.label40.Location = new System.Drawing.Point(6, 33);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(164, 21);
             this.label40.TabIndex = 3;
@@ -1055,7 +1198,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label39
             // 
-            this.label39.Location = new System.Drawing.Point(5, 23);
+            this.label39.Location = new System.Drawing.Point(5, 5);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(109, 21);
             this.label39.TabIndex = 2;
@@ -1063,7 +1206,7 @@ namespace PhotoTagsSynchronizer
             // 
             // numericUpDownPeopleSuggestNameTopMost
             // 
-            this.numericUpDownPeopleSuggestNameTopMost.Location = new System.Drawing.Point(183, 49);
+            this.numericUpDownPeopleSuggestNameTopMost.Location = new System.Drawing.Point(183, 31);
             this.numericUpDownPeopleSuggestNameTopMost.Maximum = new decimal(new int[] {
             30,
             0,
@@ -1080,7 +1223,7 @@ namespace PhotoTagsSynchronizer
             // 
             // numericUpDownPeopleSuggestNameDaysInterval
             // 
-            this.numericUpDownPeopleSuggestNameDaysInterval.Location = new System.Drawing.Point(183, 21);
+            this.numericUpDownPeopleSuggestNameDaysInterval.Location = new System.Drawing.Point(183, 3);
             this.numericUpDownPeopleSuggestNameDaysInterval.Maximum = new decimal(new int[] {
             365,
             0,
@@ -1104,18 +1247,20 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.numericUpDownApplicationMaxRowsInSearchResult);
-            this.groupBox3.Controls.Add(this.label38);
             this.groupBox3.Location = new System.Drawing.Point(3, 321);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(671, 65);
+            // 
+            // groupBox3.Panel
+            // 
+            this.groupBox3.Panel.Controls.Add(this.numericUpDownApplicationMaxRowsInSearchResult);
+            this.groupBox3.Panel.Controls.Add(this.label38);
+            this.groupBox3.Size = new System.Drawing.Size(739, 65);
             this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Search result";
+            this.groupBox3.Values.Heading = "Search result";
             // 
             // numericUpDownApplicationMaxRowsInSearchResult
             // 
-            this.numericUpDownApplicationMaxRowsInSearchResult.Location = new System.Drawing.Point(183, 26);
+            this.numericUpDownApplicationMaxRowsInSearchResult.Location = new System.Drawing.Point(181, 3);
             this.numericUpDownApplicationMaxRowsInSearchResult.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1137,7 +1282,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label38
             // 
-            this.label38.Location = new System.Drawing.Point(6, 28);
+            this.label38.Location = new System.Drawing.Point(4, 5);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(166, 21);
             this.label38.TabIndex = 0;
@@ -1147,18 +1292,20 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.label20);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.labelApplicationPreferredLanguages);
-            this.groupBox2.Controls.Add(this.textBoxApplicationPreferredLanguages);
-            this.groupBox2.Controls.Add(this.comboBoxApplicationLanguages);
             this.groupBox2.Location = new System.Drawing.Point(3, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(671, 156);
+            // 
+            // groupBox2.Panel
+            // 
+            this.groupBox2.Panel.Controls.Add(this.label20);
+            this.groupBox2.Panel.Controls.Add(this.label2);
+            this.groupBox2.Panel.Controls.Add(this.label1);
+            this.groupBox2.Panel.Controls.Add(this.labelApplicationPreferredLanguages);
+            this.groupBox2.Panel.Controls.Add(this.textBoxApplicationPreferredLanguages);
+            this.groupBox2.Panel.Controls.Add(this.comboBoxApplicationLanguages);
+            this.groupBox2.Size = new System.Drawing.Size(739, 156);
             this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Nominatim look-up";
+            this.groupBox2.Values.Heading = "Nominatim look-up";
             // 
             // label20
             // 
@@ -1170,7 +1317,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(180, 102);
+            this.label2.Location = new System.Drawing.Point(183, 96);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(415, 21);
             this.label2.TabIndex = 6;
@@ -1178,7 +1325,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(180, 18);
+            this.label1.Location = new System.Drawing.Point(181, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(320, 21);
             this.label1.TabIndex = 5;
@@ -1198,7 +1345,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxApplicationPreferredLanguages.Location = new System.Drawing.Point(183, 68);
             this.textBoxApplicationPreferredLanguages.Name = "textBoxApplicationPreferredLanguages";
-            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(483, 22);
+            this.textBoxApplicationPreferredLanguages.Size = new System.Drawing.Size(172, 22);
             this.textBoxApplicationPreferredLanguages.TabIndex = 1;
             // 
             // comboBoxApplicationLanguages
@@ -1412,7 +1559,7 @@ namespace PhotoTagsSynchronizer
             "zu - Zulu"});
             this.comboBoxApplicationLanguages.Location = new System.Drawing.Point(183, 38);
             this.comboBoxApplicationLanguages.Name = "comboBoxApplicationLanguages";
-            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(483, 21);
+            this.comboBoxApplicationLanguages.Size = new System.Drawing.Size(172, 21);
             this.comboBoxApplicationLanguages.TabIndex = 0;
             this.comboBoxApplicationLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboBoxApplicationLanguages_SelectionChangeCommitted);
             // 
@@ -1420,24 +1567,26 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.label86);
-            this.groupBox1.Controls.Add(this.label85);
-            this.groupBox1.Controls.Add(this.comboBoxApplicationRegionThumbnailSizes);
-            this.groupBox1.Controls.Add(this.label84);
-            this.groupBox1.Controls.Add(this.label25);
-            this.groupBox1.Controls.Add(this.label24);
-            this.groupBox1.Controls.Add(this.comboBoxApplicationThumbnailSizes);
-            this.groupBox1.Controls.Add(this.labelApplicationThumbnailSize);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(671, 150);
+            // 
+            // groupBox1.Panel
+            // 
+            this.groupBox1.Panel.Controls.Add(this.label86);
+            this.groupBox1.Panel.Controls.Add(this.label85);
+            this.groupBox1.Panel.Controls.Add(this.comboBoxApplicationRegionThumbnailSizes);
+            this.groupBox1.Panel.Controls.Add(this.label84);
+            this.groupBox1.Panel.Controls.Add(this.label25);
+            this.groupBox1.Panel.Controls.Add(this.label24);
+            this.groupBox1.Panel.Controls.Add(this.comboBoxApplicationThumbnailSizes);
+            this.groupBox1.Panel.Controls.Add(this.labelApplicationThumbnailSize);
+            this.groupBox1.Size = new System.Drawing.Size(739, 150);
             this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Thumbnail size";
+            this.groupBox1.Values.Heading = "Thumbnail size";
             // 
             // label86
             // 
-            this.label86.Location = new System.Drawing.Point(372, 65);
+            this.label86.Location = new System.Drawing.Point(373, 51);
             this.label86.Name = "label86";
             this.label86.Size = new System.Drawing.Size(280, 21);
             this.label86.TabIndex = 7;
@@ -1445,7 +1594,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label85
             // 
-            this.label85.Location = new System.Drawing.Point(372, 35);
+            this.label85.Location = new System.Drawing.Point(373, 21);
             this.label85.Name = "label85";
             this.label85.Size = new System.Drawing.Size(288, 21);
             this.label85.TabIndex = 6;
@@ -1458,7 +1607,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxApplicationRegionThumbnailSizes.DropDownWidth = 172;
             this.comboBoxApplicationRegionThumbnailSizes.FormattingEnabled = true;
             this.comboBoxApplicationRegionThumbnailSizes.IntegralHeight = false;
-            this.comboBoxApplicationRegionThumbnailSizes.Location = new System.Drawing.Point(183, 62);
+            this.comboBoxApplicationRegionThumbnailSizes.Location = new System.Drawing.Point(184, 48);
             this.comboBoxApplicationRegionThumbnailSizes.Name = "comboBoxApplicationRegionThumbnailSizes";
             this.comboBoxApplicationRegionThumbnailSizes.Size = new System.Drawing.Size(172, 21);
             this.comboBoxApplicationRegionThumbnailSizes.TabIndex = 1;
@@ -1473,7 +1622,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label25
             // 
-            this.label25.Location = new System.Drawing.Point(180, 116);
+            this.label25.Location = new System.Drawing.Point(184, 102);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(458, 21);
             this.label25.TabIndex = 3;
@@ -1481,7 +1630,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label24
             // 
-            this.label24.Location = new System.Drawing.Point(180, 99);
+            this.label24.Location = new System.Drawing.Point(184, 75);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(384, 21);
             this.label24.TabIndex = 2;
@@ -1494,14 +1643,14 @@ namespace PhotoTagsSynchronizer
             this.comboBoxApplicationThumbnailSizes.DropDownWidth = 172;
             this.comboBoxApplicationThumbnailSizes.FormattingEnabled = true;
             this.comboBoxApplicationThumbnailSizes.IntegralHeight = false;
-            this.comboBoxApplicationThumbnailSizes.Location = new System.Drawing.Point(183, 32);
+            this.comboBoxApplicationThumbnailSizes.Location = new System.Drawing.Point(184, 18);
             this.comboBoxApplicationThumbnailSizes.Name = "comboBoxApplicationThumbnailSizes";
             this.comboBoxApplicationThumbnailSizes.Size = new System.Drawing.Size(172, 21);
             this.comboBoxApplicationThumbnailSizes.TabIndex = 0;
             // 
             // labelApplicationThumbnailSize
             // 
-            this.labelApplicationThumbnailSize.Location = new System.Drawing.Point(5, 35);
+            this.labelApplicationThumbnailSize.Location = new System.Drawing.Point(6, 21);
             this.labelApplicationThumbnailSize.Name = "labelApplicationThumbnailSize";
             this.labelApplicationThumbnailSize.Size = new System.Drawing.Size(147, 21);
             this.labelApplicationThumbnailSize.TabIndex = 0;
@@ -1715,33 +1864,35 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox11.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox11.Controls.Add(this.label82);
-            this.groupBox11.Controls.Add(this.label81);
-            this.groupBox11.Controls.Add(this.label80);
-            this.groupBox11.Controls.Add(this.label79);
-            this.groupBox11.Controls.Add(this.label78);
-            this.groupBox11.Controls.Add(this.label77);
-            this.groupBox11.Controls.Add(this.label76);
-            this.groupBox11.Controls.Add(this.numericUpDownWebScrapingPageDownCount);
-            this.groupBox11.Controls.Add(this.numericUpDownWaitEventPageLoadedTimeout);
-            this.groupBox11.Controls.Add(this.numericUpDownWaitEventPageStartLoadingTimeout);
-            this.groupBox11.Controls.Add(this.numericUpDownWebScrapingDelayInPageScriptToRun);
-            this.groupBox11.Controls.Add(this.numericUpDownWebScrapingDelayOurScriptToRun);
-            this.groupBox11.Controls.Add(this.numericUpDownWebScrapingRetry);
-            this.groupBox11.Controls.Add(this.numericUpDownJavaScriptExecuteTimeout);
-            this.groupBox11.Controls.Add(this.label75);
-            this.groupBox11.Controls.Add(this.label74);
-            this.groupBox11.Controls.Add(this.label73);
-            this.groupBox11.Controls.Add(this.label72);
-            this.groupBox11.Controls.Add(this.label71);
-            this.groupBox11.Controls.Add(this.label69);
-            this.groupBox11.Controls.Add(this.label70);
             this.groupBox11.Location = new System.Drawing.Point(3, 3);
             this.groupBox11.Name = "groupBox11";
+            // 
+            // groupBox11.Panel
+            // 
+            this.groupBox11.Panel.Controls.Add(this.label82);
+            this.groupBox11.Panel.Controls.Add(this.label81);
+            this.groupBox11.Panel.Controls.Add(this.label80);
+            this.groupBox11.Panel.Controls.Add(this.label79);
+            this.groupBox11.Panel.Controls.Add(this.label78);
+            this.groupBox11.Panel.Controls.Add(this.label77);
+            this.groupBox11.Panel.Controls.Add(this.label76);
+            this.groupBox11.Panel.Controls.Add(this.numericUpDownWebScrapingPageDownCount);
+            this.groupBox11.Panel.Controls.Add(this.numericUpDownWaitEventPageLoadedTimeout);
+            this.groupBox11.Panel.Controls.Add(this.numericUpDownWaitEventPageStartLoadingTimeout);
+            this.groupBox11.Panel.Controls.Add(this.numericUpDownWebScrapingDelayInPageScriptToRun);
+            this.groupBox11.Panel.Controls.Add(this.numericUpDownWebScrapingDelayOurScriptToRun);
+            this.groupBox11.Panel.Controls.Add(this.numericUpDownWebScrapingRetry);
+            this.groupBox11.Panel.Controls.Add(this.numericUpDownJavaScriptExecuteTimeout);
+            this.groupBox11.Panel.Controls.Add(this.label75);
+            this.groupBox11.Panel.Controls.Add(this.label74);
+            this.groupBox11.Panel.Controls.Add(this.label73);
+            this.groupBox11.Panel.Controls.Add(this.label72);
+            this.groupBox11.Panel.Controls.Add(this.label71);
+            this.groupBox11.Panel.Controls.Add(this.label69);
+            this.groupBox11.Panel.Controls.Add(this.label70);
             this.groupBox11.Size = new System.Drawing.Size(763, 249);
             this.groupBox11.TabIndex = 1;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "Web Scraping settings";
+            this.groupBox11.Values.Heading = "Web Scraping settings";
             // 
             // label82
             // 
@@ -2034,13 +2185,15 @@ namespace PhotoTagsSynchronizer
             this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox10.Controls.Add(this.textBoxWebScrapingStartPages);
             this.groupBox10.Location = new System.Drawing.Point(3, 255);
             this.groupBox10.Name = "groupBox10";
+            // 
+            // groupBox10.Panel
+            // 
+            this.groupBox10.Panel.Controls.Add(this.textBoxWebScrapingStartPages);
             this.groupBox10.Size = new System.Drawing.Size(763, 487);
             this.groupBox10.TabIndex = 0;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Start pages for scraping categories";
+            this.groupBox10.Values.Heading = "Start pages for scraping categories";
             // 
             // textBoxWebScrapingStartPages
             // 
@@ -2050,7 +2203,7 @@ namespace PhotoTagsSynchronizer
             this.textBoxWebScrapingStartPages.Location = new System.Drawing.Point(6, 21);
             this.textBoxWebScrapingStartPages.Multiline = true;
             this.textBoxWebScrapingStartPages.Name = "textBoxWebScrapingStartPages";
-            this.textBoxWebScrapingStartPages.Size = new System.Drawing.Size(745, 460);
+            this.textBoxWebScrapingStartPages.Size = new System.Drawing.Size(1404, 824);
             this.textBoxWebScrapingStartPages.TabIndex = 0;
             // 
             // tabPageMetadataWrite
@@ -2088,17 +2241,19 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox9.Controls.Add(this.label89);
-            this.groupBox9.Controls.Add(this.label88);
-            this.groupBox9.Controls.Add(this.numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted);
-            this.groupBox9.Controls.Add(this.label62);
-            this.groupBox9.Controls.Add(this.checkBoxWriteFileAttributeCreatedDate);
             this.groupBox9.Location = new System.Drawing.Point(1, 306);
             this.groupBox9.Name = "groupBox9";
+            // 
+            // groupBox9.Panel
+            // 
+            this.groupBox9.Panel.Controls.Add(this.label89);
+            this.groupBox9.Panel.Controls.Add(this.label88);
+            this.groupBox9.Panel.Controls.Add(this.numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted);
+            this.groupBox9.Panel.Controls.Add(this.label62);
+            this.groupBox9.Panel.Controls.Add(this.checkBoxWriteFileAttributeCreatedDate);
             this.groupBox9.Size = new System.Drawing.Size(731, 86);
             this.groupBox9.TabIndex = 17;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Media file Create Date and Time";
+            this.groupBox9.Values.Heading = "Media file Create Date and Time";
             // 
             // label89
             // 
@@ -2159,19 +2314,21 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxMetadataWriteKeywordItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.checkBoxWriteMetadataAddAutoKeywords);
-            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.comboBoxMetadataWriteKeywordAdd);
-            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.fastColoredTextBoxMetadataWriteKeywordAdd);
-            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.fastColoredTextBoxMetadataWriteKeywordDelete);
-            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.comboBoxMetadataWriteKeywordDelete);
-            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.label27);
-            this.groupBoxMetadataWriteKeywordItems.Controls.Add(this.label26);
             this.groupBoxMetadataWriteKeywordItems.Location = new System.Drawing.Point(0, 398);
             this.groupBoxMetadataWriteKeywordItems.Name = "groupBoxMetadataWriteKeywordItems";
+            // 
+            // groupBoxMetadataWriteKeywordItems.Panel
+            // 
+            this.groupBoxMetadataWriteKeywordItems.Panel.Controls.Add(this.checkBoxWriteMetadataAddAutoKeywords);
+            this.groupBoxMetadataWriteKeywordItems.Panel.Controls.Add(this.comboBoxMetadataWriteKeywordAdd);
+            this.groupBoxMetadataWriteKeywordItems.Panel.Controls.Add(this.fastColoredTextBoxMetadataWriteKeywordAdd);
+            this.groupBoxMetadataWriteKeywordItems.Panel.Controls.Add(this.fastColoredTextBoxMetadataWriteKeywordDelete);
+            this.groupBoxMetadataWriteKeywordItems.Panel.Controls.Add(this.comboBoxMetadataWriteKeywordDelete);
+            this.groupBoxMetadataWriteKeywordItems.Panel.Controls.Add(this.label27);
+            this.groupBoxMetadataWriteKeywordItems.Panel.Controls.Add(this.label26);
             this.groupBoxMetadataWriteKeywordItems.Size = new System.Drawing.Size(731, 308);
             this.groupBoxMetadataWriteKeywordItems.TabIndex = 16;
-            this.groupBoxMetadataWriteKeywordItems.TabStop = false;
-            this.groupBoxMetadataWriteKeywordItems.Text = "Keywords";
+            this.groupBoxMetadataWriteKeywordItems.Values.Heading = "Keywords";
             // 
             // checkBoxWriteMetadataAddAutoKeywords
             // 
@@ -2192,7 +2349,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMetadataWriteKeywordAdd.IntegralHeight = false;
             this.comboBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(370, 189);
             this.comboBoxMetadataWriteKeywordAdd.Name = "comboBoxMetadataWriteKeywordAdd";
-            this.comboBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(352, 21);
+            this.comboBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(979, 21);
             this.comboBoxMetadataWriteKeywordAdd.TabIndex = 3;
             this.comboBoxMetadataWriteKeywordAdd.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteKeywordAdd_SelectionChangeCommitted);
             // 
@@ -2216,13 +2373,14 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordAdd.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Location = new System.Drawing.Point(6, 219);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Name = "fastColoredTextBoxMetadataWriteKeywordAdd";
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Paddings = new System.Windows.Forms.Padding(0);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxMetadataWriteKeywordAdd.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxMetadataWriteKeywordAdd.ServiceColors")));
-            this.fastColoredTextBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(716, 83);
+            this.fastColoredTextBoxMetadataWriteKeywordAdd.Size = new System.Drawing.Size(1343, 83);
             this.fastColoredTextBoxMetadataWriteKeywordAdd.TabIndex = 2;
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Text = "fastColoredTextBox1";
             this.fastColoredTextBoxMetadataWriteKeywordAdd.Zoom = 100;
@@ -2249,13 +2407,14 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteKeywordDelete.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(6, 108);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Name = "fastColoredTextBoxMetadataWriteKeywordDelete";
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Paddings = new System.Windows.Forms.Padding(0);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxMetadataWriteKeywordDelete.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxMetadataWriteKeywordDelete.ServiceColors")));
-            this.fastColoredTextBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(716, 75);
+            this.fastColoredTextBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(1343, 75);
             this.fastColoredTextBoxMetadataWriteKeywordDelete.TabIndex = 0;
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Text = "fastColoredTextBox1";
             this.fastColoredTextBoxMetadataWriteKeywordDelete.Zoom = 100;
@@ -2273,7 +2432,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMetadataWriteKeywordDelete.IntegralHeight = false;
             this.comboBoxMetadataWriteKeywordDelete.Location = new System.Drawing.Point(370, 81);
             this.comboBoxMetadataWriteKeywordDelete.Name = "comboBoxMetadataWriteKeywordDelete";
-            this.comboBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(352, 21);
+            this.comboBoxMetadataWriteKeywordDelete.Size = new System.Drawing.Size(979, 21);
             this.comboBoxMetadataWriteKeywordDelete.TabIndex = 1;
             this.comboBoxMetadataWriteKeywordDelete.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteKeywordDelete_SelectionChangeCommitted);
             // 
@@ -2297,42 +2456,44 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxMetadataWriteProperties.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomArtist);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomArtistVideo);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.label37);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.label36);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.comboBoxWriteXtraAtomVariables);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomComment);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomSubject);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomSubtitle);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomAlbum);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomCategories);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.textBoxWriteXtraAtomKeywords);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.label35);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomRatingPicture);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomRatingVideo);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.label34);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomCommentPicture);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomSubjectPicture);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomCommentVideo);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomSubjectVideo);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomSubtitleVideo);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomAlbumVideo);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.label33);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.label32);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.label31);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.label30);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomCategoriesVideo);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.label29);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.label28);
-            this.groupBoxMetadataWriteProperties.Controls.Add(this.checkBoxWriteXtraAtomKeywordsVideo);
             this.groupBoxMetadataWriteProperties.Location = new System.Drawing.Point(1, 3);
             this.groupBoxMetadataWriteProperties.MinimumSize = new System.Drawing.Size(706, 289);
             this.groupBoxMetadataWriteProperties.Name = "groupBoxMetadataWriteProperties";
+            // 
+            // groupBoxMetadataWriteProperties.Panel
+            // 
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.textBoxWriteXtraAtomArtist);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomArtistVideo);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.label37);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.label36);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.comboBoxWriteXtraAtomVariables);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.textBoxWriteXtraAtomComment);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.textBoxWriteXtraAtomSubject);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.textBoxWriteXtraAtomSubtitle);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.textBoxWriteXtraAtomAlbum);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.textBoxWriteXtraAtomCategories);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.textBoxWriteXtraAtomKeywords);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.label35);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomRatingPicture);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomRatingVideo);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.label34);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomCommentPicture);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomSubjectPicture);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomCommentVideo);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomSubjectVideo);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomSubtitleVideo);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomAlbumVideo);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.label33);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.label32);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.label31);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.label30);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomCategoriesVideo);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.label29);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.label28);
+            this.groupBoxMetadataWriteProperties.Panel.Controls.Add(this.checkBoxWriteXtraAtomKeywordsVideo);
             this.groupBoxMetadataWriteProperties.Size = new System.Drawing.Size(733, 289);
             this.groupBoxMetadataWriteProperties.TabIndex = 15;
-            this.groupBoxMetadataWriteProperties.TabStop = false;
-            this.groupBoxMetadataWriteProperties.Text = "Write Windows Xtra atom properties:";
+            this.groupBoxMetadataWriteProperties.Values.Heading = "Write Windows Xtra atom properties:";
             // 
             // textBoxWriteXtraAtomArtist
             // 
@@ -2340,7 +2501,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomArtist.Location = new System.Drawing.Point(372, 218);
             this.textBoxWriteXtraAtomArtist.Name = "textBoxWriteXtraAtomArtist";
-            this.textBoxWriteXtraAtomArtist.Size = new System.Drawing.Size(352, 22);
+            this.textBoxWriteXtraAtomArtist.Size = new System.Drawing.Size(981, 22);
             this.textBoxWriteXtraAtomArtist.TabIndex = 16;
             this.textBoxWriteXtraAtomArtist.Enter += new System.EventHandler(this.textBoxWriteXtraAtomArtist_Enter);
             // 
@@ -2379,7 +2540,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxWriteXtraAtomVariables.IntegralHeight = false;
             this.comboBoxWriteXtraAtomVariables.Location = new System.Drawing.Point(372, 27);
             this.comboBoxWriteXtraAtomVariables.Name = "comboBoxWriteXtraAtomVariables";
-            this.comboBoxWriteXtraAtomVariables.Size = new System.Drawing.Size(352, 21);
+            this.comboBoxWriteXtraAtomVariables.Size = new System.Drawing.Size(981, 21);
             this.comboBoxWriteXtraAtomVariables.TabIndex = 0;
             this.comboBoxWriteXtraAtomVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxWriteXtraAtomVariables_SelectionChangeCommitted);
             // 
@@ -2389,7 +2550,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomComment.Location = new System.Drawing.Point(372, 191);
             this.textBoxWriteXtraAtomComment.Name = "textBoxWriteXtraAtomComment";
-            this.textBoxWriteXtraAtomComment.Size = new System.Drawing.Size(352, 22);
+            this.textBoxWriteXtraAtomComment.Size = new System.Drawing.Size(981, 22);
             this.textBoxWriteXtraAtomComment.TabIndex = 14;
             this.textBoxWriteXtraAtomComment.Enter += new System.EventHandler(this.textBoxWriteXtraAtomComment_Enter);
             // 
@@ -2399,7 +2560,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomSubject.Location = new System.Drawing.Point(372, 163);
             this.textBoxWriteXtraAtomSubject.Name = "textBoxWriteXtraAtomSubject";
-            this.textBoxWriteXtraAtomSubject.Size = new System.Drawing.Size(352, 22);
+            this.textBoxWriteXtraAtomSubject.Size = new System.Drawing.Size(981, 22);
             this.textBoxWriteXtraAtomSubject.TabIndex = 11;
             this.textBoxWriteXtraAtomSubject.Enter += new System.EventHandler(this.textBoxWriteXtraAtomSubject_Enter);
             // 
@@ -2409,7 +2570,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomSubtitle.Location = new System.Drawing.Point(372, 135);
             this.textBoxWriteXtraAtomSubtitle.Name = "textBoxWriteXtraAtomSubtitle";
-            this.textBoxWriteXtraAtomSubtitle.Size = new System.Drawing.Size(352, 22);
+            this.textBoxWriteXtraAtomSubtitle.Size = new System.Drawing.Size(981, 22);
             this.textBoxWriteXtraAtomSubtitle.TabIndex = 8;
             this.textBoxWriteXtraAtomSubtitle.Enter += new System.EventHandler(this.textBoxWriteXtraAtomSubtitle_Enter);
             // 
@@ -2419,7 +2580,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomAlbum.Location = new System.Drawing.Point(372, 108);
             this.textBoxWriteXtraAtomAlbum.Name = "textBoxWriteXtraAtomAlbum";
-            this.textBoxWriteXtraAtomAlbum.Size = new System.Drawing.Size(352, 22);
+            this.textBoxWriteXtraAtomAlbum.Size = new System.Drawing.Size(981, 22);
             this.textBoxWriteXtraAtomAlbum.TabIndex = 6;
             this.textBoxWriteXtraAtomAlbum.Enter += new System.EventHandler(this.textBoxWriteXtraAtomAlbum_Enter);
             // 
@@ -2429,7 +2590,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomCategories.Location = new System.Drawing.Point(372, 83);
             this.textBoxWriteXtraAtomCategories.Name = "textBoxWriteXtraAtomCategories";
-            this.textBoxWriteXtraAtomCategories.Size = new System.Drawing.Size(352, 22);
+            this.textBoxWriteXtraAtomCategories.Size = new System.Drawing.Size(981, 22);
             this.textBoxWriteXtraAtomCategories.TabIndex = 4;
             this.textBoxWriteXtraAtomCategories.Enter += new System.EventHandler(this.textBoxWriteXtraAtomCategories_Enter);
             // 
@@ -2439,7 +2600,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWriteXtraAtomKeywords.Location = new System.Drawing.Point(372, 57);
             this.textBoxWriteXtraAtomKeywords.Name = "textBoxWriteXtraAtomKeywords";
-            this.textBoxWriteXtraAtomKeywords.Size = new System.Drawing.Size(352, 22);
+            this.textBoxWriteXtraAtomKeywords.Size = new System.Drawing.Size(981, 22);
             this.textBoxWriteXtraAtomKeywords.TabIndex = 2;
             this.textBoxWriteXtraAtomKeywords.Enter += new System.EventHandler(this.textBoxWriteXtraAtomKeywords_Enter);
             // 
@@ -2591,16 +2752,18 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxMetadataWriteTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxMetadataWriteTags.Controls.Add(this.fastColoredTextBoxMetadataWriteTags);
-            this.groupBoxMetadataWriteTags.Controls.Add(this.comboBoxMetadataWriteStandardTags);
-            this.groupBoxMetadataWriteTags.Controls.Add(this.label6);
             this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(1, 712);
             this.groupBoxMetadataWriteTags.MinimumSize = new System.Drawing.Size(703, 145);
             this.groupBoxMetadataWriteTags.Name = "groupBoxMetadataWriteTags";
+            // 
+            // groupBoxMetadataWriteTags.Panel
+            // 
+            this.groupBoxMetadataWriteTags.Panel.Controls.Add(this.fastColoredTextBoxMetadataWriteTags);
+            this.groupBoxMetadataWriteTags.Panel.Controls.Add(this.comboBoxMetadataWriteStandardTags);
+            this.groupBoxMetadataWriteTags.Panel.Controls.Add(this.label6);
             this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(730, 355);
             this.groupBoxMetadataWriteTags.TabIndex = 14;
-            this.groupBoxMetadataWriteTags.TabStop = false;
-            this.groupBoxMetadataWriteTags.Text = "Exiftool Write tags configuration ";
+            this.groupBoxMetadataWriteTags.Values.Heading = "Exiftool Write tags configuration ";
             // 
             // fastColoredTextBoxMetadataWriteTags
             // 
@@ -2626,13 +2789,14 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxMetadataWriteTags.CharWidth = 10;
             this.fastColoredTextBoxMetadataWriteTags.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxMetadataWriteTags.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxMetadataWriteTags.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxMetadataWriteTags.IsReplaceMode = false;
             this.fastColoredTextBoxMetadataWriteTags.Location = new System.Drawing.Point(5, 51);
             this.fastColoredTextBoxMetadataWriteTags.Name = "fastColoredTextBoxMetadataWriteTags";
             this.fastColoredTextBoxMetadataWriteTags.Paddings = new System.Windows.Forms.Padding(0);
             this.fastColoredTextBoxMetadataWriteTags.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxMetadataWriteTags.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxMetadataWriteTags.ServiceColors")));
-            this.fastColoredTextBoxMetadataWriteTags.Size = new System.Drawing.Size(716, 298);
+            this.fastColoredTextBoxMetadataWriteTags.Size = new System.Drawing.Size(1342, 530);
             this.fastColoredTextBoxMetadataWriteTags.TabIndex = 0;
             this.fastColoredTextBoxMetadataWriteTags.Text = "fastColoredTextBox1";
             this.fastColoredTextBoxMetadataWriteTags.Zoom = 100;
@@ -2650,7 +2814,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxMetadataWriteStandardTags.IntegralHeight = false;
             this.comboBoxMetadataWriteStandardTags.Location = new System.Drawing.Point(369, 21);
             this.comboBoxMetadataWriteStandardTags.Name = "comboBoxMetadataWriteStandardTags";
-            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(352, 21);
+            this.comboBoxMetadataWriteStandardTags.Size = new System.Drawing.Size(978, 21);
             this.comboBoxMetadataWriteStandardTags.TabIndex = 1;
             this.comboBoxMetadataWriteStandardTags.SelectionChangeCommitted += new System.EventHandler(this.comboBoxMetadataWriteStandardTags_SelectionChangeCommitted);
             // 
@@ -2708,6 +2872,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConfigFilenameDateFormats.CharWidth = 10;
             this.fastColoredTextBoxConfigFilenameDateFormats.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConfigFilenameDateFormats.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConfigFilenameDateFormats.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConfigFilenameDateFormats.IsReplaceMode = false;
             this.fastColoredTextBoxConfigFilenameDateFormats.Location = new System.Drawing.Point(2, 46);
             this.fastColoredTextBoxConfigFilenameDateFormats.Name = "fastColoredTextBoxConfigFilenameDateFormats";
@@ -2770,20 +2935,21 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxRename
             // 
-            this.groupBoxRename.Controls.Add(this.textBoxRenameTo);
-            this.groupBoxRename.Controls.Add(this.label10);
-            this.groupBoxRename.Controls.Add(this.checkBoxRename);
-            this.groupBoxRename.Controls.Add(this.label9);
-            this.groupBoxRename.Controls.Add(this.comboBoxRenameVariables);
             this.groupBoxRename.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxRename.Location = new System.Drawing.Point(0, 1966);
             this.groupBoxRename.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxRename.Name = "groupBoxRename";
-            this.groupBoxRename.Padding = new System.Windows.Forms.Padding(2);
+            // 
+            // groupBoxRename.Panel
+            // 
+            this.groupBoxRename.Panel.Controls.Add(this.textBoxRenameTo);
+            this.groupBoxRename.Panel.Controls.Add(this.label10);
+            this.groupBoxRename.Panel.Controls.Add(this.checkBoxRename);
+            this.groupBoxRename.Panel.Controls.Add(this.label9);
+            this.groupBoxRename.Panel.Controls.Add(this.comboBoxRenameVariables);
             this.groupBoxRename.Size = new System.Drawing.Size(740, 127);
             this.groupBoxRename.TabIndex = 5;
-            this.groupBoxRename.TabStop = false;
-            this.groupBoxRename.Text = "Rename media file(s)";
+            this.groupBoxRename.Values.Heading = "Rename media file(s)";
             // 
             // textBoxRenameTo
             // 
@@ -2792,7 +2958,7 @@ namespace PhotoTagsSynchronizer
             this.textBoxRenameTo.Location = new System.Drawing.Point(165, 78);
             this.textBoxRenameTo.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxRenameTo.Name = "textBoxRenameTo";
-            this.textBoxRenameTo.Size = new System.Drawing.Size(558, 22);
+            this.textBoxRenameTo.Size = new System.Drawing.Size(1194, 22);
             this.textBoxRenameTo.TabIndex = 4;
             // 
             // label10
@@ -2869,25 +3035,26 @@ namespace PhotoTagsSynchronizer
             this.comboBoxRenameVariables.Location = new System.Drawing.Point(165, 50);
             this.comboBoxRenameVariables.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxRenameVariables.Name = "comboBoxRenameVariables";
-            this.comboBoxRenameVariables.Size = new System.Drawing.Size(558, 21);
+            this.comboBoxRenameVariables.Size = new System.Drawing.Size(1194, 21);
             this.comboBoxRenameVariables.TabIndex = 2;
             this.comboBoxRenameVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxRenameVariables_SelectionChangeCommitted);
             // 
             // groupBoxFaceRegion
             // 
-            this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddWebScraping);
-            this.groupBoxFaceRegion.Controls.Add(this.label5);
-            this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddMicrosoftPhotos);
-            this.groupBoxFaceRegion.Controls.Add(this.checkBoxFaceRegionAddWindowsMediaPhotoGallery);
             this.groupBoxFaceRegion.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxFaceRegion.Location = new System.Drawing.Point(0, 1851);
             this.groupBoxFaceRegion.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxFaceRegion.Name = "groupBoxFaceRegion";
-            this.groupBoxFaceRegion.Padding = new System.Windows.Forms.Padding(2);
+            // 
+            // groupBoxFaceRegion.Panel
+            // 
+            this.groupBoxFaceRegion.Panel.Controls.Add(this.checkBoxFaceRegionAddWebScraping);
+            this.groupBoxFaceRegion.Panel.Controls.Add(this.label5);
+            this.groupBoxFaceRegion.Panel.Controls.Add(this.checkBoxFaceRegionAddMicrosoftPhotos);
+            this.groupBoxFaceRegion.Panel.Controls.Add(this.checkBoxFaceRegionAddWindowsMediaPhotoGallery);
             this.groupBoxFaceRegion.Size = new System.Drawing.Size(740, 115);
             this.groupBoxFaceRegion.TabIndex = 2;
-            this.groupBoxFaceRegion.TabStop = false;
-            this.groupBoxFaceRegion.Text = "Face region fields";
+            this.groupBoxFaceRegion.Values.Heading = "Face region fields";
             // 
             // checkBoxFaceRegionAddWebScraping
             // 
@@ -2933,27 +3100,29 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxAutoCorrectBackup
             // 
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxAutoCorrectTrackChanges);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupFileCreatedBefore);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupFileCreatedAfter);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupDateTakenBefore);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupLocationCountry);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupGPSDateTimeUTCBefore);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupLocationState);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupDateTakenAfter);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupLocationCity);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupGPSDateTimeUTCAfter);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.label18);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupLocationName);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.label17);
-            this.groupBoxAutoCorrectBackup.Controls.Add(this.checkBoxKeywordBackupRegionFaceNames);
             this.groupBoxAutoCorrectBackup.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxAutoCorrectBackup.Location = new System.Drawing.Point(0, 1438);
             this.groupBoxAutoCorrectBackup.Name = "groupBoxAutoCorrectBackup";
+            // 
+            // groupBoxAutoCorrectBackup.Panel
+            // 
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxAutoCorrectTrackChanges);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupFileCreatedBefore);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupFileCreatedAfter);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupDateTakenBefore);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupLocationCountry);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupGPSDateTimeUTCBefore);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupLocationState);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupDateTakenAfter);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupLocationCity);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupGPSDateTimeUTCAfter);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.label18);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupLocationName);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.label17);
+            this.groupBoxAutoCorrectBackup.Panel.Controls.Add(this.checkBoxKeywordBackupRegionFaceNames);
             this.groupBoxAutoCorrectBackup.Size = new System.Drawing.Size(740, 413);
             this.groupBoxAutoCorrectBackup.TabIndex = 0;
-            this.groupBoxAutoCorrectBackup.TabStop = false;
-            this.groupBoxAutoCorrectBackup.Text = "Backup diffrent tags";
+            this.groupBoxAutoCorrectBackup.Values.Heading = "Backup diffrent tags";
             // 
             // checkBoxAutoCorrectTrackChanges
             // 
@@ -3069,21 +3238,22 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxKaywordTags
             // 
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddAutoKeywords);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddWebScraping);
-            this.groupBoxKaywordTags.Controls.Add(this.label4);
-            this.groupBoxKaywordTags.Controls.Add(this.comboBoxKeywordsAiConfidence);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddMicrosoftPhotos);
-            this.groupBoxKaywordTags.Controls.Add(this.checkBoxKeywordsAddWindowsMediaPhotoGallery);
             this.groupBoxKaywordTags.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxKaywordTags.Location = new System.Drawing.Point(0, 1278);
             this.groupBoxKaywordTags.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxKaywordTags.Name = "groupBoxKaywordTags";
-            this.groupBoxKaywordTags.Padding = new System.Windows.Forms.Padding(2);
+            // 
+            // groupBoxKaywordTags.Panel
+            // 
+            this.groupBoxKaywordTags.Panel.Controls.Add(this.checkBoxKeywordsAddAutoKeywords);
+            this.groupBoxKaywordTags.Panel.Controls.Add(this.checkBoxKeywordsAddWebScraping);
+            this.groupBoxKaywordTags.Panel.Controls.Add(this.label4);
+            this.groupBoxKaywordTags.Panel.Controls.Add(this.comboBoxKeywordsAiConfidence);
+            this.groupBoxKaywordTags.Panel.Controls.Add(this.checkBoxKeywordsAddMicrosoftPhotos);
+            this.groupBoxKaywordTags.Panel.Controls.Add(this.checkBoxKeywordsAddWindowsMediaPhotoGallery);
             this.groupBoxKaywordTags.Size = new System.Drawing.Size(740, 160);
             this.groupBoxKaywordTags.TabIndex = 3;
-            this.groupBoxKaywordTags.TabStop = false;
-            this.groupBoxKaywordTags.Text = "Keyword tags";
+            this.groupBoxKaywordTags.Values.Heading = "Keyword tags";
             // 
             // checkBoxKeywordsAddAutoKeywords
             // 
@@ -3159,19 +3329,20 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxAuthor
             // 
-            this.groupBoxAuthor.Controls.Add(this.radioButtonAuthorAlwaysChange);
-            this.groupBoxAuthor.Controls.Add(this.label13);
-            this.groupBoxAuthor.Controls.Add(this.radioButtonAuthorChangeWhenEmpty);
-            this.groupBoxAuthor.Controls.Add(this.radioButtonAuthorDoNotChange);
             this.groupBoxAuthor.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxAuthor.Location = new System.Drawing.Point(0, 1130);
             this.groupBoxAuthor.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxAuthor.Name = "groupBoxAuthor";
-            this.groupBoxAuthor.Padding = new System.Windows.Forms.Padding(2);
+            // 
+            // groupBoxAuthor.Panel
+            // 
+            this.groupBoxAuthor.Panel.Controls.Add(this.radioButtonAuthorAlwaysChange);
+            this.groupBoxAuthor.Panel.Controls.Add(this.label13);
+            this.groupBoxAuthor.Panel.Controls.Add(this.radioButtonAuthorChangeWhenEmpty);
+            this.groupBoxAuthor.Panel.Controls.Add(this.radioButtonAuthorDoNotChange);
             this.groupBoxAuthor.Size = new System.Drawing.Size(740, 148);
             this.groupBoxAuthor.TabIndex = 8;
-            this.groupBoxAuthor.TabStop = false;
-            this.groupBoxAuthor.Text = "Author";
+            this.groupBoxAuthor.Values.Heading = "Author";
             // 
             // radioButtonAuthorAlwaysChange
             // 
@@ -3219,21 +3390,22 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxAlbum
             // 
-            this.groupBoxAlbum.Controls.Add(this.checkBoxDublicateAlbumAsDescription);
-            this.groupBoxAlbum.Controls.Add(this.label19);
-            this.groupBoxAlbum.Controls.Add(this.imageListViewOrderAlbum);
-            this.groupBoxAlbum.Controls.Add(this.radioButtonAlbumUseFirst);
-            this.groupBoxAlbum.Controls.Add(this.radioButtonAlbumChangeWhenEmpty);
-            this.groupBoxAlbum.Controls.Add(this.radioButtonAlbumDoNotChange);
             this.groupBoxAlbum.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxAlbum.Location = new System.Drawing.Point(0, 965);
             this.groupBoxAlbum.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxAlbum.Name = "groupBoxAlbum";
-            this.groupBoxAlbum.Padding = new System.Windows.Forms.Padding(2);
+            // 
+            // groupBoxAlbum.Panel
+            // 
+            this.groupBoxAlbum.Panel.Controls.Add(this.checkBoxDublicateAlbumAsDescription);
+            this.groupBoxAlbum.Panel.Controls.Add(this.label19);
+            this.groupBoxAlbum.Panel.Controls.Add(this.imageListViewOrderAlbum);
+            this.groupBoxAlbum.Panel.Controls.Add(this.radioButtonAlbumUseFirst);
+            this.groupBoxAlbum.Panel.Controls.Add(this.radioButtonAlbumChangeWhenEmpty);
+            this.groupBoxAlbum.Panel.Controls.Add(this.radioButtonAlbumDoNotChange);
             this.groupBoxAlbum.Size = new System.Drawing.Size(740, 165);
             this.groupBoxAlbum.TabIndex = 10;
-            this.groupBoxAlbum.TabStop = false;
-            this.groupBoxAlbum.Text = "Album";
+            this.groupBoxAlbum.Values.Heading = "Album";
             // 
             // checkBoxDublicateAlbumAsDescription
             // 
@@ -3299,20 +3471,21 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxTitle
             // 
-            this.groupBoxTitle.Controls.Add(this.label11);
-            this.groupBoxTitle.Controls.Add(this.imageListViewOrderTitle);
-            this.groupBoxTitle.Controls.Add(this.radioButtonTitleUseFirst);
-            this.groupBoxTitle.Controls.Add(this.radioButtonTitleChangeWhenEmpty);
-            this.groupBoxTitle.Controls.Add(this.radioButtonTitleDoNotChange);
             this.groupBoxTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxTitle.Location = new System.Drawing.Point(0, 811);
             this.groupBoxTitle.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxTitle.Name = "groupBoxTitle";
-            this.groupBoxTitle.Padding = new System.Windows.Forms.Padding(2);
+            // 
+            // groupBoxTitle.Panel
+            // 
+            this.groupBoxTitle.Panel.Controls.Add(this.label11);
+            this.groupBoxTitle.Panel.Controls.Add(this.imageListViewOrderTitle);
+            this.groupBoxTitle.Panel.Controls.Add(this.radioButtonTitleUseFirst);
+            this.groupBoxTitle.Panel.Controls.Add(this.radioButtonTitleChangeWhenEmpty);
+            this.groupBoxTitle.Panel.Controls.Add(this.radioButtonTitleDoNotChange);
             this.groupBoxTitle.Size = new System.Drawing.Size(740, 154);
             this.groupBoxTitle.TabIndex = 6;
-            this.groupBoxTitle.TabStop = false;
-            this.groupBoxTitle.Text = "Title";
+            this.groupBoxTitle.Values.Heading = "Title";
             // 
             // label11
             // 
@@ -3370,22 +3543,24 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxLocationName
             // 
-            this.groupBoxLocationName.Controls.Add(this.checkBoxUpdateLocationCountry);
-            this.groupBoxLocationName.Controls.Add(this.checkBoxUpdateLocationState);
-            this.groupBoxLocationName.Controls.Add(this.checkBoxUpdateLocationCity);
-            this.groupBoxLocationName.Controls.Add(this.checkBoxUpdateLocationName);
-            this.groupBoxLocationName.Controls.Add(this.label15);
-            this.groupBoxLocationName.Controls.Add(this.label14);
-            this.groupBoxLocationName.Controls.Add(this.radioButtonLocationNameChangeAlways);
-            this.groupBoxLocationName.Controls.Add(this.radioButtonLocationNameChangeWhenEmpty);
-            this.groupBoxLocationName.Controls.Add(this.radioButtonLocationNameDoNotChange);
             this.groupBoxLocationName.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxLocationName.Location = new System.Drawing.Point(0, 515);
             this.groupBoxLocationName.Name = "groupBoxLocationName";
+            // 
+            // groupBoxLocationName.Panel
+            // 
+            this.groupBoxLocationName.Panel.Controls.Add(this.checkBoxUpdateLocationCountry);
+            this.groupBoxLocationName.Panel.Controls.Add(this.checkBoxUpdateLocationState);
+            this.groupBoxLocationName.Panel.Controls.Add(this.checkBoxUpdateLocationCity);
+            this.groupBoxLocationName.Panel.Controls.Add(this.checkBoxUpdateLocationName);
+            this.groupBoxLocationName.Panel.Controls.Add(this.label15);
+            this.groupBoxLocationName.Panel.Controls.Add(this.label14);
+            this.groupBoxLocationName.Panel.Controls.Add(this.radioButtonLocationNameChangeAlways);
+            this.groupBoxLocationName.Panel.Controls.Add(this.radioButtonLocationNameChangeWhenEmpty);
+            this.groupBoxLocationName.Panel.Controls.Add(this.radioButtonLocationNameDoNotChange);
             this.groupBoxLocationName.Size = new System.Drawing.Size(740, 296);
             this.groupBoxLocationName.TabIndex = 9;
-            this.groupBoxLocationName.TabStop = false;
-            this.groupBoxLocationName.Text = "Location information";
+            this.groupBoxLocationName.Values.Heading = "Location information";
             // 
             // checkBoxUpdateLocationCountry
             // 
@@ -3470,31 +3645,32 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxGPSLocation
             // 
-            this.groupBoxGPSLocation.Controls.Add(this.label87);
-            this.groupBoxGPSLocation.Controls.Add(this.numericUpDownLocationAccurateIntervalNearByMediaFile);
-            this.groupBoxGPSLocation.Controls.Add(this.checkBoxGPSUpdateLocationNearByMedia);
-            this.groupBoxGPSLocation.Controls.Add(this.label23);
-            this.groupBoxGPSLocation.Controls.Add(this.label22);
-            this.groupBoxGPSLocation.Controls.Add(this.numericUpDownLocationAccurateInterval);
-            this.groupBoxGPSLocation.Controls.Add(this.numericUpDownLocationGuessInterval);
-            this.groupBoxGPSLocation.Controls.Add(this.label21);
-            this.groupBoxGPSLocation.Controls.Add(this.labelLocationTimeZoneAccurate);
-            this.groupBoxGPSLocation.Controls.Add(this.label16);
-            this.groupBoxGPSLocation.Controls.Add(this.label12);
-            this.groupBoxGPSLocation.Controls.Add(this.label8);
-            this.groupBoxGPSLocation.Controls.Add(this.label7);
-            this.groupBoxGPSLocation.Controls.Add(this.labelLocationTimeZoneGuess);
-            this.groupBoxGPSLocation.Controls.Add(this.checkBoxGPSUpdateDateTime);
-            this.groupBoxGPSLocation.Controls.Add(this.checkBoxGPSUpdateLocation);
             this.groupBoxGPSLocation.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxGPSLocation.Location = new System.Drawing.Point(0, 275);
             this.groupBoxGPSLocation.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxGPSLocation.Name = "groupBoxGPSLocation";
-            this.groupBoxGPSLocation.Padding = new System.Windows.Forms.Padding(2);
+            // 
+            // groupBoxGPSLocation.Panel
+            // 
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.label87);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.numericUpDownLocationAccurateIntervalNearByMediaFile);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.checkBoxGPSUpdateLocationNearByMedia);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.label23);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.label22);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.numericUpDownLocationAccurateInterval);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.numericUpDownLocationGuessInterval);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.label21);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.labelLocationTimeZoneAccurate);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.label16);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.label12);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.label8);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.label7);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.labelLocationTimeZoneGuess);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.checkBoxGPSUpdateDateTime);
+            this.groupBoxGPSLocation.Panel.Controls.Add(this.checkBoxGPSUpdateLocation);
             this.groupBoxGPSLocation.Size = new System.Drawing.Size(740, 240);
             this.groupBoxGPSLocation.TabIndex = 4;
-            this.groupBoxGPSLocation.TabStop = false;
-            this.groupBoxGPSLocation.Text = "GPS Location and GPS Date and Time";
+            this.groupBoxGPSLocation.Values.Heading = "GPS Location and GPS Date and Time";
             // 
             // label87
             // 
@@ -3677,21 +3853,22 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBoxDateTimeDigitized
             // 
-            this.groupBoxDateTimeDigitized.Controls.Add(this.label3);
-            this.groupBoxDateTimeDigitized.Controls.Add(this.radioButtonDateTakenUseFirst);
-            this.groupBoxDateTimeDigitized.Controls.Add(this.radioButtonDateTakenChangeWhenEmpty);
-            this.groupBoxDateTimeDigitized.Controls.Add(this.radioButtonDateTakenDoNotChange);
-            this.groupBoxDateTimeDigitized.Controls.Add(this.imageListViewOrderDateTaken);
             this.groupBoxDateTimeDigitized.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxDateTimeDigitized.Location = new System.Drawing.Point(0, 0);
             this.groupBoxDateTimeDigitized.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxDateTimeDigitized.MinimumSize = new System.Drawing.Size(555, 103);
             this.groupBoxDateTimeDigitized.Name = "groupBoxDateTimeDigitized";
-            this.groupBoxDateTimeDigitized.Padding = new System.Windows.Forms.Padding(2);
+            // 
+            // groupBoxDateTimeDigitized.Panel
+            // 
+            this.groupBoxDateTimeDigitized.Panel.Controls.Add(this.label3);
+            this.groupBoxDateTimeDigitized.Panel.Controls.Add(this.radioButtonDateTakenUseFirst);
+            this.groupBoxDateTimeDigitized.Panel.Controls.Add(this.radioButtonDateTakenChangeWhenEmpty);
+            this.groupBoxDateTimeDigitized.Panel.Controls.Add(this.radioButtonDateTakenDoNotChange);
+            this.groupBoxDateTimeDigitized.Panel.Controls.Add(this.imageListViewOrderDateTaken);
             this.groupBoxDateTimeDigitized.Size = new System.Drawing.Size(740, 275);
             this.groupBoxDateTimeDigitized.TabIndex = 1;
-            this.groupBoxDateTimeDigitized.TabStop = false;
-            this.groupBoxDateTimeDigitized.Text = "Date and Time Digitized";
+            this.groupBoxDateTimeDigitized.Values.Heading = "Date and Time Digitized";
             // 
             // label3
             // 
@@ -4336,8 +4513,7 @@ namespace PhotoTagsSynchronizer
             this.buttonLocationImport.Name = "buttonLocationImport";
             this.buttonLocationImport.Size = new System.Drawing.Size(91, 26);
             this.buttonLocationImport.TabIndex = 8;
-            this.buttonLocationImport.Text = "Import";
-            this.buttonLocationImport.UseVisualStyleBackColor = true;
+            this.buttonLocationImport.Values.Text = "Import";
             this.buttonLocationImport.Click += new System.EventHandler(this.buttonLocationImport_Click);
             // 
             // buttonLocationExport
@@ -4347,8 +4523,7 @@ namespace PhotoTagsSynchronizer
             this.buttonLocationExport.Name = "buttonLocationExport";
             this.buttonLocationExport.Size = new System.Drawing.Size(91, 25);
             this.buttonLocationExport.TabIndex = 7;
-            this.buttonLocationExport.Text = "Export";
-            this.buttonLocationExport.UseVisualStyleBackColor = true;
+            this.buttonLocationExport.Values.Text = "Export";
             this.buttonLocationExport.Click += new System.EventHandler(this.buttonLocationExport_Click);
             // 
             // textBox4
@@ -4391,15 +4566,17 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxConvertAndMergeConvertVideo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxConvertAndMergeConvertVideo.Controls.Add(this.label53);
-            this.groupBoxConvertAndMergeConvertVideo.Controls.Add(this.comboBoxConvertAndMergeConvertVideoFilesVariables);
-            this.groupBoxConvertAndMergeConvertVideo.Controls.Add(this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument);
             this.groupBoxConvertAndMergeConvertVideo.Location = new System.Drawing.Point(3, 417);
             this.groupBoxConvertAndMergeConvertVideo.Name = "groupBoxConvertAndMergeConvertVideo";
+            // 
+            // groupBoxConvertAndMergeConvertVideo.Panel
+            // 
+            this.groupBoxConvertAndMergeConvertVideo.Panel.Controls.Add(this.label53);
+            this.groupBoxConvertAndMergeConvertVideo.Panel.Controls.Add(this.comboBoxConvertAndMergeConvertVideoFilesVariables);
+            this.groupBoxConvertAndMergeConvertVideo.Panel.Controls.Add(this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument);
             this.groupBoxConvertAndMergeConvertVideo.Size = new System.Drawing.Size(754, 113);
             this.groupBoxConvertAndMergeConvertVideo.TabIndex = 3;
-            this.groupBoxConvertAndMergeConvertVideo.TabStop = false;
-            this.groupBoxConvertAndMergeConvertVideo.Text = "Convert video files";
+            this.groupBoxConvertAndMergeConvertVideo.Values.Heading = "Convert video files";
             // 
             // label53
             // 
@@ -4417,7 +4594,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.DropDownWidth = 352;
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.FormattingEnabled = true;
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.IntegralHeight = false;
-            this.comboBoxConvertAndMergeConvertVideoFilesVariables.Location = new System.Drawing.Point(396, 21);
+            this.comboBoxConvertAndMergeConvertVideoFilesVariables.Location = new System.Drawing.Point(1046, 21);
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.Name = "comboBoxConvertAndMergeConvertVideoFilesVariables";
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.Size = new System.Drawing.Size(352, 21);
             this.comboBoxConvertAndMergeConvertVideoFilesVariables.TabIndex = 0;
@@ -4445,6 +4622,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Multiline = false;
@@ -4454,7 +4632,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.ServiceColors")));
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.ShowCaretWhenInactive = true;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.ShowScrollBars = false;
-            this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Size = new System.Drawing.Size(742, 48);
+            this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Size = new System.Drawing.Size(1392, 48);
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.TabIndex = 1;
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.Text = "file \'{ImageFullFilename}\'";
             this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument.WordWrap = true;
@@ -4466,18 +4644,20 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxConvertAndMergeMergeVideos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxConvertAndMergeMergeVideos.Controls.Add(this.comboBoxConvertAndMergeConcatVideosArguFileVariables);
-            this.groupBoxConvertAndMergeMergeVideos.Controls.Add(this.comboBoxConvertAndMergeConcatVideoFilesVariables);
-            this.groupBoxConvertAndMergeMergeVideos.Controls.Add(this.label52);
-            this.groupBoxConvertAndMergeMergeVideos.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile);
-            this.groupBoxConvertAndMergeMergeVideos.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatVideoArgument);
-            this.groupBoxConvertAndMergeMergeVideos.Controls.Add(this.label50);
             this.groupBoxConvertAndMergeMergeVideos.Location = new System.Drawing.Point(3, 536);
             this.groupBoxConvertAndMergeMergeVideos.Name = "groupBoxConvertAndMergeMergeVideos";
+            // 
+            // groupBoxConvertAndMergeMergeVideos.Panel
+            // 
+            this.groupBoxConvertAndMergeMergeVideos.Panel.Controls.Add(this.comboBoxConvertAndMergeConcatVideosArguFileVariables);
+            this.groupBoxConvertAndMergeMergeVideos.Panel.Controls.Add(this.comboBoxConvertAndMergeConcatVideoFilesVariables);
+            this.groupBoxConvertAndMergeMergeVideos.Panel.Controls.Add(this.label52);
+            this.groupBoxConvertAndMergeMergeVideos.Panel.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile);
+            this.groupBoxConvertAndMergeMergeVideos.Panel.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatVideoArgument);
+            this.groupBoxConvertAndMergeMergeVideos.Panel.Controls.Add(this.label50);
             this.groupBoxConvertAndMergeMergeVideos.Size = new System.Drawing.Size(754, 226);
             this.groupBoxConvertAndMergeMergeVideos.TabIndex = 2;
-            this.groupBoxConvertAndMergeMergeVideos.TabStop = false;
-            this.groupBoxConvertAndMergeMergeVideos.Text = "Merge video files:";
+            this.groupBoxConvertAndMergeMergeVideos.Values.Heading = "Merge video files:";
             // 
             // comboBoxConvertAndMergeConcatVideosArguFileVariables
             // 
@@ -4487,7 +4667,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.DropDownWidth = 352;
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.FormattingEnabled = true;
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.IntegralHeight = false;
-            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Location = new System.Drawing.Point(396, 116);
+            this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Location = new System.Drawing.Point(1046, 116);
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Name = "comboBoxConvertAndMergeConcatVideosArguFileVariables";
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.Size = new System.Drawing.Size(352, 21);
             this.comboBoxConvertAndMergeConcatVideosArguFileVariables.TabIndex = 2;
@@ -4501,7 +4681,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.DropDownWidth = 352;
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.FormattingEnabled = true;
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.IntegralHeight = false;
-            this.comboBoxConvertAndMergeConcatVideoFilesVariables.Location = new System.Drawing.Point(396, 16);
+            this.comboBoxConvertAndMergeConcatVideoFilesVariables.Location = new System.Drawing.Point(1046, 16);
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.Name = "comboBoxConvertAndMergeConcatVideoFilesVariables";
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.Size = new System.Drawing.Size(352, 21);
             this.comboBoxConvertAndMergeConcatVideoFilesVariables.TabIndex = 0;
@@ -4537,6 +4717,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Location = new System.Drawing.Point(6, 143);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatVideoArguFile";
@@ -4544,7 +4725,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxConvertAndMergeConcatVideoArguFile.ServiceColors")));
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.ShowCaretWhenInactive = true;
-            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Size = new System.Drawing.Size(742, 59);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Size = new System.Drawing.Size(1392, 59);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.TabIndex = 3;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.Text = "$ cat mylist.txt";
             this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile.WordWrap = true;
@@ -4574,6 +4755,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Location = new System.Drawing.Point(6, 46);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Multiline = false;
@@ -4583,7 +4765,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxConvertAndMergeConcatVideoArgument.ServiceColors")));
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.ShowCaretWhenInactive = true;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.ShowScrollBars = false;
-            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Size = new System.Drawing.Size(742, 59);
+            this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Size = new System.Drawing.Size(1392, 59);
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.TabIndex = 1;
             this.fastColoredTextBoxConvertAndMergeConcatVideoArgument.Text = "ffmpeg -i opening.mkv -i episode.mkv -i ending.mkv -filter_complex \"[0:v] [0:a] [" +
     "1:v] [1:a] [2:v] [2:a] concat=n=3:v=1:a=1 [v] [a]\" -map \"[v]\" -map \"[a]\" output." +
@@ -4605,26 +4787,28 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxConvertAndMergeCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label56);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.comboBoxConvertAndMergeTempfileExtension);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label55);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label54);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.comboBoxConvertAndMergeOutputSize);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.buttonConvertAndMergeBrowseBackgroundMusic);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.buttonConvertAndMergeBrowseFFmpeg);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label49);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.numericUpDownConvertAndMergeImageDuration);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label48);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.textBoxConvertAndMergeBackgroundMusic);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label47);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.textBoxConvertAndMergeFFmpeg);
-            this.groupBoxConvertAndMergeCommand.Controls.Add(this.label46);
             this.groupBoxConvertAndMergeCommand.Location = new System.Drawing.Point(3, 3);
             this.groupBoxConvertAndMergeCommand.Name = "groupBoxConvertAndMergeCommand";
+            // 
+            // groupBoxConvertAndMergeCommand.Panel
+            // 
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.label56);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.comboBoxConvertAndMergeTempfileExtension);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.label55);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.label54);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.comboBoxConvertAndMergeOutputSize);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.buttonConvertAndMergeBrowseBackgroundMusic);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.buttonConvertAndMergeBrowseFFmpeg);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.label49);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.numericUpDownConvertAndMergeImageDuration);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.label48);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.textBoxConvertAndMergeBackgroundMusic);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.label47);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.textBoxConvertAndMergeFFmpeg);
+            this.groupBoxConvertAndMergeCommand.Panel.Controls.Add(this.label46);
             this.groupBoxConvertAndMergeCommand.Size = new System.Drawing.Size(754, 176);
             this.groupBoxConvertAndMergeCommand.TabIndex = 1;
-            this.groupBoxConvertAndMergeCommand.TabStop = false;
-            this.groupBoxConvertAndMergeCommand.Text = "Convert and Merge Command variables:";
+            this.groupBoxConvertAndMergeCommand.Values.Heading = "Convert and Merge Command variables:";
             // 
             // label56
             // 
@@ -4685,23 +4869,21 @@ namespace PhotoTagsSynchronizer
             // buttonConvertAndMergeBrowseBackgroundMusic
             // 
             this.buttonConvertAndMergeBrowseBackgroundMusic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonConvertAndMergeBrowseBackgroundMusic.Location = new System.Drawing.Point(647, 49);
+            this.buttonConvertAndMergeBrowseBackgroundMusic.Location = new System.Drawing.Point(1297, 49);
             this.buttonConvertAndMergeBrowseBackgroundMusic.Name = "buttonConvertAndMergeBrowseBackgroundMusic";
             this.buttonConvertAndMergeBrowseBackgroundMusic.Size = new System.Drawing.Size(101, 25);
             this.buttonConvertAndMergeBrowseBackgroundMusic.TabIndex = 3;
-            this.buttonConvertAndMergeBrowseBackgroundMusic.Text = "Browse...";
-            this.buttonConvertAndMergeBrowseBackgroundMusic.UseVisualStyleBackColor = true;
+            this.buttonConvertAndMergeBrowseBackgroundMusic.Values.Text = "Browse...";
             this.buttonConvertAndMergeBrowseBackgroundMusic.Click += new System.EventHandler(this.buttonConvertAndMergeBrowseBackgroundMusic_Click);
             // 
             // buttonConvertAndMergeBrowseFFmpeg
             // 
             this.buttonConvertAndMergeBrowseFFmpeg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonConvertAndMergeBrowseFFmpeg.Location = new System.Drawing.Point(647, 21);
+            this.buttonConvertAndMergeBrowseFFmpeg.Location = new System.Drawing.Point(1297, 21);
             this.buttonConvertAndMergeBrowseFFmpeg.Name = "buttonConvertAndMergeBrowseFFmpeg";
             this.buttonConvertAndMergeBrowseFFmpeg.Size = new System.Drawing.Size(101, 25);
             this.buttonConvertAndMergeBrowseFFmpeg.TabIndex = 1;
-            this.buttonConvertAndMergeBrowseFFmpeg.Text = "Browse...";
-            this.buttonConvertAndMergeBrowseFFmpeg.UseVisualStyleBackColor = true;
+            this.buttonConvertAndMergeBrowseFFmpeg.Values.Text = "Browse...";
             this.buttonConvertAndMergeBrowseFFmpeg.Click += new System.EventHandler(this.buttonConvertAndMergeBrowseFFmpeg_Click);
             // 
             // label49
@@ -4748,7 +4930,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxConvertAndMergeBackgroundMusic.Location = new System.Drawing.Point(143, 50);
             this.textBoxConvertAndMergeBackgroundMusic.Name = "textBoxConvertAndMergeBackgroundMusic";
-            this.textBoxConvertAndMergeBackgroundMusic.Size = new System.Drawing.Size(498, 22);
+            this.textBoxConvertAndMergeBackgroundMusic.Size = new System.Drawing.Size(1148, 24);
             this.textBoxConvertAndMergeBackgroundMusic.TabIndex = 2;
             this.textBoxConvertAndMergeBackgroundMusic.Text = "silent.wav";
             // 
@@ -4766,7 +4948,7 @@ namespace PhotoTagsSynchronizer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxConvertAndMergeFFmpeg.Location = new System.Drawing.Point(143, 24);
             this.textBoxConvertAndMergeFFmpeg.Name = "textBoxConvertAndMergeFFmpeg";
-            this.textBoxConvertAndMergeFFmpeg.Size = new System.Drawing.Size(498, 22);
+            this.textBoxConvertAndMergeFFmpeg.Size = new System.Drawing.Size(1148, 24);
             this.textBoxConvertAndMergeFFmpeg.TabIndex = 0;
             this.textBoxConvertAndMergeFFmpeg.Text = "ffmpeg.exe";
             // 
@@ -4782,18 +4964,20 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxConvertAndMergeArgumentFileVariables.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.label51);
-            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables);
-            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument);
-            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables);
-            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.label45);
-            this.groupBoxConvertAndMergeArgumentFileVariables.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile);
             this.groupBoxConvertAndMergeArgumentFileVariables.Location = new System.Drawing.Point(3, 185);
             this.groupBoxConvertAndMergeArgumentFileVariables.Name = "groupBoxConvertAndMergeArgumentFileVariables";
+            // 
+            // groupBoxConvertAndMergeArgumentFileVariables.Panel
+            // 
+            this.groupBoxConvertAndMergeArgumentFileVariables.Panel.Controls.Add(this.label51);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Panel.Controls.Add(this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Panel.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Panel.Controls.Add(this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Panel.Controls.Add(this.label45);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Panel.Controls.Add(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile);
             this.groupBoxConvertAndMergeArgumentFileVariables.Size = new System.Drawing.Size(754, 226);
             this.groupBoxConvertAndMergeArgumentFileVariables.TabIndex = 0;
-            this.groupBoxConvertAndMergeArgumentFileVariables.TabStop = false;
-            this.groupBoxConvertAndMergeArgumentFileVariables.Text = "Convert and Merge Images to Video format:";
+            this.groupBoxConvertAndMergeArgumentFileVariables.Values.Heading = "Convert and Merge Images to Video format:";
             // 
             // label51
             // 
@@ -4811,7 +4995,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.DropDownWidth = 352;
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.FormattingEnabled = true;
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.IntegralHeight = false;
-            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Location = new System.Drawing.Point(396, 21);
+            this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Location = new System.Drawing.Point(1046, 21);
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Name = "comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables";
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.Size = new System.Drawing.Size(352, 21);
             this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables.TabIndex = 1;
@@ -4839,6 +5023,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Location = new System.Drawing.Point(6, 51);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Multiline = false;
@@ -4848,7 +5033,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.ServiceColors")));
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.ShowCaretWhenInactive = true;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.ShowScrollBars = false;
-            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Size = new System.Drawing.Size(742, 80);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Size = new System.Drawing.Size(1392, 80);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.TabIndex = 2;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Text = resources.GetString("fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.Text");
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument.WordWrap = true;
@@ -4864,7 +5049,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.DropDownWidth = 352;
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.FormattingEnabled = true;
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.IntegralHeight = false;
-            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Location = new System.Drawing.Point(396, 137);
+            this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Location = new System.Drawing.Point(1046, 137);
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Name = "comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables";
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.Size = new System.Drawing.Size(352, 21);
             this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables.TabIndex = 3;
@@ -4900,6 +5085,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.CharWidth = 10;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.IsReplaceMode = false;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Location = new System.Drawing.Point(6, 167);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Name = "fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile";
@@ -4907,7 +5093,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.ServiceColors")));
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.ShowCaretWhenInactive = true;
-            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Size = new System.Drawing.Size(742, 45);
+            this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Size = new System.Drawing.Size(1392, 45);
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.TabIndex = 4;
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.Text = "file \'{ImageFullFilename}\'\r\nduration {Duration}";
             this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile.WordWrap = true;
@@ -4938,20 +5124,22 @@ namespace PhotoTagsSynchronizer
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.comboBoxChromecastUrl);
-            this.groupBox8.Controls.Add(this.label58);
-            this.groupBox8.Controls.Add(this.comboBoxChromecastVideoCodec);
-            this.groupBox8.Controls.Add(this.label59);
-            this.groupBox8.Controls.Add(this.label61);
-            this.groupBox8.Controls.Add(this.comboBoxChromecastAudioCodec);
-            this.groupBox8.Controls.Add(this.comboBoxChromecastAgruments);
-            this.groupBox8.Controls.Add(this.label60);
             this.groupBox8.Location = new System.Drawing.Point(0, 228);
             this.groupBox8.Name = "groupBox8";
+            // 
+            // groupBox8.Panel
+            // 
+            this.groupBox8.Panel.Controls.Add(this.comboBoxChromecastUrl);
+            this.groupBox8.Panel.Controls.Add(this.label58);
+            this.groupBox8.Panel.Controls.Add(this.comboBoxChromecastVideoCodec);
+            this.groupBox8.Panel.Controls.Add(this.label59);
+            this.groupBox8.Panel.Controls.Add(this.label61);
+            this.groupBox8.Panel.Controls.Add(this.comboBoxChromecastAudioCodec);
+            this.groupBox8.Panel.Controls.Add(this.comboBoxChromecastAgruments);
+            this.groupBox8.Panel.Controls.Add(this.label60);
             this.groupBox8.Size = new System.Drawing.Size(760, 207);
             this.groupBox8.TabIndex = 2;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "VLC Stream config:";
+            this.groupBox8.Values.Heading = "VLC Stream config:";
             // 
             // comboBoxChromecastUrl
             // 
@@ -4973,7 +5161,7 @@ namespace PhotoTagsSynchronizer
             ""});
             this.comboBoxChromecastUrl.Location = new System.Drawing.Point(149, 93);
             this.comboBoxChromecastUrl.Name = "comboBoxChromecastUrl";
-            this.comboBoxChromecastUrl.Size = new System.Drawing.Size(605, 21);
+            this.comboBoxChromecastUrl.Size = new System.Drawing.Size(1261, 21);
             this.comboBoxChromecastUrl.TabIndex = 2;
             // 
             // label58
@@ -5027,7 +5215,7 @@ namespace PhotoTagsSynchronizer
             "vcodec=vp90"});
             this.comboBoxChromecastVideoCodec.Location = new System.Drawing.Point(149, 33);
             this.comboBoxChromecastVideoCodec.Name = "comboBoxChromecastVideoCodec";
-            this.comboBoxChromecastVideoCodec.Size = new System.Drawing.Size(605, 21);
+            this.comboBoxChromecastVideoCodec.Size = new System.Drawing.Size(1261, 21);
             this.comboBoxChromecastVideoCodec.TabIndex = 0;
             // 
             // label59
@@ -5074,7 +5262,7 @@ namespace PhotoTagsSynchronizer
             "acodec=flac,channels=2"});
             this.comboBoxChromecastAudioCodec.Location = new System.Drawing.Point(149, 63);
             this.comboBoxChromecastAudioCodec.Name = "comboBoxChromecastAudioCodec";
-            this.comboBoxChromecastAudioCodec.Size = new System.Drawing.Size(605, 21);
+            this.comboBoxChromecastAudioCodec.Size = new System.Drawing.Size(1261, 21);
             this.comboBoxChromecastAudioCodec.TabIndex = 1;
             // 
             // comboBoxChromecastAgruments
@@ -5118,7 +5306,7 @@ namespace PhotoTagsSynchronizer
             "sout=#transcode{{vcodec},{acodec},mux=mpeg1}:http{dst={url}}"});
             this.comboBoxChromecastAgruments.Location = new System.Drawing.Point(149, 123);
             this.comboBoxChromecastAgruments.Name = "comboBoxChromecastAgruments";
-            this.comboBoxChromecastAgruments.Size = new System.Drawing.Size(605, 21);
+            this.comboBoxChromecastAgruments.Size = new System.Drawing.Size(1261, 21);
             this.comboBoxChromecastAgruments.TabIndex = 3;
             // 
             // label60
@@ -5133,14 +5321,16 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox7.Controls.Add(this.label66);
-            this.groupBox7.Controls.Add(this.comboBoxChromecastVideoTransporter);
             this.groupBox7.Location = new System.Drawing.Point(3, 145);
             this.groupBox7.Name = "groupBox7";
+            // 
+            // groupBox7.Panel
+            // 
+            this.groupBox7.Panel.Controls.Add(this.label66);
+            this.groupBox7.Panel.Controls.Add(this.comboBoxChromecastVideoTransporter);
             this.groupBox7.Size = new System.Drawing.Size(757, 77);
             this.groupBox7.TabIndex = 1;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Video";
+            this.groupBox7.Values.Heading = "Video";
             // 
             // label66
             // 
@@ -5170,16 +5360,18 @@ namespace PhotoTagsSynchronizer
             // 
             this.groupBoxChromecastImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxChromecastImage.Controls.Add(this.comboBoxChromecastImageFormat);
-            this.groupBoxChromecastImage.Controls.Add(this.label63);
-            this.groupBoxChromecastImage.Controls.Add(this.label57);
-            this.groupBoxChromecastImage.Controls.Add(this.comboBoxChromecastImageResolution);
             this.groupBoxChromecastImage.Location = new System.Drawing.Point(3, 3);
             this.groupBoxChromecastImage.Name = "groupBoxChromecastImage";
+            // 
+            // groupBoxChromecastImage.Panel
+            // 
+            this.groupBoxChromecastImage.Panel.Controls.Add(this.comboBoxChromecastImageFormat);
+            this.groupBoxChromecastImage.Panel.Controls.Add(this.label63);
+            this.groupBoxChromecastImage.Panel.Controls.Add(this.label57);
+            this.groupBoxChromecastImage.Panel.Controls.Add(this.comboBoxChromecastImageResolution);
             this.groupBoxChromecastImage.Size = new System.Drawing.Size(757, 136);
             this.groupBoxChromecastImage.TabIndex = 0;
-            this.groupBoxChromecastImage.TabStop = false;
-            this.groupBoxChromecastImage.Text = "Image";
+            this.groupBoxChromecastImage.Values.Heading = "Image";
             // 
             // comboBoxChromecastImageFormat
             // 
@@ -5265,6 +5457,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowLog.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowLog.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowLog.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowLog.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowLog.IsReplaceMode = false;
             this.fastColoredTextBoxShowLog.Location = new System.Drawing.Point(3, 3);
@@ -5312,6 +5505,7 @@ namespace PhotoTagsSynchronizer
             this.fastColoredTextBoxShowPipe32Log.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBoxShowPipe32Log.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBoxShowPipe32Log.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBoxShowPipe32Log.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBoxShowPipe32Log.HighlightingRangeType = FastColoredTextBoxNS.HighlightingRangeType.VisibleRange;
             this.fastColoredTextBoxShowPipe32Log.IsReplaceMode = false;
             this.fastColoredTextBoxShowPipe32Log.Location = new System.Drawing.Point(0, 0);
@@ -5339,8 +5533,7 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigSave.Name = "buttonConfigSave";
             this.buttonConfigSave.Size = new System.Drawing.Size(117, 31);
             this.buttonConfigSave.TabIndex = 1;
-            this.buttonConfigSave.Text = "Save";
-            this.buttonConfigSave.UseVisualStyleBackColor = true;
+            this.buttonConfigSave.Values.Text = "Save";
             this.buttonConfigSave.Click += new System.EventHandler(this.buttonConfigSave_Click);
             // 
             // buttonConfigCancel
@@ -5351,8 +5544,7 @@ namespace PhotoTagsSynchronizer
             this.buttonConfigCancel.Name = "buttonConfigCancel";
             this.buttonConfigCancel.Size = new System.Drawing.Size(117, 31);
             this.buttonConfigCancel.TabIndex = 2;
-            this.buttonConfigCancel.Text = "Cancel";
-            this.buttonConfigCancel.UseVisualStyleBackColor = true;
+            this.buttonConfigCancel.Values.Text = "Cancel";
             this.buttonConfigCancel.Click += new System.EventHandler(this.buttonConfigCancel_Click);
             // 
             // panelAvoidResizeIssues
@@ -5370,31 +5562,6 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.ProfessionalSystem;
             // 
-            // kryptonGroupBox1
-            // 
-            this.kryptonGroupBox1.Location = new System.Drawing.Point(0, 1280);
-            this.kryptonGroupBox1.Name = "kryptonGroupBox1";
-            // 
-            // kryptonGroupBox1.Panel
-            // 
-            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonComboBoxThemes);
-            this.kryptonGroupBox1.Panel.Controls.Add(this.checkBoxApplicationDarkMode);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(705, 127);
-            this.kryptonGroupBox1.TabIndex = 14;
-            // 
-            // kryptonComboBoxThemes
-            // 
-            this.kryptonComboBoxThemes.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.kryptonComboBoxThemes.DropDownWidth = 185;
-            this.kryptonComboBoxThemes.IntegralHeight = false;
-            this.kryptonComboBoxThemes.Location = new System.Drawing.Point(171, 22);
-            this.kryptonComboBoxThemes.Name = "kryptonComboBoxThemes";
-            this.kryptonComboBoxThemes.Size = new System.Drawing.Size(185, 21);
-            this.kryptonComboBoxThemes.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonComboBoxThemes.TabIndex = 9;
-            this.kryptonComboBoxThemes.Text = "kryptonComboBox1";
-            this.kryptonComboBoxThemes.SelectionChangeCommitted += new System.EventHandler(this.kryptonComboBoxThemes_SelectionChangeCommitted);
-            // 
             // Config
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -5410,36 +5577,70 @@ namespace PhotoTagsSynchronizer
             this.Load += new System.EventHandler(this.Config_Load);
             this.tabControlConfig.ResumeLayout(false);
             this.tabPageApplication.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.panelApplication)).EndInit();
             this.panelApplication.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
+            this.kryptonGroupBox1.Panel.ResumeLayout(false);
+            this.kryptonGroupBox1.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
+            this.kryptonGroupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBoxThemes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox13.Panel)).EndInit();
+            this.groupBox13.Panel.ResumeLayout(false);
+            this.groupBox13.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox13)).EndInit();
             this.groupBox13.ResumeLayout(false);
-            this.groupBox13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugBackgroundThreadPrioity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugExiftoolWriteThreadPrioity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugExiftoolReadThreadPrioity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox12.Panel)).EndInit();
+            this.groupBox12.Panel.ResumeLayout(false);
+            this.groupBox12.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox12)).EndInit();
             this.groupBox12.ResumeLayout(false);
-            this.groupBox12.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCacheNumberOfPosters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxLocationAccuracy.Panel)).EndInit();
+            this.groupBoxLocationAccuracy.Panel.ResumeLayout(false);
+            this.groupBoxLocationAccuracy.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxLocationAccuracy)).EndInit();
             this.groupBoxLocationAccuracy.ResumeLayout(false);
-            this.groupBoxLocationAccuracy.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLongitude)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccuracyLatitude)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox6.Panel)).EndInit();
+            this.groupBox6.Panel.ResumeLayout(false);
+            this.groupBox6.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox6)).EndInit();
             this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox5.Panel)).EndInit();
+            this.groupBox5.Panel.ResumeLayout(false);
+            this.groupBox5.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox5)).EndInit();
             this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRegionMissmatchProcent)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox4.Panel)).EndInit();
+            this.groupBox4.Panel.ResumeLayout(false);
+            this.groupBox4.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox4)).EndInit();
             this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameTopMost)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeopleSuggestNameDaysInterval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox3.Panel)).EndInit();
+            this.groupBox3.Panel.ResumeLayout(false);
+            this.groupBox3.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox3)).EndInit();
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownApplicationMaxRowsInSearchResult)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox2.Panel)).EndInit();
+            this.groupBox2.Panel.ResumeLayout(false);
+            this.groupBox2.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox2)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationLanguages)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox1.Panel)).EndInit();
+            this.groupBox1.Panel.ResumeLayout(false);
+            this.groupBox1.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationRegionThumbnailSizes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationThumbnailSizes)).EndInit();
             this.tabPageMetadataRead.ResumeLayout(false);
@@ -5447,9 +5648,13 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMetadataReadPriority)).EndInit();
             this.contextMenuStripMetadataRead.ResumeLayout(false);
             this.tabPageMetadataWebScraper.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.panel4)).EndInit();
             this.panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox11.Panel)).EndInit();
+            this.groupBox11.Panel.ResumeLayout(false);
+            this.groupBox11.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox11)).EndInit();
             this.groupBox11.ResumeLayout(false);
-            this.groupBox11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingPageDownCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageLoadedTimeout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWaitEventPageStartLoadingTimeout)).EndInit();
@@ -5457,25 +5662,41 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingDelayOurScriptToRun)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWebScrapingRetry)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownJavaScriptExecuteTimeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox10.Panel)).EndInit();
+            this.groupBox10.Panel.ResumeLayout(false);
+            this.groupBox10.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox10)).EndInit();
             this.groupBox10.ResumeLayout(false);
-            this.groupBox10.PerformLayout();
             this.tabPageMetadataWrite.ResumeLayout(false);
             this.tabPageMetadataWrite.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelMetadataWrite)).EndInit();
             this.panelMetadataWrite.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox9.Panel)).EndInit();
+            this.groupBox9.Panel.ResumeLayout(false);
+            this.groupBox9.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox9)).EndInit();
             this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteKeywordItems.Panel)).EndInit();
+            this.groupBoxMetadataWriteKeywordItems.Panel.ResumeLayout(false);
+            this.groupBoxMetadataWriteKeywordItems.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteKeywordItems)).EndInit();
             this.groupBoxMetadataWriteKeywordItems.ResumeLayout(false);
-            this.groupBoxMetadataWriteKeywordItems.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteKeywordAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteKeywordDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteKeywordDelete)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteProperties.Panel)).EndInit();
+            this.groupBoxMetadataWriteProperties.Panel.ResumeLayout(false);
+            this.groupBoxMetadataWriteProperties.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteProperties)).EndInit();
             this.groupBoxMetadataWriteProperties.ResumeLayout(false);
-            this.groupBoxMetadataWriteProperties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxWriteXtraAtomVariables)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteTags.Panel)).EndInit();
+            this.groupBoxMetadataWriteTags.Panel.ResumeLayout(false);
+            this.groupBoxMetadataWriteTags.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxMetadataWriteTags)).EndInit();
             this.groupBoxMetadataWriteTags.ResumeLayout(false);
-            this.groupBoxMetadataWriteTags.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxMetadataWriteTags)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMetadataWriteStandardTags)).EndInit();
             this.tabPageFileDateTimeFormats.ResumeLayout(false);
@@ -5483,36 +5704,68 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConfigFilenameDateFormats)).EndInit();
             this.tabPageAutoCorrect.ResumeLayout(false);
             this.tabPageAutoCorrect.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelAutoCorrect)).EndInit();
             this.panelAutoCorrect.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxRename.Panel)).EndInit();
+            this.groupBoxRename.Panel.ResumeLayout(false);
+            this.groupBoxRename.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxRename)).EndInit();
             this.groupBoxRename.ResumeLayout(false);
-            this.groupBoxRename.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxRenameVariables)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxFaceRegion.Panel)).EndInit();
+            this.groupBoxFaceRegion.Panel.ResumeLayout(false);
+            this.groupBoxFaceRegion.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxFaceRegion)).EndInit();
             this.groupBoxFaceRegion.ResumeLayout(false);
-            this.groupBoxFaceRegion.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAutoCorrectBackup.Panel)).EndInit();
+            this.groupBoxAutoCorrectBackup.Panel.ResumeLayout(false);
+            this.groupBoxAutoCorrectBackup.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAutoCorrectBackup)).EndInit();
             this.groupBoxAutoCorrectBackup.ResumeLayout(false);
-            this.groupBoxAutoCorrectBackup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxKaywordTags.Panel)).EndInit();
+            this.groupBoxKaywordTags.Panel.ResumeLayout(false);
+            this.groupBoxKaywordTags.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxKaywordTags)).EndInit();
             this.groupBoxKaywordTags.ResumeLayout(false);
-            this.groupBoxKaywordTags.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxKeywordsAiConfidence)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAuthor.Panel)).EndInit();
+            this.groupBoxAuthor.Panel.ResumeLayout(false);
+            this.groupBoxAuthor.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAuthor)).EndInit();
             this.groupBoxAuthor.ResumeLayout(false);
-            this.groupBoxAuthor.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAlbum.Panel)).EndInit();
+            this.groupBoxAlbum.Panel.ResumeLayout(false);
+            this.groupBoxAlbum.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxAlbum)).EndInit();
             this.groupBoxAlbum.ResumeLayout(false);
-            this.groupBoxAlbum.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxTitle.Panel)).EndInit();
+            this.groupBoxTitle.Panel.ResumeLayout(false);
+            this.groupBoxTitle.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxTitle)).EndInit();
             this.groupBoxTitle.ResumeLayout(false);
-            this.groupBoxTitle.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxLocationName.Panel)).EndInit();
+            this.groupBoxLocationName.Panel.ResumeLayout(false);
+            this.groupBoxLocationName.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxLocationName)).EndInit();
             this.groupBoxLocationName.ResumeLayout(false);
-            this.groupBoxLocationName.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxGPSLocation.Panel)).EndInit();
+            this.groupBoxGPSLocation.Panel.ResumeLayout(false);
+            this.groupBoxGPSLocation.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxGPSLocation)).EndInit();
             this.groupBoxGPSLocation.ResumeLayout(false);
-            this.groupBoxGPSLocation.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccurateIntervalNearByMediaFile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationAccurateInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLocationGuessInterval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxDateTimeDigitized.Panel)).EndInit();
+            this.groupBoxDateTimeDigitized.Panel.ResumeLayout(false);
+            this.groupBoxDateTimeDigitized.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxDateTimeDigitized)).EndInit();
             this.groupBoxDateTimeDigitized.ResumeLayout(false);
-            this.groupBoxDateTimeDigitized.PerformLayout();
             this.tabPageAutoKeywords.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAutoKeywords)).EndInit();
             this.contextMenuStripAutoKeyword.ResumeLayout(false);
             this.tabPageCameraOwner.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.panel2)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCameraOwner)).EndInit();
@@ -5526,57 +5779,77 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripLocationNames.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMapZoomLevel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelBrowser)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panel3)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.tabPageConvertAndMerge.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.panelConvertAndMerge)).EndInit();
             this.panelConvertAndMerge.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeConvertVideo.Panel)).EndInit();
+            this.groupBoxConvertAndMergeConvertVideo.Panel.ResumeLayout(false);
+            this.groupBoxConvertAndMergeConvertVideo.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeConvertVideo)).EndInit();
             this.groupBoxConvertAndMergeConvertVideo.ResumeLayout(false);
-            this.groupBoxConvertAndMergeConvertVideo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeConvertVideoFilesVariables)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeMergeVideos.Panel)).EndInit();
+            this.groupBoxConvertAndMergeMergeVideos.Panel.ResumeLayout(false);
+            this.groupBoxConvertAndMergeMergeVideos.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeMergeVideos)).EndInit();
             this.groupBoxConvertAndMergeMergeVideos.ResumeLayout(false);
-            this.groupBoxConvertAndMergeMergeVideos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeConcatVideosArguFileVariables)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeConcatVideoFilesVariables)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatVideoArguFile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatVideoArgument)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeCommand.Panel)).EndInit();
+            this.groupBoxConvertAndMergeCommand.Panel.ResumeLayout(false);
+            this.groupBoxConvertAndMergeCommand.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeCommand)).EndInit();
             this.groupBoxConvertAndMergeCommand.ResumeLayout(false);
-            this.groupBoxConvertAndMergeCommand.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeTempfileExtension)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeOutputSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownConvertAndMergeImageDuration)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeArgumentFileVariables.Panel)).EndInit();
+            this.groupBoxConvertAndMergeArgumentFileVariables.Panel.ResumeLayout(false);
+            this.groupBoxConvertAndMergeArgumentFileVariables.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxConvertAndMergeArgumentFileVariables)).EndInit();
             this.groupBoxConvertAndMergeArgumentFileVariables.ResumeLayout(false);
-            this.groupBoxConvertAndMergeArgumentFileVariables.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile)).EndInit();
             this.tabPageChromecast.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.panel1)).EndInit();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox8.Panel)).EndInit();
+            this.groupBox8.Panel.ResumeLayout(false);
+            this.groupBox8.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox8)).EndInit();
             this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastUrl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastVideoCodec)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastAudioCodec)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastAgruments)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox7.Panel)).EndInit();
+            this.groupBox7.Panel.ResumeLayout(false);
+            this.groupBox7.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBox7)).EndInit();
             this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastVideoTransporter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxChromecastImage.Panel)).EndInit();
+            this.groupBoxChromecastImage.Panel.ResumeLayout(false);
+            this.groupBoxChromecastImage.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupBoxChromecastImage)).EndInit();
             this.groupBoxChromecastImage.ResumeLayout(false);
-            this.groupBoxChromecastImage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastImageFormat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxChromecastImageResolution)).EndInit();
             this.tabPageShowAppLog.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowLog)).EndInit();
             this.tabPageShowPipe32Log.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBoxShowPipe32Log)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelAvoidResizeIssues)).EndInit();
             this.panelAvoidResizeIssues.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
-            this.kryptonGroupBox1.Panel.ResumeLayout(false);
-            this.kryptonGroupBox1.Panel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
-            this.kryptonGroupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBoxThemes)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -5588,12 +5861,12 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.TabPage tabPageMetadataWrite;
         private System.Windows.Forms.DataGridView dataGridViewMetadataReadPriority;
         private System.Windows.Forms.TabPage tabPageFileDateTimeFormats;
-        private System.Windows.Forms.Button buttonConfigSave;
-        private System.Windows.Forms.Button buttonConfigCancel;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Panel panelMetadataWrite;
-        private System.Windows.Forms.TextBox textBox6;
+        private Krypton.Toolkit.KryptonButton buttonConfigSave;
+        private Krypton.Toolkit.KryptonButton buttonConfigCancel;
+        private Krypton.Toolkit.KryptonTextBox textBox1;
+        private Krypton.Toolkit.KryptonTextBox textBox2;
+        private Krypton.Toolkit.KryptonPanel panelMetadataWrite;
+        private Krypton.Toolkit.KryptonTextBox textBox6;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripMetadataRead;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMetadataReadMove;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMetadataReadCut;
@@ -5609,49 +5882,49 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMetadataReadToggleFavorite;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMetadataReadShowFavorite;
         private System.Windows.Forms.TabPage tabPageAutoCorrect;
-        private System.Windows.Forms.TextBox textBoxHelpAutoCorrect;
-        private System.Windows.Forms.Panel panelAutoCorrect;
-        private System.Windows.Forms.GroupBox groupBoxKaywordTags;
+        private Krypton.Toolkit.KryptonTextBox textBoxHelpAutoCorrect;
+        private Krypton.Toolkit.KryptonPanel panelAutoCorrect;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxKaywordTags;
         private Krypton.Toolkit.KryptonCheckBox checkBoxKeywordsAddMicrosoftPhotos;
         private Krypton.Toolkit.KryptonCheckBox checkBoxKeywordsAddWindowsMediaPhotoGallery;
-        private System.Windows.Forms.GroupBox groupBoxFaceRegion;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxFaceRegion;
         private Krypton.Toolkit.KryptonCheckBox checkBoxFaceRegionAddMicrosoftPhotos;
         private Krypton.Toolkit.KryptonCheckBox checkBoxFaceRegionAddWindowsMediaPhotoGallery;
-        private System.Windows.Forms.GroupBox groupBoxDateTimeDigitized;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxDateTimeDigitized;
         private Krypton.Toolkit.KryptonLabel label4;
         private Krypton.Toolkit.KryptonComboBox comboBoxKeywordsAiConfidence;
         private Krypton.Toolkit.KryptonLabel label5;
         private System.Windows.Forms.TabPage tabPageCameraOwner;
-        private System.Windows.Forms.GroupBox groupBoxRename;
-        private System.Windows.Forms.TextBox textBoxRenameTo;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxRename;
+        private Krypton.Toolkit.KryptonTextBox textBoxRenameTo;
         private Krypton.Toolkit.KryptonLabel label10;
         private Krypton.Toolkit.KryptonCheckBox checkBoxRename;
         private Krypton.Toolkit.KryptonLabel label9;
         private Krypton.Toolkit.KryptonComboBox comboBoxRenameVariables;
-        private System.Windows.Forms.GroupBox groupBoxGPSLocation;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxGPSLocation;
         private Krypton.Toolkit.KryptonLabel label8;
         private Krypton.Toolkit.KryptonLabel label7;
         private Krypton.Toolkit.KryptonLabel labelLocationTimeZoneGuess;
         private Krypton.Toolkit.KryptonCheckBox checkBoxGPSUpdateDateTime;
         private Krypton.Toolkit.KryptonCheckBox checkBoxGPSUpdateLocation;
-        private System.Windows.Forms.GroupBox groupBoxAuthor;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxAuthor;
         private System.Windows.Forms.RadioButton radioButtonAuthorChangeWhenEmpty;
         private System.Windows.Forms.RadioButton radioButtonAuthorDoNotChange;
         private System.Windows.Forms.RadioButton radioButtonAuthorAlwaysChange;
         private Krypton.Toolkit.KryptonLabel label13;
-        private System.Windows.Forms.GroupBox groupBoxLocationName;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxLocationName;
         private Krypton.Toolkit.KryptonLabel label14;
         private System.Windows.Forms.RadioButton radioButtonLocationNameChangeAlways;
         private System.Windows.Forms.RadioButton radioButtonLocationNameChangeWhenEmpty;
         private System.Windows.Forms.RadioButton radioButtonLocationNameDoNotChange;
         private Krypton.Toolkit.KryptonLabel label15;
-        private System.Windows.Forms.GroupBox groupBoxAlbum;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxAlbum;
         private Krypton.Toolkit.KryptonLabel label19;
         private ImageListViewOrder imageListViewOrderAlbum;
         private System.Windows.Forms.RadioButton radioButtonAlbumUseFirst;
         private System.Windows.Forms.RadioButton radioButtonAlbumChangeWhenEmpty;
         private System.Windows.Forms.RadioButton radioButtonAlbumDoNotChange;
-        private System.Windows.Forms.GroupBox groupBoxTitle;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxTitle;
         private Krypton.Toolkit.KryptonLabel label11;
         private ImageListViewOrder imageListViewOrderTitle;
         private System.Windows.Forms.RadioButton radioButtonTitleUseFirst;
@@ -5687,21 +5960,21 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.NumericUpDown numericUpDownLocationGuessInterval;
         private Krypton.Toolkit.KryptonComboBox comboBoxMetadataWriteStandardTags;
         private Krypton.Toolkit.KryptonLabel label6;
-        private System.Windows.Forms.GroupBox groupBoxMetadataWriteProperties;
-        private System.Windows.Forms.GroupBox groupBoxMetadataWriteTags;
-        private System.Windows.Forms.GroupBox groupBoxMetadataWriteKeywordItems;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxMetadataWriteProperties;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxMetadataWriteTags;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxMetadataWriteKeywordItems;
         private System.Windows.Forms.TabPage tabPageApplication;
-        private System.Windows.Forms.Panel panelApplication;
+        private Krypton.Toolkit.KryptonPanel panelApplication;
         private Krypton.Toolkit.KryptonComboBox comboBoxApplicationThumbnailSizes;
         private Krypton.Toolkit.KryptonLabel labelApplicationThumbnailSize;
         private Krypton.Toolkit.KryptonLabel labelApplicationPreferredLanguages;
-        private System.Windows.Forms.TextBox textBoxApplicationPreferredLanguages;
+        private Krypton.Toolkit.KryptonTextBox textBoxApplicationPreferredLanguages;
         private Krypton.Toolkit.KryptonComboBox comboBoxApplicationLanguages;
         private Krypton.Toolkit.KryptonLabel label1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private Krypton.Toolkit.KryptonGroupBox groupBox2;
         private Krypton.Toolkit.KryptonLabel label20;
         private Krypton.Toolkit.KryptonLabel label2;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private Krypton.Toolkit.KryptonGroupBox groupBox1;
         private Krypton.Toolkit.KryptonLabel label25;
         private Krypton.Toolkit.KryptonLabel label24;
         private Krypton.Toolkit.KryptonLabel label27;
@@ -5724,20 +5997,20 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonLabel label34;
         private Krypton.Toolkit.KryptonLabel label36;
         private Krypton.Toolkit.KryptonComboBox comboBoxWriteXtraAtomVariables;
-        private System.Windows.Forms.TextBox textBoxWriteXtraAtomComment;
-        private System.Windows.Forms.TextBox textBoxWriteXtraAtomSubject;
-        private System.Windows.Forms.TextBox textBoxWriteXtraAtomSubtitle;
-        private System.Windows.Forms.TextBox textBoxWriteXtraAtomAlbum;
-        private System.Windows.Forms.TextBox textBoxWriteXtraAtomCategories;
-        private System.Windows.Forms.TextBox textBoxWriteXtraAtomKeywords;
+        private Krypton.Toolkit.KryptonTextBox textBoxWriteXtraAtomComment;
+        private Krypton.Toolkit.KryptonTextBox textBoxWriteXtraAtomSubject;
+        private Krypton.Toolkit.KryptonTextBox textBoxWriteXtraAtomSubtitle;
+        private Krypton.Toolkit.KryptonTextBox textBoxWriteXtraAtomAlbum;
+        private Krypton.Toolkit.KryptonTextBox textBoxWriteXtraAtomCategories;
+        private Krypton.Toolkit.KryptonTextBox textBoxWriteXtraAtomKeywords;
         private Krypton.Toolkit.KryptonLabel label35;
         private Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomRatingPicture;
-        private System.Windows.Forms.TextBox textBoxWriteXtraAtomArtist;
+        private Krypton.Toolkit.KryptonTextBox textBoxWriteXtraAtomArtist;
         private Krypton.Toolkit.KryptonCheckBox checkBoxWriteXtraAtomArtistVideo;
         private Krypton.Toolkit.KryptonLabel label37;
         private Krypton.Toolkit.KryptonComboBox comboBoxMetadataWriteKeywordDelete;
-        private System.Windows.Forms.Panel panelAvoidResizeIssues;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private Krypton.Toolkit.KryptonPanel panelAvoidResizeIssues;
+        private Krypton.Toolkit.KryptonGroupBox groupBox3;
         private System.Windows.Forms.NumericUpDown numericUpDownApplicationMaxRowsInSearchResult;
         private Krypton.Toolkit.KryptonLabel label38;
         private System.Windows.Forms.TabPage tabPageShowAppLog;
@@ -5749,32 +6022,32 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonComboBox comboBoxMetadataWriteKeywordAdd;
         private System.Windows.Forms.TabPage tabPageShowPipe32Log;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxShowPipe32Log;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private Krypton.Toolkit.KryptonGroupBox groupBox4;
         private Krypton.Toolkit.KryptonLabel label42;
         private Krypton.Toolkit.KryptonLabel label41;
         private Krypton.Toolkit.KryptonLabel label40;
         private Krypton.Toolkit.KryptonLabel label39;
         private System.Windows.Forms.NumericUpDown numericUpDownPeopleSuggestNameTopMost;
         private System.Windows.Forms.NumericUpDown numericUpDownPeopleSuggestNameDaysInterval;
-        private System.Windows.Forms.GroupBox groupBox5;
+        private Krypton.Toolkit.KryptonGroupBox groupBox5;
         private Krypton.Toolkit.KryptonLabel label44;
         private Krypton.Toolkit.KryptonLabel label43;
         private System.Windows.Forms.NumericUpDown numericUpDownRegionMissmatchProcent;
-        private System.Windows.Forms.GroupBox groupBox6;
+        private Krypton.Toolkit.KryptonGroupBox groupBox6;
         private Krypton.Toolkit.KryptonCheckBox checkBoxApplicationAvoidReadMediaFromCloud;
         private Krypton.Toolkit.KryptonCheckBox checkBoxApplicationImageListViewCacheModeOnDemand;
         private System.Windows.Forms.TabPage tabPageConvertAndMerge;
-        private System.Windows.Forms.Panel panelConvertAndMerge;
-        private System.Windows.Forms.GroupBox groupBoxConvertAndMergeArgumentFileVariables;
+        private Krypton.Toolkit.KryptonPanel panelConvertAndMerge;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxConvertAndMergeArgumentFileVariables;
         private Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeConcatImageAsVideoArguFileVariables;
         private Krypton.Toolkit.KryptonLabel label45;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArguFile;
-        private System.Windows.Forms.GroupBox groupBoxConvertAndMergeCommand;
-        private System.Windows.Forms.TextBox textBoxConvertAndMergeBackgroundMusic;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxConvertAndMergeCommand;
+        private Krypton.Toolkit.KryptonTextBox textBoxConvertAndMergeBackgroundMusic;
         private Krypton.Toolkit.KryptonLabel label47;
-        private System.Windows.Forms.TextBox textBoxConvertAndMergeFFmpeg;
+        private Krypton.Toolkit.KryptonTextBox textBoxConvertAndMergeFFmpeg;
         private Krypton.Toolkit.KryptonLabel label46;
-        private System.Windows.Forms.GroupBox groupBoxConvertAndMergeMergeVideos;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxConvertAndMergeMergeVideos;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatImagesAsVideoArgument;
         private Krypton.Toolkit.KryptonLabel label49;
         private System.Windows.Forms.NumericUpDown numericUpDownConvertAndMergeImageDuration;
@@ -5783,13 +6056,13 @@ namespace PhotoTagsSynchronizer
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatVideoArguFile;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConcatVideoArgument;
         private Krypton.Toolkit.KryptonLabel label50;
-        private System.Windows.Forms.Button buttonConvertAndMergeBrowseBackgroundMusic;
-        private System.Windows.Forms.Button buttonConvertAndMergeBrowseFFmpeg;
+        private Krypton.Toolkit.KryptonButton buttonConvertAndMergeBrowseBackgroundMusic;
+        private Krypton.Toolkit.KryptonButton buttonConvertAndMergeBrowseFFmpeg;
         private Krypton.Toolkit.KryptonLabel label51;
         private Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeConcatImageAsVideoArgumentVariables;
         private Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeConcatVideosArguFileVariables;
         private Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeConcatVideoFilesVariables;
-        private System.Windows.Forms.GroupBox groupBoxConvertAndMergeConvertVideo;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxConvertAndMergeConvertVideo;
         private Krypton.Toolkit.KryptonLabel label53;
         private Krypton.Toolkit.KryptonComboBox comboBoxConvertAndMergeConvertVideoFilesVariables;
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBoxConvertAndMergeConvertVideoFilesArgument;
@@ -5799,10 +6072,10 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonLabel label55;
         private Krypton.Toolkit.KryptonLabel label56;
         private System.Windows.Forms.TabPage tabPageChromecast;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.GroupBox groupBox7;
+        private Krypton.Toolkit.KryptonPanel panel1;
+        private Krypton.Toolkit.KryptonGroupBox groupBox7;
         private Krypton.Toolkit.KryptonComboBox comboBoxChromecastVideoCodec;
-        private System.Windows.Forms.GroupBox groupBoxChromecastImage;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxChromecastImage;
         private Krypton.Toolkit.KryptonLabel label57;
         private Krypton.Toolkit.KryptonComboBox comboBoxChromecastImageResolution;
         private Krypton.Toolkit.KryptonLabel label60;
@@ -5814,25 +6087,25 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonLabel label63;
         private Krypton.Toolkit.KryptonLabel label66;
         private Krypton.Toolkit.KryptonComboBox comboBoxChromecastVideoTransporter;
-        private System.Windows.Forms.GroupBox groupBox8;
+        private Krypton.Toolkit.KryptonGroupBox groupBox8;
         private Krypton.Toolkit.KryptonComboBox comboBoxChromecastUrl;
         private Krypton.Toolkit.KryptonLabel label58;
-        private System.Windows.Forms.GroupBox groupBox9;
+        private Krypton.Toolkit.KryptonGroupBox groupBox9;
         private Krypton.Toolkit.KryptonLabel label62;
         private Krypton.Toolkit.KryptonCheckBox checkBoxWriteFileAttributeCreatedDate;
         private System.Windows.Forms.DataGridView dataGridViewCameraOwner;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox textBox3;
+        private Krypton.Toolkit.KryptonPanel panel2;
+        private Krypton.Toolkit.KryptonTextBox textBox3;
         private System.Windows.Forms.TabPage tabPageLocationNames;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.TextBox textBox4;
+        private Krypton.Toolkit.KryptonPanel panel3;
+        private Krypton.Toolkit.KryptonTextBox textBox4;
         private System.Windows.Forms.DataGridView dataGridViewLocationNames;
-        private System.Windows.Forms.Panel panelBrowser;
+        private Krypton.Toolkit.KryptonPanel panelBrowser;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TextBox textBoxBrowserURL;
+        private Krypton.Toolkit.KryptonTextBox textBoxBrowserURL;
         private System.Windows.Forms.PictureBox pictureBox1;
         private Krypton.Toolkit.KryptonComboBox comboBoxMapZoomLevel;
-        private System.Windows.Forms.GroupBox groupBoxLocationAccuracy;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxLocationAccuracy;
         private Krypton.Toolkit.KryptonLabel label67;
         private Krypton.Toolkit.KryptonLabel label65;
         private Krypton.Toolkit.KryptonLabel label64;
@@ -5859,11 +6132,11 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonCheckBox checkBoxFaceRegionAddWebScraping;
         private Krypton.Toolkit.KryptonCheckBox checkBoxKeywordsAddWebScraping;
         private System.Windows.Forms.TabPage tabPageMetadataWebScraper;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.GroupBox groupBox10;
+        private Krypton.Toolkit.KryptonPanel panel4;
+        private Krypton.Toolkit.KryptonGroupBox groupBox11;
+        private Krypton.Toolkit.KryptonGroupBox groupBox10;
         private Krypton.Toolkit.KryptonLabel label69;
-        private System.Windows.Forms.TextBox textBoxWebScrapingStartPages;
+        private Krypton.Toolkit.KryptonTextBox textBoxWebScrapingStartPages;
         private System.Windows.Forms.NumericUpDown numericUpDownWebScrapingPageDownCount;
         private System.Windows.Forms.NumericUpDown numericUpDownWaitEventPageLoadedTimeout;
         private System.Windows.Forms.NumericUpDown numericUpDownWaitEventPageStartLoadingTimeout;
@@ -5884,7 +6157,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonLabel label78;
         private Krypton.Toolkit.KryptonLabel label77;
         private Krypton.Toolkit.KryptonLabel label76;
-        private System.Windows.Forms.GroupBox groupBox12;
+        private Krypton.Toolkit.KryptonGroupBox groupBox12;
         private Krypton.Toolkit.KryptonCheckBox checkBoxCacheFolderWebScraperDataSets;
         private Krypton.Toolkit.KryptonCheckBox checkBoxCacheFolderThumbnails;
         private Krypton.Toolkit.KryptonCheckBox checkBoxCacheFolderMetadatas;
@@ -5897,8 +6170,8 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonLabel label85;
         private Krypton.Toolkit.KryptonComboBox comboBoxApplicationRegionThumbnailSizes;
         private Krypton.Toolkit.KryptonLabel label84;
-        private System.Windows.Forms.Button buttonLocationImport;
-        private System.Windows.Forms.Button buttonLocationExport;
+        private Krypton.Toolkit.KryptonButton buttonLocationImport;
+        private Krypton.Toolkit.KryptonButton buttonLocationExport;
         private Krypton.Toolkit.KryptonCheckBox checkBoxApplicationAvoidReadExifFromCloud;
         private Krypton.Toolkit.KryptonLabel label87;
         private System.Windows.Forms.NumericUpDown numericUpDownLocationAccurateIntervalNearByMediaFile;
@@ -5908,11 +6181,11 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.NumericUpDown numericUpDownWriteFileAttributeCreatedDateTimeIntervalAccepted;
         private Krypton.Toolkit.KryptonCheckBox checkBoxDublicateAlbumAsDescription;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowCoordinateOnGoogleMap;
-        private System.Windows.Forms.GroupBox groupBoxAutoCorrectBackup;
+        private Krypton.Toolkit.KryptonGroupBox groupBoxAutoCorrectBackup;
         private Krypton.Toolkit.KryptonCheckBox checkBoxAutoCorrectTrackChanges;
         private Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupFileCreatedBefore;
         private Krypton.Toolkit.KryptonCheckBox checkBoxKeywordBackupFileCreatedAfter;
-        private System.Windows.Forms.GroupBox groupBox13;
+        private Krypton.Toolkit.KryptonGroupBox groupBox13;
         private Krypton.Toolkit.KryptonCheckBox checkBoxApplicationExiftoolReadShowCliWindow;
         private Krypton.Toolkit.KryptonCheckBox checkBoxApplicationExiftoolWriteShowCliWindow;
         private Krypton.Toolkit.KryptonComboBox comboBoxApplicationDebugExiftoolReadThreadPrioity;

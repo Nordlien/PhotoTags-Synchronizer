@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonMoveUp = new System.Windows.Forms.Button();
-            this.buttonMoveDown = new System.Windows.Forms.Button();
+            this.buttonMoveUp = new Krypton.Toolkit.KryptonButton();
+            this.buttonMoveDown = new Krypton.Toolkit.KryptonButton();
             this.imageListViewDragAndDrop1 = new PhotoTagsCommonComponets.ImageListViewDragAndDrop();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
@@ -37,25 +37,23 @@
             // buttonMoveUp
             // 
             this.buttonMoveUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMoveUp.Image = global::PhotoTagsCommonComponets.Properties.Resources.Arrow_up;
+            this.buttonMoveUp.BackgroundImage = global::PhotoTagsCommonComponets.Properties.Resources.Arrow_up;
             this.buttonMoveUp.Location = new System.Drawing.Point(198, 2);
             this.buttonMoveUp.Margin = new System.Windows.Forms.Padding(2);
             this.buttonMoveUp.Name = "buttonMoveUp";
             this.buttonMoveUp.Size = new System.Drawing.Size(26, 28);
             this.buttonMoveUp.TabIndex = 1;
-            this.buttonMoveUp.UseVisualStyleBackColor = true;
             this.buttonMoveUp.Click += new System.EventHandler(this.buttonMoveUp_Click);
             // 
             // buttonMoveDown
             // 
             this.buttonMoveDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMoveDown.Image = global::PhotoTagsCommonComponets.Properties.Resources.Arrow_down;
+            this.buttonMoveDown.BackgroundImage = global::PhotoTagsCommonComponets.Properties.Resources.Arrow_down;
             this.buttonMoveDown.Location = new System.Drawing.Point(198, 59);
             this.buttonMoveDown.Margin = new System.Windows.Forms.Padding(2);
             this.buttonMoveDown.Name = "buttonMoveDown";
             this.buttonMoveDown.Size = new System.Drawing.Size(26, 28);
             this.buttonMoveDown.TabIndex = 2;
-            this.buttonMoveDown.UseVisualStyleBackColor = true;
             this.buttonMoveDown.Click += new System.EventHandler(this.buttonMoveDown_Click);
             // 
             // imageListViewDragAndDrop1
@@ -104,8 +102,8 @@
         #endregion
 
         private PhotoTagsCommonComponets.ImageListViewDragAndDrop imageListViewDragAndDrop1;
-        private System.Windows.Forms.Button buttonMoveUp;
-        private System.Windows.Forms.Button buttonMoveDown;
+        private Krypton.Toolkit.KryptonButton buttonMoveUp;
+        private Krypton.Toolkit.KryptonButton buttonMoveDown;
         private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }

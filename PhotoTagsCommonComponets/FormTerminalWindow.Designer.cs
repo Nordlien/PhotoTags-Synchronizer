@@ -32,7 +32,7 @@ namespace PhotoTagsCommonComponets
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTerminalWindow));
             this.fastColoredTextBox1 = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.buttonScrollToEnd = new System.Windows.Forms.Button();
+            this.buttonScrollToEnd = new Krypton.Toolkit.KryptonButton();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox1)).BeginInit();
             this.SuspendLayout();
@@ -80,7 +80,6 @@ namespace PhotoTagsCommonComponets
             this.buttonScrollToEnd.Size = new System.Drawing.Size(155, 35);
             this.buttonScrollToEnd.TabIndex = 1;
             this.buttonScrollToEnd.Text = "Scroll to end";
-            this.buttonScrollToEnd.UseVisualStyleBackColor = true;
             this.buttonScrollToEnd.Click += new System.EventHandler(this.buttonScrollToEnd_Click);
             // 
             // kryptonManager1
@@ -106,7 +105,7 @@ namespace PhotoTagsCommonComponets
         #endregion
 
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBox1;
-        private System.Windows.Forms.Button buttonScrollToEnd;
+        private Krypton.Toolkit.KryptonButton buttonScrollToEnd;
         private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

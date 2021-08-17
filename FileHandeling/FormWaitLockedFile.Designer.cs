@@ -30,16 +30,16 @@ namespace FileHandeling
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWaitLockedFile));
-            this.buttonRetry = new System.Windows.Forms.Button();
-            this.buttonIgnor = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBoxFilesLockedByProcess = new System.Windows.Forms.TextBox();
-            this.buttonCheck = new System.Windows.Forms.Button();
-            this.textBoxFiles = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonRetry = new Krypton.Toolkit.KryptonButton();
+            this.buttonIgnor = new Krypton.Toolkit.KryptonButton();
+            this.textBox1 = new Krypton.Toolkit.KryptonTextBox();
+            this.panel1 = new Krypton.Toolkit.KryptonPanel();
+            this.groupBox3 = new Krypton.Toolkit.KryptonGroupBox();
+            this.textBoxFilesLockedByProcess = new Krypton.Toolkit.KryptonTextBox();
+            this.buttonCheck = new Krypton.Toolkit.KryptonButton();
+            this.textBoxFiles = new Krypton.Toolkit.KryptonTextBox();
+            this.groupBox2 = new Krypton.Toolkit.KryptonGroupBox();
+            this.groupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
@@ -58,7 +58,6 @@ namespace FileHandeling
             this.buttonRetry.Size = new System.Drawing.Size(131, 38);
             this.buttonRetry.TabIndex = 0;
             this.buttonRetry.Text = "Retry";
-            this.buttonRetry.UseVisualStyleBackColor = true;
             this.buttonRetry.Click += new System.EventHandler(this.buttonRetry_Click);
             // 
             // buttonIgnor
@@ -69,12 +68,11 @@ namespace FileHandeling
             this.buttonIgnor.Size = new System.Drawing.Size(131, 38);
             this.buttonIgnor.TabIndex = 1;
             this.buttonIgnor.Text = "Ignor";
-            this.buttonIgnor.UseVisualStyleBackColor = true;
             this.buttonIgnor.Click += new System.EventHandler(this.buttonIgnor_Click);
             // 
             // textBox1
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.InputControlStyle = Krypton.Toolkit.InputControlStyle.Standalone;
             this.textBox1.Location = new System.Drawing.Point(8, 38);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Multiline = true;
@@ -134,7 +132,6 @@ namespace FileHandeling
             this.buttonCheck.Size = new System.Drawing.Size(131, 38);
             this.buttonCheck.TabIndex = 5;
             this.buttonCheck.Text = "Check who lock";
-            this.buttonCheck.UseVisualStyleBackColor = true;
             this.buttonCheck.Click += new System.EventHandler(this.buttonCheck_Click);
             // 
             // textBoxFiles
@@ -222,17 +219,17 @@ namespace FileHandeling
 
         #endregion
 
-        private System.Windows.Forms.Button buttonRetry;
-        private System.Windows.Forms.Button buttonIgnor;
-        private System.Windows.Forms.TextBox textBox1;
+        private Krypton.Toolkit.KryptonButton buttonRetry;
+        private Krypton.Toolkit.KryptonButton buttonIgnor;
+        private Krypton.Toolkit.KryptonTextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBoxFiles;
-        private System.Windows.Forms.Button buttonCheck;
-        private System.Windows.Forms.TextBox textBoxFilesLockedByProcess;
+        private Krypton.Toolkit.KryptonPanel panel1;
+        private Krypton.Toolkit.KryptonGroupBox groupBox3;
+        private Krypton.Toolkit.KryptonGroupBox groupBox2;
+        private Krypton.Toolkit.KryptonGroupBox groupBox1;
+        private Krypton.Toolkit.KryptonTextBox textBoxFiles;
+        private Krypton.Toolkit.KryptonButton buttonCheck;
+        private Krypton.Toolkit.KryptonTextBox textBoxFilesLockedByProcess;
     }
 }

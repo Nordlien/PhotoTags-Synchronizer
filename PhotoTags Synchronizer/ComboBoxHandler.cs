@@ -80,7 +80,7 @@ namespace PhotoTagsSynchronizer
 
     public class ComboBoxHandler
     {
-        public static void SelectionChangeCommitted(TextBox textBox, string insertText)
+        public static void SelectionChangeCommitted(KryptonTextBox textBox, string insertText)
         {
             textBox.Focus();
             var selectionIndex = textBox.SelectionStart;
@@ -98,12 +98,12 @@ namespace PhotoTagsSynchronizer
             textBox.SelectionStart = selectionIndex + insertText.Length;
         }
 
-        public static void RemeberComboBoxSelection(ComboBox comboBox)
+        public static void RemeberComboBoxSelection(KryptonComboBox comboBox)
         {
             comboBox.Tag = new ComboBoxSelection(comboBox);
         }
 
-        public static void SetComboBoxSelection(ComboBox comboBox)
+        public static void SetComboBoxSelection(KryptonComboBox comboBox)
         {
             if (comboBox.Tag is ComboBoxSelection comboBoxSelection)
             {
@@ -162,7 +162,7 @@ namespace PhotoTagsSynchronizer
         public int SelectionStart { get; set; }
         public int SelectionLength { get; set; }
 
-        public ComboBoxSelection(ComboBox comboBox)
+        public ComboBoxSelection(KryptonComboBox comboBox)
         {
             SelectionStart = comboBox.SelectionStart;
             SelectionLength = comboBox.SelectionLength;

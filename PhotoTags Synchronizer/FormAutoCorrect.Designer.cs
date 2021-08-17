@@ -31,23 +31,24 @@ namespace PhotoTagsSynchronizer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAutoCorrect));
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1 = new Krypton.Toolkit.KryptonPanel();
             this.label2 = new Krypton.Toolkit.KryptonLabel();
             this.label1 = new Krypton.Toolkit.KryptonLabel();
-            this.textBoxKeywords = new System.Windows.Forms.TextBox();
+            this.textBoxKeywords = new Krypton.Toolkit.KryptonTextBox();
             this.checkBoxAuthor = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxComments = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxDescription = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxTitle = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxAlbum = new Krypton.Toolkit.KryptonCheckBox();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonAutoCorrect = new System.Windows.Forms.Button();
+            this.buttonClose = new Krypton.Toolkit.KryptonButton();
+            this.buttonAutoCorrect = new Krypton.Toolkit.KryptonButton();
             this.comboBoxAuthor = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxAlbum = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxComments = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxDescription = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxTitle = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.panel1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAuthor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAlbum)).BeginInit();
@@ -76,10 +77,10 @@ namespace PhotoTagsSynchronizer
             this.panel1.Controls.Add(this.comboBoxComments);
             this.panel1.Controls.Add(this.comboBoxDescription);
             this.panel1.Controls.Add(this.comboBoxTitle);
-            this.panel1.Location = new System.Drawing.Point(0, -2);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(769, 352);
+            this.panel1.Size = new System.Drawing.Size(769, 350);
             this.panel1.TabIndex = 0;
             // 
             // label2
@@ -110,7 +111,7 @@ namespace PhotoTagsSynchronizer
             this.textBoxKeywords.Multiline = true;
             this.textBoxKeywords.Name = "textBoxKeywords";
             this.textBoxKeywords.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxKeywords.Size = new System.Drawing.Size(587, 98);
+            this.textBoxKeywords.Size = new System.Drawing.Size(587, 96);
             this.textBoxKeywords.TabIndex = 12;
             // 
             // checkBoxAuthor
@@ -171,25 +172,23 @@ namespace PhotoTagsSynchronizer
             // buttonClose
             // 
             this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClose.Location = new System.Drawing.Point(628, 299);
+            this.buttonClose.Location = new System.Drawing.Point(600, 297);
             this.buttonClose.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(125, 39);
+            this.buttonClose.Size = new System.Drawing.Size(153, 39);
             this.buttonClose.TabIndex = 11;
-            this.buttonClose.Text = "Close";
-            this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Values.Text = "Close";
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonAutoCorrect
             // 
             this.buttonAutoCorrect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAutoCorrect.Location = new System.Drawing.Point(496, 299);
+            this.buttonAutoCorrect.Location = new System.Drawing.Point(441, 297);
             this.buttonAutoCorrect.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonAutoCorrect.Name = "buttonAutoCorrect";
-            this.buttonAutoCorrect.Size = new System.Drawing.Size(125, 39);
+            this.buttonAutoCorrect.Size = new System.Drawing.Size(153, 39);
             this.buttonAutoCorrect.TabIndex = 10;
-            this.buttonAutoCorrect.Text = "Run AutoCorrect";
-            this.buttonAutoCorrect.UseVisualStyleBackColor = true;
+            this.buttonAutoCorrect.Values.Text = "Run AutoCorrect";
             this.buttonAutoCorrect.Click += new System.EventHandler(this.buttonAutoCorrect_Click);
             // 
             // comboBoxAuthor
@@ -205,7 +204,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAuthor.Location = new System.Drawing.Point(165, 154);
             this.comboBoxAuthor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
-            this.comboBoxAuthor.Size = new System.Drawing.Size(588, 20);
+            this.comboBoxAuthor.Size = new System.Drawing.Size(588, 21);
             this.comboBoxAuthor.TabIndex = 4;
             // 
             // comboBoxAlbum
@@ -221,7 +220,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAlbum.Location = new System.Drawing.Point(165, 31);
             this.comboBoxAlbum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
-            this.comboBoxAlbum.Size = new System.Drawing.Size(588, 20);
+            this.comboBoxAlbum.Size = new System.Drawing.Size(588, 21);
             this.comboBoxAlbum.TabIndex = 0;
             // 
             // comboBoxComments
@@ -237,7 +236,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments.Location = new System.Drawing.Point(165, 123);
             this.comboBoxComments.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxComments.Name = "comboBoxComments";
-            this.comboBoxComments.Size = new System.Drawing.Size(588, 20);
+            this.comboBoxComments.Size = new System.Drawing.Size(588, 21);
             this.comboBoxComments.TabIndex = 3;
             // 
             // comboBoxDescription
@@ -253,7 +252,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxDescription.Location = new System.Drawing.Point(165, 92);
             this.comboBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxDescription.Name = "comboBoxDescription";
-            this.comboBoxDescription.Size = new System.Drawing.Size(588, 20);
+            this.comboBoxDescription.Size = new System.Drawing.Size(588, 21);
             this.comboBoxDescription.TabIndex = 2;
             // 
             // comboBoxTitle
@@ -269,7 +268,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxTitle.Location = new System.Drawing.Point(165, 62);
             this.comboBoxTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxTitle.Name = "comboBoxTitle";
-            this.comboBoxTitle.Size = new System.Drawing.Size(588, 20);
+            this.comboBoxTitle.Size = new System.Drawing.Size(588, 21);
             this.comboBoxTitle.TabIndex = 1;
             // 
             // kryptonManager1
@@ -287,6 +286,7 @@ namespace PhotoTagsSynchronizer
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormAutoCorrect";
             this.Text = "AutoCorrect";
+            ((System.ComponentModel.ISupportInitialize)(this.panel1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAuthor)).EndInit();
@@ -300,14 +300,14 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private Krypton.Toolkit.KryptonPanel panel1;
         private Krypton.Toolkit.KryptonComboBox comboBoxAuthor;
         private Krypton.Toolkit.KryptonComboBox comboBoxAlbum;
         private Krypton.Toolkit.KryptonComboBox comboBoxComments;
         private Krypton.Toolkit.KryptonComboBox comboBoxDescription;
         private Krypton.Toolkit.KryptonComboBox comboBoxTitle;
-        private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.Button buttonAutoCorrect;
+        private Krypton.Toolkit.KryptonButton buttonClose;
+        private Krypton.Toolkit.KryptonButton buttonAutoCorrect;
         private Krypton.Toolkit.KryptonCheckBox checkBoxAuthor;
         private Krypton.Toolkit.KryptonCheckBox checkBoxComments;
         private Krypton.Toolkit.KryptonCheckBox checkBoxDescription;
@@ -315,7 +315,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonCheckBox checkBoxAlbum;
         private Krypton.Toolkit.KryptonLabel label2;
         private Krypton.Toolkit.KryptonLabel label1;
-        private System.Windows.Forms.TextBox textBoxKeywords;
+        private Krypton.Toolkit.KryptonTextBox textBoxKeywords;
         private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }

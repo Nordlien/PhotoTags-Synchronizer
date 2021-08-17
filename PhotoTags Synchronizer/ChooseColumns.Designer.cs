@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChooseColumns));
-            this.btnClose = new System.Windows.Forms.Button();
+            this.btnClose = new Krypton.Toolkit.KryptonButton();
             this.checkedListBox = new PhotoTagsCommonComponets.CheckedListBoxHigherRows();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.groupBox2 = new Krypton.Toolkit.KryptonGroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label1 = new Krypton.Toolkit.KryptonLabel();
             this.label2 = new Krypton.Toolkit.KryptonLabel();
@@ -61,7 +61,6 @@
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 1;
             this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // checkedListBox
@@ -256,10 +255,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnClose;
+        private Krypton.Toolkit.KryptonButton btnClose;
         private PhotoTagsCommonComponets.CheckedListBoxHigherRows checkedListBox;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private Krypton.Toolkit.KryptonGroupBox groupBox1;
+        private Krypton.Toolkit.KryptonGroupBox groupBox2;
         private Krypton.Toolkit.KryptonComboBox comboBoxTitleLine5;
         private Krypton.Toolkit.KryptonComboBox comboBoxTitleLine4;
         private Krypton.Toolkit.KryptonComboBox comboBoxTitleLine3;

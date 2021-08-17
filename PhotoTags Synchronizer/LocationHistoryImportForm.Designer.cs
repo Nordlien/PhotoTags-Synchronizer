@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LocationHistoryImportForm));
-            this.buttonImportLocationHistory = new System.Windows.Forms.Button();
+            this.buttonImportLocationHistory = new Krypton.Toolkit.KryptonButton();
             this.label1 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxUserAccount = new Krypton.Toolkit.KryptonComboBox();
             this.label2 = new Krypton.Toolkit.KryptonLabel();
@@ -49,7 +49,6 @@
             this.buttonImportLocationHistory.Size = new System.Drawing.Size(244, 28);
             this.buttonImportLocationHistory.TabIndex = 1;
             this.buttonImportLocationHistory.Text = "Select file and Import";
-            this.buttonImportLocationHistory.UseVisualStyleBackColor = true;
             this.buttonImportLocationHistory.Click += new System.EventHandler(this.buttonImportLocationHistory_Click);
             // 
             // label1
@@ -123,7 +122,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button buttonImportLocationHistory;
+        private Krypton.Toolkit.KryptonButton buttonImportLocationHistory;
         private Krypton.Toolkit.KryptonLabel label1;
         private Krypton.Toolkit.KryptonComboBox comboBoxUserAccount;
         private Krypton.Toolkit.KryptonLabel label2;
