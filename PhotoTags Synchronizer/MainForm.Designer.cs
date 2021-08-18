@@ -32,9 +32,9 @@ namespace PhotoTagsSynchronizer
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -49,6 +49,7 @@ namespace PhotoTagsSynchronizer
             this.splitContainerFolder = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new PhotoTagsCommonComponets.TabControlCustom();
             this.tabPageFilterFolder = new System.Windows.Forms.TabPage();
+            this.folderTreeViewFolder = new Furty.Windows.Forms.FolderTreeView();
             this.contextMenuStripTreeViewFolder = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemTreeViewFolderCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,6 +115,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageFilterTags = new System.Windows.Forms.TabPage();
             this.treeViewFilter = new PhotoTagsCommonComponets.TreeViewWithoutDoubleClick();
             this.splitContainerImages = new System.Windows.Forms.SplitContainer();
+            this.imageListView1 = new Manina.Windows.Forms.ImageListView();
             this.contextMenuStripImageListView = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.sortMediaFileByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemSortByFilename = new System.Windows.Forms.ToolStripMenuItem();
@@ -420,8 +422,6 @@ namespace PhotoTagsSynchronizer
             this.timerPreviewNextTimer = new System.Windows.Forms.Timer(this.components);
             this.timerSaveProgessRemoveProgress = new System.Windows.Forms.Timer(this.components);
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.folderTreeViewFolder = new Furty.Windows.Forms.FolderTreeView();
-            this.imageListView1 = new Manina.Windows.Forms.ImageListView();
             this.toolStripContainerMainForm.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainerMainForm.ContentPanel.SuspendLayout();
             this.toolStripContainerMainForm.TopToolStripPanel.SuspendLayout();
@@ -715,6 +715,26 @@ namespace PhotoTagsSynchronizer
             this.tabPageFilterFolder.Text = "Folder";
             this.tabPageFilterFolder.UseVisualStyleBackColor = true;
             // 
+            // folderTreeViewFolder
+            // 
+            this.folderTreeViewFolder.AllowDrop = true;
+            this.folderTreeViewFolder.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.folderTreeViewFolder.ContextMenuStrip = this.contextMenuStripTreeViewFolder;
+            this.folderTreeViewFolder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.folderTreeViewFolder.HideSelection = false;
+            this.folderTreeViewFolder.ItemHeight = 16;
+            this.folderTreeViewFolder.Location = new System.Drawing.Point(0, 0);
+            this.folderTreeViewFolder.Name = "folderTreeViewFolder";
+            this.folderTreeViewFolder.Size = new System.Drawing.Size(272, 803);
+            this.folderTreeViewFolder.TabIndex = 0;
+            this.folderTreeViewFolder.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.folderTreeViewFolder_ItemDrag);
+            this.folderTreeViewFolder.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.folderTreeView1_AfterSelect);
+            this.folderTreeViewFolder.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.folderTreeViewFolder_NodeMouseClick);
+            this.folderTreeViewFolder.DragDrop += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragDrop);
+            this.folderTreeViewFolder.DragEnter += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragEnter);
+            this.folderTreeViewFolder.DragOver += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragOver);
+            this.folderTreeViewFolder.DragLeave += new System.EventHandler(this.folderTreeViewFolder_DragLeave);
+            // 
             // contextMenuStripTreeViewFolder
             // 
             this.contextMenuStripTreeViewFolder.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -839,7 +859,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageFilterSearch.Location = new System.Drawing.Point(4, 29);
             this.tabPageFilterSearch.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageFilterSearch.Name = "tabPageFilterSearch";
-            this.tabPageFilterSearch.Size = new System.Drawing.Size(272, 859);
+            this.tabPageFilterSearch.Size = new System.Drawing.Size(272, 803);
             this.tabPageFilterSearch.TabIndex = 2;
             this.tabPageFilterSearch.Text = "Search";
             this.tabPageFilterSearch.UseVisualStyleBackColor = true;
@@ -853,7 +873,7 @@ namespace PhotoTagsSynchronizer
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Margin = new System.Windows.Forms.Padding(0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(272, 859);
+            this.panel4.Size = new System.Drawing.Size(272, 803);
             this.panel4.TabIndex = 18;
             // 
             // checkBoxSerachFitsAllValues
@@ -861,7 +881,7 @@ namespace PhotoTagsSynchronizer
             this.checkBoxSerachFitsAllValues.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxSerachFitsAllValues.Checked = true;
             this.checkBoxSerachFitsAllValues.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSerachFitsAllValues.Location = new System.Drawing.Point(3, 823);
+            this.checkBoxSerachFitsAllValues.Location = new System.Drawing.Point(3, 767);
             this.checkBoxSerachFitsAllValues.Name = "checkBoxSerachFitsAllValues";
             this.checkBoxSerachFitsAllValues.Size = new System.Drawing.Size(52, 24);
             this.checkBoxSerachFitsAllValues.TabIndex = 26;
@@ -883,7 +903,7 @@ namespace PhotoTagsSynchronizer
             this.panelSearchFilter.Location = new System.Drawing.Point(0, 0);
             this.panelSearchFilter.Margin = new System.Windows.Forms.Padding(0);
             this.panelSearchFilter.Name = "panelSearchFilter";
-            this.panelSearchFilter.Size = new System.Drawing.Size(268, 812);
+            this.panelSearchFilter.Size = new System.Drawing.Size(268, 756);
             this.panelSearchFilter.TabIndex = 2;
             // 
             // groupBoxSearchKeywords
@@ -1402,7 +1422,7 @@ namespace PhotoTagsSynchronizer
             // buttonSearch
             // 
             this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSearch.Location = new System.Drawing.Point(92, 818);
+            this.buttonSearch.Location = new System.Drawing.Point(92, 762);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(177, 35);
             this.buttonSearch.TabIndex = 42;
@@ -1415,7 +1435,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageFilterTags.Location = new System.Drawing.Point(4, 29);
             this.tabPageFilterTags.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageFilterTags.Name = "tabPageFilterTags";
-            this.tabPageFilterTags.Size = new System.Drawing.Size(272, 859);
+            this.tabPageFilterTags.Size = new System.Drawing.Size(272, 803);
             this.tabPageFilterTags.TabIndex = 1;
             this.tabPageFilterTags.Text = "Filter";
             this.tabPageFilterTags.UseVisualStyleBackColor = true;
@@ -1431,7 +1451,7 @@ namespace PhotoTagsSynchronizer
             treeNode1.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeViewFilter.Size = new System.Drawing.Size(272, 859);
+            this.treeViewFilter.Size = new System.Drawing.Size(272, 803);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
             this.treeViewFilter.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFilter_AfterCheck);
@@ -1457,6 +1477,38 @@ namespace PhotoTagsSynchronizer
             this.splitContainerImages.SplitterWidth = 9;
             this.splitContainerImages.TabIndex = 0;
             this.splitContainerImages.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerImages_SplitterMoved);
+            // 
+            // imageListView1
+            // 
+            this.imageListView1.AllowDrag = true;
+            this.imageListView1.AllowDrop = true;
+            this.imageListView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.imageListView1.CacheLimit = "0";
+            this.imageListView1.CacheMode = Manina.Windows.Forms.CacheMode.Continuous;
+            this.imageListView1.ContextMenuStrip = this.contextMenuStripImageListView;
+            this.imageListView1.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.DefaultImage")));
+            this.imageListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageListView1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.ErrorImage")));
+            this.imageListView1.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.imageListView1.ImeMode = System.Windows.Forms.ImeMode.Katakana;
+            this.imageListView1.Location = new System.Drawing.Point(0, 0);
+            this.imageListView1.Name = "imageListView1";
+            this.imageListView1.RetryOnError = false;
+            this.imageListView1.Size = new System.Drawing.Size(291, 836);
+            this.imageListView1.SortColumn = Manina.Windows.Forms.ColumnType.FileName;
+            this.imageListView1.TabIndex = 1;
+            this.imageListView1.Text = "";
+            this.imageListView1.TitleLine2 = Manina.Windows.Forms.ColumnType.FileName;
+            this.imageListView1.TitleLine3 = Manina.Windows.Forms.ColumnType.FileName;
+            this.imageListView1.TitleLine4 = Manina.Windows.Forms.ColumnType.FileName;
+            this.imageListView1.TitleLine5 = Manina.Windows.Forms.ColumnType.FileName;
+            this.imageListView1.ItemHover += new Manina.Windows.Forms.ItemHoverEventHandler(this.imageListView1_ItemHover);
+            this.imageListView1.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView1_ItemDoubleClick);
+            this.imageListView1.SelectionChanged += new System.EventHandler(this.imageListView1_SelectionChanged);
+            this.imageListView1.ThumbnailCaching += new Manina.Windows.Forms.ThumbnailCachingEventHandler(this.imageListView1_ThumbnailCaching);
+            this.imageListView1.RetrieveItemImage += new Manina.Windows.Forms.RetrieveItemImageEventHandler(this.imageListView1_RetrieveImage);
+            this.imageListView1.RetrieveItemThumbnail += new Manina.Windows.Forms.RetrieveItemThumbnailEventHandler(this.imageListView1_RetrieveItemThumbnail);
+            this.imageListView1.RetrieveItemMetadataDetails += new Manina.Windows.Forms.RetrieveItemMetadataDetailsEventHandler(this.imageListView1_RetrieveItemMetadataDetails);
             // 
             // contextMenuStripImageListView
             // 
@@ -2203,57 +2255,47 @@ namespace PhotoTagsSynchronizer
             // 
             // radioButtonRating5
             // 
-            this.radioButtonRating5.AutoSize = true;
             this.radioButtonRating5.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating5.Location = new System.Drawing.Point(200, 3);
             this.radioButtonRating5.Name = "radioButtonRating5";
-            this.radioButtonRating5.Size = new System.Drawing.Size(33, 16);
+            this.radioButtonRating5.Size = new System.Drawing.Size(60, 24);
             this.radioButtonRating5.TabIndex = 4;
-            this.radioButtonRating5.TabStop = true;
             this.radioButtonRating5.CheckedChanged += new System.EventHandler(this.radioButtonRating5_CheckedChanged);
             // 
             // radioButtonRating4
             // 
-            this.radioButtonRating4.AutoSize = true;
             this.radioButtonRating4.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating4.Location = new System.Drawing.Point(149, 3);
             this.radioButtonRating4.Name = "radioButtonRating4";
-            this.radioButtonRating4.Size = new System.Drawing.Size(33, 16);
+            this.radioButtonRating4.Size = new System.Drawing.Size(60, 24);
             this.radioButtonRating4.TabIndex = 3;
-            this.radioButtonRating4.TabStop = true;
             this.radioButtonRating4.CheckedChanged += new System.EventHandler(this.radioButtonRating4_CheckedChanged);
             // 
             // radioButtonRating3
             // 
-            this.radioButtonRating3.AutoSize = true;
             this.radioButtonRating3.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating3.Location = new System.Drawing.Point(102, 3);
             this.radioButtonRating3.Name = "radioButtonRating3";
-            this.radioButtonRating3.Size = new System.Drawing.Size(33, 16);
+            this.radioButtonRating3.Size = new System.Drawing.Size(60, 24);
             this.radioButtonRating3.TabIndex = 2;
-            this.radioButtonRating3.TabStop = true;
             this.radioButtonRating3.CheckedChanged += new System.EventHandler(this.radioButtonRating3_CheckedChanged);
             // 
             // radioButtonRating2
             // 
-            this.radioButtonRating2.AutoSize = true;
             this.radioButtonRating2.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating2.Location = new System.Drawing.Point(50, 3);
             this.radioButtonRating2.Name = "radioButtonRating2";
-            this.radioButtonRating2.Size = new System.Drawing.Size(33, 16);
+            this.radioButtonRating2.Size = new System.Drawing.Size(60, 24);
             this.radioButtonRating2.TabIndex = 1;
-            this.radioButtonRating2.TabStop = true;
             this.radioButtonRating2.CheckedChanged += new System.EventHandler(this.radioButtonRating2_CheckedChanged);
             // 
             // radioButtonRating1
             // 
-            this.radioButtonRating1.AutoSize = true;
             this.radioButtonRating1.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating1.Location = new System.Drawing.Point(1, 3);
             this.radioButtonRating1.Name = "radioButtonRating1";
-            this.radioButtonRating1.Size = new System.Drawing.Size(33, 16);
+            this.radioButtonRating1.Size = new System.Drawing.Size(60, 24);
             this.radioButtonRating1.TabIndex = 0;
-            this.radioButtonRating1.TabStop = true;
             this.radioButtonRating1.CheckedChanged += new System.EventHandler(this.radioButtonRating1_CheckedChanged);
             // 
             // comboBoxAlbum
@@ -4681,7 +4723,7 @@ namespace PhotoTagsSynchronizer
             // toolStripLabelMediaPreviewTimer
             // 
             this.toolStripLabelMediaPreviewTimer.Name = "toolStripLabelMediaPreviewTimer";
-            this.toolStripLabelMediaPreviewTimer.Size = new System.Drawing.Size(81, 56);
+            this.toolStripLabelMediaPreviewTimer.Size = new System.Drawing.Size(81, 20);
             this.toolStripLabelMediaPreviewTimer.Text = "Timer: 0.00";
             this.toolStripLabelMediaPreviewTimer.ToolTipText = "Timer";
             // 
@@ -4693,7 +4735,7 @@ namespace PhotoTagsSynchronizer
             // toolStripLabelMediaPreviewStatus
             // 
             this.toolStripLabelMediaPreviewStatus.Name = "toolStripLabelMediaPreviewStatus";
-            this.toolStripLabelMediaPreviewStatus.Size = new System.Drawing.Size(49, 56);
+            this.toolStripLabelMediaPreviewStatus.Size = new System.Drawing.Size(49, 20);
             this.toolStripLabelMediaPreviewStatus.Text = "Status";
             this.toolStripLabelMediaPreviewStatus.ToolTipText = "Status";
             // 
@@ -4721,58 +4763,6 @@ namespace PhotoTagsSynchronizer
             // kryptonManager1
             // 
             this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2010SilverDarkMode;
-            // 
-            // folderTreeViewFolder
-            // 
-            this.folderTreeViewFolder.AllowDrop = true;
-            this.folderTreeViewFolder.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.folderTreeViewFolder.ContextMenuStrip = this.contextMenuStripTreeViewFolder;
-            this.folderTreeViewFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.folderTreeViewFolder.HideSelection = false;
-            this.folderTreeViewFolder.ItemHeight = 16;
-            this.folderTreeViewFolder.Location = new System.Drawing.Point(0, 0);
-            this.folderTreeViewFolder.Name = "folderTreeViewFolder";
-            this.folderTreeViewFolder.Size = new System.Drawing.Size(272, 803);
-            this.folderTreeViewFolder.TabIndex = 0;
-            this.folderTreeViewFolder.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.folderTreeViewFolder_ItemDrag);
-            this.folderTreeViewFolder.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.folderTreeView1_AfterSelect);
-            this.folderTreeViewFolder.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.folderTreeViewFolder_NodeMouseClick);
-            this.folderTreeViewFolder.DragDrop += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragDrop);
-            this.folderTreeViewFolder.DragEnter += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragEnter);
-            this.folderTreeViewFolder.DragOver += new System.Windows.Forms.DragEventHandler(this.folderTreeViewFolder_DragOver);
-            this.folderTreeViewFolder.DragLeave += new System.EventHandler(this.folderTreeViewFolder_DragLeave);
-            // 
-            // imageListView1
-            // 
-            this.imageListView1.AllowDrag = true;
-            this.imageListView1.AllowDrop = true;
-            this.imageListView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.imageListView1.CacheLimit = "0";
-            this.imageListView1.CacheMode = Manina.Windows.Forms.CacheMode.Continuous;
-            this.imageListView1.ContextMenuStrip = this.contextMenuStripImageListView;
-            this.imageListView1.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.DefaultImage")));
-            this.imageListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageListView1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView1.ErrorImage")));
-            this.imageListView1.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.imageListView1.ImeMode = System.Windows.Forms.ImeMode.Katakana;
-            this.imageListView1.Location = new System.Drawing.Point(0, 0);
-            this.imageListView1.Name = "imageListView1";
-            this.imageListView1.RetryOnError = false;
-            this.imageListView1.Size = new System.Drawing.Size(291, 836);
-            this.imageListView1.SortColumn = Manina.Windows.Forms.ColumnType.FileName;
-            this.imageListView1.TabIndex = 1;
-            this.imageListView1.Text = "";
-            this.imageListView1.TitleLine2 = Manina.Windows.Forms.ColumnType.FileName;
-            this.imageListView1.TitleLine3 = Manina.Windows.Forms.ColumnType.FileName;
-            this.imageListView1.TitleLine4 = Manina.Windows.Forms.ColumnType.FileName;
-            this.imageListView1.TitleLine5 = Manina.Windows.Forms.ColumnType.FileName;
-            this.imageListView1.ItemHover += new Manina.Windows.Forms.ItemHoverEventHandler(this.imageListView1_ItemHover);
-            this.imageListView1.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView1_ItemDoubleClick);
-            this.imageListView1.SelectionChanged += new System.EventHandler(this.imageListView1_SelectionChanged);
-            this.imageListView1.ThumbnailCaching += new Manina.Windows.Forms.ThumbnailCachingEventHandler(this.imageListView1_ThumbnailCaching);
-            this.imageListView1.RetrieveItemImage += new Manina.Windows.Forms.RetrieveItemImageEventHandler(this.imageListView1_RetrieveImage);
-            this.imageListView1.RetrieveItemThumbnail += new Manina.Windows.Forms.RetrieveItemThumbnailEventHandler(this.imageListView1_RetrieveItemThumbnail);
-            this.imageListView1.RetrieveItemMetadataDetails += new Manina.Windows.Forms.RetrieveItemMetadataDetailsEventHandler(this.imageListView1_RetrieveItemMetadataDetails);
             // 
             // MainForm
             // 
