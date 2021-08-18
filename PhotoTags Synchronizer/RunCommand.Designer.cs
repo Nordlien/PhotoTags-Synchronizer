@@ -295,16 +295,16 @@
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.label9);
-            this.groupBox8.Controls.Add(this.textBoxOpenImageWithAppId);
-            this.groupBox8.Controls.Add(this.comboBoxOpenImageWithVerbs);
-            this.groupBox8.Controls.Add(this.label5);
-            this.groupBox8.Controls.Add(this.label1);
-            this.groupBox8.Controls.Add(this.textBoxOpenImageWithApplication);
-            this.groupBox8.Controls.Add(this.dataGridViewImages);
-            this.groupBox8.Controls.Add(this.checkBoxOpenImageWithWaitForExit);
-            this.groupBox8.Controls.Add(this.label11);
-            this.groupBox8.Controls.Add(this.textBoxOpenImageWithCommand);
+            this.groupBox8.Panel.Controls.Add(this.label9);
+            this.groupBox8.Panel.Controls.Add(this.textBoxOpenImageWithAppId);
+            this.groupBox8.Panel.Controls.Add(this.comboBoxOpenImageWithVerbs);
+            this.groupBox8.Panel.Controls.Add(this.label5);
+            this.groupBox8.Panel.Controls.Add(this.label1);
+            this.groupBox8.Panel.Controls.Add(this.textBoxOpenImageWithApplication);
+            this.groupBox8.Panel.Controls.Add(this.dataGridViewImages);
+            this.groupBox8.Panel.Controls.Add(this.checkBoxOpenImageWithWaitForExit);
+            this.groupBox8.Panel.Controls.Add(this.label11);
+            this.groupBox8.Panel.Controls.Add(this.textBoxOpenImageWithCommand);
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox8.Location = new System.Drawing.Point(0, 0);
             this.groupBox8.Name = "groupBox8";
@@ -433,16 +433,16 @@
             // 
             // groupBox9
             // 
-            this.groupBox9.Controls.Add(this.textBoxOpenVideoWithAppId);
-            this.groupBox9.Controls.Add(this.label10);
-            this.groupBox9.Controls.Add(this.label8);
-            this.groupBox9.Controls.Add(this.comboBoxOpenVideoWithVerbs);
-            this.groupBox9.Controls.Add(this.label2);
-            this.groupBox9.Controls.Add(this.textBoxOpenVideoWithApplication);
-            this.groupBox9.Controls.Add(this.dataGridViewVideos);
-            this.groupBox9.Controls.Add(this.label12);
-            this.groupBox9.Controls.Add(this.textBoxOpenVideoWithCommand);
-            this.groupBox9.Controls.Add(this.checkBoxOpenVideoWithWaitForExit);
+            this.groupBox9.Panel.Controls.Add(this.textBoxOpenVideoWithAppId);
+            this.groupBox9.Panel.Controls.Add(this.label10);
+            this.groupBox9.Panel.Controls.Add(this.label8);
+            this.groupBox9.Panel.Controls.Add(this.comboBoxOpenVideoWithVerbs);
+            this.groupBox9.Panel.Controls.Add(this.label2);
+            this.groupBox9.Panel.Controls.Add(this.textBoxOpenVideoWithApplication);
+            this.groupBox9.Panel.Controls.Add(this.dataGridViewVideos);
+            this.groupBox9.Panel.Controls.Add(this.label12);
+            this.groupBox9.Panel.Controls.Add(this.textBoxOpenVideoWithCommand);
+            this.groupBox9.Panel.Controls.Add(this.checkBoxOpenVideoWithWaitForExit);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox9.Location = new System.Drawing.Point(0, 0);
             this.groupBox9.Name = "groupBox9";
@@ -573,7 +573,7 @@
             // 
             this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox7.Controls.Add(this.textBoxOpenWithSelectedFiles);
+            this.groupBox7.Panel.Controls.Add(this.textBoxOpenWithSelectedFiles);
             this.groupBox7.Location = new System.Drawing.Point(3, 6);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(814, 117);
@@ -649,8 +649,8 @@
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Controls.Add(this.tabControlBatchRunImage);
-            this.groupBox4.Controls.Add(this.groupBox5);
+            this.groupBox4.Panel.Controls.Add(this.tabControlBatchRunImage);
+            this.groupBox4.Panel.Controls.Add(this.groupBox5);
             this.groupBox4.Location = new System.Drawing.Point(5, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(401, 399);
@@ -840,7 +840,7 @@
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox5.Controls.Add(this.textBoxRunBatchImageExample);
+            this.groupBox5.Panel.Controls.Add(this.textBoxRunBatchImageExample);
             this.groupBox5.Location = new System.Drawing.Point(6, 200);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(385, 193);
@@ -865,8 +865,8 @@
             this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox10.Controls.Add(this.tabControlBatchRunVideo);
-            this.groupBox10.Controls.Add(this.groupBox11);
+            this.groupBox10.Panel.Controls.Add(this.tabControlBatchRunVideo);
+            this.groupBox10.Panel.Controls.Add(this.groupBox11);
             this.groupBox10.Location = new System.Drawing.Point(3, 3);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(403, 399);
@@ -1056,7 +1056,7 @@
             this.groupBox11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox11.Controls.Add(this.textBoxRunBatchVideoExample);
+            this.groupBox11.Panel.Controls.Add(this.textBoxRunBatchVideoExample);
             this.groupBox11.Location = new System.Drawing.Point(6, 200);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(387, 193);
@@ -1080,7 +1080,7 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.textBoxBatchCommandSelectedFiles);
+            this.groupBox3.Panel.Controls.Add(this.textBoxBatchCommandSelectedFiles);
             this.groupBox3.Location = new System.Drawing.Point(3, 6);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(814, 117);
@@ -1161,7 +1161,7 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.tabControlArgumentFile);
+            this.groupBox2.Panel.Controls.Add(this.tabControlArgumentFile);
             this.groupBox2.Location = new System.Drawing.Point(0, 101);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(822, 433);
@@ -1273,10 +1273,10 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.comboBoxArgumentFileCommand);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.comboBoxArgumentFileCommandVariables);
-            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Panel.Controls.Add(this.comboBoxArgumentFileCommand);
+            this.groupBox1.Panel.Controls.Add(this.label4);
+            this.groupBox1.Panel.Controls.Add(this.comboBoxArgumentFileCommandVariables);
+            this.groupBox1.Panel.Controls.Add(this.label6);
             this.groupBox1.Location = new System.Drawing.Point(3, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(819, 89);
@@ -1397,7 +1397,7 @@
             this.groupBox12.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox12.Controls.Add(this.splitContainerARgumentFileBuilder);
+            this.groupBox12.Panel.Controls.Add(this.splitContainerARgumentFileBuilder);
             this.groupBox12.Location = new System.Drawing.Point(3, 3);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(813, 304);
@@ -1440,7 +1440,7 @@
             // 
             this.groupBoxBuildTagItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxBuildTagItems.Controls.Add(this.panelBuildTags);
+            this.groupBoxBuildTagItems.Panel.Controls.Add(this.panelBuildTags);
             this.groupBoxBuildTagItems.Location = new System.Drawing.Point(3, 3);
             this.groupBoxBuildTagItems.Name = "groupBoxBuildTagItems";
             this.groupBoxBuildTagItems.Size = new System.Drawing.Size(774, 264);
@@ -1617,11 +1617,11 @@
             this.groupBoxMetadataWriteTags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxMetadataWriteTags.Controls.Add(this.buttonMetadataWriteKeywordsSave);
-            this.groupBoxMetadataWriteTags.Controls.Add(this.fastColoredTextBoxMetadataWriteTags);
-            this.groupBoxMetadataWriteTags.Controls.Add(this.comboBoxMetadataWriteStandardTags);
-            this.groupBoxMetadataWriteTags.Controls.Add(this.buttonMetadataWriteKeywordsLoad);
-            this.groupBoxMetadataWriteTags.Controls.Add(this.label23);
+            this.groupBoxMetadataWriteTags.Panel.Controls.Add(this.buttonMetadataWriteKeywordsSave);
+            this.groupBoxMetadataWriteTags.Panel.Controls.Add(this.fastColoredTextBoxMetadataWriteTags);
+            this.groupBoxMetadataWriteTags.Panel.Controls.Add(this.comboBoxMetadataWriteStandardTags);
+            this.groupBoxMetadataWriteTags.Panel.Controls.Add(this.buttonMetadataWriteKeywordsLoad);
+            this.groupBoxMetadataWriteTags.Panel.Controls.Add(this.label23);
             this.groupBoxMetadataWriteTags.Location = new System.Drawing.Point(3, 3);
             this.groupBoxMetadataWriteTags.Name = "groupBoxMetadataWriteTags";
             this.groupBoxMetadataWriteTags.Size = new System.Drawing.Size(796, 139);
@@ -1710,7 +1710,7 @@
             this.groupBoxBuilderResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxBuilderResult.Controls.Add(this.fastColoredTextBoxBuildResult);
+            this.groupBoxBuilderResult.Panel.Controls.Add(this.fastColoredTextBoxBuildResult);
             this.groupBoxBuilderResult.Location = new System.Drawing.Point(3, 3);
             this.groupBoxBuilderResult.Name = "groupBoxBuilderResult";
             this.groupBoxBuilderResult.Size = new System.Drawing.Size(813, 114);
@@ -1759,10 +1759,10 @@
             // 
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox6.Controls.Add(this.comboBoxArgumentFileBuilderCommand);
-            this.groupBox6.Controls.Add(this.label21);
-            this.groupBox6.Controls.Add(this.comboBoxArgumentFileBuilderCommandVariables);
-            this.groupBox6.Controls.Add(this.label22);
+            this.groupBox6.Panel.Controls.Add(this.comboBoxArgumentFileBuilderCommand);
+            this.groupBox6.Panel.Controls.Add(this.label21);
+            this.groupBox6.Panel.Controls.Add(this.comboBoxArgumentFileBuilderCommandVariables);
+            this.groupBox6.Panel.Controls.Add(this.label22);
             this.groupBox6.Location = new System.Drawing.Point(3, 3);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(813, 89);
