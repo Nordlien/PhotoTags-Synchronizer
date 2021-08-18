@@ -34,8 +34,8 @@ namespace DataGridViewGeneric
             this.FindPage = new System.Windows.Forms.TabPage();
             this.checkBoxSearchAlsoRowHeaders = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new Krypton.Toolkit.KryptonGroupBox();
-            this.radioButtonSearchUp1 = new System.Windows.Forms.RadioButton();
-            this.radioButtonSearchDown1 = new System.Windows.Forms.RadioButton();
+            this.radioButtonSearchUp1 = new Krypton.Toolkit.KryptonRadioButton();
+            this.radioButtonSearchDown1 = new Krypton.Toolkit.KryptonRadioButton();
             this.buttonFindAll1 = new Krypton.Toolkit.KryptonButton();
             this.FindButton1 = new Krypton.Toolkit.KryptonButton();
             this.comboBoxFindMode = new System.Windows.Forms.ComboBox();
@@ -46,8 +46,8 @@ namespace DataGridViewGeneric
             this.FindLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.ReplacePage = new System.Windows.Forms.TabPage();
             this.groupBoxFindDirection2 = new Krypton.Toolkit.KryptonGroupBox();
-            this.radioButtonSearchUp2 = new System.Windows.Forms.RadioButton();
-            this.radioButtonSearchDown2 = new System.Windows.Forms.RadioButton();
+            this.radioButtonSearchUp2 = new Krypton.Toolkit.KryptonRadioButton();
+            this.radioButtonSearchDown2 = new Krypton.Toolkit.KryptonRadioButton();
             this.buttonFindAll2 = new Krypton.Toolkit.KryptonButton();
             this.FindOptionGroup2 = new Krypton.Toolkit.KryptonGroupBox();
             this.MatchCellCheckBox2 = new System.Windows.Forms.CheckBox();
@@ -147,7 +147,6 @@ namespace DataGridViewGeneric
             this.radioButtonSearchUp1.Size = new System.Drawing.Size(113, 21);
             this.radioButtonSearchUp1.TabIndex = 6;
             this.radioButtonSearchUp1.Text = "Find upwards";
-            this.radioButtonSearchUp1.UseVisualStyleBackColor = true;
             this.radioButtonSearchUp1.CheckedChanged += new System.EventHandler(this.radioButtonSearchUp1_CheckedChanged);
             // 
             // radioButtonSearchDown1
@@ -160,7 +159,6 @@ namespace DataGridViewGeneric
             this.radioButtonSearchDown1.TabIndex = 7;
             this.radioButtonSearchDown1.TabStop = true;
             this.radioButtonSearchDown1.Text = "Find downwards";
-            this.radioButtonSearchDown1.UseVisualStyleBackColor = true;
             this.radioButtonSearchDown1.CheckedChanged += new System.EventHandler(this.radioButtonSearchDown1_CheckedChanged);
             // 
             // buttonFindAll1
@@ -304,7 +302,6 @@ namespace DataGridViewGeneric
             this.radioButtonSearchUp2.TabIndex = 7;
             this.radioButtonSearchUp2.TabStop = true;
             this.radioButtonSearchUp2.Text = "Find upwards";
-            this.radioButtonSearchUp2.UseVisualStyleBackColor = true;
             this.radioButtonSearchUp2.CheckedChanged += new System.EventHandler(this.radioButtonSearchUp2_CheckedChanged);
             // 
             // radioButtonSearchDown2
@@ -317,7 +314,6 @@ namespace DataGridViewGeneric
             this.radioButtonSearchDown2.TabIndex = 8;
             this.radioButtonSearchDown2.TabStop = true;
             this.radioButtonSearchDown2.Text = "Find downwards";
-            this.radioButtonSearchDown2.UseVisualStyleBackColor = true;
             this.radioButtonSearchDown2.CheckedChanged += new System.EventHandler(this.radioButtonSearchDown2_CheckedChanged);
             // 
             // buttonFindAll2
@@ -670,10 +666,10 @@ namespace DataGridViewGeneric
         private Krypton.Toolkit.KryptonButton ReplaceAllButton;
         private Krypton.Toolkit.KryptonButton buttonFindAll1;
         private Krypton.Toolkit.KryptonButton buttonFindAll2;
-        private System.Windows.Forms.RadioButton radioButtonSearchUp2;
-        private System.Windows.Forms.RadioButton radioButtonSearchDown2;
-        private System.Windows.Forms.RadioButton radioButtonSearchUp1;
-        private System.Windows.Forms.RadioButton radioButtonSearchDown1;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonSearchUp2;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonSearchDown2;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonSearchUp1;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonSearchDown1;
         private Krypton.Toolkit.KryptonGroupBox groupBox1;
         private Krypton.Toolkit.KryptonGroupBox groupBoxFindDirection2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripDataGridViewGeneric;

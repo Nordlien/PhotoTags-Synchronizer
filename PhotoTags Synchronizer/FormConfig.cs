@@ -2576,7 +2576,9 @@ namespace PhotoTagsSynchronizer
             ThemeManager.SetTheme(kryptonComboBoxThemes.Text, kryptonManager1);
             ThemeManager.ApplyGlobalTheme(kryptonManager1, ThemeManager.GetPaletteMode(kryptonManager1));
 
-
+            IPalette palette = KryptonManager.CurrentGlobalPalette;
+            //Font font = palette.GetContentShortTextFont(PaletteContentStyle.LabelNormalControl, PaletteState.Normal);
+            //propertyGrid1.Font = font;
         }
     }
 }

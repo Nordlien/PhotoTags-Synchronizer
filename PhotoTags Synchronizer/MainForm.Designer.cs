@@ -185,11 +185,11 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTagsAndKeywordMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new Krypton.Toolkit.KryptonLabel();
             this.groupBoxRating = new Krypton.Toolkit.KryptonGroupBox();
-            this.radioButtonRating5 = new System.Windows.Forms.RadioButton();
-            this.radioButtonRating4 = new System.Windows.Forms.RadioButton();
-            this.radioButtonRating3 = new System.Windows.Forms.RadioButton();
-            this.radioButtonRating2 = new System.Windows.Forms.RadioButton();
-            this.radioButtonRating1 = new System.Windows.Forms.RadioButton();
+            this.radioButtonRating5 = new Krypton.Toolkit.KryptonRadioButton();
+            this.radioButtonRating4 = new Krypton.Toolkit.KryptonRadioButton();
+            this.radioButtonRating3 = new Krypton.Toolkit.KryptonRadioButton();
+            this.radioButtonRating2 = new Krypton.Toolkit.KryptonRadioButton();
+            this.radioButtonRating1 = new Krypton.Toolkit.KryptonRadioButton();
             this.comboBoxAlbum = new Krypton.Toolkit.KryptonComboBox();
             this.label4 = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxComments = new Krypton.Toolkit.KryptonComboBox();
@@ -2204,61 +2204,56 @@ namespace PhotoTagsSynchronizer
             // radioButtonRating5
             // 
             this.radioButtonRating5.AutoSize = true;
-            this.radioButtonRating5.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.radioButtonRating5.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating5.Location = new System.Drawing.Point(200, 3);
             this.radioButtonRating5.Name = "radioButtonRating5";
             this.radioButtonRating5.Size = new System.Drawing.Size(33, 16);
             this.radioButtonRating5.TabIndex = 4;
             this.radioButtonRating5.TabStop = true;
-            this.radioButtonRating5.UseVisualStyleBackColor = true;
             this.radioButtonRating5.CheckedChanged += new System.EventHandler(this.radioButtonRating5_CheckedChanged);
             // 
             // radioButtonRating4
             // 
             this.radioButtonRating4.AutoSize = true;
-            this.radioButtonRating4.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.radioButtonRating4.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating4.Location = new System.Drawing.Point(149, 3);
             this.radioButtonRating4.Name = "radioButtonRating4";
             this.radioButtonRating4.Size = new System.Drawing.Size(33, 16);
             this.radioButtonRating4.TabIndex = 3;
             this.radioButtonRating4.TabStop = true;
-            this.radioButtonRating4.UseVisualStyleBackColor = true;
             this.radioButtonRating4.CheckedChanged += new System.EventHandler(this.radioButtonRating4_CheckedChanged);
             // 
             // radioButtonRating3
             // 
             this.radioButtonRating3.AutoSize = true;
-            this.radioButtonRating3.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.radioButtonRating3.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating3.Location = new System.Drawing.Point(102, 3);
             this.radioButtonRating3.Name = "radioButtonRating3";
             this.radioButtonRating3.Size = new System.Drawing.Size(33, 16);
             this.radioButtonRating3.TabIndex = 2;
             this.radioButtonRating3.TabStop = true;
-            this.radioButtonRating3.UseVisualStyleBackColor = true;
             this.radioButtonRating3.CheckedChanged += new System.EventHandler(this.radioButtonRating3_CheckedChanged);
             // 
             // radioButtonRating2
             // 
             this.radioButtonRating2.AutoSize = true;
-            this.radioButtonRating2.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.radioButtonRating2.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating2.Location = new System.Drawing.Point(50, 3);
             this.radioButtonRating2.Name = "radioButtonRating2";
             this.radioButtonRating2.Size = new System.Drawing.Size(33, 16);
             this.radioButtonRating2.TabIndex = 1;
             this.radioButtonRating2.TabStop = true;
-            this.radioButtonRating2.UseVisualStyleBackColor = true;
             this.radioButtonRating2.CheckedChanged += new System.EventHandler(this.radioButtonRating2_CheckedChanged);
             // 
             // radioButtonRating1
             // 
             this.radioButtonRating1.AutoSize = true;
-            this.radioButtonRating1.Image = global::PhotoTagsSynchronizer.Properties.Resources.star;
+            this.radioButtonRating1.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating1.Location = new System.Drawing.Point(1, 3);
             this.radioButtonRating1.Name = "radioButtonRating1";
             this.radioButtonRating1.Size = new System.Drawing.Size(33, 16);
             this.radioButtonRating1.TabIndex = 0;
             this.radioButtonRating1.TabStop = true;
-            this.radioButtonRating1.UseVisualStyleBackColor = true;
             this.radioButtonRating1.CheckedChanged += new System.EventHandler(this.radioButtonRating1_CheckedChanged);
             // 
             // comboBoxAlbum
@@ -4977,11 +4972,11 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.DataGridView dataGridViewTagsAndKeywords;
         private Krypton.Toolkit.KryptonLabel label5;
         private Krypton.Toolkit.KryptonGroupBox groupBoxRating;
-        private System.Windows.Forms.RadioButton radioButtonRating5;
-        private System.Windows.Forms.RadioButton radioButtonRating4;
-        private System.Windows.Forms.RadioButton radioButtonRating3;
-        private System.Windows.Forms.RadioButton radioButtonRating2;
-        private System.Windows.Forms.RadioButton radioButtonRating1;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonRating5;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonRating4;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonRating3;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonRating2;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonRating1;
         private Krypton.Toolkit.KryptonLabel label4;
         private Krypton.Toolkit.KryptonLabel labelComments;
         private Krypton.Toolkit.KryptonLabel labelDescription;
