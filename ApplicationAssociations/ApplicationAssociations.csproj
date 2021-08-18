@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ApplicationAssociations</RootNamespace>
     <AssemblyName>ApplicationAssociations</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,7 +71,7 @@
     <None Include="Resources\IconNoIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Krypton.Toolkit.Canary">
+    <PackageReference Include="Krypton.Toolkit.Canary.Lite">
       <Version>6.0.2108.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.WindowsAPICodePack-Core">

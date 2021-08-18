@@ -3,7 +3,7 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <ProjectGuid>{A4FCA838-02E1-4C57-B0C0-8A6734657C47}</ProjectGuid>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -106,16 +106,6 @@
     <OutputPath>..\Bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CefSharp">
-      <!--HintPath>..\bin\Debug\CefSharp.dll</HintPath-->
-    </Reference>
-    <Reference Include="CefSharp.Core">
-      <!--HintPath>..\bin\Debug\CefSharp.Core.dll</HintPath-->
-    </Reference>
-    <Reference Include="CefSharp.WinForms">
-      <!--HintPath>..\bin\Debug\CefSharp.WinForms.dll</HintPath-->
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -596,10 +586,6 @@
       <Project>{e461bcc8-e354-45a4-bf24-2d68072b456f}</Project>
       <Name>PhotoTagsCommonComponets</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SkinFramework\SkinFramework.csproj">
-      <Project>{d80211dd-2ef6-44f0-b4f8-fa3a708528ce}</Project>
-      <Name>SkinFramework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj">
       <Project>{c14ac62e-7b1a-471b-8660-e9c28d89f316}</Project>
       <Name>SqliteDatabase</Name>
@@ -623,16 +609,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="cef.redist.x64">
-      <Version>91.1.21</Version>
+      <Version>92.0.25</Version>
     </PackageReference>
     <PackageReference Include="cef.redist.x86">
-      <Version>91.1.21</Version>
+      <Version>92.0.25</Version>
     </PackageReference>
     <PackageReference Include="CefSharp.Common">
-      <Version>91.1.211</Version>
+      <Version>92.0.251</Version>
     </PackageReference>
     <PackageReference Include="CefSharp.WinForms">
-      <Version>91.1.211</Version>
+      <Version>92.0.251</Version>
     </PackageReference>
     <PackageReference Include="CyotekImageBox">
       <Version>1.2.1</Version>
@@ -644,10 +630,10 @@
       <Version>6.0.2108.1</Version>
     </PackageReference>
     <PackageReference Include="LibVLCSharp">
-      <Version>3.5.1</Version>
+      <Version>3.6.0</Version>
     </PackageReference>
     <PackageReference Include="LibVLCSharp.WinForms">
-      <Version>3.5.1</Version>
+      <Version>3.6.0</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>

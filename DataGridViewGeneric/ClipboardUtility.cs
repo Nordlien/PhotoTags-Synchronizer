@@ -272,10 +272,8 @@ namespace DataGridViewGeneric
                     System.Text.RegularExpressions.Regex TDregex = new System.Text.RegularExpressions.Regex(@"<( )*td([^>])*>", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                     System.Text.RegularExpressions.Match trMatch = TRregex.Match(HtmlFormat);
 
-                    bool anyCellFound = false;
                     while (!String.IsNullOrWhiteSpace(trMatch.Value))
                     {
-                        anyCellFound = true;
                         int rowStart = trMatch.Index + trMatch.Length;
                         int rowEnd = HtmlFormat.IndexOf("</tr>", rowStart, StringComparison.InvariantCultureIgnoreCase);
                         System.Text.RegularExpressions.Match tdMatch = TDregex.Match(HtmlFormat, rowStart, rowEnd - rowStart);

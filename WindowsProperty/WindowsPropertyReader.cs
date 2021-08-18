@@ -175,7 +175,7 @@ namespace WindowsProperty
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 //MessageBox.Show(this, "Unable to load properties for " + Path.GetFileName(openFileDialog1.FileName) + "\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //return;

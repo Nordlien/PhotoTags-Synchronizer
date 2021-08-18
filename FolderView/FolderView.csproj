@@ -4,7 +4,7 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <ProjectGuid>{CD7C35BC-38BD-458D-8440-5B51BD35D4F7}</ProjectGuid>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>

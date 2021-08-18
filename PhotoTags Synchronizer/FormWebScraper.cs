@@ -282,6 +282,7 @@ namespace PhotoTagsSynchronizer
             public override int GetHashCode()
             {
                 throw new NotFiniteNumberException();
+                /*
                 int hashCode = 1517053096;
                 hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Url);
                 hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
@@ -299,7 +300,7 @@ namespace PhotoTagsSynchronizer
                 hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksTags);
                 hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksLocation);
                 hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, string>>.Default.GetHashCode(LinksPeople);
-                return hashCode;
+                return hashCode;*/
             }
 
             public static bool operator ==(ScrapingResult left, ScrapingResult right)

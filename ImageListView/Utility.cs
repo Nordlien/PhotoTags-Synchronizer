@@ -692,7 +692,7 @@ namespace Manina.Windows.Forms
                     g.DrawImage(image, 0, 0, scaled.Width, scaled.Height);
                 }
             }
-            catch (Exception ex)
+            catch //(Exception ex)
             {
                 if (thumb != null) thumb.Dispose();
                 thumb = null;

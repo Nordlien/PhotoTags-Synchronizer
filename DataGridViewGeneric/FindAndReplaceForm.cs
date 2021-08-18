@@ -9,15 +9,15 @@ namespace DataGridViewGeneric
     public partial class FindAndReplaceForm : Form
     {
         private DataGridView dataGridViewActive;
-        private int searchStartRowTableFind;
-        private int searchStartColumnTableFind;
+        //private int searchStartRowTableFind;
+        //private int searchStartColumnTableFind;
         private int searchSelectionIndexSelectionFind;
 
         private List<DataGridViewCell> m_SelectedCells;
 
-        private bool restoreCellSelectionWhenCloseForm = true;
+        //private bool restoreCellSelectionWhenCloseForm = true;
         private bool isSearchModeFindInSelectedCells = true;
-        private DataGridViewCell lastCellLocationUsed = null;
+        //private DataGridViewCell lastCellLocationUsed = null;
 
         private Dictionary<CellLocation, DataGridViewGenericCell> updatedCells;
 
@@ -37,7 +37,7 @@ namespace DataGridViewGeneric
             }
 
             comboBoxFindMode.SelectedIndex = 0;
-            restoreCellSelectionWhenCloseForm = true;
+            //restoreCellSelectionWhenCloseForm = true;
             searchSelectionIndexSelectionFind = 0;
 
             m_SelectedCells.Clear();
@@ -80,10 +80,9 @@ namespace DataGridViewGeneric
             {
                 updatedCells = new Dictionary<CellLocation, DataGridViewGenericCell>();
 
-                searchStartRowTableFind = dataGridViewActive.CurrentCell.RowIndex;
-                searchStartColumnTableFind = dataGridViewActive.CurrentCell.ColumnIndex;
-                
-                lastCellLocationUsed = dataGridView.CurrentCell;
+                //searchStartRowTableFind = dataGridViewActive.CurrentCell.RowIndex;
+                //searchStartColumnTableFind = dataGridViewActive.CurrentCell.ColumnIndex;                
+                //lastCellLocationUsed = dataGridView.CurrentCell;
 
             }
             
@@ -172,7 +171,7 @@ namespace DataGridViewGeneric
 
             if (findCell != null)
             {
-                lastCellLocationUsed = findCell;  //When close, this cell will become active
+                //lastCellLocationUsed = findCell;  //When close, this cell will become active
 
                 dataGridViewActive.ClearSelection();
                 dataGridViewActive.CurrentCell = findCell;
@@ -192,7 +191,7 @@ namespace DataGridViewGeneric
             else
                 FindCell = FindAndReplaceInTable(false, false, true, this.checkBoxSearchAlsoRowHeaders.Checked, null); //Just mark cells where text is found
             
-            restoreCellSelectionWhenCloseForm = false;
+            //restoreCellSelectionWhenCloseForm = false;
             Close();
         }
 
@@ -205,7 +204,7 @@ namespace DataGridViewGeneric
             else
                 FindCell = FindAndReplaceInTable(true, false, true, false, this.ReplaceWithTextBox.Text);
 
-            restoreCellSelectionWhenCloseForm = false;
+            //restoreCellSelectionWhenCloseForm = false;
             Close();
         }
 
@@ -219,7 +218,7 @@ namespace DataGridViewGeneric
             
             if (findCell != null)
             {
-                lastCellLocationUsed = findCell; //When close, this cell will become active
+                //lastCellLocationUsed = findCell; //When close, this cell will become active
 
                 dataGridViewActive.ClearSelection();
                 dataGridViewActive.CurrentCell = findCell;
