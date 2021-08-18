@@ -98,12 +98,12 @@ namespace FileHandeling
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.textBoxFilesLockedByProcess);
-            this.groupBox3.Controls.Add(this.buttonCheck);
-            this.groupBox3.Controls.Add(this.textBoxFiles);
-            this.groupBox3.Controls.Add(this.buttonIgnor);
-            this.groupBox3.Controls.Add(this.textBox1);
-            this.groupBox3.Controls.Add(this.buttonRetry);
+            this.groupBox3.Panel.Controls.Add(this.textBoxFilesLockedByProcess);
+            this.groupBox3.Panel.Controls.Add(this.buttonCheck);
+            this.groupBox3.Panel.Controls.Add(this.textBoxFiles);
+            this.groupBox3.Panel.Controls.Add(this.buttonIgnor);
+            this.groupBox3.Panel.Controls.Add(this.textBox1);
+            this.groupBox3.Panel.Controls.Add(this.buttonRetry);
             this.groupBox3.Location = new System.Drawing.Point(3, 5);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
@@ -147,7 +147,7 @@ namespace FileHandeling
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.pictureBox1);
+            this.groupBox2.Panel.Controls.Add(this.pictureBox1);
             this.groupBox2.Location = new System.Drawing.Point(427, 247);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
@@ -159,7 +159,7 @@ namespace FileHandeling
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.pictureBox2);
+            this.groupBox1.Panel.Controls.Add(this.pictureBox2);
             this.groupBox1.Location = new System.Drawing.Point(427, 5);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";

@@ -28,23 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.labelStatus = new Krypton.Toolkit.KryptonLabel();
+            this.labelStatus = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.textBoxWarning = new Krypton.Toolkit.KryptonTextBox();
-            this.labelWarnings = new Krypton.Toolkit.KryptonLabel();
-            this.checkBoxCloseWarning = new Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
+            this.textBoxWarning = new System.Windows.Forms.TextBox();
+            this.labelWarnings = new System.Windows.Forms.Label();
+            this.checkBoxCloseWarning = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // labelStatus
             // 
+            this.labelStatus.AutoSize = true;
             this.labelStatus.Location = new System.Drawing.Point(92, 44);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(95, 24);
+            this.labelStatus.Size = new System.Drawing.Size(80, 20);
             this.labelStatus.TabIndex = 0;
+            this.labelStatus.Text = "Processing...";
             this.labelStatus.UseWaitCursor = true;
-            this.labelStatus.Values.Text = "Processing...";
             // 
             // progressBar
             // 
@@ -74,29 +73,33 @@
             // 
             // labelWarnings
             // 
+            this.labelWarnings.AutoSize = true;
             this.labelWarnings.Location = new System.Drawing.Point(11, 97);
             this.labelWarnings.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelWarnings.Name = "labelWarnings";
-            this.labelWarnings.Size = new System.Drawing.Size(79, 24);
+            this.labelWarnings.Size = new System.Drawing.Size(64, 20);
             this.labelWarnings.TabIndex = 3;
-            this.labelWarnings.Values.Text = "Warnings:";
+            this.labelWarnings.Text = "Warnings:";
             this.labelWarnings.Visible = false;
             // 
             // checkBoxCloseWarning
             // 
             this.checkBoxCloseWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxCloseWarning.Location = new System.Drawing.Point(317, 9);
+            this.checkBoxCloseWarning.AutoSize = true;
+            this.checkBoxCloseWarning.Location = new System.Drawing.Point(359, 9);
             this.checkBoxCloseWarning.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxCloseWarning.Name = "checkBoxCloseWarning";
-            this.checkBoxCloseWarning.Size = new System.Drawing.Size(273, 24);
+            this.checkBoxCloseWarning.Size = new System.Drawing.Size(231, 24);
             this.checkBoxCloseWarning.TabIndex = 4;
-            this.checkBoxCloseWarning.Values.Text = "Close warning window automatically";
+            this.checkBoxCloseWarning.Text = "Close warning window automatically";
             this.checkBoxCloseWarning.Visible = false;
             this.checkBoxCloseWarning.CheckedChanged += new System.EventHandler(this.checkBoxCloseWarning_CheckedChanged);
             // 
             // SplashForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(593, 272);
@@ -108,6 +111,7 @@
             this.Controls.Add(this.labelStatus);
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.HelpButton = true;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -125,11 +129,10 @@
 
         #endregion
 
-        private Krypton.Toolkit.KryptonLabel labelStatus;
+        private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.ProgressBar progressBar;
-        private Krypton.Toolkit.KryptonTextBox textBoxWarning;
-        private Krypton.Toolkit.KryptonLabel labelWarnings;
-        private Krypton.Toolkit.KryptonCheckBox checkBoxCloseWarning;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
+        private System.Windows.Forms.TextBox textBoxWarning;
+        private System.Windows.Forms.Label labelWarnings;
+        private System.Windows.Forms.CheckBox checkBoxCloseWarning;
     }
 }

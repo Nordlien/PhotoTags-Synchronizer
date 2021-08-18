@@ -6,7 +6,7 @@ using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class SplashForm : KryptonForm
+    public partial class SplashForm : Form
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
