@@ -67,7 +67,7 @@ namespace PhotoTagsSynchronizer
         {
             foreach (ImageListView.ImageListViewColumnHeader column in imageListView.Columns)
             {
-                int index = checkedListBox.Items.Add(column.Text, column.Visible);
+                int index = checkedListBox.Items.Add(column.Text);
             }
         }
 
