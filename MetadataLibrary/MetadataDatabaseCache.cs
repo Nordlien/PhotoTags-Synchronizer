@@ -1,10 +1,15 @@
 ﻿#define MonoSqlite
+#define noMicrosoftDataSqlite
+
 #if MonoSqlite
 using Mono.Data.Sqlite;
-using NLog;
+#elif MicrosoftDataSqlite
+using Microsoft.Data.Sqlite;
 #else
 using System.Data.SQLite;
 #endif
+
+
 using SqliteDatabase;
 using System;
 using System.Collections.Generic;

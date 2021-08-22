@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using Krypton.Toolkit;
@@ -20,9 +14,9 @@ namespace PhotoTagsCommonComponets
             InitializeComponent();
         }
 
-        private TextStyle infoStyle = new TextStyle(Brushes.Yellow, null, FontStyle.Regular);
-        private TextStyle warningStyle = new TextStyle(Brushes.BurlyWood, null, FontStyle.Regular);
-        private TextStyle errorStyle = new TextStyle(Brushes.Red, null, FontStyle.Regular);
+        private FastColoredTextBoxNS.TextStyle infoStyle = new FastColoredTextBoxNS.TextStyle(Brushes.Yellow, null, FontStyle.Regular);
+        private FastColoredTextBoxNS.TextStyle warningStyle = new FastColoredTextBoxNS.TextStyle(Brushes.BurlyWood, null, FontStyle.Regular);
+        private FastColoredTextBoxNS.TextStyle errorStyle = new FastColoredTextBoxNS.TextStyle(Brushes.Red, null, FontStyle.Regular);
         private Process process = null;
         private bool wasProcessKilled = false;
 

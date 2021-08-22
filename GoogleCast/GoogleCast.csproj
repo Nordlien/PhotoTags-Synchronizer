@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>key.pfx</AssemblyOriginatorKeyFile>
@@ -17,13 +17,50 @@
     <FileVersion>1.6.7.0</FileVersion>
     <Version>1.6.7</Version>
     <PackageIconUrl>https://github.com/kakone/GoogleCast/raw/master/GoogleCast.png</PackageIconUrl>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\netstandard2.0\GoogleCast.xml</DocumentationFile>
+    <NoWarn />
+    <WarningsAsErrors />
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <OutputPath>..\Bin\Debug\Any\</OutputPath>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn />
+    <WarningsAsErrors />
+    <OutputPath>..\Bin\Debug\x86\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <NoWarn />
+    <WarningsAsErrors />
+    <OutputPath>..\Bin\Debug\x64\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants />
+    <NoWarn />
+    <WarningsAsErrors />
+    <OutputPath>..\Bin\Release\Any\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn />
+    <WarningsAsErrors />
+    <DefineConstants />
+    <OutputPath>..\Bin\Release\x86\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn />
+    <WarningsAsErrors />
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DefineConstants />
+    <OutputPath>..\Bin\Release\x64\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="cast_channel.bat" />
     <None Remove="cast_channel.proto" />

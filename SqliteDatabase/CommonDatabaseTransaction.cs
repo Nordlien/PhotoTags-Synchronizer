@@ -1,8 +1,14 @@
-﻿#if MonoSqlite
+﻿#define MonoSqlite
+#define noMicrosoftDataSqlite
+
+#if MonoSqlite
 using Mono.Data.Sqlite;
+#elif MicrosoftDataSqlite
+using Microsoft.Data.Sqlite;
 #else
 using System.Data.SQLite;
 #endif
+
 
 
 namespace SqliteDatabase
@@ -14,10 +20,18 @@ namespace SqliteDatabase
         public const System.Data.IsolationLevel TransactionNull = System.Data.IsolationLevel.Serializable;
 
 #if MonoSqlite
-        private Mono.Data.Sqlite.SqliteTransaction databaseTransaction;
+        private SqliteTransaction databaseTransaction;
         public SqliteTransaction DatabaseTransaction { get => databaseTransaction; set => databaseTransaction = value; }
 
         public CommonDatabaseTransaction(Mono.Data.Sqlite.SqliteTransaction sqliteTransaction)
+        {
+            databaseTransaction = sqliteTransaction;
+        }
+#elif MicrosoftDataSqlite
+        private SqliteTransaction databaseTransaction;
+        public SqliteTransaction DatabaseTransaction { get => databaseTransaction; set => databaseTransaction = value; }
+
+        public CommonDatabaseTransaction(SqliteTransaction sqliteTransaction)
         {
             databaseTransaction = sqliteTransaction;
         }

@@ -1,106 +1,60 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{43150053-C6AC-4262-B38C-EE9A1A8897D1}</ProjectGuid>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LocationNames</RootNamespace>
-    <AssemblyName>LocationNames</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <WarningsAsErrors />
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <OutputPath>..\Bin\Debug\Any\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn />
+    <WarningsAsErrors />
+    <OutputPath>..\Bin\Debug\x86\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <NoWarn />
+    <WarningsAsErrors />
+    <OutputPath>..\Bin\Debug\x64\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants />
+    <NoWarn />
+    <WarningsAsErrors />
+    <OutputPath>..\Bin\Release\Any\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn />
+    <WarningsAsErrors />
+    <DefineConstants />
+    <OutputPath>..\Bin\Release\x86\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn />
+    <WarningsAsErrors />
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DefineConstants />
+    <OutputPath>..\Bin\Release\x64\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LocationCoordinate.cs" />
-    <Compile Include="LocationCoordinateAndDescription.cs" />
-    <Compile Include="LocationDescription.cs" />
-    <Compile Include="LocationNameDatabase.cs" />
-    <Compile Include="LocationNameLookUpCache.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+   
+    <PackageReference Include="Mono.Data.Sqlite" Version="1.0.61" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NLog" Version="4.7.11" />
+    <PackageReference Include="Nominatim.API" Version="1.6.1" />
+    
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SqliteDatabase\SqliteDatabase.csproj">
-      <Project>{C14AC62E-7B1A-471B-8660-E9C28D89F316}</Project>
-      <Name>SqliteDatabase</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="GeoJSON.Net">
-      <Version>1.2.19</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities">
-      <Version>2.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Primitives">
-      <Version>5.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Net.Http.Headers">
-      <Version>2.2.8</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Nominatim.API">
-      <Version>1.6.1</Version>
-    </PackageReference>
-    <PackageReference Include="SharpKml.Core">
-      <Version>5.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="Stub.System.Data.SQLite.Core.NetFramework">
-      <Version>1.0.114</Version>
-    </PackageReference>
-    <PackageReference Include="System.Buffers">
-      <Version>4.5.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Collections">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.114.3</Version>
-    </PackageReference>
-    <PackageReference Include="System.Memory">
-      <Version>4.5.4</Version>
-    </PackageReference>
-    <PackageReference Include="System.Numerics.Vectors">
-      <Version>4.5.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
-      <Version>5.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.Encodings.Web">
-      <Version>5.0.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

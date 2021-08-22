@@ -1,12 +1,11 @@
-﻿using PhotoTagsCommonComponets;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-
+using PhotoTagsCommonComponets;
 
 namespace ApplicationAssociations
 {
@@ -306,6 +305,7 @@ namespace ApplicationAssociations
         #endregion
 
         #region ProcessRun(FormTerminalWindow formTerminalWindow, string commandWithArguments, bool waitForExit)
+        
         private static PhotoTagsCommonComponets.FormTerminalWindow formTerminalWindow2 = null;
         private static bool printTerminalWindowCommand = false;
         private static string processTerminalWindowCommand = null; 
@@ -347,15 +347,11 @@ namespace ApplicationAssociations
 
             formTerminalWindow2 = formTerminalWindow;
         }
-
- 
-
+        
         private static void RunProcess_Exited(object sender, EventArgs e)
         {
             if (formTerminalWindow2 != null && printTerminalWindowCommand) formTerminalWindow2.LogWarning(processTerminalWindowCommand + "\r\n");
             printTerminalWindowCommand = false;
-
-            
         }
 
         private static void RunProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
@@ -375,8 +371,9 @@ namespace ApplicationAssociations
             //Process runProcess = (Process)sender;
             //if (formTerminalWindow2 != null && runProcess.HasExited) formTerminalWindow2.LogWarning((processTerminalWindowCommand == null ? "" : "Command ended: " + processTerminalWindowCommand + "\r\n") + "Exit code: " + +runProcess.ExitCode + "\r\n");
         }
+        
         #endregion
-
+        
         #region ProcessRunOpenFile(string fileFullPath)
         public static void ProcessRunOpenFile(string fileFullPath)
         {

@@ -8,6 +8,7 @@ using ImageAndMovieFileExtentions;
 using Manina.Windows.Forms;
 using MetadataLibrary;
 using FileHandeling;
+
 using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
@@ -216,4 +217,6 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
     }
+
+
 }

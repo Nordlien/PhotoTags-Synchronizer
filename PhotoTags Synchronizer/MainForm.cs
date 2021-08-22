@@ -288,8 +288,15 @@ namespace PhotoTagsSynchronizer
         {
             #region Initialize VLC player
             SplashForm.UpdateStatus("Initialize VLC player...");
-
-            if (!DesignMode) Core.Initialize();
+            try
+            {
+                if (!DesignMode) Core.Initialize();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Was not able to load VLC player");
+                return;
+            }
             #endregion
 
             #region Initialize components
@@ -346,8 +353,15 @@ namespace PhotoTagsSynchronizer
 
             #region Initialize database connect
             SplashForm.UpdateStatus("Initialize database: connect...");
-            databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 10000, 5000);
-
+            try
+            {
+                databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 10000, 5000);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Was not able to start the database");
+                Close();
+                return;
+            }
             databaseGoogleLocationHistory = new GoogleLocationHistoryDatabaseCache(databaseUtilitiesSqliteMetadata);
             databaseAndCacheMetadataExiftool = new MetadataDatabaseCache(databaseUtilitiesSqliteMetadata);
             databaseAndCacheMetadataExiftool.OnRecordReadToCache += DatabaseAndCacheMetadataExiftool_OnRecordReadToCache;

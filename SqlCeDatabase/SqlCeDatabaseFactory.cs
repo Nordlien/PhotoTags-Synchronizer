@@ -8,6 +8,7 @@ namespace ChristianHelle.DatabaseTools.SqlCe
 {
     public class SqlCeDatabaseFactory
     {
+        private static string FrameworkPath = "net48\\";
         public static ISqlCeDatabase Create(string connectionString)
         {
             var type = GetImplementation(connectionString);
@@ -56,8 +57,8 @@ namespace ChristianHelle.DatabaseTools.SqlCe
 
         private static Type LoadSqlCe31()
         {
-            
-            var file = Path.Combine(Path.Combine(GetExecutingAssemblyPath(), "SqlCe31"), "SqlCeDatabase31.dll");
+            var file = Path.Combine(Path.Combine(Path.Combine(GetExecutingAssemblyPath(), "SqlCe31"), FrameworkPath), "SqlCeDatabase31.dll");
+            if (!File.Exists(file)) file = Path.Combine(Path.Combine(GetExecutingAssemblyPath(), "SqlCe31"), "SqlCeDatabase31.dll");
             if (!File.Exists(file)) file = Path.Combine(GetExecutingAssemblyPath(), "SqlCeDatabase31.dll");
 
             var assembly = Assembly.LoadFrom(file);
@@ -67,7 +68,8 @@ namespace ChristianHelle.DatabaseTools.SqlCe
 
         private static Type LoadSqlCe35()
         {
-            var file = Path.Combine(Path.Combine(GetExecutingAssemblyPath(), "SqlCe35"), "SqlCeDatabase35.dll");
+            var file = Path.Combine(Path.Combine(Path.Combine(GetExecutingAssemblyPath(), "SqlCe35"), FrameworkPath), "SqlCeDatabase35.dll");
+            if (!File.Exists(file)) file = Path.Combine(Path.Combine(GetExecutingAssemblyPath(), "SqlCe35"), "SqlCeDatabase35.dll");
             if (!File.Exists(file)) file = Path.Combine(GetExecutingAssemblyPath(), "SqlCeDatabase35.dll");
 
             var assembly = Assembly.LoadFrom(file);
@@ -77,47 +79,17 @@ namespace ChristianHelle.DatabaseTools.SqlCe
 
         private static Type LoadSqlCe40()
         {
-            var file = Path.Combine(Path.Combine(GetExecutingAssemblyPath(), "SqlCe40"), "SqlCeDatabase40.dll");
+            var file = Path.Combine(Path.Combine(Path.Combine(GetExecutingAssemblyPath(), "SqlCe40"), FrameworkPath), "SqlCeDatabase40.dll");
+            if (!File.Exists(file)) file = Path.Combine(Path.Combine(GetExecutingAssemblyPath(), "SqlCe40"), "SqlCeDatabase40.dll");
             if (!File.Exists(file)) file = Path.Combine(GetExecutingAssemblyPath(), "SqlCeDatabase40.dll");
-            
+
+
             var assembly = Assembly.LoadFrom(file);
             var type = assembly.GetType("ChristianHelle.DatabaseTools.SqlCe.SqlCeDatabase");
             return type;
         }
 
-        public static string GetRuntimeVersion(string file)
-        {
-            string path;
-            var assemblyFileVersion = "Unknown";
-
-            var supportedVersions = GetVersion(file);
-
-            switch (supportedVersions)
-            {
-                case SupportedVersions.SqlCe31:
-                    path = "SqlCe31\\System.Data.SqlServerCe.dll";
-                    break;
-                case SupportedVersions.SqlCe35:
-                    path = "SqlCe35\\System.Data.SqlServerCe.dll";
-                    break;
-                case SupportedVersions.SqlCe40:
-                    path = "SqlCe40\\System.Data.SqlServerCe.dll";
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
-            
-
-            string assemblyFile = Path.Combine(GetExecutingAssemblyPath(), path);
-            if (!File.Exists(assemblyFile)) assemblyFile = Path.Combine(GetExecutingAssemblyPath(), "System.Data.SqlServerCe.dll");
-
-            var assembly = Assembly.LoadFrom(assemblyFile);
-            var assemblyFileVersionAttribute = assembly.GetCustomAttributes(true).OfType<AssemblyFileVersionAttribute>().FirstOrDefault();
-            if (assemblyFileVersionAttribute != null)
-                assemblyFileVersion = assemblyFileVersionAttribute.Version;
-
-            return assemblyFileVersion;
-        }
+        
 
         private static SupportedVersions GetVersion(string file)
         {

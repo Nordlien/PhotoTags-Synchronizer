@@ -5576,7 +5576,7 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonManager1
             // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2010SilverDarkMode;
+            //this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2010SilverDarkMode;
             // 
             // Config
             // 

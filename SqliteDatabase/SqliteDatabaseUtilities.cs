@@ -1,14 +1,20 @@
-﻿#if MonoSqlite
+﻿#define MonoSqlite
+#define noMicrosoftDataSqlite
+
+#if MonoSqlite
 using Mono.Data.Sqlite;
+#elif MicrosoftDataSqlite
+using Microsoft.Data.Sqlite;
 #else
 using System.Data.SQLite;
 #endif
 
+
 using System;
 using System.IO;
-using System.Drawing;
 using System.Diagnostics;
 using System.Timers;
+using System.Drawing;
 
 namespace SqliteDatabase
 {
@@ -17,6 +23,8 @@ namespace SqliteDatabase
     public class SqliteDatabaseUtilities // : IDisposable
     {
 #if MonoSqlite
+        private SqliteTransaction transactionHandler = null;
+#elif MicrosoftDataSqlite
         private SqliteTransaction transactionHandler = null;
 #else
         private SQLiteTransaction transactionHandler = null;
@@ -112,16 +120,23 @@ namespace SqliteDatabase
         private string databaseFile;
 
 #if MonoSqlite
-        private Mono.Data.Sqlite.SqliteConnection connectionDatabase;
+        private SqliteConnection connectionDatabase;
+#elif MicrosoftDataSqlite
+        private SqliteConnection connectionDatabase;
 #else
-        private System.Data.SQLite.SQLiteConnection connectionDatabase;
+        private SQLiteConnection connectionDatabase;
 #endif
 
 
 #if MonoSqlite
-        public Mono.Data.Sqlite.SqliteCommand SqliteCommand()
+        public SqliteCommand SqliteCommand()
         {
             return new SqliteCommand(connectionDatabase);
+        }
+#elif MicrosoftDataSqlite
+        public SqliteCommand SqliteCommand()
+        {
+            return new SqliteCommand();
         }
 #else
         public SQLiteCommand SqliteCommand()
@@ -133,12 +148,14 @@ namespace SqliteDatabase
 
 #if MonoSqlite
         public SqliteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
+#elif MicrosoftDataSqlite
+        public SqliteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
 #else
         public SQLiteConnection ConnectionDatabase { get => connectionDatabase; set => connectionDatabase = value; }
 #endif
 
 
-#region Convert Object to Variable
+        #region Convert Object to Variable
 
         public byte[] ImageToByteArray(System.Drawing.Image imageIn)
         {
@@ -209,6 +226,9 @@ namespace SqliteDatabase
 #if MonoSqlite
             if (obj == null || obj == DBNull.Value) return (byte?)null;
             return (byte?)(long?)obj; //Was float in database, now database changed to byte, backward compablity 
+#elif MicrosoftDataSqlite
+            if (obj == null || obj == DBNull.Value) return (byte?)null;
+            return (byte?)(long?)obj; //Was float in database, now database changed to byte, backward compablity 
 #else
             if (obj == null || obj == DBNull.Value) return (byte?)null; 
             return (byte?)obj;
@@ -225,6 +245,9 @@ namespace SqliteDatabase
         public int? ConvertFromDBValInt(object obj)
         {
 #if MonoSqlite
+            if (obj == null || obj == DBNull.Value) return (int?)null;
+            return (int?)(long?)obj;
+#elif MicrosoftDataSqlite
             if (obj == null || obj == DBNull.Value) return (int?)null;
             return (int?)(long?)obj;
 #else
@@ -254,13 +277,21 @@ namespace SqliteDatabase
                 return (float?)Math.Round((double)obj, NumberOfDecimals);
             throw new Exception("Error in number format");
             //return null;
+#elif MicrosoftDataSqlite
+            if (obj is float)
+                return (float?)Math.Round((float)obj, NumberOfDecimals);
+            if (obj is decimal)
+                return (float?)Math.Round((decimal)obj, NumberOfDecimals);
+            if (obj is double)
+                return (float?)Math.Round((double)obj, NumberOfDecimals);
+            throw new Exception("Error in number format");
 #else
                 return (float?)obj;
 #endif
 
         }
 
-      
+
 
         public string ConvertFromDBValString(object obj)
         {
@@ -305,11 +336,11 @@ namespace SqliteDatabase
                 ConnectionDatabase = new SqliteConnection("Data Source=" +
                         destinationFile
                         //+ ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = false;nolock=true;");
-                        ); // +";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = true");               
+                        ); // +";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = true");          
+#elif MicrosoftDataSqlite
+                ConnectionDatabase = new SqliteConnection("Data Source=" + destinationFile); 
 #else
-                ConnectionDatabase = new SQLiteConnection("Data Source=" +
-                        destinationFile);
-
+                ConnectionDatabase = new SQLiteConnection("Data Source=" + destinationFile);
 #endif
                 Exception forwardException = null;
                 try
@@ -361,11 +392,14 @@ namespace SqliteDatabase
             databaseFile = Path.Combine(databasePath, databasename);
 
             bool doesDatabaseExist = File.Exists(databaseFile);
+ 
             if (!doesDatabaseExist)
             {
 
 #if MonoSqlite
                 SqliteConnection.CreateFile(databaseFile);        // Create the file which will be hosting our database
+#elif MicrosoftDataSqlite
+                //SqliteConnection.CreateFile(databaseFile);        // Create the file which will be hosting our database
 #else
                 SQLiteConnection.CreateFile(databaseFile);        // Create the file which will be hosting our database
 #endif
@@ -376,6 +410,8 @@ namespace SqliteDatabase
             connectionDatabase = new SqliteConnection("data source=" + databaseFile + ";Synchronous=OFF;Journal Mode=Memory;Cache Size=20000;"
                             //+ ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = false;nolock=true;");
                             ); // + ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Off; Read Only = false;nolock=false;");
+#elif MicrosoftDataSqlite
+            connectionDatabase = new SqliteConnection("data source=" + databaseFile + ";"); 
 #else
             connectionDatabase = new SQLiteConnection("data source=" + databaseFile
                 + ";Version=3;Pooling=True;Synchronous=Off;Journal Mode=Memory;Read Only=False;Nolock=true;"

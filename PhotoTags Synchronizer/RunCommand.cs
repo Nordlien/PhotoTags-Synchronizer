@@ -12,6 +12,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using FileHandeling;
+using PhotoTagsCommonComponets;
 using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer

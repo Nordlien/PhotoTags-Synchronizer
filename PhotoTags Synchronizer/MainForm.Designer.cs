@@ -2256,7 +2256,7 @@ namespace PhotoTagsSynchronizer
             // radioButtonRating5
             // 
             this.radioButtonRating5.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.radioButtonRating5.Location = new System.Drawing.Point(200, -2);
+            this.radioButtonRating5.Location = new System.Drawing.Point(200, 3);
             this.radioButtonRating5.Name = "radioButtonRating5";
             this.radioButtonRating5.Size = new System.Drawing.Size(60, 24);
             this.radioButtonRating5.TabIndex = 4;
@@ -2265,7 +2265,7 @@ namespace PhotoTagsSynchronizer
             // radioButtonRating4
             // 
             this.radioButtonRating4.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.radioButtonRating4.Location = new System.Drawing.Point(149, -2);
+            this.radioButtonRating4.Location = new System.Drawing.Point(149, 3);
             this.radioButtonRating4.Name = "radioButtonRating4";
             this.radioButtonRating4.Size = new System.Drawing.Size(60, 24);
             this.radioButtonRating4.TabIndex = 3;
@@ -2274,7 +2274,7 @@ namespace PhotoTagsSynchronizer
             // radioButtonRating3
             // 
             this.radioButtonRating3.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.radioButtonRating3.Location = new System.Drawing.Point(102, -2);
+            this.radioButtonRating3.Location = new System.Drawing.Point(102, 3);
             this.radioButtonRating3.Name = "radioButtonRating3";
             this.radioButtonRating3.Size = new System.Drawing.Size(60, 24);
             this.radioButtonRating3.TabIndex = 2;
@@ -2283,7 +2283,7 @@ namespace PhotoTagsSynchronizer
             // radioButtonRating2
             // 
             this.radioButtonRating2.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
-            this.radioButtonRating2.Location = new System.Drawing.Point(50, -2);
+            this.radioButtonRating2.Location = new System.Drawing.Point(50, 3);
             this.radioButtonRating2.Name = "radioButtonRating2";
             this.radioButtonRating2.Size = new System.Drawing.Size(60, 24);
             this.radioButtonRating2.TabIndex = 1;
@@ -2294,9 +2294,8 @@ namespace PhotoTagsSynchronizer
             this.radioButtonRating1.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.star;
             this.radioButtonRating1.Location = new System.Drawing.Point(1, 3);
             this.radioButtonRating1.Name = "radioButtonRating1";
-            this.radioButtonRating1.Size = new System.Drawing.Size(18, 12);
+            this.radioButtonRating1.Size = new System.Drawing.Size(60, 24);
             this.radioButtonRating1.TabIndex = 0;
-            this.radioButtonRating1.Values.Text = "";
             this.radioButtonRating1.CheckedChanged += new System.EventHandler(this.radioButtonRating1_CheckedChanged);
             // 
             // comboBoxAlbum
@@ -2318,7 +2317,6 @@ namespace PhotoTagsSynchronizer
             // 
             // label4
             // 
-            this.label4.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
             this.label4.Location = new System.Drawing.Point(3, 7);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 24);
@@ -2351,7 +2349,6 @@ namespace PhotoTagsSynchronizer
             // 
             // labelDescription
             // 
-            this.labelDescription.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
             this.labelDescription.Location = new System.Drawing.Point(3, 57);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(89, 24);
@@ -2360,7 +2357,6 @@ namespace PhotoTagsSynchronizer
             // 
             // labelTitle
             // 
-            this.labelTitle.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
             this.labelTitle.Location = new System.Drawing.Point(3, 32);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(40, 24);
@@ -4766,7 +4762,7 @@ namespace PhotoTagsSynchronizer
             // 
             // kryptonManager1
             // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2010SilverDarkMode;
+            //this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.ProfessionalSystem;
             // 
             // MainForm
             // 

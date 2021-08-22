@@ -2513,17 +2513,29 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
+
+        enum DragDropKeyStates
+        {
+            AltKey =32, //The ALT key is pressed.
+            ControlKey = 8, //The control (CTRL) key is pressed.
+            LeftMouseButton	= 1, //The left mouse button is pressed.
+            MiddleMouseButton = 16, //The middle mouse button is pressed.
+            None = 0,//No modifier keys or mouse buttons are pressed.
+            RightMouseButton = 2, //The right mouse button is pressed.
+            ShiftKey = 4 //The shift (SHIFT) key is pressed.
+        }
+
         #region FolderTree - Drag and Drop - Drag Over - update folderTreeViewFolder.SelectedNode
         private void folderTreeViewFolder_DragOver(object sender, DragEventArgs e)
         {
             isInternalDrop = true;
             try
             {
-                if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.ShiftKey) == System.Windows.DragDropKeyStates.ShiftKey)
+                if (((DragDropKeyStates)e.KeyState & DragDropKeyStates.ShiftKey) == DragDropKeyStates.ShiftKey)
                     e.Effect = DragDropEffects.Move;
-                else if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.RightMouseButton) == System.Windows.DragDropKeyStates.RightMouseButton)
+                else if (((DragDropKeyStates)e.KeyState & DragDropKeyStates.RightMouseButton) == DragDropKeyStates.RightMouseButton)
                     e.Effect = DragDropEffects.Copy;
-                else if (((System.Windows.DragDropKeyStates)e.KeyState & System.Windows.DragDropKeyStates.ControlKey) == System.Windows.DragDropKeyStates.ControlKey)
+                else if (((DragDropKeyStates)e.KeyState & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey)
                     e.Effect = DragDropEffects.Copy;
                 else
                     e.Effect = DragDropEffects.Move;

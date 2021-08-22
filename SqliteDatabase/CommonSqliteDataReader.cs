@@ -1,8 +1,14 @@
-﻿#if MonoSqlite
+﻿#define MonoSqlite
+#define noMicrosoftDataSqlite
+
+#if MonoSqlite
 using Mono.Data.Sqlite;
+#elif MicrosoftDataSqlite
+using Microsoft.Data.Sqlite;
 #else
 using System.Data.SQLite;
 #endif
+
 
 using System;
 
@@ -13,6 +19,9 @@ namespace SqliteDatabase
 
 #if MonoSqlite
         Mono.Data.Sqlite.SqliteDataReader sqliteDataReader;
+        public CommonSqliteDataReader(SqliteDataReader sqliteDataReader)
+#elif MicrosoftDataSqlite
+        SqliteDataReader sqliteDataReader;
         public CommonSqliteDataReader(SqliteDataReader sqliteDataReader)
 #else
         SQLiteDataReader sqliteDataReader;

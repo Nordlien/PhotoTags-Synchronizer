@@ -1,0 +1,102 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+   
+    <PropertyGroup>
+        <TargetFrameworks>net48</TargetFrameworks>
+        <TargetFrameworks Condition="'$(TFMs)' == 'all'">net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0-windows</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
+        <OutputType>Library</OutputType>
+        <RootNamespace>Krypton.Workspace</RootNamespace>
+        <AssemblyName>Krypton.Workspace</AssemblyName>
+        <ApplicationIcon>Krypton.ico</ApplicationIcon>
+        <SignAssembly>false</SignAssembly>
+        <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+      <UseWindowsForms>true</UseWindowsForms>
+      <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+      <Platforms>AnyCPU;x86;x64</Platforms>
+    </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <WarningsAsErrors />
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <OutputPath>..\Bin\Debug\Any\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn />
+    <WarningsAsErrors />
+    <OutputPath>..\Bin\Debug\x86\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <NoWarn />
+    <WarningsAsErrors />
+    <OutputPath>..\Bin\Debug\x64\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants />
+    <NoWarn />
+    <WarningsAsErrors />
+    <OutputPath>..\Bin\Release\Any\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn />
+    <WarningsAsErrors />
+    <DefineConstants />
+    <OutputPath>..\Bin\Release\x86\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn />
+    <WarningsAsErrors />
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DefineConstants />
+    <OutputPath>..\Bin\Release\x64\</OutputPath>
+  </PropertyGroup>
+  
+    <PropertyGroup>
+        <PackageId>Krypton.Workspace</PackageId>
+        <Description>An update to Component factory's krypton toolkit to support .NET Core, .NET 5 and the latest .NET 3.5/4.x framework. This is the workspace module.</Description>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+    </PropertyGroup>
+    <ItemGroup>
+        <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="Krypton.ico" Pack="false" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspaceSequence.bmp" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspaceCell.bmp" />
+        <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspace.bmp" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2019.csproj" />
+        <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2019.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Palette Demo\WorkspacePageMenuBase.cs" />
+        <Compile Remove="Palette Install\WorkspacePageMenuBase.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <Reference Include="System.Design" />
+    </ItemGroup>
+    <PropertyGroup>
+        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Workspace.xml</DocumentationFile>
+        <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup>
+        <NoWarn>1701;1702</NoWarn>
+    </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyVersion>5.550.2106.1</AssemblyVersion>
+        <FileVersion>5.550.2106.1</FileVersion>
+    </PropertyGroup>
+
+</Project>

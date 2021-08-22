@@ -1,10 +1,8 @@
 ﻿using DataGridViewGeneric;
 using MetadataLibrary;
-using Microsoft.WindowsAPICodePack.Shell;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -12,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WinProps;
+using Microsoft.WindowsAPICodePack.Shell;
 using PropertyKey = WinProps.PropertyKey;
 
 namespace WindowsProperty
@@ -266,8 +265,7 @@ namespace WindowsProperty
             return dataGridViewGenericRowsAndValueList;
         }
 
-
-        public Image GetThumbnail (string fullFileName)
+        public Image GetThumbnail(string fullFileName)
         {
             Bitmap image = null;
             //Console.WriteLine("WindowsPropertyReader.GetThumbnail:" + File.Exists(fullFileName));
@@ -311,13 +309,15 @@ namespace WindowsProperty
                 {
                     Logger.Trace("Shell Thumbnail failed " + fullFileName + " " + ex.Message);
                 }
-            } else
+            }
+            else
             {
                 Logger.Error("File doesn't exist anymore. " + fullFileName);
             }
 
             return image;
         }
+
     }
 
 }

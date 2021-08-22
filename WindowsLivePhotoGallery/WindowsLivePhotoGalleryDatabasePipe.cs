@@ -6,12 +6,17 @@ using System.Threading;
 using MetadataLibrary;
 using PipeMessage;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace WindowsLivePhotoGallery
 {
+    
+
     public class WindowsLivePhotoGalleryDatabasePipe : ImetadataReader
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static string FrameworkPath = "net48\\";
+
 
         private NamedPipeClient<PipeMessageCommand> pipeClient; // = new NamedPipeClient<PipeMessageCommand>("SqlCeDatabase32Pipe");
         private MetadataDatabaseCache databaseAndCacheMetadataWindowsLivePhotoGalleryPipe;
@@ -95,8 +100,8 @@ namespace WindowsLivePhotoGallery
                         pipeClient.Disconnected -= PipeClient_Disconnected;
                         pipeClient.Disconnected += PipeClient_Disconnected;
                     }
-                    
-                    pipeClient.Start(TimeSpan.FromSeconds(30));
+
+                    pipeClient.Start(); // TimeSpan.FromSeconds(30));
                     
                     lock (_ErrorHandlingLock)
                     {
@@ -232,7 +237,15 @@ namespace WindowsLivePhotoGallery
 
             if (!isServerAlreadyRunning)
             {
-                string windowsLiveGalleryServerfileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Pipe\\WindowsLivePhotoGalleryServer.exe");
+                string directory = AppDomain.CurrentDomain.BaseDirectory;
+
+                string windowsLiveGalleryServerfileName = 
+                    Path.Combine(Path.Combine(Path.Combine(directory, "Pipe"), FrameworkPath) ,"WindowsLivePhotoGalleryServer.exe");
+                if (!File.Exists(windowsLiveGalleryServerfileName)) 
+                    windowsLiveGalleryServerfileName = Path.Combine(Path.Combine(directory, "Pipe"), "WindowsLivePhotoGalleryServer.exe");
+                if (!File.Exists(windowsLiveGalleryServerfileName)) 
+                    windowsLiveGalleryServerfileName = Path.Combine(directory, "WindowsLivePhotoGalleryServer.exe");
+                
 
                 if (File.Exists(windowsLiveGalleryServerfileName))
                 {
@@ -332,6 +345,7 @@ namespace WindowsLivePhotoGallery
                         consoleProcessErrorOccurred = true;
                         globalErrorMessageHandler += (globalErrorMessageHandler == "" ? "" : "\r\n") + "File not found, can't start the process:" + windowsLiveGalleryServerfileName;
                     }
+
                     Logger.Error(globalErrorMessageHandler);
                     #endregion
                 }
@@ -343,27 +357,6 @@ namespace WindowsLivePhotoGallery
 
         #endregion
 
-        #region ShowErrorMessageAskForRetry
-        private bool ShowErrorMessageAskForRetry(string errorMessage)
-        {
-            bool retryConnect = false;
-            
-            if (MessageBox.Show(
-                "Error from Windows Live Photo Gallery background process:\r\n" + errorMessage + "\r\n\r\n" +
-                "Do you want try reconnect?",
-                "Error from Windows Live Photo Gallery background process",
-                MessageBoxButtons.RetryCancel) == DialogResult.Retry)
-            {
-                retryConnect = true;
-            }
-            else
-            {
-                retryConnect = false;
-            }
-
-            return retryConnect;
-        }
-        #endregion
 
         #region ErrorMessageReset()
         private void ErrorMessageReset()
@@ -485,7 +478,7 @@ namespace WindowsLivePhotoGallery
                             {
                                 switch (MessageBox.Show(
                                     "Retry - and wait more.\r\n" +
-                                    "Ignor - and contine trying.\r\n" +
+                                    "Ignor - and continue trying.\r\n" +
                                     "Abort - and stop loading data from Windows Live Photo Gallery",
                                     "Waiting answer from server timeouted...", MessageBoxButtons.AbortRetryIgnore))
                                 {
@@ -521,8 +514,24 @@ namespace WindowsLivePhotoGallery
 
                 if (errorOccured)
                 {
-                    retryConnect = ShowErrorMessageAskForRetry(errorMessage);
-                    
+                    switch (MessageBox.Show(
+                        "Error occured:\r\n" + errorMessage + "\r\n\r\n\r\n" +
+                        "Retry - and try again.\r\n" +
+                        "Ignor - and continue trying later.\r\n" +
+                        "Abort - and stop loading data from Windows Live Photo Gallery",
+                        "Error from Windows Live Photo Gallery background process", MessageBoxButtons.AbortRetryIgnore))
+                    {
+                        case DialogResult.Retry:
+                            retryConnect = true;
+                            break;
+                        case DialogResult.Ignore:
+                            retryConnect = false;
+                            break;
+                        case DialogResult.Abort:
+                            retryConnect = false;
+                            errorHasOccurdDoNotReconnect = true;
+                            break;
+                    }
                 } else retryConnect = false;
                 #endregion 
 

@@ -1,12 +1,17 @@
-﻿#if MonoSqlite
+﻿#define MonoSqlite
+#define noMicrosoftDataSqlite
+
+#if MonoSqlite
 using Mono.Data.Sqlite;
-using NLog;
+#elif MicrosoftDataSqlite
+using Microsoft.Data.Sqlite;
 #else
 using System.Data.SQLite;
 #endif
 
+
+using NLog;
 using System;
-using System.Diagnostics;
 
 namespace SqliteDatabase
 {
@@ -27,7 +32,20 @@ namespace SqliteDatabase
         {
             databaseCommand = new SqliteCommand(commandText, connection);
         }
-#else
+#elif MicrosoftDataSqlite
+        private SqliteCommand databaseCommand;
+        public SqliteCommand DatabaseCommand { get => databaseCommand; set => databaseCommand = value; }
+
+        public CommonSqliteCommand(string commandText, SqliteConnection connection)
+        {
+            databaseCommand = new SqliteCommand(commandText, connection);
+        }
+
+        public CommonSqliteCommand(string commandText, SqliteConnection connection, SqliteTransaction transaction)
+        {
+            databaseCommand = new SqliteCommand(commandText, connection, transaction);
+        }
+#else 
         private SQLiteCommand databaseCommand;
         public SQLiteCommand DatabaseCommand { get => databaseCommand; set => databaseCommand = value; }
 
@@ -73,6 +91,8 @@ namespace SqliteDatabase
         }
 
 #if MonoSqlite
+        public SqliteParameterCollection Parameters { get => databaseCommand.Parameters; }
+#elif MicrosoftDataSqlite
         public SqliteParameterCollection Parameters { get => databaseCommand.Parameters; }
 #else
         public SQLiteParameterCollection Parameters { get => databaseCommand.Parameters; }
