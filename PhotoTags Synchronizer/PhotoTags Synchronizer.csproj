@@ -3,7 +3,6 @@
     <TargetFramework>net48</TargetFramework>
     <Platforms>AnyCPU;x86;x64</Platforms>
     <SignAssembly>true</SignAssembly>
-    <PublishUrl>publish\</PublishUrl>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -131,21 +130,7 @@
     </Content>
     <Content Include="Resources\tri_state_switch_partial.png" />
   </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\ApplicationAssociations\ApplicationAssociations.csproj" />
     <ProjectReference Include="..\CameraOwners\CameraOwners.csproj" />
@@ -197,6 +182,7 @@
     <EmbeddedResource Remove="MainForm_SelectGroup.resx" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Design" />
     <Reference Include="System.Web" />
   </ItemGroup>
 </Project>

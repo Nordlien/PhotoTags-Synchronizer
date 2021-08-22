@@ -54,7 +54,7 @@
             this.Controls.Add(this.richTextBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormAbout";
-            this.Text = "FormAbout";
+            this.Text = "About";
             this.ResumeLayout(false);
 
         }

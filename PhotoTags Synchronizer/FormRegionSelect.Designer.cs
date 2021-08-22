@@ -34,6 +34,7 @@ namespace PhotoTagsSynchronizer
             this.panel1 = new Krypton.Toolkit.KryptonPanel();
             this.imageBox1 = new Cyotek.Windows.Forms.ImageBox();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.panel1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +46,7 @@ namespace PhotoTagsSynchronizer
             this.panel1.Controls.Add(this.imageBox1);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(753, 692);
+            this.panel1.Size = new System.Drawing.Size(631, 520);
             this.panel1.TabIndex = 0;
             // 
             // imageBox1
@@ -57,23 +58,28 @@ namespace PhotoTagsSynchronizer
             this.imageBox1.Name = "imageBox1";
             this.imageBox1.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
             this.imageBox1.ShortcutsEnabled = false;
-            this.imageBox1.Size = new System.Drawing.Size(750, 686);
+            this.imageBox1.Size = new System.Drawing.Size(628, 514);
             this.imageBox1.TabIndex = 0;
             this.imageBox1.Selected += new System.EventHandler<System.EventArgs>(this.imageBox1_Selected);
             this.imageBox1.Selecting += new System.EventHandler<Cyotek.Windows.Forms.ImageBoxCancelEventArgs>(this.imageBox1_Selecting);
             this.imageBox1.RegionChanged += new System.EventHandler(this.imageBox1_RegionChanged);
             // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.ProfessionalSystem;
+            // 
             // FormRegionSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(754, 692);
+            this.ClientSize = new System.Drawing.Size(632, 520);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormRegionSelect";
             this.Text = "Select region";
             this.ResizeEnd += new System.EventHandler(this.FormRegionSelect_ResizeEnd);
             this.Resize += new System.EventHandler(this.FormRegionSelect_Resize);
+            ((System.ComponentModel.ISupportInitialize)(this.panel1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
