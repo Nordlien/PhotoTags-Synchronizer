@@ -343,11 +343,11 @@ namespace PhotoTagsSynchronizer
             renderertoolStripComboBox.SelectedIndex = Properties.Settings.Default.RenderertoolStripComboBox;
             SetImageListViewRender();
 
-            imageListView1.TitleLine1 = ChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine1);
-            imageListView1.TitleLine2 = ChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine2);
-            imageListView1.TitleLine3 = ChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine3);
-            imageListView1.TitleLine4 = ChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine4);
-            imageListView1.TitleLine5 = ChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine5);
+            imageListView1.TitleLine1 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine1);
+            imageListView1.TitleLine2 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine2);
+            imageListView1.TitleLine3 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine3);
+            imageListView1.TitleLine4 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine4);
+            imageListView1.TitleLine5 = FormChooseColumns.GetColumnTypeByText(Properties.Settings.Default.ImageListViewTitleLine5);
             ImageListViewHandler.SetImageListViewCheckedValues(imageListView1, Properties.Settings.Default.ImageListViewSelectedColumns);
             #endregion
 

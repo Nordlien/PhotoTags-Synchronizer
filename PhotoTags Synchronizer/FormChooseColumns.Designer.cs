@@ -1,6 +1,6 @@
 ﻿namespace PhotoTagsSynchronizer
 {
-    partial class ChooseColumns
+    partial class FormChooseColumns
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChooseColumns));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormChooseColumns));
             this.btnClose = new Krypton.Toolkit.KryptonButton();
             this.checkedListBox = new PhotoTagsCommonComponets.CheckedListBoxHigherRows();
             this.groupBox1 = new Krypton.Toolkit.KryptonGroupBox();

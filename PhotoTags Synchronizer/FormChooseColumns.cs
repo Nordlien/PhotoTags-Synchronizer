@@ -10,12 +10,12 @@ using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class ChooseColumns : Form
+    public partial class FormChooseColumns : Form
     {
         public ImageListView imageListView;
 
         private bool isPopulating = true;
-        public ChooseColumns()
+        public FormChooseColumns()
         {
             InitializeComponent();
             
