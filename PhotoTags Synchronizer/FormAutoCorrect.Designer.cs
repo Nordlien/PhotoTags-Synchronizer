@@ -85,7 +85,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(16, 311);
+            this.label2.Location = new System.Drawing.Point(165, 4);
             this.label2.Margin = new System.Windows.Forms.Padding(4);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(469, 24);
@@ -94,7 +94,7 @@ namespace PhotoTagsSynchronizer
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(16, 188);
+            this.label1.Location = new System.Drawing.Point(16, 194);
             this.label1.Margin = new System.Windows.Forms.Padding(4);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(112, 24);
@@ -106,7 +106,7 @@ namespace PhotoTagsSynchronizer
             this.textBoxKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxKeywords.Location = new System.Drawing.Point(165, 185);
+            this.textBoxKeywords.Location = new System.Drawing.Point(165, 191);
             this.textBoxKeywords.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxKeywords.Multiline = true;
             this.textBoxKeywords.Name = "textBoxKeywords";
@@ -118,7 +118,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.checkBoxAuthor.Checked = true;
             this.checkBoxAuthor.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAuthor.Location = new System.Drawing.Point(15, 156);
+            this.checkBoxAuthor.Location = new System.Drawing.Point(15, 162);
             this.checkBoxAuthor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxAuthor.Name = "checkBoxAuthor";
             this.checkBoxAuthor.Size = new System.Drawing.Size(72, 24);
@@ -129,7 +129,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.checkBoxComments.Checked = true;
             this.checkBoxComments.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxComments.Location = new System.Drawing.Point(15, 126);
+            this.checkBoxComments.Location = new System.Drawing.Point(15, 132);
             this.checkBoxComments.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxComments.Name = "checkBoxComments";
             this.checkBoxComments.Size = new System.Drawing.Size(98, 24);
@@ -140,7 +140,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.checkBoxDescription.Checked = true;
             this.checkBoxDescription.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxDescription.Location = new System.Drawing.Point(15, 95);
+            this.checkBoxDescription.Location = new System.Drawing.Point(15, 101);
             this.checkBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxDescription.Name = "checkBoxDescription";
             this.checkBoxDescription.Size = new System.Drawing.Size(102, 24);
@@ -151,7 +151,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.checkBoxTitle.Checked = true;
             this.checkBoxTitle.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxTitle.Location = new System.Drawing.Point(15, 64);
+            this.checkBoxTitle.Location = new System.Drawing.Point(15, 70);
             this.checkBoxTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxTitle.Name = "checkBoxTitle";
             this.checkBoxTitle.Size = new System.Drawing.Size(53, 24);
@@ -162,7 +162,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.checkBoxAlbum.Checked = true;
             this.checkBoxAlbum.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAlbum.Location = new System.Drawing.Point(15, 33);
+            this.checkBoxAlbum.Location = new System.Drawing.Point(15, 39);
             this.checkBoxAlbum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBoxAlbum.Name = "checkBoxAlbum";
             this.checkBoxAlbum.Size = new System.Drawing.Size(69, 24);
@@ -201,7 +201,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAuthor.DropDownWidth = 588;
             this.comboBoxAuthor.FormattingEnabled = true;
             this.comboBoxAuthor.IntegralHeight = false;
-            this.comboBoxAuthor.Location = new System.Drawing.Point(165, 154);
+            this.comboBoxAuthor.Location = new System.Drawing.Point(165, 160);
             this.comboBoxAuthor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
             this.comboBoxAuthor.Size = new System.Drawing.Size(588, 25);
@@ -218,7 +218,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAlbum.DropDownWidth = 588;
             this.comboBoxAlbum.FormattingEnabled = true;
             this.comboBoxAlbum.IntegralHeight = false;
-            this.comboBoxAlbum.Location = new System.Drawing.Point(165, 31);
+            this.comboBoxAlbum.Location = new System.Drawing.Point(165, 37);
             this.comboBoxAlbum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxAlbum.Name = "comboBoxAlbum";
             this.comboBoxAlbum.Size = new System.Drawing.Size(588, 25);
@@ -235,7 +235,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments.DropDownWidth = 588;
             this.comboBoxComments.FormattingEnabled = true;
             this.comboBoxComments.IntegralHeight = false;
-            this.comboBoxComments.Location = new System.Drawing.Point(165, 123);
+            this.comboBoxComments.Location = new System.Drawing.Point(165, 129);
             this.comboBoxComments.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxComments.Name = "comboBoxComments";
             this.comboBoxComments.Size = new System.Drawing.Size(588, 25);
@@ -252,7 +252,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxDescription.DropDownWidth = 588;
             this.comboBoxDescription.FormattingEnabled = true;
             this.comboBoxDescription.IntegralHeight = false;
-            this.comboBoxDescription.Location = new System.Drawing.Point(165, 92);
+            this.comboBoxDescription.Location = new System.Drawing.Point(165, 98);
             this.comboBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxDescription.Name = "comboBoxDescription";
             this.comboBoxDescription.Size = new System.Drawing.Size(588, 25);
@@ -269,16 +269,12 @@ namespace PhotoTagsSynchronizer
             this.comboBoxTitle.DropDownWidth = 588;
             this.comboBoxTitle.FormattingEnabled = true;
             this.comboBoxTitle.IntegralHeight = false;
-            this.comboBoxTitle.Location = new System.Drawing.Point(165, 62);
+            this.comboBoxTitle.Location = new System.Drawing.Point(165, 68);
             this.comboBoxTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBoxTitle.Name = "comboBoxTitle";
             this.comboBoxTitle.Size = new System.Drawing.Size(588, 25);
             this.comboBoxTitle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxTitle.TabIndex = 1;
-            // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2010Blue;
             // 
             // FormAutoCorrect
             // 

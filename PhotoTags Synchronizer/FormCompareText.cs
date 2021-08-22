@@ -27,8 +27,8 @@ namespace PhotoTagsSynchronizer
 
         public void Compare(string firstSource, string secondSource, string firstText, string secondText)
         {
-            labelFirst.Text = firstSource;
-            labelSecond.Text = secondSource;
+            kryptonPageSourceFirst.Text = firstSource;
+            kryptonPageSourceSecond.Text = secondSource;
 
             fctb1.Clear();
             fctb2.Clear();
