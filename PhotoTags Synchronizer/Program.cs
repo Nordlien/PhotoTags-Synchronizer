@@ -56,22 +56,20 @@ namespace PhotoTagsSynchronizer
             SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - settings 1/2..."); //2 
 
             CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
-
-            //For Windows 7 and above, best to include relevant app.manifest entries as well
-            Cef.EnableHighDPISupport();
+            //Cef.EnableHighDPISupport(); //Will remove 1.25 scaling, but Krypron will not work. 
 
             var settings = new CefSettings()
             {
                 //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
                 CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoTagsSynchronizer\\BrowserCache"),
                 UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0"
-            };
+            };          
 
             SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - settings 2/2..."); //3 
-            //Example of setting a command line argument
-            //Enables WebRTC
-            settings.CefCommandLineArgs.Add("enable-media-stream", "1");
-
+            settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enables WebRTC
+            //settings.CefCommandLineArgs.Add("force-device-scale-factor", "1");
+            settings.CefCommandLineArgs.Add("disable-gpu", "1"); //https://stackoverflow.com/questions/52913442/cefsharp-winforms-dock-dockstyle-fill-no-effect-black-edge-how-to-make-the-c
+            
             SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - starting process..."); //4 
 
             //Perform dependency check to make sure all relevant resources are in our output directory.
