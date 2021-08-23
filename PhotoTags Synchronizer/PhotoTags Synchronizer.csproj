@@ -75,6 +75,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
+    <AssemblyName>PhotoTags Synchronizer</AssemblyName>
+    <Win32Resource />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <OutputPath>..\Bin\Debug\Any\</OutputPath>
@@ -93,6 +95,10 @@
   <ItemGroup>
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -178,11 +184,17 @@
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.16" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Properties\PhotoTags Synchronizer\Properties\Settings.Designer.cs" />
-    <EmbeddedResource Remove="MainForm_SelectGroup.resx" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.Design" />
     <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="RunCommand.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

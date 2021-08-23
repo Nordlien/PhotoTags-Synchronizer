@@ -368,22 +368,9 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region OpenWith - Image - New verb selected
-        private void comboBoxOpenImageWithVerbs_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewImages;            
-            VerbLink verbLink = applicationAssociationsHandler.GetVerbLink(GetSelectProgId(dataGridView), comboBoxOpenImageWithVerbs.SelectedItem.ToString());
-            if (verbLink != null) textBoxOpenImageWithCommand.Text = verbLink.Command;
-
-        }
         #endregion
 
         #region OpenWith - Video - New verb selected
-        private void comboBoxOpenVideoWithVerbs_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            DataGridView dataGridView = dataGridViewVideos;            
-            VerbLink verbLink = applicationAssociationsHandler.GetVerbLink(GetSelectProgId(dataGridView), comboBoxOpenVideoWithVerbs.SelectedItem.ToString());
-            if (verbLink != null) textBoxOpenVideoWithCommand.Text = verbLink.Command;
-        }
         #endregion
 
         #region OpenWith - Click
@@ -617,7 +604,7 @@ namespace PhotoTagsSynchronizer
                 string tempArguFileFullPath = FileHandler.GetLocalApplicationDataPath("exiftool_arg_run.txt", true);
                 string commandWithArguments = comboBoxArgumentFileCommand.Text.Replace("{TempFileArgumentFullPath}", tempArguFileFullPath);
 
-                switch (tabControlArgumentFile.SelectedTab.Tag.ToString())
+                switch (kryptonWorkspaceCellRunArgumentFileAutoCorrect.SelectedPage.Tag.ToString())
                 {
                     case "ArgumentFile":
                         System.IO.File.WriteAllText(tempArguFileFullPath, fastColoredTextBoxArgumentFileArgumentFile.Text);
@@ -736,7 +723,7 @@ namespace PhotoTagsSynchronizer
 
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    switch (tabControlArgumentFile.SelectedTab.Tag.ToString())
+                    switch (kryptonWorkspaceCellRunArgumentFileAutoCorrect.Tag.ToString())
                     {
                         case "ArgumentFile":                            
                             System.IO.File.WriteAllText(saveFileDialog1.FileName, fastColoredTextBoxArgumentFileArgumentFile.Text);
@@ -780,7 +767,7 @@ namespace PhotoTagsSynchronizer
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                    
-                    switch (tabControlArgumentFile.SelectedTab.Tag.ToString())
+                    switch (kryptonWorkspaceCellRunArgumentFileAutoCorrect.Tag.ToString())
                     {
                         case "ArgumentFile":
                             fastColoredTextBoxArgumentFileArgumentFile.Text = System.IO.File.ReadAllText(openFileDialog1.FileName);
