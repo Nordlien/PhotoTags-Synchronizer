@@ -140,15 +140,15 @@
             this.kryptonWorkspaceCell1 = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonWorkspaceSequence3 = new Krypton.Workspace.KryptonWorkspaceSequence();
             this.kryptonWorkspaceSequence5 = new Krypton.Workspace.KryptonWorkspaceSequence();
-            this.kryptonWorkspaceCell7 = new Krypton.Workspace.KryptonWorkspaceCell();
-            this.kryptonPage15 = new Krypton.Navigator.KryptonPage();
-            this.kryptonPage16 = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellRunBatchImage = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageRunBatchCommandImage = new Krypton.Navigator.KryptonPage();
+            this.kryptonPageRunBatchAppImage = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCell12 = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPage30 = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceSequence8 = new Krypton.Workspace.KryptonWorkspaceSequence();
-            this.kryptonWorkspaceCell11 = new Krypton.Workspace.KryptonWorkspaceCell();
-            this.kryptonPage28 = new Krypton.Navigator.KryptonPage();
-            this.kryptonPage29 = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellRunBatchVideo = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageRunBatchCommandVideo = new Krypton.Navigator.KryptonPage();
+            this.kryptonPageRunBatchAppVideo = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceCell10 = new Krypton.Workspace.KryptonWorkspaceCell();
             this.kryptonPage26 = new Krypton.Navigator.KryptonPage();
             this.kryptonPageRunArgumentFile = new Krypton.Navigator.KryptonPage();
@@ -257,21 +257,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage1)).BeginInit();
             this.kryptonPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell7)).BeginInit();
-            this.kryptonWorkspaceCell7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage15)).BeginInit();
-            this.kryptonPage15.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage16)).BeginInit();
-            this.kryptonPage16.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellRunBatchImage)).BeginInit();
+            this.kryptonWorkspaceCellRunBatchImage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRunBatchCommandImage)).BeginInit();
+            this.kryptonPageRunBatchCommandImage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRunBatchAppImage)).BeginInit();
+            this.kryptonPageRunBatchAppImage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage30)).BeginInit();
             this.kryptonPage30.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell11)).BeginInit();
-            this.kryptonWorkspaceCell11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage28)).BeginInit();
-            this.kryptonPage28.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage29)).BeginInit();
-            this.kryptonPage29.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellRunBatchVideo)).BeginInit();
+            this.kryptonWorkspaceCellRunBatchVideo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRunBatchCommandVideo)).BeginInit();
+            this.kryptonPageRunBatchCommandVideo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRunBatchAppVideo)).BeginInit();
+            this.kryptonPageRunBatchAppVideo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage26)).BeginInit();
             this.kryptonPage26.SuspendLayout();
@@ -370,7 +370,7 @@
             // buttonArgumentFileRun
             // 
             this.buttonArgumentFileRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonArgumentFileRun.Location = new System.Drawing.Point(734, 558);
+            this.buttonArgumentFileRun.Location = new System.Drawing.Point(753, 558);
             this.buttonArgumentFileRun.Name = "buttonArgumentFileRun";
             this.buttonArgumentFileRun.Size = new System.Drawing.Size(140, 30);
             this.buttonArgumentFileRun.TabIndex = 5;
@@ -387,7 +387,7 @@
             this.comboBoxBatchRunImageCommand.IntegralHeight = false;
             this.comboBoxBatchRunImageCommand.Location = new System.Drawing.Point(97, 69);
             this.comboBoxBatchRunImageCommand.Name = "comboBoxBatchRunImageCommand";
-            this.comboBoxBatchRunImageCommand.Size = new System.Drawing.Size(302, 25);
+            this.comboBoxBatchRunImageCommand.Size = new System.Drawing.Size(346, 25);
             this.comboBoxBatchRunImageCommand.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxBatchRunImageCommand.TabIndex = 2;
             this.comboBoxBatchRunImageCommand.TextChanged += new System.EventHandler(this.comboBoxBatchRunImageCommand_TextChanged);
@@ -406,7 +406,7 @@
             // 
             // checkBoxBatchRunImageWaitForCommandExit
             // 
-            this.checkBoxBatchRunImageWaitForCommandExit.Location = new System.Drawing.Point(6, 101);
+            this.checkBoxBatchRunImageWaitForCommandExit.Location = new System.Drawing.Point(8, 101);
             this.checkBoxBatchRunImageWaitForCommandExit.Name = "checkBoxBatchRunImageWaitForCommandExit";
             this.checkBoxBatchRunImageWaitForCommandExit.Size = new System.Drawing.Size(293, 24);
             this.checkBoxBatchRunImageWaitForCommandExit.TabIndex = 3;
@@ -423,7 +423,7 @@
             this.comboBoxBatchRunImageVariables.IntegralHeight = false;
             this.comboBoxBatchRunImageVariables.Location = new System.Drawing.Point(97, 38);
             this.comboBoxBatchRunImageVariables.Name = "comboBoxBatchRunImageVariables";
-            this.comboBoxBatchRunImageVariables.Size = new System.Drawing.Size(302, 25);
+            this.comboBoxBatchRunImageVariables.Size = new System.Drawing.Size(346, 25);
             this.comboBoxBatchRunImageVariables.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxBatchRunImageVariables.TabIndex = 1;
             this.comboBoxBatchRunImageVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunImageVariables_SelectionChangeCommitted);
@@ -483,7 +483,7 @@
             this.comboBoxBatchRunImageAppId.IntegralHeight = false;
             this.comboBoxBatchRunImageAppId.Location = new System.Drawing.Point(97, 35);
             this.comboBoxBatchRunImageAppId.Name = "comboBoxBatchRunImageAppId";
-            this.comboBoxBatchRunImageAppId.Size = new System.Drawing.Size(302, 25);
+            this.comboBoxBatchRunImageAppId.Size = new System.Drawing.Size(346, 25);
             this.comboBoxBatchRunImageAppId.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxBatchRunImageAppId.TabIndex = 34;
             this.comboBoxBatchRunImageAppId.TextChanged += new System.EventHandler(this.comboBoxBatchRunImageAppId_TextChanged);
@@ -505,7 +505,7 @@
             this.comboBoxBatchRunImageAppExample.FormattingEnabled = true;
             this.comboBoxBatchRunImageAppExample.Location = new System.Drawing.Point(97, 6);
             this.comboBoxBatchRunImageAppExample.Name = "comboBoxBatchRunImageAppExample";
-            this.comboBoxBatchRunImageAppExample.Size = new System.Drawing.Size(302, 23);
+            this.comboBoxBatchRunImageAppExample.Size = new System.Drawing.Size(346, 23);
             this.comboBoxBatchRunImageAppExample.TabIndex = 32;
             this.comboBoxBatchRunImageAppExample.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBoxBatchCommandImageApp_DrawItem);
             this.comboBoxBatchRunImageAppExample.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchCommandImageApp_SelectionChangeCommitted);
@@ -526,9 +526,9 @@
             this.comboBoxBatchRunVideoCommand.DropDownWidth = 290;
             this.comboBoxBatchRunVideoCommand.FormattingEnabled = true;
             this.comboBoxBatchRunVideoCommand.IntegralHeight = false;
-            this.comboBoxBatchRunVideoCommand.Location = new System.Drawing.Point(102, 69);
+            this.comboBoxBatchRunVideoCommand.Location = new System.Drawing.Point(102, 70);
             this.comboBoxBatchRunVideoCommand.Name = "comboBoxBatchRunVideoCommand";
-            this.comboBoxBatchRunVideoCommand.Size = new System.Drawing.Size(305, 25);
+            this.comboBoxBatchRunVideoCommand.Size = new System.Drawing.Size(341, 25);
             this.comboBoxBatchRunVideoCommand.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxBatchRunVideoCommand.TabIndex = 2;
             this.comboBoxBatchRunVideoCommand.TextChanged += new System.EventHandler(this.comboBoxBatchRunVideoCommand_TextChanged);
@@ -547,7 +547,7 @@
             // 
             // checkBoxBatchRunVideoWaitForCommandExit
             // 
-            this.checkBoxBatchRunVideoWaitForCommandExit.Location = new System.Drawing.Point(6, 101);
+            this.checkBoxBatchRunVideoWaitForCommandExit.Location = new System.Drawing.Point(8, 101);
             this.checkBoxBatchRunVideoWaitForCommandExit.Name = "checkBoxBatchRunVideoWaitForCommandExit";
             this.checkBoxBatchRunVideoWaitForCommandExit.Size = new System.Drawing.Size(293, 24);
             this.checkBoxBatchRunVideoWaitForCommandExit.TabIndex = 3;
@@ -564,7 +564,7 @@
             this.comboBoxBatchRunVideoVariables.IntegralHeight = false;
             this.comboBoxBatchRunVideoVariables.Location = new System.Drawing.Point(102, 38);
             this.comboBoxBatchRunVideoVariables.Name = "comboBoxBatchRunVideoVariables";
-            this.comboBoxBatchRunVideoVariables.Size = new System.Drawing.Size(305, 25);
+            this.comboBoxBatchRunVideoVariables.Size = new System.Drawing.Size(341, 25);
             this.comboBoxBatchRunVideoVariables.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxBatchRunVideoVariables.TabIndex = 1;
             this.comboBoxBatchRunVideoVariables.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunVideoVariables_SelectionChangeCommitted);
@@ -624,7 +624,7 @@
             this.comboBoxBatchRunVideoAppId.IntegralHeight = false;
             this.comboBoxBatchRunVideoAppId.Location = new System.Drawing.Point(95, 35);
             this.comboBoxBatchRunVideoAppId.Name = "comboBoxBatchRunVideoAppId";
-            this.comboBoxBatchRunVideoAppId.Size = new System.Drawing.Size(305, 25);
+            this.comboBoxBatchRunVideoAppId.Size = new System.Drawing.Size(348, 25);
             this.comboBoxBatchRunVideoAppId.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxBatchRunVideoAppId.TabIndex = 34;
             this.comboBoxBatchRunVideoAppId.TextChanged += new System.EventHandler(this.comboBoxBatchRunVideoAppId_TextChanged);
@@ -646,7 +646,7 @@
             this.comboBoxBatchRunVideoAppExample.FormattingEnabled = true;
             this.comboBoxBatchRunVideoAppExample.Location = new System.Drawing.Point(95, 6);
             this.comboBoxBatchRunVideoAppExample.Name = "comboBoxBatchRunVideoAppExample";
-            this.comboBoxBatchRunVideoAppExample.Size = new System.Drawing.Size(305, 23);
+            this.comboBoxBatchRunVideoAppExample.Size = new System.Drawing.Size(348, 23);
             this.comboBoxBatchRunVideoAppExample.TabIndex = 32;
             this.comboBoxBatchRunVideoAppExample.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBoxBatchRunVideoAppExample_DrawItem);
             this.comboBoxBatchRunVideoAppExample.SelectionChangeCommitted += new System.EventHandler(this.comboBoxBatchRunVideoApp_SelectionChangeCommitted);
@@ -734,8 +734,8 @@
             // 
             // checkBoxRunBatchRedirectToTerminalWindows
             // 
-            this.checkBoxRunBatchRedirectToTerminalWindows.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxRunBatchRedirectToTerminalWindows.Location = new System.Drawing.Point(339, 554);
+            this.checkBoxRunBatchRedirectToTerminalWindows.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxRunBatchRedirectToTerminalWindows.Location = new System.Drawing.Point(13, 564);
             this.checkBoxRunBatchRedirectToTerminalWindows.Name = "checkBoxRunBatchRedirectToTerminalWindows";
             this.checkBoxRunBatchRedirectToTerminalWindows.Size = new System.Drawing.Size(340, 24);
             this.checkBoxRunBatchRedirectToTerminalWindows.TabIndex = 1;
@@ -775,7 +775,7 @@
             // buttonBatchCommandBatchRun
             // 
             this.buttonBatchCommandBatchRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBatchCommandBatchRun.Location = new System.Drawing.Point(706, 554);
+            this.buttonBatchCommandBatchRun.Location = new System.Drawing.Point(753, 558);
             this.buttonBatchCommandBatchRun.Name = "buttonBatchCommandBatchRun";
             this.buttonBatchCommandBatchRun.Size = new System.Drawing.Size(140, 30);
             this.buttonBatchCommandBatchRun.TabIndex = 2;
@@ -793,7 +793,7 @@
         '\"',
         '\'',
         '\''};
-            this.fastColoredTextBoxArgumentFileArgumentFile.AutoScrollMinSize = new System.Drawing.Size(2, 18);
+            this.fastColoredTextBoxArgumentFileArgumentFile.AutoScrollMinSize = new System.Drawing.Size(31, 18);
             this.fastColoredTextBoxArgumentFileArgumentFile.BackBrush = null;
             this.fastColoredTextBoxArgumentFileArgumentFile.CharHeight = 18;
             this.fastColoredTextBoxArgumentFileArgumentFile.CharWidth = 10;
@@ -807,7 +807,7 @@
             this.fastColoredTextBoxArgumentFileArgumentFile.Paddings = new System.Windows.Forms.Padding(0);
             this.fastColoredTextBoxArgumentFileArgumentFile.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fastColoredTextBoxArgumentFileArgumentFile.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBoxArgumentFileArgumentFile.ServiceColors")));
-            this.fastColoredTextBoxArgumentFileArgumentFile.Size = new System.Drawing.Size(673, 464);
+            this.fastColoredTextBoxArgumentFileArgumentFile.Size = new System.Drawing.Size(907, 360);
             this.fastColoredTextBoxArgumentFileArgumentFile.TabIndex = 0;
             this.fastColoredTextBoxArgumentFileArgumentFile.Zoom = 100;
             this.fastColoredTextBoxArgumentFileArgumentFile.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBoxArgumentFileArgumentFile_TextChanged);
@@ -895,7 +895,7 @@
             // buttonArgumentFileBuilderBuild
             // 
             this.buttonArgumentFileBuilderBuild.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonArgumentFileBuilderBuild.Location = new System.Drawing.Point(18, 558);
+            this.buttonArgumentFileBuilderBuild.Location = new System.Drawing.Point(13, 558);
             this.buttonArgumentFileBuilderBuild.Name = "buttonArgumentFileBuilderBuild";
             this.buttonArgumentFileBuilderBuild.Size = new System.Drawing.Size(140, 30);
             this.buttonArgumentFileBuilderBuild.TabIndex = 1;
@@ -905,7 +905,7 @@
             // buttonArgumentFileBuilderSave
             // 
             this.buttonArgumentFileBuilderSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonArgumentFileBuilderSave.Location = new System.Drawing.Point(164, 558);
+            this.buttonArgumentFileBuilderSave.Location = new System.Drawing.Point(159, 558);
             this.buttonArgumentFileBuilderSave.Name = "buttonArgumentFileBuilderSave";
             this.buttonArgumentFileBuilderSave.Size = new System.Drawing.Size(140, 30);
             this.buttonArgumentFileBuilderSave.TabIndex = 2;
@@ -924,6 +924,7 @@
             // 
             // buttonMetadataWriteKeywordDeleteLoad
             // 
+            this.buttonMetadataWriteKeywordDeleteLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonMetadataWriteKeywordDeleteLoad.Location = new System.Drawing.Point(3, 143);
             this.buttonMetadataWriteKeywordDeleteLoad.Name = "buttonMetadataWriteKeywordDeleteLoad";
             this.buttonMetadataWriteKeywordDeleteLoad.Size = new System.Drawing.Size(140, 30);
@@ -1203,7 +1204,7 @@
             // buttonArgumentFileBuilderCompare
             // 
             this.buttonArgumentFileBuilderCompare.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonArgumentFileBuilderCompare.Location = new System.Drawing.Point(310, 558);
+            this.buttonArgumentFileBuilderCompare.Location = new System.Drawing.Point(305, 558);
             this.buttonArgumentFileBuilderCompare.Name = "buttonArgumentFileBuilderCompare";
             this.buttonArgumentFileBuilderCompare.Size = new System.Drawing.Size(140, 30);
             this.buttonArgumentFileBuilderCompare.TabIndex = 3;
@@ -1213,7 +1214,7 @@
             // buttonArgumentFileBuilderRun
             // 
             this.buttonArgumentFileBuilderRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonArgumentFileBuilderRun.Location = new System.Drawing.Point(739, 558);
+            this.buttonArgumentFileBuilderRun.Location = new System.Drawing.Point(753, 558);
             this.buttonArgumentFileBuilderRun.Name = "buttonArgumentFileBuilderRun";
             this.buttonArgumentFileBuilderRun.Size = new System.Drawing.Size(140, 30);
             this.buttonArgumentFileBuilderRun.TabIndex = 4;
@@ -1388,6 +1389,8 @@
             // 
             this.kryptonWorkspaceCellSelectedFiles.AllowPageDrag = true;
             this.kryptonWorkspaceCellSelectedFiles.AllowTabFocus = false;
+            this.kryptonWorkspaceCellSelectedFiles.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellSelectedFiles.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellSelectedFiles.Name = "kryptonWorkspaceCellSelectedFiles";
             this.kryptonWorkspaceCellSelectedFiles.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCellSelectedFiles.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1417,6 +1420,8 @@
             // 
             this.kryptonWorkspaceCell2.AllowPageDrag = true;
             this.kryptonWorkspaceCell2.AllowTabFocus = false;
+            this.kryptonWorkspaceCell2.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell2.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell2.Name = "kryptonWorkspaceCell2";
             this.kryptonWorkspaceCell2.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell2.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1433,7 +1438,7 @@
             this.kryptonPage3.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage3.Name = "kryptonPage3";
             this.kryptonPage3.Size = new System.Drawing.Size(449, 154);
-            this.kryptonPage3.Text = "Open";
+            this.kryptonPage3.Text = "Open Image files with...";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
             this.kryptonPage3.UniqueName = "b4c1dd334ff9413bb4c909b65143be84";
             // 
@@ -1441,6 +1446,8 @@
             // 
             this.kryptonWorkspaceCell14.AllowPageDrag = true;
             this.kryptonWorkspaceCell14.AllowTabFocus = false;
+            this.kryptonWorkspaceCell14.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell14.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell14.Name = "kryptonWorkspaceCell14";
             this.kryptonWorkspaceCell14.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage32});
@@ -1465,7 +1472,7 @@
             this.kryptonPage32.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage32.Name = "kryptonPage32";
             this.kryptonPage32.Size = new System.Drawing.Size(449, 159);
-            this.kryptonPage32.Text = "Ooen with...";
+            this.kryptonPage32.Text = "Open Image with...";
             this.kryptonPage32.ToolTipTitle = "Page ToolTip";
             this.kryptonPage32.UniqueName = "7bf3768a88e345d08ff92417e7c747fe";
             // 
@@ -1576,6 +1583,8 @@
             // 
             this.kryptonWorkspaceCell3.AllowPageDrag = true;
             this.kryptonWorkspaceCell3.AllowTabFocus = false;
+            this.kryptonWorkspaceCell3.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell3.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell3.Name = "kryptonWorkspaceCell3";
             this.kryptonWorkspaceCell3.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell3.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1592,7 +1601,7 @@
             this.kryptonPage6.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage6.Name = "kryptonPage6";
             this.kryptonPage6.Size = new System.Drawing.Size(451, 154);
-            this.kryptonPage6.Text = "Open video files with:";
+            this.kryptonPage6.Text = "Open Video files with:";
             this.kryptonPage6.ToolTipTitle = "Page ToolTip";
             this.kryptonPage6.UniqueName = "632cba2c0f0747d19c5a4f1258da4f53";
             // 
@@ -1600,6 +1609,8 @@
             // 
             this.kryptonWorkspaceCell15.AllowPageDrag = true;
             this.kryptonWorkspaceCell15.AllowTabFocus = false;
+            this.kryptonWorkspaceCell15.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell15.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell15.Name = "kryptonWorkspaceCell15";
             this.kryptonWorkspaceCell15.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage34});
@@ -1624,7 +1635,7 @@
             this.kryptonPage34.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage34.Name = "kryptonPage34";
             this.kryptonPage34.Size = new System.Drawing.Size(451, 159);
-            this.kryptonPage34.Text = "Open with...";
+            this.kryptonPage34.Text = "Open Video with...";
             this.kryptonPage34.ToolTipTitle = "Page ToolTip";
             this.kryptonPage34.UniqueName = "0fca3f389751410b878b2a285e8c24aa";
             // 
@@ -1736,7 +1747,7 @@
             // 
             // kryptonWorkspaceRunBatch
             // 
-            this.kryptonWorkspaceRunBatch.ActivePage = this.kryptonPage1;
+            this.kryptonWorkspaceRunBatch.ActivePage = this.kryptonPageRunBatchCommandVideo;
             this.kryptonWorkspaceRunBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -1773,6 +1784,8 @@
             // 
             this.kryptonWorkspaceCell1.AllowPageDrag = true;
             this.kryptonWorkspaceCell1.AllowTabFocus = false;
+            this.kryptonWorkspaceCell1.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell1.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell1.Name = "kryptonWorkspaceCell1";
             this.kryptonWorkspaceCell1.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell1.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1792,64 +1805,70 @@
             // kryptonWorkspaceSequence5
             // 
             this.kryptonWorkspaceSequence5.Children.AddRange(new System.ComponentModel.Component[] {
-            this.kryptonWorkspaceCell7,
+            this.kryptonWorkspaceCellRunBatchImage,
             this.kryptonWorkspaceCell12});
             this.kryptonWorkspaceSequence5.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.kryptonWorkspaceSequence5.UniqueName = "61c8727ed0c4487db893cd1680eb514e";
             this.kryptonWorkspaceSequence5.WorkspaceControl = null;
             // 
-            // kryptonWorkspaceCell7
+            // kryptonWorkspaceCellRunBatchImage
             // 
-            this.kryptonWorkspaceCell7.AllowPageDrag = true;
-            this.kryptonWorkspaceCell7.AllowTabFocus = false;
-            this.kryptonWorkspaceCell7.Name = "kryptonWorkspaceCell7";
-            this.kryptonWorkspaceCell7.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPage15,
-            this.kryptonPage16});
-            this.kryptonWorkspaceCell7.SelectedIndex = 1;
-            this.kryptonWorkspaceCell7.UniqueName = "2588fb1e1bfd422b8d1a22aa44a93948";
+            this.kryptonWorkspaceCellRunBatchImage.AllowPageDrag = true;
+            this.kryptonWorkspaceCellRunBatchImage.AllowTabFocus = false;
+            this.kryptonWorkspaceCellRunBatchImage.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellRunBatchImage.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellRunBatchImage.Name = "kryptonWorkspaceCellRunBatchImage";
+            this.kryptonWorkspaceCellRunBatchImage.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageRunBatchCommandImage,
+            this.kryptonPageRunBatchAppImage});
+            this.kryptonWorkspaceCellRunBatchImage.SelectedIndex = 0;
+            this.kryptonWorkspaceCellRunBatchImage.UniqueName = "2588fb1e1bfd422b8d1a22aa44a93948";
             // 
-            // kryptonPage15
+            // kryptonPageRunBatchCommandImage
             // 
-            this.kryptonPage15.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPage15.Controls.Add(this.comboBoxBatchRunImageCommand);
-            this.kryptonPage15.Controls.Add(this.buttonBatchRunImageBrowser);
-            this.kryptonPage15.Controls.Add(this.label7);
-            this.kryptonPage15.Controls.Add(this.checkBoxBatchRunImageWaitForCommandExit);
-            this.kryptonPage15.Controls.Add(this.label3);
-            this.kryptonPage15.Controls.Add(this.comboBoxBatchRunImageVariables);
-            this.kryptonPage15.Flags = 65534;
-            this.kryptonPage15.LastVisibleSet = true;
-            this.kryptonPage15.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPage15.Name = "kryptonPage15";
-            this.kryptonPage15.Size = new System.Drawing.Size(449, 156);
-            this.kryptonPage15.Text = "Command";
-            this.kryptonPage15.ToolTipTitle = "Page ToolTip";
-            this.kryptonPage15.UniqueName = "6cb4ef44b648401b914c7d21a5ea90a5";
+            this.kryptonPageRunBatchCommandImage.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageRunBatchCommandImage.Controls.Add(this.comboBoxBatchRunImageCommand);
+            this.kryptonPageRunBatchCommandImage.Controls.Add(this.buttonBatchRunImageBrowser);
+            this.kryptonPageRunBatchCommandImage.Controls.Add(this.label7);
+            this.kryptonPageRunBatchCommandImage.Controls.Add(this.checkBoxBatchRunImageWaitForCommandExit);
+            this.kryptonPageRunBatchCommandImage.Controls.Add(this.label3);
+            this.kryptonPageRunBatchCommandImage.Controls.Add(this.comboBoxBatchRunImageVariables);
+            this.kryptonPageRunBatchCommandImage.Flags = 65534;
+            this.kryptonPageRunBatchCommandImage.LastVisibleSet = true;
+            this.kryptonPageRunBatchCommandImage.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageRunBatchCommandImage.Name = "kryptonPageRunBatchCommandImage";
+            this.kryptonPageRunBatchCommandImage.Size = new System.Drawing.Size(449, 156);
+            this.kryptonPageRunBatchCommandImage.Tag = "Command";
+            this.kryptonPageRunBatchCommandImage.Text = "Command for Image";
+            this.kryptonPageRunBatchCommandImage.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageRunBatchCommandImage.UniqueName = "6cb4ef44b648401b914c7d21a5ea90a5";
             // 
-            // kryptonPage16
+            // kryptonPageRunBatchAppImage
             // 
-            this.kryptonPage16.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPage16.Controls.Add(this.checkBoxBatchRunImageWaitForAppExit);
-            this.kryptonPage16.Controls.Add(this.comboBoxBatchRunImageAppExample);
-            this.kryptonPage16.Controls.Add(this.comboBoxBatchRunImageVerb);
-            this.kryptonPage16.Controls.Add(this.label13);
-            this.kryptonPage16.Controls.Add(this.label15);
-            this.kryptonPage16.Controls.Add(this.label14);
-            this.kryptonPage16.Controls.Add(this.comboBoxBatchRunImageAppId);
-            this.kryptonPage16.Flags = 65534;
-            this.kryptonPage16.LastVisibleSet = true;
-            this.kryptonPage16.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPage16.Name = "kryptonPage16";
-            this.kryptonPage16.Size = new System.Drawing.Size(449, 156);
-            this.kryptonPage16.Text = "App";
-            this.kryptonPage16.ToolTipTitle = "Page ToolTip";
-            this.kryptonPage16.UniqueName = "a01295037f974e398284ade8e8966376";
+            this.kryptonPageRunBatchAppImage.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageRunBatchAppImage.Controls.Add(this.checkBoxBatchRunImageWaitForAppExit);
+            this.kryptonPageRunBatchAppImage.Controls.Add(this.comboBoxBatchRunImageAppExample);
+            this.kryptonPageRunBatchAppImage.Controls.Add(this.comboBoxBatchRunImageVerb);
+            this.kryptonPageRunBatchAppImage.Controls.Add(this.label13);
+            this.kryptonPageRunBatchAppImage.Controls.Add(this.label15);
+            this.kryptonPageRunBatchAppImage.Controls.Add(this.label14);
+            this.kryptonPageRunBatchAppImage.Controls.Add(this.comboBoxBatchRunImageAppId);
+            this.kryptonPageRunBatchAppImage.Flags = 65534;
+            this.kryptonPageRunBatchAppImage.LastVisibleSet = true;
+            this.kryptonPageRunBatchAppImage.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageRunBatchAppImage.Name = "kryptonPageRunBatchAppImage";
+            this.kryptonPageRunBatchAppImage.Size = new System.Drawing.Size(449, 156);
+            this.kryptonPageRunBatchAppImage.Tag = "App";
+            this.kryptonPageRunBatchAppImage.Text = "Run App on Image";
+            this.kryptonPageRunBatchAppImage.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageRunBatchAppImage.UniqueName = "a01295037f974e398284ade8e8966376";
             // 
             // kryptonWorkspaceCell12
             // 
             this.kryptonWorkspaceCell12.AllowPageDrag = true;
             this.kryptonWorkspaceCell12.AllowTabFocus = false;
+            this.kryptonWorkspaceCell12.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell12.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell12.Name = "kryptonWorkspaceCell12";
             this.kryptonWorkspaceCell12.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell12.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1866,71 +1885,77 @@
             this.kryptonPage30.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage30.Name = "kryptonPage30";
             this.kryptonPage30.Size = new System.Drawing.Size(449, 157);
-            this.kryptonPage30.Text = "Batch run:";
+            this.kryptonPage30.Text = "Run Batch for Image:";
             this.kryptonPage30.ToolTipTitle = "Page ToolTip";
             this.kryptonPage30.UniqueName = "1702661ac5a04492af0b14c68c34434e";
             // 
             // kryptonWorkspaceSequence8
             // 
             this.kryptonWorkspaceSequence8.Children.AddRange(new System.ComponentModel.Component[] {
-            this.kryptonWorkspaceCell11,
+            this.kryptonWorkspaceCellRunBatchVideo,
             this.kryptonWorkspaceCell10});
             this.kryptonWorkspaceSequence8.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.kryptonWorkspaceSequence8.UniqueName = "66c3b37d99934250be30d6c13aacf6d8";
             this.kryptonWorkspaceSequence8.WorkspaceControl = null;
             // 
-            // kryptonWorkspaceCell11
+            // kryptonWorkspaceCellRunBatchVideo
             // 
-            this.kryptonWorkspaceCell11.AllowPageDrag = true;
-            this.kryptonWorkspaceCell11.AllowTabFocus = false;
-            this.kryptonWorkspaceCell11.Name = "kryptonWorkspaceCell11";
-            this.kryptonWorkspaceCell11.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
-            this.kryptonPage28,
-            this.kryptonPage29});
-            this.kryptonWorkspaceCell11.SelectedIndex = 0;
-            this.kryptonWorkspaceCell11.UniqueName = "7726b7757b5c476e80243a7bde4652cf";
+            this.kryptonWorkspaceCellRunBatchVideo.AllowPageDrag = true;
+            this.kryptonWorkspaceCellRunBatchVideo.AllowTabFocus = false;
+            this.kryptonWorkspaceCellRunBatchVideo.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellRunBatchVideo.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellRunBatchVideo.Name = "kryptonWorkspaceCellRunBatchVideo";
+            this.kryptonWorkspaceCellRunBatchVideo.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageRunBatchCommandVideo,
+            this.kryptonPageRunBatchAppVideo});
+            this.kryptonWorkspaceCellRunBatchVideo.SelectedIndex = 0;
+            this.kryptonWorkspaceCellRunBatchVideo.UniqueName = "7726b7757b5c476e80243a7bde4652cf";
             // 
-            // kryptonPage28
+            // kryptonPageRunBatchCommandVideo
             // 
-            this.kryptonPage28.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPage28.Controls.Add(this.comboBoxBatchRunVideoCommand);
-            this.kryptonPage28.Controls.Add(this.checkBoxBatchRunVideoWaitForCommandExit);
-            this.kryptonPage28.Controls.Add(this.buttonBatchRunVideoBrowser);
-            this.kryptonPage28.Controls.Add(this.label17);
-            this.kryptonPage28.Controls.Add(this.label16);
-            this.kryptonPage28.Controls.Add(this.comboBoxBatchRunVideoVariables);
-            this.kryptonPage28.Flags = 65534;
-            this.kryptonPage28.LastVisibleSet = true;
-            this.kryptonPage28.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPage28.Name = "kryptonPage28";
-            this.kryptonPage28.Size = new System.Drawing.Size(451, 156);
-            this.kryptonPage28.Text = "Command";
-            this.kryptonPage28.ToolTipTitle = "Page ToolTip";
-            this.kryptonPage28.UniqueName = "92e45f77096447feb4e10188552b7109";
+            this.kryptonPageRunBatchCommandVideo.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageRunBatchCommandVideo.Controls.Add(this.comboBoxBatchRunVideoCommand);
+            this.kryptonPageRunBatchCommandVideo.Controls.Add(this.checkBoxBatchRunVideoWaitForCommandExit);
+            this.kryptonPageRunBatchCommandVideo.Controls.Add(this.buttonBatchRunVideoBrowser);
+            this.kryptonPageRunBatchCommandVideo.Controls.Add(this.label17);
+            this.kryptonPageRunBatchCommandVideo.Controls.Add(this.label16);
+            this.kryptonPageRunBatchCommandVideo.Controls.Add(this.comboBoxBatchRunVideoVariables);
+            this.kryptonPageRunBatchCommandVideo.Flags = 65534;
+            this.kryptonPageRunBatchCommandVideo.LastVisibleSet = true;
+            this.kryptonPageRunBatchCommandVideo.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageRunBatchCommandVideo.Name = "kryptonPageRunBatchCommandVideo";
+            this.kryptonPageRunBatchCommandVideo.Size = new System.Drawing.Size(451, 156);
+            this.kryptonPageRunBatchCommandVideo.Tag = "Command";
+            this.kryptonPageRunBatchCommandVideo.Text = "Command for Video";
+            this.kryptonPageRunBatchCommandVideo.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageRunBatchCommandVideo.UniqueName = "92e45f77096447feb4e10188552b7109";
             // 
-            // kryptonPage29
+            // kryptonPageRunBatchAppVideo
             // 
-            this.kryptonPage29.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPage29.Controls.Add(this.checkBoxBatchRunVideoWaitForAppExit);
-            this.kryptonPage29.Controls.Add(this.comboBoxBatchRunVideoAppExample);
-            this.kryptonPage29.Controls.Add(this.comboBoxBatchRunVideoVerb);
-            this.kryptonPage29.Controls.Add(this.label20);
-            this.kryptonPage29.Controls.Add(this.label18);
-            this.kryptonPage29.Controls.Add(this.label19);
-            this.kryptonPage29.Controls.Add(this.comboBoxBatchRunVideoAppId);
-            this.kryptonPage29.Flags = 65534;
-            this.kryptonPage29.LastVisibleSet = true;
-            this.kryptonPage29.MinimumSize = new System.Drawing.Size(50, 50);
-            this.kryptonPage29.Name = "kryptonPage29";
-            this.kryptonPage29.Size = new System.Drawing.Size(451, 156);
-            this.kryptonPage29.Text = "App";
-            this.kryptonPage29.ToolTipTitle = "Page ToolTip";
-            this.kryptonPage29.UniqueName = "b44dc5f09c9b4b418993ea83c5be973b";
+            this.kryptonPageRunBatchAppVideo.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageRunBatchAppVideo.Controls.Add(this.checkBoxBatchRunVideoWaitForAppExit);
+            this.kryptonPageRunBatchAppVideo.Controls.Add(this.comboBoxBatchRunVideoAppExample);
+            this.kryptonPageRunBatchAppVideo.Controls.Add(this.comboBoxBatchRunVideoVerb);
+            this.kryptonPageRunBatchAppVideo.Controls.Add(this.label20);
+            this.kryptonPageRunBatchAppVideo.Controls.Add(this.label18);
+            this.kryptonPageRunBatchAppVideo.Controls.Add(this.label19);
+            this.kryptonPageRunBatchAppVideo.Controls.Add(this.comboBoxBatchRunVideoAppId);
+            this.kryptonPageRunBatchAppVideo.Flags = 65534;
+            this.kryptonPageRunBatchAppVideo.LastVisibleSet = true;
+            this.kryptonPageRunBatchAppVideo.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageRunBatchAppVideo.Name = "kryptonPageRunBatchAppVideo";
+            this.kryptonPageRunBatchAppVideo.Size = new System.Drawing.Size(451, 156);
+            this.kryptonPageRunBatchAppVideo.Tag = "App";
+            this.kryptonPageRunBatchAppVideo.Text = "Run App on Video";
+            this.kryptonPageRunBatchAppVideo.ToolTipTitle = "Page ToolTip";
+            this.kryptonPageRunBatchAppVideo.UniqueName = "b44dc5f09c9b4b418993ea83c5be973b";
             // 
             // kryptonWorkspaceCell10
             // 
             this.kryptonWorkspaceCell10.AllowPageDrag = true;
             this.kryptonWorkspaceCell10.AllowTabFocus = false;
+            this.kryptonWorkspaceCell10.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell10.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell10.Name = "kryptonWorkspaceCell10";
             this.kryptonWorkspaceCell10.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell10.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -1947,7 +1972,7 @@
             this.kryptonPage26.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage26.Name = "kryptonPage26";
             this.kryptonPage26.Size = new System.Drawing.Size(451, 157);
-            this.kryptonPage26.Text = "Batch run:";
+            this.kryptonPage26.Text = "Run Batch for Video:";
             this.kryptonPage26.ToolTipTitle = "Page ToolTip";
             this.kryptonPage26.UniqueName = "7e50476d3fd744cf9888d0a8f6139c91";
             // 
@@ -1985,6 +2010,7 @@
             this.kryptonWorkspaceRunArgumentFile.Root.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.kryptonWorkspaceRunArgumentFile.Root.UniqueName = "27ace56a31bd4a2bb5094511e645958b";
             this.kryptonWorkspaceRunArgumentFile.Root.WorkspaceControl = this.kryptonWorkspaceRunArgumentFile;
+            this.kryptonWorkspaceRunArgumentFile.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
             this.kryptonWorkspaceRunArgumentFile.Size = new System.Drawing.Size(909, 535);
             this.kryptonWorkspaceRunArgumentFile.TabIndex = 0;
             this.kryptonWorkspaceRunArgumentFile.TabStop = true;
@@ -2009,6 +2035,8 @@
             // 
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.AllowPageDrag = true;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.AllowTabFocus = false;
+            this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Name = "kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument";
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCellRunArgumentFileRunCommandWithArgument.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2028,12 +2056,14 @@
             // 
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.AllowPageDrag = true;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.AllowTabFocus = false;
+            this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Name = "kryptonWorkspaceCellRunArgumentFileAutoCorrect";
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPageRunArgumentFileCreateFromEdit,
             this.kryptonPageRunArgumentFileCreateFromAutoCorrect});
-            this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.SelectedIndex = 1;
+            this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.SelectedIndex = 0;
             this.kryptonWorkspaceCellRunArgumentFileAutoCorrect.UniqueName = "3b82f36b77e54335a84c373ff392b124";
             // 
             // kryptonPageRunArgumentFileCreateFromEdit
@@ -2044,7 +2074,7 @@
             this.kryptonPageRunArgumentFileCreateFromEdit.LastVisibleSet = true;
             this.kryptonPageRunArgumentFileCreateFromEdit.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPageRunArgumentFileCreateFromEdit.Name = "kryptonPageRunArgumentFileCreateFromEdit";
-            this.kryptonPageRunArgumentFileCreateFromEdit.Size = new System.Drawing.Size(673, 464);
+            this.kryptonPageRunArgumentFileCreateFromEdit.Size = new System.Drawing.Size(907, 360);
             this.kryptonPageRunArgumentFileCreateFromEdit.Tag = "ArgumentFile";
             this.kryptonPageRunArgumentFileCreateFromEdit.Text = "Create from Config and Edited fields";
             this.kryptonPageRunArgumentFileCreateFromEdit.ToolTipTitle = "Page ToolTip";
@@ -2099,6 +2129,7 @@
             this.kryptonWorkspaceBuilder.Root.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.kryptonWorkspaceBuilder.Root.UniqueName = "7c98859e42b7471fa29eaa32f3cb6853";
             this.kryptonWorkspaceBuilder.Root.WorkspaceControl = this.kryptonWorkspaceBuilder;
+            this.kryptonWorkspaceBuilder.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
             this.kryptonWorkspaceBuilder.Size = new System.Drawing.Size(909, 535);
             this.kryptonWorkspaceBuilder.TabIndex = 0;
             this.kryptonWorkspaceBuilder.TabStop = true;
@@ -2123,6 +2154,8 @@
             // 
             this.kryptonWorkspaceCell13.AllowPageDrag = true;
             this.kryptonWorkspaceCell13.AllowTabFocus = false;
+            this.kryptonWorkspaceCell13.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell13.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell13.Name = "kryptonWorkspaceCell13";
             this.kryptonWorkspaceCell13.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell13.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2135,6 +2168,8 @@
             // 
             this.kryptonWorkspaceCell16.AllowPageDrag = true;
             this.kryptonWorkspaceCell16.AllowTabFocus = false;
+            this.kryptonWorkspaceCell16.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell16.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell16.Name = "kryptonWorkspaceCell16";
             this.kryptonWorkspaceCell16.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
             this.kryptonPage37,
@@ -2195,6 +2230,8 @@
             // 
             this.kryptonWorkspaceCell17.AllowPageDrag = true;
             this.kryptonWorkspaceCell17.AllowTabFocus = false;
+            this.kryptonWorkspaceCell17.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCell17.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonWorkspaceCell17.Name = "kryptonWorkspaceCell17";
             this.kryptonWorkspaceCell17.NavigatorMode = Krypton.Navigator.NavigatorMode.StackCheckButtonGroup;
             this.kryptonWorkspaceCell17.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2220,6 +2257,8 @@
             this.kryptonNavigatorRun.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonNavigatorRun.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonNavigatorRun.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
             this.kryptonNavigatorRun.Location = new System.Drawing.Point(0, 0);
             this.kryptonNavigatorRun.Name = "kryptonNavigatorRun";
             this.kryptonNavigatorRun.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
@@ -2614,26 +2653,26 @@
             this.kryptonPage1.ResumeLayout(false);
             this.kryptonPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell7)).EndInit();
-            this.kryptonWorkspaceCell7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage15)).EndInit();
-            this.kryptonPage15.ResumeLayout(false);
-            this.kryptonPage15.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage16)).EndInit();
-            this.kryptonPage16.ResumeLayout(false);
-            this.kryptonPage16.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellRunBatchImage)).EndInit();
+            this.kryptonWorkspaceCellRunBatchImage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRunBatchCommandImage)).EndInit();
+            this.kryptonPageRunBatchCommandImage.ResumeLayout(false);
+            this.kryptonPageRunBatchCommandImage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRunBatchAppImage)).EndInit();
+            this.kryptonPageRunBatchAppImage.ResumeLayout(false);
+            this.kryptonPageRunBatchAppImage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage30)).EndInit();
             this.kryptonPage30.ResumeLayout(false);
             this.kryptonPage30.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell11)).EndInit();
-            this.kryptonWorkspaceCell11.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage28)).EndInit();
-            this.kryptonPage28.ResumeLayout(false);
-            this.kryptonPage28.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage29)).EndInit();
-            this.kryptonPage29.ResumeLayout(false);
-            this.kryptonPage29.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellRunBatchVideo)).EndInit();
+            this.kryptonWorkspaceCellRunBatchVideo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRunBatchCommandVideo)).EndInit();
+            this.kryptonPageRunBatchCommandVideo.ResumeLayout(false);
+            this.kryptonPageRunBatchCommandVideo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageRunBatchAppVideo)).EndInit();
+            this.kryptonPageRunBatchAppVideo.ResumeLayout(false);
+            this.kryptonPageRunBatchAppVideo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCell10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage26)).EndInit();
             this.kryptonPage26.ResumeLayout(false);
@@ -2799,15 +2838,15 @@
         private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell1;
         private Krypton.Workspace.KryptonWorkspaceSequence kryptonWorkspaceSequence3;
         private Krypton.Workspace.KryptonWorkspaceSequence kryptonWorkspaceSequence5;
-        private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell7;
-        private Krypton.Navigator.KryptonPage kryptonPage15;
-        private Krypton.Navigator.KryptonPage kryptonPage16;
+        private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCellRunBatchImage;
+        private Krypton.Navigator.KryptonPage kryptonPageRunBatchCommandImage;
+        private Krypton.Navigator.KryptonPage kryptonPageRunBatchAppImage;
         private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell12;
         private Krypton.Navigator.KryptonPage kryptonPage30;
         private Krypton.Workspace.KryptonWorkspaceSequence kryptonWorkspaceSequence8;
-        private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell11;
-        private Krypton.Navigator.KryptonPage kryptonPage28;
-        private Krypton.Navigator.KryptonPage kryptonPage29;
+        private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCellRunBatchVideo;
+        private Krypton.Navigator.KryptonPage kryptonPageRunBatchCommandVideo;
+        private Krypton.Navigator.KryptonPage kryptonPageRunBatchAppVideo;
         private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCell10;
         private Krypton.Navigator.KryptonPage kryptonPage26;
         private Krypton.Navigator.KryptonPage kryptonPage8;

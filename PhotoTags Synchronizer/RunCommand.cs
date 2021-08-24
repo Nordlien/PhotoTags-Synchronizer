@@ -404,7 +404,7 @@ namespace PhotoTagsSynchronizer
             
             textBoxRunBatchImageExample.Text = "";
 
-            if (tabControlBatchRunImage.SelectedTab.Tag.ToString() == "Command")
+            if (kryptonWorkspaceCellRunBatchImage.SelectedPage.Tag.ToString() == "Command")
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchImageExample.Text += (textBoxRunBatchImageExample.Text == "" ? "" : "\r\n") + 
                         metadata.ReplaceVariables(comboBoxBatchRunImageCommand.Text, AllowedFileNameDateTimeFormats);
             else
@@ -412,7 +412,7 @@ namespace PhotoTagsSynchronizer
                         comboBoxBatchRunImageVerb.Text + " " + comboBoxBatchRunImageAppId.Text + " " + metadata.FileFullPath;
 
             textBoxRunBatchVideoExample.Text = "";
-            if (tabControlBatchRunVideo.SelectedTab.Tag.ToString() == "Command")
+            if (kryptonWorkspaceCellRunBatchVideo.SelectedPage.Tag.ToString() == "Command")
                 foreach (Metadata metadata in MetadatasGridView) textBoxRunBatchVideoExample.Text += (textBoxRunBatchVideoExample.Text == "" ? "" : "\r\n") + 
                         metadata.ReplaceVariables(comboBoxBatchRunVideoCommand.Text, AllowedFileNameDateTimeFormats);
             else
@@ -492,7 +492,7 @@ namespace PhotoTagsSynchronizer
 
                     if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsImageFormat(metadata.FileFullPath))
                     {
-                        if (tabControlBatchRunImage.SelectedTab.Tag.ToString() == "Command")
+                        if (kryptonWorkspaceCellRunBatchImage.SelectedPage.Tag.ToString() == "Command")
                         {
 
                             if (checkBoxRunBatchRedirectToTerminalWindows.Checked) 
@@ -506,7 +506,7 @@ namespace PhotoTagsSynchronizer
                     if (ImageAndMovieFileExtentions.ImageAndMovieFileExtentionsUtility.IsVideoFormat(metadata.FileFullPath))
                     {
 
-                        if (tabControlBatchRunVideo.SelectedTab.Tag.ToString() == "Command")
+                        if (kryptonWorkspaceCellRunBatchVideo.SelectedPage.Tag.ToString() == "Command")
                         {
                             if (checkBoxRunBatchRedirectToTerminalWindows.Checked) 
                                 ApplicationActivation.ProcessRun(formTerminalWindow, videoCommandWithArguments, checkBoxBatchRunVideoWaitForCommandExit.Checked);

@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Drawing;
+using System.IO;
 
 namespace ApplicationAssociations
 {
@@ -45,9 +46,12 @@ namespace ApplicationAssociations
                     } else  if (iconFullPath.StartsWith("@{") )
                     {
                         string filename = ExtractNormalIconPath(iconFullPath);
-                        Bitmap bitmap = (Bitmap)Image.FromFile(filename);
-                        Icon icon = Icon.FromHandle(bitmap.GetHicon());
-                        if (icon != null) return icon;
+                        if (File.Exists(filename))
+                        {
+                            Bitmap bitmap = (Bitmap)Image.FromFile(filename);
+                            Icon icon = Icon.FromHandle(bitmap.GetHicon());
+                            if (icon != null) return icon;
+                        }
                     } else
                     {
                         Bitmap bitmap = (Bitmap)Image.FromFile(iconFullPath);
