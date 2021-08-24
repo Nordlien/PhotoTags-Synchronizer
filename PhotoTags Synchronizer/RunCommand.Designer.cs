@@ -2266,7 +2266,7 @@
             this.kryptonPageRunBatch,
             this.kryptonPageRunArgumentFile,
             this.kryptonPageBuilder});
-            this.kryptonNavigatorRun.SelectedIndex = 3;
+            this.kryptonNavigatorRun.SelectedIndex = 0;
             this.kryptonNavigatorRun.Size = new System.Drawing.Size(914, 638);
             this.kryptonNavigatorRun.TabIndex = 1;
             this.kryptonNavigatorRun.Text = "Run";
