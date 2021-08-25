@@ -88,7 +88,8 @@
             // 
             // ImageListViewOrder
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonMoveDown);
             this.Controls.Add(this.buttonMoveUp);
             this.Controls.Add(this.imageListViewDragAndDrop1);

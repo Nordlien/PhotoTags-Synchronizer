@@ -60,7 +60,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWarning.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.textBoxWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
             this.textBoxWarning.ForeColor = System.Drawing.Color.White;
             this.textBoxWarning.Location = new System.Drawing.Point(11, 125);
             this.textBoxWarning.Margin = new System.Windows.Forms.Padding(4);
@@ -97,7 +96,7 @@
             // 
             // SplashForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -111,7 +110,6 @@
             this.Controls.Add(this.labelStatus);
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.HelpButton = true;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);

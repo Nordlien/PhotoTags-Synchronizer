@@ -211,7 +211,7 @@ namespace PhotoTagsSynchronizer
         {
             for (int rowIndex = 0; rowIndex < dataGridView.Rows.Count; rowIndex++)
             {
-                if (dataGridView.Rows[rowIndex].Cells["ProgId"].Value.ToString() == progId)
+                if (ConvertValueNullToBlank(dataGridView.Rows[rowIndex].Cells["ProgId"].Value) == progId)
                 {
                     dataGridView.CurrentCell = dataGridView[1, rowIndex];
                     dataGridView.Rows[rowIndex].Selected = true;
@@ -221,8 +221,10 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region OpenWith - Common - PopulateOpenWithDataGridView
+        private bool isPopulateOpenWithDataGridView = false;
         private void PopulateOpenWithDataGridView(DataGridView dataGridView, List<string> extensions)
         {
+            isPopulateOpenWithDataGridView = true;
             try
             {
                 DataTable dtApps = new DataTable("Application");
@@ -240,6 +242,7 @@ namespace PhotoTagsSynchronizer
                     {
                         dtApps.Rows.Add(new object[] { data.Icon, data.FriendlyAppName, data.Command, data.ProgId, data.ApplicationId });
                     }
+
                     dataGridView.Enabled = true;
                 }
                 else
@@ -247,18 +250,24 @@ namespace PhotoTagsSynchronizer
                     dataGridView.Enabled = false;
                 }
 
+                dataGridView.AllowUserToAddRows = false;
+                dataGridView.Columns.Clear();
+                //for (int columnIndex = 0; columnIndex < dtApps.Columns.Count; columnIndex++) dataGridView.Columns.Add(dtApps.Columns[columnIndex].ColumnName, dtApps.Columns[columnIndex].ColumnName);                
                 dataGridView.DataSource = dtApps;                
+                dataGridView.RowHeadersWidth = 10;
                 dataGridView.Columns["Icon"].Width = 50;
-                dataGridView.Columns["Name"].Width = 340;
+                dataGridView.Columns["Name"].Width = 200;
                 dataGridView.Columns["Command"].Visible = false;
                 dataGridView.Columns["ProgId"].Visible = false;
                 dataGridView.Columns["AppId"].Visible = false;
+                dataGridView.RowHeadersWidth = 10;
             }
             catch (Exception ex)
             {
                 Debug.Print(ex.Message.ToString());
                 MessageBox.Show(ex.Message.ToString());
             }
+            isPopulateOpenWithDataGridView = false;
         }
         #endregion
 
@@ -304,10 +313,11 @@ namespace PhotoTagsSynchronizer
 
         private string GetSelectProgId(DataGridView dataGridView)
         {
+            if (isPopulateOpenWithDataGridView) return "";
             int rowIndex = GetSelectedRowIndex(dataGridView);
             if (rowIndex > -1)
             {
-                return dataGridView.Rows[rowIndex].Cells["ProgId"].Value.ToString();
+                return ConvertValueNullToBlank(dataGridView.Rows[rowIndex].Cells["ProgId"].Value);
             }
             return "";
         }
@@ -316,30 +326,37 @@ namespace PhotoTagsSynchronizer
         #region OpenWith - CellEnter - Select row
         private void dataGridViewImages_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
+            if (isPopulateOpenWithDataGridView) return;
             DataGridView dataGridView = dataGridViewImages;
             dataGridView.Rows[e.RowIndex].Selected = true;
         }
 
         private void dataGridViewVideos_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
+            if (isPopulateOpenWithDataGridView) return;
             DataGridView dataGridView = dataGridViewVideos;
             dataGridView.Rows[e.RowIndex].Selected = true;
         }
         #endregion 
 
         #region OpenWith - Image SelectionChanged
+        private string ConvertValueNullToBlank(object value)
+        {
+            return (value == null ? "" : value.ToString());
+        }
         private void dataGridViewImages_SelectionChanged(object sender, EventArgs e)
         {
+            if (isPopulateOpenWithDataGridView) return;
             DataGridView dataGridView = dataGridViewImages;
 
-            if (dataGridView.SelectedRows.Count == 1)
+            if (dataGridView.Columns.Count > 0 && dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count == 1)
             {
-                textBoxOpenImageWithApplication.Text = dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["Name"].Value.ToString();
-                textBoxOpenImageWithCommand.Text = dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["Command"].Value.ToString();
-                textBoxOpenImageWithAppId.Text = dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["AppId"].Value.ToString();
+                textBoxOpenImageWithApplication.Text = ConvertValueNullToBlank(dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["Name"].Value);
+                textBoxOpenImageWithCommand.Text = ConvertValueNullToBlank(dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["Command"].Value);
+                textBoxOpenImageWithAppId.Text = ConvertValueNullToBlank(dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["AppId"].Value);
 
                 KryptonComboBox comboBox = comboBoxOpenImageWithVerbs;
-                FillComboBoxWithVerbs(comboBox, dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["ProgId"].Value.ToString());
+                FillComboBoxWithVerbs(comboBox, ConvertValueNullToBlank(dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["ProgId"].Value));
                 SelectVerb(comboBox, "Open");
                 if (string.IsNullOrWhiteSpace(comboBox.Text)) SelectVerb(comboBox, "Edit");
                 if (string.IsNullOrWhiteSpace(comboBox.Text)) SelectVerb(comboBox, "Play");
@@ -350,16 +367,17 @@ namespace PhotoTagsSynchronizer
         #region OpenWith - Video SelectionChanged
         private void dataGridViewVideos_SelectionChanged(object sender, EventArgs e)
         {
+            if (isPopulateOpenWithDataGridView) return;
             DataGridView dataGridView = dataGridViewVideos;
 
-            if (dataGridView.SelectedRows.Count == 1)
+            if (dataGridView.Columns.Count > 0 && dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count == 1)
             {
-                textBoxOpenVideoWithApplication.Text = dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["Name"].Value.ToString();
-                textBoxOpenVideoWithCommand.Text = dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["Command"].Value.ToString();
-                textBoxOpenVideoWithAppId.Text = dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["AppId"].Value.ToString();
-                FillComboBoxWithVerbs(comboBoxOpenVideoWithVerbs, dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["ProgId"].Value.ToString());
+                textBoxOpenVideoWithApplication.Text = ConvertValueNullToBlank(dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["Name"].Value);
+                textBoxOpenVideoWithCommand.Text = ConvertValueNullToBlank(dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["Command"].Value);
+                textBoxOpenVideoWithAppId.Text = ConvertValueNullToBlank(dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["AppId"].Value);
+                FillComboBoxWithVerbs(comboBoxOpenVideoWithVerbs, ConvertValueNullToBlank(dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["ProgId"].Value));
                 KryptonComboBox comboBox = comboBoxOpenVideoWithVerbs;
-                FillComboBoxWithVerbs(comboBox, dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["ProgId"].Value.ToString());
+                FillComboBoxWithVerbs(comboBox, ConvertValueNullToBlank(dataGridView.Rows[dataGridView.SelectedRows[0].Index].Cells["ProgId"].Value));
                 SelectVerb(comboBox, "Open");
                 if (string.IsNullOrWhiteSpace(comboBox.Text)) SelectVerb(comboBox, "Edit");
                 if (string.IsNullOrWhiteSpace(comboBox.Text)) SelectVerb(comboBox, "Play");

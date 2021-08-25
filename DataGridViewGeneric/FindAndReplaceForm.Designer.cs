@@ -614,7 +614,8 @@ namespace DataGridViewGeneric
             // FindAndReplaceForm
             // 
             this.AcceptButton = this.FindButton1;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 267);
             this.Controls.Add(this.tabControlFindAndReplace);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

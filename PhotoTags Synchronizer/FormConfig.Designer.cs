@@ -727,7 +727,6 @@ namespace PhotoTagsSynchronizer
             this.tabControlConfig.Controls.Add(this.tabPageChromecast);
             this.tabControlConfig.Controls.Add(this.tabPageShowAppLog);
             this.tabControlConfig.Controls.Add(this.tabPageShowPipe32Log);
-            this.tabControlConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.tabControlConfig.Location = new System.Drawing.Point(2, 2);
             this.tabControlConfig.Margin = new System.Windows.Forms.Padding(2);
             this.tabControlConfig.MinimumSize = new System.Drawing.Size(739, 777);
@@ -5977,13 +5976,13 @@ namespace PhotoTagsSynchronizer
             // 
             // Config
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1555, 863);
             this.Controls.Add(this.buttonConfigSave);
             this.Controls.Add(this.kryptonWorkspaceConfig);
             this.Controls.Add(this.buttonConfigCancel);
             this.Controls.Add(this.panelAvoidResizeIssues);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimizeBox = false;
