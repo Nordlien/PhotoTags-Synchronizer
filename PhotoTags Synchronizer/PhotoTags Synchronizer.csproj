@@ -193,7 +193,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Update="RunCommand.cs">
+    <Compile Update="FormRunCommand.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

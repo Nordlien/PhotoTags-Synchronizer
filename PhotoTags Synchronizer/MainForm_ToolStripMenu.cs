@@ -1666,7 +1666,7 @@ namespace PhotoTagsSynchronizer
                         true, out string exiftoolAutoCorrectFileText);
                     #endregion
 
-                    using (RunCommand runCommand = new RunCommand())
+                    using (FormRunCommand runCommand = new FormRunCommand())
                     {
                         runCommand.ArguFile = exiftoolAgruFileText;
                         runCommand.ArguFileAutoCorrect = exiftoolAutoCorrectFileText;

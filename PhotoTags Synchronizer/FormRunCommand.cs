@@ -17,7 +17,7 @@ using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class RunCommand : KryptonForm
+    public partial class FormRunCommand : KryptonForm
     {
         public string ArguFile { get; set; } = "";
         public string ArguFileAutoCorrect { get; set; } = "";
@@ -41,7 +41,7 @@ namespace PhotoTagsSynchronizer
         private ApplicationAssociationsHandler applicationAssociationsHandler = new ApplicationAssociationsHandler();
         private SortedList<string, ApplicationData> applicationDatas;
         
-        public RunCommand()
+        public FormRunCommand()
         {
             InitializeComponent();
             
