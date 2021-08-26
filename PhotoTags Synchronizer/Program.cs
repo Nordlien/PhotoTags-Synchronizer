@@ -33,8 +33,8 @@ namespace PhotoTagsSynchronizer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Loading...", 22, Properties.Settings.Default.CloseWarningWindowsAutomatically, true);
-            SplashForm.UpdateStatus("Initialize DLL files..."); //1 
+            FormSplash.ShowSplashScreen("PhotoTags Synchronizer - Loading...", 22, Properties.Settings.Default.CloseWarningWindowsAutomatically, true);
+            FormSplash.UpdateStatus("Initialize DLL files..."); //1 
 
             if (Environment.Is64BitProcess)
             {
@@ -53,7 +53,7 @@ namespace PhotoTagsSynchronizer
 
             //Monitor parent process exit and close subprocesses if parent process exits first
             //This will at some point in the future becomes the default
-            SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - settings 1/2..."); //2 
+            FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - settings 1/2..."); //2 
 
             CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
             //Cef.EnableHighDPISupport(); //Will remove 1.25 scaling, but Krypron will not work. 
@@ -65,17 +65,17 @@ namespace PhotoTagsSynchronizer
                 UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0"
             };          
 
-            SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - settings 2/2..."); //3 
+            FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - settings 2/2..."); //3 
             settings.CefCommandLineArgs.Add("enable-media-stream", "1"); //Enables WebRTC
             //settings.CefCommandLineArgs.Add("force-device-scale-factor", "1");
             settings.CefCommandLineArgs.Add("disable-gpu", "1"); //https://stackoverflow.com/questions/52913442/cefsharp-winforms-dock-dockstyle-fill-no-effect-black-edge-how-to-make-the-c
             
-            SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - starting process..."); //4 
+            FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - starting process..."); //4 
 
             //Perform dependency check to make sure all relevant resources are in our output directory.
             Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
 
-            SplashForm.UpdateStatus("Initialize ChromiumWebBrowser - process started..."); //5 
+            FormSplash.UpdateStatus("Initialize ChromiumWebBrowser - process started..."); //5 
 
             mainForm = new MainForm(); //this takes ages
             Application.Run(mainForm);

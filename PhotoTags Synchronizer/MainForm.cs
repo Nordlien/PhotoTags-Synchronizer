@@ -287,7 +287,7 @@ namespace PhotoTagsSynchronizer
         public MainForm()
         {
             #region Initialize VLC player
-            SplashForm.UpdateStatus("Initialize VLC player...");
+            FormSplash.UpdateStatus("Initialize VLC player...");
             try
             {
                 if (!DesignMode) Core.Initialize();
@@ -300,7 +300,7 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Initialize components
-            SplashForm.UpdateStatus("Initialize components...");
+            FormSplash.UpdateStatus("Initialize components...");
 
             InitializeComponent();
             #endregion
@@ -316,14 +316,14 @@ namespace PhotoTagsSynchronizer
 
 
             #region Initialize VLC player
-            SplashForm.UpdateStatus("Staring VLC player...");
+            FormSplash.UpdateStatus("Staring VLC player...");
             
             _libVLC = new LibVLC();
             videoView1.MediaPlayer = new MediaPlayer(_libVLC);
             #endregion 
 
             #region Loading ImageListView renderers
-            SplashForm.UpdateStatus("Loading ImageListView renderers...");
+            FormSplash.UpdateStatus("Loading ImageListView renderers...");
             Assembly assembly = Assembly.GetAssembly(typeof(ImageListView));
             int i = 0;
             foreach (Type t in assembly.GetTypes())
@@ -352,7 +352,7 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Initialize database connect
-            SplashForm.UpdateStatus("Initialize database: connect...");
+            FormSplash.UpdateStatus("Initialize database: connect...");
             try
             {
                 databaseUtilitiesSqliteMetadata = new SqliteDatabaseUtilities(DatabaseType.SqliteMetadataDatabase, 10000, 5000);
@@ -394,7 +394,7 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Initialize database: read metadata to cache
-            SplashForm.UpdateStatus("Initialize database: read metadata to cache...");
+            FormSplash.UpdateStatus("Initialize database: read metadata to cache...");
             try
             {
                 Thread threadCache = new Thread(() =>
@@ -414,7 +414,7 @@ namespace PhotoTagsSynchronizer
                 databaseAndCacheMetadataMicrosoftPhotos, databaseAndCacheThumbnail, databaseExiftoolData, databaseExiftoolWarning);
 
             #region Connect to Microsoft Photos
-            SplashForm.UpdateStatus("Initialize database: Connect to Microsoft Photos...");
+            FormSplash.UpdateStatus("Initialize database: Connect to Microsoft Photos...");
             try
             {
                 databaseMicrosoftPhotos = new MicrosoftPhotosReader();
@@ -422,13 +422,13 @@ namespace PhotoTagsSynchronizer
             catch (Exception e)
             {
 
-                SplashForm.AddWarning("Windows photo warning:\r\n" + e.Message + "\r\n");
+                FormSplash.AddWarning("Windows photo warning:\r\n" + e.Message + "\r\n");
                 databaseMicrosoftPhotos = null;
             }
             #endregion 
 
             #region Connect to Windows Live Photo Gallery
-            SplashForm.UpdateStatus("Initialize database: Connect to Windows Live Photo Gallery...");
+            FormSplash.UpdateStatus("Initialize database: Connect to Windows Live Photo Gallery...");
             try
             {
                 databaseWindowsLivePhotGallery = new WindowsLivePhotoGalleryDatabasePipe();
@@ -436,7 +436,7 @@ namespace PhotoTagsSynchronizer
             }
             catch (Exception e)
             {
-                SplashForm.AddWarning("Windows Live Photo Gallery warning:\r\n" + e.Message + "\r\n");
+                FormSplash.AddWarning("Windows Live Photo Gallery warning:\r\n" + e.Message + "\r\n");
                 databaseWindowsLivePhotGallery = null;
             }
             #endregion 
@@ -444,7 +444,7 @@ namespace PhotoTagsSynchronizer
             #region Configure ChromiumWebBrowser
             try
             {
-                SplashForm.UpdateStatus("Configure ChromiumWebBrowser...");
+                FormSplash.UpdateStatus("Configure ChromiumWebBrowser...");
                 browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
                 {
                     Dock = DockStyle.Fill,
@@ -463,7 +463,7 @@ namespace PhotoTagsSynchronizer
             #endregion 
 
             #region Initialize global data
-            SplashForm.UpdateStatus("Initialize global data...");
+            FormSplash.UpdateStatus("Initialize global data...");
 
             #region Setup Global Variables - Cache config
             cacheNumberOfPosters = (int)Properties.Settings.Default.CacheNumberOfPosters;
@@ -545,7 +545,7 @@ namespace PhotoTagsSynchronizer
             #region Initialize layout setup
 
             #region Initialize layout setup - Windows Size and Splitters
-            SplashForm.UpdateStatus("Initialize layout setup: Sizes...");
+            FormSplash.UpdateStatus("Initialize layout setup: Sizes...");
             isFormLoading = true; //MainForm_Shown(object sender, EventArgs e) -> isFormLoading = false;
 
             this.Size = Properties.Settings.Default.MainFormSize;
@@ -577,24 +577,24 @@ namespace PhotoTagsSynchronizer
             this.SuspendLayout();
 
             #region Initialize layout setup - Initialize layout toolstrip: Exiftool
-            SplashForm.UpdateStatus("Initialize layout toolstrip: Exiftool...");
+            FormSplash.UpdateStatus("Initialize layout toolstrip: Exiftool...");
             PopulateExiftoolToolStripMenuItems();
             #endregion 
 
             #region Initialize layout setup - Initialize layout toolstrip: Warnings
-            SplashForm.UpdateStatus("Initialize layout toolstrip: Warnings...");
+            FormSplash.UpdateStatus("Initialize layout toolstrip: Warnings...");
             PopulateExiftoolWarningToolStripMenuItems();
             #endregion 
 
             #region Initialize layout setup - Initialize layout toolstrip: People
-            SplashForm.UpdateStatus("Initialize layout toolstrip: People...");
+            FormSplash.UpdateStatus("Initialize layout toolstrip: People...");
             PopulatePeopleToolStripMenuItems();
             #endregion 
 
             #endregion
 
             #region Initialize nHTTP server
-            SplashForm.UpdateStatus("Initialize nHTTP server...");
+            FormSplash.UpdateStatus("Initialize nHTTP server...");
             try
             {
                 _ThreadHttp = new Thread(() =>
@@ -700,7 +700,7 @@ namespace PhotoTagsSynchronizer
 
         private void MainForm_Activated(object sender, EventArgs e)
         {
-            SplashForm.BringToFrontSplashForm();
+            FormSplash.BringToFrontSplashForm();
             DataGridViewHandler.BringToFrontFindAndReplace();
         }
         #endregion
@@ -743,9 +743,9 @@ namespace PhotoTagsSynchronizer
                 //Close down nHTTP server;
                 nHttpServerThreadWaitApplicationClosing.Set();
 
-                SplashForm.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
+                FormSplash.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
 
-                SplashForm.UpdateStatus("Saving layout...");
+                FormSplash.UpdateStatus("Saving layout...");
 
                 
 
@@ -780,7 +780,7 @@ namespace PhotoTagsSynchronizer
                 }
                 //---------------------------------------------------------
 
-                SplashForm.UpdateStatus("Closing Exiftool read...");
+                FormSplash.UpdateStatus("Closing Exiftool read...");
                 try
                 {
                     if (exiftoolReader != null) exiftoolReader.Close();
@@ -804,7 +804,7 @@ namespace PhotoTagsSynchronizer
 
                 int waitForProcessEndRetray = 30;
 
-                SplashForm.UpdateStatus("Stopping ImageView background threads...");
+                FormSplash.UpdateStatus("Stopping ImageView background threads...");
                 try
                 {
                     waitForProcessEndRetray = 30;
@@ -815,7 +815,7 @@ namespace PhotoTagsSynchronizer
                     }
                 } catch { }
 
-                SplashForm.UpdateStatus("Stopping fetch metadata background threads...");
+                FormSplash.UpdateStatus("Stopping fetch metadata background threads...");
                 try
                 {
                     waitForProcessEndRetray = 30;
@@ -827,21 +827,21 @@ namespace PhotoTagsSynchronizer
                 }
                 catch { }
 
-                SplashForm.UpdateStatus("Disconnecting databases...");
+                FormSplash.UpdateStatus("Disconnecting databases...");
                 try
                 {
                     databaseUtilitiesSqliteMetadata.DatabaseClose(); //Close database after all background threads stopped
                 }
                 catch { }
 
-                SplashForm.UpdateStatus("Disposing...");
+                FormSplash.UpdateStatus("Disposing...");
                 try
                 {
                     imageListView1.Dispose();
                 }
                 catch { }
 
-                SplashForm.CloseForm();
+                FormSplash.CloseForm();
             }
             catch (Exception ex)
             {
@@ -855,7 +855,7 @@ namespace PhotoTagsSynchronizer
         private void MainForm_Load(object sender, EventArgs e)
         {
             
-            SplashForm.CloseForm();
+            FormSplash.CloseForm();
 
             Properties.Settings.Default.Reload();
             RegionStructure.SetAcceptRegionMissmatchProcent((float)Properties.Settings.Default.RegionMissmatchProcent);
@@ -880,7 +880,7 @@ namespace PhotoTagsSynchronizer
             //System.InvalidOperationException: 'Cross-thread operation not valid: Control 'toolStrip1' accessed from a thread other than the thread it was created on.'
             try
             {
-                SplashForm.UpdateStatus("Initialize folder tree...");
+                FormSplash.UpdateStatus("Initialize folder tree...");
                 GlobalData.IsPopulatingFolderTree = true;
 
                 this.folderTreeViewFolder.InitFolderTreeView();
@@ -902,7 +902,7 @@ namespace PhotoTagsSynchronizer
             #region Populate search filters...
             try
             {
-                SplashForm.UpdateStatus("Populate search filters...");
+                FormSplash.UpdateStatus("Populate search filters...");
                 PopulateDatabaseFilter();
                 PopulateSelectGroupToolStripMenuItems();
             }

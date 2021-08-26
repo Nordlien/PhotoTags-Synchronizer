@@ -1,6 +1,6 @@
 ﻿namespace PhotoTagsSynchronizer
 {
-    partial class SplashForm
+    partial class FormSplash
     {
         /// <summary>
         /// Required designer variable.
@@ -37,7 +37,6 @@
             // 
             // labelStatus
             // 
-            this.labelStatus.AutoSize = true;
             this.labelStatus.Location = new System.Drawing.Point(92, 44);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(80, 20);
@@ -56,8 +55,8 @@
             // 
             // textBoxWarning
             // 
-            this.textBoxWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWarning.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.textBoxWarning.ForeColor = System.Drawing.Color.White;
@@ -72,7 +71,6 @@
             // 
             // labelWarnings
             // 
-            this.labelWarnings.AutoSize = true;
             this.labelWarnings.Location = new System.Drawing.Point(11, 97);
             this.labelWarnings.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelWarnings.Name = "labelWarnings";
@@ -84,7 +82,6 @@
             // checkBoxCloseWarning
             // 
             this.checkBoxCloseWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBoxCloseWarning.AutoSize = true;
             this.checkBoxCloseWarning.Location = new System.Drawing.Point(359, 9);
             this.checkBoxCloseWarning.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxCloseWarning.Name = "checkBoxCloseWarning";
@@ -98,7 +95,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(593, 272);

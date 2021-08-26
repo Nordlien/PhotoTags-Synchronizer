@@ -120,7 +120,6 @@ namespace DataGridViewGeneric
             // 
             // checkBoxSearchAlsoRowHeaders
             // 
-            this.checkBoxSearchAlsoRowHeaders.AutoSize = true;
             this.checkBoxSearchAlsoRowHeaders.Location = new System.Drawing.Point(111, 211);
             this.checkBoxSearchAlsoRowHeaders.Name = "checkBoxSearchAlsoRowHeaders";
             this.checkBoxSearchAlsoRowHeaders.Size = new System.Drawing.Size(209, 21);
@@ -141,7 +140,6 @@ namespace DataGridViewGeneric
             // 
             // radioButtonSearchUp1
             // 
-            this.radioButtonSearchUp1.AutoSize = true;
             this.radioButtonSearchUp1.Location = new System.Drawing.Point(11, 27);
             this.radioButtonSearchUp1.Name = "radioButtonSearchUp1";
             this.radioButtonSearchUp1.Size = new System.Drawing.Size(113, 21);
@@ -151,7 +149,6 @@ namespace DataGridViewGeneric
             // 
             // radioButtonSearchDown1
             // 
-            this.radioButtonSearchDown1.AutoSize = true;
             this.radioButtonSearchDown1.Checked = true;
             this.radioButtonSearchDown1.Location = new System.Drawing.Point(11, 54);
             this.radioButtonSearchDown1.Name = "radioButtonSearchDown1";
@@ -217,7 +214,6 @@ namespace DataGridViewGeneric
             // 
             // MatchCellCheckBox1
             // 
-            this.MatchCellCheckBox1.AutoSize = true;
             this.MatchCellCheckBox1.Location = new System.Drawing.Point(11, 54);
             this.MatchCellCheckBox1.Margin = new System.Windows.Forms.Padding(4);
             this.MatchCellCheckBox1.Name = "MatchCellCheckBox1";
@@ -229,7 +225,6 @@ namespace DataGridViewGeneric
             // 
             // MatchCaseCheckBox1
             // 
-            this.MatchCaseCheckBox1.AutoSize = true;
             this.MatchCaseCheckBox1.Location = new System.Drawing.Point(11, 27);
             this.MatchCaseCheckBox1.Margin = new System.Windows.Forms.Padding(4);
             this.MatchCaseCheckBox1.Name = "MatchCaseCheckBox1";
@@ -252,7 +247,6 @@ namespace DataGridViewGeneric
             // 
             // FindLabel1
             // 
-            this.FindLabel1.AutoSize = true;
             this.FindLabel1.Location = new System.Drawing.Point(3, 12);
             this.FindLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.FindLabel1.Name = "FindLabel1";
@@ -295,7 +289,6 @@ namespace DataGridViewGeneric
             // 
             // radioButtonSearchUp2
             // 
-            this.radioButtonSearchUp2.AutoSize = true;
             this.radioButtonSearchUp2.Location = new System.Drawing.Point(11, 27);
             this.radioButtonSearchUp2.Name = "radioButtonSearchUp2";
             this.radioButtonSearchUp2.Size = new System.Drawing.Size(113, 21);
@@ -306,7 +299,6 @@ namespace DataGridViewGeneric
             // 
             // radioButtonSearchDown2
             // 
-            this.radioButtonSearchDown2.AutoSize = true;
             this.radioButtonSearchDown2.Checked = true;
             this.radioButtonSearchDown2.Location = new System.Drawing.Point(11, 54);
             this.radioButtonSearchDown2.Name = "radioButtonSearchDown2";
@@ -344,7 +336,6 @@ namespace DataGridViewGeneric
             // 
             // MatchCellCheckBox2
             // 
-            this.MatchCellCheckBox2.AutoSize = true;
             this.MatchCellCheckBox2.Location = new System.Drawing.Point(11, 54);
             this.MatchCellCheckBox2.Margin = new System.Windows.Forms.Padding(4);
             this.MatchCellCheckBox2.Name = "MatchCellCheckBox2";
@@ -356,7 +347,6 @@ namespace DataGridViewGeneric
             // 
             // MatchCaseCheckBox2
             // 
-            this.MatchCaseCheckBox2.AutoSize = true;
             this.MatchCaseCheckBox2.Location = new System.Drawing.Point(11, 27);
             this.MatchCaseCheckBox2.Margin = new System.Windows.Forms.Padding(4);
             this.MatchCaseCheckBox2.Name = "MatchCaseCheckBox2";
@@ -428,7 +418,6 @@ namespace DataGridViewGeneric
             // 
             // ReplaceLabel
             // 
-            this.ReplaceLabel.AutoSize = true;
             this.ReplaceLabel.Location = new System.Drawing.Point(3, 44);
             this.ReplaceLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ReplaceLabel.Name = "ReplaceLabel";
@@ -449,7 +438,6 @@ namespace DataGridViewGeneric
             // 
             // FindLabel2
             // 
-            this.FindLabel2.AutoSize = true;
             this.FindLabel2.Location = new System.Drawing.Point(3, 12);
             this.FindLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.FindLabel2.Name = "FindLabel2";
@@ -616,6 +604,8 @@ namespace DataGridViewGeneric
             this.AcceptButton = this.FindButton1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            //this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
             this.ClientSize = new System.Drawing.Size(699, 267);
             this.Controls.Add(this.tabControlFindAndReplace);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

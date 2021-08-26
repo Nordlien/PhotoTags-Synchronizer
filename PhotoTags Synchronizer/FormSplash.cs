@@ -6,7 +6,7 @@ using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class SplashForm : Form
+    public partial class FormSplash : Form
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -17,7 +17,7 @@ namespace PhotoTagsSynchronizer
         private delegate void BringFromToFrontDelegate();
 
         //The type of form to be displayed as the splash screen.
-        private static SplashForm splashForm;
+        private static FormSplash splashForm;
         private static string _status;
         private static int _taskWhere;
         private static int _numTasks;
@@ -48,7 +48,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (splashForm == null)
                 {
-                    _thread = new Thread(new ThreadStart(SplashForm.ShowForm));
+                    _thread = new Thread(new ThreadStart(FormSplash.ShowForm));
                     _thread.IsBackground = true;
                     _thread.SetApartmentState(ApartmentState.STA);
                     _thread.Start();
@@ -57,7 +57,7 @@ namespace PhotoTagsSynchronizer
             else throw new Exception("thread still alive");
         }
 
-        public SplashForm()
+        public FormSplash()
         {
             InitializeComponent();
 
@@ -75,7 +75,7 @@ namespace PhotoTagsSynchronizer
 
         static private void ShowForm()
         {
-            splashForm = new SplashForm();
+            splashForm = new FormSplash();
             Application.Run(splashForm);
             splashForm = null;            
         }
@@ -112,7 +112,7 @@ namespace PhotoTagsSynchronizer
         static public void CloseForm()
         {
             if (splashForm == null || !splashForm.IsHandleCreated) return; 
-            splashForm.Invoke(new CloseDelegate(SplashForm.CloseIfNoWarning));
+            splashForm.Invoke(new CloseDelegate(FormSplash.CloseIfNoWarning));
         }
 
         private void SplashForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -167,7 +167,7 @@ namespace PhotoTagsSynchronizer
             {
                 if (splashForm != null && splashForm.IsHandleCreated)
                 {
-                    splashForm.Invoke(new UpdateStatusDelegate(SplashForm.UpdateStatusInternal));
+                    splashForm.Invoke(new UpdateStatusDelegate(FormSplash.UpdateStatusInternal));
                 }
             } catch { }
         }
@@ -191,7 +191,7 @@ namespace PhotoTagsSynchronizer
 
             if (splashForm != null && splashForm.IsHandleCreated)
             {
-                splashForm.Invoke(new AddWarningDelegate(SplashForm.AddWarningsInternal));
+                splashForm.Invoke(new AddWarningDelegate(FormSplash.AddWarningsInternal));
             }
         }
 
@@ -212,7 +212,7 @@ namespace PhotoTagsSynchronizer
         {
             if (_isWindowsClosed) return;
             if (splashForm!=null)
-                splashForm.Invoke(new BringFromToFrontDelegate(SplashForm.BringFormToFrontInternal));
+                splashForm.Invoke(new BringFromToFrontDelegate(FormSplash.BringFormToFrontInternal));
         }
 
         private void checkBoxCloseWarning_CheckedChanged(object sender, EventArgs e)

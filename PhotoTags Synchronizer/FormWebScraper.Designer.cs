@@ -379,7 +379,6 @@ namespace PhotoTagsSynchronizer
             // buttonWebScrapingDataSetDelete
             // 
             this.buttonWebScrapingDataSetDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonWebScrapingDataSetDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.buttonWebScrapingDataSetDelete.BackgroundImage = global::PhotoTagsSynchronizer.Properties.Resources.Delete;
             this.buttonWebScrapingDataSetDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonWebScrapingDataSetDelete.Location = new System.Drawing.Point(293, 84);
@@ -748,6 +747,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            //this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(1418, 739);
             this.Controls.Add(this.statusStrip1);
