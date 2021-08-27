@@ -1410,7 +1410,7 @@ namespace PhotoTagsSynchronizer
         {
             try
             {
-                using (Config config = new Config())
+                using (FormConfig config = new FormConfig())
                 {
                     using (new WaitCursor())
                     {

@@ -29,7 +29,7 @@ using Krypton.Toolkit;
 
 namespace PhotoTagsSynchronizer
 {
-    public partial class Config : KryptonForm
+    public partial class FormConfig : KryptonForm
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -57,7 +57,7 @@ namespace PhotoTagsSynchronizer
 
         private bool isPopulation = false;
 
-        public Config()
+        public FormConfig()
         {
             InitializeComponent();
             browser = new ChromiumWebBrowser("https://www.openstreetmap.org/")
