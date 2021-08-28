@@ -2573,12 +2573,144 @@ namespace PhotoTagsSynchronizer
 
         private void kryptonComboBoxThemes_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ThemeManager.SetTheme(kryptonComboBoxThemes.Text, kryptonManager1);
-            ThemeManager.ApplyGlobalTheme(kryptonManager1, ThemeManager.GetPaletteMode(kryptonManager1));
+            
+        }
 
-            IPalette palette = KryptonManager.CurrentGlobalPalette;
-            //Font font = palette.GetContentShortTextFont(PaletteContentStyle.LabelNormalControl, PaletteState.Normal);
-            //propertyGrid1.Font = font;
+
+        private void EnableDropShadow(bool enabled)
+        {
+            UseDropShadow = enabled;
+        }
+
+        private void buttonOffice2010Blue_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteOffice2010Blue;
+            propertyGrid.SelectedObject = kryptonPaletteOffice2010Blue;
+
+            EnableDropShadow(true);
+        }
+
+        private void buttonOffice2010Silver_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteOffice2010Silver;
+            propertyGrid.SelectedObject = kryptonPaletteOffice2010Silver;
+
+            EnableDropShadow(true);
+        }
+
+        private void buttonOffice2010Black_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteOffice2010Black;
+            propertyGrid.SelectedObject = kryptonPaletteOffice2010Black;
+
+            EnableDropShadow(true);
+        }
+
+        private void buttonOffice2007Blue_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteOffice2007Blue;
+            propertyGrid.SelectedObject = kryptonPaletteOffice2007Blue;
+
+            EnableDropShadow(true);
+        }
+
+        private void buttonOffice2007Silver_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteOffice2007Silver;
+            propertyGrid.SelectedObject = kryptonPaletteOffice2007Silver;
+
+            EnableDropShadow(true);
+        }
+
+        private void buttonOffice2007Black_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteOffice2007Black;
+            propertyGrid.SelectedObject = kryptonPaletteOffice2007Black;
+
+            EnableDropShadow(true);
+        }
+
+        private void buttonOffice2003_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteOffice2003;
+            propertyGrid.SelectedObject = kryptonPaletteOffice2003;
+
+            EnableDropShadow(true);
+        }
+
+        private void buttonSystem_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteSystem;
+            propertyGrid.SelectedObject = kryptonPaletteSystem;
+
+            EnableDropShadow(false);
+        }
+
+        private void buttonSparkleBlue_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteSparkleBlue;
+            propertyGrid.SelectedObject = kryptonPaletteSparkleBlue;
+
+            EnableDropShadow(true);
+        }
+
+        private void buttonSparkleOrange_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteSparkleOrange;
+            propertyGrid.SelectedObject = kryptonPaletteSparkleOrange;
+
+            EnableDropShadow(true);
+        }
+
+        private void buttonSparklePurple_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteSparklePurple;
+            propertyGrid.SelectedObject = kryptonPaletteSparklePurple;
+
+            EnableDropShadow(true);
+        }
+
+        private void buttonCustom_Click(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPalette = kryptonPaletteCustom;
+            propertyGrid.SelectedObject = kryptonPaletteCustom;
+
+            EnableDropShadow(false);
+
+            kryptonButtonApplicationThemesExport.Enabled = true;
+        }
+
+        
+
+        private void kryptonButtonApplicationThemesImport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                kryptonPaletteCustom.Import();
+
+                kryptonManager1.GlobalPalette = kryptonPaletteCustom;
+                kryptonManager1.GlobalPaletteMode = PaletteModeManager.Custom;
+
+                /*
+                ThemeManager.SetTheme(kryptonComboBoxThemes.Text, kryptonManager1);
+                ThemeManager.ApplyGlobalTheme(kryptonManager1, ThemeManager.GetPaletteMode(kryptonManager1));
+
+                IPalette palette = KryptonManager.CurrentGlobalPalette;
+                //Font font = palette.GetContentShortTextFont(PaletteContentStyle.LabelNormalControl, PaletteState.Normal);
+                //propertyGrid1.Font = font;
+                */
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void kryptonButtonApplicationThemesExport_Click(object sender, EventArgs e)
+        {
+            kryptonPaletteCustom.Export();
+
+            kryptonButtonApplicationThemesExport.Enabled = false;
         }
     }
 }
