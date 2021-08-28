@@ -120,47 +120,10 @@
   <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>715, 17</value>
   </metadata>
-  <metadata name="contextMenuStripTreeViewFolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>244, 60</value>
-  </metadata>
-  <metadata name="contextMenuStripImageListView.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 103</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="imageListView1.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAByklEQVQ4T6WTS0sbYRSG87cUV4oibkop
-        lYCuRLuRlKKpovEW40IKRVehLW3pJYnjfGpU1EVsBVHRvQupZEZtTZrGZK4xM5Qmb883LdGQGEEXz8Aw
-        Z57zfmfOuADcC+fS4RNfugdZqsUjaPVPqtBdTlOvoD30CjMlgXuI/YrLctEwTZg5CwahE6qDDcW0kTVs
-        XDhYSCk62p6JaknAO+uGiU5/EAPvIxj9GMLwB4bhTzGMfI5hLBTDRGQTAeELeiZmkNYtNHuYVhI0UEze
-        2R/awGLcwLJ8iahkICrnET2xsHJqY/XsN9Z+/ME020JKrSLgkfnD9UQR6+eFG+E1P9U8CcRyAT9vILyB
-        ZemSElBnKUdpdLBjEwsE+2Zg6VjFVHgNSSVXKVBMC0+Db/FuP4lXe98R3D3B9NcDTMbOEfjP6+1D+N6E
-        kcxWSZCl6baPR9Avyv+Yl9AvSOibi5fxeDRUKeDfOkOTdU8u4Plioia8JlFNcKHdQ1DXHdEyJGjs8jsF
-        teA1iUweTb3XEziCPI5SBaJ4CwUSWOWCVo9wls4o0GiQGq2t6kBrTPdKBTbSziqzq1V+5BVfPOhjO/xc
-        3Hwb9B9o9M5sSXB34PoLciwFM9yNOYgAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="imageListView1.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACeUlEQVQ4T6WT/UsTcRzH/Vs0THsgJILw
-        B80HxOzB2JkP6TG3OTdr+cDIpLzpHiRXJGqISYQucygEBVZQqYmESIRRFlGXkdpt7cGHeee8WfDuezdu
-        y4og+sD7uLvP9/X+fD/fhwQA/6XffnxvO5205ahhIjYDu9mq5zcsOp5v1rChC2pm9Tyd9Ov4bR8EpCI2
-        o2fFXgvB3Q3x/oAs3t0FH2NEwFzm8TUUUz8zsZeI3UiJ1moh1OvAt/ERiIOXEXaekSXecmJrbBjB7hZ8
-        MamExZrCmIn8EK2GxHCLnlvrtcvwhk0nSwneogHfXInIIzf8Vy/iU1UBx2rzE0kqakD6tAStpjhs1UJo
-        1cqwFKR/rDWpsdpIQ3wwhPl6Gu/oHAtJRQ3IAFbqU3S1y6BSUQkJXDFXIFhfjtA1G4LXnXhdmsGSVNRg
-        ubE8LD50QXAYZFCpqIQEBmpPwW8qg69OjdDwDcxS6WGSihr4GkrCm6MDWG/Vx6YqVdx6PycbSODXmlJ4
-        DSXwmmiEhvrwvPBA3IA7q2LX+jsg9DliU5Uqhm52gr/rlkGPvhic9iQCTgberjZMF6TFW1gwHrd8Nldi
-        c/R2bKpSRSUkcElThEU1hfWRfrzSnMBU3t74In7UHU78UJnHedqbsHFvMFZxudtJ9r5dBhdolQzPM3WY
-        zN3NTWSnxrdR0tuKbGquLFNYcpyDcMeF4BVyaAwVWKouh/8SQxaOwM11eJqTKoxn7dx+kBS9LEqnXqgO
-        et5UqeDtJOsx0IPl/h5wHXbM0kcxnpXieZKZ/OejrGjm2P6k6SNpzLP8fexU3h5+MncXP5Gdwo4dSmYe
-        Z+z4+2X6dyHhB3Kv1Bp4XpESAAAAAElFTkSuQmCC
-</value>
-  </data>
   <metadata name="contextMenuStripTagsAndKeywords.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1317, 103</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="toolStripMenuItemTagsBrokerCopyText.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -217,114 +180,50 @@
         B+TDnSdnOCJgAAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="contextMenuStripPeople.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1157, 17</value>
+  <metadata name="contextMenuStripTreeViewFolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>244, 60</value>
   </metadata>
-  <metadata name="contextMenuStripMap.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>527, 60</value>
+  <metadata name="contextMenuStripImageListView.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 103</value>
   </metadata>
-  <data name="toolStripMenuItemMapCopyNotOverwrite.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="imageListView1.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        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
+        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
 </value>
   </data>
-  <data name="toolStripMenuItemMapCopyAndOverwrite.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="imageListView1.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAABVdJREFUSEutlHtMk1cYh2t0OhPHknnbzczonLtlYpaZdZuXzCkTvCMEVC5OVBjD
-        AVFRhzJdqHIRNcpArip4HU4XFAVBOkAoSKHU0hahghQQK7SUQun9t/crbb3UuD+2kzz5muac8/ue9zvn
-        ZdkHp87A3l2hg//FfqzOVmHRMSW+JTwyVdhaNIgDfAMSBEYrB+sMbXECg2dYpX4kANbLcAyPDIW/d8Yj
-        pFcNIIM3iH2F/Qi/ooL3qV64xnYh4YYSar0Zap0ZEed7LHnNRsE2ns5na7lu7Is2tmMd4zcJxiw73CoL
-        zn0I1z3NeC+8ETN2NGEOpxULjnRgbpIcrvtkCLvSgxXJ7fg8WopOjQknG/Xg8PWIr7faOayGd31qTAqo
-        CHJPkNbHFPbgvsoIbqcRqVV9+D5OjA8i6jE7RopZeyWYGc7HzvNyfLlbALPFArnahPwWPXidBjxQmUxP
-        W9m2Hh4uq69FhVzudjst0uKxHuCrLKjrA7hdBizl8DE1uBIzI/lIzJcjOLMFMzZzyR6gDLQojTgp1OIO
-        zX2gNpnOSPQNMbwhv6jb2nG27Vmsse55oyJv9rGzBIPooQChGmgg6imkrFOPd9flY0pQGeZsr4bbPj4m
-        rrmCRnoJESHsNYNHm2cKBiDvNzJW5nMSnei3ysHA6PIBF9Zb2ztzGKZFd91wO67Aplwl1p9SIk+sR73S
-        DL/4Coxfk4+Ja4usfLiFC5cluSjutuB6pxl/tpnRorYgrVYDGdnYrbIFWvEubv8G1icx7Qi5pEZ4vsZK
-        wFklwi704i69XU5lB5buLMDSqAJ4EO5PPWtVQLVyOIQJSOGpcbNN/4xVAk8jYU2NFGPeITn+oPJkVGng
-        SiekTmHEvQGgiZASEg0gJhqZstGmQipdAyFgvtMjC1o1FhytUOJsk87JivX2Zh4dTQnmxUrxdWwTAk/I
-        EJQqRcNjI1oGKaDfYg1iqKXgX/LaIaYgEXGXAni9FnRoLUi81YO/ZDonK9YEquuUTeXmN3wKtR9F3EFY
-        Vgs2J4sw6+dyLIgVYtXvMqxMuY9F8Y2Yv7cW7Jh6eGU8cJBUoUL3kAWcQgUdWZ2TFWvs4jPG0Qtz0t70
-        yf91sm8BZv5YAd9EIZbvr4FrcCEme17C9IBrmLvjNjyiy9CoNKGZbOwlZErXSydv/9WHuNo85GTFGslO
-        PvLKvPQR8+OkXy2MKsW4Jecw0bcQ038owachpfgslIv3Awvxsf8l5N7uQs1DPaq76HIRVXSEBT0m9BmA
-        PZe7sDK11cmKNeKLpFHMXWDvF7O3nW1DUY0c34RexetuJ/HqgnRMWp6L2SHX4XW0ERuyWrEhc5hAG9nV
-        KqgpIOqiHNfuDTpZOZqS664GdkROK6iXQUkLeonHhIImMnQT9PLoGhqmQwvIiXZCYwQic9twhq9ysnIE
-        UCtgh2bJQA0TVV5+yHD3RbqNNOKEjdQlw6TYKPH0wwAF/JQtg+exe05WjoBpoTXsLSeaYaCAUloUv8jH
-        Spyd73xw0MYBGxyiYNV6DJqA4LRmXKfaPG/lCHhnYxV743EpjBQwQAsYmEnUXqyoCUZbRdhLyPQtpjlq
-        aW5QchN2X2xHSqkCJXTE7FaOgAnry9n+h8UwUi+5UKnAuiQx1r4A30NP8CFOlyus3y3giNi6ISe/EwV0
-        C+1WjgAXby57bYIIJgq4r9ChXKp+gkSNMuJvG1wGus6lhKRbZw1YlyhCkajPycoRMGbFLbYXR2jths9j
-        /heYOd4HhFi8V+Bk5QgYtayYPWZFMVzW3HqOkmeer1lhftv/H2Y0rU0u6HCycgQ8jX38H1YvDfjvVsX4
-        B+TDnSdnOCJgAAAAAElFTkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACeUlEQVQ4T6WT/UsTcRzH/Vs0THsgJILw
+        B80HxOzB2JkP6TG3OTdr+cDIpLzpHiRXJGqISYQucygEBVZQqYmESIRRFlGXkdpt7cGHeee8WfDuezdu
+        y4og+sD7uLvP9/X+fD/fhwQA/6XffnxvO5205ahhIjYDu9mq5zcsOp5v1rChC2pm9Tyd9Ov4bR8EpCI2
+        o2fFXgvB3Q3x/oAs3t0FH2NEwFzm8TUUUz8zsZeI3UiJ1moh1OvAt/ERiIOXEXaekSXecmJrbBjB7hZ8
+        MamExZrCmIn8EK2GxHCLnlvrtcvwhk0nSwneogHfXInIIzf8Vy/iU1UBx2rzE0kqakD6tAStpjhs1UJo
+        1cqwFKR/rDWpsdpIQ3wwhPl6Gu/oHAtJRQ3IAFbqU3S1y6BSUQkJXDFXIFhfjtA1G4LXnXhdmsGSVNRg
+        ubE8LD50QXAYZFCpqIQEBmpPwW8qg69OjdDwDcxS6WGSihr4GkrCm6MDWG/Vx6YqVdx6PycbSODXmlJ4
+        DSXwmmiEhvrwvPBA3IA7q2LX+jsg9DliU5Uqhm52gr/rlkGPvhic9iQCTgberjZMF6TFW1gwHrd8Nldi
+        c/R2bKpSRSUkcElThEU1hfWRfrzSnMBU3t74In7UHU78UJnHedqbsHFvMFZxudtJ9r5dBhdolQzPM3WY
+        zN3NTWSnxrdR0tuKbGquLFNYcpyDcMeF4BVyaAwVWKouh/8SQxaOwM11eJqTKoxn7dx+kBS9LEqnXqgO
+        et5UqeDtJOsx0IPl/h5wHXbM0kcxnpXieZKZ/OejrGjm2P6k6SNpzLP8fexU3h5+MncXP5Gdwo4dSmYe
+        Z+z4+2X6dyHhB3Kv1Bp4XpESAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAzJJREFUSEutlntIU1Ecx33U0nxleW2kSAsxAwkkor9rFCllWlnDEq01wkdlmcOw
-        kuzh0MAKoocUaeom2hjJLGfOTLEZWzp1uunViem0TPM1m27eX+faCfrHOeF+4Md5/M7ve+/5/c7lHqf/
-        Cc0nidD7JH9HPilGLYnGVtSnWzFq+aH5vQReunpCRAYuMllEoVFTqBrX947NT1sXKYpun38e1x1E8yG5
-        BlmISM/FIY4TfEfHDRN1K3NrRzssNoCRSYD+MYAf0wDzVoAFNGeeB+q2YlQbJupS0utx6Mpsy9YSnGyt
-        7F6NqWPGAqAeBPiGhJfjVrWpg17PyW53LF1BWRr+3gc6jcVKLYkPmrHSMthQ2vYV6L7ScVjCPgEZLeKn
-        DSYDnZbmIYBZLGSPR3WmnoAMlRhL2Ied1kgaRsxmtRGgfQq9IRaxh27YPM1OayKxhH2I5Hrrgo0CZTdA
-        LyqoI5gtFEWk1FuxhH18BTWk3jRrXs0Dmntm53wFCsd24J0gFz+s7jP8S5Ej5LwxjvqgOCxhH484GT/8
-        6gfN0AS1VOSVGJikYE9mQx8dhyXs4x5bSbidqJQJi9p19DHVotOENgPoO1s6UXTRaaP79BFOfdE948mT
-        DnnwpEIssTKsGAnX52SFMv2l1vBl4O9O6HTRNaGN7jcNUpBSqJvxOyX97XZUAutjK+pxuGO4Hi7hIpOF
-        JVe15Uj0w5WqKZuicxFeNUwtZhb3TIdffN+3LrpMsTaq1MI6Ugbux8vBiyd9hsMdwyWimHCJKOK7RBaJ
-        kZHOEUVWl8hicmmM5tGYWHOoOIkVVQpuMRLwT5ABkVgl3nCmmoUlmIEVXXbF/Vg5ePAqYbdQCZzUWrnf
-        +Vp37GYGVIMsrzgp+J+VQ/zjVth1vbmRfemTJ3Yzg3f823O+idUQkv4R8uRGiCxoawsUqjZiNzNsEigE
-        RFIdHMjXgFz7EwSve42cG61s7GaGzRca4rdcboL0in7QmeYg553pO/opBWE3MwQKW05zstQgUY/DhNkG
-        JepfU6F5Pcw+ZOvNtuiduZ3Q2D8L1+QjSnRZcMUu5gi+27UfXR6e4CHzbBfpnXEX4eT0B7U19E69a5Da
-        AAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="textBox1.Text" xml:space="preserve">
-    <value>For JPEG-EXIF images, the DateTimeOriginal does not include the time zone suffix and should be rendered in local time which the photo was taken.
-
-Both MP4 and Quicktime (.mov) video files can store time zone; however, many cameras don’t have local time setting, and doesn't have time zone information.
-
-With use of GPS locations, it’s possible to estimate the time zone. However, when you forget to change camera into local time, it will be harder. Therefore, alternative adjustment for using local time on “travel” are created as suggestion.
-
-When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime" W3CDTF profile of ISO 8601 format (exmaple: 2020-10-17T14:11:04-05:00). The local time for where photo or video was created will be stored in “Media Created Date and Time” and GPS Date and Time record will be used to store UTC date and time.
-</value>
-  </data>
-  <metadata name="contextMenuStripDate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>304, 146</value>
-  </metadata>
-  <metadata name="contextMenuStripExifTool.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>293, 103</value>
-  </metadata>
-  <metadata name="contextMenuStripExiftoolWarning.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 146</value>
-  </metadata>
   <metadata name="toolStripContainerStripMainForm.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>476, 17</value>
   </metadata>
   <data name="thumbnailsToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFwSURBVDhPxZJbSwJhEIb9Z/2GRSkJ6UBhQZKHRcE1BAkp
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFwSURBVDhPxZJbSwJhEIb9Z/2GRSkJ6UBhQZKHRcE1BAkp
         iEJENDsZJcmWRkYRFmVgF51IkoQsf0DQTRfe6frmfF/7tREE1kUDLzMD3/vMMLumP4fkUifmc/VGIFOH
         stVR+gn+jUf41qvwrj1AXq3As1SGK3kHZ/wGjtgVlPhFg3wMEM4WtWjhBd2qJ1LUGIAm/0b2uXMwgJJ+
         5kWXMTJzyn3+zRorQiVAF/XOvB26qF8sA7qoHwoffwA6B6NMxlTlKyBZjjBAu91mxlztEzAQOuIAujbl
@@ -336,7 +235,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="galleryToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAHzSURBVDhPxZLfS1NhGMf3J3UbRF110YUXh1mKTl1WEv6a
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHzSURBVDhPxZLfS1NhGMf3J3UbRF110YUXh1mKTl1WEv6a
         29xgcwiRs8KKcGIWFqLWOjblbHOEtXbmD6ZpZklhOhE19qOtbkIsd7bz7bzP63a/uvCBD+fh5ft+DnzP
         0f33CB1iy73J7YMu7zaczzXGt+AY/Qr7yBfYnn6G9ck6LI/X0PHoA0yDK2gdeAfn4MIBu0cCt08u9M+k
         US7nHsgFErA3/wtNfVGQwDkeRzabLZsrt95ygWNskw5CoRCqwmuon92AbSEHy5yC9qiCZllB7KMHf3Y7
@@ -351,7 +250,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="detailsToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAHYSURBVDhPxZLtS1phGMb9z/Y3iFIxZOtlG4OkNzFQI4iQ
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHYSURBVDhPxZLtS1phGMb9z/Y3iFIxZOtlG4OkNzFQI4iQ
         DUaRks3NJsNyx5MdPWrON8ygPmwVG0XBVv0BsfW2ebKmR6/OfT8F++r6sAcurvvAdf/OfT/nmO59zENy
         /5RypHmkI7g/GFo8gCvyDaPv9+EM78Hxbhcjb79i6M0XDM5twT77Ge65DY36GOBdrjT9hWO0qwczlSYD
         6M3/omev1sAA9+KhKNo8fS/Kos+18J2Lp4Uae7lcRqlUQi6Xw1W9hWw2i9OqjlQqBVVVoSgK57q9xVuA
@@ -365,7 +264,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="paneToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAG2SURBVDhPxZLtK0NhGMbP/+M/8MXfsAhJXiIp8ramNlLS
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAG2SURBVDhPxZLtK0NhGMbP/+M/8MXfsAhJXiIp8ramNlLS
         mhJJRhMmZJ0ZQ7TQTPHBW0SUt3xS5N3Zds62s7mc5372fDnxAR9cdXWu+36e5/ec7nOkP8vSJNf1zl3H
         2nzXcMwYnr6EffIcrRNnsI2fwjp2gpaRIzR5DtE4tI/6wV04hrZj7BwBnIFIZmD1Hj91Xn8kQwB2829c
         07MJAjimr3gwiW3Kxi9V5QrzdfvUBYXaCBAOhxEKhagWgOeohodXFXePcdw+RHFzp1C/wrmWBRgDo2CS
@@ -379,7 +278,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="columnsToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAHjSURBVDhPrZHvS1pRGMfPfzboT4gKolEv1ovYmyBqL6Qk
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHjSURBVDhPrZHvS1pRGMfPfzboT4gKolEv1ovYmyBqL6Qk
         QnKZq5hhsnImW1Fh5loSudJM8UeWy1m0rdoP++W9d5aaZGvEt3NOV+519KKoL3x5uIfn+znPcy55FL1b
         OdHa/Kf7tuUMrF4JbxYlmD0CTPPHGHAfwTh7gJczKegcv9A5uYeOsV1o7N9X5TghNr8kFYr/cB+3jkYu
         5Dghb31/+OHY1gjsSQusG4OwxAdgivWiL6pHT6gLuoAWnX4N2r0veG/z8CbkOCHDSxI/vKtY7/OhhAKw
@@ -393,7 +292,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="toolStripButtonThumbnailSize1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAIDSURBVDhPpZLrS5NhGMb3j4SWh0oRQVExD4gonkDpg4hG
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIDSURBVDhPpZLrS5NhGMb3j4SWh0oRQVExD4gonkDpg4hG
         YKxG6WBogkMZKgPNCEVJFBGdGETEvgwyO9DJE5syZw3PIlPEE9pgBCLZ5XvdMB8Ew8gXbl54nuf63dd9
         0OGSnwCahxbPRNPAPMw9Xpg6ZmF46kZZ0xSKzJPIrhpDWsVnpBhGkKx3nAX8Pv7z1zg8OoY/cITdn4fw
         bf/C0kYAN3Ma/w3gWfZL5kzTKBxjWyK2DftwI9tyMYCZKXbNHaD91bLYJrDXsYbrWfUKwJrPE9M2M1Oc
@@ -408,7 +307,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="toolStripButtonThumbnailSize2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJLSURBVDhPzZPrS1NxHIf9RyoqzCgCrTR1KIaJKBqCpSYm
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJLSURBVDhPzZPrS1NxHIf9RyoqzCgCrTR1KIaJKBqCpSYm
         aRLddGQlKVIzV5aXiV0sKKdhaygadNe8VIohNUZiuLYsrUXppOba1Hk7T+c3Ap170dsOfN6d5+F7+/n9
         P58kSUy7F3wyNTOPS45zep7fUyJzOFwiswjmL+7nJ36uuGdB+2TUk9uPRrh+/xOVegvqOybO3HxPbvU7
         DpYZ2F/ymoicViadbm+BABcWJZ+M/ZrhWf8YL4w2LFYnRrOd+Jxa7I6pfwvm5hcp15lRaYfI1Ri52/aZ
@@ -424,7 +323,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="toolStripButtonThumbnailSize3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAHoSURBVDhP7ZJdS1MBGMf7GF11YcEggrqoixgJZSZY3Qys
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHoSURBVDhP7ZJdS1MBGMf7GF11YcEggrqoixgJZSZY3Qys
         dhEGE2ppiAx7tUyYJYHgRVmBkRYmZZEzYvhCjlqFTlbNYjiby3mcO62mYbXNjv46z6FXzqAv0AP/mwf+
         v+d1xf8wh6Ytk5rP/pKazpL8mCGRyjCtfmUq+YVY4rOuBXKLGj9sv0NMN/vi+F6kDA0EVB4+n+X+4xkj
         f6VnkuaucfbXeXkbT+cHiFFbWv5L/tAHDpwbpXtIYSw6j7PBw8Q79d+Ab9oSmZzGvvoRbninKK7y8nRM
@@ -438,7 +337,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="toolStripButtonThumbnailSize4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAF5SURBVDhP7ZK7S4JhFMb7I1qbJGjWrUFqCQqcK0hoSqrB
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAF5SURBVDhP7ZK7S4JhFMb7I1qbJGjWrUFqCQqcK0hoSqrB
         gi4QRZQRZFAYNIQJOjg4RRco8VKZmiLyeelL1MFSxLxkfml578kjbfE5N3TgwDu8z+8953nerv/6y1Uq
         1xFNFNsdjhfBxjj4ogV4Qnk4H3Jw+NN45Sr4uf67SJjMllEo1fBWrCH/XkW2UMFT6qMNM7kTuHZFOgNI
         3Gh+tbtWb2JHH8bsHgO9MQaV4RHW+xA/gMaml0lcbzTBtWBShQeSJTsUGgbb2gCszg4AGpPGznFVrKpZ
@@ -451,7 +350,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="toolStripButtonThumbnailSize5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAEDSURBVDhPYxgFo4AY8ODF1/+HLr75f/DC6/87T774v/7Q
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEDSURBVDhPYxgFo4AY8ODF1/+HLr75f/DC6/87T774v/7Q
         0/9Ldj76P3fz3f9nb7z+D1WGG4A0//n7D44PAQ3afPT5/7M33/+fvGgfYQNANsM0f//553/F9Cv/gyr2
         /99w+Nn/yQv3EDYA5GyQ5sNAl+w69fL/0p33/09fd/P//G0P/k9asJOwASA/Hzj/+v/09ff+10w78T+p
         ftv/iOz+/70rbv+fOG8bYQNAATZn8/3/y/c8/p/Rc/6/Wezy/6FlW/6r2yT9nzBnM2EDQKE9Y8O9//kT
@@ -462,7 +361,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="toolStripDropDownButtonSelectGroupBy.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAIDSURBVDhPpZLrS5NhGMb3j4SWh0oRQVExD4gonkDpg4hG
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIDSURBVDhPpZLrS5NhGMb3j4SWh0oRQVExD4gonkDpg4hG
         YKxG6WBogkMZKgPNCEVJFBGdGETEvgwyO9DJE5syZw3PIlPEE9pgBCLZ5XvdMB8Ew8gXbl54nuf63dd9
         0OGSnwCahxbPRNPAPMw9Xpg6ZmF46kZZ0xSKzJPIrhpDWsVnpBhGkKx3nAX8Pv7z1zg8OoY/cITdn4fw
         bf/C0kYAN3Ma/w3gWfZL5kzTKBxjWyK2DftwI9tyMYCZKXbNHaD91bLYJrDXsYbrWfUKwJrPE9M2M1Oc
@@ -477,7 +376,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="toolStripButtonImportGoogleLocation.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAGiNSURBVHhe7Z0HdBRV+4fx++yKXVAERRRsKNI7IZDQe0no
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAGiNSURBVHhe7Z0HdBRV+4fx++yKXVAERRRsKNI7IZDQe0no
         KYQOAaT3jiCooAgqSJPee+8ESO8J6ZWEXsXu9//97zvZCZPhndmS3STg3HOek2R3s4DH57n3zs7OFjOG
         Mf5t4/iUKY+mDvUomznIu2OGb+9Jmb59vkz37b0mw9f7aOZgz9iMId6X44Z0/TXa1/ufVA+Pv1OHePxC
         t6UM8YpO9e19OH1Q7zXpQ3zmpw32npg5yKNjaj+Psujc+b+mpzeGMYxRlEZS//4l0gd6e2YM7bsgw9cn
@@ -926,6 +825,107 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
         YQxjGMMYxjCGMYxhDGMYwxjGMIYxjGEMYzwQo1ix/wex0IxbcFK1lAAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="contextMenuStripPeople.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1157, 17</value>
+  </metadata>
+  <metadata name="contextMenuStripMap.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>527, 60</value>
+  </metadata>
+  <data name="toolStripMenuItemMapCopyNotOverwrite.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
+  <data name="toolStripMenuItemMapCopyAndOverwrite.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        B+TDnSdnOCJgAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAzJJREFUSEutlntIU1Ecx33U0nxleW2kSAsxAwkkor9rFCllWlnDEq01wkdlmcOw
+        kuzh0MAKoocUaeom2hjJLGfOTLEZWzp1uunViem0TPM1m27eX+faCfrHOeF+4Md5/M7ve+/5/c7lHqf/
+        Cc0nidD7JH9HPilGLYnGVtSnWzFq+aH5vQReunpCRAYuMllEoVFTqBrX947NT1sXKYpun38e1x1E8yG5
+        BlmISM/FIY4TfEfHDRN1K3NrRzssNoCRSYD+MYAf0wDzVoAFNGeeB+q2YlQbJupS0utx6Mpsy9YSnGyt
+        7F6NqWPGAqAeBPiGhJfjVrWpg17PyW53LF1BWRr+3gc6jcVKLYkPmrHSMthQ2vYV6L7ScVjCPgEZLeKn
+        DSYDnZbmIYBZLGSPR3WmnoAMlRhL2Ied1kgaRsxmtRGgfQq9IRaxh27YPM1OayKxhH2I5Hrrgo0CZTdA
+        LyqoI5gtFEWk1FuxhH18BTWk3jRrXs0Dmntm53wFCsd24J0gFz+s7jP8S5Ej5LwxjvqgOCxhH484GT/8
+        6gfN0AS1VOSVGJikYE9mQx8dhyXs4x5bSbidqJQJi9p19DHVotOENgPoO1s6UXTRaaP79BFOfdE948mT
+        DnnwpEIssTKsGAnX52SFMv2l1vBl4O9O6HTRNaGN7jcNUpBSqJvxOyX97XZUAutjK+pxuGO4Hi7hIpOF
+        JVe15Uj0w5WqKZuicxFeNUwtZhb3TIdffN+3LrpMsTaq1MI6Ugbux8vBiyd9hsMdwyWimHCJKOK7RBaJ
+        kZHOEUVWl8hicmmM5tGYWHOoOIkVVQpuMRLwT5ABkVgl3nCmmoUlmIEVXXbF/Vg5ePAqYbdQCZzUWrnf
+        +Vp37GYGVIMsrzgp+J+VQ/zjVth1vbmRfemTJ3Yzg3f823O+idUQkv4R8uRGiCxoawsUqjZiNzNsEigE
+        RFIdHMjXgFz7EwSve42cG61s7GaGzRca4rdcboL0in7QmeYg553pO/opBWE3MwQKW05zstQgUY/DhNkG
+        JepfU6F5Pcw+ZOvNtuiduZ3Q2D8L1+QjSnRZcMUu5gi+27UfXR6e4CHzbBfpnXEX4eT0B7U19E69a5Da
+        AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>For JPEG-EXIF images, the DateTimeOriginal does not include the time zone suffix and should be rendered in local time which the photo was taken.
+
+Both MP4 and Quicktime (.mov) video files can store time zone; however, many cameras don’t have local time setting, and doesn't have time zone information.
+
+With use of GPS locations, it’s possible to estimate the time zone. However, when you forget to change camera into local time, it will be harder. Therefore, alternative adjustment for using local time on “travel” are created as suggestion.
+
+When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime" W3CDTF profile of ISO 8601 format (exmaple: 2020-10-17T14:11:04-05:00). The local time for where photo or video was created will be stored in “Media Created Date and Time” and GPS Date and Time record will be used to store UTC date and time.
+</value>
+  </data>
+  <metadata name="contextMenuStripDate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>304, 146</value>
+  </metadata>
+  <metadata name="contextMenuStripExifTool.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>293, 103</value>
+  </metadata>
+  <metadata name="contextMenuStripExiftoolWarning.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 146</value>
+  </metadata>
   <metadata name="imageListFilter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>843, 17</value>
   </metadata>
@@ -934,7 +934,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAs
-        CwAAAk1TRnQBSQFMAgEBBQEAAWgBCwFoAQsBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CwAAAk1TRnQBSQFMAgEBBQEAAXABCwFwAQsBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -1014,7 +1014,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
   <data name="toolStripMenuItemPreviewSlideShowMenu.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAIDSURBVDhPpZLrS5NhGMb3j4SWh0oRQVExD4gonkDpg4hG
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIDSURBVDhPpZLrS5NhGMb3j4SWh0oRQVExD4gonkDpg4hG
         YKxG6WBogkMZKgPNCEVJFBGdGETEvgwyO9DJE5syZw3PIlPEE9pgBCLZ5XvdMB8Ew8gXbl54nuf63dd9
         0OGSnwCahxbPRNPAPMw9Xpg6ZmF46kZZ0xSKzJPIrhpDWsVnpBhGkKx3nAX8Pv7z1zg8OoY/cITdn4fw
         bf/C0kYAN3Ma/w3gWfZL5kzTKBxjWyK2DftwI9tyMYCZKXbNHaD91bLYJrDXsYbrWfUKwJrPE9M2M1Oc
@@ -1039,7 +1039,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
     <value>514, 146</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>180</value>
+    <value>59</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
