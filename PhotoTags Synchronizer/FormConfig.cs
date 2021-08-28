@@ -189,7 +189,7 @@ namespace PhotoTagsSynchronizer
 
             isPopulation = true;
 
-            ThemeManager.PropagateThemeSelector(kryptonComboBoxThemes);
+            //ThemeManager.PropagateThemeSelector(kryptonComboBoxThemes);
 
 
             PopulateApplication();
@@ -384,7 +384,7 @@ namespace PhotoTagsSynchronizer
                 Properties.Settings.Default.ApplicationDebugExiftoolWriteThreadPrioity = ConvertIndexToProcessPriorityClass(comboBoxApplicationDebugExiftoolWriteThreadPrioity.SelectedIndex);
                 Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity = comboBoxApplicationDebugBackgroundThreadPrioity.SelectedIndex;
                 //Layout
-                Properties.Settings.Default.ApplicationDarkMode = checkBoxApplicationDarkMode.Checked;
+                //Properties.Settings.Default.ApplicationDarkMode = checkBoxApplicationDarkMode.Checked;
 
                 //AutoCorrect
                 GetAutoCorrectPoperties();
@@ -579,7 +579,7 @@ namespace PhotoTagsSynchronizer
             comboBoxApplicationDebugExiftoolWriteThreadPrioity.SelectedIndex = ConvertPriorityClassToIndex((ProcessPriorityClass)Properties.Settings.Default.ApplicationDebugExiftoolWriteThreadPrioity);
             comboBoxApplicationDebugBackgroundThreadPrioity.SelectedIndex = Properties.Settings.Default.ApplicationDebugBackgroundThreadPrioity;
             //Layout
-            checkBoxApplicationDarkMode.Checked = Properties.Settings.Default.ApplicationDarkMode;
+            //checkBoxApplicationDarkMode.Checked = Properties.Settings.Default.ApplicationDarkMode;
         }
         #endregion 
 
@@ -2571,12 +2571,7 @@ namespace PhotoTagsSynchronizer
 
         #endregion
 
-        private void kryptonComboBoxThemes_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            
-        }
-
-
+        #region Themes
         private void EnableDropShadow(bool enabled)
         {
             UseDropShadow = enabled;
@@ -2712,6 +2707,7 @@ namespace PhotoTagsSynchronizer
 
             kryptonButtonApplicationThemesExport.Enabled = false;
         }
+        #endregion
     }
 }
 

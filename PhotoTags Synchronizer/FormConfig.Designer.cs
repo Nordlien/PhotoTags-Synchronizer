@@ -117,16 +117,15 @@ namespace PhotoTagsSynchronizer
             this.checkBoxUpdateLocationState = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxUpdateLocationCity = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxUpdateLocationName = new Krypton.Toolkit.KryptonCheckBox();
-            this.label15 = new Krypton.Toolkit.KryptonLabel();
             this.labelAutoCorrectLocationInformationDescription = new Krypton.Toolkit.KryptonLabel();
             this.radioButtonLocationNameChangeAlways = new Krypton.Toolkit.KryptonRadioButton();
             this.radioButtonLocationNameChangeWhenEmpty = new Krypton.Toolkit.KryptonRadioButton();
             this.radioButtonLocationNameDoNotChange = new Krypton.Toolkit.KryptonRadioButton();
-            this.label87 = new Krypton.Toolkit.KryptonLabel();
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes = new Krypton.Toolkit.KryptonLabel();
             this.numericUpDownLocationAccurateIntervalNearByMediaFile = new System.Windows.Forms.NumericUpDown();
             this.checkBoxGPSUpdateLocationNearByMedia = new Krypton.Toolkit.KryptonCheckBox();
-            this.label23 = new Krypton.Toolkit.KryptonLabel();
-            this.label22 = new Krypton.Toolkit.KryptonLabel();
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes2 = new Krypton.Toolkit.KryptonLabel();
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationHours = new Krypton.Toolkit.KryptonLabel();
             this.numericUpDownLocationAccurateInterval = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownLocationGuessInterval = new System.Windows.Forms.NumericUpDown();
             this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSDateTimeMissing = new Krypton.Toolkit.KryptonLabel();
@@ -500,9 +499,6 @@ namespace PhotoTagsSynchronizer
             this.label90 = new Krypton.Toolkit.KryptonLabel();
             this.label91 = new Krypton.Toolkit.KryptonLabel();
             this.label92 = new Krypton.Toolkit.KryptonLabel();
-            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
-            this.checkBoxApplicationDarkMode = new Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonComboBoxThemes = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonPage23 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage44 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage45 = new Krypton.Navigator.KryptonPage();
@@ -793,10 +789,7 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugExiftoolReadThreadPrioity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugExiftoolWriteThreadPrioity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugBackgroundThreadPrioity)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
-            this.kryptonGroupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBoxThemes)).BeginInit();
+            
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage23)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage44)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage45)).BeginInit();
@@ -1628,14 +1621,6 @@ namespace PhotoTagsSynchronizer
             this.checkBoxUpdateLocationName.TabIndex = 5;
             this.checkBoxUpdateLocationName.Values.Text = "Updated Location Name when updates are found";
             // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(3, 94);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(6, 2);
-            this.label15.TabIndex = 4;
-            this.label15.Values.Text = "";
-            // 
             // labelAutoCorrectLocationInformationDescription
             // 
             this.labelAutoCorrectLocationInformationDescription.Location = new System.Drawing.Point(3, 83);
@@ -1671,11 +1656,11 @@ namespace PhotoTagsSynchronizer
             // 
             // label87
             // 
-            this.label87.Location = new System.Drawing.Point(436, 179);
-            this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(54, 20);
-            this.label87.TabIndex = 13;
-            this.label87.Values.Text = "minutes";
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes.Location = new System.Drawing.Point(436, 179);
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes.Name = "labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes";
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes.Size = new System.Drawing.Size(54, 20);
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes.TabIndex = 13;
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes.Values.Text = "minutes";
             // 
             // numericUpDownLocationAccurateIntervalNearByMediaFile
             // 
@@ -1709,19 +1694,19 @@ namespace PhotoTagsSynchronizer
             // 
             // label23
             // 
-            this.label23.Location = new System.Drawing.Point(436, 113);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(54, 20);
-            this.label23.TabIndex = 9;
-            this.label23.Values.Text = "minutes";
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes2.Location = new System.Drawing.Point(436, 113);
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes2.Name = "labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes2";
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes2.Size = new System.Drawing.Size(54, 20);
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes2.TabIndex = 9;
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes2.Values.Text = "minutes";
             // 
             // label22
             // 
-            this.label22.Location = new System.Drawing.Point(436, 49);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(41, 20);
-            this.label22.TabIndex = 7;
-            this.label22.Values.Text = "hours";
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationHours.Location = new System.Drawing.Point(436, 49);
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationHours.Name = "labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationHours";
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationHours.Size = new System.Drawing.Size(41, 20);
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationHours.TabIndex = 7;
+            this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationHours.Values.Text = "hours";
             // 
             // numericUpDownLocationAccurateInterval
             // 
@@ -5536,15 +5521,15 @@ namespace PhotoTagsSynchronizer
             // kryptonPageAutoCorrectGPSLocationAndDateTime
             // 
             this.kryptonPageAutoCorrectGPSLocationAndDateTime.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
-            this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.label87);
+            this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes);
             this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMissing);
             this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.numericUpDownLocationAccurateIntervalNearByMediaFile);
             this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.checkBoxGPSUpdateLocation);
             this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.checkBoxGPSUpdateLocationNearByMedia);
             this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.checkBoxGPSUpdateDateTime);
-            this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.label23);
+            this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes2);
             this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.labelLocationTimeZoneGuess);
-            this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.label22);
+            this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationHours);
             this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSStep3);
             this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.numericUpDownLocationAccurateInterval);
             this.kryptonPageAutoCorrectGPSLocationAndDateTime.Controls.Add(this.labelAutoCorrectGPSLocationAndGPSDateTimeGPSStep4);
@@ -5572,7 +5557,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageAutoCorrectLocationInformation.Controls.Add(this.radioButtonLocationNameChangeAlways);
             this.kryptonPageAutoCorrectLocationInformation.Controls.Add(this.checkBoxUpdateLocationName);
             this.kryptonPageAutoCorrectLocationInformation.Controls.Add(this.labelAutoCorrectLocationInformationDescription);
-            this.kryptonPageAutoCorrectLocationInformation.Controls.Add(this.label15);
             this.kryptonPageAutoCorrectLocationInformation.Flags = 65534;
             this.kryptonPageAutoCorrectLocationInformation.LastVisibleSet = true;
             this.kryptonPageAutoCorrectLocationInformation.MinimumSize = new System.Drawing.Size(50, 50);
@@ -7035,36 +7019,6 @@ namespace PhotoTagsSynchronizer
             this.label92.TabIndex = 7;
             this.label92.Values.Text = "Background priority:";
             // 
-            // kryptonGroupBox1
-            // 
-            this.kryptonGroupBox1.CaptionStyle = Krypton.Toolkit.LabelStyle.GroupBoxCaption;
-            this.kryptonGroupBox1.GroupBackStyle = Krypton.Toolkit.PaletteBackStyle.ControlGroupBox;
-            this.kryptonGroupBox1.GroupBorderStyle = Krypton.Toolkit.PaletteBorderStyle.ControlGroupBox;
-            this.kryptonGroupBox1.Location = new System.Drawing.Point(0, 1280);
-            this.kryptonGroupBox1.Name = "kryptonGroupBox1";
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(742, 127);
-            this.kryptonGroupBox1.TabIndex = 14;
-            // 
-            // checkBoxApplicationDarkMode
-            // 
-            this.checkBoxApplicationDarkMode.Location = new System.Drawing.Point(171, 65);
-            this.checkBoxApplicationDarkMode.Name = "checkBoxApplicationDarkMode";
-            this.checkBoxApplicationDarkMode.Size = new System.Drawing.Size(166, 20);
-            this.checkBoxApplicationDarkMode.TabIndex = 8;
-            this.checkBoxApplicationDarkMode.Values.Text = "Dark mode - Experimental";
-            // 
-            // kryptonComboBoxThemes
-            // 
-            this.kryptonComboBoxThemes.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.kryptonComboBoxThemes.DropDownWidth = 185;
-            this.kryptonComboBoxThemes.IntegralHeight = false;
-            this.kryptonComboBoxThemes.Location = new System.Drawing.Point(1, 2);
-            this.kryptonComboBoxThemes.Name = "kryptonComboBoxThemes";
-            this.kryptonComboBoxThemes.Size = new System.Drawing.Size(185, 21);
-            this.kryptonComboBoxThemes.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonComboBoxThemes.TabIndex = 9;
-            this.kryptonComboBoxThemes.SelectionChangeCommitted += new System.EventHandler(this.kryptonComboBoxThemes_SelectionChangeCommitted);
-            // 
             // kryptonPage23
             // 
             this.kryptonPage23.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
@@ -7807,10 +7761,6 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugExiftoolReadThreadPrioity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugExiftoolWriteThreadPrioity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxApplicationDebugBackgroundThreadPrioity)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
-            this.kryptonGroupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBoxThemes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage23)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage44)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage45)).EndInit();
@@ -7907,8 +7857,8 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonLabel labelAutoCorrectBackupOfTagsKeepTrack;
         private Krypton.Toolkit.KryptonLabel labelLocationTimeZoneAccurate;
         private Krypton.Toolkit.KryptonLabel labelAutoCorrectGPSLocationAndGPSDateTimeGPSDateTimeMissing;
-        private Krypton.Toolkit.KryptonLabel label23;
-        private Krypton.Toolkit.KryptonLabel label22;
+        private Krypton.Toolkit.KryptonLabel labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes2;
+        private Krypton.Toolkit.KryptonLabel labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationHours;
         private System.Windows.Forms.NumericUpDown numericUpDownLocationAccurateInterval;
         private System.Windows.Forms.NumericUpDown numericUpDownLocationGuessInterval;
         private Krypton.Toolkit.KryptonComboBox comboBoxMetadataWriteStandardTags;
@@ -8034,7 +7984,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Toolkit.KryptonButton buttonLocationImport;
         private Krypton.Toolkit.KryptonButton buttonLocationExport;
         private Krypton.Toolkit.KryptonCheckBox checkBoxApplicationAvoidReadExifFromCloud;
-        private Krypton.Toolkit.KryptonLabel label87;
+        private Krypton.Toolkit.KryptonLabel labelAutoCorrectGPSLocationAndGPSDateTimeGPSLocationMinutes;
         private System.Windows.Forms.NumericUpDown numericUpDownLocationAccurateIntervalNearByMediaFile;
         private Krypton.Toolkit.KryptonCheckBox checkBoxGPSUpdateLocationNearByMedia;
         private Krypton.Toolkit.KryptonLabel labelMetadataFileCreateDateTimDiffrentDescription;
@@ -8112,9 +8062,7 @@ namespace PhotoTagsSynchronizer
         private KryptonLabel label90;
         private KryptonLabel label91;
         private KryptonLabel label92;
-        private KryptonGroupBox kryptonGroupBox1;
-        private KryptonCheckBox checkBoxApplicationDarkMode;
-        private KryptonComboBox kryptonComboBoxThemes;
+
         private Krypton.Workspace.KryptonWorkspace kryptonWorkspaceWebScraper;
         private Krypton.Navigator.KryptonPage kryptonPageWebScraperWebScrapingStartPages;
         private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCellWebScraper;
