@@ -33,8 +33,8 @@ namespace PhotoTagsSynchronizer
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -47,8 +47,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripStatusThreadQueueCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusAction = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerFolder = new System.Windows.Forms.SplitContainer();
-            this.tabControl1 = new PhotoTagsCommonComponets.TabControlCustom();
-            this.tabPageFilterFolder = new System.Windows.Forms.TabPage();
             this.folderTreeViewFolder = new Furty.Windows.Forms.FolderTreeView();
             this.contextMenuStripTreeViewFolder = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemTreeViewFolderCut = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,8 +60,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemTreeViewFolderClearCache = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTreeViewFolderAutoCorrectMetadata = new System.Windows.Forms.ToolStripMenuItem();
             this.openFolderLocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPageFilterSearch = new System.Windows.Forms.TabPage();
-            this.panel4 = new Krypton.Toolkit.KryptonPanel();
             this.checkBoxSerachFitsAllValues = new Krypton.Toolkit.KryptonCheckBox();
             this.panelSearchFilter = new Krypton.Toolkit.KryptonPanel();
             this.groupBoxSearchKeywords = new Krypton.Toolkit.KryptonGroupBox();
@@ -112,7 +108,6 @@ namespace PhotoTagsSynchronizer
             this.label11 = new Krypton.Toolkit.KryptonLabel();
             this.label10 = new Krypton.Toolkit.KryptonLabel();
             this.buttonSearch = new Krypton.Toolkit.KryptonButton();
-            this.tabPageFilterTags = new System.Windows.Forms.TabPage();
             this.treeViewFilter = new PhotoTagsCommonComponets.TreeViewWithoutDoubleClick();
             this.splitContainerImages = new System.Windows.Forms.SplitContainer();
             this.imageListView1 = new Manina.Windows.Forms.ImageListView();
@@ -256,7 +251,6 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapReloadLocationUsingNominatim = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemShowPosterWindowMap = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMapMediaPreview = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel3 = new Krypton.Toolkit.KryptonPanel();
             this.textBoxBrowserURL = new Krypton.Toolkit.KryptonTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.comboBoxMapZoomLevel = new Krypton.Toolkit.KryptonComboBox();
@@ -454,19 +448,27 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxRenameResult = new Krypton.Navigator.KryptonPage();
             this.kryptonPage4 = new Krypton.Navigator.KryptonPage();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonWorkspaceToolboxMap = new Krypton.Workspace.KryptonWorkspace();
+            this.kryptonWorkspaceCellToolboxMapProperties = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageToolboxMapProperties = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellToolboxMapDetails = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageToolboxMapDetails = new Krypton.Navigator.KryptonPage();
+            this.kryptonPage3 = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellToolboxMapBroswer = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageToolboxMapBroswer = new Krypton.Navigator.KryptonPage();
+            this.kryptonPage10 = new Krypton.Navigator.KryptonPage();
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties = new Krypton.Workspace.KryptonWorkspaceCell();
+            this.kryptonPageToolboxMapBroswerProperties = new Krypton.Navigator.KryptonPage();
+            this.kryptonPage12 = new Krypton.Navigator.KryptonPage();
             this.toolStripContainerMainForm.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainerMainForm.ContentPanel.SuspendLayout();
             this.toolStripContainerMainForm.TopToolStripPanel.SuspendLayout();
             this.toolStripContainerMainForm.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFolder)).BeginInit();
-            this.splitContainerFolder.Panel1.SuspendLayout();
             this.splitContainerFolder.Panel2.SuspendLayout();
             this.splitContainerFolder.SuspendLayout();
-            this.tabControl1.SuspendLayout();
             this.contextMenuStripTreeViewFolder.SuspendLayout();
-            this.tabPageFilterSearch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.panel4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelSearchFilter)).BeginInit();
             this.panelSearchFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupBoxSearchKeywords)).BeginInit();
@@ -528,15 +530,11 @@ namespace PhotoTagsSynchronizer
             this.contextMenuStripPeople.SuspendLayout();
             this.tabPageMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMap)).BeginInit();
-            this.splitContainerMap.Panel1.SuspendLayout();
-            this.splitContainerMap.Panel2.SuspendLayout();
             this.splitContainerMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxGoogleLocationInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxGoogleTimeZoneShift)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMap)).BeginInit();
             this.contextMenuStripMap.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.panel3)).BeginInit();
-            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMapZoomLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelBrowser)).BeginInit();
@@ -584,6 +582,7 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxPeople)).BeginInit();
             this.kryptonPageToolboxPeople.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxMap)).BeginInit();
+            this.kryptonPageToolboxMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxDates)).BeginInit();
             this.kryptonPageToolboxDates.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxExiftool)).BeginInit();
@@ -619,6 +618,27 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxRenameResult)).BeginInit();
             this.kryptonPageToolboxRenameResult.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceToolboxMap)).BeginInit();
+            this.kryptonWorkspaceToolboxMap.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellToolboxMapProperties)).BeginInit();
+            this.kryptonWorkspaceCellToolboxMapProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxMapProperties)).BeginInit();
+            this.kryptonPageToolboxMapProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellToolboxMapDetails)).BeginInit();
+            this.kryptonWorkspaceCellToolboxMapDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxMapDetails)).BeginInit();
+            this.kryptonPageToolboxMapDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellToolboxMapBroswer)).BeginInit();
+            this.kryptonWorkspaceCellToolboxMapBroswer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxMapBroswer)).BeginInit();
+            this.kryptonPageToolboxMapBroswer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellToolboxMapBroswerProperties)).BeginInit();
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxMapBroswerProperties)).BeginInit();
+            this.kryptonPageToolboxMapBroswerProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage12)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripContainerMainForm
@@ -749,46 +769,18 @@ namespace PhotoTagsSynchronizer
             // 
             this.splitContainerFolder.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerFolder.Cursor = System.Windows.Forms.Cursors.Default;
-            this.splitContainerFolder.Location = new System.Drawing.Point(12, 614);
+            this.splitContainerFolder.Location = new System.Drawing.Point(504, 623);
             this.splitContainerFolder.Name = "splitContainerFolder";
-            // 
-            // splitContainerFolder.Panel1
-            // 
-            this.splitContainerFolder.Panel1.Controls.Add(this.tabControl1);
             // 
             // splitContainerFolder.Panel2
             // 
             this.splitContainerFolder.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerFolder.Panel2.Controls.Add(this.splitContainerImages);
-            this.splitContainerFolder.Size = new System.Drawing.Size(1213, 672);
-            this.splitContainerFolder.SplitterDistance = 279;
+            this.splitContainerFolder.Size = new System.Drawing.Size(765, 533);
+            this.splitContainerFolder.SplitterDistance = 25;
             this.splitContainerFolder.SplitterWidth = 9;
             this.splitContainerFolder.TabIndex = 0;
             this.splitContainerFolder.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerFolder_SplitterMoved);
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPageFilterFolder);
-            this.tabControl1.Controls.Add(this.tabPageFilterSearch);
-            this.tabControl1.Controls.Add(this.tabPageFilterTags);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(279, 672);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabPageFilterFolder
-            // 
-            this.tabPageFilterFolder.Location = new System.Drawing.Point(4, 25);
-            this.tabPageFilterFolder.Margin = new System.Windows.Forms.Padding(0);
-            this.tabPageFilterFolder.Name = "tabPageFilterFolder";
-            this.tabPageFilterFolder.Size = new System.Drawing.Size(271, 643);
-            this.tabPageFilterFolder.TabIndex = 0;
-            this.tabPageFilterFolder.Text = "Folder";
-            this.tabPageFilterFolder.UseVisualStyleBackColor = true;
             // 
             // folderTreeViewFolder
             // 
@@ -926,25 +918,6 @@ namespace PhotoTagsSynchronizer
             this.openFolderLocationToolStripMenuItem.Size = new System.Drawing.Size(324, 26);
             this.openFolderLocationToolStripMenuItem.Text = "Open Folder Location";
             this.openFolderLocationToolStripMenuItem.Click += new System.EventHandler(this.openFolderLocationToolStripMenuItem_Click);
-            // 
-            // tabPageFilterSearch
-            // 
-            this.tabPageFilterSearch.Controls.Add(this.panel4);
-            this.tabPageFilterSearch.Location = new System.Drawing.Point(4, 25);
-            this.tabPageFilterSearch.Margin = new System.Windows.Forms.Padding(0);
-            this.tabPageFilterSearch.Name = "tabPageFilterSearch";
-            this.tabPageFilterSearch.Size = new System.Drawing.Size(271, 643);
-            this.tabPageFilterSearch.TabIndex = 2;
-            this.tabPageFilterSearch.Text = "Search";
-            this.tabPageFilterSearch.UseVisualStyleBackColor = true;
-            // 
-            // panel4
-            // 
-            this.panel4.Location = new System.Drawing.Point(54, 68);
-            this.panel4.Margin = new System.Windows.Forms.Padding(0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(272, 803);
-            this.panel4.TabIndex = 18;
             // 
             // checkBoxSerachFitsAllValues
             // 
@@ -1525,16 +1498,6 @@ namespace PhotoTagsSynchronizer
             this.buttonSearch.Values.Text = "Search";
             this.buttonSearch.Click += new System.EventHandler(this.buttonFilterSearch_Click);
             // 
-            // tabPageFilterTags
-            // 
-            this.tabPageFilterTags.Location = new System.Drawing.Point(4, 25);
-            this.tabPageFilterTags.Margin = new System.Windows.Forms.Padding(0);
-            this.tabPageFilterTags.Name = "tabPageFilterTags";
-            this.tabPageFilterTags.Size = new System.Drawing.Size(271, 643);
-            this.tabPageFilterTags.TabIndex = 1;
-            this.tabPageFilterTags.Text = "Filter";
-            this.tabPageFilterTags.UseVisualStyleBackColor = true;
-            // 
             // treeViewFilter
             // 
             this.treeViewFilter.CheckBoxes = true;
@@ -1565,8 +1528,8 @@ namespace PhotoTagsSynchronizer
             // 
             this.splitContainerImages.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerImages.Panel2.Controls.Add(this.panel1);
-            this.splitContainerImages.Size = new System.Drawing.Size(925, 672);
-            this.splitContainerImages.SplitterDistance = 291;
+            this.splitContainerImages.Size = new System.Drawing.Size(731, 533);
+            this.splitContainerImages.SplitterDistance = 25;
             this.splitContainerImages.SplitterWidth = 9;
             this.splitContainerImages.TabIndex = 0;
             this.splitContainerImages.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerImages_SplitterMoved);
@@ -1970,7 +1933,7 @@ namespace PhotoTagsSynchronizer
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(625, 672);
+            this.panel1.Size = new System.Drawing.Size(697, 533);
             this.panel1.TabIndex = 0;
             // 
             // tabControlToolbox
@@ -1990,7 +1953,7 @@ namespace PhotoTagsSynchronizer
             this.tabControlToolbox.Margin = new System.Windows.Forms.Padding(0);
             this.tabControlToolbox.Name = "tabControlToolbox";
             this.tabControlToolbox.SelectedIndex = 0;
-            this.tabControlToolbox.Size = new System.Drawing.Size(625, 672);
+            this.tabControlToolbox.Size = new System.Drawing.Size(697, 533);
             this.tabControlToolbox.TabIndex = 0;
             this.tabControlToolbox.SelectedIndexChanged += new System.EventHandler(this.tabControlToolbox_SelectedIndexChanged);
             this.tabControlToolbox.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControlToolbox_Selecting);
@@ -2001,7 +1964,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageTags.Location = new System.Drawing.Point(4, 25);
             this.tabPageTags.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageTags.Name = "tabPageTags";
-            this.tabPageTags.Size = new System.Drawing.Size(617, 643);
+            this.tabPageTags.Size = new System.Drawing.Size(926, 582);
             this.tabPageTags.TabIndex = 1;
             this.tabPageTags.Tag = "Tags";
             this.tabPageTags.Text = "Tags";
@@ -2784,7 +2747,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageMap.Location = new System.Drawing.Point(4, 25);
             this.tabPageMap.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageMap.Name = "tabPageMap";
-            this.tabPageMap.Size = new System.Drawing.Size(617, 643);
+            this.tabPageMap.Size = new System.Drawing.Size(926, 582);
             this.tabPageMap.TabIndex = 3;
             this.tabPageMap.Tag = "Map";
             this.tabPageMap.Text = "Map";
@@ -2803,17 +2766,12 @@ namespace PhotoTagsSynchronizer
             // splitContainerMap.Panel1
             // 
             this.splitContainerMap.Panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.splitContainerMap.Panel1.Controls.Add(this.comboBoxGoogleLocationInterval);
-            this.splitContainerMap.Panel1.Controls.Add(this.comboBoxGoogleTimeZoneShift);
-            this.splitContainerMap.Panel1.Controls.Add(this.dataGridViewMap);
             // 
             // splitContainerMap.Panel2
             // 
             this.splitContainerMap.Panel2.BackColor = System.Drawing.SystemColors.Control;
-            this.splitContainerMap.Panel2.Controls.Add(this.panel3);
-            this.splitContainerMap.Panel2.Controls.Add(this.panelBrowser);
-            this.splitContainerMap.Size = new System.Drawing.Size(617, 643);
-            this.splitContainerMap.SplitterDistance = 516;
+            this.splitContainerMap.Size = new System.Drawing.Size(926, 582);
+            this.splitContainerMap.SplitterDistance = 31;
             this.splitContainerMap.SplitterWidth = 9;
             this.splitContainerMap.TabIndex = 5;
             this.splitContainerMap.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainerMap_SplitterMoved);
@@ -2833,9 +2791,9 @@ namespace PhotoTagsSynchronizer
             "1 day",
             "2 days",
             "10 days"});
-            this.comboBoxGoogleLocationInterval.Location = new System.Drawing.Point(131, 3);
+            this.comboBoxGoogleLocationInterval.Location = new System.Drawing.Point(130, 3);
             this.comboBoxGoogleLocationInterval.Name = "comboBoxGoogleLocationInterval";
-            this.comboBoxGoogleLocationInterval.Size = new System.Drawing.Size(156, 21);
+            this.comboBoxGoogleLocationInterval.Size = new System.Drawing.Size(127, 21);
             this.comboBoxGoogleLocationInterval.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxGoogleLocationInterval.TabIndex = 14;
             this.comboBoxGoogleLocationInterval.SelectedIndexChanged += new System.EventHandler(this.comboBoxGoogleLocationInterval_SelectedIndexChanged);
@@ -2873,7 +2831,7 @@ namespace PhotoTagsSynchronizer
             "Time zone 10",
             "Time zone 11",
             "Time zone 12"});
-            this.comboBoxGoogleTimeZoneShift.Location = new System.Drawing.Point(4, 3);
+            this.comboBoxGoogleTimeZoneShift.Location = new System.Drawing.Point(2, 3);
             this.comboBoxGoogleTimeZoneShift.Name = "comboBoxGoogleTimeZoneShift";
             this.comboBoxGoogleTimeZoneShift.Size = new System.Drawing.Size(122, 21);
             this.comboBoxGoogleTimeZoneShift.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -2885,21 +2843,19 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.AllowUserToAddRows = false;
             this.dataGridViewMap.AllowUserToDeleteRows = false;
             this.dataGridViewMap.AllowUserToResizeRows = false;
-            this.dataGridViewMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewMap.ColumnHeadersHeight = 29;
             this.dataGridViewMap.ContextMenuStrip = this.contextMenuStripMap;
+            this.dataGridViewMap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewMap.GridColor = System.Drawing.SystemColors.AppWorkspace;
-            this.dataGridViewMap.Location = new System.Drawing.Point(1, 32);
+            this.dataGridViewMap.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewMap.Name = "dataGridViewMap";
             this.dataGridViewMap.RowHeadersWidth = 51;
             this.dataGridViewMap.RowTemplate.Height = 24;
@@ -2907,7 +2863,7 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.ShowCellToolTips = false;
             this.dataGridViewMap.ShowEditingIcon = false;
             this.dataGridViewMap.ShowRowErrors = false;
-            this.dataGridViewMap.Size = new System.Drawing.Size(616, 484);
+            this.dataGridViewMap.Size = new System.Drawing.Size(265, 181);
             this.dataGridViewMap.TabIndex = 10;
             this.dataGridViewMap.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewMap_CellBeginEdit);
             this.dataGridViewMap.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMap_CellEnter);
@@ -3139,25 +3095,13 @@ namespace PhotoTagsSynchronizer
             this.toolStripMenuItemMapMediaPreview.Text = "Media Preview";
             this.toolStripMenuItemMapMediaPreview.Click += new System.EventHandler(this.toolStripMenuItemMapMediaPreview_Click);
             // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.textBoxBrowserURL);
-            this.panel3.Controls.Add(this.pictureBox1);
-            this.panel3.Controls.Add(this.comboBoxMapZoomLevel);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 90);
-            this.panel3.Margin = new System.Windows.Forms.Padding(0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(617, 28);
-            this.panel3.TabIndex = 17;
-            // 
             // textBoxBrowserURL
             // 
             this.textBoxBrowserURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxBrowserURL.Location = new System.Drawing.Point(126, 3);
+            this.textBoxBrowserURL.Location = new System.Drawing.Point(132, 6);
             this.textBoxBrowserURL.Name = "textBoxBrowserURL";
-            this.textBoxBrowserURL.Size = new System.Drawing.Size(483, 23);
+            this.textBoxBrowserURL.Size = new System.Drawing.Size(119, 23);
             this.textBoxBrowserURL.TabIndex = 9;
             this.textBoxBrowserURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBrowserURL_KeyPress);
             // 
@@ -3165,7 +3109,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(1, 2);
+            this.pictureBox1.Location = new System.Drawing.Point(5, 5);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(30, 24);
             this.pictureBox1.TabIndex = 16;
@@ -3197,7 +3141,7 @@ namespace PhotoTagsSynchronizer
             "Zoom 16",
             "Zoom 17",
             "Zoom 18"});
-            this.comboBoxMapZoomLevel.Location = new System.Drawing.Point(36, 3);
+            this.comboBoxMapZoomLevel.Location = new System.Drawing.Point(41, 6);
             this.comboBoxMapZoomLevel.Name = "comboBoxMapZoomLevel";
             this.comboBoxMapZoomLevel.Size = new System.Drawing.Size(85, 21);
             this.comboBoxMapZoomLevel.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -3212,7 +3156,7 @@ namespace PhotoTagsSynchronizer
             this.panelBrowser.Location = new System.Drawing.Point(0, 0);
             this.panelBrowser.Margin = new System.Windows.Forms.Padding(0);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(617, 118);
+            this.panelBrowser.Size = new System.Drawing.Size(265, 182);
             this.panelBrowser.TabIndex = 1;
             // 
             // tabPageDates
@@ -3578,14 +3522,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.AllowUserToAddRows = false;
             this.dataGridViewExifToolWarning.ColumnHeadersHeight = 29;
             this.dataGridViewExifToolWarning.ContextMenuStrip = this.contextMenuStripExiftoolWarning;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewExifToolWarning.Location = new System.Drawing.Point(58, 34);
             this.dataGridViewExifToolWarning.Name = "dataGridViewExifToolWarning";
             this.dataGridViewExifToolWarning.ReadOnly = true;
@@ -3740,7 +3684,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageRename.Location = new System.Drawing.Point(4, 25);
             this.tabPageRename.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageRename.Name = "tabPageRename";
-            this.tabPageRename.Size = new System.Drawing.Size(607, 428);
+            this.tabPageRename.Size = new System.Drawing.Size(926, 582);
             this.tabPageRename.TabIndex = 8;
             this.tabPageRename.Tag = "Rename";
             this.tabPageRename.Text = "Rename";
@@ -3876,7 +3820,7 @@ namespace PhotoTagsSynchronizer
             this.tabPageConvertAndMerge.Location = new System.Drawing.Point(4, 25);
             this.tabPageConvertAndMerge.Margin = new System.Windows.Forms.Padding(0);
             this.tabPageConvertAndMerge.Name = "tabPageConvertAndMerge";
-            this.tabPageConvertAndMerge.Size = new System.Drawing.Size(617, 643);
+            this.tabPageConvertAndMerge.Size = new System.Drawing.Size(689, 504);
             this.tabPageConvertAndMerge.TabIndex = 9;
             this.tabPageConvertAndMerge.Tag = "Convert and Merge";
             this.tabPageConvertAndMerge.Text = "Convert & Merge";
@@ -3884,11 +3828,10 @@ namespace PhotoTagsSynchronizer
             // 
             // panelConvertAndMerge
             // 
-            this.panelConvertAndMerge.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelConvertAndMerge.Location = new System.Drawing.Point(0, 0);
+            this.panelConvertAndMerge.Location = new System.Drawing.Point(38, 24);
             this.panelConvertAndMerge.Margin = new System.Windows.Forms.Padding(0);
             this.panelConvertAndMerge.Name = "panelConvertAndMerge";
-            this.panelConvertAndMerge.Size = new System.Drawing.Size(617, 643);
+            this.panelConvertAndMerge.Size = new System.Drawing.Size(279, 656);
             this.panelConvertAndMerge.TabIndex = 0;
             // 
             // dataGridViewConvertAndMerge
@@ -4487,7 +4430,7 @@ namespace PhotoTagsSynchronizer
             // panelMediaPreview
             // 
             this.panelMediaPreview.Controls.Add(this.toolStripContainerMediaPreview);
-            this.panelMediaPreview.Location = new System.Drawing.Point(967, 18);
+            this.panelMediaPreview.Location = new System.Drawing.Point(1050, 18);
             this.panelMediaPreview.Margin = new System.Windows.Forms.Padding(0);
             this.panelMediaPreview.Name = "panelMediaPreview";
             this.panelMediaPreview.Size = new System.Drawing.Size(757, 188);
@@ -5045,6 +4988,7 @@ namespace PhotoTagsSynchronizer
             // kryptonPageToolboxMap
             // 
             this.kryptonPageToolboxMap.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageToolboxMap.Controls.Add(this.kryptonWorkspaceToolboxMap);
             this.kryptonPageToolboxMap.Flags = 65534;
             this.kryptonPageToolboxMap.LastVisibleSet = true;
             this.kryptonPageToolboxMap.MinimumSize = new System.Drawing.Size(50, 50);
@@ -5408,6 +5352,216 @@ namespace PhotoTagsSynchronizer
             this.kryptonLabel1.TabIndex = 27;
             this.kryptonLabel1.Values.Text = "-";
             // 
+            // kryptonWorkspaceToolboxMap
+            // 
+            this.kryptonWorkspaceToolboxMap.ActivePage = this.kryptonPageToolboxMapProperties;
+            this.kryptonWorkspaceToolboxMap.Location = new System.Drawing.Point(10, 11);
+            this.kryptonWorkspaceToolboxMap.Name = "kryptonWorkspaceToolboxMap";
+            // 
+            // 
+            // 
+            this.kryptonWorkspaceToolboxMap.Root.Children.AddRange(new System.ComponentModel.Component[] {
+            this.kryptonWorkspaceCellToolboxMapProperties,
+            this.kryptonWorkspaceCellToolboxMapDetails,
+            this.kryptonWorkspaceCellToolboxMapBroswer,
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties});
+            this.kryptonWorkspaceToolboxMap.Root.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.kryptonWorkspaceToolboxMap.Root.UniqueName = "c387e773b281413ab65d11529c5261b8";
+            this.kryptonWorkspaceToolboxMap.Root.WorkspaceControl = this.kryptonWorkspaceToolboxMap;
+            this.kryptonWorkspaceToolboxMap.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
+            this.kryptonWorkspaceToolboxMap.Size = new System.Drawing.Size(267, 446);
+            this.kryptonWorkspaceToolboxMap.TabIndex = 0;
+            this.kryptonWorkspaceToolboxMap.TabStop = true;
+            // 
+            // kryptonWorkspaceCellToolboxMapProperties
+            // 
+            this.kryptonWorkspaceCellToolboxMapProperties.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxMapProperties.AllowTabFocus = false;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.ButtonDisplayLogic = Krypton.Navigator.ButtonDisplayLogic.Context;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.ContextMenuMapImage = Krypton.Navigator.MapKryptonPageImage.Small;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.ContextMenuMapText = Krypton.Navigator.MapKryptonPageText.TextTitle;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.NextButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonWorkspaceCellToolboxMapProperties.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolboxMapProperties.Name = "kryptonWorkspaceCellToolboxMapProperties";
+            this.kryptonWorkspaceCellToolboxMapProperties.NavigatorMode = Krypton.Navigator.NavigatorMode.Group;
+            this.kryptonWorkspaceCellToolboxMapProperties.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageToolboxMapProperties});
+            this.kryptonWorkspaceCellToolboxMapProperties.SelectedIndex = 0;
+            this.kryptonWorkspaceCellToolboxMapProperties.StarSize = "50*,29";
+            this.kryptonWorkspaceCellToolboxMapProperties.UniqueName = "edd2a942ef254327a222d3cc58771fe1";
+            // 
+            // kryptonPageToolboxMapProperties
+            // 
+            this.kryptonPageToolboxMapProperties.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageToolboxMapProperties.Controls.Add(this.comboBoxGoogleLocationInterval);
+            this.kryptonPageToolboxMapProperties.Controls.Add(this.comboBoxGoogleTimeZoneShift);
+            this.kryptonPageToolboxMapProperties.Flags = 65534;
+            this.kryptonPageToolboxMapProperties.LastVisibleSet = true;
+            this.kryptonPageToolboxMapProperties.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageToolboxMapProperties.Name = "kryptonPageToolboxMapProperties";
+            this.kryptonPageToolboxMapProperties.Size = new System.Drawing.Size(265, 50);
+            this.kryptonPageToolboxMapProperties.Text = "Location properties";
+            this.kryptonPageToolboxMapProperties.TextDescription = "Edit Location Metadata properties";
+            this.kryptonPageToolboxMapProperties.TextTitle = "Location properties";
+            this.kryptonPageToolboxMapProperties.ToolTipTitle = "Edit Location Metadata properties";
+            this.kryptonPageToolboxMapProperties.UniqueName = "8b820c2b24ee4ac4a3ce963c19a01838";
+            // 
+            // kryptonWorkspaceCellToolboxMapDetails
+            // 
+            this.kryptonWorkspaceCellToolboxMapDetails.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxMapDetails.AllowTabFocus = false;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.ButtonDisplayLogic = Krypton.Navigator.ButtonDisplayLogic.Context;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.ContextMenuMapImage = Krypton.Navigator.MapKryptonPageImage.Small;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.ContextMenuMapText = Krypton.Navigator.MapKryptonPageText.TextTitle;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.NextButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonWorkspaceCellToolboxMapDetails.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolboxMapDetails.Name = "kryptonWorkspaceCellToolboxMapDetails";
+            this.kryptonWorkspaceCellToolboxMapDetails.NavigatorMode = Krypton.Navigator.NavigatorMode.Group;
+            this.kryptonWorkspaceCellToolboxMapDetails.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageToolboxMapDetails});
+            this.kryptonWorkspaceCellToolboxMapDetails.SelectedIndex = 0;
+            this.kryptonWorkspaceCellToolboxMapDetails.UniqueName = "326edd0d792e47c0a2695882b824e3c8";
+            // 
+            // kryptonPageToolboxMapDetails
+            // 
+            this.kryptonPageToolboxMapDetails.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageToolboxMapDetails.Controls.Add(this.dataGridViewMap);
+            this.kryptonPageToolboxMapDetails.Flags = 65534;
+            this.kryptonPageToolboxMapDetails.LastVisibleSet = true;
+            this.kryptonPageToolboxMapDetails.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageToolboxMapDetails.Name = "kryptonPageToolboxMapDetails";
+            this.kryptonPageToolboxMapDetails.Size = new System.Drawing.Size(265, 181);
+            this.kryptonPageToolboxMapDetails.Text = "Location metadata";
+            this.kryptonPageToolboxMapDetails.TextDescription = "Edit Location Metadata";
+            this.kryptonPageToolboxMapDetails.TextTitle = "Location metadata";
+            this.kryptonPageToolboxMapDetails.ToolTipTitle = "Edit Location Metadata";
+            this.kryptonPageToolboxMapDetails.UniqueName = "d4bbcd822dfb4db481dbb09da5fcf3cc";
+            // 
+            // kryptonPage3
+            // 
+            this.kryptonPage3.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPage3.Flags = 65534;
+            this.kryptonPage3.LastVisibleSet = true;
+            this.kryptonPage3.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPage3.Name = "kryptonPage3";
+            this.kryptonPage3.Size = new System.Drawing.Size(100, 100);
+            this.kryptonPage3.Text = "kryptonPage3";
+            this.kryptonPage3.ToolTipTitle = "Page ToolTip";
+            this.kryptonPage3.UniqueName = "f911c170661140658752023223f2ddb0";
+            // 
+            // kryptonWorkspaceCellToolboxMapBroswer
+            // 
+            this.kryptonWorkspaceCellToolboxMapBroswer.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxMapBroswer.AllowTabFocus = false;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.ButtonDisplayLogic = Krypton.Navigator.ButtonDisplayLogic.Context;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.ContextMenuMapImage = Krypton.Navigator.MapKryptonPageImage.Small;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.ContextMenuMapText = Krypton.Navigator.MapKryptonPageText.TextTitle;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.NextButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Name = "kryptonWorkspaceCellToolboxMapBroswer";
+            this.kryptonWorkspaceCellToolboxMapBroswer.NavigatorMode = Krypton.Navigator.NavigatorMode.Group;
+            this.kryptonWorkspaceCellToolboxMapBroswer.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageToolboxMapBroswer});
+            this.kryptonWorkspaceCellToolboxMapBroswer.SelectedIndex = 0;
+            this.kryptonWorkspaceCellToolboxMapBroswer.UniqueName = "dd30213ad6e64deb908656ba538ff942";
+            // 
+            // kryptonPageToolboxMapBroswer
+            // 
+            this.kryptonPageToolboxMapBroswer.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageToolboxMapBroswer.Controls.Add(this.panelBrowser);
+            this.kryptonPageToolboxMapBroswer.Flags = 65534;
+            this.kryptonPageToolboxMapBroswer.LastVisibleSet = true;
+            this.kryptonPageToolboxMapBroswer.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageToolboxMapBroswer.Name = "kryptonPageToolboxMapBroswer";
+            this.kryptonPageToolboxMapBroswer.Size = new System.Drawing.Size(265, 182);
+            this.kryptonPageToolboxMapBroswer.Text = "Map browser";
+            this.kryptonPageToolboxMapBroswer.TextDescription = "See locations for selected coordinates";
+            this.kryptonPageToolboxMapBroswer.TextTitle = "Map browser";
+            this.kryptonPageToolboxMapBroswer.ToolTipTitle = "See locations for selected coordinates";
+            this.kryptonPageToolboxMapBroswer.UniqueName = "c414786b6c454b48aea5ba8700e98799";
+            // 
+            // kryptonPage10
+            // 
+            this.kryptonPage10.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPage10.Flags = 65534;
+            this.kryptonPage10.LastVisibleSet = true;
+            this.kryptonPage10.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPage10.Name = "kryptonPage10";
+            this.kryptonPage10.Size = new System.Drawing.Size(100, 100);
+            this.kryptonPage10.Text = "kryptonPage10";
+            this.kryptonPage10.ToolTipTitle = "Page ToolTip";
+            this.kryptonPage10.UniqueName = "b4f640a98d0f41bf848cf4d672024ebf";
+            // 
+            // kryptonWorkspaceCellToolboxMapBroswerProperties
+            // 
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.AllowPageDrag = true;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.AllowTabFocus = false;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.ButtonDisplayLogic = Krypton.Navigator.ButtonDisplayLogic.Context;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.CloseButtonAction = Krypton.Navigator.CloseButtonAction.None;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.CloseButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.ContextButtonAction = Krypton.Navigator.ContextButtonAction.None;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.ContextButtonDisplay = Krypton.Navigator.ButtonDisplay.Hide;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.ContextMenuMapImage = Krypton.Navigator.MapKryptonPageImage.Small;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.ContextMenuMapText = Krypton.Navigator.MapKryptonPageText.TextTitle;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.NextButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.NextButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.PreviousButtonAction = Krypton.Navigator.DirectionButtonAction.ModeAppropriateAction;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Button.PreviousButtonDisplay = Krypton.Navigator.ButtonDisplay.Logic;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Name = "kryptonWorkspaceCellToolboxMapBroswerProperties";
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.NavigatorMode = Krypton.Navigator.NavigatorMode.Group;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.Pages.AddRange(new Krypton.Navigator.KryptonPage[] {
+            this.kryptonPageToolboxMapBroswerProperties});
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.SelectedIndex = 0;
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.StarSize = "50*,35";
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.UniqueName = "9f148b26dc6b46478d368ab2b9de069d";
+            // 
+            // kryptonPageToolboxMapBroswerProperties
+            // 
+            this.kryptonPageToolboxMapBroswerProperties.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPageToolboxMapBroswerProperties.Controls.Add(this.textBoxBrowserURL);
+            this.kryptonPageToolboxMapBroswerProperties.Controls.Add(this.pictureBox1);
+            this.kryptonPageToolboxMapBroswerProperties.Controls.Add(this.comboBoxMapZoomLevel);
+            this.kryptonPageToolboxMapBroswerProperties.Flags = 65534;
+            this.kryptonPageToolboxMapBroswerProperties.LastVisibleSet = true;
+            this.kryptonPageToolboxMapBroswerProperties.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPageToolboxMapBroswerProperties.Name = "kryptonPageToolboxMapBroswerProperties";
+            this.kryptonPageToolboxMapBroswerProperties.Size = new System.Drawing.Size(265, 50);
+            this.kryptonPageToolboxMapBroswerProperties.Text = "Map browser properties";
+            this.kryptonPageToolboxMapBroswerProperties.TextDescription = "Edit Browser Properties";
+            this.kryptonPageToolboxMapBroswerProperties.TextTitle = "Map browser properties";
+            this.kryptonPageToolboxMapBroswerProperties.ToolTipTitle = "Edit Browser Properties";
+            this.kryptonPageToolboxMapBroswerProperties.UniqueName = "0ad94e47b0de40a1bec5b796350ad60e";
+            // 
+            // kryptonPage12
+            // 
+            this.kryptonPage12.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPage12.Flags = 65534;
+            this.kryptonPage12.LastVisibleSet = true;
+            this.kryptonPage12.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPage12.Name = "kryptonPage12";
+            this.kryptonPage12.Size = new System.Drawing.Size(100, 100);
+            this.kryptonPage12.Text = "kryptonPage12";
+            this.kryptonPage12.ToolTipTitle = "Page ToolTip";
+            this.kryptonPage12.UniqueName = "4a8b11102bd24edd8447132efe919b49";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5439,14 +5593,10 @@ namespace PhotoTagsSynchronizer
             this.toolStripContainerMainForm.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            this.splitContainerFolder.Panel1.ResumeLayout(false);
             this.splitContainerFolder.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFolder)).EndInit();
             this.splitContainerFolder.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
             this.contextMenuStripTreeViewFolder.ResumeLayout(false);
-            this.tabPageFilterSearch.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.panel4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelSearchFilter)).EndInit();
             this.panelSearchFilter.ResumeLayout(false);
             this.panelSearchFilter.PerformLayout();
@@ -5516,17 +5666,12 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPeople)).EndInit();
             this.contextMenuStripPeople.ResumeLayout(false);
             this.tabPageMap.ResumeLayout(false);
-            this.splitContainerMap.Panel1.ResumeLayout(false);
-            this.splitContainerMap.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMap)).EndInit();
             this.splitContainerMap.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxGoogleLocationInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxGoogleTimeZoneShift)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMap)).EndInit();
             this.contextMenuStripMap.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.panel3)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMapZoomLevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelBrowser)).EndInit();
@@ -5580,6 +5725,7 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxPeople)).EndInit();
             this.kryptonPageToolboxPeople.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxMap)).EndInit();
+            this.kryptonPageToolboxMap.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxDates)).EndInit();
             this.kryptonPageToolboxDates.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxExiftool)).EndInit();
@@ -5617,6 +5763,28 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxRenameResult)).EndInit();
             this.kryptonPageToolboxRenameResult.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceToolboxMap)).EndInit();
+            this.kryptonWorkspaceToolboxMap.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellToolboxMapProperties)).EndInit();
+            this.kryptonWorkspaceCellToolboxMapProperties.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxMapProperties)).EndInit();
+            this.kryptonPageToolboxMapProperties.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellToolboxMapDetails)).EndInit();
+            this.kryptonWorkspaceCellToolboxMapDetails.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxMapDetails)).EndInit();
+            this.kryptonPageToolboxMapDetails.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellToolboxMapBroswer)).EndInit();
+            this.kryptonWorkspaceCellToolboxMapBroswer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxMapBroswer)).EndInit();
+            this.kryptonPageToolboxMapBroswer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspaceCellToolboxMapBroswerProperties)).EndInit();
+            this.kryptonWorkspaceCellToolboxMapBroswerProperties.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxMapBroswerProperties)).EndInit();
+            this.kryptonPageToolboxMapBroswerProperties.ResumeLayout(false);
+            this.kryptonPageToolboxMapBroswerProperties.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage12)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -5756,8 +5924,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleSelectPeopleTag;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripButton toolStripButtonConfig;
-        private System.Windows.Forms.TabPage tabPageFilterFolder;
-        private System.Windows.Forms.TabPage tabPageFilterTags;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameFromAll;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPeopleSelected;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPeopleRenameSelected;
@@ -5799,7 +5965,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapSave;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemImageListViewAutoCorrect;
         private Krypton.Toolkit.KryptonPanel panel2;
-        private Krypton.Toolkit.KryptonPanel panel3;
         private System.Windows.Forms.Timer timerStartThread;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMapReloadLocationUsingNominatim;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripExiftoolWarning;
@@ -5822,8 +5987,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem openMediaFilesWithToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ImageList imageListFilter;
-        private System.Windows.Forms.TabPage tabPageFilterSearch;
-        private Krypton.Toolkit.KryptonPanel panel4;
         private Krypton.Toolkit.KryptonCheckBox checkBoxSearchNeedAllKeywords;
         private Krypton.Toolkit.KryptonButton buttonSearch;
         private Krypton.Toolkit.KryptonCheckBox checkBoxSearchWithoutKeyword;
@@ -5990,7 +6153,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowPosterWindowDate;
         private System.Windows.Forms.ToolStripMenuItem showMediaPosterToolStripMenuItem;
         private PhotoTagsCommonComponets.TabControlCustom tabControlToolbox;
-        private PhotoTagsCommonComponets.TabControlCustom tabControl1;
         private Krypton.Toolkit.KryptonComboBox comboBoxDescription;
         private Krypton.Toolkit.KryptonComboBox comboBoxTitle;
         private Krypton.Toolkit.KryptonComboBox comboBoxAlbum;
@@ -6042,6 +6204,18 @@ namespace PhotoTagsSynchronizer
         private Krypton.Navigator.KryptonPage kryptonPage2;
         private Krypton.Navigator.KryptonPage kryptonPage4;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Workspace.KryptonWorkspace kryptonWorkspaceToolboxMap;
+        private Krypton.Navigator.KryptonPage kryptonPageToolboxMapProperties;
+        private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCellToolboxMapProperties;
+        private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCellToolboxMapDetails;
+        private Krypton.Navigator.KryptonPage kryptonPageToolboxMapDetails;
+        private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCellToolboxMapBroswer;
+        private Krypton.Navigator.KryptonPage kryptonPageToolboxMapBroswer;
+        private Krypton.Workspace.KryptonWorkspaceCell kryptonWorkspaceCellToolboxMapBroswerProperties;
+        private Krypton.Navigator.KryptonPage kryptonPageToolboxMapBroswerProperties;
+        private Krypton.Navigator.KryptonPage kryptonPage3;
+        private Krypton.Navigator.KryptonPage kryptonPage10;
+        private Krypton.Navigator.KryptonPage kryptonPage12;
     }
 }
 
