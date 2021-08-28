@@ -57,8 +57,9 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - GetActiveTabTag()
         private string GetActiveTabTag()
         {
-            if (kryptonWorkspaceCellToolbox.SelectedPage == null) 
-                return "";
+            if (kryptonWorkspaceCellToolbox.SelectedPage == null)
+                return null;
+                
             return kryptonWorkspaceCellToolbox.SelectedPage.Tag.ToString();
         }
         #endregion
@@ -135,10 +136,10 @@ namespace PhotoTagsSynchronizer
             if (GlobalData.IsApplicationClosing) return;
 
             string tag = GetActiveTabTag();
-            if (IsActiveDataGridViewAgregated(tag))
+            if (!string.IsNullOrWhiteSpace(tag) && IsActiveDataGridViewAgregated(tag))
             {
                 DataGridView dataGridView = GetDataGridViewForTag(tag);
-                PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
+                if (dataGridView != null) PopulateDataGrivViewForFileEntryAttributeAndTag(dataGridView, fileEntryAttribute, tag);
             }
 
         }
@@ -320,8 +321,7 @@ namespace PhotoTagsSynchronizer
                         break;
                     case LinkTabAndDataGridViewNameConvertAndMerge:
                         break;
-                    default:
-                        throw new NotImplementedException();
+                    //default: throw new NotImplementedException();
                 }
             }
         }
@@ -451,8 +451,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerConvertAndMerge.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
                             DataGridViewHandlerConvertAndMerge.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
                             break;
-                        default:
-                            throw new NotImplementedException();
+                        //default: throw new NotImplementedException();
 
                     }
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView);

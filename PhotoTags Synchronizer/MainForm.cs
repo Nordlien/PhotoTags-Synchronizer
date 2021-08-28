@@ -657,66 +657,30 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region Resize and restore windows size when reopen application        
-        private void tabControlToolbox_Selecting(object sender, TabControlCancelEventArgs e)
+        private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
         {
-            isTabControlToolboxChanging = true;
-        }
-
-        private void tabControlToolbox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try {
+            try
+            {
                 isTabControlToolboxChanging = false;
                 PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Was not able to to populate data grid view");
                 Logger.Error(ex);
             }
         }
 
-        private void splitContainerMap_SplitterMoved(object sender, SplitterEventArgs e)
+        private void kryptonWorkspaceCellToolbox_Selecting(object sender, Krypton.Navigator.KryptonPageCancelEventArgs e)
         {
-            /*
-            if (isTabControlToolboxChanging) return;
-            if (_previousWindowsState == FormWindowState.Minimized) return;
-
-            if (!isFormLoading)
-            {
-                Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;
-            }
-            */
+            isTabControlToolboxChanging = true;
         }
 
-        private void splitContainerImages_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            /*
-            if (!isFormLoading)
-            {
-                Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
-            }
-            */
-        }
-
-        private void splitContainerFolder_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            /*
-            if (!isFormLoading)
-            {
-                Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
-            }
-            */
-        }
+        
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            if (isFormLoading)
-            {
-                /*splitContainerFolder.SplitterDistance = Properties.Settings.Default.SplitContainerFolder;
-                splitContainerImages.SplitterDistance = Properties.Settings.Default.SplitContainerImages;
-                splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;*/
-                return;
-            }
-            
+            if (isFormLoading) return;
             _previousWindowsState = this.WindowState;
         }
 
@@ -947,12 +911,10 @@ namespace PhotoTagsSynchronizer
             FilesSelected();
         }
 
+
+
+
         #endregion
-
-        private void MainForm_ResizeEnd(object sender, EventArgs e)
-        {
-
-        }
 
         
     }

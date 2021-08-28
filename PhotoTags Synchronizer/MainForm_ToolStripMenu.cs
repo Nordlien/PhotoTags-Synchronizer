@@ -260,7 +260,6 @@ namespace PhotoTagsSynchronizer
                         break;
                     case "ConvertAndMerge":
                         SaveConvertAndMerge();
-
                         break;
                 }
             }
@@ -1360,8 +1359,7 @@ namespace PhotoTagsSynchronizer
                     DataGridViewHandler.SetCellSize(dataGridViewRename, (size | DataGridViewSize.RenameConvertAndMergeSize), false);
                     Properties.Settings.Default.CellSizeRename = (int)size;
                     break;
-                default:
-                    throw new Exception("Not implemented");
+                //default: throw new Exception("Not implemented");
             }
         }
 
