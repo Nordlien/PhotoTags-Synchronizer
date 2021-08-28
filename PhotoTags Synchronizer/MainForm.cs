@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using PhotoTagsCommonComponets;
 using Krypton.Toolkit;
-
+using FileHandeling;
 
 namespace PhotoTagsSynchronizer
 {
@@ -42,7 +42,11 @@ namespace PhotoTagsSynchronizer
         public const string LinkTabAndDataGridViewNameProperties = "Properties";
         public const string LinkTabAndDataGridViewNameRename = "Rename";
         public const string LinkTabAndDataGridViewNameConvertAndMerge = "Convert and Merge";
-
+        private string filenameLayoutMain;
+        private string filenameLayoutMap;
+        private string filenameLayoutRename;
+        private string filenameLayoutTags;
+        
         public void UpdateColorControls(Control control, bool useDarkMode)
         {
             if (useDarkMode)
@@ -491,33 +495,34 @@ namespace PhotoTagsSynchronizer
             #endregion
 
             #region Setup Global Variables - Link Tab and DataGridView
-            tabPageTags.Tag = LinkTabAndDataGridViewNameTags;
+            //kryptonPageToolboxTags
+            kryptonPageToolboxTags.Tag = LinkTabAndDataGridViewNameTags;
             GlobalData.dataGridViewHandlerTags = new DataGridViewHandler(dataGridViewTagsAndKeywords, LinkTabAndDataGridViewNameTags, "Metadata/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeKeywords);
 
-            tabPageMap.Tag = LinkTabAndDataGridViewNameMap;
+            kryptonPageToolboxMap.Tag = LinkTabAndDataGridViewNameMap;
             GlobalData.dataGridViewHandlerMap = new DataGridViewHandler(dataGridViewMap, LinkTabAndDataGridViewNameMap, "Location/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeMap);
 
-            tabPagePeople.Tag = LinkTabAndDataGridViewNamePeople;
+            kryptonPageToolboxPeople.Tag = LinkTabAndDataGridViewNamePeople;
             GlobalData.dataGridViewHandlerPeople = new DataGridViewHandler(dataGridViewPeople, LinkTabAndDataGridViewNamePeople, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizePeoples);
 
-            tabPageDates.Tag = LinkTabAndDataGridViewNameDates;
+            kryptonPageToolboxDates.Tag = LinkTabAndDataGridViewNameDates;
             GlobalData.dataGridViewHandlerDates = new DataGridViewHandler(dataGridViewDate, LinkTabAndDataGridViewNameDates, "Name/Files", (DataGridViewSize)Properties.Settings.Default.CellSizeDates);
 
-            tabPageExifTool.Tag = LinkTabAndDataGridViewNameExiftool;
+            kryptonPageToolboxExiftool.Tag = LinkTabAndDataGridViewNameExiftool;
             GlobalData.dataGridViewHandlerExiftoolTags = new DataGridViewHandler(dataGridViewExifTool, LinkTabAndDataGridViewNameExiftool, "File/Tag Description", (DataGridViewSize)Properties.Settings.Default.CellSizeExiftool);
 
-            tabPageExifToolWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
+            kryptonPageToolboxWarnings.Tag = LinkTabAndDataGridViewNameWarnings;
             GlobalData.dataGridViewHandlerExiftoolWarning = new DataGridViewHandler(dataGridViewExifToolWarning, LinkTabAndDataGridViewNameWarnings, "File and version/Tag region and command", (DataGridViewSize)Properties.Settings.Default.CellSizeWarnings);
 
-            tabPageProperties.Tag = LinkTabAndDataGridViewNameProperties;
+            kryptonPageToolboxProperties.Tag = LinkTabAndDataGridViewNameProperties;
             GlobalData.dataGridViewHandlerProperties = new DataGridViewHandler(dataGridViewProperties, LinkTabAndDataGridViewNameProperties, "File/Properties", (DataGridViewSize)Properties.Settings.Default.CellSizeProperties);
             GlobalData.dataGridViewHandlerProperties.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
 
-            tabPageRename.Tag = LinkTabAndDataGridViewNameRename;
+            kryptonPageToolboxRename.Tag = LinkTabAndDataGridViewNameRename;
             GlobalData.dataGridViewHandlerRename = new DataGridViewHandler(dataGridViewRename, LinkTabAndDataGridViewNameRename, "Filename/Values", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
             GlobalData.dataGridViewHandlerRename.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
 
-            tabPageConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
+            kryptonPageToolboxConvertAndMerge.Tag = LinkTabAndDataGridViewNameConvertAndMerge;
             GlobalData.dataGridViewHandlerConvertAndMerge = new DataGridViewHandler(dataGridViewConvertAndMerge, LinkTabAndDataGridViewNameConvertAndMerge, "Full path of media file", ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize));
             GlobalData.dataGridViewHandlerConvertAndMerge.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
             #endregion
@@ -559,13 +564,30 @@ namespace PhotoTagsSynchronizer
             {
                 this.WindowState = FormWindowState.Normal;
             }
+
+            filenameLayoutMain = FileHandler.GetLocalApplicationDataPath("LayoutMain.xml", false);
+            filenameLayoutMap = FileHandler.GetLocalApplicationDataPath("LayoutMap.xml", false);
+            filenameLayoutRename = FileHandler.GetLocalApplicationDataPath("LayoutRename.xml", false);
+            filenameLayoutTags = FileHandler.GetLocalApplicationDataPath("LauoutTags.xml", false);
+
+            /*
             splitContainerFolder.BorderStyle = BorderStyle.None;
             splitContainerFolder.SplitterDistance = Properties.Settings.Default.SplitContainerFolder;
             splitContainerImages.BorderStyle = BorderStyle.None;
             splitContainerImages.SplitterDistance = Properties.Settings.Default.SplitContainerImages;
             splitContainerMap.BorderStyle = BorderStyle.None;
             splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
-            
+            */
+            try
+            {
+                if (File.Exists(filenameLayoutMain)) kryptonWorkspaceMain.LoadLayoutFromFile(filenameLayoutMain);
+                if (File.Exists(filenameLayoutMap)) kryptonWorkspaceToolboxMap.LoadLayoutFromFile(filenameLayoutMap);
+                if (File.Exists(filenameLayoutRename)) kryptonWorkspaceToolboxRename.LoadLayoutFromFile(filenameLayoutRename);
+                if (File.Exists(filenameLayoutTags)) kryptonWorkspaceToolboxTags.LoadLayoutFromFile(filenameLayoutTags);
+            } catch
+            {
+
+            }
             toolStripButtonHistortyColumns.Checked = Properties.Settings.Default.ShowHistortyColumns;
             toolStripButtonErrorColumns.Checked = Properties.Settings.Default.ShowErrorColumns;
 
@@ -765,9 +787,16 @@ namespace PhotoTagsSynchronizer
                         Properties.Settings.Default.MainFormLocation = this.RestoreBounds.Location;
                     }
 
-                    Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
+                    /*Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
                     Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
-                    Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;
+                    Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;*/
+                    
+
+                    kryptonWorkspaceMain.SaveLayoutToFile(filenameLayoutMain);
+                    kryptonWorkspaceToolboxMap.SaveLayoutToFile(filenameLayoutMap);
+                    kryptonWorkspaceToolboxRename.SaveLayoutToFile(filenameLayoutRename);
+                    kryptonWorkspaceToolboxTags.SaveLayoutToFile(filenameLayoutTags);
+
                 } catch { }
 
                 try

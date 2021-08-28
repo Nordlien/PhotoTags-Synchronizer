@@ -57,7 +57,9 @@ namespace PhotoTagsSynchronizer
         #region DataGridView - GetActiveTabTag()
         private string GetActiveTabTag()
         {
-            return tabControlToolbox.TabPages[tabControlToolbox.SelectedIndex].Tag.ToString();
+            if (kryptonWorkspaceCellToolbox.SelectedPage == null) 
+                return "";
+            return kryptonWorkspaceCellToolbox.SelectedPage.Tag.ToString();
         }
         #endregion
 
@@ -378,7 +380,7 @@ namespace PhotoTagsSynchronizer
 
                             break;
                         case LinkTabAndDataGridViewNameMap:
-                            splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
+                            //splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
                             DataGridViewHandlerMap.TimeZoneShift = GetTimeZoneShift();
                             DataGridViewHandlerMap.AccepedIntervalSecound = GetAccepedIntervalSecound();
                             DataGridViewHandlerMap.DatabaseAndCacheThumbnail = databaseAndCacheThumbnail;
