@@ -31,10 +31,10 @@ namespace PhotoTagsSynchronizer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Filter");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Filter");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripContainerMainForm = new System.Windows.Forms.ToolStripContainer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusFilesAndSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -161,6 +161,7 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxTags = new Krypton.Navigator.KryptonPage();
             this.kryptonWorkspaceToolboxTags = new Krypton.Workspace.KryptonWorkspace();
             this.kryptonPageToolboxTagsDetails = new Krypton.Navigator.KryptonPage();
+            this.comboBoxAlbum = new Krypton.Toolkit.KryptonComboBox();
             this.label4 = new Krypton.Toolkit.KryptonLabel();
             this.labelDescription = new Krypton.Toolkit.KryptonLabel();
             this.comboBoxMediaAiConfidence = new Krypton.Toolkit.KryptonComboBox();
@@ -174,7 +175,6 @@ namespace PhotoTagsSynchronizer
             this.labelTitle = new Krypton.Toolkit.KryptonLabel();
             this.labelAuthor = new Krypton.Toolkit.KryptonLabel();
             this.labelComments = new Krypton.Toolkit.KryptonLabel();
-            this.comboBoxAlbum = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxDescription = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxTitle = new Krypton.Toolkit.KryptonComboBox();
             this.comboBoxAuthor = new Krypton.Toolkit.KryptonComboBox();
@@ -510,12 +510,12 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceToolboxTags.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxTagsDetails)).BeginInit();
             this.kryptonPageToolboxTagsDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAlbum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMediaAiConfidence)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBoxRating)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBoxRating.Panel)).BeginInit();
             this.groupBoxRating.Panel.SuspendLayout();
             this.groupBoxRating.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAlbum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxDescription)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAuthor)).BeginInit();
@@ -1035,7 +1035,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchTags.Panel.Controls.Add(this.label12);
             this.groupBoxSearchTags.Panel.Controls.Add(this.label11);
             this.groupBoxSearchTags.Panel.Controls.Add(this.label10);
-            this.groupBoxSearchTags.Size = new System.Drawing.Size(322, 277);
+            this.groupBoxSearchTags.Size = new System.Drawing.Size(220, 277);
             this.groupBoxSearchTags.TabIndex = 2;
             this.groupBoxSearchTags.Values.Heading = "Search inside text field tags:";
             // 
@@ -1059,7 +1059,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchComments.IntegralHeight = false;
             this.comboBoxSearchComments.Location = new System.Drawing.Point(108, 84);
             this.comboBoxSearchComments.Name = "comboBoxSearchComments";
-            this.comboBoxSearchComments.Size = new System.Drawing.Size(189, 21);
+            this.comboBoxSearchComments.Size = new System.Drawing.Size(87, 21);
             this.comboBoxSearchComments.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchComments.TabIndex = 20;
             // 
@@ -1107,7 +1107,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchAlbum.IntegralHeight = false;
             this.comboBoxSearchAlbum.Location = new System.Drawing.Point(108, 3);
             this.comboBoxSearchAlbum.Name = "comboBoxSearchAlbum";
-            this.comboBoxSearchAlbum.Size = new System.Drawing.Size(189, 21);
+            this.comboBoxSearchAlbum.Size = new System.Drawing.Size(87, 21);
             this.comboBoxSearchAlbum.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchAlbum.TabIndex = 17;
             // 
@@ -1123,7 +1123,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchTitle.IntegralHeight = false;
             this.comboBoxSearchTitle.Location = new System.Drawing.Point(108, 30);
             this.comboBoxSearchTitle.Name = "comboBoxSearchTitle";
-            this.comboBoxSearchTitle.Size = new System.Drawing.Size(189, 21);
+            this.comboBoxSearchTitle.Size = new System.Drawing.Size(87, 21);
             this.comboBoxSearchTitle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchTitle.TabIndex = 18;
             // 
@@ -1139,7 +1139,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchDescription.IntegralHeight = false;
             this.comboBoxSearchDescription.Location = new System.Drawing.Point(108, 57);
             this.comboBoxSearchDescription.Name = "comboBoxSearchDescription";
-            this.comboBoxSearchDescription.Size = new System.Drawing.Size(189, 21);
+            this.comboBoxSearchDescription.Size = new System.Drawing.Size(87, 21);
             this.comboBoxSearchDescription.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchDescription.TabIndex = 19;
             // 
@@ -1155,7 +1155,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchLocationCountry.IntegralHeight = false;
             this.comboBoxSearchLocationCountry.Location = new System.Drawing.Point(108, 193);
             this.comboBoxSearchLocationCountry.Name = "comboBoxSearchLocationCountry";
-            this.comboBoxSearchLocationCountry.Size = new System.Drawing.Size(189, 21);
+            this.comboBoxSearchLocationCountry.Size = new System.Drawing.Size(87, 21);
             this.comboBoxSearchLocationCountry.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationCountry.TabIndex = 25;
             // 
@@ -1171,7 +1171,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchLocationName.IntegralHeight = false;
             this.comboBoxSearchLocationName.Location = new System.Drawing.Point(108, 111);
             this.comboBoxSearchLocationName.Name = "comboBoxSearchLocationName";
-            this.comboBoxSearchLocationName.Size = new System.Drawing.Size(189, 21);
+            this.comboBoxSearchLocationName.Size = new System.Drawing.Size(87, 21);
             this.comboBoxSearchLocationName.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationName.TabIndex = 22;
             // 
@@ -1187,7 +1187,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchLocationState.IntegralHeight = false;
             this.comboBoxSearchLocationState.Location = new System.Drawing.Point(108, 166);
             this.comboBoxSearchLocationState.Name = "comboBoxSearchLocationState";
-            this.comboBoxSearchLocationState.Size = new System.Drawing.Size(189, 21);
+            this.comboBoxSearchLocationState.Size = new System.Drawing.Size(87, 21);
             this.comboBoxSearchLocationState.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationState.TabIndex = 24;
             // 
@@ -1211,7 +1211,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchLocationCity.IntegralHeight = false;
             this.comboBoxSearchLocationCity.Location = new System.Drawing.Point(108, 139);
             this.comboBoxSearchLocationCity.Name = "comboBoxSearchLocationCity";
-            this.comboBoxSearchLocationCity.Size = new System.Drawing.Size(189, 21);
+            this.comboBoxSearchLocationCity.Size = new System.Drawing.Size(87, 21);
             this.comboBoxSearchLocationCity.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchLocationCity.TabIndex = 23;
             // 
@@ -1258,7 +1258,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchRating.Panel.Controls.Add(this.checkBoxSearchRating2);
             this.groupBoxSearchRating.Panel.Controls.Add(this.checkBoxSearchRating1);
             this.groupBoxSearchRating.Panel.Controls.Add(this.checkBoxSearchRating0);
-            this.groupBoxSearchRating.Size = new System.Drawing.Size(322, 51);
+            this.groupBoxSearchRating.Size = new System.Drawing.Size(220, 51);
             this.groupBoxSearchRating.TabIndex = 9;
             this.groupBoxSearchRating.Values.Heading = "Rating";
             // 
@@ -1335,7 +1335,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchMediaTaken.Panel.Controls.Add(this.label14);
             this.groupBoxSearchMediaTaken.Panel.Controls.Add(this.label17);
             this.groupBoxSearchMediaTaken.Panel.Controls.Add(this.dateTimePickerSearchDateTo);
-            this.groupBoxSearchMediaTaken.Size = new System.Drawing.Size(322, 110);
+            this.groupBoxSearchMediaTaken.Size = new System.Drawing.Size(220, 110);
             this.groupBoxSearchMediaTaken.TabIndex = 3;
             this.groupBoxSearchMediaTaken.Values.Heading = "Media taken:";
             // 
@@ -1358,7 +1358,7 @@ namespace PhotoTagsSynchronizer
             this.dateTimePickerSearchDateFrom.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerSearchDateFrom.Name = "dateTimePickerSearchDateFrom";
             this.dateTimePickerSearchDateFrom.ShowCheckBox = true;
-            this.dateTimePickerSearchDateFrom.Size = new System.Drawing.Size(207, 21);
+            this.dateTimePickerSearchDateFrom.Size = new System.Drawing.Size(105, 21);
             this.dateTimePickerSearchDateFrom.TabIndex = 14;
             // 
             // label14
@@ -1388,7 +1388,7 @@ namespace PhotoTagsSynchronizer
             this.dateTimePickerSearchDateTo.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerSearchDateTo.Name = "dateTimePickerSearchDateTo";
             this.dateTimePickerSearchDateTo.ShowCheckBox = true;
-            this.dateTimePickerSearchDateTo.Size = new System.Drawing.Size(207, 21);
+            this.dateTimePickerSearchDateTo.Size = new System.Drawing.Size(105, 21);
             this.dateTimePickerSearchDateTo.TabIndex = 31;
             // 
             // groupBoxSearchKeywords
@@ -1408,7 +1408,7 @@ namespace PhotoTagsSynchronizer
             this.groupBoxSearchKeywords.Panel.Controls.Add(this.label15);
             this.groupBoxSearchKeywords.Panel.Controls.Add(this.comboBoxSearchKeyword);
             this.groupBoxSearchKeywords.Panel.Controls.Add(this.checkBoxSearchWithoutKeyword);
-            this.groupBoxSearchKeywords.Size = new System.Drawing.Size(323, 136);
+            this.groupBoxSearchKeywords.Size = new System.Drawing.Size(221, 136);
             this.groupBoxSearchKeywords.TabIndex = 2;
             this.groupBoxSearchKeywords.Values.Heading = "Keywords";
             // 
@@ -1450,7 +1450,7 @@ namespace PhotoTagsSynchronizer
             this.comboBoxSearchKeyword.IntegralHeight = false;
             this.comboBoxSearchKeyword.Location = new System.Drawing.Point(108, 3);
             this.comboBoxSearchKeyword.Name = "comboBoxSearchKeyword";
-            this.comboBoxSearchKeyword.Size = new System.Drawing.Size(190, 21);
+            this.comboBoxSearchKeyword.Size = new System.Drawing.Size(88, 21);
             this.comboBoxSearchKeyword.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxSearchKeyword.TabIndex = 28;
             // 
@@ -1475,7 +1475,7 @@ namespace PhotoTagsSynchronizer
             // groupBoxSearchPeople.Panel
             // 
             this.groupBoxSearchPeople.Panel.Controls.Add(this.panel5);
-            this.groupBoxSearchPeople.Size = new System.Drawing.Size(322, 274);
+            this.groupBoxSearchPeople.Size = new System.Drawing.Size(220, 274);
             this.groupBoxSearchPeople.TabIndex = 26;
             this.groupBoxSearchPeople.Values.Heading = "People:";
             // 
@@ -1488,7 +1488,7 @@ namespace PhotoTagsSynchronizer
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Margin = new System.Windows.Forms.Padding(0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(318, 250);
+            this.panel5.Size = new System.Drawing.Size(216, 250);
             this.panel5.TabIndex = 16;
             // 
             // checkedListBoxSearchPeople
@@ -1499,7 +1499,7 @@ namespace PhotoTagsSynchronizer
             this.checkedListBoxSearchPeople.FormattingEnabled = true;
             this.checkedListBoxSearchPeople.Location = new System.Drawing.Point(3, 58);
             this.checkedListBoxSearchPeople.Name = "checkedListBoxSearchPeople";
-            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(313, 180);
+            this.checkedListBoxSearchPeople.Size = new System.Drawing.Size(211, 180);
             this.checkedListBoxSearchPeople.TabIndex = 0;
             // 
             // checkBoxSearchWithoutRegions
@@ -1533,7 +1533,7 @@ namespace PhotoTagsSynchronizer
             // groupBoxSearchExtra.Panel
             // 
             this.groupBoxSearchExtra.Panel.Controls.Add(this.checkBoxSearchHasWarning);
-            this.groupBoxSearchExtra.Size = new System.Drawing.Size(322, 55);
+            this.groupBoxSearchExtra.Size = new System.Drawing.Size(220, 55);
             this.groupBoxSearchExtra.TabIndex = 2;
             this.groupBoxSearchExtra.Values.Heading = "Attributes:";
             // 
@@ -1566,11 +1566,11 @@ namespace PhotoTagsSynchronizer
             this.treeViewFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFilter.Location = new System.Drawing.Point(0, 0);
             this.treeViewFilter.Name = "treeViewFilter";
-            treeNode1.Name = "NodeFolder";
-            treeNode1.Tag = "Filter";
-            treeNode1.Text = "Filter";
+            treeNode2.Name = "NodeFolder";
+            treeNode2.Tag = "Filter";
+            treeNode2.Text = "Filter";
             this.treeViewFilter.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeViewFilter.Size = new System.Drawing.Size(399, 709);
             this.treeViewFilter.TabIndex = 0;
             this.treeViewFilter.BeforeCheck += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewFilter_BeforeCheck);
@@ -2033,7 +2033,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonWorkspaceCellToolbox.SelectedIndex = 0;
             this.kryptonWorkspaceCellToolbox.UniqueName = "f75dbe6bb099427c9a831e9adb110255";
             this.kryptonWorkspaceCellToolbox.SelectedPageChanged += new System.EventHandler(this.kryptonWorkspaceCellToolbox_SelectedPageChanged);
-            this.kryptonWorkspaceCellToolbox.Selecting += new System.EventHandler<Krypton.Navigator.KryptonPageCancelEventArgs>(this.kryptonWorkspaceCellToolbox_Selecting);
             // 
             // kryptonPageToolboxTags
             // 
@@ -2076,6 +2075,7 @@ namespace PhotoTagsSynchronizer
             // 
             this.kryptonPageToolboxTagsDetails.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
             this.kryptonPageToolboxTagsDetails.AutoScroll = true;
+            this.kryptonPageToolboxTagsDetails.Controls.Add(this.comboBoxAlbum);
             this.kryptonPageToolboxTagsDetails.Controls.Add(this.label4);
             this.kryptonPageToolboxTagsDetails.Controls.Add(this.labelDescription);
             this.kryptonPageToolboxTagsDetails.Controls.Add(this.comboBoxMediaAiConfidence);
@@ -2084,7 +2084,6 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxTagsDetails.Controls.Add(this.labelTitle);
             this.kryptonPageToolboxTagsDetails.Controls.Add(this.labelAuthor);
             this.kryptonPageToolboxTagsDetails.Controls.Add(this.labelComments);
-            this.kryptonPageToolboxTagsDetails.Controls.Add(this.comboBoxAlbum);
             this.kryptonPageToolboxTagsDetails.Controls.Add(this.comboBoxDescription);
             this.kryptonPageToolboxTagsDetails.Controls.Add(this.comboBoxTitle);
             this.kryptonPageToolboxTagsDetails.Controls.Add(this.comboBoxAuthor);
@@ -2099,6 +2098,24 @@ namespace PhotoTagsSynchronizer
             this.kryptonPageToolboxTagsDetails.TextTitle = "Tags Details";
             this.kryptonPageToolboxTagsDetails.ToolTipTitle = "Edit media details";
             this.kryptonPageToolboxTagsDetails.UniqueName = "f7053440e7e94c0b988482712a5e99a9";
+            // 
+            // comboBoxAlbum
+            // 
+            this.comboBoxAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.comboBoxAlbum.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.comboBoxAlbum.DropDownWidth = 290;
+            this.comboBoxAlbum.IntegralHeight = false;
+            this.comboBoxAlbum.Items.AddRange(new object[] {
+            "sdd"});
+            this.comboBoxAlbum.Location = new System.Drawing.Point(98, 3);
+            this.comboBoxAlbum.Name = "comboBoxAlbum";
+            this.comboBoxAlbum.Size = new System.Drawing.Size(290, 21);
+            this.comboBoxAlbum.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.comboBoxAlbum.TabIndex = 15;
+            this.comboBoxAlbum.TextChanged += new System.EventHandler(this.comboBoxAlbum_TextChanged);
             // 
             // label4
             // 
@@ -2241,24 +2258,6 @@ namespace PhotoTagsSynchronizer
             this.labelComments.TabIndex = 13;
             this.labelComments.Values.Text = "Comments";
             // 
-            // comboBoxAlbum
-            // 
-            this.comboBoxAlbum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxAlbum.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxAlbum.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBoxAlbum.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxAlbum.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBoxAlbum.DropDownWidth = 588;
-            this.comboBoxAlbum.FormattingEnabled = true;
-            this.comboBoxAlbum.IntegralHeight = false;
-            this.comboBoxAlbum.Location = new System.Drawing.Point(98, 3);
-            this.comboBoxAlbum.Name = "comboBoxAlbum";
-            this.comboBoxAlbum.Size = new System.Drawing.Size(290, 21);
-            this.comboBoxAlbum.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.comboBoxAlbum.TabIndex = 0;
-            this.comboBoxAlbum.TextChanged += new System.EventHandler(this.comboBoxAlbum_TextChanged);
-            // 
             // comboBoxDescription
             // 
             this.comboBoxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -2266,9 +2265,12 @@ namespace PhotoTagsSynchronizer
             this.comboBoxDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxDescription.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBoxDescription.DropDownWidth = 588;
+            this.comboBoxDescription.DropDownWidth = 290;
             this.comboBoxDescription.FormattingEnabled = true;
             this.comboBoxDescription.IntegralHeight = false;
+            this.comboBoxDescription.Items.AddRange(new object[] {
+            "asd",
+            "ads"});
             this.comboBoxDescription.Location = new System.Drawing.Point(98, 53);
             this.comboBoxDescription.Name = "comboBoxDescription";
             this.comboBoxDescription.Size = new System.Drawing.Size(290, 21);
@@ -2283,9 +2285,12 @@ namespace PhotoTagsSynchronizer
             this.comboBoxTitle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxTitle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxTitle.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBoxTitle.DropDownWidth = 588;
+            this.comboBoxTitle.DropDownWidth = 290;
             this.comboBoxTitle.FormattingEnabled = true;
             this.comboBoxTitle.IntegralHeight = false;
+            this.comboBoxTitle.Items.AddRange(new object[] {
+            "ddd",
+            "dd"});
             this.comboBoxTitle.Location = new System.Drawing.Point(98, 27);
             this.comboBoxTitle.Name = "comboBoxTitle";
             this.comboBoxTitle.Size = new System.Drawing.Size(290, 21);
@@ -2300,9 +2305,12 @@ namespace PhotoTagsSynchronizer
             this.comboBoxAuthor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxAuthor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxAuthor.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBoxAuthor.DropDownWidth = 588;
+            this.comboBoxAuthor.DropDownWidth = 290;
             this.comboBoxAuthor.FormattingEnabled = true;
             this.comboBoxAuthor.IntegralHeight = false;
+            this.comboBoxAuthor.Items.AddRange(new object[] {
+            "dsf",
+            "sfd"});
             this.comboBoxAuthor.Location = new System.Drawing.Point(98, 103);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
             this.comboBoxAuthor.Size = new System.Drawing.Size(290, 21);
@@ -2317,9 +2325,12 @@ namespace PhotoTagsSynchronizer
             this.comboBoxComments.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxComments.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxComments.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBoxComments.DropDownWidth = 588;
+            this.comboBoxComments.DropDownWidth = 290;
             this.comboBoxComments.FormattingEnabled = true;
             this.comboBoxComments.IntegralHeight = false;
+            this.comboBoxComments.Items.AddRange(new object[] {
+            "fsd",
+            "fsd"});
             this.comboBoxComments.Location = new System.Drawing.Point(98, 78);
             this.comboBoxComments.Name = "comboBoxComments";
             this.comboBoxComments.Size = new System.Drawing.Size(290, 21);
@@ -3107,14 +3118,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewMap.AllowUserToAddRows = false;
             this.dataGridViewMap.AllowUserToDeleteRows = false;
             this.dataGridViewMap.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMap.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewMap.ColumnHeadersHeight = 29;
             this.dataGridViewMap.ContextMenuStrip = this.contextMenuStripMap;
             this.dataGridViewMap.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -3860,14 +3871,14 @@ namespace PhotoTagsSynchronizer
             this.dataGridViewExifToolWarning.AllowUserToAddRows = false;
             this.dataGridViewExifToolWarning.ColumnHeadersHeight = 29;
             this.dataGridViewExifToolWarning.ContextMenuStrip = this.contextMenuStripExiftoolWarning;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewExifToolWarning.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewExifToolWarning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewExifToolWarning.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewExifToolWarning.Name = "dataGridViewExifToolWarning";
@@ -5404,13 +5415,13 @@ namespace PhotoTagsSynchronizer
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPageToolboxTagsDetails)).EndInit();
             this.kryptonPageToolboxTagsDetails.ResumeLayout(false);
             this.kryptonPageToolboxTagsDetails.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAlbum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxMediaAiConfidence)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupBoxRating.Panel)).EndInit();
             this.groupBoxRating.Panel.ResumeLayout(false);
             this.groupBoxRating.Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupBoxRating)).EndInit();
             this.groupBoxRating.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAlbum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxDescription)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxTitle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAuthor)).EndInit();
@@ -5860,7 +5871,6 @@ namespace PhotoTagsSynchronizer
         private System.Windows.Forms.ToolStripMenuItem showMediaPosterToolStripMenuItem;
         private Krypton.Toolkit.KryptonComboBox comboBoxDescription;
         private Krypton.Toolkit.KryptonComboBox comboBoxTitle;
-        private Krypton.Toolkit.KryptonComboBox comboBoxAlbum;
         private Krypton.Toolkit.KryptonComboBox comboBoxComments;
         private Krypton.Toolkit.KryptonComboBox comboBoxGoogleLocationInterval;
         private Krypton.Toolkit.KryptonComboBox comboBoxGoogleTimeZoneShift;
@@ -5921,6 +5931,7 @@ namespace PhotoTagsSynchronizer
         private Krypton.Navigator.KryptonPage kryptonPage3;
         private Krypton.Navigator.KryptonPage kryptonPage10;
         private Krypton.Navigator.KryptonPage kryptonPage12;
+        private Krypton.Toolkit.KryptonComboBox comboBoxAlbum;
     }
 }
 

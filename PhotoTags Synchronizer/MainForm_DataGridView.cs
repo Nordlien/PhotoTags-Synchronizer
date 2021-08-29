@@ -152,7 +152,8 @@ namespace PhotoTagsSynchronizer
             {
                 bool isFileInDataGridView = DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath);
                     
-                DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView);
+                //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView);
+                BeginInvoke(new Action<DataGridView, bool>(DataGridViewHandler.SuspendLayoutSetDelay), dataGridView, isFileInDataGridView);
 
                 if (isFileInDataGridView)
                 {
@@ -331,7 +332,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateDataGridViewForSelectedItemsThread(ImageListViewSelectedItemCollection imageListViewSelectItems)
         {
             Thread threadPopulateDataGridView = new Thread(() => {
-                PopulateDataGridViewForSelectedItemsInvoke(imageListView1.SelectedItems);
+                //PopulateDataGridViewForSelectedItemsInvoke(imageListView1.SelectedItems);
             });
 
             threadPopulateDataGridView.Start();
@@ -358,13 +359,13 @@ namespace PhotoTagsSynchronizer
             {
                 DataGridView dataGridView = GetActiveTabDataGridView();
 
-                if (DataGridViewHandler.GetIsAgregated(dataGridView)) return;
+                if (dataGridView == null || DataGridViewHandler.GetIsAgregated(dataGridView)) return;
 
                 using (new WaitCursor())
                 {
                     List<FileEntryAttribute> lazyLoading;
-                    DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-
+                    //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
+                    BeginInvoke(new Action<DataGridView, bool>(DataGridViewHandler.SuspendLayoutSetDelay), dataGridView, true);
 
                     switch (GetActiveTabTag())
                     {

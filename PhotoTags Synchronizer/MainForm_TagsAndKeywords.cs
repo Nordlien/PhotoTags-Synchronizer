@@ -223,6 +223,13 @@ namespace PhotoTagsSynchronizer
         #region Popelate DataGridView view when Text changed
         private void comboBoxTitle_TextChanged(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (isSettingDefaultComboxValues) return;
+            if (GlobalData.IsPopulatingTags) return;
+
+            if (isFormLoading) 
+                return;
+
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
@@ -243,6 +250,10 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxDescription_TextChanged(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (isSettingDefaultComboxValues) return;
+            if (GlobalData.IsPopulatingTags) return;
+
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
@@ -262,6 +273,10 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxComments_TextChanged(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (isSettingDefaultComboxValues) return;
+            if (GlobalData.IsPopulatingTags) return;
+
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
@@ -281,6 +296,10 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxAlbum_TextChanged(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (isSettingDefaultComboxValues) return;
+            if (GlobalData.IsPopulatingTags) return;
+
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView,
@@ -300,6 +319,10 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxAuthor_TextChanged(object sender, EventArgs e)
         {
+            if (GlobalData.IsApplicationClosing) return;
+            if (isSettingDefaultComboxValues) return;
+            if (GlobalData.IsPopulatingTags) return;
+
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
             int rowIndex = DataGridViewHandler.GetRowIndex(dataGridView, 
@@ -320,6 +343,7 @@ namespace PhotoTagsSynchronizer
 
         private void radioButtonRating_Common_CheckedChanged()
         {
+            
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
             byte? rating = null;
             if (radioButtonRating1.Checked) rating = 1;
@@ -390,9 +414,12 @@ namespace PhotoTagsSynchronizer
         #region PupulateDetalView
         private void ClearDetailViewTagsAndKeywords()
         {
+            isSettingDefaultComboxValues = true;
+
             EnableDetailViewTagsAndKeywords(false);
 
             comboBoxMediaAiConfidence.SelectedIndex = Properties.Settings.Default.MediaAiConfidence;
+            
             comboBoxTitle.Items.Clear();
             comboBoxDescription.Items.Clear();
             comboBoxComments.Items.Clear();
@@ -404,6 +431,8 @@ namespace PhotoTagsSynchronizer
             radioButtonRating3.Checked = false;
             radioButtonRating4.Checked = false;
             radioButtonRating5.Checked = false;
+            isSettingDefaultComboxValues = false;
+
         }
         #endregion
 
@@ -472,6 +501,7 @@ namespace PhotoTagsSynchronizer
         private void PopulateDetailViewTagsAndKeywords(DataGridView dataGridView)
         {
             if (dataGridView == null) return;
+            isSettingDefaultComboxValues = true;
 
             for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
             {
@@ -491,6 +521,8 @@ namespace PhotoTagsSynchronizer
             }
 
             EnableDetailViewTagsAndKeywords(true);
+            isSettingDefaultComboxValues = false;
+
         }
         #endregion 
 

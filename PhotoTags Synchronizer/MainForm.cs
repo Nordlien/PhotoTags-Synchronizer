@@ -282,7 +282,6 @@ namespace PhotoTagsSynchronizer
         //Avoid flickering
         private bool isFormLoading = true;                  //Avoid flicker and on change events going in loop
         private bool isSettingDefaultComboxValues = false;  //Avoid multiple reload when value are set, avoid on value change event
-        private bool isTabControlToolboxChanging = false;   //Avoid multiple reload when value are set, avoid on value change event
         private FormWindowState _previousWindowsState = FormWindowState.Normal;
         bool isSlideShowRunning = false;
         int slideShowIntervalMs = 0;
@@ -527,8 +526,8 @@ namespace PhotoTagsSynchronizer
             GlobalData.dataGridViewHandlerConvertAndMerge.ShowMediaPosterWindowToolStripMenuItemSelectedEvent += DataGridViewHandlerConvertAndMerge_ShowMediaPosterWindowToolStripMenuItemSelectedEvent;
             #endregion
 
-            #region Setup Global Variables - Map
             isSettingDefaultComboxValues = true;
+            #region Setup Global Variables - Map
             comboBoxGoogleTimeZoneShift.SelectedIndex = Properties.Settings.Default.ComboBoxGoogleTimeZoneShift;    //0 time shift = 12
             comboBoxGoogleLocationInterval.SelectedIndex = Properties.Settings.Default.ComboBoxGoogleLocationInterval;    //30 minutes Index 2
             comboBoxMapZoomLevel.SelectedIndex = Properties.Settings.Default.ComboBoxMapZoomLevel;     //13 map zoom level 14
@@ -536,8 +535,8 @@ namespace PhotoTagsSynchronizer
 
             #region Setup Global Variables - Rename
             textBoxRenameNewName.Text = Properties.Settings.Default.RenameVariable;
+            #endregion
             isSettingDefaultComboxValues = false;
-            #endregion 
 
             #region Setup Global Variables - Thumbnail
             ThumbnailSaveSize = Properties.Settings.Default.ApplicationThumbnail;
@@ -659,9 +658,10 @@ namespace PhotoTagsSynchronizer
         #region Resize and restore windows size when reopen application        
         private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
         {
+            if (isFormLoading) return;
             try
             {
-                isTabControlToolboxChanging = false;
+                
                 PopulateDataGridViewForSelectedItemsThread(imageListView1.SelectedItems);
             }
             catch (Exception ex)
@@ -670,13 +670,6 @@ namespace PhotoTagsSynchronizer
                 Logger.Error(ex);
             }
         }
-
-        private void kryptonWorkspaceCellToolbox_Selecting(object sender, Krypton.Navigator.KryptonPageCancelEventArgs e)
-        {
-            isTabControlToolboxChanging = true;
-        }
-
-        
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
@@ -910,6 +903,8 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
+
+
 
 
 
