@@ -8,18 +8,6 @@
     <Setting Name="MainFormSize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">1173, 778</Value>
     </Setting>
-    <Setting Name="SplitContainerFolder" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">283</Value>
-    </Setting>
-    <Setting Name="SplitContainerImages" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">549</Value>
-    </Setting>
-    <Setting Name="SplitContainerMain" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">514</Value>
-    </Setting>
-    <Setting Name="SplitContainerMap" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">277</Value>
-    </Setting>
     <Setting Name="MainFormLocation" Type="System.Drawing.Point" Scope="User">
       <Value Profile="(Default)">50, 50</Value>
     </Setting>
@@ -1136,6 +1124,39 @@ Dimensions</Value>
     </Setting>
     <Setting Name="ApplicationThemes" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="WorkspaceCellFolderSearchFilterStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">313*,50*</Value>
+    </Setting>
+    <Setting Name="WorkspaceCellMediaFilesStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">367*,50*</Value>
+    </Setting>
+    <Setting Name="WorkspaceCellToolboxStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">674*,50*</Value>
+    </Setting>
+    <Setting Name="WorkspaceCellToolboxMapBroswerStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">50*,211*</Value>
+    </Setting>
+    <Setting Name="WorkspaceCellToolboxMapBroswerPropertiesStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">50*,35</Value>
+    </Setting>
+    <Setting Name="WorkspaceCellToolboxMapDetailsStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">50*,497*</Value>
+    </Setting>
+    <Setting Name="WorkspaceCellToolboxMapPropertiesStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">50*,29</Value>
+    </Setting>
+    <Setting Name="WorkspaceCellToolboxRenameResultStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">50*,650*</Value>
+    </Setting>
+    <Setting Name="WorkspaceCellToolboxRenameVariablesStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">50*,132</Value>
+    </Setting>
+    <Setting Name="WorkspaceCellToolboxTagsDetailsStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">50*,272*</Value>
+    </Setting>
+    <Setting Name="WorkspaceCellToolboxTagsKeywordsStarSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">50*,510*</Value>
     </Setting>
   </Settings>
 </SettingsFile>

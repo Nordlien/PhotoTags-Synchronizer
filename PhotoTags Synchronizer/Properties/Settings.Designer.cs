@@ -49,54 +49,6 @@ namespace PhotoTagsSynchronizer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("283")]
-        public int SplitContainerFolder {
-            get {
-                return ((int)(this["SplitContainerFolder"]));
-            }
-            set {
-                this["SplitContainerFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("549")]
-        public int SplitContainerImages {
-            get {
-                return ((int)(this["SplitContainerImages"]));
-            }
-            set {
-                this["SplitContainerImages"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("514")]
-        public int SplitContainerMain {
-            get {
-                return ((int)(this["SplitContainerMain"]));
-            }
-            set {
-                this["SplitContainerMain"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("277")]
-        public int SplitContainerMap {
-            get {
-                return ((int)(this["SplitContainerMap"]));
-            }
-            set {
-                this["SplitContainerMap"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("50, 50")]
         public global::System.Drawing.Point MainFormLocation {
             get {
@@ -2282,6 +2234,138 @@ explorer ms-photos?filename=""{FileFullPath}""")]
             }
             set {
                 this["ApplicationThemes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("313*,50*")]
+        public string WorkspaceCellFolderSearchFilterStarSize {
+            get {
+                return ((string)(this["WorkspaceCellFolderSearchFilterStarSize"]));
+            }
+            set {
+                this["WorkspaceCellFolderSearchFilterStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("367*,50*")]
+        public string WorkspaceCellMediaFilesStarSize {
+            get {
+                return ((string)(this["WorkspaceCellMediaFilesStarSize"]));
+            }
+            set {
+                this["WorkspaceCellMediaFilesStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("674*,50*")]
+        public string WorkspaceCellToolboxStarSize {
+            get {
+                return ((string)(this["WorkspaceCellToolboxStarSize"]));
+            }
+            set {
+                this["WorkspaceCellToolboxStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50*,211*")]
+        public string WorkspaceCellToolboxMapBroswerStarSize {
+            get {
+                return ((string)(this["WorkspaceCellToolboxMapBroswerStarSize"]));
+            }
+            set {
+                this["WorkspaceCellToolboxMapBroswerStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50*,35")]
+        public string WorkspaceCellToolboxMapBroswerPropertiesStarSize {
+            get {
+                return ((string)(this["WorkspaceCellToolboxMapBroswerPropertiesStarSize"]));
+            }
+            set {
+                this["WorkspaceCellToolboxMapBroswerPropertiesStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50*,497*")]
+        public string WorkspaceCellToolboxMapDetailsStarSize {
+            get {
+                return ((string)(this["WorkspaceCellToolboxMapDetailsStarSize"]));
+            }
+            set {
+                this["WorkspaceCellToolboxMapDetailsStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50*,29")]
+        public string WorkspaceCellToolboxMapPropertiesStarSize {
+            get {
+                return ((string)(this["WorkspaceCellToolboxMapPropertiesStarSize"]));
+            }
+            set {
+                this["WorkspaceCellToolboxMapPropertiesStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50*,650*")]
+        public string WorkspaceCellToolboxRenameResultStarSize {
+            get {
+                return ((string)(this["WorkspaceCellToolboxRenameResultStarSize"]));
+            }
+            set {
+                this["WorkspaceCellToolboxRenameResultStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50*,132")]
+        public string WorkspaceCellToolboxRenameVariablesStarSize {
+            get {
+                return ((string)(this["WorkspaceCellToolboxRenameVariablesStarSize"]));
+            }
+            set {
+                this["WorkspaceCellToolboxRenameVariablesStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50*,272*")]
+        public string WorkspaceCellToolboxTagsDetailsStarSize {
+            get {
+                return ((string)(this["WorkspaceCellToolboxTagsDetailsStarSize"]));
+            }
+            set {
+                this["WorkspaceCellToolboxTagsDetailsStarSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50*,510*")]
+        public string WorkspaceCellToolboxTagsKeywordsStarSize {
+            get {
+                return ((string)(this["WorkspaceCellToolboxTagsKeywordsStarSize"]));
+            }
+            set {
+                this["WorkspaceCellToolboxTagsKeywordsStarSize"] = value;
             }
         }
     }

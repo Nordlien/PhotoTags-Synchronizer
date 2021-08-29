@@ -42,10 +42,6 @@ namespace PhotoTagsSynchronizer
         public const string LinkTabAndDataGridViewNameProperties = "Properties";
         public const string LinkTabAndDataGridViewNameRename = "Rename";
         public const string LinkTabAndDataGridViewNameConvertAndMerge = "Convert and Merge";
-        private string filenameLayoutMain;
-        private string filenameLayoutMap;
-        private string filenameLayoutRename;
-        private string filenameLayoutTags;
         
         public void UpdateColorControls(Control control, bool useDarkMode)
         {
@@ -564,29 +560,19 @@ namespace PhotoTagsSynchronizer
                 this.WindowState = FormWindowState.Normal;
             }
 
-            filenameLayoutMain = FileHandler.GetLocalApplicationDataPath("LayoutMain.xml", false);
-            filenameLayoutMap = FileHandler.GetLocalApplicationDataPath("LayoutMap.xml", false);
-            filenameLayoutRename = FileHandler.GetLocalApplicationDataPath("LayoutRename.xml", false);
-            filenameLayoutTags = FileHandler.GetLocalApplicationDataPath("LauoutTags.xml", false);
+            kryptonWorkspaceCellFolderSearchFilter.StarSize = Properties.Settings.Default.WorkspaceCellFolderSearchFilterStarSize; //"313*,50*"
+            kryptonWorkspaceCellMediaFiles.StarSize = Properties.Settings.Default.WorkspaceCellMediaFilesStarSize; //"367*,50*"
+            kryptonWorkspaceCellToolbox.StarSize = Properties.Settings.Default.WorkspaceCellToolboxStarSize; //"674*,50*"
+            kryptonWorkspaceCellToolboxMapBroswer.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapBroswerStarSize; //"50*,211*"
+            kryptonWorkspaceCellToolboxMapBroswerProperties.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapBroswerPropertiesStarSize; //"50*,35"
+            kryptonWorkspaceCellToolboxMapDetails.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapDetailsStarSize; //"50*,497*"
+            kryptonWorkspaceCellToolboxMapProperties.StarSize = Properties.Settings.Default.WorkspaceCellToolboxMapPropertiesStarSize; //"50*,29"
+            kryptonWorkspaceCellToolboxRenameResult.StarSize = Properties.Settings.Default.WorkspaceCellToolboxRenameResultStarSize; //"50*,650*"
+            kryptonWorkspaceCellToolboxRenameVariables.StarSize = Properties.Settings.Default.WorkspaceCellToolboxRenameVariablesStarSize; //"50*,132"
+            kryptonWorkspaceCellToolboxTagsDetails.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize; //"50*,272*"
+            kryptonWorkspaceCellToolboxTagsKeywords.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize; //"50*,510*"
 
-            /*
-            splitContainerFolder.BorderStyle = BorderStyle.None;
-            splitContainerFolder.SplitterDistance = Properties.Settings.Default.SplitContainerFolder;
-            splitContainerImages.BorderStyle = BorderStyle.None;
-            splitContainerImages.SplitterDistance = Properties.Settings.Default.SplitContainerImages;
-            splitContainerMap.BorderStyle = BorderStyle.None;
-            splitContainerMap.SplitterDistance = Properties.Settings.Default.SplitContainerMap;
-            */
-            try
-            {
-                if (File.Exists(filenameLayoutMain)) kryptonWorkspaceMain.LoadLayoutFromFile(filenameLayoutMain);
-                if (File.Exists(filenameLayoutMap)) kryptonWorkspaceToolboxMap.LoadLayoutFromFile(filenameLayoutMap);
-                if (File.Exists(filenameLayoutRename)) kryptonWorkspaceToolboxRename.LoadLayoutFromFile(filenameLayoutRename);
-                if (File.Exists(filenameLayoutTags)) kryptonWorkspaceToolboxTags.LoadLayoutFromFile(filenameLayoutTags);
-            } catch
-            {
-
-            }
+            
             toolStripButtonHistortyColumns.Checked = Properties.Settings.Default.ShowHistortyColumns;
             toolStripButtonErrorColumns.Checked = Properties.Settings.Default.ShowErrorColumns;
 
@@ -686,155 +672,166 @@ namespace PhotoTagsSynchronizer
         #endregion
 
         #region MainForm_FormClosing
+        private bool isClosing = false;
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (commonQueueSaveMetadataUpdatedByUser.Count > 0)
+            if (!isClosing)
             {
-                if (MessageBox.Show(
-                    "There are " + commonQueueSaveMetadataUpdatedByUser.Count + " unsaved media files. Are you sure you will close application?",
-                    "Changed will get lost.", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                isClosing = true;
+                if (commonQueueSaveMetadataUpdatedByUser.Count > 0)
                 {
-                    e.Cancel = true;
-                    return;
+                    if (MessageBox.Show(
+                        "There are " + commonQueueSaveMetadataUpdatedByUser.Count + " unsaved media files. Are you sure you will close application?",
+                        "Changed will get lost.", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
                 }
-            }
-
-            try
-            {
-                exiftoolReader.MetadataGroupPrioritiesWrite(); //Updated json config file if new tags found
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities");
-            }
-
-            try
-            {
-                try
-                {
-                    browser.Dispose();
-                } catch { }
-
-                GlobalData.IsApplicationClosing = true;
-                GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
-                MetadataDatabaseCache.StopCaching = true;
-                ThumbnailDatabaseCache.StopCaching = true;
-
-                //Close down nHTTP server;
-                nHttpServerThreadWaitApplicationClosing.Set();
-
-                FormSplash.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
-
-                FormSplash.UpdateStatus("Saving layout...");
-
-                
-
-                //---------------------------------------------------------
-                try
-                {
-                    if (this.WindowState == FormWindowState.Normal)
-                    {
-                        Properties.Settings.Default.IsMainFormMaximized = false;
-                        Properties.Settings.Default.MainFormSize = this.Size;
-                        Properties.Settings.Default.MainFormLocation = this.Location;
-                    }
-                    else
-                    {
-                        Properties.Settings.Default.IsMainFormMaximized = true;
-                        Properties.Settings.Default.MainFormSize = this.RestoreBounds.Size;
-                        Properties.Settings.Default.MainFormLocation = this.RestoreBounds.Location;
-                    }
-
-                    /*Properties.Settings.Default.SplitContainerImages = splitContainerImages.SplitterDistance;
-                    Properties.Settings.Default.SplitContainerFolder = splitContainerFolder.SplitterDistance;
-                    Properties.Settings.Default.SplitContainerMap = splitContainerMap.SplitterDistance;*/
-                    
-
-                    kryptonWorkspaceMain.SaveLayoutToFile(filenameLayoutMain);
-                    kryptonWorkspaceToolboxMap.SaveLayoutToFile(filenameLayoutMap);
-                    kryptonWorkspaceToolboxRename.SaveLayoutToFile(filenameLayoutRename);
-                    kryptonWorkspaceToolboxTags.SaveLayoutToFile(filenameLayoutTags);
-
-                } catch { }
 
                 try
                 {
-                    Properties.Settings.Default.Save();
+                    exiftoolReader.MetadataGroupPrioritiesWrite(); //Updated json config file if new tags found
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Can't save settings");
+                    MessageBox.Show(ex.Message, "Can't save settings, Metadata Group Priorities");
                 }
-                //---------------------------------------------------------
-
-                FormSplash.UpdateStatus("Closing Exiftool read...");
-                try
-                {
-                    if (exiftoolReader != null) exiftoolReader.Close();
-                }
-                catch { }
-
-                //---------------------------------------------------------
 
                 try
                 {
-                    ImageListViewClearAll(imageListView1);
-
-                    imageListView1.Dispose();
-                    imageListView1.StoppBackgroundThreads();
-                }
-                catch { }
-
-                //---------------------------------------------------------
-                Application.DoEvents();
-                Task.Delay(200).Wait(); 
-
-                int waitForProcessEndRetray = 30;
-
-                FormSplash.UpdateStatus("Stopping ImageView background threads...");
-                try
-                {
-                    waitForProcessEndRetray = 30;
-                    while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
+                    try
                     {
-                        Application.DoEvents();
-                        Task.Delay(200).Wait();
+                        browser.Dispose();
                     }
-                } catch { }
+                    catch { }
 
-                FormSplash.UpdateStatus("Stopping fetch metadata background threads...");
-                try
-                {
-                    waitForProcessEndRetray = 30;
-                    while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
+                    GlobalData.IsApplicationClosing = true;
+                    GlobalData.IsStopAndEmptyExiftoolReadQueueRequest = true;
+                    MetadataDatabaseCache.StopCaching = true;
+                    ThumbnailDatabaseCache.StopCaching = true;
+
+                    //Close down nHTTP server;
+                    nHttpServerThreadWaitApplicationClosing.Set();
+
+                    FormSplash.ShowSplashScreen("PhotoTags Synchronizer - Closing...", 6, false, false);
+
+                    FormSplash.UpdateStatus("Saving layout...");
+
+
+
+                    //---------------------------------------------------------
+                    try
                     {
-                        Application.DoEvents();
-                        Task.Delay(100).Wait();
+                        if (this.WindowState == FormWindowState.Normal)
+                        {
+                            Properties.Settings.Default.IsMainFormMaximized = false;
+                            Properties.Settings.Default.MainFormSize = this.Size;
+                            Properties.Settings.Default.MainFormLocation = this.Location;
+                        }
+                        else
+                        {
+                            Properties.Settings.Default.IsMainFormMaximized = true;
+                            Properties.Settings.Default.MainFormSize = this.RestoreBounds.Size;
+                            Properties.Settings.Default.MainFormLocation = this.RestoreBounds.Location;
+                        }
+
+                        kryptonWorkspaceCellToolboxTagsDetails.HideAllPages();
+                        Properties.Settings.Default.WorkspaceCellFolderSearchFilterStarSize = kryptonWorkspaceCellFolderSearchFilter.StarSize; //"313*,50*"
+                        Properties.Settings.Default.WorkspaceCellMediaFilesStarSize = kryptonWorkspaceCellMediaFiles.StarSize; //"367*,50*"
+                        Properties.Settings.Default.WorkspaceCellToolboxStarSize = kryptonWorkspaceCellToolbox.StarSize; //"674*,50*"
+                        Properties.Settings.Default.WorkspaceCellToolboxMapBroswerStarSize = kryptonWorkspaceCellToolboxMapBroswer.StarSize; //"50*,211*"
+                        Properties.Settings.Default.WorkspaceCellToolboxMapBroswerPropertiesStarSize = kryptonWorkspaceCellToolboxMapBroswerProperties.StarSize; //"50*,35"
+                        Properties.Settings.Default.WorkspaceCellToolboxMapDetailsStarSize = kryptonWorkspaceCellToolboxMapDetails.StarSize; //"50*,497*"
+                        Properties.Settings.Default.WorkspaceCellToolboxMapPropertiesStarSize = kryptonWorkspaceCellToolboxMapProperties.StarSize; //"50*,29"
+                        Properties.Settings.Default.WorkspaceCellToolboxRenameResultStarSize = kryptonWorkspaceCellToolboxRenameResult.StarSize; //"50*,650*"
+                        Properties.Settings.Default.WorkspaceCellToolboxRenameVariablesStarSize = kryptonWorkspaceCellToolboxRenameVariables.StarSize; //"50*,132"
+                        Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize = kryptonWorkspaceCellToolboxTagsDetails.StarSize; //"50*,272*"
+                        Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize = kryptonWorkspaceCellToolboxTagsKeywords.StarSize; //"50*,510*"
+
                     }
-                }
-                catch { }
+                    catch { }
 
-                FormSplash.UpdateStatus("Disconnecting databases...");
-                try
+                    try
+                    {
+                        Properties.Settings.Default.Save();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Can't save settings");
+                    }
+                    //---------------------------------------------------------
+
+                    FormSplash.UpdateStatus("Closing Exiftool read...");
+                    try
+                    {
+                        if (exiftoolReader != null) exiftoolReader.Close();
+                    }
+                    catch { }
+
+                    //---------------------------------------------------------
+
+                    try
+                    {
+                        ImageListViewClearAll(imageListView1);
+
+                        imageListView1.Dispose();
+                        imageListView1.StoppBackgroundThreads();
+                    }
+                    catch { }
+
+                    //---------------------------------------------------------
+                    Application.DoEvents();
+                    Task.Delay(200).Wait();
+
+                    int waitForProcessEndRetray = 30;
+
+                    FormSplash.UpdateStatus("Stopping ImageView background threads...");
+                    try
+                    {
+                        waitForProcessEndRetray = 30;
+                        while (!imageListView1.IsBackgroundThreadsStopped() && waitForProcessEndRetray-- > 0)
+                        {
+                            Application.DoEvents();
+                            Task.Delay(200).Wait();
+                        }
+                    }
+                    catch { }
+
+                    FormSplash.UpdateStatus("Stopping fetch metadata background threads...");
+                    try
+                    {
+                        waitForProcessEndRetray = 30;
+                        while (IsAnyThreadRunning() && waitForProcessEndRetray-- > 0)
+                        {
+                            Application.DoEvents();
+                            Task.Delay(100).Wait();
+                        }
+                    }
+                    catch { }
+
+                    FormSplash.UpdateStatus("Disconnecting databases...");
+                    try
+                    {
+                        databaseUtilitiesSqliteMetadata.DatabaseClose(); //Close database after all background threads stopped
+                    }
+                    catch { }
+
+                    FormSplash.UpdateStatus("Disposing...");
+                    try
+                    {
+                        imageListView1.Dispose();
+                    }
+                    catch { }
+
+                    FormSplash.CloseForm();
+                }
+                catch (Exception ex)
                 {
-                    databaseUtilitiesSqliteMetadata.DatabaseClose(); //Close database after all background threads stopped
+                    MessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application");
                 }
-                catch { }
-
-                FormSplash.UpdateStatus("Disposing...");
-                try
-                {
-                    imageListView1.Dispose();
-                }
-                catch { }
-
-                FormSplash.CloseForm();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Problems during close all threads and other process during closing application");
-            }
-
+            isClosing = false;
         }
         #endregion
 
