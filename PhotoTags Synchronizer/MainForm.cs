@@ -655,7 +655,7 @@ namespace PhotoTagsSynchronizer
         }
         #endregion
 
-        #region Resize and restore windows size when reopen application        
+                
         private void kryptonWorkspaceCellToolbox_SelectedPageChanged(object sender, EventArgs e)
         {
             if (isFormLoading) return;
@@ -671,6 +671,7 @@ namespace PhotoTagsSynchronizer
             }
         }
 
+        #region Resize and restore windows size when reopen application
         private void MainForm_Resize(object sender, EventArgs e)
         {
             if (isFormLoading) return;
@@ -903,6 +904,7 @@ namespace PhotoTagsSynchronizer
             PopulateImageListView_FromFolderSelected(false, true);
             FilesSelected();
         }
+
 
 
 

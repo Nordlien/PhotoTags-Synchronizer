@@ -223,12 +223,11 @@ namespace PhotoTagsSynchronizer
         #region Popelate DataGridView view when Text changed
         private void comboBoxTitle_TextChanged(object sender, EventArgs e)
         {
+            if (isFormLoading) return;
             if (GlobalData.IsApplicationClosing) return;
             if (isSettingDefaultComboxValues) return;
             if (GlobalData.IsPopulatingTags) return;
-
-            if (isFormLoading) 
-                return;
+            
 
             DataGridView dataGridView = dataGridViewTagsAndKeywords;
 
@@ -250,6 +249,7 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxDescription_TextChanged(object sender, EventArgs e)
         {
+            if (isFormLoading) return;
             if (GlobalData.IsApplicationClosing) return;
             if (isSettingDefaultComboxValues) return;
             if (GlobalData.IsPopulatingTags) return;
@@ -273,6 +273,7 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxComments_TextChanged(object sender, EventArgs e)
         {
+            if (isFormLoading) return;
             if (GlobalData.IsApplicationClosing) return;
             if (isSettingDefaultComboxValues) return;
             if (GlobalData.IsPopulatingTags) return;
@@ -296,6 +297,7 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxAlbum_TextChanged(object sender, EventArgs e)
         {
+            if (isFormLoading) return;
             if (GlobalData.IsApplicationClosing) return;
             if (isSettingDefaultComboxValues) return;
             if (GlobalData.IsPopulatingTags) return;
@@ -319,6 +321,7 @@ namespace PhotoTagsSynchronizer
 
         private void comboBoxAuthor_TextChanged(object sender, EventArgs e)
         {
+            if (isFormLoading) return;
             if (GlobalData.IsApplicationClosing) return;
             if (isSettingDefaultComboxValues) return;
             if (GlobalData.IsPopulatingTags) return;
