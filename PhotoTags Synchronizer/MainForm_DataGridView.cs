@@ -322,7 +322,7 @@ namespace PhotoTagsSynchronizer
                         break;
                     case LinkTabAndDataGridViewNameConvertAndMerge:
                         break;
-                    //default: throw new NotImplementedException();
+                    default: throw new NotImplementedException();
                 }
             }
         }
@@ -365,8 +365,7 @@ namespace PhotoTagsSynchronizer
                 {
                     List<FileEntryAttribute> lazyLoading;
                     DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-                    //BeginInvoke(new Action<DataGridView, bool>(DataGridViewHandler.SuspendLayoutSetDelay), dataGridView, true);
-
+                    
                     switch (GetActiveTabTag())
                     {
                         case LinkTabAndDataGridViewNameTags:
@@ -452,7 +451,7 @@ namespace PhotoTagsSynchronizer
                             DataGridViewHandlerConvertAndMerge.FilesCutCopyPasteDrag = filesCutCopyPasteDrag;
                             DataGridViewHandlerConvertAndMerge.PopulateSelectedFiles(dataGridView, imageListViewSelectItems, ((DataGridViewSize)Properties.Settings.Default.CellSizeRename | DataGridViewSize.RenameConvertAndMergeSize), ShowWhatColumns.HistoryColumns | ShowWhatColumns.ErrorColumns);
                             break;
-                        //default: throw new NotImplementedException();
+                        default: throw new NotImplementedException();
 
                     }
                     DataGridViewHandler.ResumeLayoutDelayed(dataGridView);

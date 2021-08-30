@@ -543,9 +543,11 @@ namespace PhotoTagsSynchronizer
             autoKeywordConvertions = AutoKeywordHandler.PopulateList(AutoKeywordHandler.ReadDataSetFromXML());
 
             #region Initialize layout setup
+            
 
             #region Initialize layout setup - Windows Size and Splitters
             FormSplash.UpdateStatus("Initialize layout setup: Sizes...");
+            
             isFormLoading = true; //MainForm_Shown(object sender, EventArgs e) -> isFormLoading = false;
 
             this.Size = Properties.Settings.Default.MainFormSize;
@@ -571,17 +573,15 @@ namespace PhotoTagsSynchronizer
             kryptonWorkspaceCellToolboxRenameVariables.StarSize = Properties.Settings.Default.WorkspaceCellToolboxRenameVariablesStarSize; //"50*,132"
             kryptonWorkspaceCellToolboxTagsDetails.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsDetailsStarSize; //"50*,272*"
             kryptonWorkspaceCellToolboxTagsKeywords.StarSize = Properties.Settings.Default.WorkspaceCellToolboxTagsKeywordsStarSize; //"50*,510*"
-
-            
+            #endregion 
+            this.SuspendLayout();
+            #region Initialize layout setup - Show/Hide error and History
             toolStripButtonHistortyColumns.Checked = Properties.Settings.Default.ShowHistortyColumns;
             toolStripButtonErrorColumns.Checked = Properties.Settings.Default.ShowErrorColumns;
-
             showWhatColumns = ShowWhatColumnHandler.SetShowWhatColumns(toolStripButtonHistortyColumns.Checked, toolStripButtonErrorColumns.Checked);
+            #endregion
 
             timerShowErrorMessage.Enabled = true;
-            #endregion 
-
-            this.SuspendLayout();
 
             #region Initialize layout setup - Initialize layout toolstrip: Exiftool
             FormSplash.UpdateStatus("Initialize layout toolstrip: Exiftool...");
@@ -598,6 +598,7 @@ namespace PhotoTagsSynchronizer
             PopulatePeopleToolStripMenuItems();
             #endregion 
 
+            this.ResumeLayout();
             #endregion
 
             #region Initialize nHTTP server
@@ -637,7 +638,7 @@ namespace PhotoTagsSynchronizer
             #endregion
 
 
-            this.ResumeLayout();
+            
         }
         #endregion
 
