@@ -442,6 +442,7 @@ namespace PhotoTagsSynchronizer
         #region EnableDetailViewTagsAndKeywords(bool enable)
         private void EnableDetailViewTagsAndKeywords(bool enable)
         {
+            /*
             comboBoxMediaAiConfidence.Enabled = enable;
             comboBoxTitle.Enabled = enable;
             comboBoxDescription.Enabled = enable;
@@ -481,6 +482,7 @@ namespace PhotoTagsSynchronizer
                 radioButtonRating4.SuspendLayout();
                 radioButtonRating5.SuspendLayout();
             }
+            */
         }
         #endregion
 
@@ -505,6 +507,12 @@ namespace PhotoTagsSynchronizer
         {
             if (dataGridView == null) return;
             isSettingDefaultComboxValues = true;
+
+            comboBoxTitle.Text = "";
+            comboBoxDescription.Text = "";
+            comboBoxComments.Text = "";
+            comboBoxAlbum.Text = "";
+            comboBoxAuthor.Text = "";
 
             for (int columnIndex = 0; columnIndex < DataGridViewHandler.GetColumnCount(dataGridView); columnIndex++)
             {

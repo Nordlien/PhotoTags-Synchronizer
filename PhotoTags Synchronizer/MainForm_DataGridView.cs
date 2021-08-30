@@ -152,8 +152,8 @@ namespace PhotoTagsSynchronizer
             {
                 bool isFileInDataGridView = DataGridViewHandler.DoesColumnFilenameExist(dataGridView, fileEntryAttribute.FileFullPath);
                     
-                //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView);
-                BeginInvoke(new Action<DataGridView, bool>(DataGridViewHandler.SuspendLayoutSetDelay), dataGridView, isFileInDataGridView);
+                DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, isFileInDataGridView);
+                //BeginInvoke(new Action<DataGridView, bool>(DataGridViewHandler.SuspendLayoutSetDelay), dataGridView, isFileInDataGridView);
 
                 if (isFileInDataGridView)
                 {
@@ -364,8 +364,8 @@ namespace PhotoTagsSynchronizer
                 using (new WaitCursor())
                 {
                     List<FileEntryAttribute> lazyLoading;
-                    //DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
-                    BeginInvoke(new Action<DataGridView, bool>(DataGridViewHandler.SuspendLayoutSetDelay), dataGridView, true);
+                    DataGridViewHandler.SuspendLayoutSetDelay(dataGridView, true);
+                    //BeginInvoke(new Action<DataGridView, bool>(DataGridViewHandler.SuspendLayoutSetDelay), dataGridView, true);
 
                     switch (GetActiveTabTag())
                     {
