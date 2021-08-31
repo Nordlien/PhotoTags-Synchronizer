@@ -913,8 +913,928 @@ namespace PhotoTagsSynchronizer
 
 
 
+
         #endregion
 
+        private void toolStripButtonMediaPreviewPrevious_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewNext_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewPlay_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewPause_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewFastBackward_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewFastForward_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewStop_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPreviewSlideShow2sec_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPreviewSlideShow4sec_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPreviewSlideShow6sec_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPreviewSlideShow8sec_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPreviewSlideShow10sec_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPreviewSlideShowStop_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewRotateCCW_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewRotate180_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewRotateCW_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonMediaPreviewClose_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTreeViewFolderCut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTreeViewFolderCopy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTreeViewFolderCopyFolderNameToClipboard_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTreeViewFolderPaste_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTreeViewFolderDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTreeViewFolderRefreshFolder_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTreeViewFolderReadSubfolders_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTreeViewFolderReload_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTreeViewFolderClearCache_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTreeViewFolderAutoCorrectMetadata_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openFolderLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void imageListView1_ItemHover(object sender, ItemHoverEventArgs e)
+        {
+
+        }
+
+        private void imageListView1_ItemDoubleClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
+
+        private void imageListView1_SelectionChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void imageListView1_ThumbnailCaching(object sender, ItemEventArgs e)
+        {
+
+        }
+
+        private void imageListView1_RetrieveImage(object sender, RetrieveItemImageEventArgs e)
+        {
+
+        }
+
+        private void imageListView1_RetrieveItemThumbnail(object sender, RetrieveItemThumbnailEventArgs e)
+        {
+
+        }
+
+        private void imageListView1_RetrieveItemMetadataDetails(object sender, RetrieveItemMetadataDetailsEventArgs e)
+        {
+
+        }
+
+        private void radioButtonRating5_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButtonRating4_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButtonRating3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButtonRating2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButtonRating1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cutToolStripMenuTagsBrokerCut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void copyToolStripMenuTagsBrokerCopy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pasteToolStripMenuTagsBrokerPaste_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteToolStripMenuTagsBrokerDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void undoToolStripMenuTags_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void redoToolStripMenuTags_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void findToolStripMenuTag_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void replaceToolStripMenuTag_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuTagsBrokerSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void markAsFavoriteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void removeAsFavoriteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toggleFavoriteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTagsCopyText_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTagsOverwriteText_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toggleTagSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selectTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void removeTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemShowPosterWindowKeywords_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemTagsAndKeywordMediaPreview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleCut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleCopy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeoplePaste_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleUndo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleRedo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleFind_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleReplace_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleMarkFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleRemoveFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleToggleFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleTogglePeopleTag_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleSelectPeopleTag_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleRemovePeopleTag_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleShowRegionSelector_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemPeopleMediaPreview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapCut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapCopy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapPaste_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapUndo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapRedo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapFind_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapReplace_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapMarkFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapRemoveFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapToggleFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapCopyNotOverwrite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapCopyAndOverwrite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemShowCoordinateOnMap_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemShowCoordinateOnGoogleMap_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapReloadLocationUsingNominatim_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemShowPosterWindowMap_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMapMediaPreview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateCut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateCopy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDatePaste_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateUndo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateRedo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateFind_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateReplace_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateSave_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateMarkFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateRemoveFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateToggleFavourite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemShowPosterWindowDate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDateMediaPreview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolCopy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolFind_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolMarkFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolRemoveFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolToggleFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemShowPosterWindowExiftool_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemMediaPreview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolWarningCopy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolWarningFind_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolWarningMarkFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolWarningRemoveFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolWarningToggleFavorite_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemShowPosterWindowWarnings_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemExiftoolWarningMediaPreview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void thumbnailsToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void galleryToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void detailsToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void paneToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void columnsToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonThumbnailSize1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonThumbnailSize2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonThumbnailSize3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonThumbnailSize4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonThumbnailSize5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rotate180ToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rotateCWToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonPreview_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonSelectPrevious_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectSameDay_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectSame3Day_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectSameWeek_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectSame2week_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectSameMonth_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectFallbackOnFileCreated_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectMax10items_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectMax30items_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectMax50items_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectMax100items_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectSameLocationName_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectSameCity_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectSameDistrict_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectSameCountry_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonSelectNext_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonGridBig_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonGridNormal_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonGridSmall_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonHistortyColumns_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonErrorColumns_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonImportGoogleLocation_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonSaveAllMetadata_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonConfig_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonWebScraper_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonAbout_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemImageListViewCut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemImageListViewCopy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void copyFileNamesToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemImageListViewPaste_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemRefreshFolder_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemReloadThumbnailAndMetadata_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemReloadThumbnailAndMetadataClearThumbnailAndMetadataHistory_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemSelectAll_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemImageListViewAutoCorrect_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItemImageListViewAutoCorrectForm_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editFileWithAssociatedApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void runSelectedLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openWithDialogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openFileLocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rotateCW90ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rotate180ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ratateCCW270ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void showMediaPosterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mediaPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

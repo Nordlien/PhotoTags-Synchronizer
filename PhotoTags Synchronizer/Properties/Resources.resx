@@ -238,7 +238,7 @@
   <data name="FavoriteSelect" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FavoriteSelect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Config" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ToolsConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Config.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GridHistoryColumn" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -292,7 +292,7 @@
   <data name="FileInCloud" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FileInCloud.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Chromecast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ToolsChromecast" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Chromecast.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Media_Next" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -369,5 +369,65 @@
   </data>
   <data name="CheckDelete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CheckDelete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AppIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AppIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BrowserSearch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BrowserSearch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DataGridViewMapCopyAndOverwrite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataGridViewMapCopyAndOverwrite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DataGridViewMapCopyNotOverwrite_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataGridViewMapCopyNotOverwrite..png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DataGridViewTagsAndKeywordsBrokerOverwriteText" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataGridViewTagsAndKeywordsBrokerOverwriteText.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DataGridViewTagsBrokerCopyText" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataGridViewTagsBrokerCopyText.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewIconDefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewIconDefault.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewIconError" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewIconError.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewModeColumns" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewModeColumns.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewModeDetails" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewModeDetails.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewModeGallery" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewModeGallery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewModePane" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewModePane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ImageListViewModeThumbnail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImageListViewModeThumbnail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ThumbnailSize1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ThumbnailSize1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ThumbnailSize2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ThumbnailSize2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ThumbnailSize3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ThumbnailSize3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ThumbnailSize4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ThumbnailSize4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ThumbnailSize5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ThumbnailSize5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToolsImportGoogleLocation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ToolsImportGoogleLocation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToolsPreviewSlideShowMenu_Image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ToolsPreviewSlideShowMenu.Image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

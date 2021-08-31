@@ -113,7 +113,6 @@
     </Content>
     <Content Include="Resources\AutoCorrect.png" />
     <Content Include="Resources\Demo.ico" />
-    <Content Include="Resources\AppIcon.ico" />
     <Content Include="Resources\GridBig.png" />
     <Content Include="Resources\GridErrorColumn.png" />
     <Content Include="Resources\GridHistoryColumn.png" />
