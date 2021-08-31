@@ -120,9 +120,6 @@
   <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>715, 17</value>
   </metadata>
-  <metadata name="toolStripContainerStripMainForm.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>476, 17</value>
-  </metadata>
   <metadata name="contextMenuStripTreeViewFolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>244, 60</value>
   </metadata>
@@ -302,6 +299,9 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="contextMenuStripDate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>304, 146</value>
+  </metadata>
   <data name="kryptonPageToolboxDates.ToolTipTitle" xml:space="preserve">
     <value>For JPEG-EXIF images, the DateTimeOriginal does not include the time zone suffix and should be rendered in local time which the photo was taken.
 
@@ -312,14 +312,14 @@ With use of GPS locations, it’s possible to estimate the time zone. However, w
 When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime" W3CDTF profile of ISO 8601 format (exmaple: 2020-10-17T14:11:04-05:00). The local time for where photo or video was created will be stored in “Media Created Date and Time” and GPS Date and Time record will be used to store UTC date and time.
 </value>
   </data>
-  <metadata name="contextMenuStripDate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>304, 146</value>
-  </metadata>
   <metadata name="contextMenuStripExifTool.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>293, 103</value>
   </metadata>
   <metadata name="contextMenuStripExiftoolWarning.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 146</value>
+  </metadata>
+  <metadata name="toolStripContainerStripMainForm.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>476, 17</value>
   </metadata>
   <data name="thumbnailsToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -934,7 +934,7 @@ When enter a date and time in   HYPERLINK "https://www.w3.org/TR/NOTE-datetime"
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAs
-        CwAAAk1TRnQBSQFMAgEBBQEAASABDAEgAQwBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CwAAAk1TRnQBSQFMAgEBBQEAASgBDAEoAQwBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
